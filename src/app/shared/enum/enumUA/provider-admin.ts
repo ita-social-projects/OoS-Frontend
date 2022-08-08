@@ -16,11 +16,3 @@ export enum ProviderAdminTitles {
   Blocked = 'Заблоковано',
 }
 
-export enum PersonalCabinetTitle {
-  None = 'КАБІНЕТ НАДАВАЧА',
-  admin = 'КАБІНЕТ ТЕХ. АДМІНА',
-  user = 'КАБІНЕТ КОРИСТУВАЧА',
-  deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
-  ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
-}
-

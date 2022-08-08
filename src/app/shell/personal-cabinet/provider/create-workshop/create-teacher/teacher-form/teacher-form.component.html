@@ -1,8 +1,8 @@
 <form [formGroup]="TeacherFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
   [ngClass]="(teacherAmount>1) ? 'step-border' : ''">
 
-  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [label]="'Фото викладача'" formControlName="avatarImage"
-    [imageIdsFormControl]="TeacherFormGroup.get('avatarImageId')">
+  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [cropperConfig]="cropperConfig" [label]="'Фото викладача'" formControlName="coverImage"
+    [imageIdsFormControl]="TeacherFormGroup.get('coverImageId')">
   </app-image-form-control>
 
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
@@ -36,14 +36,24 @@
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
+  <label class="step-label">Стать<span class="step-required">*</span></label>
+  <mat-radio-group formControlName="gender" color="primary">
+    <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
+    <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
+  </mat-radio-group>
+  <app-validation-hint
+    [validationFormControl]="TeacherFormGroup.get('gender')">
+  </app-validation-hint>
+
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input [max]="today" matInput [matDatepicker]="picker" formControlName="dateOfBirth"  [placeholder]="dateFormPlaceholder">
+    <input [max]="today" [min]="minDate" matInput [matDatepicker]="picker" formControlName="dateOfBirth"  [placeholder]="dateFormPlaceholder">
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('dateOfBirth')"
+    [isTouched]="TeacherFormGroup.get('dateOfBirth').touched"
     minMaxDate="true">
   </app-validation-hint>
 

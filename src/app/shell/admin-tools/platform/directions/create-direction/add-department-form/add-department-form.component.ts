@@ -14,7 +14,8 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { CreateDepartment, UpdateDepartment } from 'src/app/shared/store/admin.actions';
 import { GetClasses, GetDepartments } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-add-department-form',
@@ -98,7 +99,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
 
   onDelete(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteDepartment,
       }
@@ -115,7 +116,7 @@ export class AddDepartmentFormComponent  extends CreateFormComponent implements 
   onSubmit(): void {
     if(this.departmentFormGroup.dirty){
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: '330px',
+        width: Constants.MODAL_SMALL,
         data: {
           type: this.departmentFormGroup.value.id ? ModalConfirmationType.editDepartment : ModalConfirmationType.createDepartment,
         }

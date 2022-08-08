@@ -1,13 +1,4 @@
-<div *ngIf="application; else cardFormat;">
-  <div class="application-popup-status {{application.status}}">
-    <span> <i class={{applicationIcons[application.status]}}></i></span>
-    <span> {{applicationTitles[application.status]}}</span>
-  </div>
-  <div class="application-info-menu application-info-description-card">({{
-    applicationStatusDescription[application.status] }})</div>
-    <p *ngIf="application.rejectionMessage" class="application-info-menu">{{application.rejectionMessage}}</p>
-</div>
-<ng-template #cardFormat>
+
   <div class="application-info-menu-title"> Статуси заявок</div>
   <div class="application-info-menu">
     <div class="application-info-title">
@@ -19,4 +10,4 @@
         class=" {{status}}">{{applicationStatusDescription[status]}}</span>
     </div>
   </div>
-</ng-template>
+

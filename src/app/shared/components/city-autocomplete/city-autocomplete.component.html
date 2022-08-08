@@ -1,10 +1,26 @@
 <form class="city-search">
-  <mat-form-field appearance="none"  fxLayout="column" fxLayoutAlign="start space-between">
-    <input #search ngClass="{{className}}" type="text" matInput [formControl]="cityFormControl"
-      [matAutocomplete]="auto" (focusout)="onFocusout(auto)">
-    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (onKeyPress)="onSelect($event)"
-      (optionSelected)="onSelect($event)" [displayWith]="displayCityName">
-      <mat-option [disabled]="!(isCity$ | async)" *ngFor="let city of cities$ | async" [value]="city">
+  <mat-form-field
+    fxLayoutAlign="start space-between"
+    fxLayout="column"
+    class="input-wrapper"  
+    appearance="none">
+    <input 
+      #search 
+      ngClass="{{className}}" 
+      type="text" 
+      matInput 
+      [formControl]="cityFormControl" 
+      [matAutocomplete]="auto" 
+      (focusout)="onFocusout(auto)">
+    <mat-autocomplete 
+      #auto="matAutocomplete"
+      class="city-autocomplete"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      [displayWith]="displayCityName" 
+      (onKeyPress)="onSelect($event)" 
+      (optionSelected)="onSelect($event)">
+      <mat-option class="dropdown-option" *ngFor="let city of cities" [value]="city" [disabled]="(city.name === noCity)">
         {{city.name}} <br>
         <span class="city-region">{{city.region}}</span>
       </mat-option>

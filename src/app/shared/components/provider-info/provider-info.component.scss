@@ -6,7 +6,6 @@ $basen-blue-color: #3849F9;
   border-radius: 5px;
   padding: 2rem;
   margin-bottom: 2rem;
-  margin-left: 1rem;
    p{
     font-family: Open Sans;
     font-style: normal;
@@ -42,4 +41,8 @@ h3{
 .close-icon {
   color: #ccc;
   cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+    color: #3849f9;
+  }
 }

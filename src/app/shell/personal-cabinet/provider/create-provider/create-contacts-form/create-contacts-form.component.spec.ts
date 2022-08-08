@@ -1,13 +1,14 @@
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { CreateContactsFormComponent } from './create-contacts-form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Component, Input } from '@angular/core';
+import { MatOptionModule } from '@angular/material/core';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { CreateContactsFormComponent } from './create-contacts-form.component';
+import { NgxsModule } from '@ngxs/store';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;
@@ -16,17 +17,22 @@ describe('CreateContactsFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         MatFormFieldModule,
+        MatOptionModule,
         MatInputModule,
-        BrowserAnimationsModule,
-        MatCheckboxModule
+        MatAutocompleteModule,
+        MatCheckboxModule,
+        NgxsModule.forRoot([])
       ],
       declarations: [
         CreateContactsFormComponent,
-        MockValidationHintForInputComponent
-      ]
+        MockValidationHintForInputComponent,
+        MockCityAutocompleteComponent
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     })
       .compileComponents();
   });
@@ -52,5 +58,14 @@ class MockValidationHintForInputComponent{
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
 }
-  
+@Component({
+  selector: 'app-city-autocomplete',
+  template: ''
+})
+class MockCityAutocompleteComponent {
+  @Input() InitialCity: string;
+  @Input() className: string;
+  @Input() cityFormControl: FormControl;
+}

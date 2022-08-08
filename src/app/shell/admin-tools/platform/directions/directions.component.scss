@@ -1,10 +1,9 @@
 
 @import "src/app/shared/styles/card-wrapper.scss";
 @import "src/app/shared/styles/list-wrappers.scss";
-@import "src/app/shared/styles/config.scss";
-@import "src/app/shared/styles/navigation-tabs.scss";
 @import "src/app/shared/styles/buttons.scss";
 @import "src/app/shared/styles/pagination.scss";
+@import "src/app/shared/styles/search.scss";
 
 .wrapper{
   p {
@@ -42,51 +41,3 @@
   margin-right: 1rem;
 }
 
-@media(max-width: 750px) {
-  .header-wrapper{
-    margin: 2rem 1rem;
-  }
-}
-
-:host ::ng-deep .mat-form-field-wrapper {
-  padding: 0 0 0 10px;
-  width: 100%;
-}
-
-:host ::ng-deep .mat-form-field-infix {
-  border: none;
-  display: flex;
-}
-
-button {
-  border: none;
-  height: 100%;
-}
-
-input {
-  font-weight: normal;
-  line-height: 22px;
-  color: #161414;
-  opacity: 0.4;
-  text-overflow: ellipsis;
-}
-
-.icon {
-  margin: 0 1rem;
-  color: #AAAAAA;
-  line-height: 26px;
-  cursor: pointer;
-}
-
-.search {
-  background: white;
-  margin: 1rem 0.5rem;
-  border-radius: 60px;
-  min-width: 300px;
-  max-width: 378px;
-  width: 100%;
-}
-
-.shadow {
-  box-shadow: 0px 6px 16px rgb(0 0 0 / 8%);
-}

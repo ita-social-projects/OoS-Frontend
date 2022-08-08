@@ -1,5 +1,5 @@
 export interface InstitutionStatus {
-    id: string;
-    name: number;
+    id: number;
+    name: string;
   }
   

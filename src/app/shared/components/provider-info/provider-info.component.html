@@ -1,4 +1,3 @@
-<div fxLayout="row" fxLayoutAlign="start">
   <div class="wrapper">
     <div *ngIf="isProviderView" fxLayout="row" fxLayoutAlign="end">
       <a [routerLink]="['/create-provider', editLink]" class="edit-icon">
@@ -19,6 +18,10 @@
         <p>{{ ownershipTypeUkr[provider.ownership] }}</p>
         <h5>Тип організації</h5>
         <p>{{ providerTypeUkr[provider.type] }}</p>
+        <ng-container *ngIf="provider.institution">
+          <h5>Підпорядкування</h5>
+          <p class="description">{{ provider.institution.title }}</p>
+        </ng-container>
         <h5>Повна назва організації</h5>
         <p>{{ provider.fullTitle }}</p>
         <h5>Скорочена назва організації</h5>
@@ -35,10 +38,8 @@
         <p>
           {{ constants.PHONE_PREFIX + provider.phoneNumber | phoneTransform }}
         </p>
-        <h5>Емейл</h5>
+        <h5>Електронна пошта</h5>
         <p>{{ provider.email }}</p>
-        <h5>Засновник</h5>
-        <p>{{ provider.founder }}</p>
         <h5 *ngIf="provider.website">Веб сайт</h5>
         <p>{{ provider.website }}</p>
         <h5 *ngIf="provider.facebook">Facebook</h5>
@@ -71,9 +72,18 @@
 
       <mat-tab label="Опис">
         <h5>Статус</h5>
-        <p class="description">{{ this.currentStatus }}</p>
-        <h5>Про заклад</h5>
-        <p class="description">{{ provider?.description }}</p>
+        <p class="description">{{ institutionStatusName }}</p>
+        <h5>Тип закладу</h5>
+        <p class="description">{{ institutionTypes[provider.institutionType] }}</p>
+        <h5>Засновник</h5>
+        <p>{{ provider.founder }}</p>
+        <ng-container *ngIf="provider.providerSectionItems?.length">
+          <h5>Про заклад</h5>
+          <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
+            <h5>{{item.sectionName}}</h5>
+            <p>{{item.description}}</p>
+          </div>
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
@@ -90,4 +100,3 @@
     <h5>Будинок</h5>
     <p>{{ provider.legalAddress.buildingNumber }}</p>
   </ng-template>
-</div>

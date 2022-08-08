@@ -53,10 +53,7 @@ h6 {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-div.cdk-overlay-pane {
-  width: auto !important; /** workaround for issue #101 **/
+  vertical-align: middle;
 }
 .mat-step-label {
   font-family: Open Sans;

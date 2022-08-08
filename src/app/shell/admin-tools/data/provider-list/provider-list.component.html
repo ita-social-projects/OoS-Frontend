@@ -1,5 +1,6 @@
 <div class="wrapper">
   <div class="wrapper-header">
+
     <div class="search-area">
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
@@ -15,7 +16,7 @@
 
   <!-- -------------Table------------ -->
 
-  <div style="display: flex" class="provider-wrapper">
+  <div style="display: flex">
     <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
       <table
         mat-table
@@ -72,12 +73,13 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header            
+            mat-sort-header  
+            sortActionDescription="Sort by city"          
           >
             Населений пункт
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.legalAddress.city }}
+            {{ element.legalAddress.city || ""}}
           </td>
         </ng-container>
 
@@ -115,7 +117,7 @@
             mat-sort-header
             sortActionDescription="Sort by email"
           >
-            Емейл
+            Електронна пошта
           </th>
           <td mat-cell *matCellDef="let element">{{ element.email }}</td>
         </ng-container>
@@ -213,31 +215,50 @@
           </td>
         </ng-container>
 
-        <ng-container matColumnDef="star">
+        <ng-container matColumnDef="star" stickyEnd>
           <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let element">
+          <td class="star-column" mat-cell *matCellDef="let element">
             <div class="icons">
-              <button mat-icon-button>
-                <mat-icon>more_vert</mat-icon>
+              <button mat-icon-button [matMenuTriggerFor]="actions">
+                <mat-icon class="action-icon">more_vert</mat-icon>
               </button>
               <button
                 mat-icon-button
                 (click)="onViewProviderInfo(element)"
               >
-                <mat-icon>remove_red_eye</mat-icon>
+                <mat-icon class="action-icon">remove_red_eye</mat-icon>
               </button>
               <a mat-icon-button [routerLink]="['/details/provider/', element.id]">
-                <mat-icon>arrow_forward</mat-icon>
+                <mat-icon class="action-icon">arrow_forward</mat-icon>
               </a>
             </div>
           </td>
+
+          <mat-menu #actions="matMenu" class="header_menu">
+            <button mat-menu-item>
+              Підтвердити
+            </button>
+            <button mat-menu-item>
+              Відмовити
+            </button>
+            <button mat-menu-item>
+              Відправити на редагування
+            </button>
+            <button mat-menu-item>
+              Заблокувати
+            </button>
+            <button mat-menu-item>
+              Видалити
+            </button>
+          </mat-menu>
+
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-    <div *ngIf="isInfoDisplayed ">
+    <div *ngIf="isInfoDisplayed" class="container">
       <app-provider-info
         [provider]="provider"
         [isProviderView]="false"

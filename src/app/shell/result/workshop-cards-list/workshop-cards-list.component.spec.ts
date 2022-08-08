@@ -1,3 +1,4 @@
+import { Observable } from 'rxjs/internal/Observable';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
@@ -37,6 +38,7 @@ describe('WorkshopCardsListComponentt', () => {
     spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
+    component.workshops$ = new Observable();
     fixture.detectChanges();
   });
 
@@ -68,4 +70,5 @@ class MockListWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
 }

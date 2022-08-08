@@ -1,6 +1,5 @@
 import { Direction } from '../models/category.model';
 import { City } from '../models/city.model';
-import { PaginationElement } from '../models/paginationElement.model';
 export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: City) { }
@@ -84,6 +83,11 @@ export class FilterReset {
   constructor() { }
 }
 
+export class ResetFilteredWorkshops {
+  static readonly type = '[filter] reset filtered workshops';
+  constructor() { }
+}
+
 export class FilterClear {
   static readonly type = '[filter] Filter Clear';
   constructor() { }
@@ -97,11 +101,5 @@ export class SetMaxAge {
   static readonly type = '[filter] Set Max Age';
   constructor(public payload: number) { }
 }
-export class PageChange {
-  static readonly type = '[filter] Change Page';
-  constructor(public payload: PaginationElement) { }
-}
-export class SetFirstPage {
-  static readonly type = '[filter] Set First Page';
-  constructor() { }
-}
+
+

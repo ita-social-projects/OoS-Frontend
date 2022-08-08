@@ -1,14 +1,14 @@
-<ng-container *ngIf="!(isLoadingResultPage$ | async)">
-  <ng-container *ngIf="(workshops$ | async); else isEmptyList;">
+<ng-container *ngIf="!(isLoadingResultPage$ | async) && !!workshops">
+  <ng-container *ngIf="workshops.totalAmount; else isEmptyList;">
     <div class="card-wrapper">
       <app-workshop-card class="card" [userRoleView]="Role.unauthorized"
-        *ngFor="let workshop of (workshops$ | async)?.entities" [workshop]="workshop" [isMainPage]="true">
+        *ngFor="let workshop of workshops.entities" [workshop]="workshop" [isMainPage]="true">
       </app-workshop-card>
     </div>
   </ng-container>
-  <ng-container *ngIf="workshops$ | async">
-    <app-paginator [totalEntities]="(workshops$ | async).totalAmount" [currentPage]="currentPage"
-      (pageChange)="onPageChange($event)">
+  <ng-container *ngIf="workshops.totalAmount">
+    <app-paginator [totalEntities]="workshops.totalAmount" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
+      (pageChange)="onPageChange($event)" (itemsPerPageChange)="itemsPerPageChange.emit($event)">
     </app-paginator>
   </ng-container>
 </ng-container>

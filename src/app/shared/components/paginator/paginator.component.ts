@@ -1,35 +1,41 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Constants, PaginationConstants } from '../../constants/constants';
+import { MatSelectChange } from '@angular/material/select';
+import { PaginationConstants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
+
 @Component({
   selector: 'app-paginator',
   templateUrl: './paginator.component.html',
   styleUrls: ['./paginator.component.scss']
 })
-export class PaginatorComponent implements OnInit, OnChanges {
+export class PaginatorComponent implements OnChanges {
   readonly constants: typeof PaginationConstants = PaginationConstants;
 
   @Input() currentPage: PaginationElement;
   @Input() totalEntities: number;
-  @Input() itemsPerPage: number = this.constants.ITEMS_PER_PAGE_DEFAULT;
+  @Input() itemsPerPage: number;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
+  @Output() itemsPerPageChange = new EventEmitter<Number>();
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
+  listOfValues: Array<Number> = [8, 12, 16, 20];
 
   constructor() { }
 
-  ngOnInit(): void {
+  init(): void {
     this.totalPageAmount = this.getTotalPageAmount();
     this.createPageList();
   }
 
+  OnSelectOption(event: MatSelectChange): void {
+    this.itemsPerPageChange.emit(event.value);
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes?.currentPage) {
-      if (!changes.currentPage.isFirstChange()) {
-        this.createPageList();
-      }
+    if (changes) {
+      this.init();
     }
   }
 

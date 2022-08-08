@@ -1,20 +1,35 @@
+import { Institution } from './../../../../../shared/models/institution.model';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { CropperConfigurationConstants } from 'src/app/shared/constants/constants';
+import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
+import { Provider } from 'src/app/shared/models/provider.model';
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
-  styleUrls: ['./create-description-form.component.scss']
+  styleUrls: ['./create-description-form.component.scss'],
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
+  readonly cropperConfig = {
+    cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
+    cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
+    cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
+    cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
+    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
+    croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
+    croppedFormat: CropperConfigurationConstants.croppedFormat,
+    croppedQuality: CropperConfigurationConstants.croppedQuality,
+  }
 
   @Input() workshop: Workshop;
   @Input() isRelease2: boolean;
+  @Input() provider: Provider;
 
   @Output() passDescriptionFormGroup = new EventEmitter();
 
@@ -22,6 +37,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   CategoriesFormGroup: FormGroup;
   DescriptionFormGroup: FormGroup;
+  SectionItemsFormArray = new FormArray([]);
 
   keyWordsCtrl: FormControl = new FormControl('', Validators.required);
   keyWords: string[] = [];
@@ -34,28 +50,27 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
-      description: new FormControl('', [
-        Validators.required, 
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
-      ]),
-      disabilityOptionsDesc: new FormControl({ value: '', disabled: true },[
+      imageIds: new FormControl(''),
+      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
       ]),
       keyWords: new FormControl(''),
       categories: this.formBuilder.group({
         directionId: new FormControl('', Validators.required),
         departmentId: new FormControl('', Validators.required),
         classId: new FormControl('', Validators.required),
-      })
+      }),
+      institutionHierarchyId: new FormControl('', Validators.required),
+      institutionId: new FormControl('', Validators.required),
+      workshopDescriptionItems: this.SectionItemsFormArray,
     });
   }
 
   ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
+    this.workshop ? this.activateEditMode() : this.onAddForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
-    this.workshop && this.activateEditMode();
   }
 
   /**
@@ -81,7 +96,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       if (!!this.keyWord.trim() && !this.keyWords.includes(inputKeyWord)) {
         if (this.keyWords.length < 5) {
           this.keyWords.push(inputKeyWord);
-          this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
+          this.DescriptionFormGroup.get('keyWords').setValue(
+            [...this.keyWords],
+            { emitEvent: isEditMode }
+          );
           this.keyWordsCtrl.setValue(null);
           this.keyWord = '';
         }
@@ -99,22 +117,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
+    const setAction = (action: string) =>
+      this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
 
     this.disabilityOptionRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((isDisabilityOptionsDesc: boolean) => {
-        isDisabilityOptionsDesc ? setAction('enable') : setAction('disable')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isDisabilityOptionsDesc: boolean) => {
+        isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
       });
-
-    this.DescriptionFormGroup.get('disabilityOptionsDesc').valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) =>
-        this.DescriptionFormGroup.get('disabilityOptionsDesc').setValue(disabilityOptionsDesc)
-      );
   }
 
   /**
@@ -128,14 +138,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       this.onKeyWordsInput(false);
     });
 
-    this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
-
     if (this.workshop.withDisabilityOptions) {
+      this.disabilityOptionRadioBtn.setValue(this.workshop.withDisabilityOptions, { emitEvent: false });
       this.DescriptionFormGroup.get('disabilityOptionsDesc').enable({ emitEvent: false });
     }
 
-    if (this.workshop.imageIds) {
-      this.DescriptionFormGroup.addControl('imageIds', this.formBuilder.control(this.workshop.imageIds));
+    if (this.workshop.workshopDescriptionItems?.length) {
+      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => this.SectionItemsFormArray.push(this.newForm(item)))
+    } else {
+      this.onAddForm();
     }
   }
 
@@ -144,5 +155,52 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   setFocus(): void {
     this.keyWordsInputElement.nativeElement.focus();
+  }
+
+  /**
+   * This method creates new FormGroup
+   */
+  private newForm(item?: WorkshopSectionItem): FormGroup {
+    const EditFormGroup = this.formBuilder.group({
+      sectionName: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
+        Validators.required
+      ]),
+      description: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+      ]),
+    });
+
+    if (this.workshop) {
+      EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id))
+    }
+
+    if (item) {
+      EditFormGroup.patchValue(item, { emitEvent: false });
+    }
+
+    return EditFormGroup;
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  onAddForm(): void {
+    if(this.DescriptionFormGroup.get('workshopDescriptionItems')) {
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
+        this.newForm()
+      );
+    }
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  onDeleteForm(index: number): void {
+    this.SectionItemsFormArray.removeAt(index);
   }
 }

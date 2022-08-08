@@ -4,21 +4,20 @@
   <mat-checkbox color="primary" [formControl]="isPaidControl"> Платні </mat-checkbox>
 
   <div class="input-wrapper" [ngClass]="{'input-wrapper-disable': !isPaidControl.value}" fxLayout="row"
-    fxLayoutAlign="start" fxLayoutGap="1rem">
+    fxLayoutAlign="space-between" fxLayoutGap="1rem">
+
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">Від</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [directiveFormControl]="minPriceControl" [formControl]="minPriceControl"
-          appMinMax>
+        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="minPriceControl" autocomplete="off">
+        <mat-icon class="clear-price" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">До</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [directiveFormControl]="maxPriceControl" [formControl]="maxPriceControl"
-          appMinMax>
+        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="maxPriceControl" autocomplete="off">
+        <mat-icon class="clear-price" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>
   </div>

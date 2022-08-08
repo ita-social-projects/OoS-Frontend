@@ -1,0 +1,14 @@
+<mat-form-field class="dropdown-wrapper">
+  <mat-label class="label" [ngClass]="{'disabled-field': entities?.length < 1}">{{ getlabelTitle(entities?.length) }}</mat-label>
+  <mat-select [disabled]="entities?.length < 1" [formControl]="entityControl" multiple class="dropdown" disableOptionCentering
+    panelClass="dropdown-panel application-dropdown">
+    <mat-select-trigger>
+      <div *ngIf="entityControl.value?.length">
+        <span *ngIf="entityControl.value?.length > 1"> {{entityControl.value?.length | declination: Declination}} вибрано </span>
+        <span *ngIf="entityControl.value?.length === 1"> {{ getEntityTitle(entityControl.value[0]) }} </span>
+      </div>
+    </mat-select-trigger>
+    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ getEntityTitle(entity) }}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

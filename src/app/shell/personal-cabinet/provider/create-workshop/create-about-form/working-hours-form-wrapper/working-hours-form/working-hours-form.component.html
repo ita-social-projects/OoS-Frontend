@@ -1,0 +1,66 @@
+<div fxLayout="row" fxLayoutAlign="start start" fxLayoutGap="1rem" fxLayout.xs="column"
+  fxLayoutAlign.xs="center start">
+
+  <form fxLayout="row" fxLayoutAlign="start center" class="step">
+
+  <div class="days">
+    <div fxLayout="row" fxLayoutAlign="space-between"
+      [ngClass]="!(workdaysFormControl.invalid && workdaysFormControl.touched) ? 'days-toggle' : 'days-toggle days-toggle-invalid'">
+      <div *ngFor="let day of days" fxLayout="row" fxLayoutAlign="center center"
+        (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle toggle-selected' : 'toggle' ">
+        {{day.value}}
+      </div>
+    </div>
+    
+    <app-validation-hint
+      [validationFormControl]="workdaysFormControl">
+    </app-validation-hint>
+  </div>
+
+  <div fxLayout="row" fxLayoutAlign="start center">
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row "fxLayoutAlign="start center">
+        <p class="text">Від</p>
+        <input class="input step-input start-time-input" type="text" [disabled]="!workingDays.length" matInput
+          [ngxMatTimepicker]="timepickerStart" format="24" required [formControl]="startTimeFormControl" autocomplete="none">
+      </div>
+      <app-validation-hint
+        [validationFormControl]="startTimeFormControl">
+    </app-validation-hint>
+    </div>
+
+    <div fxLayout="column" fxLayoutAlign="start start">
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="text">До</p>
+      <input class="input step-input finish-time-input" type="text" [disabled]="!workingDays.length" matInput
+        [ngxMatTimepicker]="timepickerEnd" format="24" required [formControl]="endTimeFormControl" [min]="getMinTime()"
+        autocomplete="none">
+      </div>
+      <app-validation-hint
+          [validationFormControl]="endTimeFormControl">
+        </app-validation-hint>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="start start" *ngIf="workingHoursAmount > 1">
+      <mat-icon class="mat-icon-delete" (click)="delete()">delete</mat-icon>
+    </div>
+  </div>
+</form>
+</div>
+
+<ng-template #ValidationHintTmpl>
+  <small appValidationMessageStyling>
+    Це поле є обов'язковим. <br>
+  </small>
+</ng-template>
+
+<ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
+</ngx-mat-timepicker>
+<ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
+</ngx-mat-timepicker>
+
+<ng-template #btnCancel>
+  <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
+</ng-template>
+<ng-template #btnConfirm>
+  <button class="btn" mat-raised-button>Зберегти</button>
+</ng-template>

@@ -1,9 +1,13 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PaginationConstants } from '../../constants/constants';
 import { Child, ChildCards } from '../../models/child.model';
+import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { AdminStateModel } from '../../store/admin.state';
+import { PaginatorState } from '../../store/paginator.state';
 import { UserStateModel } from '../../store/user.state';
 @Injectable({
   providedIn: 'root'
@@ -11,18 +15,23 @@ import { UserStateModel } from '../../store/user.state';
 
 export class ChildrenService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private store: Store,
+  ) { }
 
-  private setParams(state: UserStateModel): HttpParams {
+  private setParams( searchString?:string ): HttpParams {
     let params = new HttpParams();
 
-    if (state.currentPage) {
-      const size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
-      const from: number = size * (+state.currentPage.element - 1);
-
-      params = params.set('Size', (size).toString());
-      params = params.set('From', (from).toString());
+    if(searchString){
+      params = params.set('SearchString', searchString);
     }
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
+    const from: number = size * (+currentPage.element - 1);
+    
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }
@@ -31,8 +40,8 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(state: UserStateModel): Observable<ChildCards> {
-    const options = { params: this.setParams(state) };
+  getUsersChildren(): Observable<ChildCards> {
+    const options = { params: this.setParams() };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
   }
@@ -52,12 +61,10 @@ export class ChildrenService {
     /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(): Observable<ChildCards> {
-    let params = new HttpParams();
-    params = params.set('Size', '0');
-    params = params.set('From', '0');
+  getChildrenForAdmin(searchString: string): Observable<ChildCards> {
+    const options = { params: this.setParams(searchString) };
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, { params });
+    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, options);
   }
 
 

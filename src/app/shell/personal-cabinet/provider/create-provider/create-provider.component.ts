@@ -1,3 +1,4 @@
+import { Logout } from './../../../../shared/store/registration.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
@@ -7,6 +8,7 @@ import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { CreateProviderSteps } from 'src/app/shared/enum/provider';
+import { Role } from 'src/app/shared/enum/role';
 import { Address } from 'src/app/shared/models/address.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -14,7 +16,12 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateProvider, UpdateProvider } from 'src/app/shared/store/user.actions';
-import { CreateFormComponent } from '../../create-form/create-form.component';
+import { Util } from 'src/app/shared/utils/utils';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'src/app/shared/constants/constants';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-create-provider',
@@ -40,8 +47,8 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   AgreementFormControl = new FormControl(false);
 
   @ViewChild('stepper') stepper: MatStepper;
-
-  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private changeDetector : ChangeDetectorRef) {
+  
+  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService, private changeDetector : ChangeDetectorRef, private matDialog: MatDialog,) {
     super(store, route, navigationBarService);
   }
 
@@ -55,7 +62,6 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(
       takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.isAgreed = val);
-        
   }
 
   ngAfterViewInit(): void {
@@ -75,8 +81,12 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
+    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    
     this.store.dispatch(new AddNavPath(this.navigationBarService.createNavPaths(
-      { name: NavBarName.PersonalCabinetProvider, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
+      { name: personalCabinetTitle, path: '/personal-cabinet/provider/info', isActive: false, disable: false },
       { name: NavBarName.EditInstitutions, isActive: false, disable: true }
     )));
   }
@@ -160,5 +170,25 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
         this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
       }
     });
+  }
+
+  onCancel(){
+    const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
+
+    if (!isRegistered) {
+        const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.leaveRegistration,
+            property: '',
+          },
+        });
+    
+        dialogRef.afterClosed().subscribe((result: boolean) => {
+          if (result) {
+            this.store.dispatch(new Logout());
+          }
+        });
+    }
   }
 }

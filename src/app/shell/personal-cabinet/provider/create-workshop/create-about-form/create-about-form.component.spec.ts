@@ -57,7 +57,6 @@ describe('CreateAboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
-    component.provider = { fullTitle: '' } as Provider;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),
@@ -71,7 +70,7 @@ describe('CreateAboutFormComponent', () => {
       instagram: new FormControl(''),
       price: new FormControl(''),
       workingHours: new FormControl(''),
-      isPerMonth: new FormControl(''),
+      payRate: new FormControl(''),
     });
     fixture.detectChanges();
   });
@@ -95,7 +94,9 @@ class MockWorkingHours {
 })
 class MockValidationHintAboutComponent {
   @Input() validationFormControl: FormControl; //required for validation
+  @Input() isTouched: boolean; 
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isPhoneNumber: boolean;
 }

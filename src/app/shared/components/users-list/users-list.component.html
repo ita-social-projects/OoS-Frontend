@@ -1,119 +1,121 @@
-<table
-  mat-table
-  [dataSource]="dataSource"
-  matSort
-  (matSortChange)="announceSortChange($event)"
-  class="mat-elevation-z8"
->
-  <!-- Name Column -->
-  <ng-container matColumnDef="pib" sticky>
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by name"
+<div class="wrapper">
+  <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
     >
-      ПІБ
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.pib }}</td>
-  </ng-container>
-
-  <!-- Email Column -->
-  <ng-container matColumnDef="email">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by email"
-    >
-      Емейл
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-  </ng-container>
-
-  <!-- Phone Column -->
-  <ng-container matColumnDef="phone">
-    <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
-      Телефон
-    </th>
-    <td mat-cell *matCellDef="let element">{{element.phoneNumber}} </td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="place">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by place"
-    >
-      Населений пункт
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.place || "" }}</td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="role">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
-      Роль
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.role}} </td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="status">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by status"
-    >
-      Статус
-    </th>
-    <td mat-cell *matCellDef="let element">
-      <div class="provider-admin-status {{ element.status }}">
-        <span>
-          <i class="status-icon {{ providerAdminIcons[element.status] }}"></i
-        ></span>
-        <span> {{ providerAdminTitles[element.status] }}</span>
-      </div>
-    </td>
-  </ng-container>
-
-  <!-- Name Column -->
-  <ng-container matColumnDef="actions" sticky>
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      sortActionDescription="Sort by actions"
-    ></th>
-    <td mat-cell *matCellDef="let user">
-      <a class="more-details" [routerLink]="['#']">
-        <span class="Cancel"> Скасувати </span>
-      </a>
-      <button mat-icon-button [matMenuTriggerFor]="actions">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <button mat-icon-button [matMenuTriggerFor]="email">
-        <mat-icon>email</mat-icon>
-      </button>
-
-      <mat-menu #actions="matMenu" class="header_menu">
-        <button mat-menu-item (click)="onBlock(user)">
-          Заблокувати користувача
-        </button>
-        <button mat-menu-item (click)="onDelete(user)">
-          Видалити користувача
-        </button>
-      </mat-menu>
-      <mat-menu #email="matMenu" class="header_menu">
-        <button mat-menu-item (click)="sendInvitation()">
-          Надіслати запрошення
-        </button>
-      </mat-menu>
-    </td>
-  </ng-container>
-
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+      <!-- Name Column -->
+      <ng-container matColumnDef="pib" sticky>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by name"
+        >
+          ПІБ
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.pib }}</td>
+      </ng-container>
+  
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by email"
+        >
+          Електронна пошта
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+      </ng-container>
+  
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
+          Телефон
+        </th>
+        <td mat-cell *matCellDef="let element">{{element.phoneNumber}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="place">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by place"
+        >
+          Населений пункт
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.place || "" }}</td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
+          Роль
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="status">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by status"
+        >
+          Статус
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="provider-admin-status {{ element.status }}">
+            <span>
+              <i class="status-icon {{ providerAdminIcons[element.status] }}"></i
+            ></span>
+            <span> {{ providerAdminTitles[element.status] }}</span>
+          </div>
+        </td>
+      </ng-container>
+  
+      <!-- Name Column -->
+      <ng-container matColumnDef="actions" sticky>
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by actions"
+        ></th>
+        <td mat-cell *matCellDef="let user">
+          <div class="icons">
+            <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
+              <mat-icon class="action-icon">more_vert</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="email">
+              <mat-icon class="action-icon">email</mat-icon>
+            </button>
+          </div>
+  
+          <mat-menu #actions="matMenu" class="header_menu">
+            <button mat-menu-item (click)="onBlock(user)">
+              Заблокувати користувача
+            </button>
+            <button mat-menu-item (click)="onDelete(user)">
+              Видалити користувача
+            </button>
+          </mat-menu>
+          <mat-menu #email="matMenu" class="header_menu">
+            <button mat-menu-item (click)="sendInvitation()">
+              Надіслати запрошення
+            </button>
+          </mat-menu>
+        </td>
+      </ng-container>
+  
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

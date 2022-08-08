@@ -1,3 +1,4 @@
+import { AdminTabs } from './../shared/enum/enumUA/tech-admin/admin-tabs';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -17,17 +18,18 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
 import { AdminState } from '../shared/store/admin.state';
+import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly roles: typeof RoleLinks = RoleLinks;
+  readonly defaultAdminTabs = AdminTabs[0];
 
   selectedLanguage = 'uk';
   showModalReg = false;
@@ -52,56 +54,71 @@ export class HeaderComponent implements OnInit, OnDestroy {
   user: User;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
+  @Select(RegistrationState.subrole)
+  subrole$: Observable<string>;
 
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
   isLoadingMetaData: boolean;
   isLoadingAdminData: boolean;
   isLoadingNotifications: boolean;
-  isMobile: boolean;
   navigationPaths: Navigation[];
+  subrole: string;
+  btnView: string = providerAdminRoleUkr.all;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store,
-    private router: Router) {
-  }
+  constructor(private store: Store, private router: Router) {}
 
   changeView(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
   ngOnInit(): void {
-    combineLatest([this.isLoadingResultPage$, this.isLoadingMetaData$, this.isLoadingCabinet$, this.isLoadingAdminData$])
+    combineLatest([
+      this.subrole$,
+      this.isLoadingResultPage$,
+      this.isLoadingMetaData$,
+      this.isLoadingCabinet$,
+      this.isLoadingAdminData$,
+      this.navigationPaths$
+    ])
       .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet, isLoadingAdminData]) => {
-        this.isLoadingResultPage = isLoadingResult;
-        this.isLoadingMetaData = isLoadingMeta;
-        this.isLoadingCabinet = isLoadingCabinet;
-        this.isLoadingAdminData = isLoadingAdminData
-      });
-
-    combineLatest([this.isMobileScreen$, this.navigationPaths$])
-      .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([isMobile, navigationPaths]) => {
-        this.isMobile = isMobile;
-        this.navigationPaths = navigationPaths;
-      })
+      .subscribe(
+        ([
+          subrole,
+          isLoadingResult,
+          isLoadingMeta,
+          isLoadingCabinet,
+          isLoadingAdminData,
+          navigationPaths
+        ]) => {
+          this.subrole = subrole;
+          this.isLoadingResultPage = isLoadingResult;
+          this.isLoadingMetaData = isLoadingMeta;
+          this.isLoadingCabinet = isLoadingCabinet;
+          this.isLoadingAdminData = isLoadingAdminData;
+          this.navigationPaths = navigationPaths;
+        }
+      );
 
     this.store.dispatch(new CheckAuth());
 
-    this.user$.pipe(
-      filter((user) => !!user),
-      takeUntil(this.destroy$)
-    ).subscribe((user: User) => {
-      this.userShortName = this.getFullName(user);
-      this.user = user;
-    });
+    this.user$
+      .pipe(
+        filter((user) => !!user),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((user: User) => {
+        this.userShortName = this.getFullName(user);
+        this.user = user;
+      });
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${(user.firstName).slice(0, 1)}.${(user.middleName) ? (user.middleName).slice(0, 1) + '.' : ''}`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${
+      user.middleName ? user.middleName.slice(0, 1) + '.' : ''
+    }`;
   }
 
   logout(): void {

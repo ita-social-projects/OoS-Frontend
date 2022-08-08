@@ -1,25 +1,26 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
-import { InformationPageComponent } from './information-page/information-page.component';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { DetailsComponent } from './details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { RouterModule } from '@angular/router';
-import { WorkshopAboutComponent } from './information-page/workshop-about/workshop-about.component';
-import { ProviderAboutComponent } from './information-page/provider-about/provider-about.component';
-import { WorkshopTeachersComponent } from './information-page/workshop-teachers/workshop-teachers.component';
-import { ReviewsComponent } from './information-page/reviews/reviews.component';
+import { WorkshopAboutComponent } from './details-tabs/workshop-about/workshop-about.component';
+import { ProviderAboutComponent } from './details-tabs/provider-about/provider-about.component';
+import { WorkshopTeachersComponent } from './details-tabs/workshop-teachers/workshop-teachers.component';
+import { ReviewsComponent } from './details-tabs/reviews/reviews.component';
 import { CommonModule } from '@angular/common';
 import { ActionsComponent } from './side-menu/actions/actions.component';
 import { ContactsComponent } from './side-menu/contacts/contacts.component';
-import { ScheduleComponent } from './side-menu/schedule/schedule.component';
-import { AllProviderWorkshopsComponent } from './information-page/all-provider-workshops/all-provider-workshops.component';
+import { AllProviderWorkshopsComponent } from './details-tabs/all-provider-workshops/all-provider-workshops.component';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { WorkshopDetailsComponent } from './workshop-details/workshop-details.component';
+import { ProviderDetailsComponent } from './provider-details/provider-details.component';
+import { AchievementsComponent } from './details-tabs/achievements/achievements.component';
+import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-card/teacher-card.component';
 
 @NgModule({
   declarations: [
     DetailsComponent,
-    InformationPageComponent,
     SideMenuComponent,
     WorkshopAboutComponent,
     ProviderAboutComponent,
@@ -27,8 +28,12 @@ import { SharedModule } from 'src/app/shared/shared.module';
     ReviewsComponent,
     ActionsComponent,
     ContactsComponent,
-    ScheduleComponent,
-    AllProviderWorkshopsComponent],
+    AllProviderWorkshopsComponent,
+    WorkshopDetailsComponent,
+    ProviderDetailsComponent,
+    AchievementsComponent,
+    TeacherCardComponent
+  ],
   imports: [
     CommonModule,
     FlexLayoutModule,

@@ -1,19 +1,17 @@
-import { delay, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, combineLatest } from 'rxjs';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
+import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
+import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { AppState } from 'src/app/shared/store/app.state';
-import { EntityType } from 'src/app/shared/enum/role';
+import { EntityType, Role } from 'src/app/shared/enum/role';
 
 @Component({
   selector: 'app-details',
@@ -21,29 +19,41 @@ import { EntityType } from 'src/app/shared/enum/role';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
-  @Select(UserState.selectedWorkshop) workshop$: Observable<Workshop>;
-  @Select(UserState.selectedProvider) provider$: Observable<Provider>;
-  @Select(RegistrationState.role) role$: Observable<string>;
+  readonly entityType = EntityType;
 
+  @Select(AppState.isMobileScreen) 
+  isMobileScreen$: Observable<boolean>;
+  isMobileScreen: boolean;
+  
+  @Select(UserState.selectedWorkshop) 
+  workshop$: Observable<Workshop>;
   workshop: Workshop;
+
+  @Select(UserState.selectedProvider) 
+  provider$: Observable<Provider>;
   provider: Provider;
+
+  @Select(RegistrationState.role) 
+  role$: Observable<Role>;
+  role: Role;
+
+  entity: EntityType;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  entityType: EntityType;
+  displayActionCard: boolean;
 
   constructor(
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
     public navigationBarService: NavigationBarService,
-    private actions$: Actions,
   ) { }
 
   ngOnInit(): void {
     this.route.params.pipe(
       takeUntil(this.destroy$))
       .subscribe((params : Params) => {
-        this.entityType = this.router.url.includes(EntityType.workshop) ?
+        this.store.dispatch(new ResetProviderWorkshopDetails());
+        this.entity = this.router.url.includes(EntityType.workshop) ?
           EntityType.workshop :
           EntityType.provider;
 
@@ -59,73 +69,28 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   private setDataSubscribtion(): void {
-    this.workshop$
-      .pipe(
-        filter((workshop: Workshop) => !!workshop),
-        takeUntil(this.destroy$)
-      ).subscribe((workshop: Workshop) => {
-        if (this.entityType === EntityType.workshop) {
+    combineLatest([this.isMobileScreen$, this.role$, this.workshop$, this.provider$]) 
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(([isMobileScreen, role, workshop, provider])=> {
+          this.isMobileScreen = isMobileScreen;
+          this.role = role;
           this.workshop = workshop;
-          this.getWorkshopData(workshop);
-        }
-      });
+          this.provider = provider;
 
-    this.provider$.pipe(
-      takeUntil(this.destroy$),
-      filter((provider: Provider) => !!provider)
-    ).subscribe((provider: Provider) => {
-      this.provider = provider;
-      if (this.entityType === EntityType.provider) {
-        this.getProviderData(provider);
-      }
-    });
-
-    this.actions$.pipe(ofAction(OnCreateRatingSuccess))
-      .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
+          this.displayActionCard = (this.role === Role.parent || this.role ===  Role.unauthorized);
+        });
   }
 
   /**
-  * This method get Workshop by Id, set subscripbtion for rating action change;
+  * This method get Workshop or Provider by Id;
   */
   private getEntity(id: string): void {
-    this.entityType === EntityType.workshop ?
+    this.entity === EntityType.workshop ?
       this.store.dispatch(new GetWorkshopById(id)) :
       this.store.dispatch(new GetProviderById(id));
   }
 
-  /**
-  * This method get Workshop Data (provider, workshops, ratings) and set navigation path
-  */
-  private getWorkshopData(workshop: Workshop): void {
-    this.store.dispatch(new GetProviderById(workshop.providerId));
-    this.store.dispatch(new GetRateByEntityId(EntityType.workshop, workshop.id));
-    this.getEntityData(workshop.providerId, this.store.selectSnapshot(UserState.selectedWorkshop).title);
-  }
-  /**
-  * This method get Provider Data (provider, workshops, ratings) and set navigation path
-  */
-  private getProviderData(provider: Provider): void {
-    this.store.dispatch(new GetRateByEntityId(EntityType.provider, provider.id));
-    this.getEntityData(provider.id, this.store.selectSnapshot(UserState.selectedProvider).fullTitle);
-  }
-
-  /**
-  * This method get entityt data (provider Wworkshops and set navigation path);
-  */
-  private getEntityData(providerId: string, title: string): void {
-    this.store.dispatch(new GetWorkshopsByProviderId(providerId));
-    this.store.dispatch(new AddNavPath(
-      this.navigationBarService.createNavPaths(
-        { name: NavBarName.TopWorkshops, path: '/result', isActive: false, disable: false },
-        { name: title, isActive: false, disable: true },
-      )));
-  }
-
   ngOnDestroy(): void {
-    this.store.dispatch(new ResetProviderWorkshopDetails());
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

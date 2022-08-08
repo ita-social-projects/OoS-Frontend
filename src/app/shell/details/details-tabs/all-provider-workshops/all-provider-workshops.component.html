@@ -1,0 +1,8 @@
+<div class="card-wrapper" *ngIf="workshops?.length; else isEmptyList">
+  <app-workshop-card class="card" [userRoleView]="Role.unauthorized" *ngFor="let workshop of workshops"
+    [workshop]="workshop" [isMainPage]="true"></app-workshop-card>
+</div>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noResultWorkshops"></app-no-result-card>
+</ng-template>

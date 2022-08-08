@@ -5,6 +5,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Direction } from '../../models/category.model';
 
 describe('FiltersListComponent', () => {
   let component: FiltersListComponent;
@@ -36,7 +37,6 @@ describe('FiltersListComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(FiltersListComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -56,6 +56,7 @@ class MockCityFilterComponent {}
 })
 class MockCategoryCheckBoxComponent {
   @Input() categoryCheckBox: {};
+  @Input() stateDirections: Direction[];
 }
 
 @Component({

@@ -24,7 +24,7 @@ export class CreateAddressComponent implements OnInit {
   @Output() passAddressFormGroup = new EventEmitter();
 
   AddressFormGroup: FormGroup;
-  city: string;
+  city: string = '';
   cityFormControl = new FormControl('', defaultValidators);
 
   constructor(
@@ -51,7 +51,7 @@ export class CreateAddressComponent implements OnInit {
     this.AddressFormGroup.reset();
     this.AddressFormGroup.get('latitude').setValue(event.latitude, { emitEvent: false });
     this.AddressFormGroup.get('longitude').setValue(event.longitude, { emitEvent: false });
-    this.AddressFormGroup.get('city').setValue(event.name);
+    this.AddressFormGroup.get('city').setValue(event.name,  { emitEvent: false });
   }
 
   onReceiveAddressFromMap(address: Address): void {

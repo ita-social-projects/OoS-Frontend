@@ -6,7 +6,7 @@
       (window:resize)="onResize($event.target)">
       <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount">
         <label>
-          <input type="file" (change)="onFileSelected($event)" accept=".jpg, .jpeg, .png" [multiple]="imgMaxAmount > 1">
+          <input type="file" (input)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png" #inputImage>
           <mat-icon class="card_icon">add</mat-icon>
         </label>
       </mat-grid-tile>

@@ -1,4 +1,4 @@
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/create-form/create-form.component';
+import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { CdkStepper, STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -13,6 +13,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { Observable } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { filter, takeUntil } from 'rxjs/operators';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-add-direction-form',
@@ -64,7 +65,7 @@ export class AddDirectionFormComponent extends CreateFormComponent implements On
   onSubmit(): void {
     if(this.directionFormGroup.dirty){
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: '330px',
+        width: Constants.MODAL_SMALL,
         data: {
           type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection,
         }

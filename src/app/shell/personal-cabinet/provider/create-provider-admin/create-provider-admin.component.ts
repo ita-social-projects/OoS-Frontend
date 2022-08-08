@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CreateFormComponent } from '../../create-form/create-form.component';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
@@ -19,6 +19,12 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { Location } from '@angular/common';
+import { AddNavPath } from 'src/app/shared/store/navigation.actions';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { Util } from 'src/app/shared/utils/utils';
+import { Role } from 'src/app/shared/enum/role';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -34,6 +40,9 @@ const defaultValidators: ValidatorFn[] = [
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   readonly phonePrefix = Constants.PHONE_PREFIX;
+  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  readonly WorkshopDeclination = WorkshopDeclination;
+  readonly providerAdminRole = providerAdminRole;
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
@@ -42,14 +51,16 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
-  isDeputy = false;
+  providerRole: providerAdminRole;
   managedWorkshopIds: string[];
 
   constructor(store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
-    private matDialog: MatDialog) {
+    private matDialog: MatDialog,
+    private location: Location
+  ) {
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
@@ -58,8 +69,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [
         Validators.required, 
-        Validators.minLength(Constants.PHONE_LENGTH),
-        Validators.maxLength(Constants.PHONE_LENGTH)
+        Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
         Validators.required, 
@@ -67,31 +77,49 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       ]),
     });
 
-    this.isDeputy = (this.route.snapshot.paramMap.get('param') === providerAdminRole.deputy);
+    this.providerRole = providerAdminRole[this.route.snapshot.paramMap.get('param')];
 
     this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
   ngOnInit(): void {
-    if(!this.isDeputy){
-      this.getProviderWorkshops();
-    }
-  }
-  
-  setEditMode(): void {
     this.addNavPath();
-  }
-
-  addNavPath(): void { } //TODO: add nav path
-
-  getProviderWorkshops(): void {
     this.provider$.pipe(
       filter((provider: Provider) => !!provider),
       takeUntil(this.destroy$)
-    ).subscribe((provider: Provider) => {
-      this.provider = provider;
+    ).subscribe((provider: Provider) => this.provider = provider);
+
+    if(this.providerRole === providerAdminRole.admin){
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
-    });
+    }
+    this.addNavPath();
+  }
+  
+  setEditMode(): void { }
+
+  addNavPath(): void { 
+    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: personalCabinetTitle,
+            path: '/personal-cabinet/provider/administration',
+            isActive: false,
+            disable: false,
+          },
+          {
+            name: this.providerRole == providerAdminRole.deputy ?
+              NavBarName.CreateProviderDeputy : 
+              NavBarName.CreateProviderAdmin,
+            isActive: false,
+            disable: true,
+          }
+        )
+      )
+    );
   }
 
   onWorkshopsSelect(workshopsId: string[]): void {
@@ -104,17 +132,21 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
   }
 
+  onBack(): void {
+    this.location.back();
+  }
+
   onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
-        type: (this.isDeputy) ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin
+        type: (this.providerRole === providerAdminRole.deputy) ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin
       }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.isDeputy, this.provider.id, this.managedWorkshopIds)
+        let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.providerRole === providerAdminRole.deputy, this.provider.id, this.managedWorkshopIds)
         this.store.dispatch(new CreateProviderAdmin(providerAdmin));
       }
     });   
