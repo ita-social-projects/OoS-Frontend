@@ -110,9 +110,6 @@ export class FilterState {
   static searchQuery(state: FilterStateModel): string { return state.searchQuery };
 
   @Selector()
-  static isStrictWorkdays(state: FilterStateModel): boolean { return state.isStrictWorkdays };
-
-  @Selector()
   static order(state: FilterStateModel): {} { return state.order };
 
   @Selector()
