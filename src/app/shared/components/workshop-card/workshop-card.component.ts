@@ -1,5 +1,5 @@
 import { Favorite } from './../../models/favorite.model';
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { ApplicationStatus } from '../../enum/applications';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
@@ -11,9 +11,9 @@ import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { OwnershipTypeUkr} from 'src/app/shared/enum/provider';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
@@ -32,6 +32,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   readonly categoryIcons = CategoryIcons;
   readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
 
   isFavorite: boolean;
   pendingApplicationAmount: number;
@@ -40,7 +41,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() set workshop(workshop: WorkshopCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
-  };
+  }
   @Input() userRoleView: string;
   @Input() isMainPage: boolean;
   @Input() application: Application;
@@ -55,7 +56,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     } else {
       this.pendingApplicationAmount = 0;
     }
-  };
+  }
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
@@ -77,8 +78,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((role: string) => {
         this.role = role;
-        (this.role === Role.parent) && this.getFavoriteWorkshops();
-      })
+        if (this.role === Role.parent) {
+          this.getFavoriteWorkshops();
+        }
+      });
   }
 
   onDelete(): void {

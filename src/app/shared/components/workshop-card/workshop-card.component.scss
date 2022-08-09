@@ -8,7 +8,7 @@
   margin: 0;
 }
 .provider-content {
-  min-height: 5rem;
+  min-height: 2rem;
 }
 .icon {
   display: flex;
@@ -79,6 +79,9 @@
   border: 1px solid #3849f9;
   border-radius: 20px;
   margin-bottom: 20px;
+}
+.wrap-for-details, .mat-card-content {
+  flex: 1;
 }
 .more-details {
   width: fit-content;
