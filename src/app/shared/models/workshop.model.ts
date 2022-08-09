@@ -38,6 +38,8 @@ export class Workshop {
   institutionHierarchyId: string;
   institutionId: string;
   workshopDescriptionItems: WorkshopSectionItem[];
+  availableSeats: number;
+  takenSeats: number;
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -46,6 +48,8 @@ export class Workshop {
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
+    this.availableSeats = about.availableSeats;
+    this.takenSeats = about.takenSeats;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
@@ -116,6 +120,8 @@ export interface WorkshopCard {
   workshopId: string;
   coverImageId?: string;
   directionsId: number[];
+  availableSeats: number;
+  takenSeats: number;
 }
 export interface WorkshopFilterCard {
   totalAmount: number;
