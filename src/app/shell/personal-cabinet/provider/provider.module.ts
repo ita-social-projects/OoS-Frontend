@@ -3,7 +3,7 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ProviderRoutingModule } from './provider-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
-import { CreateAddressComponent } from './create-workshop/create-address/create-address.component';
+import { CreateWorkshopAddressComponent } from './create-workshop/create-workshop-address/create-workshop-address.component';
 import { CreateAboutFormComponent } from './create-workshop/create-about-form/create-about-form.component';
 import { CreateDescriptionFormComponent } from './create-workshop/create-description-form/create-description-form.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
@@ -29,7 +29,7 @@ import { CreateAddressFormComponent } from './create-address-form/create-address
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
-    CreateAddressComponent,
+    CreateWorkshopAddressComponent,
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
     CreateWorkshopComponent,

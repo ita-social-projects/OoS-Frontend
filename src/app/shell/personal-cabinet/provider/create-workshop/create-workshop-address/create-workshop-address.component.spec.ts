@@ -1,7 +1,6 @@
-import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
-import { City } from 'src/app/shared/models/city.model';
+import { ValidationHintComponent } from '../../../../../shared/components/validation-hint/validation-hint.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateAddressComponent } from './create-address.component';
+import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,9 +10,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 
-describe('CreateAddressComponent', () => {
-  let component: CreateAddressComponent;
-  let fixture: ComponentFixture<CreateAddressComponent>;
+describe('CreateWorkshopAddressComponent', () => {
+  let component: CreateWorkshopAddressComponent;
+  let fixture: ComponentFixture<CreateWorkshopAddressComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,7 +26,7 @@ describe('CreateAddressComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
-        CreateAddressComponent,
+        CreateWorkshopAddressComponent,
         MockMapComponent,
         ValidationHintComponent,
         MockCityAutocompleteComponent
@@ -37,7 +36,7 @@ describe('CreateAddressComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateAddressComponent);
+    fixture = TestBed.createComponent(CreateWorkshopAddressComponent);
     component = fixture.componentInstance;
     component.addressFormGroup = new FormGroup({
       street: new FormControl(''),

@@ -4,11 +4,11 @@ import { Address } from 'src/app/shared/models/address.model';
 import { FormValidators, ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
-  selector: 'app-create-address',
-  templateUrl: './create-address.component.html',
-  styleUrls: ['./create-address.component.scss'],
+  selector: 'app-create-workshop-address',
+  templateUrl: './create-workshop-address.component.html',
+  styleUrls: ['./create-workshop-address.component.scss'],
 })
-export class CreateAddressComponent implements OnInit {
+export class CreateWorkshopAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
 
   @Input() address: Address;
