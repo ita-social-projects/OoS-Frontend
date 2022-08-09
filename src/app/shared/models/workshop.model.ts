@@ -22,11 +22,8 @@ export class Workshop {
   teachers: Teacher[];
   rating?: number;
   numberOfRatings?: number;
-  directionId?: number;
   direction: string;
   directions: Direction[];
-  departmentId?: number;
-  classId?: number;
   providerId: string;
   providerTitle?: string;
   payRate?: string;
@@ -41,6 +38,8 @@ export class Workshop {
   institutionHierarchyId: string;
   institutionId: string;
   workshopDescriptionItems: WorkshopSectionItem[];
+  availableSeats: number;
+  takenSeats: number;
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -49,6 +48,8 @@ export class Workshop {
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
+    this.availableSeats = about.availableSeats;
+    this.takenSeats = about.takenSeats;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
@@ -57,9 +58,6 @@ export class Workshop {
     if(about.payRate){
       this.payRate = about.payRate;
     }
-    this.directionId = description.categories.directionId.id;
-    this.departmentId = description.categories.departmentId.id;
-    this.classId = description.categories.classId.id;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
     this.institutionHierarchyId = description.institutionHierarchyId;
@@ -122,6 +120,8 @@ export interface WorkshopCard {
   workshopId: string;
   coverImageId?: string;
   directionsId: number[];
+  availableSeats: number;
+  takenSeats: number;
 }
 export interface WorkshopFilterCard {
   totalAmount: number;

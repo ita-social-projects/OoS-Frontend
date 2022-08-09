@@ -1,5 +1,5 @@
 import { Child } from 'src/app/shared/models/child.model';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -20,7 +20,6 @@ import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
-import { ClearClasses, ClearDepartments } from './meta-data.actions';
 import { PaginationElement } from '../models/paginationElement.model';
 import {
   CreateApplication,
@@ -103,6 +102,7 @@ import {
   GetStatusAllowedToReview,
   GetProviderAdminWorkshops,
   GetChildrenByWorkshopId,
+  GetReviewedApplications,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -131,6 +131,7 @@ export interface UserStateModel {
   blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
   isAllowedToReview: boolean;
+  isReviewed: boolean;
   approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
@@ -147,14 +148,12 @@ export interface UserStateModel {
     selectedChild: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
-    currentPage: {
-      element: 1,
-      isActive: true,
-    },
+    currentPage: PaginationConstants.firstPage,
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,
-    isAllowedToReview: false
+    isAllowedToReview: false,
+    isReviewed: false,
   },
 })
 @Injectable()
@@ -230,6 +229,11 @@ export class UserState {
   }
 
   @Selector()
+  static isReviewed(state: UserStateModel): boolean {
+    return state.isReviewed;
+  }
+
+  @Selector()
   static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
 
   constructor(
@@ -290,8 +294,8 @@ export class UserState {
     patchState({ isLoading: true });
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
       tap((approvedChildren: ChildCards) => {
-        return patchState(approvedChildren 
-          ? { approvedChildren: approvedChildren, isLoading: false } 
+        return patchState(approvedChildren
+          ? { approvedChildren: approvedChildren, isLoading: false }
           : { approvedChildren: {totalAmount: 0, entities: []}, isLoading: false });
       })
     );
@@ -466,8 +470,6 @@ export class UserState {
     console.log('Workshop is created', payload);
     dispatch([
       new MarkFormDirty(false),
-      new ClearClasses(),
-      new ClearDepartments(),
       new ShowMessageBar({ message: message.text, type: message.type }),
     ]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
@@ -660,7 +662,7 @@ export class UserState {
   @Action(CreateAchievement)
   createAchievement({ dispatch }: StateContext<UserStateModel>, { payload }: CreateAchievement): Observable<object> {
     return this.achievementsService.createAchievement(payload).pipe(
-      tap((res: HttpResponse<Achievement>) => dispatch(new OnCreateAchievementSuccess(res))),
+      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateAchievementFail(error))))
     );
   }
@@ -672,7 +674,7 @@ export class UserState {
   ): void {
     console.log('Achievement is created', payload);
     dispatch([new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }), new MarkFormDirty(false)]);
-    this.router.navigate(['/details/workshop/', payload.body.workshopId]);
+    this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)
@@ -745,7 +747,7 @@ export class UserState {
       new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
       new GetUsersChildren(),
     ]);
-    this.router.navigate(['/details/workshop', payload.body.workshopId]);
+    this.router.navigate(['/details/workshop', payload.workshopId]);
   }
 
   @Action(OnDeleteChildFail)
@@ -911,14 +913,29 @@ export class UserState {
   @Action(GetStatusAllowedToReview)
   getApplicationsAllowedToReview(
     { patchState }: StateContext<UserStateModel>,
-    { parentId }: GetStatusAllowedToReview
+    { parentId, workshopId }: GetStatusAllowedToReview
   ): Observable<boolean> {
     patchState({ isLoading: true });
     return this.applicationService
-      .getApplicationsAllowedToReview(parentId)
+      .getApplicationsAllowedToReview(parentId, workshopId)
       .pipe(
         tap((status: boolean) => {
           return patchState({ isAllowedToReview: status, isLoading: false });
+        })
+      );
+  }
+
+  @Action(GetReviewedApplications)
+  getReviewedApplications(
+    { patchState }: StateContext<UserStateModel>,
+    { parentId, workshopId }: GetReviewedApplications
+  ): Observable<boolean> {
+    patchState({ isLoading: true });
+    return this.applicationService
+      .getReviewedApplications(parentId, workshopId)
+      .pipe(
+        tap((status: boolean) => {
+          return patchState({ isReviewed: status, isLoading: false });
         })
       );
   }

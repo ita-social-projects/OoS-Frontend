@@ -9,7 +9,6 @@ import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
-import { CategorySelectComponent } from './components/category-select/category-select.component';
 import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
@@ -72,7 +71,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     CityFilterComponent,
     DigitOnlyDirective,
     WorkshopCardComponent,
-    CategorySelectComponent,
     CategoryCardComponent,
     CityAutocompleteComponent,
     MinMaxDirective,
@@ -121,7 +119,9 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     StarsComponent,
     ErrorPageComponent,
     AchievementCardComponent,
+    StarsComponent,
   ],
+  
   imports: [
     MaterialModule,
     CommonModule,
@@ -134,6 +134,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     IvyCarouselModule,
     ImageCropperModule
   ],
+
   exports: [
     FiltersListComponent,
     AgeFilterComponent,
@@ -142,7 +143,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     DigitOnlyDirective,
     WorkshopCardComponent,
     MaterialModule,
-    CategorySelectComponent,
     CategoryCardComponent,
     CityAutocompleteComponent,
     MinMaxDirective,

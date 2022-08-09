@@ -8,5 +8,6 @@ export enum NoResultsTitle {
   noTeachers = 'Викладачів поки немає',
   noAchievements = 'Досягнень поки немає',
   noReviews = 'Відгуків поки немає',
-  noAdmins = 'Тут ви можете додати Адміністраторів'
+  noAdmins = 'Тут ви можете додати Адміністраторів',
+  noHistory = 'Історії змін поки немає'
 }

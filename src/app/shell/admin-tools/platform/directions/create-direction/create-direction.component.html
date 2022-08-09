@@ -1,54 +1,28 @@
-<div class="create-form">
+<div class="create-form" *ngIf="!(isLoading$ | async)">
   <div class="wrapper">
-
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} НАПРЯМОК</h3>
+      <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАТИ' : 'ДОДАТИ' }} НАПРЯМОК</h3>
     </div>
 
-    <mat-horizontal-stepper #stepper [linear]="!editMode">
+    <ng-container *ngIf="!editMode || (editMode && (direction$ | async))">
+      <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+        <label class="step-label"
+          >{{ editMode ? 'Редагувати назву напрямку' : 'Назва нового напрямку' }}
+          <span *ngIf="!editMode" class="step-required">*</span>
+        </label>
 
-      <mat-step>
-        <ng-template matStepLabel>
-          <p class="step-name">Напрямок</p>
-        </ng-template>
-        <app-add-direction-form></app-add-direction-form>
-      </mat-step>
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="title" />
+        </mat-form-field>
+        <app-validation-hint [validationFormControl]="directionFormGroup.get('title')"></app-validation-hint>
 
-      <mat-step>
-        <ng-template matStepLabel>
-          <p class="step-name">Відділення</p>
-        </ng-template>
-
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <ng-container *ngIf="direction">
-          <app-add-department-form [direction]="direction" [department]="department"></app-add-department-form>
-        </ng-container>
-      </mat-step>
-
-      <mat-step>
-        <ng-template matStepLabel>
-          <p class="step-name">Клас</p>
-        </ng-template>
-
-        <ng-container *ngTemplateOutlet="headerTemplate"></ng-container>
-        <ng-container *ngIf="department; else noSelectedDepartmentTmpl">
-          <app-add-class-form [department]="department"></app-add-class-form>
-        </ng-container>
-
-        <ng-template #noSelectedDepartmentTmpl>
-          <div class="no-info" fxLayout="column" fxLayoutAlign="center center">
-            <mat-label>Для редагування класів оберіть відділення.</mat-label>
-          </div>
-        </ng-template>
-      </mat-step>
-
-    </mat-horizontal-stepper>
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
+          <button [disabled]="directionFormGroup.invalid" class="btn" (click)="onSubmit()" mat-raised-button>
+            Зберегти
+          </button>
+        </div>
+      </form>
+    </ng-container>
   </div>
 </div>
-
-<ng-template #headerTemplate>
-  <div class="step">
-    <h3 *ngIf="direction">Назва напрямку: {{direction.title}}</h3>
-    <h3 *ngIf="department">Назва відділення: {{department.title}}</h3>
-  </div>
-</ng-template>
