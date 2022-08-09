@@ -22,6 +22,8 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { Constants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { MatDialog } from '@angular/material/dialog';
+import { FeaturesList } from 'src/app/shared/models/featuresList.model';
+import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-provider',
@@ -99,6 +101,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       this.checkValidation(this.PhotoFormGroup);
     } else {
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
+      const isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
       let legalAddress: Address;
       let actulaAdress: Address;
       let provider: Provider;
@@ -107,12 +110,12 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
         legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
         actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
         provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
-        this.store.dispatch(new UpdateProvider(provider));
+        this.store.dispatch(new UpdateProvider(provider, isRelease2));
       } else {
         legalAddress = new Address(this.LegalAddressFormGroup.value);
         actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
         provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
-        this.store.dispatch(new CreateProvider(provider));
+        this.store.dispatch(new CreateProvider(provider, isRelease2));
       }
     }
   }

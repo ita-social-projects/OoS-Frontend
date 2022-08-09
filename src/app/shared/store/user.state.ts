@@ -535,8 +535,8 @@ export class UserState {
   }
 
   @Action(CreateProvider)
-  createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
-    return this.providerService.createProvider(payload).pipe(
+  createProvider({ dispatch }: StateContext<UserStateModel>, { payload, isRelease2 }: CreateProvider): Observable<object> {
+    return this.providerService.createProvider(payload, isRelease2).pipe(
       tap(res => dispatch(new OnCreateProviderSuccess(res))),
       catchError(error => of(dispatch(new OnCreateProviderFail(error))))
     );
@@ -819,10 +819,10 @@ export class UserState {
 
   @Action(UpdateProvider)
   updateProvider(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: UpdateProvider
+    { dispatch }: StateContext<UserStateModel>,
+    { payload, isRelease2 }: UpdateProvider,
   ): Observable<object> {
-    return this.providerService.updateProvider(payload).pipe(
+    return this.providerService.updateProvider(payload, isRelease2).pipe(
       tap(res => dispatch(new OnUpdateProviderSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
     );
