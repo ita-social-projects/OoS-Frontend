@@ -1,14 +1,27 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {
+  MatAutocomplete,
+  MatAutocompleteSelectedEvent,
+} from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { merge, Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  startWith,
+  takeUntil,
+  tap,
+} from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Address } from 'src/app/shared/models/address.model';
 import { Codeficator } from 'src/app/shared/models/codeficator.model';
-import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'src/app/shared/store/meta-data.actions';
+import {
+  ClearCodeficatorSearch,
+  GetCodeficatorSearch,
+} from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 
 @Component({
@@ -25,7 +38,9 @@ export class CreateAddressFormComponent implements OnInit {
   @Input() address: Address;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @Select(MetaDataState.codeficatorSearch) codeficatorSearch$: Observable<Codeficator[]>;
+  @Select(MetaDataState.codeficatorSearch) codeficatorSearch$: Observable<
+    Codeficator[]
+  >;
 
   constructor(private store: Store) {}
 
@@ -57,31 +72,24 @@ export class CreateAddressFormComponent implements OnInit {
   activateEditMode(): void {
     if (this.address) {
       this.addressFormGroup.patchValue(this.address, { emitEvent: false });
-      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, {
-        emitEvent: false,
-        onlySelf: true,
-      });
+      this.settlementSearchFormControl.patchValue(
+        this.address.codeficatorAddressDto.settlement,
+        {
+          emitEvent: false,
+          onlySelf: true,
+        }
+      );
     }
   }
 
   /**
-   * This method listen input changes and handle search
+   * This method handle displayed value for mat-autocomplete dropdown
+   * @param codeficator: Codeficator | string
    */
-  private initSettlementListener(): void {
-    merge(this.settlementSearchFormControl.valueChanges, this.settlementSearchFormControl.valueChanges)
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith(''),
-        tap((value: string) => {
-          if (!value?.length) {
-            this.store.dispatch(new ClearCodeficatorSearch());
-          }
-        }),
-        filter((value: string) => value?.length > 2)
-      )
-      .subscribe((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)));
+  displaySettlementNameFn(codeficator: Codeficator | string): string {
+    return typeof codeficator === 'string'
+      ? codeficator
+      : codeficator?.settlement;
   }
 
   /**
@@ -131,11 +139,41 @@ export class CreateAddressFormComponent implements OnInit {
     }
   ): void {
     const codeficator: Codeficator = auto.options.first?.value;
-    if (!controls.searchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
+    if (
+      !controls.searchControl.value ||
+      codeficator?.settlement === Constants.NO_SETTLEMENT
+    ) {
       controls.searchControl.setValue(null);
       controls.codeficatorIdControl.setValue(null);
     } else {
-      controls.searchControl.setValue(controls.settlementControl.value?.settlement);
+      controls.searchControl.setValue(
+        controls.settlementControl.value?.settlement
+      );
     }
+  }
+
+  /**
+   * This method listen input changes and handle search
+   */
+  private initSettlementListener(): void {
+    merge(
+      this.settlementSearchFormControl.valueChanges,
+      this.settlementSearchFormControl.valueChanges
+    )
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(500),
+        distinctUntilChanged(),
+        startWith(''),
+        tap((value: string) => {
+          if (!value?.length) {
+            this.store.dispatch(new ClearCodeficatorSearch());
+          }
+        }),
+        filter((value: string) => value?.length > 2)
+      )
+      .subscribe((value: string) =>
+        this.store.dispatch(new GetCodeficatorSearch(value))
+      );
   }
 }
