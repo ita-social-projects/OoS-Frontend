@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { Institution } from 'src/app/shared/models/institution.model';
 import { CreateProviderAdminComponent } from 'src/app/shell/personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 
 import { CreateAdminComponent } from './create-admin.component';
@@ -23,6 +24,7 @@ describe('CreateAdminComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        NgxsModule.forRoot([]),
         MatStepperModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -32,14 +34,14 @@ describe('CreateAdminComponent', () => {
         RouterTestingModule,
         MatDialogModule,
         CommonModule,
-        NgxsModule.forRoot([]),
         RouterModule,
         FormsModule,
         MatSelectModule
       ],
       declarations: [ 
         CreateProviderAdminComponent,
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        MockWorkshopChekcboxDropdownComponent
       ]
     })
     .compileComponents();
@@ -76,4 +78,13 @@ class MockValidationHintForInputComponent {
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;
+}
+
+@Component({
+  selector: 'app-entity-checkbox-dropdown',
+  template: ''
+})
+
+class MockWorkshopChekcboxDropdownComponent {
+  @Input() entities: Institution[];
 }
