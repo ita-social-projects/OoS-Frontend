@@ -1,5 +1,3 @@
-export interface MinistryAdminTable {
-}
 export class MinistryAdmin {
   id?: string;
   email?: string;
