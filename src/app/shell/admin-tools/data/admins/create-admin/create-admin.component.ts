@@ -23,6 +23,7 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { MinistryAdmin } from 'src/app/shared/models/ministryAdmin.model';
 import { CreateMinistryAdmin } from 'src/app/shared/store/admin.actions';
+import { CreateAdminTitle } from 'src/app/shared/enum/enumUA/tech-admin/create-admin';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -40,6 +41,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly adminsRole = AdminRole;
+  readonly title = CreateAdminTitle;
   
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
