@@ -8,6 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
+import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 import { AdminsComponent } from './admins.component';
@@ -20,6 +21,7 @@ describe('AdminsComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatTabsModule,
+        NgxsModule.forRoot([]),
         MatMenuModule,
         MatIconModule,
         MatFormFieldModule,
@@ -35,6 +37,7 @@ describe('AdminsComponent', () => {
        ]
     })
     .compileComponents();
+    
   });
 
   beforeEach(() => {
