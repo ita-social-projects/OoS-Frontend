@@ -27,14 +27,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly adminRoleUkr = AdminRoleUkr;
   readonly Role = Role;
   
-  @Select(RegistrationState.role)
-  role$: Observable<Role>;
-  role: string;
-  @Select(RegistrationState.subrole)
-  subRole$: Observable<Role>;
-  subRole: Role;
-  @Select(UserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.ministryAdmin)
   ministryAdmin$: Observable<MinistryAdmin>;
   ministryAdmin: MinistryAdmin;
@@ -50,45 +42,35 @@ export class AdminsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private matDialog: MatDialog) { }
 
-ngOnInit(): void {
-
-  combineLatest([this.role$, this.subRole$])
-  .pipe(
-    filter(([role, subRole]: [Role, Role]) => !!role),
-    takeUntil(this.destroy$)
-  )
-  .subscribe(([role, subRole]: [Role, Role]) => {
-    this.role = role;
-    this.subRole = subRole;
+  ngOnInit(): void {
     this.addNavPath();
-  });
-}
+  }
 
-/**
- * This method filter admins according to selected tab
- * @param event: MatTabChangeEvent
- */
-onTabChange(event: MatTabChangeEvent): void {
-  this.filterFormControl.reset();
-  this.router.navigate(['./'], {
-    relativeTo: this.route,
-    queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] },
-  });
-}
+  /**
+  * This method filter admins according to selected tab
+  * @param event: MatTabChangeEvent
+  */
+  onTabChange(event: MatTabChangeEvent): void {
+    this.filterFormControl.reset();
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] },
+    });
+  }
 
-addNavPath(): void {
-  this.store.dispatch(
-    new PushNavPath({
-      name: NavBarName.Admins,
-      isActive: false,
-      disable: true,
-    })
-  );
-}
+  addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Admins,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
 
-ngOnDestroy(): void {
-  this.destroy$.next(true);
-  this.destroy$.unsubscribe();
-  this.store.dispatch(new PopNavPath());
-}
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
+  }
 }

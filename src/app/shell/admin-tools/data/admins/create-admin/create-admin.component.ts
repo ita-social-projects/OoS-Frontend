@@ -126,7 +126,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        console.log(this.AdminFormGroup.get('institution').value.id);
         let ministryAdmin = new MinistryAdmin(
           this.AdminFormGroup.value, 
           this.AdminFormGroup.get('institution').value.id

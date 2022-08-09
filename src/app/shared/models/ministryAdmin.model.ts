@@ -1,16 +1,16 @@
 export class MinistryAdmin {
   id?: string;
-  email?: string;
-  phoneNumber?: string;
-  lastName?: string;
+  email: string;
+  phoneNumber: string;
+  lastName: string;
   middleName?: string;
-  firstName?: string;
+  firstName: string;
   accountStatus?: string;
-  institutionId?: string;
+  institutionId: string;
   gender?: number;
   institutionTitle?: string;
 
-  constructor(info,institutionId?,institutionTitle?, accountStatus?,) {
+  constructor(info, institutionId, institutionTitle?, accountStatus?) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.lastName = info.lastName;
