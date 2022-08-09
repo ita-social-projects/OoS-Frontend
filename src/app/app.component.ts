@@ -21,13 +21,6 @@ import { RegistrationState } from './shared/store/registration.state';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit, OnDestroy {
-
-  constructor(public store: Store, private router: Router) {
-    this.router.events.subscribe((e: RouterEvent) => {
-      this.navigationInterceptor(e);
-    });
-  }
-
   @Select(RegistrationState.isLoading)
   isLoadingUserInfo$: Observable<boolean>;
   @Select(FilterState.isLoading)
@@ -38,6 +31,11 @@ export class AppComponent implements OnInit, OnDestroy {
   isMobileView: boolean;
   isLoading: boolean;
   isLoadingData: boolean;
+
+  constructor(public store: Store, private router: Router) {
+    this.router.events.subscribe((e: RouterEvent) => this.navigationInterceptor(e));
+  }
+
 
   /**
    * @param event global variable window

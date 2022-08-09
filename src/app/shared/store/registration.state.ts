@@ -129,18 +129,13 @@ export class RegistrationState {
     this.oidcSecurityService.checkAuth().subscribe((auth) => {
       console.log('is authenticated', auth);
       patchState({ isAuthorized: auth });
-     
-   
-      if (auth) { 
-        console.log(auth)  
+      if (auth) {  
         const token = jwt_decode(this.oidcSecurityService.getToken());
         const id = token['sub'];
         const subrole = token['subrole'];
        
         this.userService.getUserById(id).subscribe((user) => {
-          patchState({ subrole: subrole });
-          patchState({ user: user });
-          patchState({ isLoading: false });
+          patchState({ subrole: subrole , user: user, isLoading: false });
           dispatch(new CheckRegistration());
         });
       } else {
