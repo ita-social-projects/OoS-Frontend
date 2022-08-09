@@ -9,10 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Institution } from 'src/app/shared/models/institution.model';
 import { CreateProviderAdminComponent } from 'src/app/shell/personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
 
 import { CreateAdminComponent } from './create-admin.component';
@@ -34,14 +32,12 @@ describe('CreateAdminComponent', () => {
         RouterTestingModule,
         MatDialogModule,
         CommonModule,
-        RouterModule,
         FormsModule,
         MatSelectModule
       ],
       declarations: [ 
         CreateProviderAdminComponent,
-        MockValidationHintForInputComponent,
-        MockWorkshopChekcboxDropdownComponent
+        MockValidationHintForInputComponent
       ]
     })
     .compileComponents();
@@ -80,11 +76,3 @@ class MockValidationHintForInputComponent {
   @Input() isPhoneNumber: boolean;
 }
 
-@Component({
-  selector: 'app-entity-checkbox-dropdown',
-  template: ''
-})
-
-class MockWorkshopChekcboxDropdownComponent {
-  @Input() entities: Institution[];
-}
