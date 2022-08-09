@@ -1,40 +1,15 @@
-<form [formGroup]="AddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <label class="step-label">Місто<span class="step-required">*</span></label>
-  <app-city-autocomplete (selectedCity)="onSelectedCity($event)" [InitialCity]="city"
-    class="city-autocomplete" [cityFormControl]="cityFormControl" [class.redBorder]="cityFormControl.invalid && cityFormControl.touched"
-    (focusout)="onFocusout($event)">
-  </app-city-autocomplete>
-  <app-validation-hint 
-    [validationFormControl]="cityFormControl"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Вулиця<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="AddressFormGroup.get('street')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Будинок<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="AddressFormGroup.get('buildingNumber')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <div class="border-bottom"></div>
-  <div fxLayout='column' fxLayoutAlign='center center'>
-    <p>Або позначте на карті</p>
+<div class="step">
+  <div class="address-wrapper-border">
+    <app-create-address-form
+      [addressFormGroup]="addressFormGroup"
+      [searchFormGroup]="searchFormGroup"
+      [address]="address">
+    </app-create-address-form>
   </div>
+
+  <p class="text">Або позначте на карті</p>
+
   <div class="map">
-    <app-map [addressFormGroup]="AddressFormGroup" (setAddressEvent)="onReceiveAddressFromMap($event)"></app-map>
+    <app-map></app-map>
   </div>
-</form>
+</div>

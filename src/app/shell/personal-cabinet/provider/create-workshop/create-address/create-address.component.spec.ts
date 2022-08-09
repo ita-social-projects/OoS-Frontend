@@ -39,7 +39,7 @@ describe('CreateAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAddressComponent);
     component = fixture.componentInstance;
-    component.AddressFormGroup = new FormGroup({
+    component.addressFormGroup = new FormGroup({
       street: new FormControl(''),
       buildingNumber: new FormControl(''),
       city: new FormControl(''),
