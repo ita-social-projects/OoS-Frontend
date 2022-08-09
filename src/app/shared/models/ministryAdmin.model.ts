@@ -8,9 +8,8 @@ export class MinistryAdmin {
   accountStatus?: string;
   institutionId: string;
   gender?: number;
-  institutionTitle?: string;
 
-  constructor(info, institutionId, institutionTitle?, accountStatus?) {
+  constructor(info, institutionId, accountStatus?) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.lastName = info.lastName;
@@ -19,7 +18,6 @@ export class MinistryAdmin {
     this.firstName = info.firstName;
     this.institutionId = institutionId;
     this.gender = info.gender;
-    this.institutionTitle = institutionTitle;
     this.accountStatus = accountStatus;
   }
 }
