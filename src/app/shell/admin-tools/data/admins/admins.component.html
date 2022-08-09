@@ -26,7 +26,7 @@
   
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-        <mat-tab label="{{adminRoleUkr.all}}">
+        <mat-tab label="Усі">
           <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: allAdmins}">
           </ng-container> -->
         </mat-tab>
@@ -34,11 +34,11 @@
           <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins : 'ministryAdmin'}">
           </ng-container> -->
         </mat-tab>
-        <mat-tab label="Адміністратор області">
+        <mat-tab label="{{adminRoleUkr.regionAdmin}}">
           <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins : 'admin'}">
           </ng-container> -->
         </mat-tab>
-        <mat-tab label="Адміністратор ОТГ">
+        <mat-tab label="{{adminRoleUkr.territorialCommunityAdmin}}">
           <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins : 'admin'}">
           </ng-container> -->
         </mat-tab>

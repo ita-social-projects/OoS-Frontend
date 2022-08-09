@@ -1,11 +1,14 @@
 export enum AdminRoleUkr {
     ministryAdmin = 'Адміністратор міністерства',
-    all = 'Усі',
+    regionAdmin = 'Адміністратор регіона',
+    territorialCommunityAdmin = 'Адміністратор ОТГ'
+
   }
 
 export enum AdminRoleUkrReverse {
   'Адміністратор міністерства' = 'ministryAdmin',
-  'Усі' = 'all',
+  'Адміністратор регіона' = 'regionAdmin',
+  'Адміністратор ОТГ' = 'territorialCommunityAdmin'
 }
 
 export enum AdminTitles {
