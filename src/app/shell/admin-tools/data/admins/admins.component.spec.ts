@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterModule } from '@angular/router';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 
 import { AdminsComponent } from './admins.component';
@@ -26,6 +27,7 @@ describe('AdminsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatDialogModule,
+        RouterModule,
       ],
       declarations: [ 
         AdminsComponent,
