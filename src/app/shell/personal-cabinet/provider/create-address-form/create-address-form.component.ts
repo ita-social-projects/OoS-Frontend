@@ -69,7 +69,7 @@ export class CreateAddressFormComponent implements OnInit {
     this.activateEditMode();
   }
 
-  activateEditMode(): void {
+  private activateEditMode(): void {
     if (this.address) {
       this.addressFormGroup.patchValue(this.address, { emitEvent: false });
       this.settlementSearchFormControl.patchValue(
@@ -156,11 +156,7 @@ export class CreateAddressFormComponent implements OnInit {
    * This method listen input changes and handle search
    */
   private initSettlementListener(): void {
-    merge(
-      this.settlementSearchFormControl.valueChanges,
-      this.settlementSearchFormControl.valueChanges
-    )
-      .pipe(
+    this.settlementSearchFormControl.valueChanges.pipe(
         takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),

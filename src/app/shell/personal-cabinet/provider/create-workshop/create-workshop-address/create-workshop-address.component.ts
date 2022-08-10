@@ -17,7 +17,9 @@ export class CreateWorkshopAddressComponent implements OnInit {
   addressFormGroup: FormGroup;
   searchFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: FormBuilder) {}
+
+  ngOnInit(): void {
     this.addressFormGroup = this.formBuilder.group({
       street: new FormControl('', FormValidators.defaultAddressValidators),
       buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
@@ -27,9 +29,6 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
       settlement: new FormControl(''),
     });
-  }
-
-  ngOnInit(): void {
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 }
