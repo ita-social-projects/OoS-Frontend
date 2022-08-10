@@ -29,7 +29,6 @@ describe('AdminsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        RouterModule,
       ],
       declarations: [ 
         AdminsComponent,

@@ -11,8 +11,6 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { CreateProviderAdminComponent } from 'src/app/shell/personal-cabinet/provider/create-provider-admin/create-provider-admin.component';
-
 import { CreateAdminComponent } from './create-admin.component';
 
 describe('CreateAdminComponent', () => {
@@ -36,7 +34,6 @@ describe('CreateAdminComponent', () => {
         MatSelectModule
       ],
       declarations: [ 
-        CreateProviderAdminComponent,
         MockValidationHintForInputComponent
       ]
     })
