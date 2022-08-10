@@ -34,7 +34,8 @@ describe('CreateAdminComponent', () => {
         MatSelectModule
       ],
       declarations: [ 
-        MockValidationHintForInputComponent
+        MockValidationHintForInputComponent,
+        CreateAdminComponent
       ]
     })
     .compileComponents();
