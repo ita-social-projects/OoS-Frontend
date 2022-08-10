@@ -48,8 +48,6 @@ export class Workshop {
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
     this.price = about.price;
-    this.availableSeats = about.availableSeats;
-    this.takenSeats = about.takenSeats;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
@@ -88,6 +86,9 @@ export class Workshop {
     }
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
+    }
+    if(about.availableSeats){
+      this.availableSeats = about.availableSeats;
     }
     this.workshopDescriptionItems = description.workshopDescriptionItems;
   }

@@ -19,9 +19,9 @@ export class Address {
     this.longitude = info.longitude;
     this.latitude = info.latitude;
     this.catottgId = info.catottgId ?? address.catottgId;
-    this.codeficatorAddressDto = info.codeficatorAddressDto ?? address.codeficatorAddressDto;
     if (address) {
       this.id = address.id;
     }
+    this.city = 'city' //TODO: temporary mock for testing, will be removed when further
   }
 }
