@@ -21,8 +21,8 @@ export class MinistryAdminService {
    * This method create Ministry Admin
    * @param ministryAdmin: MinistryAdmin
    */
-   createMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<object> {
-    return this.http.post('/api/v1/MinistryAdmin/Create', ministryAdmin);
+   createMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
+    return this.http.post<MinistryAdmin>('/api/v1/MinistryAdmin/Create', ministryAdmin);
   }
 
 }
