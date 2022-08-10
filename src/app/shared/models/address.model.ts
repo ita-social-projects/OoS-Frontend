@@ -22,6 +22,6 @@ export class Address {
     if (address) {
       this.id = address.id;
     }
-    this.city = 'city' //TODO: temporary mock for testing, will be removed when further
+    this.city = 'city' //TODO: temporary mock for testing, will be removed further
   }
 }
