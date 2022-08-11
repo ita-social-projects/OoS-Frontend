@@ -1,4 +1,4 @@
-<div *ngIf="child">
+<div *ngIf="child && !child?.isParent">
   <mat-card class="position">
     <div fxLayout="row" fxLayoutAlign="end start" class="actions">
       <div class="actions_btn" [routerLink]="['/create-child', child.id]">
