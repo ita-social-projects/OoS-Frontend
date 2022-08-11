@@ -7,6 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { CreateAddressFormComponent } from './create-address-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 fdescribe('CreateAddressFormComponent', () => {
   let component: CreateAddressFormComponent;
@@ -20,7 +21,8 @@ fdescribe('CreateAddressFormComponent', () => {
         MatInputModule, 
         MatAutocompleteModule, 
         ReactiveFormsModule,
-        NgxsModule.forRoot([]), 
+        NgxsModule.forRoot([]),
+        BrowserAnimationsModule 
       ],
       declarations: [
         CreateAddressFormComponent, 
