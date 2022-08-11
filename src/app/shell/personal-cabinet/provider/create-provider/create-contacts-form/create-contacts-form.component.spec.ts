@@ -1,7 +1,7 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -9,6 +9,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateContactsFormComponent } from './create-contacts-form.component';
 import { NgxsModule } from '@ngxs/store';
+import { Address } from 'src/app/shared/models/address.model';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;
@@ -16,25 +17,9 @@ describe('CreateContactsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatOptionModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        MatCheckboxModule,
-        NgxsModule.forRoot([])
-      ],
-      declarations: [
-        CreateContactsFormComponent,
-        MockValidationHintForInputComponent,
-        MockCityAutocompleteComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+      imports: [BrowserAnimationsModule, FormsModule, MatCheckboxModule, NgxsModule.forRoot([])],
+      declarations: [CreateContactsFormComponent, MockAddressForm],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -49,23 +34,11 @@ describe('CreateContactsFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-validation-hint',
-  template: ''
+  selector: 'app-create-address-form',
+  template: '',
 })
-
-class MockValidationHintForInputComponent{
-  @Input() validationFormControl: FormControl; 
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
-  @Input() minMaxDate: boolean;
-  @Input() isTouched: boolean;
-}
-@Component({
-  selector: 'app-city-autocomplete',
-  template: ''
-})
-class MockCityAutocompleteComponent {
-  @Input() InitialCity: string;
-  @Input() className: string;
-  @Input() cityFormControl: FormControl;
+class MockAddressForm {
+  @Input() addressFormGroup: FormGroup;
+  @Input() searchFormGroup: FormGroup;
+  @Input() address: Address;
 }

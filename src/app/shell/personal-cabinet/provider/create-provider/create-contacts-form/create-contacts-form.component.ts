@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -9,6 +9,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
   selector: 'app-create-contacts-form',
   templateUrl: './create-contacts-form.component.html',
   styleUrls: ['./create-contacts-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
   legalAddressFormGroup: FormGroup;
@@ -67,6 +68,10 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.initData();
   }
 
+  click(val: string): string {
+    console.log(val)
+    return val + '//change'
+  }
   /**
    * This method handle Angular Lifecycle hook OnDestroy
    */
