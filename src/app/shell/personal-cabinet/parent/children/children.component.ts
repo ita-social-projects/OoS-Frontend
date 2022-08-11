@@ -1,21 +1,20 @@
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
-import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
-import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
-import { Select, Store } from '@ngxs/store';
-import { filter, map, takeUntil } from 'rxjs/operators';
-
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
+import { Select, Store } from '@ngxs/store';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Observable } from 'rxjs';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
+import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { ParentComponent } from '../parent.component';
+import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { Constants } from 'src/app/shared/constants/constants';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { ParentComponent } from '../parent.component';
 import { UserState } from 'src/app/shared/store/user.state';
+import { filter, takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-children',
