@@ -22,13 +22,13 @@
   <div class="card-wrapper">
     <app-child-card
       class="card"
-      *ngFor="let child of (childrenCards$ | async)?.entities"
+      *ngFor="let child of childrenCards.entities"
       [child]="child"
       (deleteChild)="onDelete($event)">
     </app-child-card>
   </div>
   <app-paginator
-    [totalEntities]="(childrenCards$ | async).totalAmount"
+    [totalEntities]="childrenCards.totalAmount"
     [currentPage]="currentPage"
     [itemsPerPage]="childrensPerPage$ | async"
     (pageChange)="onPageChange($event)"

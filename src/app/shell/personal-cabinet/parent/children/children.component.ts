@@ -9,12 +9,12 @@ import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.act
 import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { ParentComponent } from '../parent.component';
 import { UserState } from 'src/app/shared/store/user.state';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-children',
@@ -49,6 +49,10 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     this.childrenCards$
       .pipe(
         filter((childrenCards: ChildCards) => !!childrenCards),
+        map((childrenCards: ChildCards)=>{
+          childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
+          return childrenCards;
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe((childrenCards: ChildCards) => this.childrenCards = childrenCards);
