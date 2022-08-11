@@ -140,7 +140,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private availableSeatsControlListener(): void {
     this.availableSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
       if (noLimit) {
-        debugger;
         this.setAvailableSeatsControlValue(null, 'disable');
       } else {
         this.setAvailableSeatsControlValue(this.availableSeats, 'enable');
