@@ -147,6 +147,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  /**
+   * This method sets null as value for available setas when there is no limit, otherwise it sests either workshop value, or null for selecting new value
+   */
   private setAvailableSeatsControlValue = (
     availableSeats: number = null,
     action: string = 'disable',
