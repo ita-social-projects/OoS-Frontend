@@ -2,16 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { FeaturesList } from '../../models/featuresList.model';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { Provider } from '../../models/provider.model';
-import { MetaDataState } from '../../store/meta-data.state';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ProviderService {
-  isRelease2: boolean;
   constructor(private http: HttpClient, private store: Store) {}
 
   /**
@@ -34,9 +31,8 @@ export class ProviderService {
    * This method create Provider
    * @param Provider
    */
-  createProvider(provider: Provider): Observable<object> {
-    this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ? this.createProviderV2(provider) : this.createProviderV1(provider);
+  createProvider(provider: Provider, isRelease2: boolean): Observable<object> {
+    return isRelease2 ? this.createProviderV2(provider) : this.createProviderV1(provider);
   }
 
   createProviderV1(provider: Provider): Observable<object> {
@@ -59,9 +55,8 @@ export class ProviderService {
    * This method update Provider
    * @param Provider
    */
-  updateProvider(provider: Provider): Observable<object> {
-    this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
+  updateProvider(provider: Provider, isRelease2: boolean): Observable<object> {
+    return isRelease2 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
   }
 
   updateProviderV1(provider: Provider): Observable<object> {
