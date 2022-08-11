@@ -1,3 +1,4 @@
+import { PaginationConstants } from './../constants/constants';
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { PaginationElement } from "../models/paginationElement.model";
@@ -28,10 +29,7 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     childrensPerPage: 12,
     applicationsPerPage: 8,
-    currentPage: {
-      element: 1,
-      isActive: true
-    },
+    currentPage: PaginationConstants.firstPage,
   }
 })
 
@@ -82,7 +80,7 @@ export class PaginatorState {
 
   @Action(SetFirstPage)
   setFirstPage({ patchState }: StateContext<PaginatorStateModel>): void {
-    patchState({ currentPage: { element: 1, isActive: true } });
+    patchState({ currentPage: PaginationConstants.firstPage });
   }
 
   @Action(OnPageChangeChildrens)

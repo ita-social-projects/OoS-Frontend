@@ -5,6 +5,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
 import { NgxsModule } from '@ngxs/store';
+import { PaginationConstants } from '../../constants/constants';
 
 import { PaginatorComponent } from './paginator.component';
 
@@ -32,10 +33,7 @@ describe('PaginatorComponent', () => {
     component = fixture.componentInstance;
     component.itemsPerPage = 8;
     component.totalEntities = 8;
-    component.currentPage = {
-      element: 1,
-      isActive: true
-    };
+    component.currentPage = PaginationConstants.firstPage;
     fixture.detectChanges();
   });
 

@@ -26,6 +26,7 @@ import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { SignalRService } from '../services/signalR/signal-r.service';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
+  isLoading: boolean;
   user: User;
   provider: Provider;
   parent: Parent;
@@ -38,12 +39,13 @@ export interface RegistrationStateModel {
   name: 'registration',
   defaults: {
     isAuthorized: false,
+    isLoading: false,
     user: undefined,
     provider: undefined,
     parent: undefined,
     techAdmin: undefined,
     role: Role.unauthorized,
-    subrole: null,
+    subrole: null
   },
 })
 @Injectable()
@@ -51,6 +53,10 @@ export class RegistrationState {
   @Selector()
   static isAuthorized(state: RegistrationStateModel): boolean {
     return state.isAuthorized;
+  }
+  @Selector()
+  static isLoading(state: RegistrationStateModel): boolean { 
+    return state.isLoading
   }
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
@@ -118,20 +124,22 @@ export class RegistrationState {
   CheckAuth({
     patchState,
     dispatch,
-  }: StateContext<RegistrationStateModel>): void {
+  }: StateContext<RegistrationStateModel>): void { 
+    patchState({ isLoading: true });
     this.oidcSecurityService.checkAuth().subscribe((auth) => {
       console.log('is authenticated', auth);
       patchState({ isAuthorized: auth });
-      if (auth) {        
+      if (auth) {  
         const token = jwt_decode(this.oidcSecurityService.getToken());
         const id = token['sub'];
         const subrole = token['subrole'];
+       
         this.userService.getUserById(id).subscribe((user) => {
-          patchState({ subrole: subrole });
-          patchState({ user: user });
+          patchState({ subrole: subrole , user: user, isLoading: false });
           dispatch(new CheckRegistration());
         });
       } else {
+        patchState({ isLoading: false });
         patchState({ role: Role.unauthorized });
       }
     });

@@ -31,14 +31,8 @@ describe('CreateDirectionComponent', () => {
         NoopAnimationsModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        CreateDirectionComponent,
-        MockAddDepartmentFormComponent,
-        MockAddDirectionFormComponent,
-        MockAddClassFormComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [CreateDirectionComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -51,23 +45,3 @@ describe('CreateDirectionComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-@Component({
-  selector: 'app-add-direction-form',
-  template: ''
-})
-class MockAddDirectionFormComponent {
-}
-
-@Component({
-  selector: 'app-add-department-form',
-  template: ''
-})
-class MockAddDepartmentFormComponent {
-}
-
-@Component({
-  selector: 'app-add-class-form',
-  template: ''
-})
-class MockAddClassFormComponent {
-}

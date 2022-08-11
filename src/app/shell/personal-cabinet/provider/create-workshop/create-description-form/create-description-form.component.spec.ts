@@ -38,7 +38,6 @@ describe('CreateDescriptionFormComponent', () => {
       ],
       declarations: [
         CreateDescriptionFormComponent,
-        MockCategorySelectComponent,
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MockInfoFormComponent,
@@ -67,14 +66,6 @@ describe('CreateDescriptionFormComponent', () => {
   });
 });
 
-@Component({
-  selector: 'app-category-select',
-  template: ''
-})
-class MockCategorySelectComponent {
-  @Input() workshop: Workshop;
-  @Input() CategoryFormGroup: FormGroup;
-}
 
 @Component({
   selector: 'app-validation-hint',

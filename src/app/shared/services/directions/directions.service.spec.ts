@@ -1,17 +1,17 @@
 import { TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { CategoriesService } from './categories.service';
+import { NgxsModule } from '@ngxs/store';
+import { DirectionsService } from './directions.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-describe('CategoriesService', () => {
-  let service: CategoriesService;
+describe('DirectionsService', () => {
+  let service: DirectionsService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule,
         NgxsModule.forRoot([]), ],
     });
-    service = TestBed.inject(CategoriesService);
+    service = TestBed.inject(DirectionsService);
   });
 
   it('should be created', () => {
