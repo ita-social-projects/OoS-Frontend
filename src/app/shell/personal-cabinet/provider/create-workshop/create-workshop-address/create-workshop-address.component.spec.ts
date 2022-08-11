@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Address } from 'src/app/shared/models/address.model';
 
 describe('CreateWorkshopAddressComponent', () => {
   let component: CreateWorkshopAddressComponent;
@@ -28,8 +29,7 @@ describe('CreateWorkshopAddressComponent', () => {
       declarations: [
         CreateWorkshopAddressComponent,
         MockMapComponent,
-        ValidationHintComponent,
-        MockCityAutocompleteComponent
+        MockAddressForm
       ]
     })
       .compileComponents();
@@ -62,11 +62,11 @@ class MockMapComponent {
   @Input() workshops: Workshop[];
 }
 @Component({
-  selector: 'app-city-autocomplete',
-  template: ''
+  selector: 'app-create-address-form',
+  template: '',
 })
-class MockCityAutocompleteComponent {
-  @Input() InitialCity: string;
-  @Input() className: string;
-  @Input() cityFormControl: FormControl;
+class MockAddressForm {
+  @Input() addressFormGroup: FormGroup;
+  @Input() searchFormGroup: FormGroup;
+  @Input() address: Address;
 }

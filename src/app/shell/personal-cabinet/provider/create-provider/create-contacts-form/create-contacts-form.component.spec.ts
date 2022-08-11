@@ -1,12 +1,8 @@
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, Input} from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatOptionModule } from '@angular/material/core';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { CreateContactsFormComponent } from './create-contacts-form.component';
 import { NgxsModule } from '@ngxs/store';
 import { Address } from 'src/app/shared/models/address.model';
@@ -17,7 +13,13 @@ describe('CreateContactsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, FormsModule, MatCheckboxModule, NgxsModule.forRoot([])],
+      imports: [
+        BrowserAnimationsModule, 
+        FormsModule, 
+        MatCheckboxModule, 
+        NgxsModule.forRoot([]), 
+        ReactiveFormsModule
+      ],
       declarations: [CreateContactsFormComponent, MockAddressForm],
     }).compileComponents();
   });
