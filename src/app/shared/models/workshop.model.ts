@@ -47,15 +47,12 @@ export class Workshop {
     this.email = about.email;
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
-    this.price = about.price;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
-    if(about.payRate){
-      this.payRate = about.payRate;
-    }
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
     this.institutionHierarchyId = description.institutionHierarchyId;
@@ -87,10 +84,15 @@ export class Workshop {
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
     }
-    if(about.availableSeats){
+    if (about.availableSeats) {
       this.availableSeats = about.availableSeats;
     }
-    this.workshopDescriptionItems = description.workshopDescriptionItems;
+    if (about.payRate) {
+      this.payRate = about.payRate;
+    }
+    if (about.price) {
+      this.price = about.price;
+    }
   }
 }
 

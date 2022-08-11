@@ -1,3 +1,4 @@
+import { ResetProviderWorkshopDetails } from './../../../../shared/store/user.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -168,5 +169,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       });
     }
     return teachers;
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetProviderWorkshopDetails());
   }
 }

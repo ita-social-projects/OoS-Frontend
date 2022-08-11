@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
   styleUrls: ['./create-about-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -34,7 +34,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality,
-  }
+  };
   readonly PayRateType = PayRateType;
   readonly PayRateTypeUkr = PayRateTypeUkr;
 
@@ -53,15 +53,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
-  }
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.initForm();
-    this.initListeners();
-
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.workshop && this.activateEditMode();
+    this.initListeners();
   }
 
   ngOnDestroy(): void {
@@ -69,16 +67,24 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
+  get priceControl(): FormControl {
+    return this.AboutFormGroup.get('price') as FormControl;
+  }
+
+  get payRateControl(): FormControl {
+    return this.AboutFormGroup.get('payRate') as FormControl;
+  }
+
   get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
   }
 
-  get maxAvailableSeats(): number {
-    return this.workshop?.availableSeats ?? this.UNLIMITED_SEATS;
-  }
-
   private get availableSeats(): number {
     return this.workshop?.availableSeats === this.UNLIMITED_SEATS ? this.MIN_SEATS : this.workshop?.availableSeats;
+  }
+
+  private get workshopPrice(): number {
+    return this.workshop?.price ? this.workshop.price : ValidationConstants.MIN_PRICE;
   }
 
   private initForm(): void {
@@ -86,7 +92,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -101,23 +107,29 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required])
+      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
     });
   }
 
   private initListeners(): void {
-    this.onPriceCtrlInit();
     this.useProviderInfo();
     this.availableSeatsControlListener();
+    this.priceControlListener();
   }
 
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-  private onPriceCtrlInit(): void {
+  private priceControlListener(): void {
     this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
-      isPrice ? this.setPriceControlValue(ValidationConstants.MIN_PRICE, 'enable') : this.setPriceControlValue();
+      if (isPrice) {
+        this.setPriceControlValue(this.workshopPrice, 'enable');
+        this.setPayRateControlValue(this.workshop.payRate, 'enable');
+      } else {
+        this.setPriceControlValue(null, 'disable');
+        this.setPayRateControlValue(null, 'disable');
+      }
     });
   }
 
@@ -126,24 +138,37 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * makes formGroup input enable if radiobutton value is true
    */
   private availableSeatsControlListener(): void {
-    this.availableSeatsRadioBtnControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((noLimit: boolean) => {
-        if (noLimit) {
-          this.availableSeatsControl.disable({ emitEvent: false });
-          this.availableSeatsControl.setValue(0, { emitEvent: false });
-        } else {
-          this.availableSeatsControl.enable({ emitEvent: false });
-          this.availableSeatsControl.setValue(this.availableSeats, { emitEvent: false });
-        }
-      });
+    this.availableSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
+      if (noLimit) {
+        debugger;
+        this.setAvailableSeatsControlValue(null, 'disable');
+      } else {
+        this.setAvailableSeatsControlValue(this.availableSeats, 'enable');
+      }
+    });
   }
 
-  private setPriceControlValue = (price: number = 0, action: string = 'disable', emitEvent: boolean = true) => {
-    this.AboutFormGroup.get('price')[action]({ emitEvent });
-    this.AboutFormGroup.get('price').setValue(price, { emitEvent });
-    this.AboutFormGroup.get('payRate')[action]({ emitEvent });
-    this.AboutFormGroup.get('payRate').setValue(price, { emitEvent });
+  private setAvailableSeatsControlValue = (
+    availableSeats: number = null,
+    action: string = 'disable',
+    emitEvent: boolean = true
+  ) => {
+    this.availableSeatsControl[action]({ emitEvent });
+    this.availableSeatsControl.setValue(availableSeats, { emitEvent });
+  };
+
+  private setPriceControlValue = (price: number = null, action: string = 'disable', emitEvent: boolean = true) => {
+    this.priceControl[action]({ emitEvent });
+    this.priceControl.setValue(price, { emitEvent });
+  };
+
+  
+  /**
+   * This method sets null as value for payRate when the price is null, otherwise it sests either workshop value, or null for selecting new value
+   */
+  private setPayRateControlValue = (payRate: string = null, action: string = 'disable', emitEvent: boolean = true) => {
+    this.payRateControl[action]({ emitEvent });
+    this.payRateControl.setValue(payRate, { emitEvent });
   };
 
   /**
@@ -169,19 +194,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
     if (this.workshop.price) {
-      this.priceRadioBtn.setValue(true, { emitEvent: false });
       this.setPriceControlValue(this.workshop.price, 'enable', false);
-      this.AboutFormGroup.get('payRate').setValue(this.workshop.payRate, { emitEvent: false });
+      this.setPayRateControlValue(this.workshop.payRate, 'enable', false);
+      this.priceRadioBtn.setValue(true);
+    } else {
+      this.setPriceControlValue(null, 'disable', false);
+      this.setPayRateControlValue(null, 'disable', false);
     }
 
-    if (this.workshop.availableSeats) {
-      if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
-        this.availableSeatsControl.reset(null, { emitEvent: false });
-      } else {
-        this.availableSeatsRadioBtnControl.setValue(false, { emitEvent: false });
-        this.availableSeatsControl.enable({ emitEvent: false });
-        this.availableSeatsControl.setValue(this.workshop.availableSeats, { emitEvent: false });
-      }
+    if (this.workshop.availableSeats === this.UNLIMITED_SEATS) {
+      this.setAvailableSeatsControlValue(null, 'disable', false);
+    } else {
+      this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
+      this.availableSeatsRadioBtnControl.setValue(false);
     }
   }
 
