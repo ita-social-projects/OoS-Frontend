@@ -1,14 +1,14 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationParameters } from 'src/app/shared/models/application.model';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Favorite } from './../models/favorite.model';
+import { Achievement } from '../models/achievement.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
+import { BlockedParent } from '../models/block.model';
 import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
+import { ProviderAdmin } from '../models/providerAdmin.model';
 import { User } from '../models/user.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
-import { ProviderAdmin } from '../models/providerAdmin.model';
-import { BlockedParent } from '../models/block.model';
-import { Achievement } from '../models/achievement.model';
+import { Favorite } from './../models/favorite.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -140,7 +140,7 @@ export class OnDeleteChildFail {
 }
 export class CreateProvider {
   static readonly type = '[parent] create Provider';
-  constructor(public payload: Provider) { }
+  constructor(public payload: Provider, public isRelease2: boolean) { }
 }
 export class OnCreateProviderFail {
   static readonly type = '[user] create Provider fail';
@@ -236,7 +236,7 @@ export class OnUpdateChildSuccess {
 }
 export class UpdateProvider {
   static readonly type = '[user] update Provider';
-  constructor(public payload: Provider) { }
+  constructor(public payload: Provider, public isRelease2: boolean) { }
 }
 export class OnUpdateProviderFail {
   static readonly type = '[user] update Provider fail';
