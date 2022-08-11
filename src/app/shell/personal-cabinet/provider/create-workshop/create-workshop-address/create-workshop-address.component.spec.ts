@@ -38,12 +38,6 @@ describe('CreateWorkshopAddressComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateWorkshopAddressComponent);
     component = fixture.componentInstance;
-    component.addressFormGroup = new FormGroup({
-      street: new FormControl(''),
-      buildingNumber: new FormControl(''),
-      city: new FormControl(''),
-      longitude: new FormControl(''),
-    });
     fixture.detectChanges();
   });
 

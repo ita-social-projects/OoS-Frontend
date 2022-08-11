@@ -1,6 +1,6 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
@@ -34,6 +34,14 @@ fdescribe('CreateAddressFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAddressFormComponent);
     component = fixture.componentInstance;
+    component.addressFormGroup = new FormGroup({
+      street: new FormControl(''),
+      buildingNumber: new FormControl(''),
+    });
+    component.searchFormGroup = new FormGroup({
+      settlementSearch: new FormControl(''),
+      settlement: new FormControl(''),
+    });
     fixture.detectChanges();
   });
 
