@@ -1,21 +1,18 @@
 import { MinistryAdmin } from './../../../../shared/models/ministryAdmin.model';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { filter, takeUntil} from 'rxjs/operators';
+import { Observable, Subject } from 'rxjs';
 import { AdminRole } from 'src/app/shared/enum/admins';
 import { AdminRoleUkr, AdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/admins';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { UserState } from 'src/app/shared/store/user.state';
 import { FormControl } from '@angular/forms';
+
 @Component({
   selector: 'app-admins',
   templateUrl: './admins.component.html',
@@ -40,7 +37,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     private store: Store,
     private router: Router,
     private route: ActivatedRoute,
-    private matDialog: MatDialog) { }
+  ) {}
 
   ngOnInit(): void {
     this.addNavPath();
@@ -58,7 +55,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  addNavPath(): void {
+  private addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Admins,

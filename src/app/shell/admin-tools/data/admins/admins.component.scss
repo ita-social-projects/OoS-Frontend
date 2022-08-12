@@ -18,23 +18,6 @@ position: relative;
 .btn {
   margin: 0;
 }
-.search-area {
-  display: flex;
-  justify-content: flex-end;
-  z-index: 1000;
-  position: absolute;
-  right: 12px;
-}
-@media (max-width: 1070px) {
-  .tab-wrapper {
-    bottom: 0;
-  }
-  .search-area {
-    display: flex;
-    justify-content: flex-start;
-  }
-}
-
 @media (max-width: 1200px) {
   .search-area {
     position: static;

@@ -1,9 +1,8 @@
 export enum AdminRoleUkr {
-    ministryAdmin = 'Адміністратор міністерства',
-    regionAdmin = 'Адміністратор регіона',
-    territorialCommunityAdmin = 'Адміністратор ОТГ'
-
-  }
+  ministryAdmin = 'Адміністратор міністерства',
+  regionAdmin = 'Адміністратор регіона',
+  territorialCommunityAdmin = 'Адміністратор ОТГ'
+}
 
 export enum AdminRoleUkrReverse {
   'Адміністратор міністерства' = 'ministryAdmin',
@@ -12,7 +11,7 @@ export enum AdminRoleUkrReverse {
 }
 
 export enum AdminTitles {
-    NeverLogged = 'Очікує логування',
-    Accepted = 'Підтвердженно',
-    Blocked = 'Заблоковано',
-  }
+  NeverLogged = 'Очікує логування',
+  Accepted = 'Підтвердженно',
+  Blocked = 'Заблоковано',
+}

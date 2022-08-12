@@ -1,6 +1,5 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
-
 import { MinistryAdminService } from './ministry-admin.service';
 
 describe('MinistryAdminService', () => {

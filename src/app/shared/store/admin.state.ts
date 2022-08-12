@@ -402,9 +402,7 @@ export class AdminState {
     return this.ministryAdmin
     .getMinistryAdminProfile()
     .pipe(
-      tap((ministryAdmin: MinistryAdmin) => {
-        return patchState({ ministryAdmin: ministryAdmin, isLoading: false});
-      }));
+      tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin, isLoading: false})));
   }
 
   @Action(CreateMinistryAdmin)

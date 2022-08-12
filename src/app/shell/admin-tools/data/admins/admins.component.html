@@ -26,35 +26,15 @@
   
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-        <mat-tab label="Усі">
-          <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: allAdmins}">
-          </ng-container> -->
-        </mat-tab>
         <mat-tab label="{{adminRoleUkr.ministryAdmin}}">
-          <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins : 'ministryAdmin'}">
-          </ng-container> -->
         </mat-tab>
         <mat-tab label="{{adminRoleUkr.regionAdmin}}">
-          <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins : 'admin'}">
-          </ng-container> -->
         </mat-tab>
         <mat-tab label="{{adminRoleUkr.territorialCommunityAdmin}}">
-          <!-- <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins : 'admin'}">
-          </ng-container> -->
         </mat-tab>
       </mat-tab-group>
     </div>
   </div>
-<!-- 
-    <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-      <ng-container *ngIf="users?.length else isEmptyList;">
-        <div class="table-wrapper">
-          <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
-          (blockAdmin)="onBlock($event)" [displayedColumns]="displayedColumns"></app-users-list>
-        </div>
-      </ng-container>
-    </ng-container>
-  </ng-template> -->
 
   <ng-template #isEmptyList>
     <app-no-result-card [title]="noAdmins"></app-no-result-card>
