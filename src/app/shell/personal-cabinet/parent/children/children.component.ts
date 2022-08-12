@@ -9,7 +9,7 @@ import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.act
 import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { ParentComponent } from '../parent.component';
@@ -28,10 +28,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   childrenCards$: Observable<ChildCards>;
   childrenCards: ChildCards;
 
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true,
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);

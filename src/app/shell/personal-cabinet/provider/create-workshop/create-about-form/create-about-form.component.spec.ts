@@ -71,6 +71,7 @@ describe('CreateAboutFormComponent', () => {
       price: new FormControl(''),
       workingHours: new FormControl(''),
       payRate: new FormControl(''),
+      availableSeats: new FormControl(''),
     });
     fixture.detectChanges();
   });

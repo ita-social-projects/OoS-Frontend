@@ -28,6 +28,7 @@ import { CabinetDataComponent } from '../cabinet-data.component';
 import { Child } from 'src/app/shared/models/child.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-applications',
@@ -64,10 +65,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
   tabIndex: number;
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true,
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(
     protected store: Store,

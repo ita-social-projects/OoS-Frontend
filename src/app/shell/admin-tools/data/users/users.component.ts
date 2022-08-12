@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -44,10 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   children: UsersTable[];
   totalEntities: number;
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 

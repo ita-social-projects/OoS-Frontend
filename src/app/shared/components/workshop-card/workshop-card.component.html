@@ -26,7 +26,7 @@
         </ng-container>                
       </mat-card-header>
 
-      <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+      <mat-card-content fxLayout="column" fxLayoutAlign="center">
         <ng-container
           *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
         </ng-container>
@@ -82,8 +82,19 @@
 
 <ng-template #ProviderWorkshopView>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text card_text_blue">
-      <i class="fas fa-user-clock card_icon card_icon_blue"></i> Очікує підтвердження:
+    <p class="card_text">
+      <i class="fas fa-user card_icon"></i> Всього учасників:
+    </p>
+    <span class="card_text card_text_blue">
+        {{ workshopData.takenSeats }}
+      <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS">
+            / {{ workshopData.availableSeats }}
+      </ng-container>
+    </span>
+  </div>
+  <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
+    <p class="card_text">
+      <i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:
     </p>
     <span class="card_text card_text_blue"> {{ pendingApplicationAmount }}</span>
   </div>
@@ -101,28 +112,33 @@
   </div>
 
   <p *ngIf="!isHorizontalView" class="card_text">
-    <mat-icon class="card_icon">star</mat-icon> {{ workshopData.rating }}
+    <mat-icon class="card_icon">star</mat-icon>
+    {{ workshopData.rating }}
   </p>
 
   <a [routerLink]="['/details/provider',workshopData.providerId ]" class="provider-link" fxLayout="row"
-    fxLayoutAlign="start center">
+     fxLayoutAlign="start center">
     <mat-icon class="card_icon">home</mat-icon>
     <p class="card_text_label" [matTooltip]="workshopData.providerTitle" showTooltipIfTruncated
-      matTooltipClass="tooltip" [matTooltipPosition]="tooltipPosition">{{ workshopData.providerTitle }}</p>
+       matTooltipClass="tooltip" [matTooltipPosition]="tooltipPosition">{{ workshopData.providerTitle }}</p>
   </a>
 
-  <p class="card_text" *ngIf="ownershipType && !isHorizontalView">
-    <mat-icon class="card_icon">account_balance</mat-icon> Форма власності: {{
-    ownershipTypeUkr[workshopData.providerOwnership] }}
+  <p class="card_text" *ngIf="ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView">
+    <mat-icon class="card_icon">account_balance</mat-icon>
+    Форма власності: {{
+      ownershipTypeUkr[workshopData.providerOwnership] }}
   </p>
   <p class="card_text" [ngClass]="isMainPage && isHorizontalView ? 'hide': ''">
-    <mat-icon class="card_icon">person</mat-icon>{{ workshopData.minAge }} - {{ workshopData.maxAge }} років
+    <mat-icon class="card_icon">person</mat-icon>
+    {{ workshopData.minAge }} - {{ workshopData.maxAge }} років
   </p>
   <p class="card_text" *ngIf="!workshopData.price">
-    <mat-icon class="card_icon"> attach_money</mat-icon> Безкоштовно
+    <mat-icon class="card_icon"> attach_money</mat-icon>
+    Безкоштовно
   </p>
   <p class="card_text" *ngIf="workshopData.price">
-    <mat-icon class="card_icon"> attach_money</mat-icon> {{ workshopData.price }} грн/
+    <mat-icon class="card_icon"> attach_money</mat-icon>
+    {{ workshopData.price }} грн/
     {{ PayRateTypeUkr[workshopData.payRate] }}
   </p>
   <div class="card_text">
