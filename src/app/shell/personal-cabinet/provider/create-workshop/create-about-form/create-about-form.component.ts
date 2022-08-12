@@ -164,7 +164,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.priceControl.setValue(price, { emitEvent });
   };
 
-  
   /**
    * This method sets null as value for payRate when the price is null, otherwise it sests either workshop value, or null for selecting new value
    */
