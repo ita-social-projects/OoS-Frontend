@@ -89,7 +89,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   setEditMode(): void { }
   
-  private addNavPath(): void { 
+  addNavPath(): void { 
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
