@@ -1,19 +1,26 @@
-import { InstitutionsService } from './../services/institutions/institutions.service';
-import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
-import { Constants } from './../constants/constants';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { AchievementType } from '../models/achievement.model';
 import { Department, Direction, IClass } from '../models/category.model';
 import { City } from '../models/city.model';
+import { Codeficator } from '../models/codeficator.model';
+import { FeaturesList } from '../models/featuresList.model';
+import { InstitutionStatus } from '../models/institutionStatus.model';
 import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
-import { FeaturesList } from '../models/featuresList.model';
+import { AchievementsService } from '../services/achievements/achievements.service';
 import { CategoriesService } from '../services/categories/categories.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CityService } from '../services/cities/city.service';
-import { RatingService } from '../services/rating/rating.service';
+import { CodeficatorService } from '../services/codeficator/codeficator.service';
 import { FeatureManagementService } from '../services/feature-management/feature-management.service';
+import { ProviderService } from '../services/provider/provider.service';
+import { RatingService } from '../services/rating/rating.service';
+import { Constants } from './../constants/constants';
+import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
+import { InstitutionsService } from './../services/institutions/institutions.service';
 import {
   ClearCities,
   ClearClasses,
@@ -38,17 +45,11 @@ import {
   GetInstitutionHierarchyParentsById,
   GetInstitutionStatus,
   GetRateByEntityId,
+  GetRateList,
   GetSocialGroup,
   GetTopDirections,
   ResetInstitutionHierarchy
 } from './meta-data.actions';
-import { Observable } from 'rxjs';
-import { InstitutionStatus } from '../models/institutionStatus.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { AchievementsService } from '../services/achievements/achievements.service';
-import { AchievementType } from '../models/achievement.model';
-import { Codeficator } from '../models/codeficator.model';
-import { CodeficatorService } from '../services/codeficator/codeficator.service';
 
 export interface MetaDataStateModel {
   directions: Direction[];
@@ -325,6 +326,13 @@ export class MetaDataState {
   ): Observable<Rate[]> {
     return this.ratingService
       .getRateByEntityId(enitityType, entitytId)
+      .pipe(tap((rating: Rate[]) => patchState({ rating: rating })));
+  }
+
+  @Action(GetRateList)
+  getRateList({ patchState }: StateContext<MetaDataStateModel>, { }: GetRateList): Observable<Rate[]> {
+    return this.ratingService
+      .getRate()
       .pipe(tap((rating: Rate[]) => patchState({ rating: rating })));
   }
 

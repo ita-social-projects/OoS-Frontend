@@ -1,17 +1,18 @@
 import { Injectable } from "@angular/core";
 import { Action, Selector, State, StateContext } from "@ngxs/store";
 import { PaginationElement } from "../models/paginationElement.model";
-import { 
-  OnPageChangeApplications, 
-  OnPageChangeChildrens, 
-  OnPageChangeDirections, 
-  OnPageChangeWorkshops, 
-  SetApplicationsPerPage, 
-  SetChildrensPerPage, 
-  SetDirectionsPerPage, 
-  SetFirstPage, 
-  SetWorkshopsPerPage, 
+import {
   OnPageChangeAdminTable, 
+  OnPageChangeApplications,
+  OnPageChangeChildrens,
+  OnPageChangeDirections,
+  OnPageChangeWorkshops,
+  SetApplicationsPerPage,
+  SetChildrensPerPage,
+  SetDirectionsPerPage,
+  SetFirstPage, 
+  SetRatingPerPage, 
+  SetWorkshopsPerPage
 } from "./paginator.actions";
 
 export interface PaginatorStateModel {
@@ -19,6 +20,7 @@ export interface PaginatorStateModel {
   directionsPerPage: number;
   childrensPerPage: number;
   applicationsPerPage: number;
+  ratingPerPage: number;
   currentPage: PaginationElement;
 }
 @State<PaginatorStateModel>({
@@ -28,6 +30,7 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     childrensPerPage: 12,
     applicationsPerPage: 8,
+    ratingPerPage: 12,
     currentPage: {
       element: 1,
       isActive: true
@@ -45,6 +48,8 @@ export class PaginatorState {
   @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
 
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; };
+
+  @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; };
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
@@ -68,6 +73,11 @@ export class PaginatorState {
   @Action(SetApplicationsPerPage)
   setApplicationsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetApplicationsPerPage): void {
     patchState({ applicationsPerPage: payload });
+  }
+
+  @Action(SetRatingPerPage)
+  SetRatingPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetRatingPerPage): void {
+    patchState({ ratingPerPage: payload });
   }
 
   @Action(OnPageChangeDirections)

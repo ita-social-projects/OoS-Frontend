@@ -21,6 +21,9 @@
       {{rate.creationTime | date: 'shortDate'}}
     </p>
   </div>
+    <app-paginator [totalEntities]="rating.length" [currentPage]="currentPage" [itemsPerPage]="ratingPerPage"
+    (itemsPerPageChange)="itemsPerPageChange($event)">
+    </app-paginator>
   </ng-container>
 
   <ng-template #isEmptyList>
