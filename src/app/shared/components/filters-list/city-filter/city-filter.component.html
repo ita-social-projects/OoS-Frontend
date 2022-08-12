@@ -1,5 +1,27 @@
-  <app-city-autocomplete [className]="'city-filter'" (selectedCity)="onSelectedCity($event)" [cityFormControl]="cityFormControl"
-  [InitialCity]="(city$ | async)?.name" (focusout)="OnFocusout()">
-  </app-city-autocomplete>
-  <app-city-confirmation class="confirmation" *ngIf="!(isConfirmCity$ | async)"></app-city-confirmation>
-  
+<div>
+  <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
+    <input
+      matInput
+      type="text"
+      appTrimValue
+      [formControl]="settlementSearchControl"
+      [matAutocomplete]="auto"
+      (focusout)="onFocusOut(auto)" />
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      disableOptionCentering
+      panelClass="dropdown-panel"
+      [displayWith]="displaySettlementNameFn"
+      (optionSelected)="onSelectSettlement($event)">
+      <mat-option
+        class="dropdown-option"
+        *ngFor="let codeficator of codeficatorSearch$ | async"
+        [value]="codeficator"
+        [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
+        {{ codeficator.settlement }} <br />
+        <span class="option-sub-text">{{ codeficator.fullName }}</span>
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<app-city-confirmation class="confirmation" *ngIf="!(isConfirmCity$ | async)"></app-city-confirmation>
