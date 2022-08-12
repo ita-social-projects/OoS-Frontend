@@ -12,7 +12,6 @@ import { CreateAdminComponent } from './admins/create-admin/create-admin.compone
 import { HistoryLogComponent } from './history-log/history-log.component';
 import { HistoryLogTableComponent } from "./history-log-table/history-log-table.component";
 
-
 @NgModule({
   declarations: [
     ProviderListComponent,
