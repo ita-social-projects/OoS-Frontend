@@ -76,7 +76,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   initMap(): void {
     this.map = Layer.map('map').setView(this.defaultCoords, this.zoom);
 
-    Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base_ua/{z}/{x}/{y}.png', {
+    Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base/{z}/{x}/{y}.png', {
       updateWhenZooming: true,
       subdomains: "123",
       maxZoom: 19,
