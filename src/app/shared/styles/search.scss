@@ -4,6 +4,9 @@
 .search-area {
   display: flex;
   justify-content: space-between;
+  z-index: 1000;
+  position: absolute;
+  right: 12px;
 }
 .search-bar {
   width: 26rem;
@@ -28,4 +31,14 @@
 }
 .mat-form-field-wrapper {
   padding-bottom: 0 !important;
+}
+
+@media (max-width: 1070px) {
+  .tab-wrapper {
+    bottom: 0;
+  }
+  .search-area {
+    display: flex;
+    justify-content: flex-start;
+  }
 }

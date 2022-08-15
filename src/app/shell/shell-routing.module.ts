@@ -28,6 +28,7 @@ import { RulesComponent } from './info/rules/rules.component';
 import { DetailsComponent } from './details/details.component';
 import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
 import { ErrorPageComponent } from '../shared/components/error-page/error-page.component';
+import { CreateAdminComponent } from './admin-tools/data/admins/create-admin/create-admin.component';
 import { CreateDirectionComponent } from './admin-tools/platform/directions/create-direction/create-direction.component';
 
 const routes: Routes = [
@@ -122,6 +123,12 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard],
+  },
+  {
+    path: 'create-admin/:param', component: CreateAdminComponent,
+    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
+    canLoad: [AdminToolsGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-child/:param',
