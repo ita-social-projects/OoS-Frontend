@@ -7,16 +7,17 @@
   padding: 0;
   border: none;
 }
-
-.address-wrapper, .address-wrapper-border {
-  margin-bottom: 1rem;
-  padding-bottom: 1rem;
+:host ::ng-deep .mat-form-field{
+  width: 500px;
 }
-
-.address-wrapper-border {
-  border-bottom: 2px solid #E3E3E3;
+.input-filter {
+  text-transform: capitalize;
+  font-family: "Innerspace";
+  color: #000000;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+  font-weight: 500;
 }
-
 .additional-text {
   opacity: .5;
   margin-left: 1rem;
@@ -31,11 +32,8 @@ h4{
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
-}
-
-.redBorder {
-  outline: none;
-  border: 1px solid #C72A21;
+  top: 1.2rem;
+  vertical-align: sub;
 }
 
 .input-wrapper {
@@ -55,7 +53,7 @@ h4{
   line-height: 20px;
 }
 
-.confirmation{
+.confirmation {
   position: relative;
   right: 5rem;
 }

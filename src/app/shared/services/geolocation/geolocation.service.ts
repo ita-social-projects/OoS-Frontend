@@ -45,7 +45,6 @@ export class GeolocationService {
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
-    console.log(data);
     callback({ lat: data.coords.latitude, lng: data.coords.longitude });
   }
 
