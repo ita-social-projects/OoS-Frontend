@@ -1,3 +1,6 @@
+import { ValidatorFn, Validators } from "@angular/forms";
+import { NO_LATIN_REGEX } from "./regex-constants";
+
 export class ValidationConstants {
   //Age
   static readonly AGE_MIN = 0;
@@ -37,4 +40,20 @@ export class ValidationConstants {
 
   //Search
   static readonly MAX_SEARCH_LENGTH_200 = 200;
+}
+
+export class FormValidators {
+  static readonly defaultAddressValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(NO_LATIN_REGEX),
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+  ];
+  
+  static readonly defaultSearchValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(NO_LATIN_REGEX),
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+  ];
 }

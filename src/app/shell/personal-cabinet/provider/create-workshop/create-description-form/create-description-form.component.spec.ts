@@ -1,4 +1,3 @@
-import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
@@ -11,7 +10,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTooltipModule } from '@angular/material/tooltip';

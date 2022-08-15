@@ -1,31 +1,17 @@
 <!-- LEGAL ADDRESS BLOCK -->
-<div class="step"
-     fxLayout="column"
-     fxLayoutAlign="center space-between">
+<div class="step" fxLayout="column" fxLayoutAlign="center space-between">
   <h4 class="step-title">Юридична адреса</h4>
-
-  <ng-container *ngTemplateOutlet="searchAddressTmpl;
-                                   context: {
-                                      $implicit: {
-                                        searchControl: settlementLegalSearchFormControl,
-                                        settlementControl: settlementLegalFormControl,
-                                        codeficatorIdControl: codeficatorIdLegalFormControl
-                                      }
-                                   }"></ng-container>
-</div>
-<div class="step address-wrapper-border">
-  <ng-container *ngTemplateOutlet="addressControlsTmlp;
-                                     context: {
-                                        $implicit: {
-                                           addressFormGroup: legalAddressFormGroup,
-                                           streetControl: streetLegalFormControl,
-                                           buildingNumberControl: buildingNumberLegalFormControl
-                                        }
-                                     }"></ng-container>
+  <div class="address-wrapper address-wrapper-border">
+    <app-create-address-form
+      [addressFormGroup]="legalAddressFormGroup"
+      [searchFormGroup]="searchLegalFormGroup"
+      [address]="provider?.legalAddress">
+    </app-create-address-form>
+  </div>
 </div>
 
 <!-- ACTUAL ADDRESS CHECKBOX BLOCK -->
-<div fxLayout='column' fxLayoutAlign='center space-between' class="step">
+<div fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <h4>Фактична адреса</h4>
   <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">
     Співпадає з юридичною адресою
@@ -33,110 +19,16 @@
 </div>
 
 <!-- ACTUAL ADDRESS BLOCK -->
-<div class="step"
-     fxLayout="column"
-     fxLayoutAlign="center space-between"
-     [ngClass]="{'disabled-field': isSameAddressControl.value}">
-
-  <ng-container *ngTemplateOutlet="searchAddressTmpl;
-                                   context: {
-                                      $implicit: {
-                                        searchControl: settlementActualSearchFormControl,
-                                        settlementControl: settlementActualFormControl,
-                                        codeficatorIdControl: codeficatorIdActualFormControl
-                                      }
-                                   }"></ng-container>
-</div>
-<div class="step address-wrapper"
-     [ngClass]="{'disabled-field': isSameAddressControl.value}">
-  <ng-container *ngTemplateOutlet="addressControlsTmlp;
-                                     context: {
-                                        $implicit: {
-                                           addressFormGroup: actualAddressFormGroup,
-                                           streetControl: streetActualFormControl,
-                                           buildingNumberControl: buildingNumberActualFormControl
-                                        }
-                                     }"></ng-container>
-</div>
-
-<!-- SEARCH SETTLEMENT TEMPLATE-->
-<ng-template #searchAddressTmpl let-context>
-  <label class="step-label">
-    Населений пункт<span class="step-required">*</span>
-  </label>
-  <div class="custom-input-autocomplete"
-       [class.redBorder]="context.searchControl.invalid && context.searchControl.touched">
-    <mat-form-field class="input-wrapper"
-                    fxLayoutAlign="start space-between"
-                    fxLayout="column"
-                    appearance="none">
-      <input matInput
-             type="text"
-             appTrimValue
-             [formControl]="context.searchControl"
-             [matAutocomplete]="auto"
-             (focusout)="onFocusOut(auto, context)">
-      <mat-autocomplete #auto="matAutocomplete"
-                        disableOptionCentering
-                        panelClass="dropdown-panel"
-                        [displayWith]="displaySettlementNameFn"
-                        (optionSelected)="onSelectSettlement($event, context)">
-        <mat-option class="dropdown-option"
-                    *ngFor="let codeficator of codeficatorSearch$ | async"
-                    [value]="codeficator"
-                    [disabled]="(codeficator.settlement === Constants.NO_SETTLEMENT)">
-          {{codeficator.settlement}} <br>
-          <span class="option-sub-text">{{codeficator.fullName}}</span>
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+<div
+  class="step"
+  fxLayout="column"
+  fxLayoutAlign="center space-between"
+  [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+  <div class="address-wrapper">
+    <app-create-address-form
+      [addressFormGroup]="actualAddressFormGroup"
+      [searchFormGroup]="searchActualFormGroup"
+      [address]="provider?.actualAddress">
+    </app-create-address-form>
   </div>
-  <app-validation-hint [validationFormControl]="context.searchControl"
-                       [minCharachters]="ValidationConstants.INPUT_LENGTH_3"
-                       [maxCharachters]="ValidationConstants.INPUT_LENGTH_60"
-                       [isTouched]="context.searchControl.touched">
-  </app-validation-hint>
-  <p *ngIf="context.settlementControl.value"
-     class="additional-text">
-    {{ context.settlementControl.value?.fullName }}
-  </p>
-</ng-template>
-
-<!-- ADDRESS CONTROLS TEMPLATE-->
-<ng-template #addressControlsTmlp let-context>
-  <form [formGroup]="context.addressFormGroup"
-        fxLayout="column"
-        fxLayoutAlign="center space-between">
-    <label class="step-label">
-      Вулиця<span class="step-required">*</span>
-    </label>
-    <mat-form-field>
-      <input matInput
-             class="step-input"
-             type="text"
-             formControlName="street"
-             autocomplete="none"
-             appTrimValue>
-    </mat-form-field>
-    <app-validation-hint [validationFormControl]="context.streetControl"
-                         [minCharachters]="ValidationConstants.INPUT_LENGTH_1"
-                         [maxCharachters]="ValidationConstants.INPUT_LENGTH_60">
-    </app-validation-hint>
-
-    <label class="step-label">
-      Будинок<span class="step-required">*</span>
-    </label>
-    <mat-form-field>
-      <input matInput
-             class="step-input"
-             type="text"
-             formControlName="buildingNumber"
-             autocomplete="none"
-             appTrimValue>
-    </mat-form-field>
-    <app-validation-hint [validationFormControl]="context.buildingNumberControl"
-                         [minCharachters]="ValidationConstants.INPUT_LENGTH_1"
-                         [maxCharachters]="ValidationConstants.INPUT_LENGTH_60">
-    </app-validation-hint>
-  </form>
-</ng-template>
+</div>

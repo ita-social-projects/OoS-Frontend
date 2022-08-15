@@ -1,3 +1,4 @@
+import { ResetProviderWorkshopDetails } from './../../../../shared/store/user.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -45,7 +46,6 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   TeacherFormArray: FormArray;
 
   constructor(
-    private userWorkshopService: UserWorkshopService,
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService) {
@@ -104,7 +104,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   onSubmit(): void {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
-    const address: Address = new Address(this.AddressFormGroup.value);
+    const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
     const aboutInfo = this.AboutFormGroup.getRawValue();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
@@ -169,5 +169,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       });
     }
     return teachers;
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetProviderWorkshopDetails());
   }
 }
