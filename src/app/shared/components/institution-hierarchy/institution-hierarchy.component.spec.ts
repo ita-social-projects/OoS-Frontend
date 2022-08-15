@@ -34,7 +34,7 @@ describe('InstitutionHierarchyComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InstitutionHierarchyComponent);
     component = fixture.componentInstance;
-    component.instituitionIdFormControl = new FormControl();
+    component.instituitionIdFormControl = new FormControl('');
     component.provider = {
       institution: ''
     } as any;
