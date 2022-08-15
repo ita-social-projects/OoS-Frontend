@@ -9,6 +9,7 @@ export class Child implements Person {
   dateOfBirth: string;
   gender: number;
   parentId?: number;
+  isParent: boolean;
   socialGroups: SocialGroup[];
   placeOfStudy: string;
   parent: ParentWithContactInfo;

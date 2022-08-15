@@ -20,19 +20,23 @@ export class ChildrenService {
     private store: Store,
   ) { }
 
-  private setParams( searchString?:string ): HttpParams {
+  private setParams( searchString?:string, isParent?:boolean ): HttpParams {
     let params = new HttpParams();
 
     if(searchString){
       params = params.set('SearchString', searchString);
     }
+
+    // if(isParent){
+    //   params = params.set('isParent', isParent.toString());
+    // }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
     const from: number = size * (+currentPage.element - 1);
     
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
-
+  
     return params;
   }
 
@@ -62,7 +66,7 @@ export class ChildrenService {
    * This method get children for Admin
    */
   getChildrenForAdmin(searchString: string): Observable<ChildCards> {
-    const options = { params: this.setParams(searchString) };
+    const options = { params: this.setParams(searchString), };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, options);
   }
