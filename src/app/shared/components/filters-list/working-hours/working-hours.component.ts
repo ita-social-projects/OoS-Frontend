@@ -74,9 +74,11 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
     });
 
-    this.isStrictWorkdaysControl.valueChanges
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
+    this.isStrictWorkdaysControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
   }
 
   clearStart(): void {

@@ -16,7 +16,6 @@ export class Workshop {
   maxAge: number;
   price: number;
   withDisabilityOptions?: boolean;
-  isStrictWorkdays?: boolean;
   disabilityOptionsDesc?: string;
   keywords?: string[];
   address: Address;

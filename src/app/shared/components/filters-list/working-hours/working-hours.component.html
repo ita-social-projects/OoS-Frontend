@@ -1,4 +1,7 @@
 <p class="filter-text title">Дні роботи</p>
+<div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <mat-checkbox color="primary" [formControl]="isStrictWorkdaysControl"> Повне співпадіння </mat-checkbox>
+</div>
 <div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
   <div fxLayout="row" fxLayoutAlign="space-between">
     <div
@@ -10,9 +13,6 @@
       [ngClass]="day.selected ? 'toggle-selected' : ''">
       {{ day.value }}
     </div>
-  </div>
-  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <mat-checkbox color="primary" [formControl]="isStrictWorkdaysControl"> Повне співпадіння </mat-checkbox>
   </div>
   <p class="filter-text title">Години роботи</p>
 
@@ -48,9 +48,6 @@
       </div>
     </mat-form-field>
   </div>
-  <!-- <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <mat-checkbox color="primary" [formControl]="isStrictHoursControl"> Повне співпадіння </mat-checkbox>
-  </div> -->
   <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
   </ngx-mat-timepicker>
   <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
