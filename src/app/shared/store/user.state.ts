@@ -1,5 +1,5 @@
 import { Child } from 'src/app/shared/models/child.model';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
@@ -20,7 +20,6 @@ import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
-import { ClearClasses, ClearDepartments } from './meta-data.actions';
 import { PaginationElement } from '../models/paginationElement.model';
 import {
   CreateApplication,
@@ -149,10 +148,7 @@ export interface UserStateModel {
     selectedChild: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
-    currentPage: {
-      element: 1,
-      isActive: true,
-    },
+    currentPage: PaginationConstants.firstPage,
     providerAdmins: null,
     blockedParent: null,
     isAllowChildToApply: true,
@@ -474,8 +470,6 @@ export class UserState {
     console.log('Workshop is created', payload);
     dispatch([
       new MarkFormDirty(false),
-      new ClearClasses(),
-      new ClearDepartments(),
       new ShowMessageBar({ message: message.text, type: message.type }),
     ]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
@@ -535,8 +529,8 @@ export class UserState {
   }
 
   @Action(CreateProvider)
-  createProvider({ dispatch }: StateContext<UserStateModel>, { payload }: CreateProvider): Observable<object> {
-    return this.providerService.createProvider(payload).pipe(
+  createProvider({ dispatch }: StateContext<UserStateModel>, { payload, isRelease2 }: CreateProvider): Observable<object> {
+    return this.providerService.createProvider(payload, isRelease2).pipe(
       tap(res => dispatch(new OnCreateProviderSuccess(res))),
       catchError(error => of(dispatch(new OnCreateProviderFail(error))))
     );
@@ -819,10 +813,10 @@ export class UserState {
 
   @Action(UpdateProvider)
   updateProvider(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: UpdateProvider
+    { dispatch }: StateContext<UserStateModel>,
+    { payload, isRelease2 }: UpdateProvider,
   ): Observable<object> {
-    return this.providerService.updateProvider(payload).pipe(
+    return this.providerService.updateProvider(payload, isRelease2).pipe(
       tap(res => dispatch(new OnUpdateProviderSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
     );

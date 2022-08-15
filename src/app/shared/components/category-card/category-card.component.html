@@ -3,7 +3,7 @@
   <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
 
   <ng-container *ngIf="isEditMode">
-    <div  [routerLink]="['./create', direction.id]" class="config_edit-icon">
+    <div  [routerLink]="['./directions/create', direction.id]" class="config_edit-icon">
       <button mat-button class="config-button">
         <mat-icon>edit</mat-icon>
       </button>

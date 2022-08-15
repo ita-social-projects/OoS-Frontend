@@ -71,11 +71,11 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   }
 
   get codeficatorIdLegalFormControl(): FormControl {
-    return this.legalAddressFormGroup.get('codeficatorId') as FormControl;
+    return this.legalAddressFormGroup.get('catottgId') as FormControl;
   }
 
   get codeficatorIdActualFormControl(): FormControl {
-    return this.actualAddressFormGroup.get('codeficatorId') as FormControl;
+    return this.actualAddressFormGroup.get('catottgId') as FormControl;
   }
 
   get streetLegalFormControl(): FormControl {
@@ -186,13 +186,13 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.legalAddressFormGroup = new FormGroup({
       street: new FormControl('', defaultValidators),
       buildingNumber: new FormControl('', defaultValidators),
-      codeficatorId: new FormControl('', Validators.required)
+      catottgId: new FormControl('', Validators.required)
     });
 
     this.actualAddressFormGroup = new FormGroup({
       street: new FormControl('', defaultValidators),
       buildingNumber: new FormControl('', defaultValidators),
-      codeficatorId: new FormControl('', Validators.required)
+      catottgId: new FormControl('', Validators.required)
     });
 
     this.searchFormGroup = new FormGroup({
@@ -340,7 +340,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       });
 
       if (this.provider?.actualAddress) {
-        this.codeficatorIdActualFormControl.setValue(this.provider.actualAddress.codeficatorId);
+        this.codeficatorIdActualFormControl.setValue(this.provider.actualAddress.catottgId);
       }
     }
   }
