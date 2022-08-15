@@ -47,21 +47,17 @@ export class Workshop {
     this.email = about.email;
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
-    this.price = about.price;
-    this.availableSeats = about.availableSeats;
-    this.takenSeats = about.takenSeats;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
     this.providerId = provider.id;
     this.providerTitle = provider.fullTitle;
-    if(about.payRate){
-      this.payRate = about.payRate;
-    }
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
     this.keywords = description.keyWords;
     this.dateTimeRanges = about.workingHours;
     this.institutionHierarchyId = description.institutionHierarchyId;
     this.institutionId = description.institutionId;
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
     if (id) {
       this.id = id;
     }
@@ -89,7 +85,18 @@ export class Workshop {
     if (about.coverImageId?.length) {
       this.coverImageId = about.coverImageId[0];
     }
-    this.workshopDescriptionItems = description.workshopDescriptionItems;
+    if (about.availableSeats) {
+      this.availableSeats = about.availableSeats;
+    }
+    if (about.payRate) {
+      this.payRate = about.payRate;
+    }
+    if (about.price) {
+      this.price = about.price;
+    }
+    if(about.availableSeats){
+      this.availableSeats = about.availableSeats;
+    }
   }
 }
 
