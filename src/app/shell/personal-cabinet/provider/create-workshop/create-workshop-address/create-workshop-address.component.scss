@@ -1,0 +1,16 @@
+@import "src/app/shared/styles/create-form.scss";
+.map{
+  height: 500px;
+}
+.text {
+  text-align: center;
+  font-family: Open Sans;
+  font-weight: 600;
+  color: rgba(0,0,0,.87);
+}
+
+.address-wrapper-border {
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #E3E3E3;
+}
