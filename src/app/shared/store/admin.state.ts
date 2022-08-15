@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import {
   CreateDirection,
+  CreateMinistryAdmin,
   DeleteDirectionById,
   GetAboutPortal,
   GetAllProviders,
@@ -26,6 +27,7 @@ import {
   GetDirectionById,
   GetFilteredDirections,
   GetLawsAndRegulations,
+  GetMinistryAdminProfile,
   GetParents,
   GetPlatformInfo,
   GetProviderAdminHistory,
@@ -33,6 +35,8 @@ import {
   GetSupportInformation,
   OnCreateDirectionFail,
   OnCreateDirectionSuccess,
+  OnCreateMinistryAdminFail,
+  OnCreateMinistryAdminSuccess,
   OnDeleteDirectionFail,
   OnDeleteDirectionSuccess,
   OnUpdateDirectionFail,
@@ -41,11 +45,14 @@ import {
   OnUpdatePlatformInfoSuccess,
   UpdateDirection,
   UpdatePlatformInfo,
-} from './admin.actions';
+} from "./admin.actions";
+import { MinistryAdmin } from "../models/ministryAdmin.model";
+import { MinistryAdminService } from "../services/ministry-admin/ministry-admin.service";
+import { HttpErrorResponse } from "@angular/common/http";
 import { ApplicationsHistory, ProviderAdminsHistory, ProvidersHistory } from '../models/history-log.model';
-import { HistoryLogService } from '../services/history-log/history-log.service';
 import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
+import { HistoryLogService } from '../services/history-log/history-log.service';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -57,7 +64,8 @@ export interface AdminStateModel {
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
-  providers: Provider[];
+  providers: Provider[];
+  ministryAdmin: MinistryAdmin;
   providerHistory: ProvidersHistory;
   providerAdminHistory: ProviderAdminsHistory;
   applicationHistory: ApplicationsHistory;
@@ -75,6 +83,7 @@ export interface AdminStateModel {
     children: null,
     providers: null,
     parents: null,
+    ministryAdmin: null,
     providerHistory: null,
     providerAdminHistory: null,
     applicationHistory: null,
@@ -132,6 +141,8 @@ export class AdminState {
     return state.applicationHistory;
   }
 
+  @Selector() static ministryAdmin(state: AdminStateModel): MinistryAdmin { return state.ministryAdmin };
+
   constructor(
     private platformService: PlatformService,
     private categoriesService: DirectionsService,
@@ -139,6 +150,7 @@ export class AdminState {
     private childrenService: ChildrenService,
     private router: Router,
     private providerService: ProviderService,
+    private ministryAdmin: MinistryAdminService,
     private historyLogService: HistoryLogService,
     private location: Location
   ) {}
@@ -382,5 +394,52 @@ export class AdminState {
         return patchState({ applicationHistory: application, isLoading: false });
       })
     );
+  }
+
+  @Action(GetMinistryAdminProfile)
+  getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>, {}: GetMinistryAdminProfile): Observable<MinistryAdmin>{
+    patchState({ isLoading: true });
+    return this.ministryAdmin
+    .getMinistryAdminProfile()
+    .pipe(
+      tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin, isLoading: false})));
+  }
+
+  @Action(CreateMinistryAdmin)
+  createMinistryAdmin(
+    { dispatch }: StateContext<AdminState>,
+    { payload }: CreateMinistryAdmin
+  ): Observable<object> {
+    return this.ministryAdmin.createMinistryAdmin(payload).pipe(
+      tap(res => dispatch(new OnCreateMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error))))
+    );
+  }
+
+  @Action(OnCreateMinistryAdminFail)
+  onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
+    throwError(payload);
+    dispatch(
+      new ShowMessageBar({
+        message: 'На жаль виникла помилка при створенні адміністратора міністерства',
+        type: 'error',
+      })
+    );
+  }
+
+
+  @Action(OnCreateMinistryAdminSuccess)
+  onCreateMinistryAdminSuccess(
+    { dispatch }: StateContext<AdminState>,
+    { payload }: OnCreateMinistryAdminSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: 'Адміністратор міністерства успішно створено',
+        type: 'success',
+      }),
+      new MarkFormDirty(false),
+    ]);
+    this.router.navigate(['/admin-tools/data/admins']);
   }
 }

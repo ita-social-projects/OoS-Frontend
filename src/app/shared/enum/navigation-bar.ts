@@ -29,6 +29,8 @@ export enum NavBarName {
   ProviderInfo = 'Інформація про заклад',
   Users = 'Користувачі',
   Providers = 'Заклади',
+  CreateAdmin = 'Додати адміністратора',
+  Admins = 'Адміністратори',
   Directions = 'Напрямки',
 }
 export enum PersonalCabinetTitle {
