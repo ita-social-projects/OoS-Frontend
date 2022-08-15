@@ -13,9 +13,9 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ClearRatings, GetRateByEntityId, GetRateList } from 'src/app/shared/store/meta-data.actions';
+import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { SetRatingPerPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeRating, SetRatingPerPage } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateRating, GetReviewedApplications, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
@@ -47,6 +47,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.ratingPerPage)
   ratingPerPage$: Observable<number>;
   ratingPerPage: number;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   parent: Parent;
@@ -72,7 +73,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch([new GetRateByEntityId('workshop', this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
+      .subscribe(() => this.store.dispatch([new GetRateByEntityId(Constants.ENTITY_TYPE, this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
 
     this.isAllowedToReview$
     .pipe(takeUntil(this.destroy$))
@@ -132,7 +133,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   
   itemsPerPageChange(itemsPerPage: number): void {
     this.ratingPerPage = itemsPerPage;
-    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateList()]);
+    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(Constants.ENTITY_TYPE, this.workshop.id)]);
+  }
+
+  pageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeRating(page), new GetRateByEntityId(Constants.ENTITY_TYPE, this.workshop.id)]);
   }
 
   ngOnDestroy(): void {

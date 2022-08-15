@@ -33,8 +33,10 @@ export class RatingService {
   }
 
   getRateByEntityId(entityType: string, entityId: string): Observable<Rate[]> {
+    const body = { params: this.setParams() };
     return this.http.get<Rate[]>(
-      `/api/v1/Rating/GetByEntityId/${entityType}/${entityId}`
+      `/api/v1/Rating/GetByEntityId/${entityType}/${entityId}`,
+      body
     );
   }
 
@@ -52,10 +54,5 @@ export class RatingService {
    */
   updateRate(rate: Rate): Observable<object> {
     return this.http.put('/api/v1/Rating/Update', rate);
-  }
-
-  getRate(): Observable<object> {
-    const body = { params: this.setParams() };
-    return this.http.get('/api/v1/Rating/Get', body);
   }
 }

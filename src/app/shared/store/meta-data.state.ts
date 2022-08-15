@@ -45,7 +45,6 @@ import {
   GetInstitutionHierarchyParentsById,
   GetInstitutionStatus,
   GetRateByEntityId,
-  GetRateList,
   GetSocialGroup,
   GetTopDirections,
   ResetInstitutionHierarchy
@@ -326,13 +325,6 @@ export class MetaDataState {
   ): Observable<Rate[]> {
     return this.ratingService
       .getRateByEntityId(enitityType, entitytId)
-      .pipe(tap((rating: Rate[]) => patchState({ rating: rating })));
-  }
-
-  @Action(GetRateList)
-  getRateList({ patchState }: StateContext<MetaDataStateModel>, { }: GetRateList): Observable<Rate[]> {
-    return this.ratingService
-      .getRate()
       .pipe(tap((rating: Rate[]) => patchState({ rating: rating })));
   }
 

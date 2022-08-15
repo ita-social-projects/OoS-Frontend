@@ -50,6 +50,11 @@ export class OnPageChangeAdminTable {
   constructor(public payload: PaginationElement) { }
 }
 
+export class OnPageChangeRating {
+  static readonly type = '[paginator] Change Page';
+  constructor(public payload: PaginationElement) { }
+}
+
 export class SetFirstPage {
   static readonly type = '[paginator] Set First Page';
   constructor() { }
