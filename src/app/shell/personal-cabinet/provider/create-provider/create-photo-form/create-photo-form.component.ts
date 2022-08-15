@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { takeUntil, filter } from 'rxjs/operators';
+import { takeUntil, filter, first } from 'rxjs/operators';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { InstitutionTypes } from 'src/app/shared/enum/provider';
@@ -67,6 +67,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     this.institutionStatuses$
       .pipe(
         takeUntil(this.destroy$),
+        first(),
         filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses)
       )
       .subscribe((institutionStatuses: InstitutionStatus[]) => {
