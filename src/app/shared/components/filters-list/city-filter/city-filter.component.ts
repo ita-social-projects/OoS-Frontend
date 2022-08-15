@@ -34,7 +34,6 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.settlementListener();
-    this.codeficatorSearch$.subscribe(val => console.log(val));
   }
 
   /**
@@ -75,7 +74,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
    */
   onFocusOut(auto: MatAutocomplete): void {
     const codeficator: Codeficator = auto.options.first?.value;
-    if (!this.settlementSearchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
+    if (codeficator?.settlement === Constants.NO_SETTLEMENT) {
       this.settlementSearchControl.setValue(null);
     } else {
       this.settlementSearchControl.setValue(this.settlementControl.value?.settlement);

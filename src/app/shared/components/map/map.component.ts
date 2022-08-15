@@ -1,4 +1,4 @@
-import { CodeficatorFilter } from './../../models/codeficator.model';
+import { Codeficator, CodeficatorFilter } from './../../models/codeficator.model';
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
@@ -36,8 +36,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
   @Input() isCreateWorkShops: boolean;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Output() setAddressEvent = new EventEmitter<Address>();
-  @Output() selectedAddress = new EventEmitter<Address>();
+  @Output() setAddressEvent = new EventEmitter<Codeficator>();
+  @Output() selectedAddress = new EventEmitter<Codeficator>();
 
   constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) { }
   map: Layer.Map;
@@ -139,7 +139,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         if(!address.street && !address.buildingNumber){
           this.setAddressLocation(address);
         }
-        if(address.city && address.street && address.buildingNumber){
+        if(address.catottgId && address.street && address.buildingNumber){
            this.setLocation(address);
         }
       });
@@ -162,15 +162,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
         const location = result.address || result[0].properties.address;
-        const city = location.city || location.village || location.town || location.hamlet;
+        const settlement = location.city || location.village || location.town || location.hamlet;
         const street = location.road;
         const buildingNumber = location.house_number;
         const longitude = result.lon || result[0].lon;
         const latitude = result.lat || result[0].lat;
-        this.setAddressEvent.emit({ city, street, buildingNumber, longitude, latitude });
+        this.setAddressEvent.emit({ settlement, street, buildingNumber, longitude, latitude });
       } else {
         this.setAddressEvent.emit({
-          city: '',
+          settlement: '',
           street: '',
           buildingNumber: '',
         });

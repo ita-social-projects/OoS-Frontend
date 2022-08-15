@@ -88,7 +88,7 @@ export class GeolocationService {
    */
   addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
     GeocoderService
-      .geocode(this.http, `${address.city}+${address.street}+${address.buildingNumber}`, 'uk-UA, uk')
+      .geocode(this.http, `${address.codeficatorAddressDto.settlement}+${address.street}+${address.buildingNumber}`, 'uk-UA, uk')
       .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
         callback(result);
       });

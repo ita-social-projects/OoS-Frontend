@@ -29,11 +29,11 @@ export class ContactsComponent implements OnInit {
   mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       this.addressLink = 'http://maps.apple.com:';
-      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.city}`);
+      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`);
     } else if (/Android/i.test(navigator.userAgent)) {
-      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.city}`);
+      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`);
     } else {
-      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.city}`, '_blank');
+      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`, '_blank');
     }
   }
 }
