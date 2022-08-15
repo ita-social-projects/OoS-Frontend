@@ -1,8 +1,8 @@
+import { CodeficatorFilter } from './../../models/codeficator.model';
 import { Select, Store } from '@ngxs/store';
 import { Component } from '@angular/core';
 import { ConfirmCity } from '../../store/filter.actions';
 import { SetFocusOnCityField } from '../../store/app.actions';
-import { City } from '../../models/city.model';
 import { Observable } from 'rxjs';
 import { FilterState } from '../../store/filter.state';
 
@@ -12,8 +12,8 @@ import { FilterState } from '../../store/filter.state';
   styleUrls: ['./city-confirmation.component.scss']
 })
 export class CityConfirmationComponent {
-  @Select(FilterState.city)
-  city$: Observable<City>;
+  @Select(FilterState.settelment)
+  settelment$: Observable<CodeficatorFilter>;
 
   isDispalyed = true;
 

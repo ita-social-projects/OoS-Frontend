@@ -28,11 +28,9 @@ export class ShellComponent implements OnInit, OnDestroy {
     this.geolocationService.handleUserLocation((coords: Coords) => {
       coords && this.geolocationService.locationDecode(coords, (result) => {
         this.geolocationService.confirmCity({
-          district: '',
           longitude: coords.lng,
           latitude: coords.lat,
           name: result.address.city || result.address.town || result.address.village || result.address.hamlet,
-          region: ''
         });
       });
     });

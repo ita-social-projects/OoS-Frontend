@@ -1,4 +1,4 @@
-import { City } from './../../models/city.model';
+import { CodeficatorFilter } from './../../models/codeficator.model';
 import { ConfirmCity, SetCity } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
@@ -27,14 +27,14 @@ export class GeolocationService {
   /**
    * This method sets default city Kiev in localStorage if user deny geolocation
    */
-  confirmCity(city: City): void {
+  confirmCity(settelment: CodeficatorFilter): void {
     !!localStorage.getItem('cityConfirmation') ?
       this.store.dispatch([
         new SetCity(JSON.parse(localStorage.getItem('cityConfirmation'))),
         new ConfirmCity(true),
       ]) :
       this.store.dispatch([
-        new SetCity(city),
+        new SetCity(settelment),
         new ConfirmCity(false),
       ]);
   }
@@ -45,6 +45,7 @@ export class GeolocationService {
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
+    console.log(data);
     callback({ lat: data.coords.latitude, lng: data.coords.longitude });
   }
 

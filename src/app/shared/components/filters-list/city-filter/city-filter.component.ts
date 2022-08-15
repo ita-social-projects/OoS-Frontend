@@ -1,3 +1,4 @@
+import { CodeficatorFilter } from './../../../models/codeficator.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -5,7 +6,6 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
-import { City } from 'src/app/shared/models/city.model';
 import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'src/app/shared/store/meta-data.actions';
@@ -25,8 +25,6 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.codeficatorSearch)
   codeficatorSearch$: Observable<Codeficator[]>;
 
-  city: City;
-
   settlementSearchControl = new FormControl('');
   settlementControl = new FormControl('');
 
@@ -36,8 +34,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.settlementListener();
-    this.codeficatorSearch$.subscribe(val=> console.log(val))
-    // this.city$.pipe(debounceTime(1000), takeUntil(this.destroy$)).subscribe((city: City) => (this.city = city));
+    this.codeficatorSearch$.subscribe(val => console.log(val));
   }
 
   /**
@@ -58,40 +55,36 @@ export class CityFilterComponent implements OnInit, OnDestroy {
         filter((value: string) => value?.length > 2)
       )
       .subscribe((value: string) => {
-        console.log(value)
-        this.store.dispatch(new GetCodeficatorSearch(value))}
-      );
+        this.store.dispatch(new GetCodeficatorSearch(value));
+      });
   }
 
-  onSelectedCity(city: City): void {
-    this.store.dispatch(new SetCity(city));
+  onSelectedCity(settelment: Codeficator): void {
+    this.store.dispatch(
+      new SetCity({
+        ...settelment,
+        catottgId: settelment.id,
+        name: settelment.settlement,
+      })
+    );
   }
 
   /**
    * This method listen input FocusOut event and update search and settlement controls value
    * @param auto MatAutocomplete
-   * @param controls
-   *  searchControl FormControl
-   *  settlementControl FormControl
-   *  codeficatorIdControl FormControl
    */
   onFocusOut(auto: MatAutocomplete): void {
-    console.log(auto)
-    // const codeficator: Codeficator = auto.options.first?.value;
-    // if (!this.settlementSearchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
-    //   this.settlementSearchControl.setValue(null);
-    // } else {
-    //   this.settlementSearchControl.setValue(this.settlementControl.value?.settlement);
-    // }
+    const codeficator: Codeficator = auto.options.first?.value;
+    if (!this.settlementSearchControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
+      this.settlementSearchControl.setValue(null);
+    } else {
+      this.settlementSearchControl.setValue(this.settlementControl.value?.settlement);
+    }
   }
 
   /**
    * This method listen mat option select event and save settlement control value
    * @param event MatAutocompleteSelectedEvent
-   * @param controls
-   *  searchControl FormControl
-   *  settlementControl FormControl
-   *  codeficatorIdControl FormControl
    */
   onSelectSettlement(event: MatAutocompleteSelectedEvent): void {
     this.store.dispatch(new ClearCodeficatorSearch());

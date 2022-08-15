@@ -1,3 +1,4 @@
+import { CodeficatorFilter } from './../../models/codeficator.model';
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
@@ -8,7 +9,6 @@ import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/worksho
 import { Select } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
-import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
@@ -29,8 +29,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   public zoom = 11;
   public workshops: WorkshopCard[];
 
-  @Select(FilterState.city)
-  city$: Observable<City>;
+  @Select(FilterState.settelment)
+  settelment$: Observable<CodeficatorFilter>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() addressFormGroup: FormGroup;
@@ -102,10 +102,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.city$
-      .pipe(takeUntil(this.destroy$), filter((city: City) => !!city))
-      .subscribe((city: City) => {
-        this.defaultCoords = { lat: city.latitude, lng: city.longitude };
+    this.settelment$
+      .pipe(takeUntil(this.destroy$), filter((settelment: CodeficatorFilter) => !!settelment))
+      .subscribe((settelment: CodeficatorFilter) => {
+        this.defaultCoords = { lat: settelment.latitude, lng: settelment.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 

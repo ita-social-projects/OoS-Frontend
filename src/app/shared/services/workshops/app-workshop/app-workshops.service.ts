@@ -10,22 +10,19 @@ import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
 import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AppWorkshopsService {
-
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
-    if (filters.city) {
-      params = params.set('City', filters.city.name);
-      params = params.set('Latitude', filters.city.latitude.toString());
-      params = params.set('Longitude', filters.city.longitude.toString());
+    if (filters.settelment) {
+      params = params.set('City', filters.settelment.name);
+      params = params.set('Latitude', filters.settelment.latitude.toString());
+      params = params.set('Longitude', filters.settelment.longitude.toString());
+      params = params.set('catottgId', filters.settelment.catottgId.toString());
     }
 
     if (filters.isFree) {
@@ -62,7 +59,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.workingDays.length > 0) {
-      filters.workingDays.forEach((day: string) => params = params.append('Workdays', day));
+      filters.workingDays.forEach((day: string) => (params = params.append('Workdays', day)));
     }
 
     if (filters.isFree || !filters.minPrice) {
@@ -78,7 +75,9 @@ export class AppWorkshopsService {
     }
 
     if (filters.directions.length > 0) {
-      filters.directions.forEach((direction: Direction) => params = params.append('DirectionIds', direction.id.toString()));
+      filters.directions.forEach(
+        (direction: Direction) => (params = params.append('DirectionIds', direction.id.toString()))
+      );
     }
 
     if (isMapView) {
@@ -127,8 +126,8 @@ export class AppWorkshopsService {
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
 
     params = params.set('Limit', size.toString());
-    params = params.set('City', filters.city?.name ?? Constants.KIEV.name);
-    
+    params = params.set('City', filters.settelment?.name ?? Constants.KIEV.name);
+
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }
 }
