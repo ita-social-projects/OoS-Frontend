@@ -22,15 +22,26 @@ import { Constants } from './../constants/constants';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
 import { InstitutionsService } from './../services/institutions/institutions.service';
 import {
-  ClearCities, ClearCodeficatorSearch, ClearRatings, FilteredDirectionsList, GetAchievementsType,
+  ClearCities,
+  ClearCodeficatorSearch, 
+  ClearRatings, 
+  FilteredDirectionsList, 
+  GetAchievementsType,
   GetAllByInstitutionAndLevel,
   GetAllInstitutions,
   GetCities,
   GetCodeficatorById,
-  GetCodeficatorSearch, GetDirections, GetFeaturesList,
+  GetCodeficatorSearch, 
+  GetDirections, 
+  GetFeaturesList,
   GetFieldDescriptionByInstitutionId,
   GetInstitutionHierarchyChildrenById,
-  GetInstitutionHierarchyParentsById, GetInstitutionStatus, GetRateByEntityId, GetSocialGroup, GetTopDirections, ResetInstitutionHierarchy
+  GetInstitutionHierarchyParentsById, 
+  GetInstitutionStatus, 
+  GetRateByEntityId, 
+  GetSocialGroup, 
+  GetTopDirections, 
+  ResetInstitutionHierarchy
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
