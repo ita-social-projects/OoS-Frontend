@@ -126,15 +126,41 @@
             placeholder="Оберіть тип олати за гурток">
               <ng-container *ngFor="let type of PayRateType | keyvalue">
                 <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-                  {{ PayRateTypeUkr[type.key] }} 
+                  {{ PayRateTypeUkr[type.key] }}
                 </mat-option>
               </ng-container>
             </mat-select>
         </div>
       </div>
     <app-validation-hint
-      [validationFormControl]="AboutFormGroup.get('payRate')"
-      [isTouched]="AboutFormGroup.get('payRate').touched">
+        [validationFormControl]="AboutFormGroup.get('payRate')"
+        [isTouched]="AboutFormGroup.get('payRate').touched">
+    </app-validation-hint>
+  </mat-radio-group>
+
+  <label class="step-label">
+    Кількість доступних місць<span class="step-required">*</span>
+  </label>
+  <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
+    <mat-radio-button [value]="true">Без обмежень</mat-radio-button>
+    <div class="conteiner" fxLayout="row" fxLayoutAlign="space-between center">
+      <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
+        <mat-radio-button [value]="false">
+          <input matInput
+                 class="step-input price-input"
+                 appDigitOnly
+                 appMinMax
+                 formControlName="availableSeats"
+                 type="number"
+                 [directiveFormControl]="availableSeatsControl"
+                 [min]="MIN_SEATS"
+                 [max]="maxAvailableSeats">
+        </mat-radio-button>
+      </div>
+    </div>
+    <app-validation-hint
+        [validationFormControl]="availableSeatsControl"
+        [isTouched]="availableSeatsControl.touched">
     </app-validation-hint>
   </mat-radio-group>
 

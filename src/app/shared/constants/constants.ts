@@ -11,6 +11,8 @@ export class Constants {
   static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
+  static readonly WORKSHOP_MIN_SEATS = 1;
+  static readonly WORKSHOP_UNLIMITED_SEATS = 4294967295;
 
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
@@ -30,6 +32,7 @@ export class Constants {
   static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
   static readonly NO_CITY = 'Такого міста немає';
+  static readonly NO_SETTLEMENT = 'Такого населенного пункту немає';
   static readonly KIEV: City = {
     district: 'м.Київ',
     id: 14446,
@@ -50,7 +53,11 @@ export class PaginationConstants {
   static readonly PAGINATION_DOTS = '...';
   static readonly PAGINATION_SHIFT_DELTA = 3;
   static readonly ITEMS_PER_PAGE_TEN = 10;
-  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332))
+  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332));
+  static readonly firstPage = {
+    element: 1,
+    isActive: true
+  };
 };
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {

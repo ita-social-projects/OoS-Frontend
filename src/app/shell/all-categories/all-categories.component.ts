@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
@@ -25,10 +26,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<DirectionsFilter>;
 
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true,
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(
     private store: Store,
