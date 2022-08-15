@@ -26,7 +26,7 @@
         </ng-container>                
       </mat-card-header>
 
-      <mat-card-content fxLayout="column" fxLayoutAlign="center">
+      <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
         <ng-container
           *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
         </ng-container>

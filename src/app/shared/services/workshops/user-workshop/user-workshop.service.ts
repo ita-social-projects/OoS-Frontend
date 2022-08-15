@@ -74,6 +74,14 @@ export class UserWorkshopService {
   }
 
   /**
+   * This method update workshop status
+   * @param workshop: Workshop
+   */
+  updateWorkshopStatus(workshop: Workshop): Observable<object> {
+    return this.http.put('/api/v1/Workshop/UpdateStatus', workshop);
+  }
+  
+  /**
    * This method delete workshop by Workshop id
    * @param id: string
    */

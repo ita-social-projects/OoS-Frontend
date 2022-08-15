@@ -24,6 +24,8 @@ export enum ModalConfirmationType {
   unBlockParent = 'unBlockParent',
   blockParent = 'blockParent',
   reject = 'reject',
+  closeSet = 'closeSet',
+  openSet = 'openSet',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -50,6 +52,8 @@ export enum ModalConfirmationTitle {
   unBlockParent = 'РОЗБЛОКУВАТИ КОРИСТУВАЧА',
   blockParent = 'ЗАБЛОКУВАТИ КОРИСТУВАЧА',
   reject = 'ВІДМОВИТИ',
+  closeSet = 'Призупинити набір',
+  openSet = 'Відкрити набір',
 }
 
 export enum ModalConfirmationText {
@@ -79,6 +83,8 @@ export enum ModalConfirmationText {
   unBlockParent = 'Ви впевнені, що хочете розблокувати користувача?',
   blockParent = 'Ви впевнені, що хочете заблокувати користувача?',
   reject = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?',
+  closeSet = 'Ви впевнені, що хочете призупинити набір?',
+  openSet = 'Ви впевнені, що хочете відкрити набір?',
 }
 
 export enum ModalConfirmationDescription {

@@ -121,8 +121,6 @@ export interface WorkshopCard {
   workshopId: string;
   coverImageId?: string;
   directionsId: number[];
-  availableSeats: number;
-  takenSeats: number;
 }
 export interface WorkshopFilterCard {
   totalAmount: number;

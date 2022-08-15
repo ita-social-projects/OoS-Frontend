@@ -7,7 +7,7 @@ import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop, UpdateStatus, UpdateWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
@@ -18,6 +18,8 @@ import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
 import { PayRateTypeUkr } from '../../enum/enumUA/workshop';
+import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from '../../enum/modal-confirmation';
 
 @Component({
   selector: 'app-workshop-card',
@@ -107,6 +109,25 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     ]);
     this.isFavorite = !this.isFavorite;
   }
+
+  onChange(): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: this.workshopData.status === 'Open' ? ModalConfirmationType.closeSet : ModalConfirmationType.openSet,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: boolean)  => {
+      if(result){
+        if(this.workshopData.status === 'Open') {
+          this.workshopData.status = 'Closed';
+        }else if (this.workshopData.status === 'Closed'){
+          this.workshopData.status = 'Open';
+        } 
+        this.store.dispatch(new UpdateStatus({"workshopId": this.workshopData.workshopId, "status": this.workshopData.status}));
+      }
+    });
+  } 
 
   onWorkshopLeave(): void {
     this.leaveWorkshop.emit(this.application);
