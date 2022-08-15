@@ -8,7 +8,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Role } from 'src/app/shared/enum/role';
+import { EntityType, Role } from 'src/app/shared/enum/role';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
@@ -73,7 +73,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch([new GetRateByEntityId(Constants.ENTITY_TYPE, this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
+      .subscribe(() => this.store.dispatch([new GetRateByEntityId(EntityType.workshop, this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
 
     this.isAllowedToReview$
     .pipe(takeUntil(this.destroy$))
@@ -133,12 +133,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   
   itemsPerPageChange(itemsPerPage: number): void {
     this.ratingPerPage = itemsPerPage;
-    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(Constants.ENTITY_TYPE, this.workshop.id)]);
+    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
   }
 
   pageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeRating(page), new GetRateByEntityId(Constants.ENTITY_TYPE, this.workshop.id)]);
+    this.store.dispatch([new OnPageChangeRating(page), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
   }
 
   ngOnDestroy(): void {
