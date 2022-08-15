@@ -6,7 +6,8 @@
       disableOptionCentering
       panelClass="dropdown-panel"
       class="step-input"
-      [compareWith]="compareInstitutions">
+      formControlName="institution"
+      placeholder="Оберіть підпорядкування">
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">
         {{ institution.title }}
       </mat-option>
@@ -27,18 +28,13 @@
           panelClass="dropdown-panel"
           class="step-input"
           (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy)">
-          <mat-option
-            *ngFor="let option of hierarchy.options"
-            [value]="option.id"
-            class="dropdown-option">
+          <mat-option *ngFor="let option of hierarchy.options" [value]="option.id" class="dropdown-option">
             {{ option.title }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <app-validation-hint
-        [validationFormControl]="hierarchy.formControl"
-        [isTouched]="hierarchy.formControl.touched">
-    </app-validation-hint>
+      <app-validation-hint [validationFormControl]="hierarchy.formControl" [isTouched]="hierarchy.formControl.touched">
+      </app-validation-hint>
     </ng-container>
   </ng-container>
 </div>
