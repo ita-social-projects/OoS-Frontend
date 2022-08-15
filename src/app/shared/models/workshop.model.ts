@@ -57,6 +57,7 @@ export class Workshop {
     this.dateTimeRanges = about.workingHours;
     this.institutionHierarchyId = description.institutionHierarchyId;
     this.institutionId = description.institutionId;
+    this.workshopDescriptionItems = description.workshopDescriptionItems;
     if (id) {
       this.id = id;
     }
@@ -92,6 +93,9 @@ export class Workshop {
     }
     if (about.price) {
       this.price = about.price;
+    }
+    if(about.availableSeats){
+      this.availableSeats = about.availableSeats;
     }
   }
 }

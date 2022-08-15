@@ -26,6 +26,7 @@ import { FormsModule } from '@angular/forms';
 import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form-wrapper.component';
 import { CreateAddressFormComponent } from './create-address-form/create-address-form.component';
 import { CreateWorkshopAddressComponent } from './create-workshop/create-workshop-address/create-workshop-address.component';
+
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,

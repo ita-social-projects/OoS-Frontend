@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-fdescribe('CreateAddressFormComponent', () => {
+describe('CreateAddressFormComponent', () => {
   let component: CreateAddressFormComponent;
   let fixture: ComponentFixture<CreateAddressFormComponent>;
 
