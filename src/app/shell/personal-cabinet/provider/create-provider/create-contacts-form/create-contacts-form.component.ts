@@ -67,7 +67,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.initData();
   }
-  
+
   /**
    * This method handle Angular Lifecycle hook OnDestroy
    */

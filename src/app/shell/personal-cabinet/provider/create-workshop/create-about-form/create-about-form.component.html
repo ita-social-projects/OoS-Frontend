@@ -116,7 +116,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="price">
           <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input price-input"
               appDigitOnly appMinMax formControlName="price" type="number"
-              [directiveFormControl]="AboutFormGroup.get('price')" [min]="validationConstants.MIN_PRICE"
+              [directiveFormControl]="priceControl" [min]="validationConstants.MIN_PRICE"
               [max]="validationConstants.MAX_PRICE">
           </mat-radio-button>
         </div>
@@ -133,8 +133,8 @@
         </div>
       </div>
     <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('payRate')"
-        [isTouched]="AboutFormGroup.get('payRate').touched">
+        [validationFormControl]="payRateControl"
+        [isTouched]="payRateControl.touched">
     </app-validation-hint>
   </mat-radio-group>
 
@@ -154,7 +154,7 @@
                  type="number"
                  [directiveFormControl]="availableSeatsControl"
                  [min]="MIN_SEATS"
-                 [max]="maxAvailableSeats">
+                 [max]="UNLIMITED_SEATS">
         </mat-radio-button>
       </div>
     </div>
