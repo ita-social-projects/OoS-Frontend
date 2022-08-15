@@ -27,7 +27,7 @@ describe('CreateWorkshopComponent', () => {
       ],
       declarations: [
         CreateWorkshopComponent,
-        MockCreateAddressComponent,
+        MockCreateWorkshopAddressComponent,
         MockCreateTeacherComponent,
         MockCreateAboutFormComponent,
         MockCreateDescriptionFormComponent
@@ -73,10 +73,10 @@ class MockCreateDescriptionFormComponent {
 }
 
 @Component({
-  selector: 'app-create-address',
+  selector: 'app-create-workshop-address',
   template: ''
 })
-class MockCreateAddressComponent {
+class MockCreateWorkshopAddressComponent {
   @Input() address: Address;
 }
 

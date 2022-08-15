@@ -3,7 +3,6 @@ import { CommonModule, DatePipe } from '@angular/common';
 import { ProviderRoutingModule } from './provider-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
-import { CreateAddressComponent } from './create-workshop/create-address/create-address.component';
 import { CreateAboutFormComponent } from './create-workshop/create-about-form/create-about-form.component';
 import { CreateDescriptionFormComponent } from './create-workshop/create-description-form/create-description-form.component';
 import { CreateWorkshopComponent } from './create-workshop/create-workshop.component';
@@ -25,10 +24,13 @@ import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form-wrapper.component';
+import { CreateAddressFormComponent } from './create-address-form/create-address-form.component';
+import { CreateWorkshopAddressComponent } from './create-workshop/create-workshop-address/create-workshop-address.component';
+
 @NgModule({
   declarations: [
     ProviderOrgInfoComponent,
-    CreateAddressComponent,
+    CreateWorkshopAddressComponent,
     CreateAboutFormComponent,
     CreateDescriptionFormComponent,
     CreateWorkshopComponent,
@@ -43,7 +45,8 @@ import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about
     ProviderAdminsComponent,
     ProviderApplciationsComponent,
     ProviderWorkshopsComponent,
-    WorkingHoursFormWrapperComponent
+    WorkingHoursFormWrapperComponent,
+    CreateAddressFormComponent
   ],
   imports: [
     CommonModule,
