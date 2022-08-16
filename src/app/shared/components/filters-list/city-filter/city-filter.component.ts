@@ -22,11 +22,12 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
+  @Select(FilterState.settelment)
+  settelment$: Observable<CodeficatorFilter>;
   @Select(MetaDataState.codeficatorSearch)
   codeficatorSearch$: Observable<Codeficator[]>;
 
   settlementSearchControl = new FormControl('');
-  settlementControl = new FormControl('');
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -34,6 +35,14 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.settlementListener();
+    this.settelment$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((settelment: CodeficatorFilter) => !!settelment)
+      )
+      .subscribe((settelment: CodeficatorFilter) =>
+        this.settlementSearchControl.setValue(settelment.name, { emitEvent: false })
+      );
   }
 
   /**
@@ -75,9 +84,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   onFocusOut(auto: MatAutocomplete): void {
     const codeficator: Codeficator = auto.options.first?.value;
     if (codeficator?.settlement === Constants.NO_SETTLEMENT) {
-      this.settlementSearchControl.setValue(null);
-    } else {
-      this.settlementSearchControl.setValue(this.settlementControl.value?.settlement);
+      this.settlementSearchControl.setValue(null, { emitEvent: false, onlySelf: true });
     }
   }
 
@@ -88,7 +95,6 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   onSelectSettlement(event: MatAutocompleteSelectedEvent): void {
     this.store.dispatch(new ClearCodeficatorSearch());
     this.settlementSearchControl.setValue(event.option.value.settlement, { emitEvent: false, onlySelf: true });
-    this.settlementControl.setValue(event.option.value, { emitEvent: false, onlySelf: true });
   }
 
   /**

@@ -6,6 +6,8 @@
 :host ::ng-deep .mat-form-field-infix  {
   padding: 0;
   border: none;
+  vertical-align: sub;
+  padding-top: 0.2rem;
 }
 :host ::ng-deep .mat-form-field{
   width: 500px;
@@ -32,8 +34,6 @@ h4{
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
-  top: 1.2rem;
-  vertical-align: sub;
 }
 
 .input-wrapper {

@@ -22,7 +22,7 @@ export class AppWorkshopsService {
       params = params.set('City', filters.settelment.name);
       params = params.set('Latitude', filters.settelment.latitude.toString());
       params = params.set('Longitude', filters.settelment.longitude.toString());
-      params = params.set('catottgId', filters.settelment.catottgId.toString());
+      params = params.set('catottgId', filters.settelment.catottgId?.toString());
     }
 
     if (filters.isFree) {

@@ -1,10 +1,10 @@
-import { CodeficatorFilter } from './../../models/codeficator.model';
+import { CodeficatorFilter } from '../../../../models/codeficator.model';
 import { Select, Store } from '@ngxs/store';
 import { Component } from '@angular/core';
-import { ConfirmCity } from '../../store/filter.actions';
-import { SetFocusOnCityField } from '../../store/app.actions';
+import { ConfirmCity } from '../../../../store/filter.actions';
+import { SetFocusOnCityField } from '../../../../store/app.actions';
 import { Observable } from 'rxjs';
-import { FilterState } from '../../store/filter.state';
+import { FilterState } from '../../../../store/filter.state';
 
 @Component({
   selector: 'app-city-confirmation',
