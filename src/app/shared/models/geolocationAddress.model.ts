@@ -11,3 +11,12 @@ export interface GeolocationAddress {
   lat?: string;
   lon?: string;
 }
+
+
+export interface MapAddress {
+  settlement: string;
+  street: string;
+  buildingNumber: string;
+  latitude?: number;
+  longitude?: number;
+}

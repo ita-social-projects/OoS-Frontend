@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from 'src/app/shared/models/address.model';
 import { FormValidators, ValidationConstants } from 'src/app/shared/constants/validation';
+import { GeolocationAddress, MapAddress } from 'src/app/shared/models/geolocationAddress.model';
 
 @Component({
   selector: 'app-create-workshop-address',
@@ -30,5 +31,10 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlement: new FormControl(''),
     });
     this.passAddressFormGroup.emit(this.addressFormGroup);
+  }
+
+  onReceiveAddressFromMap(address: MapAddress): void {
+    this.addressFormGroup.patchValue(address);
+    this.searchFormGroup.get('settelment').setValue(address.settlement); 
   }
 }

@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Workshop, WorkshopCard } from '../../../models/workshop.model';
+import { Workshop } from '../../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root',
