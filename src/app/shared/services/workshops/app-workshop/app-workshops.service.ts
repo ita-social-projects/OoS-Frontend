@@ -22,7 +22,7 @@ export class AppWorkshopsService {
       params = params.set('City', filters.settelment.name);
       params = params.set('Latitude', filters.settelment.latitude.toString());
       params = params.set('Longitude', filters.settelment.longitude.toString());
-      params = params.set('catottgId', filters.settelment.catottgId?.toString());
+      params = params.set('catottgId', filters.settelment?.catottgId?.toString() ?? Constants.KYIV.catottgId.toString());
     }
 
     if (filters.isFree) {
@@ -126,7 +126,8 @@ export class AppWorkshopsService {
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
 
     params = params.set('Limit', size.toString());
-    params = params.set('City', filters.settelment?.name ?? Constants.KIEV.name);
+    params = params.set('City', filters.settelment?.name ?? Constants.KYIV.name);
+    params = params.set('catottgId', filters.settelment?.catottgId?.toString() ?? Constants.KYIV.catottgId.toString());
 
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }

@@ -25,7 +25,7 @@ export class GeolocationService {
   constructor(public store: Store, private http: HttpClient) { }
 
   /**
-   * This method sets default city Kiev in localStorage if user deny geolocation
+   * This method sets default city Kyiv in localStorage if user deny geolocation
    */
   confirmCity(settelment: CodeficatorFilter): void {
     !!localStorage.getItem('cityConfirmation') ?
@@ -41,7 +41,7 @@ export class GeolocationService {
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(Constants.KIEV);
+    this.confirmCity(Constants.KYIV);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {

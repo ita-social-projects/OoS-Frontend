@@ -33,7 +33,7 @@ export class Constants {
 
   static readonly NO_CITY = 'Такого міста немає';
   static readonly NO_SETTLEMENT = 'Такого населенного пункту немає';
-  static readonly KIEV: CodeficatorFilter = {
+  static readonly KYIV: CodeficatorFilter = {
     name: 'Київ',
     catottgId: 31737,
     longitude: 30.5595,
