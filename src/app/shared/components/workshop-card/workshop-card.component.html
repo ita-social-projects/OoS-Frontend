@@ -26,7 +26,15 @@
         </ng-container>                
       </mat-card-header>
 
-      <mat-card-content fxLayout="column" fxLayoutAlign="center">
+      <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+        <ng-container>
+          <div fxLayoutAlign="space-between">
+            <div [style.background-color]="workshopData.status === 'Open' ? 'green' : 'red'" class="chip-color">{{workshopData.status === 'Open' ? "Набір триває" : "Набір призупинено"}}</div>
+            <a *ngIf="workshopData.providerOwnership === 'Private' && userRoleView === Role.provider" class="more-details" (click)="onChange()">                
+              <span class="card_link">{{workshopData.status === 'Open' ? "Призупинити набір" : "Відкрити набір"}}</span>
+            </a>  
+          </div>
+        </ng-container>
         <ng-container
           *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
         </ng-container>

@@ -127,6 +127,7 @@ export interface WorkshopCard {
   workshopId: string;
   coverImageId?: string;
   directionsId: number[];
+  status: string;
   availableSeats: number;
   takenSeats: number;
 }

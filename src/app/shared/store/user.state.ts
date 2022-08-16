@@ -101,6 +101,9 @@ import {
   GetUsersChildById,
   GetStatusAllowedToReview,
   GetProviderAdminWorkshops,
+  UpdateStatus,
+  OnUpdateStatusSuccess,
+  OnUpdateStatusFail,
   GetChildrenByWorkshopId,
   GetReviewedApplications,
 } from './user.actions';
@@ -774,6 +777,14 @@ export class UserState {
   onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(UpdateStatus)
+  updateStatus({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop): Observable<object> {
+    return this.userWorkshopService.updateWorkshopStatus(payload).pipe(
+      tap(res => dispatch(new OnUpdateStatusSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateStatusFail(error))))
+    );
   }
 
   @Action(UpdateChild)

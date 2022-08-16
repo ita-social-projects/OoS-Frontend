@@ -222,6 +222,18 @@ export class OnUpdateWorkshopSuccess {
   static readonly type = '[user] update Workshop success';
   constructor(public payload) { }
 }
+export class UpdateStatus {
+  static readonly type = '[user] update Status';
+  constructor(public payload) { }
+}
+export class OnUpdateStatusSuccess {
+  static readonly type = '[user] update Status success';
+  constructor(public payload) { }
+}
+export class OnUpdateStatusFail {
+  static readonly type = '[user] update Status fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
 export class UpdateChild {
   static readonly type = '[user] update Child';
   constructor(public payload: Child) { }
