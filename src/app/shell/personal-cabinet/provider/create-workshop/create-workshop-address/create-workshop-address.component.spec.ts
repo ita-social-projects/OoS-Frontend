@@ -1,8 +1,6 @@
-import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
-import { City } from 'src/app/shared/models/city.model';
+import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateAddressComponent } from './create-address.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -10,10 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Address } from 'src/app/shared/models/address.model';
 
-describe('CreateAddressComponent', () => {
-  let component: CreateAddressComponent;
-  let fixture: ComponentFixture<CreateAddressComponent>;
+describe('CreateWorkshopAddressComponent', () => {
+  let component: CreateWorkshopAddressComponent;
+  let fixture: ComponentFixture<CreateWorkshopAddressComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -27,24 +26,17 @@ describe('CreateAddressComponent', () => {
         BrowserAnimationsModule
       ],
       declarations: [
-        CreateAddressComponent,
+        CreateWorkshopAddressComponent,
         MockMapComponent,
-        ValidationHintComponent,
-        MockCityAutocompleteComponent
+        MockAddressForm
       ]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateAddressComponent);
+    fixture = TestBed.createComponent(CreateWorkshopAddressComponent);
     component = fixture.componentInstance;
-    component.AddressFormGroup = new FormGroup({
-      street: new FormControl(''),
-      buildingNumber: new FormControl(''),
-      city: new FormControl(''),
-      longitude: new FormControl(''),
-    });
     fixture.detectChanges();
   });
 
@@ -63,11 +55,11 @@ class MockMapComponent {
   @Input() workshops: Workshop[];
 }
 @Component({
-  selector: 'app-city-autocomplete',
-  template: ''
+  selector: 'app-create-address-form',
+  template: '',
 })
-class MockCityAutocompleteComponent {
-  @Input() InitialCity: string;
-  @Input() className: string;
-  @Input() cityFormControl: FormControl;
+class MockAddressForm {
+  @Input() addressFormGroup: FormGroup;
+  @Input() searchFormGroup: FormGroup;
+  @Input() address: Address;
 }

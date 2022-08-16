@@ -58,10 +58,6 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     }
   }
 
-  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
-    return institution1.id === institution2.id;
-  }
-
   private setInitialInstitution(): void {
     const institutionId = this.editMode ? this.instituitionIdFormControl.value : this.provider.institution?.id;
     if (institutionId) {
