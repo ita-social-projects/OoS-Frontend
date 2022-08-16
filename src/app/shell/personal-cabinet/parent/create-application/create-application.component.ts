@@ -26,6 +26,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatSelectChange } from '@angular/material/select';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-create-application',
@@ -140,5 +141,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   onSelectChild(child: MatSelectChange): void {
     this.store.dispatch(new GetStatusIsAllowToApply(child.value.id, this.workshopId));
+  }
+
+  onTabChange(tabChangeEvent: MatTabChangeEvent): void {
+    console.log(tabChangeEvent.index);
   }
 }
