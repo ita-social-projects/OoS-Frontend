@@ -8,8 +8,9 @@
     <div class="card-border">
       <mat-tab-group mat-align-tabs="center" #tabGroup (selectedTabChange)="onTabChange($event)">
         <hr class="line">
-        <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
+        <!-- <form fxLayout='column' fxLayoutAlign='center space-between' class="step"> -->
           <mat-tab label="Подати дані про дитину">
+            <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
             <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
             <mat-form-field appearance="none">
               <mat-select name="child" placeholder="Діти" disableOptionCentering panelClass="dropdown-panel"
@@ -67,27 +68,29 @@
                             !selectedChild ||
                             !isAllowChildToApply" (click)="onSubmit()">ВІДПРАВИТИ</button>
             </div>
+          </form>
           </mat-tab>
           <mat-tab label="Подати дані про себе">
+            <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
             <div class="info-wrapper">
               <p class="step-label">Персональні дані</p>
               <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
               </app-person-card>
             </div>
-            <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControl">
+            <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControlYourself">
               Я не маю противопоказів щодо відвідування гуртка/секції/класу
             </mat-checkbox>
-            <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
+            <mat-checkbox class="step-check-box" color="primary" [formControl]="AttendAgreementFormControlYourself">
               Я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
               та надаю згоду на обробку персональних даних
             </mat-checkbox>
             <div fxLayout="row" fxLayoutAlign="center center" class="footer">
               <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel"
                   mat-raised-button>СКАСУВАТИ</button></a>
-              <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed" (click)="onSubmit()">ВІДПРАВИТИ</button>
+              <button class="btn" mat-button type="submit" [disabled]="!isContraindicationAgreementYourself || !isAttendAgreementYourself" (click)="onSubmit()">ВІДПРАВИТИ</button>
             </div>
+          </form>
           </mat-tab>
-        </form>
       </mat-tab-group>
     </div>
   </div>

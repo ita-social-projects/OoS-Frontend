@@ -53,11 +53,17 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   ParentAgreementFormControl = new FormControl(false);
   AttendAgreementFormControl = new FormControl(false);
 
+  ContraindicationAgreementFormControlYourself = new FormControl(false);
+  AttendAgreementFormControlYourself = new FormControl(false);
+
   selectedChild: Child;
   isContraindicationAgreed: boolean;
   isAttendAgreed: boolean;
   isParentAgreed: boolean;
   isAllowChildToApply: boolean;
+  isContraindicationAgreementYourself: boolean;
+  isAttendAgreementYourself: boolean;
+  tabIndex: number = 0;
 
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -87,6 +93,12 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.isAllowChildToApply$
       .pipe(takeUntil(this.destroy$))
       .subscribe((status: boolean) => (this.isAllowChildToApply = status));
+    this.ContraindicationAgreementFormControlYourself.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isContraindicationAgreementYourself = val));
+    this.AttendAgreementFormControlYourself.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isAttendAgreementYourself = val));
 
     combineLatest([this.parent$, this.workshop$])
       .pipe(
@@ -133,6 +145,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
+        if(this.tabIndex){
+          this.selectedChild.id = this.parent.id;
+          this.selectedChild.isParent = true;
+        };
         const application = new Application(this.selectedChild, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));
       }
@@ -144,6 +160,6 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   }
 
   onTabChange(tabChangeEvent: MatTabChangeEvent): void {
-    console.log(tabChangeEvent.index);
+    this.tabIndex = tabChangeEvent.index;
   }
 }
