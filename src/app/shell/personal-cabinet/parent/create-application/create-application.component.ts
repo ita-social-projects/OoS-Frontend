@@ -16,8 +16,8 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import {
   CreateApplication,
-  GetAllUsersChildren,
   GetStatusIsAllowToApply,
+  GetUsersChildren,
   GetWorkshopById,
 } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -26,6 +26,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatSelectChange } from '@angular/material/select';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
 @Component({
   selector: 'app-create-application',
@@ -37,6 +38,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   @Select(UserState.children) 
   children$: Observable<ChildCards>;
+  children: Child[];
+  parentCard: Child;
   @Select(UserState.isAllowChildToApply) 
   isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.user) 
@@ -52,11 +55,17 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   ParentAgreementFormControl = new FormControl(false);
   AttendAgreementFormControl = new FormControl(false);
 
+  ContraindicationAgreementFormControlYourself = new FormControl(false);
+  AttendAgreementFormControlYourself = new FormControl(false);
+
   selectedChild: Child;
   isContraindicationAgreed: boolean;
   isAttendAgreed: boolean;
   isParentAgreed: boolean;
   isAllowChildToApply: boolean;
+  isContraindicationAgreementYourself: boolean;
+  isAttendAgreementYourself: boolean;
+  tabIndex: number = 0;
 
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -83,7 +92,20 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.ContraindicationAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isContraindicationAgreed = val));
-    this.isAllowChildToApply$
+    this.ContraindicationAgreementFormControlYourself.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isContraindicationAgreementYourself = val));
+    this.AttendAgreementFormControlYourself.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isAttendAgreementYourself = val));
+      this.children$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((children: ChildCards) => {
+        this.parentCard = children?.entities.find((child: Child) => child.isParent);
+        this.children = children?.entities.filter((child: Child) => !child.isParent);
+      }
+        );
+      this.isAllowChildToApply$
       .pipe(takeUntil(this.destroy$))
       .subscribe((status: boolean) => (this.isAllowChildToApply = status));
 
@@ -95,7 +117,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.parent = parent;
         this.workshop = workshop;
         this.store.dispatch([
-          new GetAllUsersChildren(),
+          new GetUsersChildren(),
           new AddNavPath(
             this.navigationBarService.createNavPaths(
               {
@@ -132,7 +154,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const application = new Application(this.selectedChild, this.workshop, this.parent);
+          const application = new Application(
+          this.tabIndex ? this.parentCard: this.selectedChild,
+          this.workshop,
+          this.parent
+        );
         this.store.dispatch(new CreateApplication(application));
       }
     });
@@ -140,5 +166,12 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   onSelectChild(child: MatSelectChange): void {
     this.store.dispatch(new GetStatusIsAllowToApply(child.value.id, this.workshopId));
+  }
+
+  onTabChange(tabChangeEvent: MatTabChangeEvent): void {
+    this.tabIndex = tabChangeEvent.index;
+    if(this.tabIndex){
+      this.store.dispatch(new GetStatusIsAllowToApply(this.parentCard.id, this.workshopId));
+    }
   }
 }
