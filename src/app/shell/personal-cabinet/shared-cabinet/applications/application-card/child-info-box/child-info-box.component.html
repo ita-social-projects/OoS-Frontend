@@ -2,7 +2,7 @@
   <div fxLayout='column' fxLayoutAlign='center start'>
     <h3 class="title">{{child.isParent ? 'ДАНІ КОРИСТУВАЧА' : 'ДАНІ ДИТИНИ'}}</h3>
 
-    <div class="info-group">
+    <div class="info-group" *ngIf="!child.isParent">
       <h4 class="textChildrenName">{{childFullName}}</h4>
       <h5 class="text">Дата народження:</h5>
       <p >
@@ -15,7 +15,7 @@
       <p>{{ gender[child.gender] }}</p>
     </div>
 
-    <div class="info-group">
+    <div class="info-group" *ngIf="!child.isParent">
       <h5 class="text">Соціальна група:</h5>
       <p>{{ child.socialGroups.join(',') }}</p>
     </div>
