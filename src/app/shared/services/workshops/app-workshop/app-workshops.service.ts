@@ -22,7 +22,7 @@ export class AppWorkshopsService {
     params = params.set('Longitude', settlement.longitude.toString());
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
 
-    return params
+    return params;
   }
 
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
@@ -75,6 +75,10 @@ export class AppWorkshopsService {
 
     if (filters.withDisabilityOption) {
       params = params.set('WithDisabilityOptions', 'true');
+    }
+
+    if (filters.isStrictWorkdays) {
+      params = params.set('IsStrictWorkdays', 'true');
     }
 
     if (filters.order) {
@@ -130,7 +134,7 @@ export class AppWorkshopsService {
    */
   getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
     let params = new HttpParams();
-    
+
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
 
     params = params.set('Limit', size.toString());

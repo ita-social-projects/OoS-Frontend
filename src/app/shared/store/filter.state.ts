@@ -30,6 +30,7 @@ import {
   FilterClear,
   SetIsPaid,
   ResetFilteredWorkshops,
+  SetIsStrictWorkdays,
 } from './filter.actions';
 
 export interface FilterStateModel {
@@ -51,6 +52,7 @@ export interface FilterStateModel {
   filteredWorkshops: WorkshopFilterCard;
   topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
+  isStrictWorkdays: boolean;
   isLoading: boolean;
   isConfirmCity: boolean;
 }
@@ -75,6 +77,7 @@ export interface FilterStateModel {
     filteredWorkshops: null,
     topWorkshops: [],
     withDisabilityOption: false,
+    isStrictWorkdays: false,
     isLoading: false,
     isConfirmCity: true,
   }
@@ -123,11 +126,12 @@ export class FilterState {
     workingHours: {
       workingDays: string[],
       startTime: string,
-      endTime: string
+      endTime: string,
+      isStrictWorkdays: boolean
     },
     order: string
   } {
-    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, order } = state
+    const { withDisabilityOption, isStrictWorkdays, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, order } = state
     return {
       withDisabilityOption,
       categoryCheckBox: directions,
@@ -141,7 +145,8 @@ export class FilterState {
       workingHours: {
         workingDays,
         startTime,
-        endTime
+        endTime,
+        isStrictWorkdays,
       },
       order
     }
@@ -267,6 +272,12 @@ export class FilterState {
     dispatch(new FilterChange());
   }
 
+  @Action(SetIsStrictWorkdays)
+  setIsStrictWorkdays({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsStrictWorkdays) {
+    patchState({ isStrictWorkdays: payload });
+    dispatch(new FilterChange());
+  }
+
   @Action(SetMinAge)
   setMinAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinAge) {
     patchState({ minAge: payload });
@@ -305,6 +316,7 @@ export class FilterState {
       searchQuery: '',
       order: 'Rating',
       withDisabilityOption: false,
+      isStrictWorkdays: false,
     });
   }
 }

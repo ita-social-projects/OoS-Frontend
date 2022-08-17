@@ -30,7 +30,8 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     workingHours: {
       workingDays: string[],
       startTime: string,
-      endTime: string
+      endTime: string,
+      isStrictWorkdays: boolean
     },
     order: string
   };

@@ -72,6 +72,10 @@ export class SetWithDisabilityOption {
   static readonly type = '[filter] Set with Disability option';
   constructor(public payload: boolean) {}
 }
+export class SetIsStrictWorkdays {
+  static readonly type = '[filter] Set with Strict workdays';
+  constructor(public payload: boolean) { }
+}
 export class FilterChange {
   static readonly type = '[app] Filter Change';
   constructor() {}
