@@ -1,6 +1,5 @@
 <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
   <input
-    #inputAutoComplete
     class="input-filter"
     matInput
     type="text"
@@ -23,7 +22,7 @@
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
   </mat-autocomplete>
-  <p *ngIf="settlement" class="additional-text">
+  <p *ngIf="settlement?.fullName" class="additional-text">
     {{ settlement.fullName | slice:0:30 }} ...
   </p>
 </mat-form-field>
