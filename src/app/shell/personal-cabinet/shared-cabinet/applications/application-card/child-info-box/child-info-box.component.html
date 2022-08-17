@@ -1,6 +1,6 @@
 <mat-card class="card" #childInfoBox id="child-box" [class.isMobile]="isMobile">
   <div fxLayout='column' fxLayoutAlign='center start'>
-    <h3 class="title">ДАНІ ДИТИНИ</h3>
+    <h3 class="title">{{child.isParent ? 'ДАНІ КОРИСТУВАЧА' : 'ДАНІ ДИТИНИ'}}</h3>
 
     <div class="info-group">
       <h4 class="textChildrenName">{{childFullName}}</h4>
@@ -20,7 +20,7 @@
       <p>{{ child.socialGroups.join(',') }}</p>
     </div>
 
-    <div class="info-group">
+    <div class="info-group" *ngIf="!child.isParent">
       <h5 class="text">Батьки:</h5>
       <p>{{ parentFullName }}</p>
     </div>
