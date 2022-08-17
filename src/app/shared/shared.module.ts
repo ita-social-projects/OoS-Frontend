@@ -29,7 +29,6 @@ import { FullSearchBarComponent } from './components/filters-list/full-search-ba
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { PaginatorComponent } from './components/paginator/paginator.component';
-import { CityConfirmationComponent } from './components/filters-list/city-filter/city-confirmation/city-confirmation.component';
 import { SidenavMenuComponent } from './components/sidenav-menu/sidenav-menu.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
@@ -89,7 +88,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
-    CityConfirmationComponent,
     SidenavMenuComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
@@ -160,7 +158,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
     ReactiveFormsModule,
-    CityConfirmationComponent,
     SidenavMenuComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,

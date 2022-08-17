@@ -1,6 +1,6 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
@@ -32,6 +32,7 @@ describe('CityFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CityFilterComponent);
     component = fixture.componentInstance;
+    component.settlementSearchControl = new FormControl('');
     fixture.detectChanges();
   });
 
