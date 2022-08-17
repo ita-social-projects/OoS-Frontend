@@ -53,9 +53,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
       )
       .subscribe(
         (childrenCards: ChildCards) => {
-          childrenCards.entities = childrenCards.entities.filter(
-            (child: Child) => !child.isParent
-          )
+          childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent)
           this.childrenCards = childrenCards
         }
       );
