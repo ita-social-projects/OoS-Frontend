@@ -1,15 +1,13 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
 import { SetEndTime, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { Direction } from 'src/app/shared/models/category.model';
 
 @Component({
   selector: 'app-working-hours',
