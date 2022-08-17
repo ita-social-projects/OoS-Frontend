@@ -45,7 +45,7 @@ export interface FilterStateModel {
   minPrice: number;
   isOpenRecruitment: boolean;
   isClosedRecruitment: boolean;
-  settelment: Codeficator;
+  settlement: Codeficator;
   searchQuery: string;
   order: string;
   filteredWorkshops: WorkshopFilterCard;
@@ -69,7 +69,7 @@ export interface FilterStateModel {
     minPrice: ValidationConstants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    settelment: JSON.parse(localStorage.getItem('cityConfirmation')),
+    settlement: JSON.parse(localStorage.getItem('cityConfirmation')),
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: null,
@@ -98,7 +98,7 @@ export class FilterState {
   static isLoading(state: FilterStateModel): boolean { return state.isLoading };
 
   @Selector()
-  static settelment(state: FilterStateModel): Codeficator { return state.settelment };
+  static settlement(state: FilterStateModel): Codeficator { return state.settlement };
 
   @Selector()
   static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
@@ -152,7 +152,7 @@ export class FilterState {
 
   @Action(SetCity)
   setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
-    patchState({ settelment: payload });
+    patchState({ settlement: payload });
     localStorage.setItem('cityConfirmation', JSON.stringify(payload));
 
     dispatch(new FilterChange());
@@ -160,7 +160,7 @@ export class FilterState {
 
   @Action(CleanCity)
   cleanCity({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ settelment: undefined });
+    patchState({ settlement: undefined });
   }
 
   @Action(ConfirmCity)

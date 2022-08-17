@@ -27,14 +27,14 @@ export class GeolocationService {
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation
    */
-  confirmCity(settelment: Codeficator): void {
+  confirmCity(settlement: Codeficator): void {
     !!localStorage.getItem('cityConfirmation') ?
       this.store.dispatch([
         new SetCity(JSON.parse(localStorage.getItem('cityConfirmation'))),
         new ConfirmCity(true),
       ]) :
       this.store.dispatch([
-        new SetCity(settelment),
+        new SetCity(settlement),
         new ConfirmCity(false),
       ]);
   }

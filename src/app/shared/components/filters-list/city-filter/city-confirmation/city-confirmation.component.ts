@@ -12,8 +12,8 @@ import { Codeficator } from 'src/app/shared/models/codeficator.model';
   styleUrls: ['./city-confirmation.component.scss']
 })
 export class CityConfirmationComponent {
-  @Select(FilterState.settelment)
-  settelment$: Observable<Codeficator>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
 
   isDispalyed = true;
 

@@ -4,14 +4,14 @@ import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
-import { Address } from '../../models/address.model';
+import { Address, MapAddress } from '../../models/address.model';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
 import { Select } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { GeolocationAddress, MapAddress } from '../../models/geolocationAddress.model';
+import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { UserState } from '../../store/user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
@@ -28,8 +28,8 @@ export class MapComponent {
   public zoom = 11;
   public workshops: WorkshopCard[];
 
-  @Select(FilterState.settelment)
-  settelment$: Observable<Codeficator>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() addressFormGroup: FormGroup;
@@ -100,13 +100,13 @@ export class MapComponent {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.settelment$
+    this.settlement$
       .pipe(
         takeUntil(this.destroy$),
-        filter((settelment: Codeficator) => !!settelment)
+        filter((settlement: Codeficator) => !!settlement)
       )
-      .subscribe((settelment: Codeficator) => {
-        this.defaultCoords = { lat: settelment.latitude, lng: settelment.longitude };
+      .subscribe((settlement: Codeficator) => {
+        this.defaultCoords = { lat: settlement.latitude, lng: settlement.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 
@@ -130,13 +130,11 @@ export class MapComponent {
     if (this.addressFormGroup) {
       this.addressFormGroup.value.latitude && this.setLocation(this.addressFormGroup.value);
 
-      this.addressFormGroup.valueChanges.pipe(debounceTime(500)).subscribe((address: Address) => {
-        address.longitude = address.longitude || this.addressFormGroup.value.longitude;
-        address.latitude = address.latitude || this.addressFormGroup.value.latitude;
+      this.addressFormGroup.valueChanges.pipe(debounceTime(500)).subscribe((address: MapAddress) => {
         if (!address.street && !address.buildingNumber) {
           this.setAddressLocation(address);
         }
-        if (address.catottgId && address.street && address.buildingNumber) {
+        if (address.codeficatorAddressDto && address.street && address.buildingNumber) {
           this.setLocation(address);
         }
       });
@@ -148,7 +146,7 @@ export class MapComponent {
    * @param address - type Address
    */
   setAddressLocation(address: Address): void {
-    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker([address.latitude, address.longitude]);
+    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker([address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude]);
   }
 
   /**
@@ -159,17 +157,19 @@ export class MapComponent {
     this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
         const location = result.address || result[0].properties.address;
-        const settlement = location.city || location.village || location.town || location.hamlet;
+        const codeficatorAddressDto = {
+          settlement:location.city || location.village || location.town || location.hamlet
+        } as Codeficator;
         const street = location.road;
         const buildingNumber = location.house_number;
         const longitude = result.lon || result[0].lon;
         const latitude = result.lat || result[0].lat;
-        this.setAddressEvent.emit({ settlement, street, buildingNumber, longitude, latitude });
+        this.setAddressEvent.emit({ codeficatorAddressDto, street, buildingNumber, longitude, latitude });
       } else {
         this.setAddressEvent.emit({
-          settlement: '',
-          street: '',
-          buildingNumber: '',
+          codeficatorAddressDto: null,
+          street: null,
+          buildingNumber: null,
         });
       }
     });
@@ -179,7 +179,7 @@ export class MapComponent {
    * uses GeolocationService to translate address into coords and sets marker on default
    * @param address - type Address
    */
-  setLocation(address: Address): void {
+  setLocation(address: MapAddress): void {
     this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
         const coords: [number, number] = [result.lat || result[0].lat, result.lon || result[0].lon];
@@ -204,7 +204,7 @@ export class MapComponent {
    * @param coords - type [number, number]
    */
   setWorkshopMarkers(address: Address): void {
-    const coords: [number, number] = [address.latitude, address.longitude];
+    const coords: [number, number] = [address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude];
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
     this.workshopMarkers.push({ marker, isSelected: false });
@@ -216,7 +216,7 @@ export class MapComponent {
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedAddress.emit({
         ...address,
-        settlement: address.codeficatorAddressDto.settlement,
+        codeficatorAddressDto: address.codeficatorAddressDto,
       });
     });
   }
@@ -230,7 +230,7 @@ export class MapComponent {
       .subscribe((workshop: Workshop) => {
         const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
           const { lat, lng } = workshopMarker.marker.getLatLng();
-          return lat === workshop.address.latitude && lng === workshop.address.longitude;
+          return lat === workshop.address.codeficatorAddressDto.latitude && lng === workshop.address.codeficatorAddressDto.longitude;
         });
         targetMarkers.forEach((targetMarker: WorkshopMarker) => {
           targetMarker.isSelected = true;
@@ -238,7 +238,7 @@ export class MapComponent {
         });
         this.selectedAddress.emit({
           ...workshop.address,
-          settlement: workshop.address.codeficatorAddressDto.settlement,
+          codeficatorAddressDto: workshop.address.codeficatorAddressDto,
         });
       });
   }

@@ -33,8 +33,8 @@ export class MainComponent implements OnInit, OnDestroy {
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(FilterState.settelment)
-  settelment$: Observable<Codeficator>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -49,14 +49,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   getTopWorkshops(role: string): void {
     if (role === Role.parent) {
-      combineLatest([this.settelment$, this.favoriteWorkshops$])
+      combineLatest([this.settlement$, this.favoriteWorkshops$])
         .pipe(
           filter(([city, favorite]) => (!!city && !!favorite?.length) || (favorite === null)),
           takeUntil(this.destroy$))
         .subscribe(() => this.store.dispatch(new GetTopWorkshops(PaginationConstants.ITEMS_PER_PAGE_DEFAULT)));
     }
     else {
-      this.settelment$
+      this.settlement$
         .pipe(
           filter(city => !!city),
           takeUntil(this.destroy$))

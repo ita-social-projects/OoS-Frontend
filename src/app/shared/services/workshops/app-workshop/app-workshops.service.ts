@@ -16,11 +16,11 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setCityFilterParams(settelment: Codeficator, params: HttpParams): HttpParams {
-    params = params.set('City', settelment.settlement);
-    params = params.set('Latitude', settelment.latitude.toString());
-    params = params.set('Longitude', settelment.longitude.toString());
-    params = params.set('catottgId', settelment?.id?.toString() ?? Constants.KYIV.id.toString());
+  private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
+    params = params.set('City', settlement.settlement);
+    params = params.set('Latitude', settlement.latitude.toString());
+    params = params.set('Longitude', settlement.longitude.toString());
+    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
 
     return params
   }
@@ -28,8 +28,8 @@ export class AppWorkshopsService {
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
-    if (filters.settelment) {
-      params = this.setCityFilterParams(filters.settelment, params);
+    if (filters.settlement) {
+      params = this.setCityFilterParams(filters.settlement, params);
     }
 
     if (filters.isFree) {
@@ -134,7 +134,7 @@ export class AppWorkshopsService {
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
 
     params = params.set('Limit', size.toString());
-    params = this.setCityFilterParams(filters.settelment, params);
+    params = this.setCityFilterParams(filters.settlement, params);
 
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }

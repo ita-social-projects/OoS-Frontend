@@ -1,15 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Codeficator } from 'src/app/shared/models/codeficator.model';
+import { SetFocusOnCityField } from 'src/app/shared/store/app.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { SetCity } from '../../../store/filter.actions';
+import { ConfirmCity, SetCity } from '../../../store/filter.actions';
 
 @Component({
   selector: 'app-city-filter',
@@ -21,26 +22,30 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
-  @Select(FilterState.settelment)
-  settelment$: Observable<Codeficator>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
+  settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
   codeficatorSearch$: Observable<Codeficator[]>;
 
   settlementSearchControl = new FormControl('');
+  isDispalyed = true;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.settlementListener();
-    this.settelment$
+    this.settlement$
       .pipe(
         takeUntil(this.destroy$),
-        filter((settelment: Codeficator) => !!settelment)
+        filter((settlement: Codeficator) => !!settlement)
       )
-      .subscribe((settelment: Codeficator) =>{
-        this.settlementSearchControl.setValue(settelment.settlement, { emitEvent: false })
+      .subscribe((settlement: Codeficator) =>{
+        this.settlement = settlement;
+        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false })
       });
   }
 
@@ -87,6 +92,15 @@ export class CityFilterComponent implements OnInit, OnDestroy {
    */
   displaySettlementNameFn(codeficator: Codeficator | string): string {
     return typeof codeficator === 'string' ? codeficator : codeficator?.settlement;
+  }
+
+  confirmCity(): void {
+    this.store.dispatch(new ConfirmCity(true));
+  }
+
+  changeCity(): void {
+    this.inputAutoComplete.openPanel();
+    this.store.dispatch([new ConfirmCity(false), new SetFocusOnCityField()]);
   }
 
   ngOnDestroy(): void {

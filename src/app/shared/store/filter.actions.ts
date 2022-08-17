@@ -9,7 +9,7 @@ export class CleanCity {
   constructor() {}
 }
 export class ConfirmCity {
-  static readonly type = '[app] Confirm Current settelment';
+  static readonly type = '[app] Confirm Current settlement';
   constructor(public payload: boolean) {}
 }
 export class SetOrder {
