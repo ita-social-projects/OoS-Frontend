@@ -5,7 +5,7 @@
     <div class="info-group" *ngIf="!child.isParent">
       <h4 class="textChildrenName">{{childFullName}}</h4>
       <h5 class="text">Дата народження:</h5>
-      <p >
+      <p>
         {{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }}  ({{ childAge }})
       </p>
     </div>
