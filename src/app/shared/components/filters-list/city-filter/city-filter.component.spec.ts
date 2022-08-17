@@ -33,6 +33,7 @@ describe('CityFilterComponent', () => {
     fixture = TestBed.createComponent(CityFilterComponent);
     component = fixture.componentInstance;
     component.settlementSearchControl = new FormControl('');
+    component.settlement = {} as any;
     fixture.detectChanges();
   });
 
