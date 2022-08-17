@@ -1,12 +1,13 @@
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
+import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CityFilterComponent } from './city-filter.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatOptionModule } from '@angular/material/core';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
-import { MatOptionModule } from '@angular/material/core/option';
-import { MatInputModule } from '@angular/material/input/input-module';
-import { MatFormFieldModule } from '@angular/material/form-field/form-field-module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CityFilterComponent } from './city-filter.component';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
@@ -22,6 +23,7 @@ describe('CityFilterComponent', () => {
         MatFormFieldModule,
         MatOptionModule,
         MatInputModule,
+        MatIconModule
       ],
       declarations: [CityFilterComponent],
     }).compileComponents();
