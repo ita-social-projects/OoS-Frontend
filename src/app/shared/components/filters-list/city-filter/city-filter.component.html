@@ -23,13 +23,19 @@
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
   </mat-autocomplete>
+  <p *ngIf="settlement" class="additional-text">
+    {{ settlement.fullName | slice:0:30 }} ...
+  </p>
 </mat-form-field>
 
 <!-- CITY CONFIRMATION -->
 <div class="confirmation">
   <div class="city-confirmation" *ngIf="isDispalyed && !(isConfirmCity$ | async)">
     <div fxLayout="row" fxLayoutAlign="space-between start">
-      <p>Ви знаходитесь в місті <span>{{ settlement.settlement }}</span>?</p>
+      <p>
+        Ви знаходитесь в місті <span>{{ settlement.settlement }}</span
+        >?
+      </p>
       <mat-icon (click)="isDispalyed = false">clear</mat-icon>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">
