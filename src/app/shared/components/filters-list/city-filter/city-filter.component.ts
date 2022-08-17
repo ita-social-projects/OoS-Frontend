@@ -1,4 +1,3 @@
-import { CodeficatorFilter } from './../../../models/codeficator.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -23,7 +22,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(FilterState.isConfirmCity)
   isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settelment)
-  settelment$: Observable<CodeficatorFilter>;
+  settelment$: Observable<Codeficator>;
   @Select(MetaDataState.codeficatorSearch)
   codeficatorSearch$: Observable<Codeficator[]>;
 
@@ -38,11 +37,11 @@ export class CityFilterComponent implements OnInit, OnDestroy {
     this.settelment$
       .pipe(
         takeUntil(this.destroy$),
-        filter((settelment: CodeficatorFilter) => !!settelment)
+        filter((settelment: Codeficator) => !!settelment)
       )
-      .subscribe((settelment: CodeficatorFilter) =>
-        this.settlementSearchControl.setValue(settelment.name, { emitEvent: false })
-      );
+      .subscribe((settelment: Codeficator) =>{
+        this.settlementSearchControl.setValue(settelment.settlement, { emitEvent: false })
+      });
   }
 
   /**
@@ -67,14 +66,8 @@ export class CityFilterComponent implements OnInit, OnDestroy {
       });
   }
 
-  onSelectedCity(settelment: Codeficator): void {
-    this.store.dispatch(
-      new SetCity({
-        ...settelment,
-        catottgId: settelment.id,
-        name: settelment.settlement,
-      })
-    );
+  onSelectedCity(event: MatAutocompleteSelectedEvent): void {
+    this.store.dispatch(new SetCity(event.option.value));
   }
 
   /**
@@ -86,15 +79,6 @@ export class CityFilterComponent implements OnInit, OnDestroy {
     if (codeficator?.settlement === Constants.NO_SETTLEMENT) {
       this.settlementSearchControl.setValue(null, { emitEvent: false, onlySelf: true });
     }
-  }
-
-  /**
-   * This method listen mat option select event and save settlement control value
-   * @param event MatAutocompleteSelectedEvent
-   */
-  onSelectSettlement(event: MatAutocompleteSelectedEvent): void {
-    this.store.dispatch(new ClearCodeficatorSearch());
-    this.settlementSearchControl.setValue(event.option.value.settlement, { emitEvent: false, onlySelf: true });
   }
 
   /**

@@ -1,6 +1,7 @@
-import { CodeficatorFilter } from './../models/codeficator.model';
 import { MatDateFormats } from '@angular/material/core';
+import { CodeficatorCategories } from '../enum/codeficator-categories';
 import { WorkingDays } from '../enum/enumUA/working-hours';
+import { Codeficator } from '../models/codeficator.model';
 import { WorkingDaysToggleValue } from '../models/workingHours.model';
 
 /**
@@ -33,12 +34,16 @@ export class Constants {
 
   static readonly NO_CITY = 'Такого міста немає';
   static readonly NO_SETTLEMENT = 'Такого населенного пункту немає';
-  static readonly KYIV: CodeficatorFilter = {
-    name: 'Київ',
-    catottgId: 31737,
-    longitude: 30.5595,
+  static readonly KYIV: Codeficator = {
+    id: 31737,
+    category: CodeficatorCategories.SpecialStatusCity,
+    territorialCommunity: null,
+    settlement: 'Київ',
+    cityDistrict: null,
     latitude: 50.44029,
-  };
+    longitude: 30.5595,
+    fullName: 'Київ'
+   };
   
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;

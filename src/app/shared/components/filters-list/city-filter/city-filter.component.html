@@ -12,7 +12,7 @@
     disableOptionCentering
     panelClass="dropdown-panel"
     [displayWith]="displaySettlementNameFn"
-    (optionSelected)="onSelectSettlement($event)">
+    (optionSelected)="onSelectedCity($event)">
     <mat-option
       class="dropdown-option"
       *ngFor="let codeficator of codeficatorSearch$ | async"

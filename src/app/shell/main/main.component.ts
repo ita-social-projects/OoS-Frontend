@@ -1,4 +1,3 @@
-import { CodeficatorFilter } from './../../shared/models/codeficator.model';
 import { PaginationConstants } from './../../shared/constants/constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -16,6 +15,7 @@ import { Favorite } from 'src/app/shared/models/favorite.model';
 import { Role } from 'src/app/shared/enum/role';
 import { Login } from 'src/app/shared/store/registration.actions';
 import { AppState } from 'src/app/shared/store/app.state';
+import { Codeficator } from 'src/app/shared/models/codeficator.model';
 
 
 @Component({
@@ -34,7 +34,7 @@ export class MainComponent implements OnInit, OnDestroy {
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settelment)
-  settelment$: Observable<CodeficatorFilter>;
+  settelment$: Observable<Codeficator>;
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();

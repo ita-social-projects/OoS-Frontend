@@ -1,3 +1,4 @@
+import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
@@ -15,14 +16,20 @@ import { FilterStateModel } from '../../../store/filter.state';
 export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
+  private setCityFilterParams(settelment: Codeficator, params: HttpParams): HttpParams {
+    params = params.set('City', settelment.settlement);
+    params = params.set('Latitude', settelment.latitude.toString());
+    params = params.set('Longitude', settelment.longitude.toString());
+    params = params.set('catottgId', settelment?.id?.toString() ?? Constants.KYIV.id.toString());
+
+    return params
+  }
+
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
     if (filters.settelment) {
-      params = params.set('City', filters.settelment.name);
-      params = params.set('Latitude', filters.settelment.latitude.toString());
-      params = params.set('Longitude', filters.settelment.longitude.toString());
-      params = params.set('catottgId', filters.settelment?.catottgId?.toString() ?? Constants.KYIV.catottgId.toString());
+      params = this.setCityFilterParams(filters.settelment, params);
     }
 
     if (filters.isFree) {
@@ -123,11 +130,11 @@ export class AppWorkshopsService {
    */
   getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
     let params = new HttpParams();
+    
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
 
     params = params.set('Limit', size.toString());
-    params = params.set('City', filters.settelment?.name ?? Constants.KYIV.name);
-    params = params.set('catottgId', filters.settelment?.catottgId?.toString() ?? Constants.KYIV.catottgId.toString());
+    params = this.setCityFilterParams(filters.settelment, params);
 
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }

@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 import { Direction } from '../models/category.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { CodeficatorFilter } from '../models/codeficator.model';
+import { Codeficator } from '../models/codeficator.model';
 import {
   SetOrder,
   SetCity,
@@ -45,7 +45,7 @@ export interface FilterStateModel {
   minPrice: number;
   isOpenRecruitment: boolean;
   isClosedRecruitment: boolean;
-  settelment: CodeficatorFilter;
+  settelment: Codeficator;
   searchQuery: string;
   order: string;
   filteredWorkshops: WorkshopFilterCard;
@@ -98,7 +98,7 @@ export class FilterState {
   static isLoading(state: FilterStateModel): boolean { return state.isLoading };
 
   @Selector()
-  static settelment(state: FilterStateModel): CodeficatorFilter { return state.settelment };
+  static settelment(state: FilterStateModel): Codeficator { return state.settelment };
 
   @Selector()
   static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
@@ -151,9 +151,10 @@ export class FilterState {
     private appWorkshopsService: AppWorkshopsService) { }
 
   @Action(SetCity)
-  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
+  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
     patchState({ settelment: payload });
     localStorage.setItem('cityConfirmation', JSON.stringify(payload));
+
     dispatch(new FilterChange());
   }
 

@@ -1,6 +1,6 @@
 <div class="city-confirmation" *ngIf="isDispalyed">
   <div fxLayout="row" fxLayoutAlign="space-between start">
-    <p>Ви знаходитесь в місті <span>{{ (settelment$ | async)?.name }}</span>?</p>
+    <p>Ви знаходитесь в місті <span>{{ (settelment$ | async)?.settelment }}</span>?</p>
     <mat-icon (click)="isDispalyed = false">clear</mat-icon>
   </div>
   <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">

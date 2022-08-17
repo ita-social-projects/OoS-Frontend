@@ -1,8 +1,8 @@
-import { CodeficatorFilter } from './../models/codeficator.model';
+import { Codeficator } from './../models/codeficator.model';
 import { Direction } from '../models/category.model';
 export class SetCity {
   static readonly type = '[app] Set City';
-  constructor(public payload: CodeficatorFilter) {}
+  constructor(public payload: Codeficator) {}
 }
 export class CleanCity {
   static readonly type = '[app] Clean City';

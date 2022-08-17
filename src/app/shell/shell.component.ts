@@ -30,7 +30,12 @@ export class ShellComponent implements OnInit, OnDestroy {
         this.geolocationService.confirmCity({
           longitude: coords.lng,
           latitude: coords.lat,
-          name: result.address.city || result.address.town || result.address.village || result.address.hamlet,
+          settlement: result.address.city || result.address.town || result.address.village || result.address.hamlet,
+          id: null,
+          category: null,
+          territorialCommunity: '',
+          cityDistrict: '',
+          fullName: ''
         });
       });
     });

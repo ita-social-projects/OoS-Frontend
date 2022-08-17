@@ -18,10 +18,3 @@ export interface CodeficatorCityDistrict {
    category: string;
    name: string;
 }
-
-export interface CodeficatorFilter {
-  catottgId?: number;
-  name: string;
-  latitude: number;
-  longitude: number;
-}

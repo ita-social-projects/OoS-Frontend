@@ -1,4 +1,4 @@
-import { Codeficator, CodeficatorFilter } from './../../models/codeficator.model';
+import { Codeficator } from './../../models/codeficator.model';
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
@@ -29,7 +29,7 @@ export class MapComponent {
   public workshops: WorkshopCard[];
 
   @Select(FilterState.settelment)
-  settelment$: Observable<CodeficatorFilter>;
+  settelment$: Observable<Codeficator>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() addressFormGroup: FormGroup;
@@ -103,9 +103,9 @@ export class MapComponent {
     this.settelment$
       .pipe(
         takeUntil(this.destroy$),
-        filter((settelment: CodeficatorFilter) => !!settelment)
+        filter((settelment: Codeficator) => !!settelment)
       )
-      .subscribe((settelment: CodeficatorFilter) => {
+      .subscribe((settelment: Codeficator) => {
         this.defaultCoords = { lat: settelment.latitude, lng: settelment.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
