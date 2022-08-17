@@ -16,7 +16,6 @@ import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actio
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import {
   CreateApplication,
-  GetAllUsersChildren,
   GetStatusIsAllowToApply,
   GetUsersChildren,
   GetWorkshopById,
@@ -102,8 +101,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       this.children$
       .pipe(takeUntil(this.destroy$))
       .subscribe((children: ChildCards) => {
-        this.children = children?.entities.filter((child: Child) => !child.isParent);
         this.parentCard = children?.entities.find((child: Child) => child.isParent);
+        this.children = children?.entities.filter((child: Child) => !child.isParent);
       }
         );
       this.isAllowChildToApply$
@@ -171,5 +170,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   onTabChange(tabChangeEvent: MatTabChangeEvent): void {
     this.tabIndex = tabChangeEvent.index;
+    if(this.tabIndex){
+      this.store.dispatch(new GetStatusIsAllowToApply(this.parentCard.id, this.workshopId));
+    }
   }
 }

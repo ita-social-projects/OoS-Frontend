@@ -8,7 +8,6 @@
     <div class="card-border">
       <mat-tab-group mat-align-tabs="center" #tabGroup (selectedTabChange)="onTabChange($event)">
         <hr class="line">
-        <!-- <form fxLayout='column' fxLayoutAlign='center space-between' class="step"> -->
           <mat-tab label="Подати дані про дитину">
             <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
             <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
@@ -74,6 +73,8 @@
             <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
             <div class="info-wrapper">
               <p class="step-label">Персональні дані</p>
+              <small class="warning" *ngIf="!isAllowChildToApply && parentCard?.id">Користувач не може бути прийнятий повторно в
+                гурток</small>
               <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
               </app-person-card>
             </div>
@@ -87,7 +88,7 @@
             <div fxLayout="row" fxLayoutAlign="center center" class="footer">
               <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel"
                   mat-raised-button>СКАСУВАТИ</button></a>
-              <button class="btn" mat-button type="submit" [disabled]="!isContraindicationAgreementYourself || !isAttendAgreementYourself" (click)="onSubmit()">ВІДПРАВИТИ</button>
+              <button class="btn" mat-button type="submit" [disabled]="!isContraindicationAgreementYourself || !isAttendAgreementYourself || !isAllowChildToApply" (click)="onSubmit()">ВІДПРАВИТИ</button>
             </div>
           </form>
           </mat-tab>
