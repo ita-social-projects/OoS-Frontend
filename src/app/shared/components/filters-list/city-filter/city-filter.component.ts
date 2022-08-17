@@ -30,9 +30,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   settlementSearchControl = new FormControl('');
   isDispalyed = true;
-
   destroy$: Subject<boolean> = new Subject<boolean>();
-  @ViewChild(MatAutocompleteTrigger, {read: MatAutocompleteTrigger}) inputAutoComplete: MatAutocompleteTrigger;
 
   constructor(private store: Store) {}
 
@@ -99,7 +97,6 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   }
 
   changeCity(): void {
-    this.inputAutoComplete.openPanel();
     this.store.dispatch([new ConfirmCity(false), new SetFocusOnCityField()]);
   }
 
