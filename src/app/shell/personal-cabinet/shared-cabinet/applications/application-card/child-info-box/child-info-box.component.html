@@ -14,16 +14,17 @@
       <h5 class="text">Стать:</h5>
       <p>{{ gender[child.gender] }}</p>
     </div>
+    <ng-container *ngIf="!child.isParent">
+      <div class="info-group">
+        <h5 class="text">Соціальна група:</h5>
+        <p>{{ child.socialGroups.join(',') }}</p>
+      </div>
 
-    <div class="info-group" *ngIf="!child.isParent">
-      <h5 class="text">Соціальна група:</h5>
-      <p>{{ child.socialGroups.join(',') }}</p>
-    </div>
-
-    <div class="info-group" *ngIf="!child.isParent">
-      <h5 class="text">Батьки:</h5>
-      <p>{{ parentFullName }}</p>
-    </div>
+      <div class="info-group">
+        <h5 class="text">Батьки:</h5>
+        <p>{{ parentFullName }}</p>
+      </div>
+    </ng-container>
 
     <div class="info-group">
       <h5 class="text">Телефон:</h5>
