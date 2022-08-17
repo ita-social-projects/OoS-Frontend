@@ -1,5 +1,5 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
-import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
+import { SetEndTime, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-working-hours',
@@ -15,13 +15,14 @@ import { SetEndTime, SetStartTime, SetWorkingDays } from 'src/app/shared/store/f
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
+
   public minTime: string;
   public maxTime: string;
 
   isFree$: Observable<boolean>;
   @Input()
   set workingHours(filter) {
-    let { endTime, startTime, workingDays } = filter
+    let { endTime, startTime, workingDays, isStrictWorkdays } = filter;
 
     this.selectedWorkingDays = workingDays
     this.days.forEach(day => {
@@ -31,13 +32,13 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
         day.selected = false
       }
     })
-
     endTime ? endTime = endTime + ':00' : endTime
     this.endTimeFormControl.setValue(endTime, { emitEvent: false });
 
     startTime ? startTime = startTime + ':00' : startTime
     this.startTimeFormControl.setValue(startTime, { emitEvent: false });
-  };
+    this.isStrictWorkdaysControl.setValue(isStrictWorkdays, { emitEvent: false });
+  }; 
 
   readonly validationConstants = ValidationConstants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
@@ -45,6 +46,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
+  isStrictWorkdaysControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
   selectedWorkingDays: string[] = [];
 
@@ -69,6 +71,12 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       this.store.dispatch(new SetEndTime(time?.split(':')[0]));
       this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
     });
+
+    this.isStrictWorkdaysControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
   }
 
   clearStart(): void {
