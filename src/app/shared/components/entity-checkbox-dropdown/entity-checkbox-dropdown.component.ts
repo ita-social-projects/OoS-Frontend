@@ -39,7 +39,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   }
 
   getEntityTitle(entity): string {
-    return (entity?.firstName) ? `${entity?.firstName} ${entity?.lastName}` : entity.title
+    return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title
   };
 
   getlabelTitle(quantity: number): string {

@@ -33,7 +33,7 @@ export class ChildInfoBoxComponent implements OnInit {
     this.isMobile = this.detectedDevice.checkedDevice();
     this.parentFullName = Util.getFullName(this.child.parent);
     this.childFullName = Util.getFullName(this.child);
-    this.parentPhoneNumber = this.child?.parent?.phoneNumber;
-    this.parentEmail = this.child?.parent?.email;
+    this.parentPhoneNumber = this.child.parent.phoneNumber;
+    this.parentEmail = this.child.parent.email;
   }
 }

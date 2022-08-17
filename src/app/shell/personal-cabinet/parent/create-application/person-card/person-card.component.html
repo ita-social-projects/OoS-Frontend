@@ -30,9 +30,9 @@
       <mat-icon>create</mat-icon>Редагувати
     </a>
   </div>
-  <p>{{ card?.lastName }} {{ card?.firstName }} {{ card?.middleName }} </p>
+  <p>{{ card.lastName }} {{ card.firstName }} {{ card.middleName }} </p>
   <label class="card-label">Телефон</label>
-  <p> {{ phonePrefix + card?.phoneNumber | phoneTransform }} </p>
+  <p> {{ phonePrefix + card.phoneNumber | phoneTransform }} </p>
   <label class="card-label">Електронна пошта</label>
   <p> {{ card.email}} </p>
 </ng-template>
