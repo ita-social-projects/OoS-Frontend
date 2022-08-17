@@ -45,6 +45,9 @@ export class CreateWorkshopAddressComponent implements OnInit {
       buildingNumber: this.buildingNumberFormControl,
       codeficatorAddressDto: this.settlementFormControl,
     });
+    if (this.address) {
+      this.mapAddressFormGroup.patchValue(this.address, { emitEvent: false });
+    }
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 

@@ -14,8 +14,8 @@
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout="row" fxLayoutAlign="center">
-      <!-- <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)">
-      </app-map> -->
+      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)">
+      </app-map>
     </div>
   </div>
 
