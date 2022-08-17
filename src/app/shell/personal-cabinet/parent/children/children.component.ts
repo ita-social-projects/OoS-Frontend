@@ -64,7 +64,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
-        property: `${child?.firstName} ${child?.lastName}`,
+        property: `${child.firstName} ${child.lastName}`,
       },
     });
 

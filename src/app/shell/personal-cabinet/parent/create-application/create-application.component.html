@@ -16,7 +16,7 @@
                 [ngClass]="(!isAllowChildToApply && selectedChild?.id) ? 'redBorder step-input' : 'step-input'"
                 [formControl]="ChildFormControl" [(ngModel)]="selectedChild" (selectionChange)="onSelectChild($event)">
                 <mat-option *ngFor="let child of children" [value]="child" class="dropdown-option">
-                  {{child?.lastName}} {{child?.firstName}} {{child?.middleName}}
+                  {{child.lastName}} {{child.firstName}} {{child.middleName}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
