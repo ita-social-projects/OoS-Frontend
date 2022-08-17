@@ -18,6 +18,7 @@ import {
   CreateApplication,
   GetAllUsersChildren,
   GetStatusIsAllowToApply,
+  GetUsersChildren,
   GetWorkshopById,
 } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -38,6 +39,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   @Select(UserState.children) 
   children$: Observable<ChildCards>;
+  children: Child[];
+  parentCard: Child;
   @Select(UserState.isAllowChildToApply) 
   isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.user) 
@@ -90,15 +93,22 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.ContraindicationAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isContraindicationAgreed = val));
-    this.isAllowChildToApply$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((status: boolean) => (this.isAllowChildToApply = status));
     this.ContraindicationAgreementFormControlYourself.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isContraindicationAgreementYourself = val));
     this.AttendAgreementFormControlYourself.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isAttendAgreementYourself = val));
+      this.children$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((children: ChildCards) => {
+        this.children = children?.entities.filter((child: Child) => !child.isParent);
+        this.parentCard = children?.entities.find((child: Child) => child.isParent);
+      }
+        );
+      this.isAllowChildToApply$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((status: boolean) => (this.isAllowChildToApply = status));
 
     combineLatest([this.parent$, this.workshop$])
       .pipe(
@@ -108,7 +118,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         this.parent = parent;
         this.workshop = workshop;
         this.store.dispatch([
-          new GetAllUsersChildren(),
+          new GetUsersChildren(),
           new AddNavPath(
             this.navigationBarService.createNavPaths(
               {
@@ -145,11 +155,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        if(this.tabIndex){
-          this.selectedChild.id = this.parent.id;
-          this.selectedChild.isParent = true;
-        };
-        const application = new Application(this.selectedChild, this.workshop, this.parent);
+          const application = new Application(
+          this.tabIndex ? this.parentCard: this.selectedChild,
+          this.workshop,
+          this.parent
+        );
         this.store.dispatch(new CreateApplication(application));
       }
     });

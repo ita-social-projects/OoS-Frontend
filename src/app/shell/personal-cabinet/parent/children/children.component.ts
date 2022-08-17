@@ -49,13 +49,16 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     this.childrenCards$
       .pipe(
         filter((childrenCards: ChildCards) => !!childrenCards),
-        map((childrenCards: ChildCards)=>{
-          childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
-          return childrenCards;
-        }),
         takeUntil(this.destroy$)
       )
-      .subscribe((childrenCards: ChildCards) => this.childrenCards = childrenCards);
+      .subscribe(
+        (childrenCards: ChildCards) => {
+          childrenCards.entities = childrenCards.entities.filter(
+            (child: Child) => !child.isParent
+          )
+          this.childrenCards = childrenCards
+        }
+      );
   }
 
   onDelete(child: Child): void {
@@ -63,7 +66,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
-        property: `${child.firstName} ${child.lastName}`,
+        property: `${child?.firstName} ${child?.lastName}`,
       },
     });
 
