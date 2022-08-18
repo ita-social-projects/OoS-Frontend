@@ -1,6 +1,7 @@
 import { ParentWithContactInfo } from './parent.model';
 import { Person } from './user.model';
 import { SocialGroup } from './socialGroup.model';
+
 export class Child implements Person {
   id: string;
   firstName: string;
@@ -12,6 +13,7 @@ export class Child implements Person {
   socialGroups: SocialGroup[];
   placeOfStudy: string;
   parent: ParentWithContactInfo;
+  isParent: boolean;
 
   constructor(info, parentId, id?) {
     this.id = id;
@@ -23,6 +25,7 @@ export class Child implements Person {
     this.socialGroups = info.socialGroups;
     this.parentId = parentId;
     this.placeOfStudy = info.placeOfStudy;
+    this.isParent = info.isParent;
   }
 }
 export interface ChildCards {

@@ -22,7 +22,7 @@ export class AppWorkshopsService {
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
-    if (filters.city) {
+    if (false) { //temp mock for further migration to codeficator
       params = params.set('City', filters.city.name);
       params = params.set('Latitude', filters.city.latitude.toString());
       params = params.set('Longitude', filters.city.longitude.toString());
@@ -71,6 +71,11 @@ export class AppWorkshopsService {
 
     if (filters.withDisabilityOption) {
       params = params.set('WithDisabilityOptions', 'true');
+    }
+
+
+    if (filters.isStrictWorkdays) {
+      params = params.set('IsStrictWorkdays', 'true');
     }
 
     if (filters.order) {
@@ -128,7 +133,7 @@ export class AppWorkshopsService {
 
     params = params.set('Limit', size.toString());
     params = params.set('City', filters.city?.name ?? Constants.KIEV.name);
-    
+
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }
 }

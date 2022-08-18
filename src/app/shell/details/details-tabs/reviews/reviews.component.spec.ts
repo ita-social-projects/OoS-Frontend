@@ -12,6 +12,19 @@ import { ReviewsComponent } from './reviews.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
+import { Component, Input } from '@angular/core';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+
+class MockReviewsPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+}
 
 describe('ReviewsComponent', () => {
   let component: ReviewsComponent;
@@ -34,6 +47,7 @@ describe('ReviewsComponent', () => {
         StarsComponent,
         DeclinationPipe,
         NoResultCardComponent,
+        MockReviewsPaginatorComponent
       ]
     })
       .compileComponents();

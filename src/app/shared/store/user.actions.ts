@@ -7,7 +7,7 @@ import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { User } from '../models/user.model';
-import { Workshop, WorkshopCard } from '../models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopStatus } from '../models/workshop.model';
 import { Favorite } from './../models/favorite.model';
 
 export class GetWorkshopsByProviderId {
@@ -224,7 +224,7 @@ export class OnUpdateWorkshopSuccess {
 }
 export class UpdateStatus {
   static readonly type = '[user] update Status';
-  constructor(public payload) { }
+  constructor(public payload: WorkshopStatus) { }
 }
 export class OnUpdateStatusSuccess {
   static readonly type = '[user] update Status success';

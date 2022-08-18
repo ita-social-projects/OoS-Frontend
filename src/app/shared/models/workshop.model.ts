@@ -40,6 +40,7 @@ export class Workshop {
   workshopDescriptionItems: WorkshopSectionItem[];
   availableSeats: number;
   takenSeats: number;
+  status?: string;
 
   constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
@@ -134,4 +135,9 @@ export interface WorkshopCard {
 export interface WorkshopFilterCard {
   totalAmount: number;
   entities: WorkshopCard[];
+}
+
+export interface WorkshopStatus {
+  workshopId: string,
+  status: string
 }

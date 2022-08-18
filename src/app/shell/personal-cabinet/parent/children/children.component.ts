@@ -14,7 +14,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { ParentComponent } from '../parent.component';
 import { UserState } from 'src/app/shared/store/user.state';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, takeUntil, map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-children',
@@ -51,7 +51,12 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
         filter((childrenCards: ChildCards) => !!childrenCards),
         takeUntil(this.destroy$)
       )
-      .subscribe((childrenCards: ChildCards) => this.childrenCards = childrenCards);
+      .subscribe(
+        (childrenCards: ChildCards) => {
+          childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent)
+          this.childrenCards = childrenCards
+        }
+      );
   }
 
   onDelete(child: Child): void {
