@@ -769,7 +769,7 @@ export class UserState {
   @Action(UpdateWorkshop)
   updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop): Observable<object> {
     return this.userWorkshopService.updateWorkshop(payload).pipe(
-      tap(res => dispatch(new OnUpdateWorkshopSuccess(res))),
+      tap((res: UpdateWorkshop) => dispatch(new OnUpdateWorkshopSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateWorkshopFail(error))))
     );
   }
