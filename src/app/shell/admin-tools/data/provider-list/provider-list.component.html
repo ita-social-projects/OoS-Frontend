@@ -79,7 +79,7 @@
             Населений пункт
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.legalAddress.city || ""}}
+            {{ element.legalAddress.codeficatorAddressDto?.settlement || ""}}
           </td>
         </ng-container>
 
@@ -189,7 +189,7 @@
         <ng-container matColumnDef="actualAddress">
           <th mat-header-cell *matHeaderCellDef>Актуальна адреса</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.actualAddress?.city }}
+            {{ element.actualAddress?.codeficatorAddressDto?.settlement }}
             {{ element.actualAddress?.street }}
             {{ element.actualAddress?.buildingNumber }}
           </td>

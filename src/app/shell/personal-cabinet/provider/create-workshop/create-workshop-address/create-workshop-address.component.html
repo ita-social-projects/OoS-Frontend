@@ -10,6 +10,6 @@
   <p class="text">Або позначте на карті</p>
 
   <div class="map">
-    <app-map></app-map>
+    <app-map [addressFormGroup]="mapAddressFormGroup" (setAddressEvent)="onSetMapAddress($event)"></app-map>
   </div>
 </div>

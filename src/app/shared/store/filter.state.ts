@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Direction } from '../models/category.model';
-import { City } from '../models/city.model';
 import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+import { Codeficator } from '../models/codeficator.model';
 import {
   SetOrder,
   SetCity,
@@ -46,7 +46,7 @@ export interface FilterStateModel {
   minPrice: number;
   isOpenRecruitment: boolean;
   isClosedRecruitment: boolean;
-  city: City;
+  settlement: Codeficator;
   searchQuery: string;
   order: string;
   filteredWorkshops: WorkshopFilterCard;
@@ -71,7 +71,7 @@ export interface FilterStateModel {
     minPrice: ValidationConstants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    city: JSON.parse(localStorage.getItem('cityConfirmation')),
+    settlement: JSON.parse(localStorage.getItem('cityConfirmation')),
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: null,
@@ -101,7 +101,7 @@ export class FilterState {
   static isLoading(state: FilterStateModel): boolean { return state.isLoading };
 
   @Selector()
-  static city(state: FilterStateModel): City { return state.city };
+  static settlement(state: FilterStateModel): Codeficator { return state.settlement };
 
   @Selector()
   static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
@@ -156,19 +156,20 @@ export class FilterState {
     private appWorkshopsService: AppWorkshopsService) { }
 
   @Action(SetCity)
-  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
-    patchState({ city: payload });
+  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
+    patchState({ settlement: payload });
     localStorage.setItem('cityConfirmation', JSON.stringify(payload));
+
     dispatch(new FilterChange());
   }
 
   @Action(CleanCity)
   cleanCity({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ city: undefined });
+    patchState({ settlement: undefined });
   }
 
   @Action(ConfirmCity)
-  confirmCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
+  confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
     patchState({ isConfirmCity: payload});
   }
 
