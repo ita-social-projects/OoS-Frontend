@@ -7,6 +7,7 @@ import { DATE_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { Child } from 'src/app/shared/models/child.model';
 
 @Component({
   selector: 'app-child-form',
@@ -54,9 +55,15 @@ export class ChildFormComponent implements OnInit {
     if (!this.socialGroupControl.value.length) {
       return false;
     } else {
-      const isNoneValueSelected = this.socialGroupControl.value.some((group: SocialGroup) => group.id === this.NONE_SOCIAL_GROUP_ID);
+      const isNoneValueSelected = this.socialGroupControl.value.some(
+        (group: SocialGroup) => group.id === this.NONE_SOCIAL_GROUP_ID
+      );
       return option.id === this.NONE_SOCIAL_GROUP_ID ? !isNoneValueSelected : isNoneValueSelected;
     }
+  }
+
+  compareSocialGroups(group: SocialGroup, group2: SocialGroup): boolean {
+    return group.id === group2.id;
   }
 
   onDelete(): void {
