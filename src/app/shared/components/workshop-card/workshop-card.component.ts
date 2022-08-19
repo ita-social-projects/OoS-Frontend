@@ -7,7 +7,7 @@ import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop,  GetWorkshopsByProviderId, UpdateStatus } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
@@ -17,7 +17,10 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
-import { PayRateTypeUkr } from '../../enum/enumUA/workshop';
+import { PayRateTypeUkr, RecruitmentStatusUkr } from '../../enum/enumUA/workshop';
+import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from '../../enum/modal-confirmation';
+import { WorkhopStatus } from '../../enum/workshop';
 
 @Component({
   selector: 'app-workshop-card',
@@ -33,8 +36,12 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly PayRateTypeUkr = PayRateTypeUkr;
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  readonly workhopStatus = WorkhopStatus;
+  readonly recruitmentStatusUkr = RecruitmentStatusUkr;
+  readonly modalConfirmationType = ModalConfirmationType
 
   isFavorite: boolean;
+  isPrivate: boolean;
   pendingApplicationAmount: number;
   workshopData: WorkshopCard;
 
@@ -74,6 +81,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     private imagesService: ImagesService) { }
 
   ngOnInit(): void {
+    this.isPrivate = this.workshopData.providerOwnership === 'Private' && this.userRoleView === Role.provider;
     this.role$
       .pipe(takeUntil(this.destroy$))
       .subscribe((role: string) => {
@@ -106,6 +114,20 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
+  }
+
+  onChangeWorkshopStatus(status: string, type: ModalConfirmationType): void {
+    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: type,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(() =>
+      this.store.dispatch(
+        new UpdateStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
+    ))
   }
 
   onWorkshopLeave(): void {

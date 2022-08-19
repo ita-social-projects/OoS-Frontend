@@ -17,6 +17,7 @@
           fxLayoutAlign="start center"
         >
           <h1 class="title">{{ workshop.title }}</h1>
+          <div [style.background-color]="isContinued ? '#99CD56' : 'red'" class="chip-color">{{ isContinued ? recruitmentStatusUkr.RecruitmentOngoing : recruitmentStatusUkr.RecruitmentStoped }}</div>
         </div>
         <div *ngFor="let direction of workshop.directions">
           <img

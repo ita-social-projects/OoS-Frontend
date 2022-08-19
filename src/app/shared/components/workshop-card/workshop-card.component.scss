@@ -32,6 +32,22 @@
   opacity: 0.5;
   color: #3849f9;
 }
+.chip-color {
+  &-open {
+    color: #fff;
+    font-weight: 500;
+    padding: 7px;
+    border-radius: 16px;
+    background-color: #99CD56;
+  }
+  &-close {
+    color: #fff;
+    font-weight: 500;
+    padding: 7px;
+    border-radius: 16px;
+    background-color: red;
+  }
+}
 .horizontal-card {
   display: flex;
   flex-direction: row;

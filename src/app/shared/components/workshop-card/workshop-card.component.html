@@ -26,7 +26,15 @@
         </ng-container>                
       </mat-card-header>
 
-      <mat-card-content fxLayout="column" fxLayoutAlign="center">
+      <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
+        <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
+          <div fxLayoutAlign="space-between">
+            <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+            <a *ngIf="isPrivate" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">                
+              <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
+            </a>  
+          </div>
+        </ng-container>
         <ng-container
           *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
         </ng-container>
@@ -49,6 +57,15 @@
     </div>
   </div>
 </mat-card>
+
+<ng-template #WorkshopStatusClosed>
+  <div fxLayoutAlign="space-between">
+    <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+    <a *ngIf="isPrivate" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">                
+      <span class="card_link">{{ recruitmentStatusUkr.Open }}</span>
+    </a>  
+  </div>
+</ng-template>
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start" class="actions">

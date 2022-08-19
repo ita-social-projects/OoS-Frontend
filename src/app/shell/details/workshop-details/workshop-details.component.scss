@@ -1,2 +1,9 @@
 @import "src/app/shared/styles/side-menu-cards.scss";
 @import "src/app/shared/styles/details.scss";
+.chip-color {
+  margin-left: 32px;
+  color: #fff;
+  font-weight: 500;
+  padding: 7px;
+  border-radius: 16px;
+}

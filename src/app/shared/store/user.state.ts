@@ -10,7 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
-import { Workshop, WorkshopCard } from '../models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopStatus } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
@@ -104,6 +104,9 @@ import {
   GetChildrenByWorkshopId,
   GetReviewedApplications,
   ResetSelectedChild,
+  UpdateStatus,
+  OnUpdateStatusSuccess,
+  OnUpdateStatusFail,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -775,6 +778,25 @@ export class UserState {
   onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(UpdateStatus)
+  updateStatus({ dispatch }: StateContext<UserStateModel>, { payload, providerId }: UpdateStatus): Observable<object> {
+    return this.userWorkshopService.updateWorkshopStatus(payload).pipe(
+      tap((res: WorkshopStatus) => dispatch(new OnUpdateStatusSuccess(providerId))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateStatusFail(error))))
+    );
+  }
+
+  @Action(OnUpdateStatusFail)
+  onUpdateStatusFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateStatusFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateStatusSuccess)
+  onUpdateStatusSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateStatusSuccess): void {
+    dispatch(new GetWorkshopsByProviderId(payload));
   }
 
   @Action(UpdateChild)
