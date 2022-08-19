@@ -1,3 +1,4 @@
+import { ResetSelectedChild } from './../../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
@@ -72,6 +73,11 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.addNavPath();
 
     this.editMode ? this.AgreementFormControl.setValue(true) : this.ChildrenFormArray.push(this.newForm());
+  }
+
+  ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetSelectedChild());
   }
 
   addNavPath(): void {
