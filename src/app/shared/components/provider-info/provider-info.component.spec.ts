@@ -40,8 +40,12 @@ describe('ProviderInfoComponent', () => {
     fixture = TestBed.createComponent(ProviderInfoComponent);
     component = fixture.componentInstance;
     component.provider = {} as Provider;
-    component.provider.actualAddress = {} as Address;
-    component.provider.legalAddress = {} as Address;
+    component.provider.actualAddress = {
+      codeficatorAddressDto: {}
+    } as Address;
+    component.provider.legalAddress = {
+      codeficatorAddressDto: {}
+    } as Address;
     component.provider.institution = {} as Institution;
 
     fixture.detectChanges();
