@@ -23,7 +23,8 @@
     </mat-option>
   </mat-autocomplete>
   <p *ngIf="settlement?.fullName" class="additional-text">
-    {{ settlement.fullName | slice:0:30 }} ...
+    {{ settlement.fullName | slice: 0:30 }}
+    <span *ngIf="settlement.fullName.length > 30">...</span>
   </p>
 </mat-form-field>
 
