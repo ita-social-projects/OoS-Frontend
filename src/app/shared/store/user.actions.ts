@@ -310,6 +310,10 @@ export class ResetProviderWorkshopDetails {
   static readonly type = '[user] clear provider and workshop details';
   constructor() { }
 }
+export class ResetSelectedChild  {
+  static readonly type = '[user] reset selected child';
+  constructor() { }
+}
 export class BlockParent {
   static readonly type = '[user] block parent';
   constructor(public payload: BlockedParent) { }
