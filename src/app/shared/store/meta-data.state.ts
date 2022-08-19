@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AchievementType } from '../models/achievement.model';
 import { Direction } from '../models/category.model';
-import { City } from '../models/city.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FeaturesList } from '../models/featuresList.model';
 import { InstitutionStatus } from '../models/institutionStatus.model';
@@ -12,7 +11,6 @@ import { Rate } from '../models/rating';
 import { SocialGroup } from '../models/socialGroup.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { ChildrenService } from '../services/children/children.service';
-import { CityService } from '../services/cities/city.service';
 import { CodeficatorService } from '../services/codeficator/codeficator.service';
 import { DirectionsService } from '../services/directions/directions.service';
 import { FeatureManagementService } from '../services/feature-management/feature-management.service';
@@ -22,32 +20,29 @@ import { Constants } from './../constants/constants';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
 import { InstitutionsService } from './../services/institutions/institutions.service';
 import {
-  ClearCities,
+  GetSocialGroup,
+  GetDirections,
+  GetTopDirections,
+  GetInstitutionStatus,
   ClearCodeficatorSearch, 
   ClearRatings, 
   FilteredDirectionsList, 
   GetAchievementsType,
   GetAllByInstitutionAndLevel,
   GetAllInstitutions,
-  GetCities,
   GetCodeficatorById,
   GetCodeficatorSearch, 
-  GetDirections, 
   GetFeaturesList,
   GetFieldDescriptionByInstitutionId,
   GetInstitutionHierarchyChildrenById,
   GetInstitutionHierarchyParentsById, 
-  GetInstitutionStatus, 
   GetRateByEntityId, 
-  GetSocialGroup, 
-  GetTopDirections, 
   ResetInstitutionHierarchy
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
   directions: Direction[];
   topDirections: Direction[];
-  cities: City[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
   achievementsTypes: AchievementType[];
@@ -67,7 +62,6 @@ export interface MetaDataStateModel {
   defaults: {
     directions: [],
     topDirections: [],
-    cities: null,
     socialGroups: [],
     institutionStatuses: null,
     achievementsTypes: null,
@@ -108,11 +102,6 @@ export class MetaDataState {
   @Selector()
   static achievementsTypes(state: MetaDataStateModel): AchievementType[] {
     return state.achievementsTypes;
-  }
-
-  @Selector()
-  static cities(state: MetaDataStateModel): City[] {
-    return state.cities;
   }
 
   @Selector()
@@ -169,7 +158,6 @@ export class MetaDataState {
     private categoriesService: DirectionsService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
-    private cityService: CityService,
     private ratingService: RatingService,
     private featureManagementService: FeatureManagementService,
     private institutionsService: InstitutionsService,
@@ -214,22 +202,6 @@ export class MetaDataState {
           patchState({ institutionStatuses: institutionStatuses, isLoading: false })
         )
       );
-  }
-
-  @Action(GetCities)
-  getCities({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCities): Observable<City[]> {
-    return this.cityService
-      .getCities(payload)
-      .pipe(
-        tap((cities: City[]) =>
-          patchState(cities ? { cities: cities } : { cities: [{ name: Constants.NO_CITY } as City] })
-        )
-      );
-  }
-
-  @Action(ClearCities)
-  clearCities({ patchState }: StateContext<MetaDataStateModel>, {}: ClearCities): void {
-    patchState({ cities: null });
   }
 
   @Action(ClearRatings)

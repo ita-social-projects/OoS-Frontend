@@ -11,19 +11,16 @@ describe('ContactsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule, MaterialModule
-      ],
-      declarations: [ContactsComponent]
-    })
-      .compileComponents();
+      imports: [RouterTestingModule, MaterialModule],
+      declarations: [ContactsComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ContactsComponent);
     component = fixture.componentInstance;
-    component.address = { } as Address;
-    component.contactsData = { } as any;
+    component.address = { codeficatorAddressDto: {} } as Address;
+    component.contactsData = {} as any;
 
     fixture.detectChanges();
   });
@@ -31,5 +28,4 @@ describe('ContactsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
-
 });
