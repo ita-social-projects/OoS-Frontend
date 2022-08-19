@@ -228,7 +228,7 @@ export class UpdateStatus {
 }
 export class OnUpdateStatusSuccess {
   static readonly type = '[user] update Status success';
-  constructor(public payload) { }
+  constructor(public payload: WorkshopStatus) { }
 }
 export class OnUpdateStatusFail {
   static readonly type = '[user] update Status fail';

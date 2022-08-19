@@ -10,7 +10,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
-import { Workshop, WorkshopCard } from '../models/workshop.model';
+import { Workshop, WorkshopCard, WorkshopStatus } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
@@ -782,7 +782,7 @@ export class UserState {
   @Action(UpdateStatus)
   updateStatus({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop): Observable<object> {
     return this.userWorkshopService.updateWorkshopStatus(payload).pipe(
-      tap(res => dispatch(new OnUpdateStatusSuccess(res))),
+      tap((res: WorkshopStatus) => dispatch(new OnUpdateStatusSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateStatusFail(error))))
     );
   }

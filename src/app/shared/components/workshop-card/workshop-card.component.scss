@@ -33,11 +33,20 @@
   color: #3849f9;
 }
 .chip-color {
-  color: #fff;
-  font-weight: 500;
-  padding: 7px;
-  background-color: red;
-  border-radius: 20px;
+  &-open {
+    color: #fff;
+    font-weight: 500;
+    padding: 7px;
+    border-radius: 20px;
+    background-color: green;
+  }
+  &-close {
+    color: #fff;
+    font-weight: 500;
+    padding: 7px;
+    border-radius: 20px;
+    background-color: red;
+  }
 }
 .horizontal-card {
   display: flex;

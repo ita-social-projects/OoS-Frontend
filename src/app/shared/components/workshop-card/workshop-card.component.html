@@ -29,7 +29,7 @@
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
         <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
           <div fxLayoutAlign="space-between">
-            <div [style.background-color]="'green'" class="chip-color">{{ "Набір триває" }}</div>
+            <div class="chip-color-open">{{ "Набір триває" }}</div>
             <a *ngIf="workshopData.providerOwnership === 'Private' && userRoleView === Role.provider" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">                
               <span class="card_link">{{ "Призупинити набір" }}</span>
             </a>  
@@ -60,7 +60,7 @@
 
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
-    <div [style.background-color]="'red'" class="chip-color">{{ "Набір призупинено" }}</div>
+    <div class="chip-color-close">{{ "Набір призупинено" }}</div>
     <a *ngIf="workshopData.providerOwnership === 'Private' && userRoleView === Role.provider" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">                
       <span class="card_link">{{ "Відкрити набір" }}</span>
     </a>  
