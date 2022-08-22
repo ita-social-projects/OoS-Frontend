@@ -25,6 +25,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  readonly PayRateType = PayRateType;
+  readonly PayRateTypeUkr = PayRateTypeUkr;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -35,8 +37,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality,
   };
-  readonly PayRateType = PayRateType;
-  readonly PayRateTypeUkr = PayRateTypeUkr;
 
   @Input() workshop: Workshop;
   @Input() provider: Provider;
@@ -125,10 +125,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
-        this.setPayRateControlValue(this.workshop.payRate, 'enable');
+        this.setPayRateControlValue(this.workshop?.payRate ? this.workshop.payRate : null, 'enable');
       } else {
         this.setPriceControlValue(null, 'disable');
         this.setPayRateControlValue(null, 'disable');
+        this.payRateControl.markAsUntouched();
       }
     });
   }
