@@ -28,6 +28,16 @@ export class ProviderService {
   }
 
   /**
+   * This method get filtered Providers from the database
+   * @param
+   */
+  getFilteredProviders(searchString: string): Observable<Provider[]> {
+    return this.http.get<Provider[]>(
+      `/api/v1/Provider/GetByFilter?SearchString=${searchString}`
+    );
+  }
+
+  /**
    * This method create Provider
    * @param Provider
    */
