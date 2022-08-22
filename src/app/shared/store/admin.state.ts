@@ -173,12 +173,12 @@ export class AdminState {
 
   @Action(GetFilteredProviders)
   getFilteredProvider(
-    { patchState, dispatch }: StateContext<AdminStateModel>,
+    { patchState }: StateContext<AdminStateModel>,
     { payload }: GetFilteredProviders
   ): Observable<object> {
     patchState({ isLoading: true });
     return this.providerService.getFilteredProviders(payload).pipe(
-      tap((provider: Provider[]) => patchState({ providers: provider, isLoading: false }))
+      tap((filteredProviders: Provider[]) => patchState({ providers: filteredProviders, isLoading: false }))
     );
   }
   @Action(GetAboutPortal)

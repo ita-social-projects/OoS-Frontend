@@ -4,7 +4,7 @@ import { ProviderService } from 'src/app/shared/services/provider/provider.servi
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetAllProviders } from 'src/app/shared/store/admin.actions';
+import { GetAllProviders, GetFilteredProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
@@ -13,6 +13,8 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { FormControl } from '@angular/forms';
+import { ChildCards } from 'src/app/shared/models/child.model';
 
 @Component({
   selector: 'app-provider-list',
@@ -26,7 +28,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
 
   @Select(AdminState.providers)
-  providers$: Observable<Provider[]>;
+  providers$: Observable<ChildCards>;
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;
@@ -47,13 +49,14 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     'status',
     'star',
   ];
+  filterFormControl: FormControl = new FormControl('');
   dataSource: MatTableDataSource<object>;
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
   ngOnInit(): void {
     this.store.dispatch([
-      // new GetAllProviders(),
+      new GetFilteredProviders(),
       new PushNavPath(
         {
           name: NavBarName.Providers,
@@ -62,21 +65,21 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       ),
     ]);
+    this.providers$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter(providers => !!providers)
+    )
+    .subscribe((providers: ChildCards) => {
+      this.dataSource = new MatTableDataSource(providers?.entities);
+      this.dataSource.sort = this.sort;
+    });
   }
 
   ngAfterViewInit(): void {
-    this.providers$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter(providers => !!providers)
-      )
-      .subscribe(providers => {
-        this.dataSource = new MatTableDataSource(providers);
-        this.dataSource.sort = this.sort;
-      });
   }
 
-  onViewProviderInfo(provider): void {
+  onViewProviderInfo(provider: Provider): void {
     this.provider = provider;
     this.isInfoDisplayed = true;
   }

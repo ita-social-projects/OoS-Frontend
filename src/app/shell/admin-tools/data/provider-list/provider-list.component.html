@@ -5,6 +5,8 @@
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
         <input
+          #input
+          [formControl]="filterFormControl"
           matInput
           type="text"
           class="search"
@@ -15,9 +17,9 @@
   </div>
 
   <!-- -------------Table------------ -->
-
-  <div style="display: flex">
-    <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
+  <div class="wrapper">
+  <div>
+    <div  class="table-container mat-elevation-z8">
       <table
         mat-table
         [dataSource]="dataSource"
@@ -73,13 +75,13 @@
           <th
             mat-header-cell
             *matHeaderCellDef
-            mat-sort-header  
-            sortActionDescription="Sort by city"          
+            mat-sort-header
+            sortActionDescription="Sort by city"
           >
             Населений пункт
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.legalAddress.codeficatorAddressDto?.settlement || ""}}
+            {{ element.legalAddress?.codeficatorAddressDto?.settlement || ""}}
           </td>
         </ng-container>
 
@@ -93,8 +95,8 @@
             Адреса
           </th>
           <td mat-cell *matCellDef="let element">
-            {{ element.legalAddress.street }}
-            {{ element.legalAddress.buildingNumber }}
+            {{ element.legalAddress?.street }}
+            {{ element.legalAddress?.buildingNumber }}
           </td>
         </ng-container>
 
@@ -266,4 +268,5 @@
       ></app-provider-info>
     </div>
   </div>
+</div>
 </div>
