@@ -36,7 +36,6 @@ export class ImageCropperModalComponent {
 
   imageLoaded(image: LoadedImage): void {
     const { height, width } = image.original.size;   
-    console.log(height, width)
     this.invalidMinRequirements = (height < this.data.cropperConfig.cropperMinHeight || width < this.data.cropperConfig.cropperMinWidth);
   }
 
