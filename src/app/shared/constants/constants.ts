@@ -114,7 +114,7 @@ export class CropperConfigurationConstants {
   static readonly defaultCropperAspectRatio = 1/1;
   static readonly coverImageCropperAspectRatio = 5/3;
   static readonly galleryImagesCropperAspectRatio = 7/4;
-  static readonly cropperMinWidth = 512;
+  static readonly cropperMinWidth = 500;
   static readonly cropperMaxWidth = 10000;
   static readonly cropperMinHeight = 250;
   static readonly cropperMaxHeight = 8000;
