@@ -10,7 +10,8 @@
 </div>
 
 <!-- -------------Table------------ -->
-<div class="wrapper">
+<div class="wrapper-provider-list">
+<div  class="wrapper-provider-list-container">
   <div [hidden]="!dataSource">
     <div class="table-container mat-elevation-z8">
       <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
@@ -133,9 +134,8 @@
           <td mat-cell *matCellDef="let element">
             <div class="provider-list-status {{ element.status }}">
               <span>
-                <i class="status-icon {{ element.status ? 'fas fa-user-check' :  'fas fa-user-clock' }}"></i>
-              </span>
-              <span>{{ element.status ? "Підтверджено" : "Очікує підтвердження" }}</span>
+                <i class="status-icon {{ providerAdminIcons[element.status] }}"></i></span>
+              <span>{{ element.status }}</span>
             </div>
           </td>
         </ng-container>
@@ -184,6 +184,7 @@
       <app-provider-info [provider]="provider" [isProviderView]="false"
         (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "></app-provider-info>
     </div>
+  </div>
   </div>
   <div class="paginator">
     <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage"

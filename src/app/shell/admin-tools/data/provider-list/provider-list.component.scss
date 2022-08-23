@@ -8,13 +8,27 @@
   min-width: 177px;
   margin-left: 3px;
 }
+.Accepted {
+  color: #199953;
+}
+.NeverLogged,
+.Pending {
+  color: #ffbd00;
+}
+.Blocked {
+  color: #c72a21;
+}
+.Cancel {
+  color: #3849f9;
+  font-weight: 500;
+}
 .search-bar {
   margin-top: 10px;
 }
-.wrapper {
+.wrapper-provider-list {
   position: relative;
   margin-top: 2rem;
-  }
+}
 .search {
   padding-left: 10px;
 }
