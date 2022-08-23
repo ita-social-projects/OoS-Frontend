@@ -18,8 +18,11 @@ import { Util } from 'src/app/shared/utils/utils';
 import { UsersTable } from 'src/app/shared/models/usersTable';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { OnPageChangeAdminTable, SetAdminsPerPage } from 'src/app/shared/store/paginator.actions';
 
 @Component({
   selector: 'app-admins',
@@ -36,12 +39,17 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ministryAdmins$: Observable<AllMinistryAdmins>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
+  @Select(PaginatorState.adminsPerPage)
+  adminsPerPage$: Observable<number>;
   
   tabIndex: number;
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
-  ministryAdmins: UsersTable[];
+  ministryAdminsTable: UsersTable[];
+  ministryAdmins: AllMinistryAdmins;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  totalEntities: number;
+  currentPage: PaginationElement = PaginationConstants.firstPage;
   
   constructor(    
     private store: Store,
@@ -66,7 +74,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
       filter((ministryAdmins: AllMinistryAdmins) => !!ministryAdmins)
     )
     .subscribe((ministryAdmins: AllMinistryAdmins)=> {
-      this.ministryAdmins = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
+      this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
+      this.ministryAdmins = ministryAdmins;
+      this.totalEntities = ministryAdmins.totalAmount;
     });
 
     this.addNavPath();
@@ -133,6 +143,15 @@ export class AdminsComponent implements OnInit, OnDestroy {
         disable: true,
       })
     );
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins()]);
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetAdminsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
   }
 
   ngOnDestroy(): void {

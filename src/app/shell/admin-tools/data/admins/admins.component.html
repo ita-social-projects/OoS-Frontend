@@ -28,7 +28,7 @@
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
         <mat-tab label="{{adminRoleUkr.ministryAdmin}}">
-          <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: ministryAdmins}">
+          <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: ministryAdminsTable}">
           </ng-container>
         </mat-tab>
         <mat-tab label="{{adminRoleUkr.regionAdmin}}">
@@ -46,6 +46,13 @@
           <app-users-list [users]="admins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
           (blockAdmin)="onBlock($event)" ></app-users-list>
         </div>
+        <app-paginator
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="adminsPerPage$ | async"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
       </ng-container>
     </ng-container>
   </ng-template>

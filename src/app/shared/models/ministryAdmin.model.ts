@@ -22,6 +22,6 @@ export class MinistryAdmin {
   }
 }
 export interface AllMinistryAdmins{
-  totalAmound: number;
+  totalAmount: number;
   entities: MinistryAdmin[];
 }

@@ -1,3 +1,4 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -10,6 +11,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { AdminsComponent } from './admins.component';
 
 describe('AdminsComponent', () => {
@@ -32,7 +34,9 @@ describe('AdminsComponent', () => {
       ],
       declarations: [ 
         AdminsComponent,
-        NoResultCardComponent
+        NoResultCardComponent,
+        MockListAdminsPaginatorComponent,
+        MockUsersListComponent
        ]
     })
     .compileComponents();
@@ -49,3 +53,23 @@ describe('AdminsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-users-list',
+  template: ''
+})
+class MockUsersListComponent {
+  @Input() users: object[];
+  @Input() filterValue: string;
+}
+
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+
+class MockListAdminsPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+}
