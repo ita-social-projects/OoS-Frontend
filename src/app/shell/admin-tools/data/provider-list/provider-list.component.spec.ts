@@ -1,6 +1,7 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
@@ -24,6 +25,7 @@ describe('ProviderListComponent', () => {
         MatFormFieldModule,
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
+        ReactiveFormsModule
       ],
       declarations: [ProviderListComponent, MockproviderInfoComponent],
     }).compileComponents();
