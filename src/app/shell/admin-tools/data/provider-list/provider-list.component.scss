@@ -8,6 +8,23 @@
   min-width: 177px;
   margin-left: 3px;
 }
+.search-bar {
+  margin-top: 10px;
+}
+.wrapper {
+  position: relative;
+  margin-top: 2rem;
+  }
+.search {
+  padding-left: 10px;
+}
+.search-area {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10000;
+  position: static;
+  right: 12px;
+}
 .status-title {
   padding-left: 7px;
 }

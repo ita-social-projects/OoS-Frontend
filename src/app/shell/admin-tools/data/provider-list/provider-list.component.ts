@@ -1,10 +1,10 @@
-import { Provider } from 'src/app/shared/models/provider.model';
+import { Provider, ProviderCards } from 'src/app/shared/models/provider.model';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetAllProviders, GetFilteredProviders } from 'src/app/shared/store/admin.actions';
+import { GetFilteredProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,7 +14,6 @@ import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { FormControl } from '@angular/forms';
-import { ChildCards } from 'src/app/shared/models/child.model';
 
 @Component({
   selector: 'app-provider-list',
@@ -28,7 +27,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
 
   @Select(AdminState.providers)
-  providers$: Observable<ChildCards>;
+  providers$: Observable<ProviderCards>;
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;
@@ -50,7 +49,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     'star',
   ];
   filterFormControl: FormControl = new FormControl('');
-  dataSource: MatTableDataSource<object>;
+  dataSource = new MatTableDataSource([{}]);
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
@@ -70,14 +69,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       takeUntil(this.destroy$),
       filter(providers => !!providers)
     )
-    .subscribe((providers: ChildCards) => {
+    .subscribe((providers: ProviderCards) => {
       this.dataSource = new MatTableDataSource(providers?.entities);
       this.dataSource.sort = this.sort;
     });
   }
 
-  ngAfterViewInit(): void {
-  }
+  ngAfterViewInit(): void { }
 
   onViewProviderInfo(provider: Provider): void {
     this.provider = provider;
