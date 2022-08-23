@@ -84,7 +84,7 @@ export enum ModalConfirmationText {
   blockParent = 'Ви впевнені, що хочете заблокувати користувача?',
   reject = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?',
   deleteMinistryAdmin = 'Ви впевнені, що хочете видалити адміністратора міністерства',
-  blockMinistryAdmin = 'Ви впевнені, що хочете блокувати адміністратора міністерства'
+  blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства'
 }
 
 export enum ModalConfirmationDescription {

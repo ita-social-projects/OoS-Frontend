@@ -125,7 +125,7 @@ export class OnCreateMinistryAdminFail {
 
 export class OnCreateMinistryAdminSuccess {
   static readonly type = '[admin] create Ministry Admin success';
-  constructor(public payload) { }
+  constructor(public payload: object) { }
 }
 
 export class GetAllMinistryAdmins {
@@ -140,7 +140,7 @@ export class DeleteMinistryAdminById {
 
 export class OnDeleteMinistryAdminSuccess {
   static readonly type = '[admin] delete Ministry Admin success';
-  constructor(public payload) { }
+  constructor(public payload: object) { }
 }
 
 export class OnDeleteMinistryAdminFail {
@@ -155,7 +155,7 @@ export class BlockMinistryAdminById {
 
 export class OnBlockMinistryAdminSuccess {
   static readonly type = '[admin] block Ministry Admin success';
-  constructor(public payload) { }
+  constructor(public payload: object) { }
 }
 
 export class OnBlockMinistryAdminFail {

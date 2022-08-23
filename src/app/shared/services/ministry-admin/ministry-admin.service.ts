@@ -51,7 +51,7 @@ export class MinistryAdminService {
   /**
    * This method create Ministry Admin
    * @param ministryAdmin: MinistryAdmin
-   */
+  */
   createMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
     return this.http.post<MinistryAdmin>('/api/v1/MinistryAdmin/Create', ministryAdmin);
   }
@@ -60,21 +60,22 @@ export class MinistryAdminService {
    * This method delete Ministry Admin by id
    * @param ministryAdminId: string
    */
-  deleteMinistryAdmin(ministryAdminId: string): Observable<object> {
+  deleteMinistryAdmin(ministryAdminId: string): Observable<MinistryAdmin> {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
-    return this.http.delete(`/api/v1/MinistryAdmin/Delete`, { params });
+    
+    return this.http.delete<MinistryAdmin>(`/api/v1/MinistryAdmin/Delete`, { params });
   }
 
   /**
    * This method block Ministry Admin
    * @param ministryAdminId: string
    */
-  blockMinistryAdmin(ministryAdminId: string): Observable<object> {
+  blockMinistryAdmin(ministryAdminId: string): Observable<MinistryAdmin> {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
 
-    return this.http.put(`/api/v1/MinistryAdmin/Block`, {}, { params });
+    return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Block`, {}, { params });
   }
 
 }

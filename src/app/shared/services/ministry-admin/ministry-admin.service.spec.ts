@@ -9,7 +9,7 @@ describe('MinistryAdminService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [ HttpClientTestingModule,
-      NgxsModule.forRoot([]), ],
+        NgxsModule.forRoot([]), ],
     });
     service = TestBed.inject(MinistryAdminService);
   });

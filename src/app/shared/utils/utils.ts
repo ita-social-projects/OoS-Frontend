@@ -151,7 +151,6 @@ export class Util {
    public static updateStructureForTheTableAdmins(admins): UsersTable[] {
     const constants: typeof Constants = Constants;
     let updatedAdmins = [];
-    console.log(admins);
     admins.forEach(admins => {
       updatedAdmins.push({
         id: admins.id,

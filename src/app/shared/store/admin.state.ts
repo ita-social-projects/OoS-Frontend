@@ -427,7 +427,7 @@ export class AdminState {
     { payload }: CreateMinistryAdmin
   ): Observable<object> {
     return this.ministryAdminService.createMinistryAdmin(payload).pipe(
-      tap(res => dispatch(new OnCreateMinistryAdminSuccess(res))),
+      tap((res: object) => dispatch(new OnCreateMinistryAdminSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error))))
     );
   }
@@ -465,16 +465,14 @@ export class AdminState {
   ): Observable<AllMinistryAdmins> {
     patchState({ isLoading: true });
     return this.ministryAdminService.getAllMinistryAdmin(payload).pipe(
-      tap((ministryAdmins: AllMinistryAdmins) => {
-        return patchState({ ministryAdmins: ministryAdmins, isLoading: false });
-      })
+      tap((ministryAdmins: AllMinistryAdmins) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
     );
   }
 
   @Action(DeleteMinistryAdminById)
   deleteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteMinistryAdminById): Observable<object> {
     return this.ministryAdminService.deleteMinistryAdmin(payload).pipe(
-      tap(res => dispatch(new OnDeleteMinistryAdminSuccess(res))),
+      tap((res: object) => dispatch(new OnDeleteMinistryAdminSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteMinistryAdminFail(error))))
     );
   }
@@ -496,7 +494,7 @@ export class AdminState {
     { payload }: BlockMinistryAdminById
   ): Observable<object> {
     return this.ministryAdminService.blockMinistryAdmin(payload).pipe(
-      tap(res => dispatch(new OnBlockMinistryAdminSuccess(res))),
+      tap((res: object) => dispatch(new OnBlockMinistryAdminSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockMinistryAdminFail(error))))
     );
   }
