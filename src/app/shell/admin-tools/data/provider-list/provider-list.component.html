@@ -4,7 +4,6 @@
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
         <input
-          #input
           [formControl]="filterFormControl"
           matInput
           type="text"
@@ -17,7 +16,7 @@
 
   <!-- -------------Table------------ -->
   <div class="wrapper">
-  <div>
+  <div [hidden]="!dataSource">
     <div  class="table-container mat-elevation-z8">
       <table
         mat-table

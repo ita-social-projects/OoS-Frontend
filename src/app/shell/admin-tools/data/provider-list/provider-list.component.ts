@@ -9,7 +9,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
-import { filter, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -73,6 +73,18 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       this.dataSource = new MatTableDataSource(providers?.entities);
       this.dataSource.sort = this.sort;
     });
+
+    this.filterFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        distinctUntilChanged(),
+        startWith(''),
+        debounceTime(2000),
+        map((value: string) => value.trim())
+      )
+      .subscribe((searchString: string) =>
+        this.store.dispatch(new GetFilteredProviders(searchString))
+      );
   }
 
   ngAfterViewInit(): void { }
