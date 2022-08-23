@@ -18,6 +18,7 @@ import { ProviderService } from '../services/provider/provider.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import {
+  BlockMinistryAdminById,
   CreateDirection,
   CreateMinistryAdmin,
   DeleteDirectionById,
@@ -36,6 +37,8 @@ import {
   GetProviderAdminHistory,
   GetProviderHistory,
   GetSupportInformation,
+  OnBlockMinistryAdminFail,
+  OnBlockMinistryAdminSuccess,
   OnCreateDirectionFail,
   OnCreateDirectionSuccess,
   OnCreateMinistryAdminFail,
@@ -485,6 +488,37 @@ export class AdminState {
   @Action(OnDeleteMinistryAdminSuccess)
   onDeleteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminSuccess): void {
     dispatch([new ShowMessageBar({ message: 'Адміна міністерства видалено!', type: 'success' }), new GetAllMinistryAdmins()]);
+  }
+
+  @Action(BlockMinistryAdminById)
+  blockMinistryAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: BlockMinistryAdminById
+  ): Observable<object> {
+    return this.ministryAdminService.blockMinistryAdmin(payload).pipe(
+      tap(res => dispatch(new OnBlockMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockMinistryAdminFail(error))))
+    );
+  }
+
+  @Action(OnBlockMinistryAdminFail)
+  onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnBlockMinistryAdminSuccess)
+  onBlockMinistryAdminSuccess(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: OnBlockMinistryAdminSuccess
+  ): void {
+    dispatch([
+      new GetAllMinistryAdmins(),
+      new ShowMessageBar({
+        message: `Дякуємо! адміністратора міністерства заблоковано!`,
+        type: 'success',
+      }),
+    ]);
   }
 
 }

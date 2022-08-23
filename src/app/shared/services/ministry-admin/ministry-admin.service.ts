@@ -41,6 +41,7 @@ export class MinistryAdminService {
    */
   getAllMinistryAdmin(searchString: string): Observable<AllMinistryAdmins> {
     const options = { params: this.setParams(searchString) };
+
     return this.http.get<AllMinistryAdmins>(`/api/v1/MinistryAdmin/GetByFilter`, options);
   }
 
@@ -57,10 +58,18 @@ export class MinistryAdminService {
    * @param ministryAdminId: string
    */
   deleteMinistryAdmin(ministryAdminId: string): Observable<object> {
-      return this.http.delete(`/api/v1/MinistryAdmin/Delete/${ministryAdminId}`);
+    return this.http.delete(`/api/v1/MinistryAdmin/Delete/${ministryAdminId}`);
   }
 
+  /**
+   * This method block Ministry Admin
+   * @param ministryAdminId: string
+   */
+  blockMinistryAdmin(ministryAdminId: string): Observable<object> {
+    let params = new HttpParams();
+    params = params.set('ministryAdminId', `${ministryAdminId}`);
 
-  
+    return this.http.put(`/api/v1/MinistryAdmin/Block`, {}, { params });
+  }
 
 }

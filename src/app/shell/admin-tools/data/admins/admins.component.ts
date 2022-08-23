@@ -1,6 +1,6 @@
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import { DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
+import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -88,24 +88,21 @@ export class AdminsComponent implements OnInit, OnDestroy {
     /**
    * This method block Admin By Id
    */
-     onBlock(user): void {
-      // const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      //   width: Constants.MODAL_SMALL,
-      //   data: {
-      //     type: user.deputy ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
-      //     property: user.pib,
-      //   },
-      // });
+     onBlock(admin): void {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.blockMinistryAdmin,
+          property: admin.pib,
+        },
+      });
   
-      // dialogRef.afterClosed().subscribe((result: boolean) => {
-      //   result &&
-      //     this.store.dispatch(
-      //       new BlockProviderAdminById({
-      //         userId: user.id,
-      //         providerId: this.provider.id,
-      //       })
-      //     );
-      // });
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result &&
+          this.store.dispatch(
+            new BlockMinistryAdminById(admin.id)
+          );
+      });
     }
 
   /**

@@ -147,3 +147,18 @@ export class OnDeleteMinistryAdminFail {
   static readonly type = '[admin] delete Ministry Admin fail';
   constructor(public payload: HttpErrorResponse) { }
 }
+
+export class BlockMinistryAdminById {
+  static readonly type = '[admin] block Ministry Admin';
+  constructor(public payload) { }
+}
+
+export class OnBlockMinistryAdminSuccess {
+  static readonly type = '[admin] block Ministry Admin success';
+  constructor(public payload) { }
+}
+
+export class OnBlockMinistryAdminFail {
+  static readonly type = '[admin] block Ministry Admin fail';
+  constructor(public payload) { }
+}
