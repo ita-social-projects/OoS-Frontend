@@ -47,13 +47,13 @@
           (blockAdmin)="onBlock($event)" ></app-users-list>
         </div>
         <app-paginator
-        *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
-        [totalEntities]="totalEntities"
-        [currentPage]="currentPage"
-        [itemsPerPage]="adminsPerPage$ | async"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
-      </app-paginator>
+          *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
+          [totalEntities]="totalEntities"
+          [currentPage]="currentPage"
+          [itemsPerPage]="adminsPerPage$ | async"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)">
+        </app-paginator>
       </ng-container>
     </ng-container>
   </ng-template>

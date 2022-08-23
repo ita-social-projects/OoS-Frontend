@@ -40,7 +40,7 @@ export class MinistryAdminService {
   }
 
   /**
-   * This method get children for Admin
+   * This method get All Ministry Admins
    */
   getAllMinistryAdmin(searchString: string): Observable<AllMinistryAdmins> {
     const options = { params: this.setParams(searchString) };
@@ -57,7 +57,7 @@ export class MinistryAdminService {
   }
 
   /**
-   * This method delete child by Child id
+   * This method delete Ministry Admin by id
    * @param ministryAdminId: string
    */
   deleteMinistryAdmin(ministryAdminId: string): Observable<object> {
