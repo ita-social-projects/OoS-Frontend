@@ -266,13 +266,14 @@
       ></app-provider-info>
     </div>
   </div>
+  <div class="paginator">
   <app-paginator
-  class="paginator"
   [totalEntities]="totalEntities"
   [currentPage]="currentPage"
   [itemsPerPage]="providersPerPage$ | async"
   (pageChange)="onPageChange($event)"
   (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
+</div>
 </div>
 
