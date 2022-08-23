@@ -103,6 +103,7 @@ import {
   GetProviderAdminWorkshops,
   GetChildrenByWorkshopId,
   GetReviewedApplications,
+  ResetSelectedChild,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
@@ -1011,6 +1012,11 @@ export class UserState {
   @Action(ResetProviderWorkshopDetails)
   clearProviderWorkshopDetails({ patchState }: StateContext<UserStateModel>): void {
     patchState({ selectedWorkshop: null, selectedProvider: null });
+  }
+
+  @Action(ResetSelectedChild)
+  resetSelectedChild({ patchState }: StateContext<UserStateModel>): void {
+    patchState({ selectedChild: null });
   }
 
   @Action(BlockParent)

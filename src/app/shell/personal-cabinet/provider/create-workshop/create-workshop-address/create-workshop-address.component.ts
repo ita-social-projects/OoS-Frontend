@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Address } from 'src/app/shared/models/address.model';
+import { Address, MapAddress } from 'src/app/shared/models/address.model';
 import { FormValidators, ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
@@ -30,5 +30,9 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlement: new FormControl(''),
     });
     this.passAddressFormGroup.emit(this.addressFormGroup);
+  }
+
+  onSetMapAddress(address: MapAddress): void {
+
   }
 }

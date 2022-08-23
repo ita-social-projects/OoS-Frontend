@@ -69,6 +69,7 @@
       panelClass="dropdown-panel"
       class="step-input"
       placeholder="Виберіть соціальні групи"
+      [compareWith]="compareSocialGroups"
       [formControl]="socialGroupControl">
       <mat-select-trigger>
         <mat-chip-list #chipList>

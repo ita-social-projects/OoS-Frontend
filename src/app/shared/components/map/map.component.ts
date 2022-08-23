@@ -1,14 +1,14 @@
+import { Codeficator } from './../../models/codeficator.model';
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
-import { Address } from '../../models/address.model';
+import { Address, MapAddress } from '../../models/address.model';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
 import { Select } from '@ngxs/store';
 import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
-import { City } from '../../models/city.model';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
@@ -19,27 +19,26 @@ import { WorkshopMarker } from '../../models/workshopMarker.model';
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss']
+  styleUrls: ['./map.component.scss'],
 })
-
-export class MapComponent implements AfterViewInit, OnDestroy {
+export class MapComponent {
   @Select(UserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
   public defaultCoords: Coords;
   public zoom = 11;
   public workshops: WorkshopCard[];
 
-  @Select(FilterState.city)
-  city$: Observable<City>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() addressFormGroup: FormGroup;
   @Input() isCreateWorkShops: boolean;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Output() setAddressEvent = new EventEmitter<Address>();
-  @Output() selectedAddress = new EventEmitter<Address>();
+  @Output() setAddressEvent = new EventEmitter<MapAddress>();
+  @Output() selectedAddress = new EventEmitter<MapAddress>();
 
-  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) { }
+  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) {}
   map: Layer.Map;
   singleMarker: Layer.Marker;
   workshopMarkers: WorkshopMarker[] = [];
@@ -78,11 +77,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     Layer.tileLayer('https://tms{s}.visicom.ua/2.0.0/ua/base/{z}/{x}/{y}.png', {
       updateWhenZooming: true,
-      subdomains: "123",
+      subdomains: '123',
       maxZoom: 19,
       tms: true,
-      attribution:
-        "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
+      attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»",
     }).addTo(this.map);
 
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
@@ -102,28 +100,29 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.city$
-      .pipe(takeUntil(this.destroy$), filter((city: City) => !!city))
-      .subscribe((city: City) => {
-        this.defaultCoords = { lat: city.latitude, lng: city.longitude };
+    this.settlement$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((settlement: Codeficator) => !!settlement)
+      )
+      .subscribe((settlement: Codeficator) => {
+        this.defaultCoords = { lat: settlement.latitude, lng: settlement.longitude };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 
         // cheking if there are filtered workshops on the map
         if (!!this.filteredWorkshops$) {
-          this.filteredWorkshops$
-            .pipe(
-              takeUntil(this.destroy$),
-            )
-            .subscribe((filteredWorkshops: WorkshopFilterCard) => {
-              this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
-              this.workshopMarkers = [];
-              if (filteredWorkshops) {
-                this.workshops = filteredWorkshops.entities;
-                filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-                this.setPrevWorkshopMarker();
-              }
-            });
+          this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
+            this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) =>
+              this.map.removeLayer(workshopMarker.marker)
+            );
+            this.workshopMarkers = [];
+            if (filteredWorkshops) {
+              this.workshops = filteredWorkshops.entities;
+              filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+              this.setPrevWorkshopMarker();
+            }
+          });
         }
       });
 
@@ -131,16 +130,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (this.addressFormGroup) {
       this.addressFormGroup.value.latitude && this.setLocation(this.addressFormGroup.value);
 
-      this.addressFormGroup.valueChanges.pipe(
-        debounceTime(500)
-      ).subscribe((address: Address) => {
-        address.longitude = address.longitude || this.addressFormGroup.value.longitude;
-        address.latitude = address.latitude || this.addressFormGroup.value.latitude;
-        if(!address.street && !address.buildingNumber){
+      this.addressFormGroup.valueChanges.pipe(debounceTime(500)).subscribe((address: MapAddress) => {
+        if (!address.street && !address.buildingNumber) {
           this.setAddressLocation(address);
         }
-        if(address.city && address.street && address.buildingNumber){
-           this.setLocation(address);
+        if (address.codeficatorAddressDto && address.street && address.buildingNumber) {
+          this.setLocation(address);
         }
       });
     }
@@ -151,7 +146,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param address - type Address
    */
   setAddressLocation(address: Address): void {
-    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker([address.latitude, address.longitude]);
+    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker([address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude]);
   }
 
   /**
@@ -162,30 +157,32 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
         const location = result.address || result[0].properties.address;
-        const city = location.city || location.village || location.town || location.hamlet;
+        const codeficatorAddressDto = {
+          settlement:location.city || location.village || location.town || location.hamlet
+        } as Codeficator;
         const street = location.road;
         const buildingNumber = location.house_number;
         const longitude = result.lon || result[0].lon;
         const latitude = result.lat || result[0].lat;
-        this.setAddressEvent.emit({ city, street, buildingNumber, longitude, latitude });
+        this.setAddressEvent.emit({ codeficatorAddressDto, street, buildingNumber, longitude, latitude });
       } else {
         this.setAddressEvent.emit({
-          city: '',
-          street: '',
-          buildingNumber: '',
+          codeficatorAddressDto: null,
+          street: null,
+          buildingNumber: null,
         });
       }
     });
   }
 
-   /**
+  /**
    * uses GeolocationService to translate address into coords and sets marker on default
    * @param address - type Address
    */
-  setLocation(address: Address): void {
+  setLocation(address: MapAddress): void {
     this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
       if (result.address || (Array.isArray(result) && result.length)) {
-        const coords: [number, number] = [result.lat||result[0].lat, result.lon || result[0].lon];
+        const coords: [number, number] = [result.lat || result[0].lat, result.lon || result[0].lon];
         this.setNewSingleMarker(coords);
       }
     });
@@ -207,42 +204,52 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param coords - type [number, number]
    */
   setWorkshopMarkers(address: Address): void {
-    const coords: [number, number] = [address.latitude, address.longitude];
+    const coords: [number, number] = [address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude];
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
     this.workshopMarkers.push({ marker, isSelected: false });
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-      const targetMarker = this.workshopMarkers.find((workshopMarker) => workshopMarker.marker === event.target);
+      const targetMarker = this.workshopMarkers.find(workshopMarker => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
-      this.selectedAddress.emit(address);
+      this.selectedAddress.emit({
+        ...address,
+        codeficatorAddressDto: address.codeficatorAddressDto,
+      });
     });
   }
 
   setPrevWorkshopMarker(): void {
-    this.selectedWorkshop$.pipe(
+    this.selectedWorkshop$
+      .pipe(
         filter((workshop: Workshop) => !!workshop),
-        filter((workshop: Workshop) => ('/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl()))
-      ).subscribe((workshop: Workshop) => {
+        filter((workshop: Workshop) => '/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl())
+      )
+      .subscribe((workshop: Workshop) => {
         const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
-          const {lat, lng} = workshopMarker.marker.getLatLng();
-          return (lat === workshop.address.latitude && lng === workshop.address.longitude);
+          const { lat, lng } = workshopMarker.marker.getLatLng();
+          return lat === workshop.address.codeficatorAddressDto.latitude && lng === workshop.address.codeficatorAddressDto.longitude;
         });
         targetMarkers.forEach((targetMarker: WorkshopMarker) => {
           targetMarker.isSelected = true;
           targetMarker.marker.setIcon(this.selectedMarkerIcon);
         });
-        this.selectedAddress.emit(workshop.address);
-    });
+        this.selectedAddress.emit({
+          ...workshop.address,
+          codeficatorAddressDto: workshop.address.codeficatorAddressDto,
+        });
+      });
   }
 
   /**
    * This method unselect target Marker
    */
   unselectMarkers(): void {
-    const selectedWorkshopMarker = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => workshopMarker.isSelected);
+    const selectedWorkshopMarker = this.workshopMarkers.filter(
+      (workshopMarker: WorkshopMarker) => workshopMarker.isSelected
+    );
     if (selectedWorkshopMarker.length > 0) {
       selectedWorkshopMarker.forEach((targetMarker: WorkshopMarker) => {
         targetMarker.isSelected = false;
@@ -265,5 +272,4 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

@@ -143,10 +143,10 @@
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>
-    <p class="card_text_label" [matTooltip]="workshopData.address.city + ', ' + workshopData.address.street + ', ' +
+    <p class="card_text_label" [matTooltip]="workshopData.address.codeficatorAddressDto.settlement + ', ' + workshopData.address.street + ', ' +
       workshopData.address.buildingNumber" showTooltipIfTruncated matTooltipClass="tooltip"
       [matTooltipPosition]="tooltipPosition">
-      {{workshopData.address.city}},
+      {{workshopData.address.codeficatorAddressDto.settlement}},
       {{workshopData.address.street}}, {{workshopData.address.buildingNumber}}</p>
   </div>
 </ng-template>

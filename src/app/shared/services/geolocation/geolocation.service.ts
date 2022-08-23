@@ -1,4 +1,3 @@
-import { City } from './../../models/city.model';
 import { ConfirmCity, SetCity } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
@@ -9,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { Address } from '../../models/address.model';
 import { Constants } from '../../constants/constants';
+import { Codeficator } from '../../models/codeficator.model';
 
 
 @Injectable({
@@ -25,23 +25,23 @@ export class GeolocationService {
   constructor(public store: Store, private http: HttpClient) { }
 
   /**
-   * This method sets default city Kiev in localStorage if user deny geolocation
+   * This method sets default city Kyiv in localStorage if user deny geolocation
    */
-  confirmCity(city: City): void {
+  confirmCity(settlement: Codeficator): void {
     !!localStorage.getItem('cityConfirmation') ?
       this.store.dispatch([
         new SetCity(JSON.parse(localStorage.getItem('cityConfirmation'))),
         new ConfirmCity(true),
       ]) :
       this.store.dispatch([
-        new SetCity(city),
+        new SetCity(settlement),
         new ConfirmCity(false),
       ]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(Constants.KIEV);
+    this.confirmCity(Constants.KYIV);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
@@ -88,7 +88,7 @@ export class GeolocationService {
    */
   addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
     GeocoderService
-      .geocode(this.http, `${address.city}+${address.street}+${address.buildingNumber}`, 'uk-UA, uk')
+      .geocode(this.http, `${address.codeficatorAddressDto.settlement}+${address.street}+${address.buildingNumber}`, 'uk-UA, uk')
       .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
         callback(result);
       });

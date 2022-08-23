@@ -174,7 +174,7 @@ export class RegistrationState {
   ): Observable<Parent> | Observable<Provider> {
     const state = getState();
     patchState({ role: state.user.role as Role });
-
+    
     switch (state.user.role) {
       case Role.parent:
         return this.parentService

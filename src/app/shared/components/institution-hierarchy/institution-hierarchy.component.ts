@@ -122,7 +122,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.editInstituitionsHierarchy$
       .pipe(
         takeUntil(this.destroy$),
-        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy)
+        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy && !!this.hierarchyArray.length)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         instituitionsHierarchy.forEach((instituitionsHierarchy: InstituitionHierarchy) => {
@@ -141,10 +141,13 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray[nextEl].formControl.setValue('');
       this.hierarchyArray[nextEl].shouldDisplay = false;
       this.store.dispatch(new GetInstitutionHierarchyChildrenById(optionId));
-    } else {
-      this.instituitionHierarchyIdFormControl.setValue(optionId);
-      this.store.dispatch(new ResetInstitutionHierarchy());
-    }
+    } 
+    this.setFinalHierarchyLevel(optionId);
+  }
+
+  private setFinalHierarchyLevel(optionId: string): void {
+    this.instituitionHierarchyIdFormControl.setValue(optionId);
+    this.store.dispatch(new ResetInstitutionHierarchy());
   }
 
   ngOnDestroy(): void {
