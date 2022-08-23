@@ -135,7 +135,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   private addNavPath(): void {
     this.store.dispatch([ 
-      this.store.dispatch(new GetAllMinistryAdmins()),
+      new GetAllMinistryAdmins(),
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,
