@@ -16,6 +16,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { FormControl } from '@angular/forms';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/store/paginator.actions';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
 
 @Component({
   selector: 'app-provider-list',
@@ -30,6 +31,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Select(AdminState.providers)
   providers$: Observable<ProviderCards>;
+  @Select(PaginatorState.providersPerPage)
+  providersPerPage$: Observable<number>;
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;

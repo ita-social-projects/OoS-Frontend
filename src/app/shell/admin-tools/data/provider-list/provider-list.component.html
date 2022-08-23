@@ -269,7 +269,7 @@
   <app-paginator
   [totalEntities]="totalEntities"
   [currentPage]="currentPage"
-  [itemsPerPage]="providers$ | async"
+  [itemsPerPage]="providersPerPage$ | async"
   (pageChange)="onPageChange($event)"
   (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
