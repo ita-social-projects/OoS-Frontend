@@ -132,7 +132,7 @@
             Статус
           </th>
           <td mat-cell *matCellDef="let element">
-            <div class="provider-list-status {{ element.status }}">
+            <div class="provider-list-status {{ providerTitleUkr[element.status] }}">
               <span>
                 <i class="status-icon {{ providerAdminIcons[element.status] }}"></i></span>
               <span>{{ element.status }}</span>
