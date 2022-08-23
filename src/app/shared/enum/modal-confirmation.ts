@@ -24,6 +24,7 @@ export enum ModalConfirmationType {
   unBlockParent = 'unBlockParent',
   blockParent = 'blockParent',
   reject = 'reject',
+  deleteMinistryAdmin = 'deleteMinistryAdmin',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -50,6 +51,7 @@ export enum ModalConfirmationTitle {
   unBlockParent = 'РОЗБЛОКУВАТИ КОРИСТУВАЧА',
   blockParent = 'ЗАБЛОКУВАТИ КОРИСТУВАЧА',
   reject = 'ВІДМОВИТИ',
+  deleteMinistryAdmin = 'ВИДАЛИТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
 }
 
 export enum ModalConfirmationText {

@@ -1,4 +1,5 @@
   <div class="admins-wrapper">
+
     <div class="search-area">
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
@@ -27,6 +28,8 @@
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
         <mat-tab label="{{adminRoleUkr.ministryAdmin}}">
+          <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: ministryAdmins}">
+          </ng-container>
         </mat-tab>
         <mat-tab label="{{adminRoleUkr.regionAdmin}}">
         </mat-tab>
@@ -36,6 +39,18 @@
     </div>
   </div>
 
+  <ng-template #AdminsList let-filterValue let-admins="admins">
+    <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+      <ng-container *ngIf="admins?.length else isEmptyList;">
+        <div class="table-wrapper">
+          <app-users-list [users]="admins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+          (blockAdmin)="onBlock($event)" ></app-users-list>
+        </div>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
   <ng-template #isEmptyList>
+    <p> {{isLoadingCabinet$| async}}</p>
     <app-no-result-card [title]="noAdmins"></app-no-result-card>
   </ng-template>

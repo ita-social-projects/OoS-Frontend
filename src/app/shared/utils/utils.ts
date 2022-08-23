@@ -144,6 +144,29 @@ export class Util {
   }
 
   /**
+   * This method returns updated array structure for the table
+   * @param admins Admins array of objects
+   * @returns array of objects
+   */
+   public static updateStructureForTheTableAdmins(admins): UsersTable[] {
+    const constants: typeof Constants = Constants;
+    let updatedAdmins = [];
+    console.log(admins);
+    admins.forEach(admins => {
+      updatedAdmins.push({
+        id: admins.id,
+        pib: `${admins.lastName} ${admins.firstName} ${admins.middleName}` || constants.NO_INFORMATION,
+        email: admins.email || constants.NO_INFORMATION,
+        place: admins.place || constants.NO_INFORMATION,
+        phoneNumber: admins.phoneNumber ? `${constants.PHONE_PREFIX} ${admins.phoneNumber}` : constants.NO_INFORMATION,
+        role: admins.id,
+        status: admins.accountStatus || 'Accepted',
+      });
+    });
+    return updatedAdmins;
+  }
+
+  /**
    * This method returns union message for the workshop updating
    * @param payload Object
    * @returns string
