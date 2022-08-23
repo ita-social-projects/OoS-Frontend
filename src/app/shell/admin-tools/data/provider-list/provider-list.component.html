@@ -1,48 +1,28 @@
-  <div class="wrapper-header">
+<div class="wrapper-header">
 
-    <div class="search-area">
-      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-        <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-        <input
-          [formControl]="filterFormControl"
-          matInput
-          type="text"
-          class="search"
-          placeholder="Пошук за закладом, ЄДРПО, містом чи статусом"
-        />
-      </div>
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <input [formControl]="filterFormControl" matInput type="text" class="search"
+        placeholder="Пошук за закладом, ЄДРПО, містом чи статусом" />
     </div>
   </div>
+</div>
 
-  <!-- -------------Table------------ -->
-  <div class="wrapper">
+<!-- -------------Table------------ -->
+<div class="wrapper">
   <div [hidden]="!dataSource">
-    <div  class="table-container mat-elevation-z8">
-      <table
-        mat-table
-        [dataSource]="dataSource"
-        matSort
-        (matSortChange)="announceSortChange($event)"
-      >
+    <div class="table-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
         <ng-container matColumnDef="fullTitle">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by fullTitle"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
             Назва закладу
           </th>
           <td mat-cell *matCellDef="let element">{{ element.fullTitle }}</td>
         </ng-container>
 
         <ng-container matColumnDef="ownership">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by ownership"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ownership">
             Форма власності
           </th>
           <td mat-cell *matCellDef="let element">
@@ -53,12 +33,7 @@
         </ng-container>
 
         <ng-container matColumnDef="edrpouIpn">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by edrpouIpn"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
             ЄДРПО
           </th>
           <td mat-cell *matCellDef="let element">{{ element.edrpouIpn }}</td>
@@ -70,12 +45,7 @@
         </ng-container>
 
         <ng-container matColumnDef="city">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by city"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">
             Населений пункт
           </th>
           <td mat-cell *matCellDef="let element">
@@ -84,12 +54,7 @@
         </ng-container>
 
         <ng-container matColumnDef="street">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by street"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">
             Адреса
           </th>
           <td mat-cell *matCellDef="let element">
@@ -99,60 +64,35 @@
         </ng-container>
 
         <ng-container matColumnDef="director">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by director"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by director">
             Директор
           </th>
           <td mat-cell *matCellDef="let element">{{ element.director }}</td>
         </ng-container>
 
         <ng-container matColumnDef="email">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by email"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
             Електронна пошта
           </th>
           <td mat-cell *matCellDef="let element">{{ element.email }}</td>
         </ng-container>
 
         <ng-container matColumnDef="website">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by website"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by website">
             Website
           </th>
           <td mat-cell *matCellDef="let element">{{ element.website }}</td>
         </ng-container>
 
         <ng-container matColumnDef="shortTitle">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by shortTitle"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by shortTitle">
             Скорочена назва організації
           </th>
           <td mat-cell *matCellDef="let element">{{ element.shortTitle }}</td>
         </ng-container>
 
         <ng-container matColumnDef="phoneNumber">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by phoneNumber"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
             Телефон
           </th>
           <td mat-cell *matCellDef="let element">
@@ -161,12 +101,7 @@
         </ng-container>
 
         <ng-container matColumnDef="directorDateOfBirth">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by directorDateOfBirth"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by directorDateOfBirth">
             Дата народження керівника
           </th>
           <td mat-cell *matCellDef="let element">
@@ -175,12 +110,7 @@
         </ng-container>
 
         <ng-container matColumnDef="founder">
-          <th
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by founder"
-          >
+          <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by founder">
             Засновник
           </th>
           <td mat-cell *matCellDef="let element">{{ element.founder }}</td>
@@ -196,13 +126,8 @@
         </ng-container>
 
         <ng-container matColumnDef="status" stickyEnd>
-          <th
-            class="status-title"
-            mat-header-cell
-            *matHeaderCellDef
-            mat-sort-header
-            sortActionDescription="Sort by status"
-          >
+          <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header
+            sortActionDescription="Sort by status">
             Статус
           </th>
           <td mat-cell *matCellDef="let element">
@@ -222,10 +147,7 @@
               <button mat-icon-button [matMenuTriggerFor]="actions">
                 <mat-icon class="action-icon">more_vert</mat-icon>
               </button>
-              <button
-                mat-icon-button
-                (click)="onViewProviderInfo(element)"
-              >
+              <button mat-icon-button (click)="onViewProviderInfo(element)">
                 <mat-icon class="action-icon">remove_red_eye</mat-icon>
               </button>
               <a mat-icon-button [routerLink]="['/details/provider/', element.id]">
@@ -259,21 +181,14 @@
       </table>
     </div>
     <div *ngIf="isInfoDisplayed" class="container">
-      <app-provider-info
-        [provider]="provider"
-        [isProviderView]="false"
-        (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "
-      ></app-provider-info>
+      <app-provider-info [provider]="provider" [isProviderView]="false"
+        (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "></app-provider-info>
     </div>
   </div>
   <div class="paginator">
-  <app-paginator
-  [totalEntities]="totalEntities"
-  [currentPage]="currentPage"
-  [itemsPerPage]="providersPerPage$ | async"
-  (pageChange)="onPageChange($event)"
-  (itemsPerPageChange)="onItemsPerPageChange($event)">
-</app-paginator>
+    <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage"
+      [itemsPerPage]="providersPerPage$ | async" (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-paginator>
+  </div>
 </div>
-</div>
-
