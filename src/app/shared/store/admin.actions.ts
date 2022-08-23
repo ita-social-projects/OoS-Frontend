@@ -150,7 +150,7 @@ export class OnDeleteMinistryAdminFail {
 
 export class BlockMinistryAdminById {
   static readonly type = '[admin] block Ministry Admin';
-  constructor(public payload) { }
+  constructor(public payload: string) { }
 }
 
 export class OnBlockMinistryAdminSuccess {
