@@ -30,3 +30,9 @@ export interface ChildCards {
   totalAmount: number;
   entities: Child[];
 }
+export interface ChildrenParameters {
+  isParent?: boolean;
+  searchString?: string;
+  from?: number;
+  size?: number;
+}

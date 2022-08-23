@@ -9,7 +9,7 @@ import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { Child, ChildCards, ChildrenParameters } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { UsersTable } from 'src/app/shared/models/usersTable';
@@ -46,18 +46,23 @@ export class UsersComponent implements OnInit, OnDestroy {
   totalEntities: number;
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  childrenParams: ChildrenParameters = {
+    searchString: "",
+    isParent: undefined,
+  };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.filterFormControl.valueChanges
-      .pipe( 
-        takeUntil(this.destroy$),
-        distinctUntilChanged(),
-        startWith(''),
-        debounceTime(2000),
-        map((value: string)=> value.trim()))
-      .subscribe((searchString:string)=> this.store.dispatch(new GetChildrenForAdmin(searchString)));
+
+    // this.filterFormControl.valueChanges
+    //   .pipe( 
+    //     takeUntil(this.destroy$),
+    //     distinctUntilChanged(),
+    //     startWith(''),
+    //     debounceTime(2000),
+    //     map((value: string)=> value.trim()))
+    //   .subscribe((searchString:string)=> this.store.dispatch(new GetChildrenForAdmin(searchString)));
 
     this.children$
       .pipe(
@@ -69,9 +74,9 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.totalEntities = children.totalAmount;
         this.allUsers = this.children;
       });
-
+     
     this.store.dispatch([
-      new GetChildrenForAdmin(),
+      new GetChildrenForAdmin(this.childrenParams),
       new PushNavPath(
         {
           name: NavBarName.Users,
@@ -80,21 +85,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         },
       ),
     ]);
-
-
-    // this.parents$.pipe(
-    //   takeUntil(this.destroy$),
-    //   filter((parents: Parent[]) => !!parents)
-    // ).subscribe((parents: Parent[]) => this.parents = Util.updateStructureForTheTable(parents))
-    // TODO: for the tab 'Батьки' will implement when backend will be ready
-
-    // this.parents$.pipe(
-    //   takeUntil(this.destroy$),
-    //   filter((parents: Parent[]) => !!parents),
-    //   combineLatestWith(this.children$),
-    // ).subscribe(users => this.allUsers = Util.updateStructureForTheTable(users))
-    // this.store.dispatch(new GetParents());
-    // TODO: for the tab 'Усі' will implement when backend will be ready
+    console.log(this.totalEntities)
   }
 
   /**
@@ -102,20 +93,29 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    const tabLabel = event.tab.textLabel;
+      if(tabLabel ===this.userRoleUkr.all){
+        this.childrenParams.isParent = undefined;
+      } else if(tabLabel ===this.userRoleUkr.parent) {
+        this.childrenParams.isParent = true;
+      } else if(tabLabel ===this.userRoleUkr.child) {
+        this.childrenParams.isParent = false;
+      };
+    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] },
     });
   }
-  
+
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin()]);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetChildrenForAdmin()]);
+    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   ngOnDestroy(): void {

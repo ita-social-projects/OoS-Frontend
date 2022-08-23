@@ -3,7 +3,7 @@ import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Achievement } from '../models/achievement.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
 import { BlockedParent } from '../models/block.model';
-import { Child } from '../models/child.model';
+import { Child, ChildrenParameters } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { User } from '../models/user.model';

@@ -133,9 +133,9 @@ export class Util {
       updatedUsers.push({
         id: user.id,
         pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
-        email: user.parent.email || constants.NO_INFORMATION,
+        email: user.parent?.email || constants.NO_INFORMATION,
         place: user.place || constants.NO_INFORMATION,
-        phoneNumber: user.parent.phoneNumber ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}` : constants.NO_INFORMATION,
+        phoneNumber: user.parent?.phoneNumber ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}` : constants.NO_INFORMATION,
         role: user.parentId ? 'Діти' : 'Батьки',
         status: user.accountStatus || 'Accepted',
       });
