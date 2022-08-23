@@ -4,14 +4,17 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { Store } from '@ngxs/store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MinistryAdminService {
-  store: any;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient, 
+    private store: Store, 
+  ) {}
 
   private setParams( searchString?:string ): HttpParams {
     let params = new HttpParams();
@@ -19,12 +22,12 @@ export class MinistryAdminService {
     if(searchString){
       params = params.set('SearchString', searchString);
     }
-    // const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    // const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
-    // const from: number = size * (+currentPage.element - 1);
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.adminsPerPage);
+    const from: number = size * (+currentPage.element - 1);
     
-    // params = params.set('Size', size.toString());
-    // params = params.set('From', from.toString());
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
 
     return params;
   }

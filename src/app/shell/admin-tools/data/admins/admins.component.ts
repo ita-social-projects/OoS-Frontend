@@ -22,7 +22,7 @@ import { Constants, PaginationConstants } from 'src/app/shared/constants/constan
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeAdminTable, SetAdminsPerPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetAdminsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 
 @Component({
   selector: 'app-admins',
@@ -46,7 +46,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
-  ministryAdmins: AllMinistryAdmins;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -75,12 +74,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
     )
     .subscribe((ministryAdmins: AllMinistryAdmins)=> {
       this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
-      this.ministryAdmins = ministryAdmins;
       this.totalEntities = ministryAdmins.totalAmount;
     });
 
     this.addNavPath();
-    this.store.dispatch(new GetAllMinistryAdmins());
+
   }
 
   /**
@@ -95,54 +93,55 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-    /**
-   * This method block Admin By Id
-   */
-     onBlock(admin): void {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.blockMinistryAdmin,
-          property: admin.pib,
-        },
-      });
+  /**
+  * This method block Admin By Id
+  */
+  onBlock(admin): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.blockMinistryAdmin,
+        property: admin.pib,
+      },
+    });
   
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        result &&
-          this.store.dispatch(
-            new BlockMinistryAdminById(admin.id)
-          );
-      });
-    }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result &&
+        this.store.dispatch(
+          new BlockMinistryAdminById(admin.id)
+        );
+    });
+  }
 
   /**
    * This method delete Admin By Id
   */
-     onDelete(admin): void {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.deleteMinistryAdmin,
-          property: admin.pib,
-        },
-      });
+  onDelete(admin): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteMinistryAdmin,
+        property: admin.pib,
+      },
+    });
   
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        result &&
-          this.store.dispatch(
-            new DeleteMinistryAdminById(admin.id)
-          );
-      });
-    }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result &&
+        this.store.dispatch(
+          new DeleteMinistryAdminById(admin.id)
+        );
+    });
+  }
 
   private addNavPath(): void {
-    this.store.dispatch(
+    this.store.dispatch([ 
+      this.store.dispatch(new GetAllMinistryAdmins()),
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,
         disable: true,
       })
-    );
+    ]);
   }
 
   onPageChange(page: PaginationElement): void {

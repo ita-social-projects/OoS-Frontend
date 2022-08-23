@@ -34,7 +34,7 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     childrensPerPage: 12,
     applicationsPerPage: 8,
-    adminsPerPage: 12,
+    adminsPerPage: 8,
     ratingPerPage: 12,
     currentPage: PaginationConstants.firstPage,
   }
