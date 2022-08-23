@@ -61,7 +61,9 @@ export class MinistryAdminService {
    * @param ministryAdminId: string
    */
   deleteMinistryAdmin(ministryAdminId: string): Observable<object> {
-    return this.http.delete(`/api/v1/MinistryAdmin/Delete/${ministryAdminId}`);
+    let params = new HttpParams();
+    params = params.set('ministryAdminId', `${ministryAdminId}`);
+    return this.http.delete(`/api/v1/MinistryAdmin/Delete`, { params });
   }
 
   /**
