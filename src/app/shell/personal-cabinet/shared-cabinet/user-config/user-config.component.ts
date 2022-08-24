@@ -6,7 +6,6 @@ import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { environment } from 'src/environments/environment';
 import { Constants } from 'src/app/shared/constants/constants';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Role } from 'src/app/shared/enum/role';

@@ -7,7 +7,6 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { cardType } from 'src/app/shared/enum/role';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { User } from 'src/app/shared/models/user.model';
@@ -34,20 +33,16 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   styleUrls: ['./create-application.component.scss'],
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
-  readonly CardType = cardType;
-
-  @Select(UserState.children) 
+  @Select(UserState.children)
   children$: Observable<ChildCards>;
   children: Child[];
   parentCard: Child;
-  @Select(UserState.isAllowChildToApply) 
+  @Select(UserState.isAllowChildToApply)
   isAllowChildToApply$: Observable<boolean>;
-  @Select(RegistrationState.user) 
-  user$: Observable<User>;
-  @Select(RegistrationState.parent) 
+  @Select(RegistrationState.parent)
   parent$: Observable<ParentWithContactInfo>;
   parent: ParentWithContactInfo;
-  @Select(UserState.selectedWorkshop) 
+  @Select(UserState.selectedWorkshop)
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 
@@ -98,22 +93,26 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.AttendAgreementFormControlYourself.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isAttendAgreementYourself = val));
-      this.children$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((children: ChildCards) => {
-        this.parentCard = children?.entities.find((child: Child) => child.isParent);
-        this.children = children?.entities.filter((child: Child) => !child.isParent);
-      }
-        );
-      this.isAllowChildToApply$
+    this.isAllowChildToApply$
       .pipe(takeUntil(this.destroy$))
       .subscribe((status: boolean) => (this.isAllowChildToApply = status));
+
+    this.children$
+      .pipe(
+        filter((children: ChildCards) => !!children),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((children: ChildCards) => {
+        this.parentCard = children.entities.find((child: Child) => child.isParent);
+        this.children = children.entities.filter((child: Child) => !child.isParent);
+      });
 
     combineLatest([this.parent$, this.workshop$])
       .pipe(
         takeUntil(this.destroy$),
         filter(([parent, workshop]) => !!(parent && workshop))
-      ).subscribe(([parent, workshop]) => {
+      )
+      .subscribe(([parent, workshop]) => {
         this.parent = parent;
         this.workshop = workshop;
         this.store.dispatch([
@@ -132,7 +131,6 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
         ]);
       });
   }
-
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
@@ -154,8 +152,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-          const application = new Application(
-          this.tabIndex ? this.parentCard: this.selectedChild,
+        const application = new Application(
+          this.tabIndex ? this.parentCard : this.selectedChild,
           this.workshop,
           this.parent
         );
@@ -170,7 +168,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   onTabChange(tabChangeEvent: MatTabChangeEvent): void {
     this.tabIndex = tabChangeEvent.index;
-    if(this.tabIndex){
+    if (this.tabIndex) {
       this.store.dispatch(new GetStatusIsAllowToApply(this.parentCard.id, this.workshopId));
     }
   }

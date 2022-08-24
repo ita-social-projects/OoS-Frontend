@@ -18,13 +18,6 @@ export enum PersonalInfoRole {
   ministryadmin = 'MinistryAdmin',
 }
 
-export enum cardType {
-  provider = 'provider',
-  parent = 'parent',
-  child = 'child',
-  user = 'user',
-}
-
 export enum RoleLinks {
   provider = 'заклад',
   parent = 'дітей'
