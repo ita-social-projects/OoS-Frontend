@@ -1,22 +1,26 @@
 <div class="wrapper" *ngIf="user$ | async as user" fxLayout="row wrap" fxLayoutAlign="start">
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
-      <button mat-button style="color:#3849F9;">
-        <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-      </button>
+      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Редагувати</button>
     </a>
     <h4>Прізвище</h4>
-    <p>{{user.lastName}}</p>
+    <p>{{ user.lastName }}</p>
     <h4>Ім'я</h4>
-    <p>{{user.firstName}}</p>
+    <p>{{ user.firstName }}</p>
     <h4>По-батькові</h4>
-    <p>{{user.middleName}}</p>
+    <p>{{ user.middleName }}</p>
     <h4>Телефон</h4>
-    <p>{{phonePrefix + user.phoneNumber | phoneTransform }}</p>
+    <p>{{ phonePrefix + user.phoneNumber | phoneTransform }}</p>
+    <ng-container *ngIf="(role$ | async) === role.parent">
+      <h4>Дата народження</h4>
+      <p>{{ user.dateOfBirth | date: dateFormat }}</p>
+      <h4>Стать</h4>
+      <p>{{ gender[user.gender] }}</p>
+    </ng-container>
   </div>
   <div class="config">
     <h4>Електронна пошта</h4>
-    <p style="margin-bottom: 0;">{{user.email}}</p>
+    <p style="margin-bottom: 0">{{ user.email }}</p>
     <p class="link" (click)="onRedirect('/Account/ChangeEmail')">Змінити електронну пошту</p>
     <h4>Пароль</h4>
     <p class="link" (click)="onRedirect('/Account/ChangePassword')">Змінити Пароль</p>

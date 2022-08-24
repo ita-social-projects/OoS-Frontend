@@ -1,3 +1,4 @@
+import { PersonalInfoRole } from './../enum/role';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
@@ -7,6 +8,10 @@ import {
   OnAuthFail,
   CheckRegistration,
   GetProfile,
+  OnUpdateUserSuccess,
+  UpdateUser,
+  OnUpdateUserFail,
+  GetUserPersonalInfo,
 } from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
@@ -16,14 +21,17 @@ import { ProviderService } from '../services/provider/provider.service';
 import { ParentService } from '../services/parent/parent.service';
 import { Parent } from '../models/parent.model';
 import { TechAdmin } from '../models/techAdmin.model';
-import { tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
-import { Observable } from 'rxjs';
+import { Observable, of, throwError } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { SignalRService } from '../services/signalR/signal-r.service';
+import { MarkFormDirty, ShowMessageBar } from './app.actions';
+import { HttpErrorResponse } from '@angular/common/http';
+
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   isLoading: boolean;
@@ -45,7 +53,7 @@ export interface RegistrationStateModel {
     parent: undefined,
     techAdmin: undefined,
     role: Role.unauthorized,
-    subrole: null
+    subrole: null,
   },
 })
 @Injectable()
@@ -55,8 +63,8 @@ export class RegistrationState {
     return state.isAuthorized;
   }
   @Selector()
-  static isLoading(state: RegistrationStateModel): boolean { 
-    return state.isLoading
+  static isLoading(state: RegistrationStateModel): boolean {
+    return state.isLoading;
   }
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
@@ -121,29 +129,22 @@ export class RegistrationState {
   }
 
   @Action(CheckAuth)
-  CheckAuth({
-    patchState,
-    dispatch,
-  }: StateContext<RegistrationStateModel>): void { 
+  CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
     patchState({ isLoading: true });
-    this.oidcSecurityService.checkAuth().subscribe((auth) => {
-      console.log('is authenticated', auth);
+    this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
       patchState({ isAuthorized: auth });
-      if (auth) {  
+      if (auth) {
         const token = jwt_decode(this.oidcSecurityService.getToken());
-        const id = token['sub'];
         const subrole = token['subrole'];
-       
-        this.userService.getUserById(id).subscribe((user) => {
-          patchState({ subrole: subrole , user: user, isLoading: false });
-          dispatch(new CheckRegistration());
-        });
+        const role = token['role'];
+        patchState({ subrole, role });
+
+        dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
       } else {
-        patchState({ isLoading: false });
-        patchState({ role: Role.unauthorized });
+        patchState({ role: Role.unauthorized, isLoading: false });
       }
     });
-  }  
+  }
 
   @Action(OnAuthFail)
   onAuthFail(): void {
@@ -155,16 +156,11 @@ export class RegistrationState {
   }
 
   @Action(CheckRegistration)
-  checkRegistration({
-    dispatch,
-    getState,
-  }: StateContext<RegistrationStateModel>): void {
+  checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
     this.signalRservice.startConnection();
 
-    state.user.isRegistered
-      ? dispatch(new GetProfile())
-      : this.router.navigate(['/create-provider', '']);
+    state.user.isRegistered ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
   }
 
   @Action(GetProfile)
@@ -174,24 +170,54 @@ export class RegistrationState {
   ): Observable<Parent> | Observable<Provider> {
     const state = getState();
     patchState({ role: state.user.role as Role });
-    
+
     switch (state.user.role) {
       case Role.parent:
-        return this.parentService
-          .getProfile()
-          .pipe(tap((parent: Parent) => patchState({ parent: parent })));
+        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
       case Role.techAdmin:
         return this.techAdminService
           .getProfile()
-          .pipe(
-            tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin }))
-          );
+          .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       default:
-        return this.providerService
-          .getProfile()
-          .pipe(
-            tap((provider: Provider) => patchState({ provider: provider }))
-          );
+        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }
+  }
+
+  @Action(GetUserPersonalInfo)
+  getUserPersonalInfo(
+    { patchState }: StateContext<RegistrationStateModel>,
+    { userRole }: GetUserPersonalInfo
+  ): Observable<User> {
+    patchState({ isLoading: true });
+    return this.userService
+      .getPersonalInfo(userRole)
+      .pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
+  }
+
+  @Action(UpdateUser)
+  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { userRole, user }: UpdateUser): Observable<object> {
+    return this.userService.updatePersonalInfo(userRole, user).pipe(
+      tap((res: User) => dispatch(new OnUpdateUserSuccess(userRole))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
+    );
+  }
+
+  @Action(OnUpdateUserFail)
+  onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>, { payload }: OnUpdateUserFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnUpdateUserSuccess)
+  onUpdateUserSuccess({ dispatch }: StateContext<RegistrationStateModel>, { payload }: OnUpdateUserSuccess): void {
+    dispatch([
+      new MarkFormDirty(false),
+      new GetUserPersonalInfo(payload),
+      new ShowMessageBar({
+        message: 'Особиста інформація успішно відредагована',
+        type: 'success',
+      }),
+    ]);
+    this.router.navigate(['/personal-cabinet/config']);
   }
 }

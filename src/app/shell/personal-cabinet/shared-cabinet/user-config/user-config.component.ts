@@ -6,9 +6,10 @@ import { User } from 'src/app/shared/models/user.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { environment } from 'src/environments/environment';
 import { Constants } from 'src/app/shared/constants/constants';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { Role } from 'src/app/shared/enum/role';
+import { Gender } from 'src/app/shared/enum/gender';
 
 @Component({
   selector: 'app-user-config',
@@ -16,10 +17,15 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent implements OnInit, OnDestroy {
+  readonly gender = Gender;
   readonly phonePrefix = Constants.PHONE_PREFIX;
+  readonly dateFormat = Constants.SHORT_DATE_FORMAT;
+  readonly role = Role;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
+  @Select(RegistrationState.role)
+  role$: Observable<Role>;
   
   authServer: string = environment.stsServer;
   culture: string = localStorage.getItem('ui-culture');;

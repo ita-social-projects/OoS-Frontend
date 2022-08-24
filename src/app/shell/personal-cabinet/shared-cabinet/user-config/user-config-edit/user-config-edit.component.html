@@ -5,12 +5,11 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="userEditFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-
         <label class="step-label"> Прізвище <span class="step-required">*</span></label>
         <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue>
+          <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue />
         </mat-form-field>
-        <app-validation-hint 
+        <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('lastName')"
           [minCharachters]="validationConstants.INPUT_LENGTH_1"
           [maxCharachters]="validationConstants.INPUT_LENGTH_60">
@@ -18,9 +17,9 @@
 
         <label class="step-label"> Ім'я <span class="step-required">*</span></label>
         <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue>
+          <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue />
         </mat-form-field>
-        <app-validation-hint 
+        <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('firstName')"
           [minCharachters]="validationConstants.INPUT_LENGTH_1"
           [maxCharachters]="validationConstants.INPUT_LENGTH_60">
@@ -28,45 +27,60 @@
 
         <label class="step-label"> По-батькові <span class="step-required">*</span></label>
         <mat-form-field>
-          <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue>
+          <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue />
         </mat-form-field>
-        <app-validation-hint 
+        <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('middleName')"
           [minCharachters]="validationConstants.INPUT_LENGTH_1"
           [maxCharachters]="validationConstants.INPUT_LENGTH_60">
         </app-validation-hint>
 
-        <label class="step-label">Стать<span class="step-required">*</span></label>
-        <mat-radio-group formControlName="gender" color="primary">
-          <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
-          <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
-        </mat-radio-group>
-        <app-validation-hint 
-          [validationFormControl]="userEditFormGroup.get('gender')">
-        </app-validation-hint>
+        <ng-container *ngIf="userRole === role.parent">
+          <label class="step-label">Дата народження<span class="step-required">*</span></label>
+          <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="ДД/ММ/РРРР" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <label class="step-label">Стать<span class="step-required">*</span></label>
+          <mat-radio-group formControlName="gender" color="primary">
+            <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
+            <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
+          </mat-radio-group>
+          <app-validation-hint [validationFormControl]="userEditFormGroup.get('gender')"> </app-validation-hint>
+        </ng-container>
 
         <label class="step-label"> Телефон <span class="step-required">*</span></label>
         <mat-form-field>
-          <div fxLayout='row' fxLayoutAlign='start center'>
+          <div fxLayout="row" fxLayoutAlign="start center">
             <span class="step-text">{{ phonePrefix }}</span>
-            <input matInput class="step-input" type="tel" formControlName="phoneNumber" appDigitOnly ui-number-mask
-              ui-hide-group-sep maxlength="{{validationConstants.PHONE_LENGTH}}" appTrimValue>
-          </div>          
+            <input
+              matInput
+              class="step-input"
+              type="tel"
+              formControlName="phoneNumber"
+              appDigitOnly
+              ui-number-mask
+              ui-hide-group-sep
+              maxlength="{{ validationConstants.PHONE_LENGTH }}"
+              appTrimValue />
+          </div>
         </mat-form-field>
-        <app-validation-hint 
+        <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('phoneNumber')"
           [minCharachters]="validationConstants.PHONE_LENGTH"
           [isPhoneNumber]="true">
         </app-validation-hint>
-
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/personal-cabinet/config'"><button mat-raised-button
-          class="btn btn-cancel">Скасувати</button></a>
-      <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit"
-        (click)="onSubmit()">Зберегти</button>
+      <a [routerLink]="'/personal-cabinet/config'"
+        ><button mat-raised-button class="btn btn-cancel">Скасувати</button></a
+      >
+      <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">
+        Зберегти
+      </button>
     </div>
-
   </div>
 </div>

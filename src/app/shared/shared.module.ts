@@ -60,6 +60,7 @@ import { AchievementCardComponent } from '../shell/details/details-tabs/achievem
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
+import { JoinPipe } from './pipes/join.pipe';
 
 @NgModule({
   declarations: [
@@ -116,6 +117,7 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     ErrorPageComponent,
     AchievementCardComponent,
     StarsComponent,
+    JoinPipe,
   ],
   
   imports: [
@@ -181,7 +183,8 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     ImageCropperModalComponent,
     InfoFormComponent,
     AchievementCardComponent,
-    StarsComponent
+    StarsComponent,
+    JoinPipe
   ]
 })
 export class SharedModule { }
