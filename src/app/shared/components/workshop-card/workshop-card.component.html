@@ -104,7 +104,7 @@
     <div fxLayoutAlign="space-between">
       <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
       <a
-        *ngIf="isPrivate"
+        *ngIf="canChangeWorkshopStatus"
         class="more-details"
         (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
         <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
