@@ -16,9 +16,8 @@ describe('ChildInfoBoxComponent', () => {
       imports: [
         MatCardModule,
         HttpClientModule,
-        JoinPipe
       ],
-      declarations: [ChildInfoBoxComponent, PhoneTransformPipe],
+      declarations: [ChildInfoBoxComponent, PhoneTransformPipe, JoinPipe],
       providers: [
         { provide: ChildrenService, useValue: ChildrenService }
       ]
