@@ -10,6 +10,14 @@ export enum Role {
   None = 'None'
 }
 
+export enum PersonalInfoRole {
+  provider = 'Provider',
+  parent = 'Parent',
+  techAdmin = 'TechAdmin',
+  providerAdmin = 'ProviderAdmin',
+  ministryAdmin = 'MinistryAdmin',
+}
+
 export enum cardType {
   provider = 'provider',
   parent = 'parent',
