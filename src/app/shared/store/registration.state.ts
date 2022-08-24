@@ -23,7 +23,7 @@ import { TechAdmin } from '../models/techAdmin.model';
 import { catchError, tap } from 'rxjs/operators';
 import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
-import { Role } from '../enum/role';
+import { PersonalInfoRole, Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { Observable, of, throwError } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
@@ -137,11 +137,10 @@ export class RegistrationState {
         const token = jwt_decode(this.oidcSecurityService.getToken());
         const subrole = token['subrole'];
         const role = token['role'];
-        const personalInfoRole = Util.getPersonalInfoRole(role, subrole);
         patchState({ subrole, role });
 
         this.userService
-          .getPersonalInfo(personalInfoRole)
+          .getPersonalInfo(PersonalInfoRole[role])
           .pipe(catchError(() => dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }))))
           .subscribe((user: User) => {
             patchState({ user, isLoading: false });

@@ -110,7 +110,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   onSubmit(): void {
     const user = new User(this.userEditFormGroup.value, this.user.id);
-    const personalInfoRole = Util.getPersonalInfoRole(this.userRole, this.subRole);
-    this.store.dispatch(new UpdateUser(personalInfoRole, user));
+    this.store.dispatch(new UpdateUser(PersonalInfoRole[this.userRole] , user));
   }
 }

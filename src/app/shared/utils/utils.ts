@@ -202,10 +202,4 @@ export class Util {
   public static getFullName(person: Person): string {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
-
-  public static getPersonalInfoRole(userRole, subrole): PersonalInfoRole {
-    return userRole === Role.provider && subrole === Role.ProviderAdmin
-      ? PersonalInfoRole.providerAdmin
-      : PersonalInfoRole[userRole];
-  }
 }

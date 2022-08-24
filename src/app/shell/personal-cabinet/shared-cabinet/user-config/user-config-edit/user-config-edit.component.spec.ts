@@ -1,3 +1,4 @@
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { UserConfigEditComponent } from './user-config-edit.component';
 import { NgxsModule } from '@ngxs/store';
@@ -28,6 +29,7 @@ describe('UserConfigEditComponent', () => {
         MatDialogModule,
         RouterTestingModule,
         MatRadioModule,
+        MatDatepickerModule
       ],
       declarations: [
         UserConfigEditComponent,
