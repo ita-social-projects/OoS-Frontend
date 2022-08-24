@@ -3,11 +3,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
   CreateProviderSteps,
-  InstitutionTypes,
   OwnershipType,
-  OwnershipTypeUkr,
   ProviderType,
-  ProviderTypeUkr,
 } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
@@ -17,6 +14,7 @@ import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
+import { InstitutionTypes, OwnershipTypeUkr, ProviderTypeUkr } from '../../enum/enumUA/provider';
 
 @Component({
   selector: 'app-provider-info',

@@ -4,15 +4,14 @@ import { ProviderService } from 'src/app/shared/services/provider/provider.servi
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetAllProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants } from 'src/app/shared/constants/constants';
 import { filter, takeUntil } from 'rxjs/operators';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
-import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/enumUA/provider';
 
 @Component({
   selector: 'app-provider-list',

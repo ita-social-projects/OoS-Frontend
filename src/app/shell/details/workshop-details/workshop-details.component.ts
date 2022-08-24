@@ -14,6 +14,8 @@ import { ImagesService } from 'src/app/shared/services/images/images.service';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import { RecruitmentStatusUkr } from 'src/app/shared/enum/enumUA/workshop';
+import { WorkhopStatus } from 'src/app/shared/enum/workshop';
 
 @Component({
   selector: 'app-workshop-details',
@@ -22,6 +24,8 @@ import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRat
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
+  readonly recruitmentStatusUkr = RecruitmentStatusUkr;
+  readonly workhopStatus = WorkhopStatus;
 
   @Input() role: Role;
   @Input() workshop: Workshop;
@@ -29,6 +33,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Input() isMobileScreen: boolean;
   @Input() displayActionCard: boolean;
 
+  workshopStatusOpen: boolean;
   selectedIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: imgPath[] = [];
@@ -43,6 +48,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getWorkshopData();
+
+    this.workshopStatusOpen = this.workshop.status === this.workhopStatus.Open;
 
     this.route.params
       .pipe(takeUntil(this.destroy$))

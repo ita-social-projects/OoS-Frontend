@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Workshop } from '../../../models/workshop.model';
+import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root',
@@ -73,11 +73,14 @@ export class UserWorkshopService {
     return this.http.put('/api/v2/Workshop/Update', formData);
   }
 
-  /**
-   * This method delete workshop by Workshop id
-   * @param id: string
+   /**
+   * This method update workshop status
+   * @param workshopStatus: WorkshopStatus
    */
-
+  updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
+    return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
+  }
+  
   deleteWorkshop(id: string): Observable<object> {
     return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
   }

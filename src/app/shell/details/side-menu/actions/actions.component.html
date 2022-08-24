@@ -1,11 +1,11 @@
 <div [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap='1.5rem'>
   <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center"> {{ workshop.price }} грн/{{ PayRateTypeUkr[workshop.payRate] }} </h4>
   <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
-  <a [routerLink]="['/create-application', workshop.id]" (click)="login()">
-    <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center">
-      ПОДАТИ ЗАЯВУ
+    <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center" [disabled]="hideApplicationSubmission">
+      <a 
+      [ngClass]="{'disable': hideApplicationSubmission}"
+      [routerLink]="['/create-application', workshop.id]" (click)="login()">ПОДАТИ ЗАЯВУ</a>
     </button>
-  </a>
 
   <!-- <button mat-raised-button class="button button-msg" (click)="login()">
     <img class="button-msg-icon" src="assets/icons/message.png" alt="email">

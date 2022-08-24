@@ -5,7 +5,6 @@
     [workshop]="workshop"
   >
   </app-actions>
-
   <app-image-carousel [images]="images"></app-image-carousel>
 
   <div class="details-wrapper">
@@ -17,6 +16,9 @@
           fxLayoutAlign="start center"
         >
           <h1 class="title">{{ workshop.title }}</h1>
+          <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
+            <div class="chip chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+          </ng-container>
         </div>
         <div *ngFor="let direction of workshop.directions">
           <img
@@ -64,3 +66,6 @@
     </mat-tab-group>
   </div>
 </div>
+<ng-template #ClosedWorkshopStatus>
+  <div class="chip chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+</ng-template>

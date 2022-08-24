@@ -175,7 +175,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
     if (this.editMode) {
       childFormGroup.patchValue(child, { emitEvent: false });
-      console.log(child)
     }
 
     return childFormGroup;

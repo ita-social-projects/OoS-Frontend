@@ -1,5 +1,6 @@
 @import "src/app/shared/styles/cards.scss";
 @import "src/app/shared/styles/application-statuses.scss";
+@import "src/app/shared/styles/workshop-status.scss";
 
 .card-img-mobile {
   width: 100%;
@@ -85,6 +86,9 @@
 }
 .more-details {
   width: fit-content;
+  &:hover {
+    cursor: pointer
+  }
 }
 .icon_launch {
   color: #3849f9;
