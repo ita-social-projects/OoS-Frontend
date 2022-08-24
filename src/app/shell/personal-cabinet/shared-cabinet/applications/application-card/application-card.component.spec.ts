@@ -30,21 +30,19 @@ describe('ApplicationCardComponent', () => {
         MatMenuModule,
         MatDialogModule,
         MatTooltipModule,
-        JoinPipe
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'uk' },
-        {provide: MatDialog, useValue: {}}
+        { provide: MatDialog, useValue: {} },
       ],
       declarations: [
         ApplicationCardComponent,
         StatusInfoCardComponent,
         InfoStatusComponent,
         ChildInfoBoxComponent,
-        PhoneTransformPipe]
-
-    })
-      .compileComponents();
+        PhoneTransformPipe,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
