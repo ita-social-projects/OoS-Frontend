@@ -11,7 +11,6 @@ import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { InfoStatusComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/application-card/info-status/info-status.component';
-import { ChildInfoBoxComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/application-card/child-info-box/child-info-box.component';
 import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
 import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 import { Child } from 'src/app/shared/models/child.model';
