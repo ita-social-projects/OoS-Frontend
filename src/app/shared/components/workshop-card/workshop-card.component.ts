@@ -70,9 +70,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   constructor(private store: Store, public dialog: MatDialog, private imagesService: ImagesService) {}
 
   ngOnInit(): void {
-    this.canChangeWorkshopStatus =
-      this.workshopData.providerOwnership !== OwnershipTypeName.State &&
-      this.workshopData.availableSeats !== this.UNLIMITED_SEATS;
+    this.canChangeWorkshopStatus = !(
+      this.workshopData.providerOwnership === OwnershipTypeName.State ||
+      this.workshopData.availableSeats === this.UNLIMITED_SEATS
+    );
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
       this.role = role;
       if (this.role === Role.parent) {
