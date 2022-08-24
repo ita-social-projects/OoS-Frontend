@@ -140,10 +140,13 @@ export class RegistrationState {
         const personalInfoRole = Util.getPersonalInfoRole(role, subrole);
         patchState({ subrole, role });
 
-        this.userService.getPersonalInfo(personalInfoRole).subscribe(user => {
-          patchState({ user, isLoading: false });
-          dispatch(new CheckRegistration());
-        });
+        this.userService
+          .getPersonalInfo(personalInfoRole)
+          .pipe(catchError(() => dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }))))
+          .subscribe((user: User) => {
+            patchState({ user, isLoading: false });
+            dispatch(new CheckRegistration());
+          });
       } else {
         patchState({ role: Role.unauthorized, isLoading: false });
       }

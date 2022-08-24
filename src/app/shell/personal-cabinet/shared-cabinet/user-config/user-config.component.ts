@@ -10,6 +10,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Role } from 'src/app/shared/enum/role';
+import { Gender } from 'src/app/shared/enum/gender';
 
 @Component({
   selector: 'app-user-config',
@@ -17,6 +18,7 @@ import { Role } from 'src/app/shared/enum/role';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent implements OnInit, OnDestroy {
+  readonly gender = Gender;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly dateFormat = Constants.SHORT_DATE_FORMAT;
 

@@ -16,7 +16,7 @@ export enum PersonalInfoRole {
   parent = 'Parent',
   techadmin = 'TechAdmin',
   providerAdmin = 'ProviderAdmin',
-  // ministryadmin = 'MinistryAdmin', TODO: upgrade handling of ministry admin profile
+  ministryadmin = 'MinistryAdmin',
 }
 
 export enum cardType {

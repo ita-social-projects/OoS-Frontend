@@ -15,7 +15,7 @@
       <h4>Дата народження</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>
       <h4>Стать</h4>
-      <p>{{ user.gender === 0 ? 'Чоловіча' : 'Жіноча' }}</p>
+      <p>{{ gender[user.gender] }}</p>
     </ng-container>
   </div>
   <div class="config">

@@ -2,8 +2,6 @@ import { Component, Input, OnInit } from '@angular/core';
 import { Constants } from '../../../../../../shared/constants/constants';
 import { Gender } from '../../../../../../shared/enum/gender';
 import { Child } from '../../../../../../shared/models/child.model';
-import { SocialGroup } from '../../../../../../shared/models/socialGroup.model';
-import { ChildrenService } from '../../../../../../shared/services/children/children.service';
 import { DetectedDeviceService } from '../../../../../../shared/services/detected-device.service';
 import { Util } from '../../../../../../shared/utils/utils';
 
