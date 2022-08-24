@@ -3,31 +3,40 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">ЗАЯВА НА ГУРТОК</h3>
     </div>
-    <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true"
+    <app-workshop-card
+      class="application-workshop"
+      [workshop]="workshop"
+      [isHorizontalView]="true"
       [isCreateApplicationView]="true"></app-workshop-card>
     <div class="card-border">
       <mat-tab-group mat-align-tabs="center" #tabGroup (selectedTabChange)="onTabChange($event)">
-        <hr class="line">
-          <mat-tab label="Подати дані про дитину">
-            <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
+        <hr class="line" />
+        <mat-tab label="Подати дані про дитину">
+          <form fxLayout="column" fxLayoutAlign="center space-between" class="step">
             <label class="step-label">Виберіть дитину<span class="step-required">*</span></label>
             <mat-form-field appearance="none">
-              <mat-select name="child" placeholder="Діти" disableOptionCentering panelClass="dropdown-panel"
-                [ngClass]="(!isAllowChildToApply && selectedChild?.id) ? 'redBorder step-input' : 'step-input'"
-                [formControl]="ChildFormControl" [(ngModel)]="selectedChild" (selectionChange)="onSelectChild($event)">
+              <mat-select
+                name="child"
+                placeholder="Діти"
+                disableOptionCentering
+                panelClass="dropdown-panel"
+                [ngClass]="!isAllowChildToApply && selectedChild?.id ? 'redBorder step-input' : 'step-input'"
+                [formControl]="ChildFormControl"
+                [(ngModel)]="selectedChild"
+                (selectionChange)="onSelectChild($event)">
                 <mat-option *ngFor="let child of children" [value]="child" class="dropdown-option">
-                  {{child.lastName}} {{child.firstName}} {{child.middleName}}
+                  {{ child.lastName }} {{ child.firstName }} {{ child.middleName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">Дитина не може бути прийнята в
-              гурток</small>
+            <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">Дитина не може бути прийнята в гурток</small>
             <app-validation-hint [validationFormControl]="ChildFormControl" [isTouched]="ChildFormControl.touched">
             </app-validation-hint>
 
             <div fxLayout="column" fxLayoutAlign="center center">
-              <p class="background-text"> Немає дитини у списку?
-                <a [routerLink]="['/create-child', '']" [queryParams]="{workshopId: workshop?.id}">
+              <p class="background-text">
+                Немає дитини у списку?
+                <a [routerLink]="['/create-child', '']" [queryParams]="{ workshopId: workshop?.id }">
                   <button class="btn-add" mat-button>
                     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
                   </button>
@@ -37,13 +46,11 @@
 
             <div *ngIf="selectedChild" class="info-wrapper">
               <p class="step-label">Дані про дитину</p>
-              <app-person-card [card]="selectedChild" [cardType]="CardType.child"></app-person-card>
-            </div>
-
-            <div class="info-wrapper">
-              <p class="step-label">Дані про батьків</p>
-              <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
-              </app-person-card>
+              <app-person-card [child]="selectedChild"></app-person-card>
+              <div class="info-wrapper">
+                <p class="step-label">Дані про батьків</p>
+                <app-person-card [child]="parentCard"> </app-person-card>
+              </div>
             </div>
 
             <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box">
@@ -59,26 +66,39 @@
               </mat-checkbox>
             </div>
             <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-              <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel"
-                  mat-raised-button>СКАСУВАТИ</button></a>
-              <button class="btn" mat-button type="submit" [disabled]="!isAttendAgreed ||
-                            !isContraindicationAgreed ||
-                            !isParentAgreed ||
-                            !selectedChild ||
-                            !isAllowChildToApply" (click)="onSubmit()">ВІДПРАВИТИ</button>
+              <a [routerLink]="['/details/workshop', workshopId]"
+                ><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a
+              >
+              <button
+                class="btn"
+                mat-button
+                type="submit"
+                [disabled]="
+                  !isAttendAgreed ||
+                  !isContraindicationAgreed ||
+                  !isParentAgreed ||
+                  !selectedChild ||
+                  !isAllowChildToApply
+                "
+                (click)="onSubmit()">
+                ВІДПРАВИТИ
+              </button>
             </div>
           </form>
-          </mat-tab>
-          <mat-tab label="Подати дані про себе">
-            <form fxLayout='column' fxLayoutAlign='center space-between' class="step">
+        </mat-tab>
+        <mat-tab label="Подати дані про себе">
+          <form fxLayout="column" fxLayoutAlign="center space-between" class="step">
             <div class="info-wrapper">
-              <small class="warning" fxLayoutAlign='center space-between' *ngIf="!isAllowChildToApply && parentCard?.id">Користувач не може бути прийнятий повторно в
-                гурток</small>
+              <small class="warning" fxLayoutAlign="center space-between" *ngIf="!isAllowChildToApply && parentCard?.id"
+                >Користувач не може бути прийнятий повторно в гурток</small
+              >
               <p class="step-label">Персональні дані</p>
-              <app-person-card *ngIf="(user$ | async)" [card]="(user$ | async)" [cardType]="CardType.parent">
-              </app-person-card>
+              <app-person-card *ngIf="parentCard" [child]="parentCard"> </app-person-card>
             </div>
-            <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControlYourself">
+            <mat-checkbox
+              class="step-check-box"
+              color="primary"
+              [formControl]="ContraindicationAgreementFormControlYourself">
               Я не маю противопоказів щодо відвідування гуртка/секції/класу
             </mat-checkbox>
             <mat-checkbox class="step-check-box" color="primary" [formControl]="AttendAgreementFormControlYourself">
@@ -86,12 +106,20 @@
               та надаю згоду на обробку персональних даних
             </mat-checkbox>
             <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-              <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel"
-                  mat-raised-button>СКАСУВАТИ</button></a>
-              <button class="btn" mat-button type="submit" [disabled]="!isContraindicationAgreementYourself || !isAttendAgreementYourself || !isAllowChildToApply" (click)="onSubmit()">ВІДПРАВИТИ</button>
+              <a [routerLink]="['/details/workshop', workshopId]"
+                ><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a
+              >
+              <button
+                class="btn"
+                mat-button
+                type="submit"
+                [disabled]="!isContraindicationAgreementYourself || !isAttendAgreementYourself || !isAllowChildToApply"
+                (click)="onSubmit()">
+                ВІДПРАВИТИ
+              </button>
             </div>
           </form>
-          </mat-tab>
+        </mat-tab>
       </mat-tab-group>
     </div>
   </div>

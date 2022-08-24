@@ -3,9 +3,9 @@ import { ChildInfoBoxComponent } from './child-info-box.component';
 import { MatCardModule } from '@angular/material/card';
 import { Child } from '../../../../../../shared/models/child.model';
 import { HttpClientModule } from '@angular/common/http';
-import { GeolocationService } from '../../../../../../shared/services/geolocation/geolocation.service';
 import { ChildrenService } from '../../../../../../shared/services/children/children.service';
 import { PhoneTransformPipe } from '../../../../../../shared/pipes/phone-transform.pipe';
+import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;
@@ -15,9 +15,9 @@ describe('ChildInfoBoxComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         MatCardModule,
-        HttpClientModule
+        HttpClientModule,
       ],
-      declarations: [ChildInfoBoxComponent, PhoneTransformPipe],
+      declarations: [ChildInfoBoxComponent, PhoneTransformPipe, JoinPipe],
       providers: [
         { provide: ChildrenService, useValue: ChildrenService }
       ]
