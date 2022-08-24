@@ -15,7 +15,6 @@ export enum PersonalInfoRole {
   provider = 'Provider',
   parent = 'Parent',
   techadmin = 'TechAdmin',
-  providerAdmin = 'ProviderAdmin',
   ministryadmin = 'MinistryAdmin',
 }
 

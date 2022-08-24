@@ -21,12 +21,10 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   readonly gender = Gender;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly dateFormat = Constants.SHORT_DATE_FORMAT;
-
   readonly role = Role;
 
   @Select(RegistrationState.user)
   user$: Observable<User>;
-
   @Select(RegistrationState.role)
   role$: Observable<Role>;
   
@@ -37,7 +35,6 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-
     this.store.dispatch(
       new PushNavPath(
         {

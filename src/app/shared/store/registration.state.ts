@@ -1,3 +1,4 @@
+import { PersonalInfoRole } from './../enum/role';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import {
@@ -23,14 +24,13 @@ import { TechAdmin } from '../models/techAdmin.model';
 import { catchError, tap } from 'rxjs/operators';
 import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
-import { PersonalInfoRole, Role } from '../enum/role';
+import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { Observable, of, throwError } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { SignalRService } from '../services/signalR/signal-r.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Util } from '../utils/utils';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -139,13 +139,7 @@ export class RegistrationState {
         const role = token['role'];
         patchState({ subrole, role });
 
-        this.userService
-          .getPersonalInfo(PersonalInfoRole[role])
-          .pipe(catchError(() => dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }))))
-          .subscribe((user: User) => {
-            patchState({ user, isLoading: false });
-            dispatch(new CheckRegistration());
-          });
+        dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
       } else {
         patchState({ role: Role.unauthorized, isLoading: false });
       }
