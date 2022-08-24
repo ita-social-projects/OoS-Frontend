@@ -13,6 +13,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { InfoStatusComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/application-card/info-status/info-status.component';
 import { ChildInfoBoxComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/application-card/child-info-box/child-info-box.component';
 import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
+import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -29,6 +30,7 @@ describe('ApplicationCardComponent', () => {
         MatMenuModule,
         MatDialogModule,
         MatTooltipModule,
+        JoinPipe
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'uk' },
