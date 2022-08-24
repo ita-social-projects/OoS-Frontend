@@ -3,6 +3,7 @@ export enum Role {
   parent = 'parent',
   unauthorized = 'unauthorized',
   techAdmin = 'techadmin',
+  ministryadmin= 'ministryadmin',
   ProviderDeputy = 'ProviderDeputy',
   ProviderAdmin = 'ProviderAdmin',
   all = 'all',
@@ -13,9 +14,9 @@ export enum Role {
 export enum PersonalInfoRole {
   provider = 'Provider',
   parent = 'Parent',
-  techAdmin = 'TechAdmin',
+  techadmin = 'TechAdmin',
   providerAdmin = 'ProviderAdmin',
-  ministryAdmin = 'MinistryAdmin',
+  ministryadmin = 'MinistryAdmin',
 }
 
 export enum cardType {

@@ -34,6 +34,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   userEditFormGroup: FormGroup;
   userRole: Role;
+  subRole: Role;
 
   constructor(
     private fb: FormBuilder,
@@ -70,6 +71,8 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   ngOnInit(): void {
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
       this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+      this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+
       this.user = user;
       if (this.userRole === Role.parent) {
         this.userEditFormGroup.addControl('dateOfBirth', new FormControl('', Validators.required));
@@ -85,9 +88,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   addNavPath(): void {
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, subRole);
-
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subRole);
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -109,6 +110,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   onSubmit(): void {
     const user = new User(this.userEditFormGroup.value, this.user.id);
-    this.store.dispatch(new UpdateUser(PersonalInfoRole[this.userRole], user));
+    const personalInfoRole = Util.getPersonalInfoRole(this.userRole, this.subRole);
+    this.store.dispatch(new UpdateUser(personalInfoRole, user));
   }
 }

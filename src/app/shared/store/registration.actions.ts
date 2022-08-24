@@ -45,3 +45,7 @@ export class OnUpdateUserSuccess {
   static readonly type = '[user] update User success';
   constructor(public payload: PersonalInfoRole) { }
 }
+export class GetUserPersonalInfo {
+  static readonly type = '[user] get User';
+  constructor(public userRole: PersonalInfoRole) { }
+}

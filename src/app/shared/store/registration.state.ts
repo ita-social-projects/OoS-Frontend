@@ -10,6 +10,7 @@ import {
   OnUpdateUserSuccess,
   UpdateUser,
   OnUpdateUserFail,
+  GetUserPersonalInfo,
 } from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
@@ -29,6 +30,8 @@ import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { SignalRService } from '../services/signalR/signal-r.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Util } from '../utils/utils';
+
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   isLoading: boolean;
@@ -132,13 +135,12 @@ export class RegistrationState {
       patchState({ isAuthorized: auth });
       if (auth) {
         const token = jwt_decode(this.oidcSecurityService.getToken());
-        // const id = token['sub'];
         const subrole = token['subrole'];
         const role = token['role'];
-
+        const personalInfoRole = Util.getPersonalInfoRole(role, subrole);
         patchState({ subrole, role });
 
-        this.userService.getPersonalInfo(role).subscribe(user => {
+        this.userService.getPersonalInfo(personalInfoRole).subscribe(user => {
           patchState({ user, isLoading: false });
           dispatch(new CheckRegistration());
         });
@@ -185,6 +187,17 @@ export class RegistrationState {
     }
   }
 
+  @Action(GetUserPersonalInfo)
+  getUserPersonalInfo(
+    { patchState }: StateContext<RegistrationStateModel>,
+    { userRole }: GetUserPersonalInfo
+  ): Observable<User> {
+    patchState({ isLoading: true });
+    return this.userService
+      .getPersonalInfo(userRole)
+      .pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
+  }
+
   @Action(UpdateUser)
   updateUser({ dispatch }: StateContext<RegistrationStateModel>, { userRole, user }: UpdateUser): Observable<object> {
     return this.userService.updatePersonalInfo(userRole, user).pipe(
@@ -203,7 +216,7 @@ export class RegistrationState {
   onUpdateUserSuccess({ dispatch }: StateContext<RegistrationStateModel>, { payload }: OnUpdateUserSuccess): void {
     dispatch([
       new MarkFormDirty(false),
-      this.userService.getPersonalInfo(payload),
+      new GetUserPersonalInfo(payload),
       new ShowMessageBar({
         message: 'Особиста інформація успішно відредагована',
         type: 'success',
