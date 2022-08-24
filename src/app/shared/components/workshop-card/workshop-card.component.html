@@ -1,49 +1,55 @@
 <mat-card *ngIf="workshopData">
-  <ng-container *ngIf="(isMainPage || userRoleView !== Role.provider) then UserActions; else ProviderActions;">
+  <ng-container *ngIf="isMainPage || userRoleView !== Role.provider; then UserActions; else ProviderActions">
   </ng-container>
 
-  <div [ngClass]="isHorizontalView ? 'horizontal-card': 'card'">
+  <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
-      <img [ngClass]="{'card-img-full': workshopData.coverImageId}" mat-card-image [src]="workshopData['_meta']"
-        alt="{{workshopData.title}}">
+      <img
+        [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
+        mat-card-image
+        [src]="workshopData['_meta']"
+        alt="{{ workshopData.title }}" />
     </div>
-    <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map': 'wrap-for-details'">
-      <mat-card-header>  
-              
-        <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
-          [matTooltipPosition]="tooltipPosition" class="card-title">
-            <a 
-              *ngIf="userRoleView === Role.provider"   
-              matTooltip="Детальніше"   
-              matTooltipPosition="above"       
-              [routerLink]="['/details/workshop', workshopData.workshopId]">
-              <mat-icon class="icon_launch">launch</mat-icon>
-            </a>
-            {{workshopData.title}}
+    <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
+      <mat-card-header>
+        <mat-card-title
+          [matTooltip]="workshopData.title"
+          showTooltipIfTruncated
+          matTooltipClass="tooltip"
+          [matTooltipPosition]="tooltipPosition"
+          class="card-title">
+          <a
+            *ngIf="userRoleView === Role.provider"
+            matTooltip="Детальніше"
+            matTooltipPosition="above"
+            [routerLink]="['/details/workshop', workshopData.workshopId]">
+            <mat-icon class="icon_launch">launch</mat-icon>
+          </a>
+          {{ workshopData.title }}
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionsId">
-          <img class="img" mat-card-image [src]="categoryIcons[id]">
-        </ng-container>                
+          <img class="img" mat-card-image [src]="categoryIcons[id]" />
+        </ng-container>
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
         <ng-container
-          *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
+          *ngIf="isMainPage || userRoleView !== Role.provider; then UserWorkshopView; else ProviderWorkshopView">
         </ng-container>
       </mat-card-content>
 
-      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">                  
+      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
         <ng-container *ngIf="userRoleView !== Role.provider">
           <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
             <span class="card_link">Детальніше</span>
             <mat-icon>arrow_forward</mat-icon>
-          </a>  
-        </ng-container>             
+          </a>
+        </ng-container>
         <ng-container *ngIf="userRoleView === Role.provider">
-          <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">                
+          <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
             <mat-icon>add</mat-icon>
             <span class="card_link">Додати досягнення</span>
-          </a>  
+          </a>
         </ng-container>
       </mat-card-footer>
     </div>
@@ -53,9 +59,12 @@
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
     <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
-    <a *ngIf="isPrivate" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">                
+    <a
+      *ngIf="canChangeWorkshopStatus"
+      class="more-details"
+      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
       <span class="card_link">{{ recruitmentStatusUkr.Open }}</span>
-    </a>  
+    </a>
   </div>
 </ng-template>
 
@@ -67,24 +76,25 @@
     <div class="actions_btn action-icon" (click)="onDelete()">
       <mat-icon>delete</mat-icon>
     </div>
-  </div> 
+  </div>
 </ng-template>
 
 <ng-template #UserActions>
   <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
-    <ng-container *ngIf="isFavorite then favorite; else notFavorite"></ng-container>
+    <ng-container *ngIf="isFavorite; then favorite; else notFavorite"></ng-container>
   </div>
 </ng-template>
 
 <ng-template #favorite>
-  <div (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)"
+  <div
+    (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)"
     class="actions_btn action-icon favorite-icon">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
 
 <ng-template #notFavorite>
-  <div (click)="(role === Role.parent) ? onLike() : onOpenDialog()" class="actions_btn action-icon">
+  <div (click)="role === Role.parent ? onLike() : onOpenDialog()" class="actions_btn action-icon">
     <mat-icon>favorite_border</mat-icon>
   </div>
 </ng-template>
@@ -93,38 +103,39 @@
   <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
     <div fxLayoutAlign="space-between">
       <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
-      <a *ngIf="isPrivate" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">                
+      <a
+        *ngIf="isPrivate"
+        class="more-details"
+        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
         <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
-      </a>  
+      </a>
     </div>
   </ng-container>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text">
-      <i class="fas fa-user card_icon"></i> Всього учасників:
-    </p>
+    <p class="card_text"><i class="fas fa-user card_icon"></i> Всього учасників:</p>
     <span class="card_text card_text_blue">
-        {{ workshopData.takenSeats }}
+      {{ workshopData.takenSeats }}
       <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS">
-            / {{ workshopData.availableSeats }}
+        / {{ workshopData.availableSeats }}
       </ng-container>
     </span>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text">
-      <i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:
-    </p>
+    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:</p>
     <span class="card_text card_text_blue"> {{ pendingApplicationAmount }}</span>
   </div>
 </ng-template>
 
 <ng-template #UserWorkshopView>
   <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
-    <p class="{{application.status}} icon">
-      <mat-icon>how_to_reg</mat-icon>{{
-      applicationTitles[application.status] }}
+    <p class="{{ application.status }} icon">
+      <mat-icon>how_to_reg</mat-icon>{{ applicationTitles[application.status] }}
     </p>
-    <p class="card_link status_action" *ngIf="application.status === applicationStatus.Approved"
-      (click)="onWorkshopLeave()">Залишити гурток
+    <p
+      class="card_link status_action"
+      *ngIf="application.status === applicationStatus.Approved"
+      (click)="onWorkshopLeave()">
+      Залишити гурток
     </p>
   </div>
 
@@ -133,19 +144,27 @@
     {{ workshopData.rating }}
   </p>
 
-  <a [routerLink]="['/details/provider',workshopData.providerId ]" class="provider-link" fxLayout="row"
-     fxLayoutAlign="start center">
+  <a
+    [routerLink]="['/details/provider', workshopData.providerId]"
+    class="provider-link"
+    fxLayout="row"
+    fxLayoutAlign="start center">
     <mat-icon class="card_icon">home</mat-icon>
-    <p class="card_text_label" [matTooltip]="workshopData.providerTitle" showTooltipIfTruncated
-       matTooltipClass="tooltip" [matTooltipPosition]="tooltipPosition">{{ workshopData.providerTitle }}</p>
+    <p
+      class="card_text_label"
+      [matTooltip]="workshopData.providerTitle"
+      showTooltipIfTruncated
+      matTooltipClass="tooltip"
+      [matTooltipPosition]="tooltipPosition">
+      {{ workshopData.providerTitle }}
+    </p>
   </a>
 
   <p class="card_text" *ngIf="ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon>
-    Форма власності: {{
-      ownershipTypeUkr[workshopData.providerOwnership] }}
+    Форма власності: {{ ownershipTypeUkr[workshopData.providerOwnership] }}
   </p>
-  <p class="card_text" [ngClass]="isMainPage && isHorizontalView ? 'hide': ''">
+  <p class="card_text" [ngClass]="isMainPage && isHorizontalView ? 'hide' : ''">
     <mat-icon class="card_icon">person</mat-icon>
     {{ workshopData.minAge }} - {{ workshopData.maxAge }} років
   </p>
@@ -160,10 +179,20 @@
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>
-    <p class="card_text_label" [matTooltip]="workshopData.address.codeficatorAddressDto.settlement + ', ' + workshopData.address.street + ', ' +
-      workshopData.address.buildingNumber" showTooltipIfTruncated matTooltipClass="tooltip"
+    <p
+      class="card_text_label"
+      [matTooltip]="
+        workshopData.address.codeficatorAddressDto.settlement +
+        ', ' +
+        workshopData.address.street +
+        ', ' +
+        workshopData.address.buildingNumber
+      "
+      showTooltipIfTruncated
+      matTooltipClass="tooltip"
       [matTooltipPosition]="tooltipPosition">
-      {{workshopData.address.codeficatorAddressDto.settlement}},
-      {{workshopData.address.street}}, {{workshopData.address.buildingNumber}}</p>
+      {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
+      {{ workshopData.address.buildingNumber }}
+    </p>
   </div>
 </ng-template>

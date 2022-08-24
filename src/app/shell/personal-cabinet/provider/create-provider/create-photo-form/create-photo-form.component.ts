@@ -6,12 +6,12 @@ import { Constants, CropperConfigurationConstants } from 'src/app/shared/constan
 import { takeUntil, filter, first } from 'rxjs/operators';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { InstitutionTypes } from 'src/app/shared/enum/provider';
 import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { ProviderSectionItem } from 'src/app/shared/models/provider.model';
 import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { InstitutionTypes } from 'src/app/shared/enum/enumUA/provider';
 
 @Component({
   selector: 'app-create-photo-form',

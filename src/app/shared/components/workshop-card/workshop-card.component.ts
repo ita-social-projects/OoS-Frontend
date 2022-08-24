@@ -1,3 +1,4 @@
+import { OwnershipTypeName } from './../../enum/provider';
 import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -13,7 +14,6 @@ import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
@@ -21,11 +21,12 @@ import { PayRateTypeUkr, RecruitmentStatusUkr } from '../../enum/enumUA/workshop
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkhopStatus } from '../../enum/workshop';
+import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 
 @Component({
   selector: 'app-workshop-card',
   templateUrl: './workshop-card.component.html',
-  styleUrls: ['./workshop-card.component.scss']
+  styleUrls: ['./workshop-card.component.scss'],
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
@@ -38,10 +39,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly workhopStatus = WorkhopStatus;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
-  readonly modalConfirmationType = ModalConfirmationType
+  readonly modalConfirmationType = ModalConfirmationType;
 
   isFavorite: boolean;
-  isPrivate: boolean;
+  canChangeWorkshopStatus: boolean;
   pendingApplicationAmount: number;
   workshopData: WorkshopCard;
 
@@ -66,22 +67,18 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   role: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private store: Store,
-    public dialog: MatDialog,
-    private imagesService: ImagesService) { }
+  constructor(private store: Store, public dialog: MatDialog, private imagesService: ImagesService) {}
 
   ngOnInit(): void {
-    this.isPrivate = this.workshopData.providerOwnership !== 'Common' 
-      && this.workshopData.availableSeats !== this.UNLIMITED_SEATS;
-    this.role$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => {
-        this.role = role;
-        if (this.role === Role.parent) {
-          this.getFavoriteWorkshops();
-        }
-      });
+    this.canChangeWorkshopStatus =
+      this.workshopData.providerOwnership !== OwnershipTypeName.State &&
+      this.workshopData.availableSeats !== this.UNLIMITED_SEATS;
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
+      this.role = role;
+      if (this.role === Role.parent) {
+        this.getFavoriteWorkshops();
+      }
+    });
   }
 
   onDelete(): void {
@@ -95,7 +92,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} додано до Улюблених`, type: 'success' })
+      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} додано до Улюблених`, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -103,7 +100,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   onDisLike(id: string): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(id),
-      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' })
+      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -116,13 +113,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       },
     });
 
-    dialogRef.afterClosed().subscribe((res:boolean) => {
-      if(res) {
+    dialogRef.afterClosed().subscribe((res: boolean) => {
+      if (res) {
         this.store.dispatch(
           new UpdateStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
         );
-      }    
-    });   
+      }
+    });
   }
 
   onWorkshopLeave(): void {
@@ -143,22 +140,21 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         filter((favorites: Favorite[]) => !!favorites)
-      ).subscribe((favorites: Favorite[]) => {
+      )
+      .subscribe((favorites: Favorite[]) => {
         this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
       });
   }
 }
 
-
 @Component({
   selector: 'app-workshop-dialog',
-  template: `
-    <div mat-dialog-content fxLayoutAlign="center" class="dialog-title">
+  template: ` <div mat-dialog-content fxLayoutAlign="center" class="dialog-title">
       <p>Для того щоб додати в улюблені будь ласка зареєструйтеся на порталі. Дякуємо</p>
     </div>
     <div mat-dialog-actions fxLayoutAlign="center">
       <button mat-raised-button mat-dialog-close class="dialog-action-button">Повернутись</button>
     </div>`,
-  styleUrls: ['./workshop-card.component.scss']
+  styleUrls: ['./workshop-card.component.scss'],
 })
-export class WorkshopCardDialog { }
+export class WorkshopCardDialog {}
