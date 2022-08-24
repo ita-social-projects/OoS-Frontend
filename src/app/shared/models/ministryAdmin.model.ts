@@ -21,3 +21,7 @@ export class MinistryAdmin {
     this.accountStatus = accountStatus;
   }
 }
+export interface AllMinistryAdmins{
+  totalAmount: number;
+  entities: MinistryAdmin[];
+}
