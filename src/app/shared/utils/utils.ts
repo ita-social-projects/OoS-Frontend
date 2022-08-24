@@ -1,3 +1,4 @@
+import { MinistryAdmin } from './../models/ministryAdmin.model';
 import { map } from 'rxjs/internal/operators/map';
 import { Constants } from '../constants/constants';
 import { CodeMessageErrors } from '../enum/enumUA/errors';
@@ -148,15 +149,15 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-   public static updateStructureForTheTableAdmins(admins): UsersTable[] {
+   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
     const constants: typeof Constants = Constants;
-    let updatedAdmins = [];
-    admins.forEach(admins => {
+    const updatedAdmins = [];
+    admins.forEach((admins: MinistryAdmin) => {
       updatedAdmins.push({
         id: admins.id,
         pib: `${admins.lastName} ${admins.firstName} ${admins.middleName}` || constants.NO_INFORMATION,
         email: admins.email || constants.NO_INFORMATION,
-        place: admins.place || constants.NO_INFORMATION,
+        place: constants.NO_INFORMATION,
         phoneNumber: admins.phoneNumber ? `${constants.PHONE_PREFIX} ${admins.phoneNumber}` : constants.NO_INFORMATION,
         role: admins.id,
         status: admins.accountStatus || 'Accepted',

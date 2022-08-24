@@ -1,3 +1,4 @@
+import { MinistryAdmin } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
 import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
@@ -65,7 +66,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
         startWith(''),
         debounceTime(2000),
         map((value: string)=> value.trim()))
-      .subscribe((searchString:string)=> this.store.dispatch(new GetAllMinistryAdmins(searchString)));
+      .subscribe((searchString: string) => 
+      this.store.dispatch(new GetAllMinistryAdmins(searchString))
+      );
 
     this.ministryAdmins$
     .pipe(
@@ -96,7 +99,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
   * This method block Admin By Id
   */
-  onBlock(admin): void {
+  onBlock(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -116,7 +119,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method delete Admin By Id
   */
-  onDelete(admin): void {
+  onDelete(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
