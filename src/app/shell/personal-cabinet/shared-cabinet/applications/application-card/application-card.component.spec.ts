@@ -41,6 +41,7 @@ describe('ApplicationCardComponent', () => {
         InfoStatusComponent,
         ChildInfoBoxComponent,
         PhoneTransformPipe,
+        JoinPipe
       ],
     }).compileComponents();
   });
