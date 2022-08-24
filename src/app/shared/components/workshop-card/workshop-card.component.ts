@@ -7,7 +7,7 @@ import { Role } from '../../enum/role';
 import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop,  GetWorkshopsByProviderId, UpdateStatus } from '../../store/user.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop, UpdateStatus } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
@@ -55,15 +55,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isHorizontalView = false;
   @Input() isCreateApplicationView = false;
   @Input() icons: {};
-  @Input() set pendingApplications(applications: Application[]) {
-    if (applications?.length) {
-      this.pendingApplicationAmount = applications.filter((application: Application) => {
-        return (application.workshopId === this.workshopData.workshopId && application.status === ApplicationStatus.Pending);
-      }).length;
-    } else {
-      this.pendingApplicationAmount = 0;
-    }
-  }
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
   @Output() leaveWorkshop = new EventEmitter<Application>();
@@ -81,7 +72,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     private imagesService: ImagesService) { }
 
   ngOnInit(): void {
-    this.isPrivate = this.workshopData.providerOwnership === 'Private' && this.userRoleView === Role.provider;
+    this.isPrivate = this.workshopData.providerOwnership !== 'Common' 
+      && this.workshopData.availableSeats !== this.UNLIMITED_SEATS;
     this.role$
       .pipe(takeUntil(this.destroy$))
       .subscribe((role: string) => {
@@ -124,10 +116,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       },
     });
 
-    dialogRef.afterClosed().subscribe(() =>
-      this.store.dispatch(
-        new UpdateStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
-    ))
+    dialogRef.afterClosed().subscribe((res:boolean) => {
+      if(res) {
+        this.store.dispatch(
+          new UpdateStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
+        );
+      }    
+    });   
   }
 
   onWorkshopLeave(): void {

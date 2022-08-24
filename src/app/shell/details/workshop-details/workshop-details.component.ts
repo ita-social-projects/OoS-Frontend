@@ -33,7 +33,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   @Input() isMobileScreen: boolean;
   @Input() displayActionCard: boolean;
 
-  isContinued: boolean;
+  workshopStatusOpen: boolean;
   selectedIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: imgPath[] = [];
@@ -49,7 +49,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getWorkshopData();
 
-    this.isContinued = this.workshop.status === this.workhopStatus.Open;
+    this.workshopStatusOpen = this.workshop.status === this.workhopStatus.Open;
 
     this.route.params
       .pipe(takeUntil(this.destroy$))

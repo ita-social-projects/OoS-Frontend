@@ -17,9 +17,7 @@
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
-            <button class="btn" mat-raised-button matStepperNext
-            [disabled]="AboutFormGroup.invalid"
-            (click)="checkValidation(AboutFormGroup)">Далі</button>
+            <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">Далі</button>
           </div>
         </mat-step>
   
@@ -36,8 +34,7 @@
             <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
                 class="btn btn-cancel">Скасувати</button></a>
             <button class="btn" mat-raised-button matStepperNext
-              [disabled]="DescriptionFormGroup?.invalid"
-              (click)="checkValidation(DescriptionFormGroup)">Далі</button>
+              [disabled]="DescriptionFormGroup?.invalid">Далі</button>
           </div>
         </mat-step>
   

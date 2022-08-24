@@ -27,14 +27,6 @@
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
-        <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
-          <div fxLayoutAlign="space-between">
-            <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
-            <a *ngIf="isPrivate" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">                
-              <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
-            </a>  
-          </div>
-        </ng-container>
         <ng-container
           *ngIf="(isMainPage || userRoleView !== Role.provider) then UserWorkshopView; else ProviderWorkshopView;">
         </ng-container>
@@ -98,6 +90,14 @@
 </ng-template>
 
 <ng-template #ProviderWorkshopView>
+  <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
+    <div fxLayoutAlign="space-between">
+      <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+      <a *ngIf="isPrivate" class="more-details" (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">                
+        <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
+      </a>  
+    </div>
+  </ng-container>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text">
       <i class="fas fa-user card_icon"></i> Всього учасників:

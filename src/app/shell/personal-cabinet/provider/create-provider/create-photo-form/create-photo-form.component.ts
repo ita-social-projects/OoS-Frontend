@@ -66,9 +66,9 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
 
     this.institutionStatuses$
       .pipe(
-        takeUntil(this.destroy$),
+        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses),
         first(),
-        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses)
+        takeUntil(this.destroy$)
       )
       .subscribe((institutionStatuses: InstitutionStatus[]) => {
         this.institutionStatuses = institutionStatuses;

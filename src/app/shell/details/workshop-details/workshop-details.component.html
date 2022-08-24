@@ -16,7 +16,9 @@
           fxLayoutAlign="start center"
         >
           <h1 class="title">{{ workshop.title }}</h1>
-          <div [style.background-color]="isContinued ? '#99CD56' : 'red'" class="chip-color">{{ isContinued ? recruitmentStatusUkr.RecruitmentOngoing : recruitmentStatusUkr.RecruitmentStoped }}</div>
+          <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
+            <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+          </ng-container>
         </div>
         <div *ngFor="let direction of workshop.directions">
           <img
@@ -64,3 +66,6 @@
     </mat-tab-group>
   </div>
 </div>
+<ng-template #ClosedWorkshopStatus>
+  <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+</ng-template>

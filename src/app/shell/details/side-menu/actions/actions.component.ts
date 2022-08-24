@@ -30,6 +30,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
+  public hideApplicationSubmission: boolean;
 
   @Input() workshop: Workshop;
   @Input() role: string;
@@ -49,6 +50,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.hideApplicationSubmission = this.workshop.status === this.workhopStatus.Closed;
     this.role$
       .pipe(takeUntil(this.destroy$))
       .subscribe(role => this.role = role);

@@ -49,7 +49,7 @@ describe('WorkshopCardComponent', () => {
       description: '',
       direction: '',
       rating: 1,
-      head: '',
+      directionsId: [],
       address: {
         codeficatorAddressDto: {},
         street: '',

@@ -14,19 +14,8 @@ export class CreateWorkshopAddressComponent implements OnInit {
   @Input() address: Address;
   @Output() passAddressFormGroup = new EventEmitter();
 
-  get settlementFormControl(): FormControl {
-    return this.searchFormGroup.get('settlement') as FormControl;
-  }
-  get streetFormControl(): FormControl {
-    return this.addressFormGroup.get('street') as FormControl;
-  }
-  get buildingNumberFormControl(): FormControl {
-    return this.addressFormGroup.get('buildingNumber') as FormControl;
-  }
-
   addressFormGroup: FormGroup;
   searchFormGroup: FormGroup;
-  mapAddressFormGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -40,20 +29,10 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
       settlement: new FormControl(''),
     });
-    this.mapAddressFormGroup = this.formBuilder.group({
-      street: this.streetFormControl,
-      buildingNumber: this.buildingNumberFormControl,
-      codeficatorAddressDto: this.settlementFormControl,
-    });
-    if (this.address) {
-      this.mapAddressFormGroup.patchValue(this.address, { emitEvent: false });
-    }
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
   onSetMapAddress(address: MapAddress): void {
-    this.streetFormControl.setValue(address.street);
-    this.buildingNumberFormControl.setValue(address.buildingNumber);
-    this.searchFormGroup.get('settlementSearch').setValue(address.codeficatorAddressDto.settlement);
+
   }
 }

@@ -34,7 +34,7 @@ export enum NavBarName {
   Directions = 'Напрямки',
 }
 export enum PersonalCabinetTitle {
-  admin = 'Кабінет тех.адміна',
+  techadmin = 'Кабінет тех.адміна',
   user = 'Кабінет користувача',
   provider = 'Кабінет надавача',
   parent = 'Кабінет користувача',
