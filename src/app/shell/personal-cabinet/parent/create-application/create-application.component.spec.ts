@@ -10,12 +10,12 @@ import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
-import { cardType } from 'src/app/shared/enum/role';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Child } from 'src/app/shared/models/child.model';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -67,8 +67,7 @@ describe('CreateApplicationComponent', () => {
   template: ''
 })
 class MockPersonCardComponent {
-  @Input() card;
-  @Input() cardType: cardType;
+  @Input() child: Child;
 }
 
 @Component({

@@ -54,9 +54,6 @@ import {
   UpdateProvider,
   OnUpdateProviderFail,
   OnUpdateProviderSuccess,
-  UpdateUser,
-  OnUpdateUserFail,
-  OnUpdateUserSuccess,
   GetWorkshopById,
   OnGetWorkshopByIdFail,
   GetApplicationsByProviderId,
@@ -248,7 +245,6 @@ export class UserState {
     private providerAdminService: ProviderAdminService,
     private achievementsService: AchievementsService,
     private router: Router,
-    private userService: UserService,
     private ratingService: RatingService,
     private favoriteWorkshopsService: FavoriteWorkshopsService,
     private blockService: BlockService,
@@ -863,34 +859,6 @@ export class UserState {
       }),
     ]);
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
-  }
-
-  @Action(UpdateUser)
-  updateUser({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateUser): Observable<object> {
-    return this.userService.updateUser(payload).pipe(
-      tap(res => dispatch(new OnUpdateUserSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
-    );
-  }
-
-  @Action(OnUpdateUserFail)
-  onUpdateUserFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateUserFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnUpdateUserSuccess)
-  onUpdateUserSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateUserSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    console.log('User is updated', payload);
-    dispatch([
-      new CheckAuth(),
-      new ShowMessageBar({
-        message: 'Особиста інформація успішно відредагована',
-        type: 'success',
-      }),
-    ]);
-    this.router.navigate(['/personal-cabinet/config']);
   }
 
   @Action(UpdateApplication)

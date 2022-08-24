@@ -20,6 +20,11 @@ export class SetApplicationsPerPage {
   constructor(public payload: number) { }
 }
 
+export class SetAdminsPerPage {
+  static readonly type = '[paginator] Admins Per Page';
+  constructor(public payload: number) { }
+}
+
 export class SetRatingPerPage {
   static readonly type = '[paginator] Rating Per Page';
   constructor(public payload: number) { }

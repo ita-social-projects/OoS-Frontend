@@ -1,3 +1,4 @@
+import { AllMinistryAdmins } from './../models/ministryAdmin.model';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Direction, DirectionsFilter } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
@@ -17,10 +18,13 @@ import { ProviderService } from '../services/provider/provider.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import {
+  BlockMinistryAdminById,
   CreateDirection,
   CreateMinistryAdmin,
   DeleteDirectionById,
+  DeleteMinistryAdminById,
   GetAboutPortal,
+  GetAllMinistryAdmins,
   GetAllProviders,
   GetApplicationHistory,
   GetChildrenForAdmin,
@@ -33,12 +37,16 @@ import {
   GetProviderAdminHistory,
   GetProviderHistory,
   GetSupportInformation,
+  OnBlockMinistryAdminFail,
+  OnBlockMinistryAdminSuccess,
   OnCreateDirectionFail,
   OnCreateDirectionSuccess,
   OnCreateMinistryAdminFail,
   OnCreateMinistryAdminSuccess,
   OnDeleteDirectionFail,
   OnDeleteDirectionSuccess,
+  OnDeleteMinistryAdminFail,
+  OnDeleteMinistryAdminSuccess,
   OnUpdateDirectionFail,
   OnUpdateDirectionSuccess,
   OnUpdatePlatformInfoFail,
@@ -65,7 +73,8 @@ export interface AdminStateModel {
   parents: Parent[];
   children: ChildCards;
   providers: Provider[];
-  ministryAdmin: MinistryAdmin;
+  selectedMinistryAdmin: MinistryAdmin;
+  ministryAdmins: AllMinistryAdmins;
   providerHistory: ProvidersHistory;
   providerAdminHistory: ProviderAdminsHistory;
   applicationHistory: ApplicationsHistory;
@@ -83,7 +92,8 @@ export interface AdminStateModel {
     children: null,
     providers: null,
     parents: null,
-    ministryAdmin: null,
+    selectedMinistryAdmin: null,
+    ministryAdmins: null,
     providerHistory: null,
     providerAdminHistory: null,
     applicationHistory: null,
@@ -99,6 +109,14 @@ export class AdminState {
 
   @Selector() static providers(state: AdminStateModel): Provider[] {
     return state.providers;
+  }
+
+  @Selector() static ministryAdmins (state: AdminStateModel): AllMinistryAdmins {
+    return state.ministryAdmins;
+  }
+
+  @Selector() static selectedMinistryAdmin (state: AdminStateModel): MinistryAdmin {
+    return state.selectedMinistryAdmin;
   }
 
   @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation {
@@ -141,8 +159,6 @@ export class AdminState {
     return state.applicationHistory;
   }
 
-  @Selector() static ministryAdmin(state: AdminStateModel): MinistryAdmin { return state.ministryAdmin };
-
   constructor(
     private platformService: PlatformService,
     private categoriesService: DirectionsService,
@@ -150,7 +166,7 @@ export class AdminState {
     private childrenService: ChildrenService,
     private router: Router,
     private providerService: ProviderService,
-    private ministryAdmin: MinistryAdminService,
+    private ministryAdminService: MinistryAdminService,
     private historyLogService: HistoryLogService,
     private location: Location
   ) {}
@@ -399,10 +415,10 @@ export class AdminState {
   @Action(GetMinistryAdminProfile)
   getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>, {}: GetMinistryAdminProfile): Observable<MinistryAdmin>{
     patchState({ isLoading: true });
-    return this.ministryAdmin
+    return this.ministryAdminService
     .getMinistryAdminProfile()
     .pipe(
-      tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin, isLoading: false})));
+      tap((selectedMinistryAdmin: MinistryAdmin) => patchState({ selectedMinistryAdmin: selectedMinistryAdmin, isLoading: false})));
   }
 
   @Action(CreateMinistryAdmin)
@@ -410,8 +426,8 @@ export class AdminState {
     { dispatch }: StateContext<AdminState>,
     { payload }: CreateMinistryAdmin
   ): Observable<object> {
-    return this.ministryAdmin.createMinistryAdmin(payload).pipe(
-      tap(res => dispatch(new OnCreateMinistryAdminSuccess(res))),
+    return this.ministryAdminService.createMinistryAdmin(payload).pipe(
+      tap((res: object) => dispatch(new OnCreateMinistryAdminSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error))))
     );
   }
@@ -427,7 +443,6 @@ export class AdminState {
     );
   }
 
-
   @Action(OnCreateMinistryAdminSuccess)
   onCreateMinistryAdminSuccess(
     { dispatch }: StateContext<AdminState>,
@@ -442,4 +457,66 @@ export class AdminState {
     ]);
     this.router.navigate(['/admin-tools/data/admins']);
   }
+
+  @Action(GetAllMinistryAdmins)
+  getAllMinistryAdmin(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetAllMinistryAdmins
+  ): Observable<AllMinistryAdmins> {
+    patchState({ isLoading: true });
+    return this.ministryAdminService.getAllMinistryAdmin(payload).pipe(
+      tap((ministryAdmins: AllMinistryAdmins) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
+    );
+  }
+
+  @Action(DeleteMinistryAdminById)
+  deleteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteMinistryAdminById): Observable<object> {
+    return this.ministryAdminService.deleteMinistryAdmin(payload).pipe(
+      tap((res: object) => dispatch(new OnDeleteMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteMinistryAdminFail(error))))
+    );
+  }
+
+  @Action(OnDeleteMinistryAdminFail)
+  onDeleteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnDeleteMinistryAdminSuccess)
+  onDeleteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminSuccess): void {
+    dispatch([new ShowMessageBar({ message: 'Адміна міністерства видалено!', type: 'success' }), new GetAllMinistryAdmins()]);
+  }
+
+  @Action(BlockMinistryAdminById)
+  blockMinistryAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: BlockMinistryAdminById
+  ): Observable<object> {
+    return this.ministryAdminService.blockMinistryAdmin(payload).pipe(
+      tap((res: object) => dispatch(new OnBlockMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockMinistryAdminFail(error))))
+    );
+  }
+
+  @Action(OnBlockMinistryAdminFail)
+  onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(OnBlockMinistryAdminSuccess)
+  onBlockMinistryAdminSuccess(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: OnBlockMinistryAdminSuccess
+  ): void {
+    dispatch([
+      new GetAllMinistryAdmins(),
+      new ShowMessageBar({
+        message: `Дякуємо! адміністратора міністерства заблоковано!`,
+        type: 'success',
+      }),
+    ]);
+  }
+
 }
