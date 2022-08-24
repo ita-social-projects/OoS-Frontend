@@ -17,7 +17,7 @@
         >
           <h1 class="title">{{ workshop.title }}</h1>
           <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-            <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+            <div class="chip chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
           </ng-container>
         </div>
         <div *ngFor="let direction of workshop.directions">
@@ -67,5 +67,5 @@
   </div>
 </div>
 <ng-template #ClosedWorkshopStatus>
-  <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+  <div class="chip chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
 </ng-template>
