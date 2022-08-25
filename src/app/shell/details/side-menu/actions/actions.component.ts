@@ -50,6 +50,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    console.log('Test');
     this.hideApplicationSubmission = this.workshop.status === this.workhopStatus.Closed;
     this.role$
       .pipe(takeUntil(this.destroy$))
