@@ -49,9 +49,12 @@ import {
   OnDeleteMinistryAdminSuccess,
   OnUpdateDirectionFail,
   OnUpdateDirectionSuccess,
+  OnUpdateMinistryAdminFail,
+  OnUpdateMinistryAdminSuccess,
   OnUpdatePlatformInfoFail,
   OnUpdatePlatformInfoSuccess,
   UpdateDirection,
+  UpdateMinistryAdmin,
   UpdatePlatformInfo,
 } from "./admin.actions";
 import { MinistryAdmin } from "../models/ministryAdmin.model";
@@ -61,6 +64,7 @@ import { ApplicationsHistory, ProviderAdminsHistory, ProvidersHistory } from '..
 import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
+import { GetProfile } from './registration.actions';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -518,5 +522,46 @@ export class AdminState {
       }),
     ]);
   }
+
+  @Action(UpdateMinistryAdmin)
+  updateMinistryAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: UpdateMinistryAdmin,
+  ): Observable<object> {
+    return this.ministryAdminService.updateMinistryAdmin(payload).pipe(
+      tap((res: object) => dispatch(new OnUpdateMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateMinistryAdminFail(error))))
+    );
+  }
+
+  @Action(OnUpdateMinistryAdminFail)
+  onUpdateMinistryAdminrfail(
+    { dispatch }: StateContext<AdminStateModel>, 
+    { payload }: OnUpdateMinistryAdminFail
+  ): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ 
+      message: 'На жаль виникла помилка', 
+      type: 'error' 
+    }));
+  }
+
+  @Action(OnUpdateMinistryAdminSuccess)
+  onUpdateMinistryAdminSuccess(
+    { dispatch }: StateContext<AdminStateModel>, 
+    { payload }: OnUpdateMinistryAdminSuccess
+  ): void {
+    dispatch(new MarkFormDirty(false));
+    console.log('Ministry Admin is updated', payload);
+    dispatch([
+      new ShowMessageBar({
+        message: 'Адміністратор міністерства успішно відредагований',
+        type: 'success',
+      }),
+    ]);
+    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/admin-tools/data/admins']));
+  }
+
+
 
 }

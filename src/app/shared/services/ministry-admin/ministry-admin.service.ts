@@ -78,4 +78,11 @@ export class MinistryAdminService {
     return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Block`, {}, { params });
   }
 
+  /**
+   * This method update Ministry Admin
+   * @param ministryAdmin: MinistryAdmin
+   */
+   updateMinistryAdmin (ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
+    return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Update`, ministryAdmin);
+  }
 }

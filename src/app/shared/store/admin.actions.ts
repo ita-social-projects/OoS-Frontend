@@ -160,5 +160,21 @@ export class OnBlockMinistryAdminSuccess {
 
 export class OnBlockMinistryAdminFail {
   static readonly type = '[admin] block Ministry Admin fail';
-  constructor(public payload) { }
+  constructor(public payload: HttpErrorResponse) { }
 }
+
+export class UpdateMinistryAdmin {
+  static readonly type = '[admin] update Ministry Admin';
+  constructor(public payload: MinistryAdmin) { }
+}
+
+export class OnUpdateMinistryAdminFail {
+  static readonly type = '[admin] update Ministry Admin fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+
+export class OnUpdateMinistryAdminSuccess {
+  static readonly type = '[admin] update Ministry Admin success';
+  constructor(public payload: object) { }
+}
+
