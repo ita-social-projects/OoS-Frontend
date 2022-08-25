@@ -11,7 +11,6 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/provider';
 import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { FormControl } from '@angular/forms';
@@ -20,6 +19,7 @@ import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/stor
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { ApplicationIcons } from 'src/app/shared/enum/applications';
+import { OwnershipTypeUkr } from 'src/app/shared/enum/enumUA/provider';
 
 @Component({
   selector: 'app-provider-list',
