@@ -11,9 +11,8 @@
 
 <!-- -------------Table------------ -->
 <div class="wrapper-provider-list">
-<div  class="wrapper-provider-list-container">
-  <div [hidden]="!dataSource">
-    <div class="table-container mat-elevation-z8">
+  <div class="wrapper-provider-list-container">
+    <div class="table-container mat-elevation-z8" [hidden]="!dataSource">
       <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
         <ng-container matColumnDef="fullTitle">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
@@ -185,11 +184,9 @@
         (closeInfo)="isInfoDisplayed  = !isInfoDisplayed "></app-provider-info>
     </div>
   </div>
-  </div>
-  <div class="paginator">
-    <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage"
-      [itemsPerPage]="providersPerPage$ | async" (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)">
-    </app-paginator>
-  </div>
+</div>
+<div class="paginator">
+  <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage" [itemsPerPage]="providersPerPage$ | async"
+    (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
+  </app-paginator>
 </div>
