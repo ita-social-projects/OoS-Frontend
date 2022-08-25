@@ -1,3 +1,7 @@
+import { HttpErrorResponse, HttpResponse } from "@angular/common/http";
+import { PersonalInfoRole } from "../enum/role";
+import { User } from "../models/user.model";
+
 export class Login {
   static readonly type = '[user] logins';
   constructor(public payload: boolean) { }
@@ -28,4 +32,20 @@ export class GetProfile {
 export class RegisterUser {
   static readonly type = '[user] change register status';
   constructor() { }
+}
+export class UpdateUser {
+  static readonly type = '[user] update User';
+  constructor(public userRole: PersonalInfoRole, public user: User) { }
+}
+export class OnUpdateUserFail {
+  static readonly type = '[user] update User fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+export class OnUpdateUserSuccess {
+  static readonly type = '[user] update User success';
+  constructor(public payload: PersonalInfoRole) { }
+}
+export class GetUserPersonalInfo {
+  static readonly type = '[user] get User';
+  constructor(public userRole: PersonalInfoRole) { }
 }

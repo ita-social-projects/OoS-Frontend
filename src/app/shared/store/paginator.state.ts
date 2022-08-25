@@ -10,6 +10,7 @@ import {
   OnPageChangeRating,
   OnPageChangeWorkshops,
   OnPageChangeProviders,
+  SetAdminsPerPage,
   SetApplicationsPerPage,
   SetChildrensPerPage,
   SetDirectionsPerPage,
@@ -24,6 +25,7 @@ export interface PaginatorStateModel {
   directionsPerPage: number;
   childrensPerPage: number;
   applicationsPerPage: number;
+  adminsPerPage: number;
   ratingPerPage: number;
   currentPage: PaginationElement;
   providersPerPage: number;
@@ -35,6 +37,7 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     childrensPerPage: 12,
     applicationsPerPage: 8,
+    adminsPerPage: 8,
     ratingPerPage: 12,
     providersPerPage: 12,
     currentPage: PaginationConstants.firstPage,
@@ -53,6 +56,8 @@ export class PaginatorState {
   @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.providersPerPage; };
 
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; };
+
+  @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.adminsPerPage; };
 
   @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; };
 
@@ -80,9 +85,16 @@ export class PaginatorState {
     patchState({ applicationsPerPage: payload });
   }
 
+
   @Action(SetProvidersPerPage)
   setProvidersPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetProvidersPerPage): void {
     patchState({ providersPerPage: payload });
+  }
+  
+  @Action(SetAdminsPerPage)
+  setAdminsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAdminsPerPage): void {
+    patchState({ adminsPerPage: payload });
+
   }
 
   @Action(SetRatingPerPage)

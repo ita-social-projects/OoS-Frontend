@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { OwnershipTypeUkr, ProviderTypeUkr } from 'src/app/shared/enum/provider';
+import { OwnershipTypeUkr, ProviderTypeUkr } from 'src/app/shared/enum/enumUA/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 
 @Component({

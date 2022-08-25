@@ -1,4 +1,5 @@
   <div class="admins-wrapper">
+
     <div class="search-area">
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
@@ -27,6 +28,8 @@
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
         <mat-tab label="{{adminRoleUkr.ministryAdmin}}">
+          <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: ministryAdminsTable}">
+          </ng-container>
         </mat-tab>
         <mat-tab label="{{adminRoleUkr.regionAdmin}}">
         </mat-tab>
@@ -35,6 +38,25 @@
       </mat-tab-group>
     </div>
   </div>
+
+  <ng-template #AdminsList let-filterValue let-admins="admins">
+    <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+      <ng-container *ngIf="admins?.length else isEmptyList;">
+        <div class="table-wrapper">
+          <app-users-list [users]="admins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
+          (blockAdmin)="onBlock($event)" ></app-users-list>
+        </div>
+        <app-paginator
+          *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
+          [totalEntities]="totalEntities"
+          [currentPage]="currentPage"
+          [itemsPerPage]="adminsPerPage$ | async"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)">
+        </app-paginator>
+      </ng-container>
+    </ng-container>
+  </ng-template>
 
   <ng-template #isEmptyList>
     <app-no-result-card [title]="noAdmins"></app-no-result-card>
