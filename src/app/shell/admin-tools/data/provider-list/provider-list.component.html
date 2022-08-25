@@ -132,10 +132,10 @@
             Статус
           </th>
           <td mat-cell *matCellDef="let element">
-            <div class="provider-list-status {{ providerTitleUkr[element.status] }}">
+            <div class="provider-list-status {{ element.status }}">
               <span>
                 <i class="status-icon {{ providerAdminIcons[element.status] }}"></i></span>
-              <span>{{ element.status }}</span>
+              <span>{{ providerTitleUkr[element.status] }}</span>
             </div>
           </td>
         </ng-container>
