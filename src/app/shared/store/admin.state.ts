@@ -428,19 +428,18 @@ export class AdminState {
   ): Observable<object> {
     return this.ministryAdminService.createMinistryAdmin(payload).pipe(
       tap((res: object) => dispatch(new OnCreateMinistryAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error))))
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error, payload.email))))
     );
   }
 
   @Action(OnCreateMinistryAdminFail)
-  onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
+  onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload, payloadEmail }: OnCreateMinistryAdminFail): void {
     throwError(payload);
-    dispatch(
-      new ShowMessageBar({
-        message: 'На жаль виникла помилка при створенні адміністратора міністерства',
-        type: 'error',
-      })
-    );
+    const message =
+      payload.error == `Username ${payloadEmail} is already taken.` 
+      ? 'Перевірте введені дані. Адміністратор міністерства з такою електронною поштою вже існує'
+      : 'На жаль виникла помилка при створенні адміністратора міністерства';
+    dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
   @Action(OnCreateMinistryAdminSuccess)

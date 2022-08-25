@@ -120,7 +120,7 @@ export class CreateMinistryAdmin {
 
 export class OnCreateMinistryAdminFail {
   static readonly type = '[admin] create Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse, public payloadEmail: string) { }
 }
 
 export class OnCreateMinistryAdminSuccess {
