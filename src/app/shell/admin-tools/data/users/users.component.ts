@@ -6,7 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
 import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
+import { UserTabs, UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Child, ChildCards, ChildrenParameters } from 'src/app/shared/models/child.model';
@@ -19,7 +19,6 @@ import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions
 import { OnPageChangeAdminTable, SetChildrensPerPage } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { Util } from 'src/app/shared/utils/utils';
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -40,29 +39,29 @@ export class UsersComponent implements OnInit, OnDestroy {
   filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
-  allUsers: Parent[] | Child[] = [];
-  parents: Parent[] = [];
-  children: UsersTable[];
+  allUsers: UsersTable[] = [];
   totalEntities: number;
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: "",
-    isParent: undefined,
+    tabTitle: undefined,
   };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
 
-    // this.filterFormControl.valueChanges
-    //   .pipe( 
-    //     takeUntil(this.destroy$),
-    //     distinctUntilChanged(),
-    //     startWith(''),
-    //     debounceTime(2000),
-    //     map((value: string)=> value.trim()))
-    //   .subscribe((searchString:string)=> this.store.dispatch(new GetChildrenForAdmin(searchString)));
+    this.filterFormControl.valueChanges
+      .pipe( 
+        takeUntil(this.destroy$),
+        distinctUntilChanged(),
+        startWith(''),
+        debounceTime(2000),
+        map((value: string)=> value.trim()))
+      .subscribe((searchString:string)=> {
+        this.childrenParams.searchString = searchString;
+        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
 
     this.children$
       .pipe(
@@ -70,9 +69,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         filter((children: ChildCards) => !!children)
       )
       .subscribe((children: ChildCards) => {
-        this.children = Util.updateStructureForTheTable(children.entities);
+        this.allUsers = Util.updateStructureForTheTable(children.entities);
         this.totalEntities = children.totalAmount;
-        this.allUsers = this.children;
       });
      
     this.store.dispatch([
@@ -93,14 +91,15 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    const tabLabel = event.tab.textLabel;
-      if(tabLabel ===this.userRoleUkr.all){
-        this.childrenParams.isParent = undefined;
-      } else if(tabLabel ===this.userRoleUkr.parent) {
-        this.childrenParams.isParent = true;
-      } else if(tabLabel ===this.userRoleUkr.child) {
-        this.childrenParams.isParent = false;
-      };
+    const tabTitle = event.tab.textLabel;
+      // if(tabLabel ===this.userRoleUkr.all){
+      //   this.childrenParams.isParent = undefined;
+      // } else if(tabLabel ===this.userRoleUkr.parent) {
+      //   this.childrenParams.isParent = true;
+      // } else if(tabLabel ===this.userRoleUkr.child) {
+      //   this.childrenParams.isParent = false;
+      // };
+      console.log(tabTitle)
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.filterFormControl.reset();
     this.router.navigate(['./'], {

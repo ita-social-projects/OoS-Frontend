@@ -16,15 +16,15 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab label="{{userRoleUkr.all}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: allUsers}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: allUsers}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{userRoleUkr.parent}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: parents}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: allUsers}">
         </ng-container>
       </mat-tab>
       <mat-tab label="{{userRoleUkr.child}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: children}">
+        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: allUsers}">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -32,7 +32,7 @@
 
 </div>
 
-<ng-template #UsersList let-filterValue let-users="users">
+<ng-template #UsersList let-users>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length else isEmptyList;">
       <div class="table-wrapper">

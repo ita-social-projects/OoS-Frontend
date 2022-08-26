@@ -26,8 +26,8 @@ export class ChildrenService {
     if(parameters){
       if(parameters.searchString){
       params = params.set('SearchString', parameters.searchString);}
-      if(parameters.isParent){
-        params = params.set('isParent', parameters.isParent.toString());}
+      // if(parameters.tabTitle){
+      //   params = params.set('isParent', parameters.isParent.toString());}
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
