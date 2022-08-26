@@ -33,6 +33,8 @@ import { RegistrationState } from '../../store/registration.state';
 export class UsersListComponent implements OnInit, AfterViewInit {
   @Input() users: Array<object>;
   @Input() filterValue: string;
+  @Input() isEditable: boolean = false;
+
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
 
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();

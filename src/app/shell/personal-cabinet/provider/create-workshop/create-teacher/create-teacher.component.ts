@@ -16,7 +16,7 @@ export class CreateTeacherComponent implements OnInit {
   TeacherFormArray: FormArray = new FormArray([]);
 
   @Input() teachers: Teacher[];
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
 
   @Output() passTeacherFormArray = new EventEmitter();
 

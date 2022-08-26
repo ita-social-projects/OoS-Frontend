@@ -11,7 +11,7 @@ export class Child implements Person {
   gender: number;
   parentId?: number;
   socialGroups: SocialGroup[];
-  placeOfStudy: string;
+  placeOfLiving: string;
   parent: ParentWithContactInfo;
   isParent: boolean;
 
@@ -24,7 +24,7 @@ export class Child implements Person {
     this.gender = info.gender;
     this.socialGroups = info.socialGroups;
     this.parentId = parentId;
-    this.placeOfStudy = info.placeOfStudy;
+    this.placeOfLiving = info.placeOfLiving;
     this.isParent = info.isParent;
   }
 }
