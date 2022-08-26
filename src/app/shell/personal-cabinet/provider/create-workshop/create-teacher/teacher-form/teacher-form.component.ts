@@ -30,7 +30,7 @@ export class TeacherFormComponent {
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
 
   @Output() deleteForm = new EventEmitter();
 

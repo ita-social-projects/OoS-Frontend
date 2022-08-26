@@ -7,7 +7,7 @@ import { Constants, CropperConfigurationConstants } from 'src/app/shared/constan
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { WorkshopTypeUkr } from 'src/app/shared/enum/enumUA/provider';
 import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { ProviderWorkshopSameValues, WorkshopType } from 'src/app/shared/enum/provider';
+import { OwnershipTypeName, ProviderWorkshopSameValues, WorkshopType } from 'src/app/shared/enum/provider';
 import { PayRateType } from 'src/app/shared/enum/workshop';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -28,6 +28,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly PayRateType = PayRateType;
   readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly ownershipTypeName = OwnershipTypeName;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -41,7 +42,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() provider: Provider;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
   @Output() PassAboutFormGroup = new EventEmitter();
 
   AboutFormGroup: FormGroup;
