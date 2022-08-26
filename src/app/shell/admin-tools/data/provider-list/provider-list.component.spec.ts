@@ -1,12 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 
 import { ProviderListComponent } from './provider-list.component';
 
@@ -24,8 +26,13 @@ describe('ProviderListComponent', () => {
         MatFormFieldModule,
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
+        ReactiveFormsModule,
       ],
-      declarations: [ProviderListComponent, MockproviderInfoComponent],
+      declarations: [
+        ProviderListComponent,
+        MockproviderInfoComponent,
+        MockListAdminProviderPaginatorComponent,
+      ],
     }).compileComponents();
   });
 
@@ -48,3 +55,13 @@ class MockproviderInfoComponent {
   @Input() isProviderView: boolean;
 }
 
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+
+class MockListAdminProviderPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+}

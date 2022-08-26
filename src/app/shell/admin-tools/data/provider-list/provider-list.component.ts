@@ -1,16 +1,24 @@
-import { Provider } from 'src/app/shared/models/provider.model';
+import { Provider, ProviderCards } from 'src/app/shared/models/provider.model';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { AdminState } from 'src/app/shared/store/admin.state';
+
+import { GetFilteredProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { Constants } from 'src/app/shared/constants/constants';
-import { filter, takeUntil } from 'rxjs/operators';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
+import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { FormControl } from '@angular/forms';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/store/paginator.actions';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
+import { ApplicationIcons } from 'src/app/shared/enum/applications';
 import { OwnershipTypeUkr } from 'src/app/shared/enum/enumUA/provider';
 
 @Component({
@@ -23,9 +31,15 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-
+  readonly providerTitleUkr = ApplicationTitles;
+  readonly providerAdminIcons = ApplicationIcons;
+  
   @Select(AdminState.providers)
-  providers$: Observable<Provider[]>;
+  providers$: Observable<ProviderCards>;
+  @Select(PaginatorState.providersPerPage)
+  providersPerPage$: Observable<number>;
+
+  
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;
@@ -46,13 +60,17 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     'status',
     'star',
   ];
-  dataSource: MatTableDataSource<object>;
+  filterFormControl: FormControl = new FormControl('');
+  dataSource = new MatTableDataSource([{}]);
+  currentPage: PaginationElement = PaginationConstants.firstPage;
+  totalEntities: number;
+  searchString: string;
 
   constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
   ngOnInit(): void {
     this.store.dispatch([
-      // new GetAllProviders(),
+      new GetFilteredProviders(),
       new PushNavPath(
         {
           name: NavBarName.Providers,
@@ -61,21 +79,33 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       ),
     ]);
-  }
-
-  ngAfterViewInit(): void {
     this.providers$
+    .pipe(
+      takeUntil(this.destroy$),
+      filter(providers => !!providers)
+    )
+    .subscribe((providers: ProviderCards) => {
+      this.dataSource = new MatTableDataSource(providers?.entities);
+      this.dataSource.sort = this.sort;
+    });
+
+    this.filterFormControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
-        filter(providers => !!providers)
+        distinctUntilChanged(),
+        startWith(''),
+        debounceTime(1000),
+        map((value: string) => value.trim())
       )
-      .subscribe(providers => {
-        this.dataSource = new MatTableDataSource(providers);
-        this.dataSource.sort = this.sort;
+      .subscribe((searchString: string) => {
+        this.searchString = searchString;
+        this.store.dispatch(new GetFilteredProviders(searchString));
       });
   }
 
-  onViewProviderInfo(provider): void {
+  ngAfterViewInit(): void { }
+
+  onViewProviderInfo(provider: Provider): void {
     this.provider = provider;
     this.isInfoDisplayed = true;
   }
@@ -86,6 +116,15 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this._liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders(this.searchString)]);
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetProvidersPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
   }
 
   ngOnDestroy(): void {
