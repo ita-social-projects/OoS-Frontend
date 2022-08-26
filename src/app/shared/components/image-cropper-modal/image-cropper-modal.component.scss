@@ -9,5 +9,8 @@ small.warning {
   font-size: 10px;
 }
 .image-cropper-wrapper {
-  height:84vh;
+  min-height: 50vh;
+}
+.btn-wrapper {
+  padding-bottom: 2rem;
 }

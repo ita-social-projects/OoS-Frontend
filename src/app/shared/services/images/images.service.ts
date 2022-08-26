@@ -16,7 +16,7 @@ export class ImagesService {
   setWorkshopCoverImage(workshop: WorkshopCard): WorkshopCard {
     workshop['_meta'] = workshop.coverImageId ?
     environment.storageUrl + workshop.coverImageId :
-      CategoryIcons[workshop.directionId];
+      CategoryIcons[workshop.directionsId[0]];
     return workshop;
   }
 

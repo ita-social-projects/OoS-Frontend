@@ -1,5 +1,15 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  ChangeDetectionStrategy,
+  Output,
+  EventEmitter,
+} from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -15,18 +25,13 @@ import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
   templateUrl: './workshop-map-view-list.component.html',
   styleUrls: ['./workshop-map-view-list.component.scss'],
   animations: [
-    trigger('fade', [
-      transition('* => true', [
-        style({ bottom: '-25px', opacity: 0 }),
-        animate('200ms ease-in-out')
-      ])
-    ]),
+    trigger('fade', [transition('* => true', [style({ bottom: '-25px', opacity: 0 }), animate('200ms ease-in-out')])]),
     trigger('triggerName', [
-      transition(':decrement', [animate('0.2s ease-in-out', style({ transform: "translateX(+92vw)" }))]),
-      transition(':increment', [animate('0.2s ease-in-out', style({ transform: "translateX(-92vw)" }))]),
+      transition(':decrement', [animate('0.2s ease-in-out', style({ transform: 'translateX(+92vw)' }))]),
+      transition(':increment', [animate('0.2s ease-in-out', style({ transform: 'translateX(-92vw)' }))]),
     ]),
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   readonly Role = Role;
@@ -49,10 +54,10 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   private swipeCoord?: [number, number];
   private swipeTime?: number;
   public currentWorkShopIndex: number = 0;
-  public direct: string
-  public left: number = 0
+  public direct: string;
+  public left: number = 0;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.filteredWorkshops$
@@ -70,8 +75,8 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     let time = new Date().getTime();
 
-    if (when === 'start' && (time - this.swipeTime) < 300) {
-      time -= 1000
+    if (when === 'start' && time - this.swipeTime < 300) {
+      time -= 1000;
     }
 
     if (when === 'start') {
@@ -82,11 +87,11 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       const duration = time - this.swipeTime;
       if (duration < 1000 && Math.abs(direction[0]) > 30 && Math.abs(direction[0]) > Math.abs(direction[1] * 3)) {
         const swipe = direction[0] < 0 ? 'next' : 'previous';
-        this.direct = swipe
+        this.direct = swipe;
         if (swipe === 'next') {
-          (this.selectedWorkshops.length - 1) > this.currentWorkShopIndex && this.currentWorkShopIndex++
+          this.selectedWorkshops.length - 1 > this.currentWorkShopIndex && this.currentWorkShopIndex++;
         } else {
-          this.currentWorkShopIndex >= 1 && this.currentWorkShopIndex--
+          this.currentWorkShopIndex >= 1 && this.currentWorkShopIndex--;
         }
       }
     }
@@ -94,10 +99,10 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   triggerNameDone(e) {
     if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
-      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92;
     }
     if (this.direct === 'previous' && this.selectedWorkshops.length > 1) {
-      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92;
     }
   }
 
@@ -105,18 +110,15 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.isSelectedMarker = Boolean(address);
     this.left = 0;
     this.currentWorkShopIndex = 0;
-    this.direct = null
+    this.direct = null;
 
     if (this.isSelectedMarker) {
-
-      this.selectedWorkshops = this.workshops.filter((workshop: WorkshopCard) =>
-        address.city === workshop.address.city &&
-        address.street === workshop.address.street &&
-        address.buildingNumber === workshop.address.buildingNumber);
+      this.selectedWorkshops = this.workshops.filter(
+        (workshop: WorkshopCard) => address.catottgId === workshop.address.catottgId
+      );
 
       this.workshopDetailsAnimationState = true;
-    }
-    else {
+    } else {
       this.selectedWorkshops = [];
     }
   }
@@ -134,5 +136,4 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

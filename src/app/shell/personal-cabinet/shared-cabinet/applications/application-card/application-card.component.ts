@@ -15,14 +15,14 @@ import {
   ApplicationStatusDescription,
 } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
+import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MatDialog } from '@angular/material/dialog';
 import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { ReasonModalWindowComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
-import { BlockParent, UnBlockParent } from 'src/app/shared/store/user.actions';
+import { BlockParent, UnBlockParent, UpdateApplication } from 'src/app/shared/store/user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { BlockedParent } from 'src/app/shared/models/block.model';
@@ -101,6 +101,15 @@ export class ApplicationCardComponent implements OnInit {
         this.rejected.emit(application);
       }
     });
+  }
+
+  /**
+   * This method changes status of emitted event to "left"
+   * @param Application event
+   */
+   onLeave(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.Left);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   /**

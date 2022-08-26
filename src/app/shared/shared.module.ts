@@ -9,7 +9,6 @@ import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
-import { CityAutocompleteComponent } from './components/city-autocomplete/city-autocomplete.component';
 import { MinMaxDirective } from './directives/min-max.directive';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { ApplicationFilterPipe } from './pipes/application-filter.pipe';
@@ -30,7 +29,6 @@ import { FullSearchBarComponent } from './components/filters-list/full-search-ba
 import { MessageBarComponent } from './components/message-bar/message-bar.component';
 import { ShowTooltipIfTruncatedDirective } from './directives/show-tooltip-if-truncated.directive';
 import { PaginatorComponent } from './components/paginator/paginator.component';
-import { CityConfirmationComponent } from './components/city-confirmation/city-confirmation.component';
 import { SidenavMenuComponent } from './components/sidenav-menu/sidenav-menu.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
@@ -72,7 +70,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     DigitOnlyDirective,
     WorkshopCardComponent,
     CategoryCardComponent,
-    CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
@@ -91,7 +88,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     MessageBarComponent,
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
-    CityConfirmationComponent,
     SidenavMenuComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,
@@ -144,7 +140,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     WorkshopCardComponent,
     MaterialModule,
     CategoryCardComponent,
-    CityAutocompleteComponent,
     MinMaxDirective,
     ImageFormControlComponent,
     ApplicationFilterPipe,
@@ -163,7 +158,6 @@ import { ErrorPageComponent } from './components/error-page/error-page.component
     ShowTooltipIfTruncatedDirective,
     PaginatorComponent,
     ReactiveFormsModule,
-    CityConfirmationComponent,
     SidenavMenuComponent,
     ScrollToTopComponent,
     StatusInfoCardComponent,

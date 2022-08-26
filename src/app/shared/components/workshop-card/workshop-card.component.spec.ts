@@ -49,9 +49,9 @@ describe('WorkshopCardComponent', () => {
       description: '',
       direction: '',
       rating: 1,
-      head: '',
+      directionsId: [],
       address: {
-        city: '',
+        codeficatorAddressDto: {},
         street: '',
         buildingNumber: '',
       } as Address,

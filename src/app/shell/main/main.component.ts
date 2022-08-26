@@ -12,10 +12,10 @@ import { GetTopDirections } from 'src/app/shared/store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Favorite } from 'src/app/shared/models/favorite.model';
-import { City } from 'src/app/shared/models/city.model';
 import { Role } from 'src/app/shared/enum/role';
 import { Login } from 'src/app/shared/store/registration.actions';
 import { AppState } from 'src/app/shared/store/app.state';
+import { Codeficator } from 'src/app/shared/models/codeficator.model';
 
 
 @Component({
@@ -33,8 +33,8 @@ export class MainComponent implements OnInit, OnDestroy {
   role$: Observable<string>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(FilterState.city)
-  city$: Observable<City>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
   @Select(MetaDataState.topDirections)
   topDirections$: Observable<Direction[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -49,14 +49,14 @@ export class MainComponent implements OnInit, OnDestroy {
 
   getTopWorkshops(role: string): void {
     if (role === Role.parent) {
-      combineLatest([this.city$, this.favoriteWorkshops$])
+      combineLatest([this.settlement$, this.favoriteWorkshops$])
         .pipe(
           filter(([city, favorite]) => (!!city && !!favorite?.length) || (favorite === null)),
           takeUntil(this.destroy$))
         .subscribe(() => this.store.dispatch(new GetTopWorkshops(PaginationConstants.ITEMS_PER_PAGE_DEFAULT)));
     }
     else {
-      this.city$
+      this.settlement$
         .pipe(
           filter(city => !!city),
           takeUntil(this.destroy$))

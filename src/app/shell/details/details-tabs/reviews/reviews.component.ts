@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
+import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -8,12 +8,15 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Role } from 'src/app/shared/enum/role';
+import { EntityType, Role } from 'src/app/shared/enum/role';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { Rate } from 'src/app/shared/models/rating';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { OnPageChangeRating, SetRatingPerPage } from 'src/app/shared/store/paginator.actions';
+import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CreateRating, GetReviewedApplications, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -41,11 +44,20 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.rating)
   rating$: Observable<Rate[]>;
   rating: Rate[];
+  @Select(PaginatorState.ratingPerPage)
+  ratingPerPage$: Observable<number>;
+  ratingPerPage: number;
+
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   parent: Parent;
   isAllowedToReview: boolean;
   isReviewed: boolean;
+
+  currentPage: PaginationElement = {
+    element: 1,
+    isActive: true
+  };
 
   constructor(
     private store: Store,
@@ -61,7 +73,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged())
-      .subscribe(() => this.store.dispatch([new GetRateByEntityId('workshop', this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
+      .subscribe(() => this.store.dispatch([new GetRateByEntityId(EntityType.workshop, this.workshop.id), new GetReviewedApplications(this.parent.id, this.workshop.id)]));
 
     this.isAllowedToReview$
     .pipe(takeUntil(this.destroy$))
@@ -70,6 +82,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.isReviewed$.pipe(
       takeUntil(this.destroy$)
     ).subscribe((status: boolean) => (this.isReviewed = status));
+
+    this.ratingPerPage$.pipe(
+      takeUntil(this.destroy$)
+    ).subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
   }
 
   private getParentData(): void {
@@ -113,6 +129,16 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         }));
       }
     });
+  }
+  
+  itemsPerPageChange(itemsPerPage: number): void {
+    this.ratingPerPage = itemsPerPage;
+    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
+  }
+
+  pageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeRating(page), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
   }
 
   ngOnDestroy(): void {
