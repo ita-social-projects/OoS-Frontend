@@ -3,14 +3,13 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { tap } from 'rxjs/operators';
 import { Direction } from '../models/category.model';
-import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
+import { WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { Codeficator } from '../models/codeficator.model';
 import {
   SetOrder,
   SetCity,
   GetFilteredWorkshops,
-  GetTopWorkshops,
   SetDirections,
   SetWorkingDays,
   SetStartTime,
@@ -50,7 +49,6 @@ export interface FilterStateModel {
   searchQuery: string;
   order: string;
   filteredWorkshops: WorkshopFilterCard;
-  topWorkshops: WorkshopCard[];
   withDisabilityOption: boolean;
   isStrictWorkdays: boolean;
   isLoading: boolean;
@@ -75,63 +73,88 @@ export interface FilterStateModel {
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: null,
-    topWorkshops: [],
     withDisabilityOption: false,
     isStrictWorkdays: false,
     isLoading: false,
     isConfirmCity: true,
-  }
+  },
 })
 @Injectable()
 export class FilterState {
+  @Selector()
+  static filterState(state: FilterStateModel): FilterStateModel {
+    return state;
+  }
 
   @Selector()
-  static filterState(state: FilterStateModel): FilterStateModel { return state };
+  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard {
+    return state.filteredWorkshops;
+  }
 
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
+  static directions(state: FilterStateModel): Direction[] {
+    return state.directions;
+  }
 
   @Selector()
-  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops };
+  static isLoading(state: FilterStateModel): boolean {
+    return state.isLoading;
+  }
 
   @Selector()
-  static directions(state: FilterStateModel): Direction[] { return state.directions };
+  static settlement(state: FilterStateModel): Codeficator {
+    return state.settlement;
+  }
 
   @Selector()
-  static isLoading(state: FilterStateModel): boolean { return state.isLoading };
+  static isConfirmCity(state: FilterStateModel): boolean {
+    return state.isConfirmCity;
+  }
 
   @Selector()
-  static settlement(state: FilterStateModel): Codeficator { return state.settlement };
+  static searchQuery(state: FilterStateModel): string {
+    return state.searchQuery;
+  }
 
   @Selector()
-  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
-
-  @Selector()
-  static searchQuery(state: FilterStateModel): string { return state.searchQuery };
-
-  @Selector()
-  static order(state: FilterStateModel): {} { return state.order };
+  static order(state: FilterStateModel): {} {
+    return state.order;
+  }
 
   @Selector()
   static filterList(state: FilterStateModel): {
     withDisabilityOption: boolean;
-    categoryCheckBox: Direction[],
-    ageFilter: { minAge: number, maxAge: number },
+    categoryCheckBox: Direction[];
+    ageFilter: { minAge: number; maxAge: number };
     priceFilter: {
-      minPrice: number,
-      maxPrice: number,
-      isFree: boolean,
-      isPaid: boolean
-    },
+      minPrice: number;
+      maxPrice: number;
+      isFree: boolean;
+      isPaid: boolean;
+    };
     workingHours: {
-      workingDays: string[],
-      startTime: string,
-      endTime: string,
-      isStrictWorkdays: boolean
-    },
-    order: string
+      workingDays: string[];
+      startTime: string;
+      endTime: string;
+      isStrictWorkdays: boolean;
+    };
+    order: string;
   } {
-    const { withDisabilityOption, isStrictWorkdays, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, order } = state
+    const {
+      withDisabilityOption,
+      isStrictWorkdays,
+      minAge,
+      maxAge,
+      directions,
+      minPrice,
+      maxPrice,
+      isFree,
+      isPaid,
+      workingDays,
+      startTime,
+      endTime,
+      order,
+    } = state;
     return {
       withDisabilityOption,
       categoryCheckBox: directions,
@@ -140,7 +163,7 @@ export class FilterState {
         minPrice,
         maxPrice,
         isFree,
-        isPaid
+        isPaid,
       },
       workingHours: {
         workingDays,
@@ -148,12 +171,11 @@ export class FilterState {
         endTime,
         isStrictWorkdays,
       },
-      order
-    }
-  };
+      order,
+    };
+  }
 
-  constructor(
-    private appWorkshopsService: AppWorkshopsService) { }
+  constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
   setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
@@ -170,7 +192,7 @@ export class FilterState {
 
   @Action(ConfirmCity)
   confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
-    patchState({ isConfirmCity: payload});
+    patchState({ isConfirmCity: payload });
   }
 
   @Action(SetOrder)
@@ -235,7 +257,6 @@ export class FilterState {
   setOpenRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment) {
     patchState({ isOpenRecruitment: payload });
     dispatch(new FilterChange());
-
   }
 
   @Action(SetClosedRecruitment)
@@ -249,25 +270,22 @@ export class FilterState {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
-    return this.appWorkshopsService
-      .getFilteredWorkshops(state, payload)
-      .pipe(tap((filterResult: WorkshopFilterCard) => {
-        patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: {totalAmount: 0, entities: []}, isLoading: false })
-      }));
-  }
-
-  @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
-    patchState({ isLoading: true });
-    const state: FilterStateModel = getState();
-
-    return this.appWorkshopsService
-      .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }));
+    return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
+      tap((filterResult: WorkshopFilterCard) => {
+        patchState(
+          filterResult
+            ? { filteredWorkshops: filterResult, isLoading: false }
+            : { filteredWorkshops: { totalAmount: 0, entities: [] }, isLoading: false }
+        );
+      })
+    );
   }
 
   @Action(SetWithDisabilityOption)
-  setWithDisabilityOption({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
+  setWithDisabilityOption(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetWithDisabilityOption
+  ) {
     patchState({ withDisabilityOption: payload });
     dispatch(new FilterChange());
   }
@@ -292,14 +310,14 @@ export class FilterState {
 
   @Action(ResetFilteredWorkshops)
   resetFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, {}: ResetFilteredWorkshops): void {
-    patchState({ filteredWorkshops: null});
+    patchState({ filteredWorkshops: null });
   }
 
   @Action(FilterChange)
-  filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+  filterChange({}: StateContext<FilterStateModel>, {}: FilterChange) {}
 
   @Action(FilterClear)
-  FilterClear({ patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
+  FilterClear({ patchState }: StateContext<FilterStateModel>, {}: FilterChange) {
     patchState({
       directions: [],
       maxAge: null,

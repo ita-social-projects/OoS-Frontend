@@ -1,22 +1,11 @@
-
-<div [ngClass]="{ 'hide-content' : isLoading || isLoadingData }" class="app-wrapper">
-
-  <mat-drawer-container>
-    <div fxLayout="column">
-      <div class="content">
-        <app-sidenav-menu [isMobileView]="isMobileView"></app-sidenav-menu>
-        <app-sidenav-filters [isMobileView]="isMobileView"></app-sidenav-filters>
-        <app-header></app-header>
-        <app-shell></app-shell>
-      </div>
-      <app-footer></app-footer>
-    </div> 
-  </mat-drawer-container>
-
-</div>
-
-<div *ngIf="isLoading || isLoadingData" class="progress-bar">
-  <mat-progress-bar mode="indeterminate">
-  </mat-progress-bar>
-</div>
-
+<mat-drawer-container>
+  <div fxLayout="column">
+    <div class="content">
+      <app-sidenav-menu [isMobileView]="isMobileView"></app-sidenav-menu>
+      <app-sidenav-filters [isMobileView]="isMobileView"></app-sidenav-filters>
+      <app-header></app-header>
+      <app-shell></app-shell>
+    </div>
+    <app-footer></app-footer>
+  </div> 
+</mat-drawer-container>

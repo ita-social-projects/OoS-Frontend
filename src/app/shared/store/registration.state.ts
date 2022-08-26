@@ -35,6 +35,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   isLoading: boolean;
+  isAutorizationLoading: boolean;
   user: User;
   provider: Provider;
   parent: Parent;
@@ -47,6 +48,7 @@ export interface RegistrationStateModel {
   name: 'registration',
   defaults: {
     isAuthorized: false,
+    isAutorizationLoading: true,
     isLoading: false,
     user: undefined,
     provider: undefined,
@@ -63,8 +65,12 @@ export class RegistrationState {
     return state.isAuthorized;
   }
   @Selector()
-  static isLoading(state: RegistrationStateModel): boolean {
+  static isAutorizationLoading(state: RegistrationStateModel): boolean {
     return state.isLoading;
+  }
+  @Selector()
+  static isLoading(state: RegistrationStateModel): boolean {
+    return state.isAutorizationLoading;
   }
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
@@ -130,9 +136,9 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    patchState({ isLoading: true });
+    patchState({ isAutorizationLoading: true });
     this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
-      patchState({ isAuthorized: auth });
+      patchState({ isAuthorized: auth});
       if (auth) {
         const token = jwt_decode(this.oidcSecurityService.getToken());
         const subrole = token['subrole'];
@@ -141,7 +147,7 @@ export class RegistrationState {
 
         dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
       } else {
-        patchState({ role: Role.unauthorized, isLoading: false });
+        patchState({ role: Role.unauthorized, isAutorizationLoading: false });
       }
     });
   }
@@ -156,9 +162,10 @@ export class RegistrationState {
   }
 
   @Action(CheckRegistration)
-  checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
+  checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
     this.signalRservice.startConnection();
+    patchState({ isAutorizationLoading: false });
 
     state.user.isRegistered ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
   }

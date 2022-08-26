@@ -22,7 +22,6 @@ import { InstitutionsService } from './../services/institutions/institutions.ser
 import {
   GetSocialGroup,
   GetDirections,
-  GetTopDirections,
   GetInstitutionStatus,
   ClearCodeficatorSearch, 
   ClearRatings, 
@@ -42,7 +41,6 @@ import {
 
 export interface MetaDataStateModel {
   directions: Direction[];
-  topDirections: Direction[];
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
   achievementsTypes: AchievementType[];
@@ -61,7 +59,6 @@ export interface MetaDataStateModel {
   name: 'metaDataState',
   defaults: {
     directions: [],
-    topDirections: [],
     socialGroups: [],
     institutionStatuses: null,
     achievementsTypes: null,
@@ -82,11 +79,6 @@ export class MetaDataState {
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] {
     return state.directions;
-  }
-
-  @Selector()
-  static topDirections(state: MetaDataStateModel): Direction[] {
-    return state.topDirections;
   }
 
   @Selector()
@@ -171,14 +163,6 @@ export class MetaDataState {
     return this.categoriesService
       .getDirections()
       .pipe(tap((directions: Direction[]) => patchState({ directions: directions, isLoading: false })));
-  }
-
-  @Action(GetTopDirections)
-  getTopDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetTopDirections): Observable<Direction[]> {
-    patchState({ isLoading: true });
-    return this.categoriesService
-      .getTopDirections()
-      .pipe(tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoading: false })));
   }
 
   @Action(GetSocialGroup)

@@ -35,6 +35,9 @@ export class HeaderComponent implements OnInit, OnDestroy {
   showModalReg = false;
   userShortName: string = '';
 
+  @Select(RegistrationState.isAutorizationLoading)
+  isAutorizationLoading$: Observable<boolean>;
+
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
   @Select(UserState.isLoading)
@@ -101,8 +104,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
           this.navigationPaths = navigationPaths;
         }
       );
-
-    this.store.dispatch(new CheckAuth());
 
     this.user$
       .pipe(
