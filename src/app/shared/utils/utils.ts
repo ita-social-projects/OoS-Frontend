@@ -1,8 +1,9 @@
+import { MinistryAdmin } from './../models/ministryAdmin.model';
 import { map } from 'rxjs/internal/operators/map';
 import { Constants } from '../constants/constants';
 import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { PersonalCabinetTitle } from '../enum/navigation-bar';
-import { Role } from '../enum/role';
+import { PersonalInfoRole, Role } from '../enum/role';
 import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
@@ -135,12 +136,36 @@ export class Util {
         pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
         email: user.parent?.email || constants.NO_INFORMATION,
         place: user.place || constants.NO_INFORMATION,
-        phoneNumber: user.parent?.phoneNumber ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}` : constants.NO_INFORMATION,
+        phoneNumber: user.parent.phoneNumber
+          ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}`
+          : constants.NO_INFORMATION,
         role: user.parentId ? 'Діти' : 'Батьки',
         status: user.accountStatus || 'Accepted',
       });
     });
     return updatedUsers;
+  }
+
+  /**
+   * This method returns updated array structure for the table
+   * @param admins Admins array of objects
+   * @returns array of objects
+   */
+   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+    const constants: typeof Constants = Constants;
+    const updatedAdmins = [];
+    admins.forEach((admins: MinistryAdmin) => {
+      updatedAdmins.push({
+        id: admins.id,
+        pib: `${admins.lastName} ${admins.firstName} ${admins.middleName}` || constants.NO_INFORMATION,
+        email: admins.email || constants.NO_INFORMATION,
+        place: constants.NO_INFORMATION,
+        phoneNumber: admins.phoneNumber ? `${constants.PHONE_PREFIX} ${admins.phoneNumber}` : constants.NO_INFORMATION,
+        role: admins.id,
+        status: admins.accountStatus || 'Accepted',
+      });
+    });
+    return updatedAdmins;
   }
 
   /**
@@ -194,7 +219,7 @@ export class Util {
   }
 
   public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
-    return (userRole !== Role.provider) ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
+    return userRole !== Role.provider ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
   public static getFullName(person: Person): string {

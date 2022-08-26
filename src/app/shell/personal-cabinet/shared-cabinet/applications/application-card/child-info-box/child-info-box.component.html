@@ -16,8 +16,8 @@
     </div>
     <ng-container *ngIf="!child.isParent">
       <div class="info-group">
-        <h5 class="text">Соціальна група:</h5>
-        <p>{{ child.socialGroups.join(',') }}</p>
+        <h5 class="text">Соціальні групи:</h5>
+        <p> {{ child.socialGroups | join : 'name'}} </p>
       </div>
 
       <div class="info-group">

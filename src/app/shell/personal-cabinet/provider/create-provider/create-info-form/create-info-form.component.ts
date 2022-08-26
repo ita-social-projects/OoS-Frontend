@@ -2,7 +2,7 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { OwnershipType, OwnershipTypeUkr, ProviderType, ProviderTypeUkr } from 'src/app/shared/enum/provider';
+import { OwnershipType, ProviderType } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { DATE_REGEX, NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Util } from 'src/app/shared/utils/utils';
@@ -11,6 +11,7 @@ import { Select, Store } from '@ngxs/store';
 import { Institution } from 'src/app/shared/models/institution.model';
 import { Observable } from 'rxjs';
 import { GetAllInstitutions } from 'src/app/shared/store/meta-data.actions';
+import { OwnershipTypeUkr, ProviderTypeUkr } from 'src/app/shared/enum/enumUA/provider';
 
 @Component({
   selector: 'app-create-info-form',

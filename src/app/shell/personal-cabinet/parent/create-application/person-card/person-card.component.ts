@@ -1,30 +1,25 @@
-import { Input } from '@angular/core';
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { cardType } from '../../../../../shared/enum/role';
+import { Input, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Constants } from '../../../../../shared/constants/constants';
+import { Gender } from 'src/app/shared/enum/gender';
+import { Child } from 'src/app/shared/models/child.model';
 @Component({
   selector: 'app-person-card',
   templateUrl: './person-card.component.html',
-  styleUrls: ['./person-card.component.scss']
+  styleUrls: ['./person-card.component.scss'],
 })
 export class PersonCardComponent implements OnInit {
-  readonly constants: typeof Constants = Constants;
-  readonly CardType: typeof cardType = cardType;
   readonly phonePrefix = Constants.PHONE_PREFIX;
-  UserFormGroup: FormGroup;
+  readonly dateFormat = Constants.SHORT_DATE_FORMAT;
+  readonly gender = Gender;
 
-  @Input() card;
-  @Input() cardType: cardType;
+  @Input() child: Child;
 
-  constructor(private fb: FormBuilder) {
-    this.UserFormGroup = this.fb.group({
-      birthDay: new FormControl('', Validators.required),
-      gender: new FormControl(''),
-      socialGroupId: new FormControl('', Validators.required),
-    });
-  }
+  editLink: string;
+
+  constructor() {}
 
   ngOnInit(): void {
+    this.editLink = this.child.isParent ? '/personal-cabinet/config/edit' : '/create-child';
   }
 }
