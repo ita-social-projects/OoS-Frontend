@@ -9,13 +9,15 @@ import {
   OnPageChangeDirections,
   OnPageChangeRating,
   OnPageChangeWorkshops,
+  OnPageChangeProviders,
   SetAdminsPerPage,
   SetApplicationsPerPage,
   SetChildrensPerPage,
   SetDirectionsPerPage,
   SetFirstPage,
   SetRatingPerPage,
-  SetWorkshopsPerPage
+  SetWorkshopsPerPage, 
+  SetProvidersPerPage,
 } from "./paginator.actions";
 
 export interface PaginatorStateModel {
@@ -26,6 +28,7 @@ export interface PaginatorStateModel {
   adminsPerPage: number;
   ratingPerPage: number;
   currentPage: PaginationElement;
+  providersPerPage: number;
 }
 @State<PaginatorStateModel>({
   name: 'paginator',
@@ -36,6 +39,7 @@ export interface PaginatorStateModel {
     applicationsPerPage: 8,
     adminsPerPage: 8,
     ratingPerPage: 12,
+    providersPerPage: 12,
     currentPage: PaginationConstants.firstPage,
   }
 })
@@ -48,6 +52,8 @@ export class PaginatorState {
   @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; };
 
   @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
+
+  @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.providersPerPage; };
 
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; };
 
@@ -79,9 +85,16 @@ export class PaginatorState {
     patchState({ applicationsPerPage: payload });
   }
 
+
+  @Action(SetProvidersPerPage)
+  setProvidersPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetProvidersPerPage): void {
+    patchState({ providersPerPage: payload });
+  }
+  
   @Action(SetAdminsPerPage)
   setAdminsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAdminsPerPage): void {
     patchState({ adminsPerPage: payload });
+
   }
 
   @Action(SetRatingPerPage)
@@ -96,6 +109,11 @@ export class PaginatorState {
 
   @Action(OnPageChangeWorkshops)
   onPageChangeWorkshops({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeWorkshops): void {
+    patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeProviders)
+  onPageChangeProviders({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeProviders): void {
     patchState({ currentPage: payload });
   }
 

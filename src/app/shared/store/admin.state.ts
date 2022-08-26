@@ -30,6 +30,7 @@ import {
   GetChildrenForAdmin,
   GetDirectionById,
   GetFilteredDirections,
+  GetFilteredProviders,
   GetLawsAndRegulations,
   GetMinistryAdminProfile,
   GetParents,
@@ -186,6 +187,16 @@ export class AdminState {
     );
   }
 
+  @Action(GetFilteredProviders)
+  getFilteredProvider(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetFilteredProviders
+  ): Observable<object> {
+    patchState({ isLoading: true });
+    return this.providerService.getFilteredProviders(payload).pipe(
+      tap((filteredProviders: Provider[]) => patchState({ providers: filteredProviders, isLoading: false }))
+    );
+  }
   @Action(GetAboutPortal)
   getAboutPortal({ patchState }: StateContext<AdminStateModel>, {}: GetAboutPortal): Observable<CompanyInformation> {
     patchState({ isLoading: true });
