@@ -1,3 +1,4 @@
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,14 +28,15 @@ describe('HeaderComponent', () => {
         HttpClientModule,
         RouterTestingModule,
         MatMenuModule,
-        MatProgressBarModule,
-        MatSelectModule
+        MatSelectModule,
+        MatProgressBarModule
       ],
       declarations: [
         HeaderComponent,
         MockSearchBarComponent,
         MockNavigationMobileBarComponent,
-        MockNotificationsComponent
+        MockNotificationsComponent,
+        ProgressBarComponent
       ],
       providers: [
         { provide: OidcSecurityService, useValue: MockOidcSecurityService },
