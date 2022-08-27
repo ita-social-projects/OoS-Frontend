@@ -66,11 +66,11 @@ export class RegistrationState {
   }
   @Selector()
   static isAutorizationLoading(state: RegistrationStateModel): boolean {
-    return state.isLoading;
+    return state.isAutorizationLoading;
   }
   @Selector()
   static isLoading(state: RegistrationStateModel): boolean {
-    return state.isAutorizationLoading;
+    return state.isLoading;
   }
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
@@ -118,7 +118,7 @@ export class RegistrationState {
   ) {}
 
   @Action(Login)
-  Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
+  Login({ }: StateContext<RegistrationStateModel>, { payload }: Login): void {
     this.oidcSecurityService.authorize({
       customParams: {
         culture: localStorage.getItem('ui-culture'),
@@ -137,9 +137,7 @@ export class RegistrationState {
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
-      patchState({ isAutorizationLoading: true });
-
-      patchState({ isAuthorized: auth});
+      patchState({ isAuthorized: auth });
       if (auth) {
         const token = jwt_decode(this.oidcSecurityService.getToken());
         const subrole = token['subrole'];
