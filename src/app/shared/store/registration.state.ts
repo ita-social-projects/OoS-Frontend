@@ -171,8 +171,6 @@ export class RegistrationState {
     } else {
       this.router.navigate(['/create-provider', '']).finally(() => patchState({ isAutorizationLoading: false }));
     }
-
-    // state.user.isRegistered ?  :
   }
 
   @Action(GetProfile)
