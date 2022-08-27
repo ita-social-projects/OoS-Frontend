@@ -49,7 +49,7 @@ export class SetMaxPrice {
   constructor(public payload: number) {}
 }
 export class SetSearchQueryValue {
-  static readonly type = '[filter] Set Search Quesry Value';
+  static readonly type = '[filter] Set Search Query Value';
   constructor(public payload: string) {}
 }
 export class SetOpenRecruitment {

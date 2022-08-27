@@ -1,10 +1,9 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
 import { ToggleMobileScreen } from './shared/store/app.actions';
 import { GetFeaturesList } from './shared/store/meta-data.actions';
 import { CheckAuth } from './shared/store/registration.actions';
-import { RegistrationState } from './shared/store/registration.state';
 
 @Component({
   selector: 'app-root',

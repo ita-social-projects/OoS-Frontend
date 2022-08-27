@@ -26,21 +26,19 @@ export class MainComponent implements OnInit, OnDestroy {
   @Select(MainPageState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
   topWorkshops: WorkshopCard[];
-
   @Select(MainPageState.topDirections)
   topDirections$: Observable<Direction[]>;
   topDirections: Direction[];
-
   @Select(MainPageState.isLoadingData)
   isLoadingData$: Observable<boolean>;
   isLoadingData: boolean;
-
   @Select(RegistrationState.role)
   role$: Observable<Role>;
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settlement)
   settlement$: Observable<Codeficator>;
+  settlement: Codeficator;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   isMobile: boolean;
@@ -50,34 +48,17 @@ export class MainComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new GetTopDirections());
-
-    this.role$
+    combineLatest([this.role$, this.settlement$])
       .pipe(
-        filter(role => !!role),
+        filter(([role, settlement]: [Role, Codeficator]) => !!(role && settlement)),
         takeUntil(this.destroy$)
       )
-      .subscribe((role: Role) => this.getTopWorkshops(role));
+      .subscribe(([role, settlement]: [Role, Codeficator]) => {
+        this.settlement = settlement;
+        this.getData(role);
+      });
 
     this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobile: boolean) => (this.isMobile = isMobile));
-  }
-
-  getTopWorkshops(role: Role): void {
-    if (role === Role.parent) {
-      combineLatest([this.settlement$, this.favoriteWorkshops$])
-        .pipe(
-          filter(([city, favorite]) => (!!city && !!favorite?.length) || favorite === null),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(([city, favorite]: [Codeficator, Favorite[]]) => this.store.dispatch(new GetTopWorkshops(city)));
-    } else {
-      this.settlement$
-        .pipe(
-          filter(city => !!city),
-          takeUntil(this.destroy$)
-        )
-        .subscribe((city: Codeficator) => this.store.dispatch(new GetTopWorkshops(city)));
-    }
   }
 
   ngOnDestroy(): void {
@@ -85,7 +66,25 @@ export class MainComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  register(): void {
+  onRegister(): void {
     this.store.dispatch(new Login(true));
+  }
+
+  private getData(role: Role): void {
+    if (role === Role.parent) {
+      this.favoriteWorkshops$
+        .pipe(
+          filter((favorite: Favorite[]) => !!favorite?.length || favorite === null),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((favorite: Favorite[]) => this.getMainPageData());
+    } else {
+      this.getMainPageData();
+    }
+  }
+
+  private getMainPageData(): void {
+    debugger;
+    this.store.dispatch([new GetTopWorkshops(), new GetTopDirections()]);
   }
 }

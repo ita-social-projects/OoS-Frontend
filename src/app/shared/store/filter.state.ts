@@ -69,7 +69,7 @@ export interface FilterStateModel {
     minPrice: ValidationConstants.MIN_PRICE,
     isOpenRecruitment: false,
     isClosedRecruitment: false,
-    settlement: JSON.parse(localStorage.getItem('cityConfirmation')),
+    settlement: null,
     searchQuery: '',
     order: 'Rating',
     filteredWorkshops: null,

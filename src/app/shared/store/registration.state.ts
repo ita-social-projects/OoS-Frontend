@@ -136,8 +136,9 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    patchState({ isAutorizationLoading: true });
     this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
+      patchState({ isAutorizationLoading: true });
+
       patchState({ isAuthorized: auth});
       if (auth) {
         const token = jwt_decode(this.oidcSecurityService.getToken());

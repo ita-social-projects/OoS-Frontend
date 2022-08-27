@@ -4,7 +4,7 @@ export class GetTopDirections {
 }
 export class GetTopWorkshops {
   static readonly type = '[filter] Get Most Popular Workshop Cards';
-  constructor(public payload: Codeficator) {}
+  constructor() {}
 }
 export class ResetMainPageResult {
   static readonly type = '[main] reset main page result';

@@ -50,10 +50,10 @@ export class MainPageState {
   }
 
   @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState }: StateContext<MainPageStateModel>, { payload }: GetTopWorkshops) {
+  getTopWorkshops({ patchState }: StateContext<MainPageStateModel>, { }: GetTopWorkshops) {
     patchState({ isLoadingData: true });
     return this.appWorkshopsService
-      .getTopWorkshops(payload)
+      .getTopWorkshops()
       .pipe(
         tap((filterResult: WorkshopCard[]) =>
           patchState({ topWorkshops: filterResult ? filterResult : [], isLoadingData: false })

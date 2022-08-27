@@ -133,10 +133,11 @@ export class AppWorkshopsService {
   /**
    * This method get top workshops
    */
-  getTopWorkshops(settlement: Codeficator): Observable<WorkshopCard[]> {
+  getTopWorkshops(): Observable<WorkshopCard[]> {
     let params = new HttpParams();
 
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
     params = params.set('Limit', size.toString());
     params = this.setCityFilterParams(settlement, params);

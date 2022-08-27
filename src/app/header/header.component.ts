@@ -1,23 +1,19 @@
-import { AdminTabs } from './../shared/enum/enumUA/tech-admin/admin-tabs';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
-import { Logout, CheckAuth, Login } from '../shared/store/registration.actions';
+import { Logout, Login } from '../shared/store/registration.actions';
 import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
-import { FilterState } from '../shared/store/filter.state';
 import { NavigationState } from '../shared/store/navigation.state';
-import { UserState } from '../shared/store/user.state';
 import { Navigation } from '../shared/models/navigation.model';
 import { Role, RoleLinks } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
-import { AdminState } from '../shared/store/admin.state';
 import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 
 @Component({
@@ -29,7 +25,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly roles: typeof RoleLinks = RoleLinks;
-  readonly defaultAdminTabs = AdminTabs[0];
 
   selectedLanguage = 'uk';
   showModalReg = false;
@@ -37,15 +32,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.isAutorizationLoading)
   isAutorizationLoading$: Observable<boolean>;
-
-  @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
-  @Select(UserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
-  @Select(MetaDataState.isLoading)
-  isLoadingMetaData$: Observable<boolean>;
-  @Select(AdminState.isLoading)
-  isLoadingAdminData$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
   navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
@@ -60,11 +46,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.subrole)
   subrole$: Observable<string>;
 
-  isLoadingResultPage: boolean;
-  isLoadingCabinet: boolean;
-  isLoadingMetaData: boolean;
-  isLoadingAdminData: boolean;
-  isLoadingNotifications: boolean;
   navigationPaths: Navigation[];
   subrole: string;
   btnView: string = providerAdminRoleUkr.all;
@@ -78,36 +59,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    combineLatest([
-      this.subrole$,
-      this.isLoadingResultPage$,
-      this.isLoadingMetaData$,
-      this.isLoadingCabinet$,
-      this.isLoadingAdminData$,
-      this.navigationPaths$
-    ])
+    combineLatest([this.subrole$, this.navigationPaths$])
       .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(
-        ([
-          subrole,
-          isLoadingResult,
-          isLoadingMeta,
-          isLoadingCabinet,
-          isLoadingAdminData,
-          navigationPaths
-        ]) => {
-          this.subrole = subrole;
-          this.isLoadingResultPage = isLoadingResult;
-          this.isLoadingMetaData = isLoadingMeta;
-          this.isLoadingCabinet = isLoadingCabinet;
-          this.isLoadingAdminData = isLoadingAdminData;
-          this.navigationPaths = navigationPaths;
-        }
-      );
+      .subscribe(([subrole, navigationPaths]: [Role, Navigation[]]) => {
+        this.subrole = subrole;
+        this.navigationPaths = navigationPaths;
+      });
 
     this.user$
       .pipe(
-        filter((user) => !!user),
+        filter(user => !!user),
         takeUntil(this.destroy$)
       )
       .subscribe((user: User) => {
@@ -117,9 +78,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${
-      user.middleName ? user.middleName.slice(0, 1) + '.' : ''
-    }`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ''}`;
   }
 
   logout(): void {

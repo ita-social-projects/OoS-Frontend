@@ -1,5 +1,5 @@
 <div class="main">
-  <ng-container *ngIf="!(isLoadingData$ | async)">
+  <ng-container *ngIf="!(isLoadingData$ | async) && !!settlement">
     <div class="main-header">
       <h3>Найпопулярніші напрямки</h3>
       <a routerLink="/all-categories" class="main_link">
@@ -54,6 +54,6 @@
     <h4 class="main_hint">Зареєструйся - допоможемо залучити нових учнів!</h4>
   </div>
   <div class="main_button-wrapper">
-    <button mat-stroked-button class="main_button" (click)="register()">ЗАРЕЄСТРУВАТИСЯ</button>
+    <button mat-stroked-button class="main_button" (click)="onRegister()">ЗАРЕЄСТРУВАТИСЯ</button>
   </div>
 </div>
