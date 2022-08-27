@@ -221,12 +221,6 @@
   padding: 0px !important;
 }
 
-.progress-bar {
-  position: absolute;
-  width: 100%;
-  z-index: 999;
-}
-
 @media (max-width: 1024px) {
   .header {
     &_search {
