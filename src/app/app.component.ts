@@ -1,9 +1,10 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 import { ToggleMobileScreen } from './shared/store/app.actions';
 import { GetFeaturesList } from './shared/store/meta-data.actions';
 import { CheckAuth } from './shared/store/registration.actions';
+import { RegistrationState } from './shared/store/registration.state';
 
 @Component({
   selector: 'app-root',
@@ -12,6 +13,9 @@ import { CheckAuth } from './shared/store/registration.actions';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @Select(RegistrationState.isAutorizationLoading)
+  isAutorizationLoading$: Observable<boolean>;
 
   isMobileView: boolean;
 

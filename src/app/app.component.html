@@ -1,6 +1,6 @@
 <mat-drawer-container>
   <div fxLayout="column">
-    <div class="content">
+    <div class="content" [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
       <app-sidenav-menu [isMobileView]="isMobileView"></app-sidenav-menu>
       <app-sidenav-filters [isMobileView]="isMobileView"></app-sidenav-filters>
       <app-header></app-header>
