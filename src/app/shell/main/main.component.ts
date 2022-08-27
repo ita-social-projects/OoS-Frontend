@@ -84,7 +84,6 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   private getMainPageData(): void {
-    debugger;
     this.store.dispatch([new GetTopWorkshops(), new GetTopDirections()]);
   }
 }
