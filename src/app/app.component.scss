@@ -3,6 +3,11 @@
   position: relative;
   box-sizing: border-box;
 }
+
+.hide-content {
+  visibility: hidden;
+}
+
 .content {
   min-height: calc(100vh - 121px);
   flex-grow: 1;
@@ -18,8 +23,4 @@
   @media(max-width: 600px) {
     min-height: calc(100vh - 106px);
   }
-}
-
-.hide-content {
-  display: none;
 }
