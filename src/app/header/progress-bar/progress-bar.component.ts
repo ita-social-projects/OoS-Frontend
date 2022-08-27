@@ -6,7 +6,6 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { UserState } from 'src/app/shared/store/user.state';
 
 @Component({
