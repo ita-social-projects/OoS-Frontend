@@ -118,7 +118,7 @@ export class RegistrationState {
   ) {}
 
   @Action(Login)
-  Login({ }: StateContext<RegistrationStateModel>, { payload }: Login): void {
+  Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
     this.oidcSecurityService.authorize({
       customParams: {
         culture: localStorage.getItem('ui-culture'),
@@ -164,9 +164,15 @@ export class RegistrationState {
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
     this.signalRservice.startConnection();
-    patchState({ isAutorizationLoading: false });
 
-    state.user.isRegistered ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
+    if (state.user.isRegistered) {
+      dispatch(new GetProfile());
+      patchState({ isAutorizationLoading: false });
+    } else {
+      this.router.navigate(['/create-provider', '']).finally(() => patchState({ isAutorizationLoading: false }));
+    }
+
+    // state.user.isRegistered ?  :
   }
 
   @Action(GetProfile)
