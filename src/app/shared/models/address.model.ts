@@ -17,12 +17,3 @@ export class Address {
     }
   }
 }
-
-export interface MapAddress {
-  codeficatorAddressDto: Codeficator;
-  street: string;
-  buildingNumber: string;
-  latitude?: number;
-  longitude?: number;
-  catottgId?: number;
-}

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Address, MapAddress } from 'src/app/shared/models/address.model';
+import { Address } from 'src/app/shared/models/address.model';
 import { FormValidators, ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
@@ -12,11 +12,13 @@ export class CreateWorkshopAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
 
   @Input() address: Address;
+  
   @Output() passAddressFormGroup = new EventEmitter();
 
   addressFormGroup: FormGroup;
   searchFormGroup: FormGroup;
-  
+  noAddressFound: false;
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -24,17 +26,13 @@ export class CreateWorkshopAddressComponent implements OnInit {
       street: new FormControl('', FormValidators.defaultAddressValidators),
       buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
       catottgId: new FormControl('', Validators.required),
-      lat: new FormControl(''),
-      lon: new FormControl(''),
+      latitude: new FormControl(''),
+      longitude: new FormControl(''),
     });
     this.searchFormGroup = this.formBuilder.group({
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
       settlement: new FormControl(''),
     });
     this.passAddressFormGroup.emit(this.addressFormGroup);
-  }
-
-  onSetMapAddress(address: MapAddress): void {
-
   }
 }

@@ -1,21 +1,21 @@
-import { Geocoder } from './../../models/geolocation';
-import { Codeficator } from './../../models/codeficator.model';
+
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
-import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
-import { Address, MapAddress } from '../../models/address.model';
+import { Address } from '../../models/address.model';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
 import { Select } from '@ngxs/store';
-import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { UserState } from '../../store/user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
+import { GeocoderService } from './../../services/geolocation/geocoder.service';
+import { Geocoder } from './../../models/geolocation';
+import { Codeficator } from './../../models/codeficator.model';
+import { FilterState } from '../../store/filter.state';
 
 @Component({
   selector: 'app-map',
@@ -27,8 +27,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() isCreateWorkShops: boolean;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 
-  @Output() setAddressEvent = new EventEmitter<Geocoder>();
-  @Output() selectedAddress = new EventEmitter<MapAddress>();
+  @Output() wrongMapAddress = new EventEmitter<boolean>();
+  @Output() selectedAddress = new EventEmitter<any>();
 
   @Select(UserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
@@ -60,7 +60,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/selectMarker.png',
   });
 
-  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) {}
+  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -104,18 +104,22 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
-    
-    if (address.lat && address.lon) {
-      this.setNewSingleMarker([address.lat, address.lon]);
+    if (address.catottgId) {
+      this.geocoderService.addressDecode(address, (result: Geocoder) => {
+        if (result) {
+          this.setNewSingleMarker([result.latitude, result.longitude]);
+        }
+        this.wrongMapAddress.emit(!result);
+      });
     }
 
     this.addressFormGroup.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((address: Geocoder) => {
-        if (address.lon && address.lat) {
-          this.setNewSingleMarker([address.lat, address.lon]);
-        }
-      });
+      .pipe(
+        debounceTime(500),
+        takeUntil(this.destroy$),
+        filter((address: Geocoder) => !!(address.longitude && address.latitude))
+      )
+      .subscribe((address: Geocoder) => this.setNewSingleMarker([address.latitude, address.longitude]));
   }
 
   /**
@@ -165,12 +169,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param coords - type Coords
    */
   private setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (result: Geocoder) => {
+    this.geocoderService.locationDecode(coords, (result: Geocoder) => {
       if (result) {
         this.addressFormGroup.patchValue(result);
       } else {
         this.addressFormGroup.reset();
+        this.map.removeLayer(this.singleMarker);
       }
+      this.wrongMapAddress.emit(!result);
     });
   }
 

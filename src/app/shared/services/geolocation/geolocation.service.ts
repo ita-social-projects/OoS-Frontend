@@ -4,12 +4,9 @@ import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { Coords } from '../../models/coords.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
-import { GeocoderService } from './geocoder.service';
-import { HttpClient } from '@angular/common/http';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { Constants } from '../../constants/constants';
 import { Codeficator } from '../../models/codeficator.model';
-import { Geocoder } from '../../models/geolocation';
 
 @Injectable({
   providedIn: 'root',
@@ -17,9 +14,7 @@ import { Geocoder } from '../../models/geolocation';
 export class GeolocationService {
   constructor(
     private store: Store,
-    private http: HttpClient,
     private codeficatorService: CodeficatorService,
-    private geocoderService: GeocoderService
   ) {}
 
   /**
@@ -66,31 +61,5 @@ export class GeolocationService {
     this.codeficatorService
       .getNearestByCoordinates(coords.lat, coords.lng)
       .subscribe((result: Codeficator) => callback(result));
-  }
-
-  // /**
-  //  * returns a location from a textual description or address.
-  //  *
-  //  * @param address - Address
-  //  * @param callback - Function, which receives 1 argument of type Address
-  //  */
-  // addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
-  //   GeocoderService.geocode(
-  //     this.http,
-  //     `${address.codeficatorAddressDto.settlement}+${address.street}+${address.buildingNumber}`,
-  //     'uk-UA, uk' // TODO: create enum for accept language param
-  //   ).subscribe((result: GeolocationAddress) => {
-  //     callback(result);
-  //   });
-  // }
-
-  locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
-    this.geocoderService
-      .geocode({
-        lat: coords.lat,
-        lon: coords.lng,
-        isReverse: true,
-      })
-      .subscribe((result: Geocoder) => callback(result));
   }
 }

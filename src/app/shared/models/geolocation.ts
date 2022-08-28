@@ -18,11 +18,20 @@ export interface GeolocationCoordinates {
   speed: number | null;
 }
 
-export interface Geocoder {
+export interface BaseGeocoder {
   catottgId?: number;
   street?: string;
   buildingNumber?: string;
-  lat?: number;
-  lon?: number;
+  latitude?: number;
+  longitude?: number;
   isReverse?: boolean;
+}
+export interface Geocoder extends BaseGeocoder {
+  latitude?: number;
+  longitude?: number;
+}
+
+export interface GeocoderDTO extends BaseGeocoder {
+  lat: number;
+  lon: number;
 }
