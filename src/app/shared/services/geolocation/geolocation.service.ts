@@ -74,8 +74,8 @@ export class GeolocationService {
   locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
     GeocoderService
       .geocode()
-      .reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk')
-      .subscribe((result: GeolocationAddress) => { // TODO: create enum for accept language param
+      .reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk') // TODO: create enum for accept language param
+      .subscribe((result: GeolocationAddress) => {
         callback(result);
       });
   }
