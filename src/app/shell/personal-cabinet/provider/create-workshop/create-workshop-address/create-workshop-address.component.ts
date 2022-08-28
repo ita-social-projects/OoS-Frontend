@@ -12,12 +12,12 @@ export class CreateWorkshopAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
 
   @Input() address: Address;
-  
+
   @Output() passAddressFormGroup = new EventEmitter();
 
   addressFormGroup: FormGroup;
   searchFormGroup: FormGroup;
-  noAddressFound: false;
+  noAddressFound = false;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -34,5 +34,12 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlement: new FormControl(''),
     });
     this.passAddressFormGroup.emit(this.addressFormGroup);
+  }
+
+  onWrongAddressSelect(result: boolean): void {
+    this.noAddressFound = result;
+    if (!result) {
+      this.searchFormGroup.reset();
+    }
   }
 }
