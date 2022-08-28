@@ -12,6 +12,7 @@ import { GetAboutPortal } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { takeUntil } from 'rxjs/operators';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 
 @Component({
   selector: 'app-about',
@@ -26,6 +27,7 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   platformInformation: CompanyInformation;
 
+  readonly emptyList = NoResultsTitle.noInfo;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
