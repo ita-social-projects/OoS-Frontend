@@ -1,3 +1,4 @@
+import { Codeficator } from './../shared/models/codeficator.model';
 import { Observable, Subject } from 'rxjs';
 import { GetFavoriteWorkshopsByUserId } from './../shared/store/user.actions';
 import { Select, Store } from '@ngxs/store';
@@ -12,42 +13,26 @@ import { Role } from '../shared/enum/role';
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss']
+  styleUrls: ['./shell.component.scss'],
 })
 export class ShellComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
   role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    private geolocationService: GeolocationService,
-    private store: Store
-  ) { }
+  constructor(private geolocationService: GeolocationService, private store: Store) {}
 
   ngOnInit(): void {
     this.geolocationService.handleUserLocation((coords: Coords) => {
-      coords && this.geolocationService.locationDecode(coords, (result) => {
-        this.geolocationService.confirmCity({
-          longitude: coords.lng,
-          latitude: coords.lat,
-          settlement: result.address.city || result.address.town || result.address.village || result.address.hamlet,
-          id: null,
-          category: null,
-          territorialCommunity: '',
-          cityDistrict: '',
-          fullName: ''
+      coords &&
+        this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+          this.geolocationService.confirmCity(result);
         });
-      });
     });
 
-    this.role$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((role: string) => {
-        (role == Role.parent) && this.store.dispatch([
-          new GetFavoriteWorkshops(),
-          new GetFavoriteWorkshopsByUserId()
-        ]);
-      })
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
+      role == Role.parent && this.store.dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()]);
+    });
   }
 
   ngOnDestroy(): void {
