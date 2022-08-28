@@ -17,3 +17,12 @@ export interface GeolocationCoordinates {
   longitude: number;
   speed: number | null;
 }
+
+export interface Geocoder {
+  catottgId?: number;
+  street?: string;
+  buildingNumber?: string;
+  lat?: number;
+  lon?: number;
+  isReverse?: boolean;
+}

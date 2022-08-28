@@ -1,3 +1,4 @@
+import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
@@ -21,12 +22,12 @@ import { WorkshopMarker } from '../../models/workshopMarker.model';
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent {
+export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
   @Input() isCreateWorkShops: boolean;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 
-  @Output() setAddressEvent = new EventEmitter<MapAddress>();
+  @Output() setAddressEvent = new EventEmitter<Geocoder>();
   @Output() selectedAddress = new EventEmitter<MapAddress>();
 
   @Select(UserState.selectedWorkshop)
@@ -59,10 +60,7 @@ export class MapComponent {
     iconUrl: '/assets/icons/selectMarker.png',
   });
 
-  constructor(
-    private geolocationService: GeolocationService, 
-    private previousUrlService: PreviousUrlService
-  ) {}
+  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -105,16 +103,19 @@ export class MapComponent {
   }
 
   private setAddress(): void {
-    this.addressFormGroup.value.latitude && this.setLocation(this.addressFormGroup.value);
+    const address: Geocoder = this.addressFormGroup.getRawValue();
+    
+    if (address.lat && address.lon) {
+      this.setNewSingleMarker([address.lat, address.lon]);
+    }
 
-    // this.addressFormGroup.valueChanges.pipe(debounceTime(500)).subscribe((address: MapAddress) => {
-    //   if (!address.street && !address.buildingNumber) {
-    //     this.setAddressLocation(address);
-    //   }
-    //   if (address.codeficatorAddressDto && address.street && address.buildingNumber) {
-    //     this.setLocation(address);
-    //   }
-    // });
+    this.addressFormGroup.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe((address: Geocoder) => {
+        if (address.lon && address.lat) {
+          this.setNewSingleMarker([address.lat, address.lon]);
+        }
+      });
   }
 
   /**
@@ -163,37 +164,12 @@ export class MapComponent {
    * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
    * @param coords - type Coords
    */
-  setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
-      if (result.address || (Array.isArray(result) && result.length)) {
-        const location = result.address || result[0].properties.address;
-        const codeficatorAddressDto = {
-          settlement: location.city || location.village || location.town || location.hamlet,
-        } as Codeficator;
-        const street = location.road;
-        const buildingNumber = location.house_number;
-        const longitude = result.lon || result[0].lon;
-        const latitude = result.lat || result[0].lat;
-        this.setAddressEvent.emit({ codeficatorAddressDto, street, buildingNumber, longitude, latitude });
+  private setMapLocation(coords: Coords): void {
+    this.geolocationService.locationDecode(coords, (result: Geocoder) => {
+      if (result) {
+        this.addressFormGroup.patchValue(result);
       } else {
-        this.setAddressEvent.emit({
-          codeficatorAddressDto: null,
-          street: null,
-          buildingNumber: null,
-        });
-      }
-    });
-  }
-
-  /**
-   * uses GeolocationService to translate address into coords and sets marker on default
-   * @param address - type Address
-   */
-  setLocation(address: MapAddress): void {
-    this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
-      if (result.address || (Array.isArray(result) && result.length)) {
-        const coords: [number, number] = [result.lat || result[0].lat, result.lon || result[0].lon];
-        this.setNewSingleMarker(coords);
+        this.addressFormGroup.reset();
       }
     });
   }
@@ -202,7 +178,7 @@ export class MapComponent {
    * This method remove existed marker and set the new marke to the map
    * @param coords - type [number, number]
    */
-  setNewSingleMarker(coords: [number, number]): void {
+  private setNewSingleMarker(coords: [number, number]): void {
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
     this.map.addLayer(this.singleMarker);
