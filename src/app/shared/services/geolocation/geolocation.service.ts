@@ -4,10 +4,7 @@ import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { Coords } from '../../models/coords.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
-import { GeocoderService } from './geocoder.service';
-import { HttpClient } from '@angular/common/http';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { Address } from '../../models/address.model';
 import { Constants } from '../../constants/constants';
 import { Codeficator } from '../../models/codeficator.model';
 
@@ -15,7 +12,10 @@ import { Codeficator } from '../../models/codeficator.model';
   providedIn: 'root',
 })
 export class GeolocationService {
-  constructor(private store: Store, private http: HttpClient, private codeficatorService: CodeficatorService) {}
+  constructor(
+    private store: Store,
+    private codeficatorService: CodeficatorService,
+  ) {}
 
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation
@@ -53,7 +53,7 @@ export class GeolocationService {
   }
 
   /**
-   * translates coords into codeficator address for filtering
+   * translates coords into codeficator address for filtering workshops
    * @param coords - Coords
    * @param callback - Function, which receives 1 argument of type Address
    */
@@ -61,31 +61,5 @@ export class GeolocationService {
     this.codeficatorService
       .getNearestByCoordinates(coords.lat, coords.lng)
       .subscribe((result: Codeficator) => callback(result));
-  }
-
-  /**
-   * returns a location from a textual description or address.
-   *
-   * @param address - Address
-   * @param callback - Function, which receives 1 argument of type Address
-   */
-  addressDecode(address: Address, callback: (GeolocationAddress) => void): void {
-    GeocoderService.geocode(
-      this.http,
-      `${address.codeficatorAddressDto.settlement}+${address.street}+${address.buildingNumber}`,
-      'uk-UA, uk'
-    ).subscribe((result: GeolocationAddress) => {
-      // TODO: create enum for accept language param
-      callback(result);
-    });
-  }
-
-  locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
-    GeocoderService.geocode()
-      .reverse(this.http, coords.lat, coords.lng, 'uk-UA, uk')
-      .subscribe((result: GeolocationAddress) => {
-        // TODO: create enum for accept language param
-        callback(result);
-      });
   }
 }

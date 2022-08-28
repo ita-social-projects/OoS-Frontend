@@ -1,49 +1,49 @@
-import { Codeficator } from './../../models/codeficator.model';
+
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
-import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { Coords } from '../../models/coords.model';
-import { Address, MapAddress } from '../../models/address.model';
+import { Address } from '../../models/address.model';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
 import { Select } from '@ngxs/store';
-import { FilterState } from '../../store/filter.state';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { UserState } from '../../store/user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
+import { GeocoderService } from './../../services/geolocation/geocoder.service';
+import { Geocoder } from './../../models/geolocation';
+import { Codeficator } from './../../models/codeficator.model';
+import { FilterState } from '../../store/filter.state';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss'],
 })
-export class MapComponent {
-  @Select(UserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
-  public defaultCoords: Coords;
-  public zoom = 11;
-  public workshops: WorkshopCard[];
-
-  @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-
+export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
   @Input() isCreateWorkShops: boolean;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Output() setAddressEvent = new EventEmitter<MapAddress>();
-  @Output() selectedAddress = new EventEmitter<MapAddress>();
 
-  constructor(private geolocationService: GeolocationService, private previousUrlService: PreviousUrlService) {}
+  @Output() wrongMapAddress = new EventEmitter<boolean>();
+  @Output() selectedAddress = new EventEmitter<any>();
+
+  @Select(UserState.selectedWorkshop)
+  selectedWorkshop$: Observable<Workshop>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
   map: Layer.Map;
-  singleMarker: Layer.Marker;
-  workshopMarkers: WorkshopMarker[] = [];
 
-  unselectedMarkerIcon: Layer.Icon = Layer.icon({
+  private singleMarker: Layer.Marker;
+  private workshopMarkers: WorkshopMarker[] = [];
+  private defaultCoords: Coords;
+  private zoom = 11;
+  private workshops: WorkshopCard[];
+  private unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
     iconAnchor: [10, 41],
@@ -51,8 +51,7 @@ export class MapComponent {
     popupAnchor: [-3, -76],
     iconUrl: '/assets/icons/marker.png',
   });
-
-  selectedMarkerIcon: Layer.Icon = Layer.icon({
+  private selectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
     iconAnchor: [10, 41],
@@ -60,6 +59,68 @@ export class MapComponent {
     popupAnchor: [-3, -76],
     iconUrl: '/assets/icons/selectMarker.png',
   });
+
+  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService) {}
+
+  /**
+   * before map creation gets user coords from GeolocationService. If no user coords uses default coords
+   * Creates and sets map after div with is "map" renders.
+   * Adds onclick event handler which translates map coords into address
+   * subscribes on @input address change and on every change calls method to translate address into coords
+   */
+  ngAfterViewInit(): void {
+    this.settlement$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((settlement: Codeficator) => !!settlement)
+      )
+      .subscribe((settlement: Codeficator) => {
+        this.defaultCoords = { lat: settlement.latitude, lng: settlement.longitude };
+        this.map || this.initMap();
+        this.flyTo(this.defaultCoords);
+
+        // checking if there are filtered workshops on the map for teh result page view
+        if (!!this.filteredWorkshops$) {
+          this.setFilteredWorkshops();
+        }
+        // checking if user edit workshop information to create adress for workshop
+        if (this.addressFormGroup) {
+          this.setAddress();
+        }
+      });
+  }
+
+  private setFilteredWorkshops(): void {
+    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
+      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+      this.workshopMarkers = [];
+      if (filteredWorkshops) {
+        this.workshops = filteredWorkshops.entities;
+        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
+        this.setPrevWorkshopMarker();
+      }
+    });
+  }
+
+  private setAddress(): void {
+    const address: Geocoder = this.addressFormGroup.getRawValue();
+    if (address.catottgId) {
+      this.geocoderService.addressDecode(address, (result: Geocoder) => {
+        if (result) {
+          this.setNewSingleMarker([result.latitude, result.longitude]);
+        }
+        this.wrongMapAddress.emit(!result);
+      });
+    }
+
+    this.addressFormGroup.valueChanges
+      .pipe(
+        debounceTime(500),
+        takeUntil(this.destroy$),
+        filter((address: Geocoder) => !!(address.longitude && address.latitude))
+      )
+      .subscribe((address: Geocoder) => this.setNewSingleMarker([address.latitude, address.longitude]));
+  }
 
   /**
    * changing position on map
@@ -94,97 +155,28 @@ export class MapComponent {
   }
 
   /**
-   * before map creation gets user coords from GeolocationService. If no user coords uses default coords
-   * Creates and sets map after div with is "map" renders.
-   * Adds onclick event handler which translates map coords into address
-   * subscribes on @input address change and on every change calls method to translate address into coords
-   */
-  ngAfterViewInit(): void {
-    this.settlement$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((settlement: Codeficator) => !!settlement)
-      )
-      .subscribe((settlement: Codeficator) => {
-        this.defaultCoords = { lat: settlement.latitude, lng: settlement.longitude };
-        this.map || this.initMap();
-        this.flyTo(this.defaultCoords);
-
-        // cheking if there are filtered workshops on the map
-        if (!!this.filteredWorkshops$) {
-          this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
-            this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) =>
-              this.map.removeLayer(workshopMarker.marker)
-            );
-            this.workshopMarkers = [];
-            if (filteredWorkshops) {
-              this.workshops = filteredWorkshops.entities;
-              filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-              this.setPrevWorkshopMarker();
-            }
-          });
-        }
-      });
-
-    // cheking if user edit workshop information
-    if (this.addressFormGroup) {
-      this.addressFormGroup.value.latitude && this.setLocation(this.addressFormGroup.value);
-
-      this.addressFormGroup.valueChanges.pipe(debounceTime(500)).subscribe((address: MapAddress) => {
-        if (!address.street && !address.buildingNumber) {
-          this.setAddressLocation(address);
-        }
-        if (address.codeficatorAddressDto && address.street && address.buildingNumber) {
-          this.setLocation(address);
-        }
-      });
-    }
-  }
-
-  /**
    * uses GoelocationService to translate address into coords and sets marker on efault
    * @param address - type Address
    */
   setAddressLocation(address: Address): void {
-    this.workshops ? this.setWorkshopMarkers(address) : this.setNewSingleMarker([address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude]);
+    this.workshops
+      ? this.setWorkshopMarkers(address)
+      : this.setNewSingleMarker([address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude]);
   }
 
   /**
    * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
    * @param coords - type Coords
    */
-  setMapLocation(coords: Coords): void {
-    this.geolocationService.locationDecode(coords, (result: GeolocationAddress) => {
-      if (result.address || (Array.isArray(result) && result.length)) {
-        const location = result.address || result[0].properties.address;
-        const codeficatorAddressDto = {
-          settlement:location.city || location.village || location.town || location.hamlet
-        } as Codeficator;
-        const street = location.road;
-        const buildingNumber = location.house_number;
-        const longitude = result.lon || result[0].lon;
-        const latitude = result.lat || result[0].lat;
-        this.setAddressEvent.emit({ codeficatorAddressDto, street, buildingNumber, longitude, latitude });
+  private setMapLocation(coords: Coords): void {
+    this.geocoderService.locationDecode(coords, (result: Geocoder) => {
+      if (result) {
+        this.addressFormGroup.patchValue(result);
       } else {
-        this.setAddressEvent.emit({
-          codeficatorAddressDto: null,
-          street: null,
-          buildingNumber: null,
-        });
+        this.addressFormGroup.reset();
+        this.map.removeLayer(this.singleMarker);
       }
-    });
-  }
-
-  /**
-   * uses GeolocationService to translate address into coords and sets marker on default
-   * @param address - type Address
-   */
-  setLocation(address: MapAddress): void {
-    this.geolocationService.addressDecode(address, (result: GeolocationAddress) => {
-      if (result.address || (Array.isArray(result) && result.length)) {
-        const coords: [number, number] = [result.lat || result[0].lat, result.lon || result[0].lon];
-        this.setNewSingleMarker(coords);
-      }
+      this.wrongMapAddress.emit(!result);
     });
   }
 
@@ -192,7 +184,7 @@ export class MapComponent {
    * This method remove existed marker and set the new marke to the map
    * @param coords - type [number, number]
    */
-  setNewSingleMarker(coords: [number, number]): void {
+  private setNewSingleMarker(coords: [number, number]): void {
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
     this.map.addLayer(this.singleMarker);
@@ -230,7 +222,10 @@ export class MapComponent {
       .subscribe((workshop: Workshop) => {
         const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
           const { lat, lng } = workshopMarker.marker.getLatLng();
-          return lat === workshop.address.codeficatorAddressDto.latitude && lng === workshop.address.codeficatorAddressDto.longitude;
+          return (
+            lat === workshop.address.codeficatorAddressDto.latitude &&
+            lng === workshop.address.codeficatorAddressDto.longitude
+          );
         });
         targetMarkers.forEach((targetMarker: WorkshopMarker) => {
           targetMarker.isSelected = true;
