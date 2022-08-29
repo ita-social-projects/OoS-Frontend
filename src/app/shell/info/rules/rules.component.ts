@@ -9,6 +9,7 @@ import { GetLawsAndRegulations } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { takeUntil } from 'rxjs/operators';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 
 @Component({
   selector: 'app-rules',
@@ -17,6 +18,8 @@ import { takeUntil } from 'rxjs/operators';
 })
 
 export class RulesComponent implements OnInit, OnDestroy  {
+  readonly noData = NoResultsTitle.noInfo;
+
   @Select(AdminState.LawsAndRegulations)
   platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)

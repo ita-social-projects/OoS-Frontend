@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Codeficator, CodeficatorCityDistrict } from '../../models/codeficator.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CodeficatorService {
-
-  constructor(private http: HttpClient) {
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * This method to get all Codeficators from the database
@@ -33,5 +31,18 @@ export class CodeficatorService {
    */
   searchCodeficatorCityDistrict(id: number): Observable<CodeficatorCityDistrict[]> {
     return this.http.get<CodeficatorCityDistrict[]>(`/api/v1/Codeficator/children?id=${id}`);
+  }
+
+  /**
+   * This method to get teh nearst settlemnt by coordinates
+   * @param lat number
+   * @param lon number
+   */
+  getNearestByCoordinates(lat: number, lon: number): Observable<Codeficator> {
+    let params = new HttpParams();
+    params = params.set('Lat', lat.toString());
+    params = params.set('Lon', lon.toString());
+
+    return this.http.get<Codeficator>(`/api/v1/Codeficator/NearestByCoordinates`, { params });
   }
 }
