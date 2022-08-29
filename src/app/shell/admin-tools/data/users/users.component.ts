@@ -83,7 +83,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         },
       ),
     ]);
-    console.log(this.totalEntities)
   }
 
   /**
