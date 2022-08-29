@@ -21,6 +21,7 @@ import { Role } from '../../enum/role';
 import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
 import { ProviderAdminTable } from '../../models/providerAdmin.model';
 import { RegistrationState } from '../../store/registration.state';
+import { Constants } from '../../constants/constants';
 
 /**
  * @title Table with sorting
@@ -42,6 +43,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   readonly providerAdminTitles = ProviderAdminTitles;
   readonly providerAdminStatus = ProviderAdminStatus;
   readonly providerAdminIcons = ProviderAdminIcons;
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
   subrole: string;
   Role = Role;

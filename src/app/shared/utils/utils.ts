@@ -139,7 +139,7 @@ export class Util {
         phoneNumber: user.parent.phoneNumber
           ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}`
           : constants.NO_INFORMATION,
-        role: user.parentId ? 'Діти' : 'Батьки',
+        role: user.isParent ? 'Батьки' : 'Діти',
         status: user.accountStatus || 'Accepted',
       });
     });

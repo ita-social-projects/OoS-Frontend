@@ -51,14 +51,12 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-
     this.filterFormControl.valueChanges
       .pipe( 
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         debounceTime(2000),)
-        // map((value: string)=> value.trim()))
       .subscribe((searchString:string)=> {
         this.childrenParams.searchString = searchString;
         this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
@@ -90,9 +88,10 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    this.filterFormControl.reset();
+    this.childrenParams.searchString = "";
     this.childrenParams.tabTitle = event.tab.textLabel;
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
-    this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] },
