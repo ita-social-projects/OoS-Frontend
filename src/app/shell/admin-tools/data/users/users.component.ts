@@ -57,8 +57,8 @@ export class UsersComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
-        debounceTime(2000),
-        map((value: string)=> value.trim()))
+        debounceTime(2000),)
+        // map((value: string)=> value.trim()))
       .subscribe((searchString:string)=> {
         this.childrenParams.searchString = searchString;
         this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
