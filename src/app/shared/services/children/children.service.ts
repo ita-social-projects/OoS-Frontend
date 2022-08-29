@@ -30,7 +30,7 @@ export class ChildrenService {
       if(parameters.tabTitle){ 
         if(parameters.tabTitle == "Батьки"){
           isParent= true;
-        } console.log(parameters.tabTitle)
+        }
         if(parameters.tabTitle == "Діти"){
           isParent= false;
         }
