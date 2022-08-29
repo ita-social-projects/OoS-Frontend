@@ -24,7 +24,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   minAgeFormControl = new FormControl('');
   maxAgeFormControl = new FormControl('');
-  isAppropriateAgeControl= new FormControl('');
+  isAppropriateAgeControl= new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
