@@ -72,6 +72,11 @@ export class SetIsStrictWorkdays {
   static readonly type = '[filter] Set with Strict workdays';
   constructor(public payload: boolean) { }
 }
+
+export class SetIsAppropriateHours {
+  static readonly type = '[filter] Set with Strict hours';
+  constructor(public payload: boolean) { }
+}
 export class FilterChange {
   static readonly type = '[app] Filter Change';
   constructor() {}
@@ -99,4 +104,9 @@ export class SetMinAge {
 export class SetMaxAge {
   static readonly type = '[filter] Set Max Age';
   constructor(public payload: number) {}
+}
+
+export class SetIsAppropriateAge {
+  static readonly type = '[filter] Set with Strict age';
+  constructor(public payload: boolean) { }
 }

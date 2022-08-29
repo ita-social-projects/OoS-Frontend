@@ -5,7 +5,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
+import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-age-filter',
@@ -16,13 +16,15 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   @Input()
   set ageFilter(filter) {
-    const { minAge, maxAge } = filter
+    const { minAge, maxAge, isAppropriateAge } = filter
     this.minAgeFormControl.setValue(minAge, { emitEvent: false });
     this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
+    this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
   }
 
   minAgeFormControl = new FormControl('');
   maxAgeFormControl = new FormControl('');
+  isAppropriateAgeControl= new FormControl('');
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }
@@ -40,6 +42,12 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
       debounceTime(400),
       distinctUntilChanged()
     ).subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
+
+    this.isAppropriateAgeControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
   }
 
   ngOnDestroy(): void {
