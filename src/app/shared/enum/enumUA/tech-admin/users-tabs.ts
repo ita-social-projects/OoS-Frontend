@@ -15,5 +15,3 @@ export enum UserTabs {
   parent,
   child
 }
-
-
