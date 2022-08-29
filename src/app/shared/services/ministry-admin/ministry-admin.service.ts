@@ -40,6 +40,17 @@ export class MinistryAdminService {
   }
 
   /**
+   * This method get Ministry Admin by Id
+   * * @param ministryAdminId: string
+   */
+  getMinistryAdminById(ministryAdminId: number): Observable<MinistryAdmin> {
+    let params = new HttpParams();
+    params = params.set('id', `${ministryAdminId}`);
+
+    return this.http.get<MinistryAdmin>(`/api/v1/MinistryAdmin/GetById`, { params });
+  }
+
+  /**
    * This method get All Ministry Admins
    */
   getAllMinistryAdmin(searchString: string): Observable<AllMinistryAdmins> {

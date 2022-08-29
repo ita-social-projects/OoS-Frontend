@@ -34,9 +34,10 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   @Input() users: Array<object>;
   @Input() filterValue: string;
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
-
+  @Input() isEdit: boolean = false;
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
   @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
+  @Output() update = new EventEmitter<ProviderAdminTable>();
 
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminTitles = ProviderAdminTitles;
@@ -87,5 +88,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   
   onBlock(user: ProviderAdminTable): void {
     this.blockAdmin.emit(user);
+  }
+  
+  onUpdate(user: ProviderAdminTable): void {
+    this.update.emit(user);
   }
 }

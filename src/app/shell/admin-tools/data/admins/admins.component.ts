@@ -1,7 +1,7 @@
 import { MinistryAdmin } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
+import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins, UpdateMinistryAdmin } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -81,7 +81,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     this.addNavPath();
-
   }
 
   /**
@@ -134,6 +133,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
           new DeleteMinistryAdminById(admin.id)
         );
     });
+  }
+
+  onUpdate(admin: UsersTable): void {
+    this.router.navigate([`update-admin/ministryAdmin/${admin.id}`])
   }
 
   private addNavPath(): void {

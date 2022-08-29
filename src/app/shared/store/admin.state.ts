@@ -31,6 +31,7 @@ import {
   GetDirectionById,
   GetFilteredDirections,
   GetLawsAndRegulations,
+  GetMinistryAdminById,
   GetMinistryAdminProfile,
   GetParents,
   GetPlatformInfo,
@@ -473,6 +474,17 @@ export class AdminState {
     );
   }
 
+  @Action(GetMinistryAdminById)
+  getMinistryAdminById(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetMinistryAdminById
+  ): Observable<MinistryAdmin> {
+    patchState({ isLoading: true });
+    return this.ministryAdminService.getMinistryAdminById(payload).pipe(
+      tap((selectedMinistryAdmin: MinistryAdmin) => patchState({ selectedMinistryAdmin: selectedMinistryAdmin, isLoading: false }))
+    );
+  }
+  
   @Action(DeleteMinistryAdminById)
   deleteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteMinistryAdminById): Observable<object> {
     return this.ministryAdminService.deleteMinistryAdmin(payload).pipe(
@@ -561,7 +573,5 @@ export class AdminState {
     ]);
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/admin-tools/data/admins']));
   }
-
-
 
 }

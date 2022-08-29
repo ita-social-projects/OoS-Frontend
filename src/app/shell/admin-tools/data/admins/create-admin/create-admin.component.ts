@@ -1,6 +1,8 @@
+import { InfoCardComponent } from './../../../platform/platform-info/info-card/info-card.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -22,8 +24,9 @@ import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabin
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { MinistryAdmin } from 'src/app/shared/models/ministryAdmin.model';
-import { CreateMinistryAdmin } from 'src/app/shared/store/admin.actions';
+import { CreateMinistryAdmin, GetMinistryAdminById } from 'src/app/shared/store/admin.actions';
 import { CreateAdminTitle } from 'src/app/shared/enum/enumUA/tech-admin/create-admin';
+import { AdminState } from 'src/app/shared/store/admin.state';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 
@@ -45,9 +48,13 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
-  
+  @Select(AdminState.selectedMinistryAdmin)
+  selectedMinistryAdmin$: Observable<MinistryAdmin>;
+
   AdminFormGroup: FormGroup;
   adminRole: AdminRole;
+  adminId: string;
+  editMode: boolean = false;
 
   constructor(
     store: Store,
@@ -83,33 +90,86 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    this.addNavPath();
     this.store.dispatch(new GetAllInstitutions());
+    this.determineEditMode();
   }
 
-  setEditMode(): void { }
+  setEditMode(): void {
+    this.adminId = this.route.snapshot.paramMap.get('id');
+
+    const ministryAdminExemple: MinistryAdmin= {
+      id: "asdasdasd",
+      email: "asdasdasd",
+      phoneNumber: "12313123",
+      lastName: "asdasdasd",
+      middleName: "asdasdasd",
+      firstName: "asdasdasd",
+      institutionId: "asdasdasdasd",
+    }
+    
+    this.store.dispatch(new GetMinistryAdminById(9));
+
+    this.selectedMinistryAdmin$.pipe(
+      takeUntil(this.destroy$),
+      filter((ministryAdmin: MinistryAdmin) => !!ministryAdmin)
+    )
+    .subscribe((ministryAdmin: MinistryAdmin)=> {
+      this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
+      this.AdminFormGroup.get('institution').patchValue( ministryAdmin.institutionTitle, { emitEvent: false })
+    });
+  }
   
+  determineEditMode(): void {
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
+    this.addNavPath();
+
+    if (this.editMode) {
+      this.setEditMode();
+    }
+  }
+
   addNavPath(): void { 
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
-    this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createNavPaths(
-          {
-            name: personalCabinetTitle,
-            path: '/admin-tools/data/admins',
-            isActive: false,
-            disable: false,
-          },
-          {
-            name: NavBarName.CreateAdmin,
-            isActive: false,
-            disable: true,
-          }
+    console.log('edit',this.editMode)
+    if(!this.editMode){
+      this.store.dispatch(
+        new AddNavPath(
+          this.navigationBarService.createNavPaths(
+            {
+              name: personalCabinetTitle,
+              path: '/admin-tools/data/admins',
+              isActive: false,
+              disable: false,
+            },
+            {
+              name: NavBarName.CreateAdmin,
+              isActive: false,
+              disable: true,
+            }
+          )
         )
-      )
-    );
+      );
+    }else {
+      this.store.dispatch(
+        new AddNavPath(
+          this.navigationBarService.createNavPaths(
+            {
+              name: personalCabinetTitle,
+              path: '/admin-tools/data/admins',
+              isActive: false,
+              disable: false,
+            },
+            {
+              name: NavBarName.UpdateAdmin,
+              isActive: false,
+              disable: true,
+            }
+          )
+        )
+      );
+    }
   }
 
   onBack(): void {
@@ -117,21 +177,24 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   onSubmit(): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: (this.adminRole === AdminRole.ministryAdmin) ? ModalConfirmationType.createMinistryAdmin : undefined
-      }
-    });
+    if(!this.editMode){
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: (this.adminRole === AdminRole.ministryAdmin) ? ModalConfirmationType.createMinistryAdmin : undefined
+        }
+      });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        let ministryAdmin = new MinistryAdmin(
-          this.AdminFormGroup.value, 
-          this.AdminFormGroup.get('institution').value.id
-          );
-        this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
-      }
-    });   
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          
+          let ministryAdmin = new MinistryAdmin(
+            this.AdminFormGroup.value, 
+            this.AdminFormGroup.get('institution').value.id
+            );
+          this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
+        }
+      });   
+    }
   }
 }

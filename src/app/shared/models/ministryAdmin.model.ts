@@ -8,6 +8,7 @@ export class MinistryAdmin {
   accountStatus?: string;
   institutionId: string;
   gender?: number;
+  institutionTitle?: string;
 
   constructor(info, institutionId, accountStatus?) {
     this.email = info.email;
@@ -19,6 +20,7 @@ export class MinistryAdmin {
     this.institutionId = institutionId;
     this.gender = info.gender;
     this.accountStatus = accountStatus;
+    this.institutionTitle = info.institutionTitle;
   }
 }
 export interface AllMinistryAdmins{

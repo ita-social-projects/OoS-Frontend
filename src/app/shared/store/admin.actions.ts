@@ -133,6 +133,11 @@ export class GetAllMinistryAdmins {
   constructor(public payload?: string) {}
 }
 
+export class GetMinistryAdminById {
+  static readonly type = '[admin] Get Ministry Admin By Id';
+  constructor(public payload: number) {}
+}
+
 export class DeleteMinistryAdminById {
   static readonly type = '[admin] delete Ministry Admin';
   constructor(public payload: string) { }
