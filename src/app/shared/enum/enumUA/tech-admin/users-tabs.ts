@@ -16,9 +16,4 @@ export enum UserTabs {
   child
 }
 
-export enum UserTabsIsParent {
-  all = 'Усі',
-  parent = 'Батьки',
-  child = 'Діти'
-}
 

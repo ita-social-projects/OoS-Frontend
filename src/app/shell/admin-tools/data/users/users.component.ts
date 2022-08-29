@@ -91,15 +91,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    const tabTitle = event.tab.textLabel;
-      // if(tabLabel ===this.userRoleUkr.all){
-      //   this.childrenParams.isParent = undefined;
-      // } else if(tabLabel ===this.userRoleUkr.parent) {
-      //   this.childrenParams.isParent = true;
-      // } else if(tabLabel ===this.userRoleUkr.child) {
-      //   this.childrenParams.isParent = false;
-      // };
-      console.log(tabTitle)
+    this.childrenParams.tabTitle = event.tab.textLabel;
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.filterFormControl.reset();
     this.router.navigate(['./'], {

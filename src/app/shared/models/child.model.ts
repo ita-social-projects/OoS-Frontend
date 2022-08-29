@@ -34,7 +34,7 @@ export interface ChildCards {
   entities: Child[];
 }
 export interface ChildrenParameters {
-  tabTitle?: UserTabs;
+  tabTitle?: string;
   searchString?: string;
   from?: number;
   size?: number;
