@@ -17,6 +17,8 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
   styleUrls: ['./support.component.scss'],
 })
 export class SupportComponent implements OnInit, OnDestroy {
+  readonly noData = NoResultsTitle.noInfo;
+
   @Select(AdminState.SupportInformation)
   platformSupport$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
@@ -24,7 +26,6 @@ export class SupportComponent implements OnInit, OnDestroy {
 
   platformSupport: CompanyInformation;
 
-  readonly emptyList = NoResultsTitle.noInfo;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, public navigationBarService: NavigationBarService ) { }

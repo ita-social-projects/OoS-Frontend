@@ -20,14 +20,15 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
   styleUrls: ['./about.component.scss'],
 })
 export class AboutComponent implements OnInit, OnDestroy {
+  readonly noData = NoResultsTitle.noInfo;
+
   @Select(AdminState.AboutPortal)
   platformInformation$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;
 
   platformInformation: CompanyInformation;
-
-  readonly emptyList = NoResultsTitle.noInfo;
+  
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}

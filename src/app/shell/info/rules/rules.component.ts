@@ -18,6 +18,8 @@ import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 })
 
 export class RulesComponent implements OnInit, OnDestroy  {
+  readonly noData = NoResultsTitle.noInfo;
+
   @Select(AdminState.LawsAndRegulations)
   platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
@@ -25,7 +27,6 @@ export class RulesComponent implements OnInit, OnDestroy  {
 
   platformRules: CompanyInformation;
 
-  readonly emptyList = NoResultsTitle.noInfo;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
