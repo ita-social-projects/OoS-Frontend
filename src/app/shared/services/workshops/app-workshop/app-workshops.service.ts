@@ -58,6 +58,10 @@ export class AppWorkshopsService {
       params = params.set('MaxAge', filters.maxAge.toString());
     }
 
+    if (filters.isAppropriateAge) {
+      params = params.set('IsAppropriateAge', 'true');
+    }
+
     if (filters.startTime) {
       params = params.set('StartHour', filters.startTime);
     }
@@ -76,6 +80,10 @@ export class AppWorkshopsService {
 
     if (filters.withDisabilityOption) {
       params = params.set('WithDisabilityOptions', 'true');
+    }
+
+    if (filters.isAppropriateHours) {
+      params = params.set('IsAppropriateHours', 'true');
     }
 
     if (filters.isStrictWorkdays) {

@@ -7,6 +7,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from 'src/app/shared/modules/material.module';
+import { MatButtonModule } from '@angular/material/button';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BrowserModule } from '@angular/platform-browser';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;
@@ -20,7 +25,12 @@ describe('AgeFilterComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        BrowserModule,
+        MatDatepickerModule,
+        NgxMatTimepickerModule,
+        MatButtonModule,
+        MaterialModule,
       ],
       declarations: [
         AgeFilterComponent,
