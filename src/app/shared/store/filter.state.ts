@@ -30,12 +30,15 @@ import {
   SetIsPaid,
   ResetFilteredWorkshops,
   SetIsStrictWorkdays,
+  SetIsAppropriateHours,
+  SetIsAppropriateAge,
 } from './filter.actions';
 
 export interface FilterStateModel {
   directions: Direction[];
   maxAge: number;
   minAge: number;
+  isAppropriateAge: boolean;
   workingDays: string[];
   startTime: string;
   endTime: string;
@@ -51,6 +54,7 @@ export interface FilterStateModel {
   filteredWorkshops: WorkshopFilterCard;
   withDisabilityOption: boolean;
   isStrictWorkdays: boolean;
+  isAppropriateHours: boolean;
   isLoading: boolean;
   isConfirmCity: boolean;
 }
@@ -60,6 +64,7 @@ export interface FilterStateModel {
     directions: [],
     maxAge: null,
     minAge: null,
+    isAppropriateAge: false,
     startTime: null,
     endTime: null,
     workingDays: [],
@@ -75,6 +80,7 @@ export interface FilterStateModel {
     filteredWorkshops: null,
     withDisabilityOption: false,
     isStrictWorkdays: false,
+    isAppropriateHours: false,
     isLoading: false,
     isConfirmCity: true,
   },
@@ -125,7 +131,7 @@ export class FilterState {
   static filterList(state: FilterStateModel): {
     withDisabilityOption: boolean;
     categoryCheckBox: Direction[];
-    ageFilter: { minAge: number; maxAge: number };
+    ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
     priceFilter: {
       minPrice: number;
       maxPrice: number;
@@ -137,12 +143,15 @@ export class FilterState {
       startTime: string;
       endTime: string;
       isStrictWorkdays: boolean;
+      isAppropriateHours: boolean;
     };
     order: string;
   } {
     const {
       withDisabilityOption,
       isStrictWorkdays,
+      isAppropriateHours,
+      isAppropriateAge,
       minAge,
       maxAge,
       directions,
@@ -158,7 +167,7 @@ export class FilterState {
     return {
       withDisabilityOption,
       categoryCheckBox: directions,
-      ageFilter: { minAge, maxAge },
+      ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
         minPrice,
         maxPrice,
@@ -170,6 +179,7 @@ export class FilterState {
         startTime,
         endTime,
         isStrictWorkdays,
+        isAppropriateHours,
       },
       order,
     };
@@ -296,6 +306,12 @@ export class FilterState {
     dispatch(new FilterChange());
   }
 
+  @Action(SetIsAppropriateHours)
+  setIsAppropriateHours({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateHours) {
+    patchState({ isAppropriateHours: payload });
+    dispatch(new FilterChange());
+  }
+
   @Action(SetMinAge)
   setMinAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinAge) {
     patchState({ minAge: payload });
@@ -305,6 +321,12 @@ export class FilterState {
   @Action(SetMaxAge)
   setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
     patchState({ maxAge: payload });
+    dispatch(new FilterChange());
+  }
+
+  @Action(SetIsAppropriateAge)
+  setIsAppropriateAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge) {
+    patchState({ isAppropriateAge: payload });
     dispatch(new FilterChange());
   }
 
@@ -322,6 +344,7 @@ export class FilterState {
       directions: [],
       maxAge: null,
       minAge: null,
+      isAppropriateAge: false,
       startTime: null,
       endTime: null,
       workingDays: [],
@@ -335,6 +358,7 @@ export class FilterState {
       order: 'Rating',
       withDisabilityOption: false,
       isStrictWorkdays: false,
+      isAppropriateHours: false,
     });
   }
 }
