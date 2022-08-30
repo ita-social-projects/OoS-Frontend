@@ -3,16 +3,15 @@ import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Achievement } from '../models/achievement.model';
 import { Application, ApplicationUpdate } from '../models/application.model';
 import { BlockedParent } from '../models/block.model';
-import { Child, ChildrenParameters } from '../models/child.model';
+import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
-import { User } from '../models/user.model';
 import { Workshop, WorkshopCard, WorkshopStatus } from '../models/workshop.model';
 import { Favorite } from './../models/favorite.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
-  constructor(public payload: string) { }
+  constructor(public payload: string, public excludedWorkshopId?: string) { }
 }
 export class GetProviderAdminWorkshops {
   static readonly type = '[user] get Workshops for provider admin';
