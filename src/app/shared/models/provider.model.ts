@@ -95,6 +95,10 @@ export class Provider {
   }
 
 }
+export interface ProviderCards {
+  totalAmount: number;
+  entities: Provider[];
+}
 
 export class ProviderSectionItem extends SectionItem {
   providerId?: string;

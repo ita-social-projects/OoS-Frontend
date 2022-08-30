@@ -374,7 +374,6 @@ export class UserState {
     { id, parameters }: GetApplicationsByProviderId
   ): Observable<ApplicationCards> {
     patchState({ isLoading: true });
-    console.log(parameters);
 
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
@@ -467,7 +466,6 @@ export class UserState {
   ): void {
     const message = Util.getWorkshopMessage(payload);
     patchState({ isLoading: false });
-    console.log('Workshop is created', payload);
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({ message: message.text, type: message.type }),
@@ -491,7 +489,6 @@ export class UserState {
 
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
-    console.log('Workshop is deleted', payload);
     dispatch([
       new ShowMessageBar({
         message: `Дякуємо! Гурток "${payload.title}" видалено!`,
@@ -517,7 +514,6 @@ export class UserState {
 
   @Action(OnCreateChildrenSuccess)
   onCreateChildrenSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateChildrenSuccess): void {
-    console.log('Child is created', payload);
     dispatch([
       new ShowMessageBar({
         message: 'Дякуємо! Дитина була успішно додана.',
@@ -529,8 +525,8 @@ export class UserState {
   }
 
   @Action(CreateProvider)
-  createProvider({ dispatch }: StateContext<UserStateModel>, { payload, isRelease2 }: CreateProvider): Observable<object> {
-    return this.providerService.createProvider(payload, isRelease2).pipe(
+  createProvider({ dispatch }: StateContext<UserStateModel>, { payload, isRelease3 }: CreateProvider): Observable<object> {
+    return this.providerService.createProvider(payload, isRelease3).pipe(
       tap(res => dispatch(new OnCreateProviderSuccess(res))),
       catchError(error => of(dispatch(new OnCreateProviderFail(error))))
     );
@@ -550,7 +546,6 @@ export class UserState {
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
-    console.log('Provider is created', payload);
     dispatch([
       new ShowMessageBar({
         message: 'Організацію успішно створено',
@@ -672,7 +667,6 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: OnCreateAchievementSuccess
   ): void {
-    console.log('Achievement is created', payload);
     dispatch([new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
@@ -711,7 +705,6 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: OnCreateApplicationSuccess
   ): void {
-    console.log('Application is created', payload);
     dispatch([new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);
   }
@@ -742,7 +735,6 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: OnDeleteAchievementSuccess
   ): void {
-    console.log('Child is deleted', payload);
     dispatch([
       new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
       new GetUsersChildren(),
@@ -758,7 +750,6 @@ export class UserState {
 
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
-    console.log('Child is deleted', payload);
     dispatch([new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }), new GetUsersChildren()]);
   }
 
@@ -812,14 +803,12 @@ export class UserState {
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
     const message = Util.getWorkshopMessage(payload);
-    console.log('Workshop is updated', payload);
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['/personal-cabinet/provider/workshops']);
   }
 
   @Action(OnUpdateChildSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
-    console.log('Child is updated', payload);
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
@@ -833,9 +822,9 @@ export class UserState {
   @Action(UpdateProvider)
   updateProvider(
     { dispatch }: StateContext<UserStateModel>,
-    { payload, isRelease2 }: UpdateProvider,
+    { payload, isRelease3 }: UpdateProvider,
   ): Observable<object> {
-    return this.providerService.updateProvider(payload, isRelease2).pipe(
+    return this.providerService.updateProvider(payload, isRelease3).pipe(
       tap(res => dispatch(new OnUpdateProviderSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
     );
@@ -851,7 +840,6 @@ export class UserState {
   @Action(OnUpdateProviderSuccess)
   onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
     dispatch(new MarkFormDirty(false));
-    console.log('Provider is updated', payload);
     dispatch([
       new ShowMessageBar({
         message: 'Організація успішно відредагована',
@@ -947,7 +935,6 @@ export class UserState {
 
   @Action(OnCreateRatingSuccess)
   onCreateRatingSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateRatingSuccess): void {
-    console.log('Rate is created', payload);
     dispatch(
       new ShowMessageBar({
         message: 'Оцінка успішно поставлена!',
@@ -1040,7 +1027,6 @@ export class UserState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' }),
     ]);
-    console.log('parent is blocked', payload);
   }
 
   @Action(UnBlockParent)
@@ -1071,7 +1057,6 @@ export class UserState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
     ]);
-    console.log('parent is unBlocked', payload);
   }
 
   @Action(GetBlockedParents)

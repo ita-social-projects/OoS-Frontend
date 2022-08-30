@@ -30,6 +30,7 @@ import {
   GetChildrenForAdmin,
   GetDirectionById,
   GetFilteredDirections,
+  GetFilteredProviders,
   GetLawsAndRegulations,
   GetMinistryAdminProfile,
   GetParents,
@@ -186,6 +187,16 @@ export class AdminState {
     );
   }
 
+  @Action(GetFilteredProviders)
+  getFilteredProvider(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetFilteredProviders
+  ): Observable<object> {
+    patchState({ isLoading: true });
+    return this.providerService.getFilteredProviders(payload).pipe(
+      tap((filteredProviders: Provider[]) => patchState({ providers: filteredProviders, isLoading: false }))
+    );
+  }
   @Action(GetAboutPortal)
   getAboutPortal({ patchState }: StateContext<AdminStateModel>, {}: GetAboutPortal): Observable<CompanyInformation> {
     patchState({ isLoading: true });
@@ -272,7 +283,6 @@ export class AdminState {
 
   @Action(OnDeleteDirectionSuccess)
   onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionSuccess): void {
-    console.log('Direction is deleted', payload);
     dispatch([new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }), new GetFilteredDirections()]);
   }
 
@@ -301,7 +311,6 @@ export class AdminState {
     ]);
     patchState({ direction: payload });
     this.location.back();
-    console.log('Direction is created', payload);
   }
   @Action(UpdateDirection)
   updateDirection(
@@ -329,7 +338,6 @@ export class AdminState {
       new GetFilteredDirections(),
     ]);
     this.location.back();
-    console.log('Direction is updated', payload);
   }
 
   @Action(GetDirectionById)

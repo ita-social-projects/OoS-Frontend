@@ -8,12 +8,53 @@
   min-width: 177px;
   margin-left: 3px;
 }
+.Accepted {
+  color: #199953;
+}
+.NeverLogged,
+.Pending {
+  color: #ffbd00;
+}
+.Blocked {
+  color: #c72a21;
+}
+.Cancel {
+  color: #3849f9;
+  font-weight: 500;
+}
+.search-bar {
+  margin-top: 10px;
+}
+.wrapper-provider-list {
+  position: relative;
+  margin-top: 2rem;
+}
+.search {
+  padding-left: 10px;
+}
+.search-area {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 10000;
+  position: static;
+  right: 12px;
+}
 .status-title {
   padding-left: 7px;
+}
+.paginator {
+  margin-top: 4rem;
 }
 .true {
   color: #199953;
 }
 .false {
   color: #ffbd00;
+}
+.wrapper-provider-list-container {
+  display: flex;
+  flex-direction: row;
+}
+.table-container {
+  height: fit-content;
 }

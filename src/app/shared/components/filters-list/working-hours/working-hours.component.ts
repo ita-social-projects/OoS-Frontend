@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'src/app/shared/constants/constants';
 import { WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
-import { SetEndTime, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
+import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'src/app/shared/store/filter.actions';
 
 @Component({
   selector: 'app-working-hours',
@@ -22,7 +22,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   isFree$: Observable<boolean>;
   @Input()
   set workingHours(filter) {
-    let { endTime, startTime, workingDays, isStrictWorkdays } = filter;
+    let { endTime, startTime, workingDays, isStrictWorkdays, isAppropriateHours } = filter;
 
     this.selectedWorkingDays = workingDays
     this.days.forEach(day => {
@@ -38,6 +38,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     startTime ? startTime = startTime + ':00' : startTime
     this.startTimeFormControl.setValue(startTime, { emitEvent: false });
     this.isStrictWorkdaysControl.setValue(isStrictWorkdays, { emitEvent: false });
+    this.isAppropriateHoursControl.setValue(isAppropriateHours, { emitEvent: false });
   }; 
 
   readonly validationConstants = ValidationConstants;
@@ -47,6 +48,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
   isStrictWorkdaysControl = new FormControl(false);
+  isAppropriateHoursControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
   selectedWorkingDays: string[] = [];
 
@@ -77,6 +79,12 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
       debounceTime(300),
       distinctUntilChanged()
     ).subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
+
+    this.isAppropriateHoursControl.valueChanges.pipe(
+      takeUntil(this.destroy$),
+      debounceTime(300),
+      distinctUntilChanged()
+    ).subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
   }
 
   clearStart(): void {

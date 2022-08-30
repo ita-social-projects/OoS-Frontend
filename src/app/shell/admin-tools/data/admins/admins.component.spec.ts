@@ -61,6 +61,7 @@ describe('AdminsComponent', () => {
 class MockUsersListComponent {
   @Input() users: object[];
   @Input() filterValue: string;
+  @Input() isEditable: boolean;
 }
 
 @Component({

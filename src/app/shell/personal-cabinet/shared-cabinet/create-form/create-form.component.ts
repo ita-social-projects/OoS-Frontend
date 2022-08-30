@@ -23,7 +23,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
-  isRelease2: boolean;
+  isRelease3: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   isPristine = true;
@@ -43,7 +43,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
     this.featuresList$
       .pipe(
         takeWhile(() => this.isPristine))
-      .subscribe((featuresList: FeaturesList) => this.isRelease2 = featuresList.release2);
+      .subscribe((featuresList: FeaturesList) => this.isRelease3 = featuresList.release3);
   }
 
   determineEditMode(): void {

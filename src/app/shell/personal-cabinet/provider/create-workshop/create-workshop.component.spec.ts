@@ -58,7 +58,7 @@ describe('CreateWorkshopComponent', () => {
 })
 class MockCreateAboutFormComponent {
   @Input() workshop: Workshop;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
   @Input() provider: Provider;
 }
 
@@ -68,7 +68,7 @@ class MockCreateAboutFormComponent {
 })
 class MockCreateDescriptionFormComponent {
   @Input() workshop: Workshop;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
   @Input() provider: Provider;
 }
 
@@ -86,5 +86,5 @@ class MockCreateWorkshopAddressComponent {
 })
 class MockCreateTeacherComponent {
   @Input() teachers: Teacher[];
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
 }

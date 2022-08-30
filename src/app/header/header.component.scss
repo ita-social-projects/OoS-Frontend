@@ -4,6 +4,11 @@
   width: 100%;
 }
 
+
+.hide-content {
+  visibility: hidden;
+}
+
 .material-icon {
   line-height: none;
 }
@@ -214,12 +219,6 @@
 
 ::ng-deep .mat-menu-item {
   padding: 0px !important;
-}
-
-.progress-bar {
-  position: absolute;
-  width: 100%;
-  z-index: 999;
 }
 
 @media (max-width: 1024px) {
@@ -441,4 +440,7 @@
   .mat-button-wrapper {
     padding: 0.3rem;
   }
+}
+.logout-btn {
+  width: 160px;
 }

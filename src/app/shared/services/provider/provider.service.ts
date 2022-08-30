@@ -28,11 +28,20 @@ export class ProviderService {
   }
 
   /**
+   * This method get filtered Providers from the database
+   * @param
+   */
+  getFilteredProviders(searchString: string): Observable<Provider[]> {
+    const param = searchString? `?SearchString=${searchString}` : '';
+    return this.http.get<Provider[]>(`/api/v1/Provider/GetByFilter${param}`);
+  }
+
+  /**
    * This method create Provider
    * @param Provider
    */
-  createProvider(provider: Provider, isRelease2: boolean): Observable<object> {
-    return isRelease2 ? this.createProviderV2(provider) : this.createProviderV1(provider);
+  createProvider(provider: Provider, isRelease3: boolean): Observable<object> {
+    return isRelease3 ? this.createProviderV2(provider) : this.createProviderV1(provider);
   }
 
   createProviderV1(provider: Provider): Observable<object> {
@@ -55,8 +64,8 @@ export class ProviderService {
    * This method update Provider
    * @param Provider
    */
-  updateProvider(provider: Provider, isRelease2: boolean): Observable<object> {
-    return isRelease2 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
+  updateProvider(provider: Provider, isRelease3: boolean): Observable<object> {
+    return isRelease3 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
   }
 
   updateProviderV1(provider: Provider): Observable<object> {

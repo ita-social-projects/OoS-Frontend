@@ -4,10 +4,6 @@ export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
 }
 
-export class GetTopDirections {
-  static readonly type = '[meta-data] Get Top Directions';
-}
-
 export class GetSocialGroup {
   static readonly type = '[meta-data] Get GetSocialGroup';
   constructor() {}

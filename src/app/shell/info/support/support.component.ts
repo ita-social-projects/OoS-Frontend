@@ -9,6 +9,7 @@ import { GetSupportInformation } from 'src/app/shared/store/admin.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { takeUntil } from 'rxjs/operators';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 
 @Component({
   selector: 'app-support',
@@ -16,6 +17,8 @@ import { takeUntil } from 'rxjs/operators';
   styleUrls: ['./support.component.scss'],
 })
 export class SupportComponent implements OnInit, OnDestroy {
+  readonly noData = NoResultsTitle.noInfo;
+
   @Select(AdminState.SupportInformation)
   platformSupport$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)

@@ -2,73 +2,99 @@
   <div class="create-form" *ngIf="(editMode && workshop) || !editMode">
     <div class="wrapper">
       <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-        <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК'}}</h3>
-        <p class="wrapper-text">{{editMode ? 'Відредагуйте' : 'Додайте новий'}} гурток, секцію або групу для навчання</p>
+        <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАННЯ ГУРТКА' : 'НОВИЙ ГУРТОК' }}</h3>
+        <p class="wrapper-text">
+          {{ editMode ? 'Відредагуйте' : 'Додайте новий' }} гурток, секцію або групу для навчання
+        </p>
       </div>
-  
+
       <mat-horizontal-stepper [linear]="!editMode">
         <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Про гурток</p>
           </ng-template>
-          <app-create-about-form fxLayout="row" fxLayoutAlign="center center"
-            (PassAboutFormGroup)="onReceiveAboutFormGroup($event)" [workshop]="workshop" [isRelease2]="isRelease2" [provider]="provider">
+          <app-create-about-form
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            [workshop]="workshop"
+            [isRelease3]="isRelease3"
+            [provider]="provider"
+            (PassAboutFormGroup)="onReceiveAboutFormGroup($event)"
+            >
           </app-create-about-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
-                class="btn btn-cancel">Скасувати</button></a>
+            <a [routerLink]="'/personal-cabinet/provider/workshops'"
+              ><button mat-raised-button class="btn btn-cancel">Скасувати</button></a
+            >
             <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">Далі</button>
           </div>
         </mat-step>
-  
+
         <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Опис</p>
           </ng-template>
-          <app-create-description-form fxLayout="row" fxLayoutAlign="center center"
-            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)" [workshop]="workshop" [provider]="provider"
-            [isRelease2]="isRelease2">
+          <app-create-description-form
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            [workshop]="workshop"
+            [provider]="provider"
+            [isRelease3]="isRelease3"
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-description-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
-                class="btn btn-cancel">Скасувати</button></a>
-            <button class="btn" mat-raised-button matStepperNext
-              [disabled]="DescriptionFormGroup?.invalid">Далі</button>
+            <a [routerLink]="'/personal-cabinet/provider/workshops'"
+              ><button mat-raised-button class="btn btn-cancel">Скасувати</button></a
+            >
+            <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
+              Далі
+            </button>
           </div>
         </mat-step>
-  
+
         <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Контакти</p>
           </ng-template>
-          <app-create-workshop-address (passAddressFormGroup)="onReceiveAddressFormGroup($event)" [address]="workshop?.address">
+          <app-create-workshop-address
+            [address]="workshop?.address"
+            (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-workshop-address>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
-                class="btn btn-cancel">Скасувати</button></a>
+            <a [routerLink]="'/personal-cabinet/provider/workshops'"
+              ><button mat-raised-button class="btn btn-cancel">Скасувати</button></a
+            >
             <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">Далі</button>
           </div>
         </mat-step>
-  
+
         <mat-step>
           <ng-template matStepLabel>
             <p class="step-name">Викладачі</p>
           </ng-template>
-          <app-create-teacher (passTeacherFormArray)="onReceiveTeacherFormArray($event)" [teachers]="workshop?.teachers"
-            [isRelease2]="isRelease2">
+          <app-create-teacher
+            [teachers]="workshop?.teachers"
+            [isRelease3]="isRelease3"
+            (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
           </app-create-teacher>
-  
+
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"><button mat-raised-button
-                class="btn btn-cancel">Скасувати</button></a>
-            <button [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid" class="btn" mat-button type="submit"
-              (click)="onSubmit()">Зберегти</button>
+            <a [routerLink]="'/personal-cabinet/provider/workshops'"
+              ><button mat-raised-button class="btn btn-cancel">Скасувати</button></a
+            >
+            <button
+              [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid"
+              class="btn"
+              mat-button
+              type="submit"
+              (click)="onSubmit()">
+              Зберегти
+            </button>
           </div>
         </mat-step>
-  
       </mat-horizontal-stepper>
     </div>
   </div>

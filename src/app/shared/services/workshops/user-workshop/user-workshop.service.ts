@@ -10,7 +10,7 @@ import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
   providedIn: 'root',
 })
 export class UserWorkshopService {
-  isRelease2: boolean;
+  isRelease3: boolean;
 
   constructor(private http: HttpClient, private store: Store) {}
 
@@ -42,8 +42,8 @@ export class UserWorkshopService {
    * @param workshop: Workshop
    */
   createWorkshop(workshop: Workshop): Observable<object> {
-    this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+    this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release3;
+    return this.isRelease3 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
   }
 
   createWorkshopV1(workshop: Workshop): Observable<object> {
@@ -60,8 +60,8 @@ export class UserWorkshopService {
    * @param workshop: Workshop
    */
   updateWorkshop(workshop: Workshop): Observable<object> {
-    this.isRelease2 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease2 ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
+    this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
+    return this.isRelease3 ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
   }
 
   updateWorkshopV1(workshop: Workshop): Observable<object> {

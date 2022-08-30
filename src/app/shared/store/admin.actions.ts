@@ -22,6 +22,11 @@ export class GetAllProviders {
   static readonly type = '[admin] Get all providers';
   constructor() {}
 }
+export class GetFilteredProviders {
+  static readonly type = '[admin] Get filtered Providers';
+  constructor(public payload?: string) {}
+} 
+
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
   constructor() {}

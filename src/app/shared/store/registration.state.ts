@@ -35,6 +35,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   isLoading: boolean;
+  isAutorizationLoading: boolean;
   user: User;
   provider: Provider;
   parent: Parent;
@@ -47,6 +48,7 @@ export interface RegistrationStateModel {
   name: 'registration',
   defaults: {
     isAuthorized: false,
+    isAutorizationLoading: true,
     isLoading: false,
     user: undefined,
     provider: undefined,
@@ -61,6 +63,10 @@ export class RegistrationState {
   @Selector()
   static isAuthorized(state: RegistrationStateModel): boolean {
     return state.isAuthorized;
+  }
+  @Selector()
+  static isAutorizationLoading(state: RegistrationStateModel): boolean {
+    return state.isAutorizationLoading;
   }
   @Selector()
   static isLoading(state: RegistrationStateModel): boolean {
@@ -130,7 +136,6 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    patchState({ isLoading: true });
     this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
       patchState({ isAuthorized: auth });
       if (auth) {
@@ -141,14 +146,13 @@ export class RegistrationState {
 
         dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
       } else {
-        patchState({ role: Role.unauthorized, isLoading: false });
+        patchState({ role: Role.unauthorized, isAutorizationLoading: false });
       }
     });
   }
 
   @Action(OnAuthFail)
   onAuthFail(): void {
-    console.log('Authorization failed');
     this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
       panelClass: ['red-snackbar'],
@@ -156,11 +160,16 @@ export class RegistrationState {
   }
 
   @Action(CheckRegistration)
-  checkRegistration({ dispatch, getState }: StateContext<RegistrationStateModel>): void {
+  checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
     this.signalRservice.startConnection();
 
-    state.user.isRegistered ? dispatch(new GetProfile()) : this.router.navigate(['/create-provider', '']);
+    if (state.user.isRegistered) {
+      dispatch(new GetProfile());
+      patchState({ isAutorizationLoading: false });
+    } else {
+      this.router.navigate(['/create-provider', '']).finally(() => patchState({ isAutorizationLoading: false }));
+    }
   }
 
   @Action(GetProfile)

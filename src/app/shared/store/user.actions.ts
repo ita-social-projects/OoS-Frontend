@@ -140,7 +140,7 @@ export class OnDeleteChildFail {
 }
 export class CreateProvider {
   static readonly type = '[parent] create Provider';
-  constructor(public payload: Provider, public isRelease2: boolean) { }
+  constructor(public payload: Provider, public isRelease3: boolean) { }
 }
 export class OnCreateProviderFail {
   static readonly type = '[user] create Provider fail';
@@ -248,7 +248,7 @@ export class OnUpdateChildSuccess {
 }
 export class UpdateProvider {
   static readonly type = '[user] update Provider';
-  constructor(public payload: Provider, public isRelease2: boolean) { }
+  constructor(public payload: Provider, public isRelease3: boolean) { }
 }
 export class OnUpdateProviderFail {
   static readonly type = '[user] update Provider fail';

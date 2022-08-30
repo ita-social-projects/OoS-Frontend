@@ -44,7 +44,7 @@
       <ng-container *ngIf="admins?.length else isEmptyList;">
         <div class="table-wrapper">
           <app-users-list [users]="admins" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
-          (blockAdmin)="onBlock($event)" ></app-users-list>
+          (blockAdmin)="onBlock($event)" [isEditable]=" true"></app-users-list>
         </div>
         <app-paginator
           *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
