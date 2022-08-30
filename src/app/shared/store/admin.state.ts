@@ -380,10 +380,10 @@ export class AdminState {
   @Action(GetChildrenForAdmin)
   getChildrenForAdmin(
     { patchState }: StateContext<AdminStateModel>,
-    { payload }: GetChildrenForAdmin
+    { parameters }: GetChildrenForAdmin
   ): Observable<ChildCards> {
     patchState({ isLoading: true });
-    return this.childrenService.getChildrenForAdmin(payload).pipe(
+    return this.childrenService.getChildrenForAdmin(parameters).pipe(
       tap((children: ChildCards) => {
         return patchState({ children: children, isLoading: false });
       })

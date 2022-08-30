@@ -3,6 +3,7 @@ import { Direction } from "../models/category.model";
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from "../models/сompanyInformation.model";
 import { HttpErrorResponse } from '@angular/common/http';
+import { ChildrenParameters } from '../models/child.model';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -95,7 +96,7 @@ export class GetParents {
 
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
-  constructor(public payload?: string) {}
+  constructor(public parameters: ChildrenParameters) {}
 }
 
 export class GetProviderHistory {

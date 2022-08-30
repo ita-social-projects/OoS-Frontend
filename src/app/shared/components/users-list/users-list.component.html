@@ -16,7 +16,14 @@
         >
           ПІБ
         </th>
-        <td mat-cell *matCellDef="let element">{{ element.pib }}</td>
+        <td mat-cell *matCellDef="let element" class="tab"> 
+          <div [matTooltip]="element.pib"
+            showTooltipIfTruncated
+            matTooltipClass="tooltip"
+            [matTooltipPosition]="tooltipPosition"
+            class="tab-text"> {{ element.pib }}
+          </div>
+        </td>
       </ng-container>
   
       <!-- Email Column -->
@@ -29,7 +36,14 @@
         >
           Електронна пошта
         </th>
-        <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+        <td mat-cell *matCellDef="let element" class="tab">
+          <div [matTooltip]="element.email"
+            showTooltipIfTruncated
+            matTooltipClass="tooltip"
+            [matTooltipPosition]="tooltipPosition"
+            class="tab-text"> {{ element.email }}
+          </div>
+      </td>
       </ng-container>
   
       <!-- Phone Column -->
@@ -50,7 +64,14 @@
         >
           Населений пункт
         </th>
-        <td mat-cell *matCellDef="let element">{{ element.place || "" }}</td>
+        <td mat-cell *matCellDef="let element" class="tab">
+          <div [matTooltip]="element.place"
+            showTooltipIfTruncated
+            matTooltipClass="tooltip"
+            [matTooltipPosition]="tooltipPosition"
+            class="tab-text">{{ element.place || "" }}
+          </div>
+        </td>
       </ng-container>
   
       <!-- Name Column -->
