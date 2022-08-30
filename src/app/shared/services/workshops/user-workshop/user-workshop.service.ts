@@ -27,8 +27,10 @@ export class UserWorkshopService {
    */
   getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<Workshop[]> {
     let params = new HttpParams();
-    params = params.set('excludedWorkshopId', excludedWorkshopId);
-    
+    if (excludedWorkshopId) {
+      params = params.set('excludedWorkshopId', excludedWorkshopId);
+    }
+
     return this.http.get<Workshop[]>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
   }
 
