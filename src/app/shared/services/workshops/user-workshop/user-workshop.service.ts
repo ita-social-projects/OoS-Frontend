@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -25,8 +25,11 @@ export class UserWorkshopService {
    * This method get workshops by Provider id
    * @param id: string
    */
-  getWorkshopsByProviderId(id: string): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/api/v1/Workshop/GetByProviderId/${id}`);
+  getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<Workshop[]> {
+    let params = new HttpParams();
+    params = params.set('excludedWorkshopId', excludedWorkshopId);
+    
+    return this.http.get<Workshop[]>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
   }
 
   /**
@@ -73,14 +76,14 @@ export class UserWorkshopService {
     return this.http.put('/api/v2/Workshop/Update', formData);
   }
 
-   /**
+  /**
    * This method update workshop status
    * @param workshopStatus: WorkshopStatus
    */
   updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
   }
-  
+
   deleteWorkshop(id: string): Observable<object> {
     return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
   }

@@ -65,7 +65,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-      new GetWorkshopsByProviderId(this.workshop.providerId),
+      new GetWorkshopsByProviderId(this.workshop.providerId, this.workshop.id),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
