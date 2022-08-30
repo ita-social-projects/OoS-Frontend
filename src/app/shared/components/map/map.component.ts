@@ -1,4 +1,3 @@
-
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
@@ -105,12 +104,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.geocoderService.addressDecode(address, (result: Geocoder) => {
-        if (result) {
-          this.setNewSingleMarker([result.latitude, result.longitude]);
-        }
-        this.wrongMapAddress.emit(!result);
-      });
+      this.addressDecode(address);
     }
 
     this.addressFormGroup.valueChanges
@@ -119,7 +113,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         takeUntil(this.destroy$),
         filter((address: Geocoder) => !!(address.longitude && address.latitude))
       )
-      .subscribe((address: Geocoder) => this.setNewSingleMarker([address.latitude, address.longitude]));
+      .subscribe((address: Geocoder) => this.addressDecode(address));
   }
 
   /**
@@ -175,6 +169,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       } else {
         this.addressFormGroup.reset();
         this.map.removeLayer(this.singleMarker);
+      }
+      this.wrongMapAddress.emit(!result);
+    });
+  }
+
+  private addressDecode(address: Geocoder): void {
+    this.geocoderService.addressDecode(address, (result: Geocoder) => {
+      if (result) {
+        this.setNewSingleMarker([result.latitude, result.longitude]);
       }
       this.wrongMapAddress.emit(!result);
     });
