@@ -11,7 +11,8 @@
   <div class="map">
     <app-map
       [addressFormGroup]="addressFormGroup"
-      (wrongMapAddress)="onWrongAddressSelect($event)">
+      (addressSelect)="onAddressSelect($event)"
+      >
     </app-map>
   </div>
   <small *ngIf="noAddressFound" class="warning">Такої адреси не було знайдено на карті</small>
