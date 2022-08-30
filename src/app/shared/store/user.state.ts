@@ -326,10 +326,10 @@ export class UserState {
   @Action(GetWorkshopsByProviderId)
   getWorkshopsByProviderId(
     { patchState }: StateContext<UserStateModel>,
-    { payload }: GetWorkshopsByProviderId
+    { payload, excludedWorkshopId }: GetWorkshopsByProviderId
   ): Observable<Workshop[]> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getWorkshopsByProviderId(payload).pipe(
+    return this.userWorkshopService.getWorkshopsByProviderId(payload, excludedWorkshopId).pipe(
       tap((userWorkshops: Workshop[]) => {
         return patchState({ workshops: userWorkshops, isLoading: false });
       })
