@@ -18,8 +18,11 @@
   font-weight: normal;
   line-height: 22px;
   color: #161414;
-  opacity: 0.4;
   text-overflow: ellipsis;
+
+  &::placeholder{
+    opacity: 0.4;
+  }
 }
 .icon {
   margin: 0 1rem 0 0.5rem;
