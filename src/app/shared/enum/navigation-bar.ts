@@ -30,9 +30,12 @@ export enum NavBarName {
   Users = 'Користувачі',
   Providers = 'Заклади',
   CreateAdmin = 'Додати адміністратора',
+  CreateAchievement = 'Додати досягнення',
+  UpdateAchievement = 'Редагувтаи досягнення',
   Admins = 'Адміністратори',
   Directions = 'Напрямки',
 }
+
 export enum PersonalCabinetTitle {
   techadmin = 'Кабінет тех.адміна',
   user = 'Кабінет користувача',

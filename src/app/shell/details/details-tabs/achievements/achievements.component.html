@@ -9,6 +9,7 @@
     *ngFor="let achievement of achievements" 
     [achievement]="achievement" 
     [workshop]="workshop" 
+    [achievementsTypes]="achievementsTypes"
     (deleteAchievement)="onDelete($event)"
     [isAllowedEdit]="isAllowedEdit">
   </app-achievement-card>

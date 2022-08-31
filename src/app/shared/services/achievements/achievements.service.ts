@@ -29,4 +29,8 @@ export class AchievementsService {
   getAchievementsType(): Observable<AchievementType[]> {
     return this.http.get<AchievementType[]>('/api/v1/AchievementType/GetAll');
   }
+
+  getAchievementById(achievementId: string): Observable<Achievement> {
+    return this.http.get<Achievement>(`/api/v1/Child/GetById/${achievementId}`);
+  }
 }
