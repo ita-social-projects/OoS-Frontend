@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { emit } from 'process';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
@@ -22,7 +23,7 @@ export class CategoryCardComponent {
   
   public categoryIcons = CategoryIcons;
 
-  constructor(private store: Store) {
+  constructor(private store: Store, private router: Router,) {
   }
 
   onDelete(event: Event): void {
@@ -32,5 +33,6 @@ export class CategoryCardComponent {
 
   selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction]));
+    this.router.navigate(['/result']);
   }
 }
