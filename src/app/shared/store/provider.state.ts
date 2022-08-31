@@ -18,6 +18,9 @@ import {
   OnCreateAchievementSuccess,
   OnDeleteAchievementFail,
   OnDeleteAchievementSuccess,
+  OnUpdateAchievementFail,
+  OnUpdateAchievementSuccess,
+  UpdateAchievement,
 } from './provider.actions';
 
 export interface ProviderStateModel {
@@ -121,6 +124,35 @@ export class ProviderState {
 
   @Action(OnCreateAchievementFail)
   onCreateAchievementFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateAchievementFail): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+  }
+
+  @Action(UpdateAchievement)
+  updateAchievement(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: UpdateAchievement
+  ): Observable<void | Achievement> {
+    return this.achievementsService.updateAchievement(payload).pipe(
+      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
+    );
+  }
+
+  @Action(OnUpdateAchievementSuccess)
+  onUpdateAchievementSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: OnUpdateAchievementSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({ message: 'Досягненян успішно відредаговано!', type: 'success' }),
+      new MarkFormDirty(false),
+    ]);
+    this.router.navigate(['/details/workshop/', payload.workshopId]);
+  }
+
+  @Action(OnUpdateAchievementFail)
+  onUpdateAchievementFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateAchievementFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }

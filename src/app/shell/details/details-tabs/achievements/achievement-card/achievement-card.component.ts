@@ -24,8 +24,4 @@ export class AchievementCardComponent {
   onDelete(): void {
     this.deleteAchievement.emit(this.achievement);
   }
-
-  getFullName(person: Person): string {
-    return Util.getFullName(person);
-  }
 }

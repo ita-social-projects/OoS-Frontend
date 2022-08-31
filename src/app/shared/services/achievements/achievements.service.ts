@@ -18,8 +18,12 @@ export class AchievementsService {
     return this.http.get<ChildCards>(`/api/v1/Child/GetApprovedByWorkshopId/${id}`);
   }
 
-  createAchievement(achievement: Achievement): Observable<object> {
-    return this.http.post('/api/v1/Achievement/Create', achievement);
+  createAchievement(achievement: Achievement): Observable<Achievement> {
+    return this.http.post<Achievement>('/api/v1/Achievement/Create', achievement);
+  }
+
+  updateAchievement(achievement: Achievement): Observable<Achievement> {
+    return this.http.put<Achievement>('/api/v1/Achievement/Update', achievement);
   }
 
   deleteAchievement(id: string): Observable<object> {

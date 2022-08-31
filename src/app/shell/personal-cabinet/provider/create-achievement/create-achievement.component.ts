@@ -1,4 +1,3 @@
-import { GetAchievementById } from './../../../../shared/store/provider.actions';
 import { ProviderState } from './../../../../shared/store/provider.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, combineLatest } from 'rxjs';
@@ -8,14 +7,14 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
-import { Achievement, AchievementType } from 'src/app/shared/models/achievement.model';
+import { Achievement, AchievementType, AchievmentTeacherValue } from 'src/app/shared/models/achievement.model';
 import { Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { ChildCards } from 'src/app/shared/models/child.model';
 import { Person } from 'src/app/shared/models/user.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
@@ -28,6 +27,8 @@ import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { Location } from '@angular/common';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { CreateAchievement, GetChildrenByWorkshopId } from 'src/app/shared/store/provider.actions';
+import { GetAchievementById, UpdateAchievement } from './../../../../shared/store/provider.actions';
+import { Navigation } from 'src/app/shared/models/navigation.model';
 
 @Component({
   selector: 'app-create-achievement',
@@ -36,6 +37,7 @@ import { CreateAchievement, GetChildrenByWorkshopId } from 'src/app/shared/store
 })
 export class CreateAchievementComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
+
   @Select(UserState.selectedWorkshop)
   workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
@@ -47,10 +49,20 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
-  destroy$: Subject<boolean> = new Subject<boolean>();
   achievement: Achievement;
   workshopId: string;
   approvedChildren: ChildCards;
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  get teachersFormControl(): FormControl {
+    return this.AchievementFormGroup.get('teachers') as FormControl;
+  }
+  get childrenFormControl(): FormControl {
+    return this.AchievementFormGroup.get('children') as FormControl;
+  }
+  get achievementTypeIdFormControl(): FormControl {
+    return this.AchievementFormGroup.get('achievementTypeId') as FormControl;
+  }
 
   private achievementId: string;
 
@@ -73,13 +85,11 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
       teachers: new FormControl('', Validators.required),
-      childrenIDs: new FormControl('', Validators.required),
+      children: new FormControl('', Validators.required),
     });
   }
 
   ngOnInit(): void {
-    this.determineEditMode();
-    this.addNavPath();
     this.getData();
   }
 
@@ -89,6 +99,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     if (this.editMode) {
       this.setEditMode();
     }
+    this.addNavPath();
   }
 
   getData(): void {
@@ -107,6 +118,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       .subscribe(([workshop, approvedChildren]: [Workshop, ChildCards]) => {
         this.workshop = workshop;
         this.approvedChildren = approvedChildren;
+        this.determineEditMode();
       });
   }
 
@@ -118,37 +130,58 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
         filter((achievement: Achievement) => !!achievement)
       )
       .subscribe((achievement: Achievement) => {
+        this.achievement = achievement;
+        this.teachersFormControl.reset();
+        this.teachersFormControl.clearValidators();
         this.AchievementFormGroup.patchValue(achievement, { emitEvent: false });
-        // const childrenIDs = achievement.children.map((child: Child) => child.id);
-        // this.AchievementFormGroup.get('childrenIDs').setValue(childrenIDs, { emitEvent: false });
       });
   }
 
   addNavPath(): void {
-    const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    let prevPath: Navigation;
+
+    if (this.editMode) {
+      prevPath = {
+        name: this.workshop.title,
+        path: `/details/workshop/${this.workshopId}`,
+        isActive: false,
+        disable: false,
+      };
+    } else {
+      const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+      const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+      const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+
+      prevPath = {
+        name: personalCabinetTitle,
+        path: '/personal-cabinet/provider/workshops',
+        isActive: false,
+        disable: false,
+      };
+    }
 
     this.store.dispatch(
       new AddNavPath(
-        this.navigationBarService.createNavPaths(
-          {
-            name: personalCabinetTitle,
-            path: '/personal-cabinet/provider/workshops',
-            isActive: false,
-            disable: false,
-          },
-          {
-            name: this.editMode ? NavBarName.UpdateAchievement : NavBarName.CreateAchievement,
-            isActive: false,
-            disable: true,
-          }
-        )
+        this.navigationBarService.createNavPaths(prevPath, {
+          name: this.editMode ? NavBarName.UpdateAchievement : NavBarName.CreateAchievement,
+          isActive: false,
+          disable: true,
+        })
       )
     );
   }
 
+  onBack(): void {
+    this.location.back();
+  }
+
   onSubmit(): void {
+    if (this.editMode) {
+      const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
+      this.store.dispatch(new UpdateAchievement(achievement));
+      return;
+    }
+
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -159,33 +192,27 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const achievement = new Achievement(
-          this.AchievementFormGroup.value,
-          this.workshopId,
-          this.AchievementFormGroup.controls.childrenIDs.value.map(child => (child = child.id)),
-          this.AchievementFormGroup.controls.teachers.value.map(
-            teacher => (teacher = `${teacher.lastName} ${teacher.firstName}`)
-          )
-        );
+        const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });
   }
 
-  onRemoveItem(item: string, control): void {
-    let items = this.AchievementFormGroup.controls[control].value;
+  onRemoveItem(item: string, control: string): void {
+    const formControl = this.AchievementFormGroup.get(control);
+    let items = formControl.value;
     if (items.indexOf(item) >= 0) {
       items.splice(items.indexOf(item), 1);
       if (items.length !== 0) {
-        this.AchievementFormGroup.get(control).setValue([...items]);
+        formControl.setValue([...items]);
       } else {
-        this.AchievementFormGroup.get(control).setValue(null);
+        formControl.setValue(null);
       }
     }
   }
 
-  getFullName(person: Person): string {
-    return Util.getFullName(person);
+  compareEntities(person1: Person, person2: Person): boolean {
+    return person1.id === person2.id;
   }
 
   ngOnDestroy(): void {
