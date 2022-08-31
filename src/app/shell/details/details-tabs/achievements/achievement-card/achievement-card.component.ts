@@ -1,8 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Achievement, AchievementType } from '../../../../../shared/models/achievement.model';
-import { Person } from '../../../../../shared/models/user.model';
 import { Workshop } from '../../../../../shared/models/workshop.model';
-import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-achievement-card',

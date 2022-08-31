@@ -87,6 +87,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       teachers: new FormControl('', Validators.required),
       children: new FormControl('', Validators.required),
     });
+
+    this.subscribeOnDirtyForm(this.AchievementFormGroup);
   }
 
   ngOnInit(): void {
@@ -131,7 +133,6 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       )
       .subscribe((achievement: Achievement) => {
         this.achievement = achievement;
-        this.teachersFormControl.reset();
         this.teachersFormControl.clearValidators();
         this.AchievementFormGroup.patchValue(achievement, { emitEvent: false });
       });
