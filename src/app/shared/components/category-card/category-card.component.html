@@ -1,5 +1,4 @@
-<mat-card class="category" fxLayout="column" fxLayoutAlign="center center" 
-  >
+<mat-card class="category" fxLayout="column" fxLayoutAlign="center center">
   <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
 
   <ng-container *ngIf="isEditMode">
@@ -17,7 +16,7 @@
 
   <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
-    <a class="link" [routerLink]="'/result'" (click)="selectDirection(direction)"  >
+    <a class="link" [routerLink]="'/result'" (click)="selectDirection(direction)">
       {{ workshopsCount }} {{ getWord(workshopsCount) }} <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
