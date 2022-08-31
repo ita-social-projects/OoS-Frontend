@@ -49,7 +49,7 @@ export class CreateWorkshopAddressComponent implements OnInit {
   }
 
   onAddressSelect(result: Geocoder): void {
-    this.noAddressFound = !!result;
+    this.noAddressFound = !result;
     if (result) {
       this.settlementFormControl.setValue(result.codeficator);
       this.settlementSearchFormControl.setValue(result.codeficator.settlement);
