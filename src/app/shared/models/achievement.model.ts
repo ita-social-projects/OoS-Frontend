@@ -8,7 +8,7 @@ export class Achievement {
   workshopId: string;
   achievementTypeId: number;
   childrenIDs: string[];
-  teachers?: string[];
+  teachers: string[];
   children: Child[];
 
   constructor(info, workshopId, achievement: Achievement) {
@@ -17,8 +17,8 @@ export class Achievement {
     this.workshopId = workshopId;
     this.achievementTypeId = info.achievementTypeId;
     this.childrenIDs = info.children.map((child: Child) => child.id);
-    if(!info.teachers){
-      this.teachers = achievement.teachers.map((teacher: any) => teacher.title);
+    if (!info.teachers) {
+      this.teachers = achievement.teachers.map(teacher => (teacher as unknown as AchievmentTeacherValue).title);
     } else {
       this.teachers = info.teachers.map((teacher: Teacher) => `${teacher.lastName} ${teacher.firstName}`);
     }
