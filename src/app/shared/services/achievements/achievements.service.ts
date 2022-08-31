@@ -31,6 +31,6 @@ export class AchievementsService {
   }
 
   getAchievementById(achievementId: string): Observable<Achievement> {
-    return this.http.get<Achievement>(`/api/v1/Child/GetById/${achievementId}`);
+    return this.http.get<Achievement>(`/api/v1/Achievement/GetById/${achievementId}`);
   }
 }

@@ -15,7 +15,7 @@ export interface MainPageStateModel {
 }
 
 @State<MainPageStateModel>({
-  name: 'main-page',
+  name: 'mainPage',
   defaults: {
     isLoadingData: false,
     topWorkshops: null,

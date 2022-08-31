@@ -1,3 +1,4 @@
+import { GetAchievementById } from './../../../../shared/store/provider.actions';
 import { ProviderState } from './../../../../shared/store/provider.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, combineLatest } from 'rxjs';
@@ -11,13 +12,10 @@ import { Achievement, AchievementType } from 'src/app/shared/models/achievement.
 import { Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import {
-  GetWorkshopById,
-  ResetProviderWorkshopDetails,
-} from 'src/app/shared/store/user.actions';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
 import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { ChildCards } from 'src/app/shared/models/child.model';
+import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { Person } from 'src/app/shared/models/user.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
@@ -42,6 +40,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
   approvedChildren$: Observable<ChildCards>;
+  @Select(ProviderState.selectedAchievement)
+  selectedAchievement$: Observable<Achievement>;
   @Select(MetaDataState.achievementsTypes)
   achievementsTypes$: Observable<AchievementType[]>;
 
@@ -52,6 +52,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   workshopId: string;
   approvedChildren: ChildCards;
 
+  private achievementId: string;
+
   constructor(
     store: Store,
     route: ActivatedRoute,
@@ -59,7 +61,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location,
-    private routeParams: ActivatedRoute,
+    private routeParams: ActivatedRoute
   ) {
     super(store, route, navigationBarService);
     this.AchievementFormGroup = this.formBuilder.group({
@@ -76,7 +78,17 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   ngOnInit(): void {
+    this.determineEditMode();
     this.addNavPath();
+    this.getData();
+  }
+
+  determineEditMode(): void {
+    this.achievementId = this.routeParams.snapshot.queryParams['achievementId'];
+    this.editMode = !!this.achievementId;
+    if (this.editMode) {
+      this.setEditMode();
+    }
   }
 
   getData(): void {
@@ -99,8 +111,17 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   setEditMode(): void {
-    const achievementId = this.routeParams.snapshot.queryParams['achievementId']; 
-
+    this.store.dispatch(new GetAchievementById(this.achievementId));
+    this.selectedAchievement$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((achievement: Achievement) => !!achievement)
+      )
+      .subscribe((achievement: Achievement) => {
+        this.AchievementFormGroup.patchValue(achievement, { emitEvent: false });
+        // const childrenIDs = achievement.children.map((child: Child) => child.id);
+        // this.AchievementFormGroup.get('childrenIDs').setValue(childrenIDs, { emitEvent: false });
+      });
   }
 
   addNavPath(): void {
