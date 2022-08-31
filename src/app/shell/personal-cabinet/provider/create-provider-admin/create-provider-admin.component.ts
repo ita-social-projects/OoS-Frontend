@@ -92,7 +92,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     if(this.providerRole === providerAdminRole.admin){
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     }
-    this.addNavPath();
   }
   
   setEditMode(): void { }
