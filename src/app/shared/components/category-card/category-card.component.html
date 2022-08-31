@@ -23,11 +23,11 @@
   <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
     <a 
-    *ngIf="workshopsCount"
-    class="link"
-    (click)="selectDirection(direction)">
-      {{ workshopsCount | declination: WorkshopDeclination }}
-      <span class="material-icons arrow">arrow_forward</span>
+      *ngIf="workshopsCount"
+      class="link"
+      (click)="selectDirection(direction)">
+        {{ workshopsCount | declination: WorkshopDeclination }}
+        <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
 
