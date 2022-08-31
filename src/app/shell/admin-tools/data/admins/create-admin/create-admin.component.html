@@ -55,7 +55,7 @@
 
       <label class="step-label">Міністерство<span class="step-required">*</span></label>
       <mat-form-field floatLabel="never" appearance="none">
-        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+        <mat-select [compareWith]="compareInstitutions" disableOptionCentering panelClass="dropdown-panel" class="step-input"
           formControlName="institution" placeholder="Оберіть підпорядкування">
           <mat-option *ngFor="let institution of (institutions$ | async)" [value]="institution" class="dropdown-option">
             {{institution.title}}

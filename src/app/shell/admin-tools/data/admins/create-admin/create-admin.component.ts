@@ -97,16 +97,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   setEditMode(): void {
     this.adminId = this.route.snapshot.paramMap.get('id');
-
-    const ministryAdminExemple: MinistryAdmin= {
-      id: "asdasdasd",
-      email: "asdasdasd",
-      phoneNumber: "12313123",
-      lastName: "asdasdasd",
-      middleName: "asdasdasd",
-      firstName: "asdasdasd",
-      institutionId: "asdasdasdasd",
-    }
+    
     this.store.dispatch(new GetMinistryAdminById(9));
 
     this.selectedMinistryAdmin$.pipe(
@@ -115,9 +106,14 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     )
     .subscribe((ministryAdmin: MinistryAdmin)=> {
       this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
-
-      // this.AdminFormGroup.get('institution').
-   
+      this.AdminFormGroup.get('institution')
+        .setValue(
+          {
+            id: ministryAdmin.institutionId, 
+            title: ministryAdmin.institutionTitle
+          }, 
+          { emitEvent: false }
+        )
     });
   }
   
@@ -128,6 +124,10 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     if (this.editMode) {
       this.setEditMode();
     }
+  }
+
+  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
   }
 
   addNavPath(): void { 
