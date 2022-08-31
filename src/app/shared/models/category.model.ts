@@ -15,3 +15,10 @@ export interface DirectionsFilter {
   totalAmount: number;
   entities: Direction[];
 }
+
+export interface DirectionsStatistic {
+  direction: Direction;
+  workshopsCount: number;
+  applicationsCount: number
+}
+
