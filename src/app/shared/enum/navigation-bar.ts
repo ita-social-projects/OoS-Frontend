@@ -31,6 +31,7 @@ export enum NavBarName {
   Providers = 'Заклади',
   CreateAdmin = 'Додати адміністратора',
   CreateAchievement = 'Додати досягнення',
+  UpdateAchievement = 'Редагувтаи досягнення',
   Admins = 'Адміністратори',
   Directions = 'Напрямки',
 }
