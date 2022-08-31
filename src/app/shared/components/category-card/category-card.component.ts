@@ -4,6 +4,7 @@ import { emit } from 'process';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { Direction } from '../../../shared/models/category.model';
 import { SetDirections } from '../../../shared/store/filter.actions';
+import { WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
 
 @Component({
   selector: 'app-category-card',
@@ -16,6 +17,9 @@ export class CategoryCardComponent {
   @Input() direction: Direction;
   @Input() icons: {};
   @Output() deleteDirection = new EventEmitter<Direction>();
+
+  readonly WorkshopDeclination = WorkshopDeclination;
+  
   public categoryIcons = CategoryIcons;
 
   constructor(private store: Store) {
@@ -29,21 +33,4 @@ export class CategoryCardComponent {
   selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction]));
   }
-  /**
-   * Returns correct form of the ukrainian word "гурток" depending on the amount of workshops by category.
-   * @returns correct form of the word
-   *
-   */
-  getWord(workshopsAmount): string {
-    if ((workshopsAmount % 100 >= 10 && workshopsAmount % 100 <= 20) || (workshopsAmount % 10 === 0 || workshopsAmount % 10 > 4)) {
-      return 'гуртків';
-    } else {
-      if (workshopsAmount % 10 === 1) {
-        return 'гурток';
-      } else if (workshopsAmount % 10 > 1 && workshopsAmount % 10 < 5) {
-        return 'гуртки';
-      }
-    }
-  }
-
 }

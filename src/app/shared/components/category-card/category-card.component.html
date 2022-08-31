@@ -16,8 +16,13 @@
 
   <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
-    <a class="link" [routerLink]="'/result'" (click)="selectDirection(direction)">
-      {{ workshopsCount }} {{ getWord(workshopsCount) }} <span class="material-icons arrow">arrow_forward</span>
+    <a 
+    *ngIf='workshopsCount'
+    class="link" 
+    [routerLink]="'/result'" 
+    (click)="selectDirection(direction)">
+      {{ workshopsCount | declination: WorkshopDeclination }}
+      <span class="material-icons arrow">arrow_forward</span>
     </a>
   </div>
 </mat-card>
