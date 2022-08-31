@@ -1,3 +1,4 @@
+import { UpdateMinistryAdmin } from './../../../../../shared/store/admin.actions';
 import { InfoCardComponent } from './../../../platform/platform-info/info-card/info-card.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
@@ -106,7 +107,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       firstName: "asdasdasd",
       institutionId: "asdasdasdasd",
     }
-    
     this.store.dispatch(new GetMinistryAdminById(9));
 
     this.selectedMinistryAdmin$.pipe(
@@ -115,7 +115,9 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     )
     .subscribe((ministryAdmin: MinistryAdmin)=> {
       this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
-      this.AdminFormGroup.get('institution').patchValue( ministryAdmin.institutionTitle, { emitEvent: false })
+
+      // this.AdminFormGroup.get('institution').
+   
     });
   }
   
@@ -132,44 +134,24 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
-    console.log('edit',this.editMode)
-    if(!this.editMode){
-      this.store.dispatch(
-        new AddNavPath(
-          this.navigationBarService.createNavPaths(
-            {
-              name: personalCabinetTitle,
-              path: '/admin-tools/data/admins',
-              isActive: false,
-              disable: false,
-            },
-            {
-              name: NavBarName.CreateAdmin,
-              isActive: false,
-              disable: true,
-            }
-          )
+
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createNavPaths(
+          {
+            name: personalCabinetTitle,
+            path: '/admin-tools/data/admins',
+            isActive: false,
+            disable: false,
+          },
+          {
+            name: this.editMode ? NavBarName.UpdateAdmin : NavBarName.CreateAdmin,
+            isActive: false,
+            disable: true,
+          }
         )
-      );
-    }else {
-      this.store.dispatch(
-        new AddNavPath(
-          this.navigationBarService.createNavPaths(
-            {
-              name: personalCabinetTitle,
-              path: '/admin-tools/data/admins',
-              isActive: false,
-              disable: false,
-            },
-            {
-              name: NavBarName.UpdateAdmin,
-              isActive: false,
-              disable: true,
-            }
-          )
-        )
-      );
-    }
+      )
+    );
   }
 
   onBack(): void {
@@ -195,6 +177,24 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
         }
       });   
+    }else {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: (this.adminRole === AdminRole.ministryAdmin) ? ModalConfirmationType.updateMinistryAdmin : undefined
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        if (result) {
+          
+          let ministryAdmin = new MinistryAdmin(
+            this.AdminFormGroup.value, 
+            this.AdminFormGroup.get('institution').value.id
+            );
+          this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
+        }
+      });  
     }
   }
 }
