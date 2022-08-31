@@ -51,4 +51,5 @@ class MockAchievementCardComponent {
   @Input() achievement: Achievement;
   @Input() workshop: Workshop;
   @Input() isAllowedEdit: boolean;
+  @Input() achievementsTypes;
 }

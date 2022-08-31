@@ -1,3 +1,4 @@
+import { GetFullNamePipe } from './../../../../shared/pipes/get-full-name.pipe';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -37,9 +38,14 @@ describe('CreateAchievementComponent', () => {
         MatDatepickerModule,
         MatNativeDateModule,
         MatChipsModule,
-        MatIconModule
+        MatIconModule,
       ],
-      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockValidationHintForInputComponent],
+      declarations: [
+        CreateAchievementComponent,
+        MockMainWorkshopCardComponent,
+        MockValidationHintForInputComponent,
+        GetFullNamePipe,
+      ],
       providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
     }).compileComponents();
   });
@@ -49,8 +55,8 @@ describe('CreateAchievementComponent', () => {
     component = fixture.componentInstance;
     component.AchievementFormGroup = new FormGroup({
       title: new FormControl(''),
-      teachers: new FormControl(''), 
-      childrenIDs: new FormControl(''),  
+      teachers: new FormControl(''),
+      childrenIDs: new FormControl(''),
       achievementTypeId: new FormControl(''),
       achievementDate: new FormControl(''),
     });
@@ -77,11 +83,10 @@ class MockMainWorkshopCardComponent {
 }
 @Component({
   selector: 'app-validation-hint',
-  template: ''
+  template: '',
 })
-
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
+  @Input() validationFormControl: FormControl;
   @Input() isTouched: boolean;
   @Input() minMaxDate: boolean;
   @Input() maxCharachters: number;

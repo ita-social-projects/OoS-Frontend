@@ -27,7 +27,10 @@ describe('AchievementCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AchievementCardComponent);
     component = fixture.componentInstance;
-    component.achievement = {} as Achievement;
+    component.achievement = {
+      children: [],
+      teachers: []
+    } as Achievement;
     component.isAllowedEdit;
     component.workshop;
     fixture.detectChanges();
