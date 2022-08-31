@@ -65,14 +65,14 @@
 
         <label class="step-label" *ngIf="!editMode">Тренер/Викладач<span class="step-required">*</span></label>
 
-        <ng-conatiner *ngIf="achievement">
+        <ng-container *ngIf="achievement">
           <div class="edit-wrapper">
             <label class="step-label">Попередньо вибрані теренера/викладачі:</label>
             <ul>
               <li *ngFor="let teacher of achievement.teachers">{{ teacher.title }}</li>
             </ul>
           </div>
-        </ng-conatiner>
+        </ng-container>
 
         <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
           <mat-form-field appearance="none">
