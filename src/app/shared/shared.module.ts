@@ -61,6 +61,7 @@ import { InstitutionHierarchyComponent } from './components/institution-hierarch
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
+import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 
 @NgModule({
   declarations: [
@@ -118,6 +119,7 @@ import { JoinPipe } from './pipes/join.pipe';
     AchievementCardComponent,
     StarsComponent,
     JoinPipe,
+    GetFullNamePipe,
   ],
   
   imports: [
@@ -184,7 +186,8 @@ import { JoinPipe } from './pipes/join.pipe';
     InfoFormComponent,
     AchievementCardComponent,
     StarsComponent,
-    JoinPipe
+    JoinPipe,
+    GetFullNamePipe
   ]
 })
 export class SharedModule { }

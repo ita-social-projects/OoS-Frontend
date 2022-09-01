@@ -1,3 +1,4 @@
+import { GetFullNamePipe } from './../../../../../shared/pipes/get-full-name.pipe';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -20,14 +21,17 @@ describe('AchievementCardComponent', () => {
         RouterTestingModule,
         MatDialogModule,
       ],
-      declarations: [AchievementCardComponent],
+      declarations: [AchievementCardComponent, GetFullNamePipe],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(AchievementCardComponent);
     component = fixture.componentInstance;
-    component.achievement = {} as Achievement;
+    component.achievement = {
+      children: [],
+      teachers: []
+    } as Achievement;
     component.isAllowedEdit;
     component.workshop;
     fixture.detectChanges();

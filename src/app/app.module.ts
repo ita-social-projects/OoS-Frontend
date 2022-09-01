@@ -30,6 +30,7 @@ import { PaginatorState } from './shared/store/paginator.state';
 import { FooterComponent } from './footer/footer.component';
 import { MainPageState } from './shared/store/main-page.state';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
+import { ProviderState } from './shared/store/provider.state';
 
 registerLocaleData(localeUk);
 
@@ -57,7 +58,8 @@ registerLocaleData(localeUk);
       NavigationState,
       NotificationsState,
       PaginatorState,
-      MainPageState
+      MainPageState,
+      ProviderState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({

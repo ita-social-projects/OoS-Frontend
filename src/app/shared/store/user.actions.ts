@@ -17,14 +17,7 @@ export class GetProviderAdminWorkshops {
   static readonly type = '[user] get Workshops for provider admin';
   constructor() { }
 }
-export class GetAchievementsByWorkshopId {
-  static readonly type = '[user] get Achievements By Wokrshop Id';
-  constructor(public payload: string) { }
-}
-export class GetChildrenByWorkshopId {
-  static readonly type = '[user] get Children By Wokrshop Id';
-  constructor(public payload: string) { }
-}
+
 export class GetWorkshopById {
   static readonly type = '[user] get Workshop By Wokrshop Id';
   constructor(public payload: string) { }
@@ -117,18 +110,6 @@ export class DeleteChildById {
   static readonly type = '[user] delete Children';
   constructor(public payload: string) { }
 }
-export class DeleteAchievementById {
-  static readonly type = '[user] delete Achievement';
-  constructor(public payload: string) { }
-}
-export class OnDeleteAchievementSuccess {
-  static readonly type = '[user] delete Achievement success';
-  constructor(public payload) { }
-}
-export class OnDeleteAchievementFail {
-  static readonly type = '[user] delete Achievement fail';
-  constructor(public payload: HttpErrorResponse) { }
-}
 export class OnDeleteChildSuccess {
   static readonly type = '[user] delete Children success';
   constructor(public payload) { }
@@ -185,18 +166,7 @@ export class OnDeleteProviderAdminFail {
   static readonly type = '[user] delete Provider Admin fail';
   constructor(public payload) { }
 }
-export class CreateAchievement {
-  static readonly type = '[user] create Achievement';
-  constructor(public payload: Achievement) {}
-}
-export class OnCreateAchievementFail {
-  static readonly type = '[user] create Achievement fail';
-  constructor(public payload: HttpErrorResponse) {}
-}
-export class OnCreateAchievementSuccess {
-  static readonly type = '[user] create Achievement success';
-  constructor(public payload: Achievement) {}
-}
+
 export class CreateApplication {
   static readonly type = '[user] create Application';
   constructor(public payload: Application) { }
