@@ -86,10 +86,6 @@ class MockValidationHintForInputComponent {
 })
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() workshopId: string;
-  @Input() isMainPage: boolean;
-  @Input() userRole: string;
-  @Input() parent: boolean;
   @Input() isHorizontalView: boolean;
-  @Input() isCreateApplicationView: boolean;
+  @Input() isCreateFormView: boolean;
 }

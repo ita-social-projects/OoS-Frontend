@@ -75,7 +75,7 @@ describe('CreateAchievementComponent', () => {
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() workshopId: string;
-  @Input() isMainPage: boolean;
+  @Input() isCreateFormView: boolean;
   @Input() userRole: string;
   @Input() parent: boolean;
   @Input() isHorizontalView: boolean;

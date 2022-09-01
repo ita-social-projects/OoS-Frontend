@@ -163,7 +163,7 @@
     <mat-icon class="card_icon">account_balance</mat-icon>
     Форма власності: {{ ownershipTypeUkr[workshopData.providerOwnership] }}
   </p>
-  <p class="card_text" [ngClass]="isMainPage && isHorizontalView ? 'hide' : ''">
+  <p class="card_text" [ngClass]="isHorizontalView ? 'hide' : ''">
     <mat-icon class="card_icon">person</mat-icon>
     {{ workshopData.minAge }} - {{ workshopData.maxAge }} років
   </p>

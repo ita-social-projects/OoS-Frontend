@@ -50,8 +50,7 @@ describe('FavoriteWorkshopsComponent', () => {
 })
 class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
 }
 
 @Component({
