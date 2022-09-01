@@ -38,7 +38,7 @@
   margin-right: 1em;
 }
 .achievement_descr {
-  width: 480px;
+  max-width: 480px;
   white-space: wrap;
   overflow-wrap: break-word;
 } 
@@ -51,4 +51,17 @@
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
+}
+
+@media (max-width: 750px) {
+ .image {
+   display: none;
+ }
+ .card_achievement  {
+    max-width: 350px;
+    padding-top: 2rem;
+ }
+ .achievement_title{
+    max-width: 300px;
+ }
 }
