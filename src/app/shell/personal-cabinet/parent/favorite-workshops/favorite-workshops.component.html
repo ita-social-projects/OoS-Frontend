@@ -1,7 +1,6 @@
 <ng-container *ngIf="(favoriteWorkshopsCard$ | async)?.length;  else isEmptyList">
   <div class="card-wrapper">
-    <app-workshop-card class="card" *ngFor="let workshop of (favoriteWorkshopsCard$ |async)" [workshop]="workshop"
-      [isMainPage]="false" [userRoleView]="Role.unauthorized">
+    <app-workshop-card class="card" *ngFor="let workshop of (favoriteWorkshopsCard$ |async)" [workshop]="workshop">
     </app-workshop-card>
   </div>
   <app-paginator [totalEntities]="(favoriteWorkshopsCard$ | async).length" [currentPage]="currentPage" 

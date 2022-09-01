@@ -40,6 +40,5 @@ describe('AllProviderWorkshopsComponent', () => {
 })
 class MockProviderWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
 }

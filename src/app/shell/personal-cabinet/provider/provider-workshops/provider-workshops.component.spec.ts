@@ -51,7 +51,5 @@ describe('ProviderAdminWorkshopsComponent', () => {
 
 class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
-  @Input() application: Application;
+  @Input() isCabinetView: boolean;
 }
