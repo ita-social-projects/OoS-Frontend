@@ -20,6 +20,7 @@ import {
   OnDeleteAchievementSuccess,
   OnUpdateAchievementFail,
   OnUpdateAchievementSuccess,
+  ResetAchievements,
   UpdateAchievement,
 } from './provider.actions';
 
@@ -175,5 +176,10 @@ export class ProviderState {
   ): void {
     dispatch([new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' })]);
     this.router.navigate(['/details/workshop', payload.workshopId]);
+  }
+
+  @Action(ResetAchievements)
+  resetAchievement({ patchState }: StateContext<ProviderStateModel>, {}: ResetAchievements): void {
+    patchState({ selectedAchievement: null, achievements: null });
   }
 }

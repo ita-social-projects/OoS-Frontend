@@ -13,9 +13,15 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById, GetWorkshopsByProviderId, OnCreateRatingSuccess } from 'src/app/shared/store/user.actions';
+import {
+  GetProviderById,
+  GetWorkshopById,
+  GetWorkshopsByProviderId,
+  OnCreateRatingSuccess,
+} from 'src/app/shared/store/user.actions';
 import { RecruitmentStatusUkr } from 'src/app/shared/enum/enumUA/workshop';
 import { WorkhopStatus } from 'src/app/shared/enum/workshop';
+import { ResetAchievements } from 'src/app/shared/store/provider.actions';
 
 @Component({
   selector: 'app-workshop-details',
@@ -51,9 +57,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workhopStatus.Open;
 
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.selectedIndex = 0));
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
     this.actions$
       .pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
@@ -83,5 +87,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new ResetAchievements());
   }
 }
