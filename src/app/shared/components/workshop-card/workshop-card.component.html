@@ -1,6 +1,6 @@
 <mat-card *ngIf="workshopData">
-  <ng-container *ngIf="isMainPage || userRoleView !== Role.provider; then UserActions; else ProviderActions">
-  </ng-container>
+  
+  <ng-container *ngIf="!isCabinetView; then UserActions; else ProviderActions"> </ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
@@ -10,7 +10,8 @@
         [src]="workshopData['_meta']"
         alt="{{ workshopData.title }}" />
     </div>
-    <div [ngClass]="isMainPage && isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
+
+    <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
         <mat-card-title
           [matTooltip]="workshopData.title"
@@ -19,7 +20,7 @@
           [matTooltipPosition]="tooltipPosition"
           class="card-title">
           <a
-            *ngIf="userRoleView === Role.provider"
+            *ngIf="isCabinetView"
             matTooltip="Детальніше"
             matTooltipPosition="above"
             [routerLink]="['/details/workshop', workshopData.workshopId]">
@@ -33,19 +34,17 @@
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
-        <ng-container
-          *ngIf="isMainPage || userRoleView !== Role.provider; then UserWorkshopView; else ProviderWorkshopView">
-        </ng-container>
+        <ng-container *ngIf="isCabinetView; then ProviderWorkshopView; else UserWorkshopView"></ng-container>
       </mat-card-content>
 
-      <mat-card-footer *ngIf="!isCreateApplicationView" class="card-footer">
-        <ng-container *ngIf="userRoleView !== Role.provider">
+      <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
+        <ng-container *ngIf="!isCabinetView">
           <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
             <span class="card_link">Детальніше</span>
             <mat-icon>arrow_forward</mat-icon>
           </a>
         </ng-container>
-        <ng-container *ngIf="userRoleView === Role.provider">
+        <ng-container *ngIf="isCabinetView">
           <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
             <mat-icon>add</mat-icon>
             <span class="card_link">Додати досягнення</span>
@@ -87,8 +86,8 @@
 
 <ng-template #favorite>
   <div
-    (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)"
-    class="actions_btn action-icon favorite-icon">
+    class="actions_btn action-icon favorite-icon"
+    (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
@@ -122,7 +121,7 @@
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:</p>
-    <span class="card_text card_text_blue"> {{ pendingApplicationAmount }}</span>
+    <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
   </div>
 </ng-template>
 

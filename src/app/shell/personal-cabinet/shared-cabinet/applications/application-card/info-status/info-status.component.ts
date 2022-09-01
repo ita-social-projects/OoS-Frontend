@@ -1,3 +1,4 @@
+import { ProviderState } from 'src/app/shared/store/provider.state';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -8,21 +9,20 @@ import { Application } from '../../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../../shared/models/block.model';
 import { Provider } from '../../../../../../shared/models/provider.model';
 import { RegistrationState } from '../../../../../../shared/store/registration.state';
-import { GetBlockedParents, OnClearBlockedParents } from '../../../../../../shared/store/user.actions';
-import { UserState } from '../../../../../../shared/store/user.state';
+import { GetBlockedParents, OnClearBlockedParents } from 'src/app/shared/store/provider.actions';
 
 @Component({
   selector: 'app-info-status',
   templateUrl: './info-status.component.html',
-  styleUrls: ['./info-status.component.scss']
+  styleUrls: ['./info-status.component.scss'],
 })
-export class InfoStatusComponent implements OnInit, OnDestroy{
+export class InfoStatusComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
   readonly applicationStatus = ApplicationStatus;
 
-  @Select(UserState.blockedParent)
+  @Select(ProviderState.blockedParent)
   blockedParent$: Observable<BlockedParent>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -30,34 +30,36 @@ export class InfoStatusComponent implements OnInit, OnDestroy{
   status: ApplicationStatus;
   reason: string;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.status =  this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
-    this.reason =  !this.application.isBlocked && this.application.rejectionMessage;
+    this.status = this.application.isBlocked ? ApplicationStatus.Blocked : ApplicationStatus[this.application.status];
+    this.reason = !this.application.isBlocked && this.application.rejectionMessage;
   }
 
   onGetBlockedParent(): void {
-    if(this.application.isBlocked){
+    if (this.application.isBlocked) {
       const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
-      this.store.dispatch(new GetBlockedParents(providerId,this.application.parentId));
+      this.store.dispatch(new GetBlockedParents(providerId, this.application.parentId));
       this.blockedParent$
-        .pipe(takeUntil(this.destroy$),
-        filter((blockedParent:BlockedParent)=>!!blockedParent))
-        .subscribe((blockedParent:BlockedParent)=>{
-        this.reason =  blockedParent.reason;
-      });
+        .pipe(
+          takeUntil(this.destroy$),
+          filter((blockedParent: BlockedParent) => !!blockedParent)
+        )
+        .subscribe((blockedParent: BlockedParent) => {
+          this.reason = blockedParent.reason;
+        });
     }
   }
 
   onMenuClosed(): void {
-    if(this.application.isBlocked){
-      this.store.dispatch(new OnClearBlockedParents())
+    if (this.application.isBlocked) {
+      this.store.dispatch(new OnClearBlockedParents());
     }
   }
 
-ngOnDestroy(): void{
-  this.destroy$.next(true);
-  this.destroy$.unsubscribe();
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

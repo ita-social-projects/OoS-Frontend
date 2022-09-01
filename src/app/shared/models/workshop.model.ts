@@ -1,4 +1,5 @@
 import { Direction } from 'src/app/shared/models/category.model';
+import { WorkhopStatus } from '../enum/workshop';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
 import { SectionItem } from './sectionItem.model';
@@ -95,7 +96,7 @@ export class Workshop {
     if (about.price) {
       this.price = about.price;
     }
-    if(about.availableSeats){
+    if (about.availableSeats) {
       this.availableSeats = about.availableSeats;
     }
   }
@@ -112,26 +113,43 @@ export class WorkshopSectionItem extends SectionItem {
     }
   }
 }
-export interface WorkshopCard {
-  address: Address;
-  directionId: number;
+export interface WorkshopBaseCard {
+  workshopId: string;
+  title: string;
+  directionsId: number[];
+  coverImageId?: string;
+}
+
+export interface ProviderWorkshopCard extends WorkshopBaseCard {
+  providerTitle: string;
+  providerOwnership: string;
+  providerId: string;
   payRate: string;
   maxAge: number;
   minAge: number;
-  photo?: string;
   price: number;
-  providerId: string;
-  providerTitle: string;
-  providerOwnership: string;
-  rating: number;
-  title: string;
-  workshopId: string;
-  coverImageId?: string;
-  directionsId: number[];
-  status: string;
+  address: Address;
   availableSeats: number;
   takenSeats: number;
+  amountOfPendingApplications: number;
+  status: WorkhopStatus;
 }
+
+export interface WorkshopCard extends WorkshopBaseCard {
+  workshopId: string;
+  providerTitle: string;
+  providerOwnership: string;
+  providerId: string;
+  title: string;
+  payRate: string;
+  coverImageId?: string;
+  maxAge: number;
+  minAge: number;
+  price: number;
+  directionsId: number[];
+  address: Address;
+}
+
 export interface WorkshopFilterCard {
   totalAmount: number;
   entities: WorkshopCard[];
