@@ -1,5 +1,10 @@
-<mat-card class="category" fxLayout="column" fxLayoutAlign="center center" [routerLink]="'/result'"
-  (click)="selectDirection(direction)">
+<mat-card 
+  [ngClass] = "{hoverOnCard: !workshopsCount}"  
+  class="category" 
+  fxLayout="column" 
+  fxLayoutAlign="center center" 
+  (click)="!workshopsCount && selectDirection(direction)">
+
   <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
 
   <ng-container *ngIf="isEditMode">
@@ -17,10 +22,13 @@
 
   <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
-    <!-- <div class="link">
-      <a >
-        {{ workshopsCount }} {{ getWord(workshopsCount) }} <span class="material-icons arrow">arrow_forward</span>
-      </a>
-    </div> -->
+    <a 
+      *ngIf="workshopsCount"
+      class="link"
+      (click)="selectDirection(direction)">
+        {{ workshopsCount | declination: WorkshopDeclination }}
+        <span class="material-icons arrow">arrow_forward</span>
+    </a>
   </div>
+
 </mat-card>

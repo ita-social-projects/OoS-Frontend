@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Direction, DirectionsFilter } from '../../models/category.model';
+import { Direction, DirectionsFilter, DirectionsStatistic } from '../../models/category.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { PaginatorState } from '../../store/paginator.state';
 
@@ -38,8 +38,8 @@ export class DirectionsService {
     return this.http.get<Direction[]>('/api/v1/Direction/Get');
   }
 
-  getTopDirections(): Observable<Direction[]> {
-    return this.http.get<Direction[]>(`/api/v1/Statistic/GetDirections`);
+  getTopDirections(): Observable<DirectionsStatistic[]> {
+    return this.http.get<DirectionsStatistic[]>(`/api/v1/Statistic/GetDirections`);
   }
   createDirection(direction: Direction): Observable<Direction> {
     return this.http.post<Direction>('/api/v1/Direction/Create', direction);
