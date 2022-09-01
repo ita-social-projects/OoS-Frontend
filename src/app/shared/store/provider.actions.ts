@@ -253,3 +253,8 @@ export class OnClearBlockedParents {
   static readonly type = '[provider] clear blockedParents state';
   constructor( ) { }
 }
+
+export class ResetAchievements {
+  static readonly type = '[provider] reset achievements';
+  constructor() {}
+}

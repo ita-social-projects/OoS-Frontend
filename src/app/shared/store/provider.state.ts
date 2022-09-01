@@ -61,6 +61,7 @@ import {
   OnUpdateWorkshopStatusFail,
   OnUpdateWorkshopStatusSuccess,
   OnUpdateWorkshopSuccess,
+  ResetAchievements,
   UnBlockParent,
   UnBlockParentFail,
   UnBlockParentSuccess,
@@ -640,5 +641,10 @@ export class ProviderState {
   @Action(OnClearBlockedParents)
   onClearBlockedParents({ patchState }: StateContext<ProviderStateModel>, {}: OnClearBlockedParents): void {
     patchState({ blockedParent: null });
+  }
+
+  @Action(ResetAchievements)
+  resetAchievement({ patchState }: StateContext<ProviderStateModel>, {}: ResetAchievements): void {
+    patchState({ selectedAchievement: null, achievements: null });
   }
 }
