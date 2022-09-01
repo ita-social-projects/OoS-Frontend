@@ -10,7 +10,6 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { 
   GetApplicationsByProviderId, 
-  GetProviderAdminWorkshops, 
   GetWorkshopsByProviderId, 
   UpdateApplication 
 } from 'src/app/shared/store/user.actions';
@@ -20,6 +19,7 @@ import { EntityType, Role } from 'src/app/shared/enum/role';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { GetProviderAdminWorkshops } from 'src/app/shared/store/provider.actions';
 
 @Component({
   selector: 'app-provider-applciations',

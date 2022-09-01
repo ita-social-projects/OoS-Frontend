@@ -40,17 +40,17 @@ export class ProviderService {
    * This method create Provider
    * @param Provider
    */
-  createProvider(provider: Provider, isRelease3: boolean): Observable<object> {
+  createProvider(provider: Provider, isRelease3: boolean): Observable<Provider> {
     return isRelease3 ? this.createProviderV2(provider) : this.createProviderV1(provider);
   }
 
-  createProviderV1(provider: Provider): Observable<object> {
-    return this.http.post('/api/v1/Provider/Create', provider);
+  createProviderV1(provider: Provider): Observable<Provider> {
+    return this.http.post<Provider>('/api/v1/Provider/Create', provider);
   }
 
-  createProviderV2(provider: Provider): Observable<object> {
+  createProviderV2(provider: Provider): Observable<Provider> {
     const formData = Provider.createFormData(provider);
-    return this.http.post('/api/v2/Provider/Create', formData);
+    return this.http.post<Provider>('/api/v2/Provider/Create', formData);
   }
 
   /**
@@ -64,17 +64,17 @@ export class ProviderService {
    * This method update Provider
    * @param Provider
    */
-  updateProvider(provider: Provider, isRelease3: boolean): Observable<object> {
+  updateProvider(provider: Provider, isRelease3: boolean): Observable<Provider> {
     return isRelease3 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
   }
 
-  updateProviderV1(provider: Provider): Observable<object> {
-    return this.http.put('/api/v1/Provider/Update', provider);
+  updateProviderV1(provider: Provider): Observable<Provider> {
+    return this.http.put<Provider>('/api/v1/Provider/Update', provider);
   }
 
-  updateProviderV2(provider: Provider): Observable<object> {
+  updateProviderV2(provider: Provider): Observable<Provider> {
     const formData = Provider.createFormData(provider);
-    return this.http.put('/api/v2/Provider/Update', formData);
+    return this.http.put<Provider>('/api/v2/Provider/Update', formData);
   }
 
   /**

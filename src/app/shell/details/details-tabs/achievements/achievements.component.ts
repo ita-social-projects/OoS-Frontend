@@ -41,6 +41,8 @@ export class AchievementsComponent implements OnInit {
 
   ngOnInit(): void {
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.isAllowedEdit = this.workshop.providerId === provider?.id;
+
     this.getAchievements();
     combineLatest([this.achievements$, this.achievementsTypes$])
       .pipe(
@@ -50,7 +52,6 @@ export class AchievementsComponent implements OnInit {
       .subscribe(([achievements, achievementsTypes]: [Achievement[], AchievementType[]]) => {
         this.achievementsTypes = achievementsTypes;
         this.achievements = achievements;
-        this.isAllowedEdit = this.workshop.providerId === provider?.id;
       });
   }
 

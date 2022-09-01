@@ -63,6 +63,5 @@ class MockMainCategoryCardComponent {
 })
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
 }

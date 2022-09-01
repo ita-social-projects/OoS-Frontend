@@ -7,7 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
-import { CreateProviderAdmin, GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
 import { ProviderAdmin } from 'src/app/shared/models/providerAdmin.model';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs';
@@ -25,6 +25,7 @@ import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Util } from 'src/app/shared/utils/utils';
 import { Role } from 'src/app/shared/enum/role';
+import { CreateProviderAdmin } from 'src/app/shared/store/provider.actions';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required, 

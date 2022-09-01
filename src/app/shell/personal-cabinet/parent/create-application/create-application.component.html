@@ -7,7 +7,7 @@
       class="application-workshop"
       [workshop]="workshop"
       [isHorizontalView]="true"
-      [isCreateApplicationView]="true"></app-workshop-card>
+      [isCreateFormView]="true"></app-workshop-card>
     <div class="card-border">
       <mat-tab-group mat-align-tabs="center" #tabGroup (selectedTabChange)="onTabChange($event)">
         <hr class="line" />
@@ -29,7 +29,9 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">Дитина не може бути прийнята в гурток</small>
+            <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id"
+              >Дитина не може бути прийнята в гурток</small
+            >
             <app-validation-hint [validationFormControl]="ChildFormControl" [isTouched]="ChildFormControl.touched">
             </app-validation-hint>
 

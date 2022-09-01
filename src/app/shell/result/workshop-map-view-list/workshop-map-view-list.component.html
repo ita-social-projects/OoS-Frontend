@@ -1,14 +1,17 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
   <div fxLayout="column" fxLayoutAlign="space-evenly" class="wrapper-workshop-list">
     <div class="workshop-list card-wrapper">
-      <app-workshop-card class="card" [userRoleView]="Role.unauthorized" *ngFor="let workshop of selectedWorkshops"
-        [workshop]="workshop" [isMainPage]="true" #WorkshopsWrap>
+      <app-workshop-card class="card" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop" #WorkshopsWrap>
       </app-workshop-card>
     </div>
     <ng-container *ngIf="selectedWorkshops?.length">
-      <app-paginator [totalEntities]="selectedWorkshops.length" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
-      (pageChange)="onPageChange($event)" (itemsPerPageChange)="itemsPerPageChange.emit($event)">
-    </app-paginator>
+      <app-paginator
+        [totalEntities]="selectedWorkshops.length"
+        [currentPage]="currentPage"
+        [itemsPerPage]="itemsPerPage"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="itemsPerPageChange.emit($event)">
+      </app-paginator>
     </ng-container>
   </div>
 
@@ -19,29 +22,47 @@
     </div>
   </div>
 
-
-  <div *ngIf="isSelectedMarker && this.selectedWorkshops.length > 1; else elseBlock " #CurSelectedWorkshop
-    class="workshop-details-cards" fxLayout='row' (@triggerName.done)="triggerNameDone($event)"
-    [@triggerName]="currentWorkShopIndex" [style.left.vw]="left" (touchstart)="swipe($event, 'start')"
+  <div
+    *ngIf="isSelectedMarker && this.selectedWorkshops.length > 1; else elseBlock"
+    #CurSelectedWorkshop
+    class="workshop-details-cards"
+    fxLayout="row"
+    (@triggerName.done)="triggerNameDone($event)"
+    [@triggerName]="currentWorkShopIndex"
+    [style.left.vw]="left"
+    (touchstart)="swipe($event, 'start')"
     (touchend)="swipe($event, 'end')">
     <div class="mock"></div>
     <div class="card-wrapper" *ngFor="let workshop of selectedWorkshops; let i = index">
-      <app-workshop-card class="card" [workshop]="workshop" [isMainPage]="true" [isHorizontalView]="true"
-        [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+      <app-workshop-card
+        class="card"
+        [workshop]="workshop"
+        [isHorizontalView]="true"
+        [@fade]="workshopDetailsAnimationState"
+        (@fade.done)="fadeAnimationDone()">
       </app-workshop-card>
     </div>
     <div class="mock"></div>
   </div>
   <div class="workshop-counter-wrapper" *ngIf="this.selectedWorkshops.length > 1">
     <div [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()" class="workshop-counter">
-      {{currentWorkShopIndex+1}} з {{selectedWorkshops.length}} гуртків</div>
+      {{ currentWorkShopIndex + 1 }} з {{ selectedWorkshops.length }} гуртків
+    </div>
   </div>
   <ng-template #elseBlock>
-    <div *ngIf="isSelectedMarker" #CurSelectedWorkshop class="workshop-details-cards" fxLayout='row'
+    <div
+      *ngIf="isSelectedMarker"
+      #CurSelectedWorkshop
+      class="workshop-details-cards"
+      fxLayout="row"
       [style.left.vw]="left">
       <div class="mock"></div>
-      <app-workshop-card class="workshop-details-card" [workshop]="selectedWorkshops[0]" [isMainPage]="true"
-        [isHorizontalView]="true" [@fade]="workshopDetailsAnimationState" (@fade.done)="fadeAnimationDone()">
+      <app-workshop-card
+        class="workshop-details-card"
+        [workshop]="selectedWorkshops[0]"
+        [isHorizontalView]="true"
+        [@fade]="workshopDetailsAnimationState"
+        (@fade.done)="fadeAnimationDone()">
       </app-workshop-card>
       <div class="mock"></div>
     </div>

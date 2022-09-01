@@ -60,8 +60,7 @@ class MockOrderingComponent {
 })
 class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
 }
 @Component({
   selector: 'app-paginator',
