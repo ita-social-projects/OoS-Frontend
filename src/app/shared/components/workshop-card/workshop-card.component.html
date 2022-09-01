@@ -1,5 +1,4 @@
 <mat-card *ngIf="workshopData">
-  
   <ng-container *ngIf="!isCabinetView; then UserActions; else ProviderActions"> </ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
@@ -79,7 +78,7 @@
 </ng-template>
 
 <ng-template #UserActions>
-  <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="!isHorizontalView && role !== Role.provider" fxLayout="row" fxLayoutAlign="end start" class="actions">
     <ng-container *ngIf="isFavorite; then favorite; else notFavorite"></ng-container>
   </div>
 </ng-template>
