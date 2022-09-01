@@ -217,7 +217,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new ResetProviderWorkshopDetails(), new ResetAchievements());
+    this.store.dispatch(new ResetProviderWorkshopDetails());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
