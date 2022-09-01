@@ -27,7 +27,7 @@ import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { Location } from '@angular/common';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { CreateAchievement, GetChildrenByWorkshopId } from 'src/app/shared/store/provider.actions';
-import { GetAchievementById, UpdateAchievement } from './../../../../shared/store/provider.actions';
+import { GetAchievementById, UpdateAchievement, ResetAchievements } from './../../../../shared/store/provider.actions';
 import { Navigation } from 'src/app/shared/models/navigation.model';
 
 @Component({
@@ -217,7 +217,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new ResetProviderWorkshopDetails());
+    this.store.dispatch(new ResetProviderWorkshopDetails(), new ResetAchievements());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

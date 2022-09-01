@@ -60,3 +60,8 @@ export class OnDeleteAchievementFail {
   static readonly type = '[provider] delete Achievement fail';
   constructor(public payload: HttpErrorResponse) {}
 }
+
+export class ResetAchievements {
+  static readonly type = '[provider] reset achievements';
+  constructor() {}
+}
