@@ -42,7 +42,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   canChangeWorkshopStatus: boolean;
   workshopData: ProviderWorkshopCard | WorkshopCard;
 
-  @Input() set workshop(workshop: WorkshopCard) {
+  @Input() set workshop(workshop: WorkshopCard | ProviderWorkshopCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
@@ -51,7 +51,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
 
-  @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
+  @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
