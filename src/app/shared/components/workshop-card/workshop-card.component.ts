@@ -42,18 +42,15 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   canChangeWorkshopStatus: boolean;
   workshopData: ProviderWorkshopCard | WorkshopCard;
 
-  private favoriteWorkshopId: string;
-
   @Input() set workshop(workshop: WorkshopCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
-
   @Input() isCabinetView: boolean = false;
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
 
-  @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
+  @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
@@ -61,6 +58,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   role$: Observable<Role>;
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  private favoriteWorkshopId: string;
 
   constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
