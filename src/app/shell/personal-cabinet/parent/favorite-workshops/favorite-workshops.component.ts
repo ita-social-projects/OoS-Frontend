@@ -1,6 +1,6 @@
 import { UserState } from 'src/app/shared/store/user.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
@@ -12,37 +12,45 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ParentComponent } from '../parent.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PaginationConstants } from 'src/app/shared/constants/constants';
+import { DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId } from 'src/app/shared/store/user.actions';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'app-favorite-workshops',
   templateUrl: './favorite-workshops.component.html',
-  styleUrls: ['./favorite-workshops.component.scss']
+  styleUrls: ['./favorite-workshops.component.scss'],
 })
 export class FavoriteWorkshopsComponent extends ParentComponent implements OnInit, OnDestroy {
-  readonly Role  = Role;
+  readonly Role = Role;
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   @Select(UserState.favoriteWorkshopsCard)
   favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
+
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
     super(store, matDialog);
   }
 
   protected addNavPath(): void {
     this.store.dispatch(
-      new PushNavPath(
-        {
-          name: NavBarName.Favorite,
-          isActive: false,
-          disable: true,
-        }
-      )
-    );    
+      new PushNavPath({
+        name: NavBarName.Favorite,
+        isActive: false,
+        disable: true,
+      })
+    );
   }
 
-  initParentData(): void { }
+  initParentData(): void {
+    this.store.dispatch(new GetFavoriteWorkshopsByUserId());
+
+    this.actions$
+      .pipe(ofAction(DeleteFavoriteWorkshop))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.store.dispatch(new GetFavoriteWorkshopsByUserId()));
+  }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
