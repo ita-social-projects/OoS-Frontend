@@ -62,6 +62,7 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
+import { ReasonTransformPipe } from './pipes/reason-transform.pipe';
 
 @NgModule({
   declarations: [
@@ -120,8 +121,9 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    ReasonTransformPipe,
   ],
-  
+
   imports: [
     MaterialModule,
     CommonModule,
@@ -187,7 +189,8 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     AchievementCardComponent,
     StarsComponent,
     JoinPipe,
-    GetFullNamePipe
+    GetFullNamePipe,
+    ReasonTransformPipe,
   ]
 })
 export class SharedModule { }

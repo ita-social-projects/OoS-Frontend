@@ -4,6 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, _MatMenuDirectivesModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
+import { ReasonTransformPipe } from 'src/app/shared/pipes/reason-transform.pipe';
 import { Application } from '../../../../../../shared/models/application.model';
 import { InfoStatusComponent } from './info-status.component';
 
@@ -20,7 +21,7 @@ describe('InfoStatusComponent', () => {
         MatDialogModule,
         MatIconModule,
         _MatMenuDirectivesModule],
-      declarations: [InfoStatusComponent],
+      declarations: [InfoStatusComponent, ReasonTransformPipe],
     })
       .compileComponents();
   });
@@ -29,6 +30,7 @@ describe('InfoStatusComponent', () => {
     fixture = TestBed.createComponent(InfoStatusComponent);
     component = fixture.componentInstance;
     component.application = { status: null } as Application;
+    component.reason = null;
     fixture.detectChanges();
   });
 

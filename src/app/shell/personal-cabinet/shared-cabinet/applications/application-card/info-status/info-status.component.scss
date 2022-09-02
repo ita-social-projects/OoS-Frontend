@@ -32,9 +32,10 @@
 .application-info-menu {
   display: flex;
   flex-direction: row;
-  max-width: max-content;
+  max-width: 600px;
   font-size: 13px;
   line-height: 17px;
+  overflow-wrap: break-word;
 }
 
 .card-block {
