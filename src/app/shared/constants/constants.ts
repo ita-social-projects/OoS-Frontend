@@ -27,7 +27,6 @@ export class Constants {
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
-  static readonly SOCIAL_GROUP_ID_ABSENT_VALUE = [];
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;
 
   static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
