@@ -1,3 +1,5 @@
+import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { ProviderState } from './../../shared/store/provider.state';
 import { MainPageState } from 'src/app/shared/store/main-page.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select } from '@ngxs/store';
@@ -24,6 +26,10 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isLoadingAdminData$: Observable<boolean>;
   @Select(MainPageState.isLoadingData)
   isLoadingMainPage$: Observable<boolean>;
+  @Select(ProviderState.isLoading)
+  isLoadingProvider$: Observable<boolean>;
+  @Select(RegistrationState.isAutorizationLoading)
+  isAutorizationLoading$: Observable<boolean>;
 
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
@@ -31,6 +37,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isLoadingAdminData: boolean;
   isLoadingNotifications: boolean;
   isLoadingMainPage: boolean;
+  isAutorizationLoading: boolean;
+  isLoadingProvider: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -42,16 +50,30 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       this.isLoadingMetaData$,
       this.isLoadingCabinet$,
       this.isLoadingAdminData$,
-      this.isLoadingMainPage$
+      this.isLoadingMainPage$,
+      this.isAutorizationLoading$,
+      this.isLoadingProvider$,
     ])
       .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(([isLoadingResult, isLoadingMeta, isLoadingCabinet, isLoadingAdminData, isLoadingMainPage]) => {
-        this.isLoadingResultPage = isLoadingResult;
-        this.isLoadingMetaData = isLoadingMeta;
-        this.isLoadingCabinet = isLoadingCabinet;
-        this.isLoadingAdminData = isLoadingAdminData;
-        this.isLoadingMainPage = isLoadingMainPage;
-      });
+      .subscribe(
+        ([
+          isLoadingResult,
+          isLoadingMeta,
+          isLoadingCabinet,
+          isLoadingAdminData,
+          isLoadingMainPage,
+          isAutorizationLoading,
+          isLoadingProvider,
+        ]) => {
+          this.isLoadingResultPage = isLoadingResult;
+          this.isLoadingMetaData = isLoadingMeta;
+          this.isLoadingCabinet = isLoadingCabinet;
+          this.isLoadingAdminData = isLoadingAdminData;
+          this.isLoadingMainPage = isLoadingMainPage;
+          this.isAutorizationLoading = isAutorizationLoading;
+          this.isLoadingProvider = isLoadingProvider;
+        }
+      );
   }
 
   ngOnDestroy(): void {

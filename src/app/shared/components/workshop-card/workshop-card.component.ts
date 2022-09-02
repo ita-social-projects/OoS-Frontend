@@ -38,15 +38,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
 
-  isFavorite: boolean;
+  isFavorite = false;
   canChangeWorkshopStatus: boolean;
   workshopData: ProviderWorkshopCard | WorkshopCard;
 
-  @Input() set workshop(workshop: WorkshopCard | ProviderWorkshopCard) {
+  @Input() set workshop(workshop: WorkshopCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
-
   @Input() isCabinetView: boolean = false;
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
@@ -59,6 +58,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   role$: Observable<Role>;
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  private favoriteWorkshopId: string;
 
   constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
@@ -95,9 +96,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onDisLike(id: string): void {
+  onDisLike(): void {
     this.store.dispatch([
-      new DeleteFavoriteWorkshop(id),
+      new DeleteFavoriteWorkshop(this.favoriteWorkshopId),
       new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
@@ -139,7 +140,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         filter((favorites: Favorite[]) => !!favorites)
       )
       .subscribe((favorites: Favorite[]) => {
-        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+        const favorite = favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+        if (!!favorite) {
+          this.favoriteWorkshopId = favorite.id;
+          this.isFavorite = true;
+        }
       });
   }
 }
