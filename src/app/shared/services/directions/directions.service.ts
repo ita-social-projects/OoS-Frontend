@@ -2,8 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { Constants } from '../../constants/constants';
 import { Direction, DirectionsFilter, DirectionsStatistic } from '../../models/category.model';
+import { Codeficator } from '../../models/codeficator.model';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { FilterState } from '../../store/filter.state';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -29,6 +32,12 @@ export class DirectionsService {
     return params;
   }
 
+  private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
+    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
+
+    return params;
+  }
+
   getFilteredDirections(searchString: string): Observable<DirectionsFilter> {
     const options = { params: this.setParams(searchString) };
     return this.http.get<DirectionsFilter>('/api/v1/Direction/GetByFilter', options);
@@ -39,7 +48,15 @@ export class DirectionsService {
   }
 
   getTopDirections(): Observable<DirectionsStatistic[]> {
-    return this.http.get<DirectionsStatistic[]>(`/api/v1/Statistic/GetDirections`);
+    let params = new HttpParams();
+
+    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
+
+    params = params.set('limit', size.toString());
+    params = this.setCityFilterParams(settlement, params);
+
+    return this.http.get<DirectionsStatistic[]>(`/api/v1/Statistic/GetDirections`, { params });
   }
   createDirection(direction: Direction): Observable<Direction> {
     return this.http.post<Direction>('/api/v1/Direction/Create', direction);
