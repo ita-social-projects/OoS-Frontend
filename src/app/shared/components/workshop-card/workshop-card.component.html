@@ -27,7 +27,7 @@
           </a>
           {{ workshopData.title }}
         </mat-card-title>
-        <ng-container *ngFor="let id of workshopData.directionsId">
+        <ng-container *ngFor="let id of workshopData.directionIds">
           <img class="img" mat-card-image [src]="categoryIcons[id]" />
         </ng-container>
       </mat-card-header>
@@ -86,7 +86,7 @@
 <ng-template #favorite>
   <div
     class="actions_btn action-icon favorite-icon"
-    (click)="role === Role.parent && onDisLike(this.favoriteWorkshopId?.id)">
+    (click)="role === Role.parent && onDisLike()">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>

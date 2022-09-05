@@ -6,7 +6,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, debounceTime } from 'rxjs/operators';
 import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
@@ -160,7 +160,6 @@ export class UserState {
     return state.isReviewed;
   }
 
-
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
@@ -269,10 +268,7 @@ export class UserState {
   }
 
   @Action(GetUsersChildren)
-  getUsersChildren(
-    { patchState }: StateContext<UserStateModel>,
-    {}: GetUsersChildren
-  ): Observable<ChildCards> {
+  getUsersChildren({ patchState }: StateContext<UserStateModel>, {}: GetUsersChildren): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.childrenService
       .getUsersChildren()
@@ -288,13 +284,10 @@ export class UserState {
   }
 
   @Action(GetUsersChildById)
-  getUsersChildById(
-    { patchState }: StateContext<UserStateModel>,
-    { payload }: GetUsersChildById
-  ): Observable<Child> {
-      patchState({ isLoading: true });
-      return this.childrenService
-      .getUsersChildById( payload )
+  getUsersChildById({ patchState }: StateContext<UserStateModel>, { payload }: GetUsersChildById): Observable<Child> {
+    patchState({ isLoading: true });
+    return this.childrenService
+      .getUsersChildById(payload)
       .pipe(tap((selectedChild: Child) => patchState({ selectedChild: selectedChild, isLoading: false })));
   }
 
@@ -455,13 +448,11 @@ export class UserState {
     { parentId, workshopId }: GetStatusAllowedToReview
   ): Observable<boolean> {
     patchState({ isLoading: true });
-    return this.applicationService
-      .getApplicationsAllowedToReview(parentId, workshopId)
-      .pipe(
-        tap((status: boolean) => {
-          return patchState({ isAllowedToReview: status, isLoading: false });
-        })
-      );
+    return this.applicationService.getApplicationsAllowedToReview(parentId, workshopId).pipe(
+      tap((status: boolean) => {
+        return patchState({ isAllowedToReview: status, isLoading: false });
+      })
+    );
   }
 
   @Action(GetReviewedApplications)
@@ -470,13 +461,11 @@ export class UserState {
     { parentId, workshopId }: GetReviewedApplications
   ): Observable<boolean> {
     patchState({ isLoading: true });
-    return this.applicationService
-      .getReviewedApplications(parentId, workshopId)
-      .pipe(
-        tap((status: boolean) => {
-          return patchState({ isReviewed: status, isLoading: false });
-        })
-      );
+    return this.applicationService.getReviewedApplications(parentId, workshopId).pipe(
+      tap((status: boolean) => {
+        return patchState({ isReviewed: status, isLoading: false });
+      })
+    );
   }
 
   @Action(CreateRating)
@@ -531,9 +520,10 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: CreateFavoriteWorkshop
   ): Observable<object> {
-    return this.favoriteWorkshopsService
-      .createFavoriteWorkshop(payload)
-      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])));
+    return this.favoriteWorkshopsService.createFavoriteWorkshop(payload).pipe(
+      debounceTime(2000),
+      tap(() => dispatch(new GetFavoriteWorkshops()))
+    );
   }
 
   @Action(DeleteFavoriteWorkshop)
@@ -541,9 +531,10 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: DeleteFavoriteWorkshop
   ): Observable<object> {
-    return this.favoriteWorkshopsService
-      .deleteFavoriteWorkshop(payload)
-      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])));
+    return this.favoriteWorkshopsService.deleteFavoriteWorkshop(payload).pipe(
+      debounceTime(2000),
+      tap(() => dispatch(new GetFavoriteWorkshops()))
+    );
   }
 
   @Action(ResetProviderWorkshopDetails)
