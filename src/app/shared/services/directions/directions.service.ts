@@ -32,12 +32,6 @@ export class DirectionsService {
     return params;
   }
 
-  private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
-    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
-
-    return params;
-  }
-
   getFilteredDirections(searchString: string): Observable<DirectionsFilter> {
     const options = { params: this.setParams(searchString) };
     return this.http.get<DirectionsFilter>('/api/v1/Direction/GetByFilter', options);
@@ -52,9 +46,9 @@ export class DirectionsService {
 
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
-
+    
+    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
     params = params.set('limit', size.toString());
-    params = this.setCityFilterParams(settlement, params);
 
     return this.http.get<DirectionsStatistic[]>(`/api/v1/Statistic/GetDirections`, { params });
   }
