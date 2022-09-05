@@ -4,7 +4,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { UserTabs, UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
@@ -56,6 +56,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
+        skip(1),
         debounceTime(2000),)
       .subscribe((searchString:string)=> {
         this.childrenParams.searchString = searchString;
