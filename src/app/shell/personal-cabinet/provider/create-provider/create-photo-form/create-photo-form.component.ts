@@ -83,7 +83,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
 
   private activateEditMode(): void {
     this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
-    this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.SOCIAL_GROUP_ID_ABSENT_VALUE;
+    this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.INSTITUTION_ID_ABSENT_VALUE;
     if (this.provider.providerSectionItems?.length) {
       this.provider.providerSectionItems.forEach((item: ProviderSectionItem) => {
         const itemFrom = this.newForm(item);
