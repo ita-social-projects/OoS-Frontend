@@ -23,8 +23,7 @@ export class Workshop {
   teachers: Teacher[];
   rating?: number;
   numberOfRatings?: number;
-  direction: string;
-  directions: Direction[];
+  directionIds: number[];
   providerId: string;
   providerTitle?: string;
   payRate?: string;
@@ -116,7 +115,7 @@ export class WorkshopSectionItem extends SectionItem {
 export interface WorkshopBaseCard {
   workshopId: string;
   title: string;
-  directionsId: number[];
+  directionIds: number[];
   coverImageId?: string;
 }
 
@@ -146,7 +145,6 @@ export interface WorkshopCard extends WorkshopBaseCard {
   maxAge: number;
   minAge: number;
   price: number;
-  directionsId: number[];
   address: Address;
 }
 
