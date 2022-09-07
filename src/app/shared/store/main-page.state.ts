@@ -1,4 +1,3 @@
-import { DirectionsStatistic } from './../models/category.model';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -12,7 +11,7 @@ import { AppWorkshopsService } from '../services/workshops/app-workshop/app-work
 export interface MainPageStateModel {
   isLoadingData: boolean;
   topWorkshops: WorkshopCard[];
-  topDirections: DirectionsStatistic[];
+  topDirections: Direction[];
 }
 
 @State<MainPageStateModel>({
@@ -31,7 +30,7 @@ export class MainPageState {
   }
 
   @Selector()
-  static topDirections(state: MainPageStateModel): DirectionsStatistic[] {
+  static topDirections(state: MainPageStateModel): Direction[] {
     return state.topDirections;
   }
 
@@ -43,11 +42,11 @@ export class MainPageState {
   constructor(private categoriesService: DirectionsService, private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(GetTopDirections)
-  getTopDirections({ patchState }: StateContext<MainPageStateModel>, {}: GetTopDirections): Observable<DirectionsStatistic[]> {
+  getTopDirections({ patchState }: StateContext<MainPageStateModel>, {}: GetTopDirections): Observable<Direction[]> {
     patchState({ isLoadingData: true });
     return this.categoriesService
       .getTopDirections()
-      .pipe(tap((topDirections: DirectionsStatistic[]) => patchState({ topDirections: topDirections, isLoadingData: false })));
+      .pipe(tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoadingData: false })));
   }
 
   @Action(GetTopWorkshops)

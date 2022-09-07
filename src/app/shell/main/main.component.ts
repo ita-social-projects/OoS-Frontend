@@ -3,7 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { DirectionsStatistic } from 'src/app/shared/models/category.model';
+import { Direction } from 'src/app/shared/models/category.model';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
@@ -27,8 +27,8 @@ export class MainComponent implements OnInit, OnDestroy {
   topWorkshops$: Observable<WorkshopCard[]>;
   topWorkshops: WorkshopCard[];
   @Select(MainPageState.topDirections)
-  topDirections$: Observable<DirectionsStatistic[]>;
-  topDirections: DirectionsStatistic[];
+  topDirections$: Observable<Direction[]>;
+  topDirections: Direction[];
   @Select(MainPageState.isLoadingData)
   isLoadingData$: Observable<boolean>;
   isLoadingData: boolean;
