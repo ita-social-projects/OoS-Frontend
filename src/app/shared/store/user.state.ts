@@ -1,59 +1,37 @@
 import { Child } from 'src/app/shared/models/child.model';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { Favorite, WorkshopFavoriteCard } from './../models/favorite.model';
 import { FavoriteWorkshopsService } from './../services/workshops/favorite-workshops/favorite-workshops.service';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, debounceTime } from 'rxjs/operators';
 import { ApplicationCards } from '../models/application.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
-import { Workshop, WorkshopCard, WorkshopStatus } from '../models/workshop.model';
+import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
 import { ProviderService } from '../services/provider/provider.service';
-import { ProviderAdminService } from '../services/provider-admins/provider-admin.service';
 import { RatingService } from '../services/rating/rating.service';
-import { UserService } from '../services/user/user.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { CheckAuth, GetProfile } from './registration.actions';
 import { PaginationElement } from '../models/paginationElement.model';
 import {
   CreateApplication,
-  CreateAchievement,
   CreateChildren,
-  CreateProvider,
-  CreateWorkshop,
   DeleteChildById,
-  DeleteAchievementById,
-  DeleteWorkshopById,
   GetWorkshopsByProviderId,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
-  OnCreateProviderFail,
-  OnCreateProviderSuccess,
-  OnCreateWorkshopFail,
-  OnCreateWorkshopSuccess,
   OnDeleteChildFail,
   OnDeleteChildSuccess,
-  OnDeleteAchievementFail,
-  OnDeleteAchievementSuccess,
-  OnDeleteWorkshopFail,
-  OnDeleteWorkshopSuccess,
   UpdateChild,
   OnUpdateChildFail,
   OnUpdateChildSuccess,
-  OnUpdateWorkshopSuccess,
-  UpdateWorkshop,
-  OnUpdateWorkshopFail,
-  UpdateProvider,
-  OnUpdateProviderFail,
-  OnUpdateProviderSuccess,
   GetWorkshopById,
   OnGetWorkshopByIdFail,
   GetApplicationsByProviderId,
@@ -71,69 +49,36 @@ import {
   GetFavoriteWorkshopsByUserId,
   GetUsersChildren,
   GetAllUsersChildren,
-  GetAllProviderAdmins,
-  CreateProviderAdmin,
-  OnCreateProviderAdminFail,
-  OnCreateProviderAdminSuccess,
-  DeleteProviderAdminById,
-  OnDeleteProviderAdminFail,
-  OnDeleteProviderAdminSuccess,
-  BlockProviderAdminById,
-  OnBlockProviderAdminFail,
-  OnBlockProviderAdminSuccess,
   OnGetProviderByIdFail,
   ResetProviderWorkshopDetails,
-  BlockParent,
-  BlockParentFail,
-  BlockParentSuccess,
-  GetBlockedParents,
-  UnBlockParent,
-  UnBlockParentFail,
-  UnBlockParentSuccess,
-  OnCreateAchievementSuccess,
-  OnCreateAchievementFail,
-  GetAchievementsByWorkshopId,
   GetStatusIsAllowToApply,
-  OnClearBlockedParents,
   GetUsersChildById,
   GetStatusAllowedToReview,
-  GetProviderAdminWorkshops,
-  GetChildrenByWorkshopId,
   GetReviewedApplications,
   ResetSelectedChild,
-  UpdateStatus,
-  OnUpdateStatusSuccess,
-  OnUpdateStatusFail,
 } from './user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { Util } from '../utils/utils';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { Location } from '@angular/common';
-import { BlockService } from '../services/block/block.service';
-import { BlockedParent } from '../models/block.model';
-import { Achievement } from '../models/achievement.model';
-import { AchievementsService } from '../services/achievements/achievements.service';
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export interface UserStateModel {
   isLoading: boolean;
-  workshops: Workshop[];
+  workshops: WorkshopCard[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applicationCards: ApplicationCards;
-  achievements: Achievement[];
   children: ChildCards;
   selectedChild: Child;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   currentPage: PaginationElement;
   providerAdmins: ProviderAdmin[];
-  blockedParent: BlockedParent;
   isAllowChildToApply: boolean;
   isAllowedToReview: boolean;
   isReviewed: boolean;
-  approvedChildren: ChildCards;
 }
 @State<UserStateModel>({
   name: 'user',
@@ -143,15 +88,12 @@ export interface UserStateModel {
     selectedWorkshop: null,
     selectedProvider: null,
     applicationCards: null,
-    achievements: null,
-    approvedChildren: null,
     children: null,
     selectedChild: null,
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
     currentPage: PaginationConstants.firstPage,
     providerAdmins: null,
-    blockedParent: null,
     isAllowChildToApply: true,
     isAllowedToReview: false,
     isReviewed: false,
@@ -159,14 +101,13 @@ export interface UserStateModel {
 })
 @Injectable()
 export class UserState {
-  postUrl = '/Workshop/Create';
   @Selector()
   static isLoading(state: UserStateModel): boolean {
     return state.isLoading;
   }
 
   @Selector()
-  static workshops(state: UserStateModel): Workshop[] {
+  static workshops(state: UserStateModel): WorkshopCard[] {
     return state.workshops;
   }
 
@@ -189,21 +130,11 @@ export class UserState {
   static applications(state: UserStateModel): ApplicationCards {
     return state.applicationCards;
   }
-
-  @Selector()
-  static achievements(state: UserStateModel): Achievement[] {
-    return state.achievements;
-  }
-
   @Selector()
   static children(state: UserStateModel): ChildCards {
     return state.children;
   }
 
-  @Selector()
-  static approvedChildren(state: UserStateModel): ChildCards {
-    return state.approvedChildren;
-  }
   @Selector()
   static favoriteWorkshops(state: UserStateModel): Favorite[] {
     return state.favoriteWorkshops;
@@ -212,11 +143,6 @@ export class UserState {
   @Selector()
   static favoriteWorkshopsCard(state: UserStateModel): WorkshopCard[] {
     return state.favoriteWorkshopsCard;
-  }
-
-  @Selector()
-  static providerAdmins(state: UserStateModel): ProviderAdmin[] {
-    return state.providerAdmins;
   }
 
   @Selector()
@@ -234,20 +160,14 @@ export class UserState {
     return state.isReviewed;
   }
 
-  @Selector()
-  static blockedParent(state: UserStateModel): BlockedParent { return state.blockedParent; }
-
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
-    private providerAdminService: ProviderAdminService,
-    private achievementsService: AchievementsService,
     private router: Router,
     private ratingService: RatingService,
     private favoriteWorkshopsService: FavoriteWorkshopsService,
-    private blockService: BlockService,
     private location: Location
   ) {}
 
@@ -271,34 +191,6 @@ export class UserState {
     throwError(payload);
     patchState({ selectedWorkshop: null, isLoading: false });
     dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
-  }
-
-  @Action(GetAchievementsByWorkshopId)
-  getAchievementsByWorkshopId(
-    { patchState }: StateContext<UserStateModel>,
-    { payload }: GetAchievementsByWorkshopId
-  ): Observable<Achievement[]> {
-    patchState({ isLoading: true });
-    return this.achievementsService.getAchievementsByWorkshopId(payload).pipe(
-      tap((achievements: Achievement[]) => {
-        return patchState({ achievements: achievements, isLoading: false });
-      })
-    );
-  }
-
-  @Action(GetChildrenByWorkshopId)
-  getChildrenByWorkshopId(
-    { patchState }: StateContext<UserStateModel>,
-    { payload }: GetChildrenByWorkshopId
-  ): Observable<ChildCards> {
-    patchState({ isLoading: true });
-    return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
-      tap((approvedChildren: ChildCards) => {
-        return patchState(approvedChildren
-          ? { approvedChildren: approvedChildren, isLoading: false }
-          : { approvedChildren: {totalAmount: 0, entities: []}, isLoading: false });
-      })
-    );
   }
 
   @Action(GetProviderById)
@@ -326,24 +218,11 @@ export class UserState {
   @Action(GetWorkshopsByProviderId)
   getWorkshopsByProviderId(
     { patchState }: StateContext<UserStateModel>,
-    { payload }: GetWorkshopsByProviderId
-  ): Observable<Workshop[]> {
+    { payload, excludedWorkshopId }: GetWorkshopsByProviderId
+  ): Observable<WorkshopCard[]> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getWorkshopsByProviderId(payload).pipe(
-      tap((userWorkshops: Workshop[]) => {
-        return patchState({ workshops: userWorkshops, isLoading: false });
-      })
-    );
-  }
-
-  @Action(GetProviderAdminWorkshops)
-  getProviderAdminWorkshops(
-    { patchState }: StateContext<UserStateModel>,
-    {}: GetProviderAdminWorkshops
-  ): Observable<Workshop[]> {
-    patchState({ isLoading: true });
-    return this.userWorkshopService.getProviderAdmisnWorkshops().pipe(
-      tap((userWorkshops: Workshop[]) => {
+    return this.userWorkshopService.getWorkshopsByProviderId(payload, excludedWorkshopId).pipe(
+      tap((userWorkshops: WorkshopCard[]) => {
         return patchState({ workshops: userWorkshops, isLoading: false });
       })
     );
@@ -388,22 +267,8 @@ export class UserState {
       );
   }
 
-  @Action(GetAllProviderAdmins)
-  getAllProviderAdmins(
-    { patchState }: StateContext<UserStateModel>,
-    {}: GetAllProviderAdmins
-  ): Observable<ProviderAdmin[]> {
-    patchState({ isLoading: true });
-    return this.providerAdminService
-      .getAllProviderAdmins()
-      .pipe(tap((providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins: providerAdmins, isLoading: false })));
-  }
-
   @Action(GetUsersChildren)
-  getUsersChildren(
-    { patchState }: StateContext<UserStateModel>,
-    {}: GetUsersChildren
-  ): Observable<ChildCards> {
+  getUsersChildren({ patchState }: StateContext<UserStateModel>, {}: GetUsersChildren): Observable<ChildCards> {
     patchState({ isLoading: true });
     return this.childrenService
       .getUsersChildren()
@@ -419,13 +284,10 @@ export class UserState {
   }
 
   @Action(GetUsersChildById)
-  getUsersChildById(
-    { patchState }: StateContext<UserStateModel>,
-    { payload }: GetUsersChildById
-  ): Observable<Child> {
-      patchState({ isLoading: true });
-      return this.childrenService
-      .getUsersChildById( payload )
+  getUsersChildById({ patchState }: StateContext<UserStateModel>, { payload }: GetUsersChildById): Observable<Child> {
+    patchState({ isLoading: true });
+    return this.childrenService
+      .getUsersChildById(payload)
       .pipe(tap((selectedChild: Child) => patchState({ selectedChild: selectedChild, isLoading: false })));
   }
 
@@ -435,67 +297,6 @@ export class UserState {
     return this.childrenService
       .getAllUsersChildren()
       .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
-  }
-
-  @Action(CreateWorkshop)
-  createWorkshop(
-    { patchState, dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateWorkshop
-  ): Observable<object> {
-    patchState({ isLoading: true });
-    return this.userWorkshopService.createWorkshop(payload).pipe(
-      tap(res => dispatch(new OnCreateWorkshopSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateWorkshopFail(error))))
-    );
-  }
-
-  @Action(OnCreateWorkshopFail)
-  onCreateWorkshopFail(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: OnCreateWorkshopFail
-  ): void {
-    throwError(payload);
-    patchState({ isLoading: false });
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess(
-    { patchState, dispatch }: StateContext<UserStateModel>,
-    { payload }: OnCreateWorkshopSuccess
-  ): void {
-    const message = Util.getWorkshopMessage(payload);
-    patchState({ isLoading: false });
-    dispatch([
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: message.text, type: message.type }),
-    ]);
-    this.router.navigate(['./personal-cabinet/provider/workshops']);
-  }
-
-  @Action(DeleteWorkshopById)
-  deleteWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: DeleteWorkshopById): Observable<object> {
-    return this.userWorkshopService.deleteWorkshop(payload.workshopId).pipe(
-      tap(res => dispatch(new OnDeleteWorkshopSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteWorkshopFail(error))))
-    );
-  }
-
-  @Action(OnDeleteWorkshopFail)
-  onDeleteWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnDeleteWorkshopSuccess)
-  onDeleteWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
-    dispatch([
-      new ShowMessageBar({
-        message: `Дякуємо! Гурток "${payload.title}" видалено!`,
-        type: 'success',
-      }),
-      new GetWorkshopsByProviderId(payload.providerId),
-    ]);
   }
 
   @Action(CreateChildren)
@@ -522,159 +323,6 @@ export class UserState {
       new MarkFormDirty(false),
     ]);
     this.router.navigate(['/personal-cabinet/parent/info']);
-  }
-
-  @Action(CreateProvider)
-  createProvider({ dispatch }: StateContext<UserStateModel>, { payload, isRelease3 }: CreateProvider): Observable<object> {
-    return this.providerService.createProvider(payload, isRelease3).pipe(
-      tap(res => dispatch(new OnCreateProviderSuccess(res))),
-      catchError(error => of(dispatch(new OnCreateProviderFail(error))))
-    );
-  }
-
-  @Action(OnCreateProviderFail)
-  onCreateProviderFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderFail): void {
-    throwError(payload);
-    const message =
-      payload.error === Constants.UNABLE_CREATE_PROVIDER ||
-      Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
-        ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
-        : 'На жаль виникла помилка';
-    dispatch(new ShowMessageBar({ message, type: 'error' }));
-  }
-
-  @Action(OnCreateProviderSuccess)
-  onCreateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderSuccess): void {
-    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
-    dispatch([
-      new ShowMessageBar({
-        message: 'Організацію успішно створено',
-        type: 'success',
-      }),
-      new MarkFormDirty(false),
-    ]);
-  }
-
-  @Action(CreateProviderAdmin)
-  createProviderAdmin(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: CreateProviderAdmin
-  ): Observable<object> {
-    return this.providerAdminService.createProviderAdmin(payload).pipe(
-      tap(res => dispatch(new OnCreateProviderAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateProviderAdminFail(error))))
-    );
-  }
-
-  @Action(OnCreateProviderAdminFail)
-  onCreateProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateProviderAdminFail): void {
-    throwError(payload);
-    dispatch(
-      new ShowMessageBar({
-        message: 'На жаль виникла помилка при створенні користувача',
-        type: 'error',
-      })
-    );
-  }
-
-  @Action(OnCreateProviderAdminSuccess)
-  onCreateProviderAdminSuccess(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnCreateProviderAdminSuccess
-  ): void {
-    dispatch([
-      new ShowMessageBar({
-        message: 'Користувача успішно створено',
-        type: 'success',
-      }),
-      new MarkFormDirty(false),
-    ]);
-    this.router.navigate(['/personal-cabinet/provider/administration']);
-  }
-
-  @Action(BlockProviderAdminById)
-  blockProviderAdmin(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: BlockProviderAdminById
-  ): Observable<object> {
-    return this.providerAdminService.blockProviderAdmin(payload.userId, payload.providerId).pipe(
-      tap(res => dispatch(new OnBlockProviderAdminSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
-    );
-  }
-
-  @Action(OnBlockProviderAdminFail)
-  onBlockProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnBlockProviderAdminFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnBlockProviderAdminSuccess)
-  onBlockProviderAdminSuccess(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnBlockProviderAdminSuccess
-  ): void {
-    dispatch([
-      new GetAllProviderAdmins(),
-      new ShowMessageBar({
-        message: `Дякуємо! користувача заблоковано!`,
-        type: 'success',
-      }),
-    ]);
-  }
-
-  @Action(DeleteProviderAdminById)
-  deleteProviderAdmin(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: DeleteProviderAdminById
-  ): Observable<object> {
-    return this.providerAdminService.deleteProviderAdmin(payload.userId, payload.providerId).pipe(
-      tap(res => dispatch(new OnDeleteProviderAdminSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderAdminFail(error))))
-    );
-  }
-
-  @Action(OnDeleteProviderAdminFail)
-  onDeleteProviderAdminFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteProviderAdminFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnDeleteProviderAdminSuccess)
-  onDeleteProviderAdminSuccess(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnDeleteProviderAdminSuccess
-  ): void {
-    dispatch([
-      new GetAllProviderAdmins(),
-      new ShowMessageBar({
-        message: `Дякуємо! користувача видалено!`,
-        type: 'success',
-      }),
-    ]);
-  }
-
-  @Action(CreateAchievement)
-  createAchievement({ dispatch }: StateContext<UserStateModel>, { payload }: CreateAchievement): Observable<object> {
-    return this.achievementsService.createAchievement(payload).pipe(
-      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateAchievementFail(error))))
-    );
-  }
-
-  @Action(OnCreateAchievementSuccess)
-  onCreateAchievementSuccess(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnCreateAchievementSuccess
-  ): void {
-    dispatch([new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }), new MarkFormDirty(false)]);
-    this.router.navigate(['/details/workshop/', payload.workshopId]);
-  }
-
-  @Action(OnCreateAchievementFail)
-  onCreateAchievementFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnCreateAchievementFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
   @Action(CreateApplication)
@@ -717,31 +365,6 @@ export class UserState {
     );
   }
 
-  @Action(DeleteAchievementById)
-  deleteAchievementById(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: DeleteAchievementById
-  ): Observable<object> {
-    return this.achievementsService.deleteAchievement(payload).pipe(
-      tap((res) => dispatch(new OnDeleteAchievementSuccess(res))),
-      catchError((error: HttpErrorResponse) =>
-        of(dispatch(new OnDeleteAchievementFail(error)))
-      )
-    );
-  }
-
-  @Action(OnDeleteAchievementSuccess)
-  onDeleteAchievementSuccess(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: OnDeleteAchievementSuccess
-  ): void {
-    dispatch([
-      new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' }),
-      new GetUsersChildren(),
-    ]);
-    this.router.navigate(['/details/workshop', payload.workshopId]);
-  }
-
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildFail): void {
     throwError(payload);
@@ -751,39 +374,6 @@ export class UserState {
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnDeleteChildSuccess): void {
     dispatch([new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }), new GetUsersChildren()]);
-  }
-
-  @Action(UpdateWorkshop)
-  updateWorkshop({ dispatch }: StateContext<UserStateModel>, { payload }: UpdateWorkshop): Observable<object> {
-    return this.userWorkshopService.updateWorkshop(payload).pipe(
-      tap((res: UpdateWorkshop) => dispatch(new OnUpdateWorkshopSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateWorkshopFail(error))))
-    );
-  }
-
-  @Action(OnUpdateWorkshopFail)
-  onUpdateWorkshopFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(UpdateStatus)
-  updateStatus({ dispatch }: StateContext<UserStateModel>, { payload, providerId }: UpdateStatus): Observable<object> {
-    return this.userWorkshopService.updateWorkshopStatus(payload).pipe(
-      tap((res: WorkshopStatus) => dispatch(new OnUpdateStatusSuccess(providerId))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateStatusFail(error))))
-    );
-  }
-
-  @Action(OnUpdateStatusFail)
-  onUpdateStatusFail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateStatusFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnUpdateStatusSuccess)
-  onUpdateStatusSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateStatusSuccess): void {
-    dispatch(new GetWorkshopsByProviderId(payload));
   }
 
   @Action(UpdateChild)
@@ -800,13 +390,6 @@ export class UserState {
     dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
   }
 
-  @Action(OnUpdateWorkshopSuccess)
-  onUpdateWorkshopSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
-    const message = Util.getWorkshopMessage(payload);
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
-    this.router.navigate(['/personal-cabinet/provider/workshops']);
-  }
-
   @Action(OnUpdateChildSuccess)
   onUpdateChildSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateChildSuccess): void {
     dispatch([
@@ -817,36 +400,6 @@ export class UserState {
       }),
     ]);
     this.location.back();
-  }
-
-  @Action(UpdateProvider)
-  updateProvider(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload, isRelease3 }: UpdateProvider,
-  ): Observable<object> {
-    return this.providerService.updateProvider(payload, isRelease3).pipe(
-      tap(res => dispatch(new OnUpdateProviderSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
-    );
-  }
-
-  @Action(OnUpdateProviderFail)
-  onUpdateProviderfail({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderFail): void {
-    throwError(payload);
-
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(OnUpdateProviderSuccess)
-  onUpdateProviderSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: OnUpdateProviderSuccess): void {
-    dispatch(new MarkFormDirty(false));
-    dispatch([
-      new ShowMessageBar({
-        message: 'Організація успішно відредагована',
-        type: 'success',
-      }),
-    ]);
-    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
   @Action(UpdateApplication)
@@ -895,13 +448,11 @@ export class UserState {
     { parentId, workshopId }: GetStatusAllowedToReview
   ): Observable<boolean> {
     patchState({ isLoading: true });
-    return this.applicationService
-      .getApplicationsAllowedToReview(parentId, workshopId)
-      .pipe(
-        tap((status: boolean) => {
-          return patchState({ isAllowedToReview: status, isLoading: false });
-        })
-      );
+    return this.applicationService.getApplicationsAllowedToReview(parentId, workshopId).pipe(
+      tap((status: boolean) => {
+        return patchState({ isAllowedToReview: status, isLoading: false });
+      })
+    );
   }
 
   @Action(GetReviewedApplications)
@@ -910,13 +461,11 @@ export class UserState {
     { parentId, workshopId }: GetReviewedApplications
   ): Observable<boolean> {
     patchState({ isLoading: true });
-    return this.applicationService
-      .getReviewedApplications(parentId, workshopId)
-      .pipe(
-        tap((status: boolean) => {
-          return patchState({ isReviewed: status, isLoading: false });
-        })
-      );
+    return this.applicationService.getReviewedApplications(parentId, workshopId).pipe(
+      tap((status: boolean) => {
+        return patchState({ isReviewed: status, isLoading: false });
+      })
+    );
   }
 
   @Action(CreateRating)
@@ -971,9 +520,10 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: CreateFavoriteWorkshop
   ): Observable<object> {
-    return this.favoriteWorkshopsService
-      .createFavoriteWorkshop(payload)
-      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])));
+    return this.favoriteWorkshopsService.createFavoriteWorkshop(payload).pipe(
+      debounceTime(2000),
+      tap(() => dispatch(new GetFavoriteWorkshops()))
+    );
   }
 
   @Action(DeleteFavoriteWorkshop)
@@ -981,9 +531,10 @@ export class UserState {
     { dispatch }: StateContext<UserStateModel>,
     { payload }: DeleteFavoriteWorkshop
   ): Observable<object> {
-    return this.favoriteWorkshopsService
-      .deleteFavoriteWorkshop(payload)
-      .pipe(tap(() => dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()])));
+    return this.favoriteWorkshopsService.deleteFavoriteWorkshop(payload).pipe(
+      debounceTime(2000),
+      tap(() => dispatch(new GetFavoriteWorkshops()))
+    );
   }
 
   @Action(ResetProviderWorkshopDetails)
@@ -994,82 +545,5 @@ export class UserState {
   @Action(ResetSelectedChild)
   resetSelectedChild({ patchState }: StateContext<UserStateModel>): void {
     patchState({ selectedChild: null });
-  }
-
-  @Action(BlockParent)
-  blockParent(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: BlockParent
-  ): Observable<BlockedParent | Observable<void>> {
-    return this.blockService.blockParent(payload).pipe(
-      tap(res => dispatch(new BlockParentSuccess(res))),
-      catchError((error: Error) => of(dispatch(new BlockParentFail(error))))
-    );
-  }
-
-  @Action(BlockParentFail)
-  blockParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: BlockParentFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(BlockParentSuccess)
-  blockParentFailSuccess(
-    { dispatch, patchState }: StateContext<UserStateModel>,
-    { payload }: BlockParentSuccess
-  ): void {
-    dispatch([
-      new GetApplicationsByProviderId(payload.providerId, {
-        statuses: [],
-        showBlocked: false,
-        workshops: [],
-      }),
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' }),
-    ]);
-  }
-
-  @Action(UnBlockParent)
-  unBlockParent(
-    { dispatch }: StateContext<UserStateModel>,
-    { payload }: UnBlockParent
-  ): Observable<BlockedParent | Observable<void>> {
-    return this.blockService.unBlockParent(payload).pipe(
-      tap(res => dispatch(new UnBlockParentSuccess(res))),
-      catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
-    );
-  }
-
-  @Action(UnBlockParentFail)
-  unBlockParentFail({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParentFail): void {
-    throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
-  }
-
-  @Action(UnBlockParentSuccess)
-  unBlockParentFailSuccess({ dispatch }: StateContext<UserStateModel>, { payload }: UnBlockParentSuccess): void {
-    dispatch([
-      new GetApplicationsByProviderId(payload.providerId, {
-        statuses: [],
-        showBlocked: true,
-        workshops: [],
-      }),
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
-    ]);
-  }
-
-  @Action(GetBlockedParents)
-  getBlockedParents({ patchState }: StateContext<UserStateModel>, { providerId, parentId}: GetBlockedParents): Observable<object> {
-    return this.blockService
-      .getBlockedParents(providerId, parentId)
-      .pipe(
-        tap((blockedParent: BlockedParent) => patchState({ blockedParent: blockedParent })
-        ))
-  }
-
-  @Action(OnClearBlockedParents)
-  onClearBlockedParents({ patchState }: StateContext<UserStateModel>, { }: OnClearBlockedParents): void {
-    patchState({ blockedParent: null });
   }
 }

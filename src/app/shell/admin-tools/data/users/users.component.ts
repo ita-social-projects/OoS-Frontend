@@ -4,12 +4,12 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
+import { UserTabs, UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
+import { Child, ChildCards, ChildrenParameters } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { UsersTable } from 'src/app/shared/models/usersTable';
@@ -19,7 +19,6 @@ import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions
 import { OnPageChangeAdminTable, SetChildrensPerPage } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { Util } from 'src/app/shared/utils/utils';
-
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -40,12 +39,14 @@ export class UsersComponent implements OnInit, OnDestroy {
   filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
-  allUsers: Parent[] | Child[] = [];
-  parents: Parent[] = [];
-  children: UsersTable[];
+  allUsers: UsersTable[] = [];
   totalEntities: number;
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  childrenParams: ChildrenParameters = {
+    searchString: "",
+    tabTitle: undefined,
+  };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
@@ -55,9 +56,11 @@ export class UsersComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
-        debounceTime(2000),
-        map((value: string)=> value.trim()))
-      .subscribe((searchString:string)=> this.store.dispatch(new GetChildrenForAdmin(searchString)));
+        skip(1),
+        debounceTime(2000),)
+      .subscribe((searchString:string)=> {
+        this.childrenParams.searchString = searchString;
+        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
 
     this.children$
       .pipe(
@@ -65,13 +68,12 @@ export class UsersComponent implements OnInit, OnDestroy {
         filter((children: ChildCards) => !!children)
       )
       .subscribe((children: ChildCards) => {
-        this.children = Util.updateStructureForTheTable(children.entities);
+        this.allUsers = Util.updateStructureForTheTable(children.entities);
         this.totalEntities = children.totalAmount;
-        this.allUsers = this.children;
       });
-
+     
     this.store.dispatch([
-      new GetChildrenForAdmin(),
+      new GetChildrenForAdmin(this.childrenParams),
       new PushNavPath(
         {
           name: NavBarName.Users,
@@ -80,21 +82,6 @@ export class UsersComponent implements OnInit, OnDestroy {
         },
       ),
     ]);
-
-
-    // this.parents$.pipe(
-    //   takeUntil(this.destroy$),
-    //   filter((parents: Parent[]) => !!parents)
-    // ).subscribe((parents: Parent[]) => this.parents = Util.updateStructureForTheTable(parents))
-    // TODO: for the tab 'Батьки' will implement when backend will be ready
-
-    // this.parents$.pipe(
-    //   takeUntil(this.destroy$),
-    //   filter((parents: Parent[]) => !!parents),
-    //   combineLatestWith(this.children$),
-    // ).subscribe(users => this.allUsers = Util.updateStructureForTheTable(users))
-    // this.store.dispatch(new GetParents());
-    // TODO: for the tab 'Усі' will implement when backend will be ready
   }
 
   /**
@@ -103,19 +90,22 @@ export class UsersComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
+    this.childrenParams.searchString = "";
+    this.childrenParams.tabTitle = event.tab.textLabel;
+    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] },
     });
   }
-  
+
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin()]);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetChildrenForAdmin()]);
+    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   ngOnDestroy(): void {

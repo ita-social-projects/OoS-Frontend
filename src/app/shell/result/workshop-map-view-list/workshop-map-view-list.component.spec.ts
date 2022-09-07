@@ -52,8 +52,7 @@ describe('WorkshopMapViewListComponent', () => {
 })
 class MockMapListWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
   @Input() isHorizontalView: boolean;
 }
 @Component({

@@ -12,16 +12,12 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
-import {
-  BlockProviderAdminById,
-  DeleteProviderAdminById,
-  GetAllProviderAdmins,
-} from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
 import { Constants } from 'src/app/shared/constants/constants';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ProviderComponent } from '../provider.component';
+import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/provider.actions';
+import { ProviderState } from './../../../../shared/store/provider.state';
 
 @Component({
   selector: 'app-provider-admins',
@@ -34,9 +30,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   readonly noProviderAdmins = NoResultsTitle.noUsers;
   readonly constants = Constants;
 
-  @Select(UserState.isLoading)
+  @Select(ProviderState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  @Select(UserState.providerAdmins)
+  @Select(ProviderState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
 
   providerAdmins: ProviderAdminTable[] = [];

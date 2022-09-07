@@ -8,8 +8,7 @@
       class="card"
       *ngFor="let workshop of workshops$ | async"
       [workshop]="workshop"
-      [isMainPage]="false"
-      [userRoleView]="Role.provider"
+      [isCabinetView]="true"
       (deleteWorkshop)="onDelete($event)">
     </app-workshop-card>
   </div>

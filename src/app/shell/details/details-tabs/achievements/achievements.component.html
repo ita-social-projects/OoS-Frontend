@@ -4,15 +4,22 @@
     <button class="btn" mat-raised-button>Додати досягнення</button>
   </a>
 </div>
+
 <div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
-  <app-achievement-card 
-    *ngFor="let achievement of achievements" 
-    [achievement]="achievement" 
-    [workshop]="workshop" 
-    (deleteAchievement)="onDelete($event)"
-    [isAllowedEdit]="isAllowedEdit">
-  </app-achievement-card>
+  <ng-container *ngIf="achievementsTypes">
+    <app-achievement-card
+      *ngFor="let achievement of achievements"
+      [achievement]="achievement"
+      [workshop]="workshop"
+      [achievementsTypes]="achievementsTypes"
+      (deleteAchievement)="onDelete($event)"
+      [isAllowedEdit]="isAllowedEdit">
+    </app-achievement-card>
+  </ng-container>
 </div>
+
 <ng-template #isEmptyList>
-  <app-no-result-card [title]="noResultAchievements"></app-no-result-card>
+  <ng-container *ngIf="!isAllowedEdit">
+    <app-no-result-card [title]="noResultAchievements"></app-no-result-card>
+  </ng-container>
 </ng-template>

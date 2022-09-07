@@ -1,14 +1,12 @@
+import { ProviderWorkshopCard } from './../../models/workshop.model';
 import { OwnershipTypeName } from './../../enum/provider';
 import { Favorite } from './../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { ApplicationStatus } from '../../enum/applications';
-import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from '../../enum/role';
-import { Application } from '../../models/application.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop, UpdateStatus } from '../../store/user.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
@@ -22,6 +20,7 @@ import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/c
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkhopStatus } from '../../enum/workshop';
 import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
+import { UpdateWorkshopStatus } from '../../store/provider.actions';
 
 @Component({
   selector: 'app-workshop-card',
@@ -29,10 +28,8 @@ import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
   styleUrls: ['./workshop-card.component.scss'],
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-  readonly applicationTitles = ApplicationTitles;
-  readonly applicationStatus = ApplicationStatus;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-  readonly Role: typeof Role = Role;
+  readonly Role = Role;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   readonly categoryIcons = CategoryIcons;
   readonly PayRateTypeUkr = PayRateTypeUkr;
@@ -41,45 +38,46 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
 
-  isFavorite: boolean;
+  isFavorite = false;
   canChangeWorkshopStatus: boolean;
-  pendingApplicationAmount: number;
-  workshopData: WorkshopCard;
+  workshopData: ProviderWorkshopCard | WorkshopCard;
 
   @Input() set workshop(workshop: WorkshopCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
-  @Input() userRoleView: string;
-  @Input() isMainPage: boolean;
-  @Input() application: Application;
+  @Input() isCabinetView: boolean = false;
   @Input() isHorizontalView = false;
-  @Input() isCreateApplicationView = false;
-  @Input() icons: {};
+  @Input() isCreateFormView = false;
 
-  @Output() deleteWorkshop = new EventEmitter<WorkshopCard>();
-  @Output() leaveWorkshop = new EventEmitter<Application>();
+  @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(UserState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
-  role: string;
+  role$: Observable<Role>;
+  role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, public dialog: MatDialog, private imagesService: ImagesService) {}
+  private favoriteWorkshopId: string;
+
+  constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
   ngOnInit(): void {
-    this.canChangeWorkshopStatus = !(
-      this.workshopData.providerOwnership === OwnershipTypeName.State ||
-      this.workshopData.availableSeats === this.UNLIMITED_SEATS
-    );
-    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
-      this.role = role;
-      if (this.role === Role.parent) {
+    if (this.isCabinetView) {
+      this.canChangeWorkshopStatus = !(
+        this.workshopData.providerOwnership === OwnershipTypeName.State ||
+        (this.workshopData as ProviderWorkshopCard).availableSeats === this.UNLIMITED_SEATS
+      );
+    }
+
+    this.role$
+      .pipe(takeUntil(this.destroy$))
+      .pipe(filter((role: Role) => role === Role.parent))
+      .subscribe((role: Role) => {
         this.getFavoriteWorkshops();
-      }
-    });
+        this.role = role;
+      });
   }
 
   onDelete(): void {
@@ -98,9 +96,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onDisLike(id: string): void {
+  onDisLike(): void {
     this.store.dispatch([
-      new DeleteFavoriteWorkshop(id),
+      new DeleteFavoriteWorkshop(this.favoriteWorkshopId),
       new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
@@ -117,14 +115,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
         this.store.dispatch(
-          new UpdateStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
+          new UpdateWorkshopStatus(
+            { workshopId: this.workshopData.workshopId, status: status },
+            this.workshopData.providerId
+          )
         );
       }
     });
-  }
-
-  onWorkshopLeave(): void {
-    this.leaveWorkshop.emit(this.application);
   }
 
   onOpenDialog(): void {
@@ -143,7 +140,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         filter((favorites: Favorite[]) => !!favorites)
       )
       .subscribe((favorites: Favorite[]) => {
-        this.isFavorite = !!favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+        const favorite = favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
+        if (!!favorite) {
+          this.favoriteWorkshopId = favorite.id;
+          this.isFavorite = true;
+        }
       });
   }
 }

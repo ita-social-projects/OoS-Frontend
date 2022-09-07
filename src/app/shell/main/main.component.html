@@ -34,9 +34,7 @@
       <app-workshop-card
         class="card"
         *ngFor="let workshop of topWorkshops$ | async"
-        [workshop]="workshop"
-        [isMainPage]="true"
-        [userRoleView]="Role.unauthorized">
+        [workshop]="workshop">
       </app-workshop-card>
     </div>
   </ng-template>

@@ -37,7 +37,6 @@ describe('WorkshopCardComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(WorkshopCardComponent);
     component = fixture.componentInstance;
-    component.application = { status: null } as Application;
     component.workshop = {
       workshopId: 1,
       title: '',
@@ -49,7 +48,7 @@ describe('WorkshopCardComponent', () => {
       description: '',
       direction: '',
       rating: 1,
-      directionsId: [],
+      directionIds: [],
       address: {
         codeficatorAddressDto: {},
         street: '',

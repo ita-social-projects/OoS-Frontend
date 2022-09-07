@@ -36,6 +36,8 @@
 
     &>div {
       column-gap: 1rem;
+      row-gap: 1rem;
+      flex-wrap: wrap;
     }
     .min-logo {
       height: 25px;

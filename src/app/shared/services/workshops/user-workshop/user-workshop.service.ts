@@ -1,4 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { WorkshopCard } from 'src/app/shared/models/workshop.model';
+import { ProviderWorkshopCard } from './../../../models/workshop.model';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -17,16 +19,28 @@ export class UserWorkshopService {
   /**
    * This method get related workshops for provider admins
    */
-  getProviderAdmisnWorkshops(): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/api/v1/ProviderAdmin/ManagedWorkshops`);
+  getProviderAdminsWorkshops(): Observable<ProviderWorkshopCard[]> {
+    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/ProviderAdmin/ManagedWorkshops`);
+  }
+
+  /**
+   * This method get related workshops for provider
+   */
+  getProviderWorkshops(id: string): Observable<ProviderWorkshopCard[]> {
+    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/Workshop/GetWorkshopProviderViewCardByproviderId/${id}`);
   }
 
   /**
    * This method get workshops by Provider id
    * @param id: string
    */
-  getWorkshopsByProviderId(id: string): Observable<Workshop[]> {
-    return this.http.get<Workshop[]>(`/api/v1/Workshop/GetByProviderId/${id}`);
+  getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<WorkshopCard[]> {
+    let params = new HttpParams();
+    if (excludedWorkshopId) {
+      params = params.set('excludedWorkshopId', excludedWorkshopId);
+    }
+
+    return this.http.get<WorkshopCard[]>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
   }
 
   /**
@@ -41,46 +55,46 @@ export class UserWorkshopService {
    * This method create workshop
    * @param workshop: Workshop
    */
-  createWorkshop(workshop: Workshop): Observable<object> {
+  createWorkshop(workshop: Workshop): Observable<Workshop> {
     this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release3;
     return this.isRelease3 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
   }
 
-  createWorkshopV1(workshop: Workshop): Observable<object> {
-    return this.http.post('/api/v1/Workshop/Create', workshop);
+  createWorkshopV1(workshop: Workshop): Observable<Workshop> {
+    return this.http.post<Workshop>('/api/v1/Workshop/Create', workshop);
   }
 
-  createWorkshopV2(workshop: Workshop): Observable<object> {
+  createWorkshopV2(workshop: Workshop): Observable<Workshop> {
     const formData = this.createFormData(workshop);
-    return this.http.post('/api/v2/Workshop/Create', formData);
+    return this.http.post<Workshop>('/api/v2/Workshop/Create', formData);
   }
 
   /**
    * This method update workshop
    * @param workshop: Workshop
    */
-  updateWorkshop(workshop: Workshop): Observable<object> {
+  updateWorkshop(workshop: Workshop): Observable<Workshop> {
     this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
     return this.isRelease3 ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
   }
 
-  updateWorkshopV1(workshop: Workshop): Observable<object> {
-    return this.http.put('/api/v1/Workshop/Update', workshop);
+  updateWorkshopV1(workshop: Workshop): Observable<Workshop> {
+    return this.http.put<Workshop>('/api/v1/Workshop/Update', workshop);
   }
 
-  updateWorkshopV2(workshop: Workshop): Observable<object> {
+  updateWorkshopV2(workshop: Workshop): Observable<Workshop> {
     const formData = this.createFormData(workshop);
-    return this.http.put('/api/v2/Workshop/Update', formData);
+    return this.http.put<Workshop>('/api/v2/Workshop/Update', formData);
   }
 
-   /**
+  /**
    * This method update workshop status
    * @param workshopStatus: WorkshopStatus
    */
   updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
   }
-  
+
   deleteWorkshop(id: string): Observable<object> {
     return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
   }

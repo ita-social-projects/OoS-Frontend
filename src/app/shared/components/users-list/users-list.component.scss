@@ -17,3 +17,11 @@
   color:#3849F9;
   font-weight: 500;
 }
+.tab-text{
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab{
+  max-width: 50px;
+}

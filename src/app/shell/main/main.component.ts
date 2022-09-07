@@ -5,7 +5,7 @@ import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { WorkshopCard } from '../../shared/models/workshop.model';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, take, takeUntil } from 'rxjs/operators';
 import { UserState } from 'src/app/shared/store/user.state';
 import { Favorite } from 'src/app/shared/models/favorite.model';
 import { Role } from 'src/app/shared/enum/role';
@@ -74,8 +74,8 @@ export class MainComponent implements OnInit, OnDestroy {
     if (role === Role.parent) {
       this.favoriteWorkshops$
         .pipe(
+          take(1),
           filter((favorite: Favorite[]) => !!favorite?.length || favorite === null),
-          takeUntil(this.destroy$)
         )
         .subscribe((favorite: Favorite[]) => this.getMainPageData());
     } else {

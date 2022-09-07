@@ -1,3 +1,5 @@
+import { Geocoder } from './../../../../../shared/models/geolocation';
+import { Codeficator } from './../../../../../shared/models/codeficator.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Address } from 'src/app/shared/models/address.model';
@@ -19,6 +21,14 @@ export class CreateWorkshopAddressComponent implements OnInit {
   searchFormGroup: FormGroup;
   noAddressFound = false;
 
+  get settlementFormControl(): FormControl {
+    return this.searchFormGroup.get('settlement') as FormControl;
+  }
+
+  get settlementSearchFormControl(): FormControl {
+    return this.searchFormGroup.get('settlementSearch') as FormControl;
+  }
+
   constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
@@ -33,12 +43,17 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
       settlement: new FormControl(''),
     });
+
+    this.addressFormGroup.valueChanges.subscribe(val => console.log(val))
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
-  onWrongAddressSelect(result: boolean): void {
-    this.noAddressFound = result;
-    if (!result) {
+  onAddressSelect(result: Geocoder): void {
+    this.noAddressFound = !result;
+    if (result) {
+      this.settlementFormControl.setValue(result.codeficator);
+      this.settlementSearchFormControl.setValue(result.codeficator.settlement);
+    } else {
       this.searchFormGroup.reset();
     }
   }

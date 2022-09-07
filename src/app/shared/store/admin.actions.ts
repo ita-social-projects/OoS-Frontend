@@ -1,6 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction } from "../models/category.model";
+import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { CompanyInformation } from "../models/сompanyInformation.model";
 import { MinistryAdmin } from './../models/ministryAdmin.model';
@@ -96,7 +97,7 @@ export class GetParents {
 
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
-  constructor(public payload?: string) {}
+  constructor(public parameters: ChildrenParameters) {}
 }
 
 export class GetProviderHistory {
