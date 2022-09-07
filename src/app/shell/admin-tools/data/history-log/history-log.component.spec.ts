@@ -1,13 +1,19 @@
+import { HttpClientModule } from '@angular/common/http';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+import { DropdownData } from 'src/app/shared/models/history-log.model';
+import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { HistoryLogService } from '../../../../shared/services/history-log/history-log.service';
 import { HistoryLogComponent } from './history-log.component';
-import {NgxsModule} from "@ngxs/store";
-import {RouterTestingModule} from "@angular/router/testing";
-import {MatTabsModule} from "@angular/material/tabs";
-import {Component, Input} from "@angular/core";
-import {NoResultCardComponent} from "../../../../shared/components/no-result-card/no-result-card.component";
-import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {HttpClientModule} from "@angular/common/http";
-import {HistoryLogService} from "../../../../shared/services/history-log/history-log.service";
 
 describe('HistoryLogComponent', () => {
   let component: HistoryLogComponent;
@@ -18,20 +24,23 @@ describe('HistoryLogComponent', () => {
       imports: [
         NgxsModule.forRoot([]),
         RouterTestingModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
         MatTabsModule,
+        MatIconModule,
+        MatInputModule,
         BrowserAnimationsModule,
-        HttpClientModule
+        HttpClientModule,
       ],
       declarations: [
         HistoryLogComponent,
         NoResultCardComponent,
-        MockHistoryLogTableComponent
+        MockHistoryLogTableComponent,
+        MockHistoryLogPaginatorComponent,
+        MockHistoryLogFiltersComponent
       ],
-      providers: [
-        HistoryLogService
-      ]
-    })
-    .compileComponents();
+      providers: [HistoryLogService],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -47,9 +56,28 @@ describe('HistoryLogComponent', () => {
 
 @Component({
   selector: 'app-history-log-table',
-  template: ''
+  template: '',
 })
 class MockHistoryLogTableComponent {
   @Input() table: object[];
   @Input() tableTitle: string;
 }
+
+@Component({
+  selector: 'app-paginator',
+  template: '',
+})
+class MockHistoryLogPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
+}
+
+@Component({
+  selector: 'app-history-log-filters',
+  template: '',
+})
+class MockHistoryLogFiltersComponent {
+  @Input() dropdownOptions: DropdownData[];
+}
+
