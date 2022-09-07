@@ -76,9 +76,9 @@ export interface AdminStateModel {
   providers: Provider[];
   selectedMinistryAdmin: MinistryAdmin;
   ministryAdmins: AllMinistryAdmins;
-  providerHistory: ProvidersHistory;
-  providerAdminHistory: ProviderAdminsHistory;
-  applicationHistory: ApplicationsHistory;
+  providerHistory: ProvidersHistory | [];
+  providerAdminHistory: ProviderAdminsHistory | [];
+  applicationHistory: ApplicationsHistory | [];
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -148,15 +148,15 @@ export class AdminState {
     return state.children;
   }
 
-  @Selector() static providerHistory(state: AdminStateModel): ProvidersHistory {
+  @Selector() static providerHistory(state: AdminStateModel): ProvidersHistory | [] {
     return state.providerHistory;
   }
 
-  @Selector() static providerAdminHistory(state: AdminStateModel): ProviderAdminsHistory {
+  @Selector() static providerAdminHistory(state: AdminStateModel): ProviderAdminsHistory | [] {
     return state.providerAdminHistory;
   }
 
-  @Selector() static applicationHistory(state: AdminStateModel): ApplicationsHistory {
+  @Selector() static applicationHistory(state: AdminStateModel): ApplicationsHistory | [] {
     return state.applicationHistory;
   }
 
@@ -391,31 +391,40 @@ export class AdminState {
   }
 
   @Action(GetProviderHistory)
-  GetProviderHistory({ patchState }: StateContext<AdminStateModel>): Observable<ProvidersHistory> {
+  GetProviderHistory(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload, searchSting }: GetProviderHistory
+    ): Observable<ProvidersHistory> {
     patchState({ isLoading: true });
-    return this.historyLogService.getProviderHistory().pipe(
+    return this.historyLogService.getProviderHistory(payload, searchSting).pipe(
       tap((providers: ProvidersHistory) => {
-        return patchState({ providerHistory: providers, isLoading: false });
+        return patchState({ providerHistory: providers ? providers : [], isLoading: false });
       })
     );
   }
 
   @Action(GetProviderAdminHistory)
-  GetProviderAdminHistory({ patchState }: StateContext<AdminStateModel>): Observable<ProviderAdminsHistory> {
+  GetProviderAdminHistory(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload, searchSting }: GetProviderAdminHistory
+    ): Observable<ProviderAdminsHistory> {
     patchState({ isLoading: true });
-    return this.historyLogService.getProviderAdminHistory().pipe(
+    return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
       tap((providerAdmin: ProviderAdminsHistory) => {
-        return patchState({ providerAdminHistory: providerAdmin, isLoading: false });
+        return patchState({ providerAdminHistory: providerAdmin ? providerAdmin : [], isLoading: false });
       })
     );
   }
 
   @Action(GetApplicationHistory)
-  GetApplicationHistory({ patchState }: StateContext<AdminStateModel>): Observable<ApplicationsHistory> {
+  GetApplicationHistory(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload, searchSting }: GetApplicationHistory
+    ): Observable<ApplicationsHistory> {
     patchState({ isLoading: true });
-    return this.historyLogService.getApplicationHistory().pipe(
+    return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
       tap((application: ApplicationsHistory) => {
-        return patchState({ applicationHistory: application, isLoading: false });
+        return patchState({ applicationHistory: application ? application : [], isLoading: false });
       })
     );
   }

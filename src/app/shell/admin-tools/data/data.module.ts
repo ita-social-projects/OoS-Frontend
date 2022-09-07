@@ -11,6 +11,7 @@ import { AdminsComponent } from './admins/admins.component';
 import { CreateAdminComponent } from './admins/create-admin/create-admin.component';
 import { HistoryLogComponent } from './history-log/history-log.component';
 import { HistoryLogTableComponent } from "./history-log-table/history-log-table.component";
+import { HistoryLogFiltersComponent } from './history-log-filters/history-log-filters.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { HistoryLogTableComponent } from "./history-log-table/history-log-table.
     AdminsComponent,
     CreateAdminComponent,
     HistoryLogComponent,
-    HistoryLogTableComponent
+    HistoryLogTableComponent,
+    HistoryLogFiltersComponent
   ],
   imports: [
     CommonModule,

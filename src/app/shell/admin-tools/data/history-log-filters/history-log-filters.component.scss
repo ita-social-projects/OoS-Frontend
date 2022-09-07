@@ -1,0 +1,68 @@
+@import "src/app/shared/styles/dropdown.scss";
+@import "src/app/shared/styles/calendar.scss";
+@import "src/app/shared/styles/buttons.scss";
+
+.form-wrapper {
+  display: flex;
+}
+
+.filters-wrapper {
+  display: flex;
+  align-items: flex-start;
+
+  span {
+    margin-right: 10px;
+    font-size: 14px;
+    align-self: center;
+    line-height: 14.6px;
+    color: #444444;
+    font-weight: 700;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+  }
+}
+
+.select,
+.date {
+  min-width: 150px;
+  margin: 0 5px;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+.date {
+  width: 100px;
+}
+
+.select,
+.options,
+.date {
+  font-family: "Open Sans", sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 22px;
+  padding: 0.5rem 1rem;
+  height: 40px;
+}
+
+::ng-deep .mat-form-field.mat-focused.mat-primary,
+::ng-deep .mat-form-field-infix {
+  border: 0;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0;
+}
+
+.btn {
+  height: 40px;
+}
+
+.separate-line {
+  display: inline-block;
+  width: 14px;
+  margin: 0 5px;
+  align-self: center;
+  border-top: 1px solid rgba(0, 0, 0, .54);
+}

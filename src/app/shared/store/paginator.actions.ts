@@ -35,6 +35,11 @@ export class SetRatingPerPage {
   constructor(public payload: number) { }
 }
 
+export class SetHistoryItemsPerPage {
+  static readonly type = '[paginator] Change History Items Per Page';
+  constructor(public payload: number) { }
+}
+
 export class OnPageChangeWorkshops {
   static readonly type = '[paginator] Change Page';
   constructor(public payload: PaginationElement) { }
@@ -67,6 +72,11 @@ export class OnPageChangeAdminTable {
 
 export class OnPageChangeRating {
   static readonly type = '[paginator] Change Page';
+  constructor(public payload: PaginationElement) { }
+}
+
+export class OnPageChangeHistoryLog {
+  static readonly type = '[paginator] Change History Log Page';
   constructor(public payload: PaginationElement) { }
 }
 

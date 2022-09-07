@@ -1,8 +1,9 @@
-import { MinistryAdmin } from './../models/ministryAdmin.model';
-import { Direction } from "../models/category.model";
-import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
-import { CompanyInformation } from "../models/сompanyInformation.model";
 import { HttpErrorResponse } from '@angular/common/http';
+import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { Direction } from "../models/category.model";
+import { FilterData } from '../models/history-log.model';
+import { CompanyInformation } from "../models/сompanyInformation.model";
+import { MinistryAdmin } from './../models/ministryAdmin.model';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -100,17 +101,17 @@ export class GetChildrenForAdmin {
 
 export class GetProviderHistory {
   static readonly type = '[admin] Get Provider History';
-  constructor(public payload?: string) {}
+  constructor(public payload?: FilterData, public searchSting?: string) {}
 }
 
 export class GetProviderAdminHistory {
   static readonly type = '[admin] Get Provider Admin History';
-  constructor(public payload?: string) {}
+  constructor(public payload?: FilterData, public searchSting?: string) {}
 }
 
 export class GetApplicationHistory {
   static readonly type = '[admin] Get Application History';
-  constructor(public payload?: string) {}
+  constructor(public payload?: FilterData, public searchSting?: string) {}
 }
 
 export class GetMinistryAdminProfile {
