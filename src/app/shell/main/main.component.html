@@ -14,7 +14,7 @@
         <app-category-card
           class="card"
           *ngFor="let direction of topDirections$ | async"
-          [direction]="direction.direction"
+          [direction]="direction"
           [workshopsCount]="direction.workshopsCount">
         </app-category-card>
       </div>
