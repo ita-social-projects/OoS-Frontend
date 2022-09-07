@@ -14,7 +14,7 @@ import { InfoStatusComponent } from 'src/app/shell/personal-cabinet/shared-cabin
 import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
 import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
 import { Child } from 'src/app/shared/models/child.model';
-import { ReasonTransformPipe } from 'src/app/shared/pipes/reason-transform.pipe';
+import { TextTransformPipe, } from 'src/app/shared/pipes/text-transform.pipe';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -43,7 +43,7 @@ describe('ApplicationCardComponent', () => {
         MockChildInfoComponent,
         PhoneTransformPipe,
         JoinPipe,
-        ReasonTransformPipe
+        TextTransformPipe,
       ],
     }).compileComponents();
   });

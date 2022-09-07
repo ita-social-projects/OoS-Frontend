@@ -15,7 +15,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ApplicationChildSortingPipe } from 'src/app/shared/pipes/application-child-sorting.pipe';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { ReasonTransformPipe } from 'src/app/shared/pipes/reason-transform.pipe';
+import { TextTransformPipe } from 'src/app/shared/pipes/text-transform.pipe';
 
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
@@ -40,7 +40,7 @@ describe('ApplicationsComponent', () => {
         StatusInfoCardComponent,
         NoResultCardComponent,
         MockApplicationCardPaginatorComponent,
-        ReasonTransformPipe
+        TextTransformPipe,
       ],
     })
       .compileComponents();

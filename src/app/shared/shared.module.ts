@@ -62,7 +62,7 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
-import { ReasonTransformPipe } from './pipes/reason-transform.pipe';
+import { TextTransformPipe } from './pipes/text-transform.pipe';
 
 @NgModule({
   declarations: [
@@ -121,7 +121,7 @@ import { ReasonTransformPipe } from './pipes/reason-transform.pipe';
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
-    ReasonTransformPipe,
+    TextTransformPipe,
   ],
 
   imports: [
@@ -190,7 +190,7 @@ import { ReasonTransformPipe } from './pipes/reason-transform.pipe';
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
-    ReasonTransformPipe,
+    TextTransformPipe,
   ]
 })
 export class SharedModule { }
