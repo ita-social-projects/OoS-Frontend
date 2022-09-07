@@ -3,8 +3,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HistoryLogFiltersComponent } from './history-log-filters.component';
 
 describe('HistoryLogFiltersComponent', () => {
@@ -20,8 +22,10 @@ describe('HistoryLogFiltersComponent', () => {
         MatInputModule,
         MatOptionModule,
         MatSelectModule,
+        MatIconModule,
         ReactiveFormsModule,
-        FormsModule
+        FormsModule,
+        BrowserAnimationsModule
       ],
       declarations: [ HistoryLogFiltersComponent ]
     })
