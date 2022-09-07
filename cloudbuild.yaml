@@ -16,8 +16,6 @@ steps:
   # Build the container image
   - name: 'gcr.io/k8s-skaffold/pack'
     entrypoint: 'pack'
-    env:
-      - "TMPDIR=/builder/home/.pack"
     args:
       - build
       - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
@@ -54,6 +52,7 @@ steps:
       - --memory=128Mi
       - --max-instances=4
       - --concurrency=40
+      - --set-env-vars=APP_ROOT=/workspace
       # Disable http2 because prod will be http1.1 for now
       - --no-use-http2
   # Clean old versions except previous Cloud Run
