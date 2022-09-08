@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReasonModalWindowComponent } from './reason-modal-window.component';
-import { TextTransformPipe } from 'src/app/shared/pipes/text-transform.pipe';
+import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
 
 describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;
@@ -25,7 +25,7 @@ describe('ReasonModalWindowComponent', () => {
       declarations: [
         ReasonModalWindowComponent,
         MockValidationHintForInputComponent,
-        TextTransformPipe,
+        TextSliceTransformPipe,
       ],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },

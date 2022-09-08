@@ -1,8 +1,8 @@
-import { TextTransformPipe } from './text-transform.pipe';
+import { TextSliceTransformPipe } from './text-slice-transform.pipe';
 
-describe('TextTransformPipe', () => {
+describe('TextSliceTransformPipe', () => {
   it('create an instance', () => {
-    const pipe = new TextTransformPipe();
+    const pipe = new TextSliceTransformPipe();
     expect(pipe).toBeTruthy();
   });
 });

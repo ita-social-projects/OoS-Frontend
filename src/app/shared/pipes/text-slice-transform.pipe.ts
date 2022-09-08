@@ -1,9 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'textTransform'
+  name: 'textSliceTransform'
 })
-export class TextTransformPipe implements PipeTransform {
+export class TextSliceTransformPipe implements PipeTransform {
 
 
   transform(text: string): string {

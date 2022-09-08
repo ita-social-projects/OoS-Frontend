@@ -13,5 +13,5 @@
         </div>
         <div class="application-info-menu application-info-description-card">({{
           applicationStatusDescription[status] }})</div>
-        <p *ngIf="reason" class="application-info-menu">{{reason | textTransform}}</p>
+        <p *ngIf="reason" class="application-info-menu">{{reason | textSliceTransform}}</p>
     </mat-menu>

@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule, _MatMenuDirectivesModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
-import { TextTransformPipe, } from 'src/app/shared/pipes/text-transform.pipe';
+import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
 import { Application } from '../../../../../../shared/models/application.model';
 import { InfoStatusComponent } from './info-status.component';
 
@@ -21,7 +21,7 @@ describe('InfoStatusComponent', () => {
         MatDialogModule,
         MatIconModule,
         _MatMenuDirectivesModule],
-      declarations: [InfoStatusComponent, TextTransformPipe,],
+      declarations: [InfoStatusComponent, TextSliceTransformPipe,],
     })
       .compileComponents();
   });
