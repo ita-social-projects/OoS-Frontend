@@ -18,6 +18,8 @@ import {
   SetRatingPerPage,
   SetWorkshopsPerPage, 
   SetProvidersPerPage,
+  SetHistoryItemsPerPage,
+  OnPageChangeHistoryLog,
 } from "./paginator.actions";
 
 export interface PaginatorStateModel {
@@ -28,6 +30,7 @@ export interface PaginatorStateModel {
   adminsPerPage: number;
   ratingPerPage: number;
   currentPage: PaginationElement;
+  historyItemsPerPage: number;
   providersPerPage: number;
 }
 @State<PaginatorStateModel>({
@@ -40,6 +43,7 @@ export interface PaginatorStateModel {
     adminsPerPage: 8,
     ratingPerPage: 12,
     providersPerPage: 12,
+    historyItemsPerPage: 12,
     currentPage: PaginationConstants.firstPage,
   }
 })
@@ -60,6 +64,8 @@ export class PaginatorState {
   @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.adminsPerPage; };
 
   @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; };
+
+  @Selector() static historyItemsPerPage(state: PaginatorStateModel): number { return state.historyItemsPerPage; };
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
@@ -102,6 +108,11 @@ export class PaginatorState {
     patchState({ ratingPerPage: payload });
   }
 
+  @Action(SetHistoryItemsPerPage)
+  SetHistoryItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetHistoryItemsPerPage): void {
+    patchState({ historyItemsPerPage: payload });
+  }
+
   @Action(OnPageChangeDirections)
   onPageChangeDirections({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeDirections): void {
     patchState({ currentPage: payload });
@@ -139,6 +150,11 @@ export class PaginatorState {
 
   @Action(OnPageChangeRating)
   onPageChangeRating({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeRating): void {
+    patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeHistoryLog)
+  OnPageChangeHistoryLog({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeHistoryLog): void {
     patchState({ currentPage: payload });
   }
 }

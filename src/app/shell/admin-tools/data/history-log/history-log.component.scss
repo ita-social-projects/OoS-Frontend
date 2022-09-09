@@ -6,26 +6,37 @@
 .users-wrapper {
   position: relative;
 }
+
 .tab-wrapper {
   margin-bottom: 4rem;
 }
+
 .table-wrapper {
   padding: 1rem;
 }
+
 .search {
   padding-left: 10px;
 }
+
 .search-area {
   display: flex;
-  justify-content: flex-end;
   z-index: 1000;
-  position: absolute;
-  right: 12px;
+  position: static;
+  margin-bottom: 20px;
 }
+
+.filters-wrapper {
+  position: absolute;
+  right: 65px;
+  z-index: 1000;
+}
+
 @media (max-width: 1070px) {
   .tab-wrapper {
     bottom: 0;
   }
+
   .search-area {
     display: flex;
     justify-content: flex-start;
