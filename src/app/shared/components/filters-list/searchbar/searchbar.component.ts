@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Navigation } from 'src/app/shared/models/navigation.model';
-import { SetSearchQueryValue } from 'src/app/shared/store/filter.actions';
+import { GetFilteredWorkshops, SetSearchQueryValue } from 'src/app/shared/store/filter.actions';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 @Component({
@@ -53,6 +53,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValueFormControl.setValue(text, { emitEvent: false }));
+      
+    if(!this.isResultPage) 
+      this.searchValueFormControl.setValue('', { emitEvent: false });
   }
 
   onValueEnter(): void {
@@ -93,7 +96,8 @@ export class SearchbarComponent implements OnInit, OnDestroy {
       this.filteredResults = this.previousResults.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
     } else {
       this.filteredResults = this.previousResults;
-      this.store.dispatch(new SetSearchQueryValue(''));
+      if(this.isResultPage) 
+        this.store.dispatch(new GetFilteredWorkshops());
     }
   }
 

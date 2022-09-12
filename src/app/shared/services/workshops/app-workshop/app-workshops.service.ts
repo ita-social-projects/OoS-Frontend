@@ -1,3 +1,4 @@
+import { FilterState } from 'src/app/shared/store/filter.state';
 import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -57,6 +58,10 @@ export class AppWorkshopsService {
       params = params.set('MaxAge', filters.maxAge.toString());
     }
 
+    if (filters.isAppropriateAge) {
+      params = params.set('IsAppropriateAge', 'true');
+    }
+
     if (filters.startTime) {
       params = params.set('StartHour', filters.startTime);
     }
@@ -75,6 +80,10 @@ export class AppWorkshopsService {
 
     if (filters.withDisabilityOption) {
       params = params.set('WithDisabilityOptions', 'true');
+    }
+
+    if (filters.isAppropriateHours) {
+      params = params.set('IsAppropriateHours', 'true');
     }
 
     if (filters.isStrictWorkdays) {
@@ -132,13 +141,14 @@ export class AppWorkshopsService {
   /**
    * This method get top workshops
    */
-  getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
+  getTopWorkshops(): Observable<WorkshopCard[]> {
     let params = new HttpParams();
 
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
     params = params.set('Limit', size.toString());
-    params = this.setCityFilterParams(filters.settlement, params);
+    params = this.setCityFilterParams(settlement, params);
 
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
   }

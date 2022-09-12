@@ -9,9 +9,6 @@
   vertical-align: sub;
   padding-top: 0.2rem;
 }
-:host ::ng-deep .mat-form-field{
-  width: 500px;
-}
 .input-filter {
   text-transform: capitalize;
   font-family: "Innerspace";
@@ -73,6 +70,7 @@ h4{
     text-align: center;
     font-size: 19px;
     margin-bottom: 0;
+    line-height: 1.3rem;
     span {
       font-weight: 700;
     }
@@ -115,12 +113,26 @@ h4{
 }
 // TO DO mobile view ...
 @media(max-width: 750px) {
-  .city-confirmation {
-    width: 340px;
-    border-radius: 0%;
-    left: -50px;
+  .confirmation {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    right: 0;
   }
   .city-confirmation::before {
-    display: none;
+    left: 10%;
+  }
+}
+
+@media(max-width: 425px) {
+  .city-confirmation::before {
+    left: 15%;
+  }
+}
+
+@media(max-width: 375px) {
+  .city-confirmation::before {
+    left: 25%;
   }
 }

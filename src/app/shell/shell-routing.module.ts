@@ -97,6 +97,8 @@ const routes: Routes = [
   {
     path: 'create-achievement/:param',
     component: CreateAchievementComponent,
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard],
   },
   {
     path: 'admin-tools/platform/directions/create/:param',

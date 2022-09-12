@@ -1,6 +1,7 @@
 import { ParentWithContactInfo } from './parent.model';
 import { Person } from './user.model';
 import { SocialGroup } from './socialGroup.model';
+import { UserTabs, UserTabsUkr } from '../enum/enumUA/tech-admin/users-tabs';
 
 export class Child implements Person {
   id: string;
@@ -10,10 +11,10 @@ export class Child implements Person {
   dateOfBirth: string;
   gender: number;
   parentId?: number;
-  socialGroups: SocialGroup[];
-  placeOfStudy: string;
-  parent: ParentWithContactInfo;
   isParent: boolean;
+  socialGroups: SocialGroup[];
+  placeOfLiving: string;
+  parent: ParentWithContactInfo;
 
   constructor(info, parentId, id?) {
     this.id = id;
@@ -24,11 +25,17 @@ export class Child implements Person {
     this.gender = info.gender;
     this.socialGroups = info.socialGroups;
     this.parentId = parentId;
-    this.placeOfStudy = info.placeOfStudy;
+    this.placeOfLiving = info.placeOfLiving;
     this.isParent = info.isParent;
   }
 }
 export interface ChildCards {
   totalAmount: number;
   entities: Child[];
+}
+export interface ChildrenParameters {
+  tabTitle?: string;
+  searchString?: string;
+  from?: number;
+  size?: number;
 }

@@ -57,6 +57,7 @@ describe('CreateAboutFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
+    component.provider = {} as any;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),

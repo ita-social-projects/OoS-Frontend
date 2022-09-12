@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PaginationConstants } from '../../constants/constants';
-import { Child, ChildCards } from '../../models/child.model';
+import { UserTabs, UserTabsUkr } from '../../enum/enumUA/tech-admin/users-tabs';
+import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { AdminStateModel } from '../../store/admin.state';
@@ -20,11 +21,23 @@ export class ChildrenService {
     private store: Store,
   ) { }
 
-  private setParams( searchString?:string ): HttpParams {
+  private setParams( parameters?: ChildrenParameters, isParent?: boolean ): HttpParams {
     let params = new HttpParams();
 
-    if(searchString){
-      params = params.set('SearchString', searchString);
+    if(parameters){
+      if(parameters.searchString){
+      params = params.set('SearchString', parameters.searchString);}
+      if(parameters.tabTitle){ 
+        if(parameters.tabTitle == "Батьки"){
+          isParent= true;
+        }
+        if(parameters.tabTitle == "Діти"){
+          isParent= false;
+        }
+      }
+
+    if(isParent !== undefined){
+      params = params.set('isParent', isParent.toString());}
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
@@ -32,7 +45,7 @@ export class ChildrenService {
     
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
-
+   
     return params;
   }
 
@@ -61,8 +74,8 @@ export class ChildrenService {
     /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(searchString: string): Observable<ChildCards> {
-    const options = { params: this.setParams(searchString) };
+  getChildrenForAdmin(paremeters, isParent?): Observable<ChildCards> {
+    const options = { params: this.setParams(paremeters, isParent), };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, options);
   }

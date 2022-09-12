@@ -1,17 +1,21 @@
 <form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl">Використати контактні дані
-    надавача
-    освітніх послуг
+  <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl"
+    >Використати контактні дані надавача освітніх послуг
   </mat-checkbox>
 
-  <app-image-form-control *ngIf="isRelease2" [imgMaxAmount]="1" [cropperConfig]="cropperConfig" [label]="'Фонове зображення'"
-    formControlName="coverImage" [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
+  <app-image-form-control
+    *ngIf="isRelease3"
+    [imgMaxAmount]="1"
+    [cropperConfig]="cropperConfig"
+    [label]="'Фонове зображення'"
+    formControlName="coverImage"
+    [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
 
   <label class="step-label">Назва<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue>
+    <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint 
+  <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('title')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_60">
@@ -19,10 +23,18 @@
 
   <label class="step-label">Телефон<span class="step-required">*</span></label>
   <mat-form-field>
-    <div fxLayout='row' fxLayoutAlign='start center'>
+    <div fxLayout="row" fxLayoutAlign="start center">
       <span class="step-text">{{ phonePrefix }}</span>
-      <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly appTrimValue ui-number-mask
-        ui-hide-group-sep  maxlength="{{ validationConstants.PHONE_LENGTH }}">
+      <input
+        matInput
+        class="step-input"
+        type="tel"
+        formControlName="phone"
+        appDigitOnly
+        appTrimValue
+        ui-number-mask
+        ui-hide-group-sep
+        maxlength="{{ validationConstants.PHONE_LENGTH }}" />
     </div>
   </mat-form-field>
   <app-validation-hint
@@ -34,15 +46,19 @@
   <label class="step-label">Електронна пошта<span class="step-required">*</span></label>
   <mat-form-field>
     <mat-label></mat-label>
-    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]='mailFormPlaceholder'>
+    <input
+      matInput
+      class="step-input"
+      type="email"
+      formControlName="email"
+      appTrimValue
+      [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="AboutFormGroup.get('email')">
-  </app-validation-hint>
+  <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"> </app-validation-hint>
 
   <label class="step-label">Веб сайт</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue>
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('website')"
@@ -52,7 +68,7 @@
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue>
+    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('facebook')"
@@ -62,7 +78,7 @@
 
   <label class="step-label">Instagram</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue>
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('instagram')"
@@ -75,94 +91,119 @@
   <label class="step-label">Вік дітей<span class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
     <div fxLayout="column" fxLayoutAlign="start start">
-      <div fxLayout="row"fxLayoutAlign="start center">
+      <div fxLayout="row" fxLayoutAlign="start center">
         <p class="step-text">Від</p>
         <mat-form-field>
-          <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly
-            maxlength="2" appMinMax [directiveFormControl]="AboutFormGroup.get('minAge')" [min]="validationConstants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
-            autocomplete="none">
+          <input
+            matInput
+            class="step-input step-input-age"
+            type="number"
+            formControlName="minAge"
+            appDigitOnly
+            maxlength="2"
+            appMinMax
+            [directiveFormControl]="AboutFormGroup.get('minAge')"
+            [min]="validationConstants.AGE_MIN"
+            [max]="
+              AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX
+            "
+            autocomplete="none" />
         </mat-form-field>
       </div>
-      <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('minAge')">
-      </app-validation-hint>
+      <app-validation-hint [validationFormControl]="AboutFormGroup.get('minAge')"> </app-validation-hint>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="start start">
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="step-text">До</p>
         <mat-form-field>
-          <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly
-            maxlength="2" [directiveFormControl]="AboutFormGroup.get('maxAge')" appMinMax
-            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
-            [max]="validationConstants.AGE_MAX" autocomplete="none">
+          <input
+            matInput
+            class="step-input step-input-age"
+            type="number"
+            formControlName="maxAge"
+            appDigitOnly
+            maxlength="2"
+            [directiveFormControl]="AboutFormGroup.get('maxAge')"
+            appMinMax
+            [min]="
+              AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN
+            "
+            autocomplete="none" />
         </mat-form-field>
       </div>
-      <app-validation-hint
-        [validationFormControl]="AboutFormGroup.get('maxAge')">
-      </app-validation-hint>
+      <app-validation-hint [validationFormControl]="AboutFormGroup.get('maxAge')"> </app-validation-hint>
     </div>
   </div>
 
   <label class="step-label">Розклад занять<span class="step-required">*</span></label>
-  <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"></app-working-hours-form-wrapper>
+  <app-working-hours-form-wrapper
+    [workingHoursFormArray]="workingHoursFormArray"
+    [workshop]="workshop"></app-working-hours-form-wrapper>
 
   <label class="step-label">Вартість<span class="step-required">*</span></label>
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">
-      Безкоштовно</mat-radio-button>
-      <div fxLayout="row" fxLayoutAlign="space-between center" class="conteiner">
-        <div fxLayout="row" fxLayoutAlign="center center" class="price">
-          <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input price-input"
-              appDigitOnly appMinMax formControlName="price" type="number"
-              [directiveFormControl]="priceControl" [min]="validationConstants.MIN_PRICE"
-              [max]="validationConstants.MAX_PRICE">
-          </mat-radio-button>
-        </div>
-        <div fxLayoutAlign="center center" class="pay-type">
-          <p class="step-text price-text">грн за</p>
-            <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="payRate" name="payRate" 
-            placeholder="Оберіть тип олати за гурток">
-              <ng-container *ngFor="let type of PayRateType | keyvalue">
-                <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-                  {{ PayRateTypeUkr[type.key] }}
-                </mat-option>
-              </ng-container>
-            </mat-select>
-        </div>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false"> Безкоштовно</mat-radio-button>
+    <div fxLayout="row" fxLayoutAlign="space-between center" class="conteiner">
+      <div fxLayout="row" fxLayoutAlign="center center" class="price">
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"
+          ><input
+            matInput
+            class="step-input price-input"
+            appDigitOnly
+            appMinMax
+            formControlName="price"
+            type="number"
+            [directiveFormControl]="priceControl"
+            [min]="validationConstants.MIN_PRICE"
+            [max]="validationConstants.MAX_PRICE" />
+        </mat-radio-button>
       </div>
-    <app-validation-hint
-        [validationFormControl]="payRateControl"
-        [isTouched]="payRateControl.touched">
+      <div fxLayoutAlign="center center" class="pay-type">
+        <p class="step-text price-text">грн за</p>
+        <mat-select
+          disableOptionCentering
+          panelClass="dropdown-panel"
+          class="step-input"
+          formControlName="payRate"
+          name="payRate"
+          placeholder="Оберіть тип олати за гурток">
+          <ng-container *ngFor="let type of PayRateType | keyvalue">
+            <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
+              {{ PayRateTypeUkr[type.key] }}
+            </mat-option>
+          </ng-container>
+        </mat-select>
+      </div>
+    </div>
+    <app-validation-hint [validationFormControl]="payRateControl" [isTouched]="payRateControl.touched">
     </app-validation-hint>
   </mat-radio-group>
 
-  <label class="step-label">
-    Кількість доступних місць<span class="step-required">*</span>
-  </label>
-  <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
-    <mat-radio-button [value]="true">Без обмежень</mat-radio-button>
-    <div class="conteiner" fxLayout="row" fxLayoutAlign="space-between center">
-      <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
-        <mat-radio-button [value]="false">
-          <input matInput
-                 class="step-input price-input"
-                 appDigitOnly
-                 appMinMax
-                 formControlName="availableSeats"
-                 type="number"
-                 [directiveFormControl]="availableSeatsControl"
-                 [min]="MIN_SEATS"
-                 [max]="UNLIMITED_SEATS">
-        </mat-radio-button>
+  <div *ngIf="provider.ownership !== ownershipTypeName.State" fxLayout="column" fxLayoutAlign="center space-between">
+    <label class="step-label"> Кількість доступних місць<span class="step-required">*</span> </label>
+    <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
+      <mat-radio-button [value]="true">Без обмежень</mat-radio-button>
+      <div class="conteiner" fxLayout="row" fxLayoutAlign="space-between center">
+        <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
+          <mat-radio-button [value]="false">
+            <input
+              matInput
+              class="step-input price-input"
+              appDigitOnly
+              appMinMax
+              formControlName="availableSeats"
+              type="number"
+              [directiveFormControl]="availableSeatsControl"
+              [min]="MIN_SEATS"
+              [max]="UNLIMITED_SEATS" />
+          </mat-radio-button>
+        </div>
       </div>
-    </div>
-    <app-validation-hint
-        [validationFormControl]="availableSeatsControl"
-        [isTouched]="availableSeatsControl.touched">
-    </app-validation-hint>
-  </mat-radio-group>
+      <app-validation-hint [validationFormControl]="availableSeatsControl" [isTouched]="availableSeatsControl.touched">
+      </app-validation-hint>
+    </mat-radio-group>
+  </div>
 
   <!-- <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'

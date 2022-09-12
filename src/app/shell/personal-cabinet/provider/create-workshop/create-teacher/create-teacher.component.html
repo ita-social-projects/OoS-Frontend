@@ -5,7 +5,7 @@
   <ng-container>
     <app-teacher-form *ngFor="let form of TeacherFormArray.controls" [TeacherFormGroup]="form"
       [index]="TeacherFormArray.controls.indexOf(form)" [teacherAmount]="TeacherFormArray.controls.length"
-      [isRelease2]="isRelease2" (deleteForm)="onDeleteForm($event)">
+      [isRelease3]="isRelease3" (deleteForm)="onDeleteForm($event)">
     </app-teacher-form>
   </ng-container>
   <div fxLayout="column" fxLayoutAlign="center center">

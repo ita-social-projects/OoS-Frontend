@@ -51,3 +51,14 @@ export interface ApplicationsHistory {
   totalAmount: number,
   entities: ApplicationHistory[],
 }
+
+export interface FilterData {
+  dateFrom: string;
+  dateTo: string;
+  options: string;
+}
+
+export interface DropdownData {
+  value: string;
+  label: string;
+}

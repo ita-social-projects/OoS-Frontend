@@ -1,8 +1,8 @@
 @import "src/app/shared/styles/list-wrappers.scss";
 @import "src/app/shared/styles/card-wrapper.scss";
-
 .main {
   width: 100%;
+  min-height: 500px;
 
   &_registration {
     padding: 32px 40px;

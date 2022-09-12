@@ -6,6 +6,7 @@ import { Direction } from '../../../shared/models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { DeclinationPipe } from '../../pipes/declination.pipe';
 
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
@@ -20,7 +21,10 @@ describe('CategoryCardComponent', () => {
         RouterTestingModule,
         MatIconModule
       ],
-      declarations: [CategoryCardComponent],
+      declarations: [
+        CategoryCardComponent,
+        DeclinationPipe
+      ],
     })
       .compileComponents();
   });

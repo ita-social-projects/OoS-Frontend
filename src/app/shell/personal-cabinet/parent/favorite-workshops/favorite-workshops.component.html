@@ -1,16 +1,15 @@
-<ng-container *ngIf="(favoriteWorkshopsCard$ | async)?.length;  else isEmptyList">
+<ng-container *ngIf="(favoriteWorkshopsCard$ | async)?.length; else isEmptyList">
   <div class="card-wrapper">
-    <app-workshop-card class="card" *ngFor="let workshop of (favoriteWorkshopsCard$ |async)" [workshop]="workshop"
-      [isMainPage]="false" [userRoleView]="Role.unauthorized">
+    <app-workshop-card class="card" *ngFor="let workshop of favoriteWorkshopsCard$ | async" [workshop]="workshop">
     </app-workshop-card>
   </div>
-  <app-paginator [totalEntities]="(favoriteWorkshopsCard$ | async).length" [currentPage]="currentPage" 
+  <app-paginator
+    [totalEntities]="(favoriteWorkshopsCard$ | async).length"
+    [currentPage]="currentPage"
     (pageChange)="onPageChange($event)">
   </app-paginator>
 </ng-container>
 
-
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noFavoriteWorkshops"></app-no-result-card>
 </ng-template>
-

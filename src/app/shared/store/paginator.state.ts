@@ -9,13 +9,17 @@ import {
   OnPageChangeDirections,
   OnPageChangeRating,
   OnPageChangeWorkshops,
+  OnPageChangeProviders,
   SetAdminsPerPage,
   SetApplicationsPerPage,
   SetChildrensPerPage,
   SetDirectionsPerPage,
   SetFirstPage,
   SetRatingPerPage,
-  SetWorkshopsPerPage
+  SetWorkshopsPerPage, 
+  SetProvidersPerPage,
+  SetHistoryItemsPerPage,
+  OnPageChangeHistoryLog,
 } from "./paginator.actions";
 
 export interface PaginatorStateModel {
@@ -26,6 +30,8 @@ export interface PaginatorStateModel {
   adminsPerPage: number;
   ratingPerPage: number;
   currentPage: PaginationElement;
+  historyItemsPerPage: number;
+  providersPerPage: number;
 }
 @State<PaginatorStateModel>({
   name: 'paginator',
@@ -36,6 +42,8 @@ export interface PaginatorStateModel {
     applicationsPerPage: 8,
     adminsPerPage: 8,
     ratingPerPage: 12,
+    providersPerPage: 12,
+    historyItemsPerPage: 12,
     currentPage: PaginationConstants.firstPage,
   }
 })
@@ -49,11 +57,15 @@ export class PaginatorState {
 
   @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
 
+  @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.providersPerPage; };
+
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; };
 
   @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.adminsPerPage; };
 
   @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; };
+
+  @Selector() static historyItemsPerPage(state: PaginatorStateModel): number { return state.historyItemsPerPage; };
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
@@ -79,14 +91,26 @@ export class PaginatorState {
     patchState({ applicationsPerPage: payload });
   }
 
+
+  @Action(SetProvidersPerPage)
+  setProvidersPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetProvidersPerPage): void {
+    patchState({ providersPerPage: payload });
+  }
+  
   @Action(SetAdminsPerPage)
   setAdminsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAdminsPerPage): void {
     patchState({ adminsPerPage: payload });
+
   }
 
   @Action(SetRatingPerPage)
   SetRatingPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetRatingPerPage): void {
     patchState({ ratingPerPage: payload });
+  }
+
+  @Action(SetHistoryItemsPerPage)
+  SetHistoryItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetHistoryItemsPerPage): void {
+    patchState({ historyItemsPerPage: payload });
   }
 
   @Action(OnPageChangeDirections)
@@ -96,6 +120,11 @@ export class PaginatorState {
 
   @Action(OnPageChangeWorkshops)
   onPageChangeWorkshops({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeWorkshops): void {
+    patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeProviders)
+  onPageChangeProviders({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeProviders): void {
     patchState({ currentPage: payload });
   }
 
@@ -121,6 +150,11 @@ export class PaginatorState {
 
   @Action(OnPageChangeRating)
   onPageChangeRating({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeRating): void {
+    patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeHistoryLog)
+  OnPageChangeHistoryLog({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeHistoryLog): void {
     patchState({ currentPage: payload });
   }
 }

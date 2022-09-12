@@ -29,3 +29,21 @@
 .warning-message {
   color: red;
 }
+
+.edit-wrapper {
+  margin-top: 1rem;
+  padding: 16px;
+  border: 1px solid #E3E3E3;
+  box-sizing: border-box;
+  border-radius: 20px;
+
+  li::before{
+    content: '';
+    -webkit-border-radius: 0.375rem;
+    border-radius: 0.375rem;
+    height: 0.75rem;
+    width: 0.75rem;
+    margin-right: 0.5rem;
+    background-color: #141111;
+  }
+}

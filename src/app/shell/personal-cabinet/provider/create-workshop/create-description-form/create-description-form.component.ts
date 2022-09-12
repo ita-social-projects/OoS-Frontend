@@ -28,7 +28,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   @Input() workshop: Workshop;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
   @Input() provider: Provider;
 
   @Output() passDescriptionFormGroup = new EventEmitter();

@@ -49,7 +49,7 @@ export class SetMaxPrice {
   constructor(public payload: number) {}
 }
 export class SetSearchQueryValue {
-  static readonly type = '[filter] Set Search Quesry Value';
+  static readonly type = '[filter] Set Search Query Value';
   constructor(public payload: string) {}
 }
 export class SetOpenRecruitment {
@@ -64,16 +64,17 @@ export class GetFilteredWorkshops {
   static readonly type = '[filter] Get Filtered Workshops';
   constructor(public payload?: boolean) {}
 }
-export class GetTopWorkshops {
-  static readonly type = '[filter] Get Most Popular Workshop Cards';
-  constructor(public payload: number) {}
-}
 export class SetWithDisabilityOption {
   static readonly type = '[filter] Set with Disability option';
   constructor(public payload: boolean) {}
 }
 export class SetIsStrictWorkdays {
   static readonly type = '[filter] Set with Strict workdays';
+  constructor(public payload: boolean) { }
+}
+
+export class SetIsAppropriateHours {
+  static readonly type = '[filter] Set with Strict hours';
   constructor(public payload: boolean) { }
 }
 export class FilterChange {
@@ -103,4 +104,9 @@ export class SetMinAge {
 export class SetMaxAge {
   static readonly type = '[filter] Set Max Age';
   constructor(public payload: number) {}
+}
+
+export class SetIsAppropriateAge {
+  static readonly type = '[filter] Set with Strict age';
+  constructor(public payload: boolean) { }
 }

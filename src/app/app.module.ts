@@ -28,6 +28,9 @@ import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NotificationsState } from './shared/store/notifications.state';
 import { PaginatorState } from './shared/store/paginator.state';
 import { FooterComponent } from './footer/footer.component';
+import { MainPageState } from './shared/store/main-page.state';
+import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
+import { ProviderState } from './shared/store/provider.state';
 
 registerLocaleData(localeUk);
 
@@ -36,7 +39,8 @@ registerLocaleData(localeUk);
     HeaderComponent,
     AppComponent,
     ShellComponent,
-    FooterComponent
+    FooterComponent,
+    ProgressBarComponent
   ],
   imports: [
     SharedModule,
@@ -54,6 +58,8 @@ registerLocaleData(localeUk);
       NavigationState,
       NotificationsState,
       PaginatorState,
+      MainPageState,
+      ProviderState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({

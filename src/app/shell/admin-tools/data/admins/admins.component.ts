@@ -1,5 +1,5 @@
 import { MinistryAdmin } from './../../../../shared/models/ministryAdmin.model';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
 import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins, UpdateMinistryAdmin } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -64,6 +64,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
+        skip(1),
         debounceTime(2000),
         map((value: string)=> value.trim()))
       .subscribe((searchString: string) => 

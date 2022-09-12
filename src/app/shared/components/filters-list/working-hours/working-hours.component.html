@@ -15,7 +15,9 @@
     </div>
   </div>
   <p class="filter-text title">Години роботи</p>
-
+  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+    <mat-checkbox color="primary" [formControl]="isAppropriateHoursControl"> Повне співпадіння </mat-checkbox>
+  </div>
   <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">

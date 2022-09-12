@@ -20,7 +20,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   filterList: {
     withDisabilityOption: boolean;
     categoryCheckBox: Direction[],
-    ageFilter: { minAge: number, maxAge: number },
+    ageFilter: { minAge: number, maxAge: number, IsAppropriateAge: boolean },
     priceFilter: {
       minPrice: number,
       maxPrice: number,
@@ -32,6 +32,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       startTime: string,
       endTime: string,
       isStrictWorkdays: boolean
+      isAppropriateHours: boolean
     },
     order: string
   };
