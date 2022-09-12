@@ -10,7 +10,7 @@ export class MinistryAdmin {
   gender?: number;
   institutionTitle?: string;
 
-  constructor(info, institutionId, accountStatus?) {
+  constructor(info, institutionId: string, id?: string, accountStatus?: string) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.lastName = info.lastName;
@@ -19,11 +19,23 @@ export class MinistryAdmin {
     this.firstName = info.firstName;
     this.institutionId = institutionId;
     this.gender = info.gender;
-    this.accountStatus = accountStatus;
     this.institutionTitle = info.institutionTitle;
+    if (id) {
+      this.id = id;
+    }
+    if (accountStatus) {
+      this.accountStatus = accountStatus;
+    }
   }
 }
 export interface AllMinistryAdmins{
   totalAmount: number;
   entities: MinistryAdmin[];
+}
+
+export interface MinistryAdminParameters {
+  tabTitle?: string;
+  searchString?: string;
+  from?: number;
+  size?: number;
 }

@@ -94,11 +94,20 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.store.dispatch(new GetAllInstitutions());
     this.determineEditMode();
   }
+  
+  determineEditMode(): void {
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
+    this.addNavPath();
+
+    if (this.editMode) {
+      this.setEditMode();
+    }
+  }
 
   setEditMode(): void {
     this.adminId = this.route.snapshot.paramMap.get('id');
     
-    this.store.dispatch(new GetMinistryAdminById(9));
+    this.store.dispatch(new GetMinistryAdminById(this.adminId));
 
     this.selectedMinistryAdmin$.pipe(
       takeUntil(this.destroy$),
@@ -115,15 +124,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           { emitEvent: false }
         )
     });
-  }
-  
-  determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
-    this.addNavPath();
-
-    if (this.editMode) {
-      this.setEditMode();
-    }
   }
 
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {
@@ -159,42 +159,31 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   onSubmit(): void {
-    if(!this.editMode){
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
-          type: (this.adminRole === AdminRole.ministryAdmin) ? ModalConfirmationType.createMinistryAdmin : undefined
+          type: this.editMode? ModalConfirmationType.updateMinistryAdmin : ModalConfirmationType.createMinistryAdmin
         }
       });
 
       dialogRef.afterClosed().subscribe((result: boolean) => {
         if (result) {
-          
-          let ministryAdmin = new MinistryAdmin(
-            this.AdminFormGroup.value, 
-            this.AdminFormGroup.get('institution').value.id
-            );
-          this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
+          if (this.editMode) {
+            console.log('id', this.AdminFormGroup.get('institution').value.id)
+            const ministryAdmin = new MinistryAdmin(
+              this.AdminFormGroup.value, 
+              this.AdminFormGroup.get('institution').value.id,
+              this.adminId
+              );
+            this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
+          }else { 
+            const ministryAdmin = new MinistryAdmin(
+              this.AdminFormGroup.value, 
+              this.AdminFormGroup.get('institution').value.id
+              );
+            this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
+          }
         }
       });   
-    }else {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: (this.adminRole === AdminRole.ministryAdmin) ? ModalConfirmationType.updateMinistryAdmin : undefined
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          
-          let ministryAdmin = new MinistryAdmin(
-            this.AdminFormGroup.value, 
-            this.AdminFormGroup.get('institution').value.id
-            );
-          this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
-        }
-      });  
-    }
   }
 }

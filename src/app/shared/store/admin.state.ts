@@ -1,4 +1,4 @@
-import { AllMinistryAdmins } from './../models/ministryAdmin.model';
+import { AllMinistryAdmins, MinistryAdminParameters } from './../models/ministryAdmin.model';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Direction, DirectionsFilter } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
@@ -483,10 +483,10 @@ export class AdminState {
   @Action(GetAllMinistryAdmins)
   getAllMinistryAdmin(
     { patchState }: StateContext<AdminStateModel>,
-    { payload }: GetAllMinistryAdmins
+    { parameters }: GetAllMinistryAdmins
   ): Observable<AllMinistryAdmins> {
     patchState({ isLoading: true });
-    return this.ministryAdminService.getAllMinistryAdmin(payload).pipe(
+    return this.ministryAdminService.getAllMinistryAdmin(parameters).pipe(
       tap((ministryAdmins: AllMinistryAdmins) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
     );
   }
