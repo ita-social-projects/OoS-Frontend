@@ -3,7 +3,7 @@ import { NO_LATIN_REGEX } from "./regex-constants";
 
 export class ValidationConstants {
   //Age
-  static readonly AGE_MIN = 0;
+  static readonly AGE_MIN = 1;
   static readonly AGE_MAX = 18;
   static readonly BIRTH_AGE_MAX = 120;
   static readonly MAX_AGE_LENGTH = 2;
