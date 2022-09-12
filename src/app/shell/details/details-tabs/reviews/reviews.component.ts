@@ -4,7 +4,7 @@ import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -53,11 +53,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   parent: Parent;
   isAllowedToReview: boolean;
   isReviewed: boolean;
-
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
-  };
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(
     private store: Store,
