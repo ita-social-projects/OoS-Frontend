@@ -34,10 +34,9 @@ import { Constants } from '../../constants/constants';
 export class UsersListComponent implements OnInit, AfterViewInit {
   @Input() users: Array<object>;
   @Input() filterValue: string;
-  @Input() isEditable: boolean = false;
-
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
-  @Input() isEdit: boolean = false;
+  @Input() isEdit: boolean;
+
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
   @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
   @Output() update = new EventEmitter<ProviderAdminTable>();

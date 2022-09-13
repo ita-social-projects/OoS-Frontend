@@ -55,7 +55,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   AdminFormGroup: FormGroup;
   adminRole: AdminRole;
   adminId: string;
-  editMode: boolean = false;
 
   constructor(
     store: Store,
@@ -95,7 +94,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.determineEditMode();
   }
   
-  determineEditMode(): void {
+  override determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
     this.addNavPath();
 

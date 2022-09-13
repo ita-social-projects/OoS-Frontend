@@ -71,8 +71,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
         skip(1),
         debounceTime(2000))
       .subscribe((searchString: string) => {
-        this.adminParams.searchString = searchString
-        this.store.dispatch(new GetAllMinistryAdmins(this.adminParams))
+        this.adminParams.searchString = searchString;
+        this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
     });
 
     this.ministryAdmins$
