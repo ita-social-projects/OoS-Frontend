@@ -94,7 +94,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.determineEditMode();
   }
   
-  override determineEditMode(): void {
+  determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
     this.addNavPath();
 
