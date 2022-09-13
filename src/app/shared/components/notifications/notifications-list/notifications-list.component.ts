@@ -5,6 +5,8 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationApproved, ApplicationLeft, ApplicationPending, ApplicationRejected } from 'src/app/shared/enum/enumUA/declinations/notification-declination';
+import { Role } from 'src/app/shared/enum/role';
+import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { NotificationsConstants } from '../../../constants/constants';
 import { ApplicationTitlesReverse } from '../../../enum/enumUA/applications';
 import { NotificationType } from '../../../enum/notifications';
@@ -25,7 +27,8 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notificationsData$: Observable<Notifications>;
   notificationsAmount: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
-
+  userRole: Role;
+  
   readonly notificationsConstants = NotificationsConstants;
 
 
@@ -54,11 +57,11 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
     this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
-
+    this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
         let status: string = ApplicationStatus[notificationsGrouped.groupedData];
-        this.router.navigate([`/personal-cabinet/${NotificationType.Application}/`], { relativeTo: this.route, queryParams: { status: status } });
+        this.router.navigate([`/personal-cabinet/${this.userRole}/${NotificationType.Application}/`], { relativeTo: this.route, queryParams: { status: status } });
         break;
       case NotificationType.Workshop:
         break;
