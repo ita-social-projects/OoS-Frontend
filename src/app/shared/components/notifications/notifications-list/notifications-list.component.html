@@ -23,13 +23,11 @@
   <ng-container *ngIf="notificationsData.notifications.length">
     <div *ngFor="let notification of notificationsData.notifications" matMenuItem disableRipple="true">
       <span fxLayout="row wrap" fxLayoutAlign="space-between center">
-        {{(notification.data.Status=='Open')? 'Набір у гурток "Назва гуртка" відкрито': 'Набір у гурток "Назва гуртка" призупинено'}}
-        
+          Набір у гурток {{notification.data?.title}} {{(notification.data.Status=='Open')? 'відкрито': 'призупинено'}}        
         <mat-icon class="icon"
           (click)="onReadSingle($event, notification)">
           highlight_off
         </mat-icon></span>
-
     </div>
   </ng-container>
 </ng-template>
