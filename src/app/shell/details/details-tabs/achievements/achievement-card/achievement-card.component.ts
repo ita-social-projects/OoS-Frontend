@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Constants } from 'src/app/shared/constants/constants';
 import { Achievement, AchievementType } from '../../../../../shared/models/achievement.model';
 import { Workshop } from '../../../../../shared/models/workshop.model';
 
@@ -14,6 +15,8 @@ export class AchievementCardComponent {
   @Input() isAllowedEdit: boolean;
 
   @Output() deleteAchievement = new EventEmitter<Achievement>();
+
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
   showMore = false;
 
