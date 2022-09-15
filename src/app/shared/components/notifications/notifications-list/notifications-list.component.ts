@@ -30,7 +30,6 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly notificationsConstants = NotificationsConstants;
   readonly workshopStatusUkr = WorkshopStatusUkr;
 
-
   constructor(
     private store: Store,
     private router: Router,
