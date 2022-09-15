@@ -4,7 +4,7 @@ export interface NotificationsAmount {
 export interface Notification {
   id: string;
   userId: string;
-  data: any;
+  data: NotificationsDate;
   type: string;
   action: string;
   createdDateTime: string;
@@ -22,4 +22,9 @@ export interface NotificationGrouped {
 export interface Notifications {
   notificationsGrouped: NotificationGrouped[];
   notifications: Notification[];
+}
+
+export interface NotificationsDate {
+  Status: string;
+  Title: string;
 }
