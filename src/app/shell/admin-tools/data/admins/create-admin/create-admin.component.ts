@@ -158,26 +158,26 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   onSubmit(): void {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: this.editMode? ModalConfirmationType.updateMinistryAdmin : ModalConfirmationType.createMinistryAdmin
-        }
-      });
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: this.editMode? ModalConfirmationType.updateMinistryAdmin : ModalConfirmationType.createMinistryAdmin
+      }
+    });
 
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          const ministryAdmin = new MinistryAdmin(
-            this.AdminFormGroup.value, 
-            this.AdminFormGroup.get('institution').value.id,
-            this.adminId
-          );
-          if (this.editMode) {
-            this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
-          }else { 
-            this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));          
-          }
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      if (result) {
+        const ministryAdmin = new MinistryAdmin(
+          this.AdminFormGroup.value, 
+          this.AdminFormGroup.get('institution').value.id,
+          this.adminId
+        );
+        if (this.editMode) {
+          this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
+        }else { 
+          this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));          
         }
-      });   
+      }
+    });   
   }
 }
