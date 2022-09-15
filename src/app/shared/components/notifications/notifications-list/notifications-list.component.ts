@@ -27,10 +27,8 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notificationsData$: Observable<Notifications>;
   notificationsAmount: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  userRole: Role;
   
   readonly notificationsConstants = NotificationsConstants;
-
 
   constructor(
     private store: Store,
@@ -57,11 +55,11 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
     this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
-    this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+    const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
         let status: string = ApplicationStatus[notificationsGrouped.groupedData];
-        this.router.navigate([`/personal-cabinet/${this.userRole}/${NotificationType.Application}/`], { relativeTo: this.route, queryParams: { status: status } });
+        this.router.navigate([`/personal-cabinet/${userRole}/${NotificationType.Application}/`], { relativeTo: this.route, queryParams: { status: status } });
         break;
       case NotificationType.Workshop:
         break;
