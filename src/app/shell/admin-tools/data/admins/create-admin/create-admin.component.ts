@@ -167,20 +167,15 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
       dialogRef.afterClosed().subscribe((result: boolean) => {
         if (result) {
+          const ministryAdmin = new MinistryAdmin(
+            this.AdminFormGroup.value, 
+            this.AdminFormGroup.get('institution').value.id,
+            this.adminId
+          );
           if (this.editMode) {
-            console.log('id', this.AdminFormGroup.get('institution').value.id)
-            const ministryAdmin = new MinistryAdmin(
-              this.AdminFormGroup.value, 
-              this.AdminFormGroup.get('institution').value.id,
-              this.adminId
-              );
             this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
           }else { 
-            const ministryAdmin = new MinistryAdmin(
-              this.AdminFormGroup.value, 
-              this.AdminFormGroup.get('institution').value.id
-              );
-            this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
+            this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));          
           }
         }
       });   
