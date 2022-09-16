@@ -1,16 +1,18 @@
 import { MatTooltip } from '@angular/material/tooltip';
-import { AfterViewInit, ElementRef } from '@angular/core';
+import { ElementRef } from '@angular/core';
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[matTooltip][showTooltipIfTruncated]'
+  selector: '[matTooltip][showTooltipIfTruncated]',
+  host: {
+    '(mouseenter)': 'onMouseHover()'
+  }
 })
-export class ShowTooltipIfTruncatedDirective implements AfterViewInit {
+export class ShowTooltipIfTruncatedDirective {
 
   constructor(private el: ElementRef, private matTooltip: MatTooltip) { }
 
-  ngAfterViewInit(): void {
+  onMouseHover() {
     this.matTooltip.disabled = this.el.nativeElement.scrollWidth <= this.el.nativeElement.clientWidth;
   }
-
 }
