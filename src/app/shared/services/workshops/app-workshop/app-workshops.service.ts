@@ -18,7 +18,6 @@ export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
   private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
-    params = params.set('City', settlement.settlement);
     params = params.set('Latitude', settlement.latitude.toString());
     params = params.set('Longitude', settlement.longitude.toString());
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
