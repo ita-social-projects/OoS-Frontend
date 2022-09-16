@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementCardComponent } from './achievement-card.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 describe('AchievementCardComponent', () => {
   let component: AchievementCardComponent;
@@ -20,6 +21,7 @@ describe('AchievementCardComponent', () => {
         MatCardModule,
         RouterTestingModule,
         MatDialogModule,
+        MatTooltipModule,
       ],
       declarations: [AchievementCardComponent, GetFullNamePipe],
     }).compileComponents();
