@@ -15,7 +15,7 @@ export enum RecruitmentStatusUkr {
   Open = 'Відкрити набір'
 }
 
-export enum WorkshopStatusUkr {
+export enum NotificationWorkshopStatusUkr {
   Open = 'відкрито',
   Closed = 'закрито'
 }
