@@ -5,10 +5,10 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ApplicationApproved, ApplicationLeft, ApplicationPending, ApplicationRejected } from 'src/app/shared/enum/enumUA/declinations/notification-declination';
+import { NotificationWorkshopStatusUkr } from 'src/app/shared/enum/enumUA/workshop';
 import { Role } from 'src/app/shared/enum/role';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { NotificationsConstants } from '../../../constants/constants';
-import { ApplicationTitlesReverse } from '../../../enum/enumUA/applications';
 import { NotificationType } from '../../../enum/notifications';
 import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
 import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../../store/notifications.actions';
@@ -29,6 +29,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   
   readonly notificationsConstants = NotificationsConstants;
+  readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
 
   constructor(
     private store: Store,
