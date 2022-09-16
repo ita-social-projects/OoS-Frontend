@@ -8,8 +8,9 @@ $links-color: #3849F9;
 }
 
 .map {
-  width: 1200px;
+  width: 100vw;
   height: 650px;
+  margin: 1.5rem;
 
   &-full{
     width: 100%;
@@ -74,6 +75,10 @@ $links-color: #3849F9;
     width: 100vw;
     position: relative;
   }
+
+  .map{
+    margin: 0;
+  }  
 
   app-map {
     height: calc(100vh - 81px) !important;
