@@ -1,3 +1,4 @@
+import { ParentState } from './../../../../shared/store/parent.state.';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
@@ -5,7 +6,6 @@ import { ConfirmationModalWindowComponent } from 'src/app/shared/components/conf
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
@@ -13,8 +13,8 @@ import { Constants, PaginationConstants } from 'src/app/shared/constants/constan
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { ParentComponent } from '../parent.component';
-import { UserState } from 'src/app/shared/store/user.state';
-import { filter, takeUntil, map } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
+import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-children',
@@ -24,7 +24,7 @@ import { filter, takeUntil, map } from 'rxjs/operators';
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
-  @Select(UserState.children)
+  @Select(ParentState.children)
   childrenCards$: Observable<ChildCards>;
   childrenCards: ChildCards;
 
@@ -45,18 +45,16 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   initParentData(): void {
-    this.store.dispatch([new SetFirstPage(),new GetUsersChildren()]);
+    this.store.dispatch([new SetFirstPage(), new GetUsersChildren()]);
     this.childrenCards$
       .pipe(
         filter((childrenCards: ChildCards) => !!childrenCards),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (childrenCards: ChildCards) => {
-          childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent)
-          this.childrenCards = childrenCards
-        }
-      );
+      .subscribe((childrenCards: ChildCards) => {
+        childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
+        this.childrenCards = childrenCards;
+      });
   }
 
   onDelete(child: Child): void {

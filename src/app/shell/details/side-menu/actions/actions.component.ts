@@ -1,3 +1,4 @@
+import { ParentState } from './../../../../shared/store/parent.state.';
 import { Select, Store } from '@ngxs/store';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -8,14 +9,13 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { WorkshopCardDialog } from 'src/app/shared/components/workshop-card/workshop-card.component';
 import { Favorite } from 'src/app/shared/models/favorite.model';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'src/app/shared/store/user.actions';
 import { ShowMessageBar } from 'src/app/shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/shared/store/user.state';
 import { AppState } from 'src/app/shared/store/app.state';
 import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
 import { WorkhopStatus } from 'src/app/shared/enum/workshop';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'src/app/shared/store/parent.actions';
 
 
 @Component({
@@ -37,7 +37,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.role)
   role$: Observable<string>;
-  @Select(UserState.favoriteWorkshops)
+  @Select(ParentState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;

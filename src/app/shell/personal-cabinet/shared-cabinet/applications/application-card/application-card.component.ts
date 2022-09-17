@@ -22,7 +22,7 @@ import { Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { ReasonModalWindowComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
-import { UpdateApplication } from 'src/app/shared/store/user.actions';
+import { UpdateApplication } from 'src/app/shared/store/shared-user.actions';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { BlockedParent } from 'src/app/shared/models/block.model';

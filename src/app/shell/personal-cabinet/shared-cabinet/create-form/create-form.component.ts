@@ -10,7 +10,7 @@ import { MarkFormDirty } from 'src/app/shared/store/app.actions';
 import { AppState } from 'src/app/shared/store/app.state';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
@@ -19,7 +19,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
   isDirtyForm$: Observable<boolean>;
-  @Select(UserState.isLoading)
+  @Select(SharedUserState.isLoading)
   isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
