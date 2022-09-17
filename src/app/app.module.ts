@@ -1,3 +1,4 @@
+import { ParentState } from './shared/store/parent.state.';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
@@ -18,7 +19,7 @@ import { MetaDataState } from './shared/store/meta-data.state';
 import { RegistrationModule } from './shared/modules/registration.module';
 import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
-import { UserState } from './shared/store/user.state';
+import { SharedUserState } from './shared/store/shared-user.state';
 import { NavigationState } from './shared/store/navigation.state';
 import { LOCALE_ID } from '@angular/core';
 import { registerLocaleData } from '@angular/common';
@@ -53,13 +54,14 @@ registerLocaleData(localeUk);
       FilterState,
       MetaDataState,
       RegistrationState,
-      UserState,
+      SharedUserState,
       AdminState,
       NavigationState,
       NotificationsState,
       PaginatorState,
       MainPageState,
-      ProviderState
+      ProviderState,
+      ParentState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({

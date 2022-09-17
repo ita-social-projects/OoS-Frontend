@@ -5,7 +5,7 @@ import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Role } from 'src/app/shared/enum/role';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { PopNavPath } from 'src/app/shared/store/navigation.actions';
 import { Constants } from 'src/app/shared/constants/constants';
 
@@ -23,7 +23,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.subrole)
   subRole$: Observable<Role>;
   subRole: Role;
-  @Select(UserState.isLoading)
+  @Select(SharedUserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();

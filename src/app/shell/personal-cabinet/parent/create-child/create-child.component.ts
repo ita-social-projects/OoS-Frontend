@@ -1,4 +1,3 @@
-import { ResetSelectedChild } from './../../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
@@ -14,17 +13,17 @@ import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateChildren, GetUsersChildById, UpdateChild } from 'src/app/shared/store/user.actions';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { UserState } from 'src/app/shared/store/user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Location } from '@angular/common';
 import { Navigation } from 'src/app/shared/models/navigation.model';
+import { ParentState } from 'src/app/shared/store/parent.state.';
+import { CreateChildren, GetUsersChildById, ResetSelectedChild, UpdateChild } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-create-child',
@@ -37,9 +36,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   @Select(MetaDataState.socialGroups)
   socialGroups$: Observable<SocialGroup[]>;
   socialGroups: SocialGroup[];
-  @Select(UserState.children)
+  @Select(ParentState.children)
   childrenCards$: Observable<ChildCards[]>;
-  @Select(UserState.selectedChild)
+  @Select(ParentState.selectedChild)
   selectedChild$: Observable<Child>;
   child: Child;
 

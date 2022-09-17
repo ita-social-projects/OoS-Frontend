@@ -73,7 +73,7 @@ import {
 import { GetProfile } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
-import { GetApplicationsByProviderId } from './user.actions';
+import { GetApplicationsByProviderId } from './shared-user.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;

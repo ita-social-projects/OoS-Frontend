@@ -11,8 +11,8 @@ import { Achievement, AchievementType, AchievmentTeacherValue } from 'src/app/sh
 import { Constants } from 'src/app/shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/shared-user.actions';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ChildCards } from 'src/app/shared/models/child.model';
 import { Person } from 'src/app/shared/models/user.model';
@@ -38,7 +38,7 @@ import { Navigation } from 'src/app/shared/models/navigation.model';
 export class CreateAchievementComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
 
-  @Select(UserState.selectedWorkshop)
+  @Select(SharedUserState.selectedWorkshop)
   workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
   approvedChildren$: Observable<ChildCards>;

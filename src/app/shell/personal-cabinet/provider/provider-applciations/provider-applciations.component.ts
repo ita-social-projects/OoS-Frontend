@@ -5,14 +5,14 @@ import { Select, Store } from '@ngxs/store';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { 
   GetApplicationsByProviderId, 
   GetWorkshopsByProviderId, 
   UpdateApplication 
-} from 'src/app/shared/store/user.actions';
+} from 'src/app/shared/store/shared-user.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { EntityType, Role } from 'src/app/shared/enum/role';
@@ -28,7 +28,7 @@ import { GetProviderAdminWorkshops } from 'src/app/shared/store/provider.actions
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
-  @Select(UserState.workshops)
+  @Select(SharedUserState.workshops)
   workshops$: Observable<Workshop[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
