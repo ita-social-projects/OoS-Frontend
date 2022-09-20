@@ -46,9 +46,7 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
           takeUntil(this.destroy$),
           filter((blockedParent: BlockedParent) => !!blockedParent)
         )
-        .subscribe((blockedParent: BlockedParent) => {
-          this.reason = blockedParent.reason;
-        });
+        .subscribe((blockedParent: BlockedParent) => (this.reason = blockedParent.reason));
     }
   }
 
