@@ -1,3 +1,4 @@
+import { ParentState } from 'src/app/shared/store/parent.state.';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
@@ -6,7 +7,6 @@ import { RegistrationState } from '../../shared/store/registration.state';
 import { Direction } from 'src/app/shared/models/category.model';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/shared/store/user.state';
 import { Favorite } from 'src/app/shared/models/favorite.model';
 import { Role } from 'src/app/shared/enum/role';
 import { Login } from 'src/app/shared/store/registration.actions';
@@ -34,7 +34,7 @@ export class MainComponent implements OnInit, OnDestroy {
   isLoadingData: boolean;
   @Select(RegistrationState.role)
   role$: Observable<Role>;
-  @Select(UserState.favoriteWorkshops)
+  @Select(ParentState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settlement)
   settlement$: Observable<Codeficator>;

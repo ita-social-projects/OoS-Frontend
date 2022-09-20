@@ -1,4 +1,3 @@
-import { UserState } from 'src/app/shared/store/user.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
@@ -12,8 +11,9 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ParentComponent } from '../parent.component';
 import { MatDialog } from '@angular/material/dialog';
 import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId } from 'src/app/shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
+import { ParentState } from 'src/app/shared/store/parent.state.';
+import { DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-favorite-workshops',
@@ -24,7 +24,7 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   readonly Role = Role;
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
-  @Select(UserState.favoriteWorkshopsCard)
+  @Select(ParentState.favoriteWorkshopsCard)
   favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;

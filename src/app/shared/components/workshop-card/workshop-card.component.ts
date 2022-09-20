@@ -1,3 +1,4 @@
+import { ParentState } from 'src/app/shared/store/parent.state.';
 import { ProviderWorkshopCard } from './../../models/workshop.model';
 import { OwnershipTypeName } from './../../enum/provider';
 import { Favorite } from './../../models/favorite.model';
@@ -6,9 +7,7 @@ import { Select, Store } from '@ngxs/store';
 import { Role } from '../../enum/role';
 import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
-import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -21,6 +20,7 @@ import { ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkhopStatus } from '../../enum/workshop';
 import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
+import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 
 @Component({
   selector: 'app-workshop-card',
@@ -52,7 +52,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
-  @Select(UserState.favoriteWorkshops)
+  @Select(ParentState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
   role$: Observable<Role>;

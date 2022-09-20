@@ -8,7 +8,7 @@ import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { UserState } from '../../store/user.state';
+import { SharedUserState } from '../../store/shared-user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
 import { GeocoderService } from './../../services/geolocation/geocoder.service';
@@ -27,7 +27,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   @Output() addressSelect = new EventEmitter<Geocoder>();
 
-  @Select(UserState.selectedWorkshop)
+  @Select(SharedUserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
   @Select(FilterState.settlement)
   settlement$: Observable<Codeficator>;

@@ -5,7 +5,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 
 @Component({
   selector: 'app-all-provider-workshops',
@@ -18,7 +18,7 @@ export class AllProviderWorkshopsComponent implements OnInit {
 
   @Input() workshop: Workshop;
 
-  @Select(UserState.workshops)
+  @Select(SharedUserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
   workshops: WorkshopCard[];
   destroy$: Subject<boolean> = new Subject<boolean>();

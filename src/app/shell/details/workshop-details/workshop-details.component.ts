@@ -17,11 +17,11 @@ import {
   GetProviderById,
   GetWorkshopById,
   GetWorkshopsByProviderId,
-  OnCreateRatingSuccess,
-} from 'src/app/shared/store/user.actions';
+} from 'src/app/shared/store/shared-user.actions';
 import { RecruitmentStatusUkr } from 'src/app/shared/enum/enumUA/workshop';
 import { WorkhopStatus } from 'src/app/shared/enum/workshop';
 import { ResetAchievements } from 'src/app/shared/store/provider.actions';
+import { OnCreateRatingSuccess } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-workshop-details',

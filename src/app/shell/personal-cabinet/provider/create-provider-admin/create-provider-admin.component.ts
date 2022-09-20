@@ -7,11 +7,11 @@ import { ActivatedRoute } from '@angular/router';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
-import { GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
 import { ProviderAdmin } from 'src/app/shared/models/providerAdmin.model';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Observable } from 'rxjs';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -47,7 +47,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  @Select(UserState.workshops)
+  @Select(SharedUserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
   
   provider: Provider;
