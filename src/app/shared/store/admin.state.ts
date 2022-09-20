@@ -517,8 +517,17 @@ export class AdminState {
   }
 
   @Action(OnDeleteMinistryAdminSuccess)
-  onDeleteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminSuccess): void {
-    dispatch([new ShowMessageBar({ message: 'Адміна міністерства видалено!', type: 'success' }), new GetAllMinistryAdmins()]);
+  onDeleteMinistryAdminSuccess(
+    { dispatch }: StateContext<AdminStateModel>, 
+    { payload }: OnDeleteMinistryAdminSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({ 
+        message: 'Адміна міністерства видалено!', 
+        type: 'success' 
+      }), 
+      new GetAllMinistryAdmins()
+    ]);
   }
 
   @Action(BlockMinistryAdminById)
@@ -580,15 +589,13 @@ export class AdminState {
     { dispatch }: StateContext<AdminStateModel>, 
     { payload }: OnUpdateMinistryAdminSuccess
   ): void {
-    dispatch(new MarkFormDirty(false));
-    console.log('Ministry Admin is updated', payload);
     dispatch([
+      new MarkFormDirty(false),
       new ShowMessageBar({
         message: 'Адміністратор міністерства успішно відредагований',
         type: 'success',
       }),
     ]);
-    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/admin-tools/data/admins']));
+    this.router.navigate(['/admin-tools/data/admins']);
   }
-
 }
