@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { emit } from 'process';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { Direction } from '../../../shared/models/category.model';
 import { SetDirections } from '../../../shared/store/filter.actions';
@@ -20,11 +19,11 @@ export class CategoryCardComponent {
   @Output() deleteDirection = new EventEmitter<Direction>();
 
   readonly WorkshopDeclination = WorkshopDeclination;
-  
+
   public categoryIcons = CategoryIcons;
 
   constructor(
-    private store: Store, 
+    private store: Store,
     private router: Router
   ) {}
 
