@@ -63,8 +63,10 @@
         *ngFor="let application of applicationCards.entities"
         [application]="application"
         [userRole]="role"
-        (approved)="approve.emit($event)"
-        (rejected)="reject.emit($event)"
+        (approve)="approve.emit($event)"
+        (reject)="reject.emit($event)"
+        (unblock)="unblock.emit($event)"
+        (block)="block.emit($event)"
         (leave)="leave.emit($event)">
       </app-application-card>
     </ng-container>

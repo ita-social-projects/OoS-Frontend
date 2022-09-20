@@ -1,32 +1,11 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from 'src/app/shared/constants/constants';
-import {
-  ApplicationStatus,
-  ApplicationIcons,
-} from 'src/app/shared/enum/applications';
-import {
-  ApplicationTitles,
-  ApplicationStatusDescription,
-} from 'src/app/shared/enum/enumUA/applications';
+import { ApplicationStatus, ApplicationIcons } from 'src/app/shared/enum/applications';
+import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications';
 import { Role } from 'src/app/shared/enum/role';
-import { Application, ApplicationUpdate } from 'src/app/shared/models/application.model';
+import { Application } from 'src/app/shared/models/application.model';
 import { Util } from 'src/app/shared/utils/utils';
-import { MatDialog } from '@angular/material/dialog';
-import { Store } from '@ngxs/store';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { ReasonModalWindowComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
-import { UpdateApplication } from 'src/app/shared/store/shared-user.actions';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { BlockedParent } from 'src/app/shared/models/block.model';
-import { BlockParent, UnBlockParent } from 'src/app/shared/store/provider.actions';
 
 @Component({
   selector: 'app-application-card',
@@ -44,25 +23,24 @@ export class ApplicationCardComponent implements OnInit {
   childAge: string;
   blockedParent: BlockedParent;
   childFullName: string;
-    applicationParams: {
-    status: string,
-    showBlocked: boolean,
+  applicationParams: {
+    status: string;
+    showBlocked: boolean;
   } = {
-      status: undefined,
-      showBlocked: false,
-    };
+    status: undefined,
+    showBlocked: false,
+  };
 
   @Input() application: Application;
   @Input() userRole: string;
 
-  @Output() approved = new EventEmitter();
-  @Output() rejected = new EventEmitter();
   @Output() leave = new EventEmitter();
+  @Output() approve = new EventEmitter();
+  @Output() reject = new EventEmitter();
+  @Output() block = new EventEmitter();
+  @Output() unblock = new EventEmitter();
 
-  constructor(
-    private matDialog: MatDialog,
-    private store: Store
-  ) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
@@ -74,19 +52,7 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onApprove(application: Application): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.approveApplication,
-        property: '',
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.approved.emit(application);
-      }
-    });
+    this.approve.emit(application);
   }
 
   /**
@@ -94,23 +60,15 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onReject(application: Application): void {
-    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: {type: ModalConfirmationType.reject }});
-    dialogRef.afterClosed().subscribe((result: string) => {
-      if (result) {
-        application.rejectionMessage = result;
-        this.rejected.emit(application);
-      }
-    });
+    this.reject.emit(application);
   }
 
   /**
    * This method changes status of emitted event to "left"
    * @param Application event
    */
-   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.Left);
-    this.store.dispatch(new UpdateApplication(applicationUpdate));
+  onLeave(application: Application): void {
+    this.leave.emit(application);
   }
 
   /**
@@ -118,36 +76,13 @@ export class ApplicationCardComponent implements OnInit {
    * @param Application application
    */
   onBlock(): void {
-    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: {type: ModalConfirmationType.blockParent }});
-    dialogRef.afterClosed().subscribe((result: string)  => {
-      if(result) {
-        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
-        const parentId = this.application.parentId;
-        const blockedParent = new BlockedParent( parentId, providerId, result);
-        this.store.dispatch(new BlockParent(blockedParent));
-        }
-    });
+    this.block.emit(this.application.parentId);
   }
 
   /**
    * This method emit unblock Application
-   * @param Application application
    */
   onUnBlock(): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.unBlockParent,
-      }
-    });
-    dialogRef.afterClosed().subscribe((result: string)  => {
-      if(result) {
-        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
-        const parentId = this.application.parentId;
-        const blockedParent = new BlockedParent( parentId, providerId);
-        this.store.dispatch(new UnBlockParent(blockedParent));
-        }
-    });
+    this.unblock.emit(this.application.parentId);
   }
 }
