@@ -1,6 +1,7 @@
+import { ParentState } from './../../../../shared/store/parent.state.';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
@@ -9,11 +10,12 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
 import { ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetAllUsersChildren, GetApplicationsByParentId, UpdateApplication } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { GetApplicationsByParentId, UpdateApplication } from 'src/app/shared/store/shared-user.actions';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { GetAllUsersChildren } from 'src/app/shared/store/parent.actions';
 
 @Component({
   selector: 'app-parent-applications',
@@ -25,7 +27,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   parent: Parent;
-  @Select(UserState.children)
+  @Select(ParentState.children)
   childrenCards$: Observable<ChildCards>;
 
   applicationParams: ApplicationParameters = {

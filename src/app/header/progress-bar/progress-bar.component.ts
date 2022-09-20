@@ -1,3 +1,4 @@
+import { ParentState } from 'src/app/shared/store/parent.state.';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ProviderState } from './../../shared/store/provider.state';
 import { MainPageState } from 'src/app/shared/store/main-page.state';
@@ -8,7 +9,7 @@ import { delay, takeUntil } from 'rxjs/operators';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { FilterState } from 'src/app/shared/store/filter.state';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 
 @Component({
   selector: 'app-progress-bar',
@@ -18,7 +19,7 @@ import { UserState } from 'src/app/shared/store/user.state';
 export class ProgressBarComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-  @Select(UserState.isLoading)
+  @Select(SharedUserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
   isLoadingMetaData$: Observable<boolean>;
@@ -28,6 +29,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isLoadingMainPage$: Observable<boolean>;
   @Select(ProviderState.isLoading)
   isLoadingProvider$: Observable<boolean>;
+  @Select(ParentState.isLoading)
+  isLoadingParent$: Observable<boolean>;
   @Select(RegistrationState.isAutorizationLoading)
   isAutorizationLoading$: Observable<boolean>;
 
@@ -39,7 +42,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isLoadingMainPage: boolean;
   isAutorizationLoading: boolean;
   isLoadingProvider: boolean;
-
+  isLoadingParent: boolean;
+  
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() {}
@@ -53,6 +57,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       this.isLoadingMainPage$,
       this.isAutorizationLoading$,
       this.isLoadingProvider$,
+      this.isLoadingParent$
     ])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(
@@ -64,6 +69,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           isLoadingMainPage,
           isAutorizationLoading,
           isLoadingProvider,
+          isLoadingParent
         ]) => {
           this.isLoadingResultPage = isLoadingResult;
           this.isLoadingMetaData = isLoadingMeta;
@@ -72,6 +78,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           this.isLoadingMainPage = isLoadingMainPage;
           this.isAutorizationLoading = isAutorizationLoading;
           this.isLoadingProvider = isLoadingProvider;
+          this.isLoadingParent = isLoadingParent;
         }
       );
   }

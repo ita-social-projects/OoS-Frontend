@@ -1,4 +1,4 @@
-import { GetWorkshopById, ResetProviderWorkshopDetails } from './../../../../shared/store/user.actions';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../shared/store/shared-user.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
@@ -15,7 +15,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { UserState } from 'src/app/shared/store/user.state';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { Util } from 'src/app/shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/provider.actions';
@@ -35,7 +35,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   provider$: Observable<Provider>;
   provider: Provider;
 
-  @Select(UserState.selectedWorkshop)
+  @Select(SharedUserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
   workshop: Workshop;
 

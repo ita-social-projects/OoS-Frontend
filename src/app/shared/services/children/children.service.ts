@@ -2,14 +2,11 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { PaginationConstants } from '../../constants/constants';
-import { UserTabs, UserTabsUkr } from '../../enum/enumUA/tech-admin/users-tabs';
 import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
-import { AdminStateModel } from '../../store/admin.state';
 import { PaginatorState } from '../../store/paginator.state';
-import { UserStateModel } from '../../store/user.state';
+
 @Injectable({
   providedIn: 'root'
 })

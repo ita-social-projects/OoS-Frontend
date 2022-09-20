@@ -1,5 +1,3 @@
-import { NavBarName } from './../../../../shared/enum/navigation-bar';
-import { NavigationBarService } from './../../../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -9,23 +7,21 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Application } from 'src/app/shared/models/application.model';
 import { Child, ChildCards } from 'src/app/shared/models/child.model';
-import { User } from 'src/app/shared/models/user.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
-import {
-  CreateApplication,
-  GetStatusIsAllowToApply,
-  GetUsersChildren,
-  GetWorkshopById,
-} from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { GetWorkshopById } from 'src/app/shared/store/shared-user.actions';
+import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { ParentWithContactInfo } from 'src/app/shared/models/parent.model';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Constants } from 'src/app/shared/constants/constants';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTabChangeEvent } from '@angular/material/tabs';
+import { CreateApplication, GetStatusIsAllowToApply, GetUsersChildren } from 'src/app/shared/store/parent.actions';
+import { ParentState } from 'src/app/shared/store/parent.state.';
+import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
+import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-create-application',
@@ -33,16 +29,16 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
   styleUrls: ['./create-application.component.scss'],
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
-  @Select(UserState.children)
+  @Select(ParentState.children)
   children$: Observable<ChildCards>;
   children: Child[];
   parentCard: Child;
-  @Select(UserState.isAllowChildToApply)
+  @Select(ParentState.isAllowChildToApply)
   isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.parent)
   parent$: Observable<ParentWithContactInfo>;
   parent: ParentWithContactInfo;
-  @Select(UserState.selectedWorkshop)
+  @Select(SharedUserState.selectedWorkshop)
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 

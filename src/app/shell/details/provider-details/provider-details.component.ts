@@ -9,7 +9,7 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
-import { GetWorkshopsByProviderId } from 'src/app/shared/store/user.actions';
+import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 
