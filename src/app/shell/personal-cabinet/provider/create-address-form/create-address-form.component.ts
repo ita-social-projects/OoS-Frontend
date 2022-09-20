@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { merge, Observable, Subject } from 'rxjs';
@@ -20,8 +20,8 @@ export class CreateAddressFormComponent implements OnInit {
   readonly ValidationConstants = ValidationConstants;
   readonly Constants = Constants;
 
-  @Input() addressFormGroup: FormGroup;
-  @Input() searchFormGroup: FormGroup;
+  @Input() addressFormGroup: UntypedFormGroup;
+  @Input() searchFormGroup: UntypedFormGroup;
   @Input() address: Address;
 
   @Select(MetaDataState.codeficatorSearch) 
@@ -31,24 +31,24 @@ export class CreateAddressFormComponent implements OnInit {
 
   constructor(private store: Store) {}
 
-  get settlementFormControl(): FormControl {
-    return this.searchFormGroup.get('settlement') as FormControl;
+  get settlementFormControl(): UntypedFormControl {
+    return this.searchFormGroup.get('settlement') as UntypedFormControl;
   }
 
-  get settlementSearchFormControl(): FormControl {
-    return this.searchFormGroup.get('settlementSearch') as FormControl;
+  get settlementSearchFormControl(): UntypedFormControl {
+    return this.searchFormGroup.get('settlementSearch') as UntypedFormControl;
   }
 
-  get codeficatorIdFormControl(): FormControl {
-    return this.addressFormGroup.get('catottgId') as FormControl;
+  get codeficatorIdFormControl(): UntypedFormControl {
+    return this.addressFormGroup.get('catottgId') as UntypedFormControl;
   }
 
-  get streetFormControl(): FormControl {
-    return this.addressFormGroup.get('street') as FormControl;
+  get streetFormControl(): UntypedFormControl {
+    return this.addressFormGroup.get('street') as UntypedFormControl;
   }
 
-  get buildingNumberFormControl(): FormControl {
-    return this.addressFormGroup.get('buildingNumber') as FormControl;
+  get buildingNumberFormControl(): UntypedFormControl {
+    return this.addressFormGroup.get('buildingNumber') as UntypedFormControl;
   }
 
   ngOnInit(): void {
@@ -85,9 +85,9 @@ export class CreateAddressFormComponent implements OnInit {
   onSelectSettlement(
     event: MatAutocompleteSelectedEvent,
     controls: {
-      searchControl: FormControl;
-      settlementControl: FormControl;
-      codeficatorIdControl: FormControl;
+      searchControl: UntypedFormControl;
+      settlementControl: UntypedFormControl;
+      codeficatorIdControl: UntypedFormControl;
     }
   ): void {
     this.store.dispatch(new ClearCodeficatorSearch());
@@ -115,9 +115,9 @@ export class CreateAddressFormComponent implements OnInit {
   onFocusOut(
     auto: MatAutocomplete,
     controls: {
-      searchControl: FormControl;
-      settlementControl: FormControl;
-      codeficatorIdControl: FormControl;
+      searchControl: UntypedFormControl;
+      settlementControl: UntypedFormControl;
+      codeficatorIdControl: UntypedFormControl;
     }
   ): void {
     const codeficator: Codeficator = auto.options.first?.value;

@@ -1,5 +1,5 @@
 import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 
@@ -10,7 +10,7 @@ export class MinMaxDirective implements OnInit, OnDestroy {
 
   @Input() public min: number;
   @Input() public max: number;
-  @Input() public directiveFormControl: FormControl;
+  @Input() public directiveFormControl: UntypedFormControl;
 
   debounce$: Subject<number> = new Subject<number>();
 

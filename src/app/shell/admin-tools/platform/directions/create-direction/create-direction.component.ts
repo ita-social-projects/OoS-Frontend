@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 import { Direction } from 'src/app/shared/models/category.model';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
@@ -36,10 +36,10 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;
 
-  directionFormGroup: FormGroup;
+  directionFormGroup: UntypedFormGroup;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private matDialog: MatDialog,
     private location: Location,
     store: Store,
@@ -48,8 +48,8 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   ) {
     super(store, route, navigationBarService);
     this.directionFormGroup = this.fb.group({
-      title: new FormControl('', Validators.required),
-      id: new FormControl(''),
+      title: new UntypedFormControl('', Validators.required),
+      id: new UntypedFormControl(''),
     });
   }
 

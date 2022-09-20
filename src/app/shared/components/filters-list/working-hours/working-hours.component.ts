@@ -1,6 +1,6 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnInit, OnDestroy, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -45,10 +45,10 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
 
-  startTimeFormControl = new FormControl('');
-  endTimeFormControl = new FormControl('');
-  isStrictWorkdaysControl = new FormControl(false);
-  isAppropriateHoursControl = new FormControl(false);
+  startTimeFormControl = new UntypedFormControl('');
+  endTimeFormControl = new UntypedFormControl('');
+  isStrictWorkdaysControl = new UntypedFormControl(false);
+  isAppropriateHoursControl = new UntypedFormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
   selectedWorkingDays: string[] = [];
 

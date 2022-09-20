@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -35,7 +35,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
 
-  filterFormControl = new FormControl('');
+  filterFormControl = new UntypedFormControl('');
   filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;

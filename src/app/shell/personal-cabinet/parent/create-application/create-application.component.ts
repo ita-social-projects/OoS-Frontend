@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -42,12 +42,12 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  ContraindicationAgreementFormControl = new FormControl(false);
-  ParentAgreementFormControl = new FormControl(false);
-  AttendAgreementFormControl = new FormControl(false);
+  ContraindicationAgreementFormControl = new UntypedFormControl(false);
+  ParentAgreementFormControl = new UntypedFormControl(false);
+  AttendAgreementFormControl = new UntypedFormControl(false);
 
-  ContraindicationAgreementFormControlYourself = new FormControl(false);
-  AttendAgreementFormControlYourself = new FormControl(false);
+  ContraindicationAgreementFormControlYourself = new UntypedFormControl(false);
+  AttendAgreementFormControlYourself = new UntypedFormControl(false);
 
   selectedChild: Child;
   isContraindicationAgreed: boolean;
@@ -61,7 +61,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ChildFormControl = new FormControl('', Validators.required);
+  ChildFormControl = new UntypedFormControl('', Validators.required);
 
   constructor(
     private store: Store,

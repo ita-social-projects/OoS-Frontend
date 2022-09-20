@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -19,7 +19,7 @@ export class OrderingComponent implements OnInit {
   @Select(FilterState.filterList)
   filterList$: Observable<any>;
 
-  orderFormControl = new FormControl();
+  orderFormControl = new UntypedFormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}

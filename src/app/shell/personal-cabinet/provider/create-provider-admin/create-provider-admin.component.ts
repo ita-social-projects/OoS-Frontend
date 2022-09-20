@@ -5,7 +5,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
 import { ProviderAdmin } from 'src/app/shared/models/providerAdmin.model';
@@ -51,28 +51,28 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   workshops$: Observable<WorkshopCard[]>;
   
   provider: Provider;
-  ProviderAdminFormGroup: FormGroup;
+  ProviderAdminFormGroup: UntypedFormGroup;
   providerRole: providerAdminRole;
   managedWorkshopIds: string[];
 
   constructor(store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private matDialog: MatDialog,
     private location: Location
   ) {
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
-      lastName: new FormControl('', defaultValidators),
-      firstName: new FormControl('', defaultValidators),
-      middleName: new FormControl('', defaultValidators),
-      phoneNumber: new FormControl('', [
+      lastName: new UntypedFormControl('', defaultValidators),
+      firstName: new UntypedFormControl('', defaultValidators),
+      middleName: new UntypedFormControl('', defaultValidators),
+      phoneNumber: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
-      email: new FormControl('', [
+      email: new UntypedFormControl('', [
         Validators.required, 
         Validators.email
       ]),
@@ -126,7 +126,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.managedWorkshopIds = workshopsId;
   }
 
-  checkValidation(form: FormGroup): void {
+  checkValidation(form: UntypedFormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });

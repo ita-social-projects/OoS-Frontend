@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -46,33 +46,33 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
   
-  AdminFormGroup: FormGroup;
+  AdminFormGroup: UntypedFormGroup;
   adminRole: AdminRole;
 
   constructor(
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private matDialog: MatDialog,
     private location: Location
   ) { 
     super(store, route, navigationBarService);
 
     this.AdminFormGroup = this.formBuilder.group({
-      lastName: new FormControl('', defaultValidators),
-      firstName: new FormControl('', defaultValidators),
-      middleName: new FormControl('', [
+      lastName: new UntypedFormControl('', defaultValidators),
+      firstName: new UntypedFormControl('', defaultValidators),
+      middleName: new UntypedFormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      phoneNumber: new FormControl('', [
+      phoneNumber: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
-      institution: new FormControl('', Validators.required),
-      email: new FormControl('', [
+      institution: new UntypedFormControl('', Validators.required),
+      email: new UntypedFormControl('', [
         Validators.required, 
         Validators.email
       ])

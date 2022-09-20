@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute} from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -42,12 +42,12 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   selectedChild$: Observable<Child>;
   child: Child;
 
-  ChildrenFormArray = new FormArray([]);
-  AgreementFormControl = new FormControl(false);
+  ChildrenFormArray = new UntypedFormArray([]);
+  AgreementFormControl = new UntypedFormControl(false);
   isAgreed: boolean = false;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private routeParams: ActivatedRoute,
     private matDialog: MatDialog,
     private location: Location,
@@ -132,39 +132,39 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method create new FormGroup
    * @param FormArray array
    */
-  private newForm(child?: Child): FormGroup {
+  private newForm(child?: Child): UntypedFormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl('', [
+      lastName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      firstName: new FormControl('', [
+      firstName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      middleName: new FormControl('', [
+      middleName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      dateOfBirth: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
-      socialGroups: new FormControl([]),
-      placeOfLiving: new FormControl('', [
+      dateOfBirth: new UntypedFormControl('', Validators.required),
+      gender: new UntypedFormControl('', Validators.required),
+      socialGroups: new UntypedFormControl([]),
+      placeOfLiving: new UntypedFormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
       ]),
-      certificateOfBirth: new FormControl('', [
+      certificateOfBirth: new UntypedFormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_10),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_30),
       ]),
-      placeOfStudy: new FormControl('', [
+      placeOfStudy: new UntypedFormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
       ]),
@@ -221,7 +221,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
         this.store.dispatch(new UpdateChild(child));
       } else {
-        this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
+        this.ChildrenFormArray.controls.forEach((form: UntypedFormGroup) => {
           const child: Child = new Child(form.value, parent.id);
           this.store.dispatch(new CreateChildren(child));
         });
@@ -241,7 +241,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   private checkValidationChild(): void {
     Object.keys(this.ChildrenFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.ChildrenFormArray.get(key));
+      this.checkValidation(<UntypedFormGroup>this.ChildrenFormArray.get(key));
     });
   }
 
@@ -249,7 +249,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
    */
-  private checkValidation(form: FormGroup): void {
+  private checkValidation(form: UntypedFormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Child } from '../../models/child.model';
@@ -14,7 +14,7 @@ import { DeclinationPipe } from '../../pipes/declination.pipe';
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
 
-  entityControl = new FormControl();
+  entityControl = new UntypedFormControl();
   ids: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -1,7 +1,7 @@
 import { Geocoder } from './../../../../../shared/models/geolocation';
 import { Codeficator } from './../../../../../shared/models/codeficator.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Address } from 'src/app/shared/models/address.model';
 import { FormValidators, ValidationConstants } from 'src/app/shared/constants/validation';
 
@@ -17,31 +17,31 @@ export class CreateWorkshopAddressComponent implements OnInit {
 
   @Output() passAddressFormGroup = new EventEmitter();
 
-  addressFormGroup: FormGroup;
-  searchFormGroup: FormGroup;
+  addressFormGroup: UntypedFormGroup;
+  searchFormGroup: UntypedFormGroup;
   noAddressFound = false;
 
-  get settlementFormControl(): FormControl {
-    return this.searchFormGroup.get('settlement') as FormControl;
+  get settlementFormControl(): UntypedFormControl {
+    return this.searchFormGroup.get('settlement') as UntypedFormControl;
   }
 
-  get settlementSearchFormControl(): FormControl {
-    return this.searchFormGroup.get('settlementSearch') as FormControl;
+  get settlementSearchFormControl(): UntypedFormControl {
+    return this.searchFormGroup.get('settlementSearch') as UntypedFormControl;
   }
 
-  constructor(private formBuilder: FormBuilder) {}
+  constructor(private formBuilder: UntypedFormBuilder) {}
 
   ngOnInit(): void {
     this.addressFormGroup = this.formBuilder.group({
-      street: new FormControl('', FormValidators.defaultAddressValidators),
-      buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
-      catottgId: new FormControl('', Validators.required),
-      latitude: new FormControl(''),
-      longitude: new FormControl(''),
+      street: new UntypedFormControl('', FormValidators.defaultAddressValidators),
+      buildingNumber: new UntypedFormControl('', FormValidators.defaultAddressValidators),
+      catottgId: new UntypedFormControl('', Validators.required),
+      latitude: new UntypedFormControl(''),
+      longitude: new UntypedFormControl(''),
     });
     this.searchFormGroup = this.formBuilder.group({
-      settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-      settlement: new FormControl(''),
+      settlementSearch: new UntypedFormControl('', FormValidators.defaultSearchValidators),
+      settlement: new UntypedFormControl(''),
     });
 
     this.addressFormGroup.valueChanges.subscribe(val => console.log(val))

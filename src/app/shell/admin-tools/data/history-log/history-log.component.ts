@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -59,7 +59,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   tabIndex = 0;
   searchString: string;
   currentPage: PaginationElement = PaginationConstants.firstPage;
-  searchFormControl = new FormControl('');
+  searchFormControl = new UntypedFormControl('');
   dropdownData: DropdownData[];
   filters: FilterData;
   readonly typeChange = TypeChange;

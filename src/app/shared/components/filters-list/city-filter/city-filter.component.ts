@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -28,7 +28,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.codeficatorSearch)
   codeficatorSearch$: Observable<Codeficator[]>;
 
-  settlementSearchControl = new FormControl('');
+  settlementSearchControl = new UntypedFormControl('');
   isDispalyed = true;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

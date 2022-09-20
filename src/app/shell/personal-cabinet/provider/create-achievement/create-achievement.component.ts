@@ -4,7 +4,7 @@ import { Observable, Subject, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { Achievement, AchievementType, AchievmentTeacherValue } from 'src/app/shared/models/achievement.model';
@@ -47,21 +47,21 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   @Select(MetaDataState.achievementsTypes)
   achievementsTypes$: Observable<AchievementType[]>;
 
-  AchievementFormGroup: FormGroup;
+  AchievementFormGroup: UntypedFormGroup;
   workshop: Workshop;
   achievement: Achievement;
   workshopId: string;
   approvedChildren: ChildCards;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  get teachersFormControl(): FormControl {
-    return this.AchievementFormGroup.get('teachers') as FormControl;
+  get teachersFormControl(): UntypedFormControl {
+    return this.AchievementFormGroup.get('teachers') as UntypedFormControl;
   }
-  get childrenFormControl(): FormControl {
-    return this.AchievementFormGroup.get('children') as FormControl;
+  get childrenFormControl(): UntypedFormControl {
+    return this.AchievementFormGroup.get('children') as UntypedFormControl;
   }
-  get achievementTypeIdFormControl(): FormControl {
-    return this.AchievementFormGroup.get('achievementTypeId') as FormControl;
+  get achievementTypeIdFormControl(): UntypedFormControl {
+    return this.AchievementFormGroup.get('achievementTypeId') as UntypedFormControl;
   }
 
   private achievementId: string;
@@ -70,22 +70,22 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private matDialog: MatDialog,
     private location: Location,
     private routeParams: ActivatedRoute
   ) {
     super(store, route, navigationBarService);
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new FormControl('', [
+      title: new UntypedFormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
       ]),
-      achievementDate: new FormControl('', Validators.required),
-      achievementTypeId: new FormControl('', Validators.required),
-      teachers: new FormControl('', Validators.required),
-      children: new FormControl('', Validators.required),
+      achievementDate: new UntypedFormControl('', Validators.required),
+      achievementTypeId: new UntypedFormControl('', Validators.required),
+      teachers: new UntypedFormControl('', Validators.required),
+      children: new UntypedFormControl('', Validators.required),
     });
 
     this.subscribeOnDirtyForm(this.AchievementFormGroup);

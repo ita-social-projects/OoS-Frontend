@@ -1,7 +1,7 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Inject, Input } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType} from '../../../../../shared/enum/modal-confirmation';
 
@@ -20,7 +20,7 @@ export class ReasonModalWindowComponent {
   modalConfirmationDescription: string;
   readonly modalConfirmationType = ModalConfirmationType;
 
-  ReasonFormControl= new FormControl('', [
+  ReasonFormControl= new UntypedFormControl('', [
     Validators.required,
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
     Validators.minLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)

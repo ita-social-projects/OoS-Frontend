@@ -9,7 +9,7 @@ import {
   AfterViewChecked,
   ChangeDetectorRef,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -52,14 +52,14 @@ export class CreateProviderComponent
   isAgreed: boolean;
   isNotRobot: boolean;
 
-  InfoFormGroup: FormGroup;
-  ActualAddressFormGroup: FormGroup;
-  LegalAddressFormGroup: FormGroup;
-  PhotoFormGroup: FormGroup;
+  InfoFormGroup: UntypedFormGroup;
+  ActualAddressFormGroup: UntypedFormGroup;
+  LegalAddressFormGroup: UntypedFormGroup;
+  PhotoFormGroup: UntypedFormGroup;
 
-  ContactsFormGroup: FormGroup = new FormGroup({});
-  RobotFormControl = new FormControl(false);
-  AgreementFormControl = new FormControl(false);
+  ContactsFormGroup: UntypedFormGroup = new UntypedFormGroup({});
+  RobotFormControl = new UntypedFormControl(false);
+  AgreementFormControl = new UntypedFormControl(false);
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -156,7 +156,7 @@ export class CreateProviderComponent
    * This method receives a form from create-info child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
-  onReceiveInfoFormGroup(form: FormGroup): void {
+  onReceiveInfoFormGroup(form: UntypedFormGroup): void {
     this.InfoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -165,13 +165,13 @@ export class CreateProviderComponent
    * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
    * @param FormGroup form
    */
-  onReceiveActualAddressFormGroup(form: FormGroup): void {
+  onReceiveActualAddressFormGroup(form: UntypedFormGroup): void {
     this.ActualAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('actual', form);
   }
 
-  onReceiveLegalAddressFormGroup(form: FormGroup): void {
+  onReceiveLegalAddressFormGroup(form: UntypedFormGroup): void {
     this.LegalAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('legal', form);
@@ -181,7 +181,7 @@ export class CreateProviderComponent
    * This method receives a from from create-photo child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
-  onReceivePhotoFormGroup(form: FormGroup): void {
+  onReceivePhotoFormGroup(form: UntypedFormGroup): void {
     this.PhotoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -190,7 +190,7 @@ export class CreateProviderComponent
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
    */
-  checkValidation(form: FormGroup): void {
+  checkValidation(form: UntypedFormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
@@ -201,8 +201,8 @@ export class CreateProviderComponent
    */
   checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach(key => {
-      if ((<FormGroup>this.ContactsFormGroup.get(key)).enabled) {
-        this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
+      if ((<UntypedFormGroup>this.ContactsFormGroup.get(key)).enabled) {
+        this.checkValidation(<UntypedFormGroup>this.ContactsFormGroup.get(key));
       }
     });
   }

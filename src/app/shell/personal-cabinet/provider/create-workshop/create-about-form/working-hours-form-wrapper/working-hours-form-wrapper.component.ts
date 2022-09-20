@@ -1,6 +1,6 @@
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { UntypedFormControl, Validators, UntypedFormArray, UntypedFormBuilder, UntypedFormGroup } from '@angular/forms';
 import { DateTimeRanges } from '../../../../../../shared/models/workingHours.model';
 
 @Component({
@@ -10,9 +10,9 @@ import { DateTimeRanges } from '../../../../../../shared/models/workingHours.mod
 })
 export class WorkingHoursFormWrapperComponent implements OnInit {
   @Input() workshop: Workshop;
-  @Input() workingHoursFormArray: FormArray;
+  @Input() workingHoursFormArray: UntypedFormArray;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: UntypedFormBuilder) { }
 
   ngOnInit(): void {
     this.workshop ? this.activateEditMode() : this.addWorkingHours();
@@ -43,11 +43,11 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
    * This method create new FormGroup
    * @param DateTimeRanges range
    */
-  private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
+  private newWorkingHoursForm(range?: DateTimeRanges): UntypedFormGroup {
     const workingHoursFormGroup = this.formBuilder.group({
-      workdays: new FormControl('', Validators.required),
-      startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required),
+      workdays: new UntypedFormControl('', Validators.required),
+      startTime: new UntypedFormControl('', Validators.required),
+      endTime: new UntypedFormControl('', Validators.required),
     });
     if (range) {
       workingHoursFormGroup.addControl('id', this.formBuilder.control(''));

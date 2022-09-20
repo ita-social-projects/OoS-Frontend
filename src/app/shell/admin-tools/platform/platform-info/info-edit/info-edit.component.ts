@@ -1,7 +1,7 @@
 import { ActivatedRoute, Params } from '@angular/router';
 import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 
@@ -37,8 +37,8 @@ export class InfoEditComponent
   @Select(AdminState.LawsAndRegulations)
   LawsAndRegulations$: Observable<CompanyInformation>;
 
-  PlatformInfoItemArray = new FormArray([]);
-  titleFormControl = new FormControl('', [Validators.required]);
+  PlatformInfoItemArray = new UntypedFormArray([]);
+  titleFormControl = new UntypedFormControl('', [Validators.required]);
   editTitle: AdminTabsUkr;
   platformInfo: CompanyInformation;
 
@@ -48,7 +48,7 @@ export class InfoEditComponent
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private location: Location
   ) {
     super(store, route, navigationBarService);
@@ -102,14 +102,14 @@ export class InfoEditComponent
   /**
    * This method creates new FormGroup
    */
-  private newForm(platformInfoItem?: СompanyInformationSectionItem): FormGroup {
+  private newForm(platformInfoItem?: СompanyInformationSectionItem): UntypedFormGroup {
     const platformInfoEditFormGroup = this.fb.group({
-      sectionName: new FormControl('', [
+      sectionName: new UntypedFormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
         Validators.required,
       ]),
-      description: new FormControl('', [
+      description: new UntypedFormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
@@ -151,7 +151,7 @@ export class InfoEditComponent
   onSubmit(): void {
     if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
       const platformInfoItemArray: СompanyInformationSectionItem[] = [];
-      this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+      this.PlatformInfoItemArray.controls.forEach((form: UntypedFormGroup) =>
         platformInfoItemArray.push(new СompanyInformationSectionItem(form.value))
       );
 

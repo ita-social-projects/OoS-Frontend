@@ -1,6 +1,6 @@
 import { Options } from '@angular-slider/ngx-slider';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
@@ -26,11 +26,11 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
 
   readonly validationConstants = ValidationConstants;
 
-  isFreeControl = new FormControl(false);
-  isPaidControl = new FormControl(false);
+  isFreeControl = new UntypedFormControl(false);
+  isPaidControl = new UntypedFormControl(false);
 
-  minPriceControl = new FormControl(ValidationConstants.MIN_PRICE, [Validators.maxLength(4)]);
-  maxPriceControl = new FormControl(ValidationConstants.MAX_PRICE, [Validators.maxLength(4)]);
+  minPriceControl = new UntypedFormControl(ValidationConstants.MIN_PRICE, [Validators.maxLength(4)]);
+  maxPriceControl = new UntypedFormControl(ValidationConstants.MAX_PRICE, [Validators.maxLength(4)]);
 
   minValue = ValidationConstants.MIN_PRICE;
   maxValue = ValidationConstants.MAX_PRICE;

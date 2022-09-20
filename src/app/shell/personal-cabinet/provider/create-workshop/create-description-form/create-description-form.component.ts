@@ -1,7 +1,7 @@
 import { Institution } from './../../../../../shared/models/institution.model';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
@@ -35,28 +35,28 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   @ViewChild('keyWordsInput') keyWordsInputElement: ElementRef;
 
-  DescriptionFormGroup: FormGroup;
-  SectionItemsFormArray = new FormArray([]);
+  DescriptionFormGroup: UntypedFormGroup;
+  SectionItemsFormArray = new UntypedFormArray([]);
 
-  keyWordsCtrl: FormControl = new FormControl('', Validators.required);
+  keyWordsCtrl: UntypedFormControl = new UntypedFormControl('', Validators.required);
   keyWords: string[] = [];
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  disabilityOptionRadioBtn: FormControl = new FormControl(false);
+  disabilityOptionRadioBtn: UntypedFormControl = new UntypedFormControl(false);
   disabledKeyWordsInput: boolean = false;
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor(private formBuilder: UntypedFormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl(''),
-      imageIds: new FormControl(''),
-      disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
+      imageFiles: new UntypedFormControl(''),
+      imageIds: new UntypedFormControl(''),
+      disabilityOptionsDesc: new UntypedFormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
       ]),
-      keyWords: new FormControl(''),
-      institutionHierarchyId: new FormControl('', Validators.required),
-      institutionId: new FormControl('', Validators.required),
+      keyWords: new UntypedFormControl(''),
+      institutionHierarchyId: new UntypedFormControl('', Validators.required),
+      institutionId: new UntypedFormControl('', Validators.required),
       workshopDescriptionItems: this.SectionItemsFormArray,
     });
   }
@@ -154,14 +154,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(item?: WorkshopSectionItem): FormGroup {
+  private newForm(item?: WorkshopSectionItem): UntypedFormGroup {
     const EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
+      sectionName: new UntypedFormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
         Validators.required
       ]),
-      description: new FormControl('', [
+      description: new UntypedFormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
@@ -184,7 +184,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   onAddForm(): void {
     if(this.DescriptionFormGroup.get('workshopDescriptionItems')) {
-      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as UntypedFormArray).push(
         this.newForm()
       );
     }

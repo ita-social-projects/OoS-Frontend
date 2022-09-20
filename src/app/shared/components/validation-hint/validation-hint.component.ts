@@ -1,6 +1,6 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { UntypedFormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
 import { NAME_REGEX, NO_LATIN_REGEX } from '../../constants/regex-constants';
@@ -17,7 +17,7 @@ enum ValidatorsTypes {
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
-  @Input() validationFormControl: FormControl = new FormControl(); //required for validation
+  @Input() validationFormControl: UntypedFormControl = new UntypedFormControl(); //required for validation
   @Input() isTouched: boolean; //required for dropdowns that doesn't touched
   //for Length Validation
   @Input() minCharachters: number;

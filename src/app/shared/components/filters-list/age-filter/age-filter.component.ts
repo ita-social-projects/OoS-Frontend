@@ -2,7 +2,7 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Constants } from 'src/app/shared/constants/constants';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
@@ -22,9 +22,9 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
     this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
   }
 
-  minAgeFormControl = new FormControl('');
-  maxAgeFormControl = new FormControl('');
-  isAppropriateAgeControl= new FormControl(false);
+  minAgeFormControl = new UntypedFormControl('');
+  maxAgeFormControl = new UntypedFormControl('');
+  isAppropriateAgeControl= new UntypedFormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }

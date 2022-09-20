@@ -13,7 +13,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { Role } from 'src/app/shared/enum/role';
 import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { AllMinistryAdmins } from 'src/app/shared/models/ministryAdmin.model';
 import { Util } from 'src/app/shared/utils/utils';
 import { UsersTable } from 'src/app/shared/models/usersTable';
@@ -45,7 +45,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   
   tabIndex: number;
   filterValue: string;
-  filterFormControl: FormControl = new FormControl('');
+  filterFormControl: UntypedFormControl = new UntypedFormControl('');
   ministryAdminsTable: UsersTable[];
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;

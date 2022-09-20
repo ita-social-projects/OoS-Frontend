@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
 import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
 import { Constants } from 'src/app/shared/constants/constants';
 import { Util } from 'src/app/shared/utils/utils';
@@ -20,7 +20,7 @@ export class ChildFormComponent implements OnInit {
 
   private readonly NONE_SOCIAL_GROUP_ID = 6;
 
-  @Input() ChildFormGroup: FormGroup;
+  @Input() ChildFormGroup: UntypedFormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
   @Input() socialGroups: SocialGroup[];
@@ -29,13 +29,13 @@ export class ChildFormComponent implements OnInit {
 
   @ViewChild('select') select: MatSelect;
 
-  socialGroupControl: FormControl = new FormControl([]);
+  socialGroupControl: UntypedFormControl = new UntypedFormControl([]);
   dateFilter: RegExp = DATE_REGEX;
   maxDate: Date = Util.getMaxBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   ngOnInit(): void {
-    this.socialGroupControl = this.ChildFormGroup.get('socialGroups') as FormControl;
+    this.socialGroupControl = this.ChildFormGroup.get('socialGroups') as UntypedFormControl;
   }
 
   /**

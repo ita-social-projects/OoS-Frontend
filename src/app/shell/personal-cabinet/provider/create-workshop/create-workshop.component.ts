@@ -1,7 +1,7 @@
 import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../shared/store/shared-user.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -39,10 +39,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   selectedWorkshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  AboutFormGroup: FormGroup;
-  DescriptionFormGroup: FormGroup;
-  AddressFormGroup: FormGroup;
-  TeacherFormArray: FormArray;
+  AboutFormGroup: UntypedFormGroup;
+  DescriptionFormGroup: UntypedFormGroup;
+  AddressFormGroup: UntypedFormGroup;
+  TeacherFormArray: UntypedFormArray;
 
   constructor(
     store: Store,
@@ -123,7 +123,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a form from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
    */
-  onReceiveAddressFormGroup(form: FormGroup): void {
+  onReceiveAddressFormGroup(form: UntypedFormGroup): void {
     this.AddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -132,7 +132,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
    * @param FormArray array
    */
-  onReceiveTeacherFormArray(array: FormArray): void {
+  onReceiveTeacherFormArray(array: UntypedFormArray): void {
     this.TeacherFormArray = array;
     this.subscribeOnDirtyForm(array);
   }
@@ -141,7 +141,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives  a from form create-about child component and assigns to the About FormGroup
    * @param FormGroup form
    */
-  onReceiveAboutFormGroup(form: FormGroup): void {
+  onReceiveAboutFormGroup(form: UntypedFormGroup): void {
     this.AboutFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -150,7 +150,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a from create-description child component and assigns to the Description FormGroup
    * @param FormGroup form
    */
-  onReceiveDescriptionFormGroup(form: FormGroup): void {
+  onReceiveDescriptionFormGroup(form: UntypedFormGroup): void {
     this.DescriptionFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -162,7 +162,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
     if(this.TeacherFormArray?.controls) {
-      this.TeacherFormArray.controls.forEach((form: FormGroup) => {
+      this.TeacherFormArray.controls.forEach((form: UntypedFormGroup) => {
         const teacher: Teacher = new Teacher(form.value);
         teachers.push(teacher);
       });

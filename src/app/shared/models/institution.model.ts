@@ -1,4 +1,4 @@
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { Direction } from 'src/app/shared/models/category.model';
 export interface Institution {
   id: string;
@@ -22,7 +22,7 @@ export interface InstituitionHierarchy {
   directions: Direction[]
 }
 export interface HierarchyElement {
-  formControl: FormControl;
+  formControl: UntypedFormControl;
   title: string;
   hierarchyLevel: number;
   institutionId: string;

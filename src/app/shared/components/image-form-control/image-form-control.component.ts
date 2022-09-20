@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { UntypedFormControl, UntypedFormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { Constants } from '../../constants/constants';
@@ -19,7 +19,7 @@ import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper
   ]
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
-  photoFormGroup: FormGroup;
+  photoFormGroup: UntypedFormGroup;
   gridCols: number;
   mediumScreen = 500;
   smallScreen = 366;
@@ -29,7 +29,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   disabled = false;
 
   @Input() imgMaxAmount: number;
-  @Input() imageIdsFormControl: FormControl;
+  @Input() imageIdsFormControl: UntypedFormControl;
   @Input() label: string;
   @Input() cropperConfig: Cropper;
 

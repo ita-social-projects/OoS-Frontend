@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
@@ -40,18 +40,18 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatuses: InstitutionStatus[];
 
-  PhotoFormGroup: FormGroup;
-  SectionItemsFormArray = new FormArray([]);
+  PhotoFormGroup: UntypedFormGroup;
+  SectionItemsFormArray = new UntypedFormArray([]);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  constructor(private formBuilder: UntypedFormBuilder, private store: Store) {
     this.PhotoFormGroup = this.formBuilder.group({
-      imageFiles: new FormControl(''),
-      imageIds: new FormControl(''),
+      imageFiles: new UntypedFormControl(''),
+      imageIds: new UntypedFormControl(''),
       providerSectionItems: this.SectionItemsFormArray,
-      institutionStatusId: new FormControl('', Validators.required),
-      institutionType: new FormControl('', Validators.required),
-      founder: new FormControl('', [
+      institutionStatusId: new UntypedFormControl('', Validators.required),
+      institutionType: new UntypedFormControl('', Validators.required),
+      founder: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -99,10 +99,10 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(item?: ProviderSectionItem): FormGroup {
+  private newForm(item?: ProviderSectionItem): UntypedFormGroup {
     const EditFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [Validators.required]),
-      description: new FormControl('', [
+      sectionName: new UntypedFormControl('', [Validators.required]),
+      description: new UntypedFormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
@@ -125,7 +125,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
    */
   onAddForm(): void {
     if (this.PhotoFormGroup.get('providerSectionItems')) {
-      (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+      (this.PhotoFormGroup.get('providerSectionItems') as UntypedFormArray).push(this.newForm());
     }
   }
 

@@ -1,4 +1,4 @@
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -25,8 +25,8 @@ import {
   styleUrls: ['./institution-hierarchy.component.scss'],
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() instituitionHierarchyIdFormControl: FormControl;
-  @Input() instituitionIdFormControl: FormControl;
+  @Input() instituitionHierarchyIdFormControl: UntypedFormControl;
+  @Input() instituitionIdFormControl: UntypedFormControl;
   @Input() provider: Provider;
 
   @Select(MetaDataState.institutions)
@@ -103,7 +103,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private createInstitutionFormGroup(): void {
     this.institutionFieldDesc.forEach((institutionFieldDesc: InstitutionFieldDescription) => {
       const hierarchy = {
-        formControl: new FormControl('', Validators.required),
+        formControl: new UntypedFormControl('', Validators.required),
         title: institutionFieldDesc.title,
         hierarchyLevel: institutionFieldDesc.hierarchyLevel,
         institutionId: institutionFieldDesc.institutionId,

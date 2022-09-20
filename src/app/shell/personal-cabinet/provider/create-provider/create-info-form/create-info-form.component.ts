@@ -1,6 +1,6 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { OwnershipType, ProviderType } from 'src/app/shared/enum/provider';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -44,57 +44,57 @@ export class CreateInfoFormComponent implements OnInit {
   @Input() provider: Provider;
   @Output() passInfoFormGroup = new EventEmitter();
 
-  InfoFormGroup: FormGroup;
+  InfoFormGroup: UntypedFormGroup;
   dateFilter: RegExp = DATE_REGEX;
   maxDate: Date = Util.getMaxBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  constructor(private formBuilder: UntypedFormBuilder, private store: Store) {
     this.InfoFormGroup = this.formBuilder.group({
-      fullTitle: new FormControl('', [
+      fullTitle: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      shortTitle: new FormControl('', [
+      shortTitle: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      edrpouIpn: new FormControl('', [
+      edrpouIpn: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.INPUT_LENGTH_8),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_10)
       ]),
-      director: new FormControl('', [
+      director: new UntypedFormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
       ]),
-      directorDateOfBirth: new FormControl('', Validators.required),
-      phoneNumber: new FormControl('', [
+      directorDateOfBirth: new UntypedFormControl('', Validators.required),
+      phoneNumber: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
-      email: new FormControl('', [
+      email: new UntypedFormControl('', [
         Validators.required, 
         Validators.email
       ]),
-      website: new FormControl('', [
+      website: new UntypedFormControl('', [
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
-      facebook: new FormControl('', [
+      facebook: new UntypedFormControl('', [
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
-      instagram: new FormControl('', [
+      instagram: new UntypedFormControl('', [
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
       ]),
-      type: new FormControl(null, Validators.required),
-      ownership: new FormControl(null, Validators.required),
-      institution: new FormControl('', Validators.required),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
+      type: new UntypedFormControl(null, Validators.required),
+      ownership: new UntypedFormControl(null, Validators.required),
+      institution: new UntypedFormControl('', Validators.required),
+      coverImage: new UntypedFormControl(''),
+      coverImageId: new UntypedFormControl(''),
     });
   }
 

@@ -4,7 +4,7 @@ import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabin
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Role } from 'src/app/shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/shared/models/user.model';
@@ -32,12 +32,12 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   user$: Observable<User>;
   user: User;
 
-  userEditFormGroup: FormGroup;
+  userEditFormGroup: UntypedFormGroup;
   userRole: Role;
   subRole: Role;
 
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     store: Store,
     navigationBarService: NavigationBarService,
     route: ActivatedRoute
@@ -45,25 +45,25 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
     super(store, route, navigationBarService);
 
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', [
+      lastName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      firstName: new FormControl('', [
+      firstName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      middleName: new FormControl('', [
+      middleName: new UntypedFormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      phoneNumber: new UntypedFormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
     });
     this.subscribeOnDirtyForm(this.userEditFormGroup);
   }
@@ -75,8 +75,8 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
       this.user = user;
       if (this.userRole === Role.parent) {
-        this.userEditFormGroup.addControl('dateOfBirth', new FormControl('', Validators.required));
-        this.userEditFormGroup.addControl('gender', new FormControl('', Validators.required));
+        this.userEditFormGroup.addControl('dateOfBirth', new UntypedFormControl('', Validators.required));
+        this.userEditFormGroup.addControl('gender', new UntypedFormControl('', Validators.required));
       }
       this.setEditMode();
     });

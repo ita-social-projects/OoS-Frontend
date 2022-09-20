@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -34,7 +34,7 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   allDirections: Direction[] = [];
   selectedDirections: Direction[] = [];
   filteredDirections: Direction[] = [];
-  directionSearch = new FormControl('');
+  directionSearch = new UntypedFormControl('');
   showAll = true;
 
   constructor(private store: Store) {}

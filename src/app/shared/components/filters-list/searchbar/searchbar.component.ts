@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { UntypedFormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -21,7 +21,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     private router: Router,
   ) { }
 
-  searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
+  searchValueFormControl = new UntypedFormControl('', [Validators.maxLength(256)]);
   filteredResults: string[];
 
   @Select(NavigationState.navigationPaths)

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants'
 import { MatDialog } from '@angular/material/dialog';
@@ -13,14 +13,14 @@ import { Constants } from 'src/app/shared/constants/constants';
   styleUrls: ['./create-teacher.component.scss']
 })
 export class CreateTeacherComponent implements OnInit {
-  TeacherFormArray: FormArray = new FormArray([]);
+  TeacherFormArray: UntypedFormArray = new UntypedFormArray([]);
 
   @Input() teachers: Teacher[];
   @Input() isRelease3: boolean;
 
   @Output() passTeacherFormArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private matDialog: MatDialog) { }
+  constructor(private fb: UntypedFormBuilder, private matDialog: MatDialog) { }
 
   ngOnInit(): void {
     if (this.teachers?.length) {
@@ -42,32 +42,32 @@ export class CreateTeacherComponent implements OnInit {
    * This method create new FormGroup
    * @param FormArray: array
    */
-  private createNewForm(teacher?: Teacher): FormGroup {
+  private createNewForm(teacher?: Teacher): UntypedFormGroup {
     const teacherFormGroup = this.fb.group({
-      id: new FormControl(''),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
-      lastName: new FormControl('', [
+      id: new UntypedFormControl(''),
+      coverImage: new UntypedFormControl(''),
+      coverImageId: new UntypedFormControl(''),
+      lastName: new UntypedFormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      firstName: new FormControl('', [
+      firstName: new UntypedFormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      middleName: new FormControl('', [
+      middleName: new UntypedFormControl('', [
         Validators.required, 
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      gender: new FormControl('', Validators.required),
-      dateOfBirth: new FormControl('', Validators.required),
-      description: new FormControl('', [
+      gender: new UntypedFormControl('', Validators.required),
+      dateOfBirth: new UntypedFormControl('', Validators.required),
+      description: new UntypedFormControl('', [
         Validators.required, 
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300)
@@ -83,7 +83,7 @@ export class CreateTeacherComponent implements OnInit {
   /**
     * This method fills inputs with information of edited teachers
     */
-  private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
+  private activateEditMode(teacherFormGroup: UntypedFormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });

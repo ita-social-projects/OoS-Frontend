@@ -1,6 +1,6 @@
 import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
-import { FormGroup } from '@angular/forms';
+import { UntypedFormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
@@ -22,7 +22,7 @@ import { FilterState } from '../../store/filter.state';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
-  @Input() addressFormGroup: FormGroup;
+  @Input() addressFormGroup: UntypedFormGroup;
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 
   @Output() addressSelect = new EventEmitter<Geocoder>();

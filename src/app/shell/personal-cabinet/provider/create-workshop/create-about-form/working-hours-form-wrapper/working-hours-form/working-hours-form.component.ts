@@ -1,6 +1,6 @@
 import { ValidationConstants } from '../../../../../../../shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from '../../../../../../../shared/constants/constants';
@@ -19,11 +19,11 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
 
-  workdaysFormControl = new FormControl('');
-  startTimeFormControl = new FormControl('');
-  endTimeFormControl = new FormControl('');
+  workdaysFormControl = new UntypedFormControl('');
+  startTimeFormControl = new UntypedFormControl('');
+  endTimeFormControl = new UntypedFormControl('');
 
-  @Input() workingHoursForm: FormGroup;
+  @Input() workingHoursForm: UntypedFormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;
 
@@ -32,9 +32,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
-    this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
-    this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
-    this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
+    this.workdaysFormControl = this.workingHoursForm.get('workdays') as UntypedFormControl;
+    this.startTimeFormControl = this.workingHoursForm.get('startTime') as UntypedFormControl;
+    this.endTimeFormControl = this.workingHoursForm.get('endTime') as UntypedFormControl;
 
     this.workingHoursForm.valueChanges.pipe(
       filter(()=> !this.workdaysFormControl.touched),

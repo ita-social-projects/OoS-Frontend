@@ -13,7 +13,7 @@ import { Constants, PaginationConstants } from 'src/app/shared/constants/constan
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { FormControl } from '@angular/forms';
+import { UntypedFormControl } from '@angular/forms';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
@@ -60,7 +60,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     'status',
     'star',
   ];
-  filterFormControl: FormControl = new FormControl('');
+  filterFormControl: UntypedFormControl = new UntypedFormControl('');
   dataSource = new MatTableDataSource([{}]);
   currentPage: PaginationElement = PaginationConstants.firstPage;
   totalEntities: number;
