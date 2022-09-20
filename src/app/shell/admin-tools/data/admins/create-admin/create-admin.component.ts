@@ -172,11 +172,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           this.AdminFormGroup.get('institution').value.id,
           this.adminId
         );
-        if (this.editMode) {
-          this.store.dispatch(new UpdateMinistryAdmin(ministryAdmin));
-        }else { 
-          this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));          
-        }
+        this.store.dispatch(this.editMode? new UpdateMinistryAdmin(ministryAdmin) : new CreateMinistryAdmin(ministryAdmin));
       }
     });   
   }
