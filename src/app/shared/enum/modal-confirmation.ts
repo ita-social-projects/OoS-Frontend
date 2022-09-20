@@ -28,6 +28,7 @@ export enum ModalConfirmationType {
   openSet = 'openSet',
   deleteMinistryAdmin = 'deleteMinistryAdmin',
   blockMinistryAdmin = 'blockMinistryAdmin',
+  updateMinistryAdmin = 'updateMinistryAdmin',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -58,6 +59,7 @@ export enum ModalConfirmationTitle {
   openSet = 'Відкрити набір',
   deleteMinistryAdmin = 'ВИДАЛИТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
   blockMinistryAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
+  updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА'
 }
 
 export enum ModalConfirmationText {
@@ -90,7 +92,8 @@ export enum ModalConfirmationText {
   closeSet = 'Ви впевнені, що хочете призупинити набір?',
   openSet = 'Ви впевнені, що хочете відкрити набір?',
   deleteMinistryAdmin = 'Ви впевнені, що хочете видалити адміністратора міністерства',
-  blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства'
+  blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства',
+  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства',
 }
 
 export enum ModalConfirmationDescription {
