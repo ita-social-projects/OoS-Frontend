@@ -1,7 +1,7 @@
-import { MinistryAdmin } from './../../../../shared/models/ministryAdmin.model';
+import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
+import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins, UpdateMinistryAdmin } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -50,6 +50,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  adminParams: MinistryAdminParameters = {
+    searchString: "",
+    tabTitle: undefined,
+  };
   
   constructor(    
     private store: Store,
@@ -65,11 +69,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(2000),
-        map((value: string)=> value.trim()))
-      .subscribe((searchString: string) => 
-      this.store.dispatch(new GetAllMinistryAdmins(searchString))
-      );
+        debounceTime(2000))
+      .subscribe((searchString: string) => {
+        this.adminParams.searchString = searchString;
+        this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+    });
 
     this.ministryAdmins$
     .pipe(
@@ -82,7 +86,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     this.addNavPath();
-
   }
 
   /**
@@ -91,6 +94,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
   */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
+    this.adminParams.searchString = "";
+    this.adminParams.tabTitle = event.tab.textLabel;
+    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] },
@@ -137,9 +143,13 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
+  onUpdate(admin: UsersTable): void {
+    this.router.navigate([`update-admin/ministryAdmin/${admin.id}`])
+  }
+
   private addNavPath(): void {
     this.store.dispatch([ 
-      new GetAllMinistryAdmins(),
+      new GetAllMinistryAdmins(this.adminParams),
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,

@@ -1,4 +1,4 @@
-import { AllMinistryAdmins, MinistryAdmin } from './../../models/ministryAdmin.model';
+import { AllMinistryAdmins, MinistryAdmin, MinistryAdminParameters } from './../../models/ministryAdmin.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -16,16 +16,16 @@ export class MinistryAdminService {
     private store: Store, 
   ) {}
 
-  private setParams( searchString?:string ): HttpParams {
+  private setParams( parameters?: MinistryAdminParameters ): HttpParams {
     let params = new HttpParams();
 
-    if(searchString){
-      params = params.set('SearchString', searchString);
+    if(parameters.searchString){
+      params = params.set('SearchString', parameters.searchString);
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.adminsPerPage);
     const from: number = size * (+currentPage.element - 1);
-    
+
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
 
@@ -40,10 +40,21 @@ export class MinistryAdminService {
   }
 
   /**
+   * This method get Ministry Admin by Id
+   * * @param ministryAdminId: string
+   */
+  getMinistryAdminById(ministryAdminId: string): Observable<MinistryAdmin> {
+    let params = new HttpParams();
+    params = params.set('id', `${ministryAdminId}`);
+
+    return this.http.get<MinistryAdmin>(`/api/v1/MinistryAdmin/GetById`, { params });
+  }
+
+  /**
    * This method get All Ministry Admins
    */
-  getAllMinistryAdmin(searchString: string): Observable<AllMinistryAdmins> {
-    const options = { params: this.setParams(searchString) };
+  getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<AllMinistryAdmins> {
+    const options = { params: this.setParams(parameters) };
 
     return this.http.get<AllMinistryAdmins>(`/api/v1/MinistryAdmin/GetByFilter`, options);
   }
@@ -78,4 +89,11 @@ export class MinistryAdminService {
     return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Block`, {}, { params });
   }
 
+  /**
+   * This method update Ministry Admin
+   * @param ministryAdmin: MinistryAdmin
+   */
+   updateMinistryAdmin (ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
+    return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Update`, ministryAdmin);
+  }
 }

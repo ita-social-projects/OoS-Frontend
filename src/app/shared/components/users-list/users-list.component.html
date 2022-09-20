@@ -126,8 +126,8 @@
             <button mat-menu-item (click)="onDelete(user)">
               Видалити користувача
             </button>
-            <button mat-menu-item *ngIf="isEditable" (click)="onDelete(user)">
-              Редагувати
+            <button *ngIf="isEdit" mat-menu-item (click)="onUpdate(user)">
+              Редагувати користувача
             </button>
           </mat-menu>
           <mat-menu #email="matMenu" class="header_menu">
