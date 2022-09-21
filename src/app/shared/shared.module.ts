@@ -62,6 +62,8 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
+import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
+import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
 
 @NgModule({
   declarations: [
@@ -120,6 +122,8 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    StretchCellComponent,
+    StretchTableDirective,
   ],
   
   imports: [
@@ -187,7 +191,9 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     AchievementCardComponent,
     StarsComponent,
     JoinPipe,
-    GetFullNamePipe
+    GetFullNamePipe,
+    StretchCellComponent,
+    StretchTableDirective,
   ]
 })
 export class SharedModule { }
