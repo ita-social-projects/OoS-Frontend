@@ -7,7 +7,7 @@
           <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
         </button>
       </a>
-      <h3 *ngIf="platformInfo.title.length<40">{{platformInfo.title}}</h3>
+      <h3 *ngIf="platformInfo.title.length<40">{{platformInfo.title}}</h3> 
       <h3 *ngIf="platformInfo.title.length>=40" style="padding-top: 3rem;">{{platformInfo.title}}</h3>
       <div *ngFor="let portalItem of platformInfo.companyInformationItems" class="config-wrapper">
         <h4>{{portalItem.sectionName}}</h4>
