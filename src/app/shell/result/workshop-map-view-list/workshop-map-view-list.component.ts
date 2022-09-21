@@ -114,7 +114,8 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
     if (this.isSelectedMarker) {
       this.selectedWorkshops = this.workshops.filter(
-        (workshop: WorkshopCard) => address.catottgId === workshop.address.catottgId
+        (workshop: WorkshopCard) =>
+          address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
       );
 
       this.workshopDetailsAnimationState = true;
