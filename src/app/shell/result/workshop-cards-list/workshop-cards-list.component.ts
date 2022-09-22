@@ -29,7 +29,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-  
+
   isVisible = false;
   parent: boolean;
   workshops: WorkshopFilterCard;
@@ -39,7 +39,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workshops$
-      .pipe(takeUntil(this.destroy$), filter((workshops: WorkshopFilterCard)=> !!workshops))
+      .pipe(takeUntil(this.destroy$), filter((workshops: WorkshopFilterCard) => !!workshops))
       .subscribe((workshops: WorkshopFilterCard) => (this.workshops = workshops));
   }
 

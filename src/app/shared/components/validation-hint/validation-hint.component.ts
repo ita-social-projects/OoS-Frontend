@@ -17,14 +17,14 @@ enum ValidatorsTypes {
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
-  @Input() validationFormControl: FormControl = new FormControl(); //required for validation
-  @Input() isTouched: boolean; //required for dropdowns that doesn't touched
-  //for Length Validation
+  @Input() validationFormControl: FormControl = new FormControl(); // required for validation
+  @Input() isTouched: boolean; // required for dropdowns that doesn't touched
+  // for Length Validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
-  @Input() isPhoneNumber: number; //required to display validation for phone number
+  @Input() isPhoneNumber: number; // required to display validation for phone number
 
-  //for Date Format Validation
+  // for Date Format Validation
   @Input() minMaxDate: boolean;
 
   required: boolean;
@@ -45,34 +45,34 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.validationFormControl.statusChanges.pipe(
       debounceTime(200),
       takeUntil(this.destroy$)
-    ).subscribe(()=>{
+    ).subscribe(() => {
       const errors = this.validationFormControl.errors;
-      //Check is the field valid
+      // Check is the field valid
       this.invalid = this.validationFormControl.invalid && this.validationFormControl.touched;
 
-      //Check is the field required and empty
+      // Check is the field required and empty
       this.required = !!(errors?.required && !this.validationFormControl.value);
 
-      //Check Date Picker Format
+      // Check Date Picker Format
       this.minMaxDate && this.checkMatDatePciker();
 
-      //Check errors from validators
+      // Check errors from validators
       this.checkValidationErrors(errors);
 
-      //Check errors for invalid text field 
+      // Check errors for invalid text field
       this.checkInvalidText(errors);
-    })
+    });
   }
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes?.isTouched) {
-      (<EventEmitter<any>>this.validationFormControl.statusChanges).emit();
+      (this.validationFormControl.statusChanges as EventEmitter<any>).emit();
     }
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    if(this.isPhoneNumber){
+    if (this.isPhoneNumber){
       this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
     }else{
       this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
@@ -82,7 +82,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    if(requiredPattern){
+    if (requiredPattern){
       this.invalidSymbols = NAME_REGEX == requiredPattern;
       this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     }
@@ -91,7 +91,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkMatDatePciker(): void {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
-        this.validationFormControl.hasError('matDatepickerMin') || 
+        this.validationFormControl.hasError('matDatepickerMin') ||
         this.validationFormControl.hasError('matDatepickerMax')
       );
   }

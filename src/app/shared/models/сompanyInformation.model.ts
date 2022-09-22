@@ -1,4 +1,4 @@
-import { SectionItem } from "./sectionItem.model";
+import { SectionItem } from './sectionItem.model';
 
 export class CompanyInformation {
   id?: string;
@@ -18,8 +18,9 @@ export class СompanyInformationSectionItem extends SectionItem {
   constructor(info) {
     super(info);
 
-    if(info.companyInformationId)
+    if (info.companyInformationId) {
       this.companyInformationId =  info.companyInformationId;
+    }
     }
 }
 

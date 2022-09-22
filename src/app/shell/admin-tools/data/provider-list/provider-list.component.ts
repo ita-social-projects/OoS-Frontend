@@ -33,13 +33,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTitleUkr = ApplicationTitles;
   readonly providerAdminIcons = ApplicationIcons;
-  
+
   @Select(AdminState.providers)
   providers$: Observable<ProviderCards>;
   @Select(PaginatorState.providersPerPage)
   providersPerPage$: Observable<number>;
 
-  
+
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;

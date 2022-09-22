@@ -121,7 +121,7 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     JoinPipe,
     GetFullNamePipe,
   ],
-  
+
   imports: [
     MaterialModule,
     CommonModule,

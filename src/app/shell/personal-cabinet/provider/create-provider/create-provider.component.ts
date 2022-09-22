@@ -201,8 +201,8 @@ export class CreateProviderComponent
    */
   checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach(key => {
-      if ((<FormGroup>this.ContactsFormGroup.get(key)).enabled) {
-        this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
+      if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
+        this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
       }
     });
   }

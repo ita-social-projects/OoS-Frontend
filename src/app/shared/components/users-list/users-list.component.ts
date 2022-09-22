@@ -66,9 +66,9 @@ export class UsersListComponent implements OnInit, AfterViewInit {
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.filterValue && changes.filterValue.currentValue) {
-      let filter = changes.filterValue.currentValue;
+      const filter = changes.filterValue.currentValue;
       this.dataSource.filter = filter.trim().toLowerCase();
-    } else this.dataSource.filter = '';
+    } else { this.dataSource.filter = ''; }
 
     if (changes.users && changes.users.currentValue) {
       const users = changes.users.currentValue;
@@ -85,14 +85,14 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     }
   }
 
-  onDelete(user: ProviderAdminTable): void {    
+  onDelete(user: ProviderAdminTable): void {
     this.deleteAdmin.emit(user);
   }
-  
+
   onBlock(user: ProviderAdminTable): void {
     this.blockAdmin.emit(user);
   }
-  
+
   onUpdate(user: ProviderAdminTable): void {
     this.update.emit(user);
   }

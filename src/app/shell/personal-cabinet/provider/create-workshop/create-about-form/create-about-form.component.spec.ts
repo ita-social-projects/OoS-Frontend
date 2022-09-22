@@ -95,8 +95,8 @@ class MockWorkingHours {
   template: ''
 })
 class MockValidationHintAboutComponent {
-  @Input() validationFormControl: FormControl; //required for validation
-  @Input() isTouched: boolean; 
+  @Input() validationFormControl: FormControl; // required for validation
+  @Input() isTouched: boolean;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;

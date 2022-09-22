@@ -22,24 +22,29 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   isFree$: Observable<boolean>;
   @Input()
   set workingHours(filter) {
-    let { endTime, startTime, workingDays, isStrictWorkdays, isAppropriateHours } = filter;
+    let { endTime, startTime } = filter;
+    const { workingDays, isStrictWorkdays, isAppropriateHours } = filter;
 
-    this.selectedWorkingDays = workingDays
+    this.selectedWorkingDays = workingDays;
     this.days.forEach(day => {
       if (this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value])) {
-        day.selected = true
+        day.selected = true;
       } else {
-        day.selected = false
+        day.selected = false;
       }
-    })
-    endTime ? endTime = endTime + ':00' : endTime
+    });
+    if (endTime) {
+      endTime = endTime + ':00';
+    }
     this.endTimeFormControl.setValue(endTime, { emitEvent: false });
 
-    startTime ? startTime = startTime + ':00' : startTime
+    if (startTime) {
+      startTime = startTime + ':00';
+    }
     this.startTimeFormControl.setValue(startTime, { emitEvent: false });
     this.isStrictWorkdaysControl.setValue(isStrictWorkdays, { emitEvent: false });
     this.isAppropriateHoursControl.setValue(isAppropriateHours, { emitEvent: false });
-  }; 
+  }
 
   readonly validationConstants = ValidationConstants;
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;

@@ -17,6 +17,6 @@ export class InfoCardComponent {
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;
 
-  constructor() { 
+  constructor() {
   }
 }

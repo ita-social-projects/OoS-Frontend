@@ -1,4 +1,4 @@
-import { PaginationElement } from "../models/paginationElement.model";
+import { PaginationElement } from '../models/paginationElement.model';
 
 export class SetWorkshopsPerPage {
   static readonly type = '[paginator] Workshops Per Page';

@@ -12,7 +12,7 @@ import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationT
 })
 export class ReasonModalWindowComponent {
 
-  readonly validationConstants= ValidationConstants;
+  readonly validationConstants = ValidationConstants;
 
   @Input() application: Application;
   modalTitle: string;
@@ -20,7 +20,7 @@ export class ReasonModalWindowComponent {
   modalConfirmationDescription: string;
   readonly modalConfirmationType = ModalConfirmationType;
 
-  ReasonFormControl= new FormControl('', [
+  ReasonFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
     Validators.minLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)

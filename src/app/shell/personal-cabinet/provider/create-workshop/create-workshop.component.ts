@@ -76,10 +76,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             isActive: false,
             disable: false,
           },
-          { 
-            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, 
-            isActive: false, 
-            disable: true 
+          {
+            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop,
+            isActive: false,
+            disable: true
           }
         )
       )
@@ -108,9 +108,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
-      let workshop: Workshop;
+    let workshop: Workshop;
 
-      if (this.editMode) {
+    if (this.editMode) {
         workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
         this.store.dispatch(new UpdateWorkshop(workshop));
       } else {
@@ -161,7 +161,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
-    if(this.TeacherFormArray?.controls) {
+    if (this.TeacherFormArray?.controls) {
       this.TeacherFormArray.controls.forEach((form: FormGroup) => {
         const teacher: Teacher = new Teacher(form.value);
         teachers.push(teacher);

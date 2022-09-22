@@ -109,7 +109,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       subdomains: '123',
       maxZoom: 19,
       tms: true,
-      attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»",
+      attribution: 'Дані карт © 2019 ПРаТ «<a href=\'https://api.visicom.ua/\'>Визиком</a>»',
     }).addTo(this.map);
 
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {

@@ -57,7 +57,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() reject = new EventEmitter();
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
-  
+
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
   tabIndex: number;
@@ -82,7 +82,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEntitiesSelect(IDs: string[]): void {
     this.enititiesSelect.emit(IDs);
-  };
+  }
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;

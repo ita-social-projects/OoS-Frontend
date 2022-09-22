@@ -74,7 +74,7 @@ export class PaginatorComponent implements OnChanges {
 
     const carouselLength = this.constants.MAX_PAGE_PAGINATOR_DISPLAY + startPage - 1;
 
-    let endPage = (carouselLength <= this.totalPageAmount) ? carouselLength : this.totalPageAmount;
+    const endPage = (carouselLength <= this.totalPageAmount) ? carouselLength : this.totalPageAmount;
 
     const pageList: PaginationElement[] = [];
 

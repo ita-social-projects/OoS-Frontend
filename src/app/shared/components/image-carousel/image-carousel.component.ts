@@ -8,7 +8,7 @@ import { imgPath } from 'src/app/shared/models/carousel.model';
 })
 export class ImageCarouselComponent implements OnInit, OnChanges {
 
-  @Input() images:imgPath[] = [];
+  @Input() images: imgPath[] = [];
   @ViewChild('myCarousel', {static: false}) myCarousel;
   constructor() { }
 

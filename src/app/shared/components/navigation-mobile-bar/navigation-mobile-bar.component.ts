@@ -28,10 +28,10 @@ export class NavigationMobileBarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.navigation = this.navigationPathsMobile$
     .pipe(delay(0))
-    .subscribe((navigation) => this.navigationPathsMobile = navigation)
+    .subscribe((navigation) => this.navigationPathsMobile = navigation);
   }
-  
+
   ngOnDestroy(): void {
-     this.navigation.unsubscribe(); 
+     this.navigation.unsubscribe();
   }
 }

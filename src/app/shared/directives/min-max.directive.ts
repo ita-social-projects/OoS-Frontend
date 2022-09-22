@@ -20,7 +20,7 @@ export class MinMaxDirective implements OnInit, OnDestroy {
     this.debounce$.pipe(
       debounceTime(1000)
     ).subscribe((val: number) => {
-      this.MaxMinValidation(val)
+      this.MaxMinValidation(val);
     });
   }
 

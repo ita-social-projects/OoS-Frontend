@@ -25,7 +25,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality,
-  }
+  };
 
   @Input() workshop: Workshop;
   @Input() isRelease3: boolean;
@@ -44,7 +44,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   disabilityOptionRadioBtn: FormControl = new FormControl(false);
-  disabledKeyWordsInput: boolean = false;
+  disabledKeyWordsInput = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
@@ -138,7 +138,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.workshop.workshopDescriptionItems?.length) {
-      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => this.SectionItemsFormArray.push(this.newForm(item)))
+      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => this.SectionItemsFormArray.push(this.newForm(item)));
     } else {
       this.onAddForm();
     }
@@ -169,7 +169,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     });
 
     if (this.workshop) {
-      EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id))
+      EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id));
     }
 
     if (item) {
@@ -183,7 +183,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    if(this.DescriptionFormGroup.get('workshopDescriptionItems')) {
+    if (this.DescriptionFormGroup.get('workshopDescriptionItems')) {
       (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
         this.newForm()
       );

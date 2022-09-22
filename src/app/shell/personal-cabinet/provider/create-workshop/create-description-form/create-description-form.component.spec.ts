@@ -70,7 +70,7 @@ describe('CreateDescriptionFormComponent', () => {
   template: ''
 })
 class MockValidationHintAboutComponent {
-  @Input() validationFormControl: FormControl; //required for validation
+  @Input() validationFormControl: FormControl; // required for validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;

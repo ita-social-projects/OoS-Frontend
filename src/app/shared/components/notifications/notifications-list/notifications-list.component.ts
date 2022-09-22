@@ -27,7 +27,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notificationsData$: Observable<Notifications>;
   notificationsAmount: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  
+
   readonly notificationsConstants = NotificationsConstants;
   readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
 
@@ -59,7 +59,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
-        let status: string = ApplicationStatus[notificationsGrouped.groupedData];
+        const status: string = ApplicationStatus[notificationsGrouped.groupedData];
         this.router.navigate([`/personal-cabinet/${userRole}/${NotificationType.Application}/`], { relativeTo: this.route, queryParams: { status: status } });
         break;
       case NotificationType.Workshop:
@@ -79,16 +79,16 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     switch (status) {
       case 'Approved':
         declination = ApplicationApproved;
-      break;
+        break;
       case 'Pending':
         declination = ApplicationPending;
-      break;
+        break;
       case 'Rejected':
         declination = ApplicationRejected;
-      break;
+        break;
       case 'Left':
         declination = ApplicationLeft;
-        break;    
+        break;
       default:
         declination = ApplicationPending;
         break;

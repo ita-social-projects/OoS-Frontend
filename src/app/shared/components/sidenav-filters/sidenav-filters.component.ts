@@ -20,12 +20,12 @@ export class SidenavFiltersComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {    
+  ngOnInit(): void {
     this.filtersSidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleFiltersSidenav = visible);
   }
-  
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

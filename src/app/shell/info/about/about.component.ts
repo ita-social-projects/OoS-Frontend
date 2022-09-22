@@ -28,7 +28,7 @@ export class AboutComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
 
   platformInformation: CompanyInformation;
-  
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}

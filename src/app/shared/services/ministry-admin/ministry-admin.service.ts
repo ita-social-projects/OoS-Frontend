@@ -12,14 +12,14 @@ import { Store } from '@ngxs/store';
 export class MinistryAdminService {
 
   constructor(
-    private http: HttpClient, 
-    private store: Store, 
+    private http: HttpClient,
+    private store: Store,
   ) {}
 
   private setParams( parameters?: MinistryAdminParameters ): HttpParams {
     let params = new HttpParams();
 
-    if(parameters.searchString){
+    if (parameters.searchString){
       params = params.set('SearchString', parameters.searchString);
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
@@ -31,7 +31,7 @@ export class MinistryAdminService {
 
     return params;
   }
-  
+
   /**
   * This method get Profile of authorized MinistryAdmin
   */
@@ -74,7 +74,7 @@ export class MinistryAdminService {
   deleteMinistryAdmin(ministryAdminId: string): Observable<MinistryAdmin> {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
-    
+
     return this.http.delete<MinistryAdmin>(`/api/v1/MinistryAdmin/Delete`, { params });
   }
 
@@ -93,7 +93,7 @@ export class MinistryAdminService {
    * This method update Ministry Admin
    * @param ministryAdmin: MinistryAdmin
    */
-   updateMinistryAdmin (ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
+   updateMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
     return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Update`, ministryAdmin);
   }
 }

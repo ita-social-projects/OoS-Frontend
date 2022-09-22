@@ -38,7 +38,7 @@ export class Util {
    */
   public static getMinBirthDate(maxAge: number): Date {
     const today = new Date();
-    let minBirthDate = new Date();
+    const minBirthDate = new Date();
 
     minBirthDate.setFullYear(today.getFullYear() - maxAge);
 
@@ -62,7 +62,7 @@ export class Util {
    */
   public static getDeclensionYear(year: number): string {
     let ageString;
-    let lastDigit = year % 10;
+    const lastDigit = year % 10;
     lastDigit === 1 && year !== 11
       ? (ageString = 'рік')
       : lastDigit > 1 && lastDigit < 5
@@ -129,7 +129,7 @@ export class Util {
    */
   public static updateStructureForTheTable(users): UsersTable[] {
     const constants: typeof Constants = Constants;
-    let updatedUsers = [];
+    const updatedUsers = [];
     users.forEach(user => {
       updatedUsers.push({
         id: user.id,
@@ -174,8 +174,8 @@ export class Util {
    * @returns string
    */
   public static getWorkshopMessage(payload) {
-    let finalMessage = { text: '', type: 'success' };
-    let messageArr = [];
+    const finalMessage = { text: '', type: 'success' };
+    const messageArr = [];
 
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
@@ -203,7 +203,7 @@ export class Util {
     }
 
     if (isInvalidGaleryImages) {
-      let errorCodes = new Set();
+      const errorCodes = new Set();
       invalidImages.map(img => img[1]).forEach(img => img['errors'].forEach(error => errorCodes.add(error.code)));
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
       const indexes = invalidImages.map(img => img[0]);

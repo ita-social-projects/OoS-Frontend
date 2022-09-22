@@ -53,9 +53,9 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
-  public currentWorkShopIndex: number = 0;
+  public currentWorkShopIndex = 0;
   public direct: string;
-  public left: number = 0;
+  public left = 0;
 
   constructor(private store: Store) {}
 

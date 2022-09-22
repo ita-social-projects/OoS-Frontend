@@ -14,10 +14,10 @@ describe('CreateContactsFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule, 
-        FormsModule, 
-        MatCheckboxModule, 
-        NgxsModule.forRoot([]), 
+        BrowserAnimationsModule,
+        FormsModule,
+        MatCheckboxModule,
+        NgxsModule.forRoot([]),
         ReactiveFormsModule
       ],
       declarations: [CreateContactsFormComponent, MockAddressForm],

@@ -56,7 +56,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   providerAdmin: ProviderAdminsHistory;
   application: ApplicationsHistory;
   tableData: any = [];
-  tabIndex: number = 0;
+  tabIndex = 0;
   searchString: string;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   searchFormControl = new FormControl('');
@@ -167,7 +167,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   onFilter(event: FilterData): void {
     this.filters = event;
-    this.dispatchProperValue(this.tabIndex, event,this.searchString);
+    this.dispatchProperValue(this.tabIndex, event, this.searchString);
   }
 
   ngOnDestroy() {

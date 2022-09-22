@@ -27,11 +27,8 @@
         "spaces"
       ]
     },
+    "object-literal-shorthand": false,
     "max-classes-per-file": false,
-    "max-line-length": [
-      true,
-      140
-    ],
     "member-ordering": [
       true,
       {
@@ -57,9 +54,12 @@
       "ignore-params"
     ],
     "no-non-null-assertion": true,
-    "no-redundant-jsdoc": true,
+    "no-redundant-jsdoc": false,
+    "no-string-literal": false,
     "no-switch-case-fall-through": true,
     "no-var-requires": false,
+    "no-unused-expression": false,
+    "one-variable-per-declaration": false,
     "object-literal-key-quotes": [
       true,
       "as-needed"
@@ -82,6 +82,7 @@
         "named": "never"
       }
     },
+    "triple-equals": false,
     "typedef": [
       true,
       "call-signature"
@@ -133,7 +134,7 @@
     "no-output-rename": true,
     "no-outputs-metadata-property": true,
     "template-banana-in-box": true,
-    "template-no-negated-async": true,
+    "template-no-negated-async": false,
     "use-lifecycle-interface": true,
     "use-pipe-transform-interface": true,
     "directive-selector": [

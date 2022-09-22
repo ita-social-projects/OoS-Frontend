@@ -19,7 +19,7 @@ describe('ProviderDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatTabsModule,
         RouterTestingModule,
         MatIconModule,
@@ -27,7 +27,7 @@ describe('ProviderDetailsComponent', () => {
         NgxsModule.forRoot([]),
         BrowserAnimationsModule
       ],
-      declarations: [ 
+      declarations: [
         ProviderDetailsComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,

@@ -21,28 +21,28 @@ export class ChildrenService {
   private setParams( parameters?: ChildrenParameters, isParent?: boolean ): HttpParams {
     let params = new HttpParams();
 
-    if(parameters){
-      if(parameters.searchString){
-      params = params.set('SearchString', parameters.searchString);}
-      if(parameters.tabTitle){ 
-        if(parameters.tabTitle == "Батьки"){
-          isParent= true;
+    if (parameters){
+      if (parameters.searchString){
+      params = params.set('SearchString', parameters.searchString); }
+      if (parameters.tabTitle){
+        if (parameters.tabTitle == 'Батьки'){
+          isParent = true;
         }
-        if(parameters.tabTitle == "Діти"){
-          isParent= false;
+        if (parameters.tabTitle == 'Діти'){
+          isParent = false;
         }
       }
 
-    if(isParent !== undefined){
-      params = params.set('isParent', isParent.toString());}
+      if (isParent !== undefined){
+      params = params.set('isParent', isParent.toString()); }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
     const from: number = size * (+currentPage.element - 1);
-    
+
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
-   
+
     return params;
   }
 

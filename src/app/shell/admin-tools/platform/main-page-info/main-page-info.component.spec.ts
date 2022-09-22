@@ -11,7 +11,7 @@ describe('MainPageInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatIconModule,
         RouterTestingModule,
         BrowserAnimationsModule,

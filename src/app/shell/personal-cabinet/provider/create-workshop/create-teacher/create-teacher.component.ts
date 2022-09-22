@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Teacher } from 'src/app/shared/models/teacher.model';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants'
+import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
@@ -34,7 +34,7 @@ export class CreateTeacherComponent implements OnInit {
   onAddTeacher(teacher?: Teacher): void {
     const formGroup = this.createNewForm(teacher);
     this.TeacherFormArray.controls.push(formGroup);
-    this.TeacherFormArray['_registerControl'](formGroup);//for preventing emitting value changes in edit mode on initial value set
+    this.TeacherFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -48,27 +48,27 @@ export class CreateTeacherComponent implements OnInit {
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       lastName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       firstName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       gender: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
       description: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300)
       ]),
@@ -98,16 +98,16 @@ export class CreateTeacherComponent implements OnInit {
     const  teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
     const isPristine = teacherFormGroup.pristine;
 
-    if(teacherFormGroup.status==="VALID" || !isPristine ){
+    if (teacherFormGroup.status === 'VALID' || !isPristine ){
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteTeacher,
-          property: ''  
+          property: ''
         }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => 
+      dialogRef.afterClosed().subscribe((result: boolean) =>
       result && this.TeacherFormArray.removeAt(index));
     } else {
       this.TeacherFormArray.removeAt(index);
