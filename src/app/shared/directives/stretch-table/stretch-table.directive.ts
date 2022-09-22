@@ -16,10 +16,10 @@ export class StretchTableDirective implements AfterViewInit{
     private viewContainerRef: ViewContainerRef
   ) { }
   ngAfterViewInit(): void {
-    setTimeout(() => this.setResizeFunction(), 100);
+    setTimeout(() => this.addResizeStructure(), 100);
   }
 
-  private setResizeFunction(){
+  private addResizeStructure(){
     let THs = this.el.nativeElement.getElementsByTagName('th');
     
     for(let i = 0; i < THs.length - 1; i++){
@@ -49,6 +49,8 @@ export class StretchTableDirective implements AfterViewInit{
       return;
     }
 
+    const body = document.querySelector('body');
+
     this.selectedTh = event.target.closest("th");
     this.tableContainerWidth = this.selectedTh.closest('.table-container').offsetWidth;
     this.mouseMoveFunc = this.changeWidth.bind(this);
@@ -56,8 +58,8 @@ export class StretchTableDirective implements AfterViewInit{
     document.addEventListener('mouseup', this.onUpMouse.bind(this), {once: true})
     document.addEventListener('mousemove', this.mouseMoveFunc);
 
-    document.querySelector('body')!.style.userSelect = 'none';
-    document.querySelector('body')!.style.pointerEvents = 'none';
+    body.style.userSelect = 'none';
+    body.style.pointerEvents = 'none';
   }
 
   private onUpMouse(){
@@ -74,11 +76,7 @@ export class StretchTableDirective implements AfterViewInit{
       return;
     }
 
-    if(this.selectedTh.offsetWidth <= minWidth && event.movementX < 0){
-      return;
-    }
-
-    if(tableWidth <= this.tableContainerWidth && event.movementX < 0){
+    if((this.selectedTh.offsetWidth <= minWidth || tableWidth <= this.tableContainerWidth) && event.movementX < 0 ){
       return;
     }
 
