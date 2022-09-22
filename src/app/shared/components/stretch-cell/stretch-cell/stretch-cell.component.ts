@@ -13,8 +13,7 @@ export class StretchCellComponent implements OnInit {
   }
 
   public insertNode(node: any){
-    this.renderer.appendChild(this.el.nativeElement.childNodes[0], node);
-
+    this.renderer.insertBefore(this.el.nativeElement.childNodes[0], node, this.el.nativeElement.getElementsByClassName('resize-border')[0]);
     this.cdr.detectChanges();
   }
 }
