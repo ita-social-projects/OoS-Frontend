@@ -58,6 +58,6 @@ class MockMapComponent {
 })
 class MockAddressForm {
   @Input() addressFormGroup: FormGroup;
-  @Input() searchFormGroup: FormGroup;
+  @Input() settelmentFormGroup: FormGroup;
   @Input() address: Address;
 }

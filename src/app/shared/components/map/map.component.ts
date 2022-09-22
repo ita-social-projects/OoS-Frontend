@@ -23,10 +23,12 @@ import { FilterState } from '../../store/filter.state';
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
+  @Input() settelmentFormGroup: FormGroup;
+
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
 
   @Output() addressSelect = new EventEmitter<Geocoder>();
-  @Output() selectedAddress = new EventEmitter<Address>();
+  @Output() selectedWorkshopAddress = new EventEmitter<Address>();
 
   @Select(SharedUserState.selectedWorkshop)
   selectedWorkshop$: Observable<Workshop>;
@@ -88,28 +90,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  private setFilteredWorkshops(): void {
-    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
-      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
-      this.workshopMarkers = [];
-      if (filteredWorkshops) {
-        this.workshops = filteredWorkshops.entities;
-        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setWorkshopMarkers(workshop.address));
-      }
-    });
-  }
-
-  private setAddress(): void {
-    const address: Geocoder = this.addressFormGroup.getRawValue();
-    if (address.catottgId) {
-      this.addressDecode(address);
-    }
-
-    this.addressFormGroup.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((address: Geocoder) => this.addressDecode(address));
-  }
-
   /**
    * changing position on map
    * @param coords:Coords
@@ -135,11 +115,34 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
       if (this.workshops) {
         this.unselectMarkers();
-        this.addressSelect.emit(null);
+        this.selectedWorkshopAddress.emit(null);
       } else {
         this.setMapLocation(L.latlng);
       }
     });
+  }
+
+  private setFilteredWorkshops(): void {
+    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
+      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+      this.workshopMarkers = [];
+      if (filteredWorkshops) {
+        this.workshops = filteredWorkshops.entities;
+        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setWorkshopMarkers(workshop.address));
+      }
+    });
+  }
+
+  private setAddress(): void {
+    const address: Geocoder = this.addressFormGroup.getRawValue();
+    if (address.catottgId) {
+      this.addressDecode(address);
+    }
+    this.settelmentFormGroup.valueChanges.subscribe(val => console.log(val));
+
+    this.addressFormGroup.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe((address: Geocoder) => this.addressDecode(address));
   }
 
   /**
@@ -163,6 +166,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (result) {
         this.setNewSingleMarker([result.latitude, result.longitude]);
       } else {
+        this.flyTo({ lat: this.settelmentFormGroup.value.latitude, lng: this.settelmentFormGroup.value.longitude });
+        this.addressSelect.emit(null);
         this.map.removeLayer(this.singleMarker);
       }
     });
@@ -175,6 +180,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setNewSingleMarker(coords: [number, number]): void {
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
+    this.singleMarker.on('dragend', (event: Layer.LeafletMouseEvent) => {
+      this.setMapLocation(event.target['_latlng']);
+    });
     this.map.addLayer(this.singleMarker);
     this.map.flyTo(coords);
   }
@@ -194,7 +202,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const targetMarker = this.workshopMarkers.find(workshopMarker => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
-      this.selectedAddress.emit(address);
+      this.selectedWorkshopAddress.emit(address);
     });
   }
 

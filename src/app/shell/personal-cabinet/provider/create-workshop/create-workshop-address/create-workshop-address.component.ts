@@ -44,7 +44,6 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlement: new FormControl(''),
     });
 
-    this.addressFormGroup.valueChanges.subscribe(val => console.log(val))
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
@@ -53,8 +52,6 @@ export class CreateWorkshopAddressComponent implements OnInit {
     if (result) {
       this.settlementFormControl.setValue(result.codeficator);
       this.settlementSearchFormControl.setValue(result.codeficator.settlement);
-    } else {
-      this.searchFormGroup.reset();
     }
   }
 }

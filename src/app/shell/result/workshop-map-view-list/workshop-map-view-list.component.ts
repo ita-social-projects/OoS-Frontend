@@ -107,17 +107,15 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   onSelectedAddress(address: Address): void {
-    this.isSelectedMarker = Boolean(address);
     this.left = 0;
     this.currentWorkShopIndex = 0;
     this.direct = null;
 
-    if (this.isSelectedMarker) {
+    if (!!address) {
       this.selectedWorkshops = this.workshops.filter(
         (workshop: WorkshopCard) =>
           address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
       );
-
       this.workshopDetailsAnimationState = true;
     } else {
       this.selectedWorkshops = [];
