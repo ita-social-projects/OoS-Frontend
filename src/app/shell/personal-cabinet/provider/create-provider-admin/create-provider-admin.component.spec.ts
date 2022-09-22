@@ -29,7 +29,7 @@ describe('CreateProviderAdminComponent', () => {
         MatDialogModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [ 
+      declarations: [
         CreateProviderAdminComponent,
         MockValidationHintForInputComponent,
         MockWorkshopChekcboxDropdownComponent

@@ -32,15 +32,15 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createOneNavPath({
-          path:'/personal-cabinet/config',
+          path: '/personal-cabinet/config',
           name: this.personalCabinetTitle,
           isActive: false,
           disable: false,
         })
       )
-    );    
+    );
   }
-  
+
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }

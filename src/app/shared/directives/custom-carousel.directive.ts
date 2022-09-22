@@ -14,10 +14,10 @@ export class CustomCarouselDirective {
         hostCarousel.carousel.slide.isNextArrowDisabled = () => {
           return hostCarousel.carousel.slide.isLastSlide(hostCarousel.slide.counter) ||
             (!hostCarousel.carousel.slide.visibleCellsOverflowContainer && hostCarousel.carousel.slide.cellLength < hostCarousel.carousel.slide.numberOfVisibleCells) ||
-            (hostCarousel.carousel.slide.visibleCellsOverflowContainer && hostCarousel.carousel.slide.cellLength < hostCarousel.carousel.slide.numberOfVisibleCells)
-        }
+            (hostCarousel.carousel.slide.visibleCellsOverflowContainer && hostCarousel.carousel.slide.cellLength < hostCarousel.carousel.slide.numberOfVisibleCells);
+        };
         return hostCarousel.carousel.slide.isNextArrowDisabled();
       }
-    }
+    };
   }
 }

@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminsComponent } from './admins/admins.component';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 import { UsersComponent } from './users/users.component';
-import { HistoryLogComponent } from "./history-log/history-log.component";
+import { HistoryLogComponent } from './history-log/history-log.component';
 
 const routes: Routes = [
   { path: 'provider-list', component: ProviderListComponent},

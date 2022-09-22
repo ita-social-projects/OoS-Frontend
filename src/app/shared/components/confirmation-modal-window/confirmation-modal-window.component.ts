@@ -11,7 +11,7 @@ import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } 
 export class ConfirmationModalWindowComponent implements OnInit {
   readonly modalConfirmationType = ModalConfirmationType;
   readonly modalWindow = true;
-  
+
   modalTitle: string;
   modalConfirmationText: string;
   modalConfirmationProperty: string;

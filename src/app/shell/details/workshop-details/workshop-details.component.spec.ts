@@ -17,10 +17,10 @@ import { Role } from 'src/app/shared/enum/role';
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
-  WorkshopDetailsComponent
+  WorkshopDetailsComponent;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatChipsModule,
         MatTabsModule,
         RouterTestingModule,
@@ -30,7 +30,7 @@ describe('WorkshopDetailsComponent', () => {
         NgxsModule.forRoot([]),
         BrowserAnimationsModule
       ],
-      declarations: [ 
+      declarations: [
         WorkshopDetailsComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,

@@ -36,13 +36,13 @@ describe('ReasonModalWindowComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ReasonModalWindowComponent);
     component = fixture.componentInstance;
-    component.ReasonFormControl = new FormControl({ value: 'Reason', disabled: true }, Validators.required)
+    component.ReasonFormControl = new FormControl({ value: 'Reason', disabled: true }, Validators.required);
     fixture.detectChanges();
   });
 
-  it("renders without crashing", () => {
-    global.scrollTo = jest.fn()
-  })
+  it('renders without crashing', () => {
+    global.scrollTo = jest.fn();
+  });
 
   it('should create', () => {
     expect(component).toBeTruthy();

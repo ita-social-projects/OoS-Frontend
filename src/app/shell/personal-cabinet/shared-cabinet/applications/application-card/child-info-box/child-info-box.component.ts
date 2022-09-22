@@ -18,8 +18,8 @@ export class ChildInfoBoxComponent implements OnInit {
   constructor(private detectedDevice: DetectedDeviceService) { }
 
   @Input() child: Child;
-  
-  isMobile = false
+
+  isMobile = false;
   childAge: string;
   childFullName: string;
   parentFullName: string;

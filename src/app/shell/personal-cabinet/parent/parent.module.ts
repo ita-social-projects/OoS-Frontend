@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ParentRoutingModule } from './parent-routing.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { ChildFormComponent } from './create-child/child-form/child-form.component'
+import { ChildFormComponent } from './create-child/child-form/child-form.component';
 import { CreateChildComponent } from './create-child/create-child.component';
 import { ChildrenComponent } from './children/children.component';
 import { CreateApplicationComponent } from './create-application/create-application.component';

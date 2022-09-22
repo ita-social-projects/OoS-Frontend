@@ -44,7 +44,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
-  isAgreed: boolean = false;
+  isAgreed = false;
 
   constructor(
     private fb: FormBuilder,
@@ -81,21 +81,21 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   addNavPath(): void {
     let previousNavPath: Navigation;
-    const workshopId = this.routeParams.snapshot.queryParams['workshopId']; 
-    if(workshopId){
+    const workshopId = this.routeParams.snapshot.queryParams['workshopId'];
+    if (workshopId){
       previousNavPath = {
         name: NavBarName.RequestOnWorkshop,
         path: `/create-application/${workshopId}`,
         isActive: false,
         disable: false,
-      }
+      };
     }else{
       previousNavPath = {
         name: PersonalCabinetTitle.parent,
         path: '/personal-cabinet/parent/info',
         isActive: false,
         disable: false,
-      }
+      };
     }
     this.store.dispatch(
       new AddNavPath(
@@ -123,7 +123,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       filter((child: Child) => !!child)
     )
     .subscribe((child: Child) => {
-      this.child = child
+      this.child = child;
       this.ChildrenFormArray.push(this.newForm(this.child));
     });
   }
@@ -241,7 +241,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   private checkValidationChild(): void {
     Object.keys(this.ChildrenFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.ChildrenFormArray.get(key));
+      this.checkValidation(this.ChildrenFormArray.get(key) as FormGroup);
     });
   }
 

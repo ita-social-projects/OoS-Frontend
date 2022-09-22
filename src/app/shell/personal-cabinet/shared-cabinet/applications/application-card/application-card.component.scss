@@ -155,7 +155,7 @@ p {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: start !important;
+    align-items: flex-start !important;
   }
 
   .card>:nth-of-type(2) {

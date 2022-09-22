@@ -1,13 +1,13 @@
-import { Injectable } from "@angular/core";
-import { Router } from "@angular/router";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { Observable, of, throwError } from "rxjs";
-import { catchError, tap } from "rxjs/operators";
-import { NotificationType } from "../enum/notifications";
-import { Notifications, NotificationsAmount } from "../models/notifications.model";
-import { NotificationsService } from "../services/notifications/notifications.service";
-import { ShowMessageBar } from "./app.actions";
-import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, OnReadUsersNotificationsFail, OnReadUsersNotificationsByTypeSuccess, ReadUsersNotificationsByType, ReadUsersNotificationById, OnReadUsersNotificationByIdSuccess } from "./notifications.actions";
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable, of, throwError } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+import { NotificationType } from '../enum/notifications';
+import { Notifications, NotificationsAmount } from '../models/notifications.model';
+import { NotificationsService } from '../services/notifications/notifications.service';
+import { ShowMessageBar } from './app.actions';
+import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, OnReadUsersNotificationsFail, OnReadUsersNotificationsByTypeSuccess, ReadUsersNotificationsByType, ReadUsersNotificationById, OnReadUsersNotificationByIdSuccess } from './notifications.actions';
 
 export interface NotificationsStateModel {
   notificationsAmount: NotificationsAmount;

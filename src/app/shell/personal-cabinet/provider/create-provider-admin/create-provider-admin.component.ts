@@ -28,11 +28,11 @@ import { Role } from 'src/app/shared/enum/role';
 import { CreateProviderAdmin } from 'src/app/shared/store/provider.actions';
 
 const defaultValidators: ValidatorFn[] = [
-  Validators.required, 
+  Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-]
+];
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
@@ -49,18 +49,18 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   provider$: Observable<Provider>;
   @Select(SharedUserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
-  
+
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
   providerRole: providerAdminRole;
   managedWorkshopIds: string[];
 
   constructor(store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService,
-    private formBuilder: FormBuilder,
-    private matDialog: MatDialog,
-    private location: Location
+              route: ActivatedRoute,
+              navigationBarService: NavigationBarService,
+              private formBuilder: FormBuilder,
+              private matDialog: MatDialog,
+              private location: Location
   ) {
     super(store, route, navigationBarService);
 
@@ -69,11 +69,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       firstName: new FormControl('', defaultValidators),
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.email
       ]),
     });
@@ -90,14 +90,14 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       takeUntil(this.destroy$)
     ).subscribe((provider: Provider) => this.provider = provider);
 
-    if(this.providerRole === providerAdminRole.admin){
+    if (this.providerRole === providerAdminRole.admin){
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     }
   }
-  
+
   setEditMode(): void { }
 
-  addNavPath(): void { 
+  addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -112,7 +112,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
           },
           {
             name: this.providerRole == providerAdminRole.deputy ?
-              NavBarName.CreateProviderDeputy : 
+              NavBarName.CreateProviderDeputy :
               NavBarName.CreateProviderAdmin,
             isActive: false,
             disable: true,
@@ -146,10 +146,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.providerRole === providerAdminRole.deputy, this.provider.id, this.managedWorkshopIds)
+        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.providerRole === providerAdminRole.deputy, this.provider.id, this.managedWorkshopIds);
         this.store.dispatch(new CreateProviderAdmin(providerAdmin));
       }
-    });   
+    });
   }
 
 }

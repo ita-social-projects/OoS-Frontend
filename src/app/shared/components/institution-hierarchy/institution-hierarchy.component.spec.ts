@@ -14,7 +14,7 @@ describe('InstitutionHierarchyComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatOptionModule,
         MatSelectModule,
         MatFormFieldModule,
@@ -23,9 +23,9 @@ describe('InstitutionHierarchyComponent', () => {
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [ 
+      declarations: [
         InstitutionHierarchyComponent,
-        MockValidationHintHierarchyComponent 
+        MockValidationHintHierarchyComponent
       ]
     })
     .compileComponents();
@@ -52,6 +52,6 @@ describe('InstitutionHierarchyComponent', () => {
   template: ''
 })
 class MockValidationHintHierarchyComponent {
-  @Input() validationFormControl: FormControl; //required for validation
+  @Input() validationFormControl: FormControl; // required for validation
   @Input() isTouched: boolean;
 }

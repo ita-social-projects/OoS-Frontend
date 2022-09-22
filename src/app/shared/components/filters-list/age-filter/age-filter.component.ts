@@ -16,7 +16,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
   @Input()
   set ageFilter(filter) {
-    const { minAge, maxAge, isAppropriateAge } = filter
+    const { minAge, maxAge, isAppropriateAge } = filter;
     this.minAgeFormControl.setValue(minAge, { emitEvent: false });
     this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
     this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
@@ -24,7 +24,7 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
 
   minAgeFormControl = new FormControl('');
   maxAgeFormControl = new FormControl('');
-  isAppropriateAgeControl= new FormControl(false);
+  isAppropriateAgeControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) { }

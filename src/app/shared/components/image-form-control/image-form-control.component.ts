@@ -77,12 +77,12 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null))
-    })
+      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
+    });
   }
 
-  onChange = (array: File[]): void => { }
-  onTouched = (): void => { }
+  onChange = (array: File[]): void => { };
+  onTouched = (): void => { };
   writeValue(array: File[]): void { }
   registerOnChange(onChange: any): void {
     this.onChange = onChange;
@@ -99,7 +99,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
-  
+
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
   onResize(screen): void {
     if (screen.innerWidth >= this.mediumScreen) {
@@ -129,7 +129,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.selectedImages.push(image);
         this.onChange(this.selectedImages);
       }
-      this.inputImage.nativeElement.value = "";
+      this.inputImage.nativeElement.value = '';
    });
   }
 }

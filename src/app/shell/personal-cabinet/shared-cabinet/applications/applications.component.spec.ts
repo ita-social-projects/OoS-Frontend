@@ -70,7 +70,7 @@ class MockApplicationCardComponent {
 })
 class MockWorkshopChekcboxDropdownComponent {
   @Input() entities: Workshop[];
-  @Input() declination: WorkshopDeclination
+  @Input() declination: WorkshopDeclination;
 }
 @Component({
   selector: 'app-paginator',
