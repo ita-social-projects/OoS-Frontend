@@ -33,8 +33,8 @@ export class MinistryAdminService {
   }
 
   /**
-  * This method get Profile of authorized MinistryAdmin
-  */
+   * This method get Profile of authorized MinistryAdmin
+   */
   getMinistryAdminProfile(): Observable<MinistryAdmin>{
     return this.http.get<MinistryAdmin>(`/api/v1/MinistryAdmin/Profile`);
   }
@@ -62,7 +62,7 @@ export class MinistryAdminService {
   /**
    * This method create Ministry Admin
    * @param ministryAdmin: MinistryAdmin
-  */
+   */
   createMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
     return this.http.post<MinistryAdmin>('/api/v1/MinistryAdmin/Create', ministryAdmin);
   }

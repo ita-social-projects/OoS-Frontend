@@ -74,7 +74,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
-  defineDeclination(status: string) {
+  defineDeclination(status: string): number {
     let declination;
     switch (status) {
       case 'Approved':

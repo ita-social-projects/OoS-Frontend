@@ -89,9 +89,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method filter admins according to selected tab
-  * @param event: MatTabChangeEvent
-  */
+   * This method filter admins according to selected tab
+   * @param event: MatTabChangeEvent
+   */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
     this.adminParams.searchString = '';
@@ -104,8 +104,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method block Admin By Id
-  */
+   * This method block Admin By Id
+   */
   onBlock(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
@@ -125,7 +125,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   /**
    * This method delete Admin By Id
-  */
+   */
   onDelete(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,

@@ -42,7 +42,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     };
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
 }

@@ -170,7 +170,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.dispatchProperValue(this.tabIndex, event, this.searchString);
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

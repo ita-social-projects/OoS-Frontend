@@ -16,11 +16,11 @@ export class PaginatorComponent implements OnChanges {
   @Input() itemsPerPage: number;
 
   @Output() pageChange = new EventEmitter<PaginationElement>();
-  @Output() itemsPerPageChange = new EventEmitter<Number>();
+  @Output() itemsPerPageChange = new EventEmitter<number>();
 
   carouselPageList: PaginationElement[] = [];
   totalPageAmount: number;
-  listOfValues: Array<Number> = [8, 12, 16, 20];
+  listOfValues: Array<number> = [8, 12, 16, 20];
 
   constructor() { }
 
@@ -82,7 +82,8 @@ export class PaginatorComponent implements OnChanges {
       pageList.push({
         element: startPage,
         isActive: true
-      }); startPage++;
+      });
+      startPage++;
     }
     return pageList;
   }

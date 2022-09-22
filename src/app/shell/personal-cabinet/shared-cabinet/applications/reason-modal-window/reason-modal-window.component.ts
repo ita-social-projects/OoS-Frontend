@@ -1,5 +1,5 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Component, Inject, Input } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { Application } from 'src/app/shared/models/application.model';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -10,7 +10,7 @@ import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationT
   templateUrl: './reason-modal-window.component.html',
   styleUrls: ['./reason-modal-window.component.scss']
 })
-export class ReasonModalWindowComponent {
+export class ReasonModalWindowComponent implements OnInit {
 
   readonly validationConstants = ValidationConstants;
 

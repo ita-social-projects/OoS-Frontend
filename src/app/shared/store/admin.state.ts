@@ -357,7 +357,7 @@ export class AdminState {
   }
 
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections) {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<any> {
     patchState({ isLoading: true });
     return this.categoriesService.getFilteredDirections(payload).pipe(
       tap(

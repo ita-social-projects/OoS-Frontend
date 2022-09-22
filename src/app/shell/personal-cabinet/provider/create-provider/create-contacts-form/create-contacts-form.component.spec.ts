@@ -20,7 +20,7 @@ describe('CreateContactsFormComponent', () => {
         NgxsModule.forRoot([]),
         ReactiveFormsModule
       ],
-      declarations: [CreateContactsFormComponent, MockAddressForm],
+      declarations: [CreateContactsFormComponent, MockAddressFormComponent],
     }).compileComponents();
   });
 
@@ -39,7 +39,7 @@ describe('CreateContactsFormComponent', () => {
   selector: 'app-create-address-form',
   template: '',
 })
-class MockAddressForm {
+class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() searchFormGroup: FormGroup;
   @Input() address: Address;

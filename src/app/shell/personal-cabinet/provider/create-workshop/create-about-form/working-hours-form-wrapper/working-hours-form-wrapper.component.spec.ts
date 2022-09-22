@@ -24,7 +24,7 @@ describe('WorkingHoursFormWrapperComponent', () => {
       ],
       declarations: [
         WorkingHoursFormWrapperComponent,
-        MockWorkingHours
+        MockWorkingHoursComponent
       ]
     })
     .compileComponents();
@@ -46,7 +46,7 @@ describe('WorkingHoursFormWrapperComponent', () => {
   selector: 'app-working-hours-form',
   template: ''
 })
-class MockWorkingHours {
+class MockWorkingHoursComponent {
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;

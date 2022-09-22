@@ -29,7 +29,7 @@ export class ImageCropperModalComponent {
     this.imageChangedEvent = event;
   }
 
-  imageCropped(event: ImageCroppedEvent) {
+  imageCropped(event: ImageCroppedEvent): void {
     this.imageFile = base64ToFile(event.base64);
     this.croppedImage = event.base64;
   }

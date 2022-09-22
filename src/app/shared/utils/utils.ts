@@ -154,15 +154,15 @@ export class Util {
    public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
     const constants: typeof Constants = Constants;
     const updatedAdmins = [];
-    admins.forEach((admins: MinistryAdmin) => {
+    admins.forEach((admin: MinistryAdmin) => {
       updatedAdmins.push({
-        id: admins.id,
-        pib: `${admins.lastName} ${admins.firstName} ${admins.middleName}` || constants.NO_INFORMATION,
-        email: admins.email || constants.NO_INFORMATION,
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}` || constants.NO_INFORMATION,
+        email: admin.email || constants.NO_INFORMATION,
         place: constants.NO_INFORMATION,
-        phoneNumber: admins.phoneNumber ? `${constants.PHONE_PREFIX} ${admins.phoneNumber}` : constants.NO_INFORMATION,
-        role: admins.id,
-        status: admins.accountStatus || 'Accepted',
+        phoneNumber: admin.phoneNumber ? `${constants.PHONE_PREFIX} ${admin.phoneNumber}` : constants.NO_INFORMATION,
+        role: admin.id,
+        status: admin.accountStatus || 'Accepted',
       });
     });
     return updatedAdmins;
@@ -173,7 +173,7 @@ export class Util {
    * @param payload Object
    * @returns string
    */
-  public static getWorkshopMessage(payload) {
+  public static getWorkshopMessage(payload): { text: string; type: string } {
     const finalMessage = { text: '', type: 'success' };
     const messageArr = [];
 

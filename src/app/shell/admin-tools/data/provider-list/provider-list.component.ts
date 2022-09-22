@@ -66,7 +66,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalEntities: number;
   searchString: string;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -113,9 +113,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      this.liveAnnouncer.announce('Sorting cleared');
     }
   }
 

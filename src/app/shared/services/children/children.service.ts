@@ -68,7 +68,7 @@ export class ChildrenService {
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, { params });
   }
 
-    /**
+  /**
    * This method get children for Admin
    */
   getChildrenForAdmin(paremeters, isParent?): Observable<ChildCards> {

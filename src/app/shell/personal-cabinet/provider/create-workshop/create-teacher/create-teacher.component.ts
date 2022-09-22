@@ -81,8 +81,8 @@ export class CreateTeacherComponent implements OnInit {
   }
 
   /**
-    * This method fills inputs with information of edited teachers
-    */
+   * This method fills inputs with information of edited teachers
+   */
   private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {

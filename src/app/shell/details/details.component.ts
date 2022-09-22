@@ -82,8 +82,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method get Workshop or Provider by Id;
-  */
+   * This method get Workshop or Provider by Id;
+   */
   private getEntity(id: string): void {
     this.entity === EntityType.workshop ?
       this.store.dispatch(new GetWorkshopById(id)) :

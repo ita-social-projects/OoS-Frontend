@@ -92,7 +92,7 @@ export class CreateProviderComponent
       });
     }
   }
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
   }
 
@@ -119,7 +119,7 @@ export class CreateProviderComponent
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit() {
+  onSubmit(): void {
     if (this.PhotoFormGroup.invalid) {
       this.checkValidation(this.PhotoFormGroup);
     } else {
@@ -207,7 +207,7 @@ export class CreateProviderComponent
     });
   }
 
-  onCancel() {
+  onCancel(): void {
     const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
 
     if (!isRegistered) {

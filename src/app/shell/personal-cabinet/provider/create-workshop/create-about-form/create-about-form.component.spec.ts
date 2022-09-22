@@ -48,7 +48,7 @@ describe('CreateAboutFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MinMaxDirective,
-        MockWorkingHours
+        MockWorkingHoursComponent
       ]
     })
       .compileComponents();
@@ -85,7 +85,7 @@ describe('CreateAboutFormComponent', () => {
   selector: 'app-working-hours-form-wrapper',
   template: ''
 })
-class MockWorkingHours {
+class MockWorkingHoursComponent {
   @Input() workshop: Workshop;
   @Input() workingHoursFormArray: FormArray;
 }

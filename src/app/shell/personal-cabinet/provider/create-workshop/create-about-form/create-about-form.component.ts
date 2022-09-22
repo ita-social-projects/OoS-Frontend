@@ -53,7 +53,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   useProviderInfoCtrl: FormControl = new FormControl(false);
   availableSeatsRadioBtnControl: FormControl = new FormControl(true);
 
-  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
+  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to the second release
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
@@ -183,6 +183,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     const resetValue = value => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
+      // tslint:disable-next-line:forin
       for (const value in ProviderWorkshopSameValues) {
         useProviderInfo ? setValue(value) : resetValue(value);
       }
@@ -216,7 +217,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to teh formgroup TODO: add to teh second release
+   * is true and sets the value to teh formgroup TODO: add to the second release
    */
   // private onCompetitiveSelectionCtrlInit(): void {
   //   this.competitiveSelectionRadioBtn.valueChanges

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -12,7 +12,7 @@ import { SharedUserState } from 'src/app/shared/store/shared-user.state';
   templateUrl: './all-provider-workshops.component.html',
   styleUrls: ['./all-provider-workshops.component.scss']
 })
-export class AllProviderWorkshopsComponent implements OnInit {
+export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   readonly Role = Role;
 

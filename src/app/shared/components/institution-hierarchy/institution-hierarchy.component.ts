@@ -65,6 +65,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value));
     }
 
+    // tslint:disable-next-line:no-shadowed-variable
     this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
     });
@@ -125,12 +126,12 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy && !!this.hierarchyArray.length)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
-        instituitionsHierarchy.forEach((instituitionsHierarchy: InstituitionHierarchy) => {
-          this.hierarchyArray[instituitionsHierarchy.hierarchyLevel - 1].formControl.setValue(
-            instituitionsHierarchy.id,
+        instituitionsHierarchy.forEach((institutionsHierarchy: InstituitionHierarchy) => {
+          this.hierarchyArray[institutionsHierarchy.hierarchyLevel - 1].formControl.setValue(
+            institutionsHierarchy.id,
             { emitEvent: false }
           );
-          this.store.dispatch(new GetInstitutionHierarchyChildrenById(instituitionsHierarchy.id));
+          this.store.dispatch(new GetInstitutionHierarchyChildrenById(institutionsHierarchy.id));
         });
       });
   }
