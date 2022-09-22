@@ -51,6 +51,7 @@ describe('CreateWorkshopAddressComponent', () => {
 })
 class MockMapComponent {
   @Input() addressFormGroup: FormGroup;
+  @Input() settelmentFormGroup: FormGroup;
 }
 @Component({
   selector: 'app-create-address-form',
