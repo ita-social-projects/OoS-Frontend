@@ -23,8 +23,9 @@ export class StretchTableDirective implements AfterViewInit{
     let THs = this.el.nativeElement.getElementsByTagName('th');
     
     for(let i = 0; i < THs.length - 1; i++){
-      if(THs[i].classList.contains('mat-table-sticky') || THs[i + 1]?.classList.contains('mat-table-sticky')){
-        continue;
+      if(THs[i + 1].classList.contains('mat-table-sticky') 
+        && THs[i + 1].classList.contains('mat-table-sticky-border-elem-right')) {
+        break; 
       }
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(StretchCellComponent);
