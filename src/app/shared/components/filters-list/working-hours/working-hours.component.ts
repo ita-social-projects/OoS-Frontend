@@ -1,5 +1,5 @@
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Component, Input, OnInit, OnDestroy, Output } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -27,11 +27,7 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
 
     this.selectedWorkingDays = workingDays;
     this.days.forEach(day => {
-      if (this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value])) {
-        day.selected = true;
-      } else {
-        day.selected = false;
-      }
+      day.selected = this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value]);
     });
     if (endTime) {
       endTime = endTime + ':00';

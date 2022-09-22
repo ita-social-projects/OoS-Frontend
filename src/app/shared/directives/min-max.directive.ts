@@ -1,7 +1,7 @@
 import { Directive, ElementRef, HostListener, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { debounceTime } from 'rxjs/operators';
 
 @Directive({
   selector: '[appMinMax]'
@@ -17,17 +17,12 @@ export class MinMaxDirective implements OnInit, OnDestroy {
   constructor(private ref: ElementRef) { }
 
   ngOnInit(): void {
-    this.debounce$.pipe(
-      debounceTime(1000)
-    ).subscribe((val: number) => {
-      this.MaxMinValidation(val);
-    });
+    this.debounce$.pipe(debounceTime(1000)).subscribe((val: number) => this.MaxMinValidation(val));
   }
 
   @HostListener('input', ['$event'])
   public onInput(event: InputEvent): void {
     const val = Number(this.ref.nativeElement.value);
-
     this.debounce$.next(val);
   }
 

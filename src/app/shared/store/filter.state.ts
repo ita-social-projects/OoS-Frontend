@@ -1,64 +1,41 @@
-import { Observable } from 'rxjs';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Direction } from '../models/category.model';
+import { Codeficator } from '../models/codeficator.model';
+import { FilterStateModel } from '../models/filter-state.model';
 import { WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { Codeficator } from '../models/codeficator.model';
 import {
-  SetOrder,
-  SetCity,
-  GetFilteredWorkshops,
-  SetDirections,
-  SetWorkingDays,
-  SetStartTime,
-  SetEndTime,
-  SetIsFree,
-  SetMinPrice,
-  SetMaxPrice,
-  SetSearchQueryValue,
-  SetOpenRecruitment,
-  SetClosedRecruitment,
-  SetWithDisabilityOption,
-  FilterChange,
-  SetMinAge,
-  SetMaxAge,
-  ConfirmCity,
   CleanCity,
+  ConfirmCity,
+  FilterChange,
   FilterClear,
-  SetIsPaid,
+  GetFilteredWorkshops,
   ResetFilteredWorkshops,
-  SetIsStrictWorkdays,
-  SetIsAppropriateHours,
+  SetCity,
+  SetClosedRecruitment,
+  SetDirections,
+  SetEndTime,
   SetIsAppropriateAge,
+  SetIsAppropriateHours,
+  SetIsFree,
+  SetIsPaid,
+  SetIsStrictWorkdays,
+  SetMaxAge,
+  SetMaxPrice,
+  SetMinAge,
+  SetMinPrice,
+  SetOpenRecruitment,
+  SetOrder,
+  SetSearchQueryValue,
+  SetStartTime,
+  SetWithDisabilityOption,
+  SetWorkingDays,
 } from './filter.actions';
 
-export interface FilterStateModel {
-  directions: Direction[];
-  maxAge: number;
-  minAge: number;
-  isAppropriateAge: boolean;
-  workingDays: string[];
-  startTime: string;
-  endTime: string;
-  isFree: boolean;
-  isPaid: boolean;
-  maxPrice: number;
-  minPrice: number;
-  isOpenRecruitment: boolean;
-  isClosedRecruitment: boolean;
-  settlement: Codeficator;
-  searchQuery: string;
-  order: string;
-  filteredWorkshops: WorkshopFilterCard;
-  withDisabilityOption: boolean;
-  isStrictWorkdays: boolean;
-  isAppropriateHours: boolean;
-  isLoading: boolean;
-  isConfirmCity: boolean;
-}
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
