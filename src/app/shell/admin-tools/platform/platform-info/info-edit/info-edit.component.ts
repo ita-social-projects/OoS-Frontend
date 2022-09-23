@@ -1,7 +1,7 @@
 import { ActivatedRoute, Params } from '@angular/router';
 import { AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
