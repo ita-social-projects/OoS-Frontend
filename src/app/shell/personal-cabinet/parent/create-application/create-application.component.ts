@@ -56,7 +56,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   isAllowChildToApply: boolean;
   isContraindicationAgreementYourself: boolean;
   isAttendAgreementYourself: boolean;
-  tabIndex: number = 0;
+  tabIndex = 0;
 
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();

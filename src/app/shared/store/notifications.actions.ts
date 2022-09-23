@@ -1,4 +1,4 @@
-import { Notification, NotificationGrouped } from "../models/notifications.model";
+import { Notification, NotificationGrouped } from '../models/notifications.model';
 
 export class GetAmountOfNewUsersNotifications {
   static readonly type = '[user] get amount of new users notifications';

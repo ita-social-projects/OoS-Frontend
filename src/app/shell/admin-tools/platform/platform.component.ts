@@ -20,7 +20,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabsUkr = AdminTabsUkr;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  tabIndex: number = 0;
+  tabIndex = 0;
   type: AdminTabs;
 
   constructor(

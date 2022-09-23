@@ -17,7 +17,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { Observable } from 'rxjs';
 import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
+import { CompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
   selector: 'app-info-edit',
@@ -75,7 +75,7 @@ export class InfoEditComponent
           {
             name: NavBarName.Platform,
             path: `/admin-tools/platform/`,
-            queryParams: { 'page': this.platformInfoType },
+            queryParams: { page: this.platformInfoType },
             isActive: false,
             disable: false,
           },
@@ -102,7 +102,7 @@ export class InfoEditComponent
   /**
    * This method creates new FormGroup
    */
-  private newForm(platformInfoItem?: СompanyInformationSectionItem): FormGroup {
+  private newForm(platformInfoItem?: CompanyInformationSectionItem): FormGroup {
     const platformInfoEditFormGroup = this.fb.group({
       sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
@@ -150,9 +150,9 @@ export class InfoEditComponent
 
   onSubmit(): void {
     if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
-      const platformInfoItemArray: СompanyInformationSectionItem[] = [];
+      const platformInfoItemArray: CompanyInformationSectionItem[] = [];
       this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-        platformInfoItemArray.push(new СompanyInformationSectionItem(form.value))
+        platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
       );
 
       const platformInfo = this.editMode
@@ -198,7 +198,7 @@ export class InfoEditComponent
   private setPlatformInfo(platformInfo: CompanyInformation): void {
     this.platformInfo = platformInfo;
     this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
-    this.platformInfo.companyInformationItems.forEach((item: СompanyInformationSectionItem) =>
+    this.platformInfo.companyInformationItems.forEach((item: CompanyInformationSectionItem) =>
       this.PlatformInfoItemArray.push(this.newForm(item))
     );
   }

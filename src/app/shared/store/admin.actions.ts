@@ -1,9 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
-import { Direction } from "../models/category.model";
+import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
-import { CompanyInformation } from "../models/сompanyInformation.model";
+import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters } from './../models/ministryAdmin.model';
 
 export class GetPlatformInfo {
@@ -26,7 +26,7 @@ export class GetAllProviders {
 export class GetFilteredProviders {
   static readonly type = '[admin] Get filtered Providers';
   constructor(public payload?: string) {}
-} 
+}
 
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';

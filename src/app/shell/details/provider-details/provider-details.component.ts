@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { EntityType, Role } from 'src/app/shared/enum/role';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { takeUntil } from 'rxjs/operators';
-import { imgPath } from 'src/app/shared/models/carousel.model';
+import { ImgPath } from 'src/app/shared/models/carousel.model';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
@@ -24,7 +24,7 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy  {
 
   selectedIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  images: imgPath[] = [];
+  images: ImgPath[] = [];
 
   constructor(
     private route: ActivatedRoute,

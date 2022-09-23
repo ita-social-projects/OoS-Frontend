@@ -10,7 +10,7 @@ export class TrimValueDirective {
   constructor(private ngControl: NgControl, private el: ElementRef) {
   }
 
-  @HostListener('blur') onBlur() {
+  @HostListener('blur') onBlur(): void {
     this.ngControl.control.setValue(this.el.nativeElement.value.trim());
   }
 }

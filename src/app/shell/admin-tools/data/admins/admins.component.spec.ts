@@ -32,7 +32,7 @@ describe('AdminsComponent', () => {
         MatDialogModule,
         RouterTestingModule,
       ],
-      declarations: [ 
+      declarations: [
         AdminsComponent,
         NoResultCardComponent,
         MockListAdminsPaginatorComponent,
@@ -40,7 +40,7 @@ describe('AdminsComponent', () => {
        ]
     })
     .compileComponents();
-    
+
   });
 
   beforeEach(() => {

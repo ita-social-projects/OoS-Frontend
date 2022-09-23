@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
-    searchString: "",
+    searchString: '',
     tabTitle: undefined,
   };
 
@@ -52,15 +52,15 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe( 
+      .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(2000),)
-      .subscribe((searchString:string)=> {
+        debounceTime(2000), )
+      .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
-        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
+        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)); });
 
     this.children$
       .pipe(
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.allUsers = Util.updateStructureForTheTable(children.entities);
         this.totalEntities = children.totalAmount;
       });
-     
+
     this.store.dispatch([
       new GetChildrenForAdmin(this.childrenParams),
       new PushNavPath(
@@ -90,7 +90,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
-    this.childrenParams.searchString = "";
+    this.childrenParams.searchString = '';
     this.childrenParams.tabTitle = event.tab.textLabel;
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.router.navigate(['./'], {

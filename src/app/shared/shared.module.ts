@@ -22,7 +22,7 @@ import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pip
 import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
-import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
+import { ValidationMessageStylingDirective } from './directives/validation-message-styling.directive';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/filters-list/full-search-bar/full-search-bar.component';
@@ -84,7 +84,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     MapComponent,
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
-    ValidationMessageStyling,
+    ValidationMessageStylingDirective,
     NavigationBarComponent,
     EntityCheckboxDropdownComponent,
     NavigationMobileBarComponent,
@@ -125,7 +125,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     StretchCellComponent,
     StretchTableDirective,
   ],
-  
+
   imports: [
     MaterialModule,
     CommonModule,
@@ -157,7 +157,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
-    ValidationMessageStyling,
+    ValidationMessageStylingDirective,
     NavigationBarComponent,
     NavigationMobileBarComponent,
     EntityCheckboxDropdownComponent,

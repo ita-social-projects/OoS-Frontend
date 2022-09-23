@@ -20,11 +20,11 @@ export class CategoryCardComponent {
   @Output() deleteDirection = new EventEmitter<Direction>();
 
   readonly WorkshopDeclination = WorkshopDeclination;
-  
+
   public categoryIcons = CategoryIcons;
 
   constructor(
-    private store: Store, 
+    private store: Store,
     private router: Router
   ) {}
 

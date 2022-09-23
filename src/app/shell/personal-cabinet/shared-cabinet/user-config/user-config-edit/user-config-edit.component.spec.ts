@@ -46,7 +46,7 @@ describe('UserConfigEditComponent', () => {
       lastName: '',
       firstName: '',
       middleName: '',
-      phoneNumber: '', 
+      phoneNumber: '',
       gender: 0,
     } as User;
     component.userEditFormGroup = new FormGroup({
@@ -70,7 +70,7 @@ describe('UserConfigEditComponent', () => {
 })
 
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
+  @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
