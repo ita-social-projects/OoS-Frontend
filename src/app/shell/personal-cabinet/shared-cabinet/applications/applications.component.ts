@@ -4,7 +4,6 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Outpu
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import {
-  Application,
   ApplicationCards,
   ApplicationParameters,
 } from '../../../../shared/models/application.model';
@@ -56,6 +55,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() leave = new EventEmitter();
   @Output() approve = new EventEmitter();
   @Output() reject = new EventEmitter();
+  @Output() block = new EventEmitter();
+  @Output() unblock = new EventEmitter();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
@@ -81,7 +82,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEntitiesSelect(IDs: string[]): void {
     this.enititiesSelect.emit(IDs);
-  };
+  }
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;

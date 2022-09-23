@@ -33,7 +33,7 @@ describe('CreateProviderComponent', () => {
         MockCreatePhotoFormComponent,
         MockCreateInfoComponent,
         MockCreateContactsFormComponent
-        
+
       ]
     })
       .compileComponents();
@@ -42,8 +42,8 @@ describe('CreateProviderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateProviderComponent);
     component = fixture.componentInstance;
-    fb = TestBed.inject(FormBuilder)
-    
+    fb = TestBed.inject(FormBuilder);
+
     component.InfoFormGroup = fb.group({
       fullTitle: new FormControl(''),
     });

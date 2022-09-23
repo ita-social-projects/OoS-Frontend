@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from 'src/environments/environment';
 import { Constants } from '../../constants/constants';
@@ -19,7 +19,7 @@ import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper
   ]
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
-  photoFormGroup: UntypedFormGroup;
+  photoFormGroup: FormGroup;
   gridCols: number;
   mediumScreen = 500;
   smallScreen = 366;
@@ -29,7 +29,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   disabled = false;
 
   @Input() imgMaxAmount: number;
-  @Input() imageIdsFormControl: UntypedFormControl;
+  @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
   @Input() cropperConfig: Cropper;
 
@@ -77,12 +77,12 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null))
-    })
+      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
+    });
   }
 
-  onChange = (array: File[]): void => { }
-  onTouched = (): void => { }
+  onChange = (array: File[]): void => { };
+  onTouched = (): void => { };
   writeValue(array: File[]): void { }
   registerOnChange(onChange: any): void {
     this.onChange = onChange;
@@ -99,7 +99,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
-  
+
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
   onResize(screen): void {
     if (screen.innerWidth >= this.mediumScreen) {
@@ -129,7 +129,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.selectedImages.push(image);
         this.onChange(this.selectedImages);
       }
-      this.inputImage.nativeElement.value = "";
+      this.inputImage.nativeElement.value = '';
    });
   }
 }

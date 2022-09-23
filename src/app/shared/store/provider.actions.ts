@@ -1,9 +1,11 @@
+import { EntityType } from 'src/app/shared/enum/role';
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent } from '../models/block.model';
+import { Role } from '../enum/role';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -217,7 +219,7 @@ export class OnUpdateWorkshopStatusFail {
 
 export class BlockParent {
   static readonly type = '[provider] block parent';
-  constructor(public payload: BlockedParent) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) { }
 }
 
 export class BlockParentFail {
@@ -226,12 +228,12 @@ export class BlockParentFail {
 }
 export class BlockParentSuccess {
   static readonly type = '[provider] block parent success';
-  constructor(public payload: BlockedParent) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) { }
 }
 
 export class UnBlockParent {
   static readonly type = '[provider] unblock parent';
-  constructor(public payload: BlockedParent) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) { }
 }
 
 export class UnBlockParentFail {
@@ -241,7 +243,7 @@ export class UnBlockParentFail {
 
 export class UnBlockParentSuccess {
   static readonly type = '[provider] unblock parent success';
-  constructor(public payload: BlockedParent) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) { }
 }
 
 export class GetBlockedParents {

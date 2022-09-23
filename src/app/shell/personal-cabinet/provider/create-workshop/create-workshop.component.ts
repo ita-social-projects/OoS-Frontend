@@ -1,7 +1,7 @@
 import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../shared/store/shared-user.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -39,10 +39,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   selectedWorkshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  AboutFormGroup: UntypedFormGroup;
-  DescriptionFormGroup: UntypedFormGroup;
-  AddressFormGroup: UntypedFormGroup;
-  TeacherFormArray: UntypedFormArray;
+  AboutFormGroup: FormGroup;
+  DescriptionFormGroup: FormGroup;
+  AddressFormGroup: FormGroup;
+  TeacherFormArray: FormArray;
 
   constructor(
     store: Store,
@@ -76,10 +76,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             isActive: false,
             disable: false,
           },
-          { 
-            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop, 
-            isActive: false, 
-            disable: true 
+          {
+            name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop,
+            isActive: false,
+            disable: true
           }
         )
       )
@@ -108,9 +108,9 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
-      let workshop: Workshop;
+    let workshop: Workshop;
 
-      if (this.editMode) {
+    if (this.editMode) {
         workshop = new Workshop(aboutInfo, descInfo, address, teachers, provider, this.workshop.id);
         this.store.dispatch(new UpdateWorkshop(workshop));
       } else {
@@ -123,7 +123,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a form from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
    */
-  onReceiveAddressFormGroup(form: UntypedFormGroup): void {
+  onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -132,7 +132,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
    * @param FormArray array
    */
-  onReceiveTeacherFormArray(array: UntypedFormArray): void {
+  onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
     this.subscribeOnDirtyForm(array);
   }
@@ -141,7 +141,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives  a from form create-about child component and assigns to the About FormGroup
    * @param FormGroup form
    */
-  onReceiveAboutFormGroup(form: UntypedFormGroup): void {
+  onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -150,7 +150,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a from create-description child component and assigns to the Description FormGroup
    * @param FormGroup form
    */
-  onReceiveDescriptionFormGroup(form: UntypedFormGroup): void {
+  onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -161,8 +161,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    */
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
-    if(this.TeacherFormArray?.controls) {
-      this.TeacherFormArray.controls.forEach((form: UntypedFormGroup) => {
+    if (this.TeacherFormArray?.controls) {
+      this.TeacherFormArray.controls.forEach((form: FormGroup) => {
         const teacher: Teacher = new Teacher(form.value);
         teachers.push(teacher);
       });

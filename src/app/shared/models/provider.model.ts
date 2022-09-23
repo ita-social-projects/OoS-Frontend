@@ -30,11 +30,11 @@ export class Provider {
   coverImage?: File[];
   coverImageId?: string[];
   institutionStatusId?: number | null;
-  providerSectionItems: ProviderSectionItem[]
+  providerSectionItems: ProviderSectionItem[];
   institutionType: string;
   institution: Institution;
   institutionId: string;
-  
+
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;

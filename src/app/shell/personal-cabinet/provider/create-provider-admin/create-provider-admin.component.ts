@@ -5,7 +5,7 @@ import { Provider } from 'src/app/shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
 import { ActivatedRoute } from '@angular/router';
 import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators, ValidatorFn } from '@angular/forms';
+import { Validators, ValidatorFn, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
 import { ProviderAdmin } from 'src/app/shared/models/providerAdmin.model';
@@ -28,11 +28,11 @@ import { Role } from 'src/app/shared/enum/role';
 import { CreateProviderAdmin } from 'src/app/shared/store/provider.actions';
 
 const defaultValidators: ValidatorFn[] = [
-  Validators.required, 
+  Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-]
+];
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
@@ -49,31 +49,31 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   provider$: Observable<Provider>;
   @Select(SharedUserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
-  
+
   provider: Provider;
-  ProviderAdminFormGroup: UntypedFormGroup;
+  ProviderAdminFormGroup: FormGroup;
   providerRole: providerAdminRole;
   managedWorkshopIds: string[];
 
   constructor(store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService,
-    private formBuilder: UntypedFormBuilder,
-    private matDialog: MatDialog,
-    private location: Location
+              route: ActivatedRoute,
+              navigationBarService: NavigationBarService,
+              private formBuilder: FormBuilder,
+              private matDialog: MatDialog,
+              private location: Location
   ) {
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
-      lastName: new UntypedFormControl('', defaultValidators),
-      firstName: new UntypedFormControl('', defaultValidators),
-      middleName: new UntypedFormControl('', defaultValidators),
-      phoneNumber: new UntypedFormControl('', [
-        Validators.required, 
+      lastName: new FormControl('', defaultValidators),
+      firstName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', defaultValidators),
+      phoneNumber: new FormControl('', [
+        Validators.required,
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
-      email: new UntypedFormControl('', [
-        Validators.required, 
+      email: new FormControl('', [
+        Validators.required,
         Validators.email
       ]),
     });
@@ -90,14 +90,14 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       takeUntil(this.destroy$)
     ).subscribe((provider: Provider) => this.provider = provider);
 
-    if(this.providerRole === providerAdminRole.admin){
+    if (this.providerRole === providerAdminRole.admin){
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     }
   }
-  
+
   setEditMode(): void { }
 
-  addNavPath(): void { 
+  addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -112,7 +112,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
           },
           {
             name: this.providerRole == providerAdminRole.deputy ?
-              NavBarName.CreateProviderDeputy : 
+              NavBarName.CreateProviderDeputy :
               NavBarName.CreateProviderAdmin,
             isActive: false,
             disable: true,
@@ -126,7 +126,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.managedWorkshopIds = workshopsId;
   }
 
-  checkValidation(form: UntypedFormGroup): void {
+  checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
@@ -146,10 +146,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        let providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.providerRole === providerAdminRole.deputy, this.provider.id, this.managedWorkshopIds)
+        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.providerRole === providerAdminRole.deputy, this.provider.id, this.managedWorkshopIds);
         this.store.dispatch(new CreateProviderAdmin(providerAdmin));
       }
-    });   
+    });
   }
 
 }

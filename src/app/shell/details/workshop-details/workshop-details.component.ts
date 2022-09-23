@@ -7,7 +7,7 @@ import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from 'src/app/shared/enum/category-icons';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { EntityType, Role } from 'src/app/shared/enum/role';
-import { imgPath } from 'src/app/shared/models/carousel.model';
+import { ImgPath } from 'src/app/shared/models/carousel.model';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ImagesService } from 'src/app/shared/services/images/images.service';
@@ -42,7 +42,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   workshopStatusOpen: boolean;
   selectedIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  images: imgPath[] = [];
+  images: ImgPath[] = [];
 
   constructor(
     private route: ActivatedRoute,

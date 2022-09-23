@@ -8,10 +8,10 @@ import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/s
 import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
-import { 
-  GetApplicationsByProviderId, 
-  GetWorkshopsByProviderId, 
-  UpdateApplication 
+import {
+  GetApplicationsByProviderId,
+  GetWorkshopsByProviderId,
+  UpdateApplication,
 } from 'src/app/shared/store/shared-user.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Provider } from 'src/app/shared/models/provider.model';
@@ -19,7 +19,12 @@ import { EntityType, Role } from 'src/app/shared/enum/role';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { GetProviderAdminWorkshops } from 'src/app/shared/store/provider.actions';
+import { BlockParent, GetProviderAdminWorkshops, UnBlockParent } from 'src/app/shared/store/provider.actions';
+import { ReasonModalWindowComponent } from '../../shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
+import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+import { BlockedParent } from 'src/app/shared/models/block.model';
+import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-provider-applciations',
@@ -37,15 +42,12 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   applicationParams: ApplicationParameters = {
     property: null,
     statuses: [],
-    workshops:[],
+    workshops: [],
     children: [],
     showBlocked: false,
   };
 
-  constructor(
-    protected store: Store,
-    protected matDialog: MatDialog,
-  ) {
+  constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
   }
 
@@ -67,9 +69,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       )
       .subscribe((provider: Provider) => {
         this.applicationParams.property = EntityType[this.subRole];
-        this.providerId = this.subRole === Role.ProviderAdmin ? 
-        this.store.selectSnapshot(RegistrationState.user).id:
-        provider.id;
+        this.providerId =
+          this.subRole === Role.ProviderAdmin ? this.store.selectSnapshot(RegistrationState.user).id : provider.id;
         this.getProviderWorkshops();
         this.onGetApplications();
       });
@@ -99,6 +100,43 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       application?.rejectionMessage
     );
     this.store.dispatch(new UpdateApplication(applicationUpdate));
+  }
+
+  /**
+   * This method emit block Application
+   * @param Application application
+   */
+  onBlock(parentId: string): void {
+    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+      data: { type: ModalConfirmationType.blockParent },
+    });
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+        const blockedParent = new BlockedParent(parentId, providerId, result);
+        this.store.dispatch(new BlockParent(blockedParent, EntityType[this.subRole]));
+      }
+    });
+  }
+
+  /**
+   * This method emit unblock Application
+   * @param Application application
+   */
+  onUnBlock(parentId: string): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.unBlockParent,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
+        const blockedParent = new BlockedParent(parentId, providerId);
+        this.store.dispatch(new UnBlockParent(blockedParent, EntityType[this.subRole]));
+      }
+    });
   }
 
   private getProviderWorkshops(): void {

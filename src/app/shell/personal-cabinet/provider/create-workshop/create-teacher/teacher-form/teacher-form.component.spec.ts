@@ -28,7 +28,7 @@ describe('TeacherFormComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatIconModule,
-        MatGridListModule, 
+        MatGridListModule,
         MatRadioModule,
       ],
       declarations: [
@@ -66,7 +66,7 @@ describe('TeacherFormComponent', () => {
 })
 
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
+  @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;

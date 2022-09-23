@@ -43,7 +43,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isAutorizationLoading: boolean;
   isLoadingProvider: boolean;
   isLoadingParent: boolean;
-  
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() {}

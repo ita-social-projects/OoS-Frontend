@@ -26,7 +26,7 @@ describe('FavoriteWorkshopsComponent', () => {
         MockWorkshopCardComponent,
         MockListWorkshopCardPaginatorComponent,
         NoWorkshopsCardComponent,
-        ParentComponent, 
+        ParentComponent,
         CabinetDataComponent,
       ]
     })

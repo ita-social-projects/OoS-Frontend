@@ -1,7 +1,7 @@
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -43,9 +43,9 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   @Input() isMobileView: boolean;
 
-  OpenRecruitmentControl = new UntypedFormControl(false);
-  ClosedRecruitmentControl = new UntypedFormControl(false);
-  WithDisabilityOptionControl = new UntypedFormControl(false);
+  OpenRecruitmentControl = new FormControl(false);
+  ClosedRecruitmentControl = new FormControl(false);
+  WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}

@@ -21,11 +21,11 @@ export class ApplicationService {
         parameters.statuses.forEach((status: ApplicationStatus) => (params = params.append('Statuses', status)));
       }
 
-      if (parameters.workshops.length) {
+      if (parameters.workshops?.length) {
         parameters.workshops.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
       }
 
-      if (parameters.children.length) {
+      if (parameters.children?.length) {
         parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
       }
 
@@ -60,7 +60,7 @@ export class ApplicationService {
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByProviderId(id: string, parameters): Observable<ApplicationCards> {
+  getApplicationsByProviderId(id: string, parameters: ApplicationParameters): Observable<ApplicationCards> {
     const options = { params: this.setParams(parameters) };
 
     return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
@@ -118,7 +118,7 @@ export class ApplicationService {
     });
   }
 
-    /**
+  /**
    * This method Check if exists an any rewiewed application in workshop for parent.
    * @param id string
    */

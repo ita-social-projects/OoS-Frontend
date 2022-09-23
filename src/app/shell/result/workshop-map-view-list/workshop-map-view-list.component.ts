@@ -43,7 +43,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   @Input() currentPage: PaginationElement;
   @Input() itemsPerPage: number;
 
-  @Output() itemsPerPageChange = new EventEmitter<Number>();
+  @Output() itemsPerPageChange = new EventEmitter<number>();
 
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
@@ -53,9 +53,9 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
-  public currentWorkShopIndex: number = 0;
+  public currentWorkShopIndex = 0;
   public direct: string;
-  public left: number = 0;
+  public left = 0;
 
   constructor(private store: Store) {}
 
@@ -97,12 +97,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     }
   }
 
-  triggerNameDone(e) {
+  triggerNameDone(e): void {
     if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
-      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92;
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) - 92;
     }
     if (this.direct === 'previous' && this.selectedWorkshops.length > 1) {
-      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92;
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) + 92;
     }
   }
 
@@ -112,11 +112,11 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.currentWorkShopIndex = 0;
     this.direct = null;
 
-    if (this.isSelectedMarker) {
+    if ( this.isSelectedMarker) {
       this.selectedWorkshops = this.workshops.filter(
-        (workshop: WorkshopCard) => address.catottgId === workshop.address.catottgId
+        (workshop: WorkshopCard) =>
+          address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
       );
-
       this.workshopDetailsAnimationState = true;
     } else {
       this.selectedWorkshops = [];

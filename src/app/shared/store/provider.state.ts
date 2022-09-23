@@ -1,3 +1,4 @@
+import { HttpResponse } from '@angular/common/http';
 import { Workshop, WorkshopStatus } from 'src/app/shared/models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -74,6 +75,7 @@ import { GetProfile } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
+import { EntityType } from '../enum/role';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -571,11 +573,11 @@ export class ProviderState {
   @Action(BlockParent)
   blockParent(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: BlockParent
+    { payload, entityType }: BlockParent
   ): Observable<BlockedParent | Observable<void>> {
     return this.blockService.blockParent(payload).pipe(
-      tap(res => dispatch(new BlockParentSuccess(res))),
-      catchError((error: Error) => of(dispatch(new BlockParentFail(error))))
+      tap(res => dispatch(new BlockParentSuccess(res, entityType))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new BlockParentFail(error))))
     );
   }
 
@@ -586,9 +588,10 @@ export class ProviderState {
   }
 
   @Action(BlockParentSuccess)
-  blockParentFailSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParentSuccess): void {
+  blockParentFailSuccess({ dispatch }: StateContext<ProviderStateModel>,  { payload, entityType }: BlockParentSuccess): void {
     dispatch([
       new GetApplicationsByProviderId(payload.providerId, {
+        property: entityType,
         statuses: [],
         showBlocked: false,
         workshops: [],
@@ -601,10 +604,10 @@ export class ProviderState {
   @Action(UnBlockParent)
   unBlockParent(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: UnBlockParent
+    { payload, entityType }: UnBlockParent
   ): Observable<BlockedParent | Observable<void>> {
     return this.blockService.unBlockParent(payload).pipe(
-      tap(res => dispatch(new UnBlockParentSuccess(res))),
+      tap(res => dispatch(new UnBlockParentSuccess(res, entityType))),
       catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
     );
   }
@@ -616,9 +619,10 @@ export class ProviderState {
   }
 
   @Action(UnBlockParentSuccess)
-  unBlockParentFailSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParentSuccess): void {
+  unBlockParentFailSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, entityType }: UnBlockParentSuccess): void {
     dispatch([
       new GetApplicationsByProviderId(payload.providerId, {
+        property: entityType,
         statuses: [],
         showBlocked: true,
         workshops: [],

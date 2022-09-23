@@ -1,7 +1,7 @@
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -29,7 +29,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   directionsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  filterFormControl = new UntypedFormControl('', [Validators.maxLength(200)]);
+  filterFormControl = new FormControl('', [Validators.maxLength(200)]);
   isEditMode: true;
   currentPage: PaginationElement = PaginationConstants.firstPage;
 

@@ -13,7 +13,7 @@ import { Constants, PaginationConstants } from 'src/app/shared/constants/constan
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
@@ -33,13 +33,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTitleUkr = ApplicationTitles;
   readonly providerAdminIcons = ApplicationIcons;
-  
+
   @Select(AdminState.providers)
   providers$: Observable<ProviderCards>;
   @Select(PaginatorState.providersPerPage)
   providersPerPage$: Observable<number>;
 
-  
+
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;
@@ -60,13 +60,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     'status',
     'star',
   ];
-  filterFormControl: UntypedFormControl = new UntypedFormControl('');
+  filterFormControl: FormControl = new FormControl('');
   dataSource = new MatTableDataSource([{}]);
   currentPage: PaginationElement = PaginationConstants.firstPage;
   totalEntities: number;
   searchString: string;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -113,9 +113,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      this.liveAnnouncer.announce('Sorting cleared');
     }
   }
 

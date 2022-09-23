@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
@@ -36,7 +36,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   providerAdmins$: Observable<ProviderAdmin[]>;
 
   providerAdmins: ProviderAdminTable[] = [];
-  filterFormControl: UntypedFormControl = new UntypedFormControl('');
+  filterFormControl: FormControl = new FormControl('');
   filterValue: string;
   tabIndex: number;
 
@@ -134,7 +134,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param admins: ProviderAdmin[]
    */
   private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
-    let updatedAdmins = [];
+    const updatedAdmins = [];
     admins.forEach((admin: ProviderAdmin) => {
       updatedAdmins.push({
         id: admin.id,

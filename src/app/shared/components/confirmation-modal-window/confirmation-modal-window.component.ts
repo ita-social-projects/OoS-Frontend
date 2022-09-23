@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } from '../../enum/modal-confirmation';
 
@@ -11,11 +11,11 @@ import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } 
 export class ConfirmationModalWindowComponent implements OnInit {
   readonly modalConfirmationType = ModalConfirmationType;
   readonly modalWindow = true;
-  
+
   modalTitle: string;
   modalConfirmationText: string;
   modalConfirmationProperty: string;
-  ratingSelectControl: UntypedFormControl;
+  ratingSelectControl: FormControl;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: {
     type: string,

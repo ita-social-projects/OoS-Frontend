@@ -33,7 +33,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
   applicationParams: ApplicationParameters = {
     property: null,
     statuses: [],
-    workshops:[],
+    workshops: [],
     children: [],
     showBlocked: false,
   };

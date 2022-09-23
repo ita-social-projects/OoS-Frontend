@@ -1,5 +1,5 @@
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
@@ -21,7 +21,7 @@ import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shar
   templateUrl: './achievements.component.html',
   styleUrls: ['./achievements.component.scss'],
 })
-export class AchievementsComponent implements OnInit {
+export class AchievementsComponent implements OnInit, OnDestroy {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
 
   @Select(ProviderState.achievements)

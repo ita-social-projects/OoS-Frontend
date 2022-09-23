@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -45,17 +45,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   @Input() isRelease3: boolean;
   @Output() PassAboutFormGroup = new EventEmitter();
 
-  AboutFormGroup: UntypedFormGroup;
-  workingHoursFormArray: UntypedFormArray = new UntypedFormArray([], [Validators.required]);
+  AboutFormGroup: FormGroup;
+  workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  priceRadioBtn: UntypedFormControl = new UntypedFormControl(false);
-  useProviderInfoCtrl: UntypedFormControl = new UntypedFormControl(false);
-  availableSeatsRadioBtnControl: UntypedFormControl = new UntypedFormControl(true);
+  priceRadioBtn: FormControl = new FormControl(false);
+  useProviderInfoCtrl: FormControl = new FormControl(false);
+  availableSeatsRadioBtnControl: FormControl = new FormControl(true);
 
-  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
+  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to the second release
 
-  constructor(private formBuilder: UntypedFormBuilder, private store: Store) {}
+  constructor(private formBuilder: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -69,16 +69,16 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  get priceControl(): UntypedFormControl {
-    return this.AboutFormGroup.get('price') as UntypedFormControl;
+  get priceControl(): FormControl {
+    return this.AboutFormGroup.get('price') as FormControl;
   }
 
-  get payRateControl(): UntypedFormControl {
-    return this.AboutFormGroup.get('payRate') as UntypedFormControl;
+  get payRateControl(): FormControl {
+    return this.AboutFormGroup.get('payRate') as FormControl;
   }
 
-  get availableSeatsControl(): UntypedFormControl {
-    return this.AboutFormGroup.get('availableSeats') as UntypedFormControl;
+  get availableSeatsControl(): FormControl {
+    return this.AboutFormGroup.get('availableSeats') as FormControl;
   }
 
   private get availableSeats(): number {
@@ -91,25 +91,25 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   private initForm(): void {
     this.AboutFormGroup = this.formBuilder.group({
-      title: new UntypedFormControl('', [
+      title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      phone: new UntypedFormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new UntypedFormControl('', [Validators.required, Validators.email]),
-      minAge: new UntypedFormControl('', [Validators.required]),
-      maxAge: new UntypedFormControl('', [Validators.required]),
-      image: new UntypedFormControl(''),
-      website: new UntypedFormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      facebook: new UntypedFormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new UntypedFormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      price: new UntypedFormControl({ value: 0, disabled: true }, [Validators.required]),
+      phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      minAge: new FormControl('', [Validators.required]),
+      maxAge: new FormControl('', [Validators.required]),
+      image: new FormControl(''),
+      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
-      payRate: new UntypedFormControl({ value: null, disabled: true }, [Validators.required]),
-      coverImage: new UntypedFormControl(''),
-      coverImageId: new UntypedFormControl(''),
-      availableSeats: new UntypedFormControl({ value: 0, disabled: true }, [Validators.required]),
+      payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
+      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
     });
   }
@@ -160,12 +160,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   ) => {
     this.availableSeatsControl[action]({ emitEvent });
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
-  };
+  }
 
   private setPriceControlValue = (price: number = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
-  };
+  }
 
   /**
    * This method sets null as value for payRate when the price is null, otherwise it sests either workshop value, or null for selecting new value
@@ -173,7 +173,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPayRateControlValue = (payRate: string = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
-  };
+  }
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked
@@ -183,7 +183,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     const resetValue = value => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
-      for (let value in ProviderWorkshopSameValues) {
+      // tslint:disable-next-line:forin
+      for (const value in ProviderWorkshopSameValues) {
         useProviderInfo ? setValue(value) : resetValue(value);
       }
     });
@@ -216,7 +217,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to teh formgroup TODO: add to teh second release
+   * is true and sets the value to teh formgroup TODO: add to the second release
    */
   // private onCompetitiveSelectionCtrlInit(): void {
   //   this.competitiveSelectionRadioBtn.valueChanges

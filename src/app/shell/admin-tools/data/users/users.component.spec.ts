@@ -29,7 +29,7 @@ describe('UsersComponent', () => {
         MatTabsModule,
         MatIconModule,
       ],
-      declarations: [ 
+      declarations: [
         UsersComponent,
         MockUsersListComponent,
         NoResultCardComponent,

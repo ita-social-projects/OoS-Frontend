@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -35,7 +35,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
 
-  filterFormControl = new UntypedFormControl('');
+  filterFormControl = new FormControl('');
   filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
-    searchString: "",
+    searchString: '',
     tabTitle: undefined,
   };
 
@@ -52,15 +52,15 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe( 
+      .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(2000),)
-      .subscribe((searchString:string)=> {
+        debounceTime(2000), )
+      .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
-        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
+        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)); });
 
     this.children$
       .pipe(
@@ -71,7 +71,7 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.allUsers = Util.updateStructureForTheTable(children.entities);
         this.totalEntities = children.totalAmount;
       });
-     
+
     this.store.dispatch([
       new GetChildrenForAdmin(this.childrenParams),
       new PushNavPath(
@@ -90,7 +90,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
-    this.childrenParams.searchString = "";
+    this.childrenParams.searchString = '';
     this.childrenParams.tabTitle = event.tab.textLabel;
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.router.navigate(['./'], {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { FormControl, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Constants } from 'src/app/shared/constants/constants';
 
 
@@ -11,7 +11,7 @@ import { Constants } from 'src/app/shared/constants/constants';
 
 export class StarsComponent implements OnInit {
 
-  ratingFormControl = new UntypedFormControl('');
+  ratingFormControl = new FormControl('');
   selectedStars = 0;
   ratingStars: number[] = [
     Constants.RATE_ONE_STAR,

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -21,7 +21,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     private router: Router,
   ) { }
 
-  searchValueFormControl = new UntypedFormControl('', [Validators.maxLength(256)]);
+  searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
   filteredResults: string[];
 
   @Select(NavigationState.navigationPaths)
@@ -46,16 +46,17 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
-        map((value: string)=> value.trim()),
-        tap((value: string)=> this.filter(value))
+        map((value: string) => value.trim()),
+        tap((value: string) => this.filter(value))
       ).subscribe((value: string) => this.searchedText = value);
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValueFormControl.setValue(text, { emitEvent: false }));
-      
-    if(!this.isResultPage) 
+
+    if (!this.isResultPage) {
       this.searchValueFormControl.setValue('', { emitEvent: false });
+    }
   }
 
   onValueEnter(): void {
@@ -77,13 +78,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
     this.previousResults.length  > 4 && this.previousResults.shift();
     this.previousResults.unshift(this.searchedText.trim());
-  
+
     localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
   }
 
   private getPreviousResults(): string[] {
     const previousResults: string[] | undefined = JSON.parse(localStorage.getItem('previousResults'));
-    if(previousResults?.length){
+    if (previousResults?.length){
       return previousResults;
     }else{
       localStorage.setItem('previousResults', JSON.stringify([]));
@@ -92,12 +93,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   private filter(value: string): void {
-    if(value) {
+    if (value) {
       this.filteredResults = this.previousResults.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
     } else {
       this.filteredResults = this.previousResults;
-      if(this.isResultPage) 
+      if (this.isResultPage) {
         this.store.dispatch(new GetFilteredWorkshops());
+      }
     }
   }
 

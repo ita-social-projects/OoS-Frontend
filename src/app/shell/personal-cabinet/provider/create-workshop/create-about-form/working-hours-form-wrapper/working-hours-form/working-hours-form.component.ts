@@ -1,6 +1,6 @@
 import { ValidationConstants } from '../../../../../../../shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from '../../../../../../../shared/constants/constants';
@@ -19,11 +19,11 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
 
-  workdaysFormControl = new UntypedFormControl('');
-  startTimeFormControl = new UntypedFormControl('');
-  endTimeFormControl = new UntypedFormControl('');
+  workdaysFormControl = new FormControl(['']);
+  startTimeFormControl = new FormControl('');
+  endTimeFormControl = new FormControl('');
 
-  @Input() workingHoursForm: UntypedFormGroup;
+  @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;
 
@@ -32,14 +32,14 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   constructor() { }
 
   ngOnInit(): void {
-    this.workdaysFormControl = this.workingHoursForm.get('workdays') as UntypedFormControl;
-    this.startTimeFormControl = this.workingHoursForm.get('startTime') as UntypedFormControl;
-    this.endTimeFormControl = this.workingHoursForm.get('endTime') as UntypedFormControl;
+    this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
+    this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
+    this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
     this.workingHoursForm.valueChanges.pipe(
-      filter(()=> !this.workdaysFormControl.touched),
+      filter(() => !this.workdaysFormControl.touched),
       takeUntil(this.destroy$)
-    ).subscribe(()=> this.workdaysFormControl.markAsTouched());
+    ).subscribe(() => this.workdaysFormControl.markAsTouched());
 
     this.workdaysFormControl.value.length && this.activateEditMode();
   }
@@ -69,8 +69,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   onCancel(): void{
-    (<EventEmitter<any>>this.startTimeFormControl.statusChanges).emit();
-    (<EventEmitter<any>>this.endTimeFormControl.statusChanges).emit();
+    (this.startTimeFormControl.statusChanges as EventEmitter<any>).emit();
+    (this.endTimeFormControl.statusChanges as EventEmitter<any>).emit();
   }
 
   activateEditMode(): void {

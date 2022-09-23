@@ -1,10 +1,9 @@
 import { ActivatedRoute, Params } from '@angular/router';
-import { AdminTabs, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, FormRecord, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-
 import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { AdminState } from 'src/app/shared/store/admin.state';
 import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
@@ -17,7 +16,7 @@ import { NavigationBarService } from 'src/app/shared/services/navigation-bar/nav
 import { Observable } from 'rxjs';
 import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { СompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
+import { CompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
 
 @Component({
   selector: 'app-info-edit',
@@ -37,8 +36,9 @@ export class InfoEditComponent
   @Select(AdminState.LawsAndRegulations)
   LawsAndRegulations$: Observable<CompanyInformation>;
 
-  PlatformInfoItemArray = new UntypedFormArray([]);
-  titleFormControl = new UntypedFormControl('', [Validators.required]);
+  PlatformInfoItemArray = new FormArray([]);
+  platformInfoEditFormGroup: FormGroup;
+  titleFormControl = new FormControl('', [Validators.required]);
   editTitle: AdminTabsUkr;
   platformInfo: CompanyInformation;
 
@@ -48,7 +48,7 @@ export class InfoEditComponent
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private fb: UntypedFormBuilder,
+    private fb: FormBuilder,
     private location: Location
   ) {
     super(store, route, navigationBarService);
@@ -75,7 +75,7 @@ export class InfoEditComponent
           {
             name: NavBarName.Platform,
             path: `/admin-tools/platform/`,
-            queryParams: { 'page': this.platformInfoType },
+            queryParams: { page: this.platformInfoType },
             isActive: false,
             disable: false,
           },
@@ -102,14 +102,14 @@ export class InfoEditComponent
   /**
    * This method creates new FormGroup
    */
-  private newForm(platformInfoItem?: СompanyInformationSectionItem): UntypedFormGroup {
-    const platformInfoEditFormGroup = this.fb.group({
-      sectionName: new UntypedFormControl('', [
+  private newForm(platformInfoItem?: CompanyInformationSectionItem): FormGroup {
+    this.platformInfoEditFormGroup = this.fb.group({
+      sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
         Validators.required,
       ]),
-      description: new UntypedFormControl('', [
+      description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
@@ -117,16 +117,13 @@ export class InfoEditComponent
     });
 
     if (platformInfoItem) {
-      platformInfoEditFormGroup.addControl(
-        'companyInformationId',
-        this.fb.control(platformInfoItem.companyInformationId)
-      );
-      platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
+      this.platformInfoEditFormGroup.addControl('companyInformationId', this.fb.control(platformInfoItem.companyInformationId));
+      this.platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
     }
 
-    this.subscribeOnDirtyForm(platformInfoEditFormGroup);
+    this.subscribeOnDirtyForm(this.platformInfoEditFormGroup);
 
-    return platformInfoEditFormGroup;
+    return this.platformInfoEditFormGroup;
   }
 
   /**
@@ -150,9 +147,9 @@ export class InfoEditComponent
 
   onSubmit(): void {
     if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
-      const platformInfoItemArray: СompanyInformationSectionItem[] = [];
-      this.PlatformInfoItemArray.controls.forEach((form: UntypedFormGroup) =>
-        platformInfoItemArray.push(new СompanyInformationSectionItem(form.value))
+      const platformInfoItemArray: CompanyInformationSectionItem[] = [];
+      this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+        platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
       );
 
       const platformInfo = this.editMode
@@ -198,7 +195,7 @@ export class InfoEditComponent
   private setPlatformInfo(platformInfo: CompanyInformation): void {
     this.platformInfo = platformInfo;
     this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
-    this.platformInfo.companyInformationItems.forEach((item: СompanyInformationSectionItem) =>
+    this.platformInfo.companyInformationItems.forEach((item: CompanyInformationSectionItem) =>
       this.PlatformInfoItemArray.push(this.newForm(item))
     );
   }

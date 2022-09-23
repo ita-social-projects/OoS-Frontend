@@ -9,7 +9,7 @@ import {
   AfterViewChecked,
   ChangeDetectorRef,
 } from '@angular/core';
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
@@ -52,14 +52,14 @@ export class CreateProviderComponent
   isAgreed: boolean;
   isNotRobot: boolean;
 
-  InfoFormGroup: UntypedFormGroup;
-  ActualAddressFormGroup: UntypedFormGroup;
-  LegalAddressFormGroup: UntypedFormGroup;
-  PhotoFormGroup: UntypedFormGroup;
+  InfoFormGroup: FormGroup;
+  ActualAddressFormGroup: FormGroup;
+  LegalAddressFormGroup: FormGroup;
+  PhotoFormGroup: FormGroup;
 
-  ContactsFormGroup: UntypedFormGroup = new UntypedFormGroup({});
-  RobotFormControl = new UntypedFormControl(false);
-  AgreementFormControl = new UntypedFormControl(false);
+  ContactsFormGroup: FormGroup = new FormGroup({});
+  RobotFormControl = new FormControl(false);
+  AgreementFormControl = new FormControl(false);
 
   @ViewChild('stepper') stepper: MatStepper;
 
@@ -92,7 +92,7 @@ export class CreateProviderComponent
       });
     }
   }
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
   }
 
@@ -119,7 +119,7 @@ export class CreateProviderComponent
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit() {
+  onSubmit(): void {
     if (this.PhotoFormGroup.invalid) {
       this.checkValidation(this.PhotoFormGroup);
     } else {
@@ -156,7 +156,7 @@ export class CreateProviderComponent
    * This method receives a form from create-info child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
-  onReceiveInfoFormGroup(form: UntypedFormGroup): void {
+  onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -165,13 +165,13 @@ export class CreateProviderComponent
    * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
    * @param FormGroup form
    */
-  onReceiveActualAddressFormGroup(form: UntypedFormGroup): void {
+  onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('actual', form);
   }
 
-  onReceiveLegalAddressFormGroup(form: UntypedFormGroup): void {
+  onReceiveLegalAddressFormGroup(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('legal', form);
@@ -181,7 +181,7 @@ export class CreateProviderComponent
    * This method receives a from from create-photo child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
-  onReceivePhotoFormGroup(form: UntypedFormGroup): void {
+  onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -190,7 +190,7 @@ export class CreateProviderComponent
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
    */
-  checkValidation(form: UntypedFormGroup): void {
+  checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
@@ -201,13 +201,13 @@ export class CreateProviderComponent
    */
   checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach(key => {
-      if ((<UntypedFormGroup>this.ContactsFormGroup.get(key)).enabled) {
-        this.checkValidation(<UntypedFormGroup>this.ContactsFormGroup.get(key));
+      if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
+        this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
       }
     });
   }
 
-  onCancel() {
+  onCancel(): void {
     const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
 
     if (!isRegistered) {

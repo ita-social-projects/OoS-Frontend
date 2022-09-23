@@ -1,5 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -13,13 +13,13 @@ import { FilterState } from 'src/app/shared/store/filter.state';
   templateUrl: './ordering.component.html',
   styleUrls: ['./ordering.component.scss'],
 })
-export class OrderingComponent implements OnInit {
+export class OrderingComponent implements OnInit, OnDestroy {
   readonly ordering = Ordering;
 
   @Select(FilterState.filterList)
   filterList$: Observable<any>;
 
-  orderFormControl = new UntypedFormControl();
+  orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
@@ -34,7 +34,7 @@ export class OrderingComponent implements OnInit {
     this.store.dispatch(new SetOrder(event.value));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

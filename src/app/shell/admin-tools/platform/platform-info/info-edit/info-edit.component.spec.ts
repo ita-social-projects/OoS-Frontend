@@ -26,7 +26,7 @@ fdescribe('PlatformInfoEditComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [ 
+      declarations: [
         InfoEditComponent,
         MockInfoFormComponent,
         MockValidationHintForInputComponent

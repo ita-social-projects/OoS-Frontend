@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { UntypedFormArray, UntypedFormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -53,7 +53,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  public subscribeOnDirtyForm(form: UntypedFormGroup | UntypedFormArray): void {
+  public subscribeOnDirtyForm(form: FormGroup | FormArray): void {
     form.valueChanges
       .pipe(
         takeWhile(() => this.isPristine))

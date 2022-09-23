@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DropdownData, FilterData } from 'src/app/shared/models/history-log.model';
 
 @Component({
@@ -11,19 +11,19 @@ export class HistoryLogFiltersComponent implements OnInit {
   @Input() dropdownOptions: DropdownData;
   @Output() filterData = new EventEmitter<FilterData>();
 
-  filtersForm: UntypedFormGroup;
+  filtersForm: FormGroup;
 
-  constructor(private fb: UntypedFormBuilder) {}
+  constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.filtersForm = this.fb.group({
-      dateFrom: new UntypedFormControl(''),
-      dateTo: new UntypedFormControl(''),
-      options: new UntypedFormControl(''),
+      dateFrom: new FormControl(''),
+      dateTo: new FormControl(''),
+      options: new FormControl(''),
     });
   }
 
-  applyFilters() {
+  applyFilters(): void {
     this.filterData.emit(this.filtersForm.value);
   }
 }

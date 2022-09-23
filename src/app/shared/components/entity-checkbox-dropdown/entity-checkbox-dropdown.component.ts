@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { UntypedFormControl } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Child } from '../../models/child.model';
@@ -14,7 +14,7 @@ import { DeclinationPipe } from '../../pipes/declination.pipe';
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
 
-  entityControl = new UntypedFormControl();
+  entityControl = new FormControl();
   ids: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -39,20 +39,20 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   }
 
   getEntityTitle(entity): string {
-    return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title
-  };
+    return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title;
+  }
 
   getlabelTitle(quantity: number): string {
     let allChildrenDeclination, allApplicationsDeclination;
-    if(this.Declination) {
+    if (this.Declination) {
       allChildrenDeclination = this.Declination[4];
       allApplicationsDeclination = this.Declination[1];
     }
     const allEntities =  allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.declinationPipe.transform(quantity, this.Declination);
     return quantity < 1 ? selectedEntities : `Усі ${allEntities}`;
-  };
-  
+  }
+
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

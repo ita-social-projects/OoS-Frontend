@@ -46,7 +46,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
-  @Input() isCabinetView: boolean = false;
+  @Input() isCabinetView = false;
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
 
@@ -159,4 +159,5 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     </div>`,
   styleUrls: ['./workshop-card.component.scss'],
 })
+// tslint:disable-next-line:component-class-suffix
 export class WorkshopCardDialog {}

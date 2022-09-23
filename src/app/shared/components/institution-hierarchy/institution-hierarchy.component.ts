@@ -1,4 +1,4 @@
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -25,8 +25,8 @@ import {
   styleUrls: ['./institution-hierarchy.component.scss'],
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() instituitionHierarchyIdFormControl: UntypedFormControl;
-  @Input() instituitionIdFormControl: UntypedFormControl;
+  @Input() instituitionHierarchyIdFormControl: FormControl;
+  @Input() instituitionIdFormControl: FormControl;
   @Input() provider: Provider;
 
   @Select(MetaDataState.institutions)
@@ -65,6 +65,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value));
     }
 
+    // tslint:disable-next-line:no-shadowed-variable
     this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
     });
@@ -103,7 +104,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private createInstitutionFormGroup(): void {
     this.institutionFieldDesc.forEach((institutionFieldDesc: InstitutionFieldDescription) => {
       const hierarchy = {
-        formControl: new UntypedFormControl('', Validators.required),
+        formControl: new FormControl('', Validators.required),
         title: institutionFieldDesc.title,
         hierarchyLevel: institutionFieldDesc.hierarchyLevel,
         institutionId: institutionFieldDesc.institutionId,
@@ -125,12 +126,12 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy && !!this.hierarchyArray.length)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
-        instituitionsHierarchy.forEach((instituitionsHierarchy: InstituitionHierarchy) => {
-          this.hierarchyArray[instituitionsHierarchy.hierarchyLevel - 1].formControl.setValue(
-            instituitionsHierarchy.id,
+        instituitionsHierarchy.forEach((institutionsHierarchy: InstituitionHierarchy) => {
+          this.hierarchyArray[institutionsHierarchy.hierarchyLevel - 1].formControl.setValue(
+            institutionsHierarchy.id,
             { emitEvent: false }
           );
-          this.store.dispatch(new GetInstitutionHierarchyChildrenById(instituitionsHierarchy.id));
+          this.store.dispatch(new GetInstitutionHierarchyChildrenById(institutionsHierarchy.id));
         });
       });
   }
@@ -141,7 +142,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray[nextEl].formControl.setValue('');
       this.hierarchyArray[nextEl].shouldDisplay = false;
       this.store.dispatch(new GetInstitutionHierarchyChildrenById(optionId));
-    } 
+    }
     this.setFinalHierarchyLevel(optionId);
   }
 

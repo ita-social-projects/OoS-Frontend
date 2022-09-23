@@ -12,7 +12,7 @@ describe('InfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatIconModule,
         RouterTestingModule,
         BrowserAnimationsModule,

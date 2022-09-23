@@ -1,23 +1,24 @@
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-evenly">
-  <div fxLayout="column" fxLayoutAlign="space-evenly" class="wrapper-workshop-list">
-    <div class="workshop-list card-wrapper">
-      <app-workshop-card class="card" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop" #WorkshopsWrap>
-      </app-workshop-card>
-    </div>
+  <div fxLayout="column" fxLayoutAlign="space-between" class="wrapper-workshop-list">
     <ng-container *ngIf="selectedWorkshops?.length">
+      <div class="workshop-list card-wrapper">
+        <app-workshop-card class="card" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop" #WorkshopsWrap>
+        </app-workshop-card>
+      </div>
       <app-paginator
+        class="map-view"
+        *ngIf="selectedWorkshops?.length"
         [totalEntities]="selectedWorkshops.length"
         [currentPage]="currentPage"
         [itemsPerPage]="itemsPerPage"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="itemsPerPageChange.emit($event)">
-      </app-paginator>
+        (itemsPerPageChange)="itemsPerPageChange.emit($event)"></app-paginator>
     </ng-container>
   </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout="row" fxLayoutAlign="center">
-      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedAddress)="onSelectedAddress($event)">
+      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedWorkshopAddress)="onSelectedAddress($event)">
       </app-map>
     </div>
   </div>

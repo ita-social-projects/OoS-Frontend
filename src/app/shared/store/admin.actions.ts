@@ -1,10 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
-import { Direction } from "../models/category.model";
+import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
-import { CompanyInformation } from "../models/сompanyInformation.model";
-import { MinistryAdmin } from './../models/ministryAdmin.model';
+import { CompanyInformation } from '../models/сompanyInformation.model';
+import { MinistryAdmin, MinistryAdminParameters } from './../models/ministryAdmin.model';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -26,7 +26,7 @@ export class GetAllProviders {
 export class GetFilteredProviders {
   static readonly type = '[admin] Get filtered Providers';
   constructor(public payload?: string) {}
-} 
+}
 
 export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
@@ -137,7 +137,12 @@ export class OnCreateMinistryAdminSuccess {
 
 export class GetAllMinistryAdmins {
   static readonly type = '[admin] Get All Ministry Admins';
-  constructor(public payload?: string) {}
+  constructor(public parameters?: MinistryAdminParameters) {}
+}
+
+export class GetMinistryAdminById {
+  static readonly type = '[admin] Get Ministry Admin By Id';
+  constructor(public payload: string) {}
 }
 
 export class DeleteMinistryAdminById {
@@ -167,5 +172,21 @@ export class OnBlockMinistryAdminSuccess {
 
 export class OnBlockMinistryAdminFail {
   static readonly type = '[admin] block Ministry Admin fail';
-  constructor(public payload) { }
+  constructor(public payload: HttpErrorResponse) { }
 }
+
+export class UpdateMinistryAdmin {
+  static readonly type = '[admin] update Ministry Admin';
+  constructor(public payload: MinistryAdmin) { }
+}
+
+export class OnUpdateMinistryAdminFail {
+  static readonly type = '[admin] update Ministry Admin fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+
+export class OnUpdateMinistryAdminSuccess {
+  static readonly type = '[admin] update Ministry Admin success';
+  constructor(public payload: object) { }
+}
+

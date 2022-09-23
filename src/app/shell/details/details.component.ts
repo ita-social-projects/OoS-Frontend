@@ -21,19 +21,19 @@ import { EntityType, Role } from 'src/app/shared/enum/role';
 export class DetailsComponent implements OnInit, OnDestroy {
   readonly entityType = EntityType;
 
-  @Select(AppState.isMobileScreen) 
+  @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
   isMobileScreen: boolean;
-  
-  @Select(SharedUserState.selectedWorkshop) 
+
+  @Select(SharedUserState.selectedWorkshop)
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  @Select(SharedUserState.selectedProvider) 
+  @Select(SharedUserState.selectedProvider)
   provider$: Observable<Provider>;
   provider: Provider;
 
-  @Select(RegistrationState.role) 
+  @Select(RegistrationState.role)
   role$: Observable<Role>;
   role: Role;
 
@@ -51,7 +51,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.route.params.pipe(
       takeUntil(this.destroy$))
-      .subscribe((params : Params) => {
+      .subscribe((params: Params) => {
         this.store.dispatch(new ResetProviderWorkshopDetails());
         this.entity = this.router.url.includes(EntityType.workshop) ?
           EntityType.workshop :
@@ -69,9 +69,9 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   private setDataSubscribtion(): void {
-    combineLatest([this.isMobileScreen$, this.role$, this.workshop$, this.provider$]) 
+    combineLatest([this.isMobileScreen$, this.role$, this.workshop$, this.provider$])
         .pipe(takeUntil(this.destroy$))
-        .subscribe(([isMobileScreen, role, workshop, provider])=> {
+        .subscribe(([isMobileScreen, role, workshop, provider]) => {
           this.isMobileScreen = isMobileScreen;
           this.role = role;
           this.workshop = workshop;
@@ -82,8 +82,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method get Workshop or Provider by Id;
-  */
+   * This method get Workshop or Provider by Id;
+   */
   private getEntity(id: string): void {
     this.entity === EntityType.workshop ?
       this.store.dispatch(new GetWorkshopById(id)) :

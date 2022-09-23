@@ -29,7 +29,7 @@ describe('ProviderOrgInfoComponent', () => {
         PhoneTransformPipe,
         MockproviderInfoComponent,
         ProviderComponent,
-        CabinetDataComponent 
+        CabinetDataComponent
       ],
     }).compileComponents();
   });

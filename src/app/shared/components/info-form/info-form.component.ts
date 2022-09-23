@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { UntypedFormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 
 @Component({
@@ -10,7 +10,7 @@ import { ValidationConstants } from 'src/app/shared/constants/validation';
 export class InfoFormComponent {
   readonly validationConstants = ValidationConstants;
 
-  @Input() InfoEditFormGroup: UntypedFormGroup;
+  @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
   @Input() maxDescriptionLength: number;

@@ -33,7 +33,7 @@ import { MainPageInfoComponent } from './main-page-info/main-page-info.component
     MaterialModule,
     RouterModule,
   ],
-  exports: [ 
+  exports: [
     PlatformComponent
   ]
 })

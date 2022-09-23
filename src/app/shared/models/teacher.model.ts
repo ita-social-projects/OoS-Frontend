@@ -1,4 +1,4 @@
-import { Person } from "./user.model";
+import { Person } from './user.model';
 export class Teacher implements Person {
   id?: string;
   workshopId?: string;

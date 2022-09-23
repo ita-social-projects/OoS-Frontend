@@ -32,7 +32,7 @@ describe('AdminsComponent', () => {
         MatDialogModule,
         RouterTestingModule,
       ],
-      declarations: [ 
+      declarations: [
         AdminsComponent,
         NoResultCardComponent,
         MockListAdminsPaginatorComponent,
@@ -40,7 +40,7 @@ describe('AdminsComponent', () => {
        ]
     })
     .compileComponents();
-    
+
   });
 
   beforeEach(() => {
@@ -61,7 +61,7 @@ describe('AdminsComponent', () => {
 class MockUsersListComponent {
   @Input() users: object[];
   @Input() filterValue: string;
-  @Input() isEditable: boolean;
+  @Input() isEdit: boolean;
 }
 
 @Component({

@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { UntypedFormControl, Validators } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -42,12 +42,12 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   workshop$: Observable<Workshop>;
   workshop: Workshop;
 
-  ContraindicationAgreementFormControl = new UntypedFormControl(false);
-  ParentAgreementFormControl = new UntypedFormControl(false);
-  AttendAgreementFormControl = new UntypedFormControl(false);
+  ContraindicationAgreementFormControl = new FormControl(false);
+  ParentAgreementFormControl = new FormControl(false);
+  AttendAgreementFormControl = new FormControl(false);
 
-  ContraindicationAgreementFormControlYourself = new UntypedFormControl(false);
-  AttendAgreementFormControlYourself = new UntypedFormControl(false);
+  ContraindicationAgreementFormControlYourself = new FormControl(false);
+  AttendAgreementFormControlYourself = new FormControl(false);
 
   selectedChild: Child;
   isContraindicationAgreed: boolean;
@@ -56,12 +56,12 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   isAllowChildToApply: boolean;
   isContraindicationAgreementYourself: boolean;
   isAttendAgreementYourself: boolean;
-  tabIndex: number = 0;
+  tabIndex = 0;
 
   workshopId: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ChildFormControl = new UntypedFormControl('', Validators.required);
+  ChildFormControl = new FormControl('', Validators.required);
 
   constructor(
     private store: Store,

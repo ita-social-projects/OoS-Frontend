@@ -4,7 +4,7 @@ import { Observable, Subject, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
 import { Workshop } from 'src/app/shared/models/workshop.model';
-import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { Achievement, AchievementType, AchievmentTeacherValue } from 'src/app/shared/models/achievement.model';
@@ -47,21 +47,21 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   @Select(MetaDataState.achievementsTypes)
   achievementsTypes$: Observable<AchievementType[]>;
 
-  AchievementFormGroup: UntypedFormGroup;
+  AchievementFormGroup: FormGroup;
   workshop: Workshop;
   achievement: Achievement;
   workshopId: string;
   approvedChildren: ChildCards;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  get teachersFormControl(): UntypedFormControl {
-    return this.AchievementFormGroup.get('teachers') as UntypedFormControl;
+  get teachersFormControl(): FormControl {
+    return this.AchievementFormGroup.get('teachers') as FormControl;
   }
-  get childrenFormControl(): UntypedFormControl {
-    return this.AchievementFormGroup.get('children') as UntypedFormControl;
+  get childrenFormControl(): FormControl {
+    return this.AchievementFormGroup.get('children') as FormControl;
   }
-  get achievementTypeIdFormControl(): UntypedFormControl {
-    return this.AchievementFormGroup.get('achievementTypeId') as UntypedFormControl;
+  get achievementTypeIdFormControl(): FormControl {
+    return this.AchievementFormGroup.get('achievementTypeId') as FormControl;
   }
 
   private achievementId: string;
@@ -70,22 +70,22 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     store: Store,
     route: ActivatedRoute,
     navigationBarService: NavigationBarService,
-    private formBuilder: UntypedFormBuilder,
+    private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location,
     private routeParams: ActivatedRoute
   ) {
     super(store, route, navigationBarService);
     this.AchievementFormGroup = this.formBuilder.group({
-      title: new UntypedFormControl('', [
+      title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
       ]),
-      achievementDate: new UntypedFormControl('', Validators.required),
-      achievementTypeId: new UntypedFormControl('', Validators.required),
-      teachers: new UntypedFormControl('', Validators.required),
-      children: new UntypedFormControl('', Validators.required),
+      achievementDate: new FormControl('', Validators.required),
+      achievementTypeId: new FormControl('', Validators.required),
+      teachers: new FormControl('', Validators.required),
+      children: new FormControl('', Validators.required),
     });
 
     this.subscribeOnDirtyForm(this.AchievementFormGroup);
@@ -201,7 +201,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
 
   onRemoveItem(item: string, control: string): void {
     const formControl = this.AchievementFormGroup.get(control);
-    let items = formControl.value;
+    const items = formControl.value;
     if (items.indexOf(item) >= 0) {
       items.splice(items.indexOf(item), 1);
       if (items.length !== 0) {

@@ -1,6 +1,6 @@
-import { HttpErrorResponse, HttpResponse } from "@angular/common/http";
-import { PersonalInfoRole } from "../enum/role";
-import { User } from "../models/user.model";
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { PersonalInfoRole } from '../enum/role';
+import { User } from '../models/user.model';
 
 export class Login {
   static readonly type = '[user] logins';

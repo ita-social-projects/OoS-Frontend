@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, UntypedFormControl, UntypedFormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { FormValidators } from 'src/app/shared/constants/validation';
@@ -12,10 +12,10 @@ import { Provider } from 'src/app/shared/models/provider.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
-  legalAddressFormGroup: UntypedFormGroup;
-  actualAddressFormGroup: UntypedFormGroup;
-  searchFormGroup: UntypedFormGroup;
-  isSameAddressControl: UntypedFormControl = new UntypedFormControl(false);
+  legalAddressFormGroup: FormGroup;
+  actualAddressFormGroup: FormGroup;
+  searchFormGroup: FormGroup;
+  isSameAddressControl: FormControl = new FormControl(false);
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -25,40 +25,40 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  get searchActualFormGroup(): UntypedFormGroup {
-    return this.searchFormGroup.get('actualAddress') as UntypedFormGroup;
+  get searchActualFormGroup(): FormGroup {
+    return this.searchFormGroup.get('actualAddress') as FormGroup;
   }
 
-  get searchLegalFormGroup(): UntypedFormGroup {
-    return this.searchFormGroup.get('legalAddress') as UntypedFormGroup;
+  get searchLegalFormGroup(): FormGroup {
+    return this.searchFormGroup.get('legalAddress') as FormGroup;
   }
 
-  get settlementLegalSearchFormControl(): UntypedFormControl {
-    return this.searchFormGroup.get('legalAddress').get('settlementSearch') as UntypedFormControl;
+  get settlementLegalSearchFormControl(): FormControl {
+    return this.searchFormGroup.get('legalAddress').get('settlementSearch') as FormControl;
   }
 
-  get settlementLegalFormControl(): UntypedFormControl {
-    return this.searchFormGroup.get('legalAddress').get('settlement') as UntypedFormControl;
+  get settlementLegalFormControl(): FormControl {
+    return this.searchFormGroup.get('legalAddress').get('settlement') as FormControl;
   }
 
-  get settlementActualSearchFormControl(): UntypedFormControl {
-    return this.searchActualFormGroup.get('settlementSearch') as UntypedFormControl;
+  get settlementActualSearchFormControl(): FormControl {
+    return this.searchActualFormGroup.get('settlementSearch') as FormControl;
   }
 
-  get settlementActualFormControl(): UntypedFormControl {
-    return this.searchActualFormGroup.get('settlement') as UntypedFormControl;
+  get settlementActualFormControl(): FormControl {
+    return this.searchActualFormGroup.get('settlement') as FormControl;
   }
 
-  get codeficatorIdActualFormControl(): UntypedFormControl {
-    return this.actualAddressFormGroup.get('catottgId') as UntypedFormControl;
+  get codeficatorIdActualFormControl(): FormControl {
+    return this.actualAddressFormGroup.get('catottgId') as FormControl;
   }
 
-  get streetActualFormControl(): UntypedFormControl {
-    return this.actualAddressFormGroup.get('street') as UntypedFormControl;
+  get streetActualFormControl(): FormControl {
+    return this.actualAddressFormGroup.get('street') as FormControl;
   }
 
-  get buildingNumberActualFormControl(): UntypedFormControl {
-    return this.actualAddressFormGroup.get('buildingNumber') as UntypedFormControl;
+  get buildingNumberActualFormControl(): FormControl {
+    return this.actualAddressFormGroup.get('buildingNumber') as FormControl;
   }
 
   /**
@@ -93,26 +93,26 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
    * This method for init all FormGroups
    */
   private initFormGroups(): void {
-    this.legalAddressFormGroup = new UntypedFormGroup({
-      street: new UntypedFormControl('', FormValidators.defaultAddressValidators),
-      buildingNumber: new UntypedFormControl('', FormValidators.defaultAddressValidators),
-      catottgId: new UntypedFormControl('', Validators.required),
+    this.legalAddressFormGroup = new FormGroup({
+      street: new FormControl('', FormValidators.defaultAddressValidators),
+      buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
+      catottgId: new FormControl('', Validators.required),
     });
 
-    this.actualAddressFormGroup = new UntypedFormGroup({
-      street: new UntypedFormControl('', FormValidators.defaultAddressValidators),
-      buildingNumber: new UntypedFormControl('', FormValidators.defaultAddressValidators),
-      catottgId: new UntypedFormControl('', Validators.required),
+    this.actualAddressFormGroup = new FormGroup({
+      street: new FormControl('', FormValidators.defaultAddressValidators),
+      buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
+      catottgId: new FormControl('', Validators.required),
     });
 
-    this.searchFormGroup = new UntypedFormGroup({
-      legalAddress: new UntypedFormGroup({
-        settlementSearch: new UntypedFormControl('', FormValidators.defaultSearchValidators),
-        settlement: new UntypedFormControl(''),
+    this.searchFormGroup = new FormGroup({
+      legalAddress: new FormGroup({
+        settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
+        settlement: new FormControl(''),
       }),
-      actualAddress: new UntypedFormGroup({
-        settlementSearch: new UntypedFormControl('', FormValidators.defaultSearchValidators),
-        settlement: new UntypedFormControl(''),
+      actualAddress: new FormGroup({
+        settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
+        settlement: new FormControl(''),
       }),
     });
   }
@@ -188,8 +188,8 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
    * @param validators ValidatorFn | ValidatorFn[]
    */
   private setValidators(control: AbstractControl, validators: ValidatorFn | ValidatorFn[]): void {
-    if ((control as UntypedFormGroup).controls) {
-      Object.keys((control as UntypedFormGroup).controls).forEach((formControlTitle: string) => {
+    if ((control as FormGroup).controls) {
+      Object.keys((control as FormGroup).controls).forEach((formControlTitle: string) => {
         control.get(formControlTitle).setValidators(validators);
         control.updateValueAndValidity();
       });
