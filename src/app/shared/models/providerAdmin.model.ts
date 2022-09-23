@@ -1,3 +1,4 @@
+import { providerAdminRole } from "../enum/provider-admin";
 import { Person } from "./user.model";
 export interface ProviderAdminTable {
   id: string,
@@ -16,19 +17,20 @@ export class ProviderAdmin implements Person {
   lastName: string;
   email: string;
   phoneNumber: string;
-  providerId?: string;
-  isDeputy: string;
+  isDeputy: boolean;
   managedWorkshopIds?: string[];
   accountStatus?: string;
 
-  constructor(info, isDeputy, providerId?, workshopIds?: string[], accountStatus?) {
+  constructor(info, isDebuty: boolean, providerId?: string, workshopIds?: string[], accountStatus?: string) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;
     this.middleName = info.middleName;
     this.lastName = info.lastName;
-    this.providerId = providerId;
-    this.isDeputy = isDeputy;
+    this.isDeputy = isDebuty;
+    if (providerId) {
+      this.id = providerId;
+    }
     if (workshopIds?.length) {
       this.managedWorkshopIds = workshopIds;
     }

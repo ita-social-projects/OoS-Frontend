@@ -14,3 +14,8 @@ export enum ProviderAdminIcons {
   Accepted = 'fas fa-user-check',
   Blocked = 'fas fa-user-times',
 }
+
+export enum CreateProviderAdminTitle {
+  deputy = 'ЗАСТУПНИКА ДИРЕКТОРА',
+  admin = 'АДМІНІСТРАТОРА ГУРТКА',
+}
