@@ -15,6 +15,7 @@ export class StretchTableDirective implements AfterViewInit{
     private renderer: Renderer2,
     private viewContainerRef: ViewContainerRef
   ) { }
+
   ngAfterViewInit(): void {
     setTimeout(() => this.addResizeStructure(), 100);
   }
@@ -42,7 +43,6 @@ export class StretchTableDirective implements AfterViewInit{
       THs[i].style.width = `${THs[i].offsetWidth}px`;
     }
   }
-  
   
   @HostListener('mousedown',['$event']) onMouseDown(event: any){
     if(!event.target.closest(".resize-border")){
