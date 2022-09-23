@@ -128,6 +128,17 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    let navBarTitle: string;
+
+    if (this.editMode) {
+      this.isDebuty ? 
+        navBarTitle = NavBarName.UpdateProviderDeputy : 
+        navBarTitle = NavBarName.UpdateProviderAdmin;
+    } else {
+      this.isDebuty ? 
+        navBarTitle = NavBarName.UpdateProviderDeputy : 
+        navBarTitle = NavBarName.UpdateProviderAdmin;
+    }
 
     this.store.dispatch(
       new AddNavPath(
@@ -139,13 +150,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
             disable: false,
           },
           { 
-            name: this.editMode ? 
-              (this.isDebuty ? 
-                NavBarName.UpdateProviderDeputy : 
-                NavBarName.UpdateProviderAdmin) :
-              (this.isDebuty ?
-                NavBarName.CreateProviderDeputy : 
-                NavBarName.CreateProviderAdmin),
+            name: navBarTitle,
             isActive: false,
             disable: true,
           }
@@ -169,16 +174,22 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   onSubmit(): void {
+    let confirmationType: string;
+
+    if (this.editMode) {
+      this.isDebuty ? 
+        confirmationType = ModalConfirmationType.updateProviderAdminDeputy : 
+        confirmationType = ModalConfirmationType.updateProviderAdmin;
+    } else {
+      this.isDebuty ? 
+        confirmationType = ModalConfirmationType.createProviderAdminDeputy : 
+        confirmationType = ModalConfirmationType.createProviderAdmin;
+    }
+
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: this.editMode ? 
-        (this.isDebuty ? 
-          ModalConfirmationType.updateProviderAdminDeputy : 
-          ModalConfirmationType.updateProviderAdmin) :
-        (this.isDebuty ?
-          ModalConfirmationType.createProviderAdminDeputy : 
-          ModalConfirmationType.createProviderAdmin),
+        type: confirmationType
       }
     });
 
