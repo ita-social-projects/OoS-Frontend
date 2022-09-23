@@ -13,7 +13,7 @@
 <div class="wrapper-provider-list">
   <div class="wrapper-provider-list-container">
     <div class="table-container mat-elevation-z8" [hidden]="!dataSource">
-      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)">
+      <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
         <ng-container matColumnDef="fullTitle">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
             Назва закладу
