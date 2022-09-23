@@ -7,10 +7,8 @@ import {
   Application,
   ApplicationCards,
   ApplicationParameters,
-  ApplicationUpdate,
 } from '../../../../shared/models/application.model';
-import { UpdateApplication } from 'src/app/shared/store/shared-user.actions';
-import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
@@ -20,11 +18,8 @@ import { Observable, Subject } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { SharedUserState } from 'src/app/shared/store/shared-user.state';
-import { CabinetDataComponent } from '../cabinet-data.component';
 import { Child } from 'src/app/shared/models/child.model';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
