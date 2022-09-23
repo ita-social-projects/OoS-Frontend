@@ -28,7 +28,7 @@ export class NavigationBarService {
    *
    */
   createNavPaths(firstNavPath: Navigation, secondNavPath: Navigation, thirdNavPath?: Navigation): Navigation[] {
-    if(thirdNavPath !== undefined) {
+    if (thirdNavPath !== undefined) {
     return [
       { name: NavBarName.MainPage, path: '/', isActive: true, disable: false },
       firstNavPath,

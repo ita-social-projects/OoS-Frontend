@@ -26,9 +26,9 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   user$: Observable<User>;
   @Select(RegistrationState.role)
   role$: Observable<Role>;
-  
+
   authServer: string = environment.stsServer;
-  culture: string = localStorage.getItem('ui-culture');;
+  culture: string = localStorage.getItem('ui-culture');
   link: string;
 
   constructor(private store: Store) { }
@@ -42,7 +42,7 @@ export class UserConfigComponent implements OnInit, OnDestroy {
           disable: true,
         }
       )
-    );    
+    );
   }
 
   onRedirect(link: string): void {

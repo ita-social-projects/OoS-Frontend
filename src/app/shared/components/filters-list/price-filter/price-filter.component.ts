@@ -97,7 +97,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.maxPriceControl.setValue(ValidationConstants.MAX_PRICE);
   }
 
-  priceHandler(e) {
+  priceHandler(e): void {
     e.pointerType && this.maxPriceControl.setValue(e.highValue);
     !e.pointerType && this.minPriceControl.setValue(e.value);
   }

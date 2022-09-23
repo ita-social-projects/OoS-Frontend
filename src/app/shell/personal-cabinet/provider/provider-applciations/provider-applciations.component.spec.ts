@@ -17,12 +17,12 @@ describe('ProviderApplciationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[ NgxsModule.forRoot([]), MatDialogModule],
-      declarations: [ 
-        ProviderApplciationsComponent, 
-        ApplicationsMockComponent, 
-        ProviderComponent, 
-        CabinetDataComponent 
+      imports: [ NgxsModule.forRoot([]), MatDialogModule],
+      declarations: [
+        ProviderApplciationsComponent,
+        ApplicationsMockComponent,
+        ProviderComponent,
+        CabinetDataComponent
       ]
     })
     .compileComponents();
@@ -32,7 +32,7 @@ describe('ProviderApplciationsComponent', () => {
     fixture = TestBed.createComponent(ProviderApplciationsComponent);
     component = fixture.componentInstance;
   });
-  
+
   it('should create', () => {
     expect(component).toBeTruthy();
   });

@@ -1,25 +1,26 @@
-import { SectionItem } from "./sectionItem.model";
+import { SectionItem } from './sectionItem.model';
 
 export class CompanyInformation {
   id?: string;
   title?: string;
-  companyInformationItems: СompanyInformationSectionItem [];
+  companyInformationItems: CompanyInformationSectionItem [];
 
-  constructor(title: string, portalItems: СompanyInformationSectionItem[], id?) {
+  constructor(title: string, portalItems: CompanyInformationSectionItem[], id?) {
     this.id = id;
     this.title = title;
     this.companyInformationItems = portalItems;
   }
 }
 
-export class СompanyInformationSectionItem extends SectionItem {
+export class CompanyInformationSectionItem extends SectionItem {
   companyInformationId?: string;
 
   constructor(info) {
     super(info);
 
-    if(info.companyInformationId)
+    if (info.companyInformationId) {
       this.companyInformationId =  info.companyInformationId;
+    }
     }
 }
 

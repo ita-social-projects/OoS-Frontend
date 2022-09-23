@@ -20,7 +20,7 @@ export abstract class ParentComponent extends CabinetDataComponent implements On
     super(store, matDialog);
   }
 
-  abstract initParentData();
+  abstract initParentData(): void;
 
   /**
    * This method subscribe on provider and get it's workshops

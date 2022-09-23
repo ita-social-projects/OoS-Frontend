@@ -15,11 +15,11 @@ export interface  InstitutionFieldDescription {
 export interface InstituitionHierarchy {
   id: string;
   title: string;
-  hierarchyLevel: number,
+  hierarchyLevel: number;
   parentId: string;
   institutionId: string;
-  institution: Institution,
-  directions: Direction[]
+  institution: Institution;
+  directions: Direction[];
 }
 export interface HierarchyElement {
   formControl: FormControl;

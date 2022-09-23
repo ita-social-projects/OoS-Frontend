@@ -1,13 +1,12 @@
-import { providerAdminRole } from "../enum/provider-admin";
 import { Person } from "./user.model";
 export interface ProviderAdminTable {
-  id: string,
-  pib: string,
-  email: string,
-  phoneNumber: string,
-  isDeputy: boolean,
-  status: string,
-  role?: string,
+  id: string;
+  pib: string;
+  email: string;
+  phoneNumber: string;
+  isDeputy: boolean;
+  status: string;
+  role?: string;
 }
 export class ProviderAdmin implements Person {
   id?: string;

@@ -32,7 +32,7 @@ export class ProviderService {
    * @param
    */
   getFilteredProviders(searchString: string): Observable<Provider[]> {
-    const param = searchString? `?SearchString=${searchString}` : '';
+    const param = searchString ? `?SearchString=${searchString}` : '';
     return this.http.get<Provider[]>(`/api/v1/Provider/GetByFilter${param}`);
   }
 

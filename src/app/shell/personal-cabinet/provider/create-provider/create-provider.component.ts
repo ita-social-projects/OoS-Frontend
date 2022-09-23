@@ -92,7 +92,7 @@ export class CreateProviderComponent
       });
     }
   }
-  ngAfterViewChecked() {
+  ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
   }
 
@@ -119,7 +119,7 @@ export class CreateProviderComponent
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit() {
+  onSubmit(): void {
     if (this.PhotoFormGroup.invalid) {
       this.checkValidation(this.PhotoFormGroup);
     } else {
@@ -201,13 +201,13 @@ export class CreateProviderComponent
    */
   checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach(key => {
-      if ((<FormGroup>this.ContactsFormGroup.get(key)).enabled) {
-        this.checkValidation(<FormGroup>this.ContactsFormGroup.get(key));
+      if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
+        this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
       }
     });
   }
 
-  onCancel() {
+  onCancel(): void {
     const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
 
     if (!isRegistered) {

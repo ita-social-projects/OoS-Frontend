@@ -14,7 +14,7 @@ describe('WorkingHoursFormWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatIconModule,
         ReactiveFormsModule,
         FormsModule,
@@ -22,9 +22,9 @@ describe('WorkingHoursFormWrapperComponent', () => {
         BrowserModule,
         BrowserAnimationsModule,
       ],
-      declarations: [ 
-        WorkingHoursFormWrapperComponent, 
-        MockWorkingHours 
+      declarations: [
+        WorkingHoursFormWrapperComponent,
+        MockWorkingHoursComponent
       ]
     })
     .compileComponents();
@@ -46,7 +46,7 @@ describe('WorkingHoursFormWrapperComponent', () => {
   selector: 'app-working-hours-form',
   template: ''
 })
-class MockWorkingHours {
+class MockWorkingHoursComponent {
   @Input() workingHoursForm: FormGroup;
   @Input() index: number;
   @Input() workingHoursAmount: number;

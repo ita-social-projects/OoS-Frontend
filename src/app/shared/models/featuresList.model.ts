@@ -1,5 +1,5 @@
 export interface FeaturesList {
-  release1: boolean,
-  release2: boolean,
-  release3: boolean
+  release1: boolean;
+  release2: boolean;
+  release3: boolean;
 }

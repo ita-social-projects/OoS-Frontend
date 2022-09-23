@@ -29,11 +29,11 @@ import { CreateAdminTitle } from 'src/app/shared/enum/enumUA/tech-admin/create-a
 import { AdminState } from 'src/app/shared/store/admin.state';
 
 const defaultValidators: ValidatorFn[] = [
-  Validators.required, 
+  Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-]
+];
 @Component({
   selector: 'app-create-admin',
   templateUrl: './create-admin.component.html',
@@ -45,7 +45,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly adminsRole = AdminRole;
   readonly title = CreateAdminTitle;
-  
+
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
   @Select(AdminState.selectedMinistryAdmin)
@@ -62,7 +62,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location
-  ) { 
+  ) {
     super(store, route, navigationBarService);
 
     this.AdminFormGroup = this.formBuilder.group({
@@ -74,12 +74,12 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phoneNumber: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       institution: new FormControl('', Validators.required),
       email: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.email
       ])
     });
@@ -92,7 +92,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.store.dispatch(new GetAllInstitutions());
     this.determineEditMode();
   }
-  
+
   determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
     this.addNavPath();
@@ -104,23 +104,23 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   setEditMode(): void {
     this.adminId = this.route.snapshot.paramMap.get('id');
-    
+
     this.store.dispatch(new GetMinistryAdminById(this.adminId));
 
     this.selectedMinistryAdmin$.pipe(
       takeUntil(this.destroy$),
       filter((ministryAdmin: MinistryAdmin) => !!ministryAdmin)
     )
-    .subscribe((ministryAdmin: MinistryAdmin)=> {
+    .subscribe((ministryAdmin: MinistryAdmin) => {
       this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
       this.AdminFormGroup.get('institution')
         .setValue(
           {
-            id: ministryAdmin.institutionId, 
+            id: ministryAdmin.institutionId,
             title: ministryAdmin.institutionTitle
-          }, 
+          },
           { emitEvent: false }
-        )
+        );
     });
   }
 
@@ -128,7 +128,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     return institution1.id === institution2.id;
   }
 
-  addNavPath(): void { 
+  addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -167,12 +167,12 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const ministryAdmin = new MinistryAdmin(
-          this.AdminFormGroup.value, 
+          this.AdminFormGroup.value,
           this.AdminFormGroup.get('institution').value.id,
           this.adminId
         );
         this.store.dispatch(this.editMode ? new UpdateMinistryAdmin(ministryAdmin) : new CreateMinistryAdmin(ministryAdmin));
       }
-    });   
+    });
   }
 }

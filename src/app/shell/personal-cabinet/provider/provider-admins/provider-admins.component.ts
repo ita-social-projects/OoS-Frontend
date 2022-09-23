@@ -141,7 +141,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param admins: ProviderAdmin[]
    */
   private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
-    let updatedAdmins = [];
+    const updatedAdmins = [];
     admins.forEach((admin: ProviderAdmin) => {
       updatedAdmins.push({
         id: admin.id,
