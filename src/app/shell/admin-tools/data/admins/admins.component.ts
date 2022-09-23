@@ -42,7 +42,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(PaginatorState.adminsPerPage)
   adminsPerPage$: Observable<number>;
-  
+
   tabIndex: number;
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
@@ -51,11 +51,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   adminParams: MinistryAdminParameters = {
-    searchString: "",
+    searchString: '',
     tabTitle: undefined,
   };
-  
-  constructor(    
+
+  constructor(
     private store: Store,
     private router: Router,
     private route: ActivatedRoute,
@@ -64,7 +64,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe( 
+      .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
@@ -80,7 +80,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
       takeUntil(this.destroy$),
       filter((ministryAdmins: AllMinistryAdmins) => !!ministryAdmins)
     )
-    .subscribe((ministryAdmins: AllMinistryAdmins)=> {
+    .subscribe((ministryAdmins: AllMinistryAdmins) => {
       this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
       this.totalEntities = ministryAdmins.totalAmount;
     });
@@ -89,12 +89,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method filter admins according to selected tab
-  * @param event: MatTabChangeEvent
-  */
+   * This method filter admins according to selected tab
+   * @param event: MatTabChangeEvent
+   */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
-    this.adminParams.searchString = "";
+    this.adminParams.searchString = '';
     this.adminParams.tabTitle = event.tab.textLabel;
     this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
     this.router.navigate(['./'], {
@@ -104,8 +104,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   /**
-  * This method block Admin By Id
-  */
+   * This method block Admin By Id
+   */
   onBlock(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
@@ -114,7 +114,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         property: admin.pib,
       },
     });
-  
+
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
@@ -125,7 +125,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   /**
    * This method delete Admin By Id
-  */
+   */
   onDelete(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
@@ -134,7 +134,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         property: admin.pib,
       },
     });
-  
+
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
@@ -144,11 +144,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   onUpdate(admin: UsersTable): void {
-    this.router.navigate([`update-admin/ministryAdmin/${admin.id}`])
+    this.router.navigate([`update-admin/ministryAdmin/${admin.id}`]);
   }
 
   private addNavPath(): void {
-    this.store.dispatch([ 
+    this.store.dispatch([
       new GetAllMinistryAdmins(this.adminParams),
       new PushNavPath({
         name: NavBarName.Admins,

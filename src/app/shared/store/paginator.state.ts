@@ -1,7 +1,7 @@
 import { PaginationConstants } from './../constants/constants';
-import { Injectable } from "@angular/core";
-import { Action, Selector, State, StateContext } from "@ngxs/store";
-import { PaginationElement } from "../models/paginationElement.model";
+import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { PaginationElement } from '../models/paginationElement.model';
 import {
   OnPageChangeAdminTable,
   OnPageChangeApplications,
@@ -16,11 +16,11 @@ import {
   SetDirectionsPerPage,
   SetFirstPage,
   SetRatingPerPage,
-  SetWorkshopsPerPage, 
+  SetWorkshopsPerPage,
   SetProvidersPerPage,
   SetHistoryItemsPerPage,
   OnPageChangeHistoryLog,
-} from "./paginator.actions";
+} from './paginator.actions';
 
 export interface PaginatorStateModel {
   workshopsPerPage: number;
@@ -51,21 +51,21 @@ export interface PaginatorStateModel {
 @Injectable()
 export class PaginatorState {
 
-  @Selector() static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; };
+  @Selector() static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; }
 
-  @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; };
+  @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; }
 
-  @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; };
+  @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; }
 
-  @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.providersPerPage; };
+  @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.providersPerPage; }
 
-  @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; };
+  @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; }
 
-  @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.adminsPerPage; };
+  @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.adminsPerPage; }
 
-  @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; };
+  @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; }
 
-  @Selector() static historyItemsPerPage(state: PaginatorStateModel): number { return state.historyItemsPerPage; };
+  @Selector() static historyItemsPerPage(state: PaginatorStateModel): number { return state.historyItemsPerPage; }
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
@@ -96,7 +96,7 @@ export class PaginatorState {
   setProvidersPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetProvidersPerPage): void {
     patchState({ providersPerPage: payload });
   }
-  
+
   @Action(SetAdminsPerPage)
   setAdminsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAdminsPerPage): void {
     patchState({ adminsPerPage: payload });

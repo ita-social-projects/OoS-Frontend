@@ -50,7 +50,7 @@ export class MainPageState {
   }
 
   @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState }: StateContext<MainPageStateModel>, { }: GetTopWorkshops) {
+  getTopWorkshops({ patchState }: StateContext<MainPageStateModel>, { }: GetTopWorkshops): Observable<any> {
     patchState({ isLoadingData: true });
     return this.appWorkshopsService
       .getTopWorkshops()

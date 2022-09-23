@@ -17,10 +17,10 @@ export class Address {
     if (address) {
       this.id = address.id;
     }
-    if(info.latitude) {
+    if (info.latitude) {
       this.latitude = info.latitude;
     }
-    if(info.longitude) {
+    if (info.longitude) {
       this.longitude = info.longitude;
     }
   }

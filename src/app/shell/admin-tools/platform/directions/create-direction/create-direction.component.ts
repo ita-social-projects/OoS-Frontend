@@ -55,7 +55,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
 
   ngOnInit(): void {
     this.determineEditMode();
-    this.addNavPath(); //TODO: move this to abstract create-form component
+    this.addNavPath(); // TODO: move this to abstract create-form component
   }
 
   addNavPath(): void {

@@ -16,17 +16,17 @@ describe('CreateAddressFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatFormFieldModule, 
-        MatOptionModule, 
-        MatInputModule, 
-        MatAutocompleteModule, 
+        MatFormFieldModule,
+        MatOptionModule,
+        MatInputModule,
+        MatAutocompleteModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
-        BrowserAnimationsModule 
+        BrowserAnimationsModule
       ],
       declarations: [
-        CreateAddressFormComponent, 
-        MockValidationHintForInputComponent, 
+        CreateAddressFormComponent,
+        MockValidationHintForInputComponent,
         MockCityAutocompleteComponent
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],

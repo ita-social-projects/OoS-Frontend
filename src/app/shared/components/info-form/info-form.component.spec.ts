@@ -20,9 +20,9 @@ describe('InfoFormComponent', () => {
         MatIconModule,
         NoopAnimationsModule
       ],
-      declarations: [ 
-        InfoFormComponent, 
-        MockValidationHintForInputComponent 
+      declarations: [
+        InfoFormComponent,
+        MockValidationHintForInputComponent
       ]
     })
       .compileComponents();

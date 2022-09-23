@@ -16,7 +16,7 @@ describe('ImageCropperModalComponent', () => {
         ImageCropperModule,
         MatDialogModule,
       ],
-      declarations: [ 
+      declarations: [
         ImageCropperModalComponent,
        ],
        providers: [

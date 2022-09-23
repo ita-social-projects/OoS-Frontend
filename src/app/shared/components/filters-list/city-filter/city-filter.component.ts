@@ -41,9 +41,9 @@ export class CityFilterComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         filter((settlement: Codeficator) => !!settlement)
       )
-      .subscribe((settlement: Codeficator) =>{
+      .subscribe((settlement: Codeficator) => {
         this.settlement = settlement;
-        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false })
+        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false });
       });
   }
 

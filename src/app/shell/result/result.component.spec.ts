@@ -88,7 +88,7 @@ class MockWorkshopCardsListComponent {
 })
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Input() currentPage;;
+  @Input() currentPage;
   @Input() role: string;
 }
 @Component({

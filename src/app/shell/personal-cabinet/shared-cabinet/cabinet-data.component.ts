@@ -27,7 +27,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  
+
   constructor(protected store: Store, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {

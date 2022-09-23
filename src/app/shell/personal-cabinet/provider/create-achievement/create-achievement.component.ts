@@ -201,7 +201,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
 
   onRemoveItem(item: string, control: string): void {
     const formControl = this.AchievementFormGroup.get(control);
-    let items = formControl.value;
+    const items = formControl.value;
     if (items.indexOf(item) >= 0) {
       items.splice(items.indexOf(item), 1);
       if (items.length !== 0) {

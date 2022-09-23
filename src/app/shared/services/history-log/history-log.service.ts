@@ -1,8 +1,8 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from "rxjs";
-import { ApplicationsHistory, FilterData, ProviderAdminsHistory, ProvidersHistory } from "../../models/history-log.model";
+import { Observable } from 'rxjs';
+import { ApplicationsHistory, FilterData, ProviderAdminsHistory, ProvidersHistory } from '../../models/history-log.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { PaginatorState } from '../../store/paginator.state';
 
@@ -27,8 +27,8 @@ export class HistoryLogService {
     if (filters?.options) {
       params = params.set('PropertyName', filters.options);
     }
- 
-    if(searchString){
+
+    if (searchString){
       params = params.set('SearchString', searchString);
     }
 
@@ -47,14 +47,14 @@ export class HistoryLogService {
 
   getProviderHistory(filters: FilterData, searchString: string): Observable<ProvidersHistory> {
     const body = { params: this.setParams(filters, searchString) };
-    return this.http.get<ProvidersHistory>(`/api/v1/ChangesLog/Provider`, body)
-  };
+    return this.http.get<ProvidersHistory>(`/api/v1/ChangesLog/Provider`, body);
+  }
   getProviderAdminHistory(filters: FilterData, searchString: string): Observable<ProviderAdminsHistory> {
     const body = { params: this.setParams(filters, searchString) };
-    return this.http.get<ProviderAdminsHistory>(`/api/v1/ChangesLog/ProviderAdmin`, body)
-  };
+    return this.http.get<ProviderAdminsHistory>(`/api/v1/ChangesLog/ProviderAdmin`, body);
+  }
   getApplicationHistory(filters: FilterData, searchString: string): Observable<ApplicationsHistory> {
     const body = { params: this.setParams(filters, searchString) };
-    return this.http.get<ApplicationsHistory>(`/api/v1/ChangesLog/Application`, body)
+    return this.http.get<ApplicationsHistory>(`/api/v1/ChangesLog/Application`, body);
   }
 }

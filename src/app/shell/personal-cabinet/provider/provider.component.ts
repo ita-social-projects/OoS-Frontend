@@ -20,10 +20,10 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
     super(store, matDialog);
   }
 
-  protected abstract initProviderData();
+  protected abstract initProviderData(): void;
 
   /**
-   * This method subscribe on provider and get it's workshops
+   * This method subscribe on provider and get its workshops
    */
   init(): void {
     this.provider$

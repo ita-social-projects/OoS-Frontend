@@ -29,7 +29,7 @@ export class SideMenuComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getContactsData();
   }
 
@@ -41,6 +41,6 @@ export class SideMenuComponent implements OnInit {
       instagram: this.workshop?.instagram || this.provider.instagram,
       website: this.workshop?.website || this.provider.website,
     };
-    this.address = {...this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress}
+    this.address = {...this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress};
   }
 }
