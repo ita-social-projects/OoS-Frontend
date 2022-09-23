@@ -114,6 +114,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   setEditMode(): void { 
     this.providerAdminId = this.route.snapshot.paramMap.get('id');
     this.store.dispatch(new GetAllProviderAdmins());
+    
     this.providerAdmins$.pipe(
       filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
       takeUntil(this.destroy$)
@@ -127,7 +128,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
-    console.log("dsfsdfsdfsdf", this.isDebuty)
+
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

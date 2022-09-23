@@ -115,7 +115,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   */
   onUpdate(user: ProviderAdminTable): void {
     this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`])
-    console.log(user)
   }
 
   protected addNavPath(): void {
