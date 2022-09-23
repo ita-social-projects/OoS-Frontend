@@ -1,3 +1,5 @@
+import { ProviderState } from 'src/app/shared/store/provider.state';
+import { GetAllProviderAdmins, UpdateProviderAdmin } from './../../../../shared/store/provider.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -16,7 +18,7 @@ import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
+import { CreateProviderAdminTitle, providerAdminRole } from 'src/app/shared/enum/provider-admin';
 import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
@@ -44,16 +46,21 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly providerAdminRole = providerAdminRole;
+  readonly title = CreateProviderAdminTitle;
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   @Select(SharedUserState.workshops)
   workshops$: Observable<WorkshopCard[]>;
+  @Select(ProviderState.providerAdmins)
+  providerAdmins$: Observable<ProviderAdmin[]>;
 
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
   providerRole: providerAdminRole;
   managedWorkshopIds: string[];
+  providerAdminId: string;
+  isDebuty: boolean;
 
   constructor(store: Store,
               route: ActivatedRoute,
@@ -79,28 +86,60 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
 
     this.providerRole = providerAdminRole[this.route.snapshot.paramMap.get('param')];
-
+    this.isDebuty = this.providerRole === providerAdminRole.deputy;
     this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
   ngOnInit(): void {
-    this.addNavPath();
+    this.determineEditMode();
     this.provider$.pipe(
       filter((provider: Provider) => !!provider),
       takeUntil(this.destroy$)
     ).subscribe((provider: Provider) => this.provider = provider);
 
-    if (this.providerRole === providerAdminRole.admin){
+    if(!this.isDebuty){
       this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
     }
   }
 
-  setEditMode(): void { }
+  determineEditMode(): void {
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
+    this.addNavPath();
+
+    if (this.editMode) {
+      this.setEditMode();
+    }
+  }
+  
+  setEditMode(): void { 
+    this.providerAdminId = this.route.snapshot.paramMap.get('id');
+    this.store.dispatch(new GetAllProviderAdmins());
+    
+    this.providerAdmins$.pipe(
+      filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
+      takeUntil(this.destroy$)
+    ).subscribe((providerAdmins: ProviderAdmin[]) => {
+      const providerAdmin = providerAdmins.filter((providerAdmin) => providerAdmin.id === this.providerAdminId);
+      this.ProviderAdminFormGroup.patchValue(providerAdmin[0], { emitEvent: false });
+    });
+  }
 
   addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    let navBarTitle: string;
+
+    if (this.editMode) {
+      this.isDebuty ? 
+        navBarTitle = NavBarName.UpdateProviderDeputy : 
+        navBarTitle = NavBarName.UpdateProviderAdmin;
+    } else {
+      this.isDebuty ? 
+        navBarTitle = NavBarName.UpdateProviderDeputy : 
+        navBarTitle = NavBarName.UpdateProviderAdmin;
+    }
+
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -110,10 +149,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
             isActive: false,
             disable: false,
           },
-          {
-            name: this.providerRole == providerAdminRole.deputy ?
-              NavBarName.CreateProviderDeputy :
-              NavBarName.CreateProviderAdmin,
+          { 
+            name: navBarTitle,
             isActive: false,
             disable: true,
           }
@@ -137,17 +174,29 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   onSubmit(): void {
+    let confirmationType: string;
+
+    if (this.editMode) {
+      this.isDebuty ? 
+        confirmationType = ModalConfirmationType.updateProviderAdminDeputy : 
+        confirmationType = ModalConfirmationType.updateProviderAdmin;
+    } else {
+      this.isDebuty ? 
+        confirmationType = ModalConfirmationType.createProviderAdminDeputy : 
+        confirmationType = ModalConfirmationType.createProviderAdmin;
+    }
+
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: (this.providerRole === providerAdminRole.deputy) ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin
+        type: confirmationType
       }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.providerRole === providerAdminRole.deputy, this.provider.id, this.managedWorkshopIds);
-        this.store.dispatch(new CreateProviderAdmin(providerAdmin));
+        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.isDebuty, this.providerAdminId, this.managedWorkshopIds)
+        this.store.dispatch(this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin));
       }
     });
   }

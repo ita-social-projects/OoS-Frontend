@@ -1,4 +1,3 @@
-import { HttpResponse } from '@angular/common/http';
 import { Workshop, WorkshopStatus } from 'src/app/shared/models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -56,6 +55,8 @@ import {
   OnDeleteWorkshopSuccess,
   OnUpdateAchievementFail,
   OnUpdateAchievementSuccess,
+  OnUpdateProviderAdminFail,
+  OnUpdateProviderAdminSuccess,
   OnUpdateProviderFail,
   OnUpdateProviderSuccess,
   OnUpdateWorkshopFail,
@@ -68,6 +69,7 @@ import {
   UnBlockParentSuccess,
   UpdateAchievement,
   UpdateProvider,
+  UpdateProviderAdmin,
   UpdateWorkshop,
   UpdateWorkshopStatus,
 } from './provider.actions';
@@ -545,6 +547,42 @@ export class ProviderState {
         type: 'success',
       }),
     ]);
+  }
+
+  @Action(UpdateProviderAdmin)
+  updateProviderAdmin(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { providerId, providerAdmin }: UpdateProviderAdmin
+  ): Observable<void | ProviderAdmin> {
+    return this.providerAdminService.updateProviderAdmin(providerId, providerAdmin).pipe(
+      tap((res: ProviderAdmin) => dispatch(new OnUpdateProviderAdminSuccess(providerAdmin))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateProviderAdminFail(error)))
+    );
+  }
+
+  @Action(OnUpdateProviderAdminFail)
+  onUpdateProviderAdminfail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminFail): void {
+    throwError(payload);
+
+    dispatch(new ShowMessageBar({ 
+      message: 'На жаль виникла помилка', 
+      type: 'error' 
+    }));
+  }
+
+  @Action(OnUpdateProviderAdminSuccess)
+  onUpdateProviderAdminSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: OnUpdateProviderAdminSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: payload.isDeputy ? 'Заступника директора успішно відредаговано!' : 'Адміністратора гуртка успішно відредаговано!',
+        type: 'success',
+      }),
+      new MarkFormDirty(false)
+    ]);
+    this.router.navigate(['/personal-cabinet/provider/administration']);
   }
 
   @Action(UpdateWorkshopStatus)

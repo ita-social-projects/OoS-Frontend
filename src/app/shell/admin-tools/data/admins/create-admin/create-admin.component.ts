@@ -1,9 +1,8 @@
 import { UpdateMinistryAdmin } from './../../../../../shared/store/admin.actions';
-import { InfoCardComponent } from './../../../platform/platform-info/info-card/info-card.component';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';

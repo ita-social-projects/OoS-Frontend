@@ -1,7 +1,7 @@
 <div class="create-form" fxLayout="column" fxLayoutAlign="center center">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(providerRole === providerAdminRole.deputy) ? 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА' : 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА'}}</h3>
+      <h3 class="wrapper-title">{{editMode ? 'РЕДАГУВАННЯ' : 'ДОДАТИ'}} {{ title[providerRole] }}</h3>
       <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. </p>
     </div>
 
@@ -92,16 +92,16 @@
           <p class="step-name">Керування доступами</p>
         </ng-template>
         <form fxLayout='column' fxLayoutAlign='center space-between' class="step form">
-          <ng-container *ngIf="providerRole === providerAdminRole.deputy then Deputy; else WorkshopAdmin">
+          <ng-container *ngIf="isDebuty then Deputy; else WorkshopAdmin">
           </ng-container>
           <ng-template #Deputy>
-            <label class="step-label">Буде надано доступ до всих гуртків</label>
+            <label class="step-label">Буде надано доступ до всіх гуртків</label>
           </ng-template>
           <ng-template #WorkshopAdmin>
             <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span
                 class="step-required">*</span>
             </label>
-            <app-entity-checkbox-dropdown 
+            <app-entity-checkbox-dropdown
               [entities]="workshops$ | async" 
               [declination]="WorkshopDeclination"
               [dropdownContainerClass]="'create-admin'"
