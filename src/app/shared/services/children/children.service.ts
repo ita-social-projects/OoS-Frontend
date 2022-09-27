@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { RequestParams, Truncated } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -54,6 +55,10 @@ export class ChildrenService {
     const options = { params: this.setParams() };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
+  }
+
+  getUsersChildrenByParentId(params: RequestParams): Observable<Truncated[]>{
+    return this.http.get<Truncated[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
   }
 
   /**
