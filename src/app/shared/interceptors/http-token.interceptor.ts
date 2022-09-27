@@ -3,8 +3,7 @@ import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Select, Store } from '@ngxs/store';
-import { RegistrationState } from '../store/registration.state';
+import { Store } from '@ngxs/store';
 import { environment } from 'src/environments/environment';
 import { OnAuthFail } from '../store/registration.actions';
 @Injectable()
@@ -29,7 +28,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
         );
     }
 
-    const token = this.oidcSecurityService.getToken();
+    const token = this.oidcSecurityService.getAccessToken();
     const tokenTitle = (token) ? `Bearer ${token}` : '';
 
     if (typeof (token) === 'string') {

@@ -12,14 +12,16 @@ import { GetAmountOfNewUsersNotifications } from '../../store/notifications.acti
 export class SignalRService {
   private hubConnection: signalR.HubConnection;
   private url = environment.serverUrl + '/notificationhub';
+  private token = null;
 
   constructor(
     public store: Store,
     private oidcSecurityService: OidcSecurityService) { }
 
   startConnection(): void {
+    this.oidcSecurityService.getAccessToken().subscribe((value: string) => this.token = value);
     const options: signalR.IHttpConnectionOptions = {
-      accessTokenFactory: () => this.oidcSecurityService.getToken()
+      accessTokenFactory: () => this.token
     };
 
     this.hubConnection = new signalR.HubConnectionBuilder()

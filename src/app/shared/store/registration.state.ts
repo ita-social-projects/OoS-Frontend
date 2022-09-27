@@ -119,8 +119,11 @@ export class RegistrationState {
 
   @Action(Login)
   Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
-    this.oidcSecurityService.authorize({
-      customParams: {
+    const configIdOrNull = null;
+    this.oidcSecurityService.authorize(
+      configIdOrNull,
+      {
+        customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
         ProviderRegistration: payload,
@@ -136,10 +139,10 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
-      patchState({ isAuthorized: auth });
+    this.oidcSecurityService.checkAuth().subscribe((auth) => {
+      patchState({ isAuthorized: auth.isAuthenticated });
       if (auth) {
-        const token = jwt_decode(this.oidcSecurityService.getToken());
+        const token = this.oidcSecurityService.getAccessToken().subscribe((value: string) => jwt_decode(value));
         const subrole = token['subrole'];
         const role = token['role'];
         patchState({ subrole, role });
