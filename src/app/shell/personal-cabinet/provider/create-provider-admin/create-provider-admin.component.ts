@@ -95,11 +95,13 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.provider$.pipe(
       filter((provider: Provider) => !!provider),
       takeUntil(this.destroy$)
-    ).subscribe((provider: Provider) => this.provider = provider);
+    ).subscribe((provider: Provider) => {
+      this.provider = provider;
 
-    if(!this.isDebuty){
-      this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
-    }
+      if(!this.isDebuty){
+        this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
+      }
+    });
   }
 
   determineEditMode(): void {
@@ -136,8 +138,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
         navBarTitle = NavBarName.UpdateProviderAdmin;
     } else {
       this.isDebuty ? 
-        navBarTitle = NavBarName.UpdateProviderDeputy : 
-        navBarTitle = NavBarName.UpdateProviderAdmin;
+        navBarTitle = NavBarName.CreateProviderDeputy : 
+        navBarTitle = NavBarName.CreateProviderAdmin;
     }
 
     this.store.dispatch(
