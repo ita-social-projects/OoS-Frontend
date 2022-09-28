@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { FeaturesList } from 'src/app/shared/models/featuresList.model';
 import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
+import { Truncated } from 'src/app/shared/models/truncated.model';
 
 @Injectable({
   providedIn: 'root',
@@ -49,6 +50,10 @@ export class UserWorkshopService {
    */
   getWorkshopById(id: string): Observable<Workshop> {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
+  }
+
+  getWorkshopListByProviderId(id: string): Observable<Truncated[]>{
+    return this.http.get<Truncated[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
   /**

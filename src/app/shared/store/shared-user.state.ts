@@ -21,15 +21,18 @@ import {
   GetProviderById,
   OnGetProviderByIdFail,
   ResetProviderWorkshopDetails,
+  GetWorkshopListByProviderId,
 } from './shared-user.actions';
 import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Truncated } from '../models/truncated.model';
 
 export interface SharedUserStateModel {
   isLoading: boolean;
   workshops: WorkshopCard[];
+  truncated: Truncated[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applicationCards: ApplicationCards;
@@ -39,6 +42,7 @@ export interface SharedUserStateModel {
   defaults: {
     isLoading: false,
     workshops: null,
+    truncated: null,
     selectedWorkshop: null,
     selectedProvider: null,
     applicationCards: null,
@@ -54,6 +58,11 @@ export class SharedUserState {
   @Selector()
   static workshops(state: SharedUserStateModel): WorkshopCard[] {
     return state.workshops;
+  }
+
+  @Selector()
+  static truncated(state: SharedUserStateModel): Truncated[] {
+    return state.truncated;
   }
 
   @Selector()
@@ -88,6 +97,17 @@ export class SharedUserState {
       tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnGetWorkshopByIdFail(error))))
     );
+  }
+
+  @Action(GetWorkshopListByProviderId)
+  getWorkshopListByProviderId(
+    { patchState } : StateContext<SharedUserStateModel>,
+    { payload }: GetWorkshopListByProviderId
+  ): Observable<Truncated[]> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService
+      .getWorkshopListByProviderId(payload)
+      .pipe(tap((truncated: Truncated[]) => patchState({ truncated: truncated, isLoading: false })));
   }
 
   @Action(OnGetWorkshopByIdFail)

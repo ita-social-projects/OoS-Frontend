@@ -10,6 +10,7 @@ import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import {
   GetApplicationsByProviderId,
+  GetWorkshopListByProviderId,
   GetWorkshopsByProviderId,
   UpdateApplication,
 } from 'src/app/shared/store/shared-user.actions';
@@ -25,6 +26,7 @@ import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { BlockedParent } from 'src/app/shared/models/block.model';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
+import { Truncated } from 'src/app/shared/models/truncated.model';
 
 @Component({
   selector: 'app-provider-applciations',
@@ -33,8 +35,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
-  @Select(SharedUserState.workshops)
-  workshops$: Observable<Workshop[]>;
+  @Select(SharedUserState.truncated)
+  workshops$: Observable<Truncated[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   providerId: string;
@@ -141,7 +143,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   private getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
-      this.store.dispatch(new GetWorkshopsByProviderId(this.providerId));
+      this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     } else {
       this.store.dispatch(new GetProviderAdminWorkshops());
     }

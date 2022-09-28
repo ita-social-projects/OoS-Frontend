@@ -12,6 +12,11 @@ export class GetWorkshopById {
   constructor(public payload: string) { }
 }
 
+export class GetWorkshopListByProviderId {
+  static readonly type = '[user] get Workshop List By Provider Id';
+  constructor(public payload: string) { }
+}
+
 export class OnGetWorkshopByIdFail {
   static readonly type = '[user] get Workshop By Workshop Id fail';
   constructor(public payload: HttpErrorResponse) { }
