@@ -44,11 +44,7 @@ export interface PaginatorStateModel {
 
 @Injectable()
 export class PaginatorState {
-  @Selector() static historyItemsPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; };
-
-  @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; };
-
-  @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; };
+  @Selector() static itemsPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; };
 
   @Selector() static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; };
 

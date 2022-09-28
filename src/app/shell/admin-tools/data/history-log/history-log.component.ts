@@ -16,7 +16,7 @@ import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import {
   OnPageChangeHistoryLog,
-  SetHistoryItemsPerPage,
+  SetItemsPerPage,
 } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
@@ -47,9 +47,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   @Select(AdminState.applicationHistory)
   applicationHistory$: Observable<ApplicationsHistory>;
 
-  @Select(PaginatorState.historyItemsPerPage)
-  historyItemsPerPage$: Observable<number>;
-  historyItemsPerPage: number;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
+  itemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   provider: ProvidersHistory;
@@ -103,11 +103,11 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.application = this.tableData;
       });
 
-    this.historyItemsPerPage$
+    this.itemsPerPage$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (historyItemsPerPage: number) =>
-          (this.historyItemsPerPage = historyItemsPerPage)
+        (itemsPerPage: number) =>
+          (this.itemsPerPage = itemsPerPage)
       );
 
     this.searchFormControl.valueChanges
@@ -137,8 +137,8 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.historyItemsPerPage = itemsPerPage;
-    this.store.dispatch([new SetHistoryItemsPerPage(itemsPerPage)]);
+    this.itemsPerPage = itemsPerPage;
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage)]);
     this.dispatchProperValue(this.tabIndex);
   }
 

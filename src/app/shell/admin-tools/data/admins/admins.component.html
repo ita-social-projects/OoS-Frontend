@@ -50,7 +50,7 @@
           *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
           [totalEntities]="totalEntities"
           [currentPage]="currentPage"
-          [itemsPerPage]="adminsPerPage$ | async"
+          [itemsPerPage]="itemsPerPage$ | async"
           (pageChange)="onPageChange($event)"
           (itemsPerPageChange)="onItemsPerPageChange($event)">
         </app-paginator>

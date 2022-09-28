@@ -38,7 +38,7 @@
         <div class="table-wrapper">
           <app-history-log-table [table]="table" [tableTitle]="tableTitle"></app-history-log-table>
         </div>
-        <app-paginator [totalEntities]="table.length" [currentPage]="currentPage" [itemsPerPage]="historyItemsPerPage"
+        <app-paginator [totalEntities]="table.length" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
           (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
         </app-paginator>
       </ng-container>

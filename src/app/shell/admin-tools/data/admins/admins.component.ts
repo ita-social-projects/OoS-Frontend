@@ -23,7 +23,7 @@ import { Constants, PaginationConstants } from 'src/app/shared/constants/constan
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeAdminTable, SetAdminsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetFirstPage, SetItemsPerPage } from 'src/app/shared/store/paginator.actions';
 
 @Component({
   selector: 'app-admins',
@@ -40,8 +40,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ministryAdmins$: Observable<AllMinistryAdmins>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  @Select(PaginatorState.adminsPerPage)
-  adminsPerPage$: Observable<number>;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
   
   tabIndex: number;
   filterValue: string;
@@ -154,7 +154,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetAdminsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
   }
 
   ngOnDestroy(): void {

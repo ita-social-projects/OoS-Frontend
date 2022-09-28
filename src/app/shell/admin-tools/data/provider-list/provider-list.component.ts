@@ -15,7 +15,7 @@ import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/nav
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { FormControl } from '@angular/forms';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from 'src/app/shared/store/paginator.actions';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
 import { ApplicationIcons } from 'src/app/shared/enum/applications';
@@ -36,8 +36,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   
   @Select(AdminState.providers)
   providers$: Observable<ProviderCards>;
-  @Select(PaginatorState.providersPerPage)
-  providersPerPage$: Observable<number>;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
 
   
   provider: Provider;
@@ -125,7 +125,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetProvidersPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
   }
 
   ngOnDestroy(): void {
