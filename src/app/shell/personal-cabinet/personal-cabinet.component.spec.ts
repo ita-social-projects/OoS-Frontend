@@ -3,6 +3,7 @@ import { PersonalCabinetComponent } from './personal-cabinet.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { User } from 'src/app/shared/models/user.model';
+import { of } from 'rxjs';
 
 describe('PersonalCabinetComponent', () => {
   let component: PersonalCabinetComponent;
@@ -22,7 +23,7 @@ describe('PersonalCabinetComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({ role: '' } as User));
 
     fixture = TestBed.createComponent(PersonalCabinetComponent);
     component = fixture.componentInstance;

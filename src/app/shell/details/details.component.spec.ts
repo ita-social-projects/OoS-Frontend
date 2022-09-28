@@ -9,6 +9,7 @@ import { APP_BASE_HREF } from '@angular/common';
 import { Provider } from 'src/app/shared/models/provider.model';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Role } from 'src/app/shared/enum/role';
+import { of } from 'rxjs';
 
 const MockUser = {
   role: '',
@@ -39,7 +40,7 @@ describe('DetailsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of(MockUser as User));
 
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;

@@ -8,6 +8,7 @@ import { PaginationElement } from 'src/app/shared/models/paginationElement.model
 import { ParentComponent } from '../parent.component';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { of } from 'rxjs';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;
@@ -35,7 +36,7 @@ describe('FavoriteWorkshopsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue([] as Workshop[]);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of([] as Workshop[]));
     fixture = TestBed.createComponent(FavoriteWorkshopsComponent);
     component = fixture.componentInstance;
   });

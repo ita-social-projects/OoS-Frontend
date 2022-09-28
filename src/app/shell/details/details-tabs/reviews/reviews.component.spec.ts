@@ -14,6 +14,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
 import { Component, Input } from '@angular/core';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-paginator',
@@ -55,7 +56,7 @@ describe('ReviewsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({} as Parent));
     fixture = TestBed.createComponent(ReviewsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;

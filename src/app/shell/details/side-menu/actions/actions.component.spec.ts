@@ -6,6 +6,7 @@ import { Workshop } from '../../../../shared/models/workshop.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { of } from 'rxjs';
 
 describe('ActionsComponent', () => {
   let component: ActionsComponent;
@@ -27,7 +28,7 @@ describe('ActionsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({ role: '' } as User));
     fixture = TestBed.createComponent(ActionsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;

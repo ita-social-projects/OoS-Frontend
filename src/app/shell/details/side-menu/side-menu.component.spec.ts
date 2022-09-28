@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Address } from 'src/app/shared/models/address.model';
+import { of } from 'rxjs';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -34,6 +35,7 @@ describe('SideMenuComponent', () => {
   beforeEach(() => {
     store = TestBed.inject(Store);
     spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({ role: '' } as User));
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
   });
