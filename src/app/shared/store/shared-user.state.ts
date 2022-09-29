@@ -31,7 +31,6 @@ import { TruncatedItem } from '../models/truncated.model';
 export interface SharedUserStateModel {
   isLoading: boolean;
   workshops: WorkshopCard[];
-  
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
   applicationCards: ApplicationCards;

@@ -91,6 +91,6 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
   }
 
   private getParentChildren(isParent: boolean = false): void {
-    this.store.dispatch(new GetAllUsersChildrenByParentId({id: this.parent.id, isParent: isParent }));
+    this.store.dispatch(new GetAllUsersChildrenByParentId({id: this.parent.id, isParent }));
   }
 }
