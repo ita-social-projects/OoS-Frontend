@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Truncated } from '../../models/truncated.model';
+import { TruncatedItem } from '../../models/truncated.model';
 import { DeclinationPipe } from '../../pipes/declination.pipe';
 
 @Component({
@@ -17,7 +17,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   ids: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() entities: Truncated[];
+  @Input() entities: TruncatedItem[];
   @Input() declination;
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;

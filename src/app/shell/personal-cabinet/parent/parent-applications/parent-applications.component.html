@@ -1,7 +1,7 @@
 <app-applications
   [applicationParams]="applicationParams"
   [declination]="ChildDeclination"
-  [dropdownEntities]="(childrenCards$ | async)"
+  [dropdownEntities]="(truncatedItems$ | async)"
   [role]="role"
   (enititiesSelect)="onEntitiesSelect($event)"
   (getApplications)="onGetApplications()"

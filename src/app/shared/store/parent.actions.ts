@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
-import { RequestParams } from '../models/truncated.model';
+import { RequestParams } from '../models/child.model';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';

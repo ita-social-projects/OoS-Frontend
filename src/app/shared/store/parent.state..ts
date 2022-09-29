@@ -43,7 +43,7 @@ import {
 import { Location } from '@angular/common';
 import { RatingService } from '../services/rating/rating.service';
 import { Util } from '../utils/utils';
-import { Truncated } from '../models/truncated.model';
+import { TruncatedItem } from '../models/truncated.model';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -53,7 +53,7 @@ export interface ParentStateModel {
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   children: ChildCards;
-  truncated: Truncated[];
+  truncatedItems: TruncatedItem[];
   selectedChild: Child;
 }
 
@@ -67,7 +67,7 @@ export interface ParentStateModel {
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
     children: null,
-    truncated: null,
+    truncatedItems: null,
     selectedChild: null,
   },
 })
@@ -114,8 +114,8 @@ export class ParentState {
   }
 
   @Selector()
-  static truncated(state: ParentStateModel): Truncated[] {
-    return state.truncated;
+  static truncatedItems(state: ParentStateModel): TruncatedItem[] {
+    return state.truncatedItems;
   }
 
   constructor(
@@ -239,11 +239,11 @@ export class ParentState {
   }
 
   @Action(GetAllUsersChildrenByParentId)
-  getAllUsersChildrenByParentId({ patchState }: StateContext<ParentStateModel>, { payload }: GetAllUsersChildrenByParentId): Observable<Truncated[]> {
+  getAllUsersChildrenByParentId({ patchState }: StateContext<ParentStateModel>, { payload }: GetAllUsersChildrenByParentId): Observable<TruncatedItem[]> {
     patchState({ isLoading: true });
     return this.childrenService
       .getUsersChildrenByParentId(payload)
-      .pipe(tap((trunckated: Truncated[]) => patchState({ truncated: trunckated, isLoading: false })));
+      .pipe(tap((trunckated: TruncatedItem[]) => patchState({ truncatedItems: trunckated, isLoading: false })));
   }
 
   @Action(DeleteChildById)
