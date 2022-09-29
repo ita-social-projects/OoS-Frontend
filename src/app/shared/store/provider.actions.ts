@@ -81,6 +81,11 @@ export class GetAllProviderAdmins {
   constructor() {}
 }
 
+export class GetWorkshopListByProviderId {
+  static readonly type = '[user] get Workshop List By Provider Id';
+  constructor(public payload: string) { }
+}
+
 export class CreateWorkshop {
   static readonly type = '[provider] create Workshop';
   constructor(public payload: Workshop) {}

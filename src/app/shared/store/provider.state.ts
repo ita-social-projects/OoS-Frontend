@@ -36,6 +36,7 @@ import {
   GetChildrenByWorkshopId,
   GetProviderAdminWorkshops,
   GetProviderWorkshops,
+  GetWorkshopListByProviderId,
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
   OnClearBlockedParents,
@@ -78,6 +79,7 @@ import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
 import { EntityType } from '../enum/role';
+import { TruncatedItem } from '../models/truncated.model';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -87,6 +89,7 @@ export interface ProviderStateModel {
   providerWorkshops: ProviderWorkshopCard[];
   providerAdmins: ProviderAdmin[];
   blockedParent: BlockedParent;
+  truncatedItems: TruncatedItem[];
 }
 
 @State<ProviderStateModel>({
@@ -99,6 +102,7 @@ export interface ProviderStateModel {
     providerWorkshops: null,
     providerAdmins: null,
     blockedParent: null,
+    truncatedItems: null,
   },
 })
 @Injectable()
@@ -136,6 +140,11 @@ export class ProviderState {
   @Selector()
   static blockedParent(state: ProviderStateModel): BlockedParent {
     return state.blockedParent;
+  }
+
+  @Selector()
+  static truncated(state: ProviderStateModel): TruncatedItem[] {
+    return state.truncatedItems;
   }
 
   constructor(
@@ -184,6 +193,17 @@ export class ProviderState {
         );
       })
     );
+  }
+
+  @Action(GetWorkshopListByProviderId)
+  getWorkshopListByProviderId(
+    { patchState } : StateContext<ProviderStateModel>,
+    { payload }: GetWorkshopListByProviderId
+  ): Observable<TruncatedItem[]> {
+    patchState({ isLoading: true });
+    return this.userWorkshopService
+      .getWorkshopListByProviderId(payload)
+      .pipe(tap((truncated: TruncatedItem[]) => patchState({ truncatedItems: truncated, isLoading: false })));
   }
 
   @Action(CreateAchievement)

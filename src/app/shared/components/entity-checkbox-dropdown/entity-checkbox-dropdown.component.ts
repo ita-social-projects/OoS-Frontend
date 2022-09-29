@@ -2,8 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Child } from '../../models/child.model';
-import { WorkshopCard } from '../../models/workshop.model';
+import { TruncatedItem } from '../../models/truncated.model';
 import { DeclinationPipe } from '../../pipes/declination.pipe';
 
 @Component({
@@ -18,7 +17,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   ids: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() entities: WorkshopCard[] | Child[];
+  @Input() entities: TruncatedItem[];
   @Input() declination;
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
@@ -32,14 +31,10 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
         debounceTime(500),
         distinctUntilChanged(),
       ).subscribe((entities) => {
-        this.ids = entities.map((entity) => entity.workshopId || entity.id);
+        this.ids = entities.map((entity) => entity.id);
         this.entityCheck.emit(this.ids);
       });
     this.Declination = this.declination;
-  }
-
-  getEntityTitle(entity): string {
-    return (entity.firstName) ? `${entity.firstName} ${entity.lastName}` : entity.title;
   }
 
   getlabelTitle(quantity: number): string {
