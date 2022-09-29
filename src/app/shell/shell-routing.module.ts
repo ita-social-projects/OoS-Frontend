@@ -127,6 +127,12 @@ const routes: Routes = [
     canDeactivate: [CreateGuard],
   },
   {
+    path: 'update-provider-admin/:param/:id', component: CreateProviderAdminComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
     path: 'create-admin/:param', component: CreateAdminComponent,
     loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
     canLoad: [AdminToolsGuard],

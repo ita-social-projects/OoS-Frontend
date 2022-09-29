@@ -64,4 +64,5 @@ class MockUsersListComponent {
   @Input() users: ProviderAdminTable[];
   @Input() filterValue: string;
   @Input() userType: string;
+  @Input() isEdit: boolean;
 }
