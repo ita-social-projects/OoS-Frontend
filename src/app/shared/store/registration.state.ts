@@ -153,7 +153,7 @@ export class RegistrationState {
 
   @Action(OnAuthFail)
   onAuthFail(): void {
-    this.snackBar.open('Упс! Перевірте з\'єднання', '', {
+    this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
       panelClass: ['red-snackbar'],
     });
@@ -188,7 +188,7 @@ export class RegistrationState {
           .getProfile()
           .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       default:
-        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider,  })));
+        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }
   }
 
