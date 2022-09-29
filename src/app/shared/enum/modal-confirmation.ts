@@ -19,8 +19,9 @@ export enum ModalConfirmationType {
   createDirection = 'createDirection',
   editDirection = 'editDirection',
   createProviderAdmin = 'createProviderAdmin',
-  createMinistryAdmin = 'createMinistryAdmin',
   createProviderAdminDeputy = 'createProviderAdminDeputy',
+  updateProviderAdmin = 'updateProviderAdmin',
+  updateProviderAdminDeputy = 'updateProviderAdminDeputy',
   unBlockParent = 'unBlockParent',
   blockParent = 'blockParent',
   reject = 'reject',
@@ -28,6 +29,7 @@ export enum ModalConfirmationType {
   openSet = 'openSet',
   deleteMinistryAdmin = 'deleteMinistryAdmin',
   blockMinistryAdmin = 'blockMinistryAdmin',
+  createMinistryAdmin = 'createMinistryAdmin',
   updateMinistryAdmin = 'updateMinistryAdmin',
 }
 export enum ModalConfirmationTitle {
@@ -50,8 +52,9 @@ export enum ModalConfirmationTitle {
   approveApplication = 'ЗАРАХУВАТИ',
   rejectApplication = 'ВІДМОВИТИ',
   createProviderAdmin = 'ДОДАТИ АДМІНІСТРАТОРА ГУРТКА',
-  createMinistryAdmin = 'ДОДАТИ АДМІНА МІНІСТЕРСТВА',
   createProviderAdminDeputy = 'ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА',
+  updateProviderAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА ГУРТКА',
+  updateProviderAdminDeputy = 'РЕДАГУВАТИ ЗАСТУПНИКА ДИРЕКТОРА',
   unBlockParent = 'РОЗБЛОКУВАТИ КОРИСТУВАЧА',
   blockParent = 'ЗАБЛОКУВАТИ КОРИСТУВАЧА',
   reject = 'ВІДМОВИТИ',
@@ -59,6 +62,7 @@ export enum ModalConfirmationTitle {
   openSet = 'Відкрити набір',
   deleteMinistryAdmin = 'ВИДАЛИТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
   blockMinistryAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
+  createMinistryAdmin = 'ДОДАТИ АДМІНА МІНІСТЕРСТВА',
   updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА'
 }
 
@@ -84,8 +88,9 @@ export enum ModalConfirmationText {
   approveApplication = 'Ви впевнені, що хочете перевести заявку в статус "Зарахувати"?',
   rejectApplication = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?',
   createProviderAdmin = 'Ви впевнені, що хочете додати адміністратора гуртка?',
-  createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
   createProviderAdminDeputy = 'Ви впевнені, що хочете додати заступника директора?',
+  updateProviderAdmin = 'Ви впевнені, що хочете редагувати адміністратора гуртка?',
+  updateProviderAdminDeputy = 'Ви впевнені, що хочете редагувати заступника директора?',
   unBlockParent = 'Ви впевнені, що хочете розблокувати користувача?',
   blockParent = 'Ви впевнені, що хочете заблокувати користувача?',
   reject = 'Ви впевнені, що хочете перевести заяву у статус ”Відмовлено”?',
@@ -93,6 +98,7 @@ export enum ModalConfirmationText {
   openSet = 'Ви впевнені, що хочете відкрити набір?',
   deleteMinistryAdmin = 'Ви впевнені, що хочете видалити адміністратора міністерства',
   blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства',
+  createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
   updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства',
 }
 

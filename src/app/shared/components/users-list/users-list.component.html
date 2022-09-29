@@ -5,6 +5,7 @@
       [dataSource]="dataSource"
       matSort
       (matSortChange)="announceSortChange($event)"
+      appStretchTable
     >
       <!-- Name Column -->
       <ng-container matColumnDef="pib" sticky>
@@ -103,11 +104,12 @@
       </ng-container>
   
       <!-- Name Column -->
-      <ng-container matColumnDef="actions" sticky>
+      <ng-container matColumnDef="actions" stickyEnd>
         <th
           mat-header-cell
           *matHeaderCellDef
           sortActionDescription="Sort by actions"
+          style="width: 7%;"
         ></th>
         <td mat-cell *matCellDef="let user">
           <div class="icons">

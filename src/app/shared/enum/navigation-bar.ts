@@ -20,6 +20,8 @@ export enum NavBarName {
   EditWorkshop = 'Редагування гуртка',
   CreateProviderDeputy = 'Додати заступника директора',
   CreateProviderAdmin = 'Додати адміністратора гуртка',
+  UpdateProviderDeputy = 'Редагування заступника директора',
+  UpdateProviderAdmin = 'Редагування адміністратора гуртка',
   Applications = 'Заявки',
   Workshops = 'Мої гуртки',
   Favorite = 'Улюблені',

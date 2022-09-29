@@ -23,11 +23,12 @@
 }
 .application-info-menu,
 ::ng-deep .mat-application-menu {
-  width: 60vw;
+  width: 90vw;
   max-width: fit-content;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow:scroll;
+  margin: 11px 0 0 -10px;
 }
 .application-info-menu {
   display: flex;
