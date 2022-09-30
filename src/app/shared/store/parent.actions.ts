@@ -2,6 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
+import { RequestParams } from '../models/child.model';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
@@ -51,6 +52,11 @@ export class GetUsersChildById {
 export class GetAllUsersChildren {
   static readonly type = '[parent] get all users Children';
   constructor() {}
+}
+
+export class GetAllUsersChildrenByParentId{
+  static readonly type = '[parent] get all users Children by Parent Id';
+  constructor(public payload: RequestParams) {}
 }
 
 export class CreateChildren {

@@ -26,6 +26,7 @@ import { ApplicationStatus } from '../enum/applications';
 import { messageStatus } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { TruncatedItem } from '../models/truncated.model';
 
 export interface SharedUserStateModel {
   isLoading: boolean;

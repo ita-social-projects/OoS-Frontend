@@ -33,6 +33,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   };
 
   @Input() provider: Provider;
+  @Input() isRelease3: boolean;
 
   @Output() passPhotoFormGroup = new EventEmitter();
 

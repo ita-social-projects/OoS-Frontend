@@ -5,10 +5,10 @@
     <mat-select-trigger>
       <div *ngIf="entityControl.value?.length">
         <span *ngIf="entityControl.value?.length > 1"> {{entityControl.value?.length | declination: Declination}} вибрано </span>
-        <span *ngIf="entityControl.value?.length === 1"> {{ getEntityTitle(entityControl.value[0]) }} </span>
+        <span *ngIf="entityControl.value?.length === 1"> {{ entityControl.value[0].title }} </span>
       </div>
     </mat-select-trigger>
-    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ getEntityTitle(entity) }}
+    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ entity.title }}
     </mat-option>
   </mat-select>
 </mat-form-field>

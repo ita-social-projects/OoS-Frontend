@@ -2,9 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
+import { Child, ChildCards, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { TruncatedItem } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -54,6 +55,10 @@ export class ChildrenService {
     const options = { params: this.setParams() };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
+  }
+
+  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]>{
+    return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
   }
 
   /**

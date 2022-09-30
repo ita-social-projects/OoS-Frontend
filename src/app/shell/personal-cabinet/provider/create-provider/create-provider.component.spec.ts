@@ -76,6 +76,7 @@ class MockCreateContactsFormComponent {
 class MockCreateInfoComponent {
   @Input() provider: Provider;
   @Input() InfoFormGroup;
+  @Input() isRelease3: boolean;
 }
 
 @Component({
@@ -84,4 +85,5 @@ class MockCreateInfoComponent {
 })
 class MockCreatePhotoFormComponent {
   @Input() provider: Provider;
+  @Input() isRelease3: boolean;
 }
