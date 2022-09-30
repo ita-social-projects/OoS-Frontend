@@ -74,11 +74,10 @@ import {
   UpdateWorkshop,
   UpdateWorkshopStatus,
 } from './provider.actions';
-import { GetProfile } from './registration.actions';
+import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
-import { EntityType } from '../enum/role';
 import { TruncatedItem } from '../models/truncated.model';
 
 export interface ProviderStateModel {
@@ -421,7 +420,7 @@ export class ProviderState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderSuccess): void {
-    dispatch(new GetProfile()).subscribe(() => this.router.navigate(['']));
+    dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['']));
     dispatch([
       new ShowMessageBar({
         message: 'Організацію успішно створено',
