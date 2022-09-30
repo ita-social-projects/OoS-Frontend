@@ -80,7 +80,7 @@
         >
           Дата/час
         </th>
-        <td mat-cell *matCellDef="let element">{{ (element?.updatedDate | date: 'dd.mm.yyyy hh:mm:ss') }}</td>
+        <td mat-cell *matCellDef="let element">{{ (element?.updatedDate | date: SHORT_DATE_FORMAT) }}</td>
       </ng-container>
 
       <ng-container matColumnDef="oldValue">
