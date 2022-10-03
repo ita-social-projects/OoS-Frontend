@@ -11,7 +11,6 @@ import {
   OnPageChangeWorkshops,
   OnPageChangeProviders,
   SetApplicationsPerPage,
-  SetChildrensPerPage,
   SetDirectionsPerPage,
   SetFirstPage,
   SetRatingPerPage,
@@ -23,7 +22,6 @@ import {
 export interface PaginatorStateModel {
   workshopsPerPage: number;
   directionsPerPage: number;
-  childrensPerPage: number;
   applicationsPerPage: number;
   ratingPerPage: number;
   currentPage: PaginationElement;
@@ -34,7 +32,6 @@ export interface PaginatorStateModel {
   defaults: {
     workshopsPerPage: 12,
     directionsPerPage: 12,
-    childrensPerPage: 12,
     applicationsPerPage: 8,
     ratingPerPage: 12,
     itemsPerPage: 12,
@@ -48,8 +45,6 @@ export class PaginatorState {
   @Selector() static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; }
 
   @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; }
-
-  @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; }
 
   @Selector() static itemsPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; }
 
@@ -71,16 +66,10 @@ export class PaginatorState {
     patchState({ directionsPerPage: payload });
   }
 
-  @Action(SetChildrensPerPage)
-  setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
-    patchState({ childrensPerPage: payload });
-  }
-
   @Action(SetApplicationsPerPage)
   setApplicationsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetApplicationsPerPage): void {
     patchState({ applicationsPerPage: payload });
   }
-
 
   @Action(SetItemsPerPage)
   setItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetItemsPerPage): void {

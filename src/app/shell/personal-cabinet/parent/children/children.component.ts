@@ -8,7 +8,7 @@ import { Child, ChildCards } from 'src/app/shared/models/child.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { Observable } from 'rxjs';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { OnPageChangeChildrens, SetItemsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
 import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
@@ -22,8 +22,8 @@ import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/parent.a
   styleUrls: ['./children.component.scss'],
 })
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
-  @Select(PaginatorState.childrensPerPage)
-  childrensPerPage$: Observable<number>;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
   @Select(ParentState.children)
   childrenCards$: Observable<ChildCards>;
   childrenCards: ChildCards;
@@ -72,7 +72,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren()]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetUsersChildren()]);
   }
 
   onPageChange(page: PaginationElement): void {

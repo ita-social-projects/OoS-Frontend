@@ -30,7 +30,7 @@
   <app-paginator
     [totalEntities]="childrenCards.totalAmount"
     [currentPage]="currentPage"
-    [itemsPerPage]="childrensPerPage$ | async"
+    [itemsPerPage]="itemsPerPage$ | async"
     (pageChange)="onPageChange($event)"
     (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
