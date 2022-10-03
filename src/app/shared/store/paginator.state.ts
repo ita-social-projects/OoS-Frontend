@@ -10,15 +10,13 @@ import {
   OnPageChangeRating,
   OnPageChangeWorkshops,
   OnPageChangeProviders,
-  SetAdminsPerPage,
   SetApplicationsPerPage,
   SetChildrensPerPage,
   SetDirectionsPerPage,
   SetFirstPage,
   SetRatingPerPage,
   SetWorkshopsPerPage,
-  SetProvidersPerPage,
-  SetHistoryItemsPerPage,
+  SetItemsPerPage,
   OnPageChangeHistoryLog,
 } from './paginator.actions';
 
@@ -27,11 +25,9 @@ export interface PaginatorStateModel {
   directionsPerPage: number;
   childrensPerPage: number;
   applicationsPerPage: number;
-  adminsPerPage: number;
   ratingPerPage: number;
   currentPage: PaginationElement;
-  historyItemsPerPage: number;
-  providersPerPage: number;
+  itemsPerPage: number;
 }
 @State<PaginatorStateModel>({
   name: 'paginator',
@@ -40,10 +36,8 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     childrensPerPage: 12,
     applicationsPerPage: 8,
-    adminsPerPage: 8,
     ratingPerPage: 12,
-    providersPerPage: 12,
-    historyItemsPerPage: 12,
+    itemsPerPage: 12,
     currentPage: PaginationConstants.firstPage,
   }
 })
@@ -57,15 +51,11 @@ export class PaginatorState {
 
   @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; }
 
-  @Selector() static providersPerPage(state: PaginatorStateModel): number { return state.providersPerPage; }
+  @Selector() static itemsPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; }
 
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; }
 
-  @Selector() static adminsPerPage(state: PaginatorStateModel): number { return state.adminsPerPage; }
-
   @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; }
-
-  @Selector() static historyItemsPerPage(state: PaginatorStateModel): number { return state.historyItemsPerPage; }
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
 
@@ -92,25 +82,14 @@ export class PaginatorState {
   }
 
 
-  @Action(SetProvidersPerPage)
-  setProvidersPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetProvidersPerPage): void {
-    patchState({ providersPerPage: payload });
-  }
-
-  @Action(SetAdminsPerPage)
-  setAdminsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAdminsPerPage): void {
-    patchState({ adminsPerPage: payload });
-
+  @Action(SetItemsPerPage)
+  setItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetItemsPerPage): void {
+    patchState({ itemsPerPage: payload });
   }
 
   @Action(SetRatingPerPage)
   SetRatingPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetRatingPerPage): void {
     patchState({ ratingPerPage: payload });
-  }
-
-  @Action(SetHistoryItemsPerPage)
-  SetHistoryItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetHistoryItemsPerPage): void {
-    patchState({ historyItemsPerPage: payload });
   }
 
   @Action(OnPageChangeDirections)

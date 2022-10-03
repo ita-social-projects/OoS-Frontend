@@ -186,7 +186,7 @@
   </div>
 </div>
 <div class="paginator">
-  <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage" [itemsPerPage]="providersPerPage$ | async"
+  <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage$ | async"
     (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
 </div>
