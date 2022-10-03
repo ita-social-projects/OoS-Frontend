@@ -54,11 +54,11 @@ export class SetSearchQueryValue {
 }
 export class SetOpenRecruitment {
   static readonly type = '[filter] Set Open Recruitment';
-  constructor(public payload: boolean) {}
+  constructor(public payload: string[]) {}
 }
 export class SetClosedRecruitment {
   static readonly type = '[filter] Set Closed Recruitment';
-  constructor(public payload: boolean) {}
+  constructor(public payload: string[]) {}
 }
 export class GetFilteredWorkshops {
   static readonly type = '[filter] Get Filtered Workshops';

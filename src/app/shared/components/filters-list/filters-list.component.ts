@@ -19,6 +19,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   filterList$: Observable<any>;
   filterList: {
     withDisabilityOption: boolean;
+    statuses: string[];
     categoryCheckBox: Direction[],
     ageFilter: { minAge: number, maxAge: number, IsAppropriateAge: boolean },
     priceFilter: {
@@ -47,6 +48,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
+  statuses: string[] = [];
 
   constructor(private store: Store) {}
 
@@ -56,16 +58,33 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     .subscribe(([visibleFiltersSidenav, filterList]) => {
       this.visibleFiltersSidenav = visibleFiltersSidenav;
       this.filterList = filterList;
+      this.statuses = filterList.statuses;
       this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
     });
 
     this.OpenRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.store.dispatch(new SetOpenRecruitment(val)));
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.statuses.push('Open')
+        } else {
+          this.statuses.splice(this.statuses.indexOf('Open'), 1)
+        }
+
+        this.store.dispatch(new SetOpenRecruitment(this.statuses))
+      });
 
     this.ClosedRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.store.dispatch(new SetClosedRecruitment(val)));
+      .subscribe((val: boolean) => {
+        if (val) {
+          this.statuses.push('Closed')
+        } else {
+          this.statuses.splice(this.statuses.indexOf('Closed'), 1)
+        }
+
+        this.store.dispatch(new SetOpenRecruitment(this.statuses))
+      });
 
     this.WithDisabilityOptionControl.valueChanges
       .pipe(takeUntil(this.destroy$))

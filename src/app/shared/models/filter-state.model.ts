@@ -14,8 +14,6 @@ export interface FilterStateModel {
   isPaid: boolean;
   maxPrice: number;
   minPrice: number;
-  isOpenRecruitment: boolean;
-  isClosedRecruitment: boolean;
   settlement: Codeficator;
   searchQuery: string;
   order: string;
@@ -25,4 +23,5 @@ export interface FilterStateModel {
   isAppropriateHours: boolean;
   isLoading: boolean;
   isConfirmCity: boolean;
+  statuses: string[];
 }

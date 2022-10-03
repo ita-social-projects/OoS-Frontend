@@ -50,8 +50,7 @@ import {
     isPaid: false,
     maxPrice: ValidationConstants.MAX_PRICE,
     minPrice: ValidationConstants.MIN_PRICE,
-    isOpenRecruitment: false,
-    isClosedRecruitment: false,
+    statuses: [],
     settlement: null,
     searchQuery: '',
     order: 'Rating',
@@ -108,6 +107,7 @@ export class FilterState {
   @Selector()
   static filterList(state: FilterStateModel): {
     withDisabilityOption: boolean;
+    statuses: string[];
     categoryCheckBox: Direction[];
     ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
     priceFilter: {
@@ -140,10 +140,12 @@ export class FilterState {
       workingDays,
       startTime,
       endTime,
+      statuses,
       order,
     } = state;
     return {
       withDisabilityOption,
+      statuses,
       categoryCheckBox: directions,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
@@ -243,13 +245,13 @@ export class FilterState {
 
   @Action(SetOpenRecruitment)
   setOpenRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
-    patchState({ isOpenRecruitment: payload });
+    patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetClosedRecruitment)
   setClosedRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
-    patchState({ isClosedRecruitment: payload });
+    patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
@@ -330,8 +332,7 @@ export class FilterState {
       isPaid: false,
       maxPrice: ValidationConstants.MAX_PRICE,
       minPrice: ValidationConstants.MIN_PRICE,
-      isOpenRecruitment: false,
-      isClosedRecruitment: false,
+      statuses: [],
       searchQuery: '',
       order: 'Rating',
       withDisabilityOption: false,
