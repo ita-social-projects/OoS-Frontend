@@ -16,7 +16,7 @@ export class MinistryAdminService {
     private store: Store,
   ) {}
 
-  private setParams( parameters?: MinistryAdminParameters ): HttpParams {
+  private setParams( parameters: MinistryAdminParameters = {searchString: '',}): HttpParams {
     let params = new HttpParams();
 
     if (parameters.searchString){
