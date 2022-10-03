@@ -75,7 +75,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.role = role;
         this.currentView = params.param;
         this.currentPage = currentPage;
-       this.workshopsPerPage = workshopsPerPage;
+        this.workshopsPerPage = workshopsPerPage;
         if (!this.isMobileView) {
           this.store.dispatch(new FiltersSidenavToggle(true));
         }

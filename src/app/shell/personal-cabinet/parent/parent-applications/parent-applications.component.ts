@@ -8,14 +8,14 @@ import { ApplicationStatus } from 'src/app/shared/enum/applications';
 import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
-import { ChildCards } from 'src/app/shared/models/child.model';
 import { Parent } from 'src/app/shared/models/parent.model';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { GetApplicationsByParentId, UpdateApplication } from 'src/app/shared/store/shared-user.actions';
 import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { GetAllUsersChildren } from 'src/app/shared/store/parent.actions';
+import { GetAllUsersChildrenByParentId } from 'src/app/shared/store/parent.actions';
+import { TruncatedItem } from 'src/app/shared/models/truncated.model';
 
 @Component({
   selector: 'app-parent-applications',
@@ -27,13 +27,13 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   parent: Parent;
-  @Select(ParentState.children)
-  childrenCards$: Observable<ChildCards>;
+  @Select(ParentState.truncatedItems)
+  truncatedItems$: Observable<TruncatedItem[]>;
 
   applicationParams: ApplicationParameters = {
     property: null,
     statuses: [],
-    workshops:[],
+    workshops: [],
     children: [],
     showBlocked: false,
   };
@@ -90,7 +90,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
     this.onGetApplications();
   }
 
-  private getParentChildren(): void {
-    this.store.dispatch(new GetAllUsersChildren());
+  private getParentChildren(isParent: boolean = false): void {
+    this.store.dispatch(new GetAllUsersChildrenByParentId({id: this.parent.id, isParent }));
   }
 }

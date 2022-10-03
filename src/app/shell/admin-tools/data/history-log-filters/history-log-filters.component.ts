@@ -15,7 +15,7 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.filtersForm = this.fb.group({
       dateFrom: new FormControl(''),
       dateTo: new FormControl(''),
@@ -23,7 +23,7 @@ export class HistoryLogFiltersComponent implements OnInit {
     });
   }
 
-  applyFilters() {
+  applyFilters(): void {
     this.filterData.emit(this.filtersForm.value);
   }
 }

@@ -14,13 +14,13 @@ describe('CreateContactsFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule, 
-        FormsModule, 
-        MatCheckboxModule, 
-        NgxsModule.forRoot([]), 
+        BrowserAnimationsModule,
+        FormsModule,
+        MatCheckboxModule,
+        NgxsModule.forRoot([]),
         ReactiveFormsModule
       ],
-      declarations: [CreateContactsFormComponent, MockAddressForm],
+      declarations: [CreateContactsFormComponent, MockAddressFormComponent],
     }).compileComponents();
   });
 
@@ -39,7 +39,7 @@ describe('CreateContactsFormComponent', () => {
   selector: 'app-create-address-form',
   template: '',
 })
-class MockAddressForm {
+class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() searchFormGroup: FormGroup;
   @Input() address: Address;

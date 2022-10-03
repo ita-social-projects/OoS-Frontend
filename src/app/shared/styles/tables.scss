@@ -1,5 +1,6 @@
 table {
   width: 100%;
+  table-layout: fixed;
 }
 .wrapper{
   margin-bottom: 5rem;
@@ -23,7 +24,6 @@ table {
 
 ::ng-deepth .mat-sort-header-content {
   text-align: left;
-  min-width: 85px;
 }
 
 .mat-table-sticky-border-elem-right {
@@ -45,10 +45,23 @@ table {
   margin-right: 5px;
 }
 
+th{
+  height: inherit;
+}
+
+th,td{
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
 th.mat-header-cell,
 td.mat-cell,
 td.mat-footer-cell {
   padding-left: 10px;
+}
+
+td.mat-cell,
+td.mat-footer-cell{
   padding-right: 10px;
 }
 

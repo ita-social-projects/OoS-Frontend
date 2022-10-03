@@ -17,11 +17,11 @@ describe('ParentApplicationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[ NgxsModule.forRoot([]), MatDialogModule],
-      declarations: [ 
-        ParentApplicationsComponent, 
-        ApplicationsMockComponent, 
-        ParentComponent, 
+      imports: [ NgxsModule.forRoot([]), MatDialogModule],
+      declarations: [
+        ParentApplicationsComponent,
+        ApplicationsMockComponent,
+        ParentComponent,
         CabinetDataComponent,
       ]
     })

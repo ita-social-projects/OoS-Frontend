@@ -22,7 +22,7 @@ import { ApplicationChildFilterPipe } from './pipes/application-child-filter.pip
 import { MapComponent } from './components/map/map.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
 import { PlaceholderFormDirective } from './directives/placeholder-styling.directive';
-import { ValidationMessageStyling } from './directives/validation-message-styling.directive';
+import { ValidationMessageStylingDirective } from './directives/validation-message-styling.directive';
 import { NavigationBarComponent } from './components/navigation-bar/navigation-bar.component';
 import { NavigationMobileBarComponent } from './components/navigation-mobile-bar/navigation-mobile-bar.component';
 import { FullSearchBarComponent } from './components/filters-list/full-search-bar/full-search-bar.component';
@@ -62,6 +62,8 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
+import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
+import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
 
 @NgModule({
   declarations: [
@@ -82,7 +84,7 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     MapComponent,
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
-    ValidationMessageStyling,
+    ValidationMessageStylingDirective,
     NavigationBarComponent,
     EntityCheckboxDropdownComponent,
     NavigationMobileBarComponent,
@@ -120,8 +122,10 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    StretchCellComponent,
+    StretchTableDirective,
   ],
-  
+
   imports: [
     MaterialModule,
     CommonModule,
@@ -153,7 +157,7 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
     PlaceholderFormDirective,
-    ValidationMessageStyling,
+    ValidationMessageStylingDirective,
     NavigationBarComponent,
     NavigationMobileBarComponent,
     EntityCheckboxDropdownComponent,
@@ -187,7 +191,9 @@ import { GetFullNamePipe } from './pipes/get-full-name.pipe';
     AchievementCardComponent,
     StarsComponent,
     JoinPipe,
-    GetFullNamePipe
+    GetFullNamePipe,
+    StretchCellComponent,
+    StretchTableDirective,
   ]
 })
 export class SharedModule { }

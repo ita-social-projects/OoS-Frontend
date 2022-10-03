@@ -1,4 +1,4 @@
-import { Person } from "./user.model";
+import { Person } from './user.model';
 export class Parent{
   id?: string;
   userId?: number;

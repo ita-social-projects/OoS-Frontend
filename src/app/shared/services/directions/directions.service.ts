@@ -46,7 +46,7 @@ export class DirectionsService {
 
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
-    
+
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
     params = params.set('limit', size.toString());
 

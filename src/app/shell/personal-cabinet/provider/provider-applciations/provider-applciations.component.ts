@@ -5,7 +5,6 @@ import { Select, Store } from '@ngxs/store';
 import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
 import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import {
@@ -19,12 +18,14 @@ import { EntityType, Role } from 'src/app/shared/enum/role';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { BlockParent, GetProviderAdminWorkshops, UnBlockParent } from 'src/app/shared/store/provider.actions';
+import { BlockParent, GetProviderAdminWorkshops, GetWorkshopListByProviderId, UnBlockParent } from 'src/app/shared/store/provider.actions';
 import { ReasonModalWindowComponent } from '../../shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
 import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { BlockedParent } from 'src/app/shared/models/block.model';
 import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'src/app/shared/constants/constants';
+import { TruncatedItem } from 'src/app/shared/models/truncated.model';
+import { ProviderState } from 'src/app/shared/store/provider.state';
 
 @Component({
   selector: 'app-provider-applciations',
@@ -33,8 +34,8 @@ import { Constants } from 'src/app/shared/constants/constants';
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
-  @Select(SharedUserState.workshops)
-  workshops$: Observable<Workshop[]>;
+  @Select(ProviderState.truncated)
+  workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   providerId: string;
@@ -141,7 +142,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   private getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
-      this.store.dispatch(new GetWorkshopsByProviderId(this.providerId));
+      this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     } else {
       this.store.dispatch(new GetProviderAdminWorkshops());
     }

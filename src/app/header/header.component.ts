@@ -28,7 +28,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   selectedLanguage = 'uk';
   showModalReg = false;
-  userShortName: string = '';
+  userShortName = '';
 
   @Select(RegistrationState.isAutorizationLoading)
   isAutorizationLoading$: Observable<boolean>;

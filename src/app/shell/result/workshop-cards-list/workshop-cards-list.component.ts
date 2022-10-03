@@ -1,8 +1,7 @@
 import { Select, Store } from '@ngxs/store';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from 'src/app/shared/enum/no-results';
@@ -25,11 +24,11 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Input() role: string;
   @Input() itemsPerPage: number;
 
-  @Output() itemsPerPageChange = new EventEmitter<Number>();
+  @Output() itemsPerPageChange = new EventEmitter<number>();
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
-  
+
   isVisible = false;
   parent: boolean;
   workshops: WorkshopFilterCard;
@@ -39,7 +38,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workshops$
-      .pipe(takeUntil(this.destroy$), filter((workshops: WorkshopFilterCard)=> !!workshops))
+      .pipe(takeUntil(this.destroy$), filter((workshops: WorkshopFilterCard) => !!workshops))
       .subscribe((workshops: WorkshopFilterCard) => (this.workshops = workshops));
   }
 

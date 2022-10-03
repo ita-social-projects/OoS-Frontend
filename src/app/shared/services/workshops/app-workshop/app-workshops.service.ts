@@ -1,5 +1,3 @@
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
@@ -9,8 +7,10 @@ import { Ordering } from 'src/app/shared/enum/ordering';
 import { Direction } from 'src/app/shared/models/category.model';
 import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { FilterStateModel } from '../../../models/filter-state.model';
+import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
-import { FilterStateModel } from '../../../store/filter.state';
+import { FilterState } from '../../../store/filter.state';
 @Injectable({
   providedIn: 'root',
 })

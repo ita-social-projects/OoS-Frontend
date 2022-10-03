@@ -11,6 +11,6 @@ export class LoginComponent implements OnInit {
   constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.dispatch(new Login(false))
+    this.store.dispatch(new Login(false));
   }
 }

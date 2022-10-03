@@ -33,7 +33,7 @@ describe('CreateProviderComponent', () => {
         MockCreatePhotoFormComponent,
         MockCreateInfoComponent,
         MockCreateContactsFormComponent
-        
+
       ]
     })
       .compileComponents();
@@ -42,8 +42,8 @@ describe('CreateProviderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateProviderComponent);
     component = fixture.componentInstance;
-    fb = TestBed.inject(FormBuilder)
-    
+    fb = TestBed.inject(FormBuilder);
+
     component.InfoFormGroup = fb.group({
       fullTitle: new FormControl(''),
     });
@@ -76,6 +76,7 @@ class MockCreateContactsFormComponent {
 class MockCreateInfoComponent {
   @Input() provider: Provider;
   @Input() InfoFormGroup;
+  @Input() isRelease3: boolean;
 }
 
 @Component({
@@ -84,4 +85,5 @@ class MockCreateInfoComponent {
 })
 class MockCreatePhotoFormComponent {
   @Input() provider: Provider;
+  @Input() isRelease3: boolean;
 }

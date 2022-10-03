@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import * as signalR from "@microsoft/signalr";
+import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { environment } from 'src/environments/environment';
@@ -32,7 +32,7 @@ export class SignalRService {
       .then(() => console.log('Connection started'))
       .catch(err => console.error('Error while starting connection: ' + err));
 
-    this.hubConnection.on("ReceiveNotification", (notification: Notification) => {
+    this.hubConnection.on('ReceiveNotification', (notification: Notification) => {
       this.store.dispatch(new GetAmountOfNewUsersNotifications());
     });
   }

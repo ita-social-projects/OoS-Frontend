@@ -22,7 +22,7 @@ export class CreateInfoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  readonly phonePrefix= Constants.PHONE_PREFIX;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly ownershipType = OwnershipType;
   readonly providerType = ProviderType;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
@@ -36,12 +36,14 @@ export class CreateInfoFormComponent implements OnInit {
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality,
-  }
+  };
 
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
+  @Input() isRelease3: boolean;
+
   @Output() passInfoFormGroup = new EventEmitter();
 
   InfoFormGroup: FormGroup;
@@ -52,43 +54,43 @@ export class CreateInfoFormComponent implements OnInit {
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.InfoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       shortTitle: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       edrpouIpn: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_8),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_10)
       ]),
       director: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60) 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       email: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.email
       ]),
       website: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       facebook: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       instagram: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256) 
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       type: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
@@ -107,7 +109,7 @@ export class CreateInfoFormComponent implements OnInit {
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {
     return institution1.id === institution2.id;
   }
-  
+
   /**
    * This method fills inputs with information of edited provider
    */

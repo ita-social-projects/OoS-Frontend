@@ -5,7 +5,6 @@ import { Achievement } from '../models/achievement.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent } from '../models/block.model';
-import { Role } from '../enum/role';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -80,6 +79,11 @@ export class GetProviderWorkshops {
 export class GetAllProviderAdmins {
   static readonly type = '[provider] get all users ProviderAdmins';
   constructor() {}
+}
+
+export class GetWorkshopListByProviderId {
+  static readonly type = '[user] get Workshop List By Provider Id';
+  constructor(public payload: string) { }
 }
 
 export class CreateWorkshop {
@@ -200,6 +204,21 @@ export class OnDeleteProviderAdminSuccess {
 export class OnDeleteProviderAdminFail {
   static readonly type = '[provider] delete Provider Admin fail';
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class UpdateProviderAdmin {
+  static readonly type = '[provider] update Provider Admin';
+  constructor(public providerId: string, public providerAdmin: ProviderAdmin) { }
+}
+
+export class OnUpdateProviderAdminFail {
+  static readonly type = '[provider] update Provider Admin fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+
+export class OnUpdateProviderAdminSuccess {
+  static readonly type = '[provider] update Provider Admin success';
+  constructor(public payload: ProviderAdmin) { }
 }
 
 export class UpdateWorkshopStatus {

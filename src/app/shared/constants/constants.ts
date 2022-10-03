@@ -14,7 +14,7 @@ export class Constants {
   static readonly WORKSHOP_ENTITY_TYPE = 2;
   static readonly WORKSHOP_MIN_SEATS = 1;
   static readonly WORKSHOP_UNLIMITED_SEATS = 4294967295;
-  
+
   static readonly RATE_ONE_STAR = 1;
   static readonly RATE_TWO_STAR = 2;
   static readonly RATE_THREE_STAR = 3;
@@ -44,7 +44,7 @@ export class Constants {
     longitude: 30.5595,
     fullName: 'Київ'
    };
-  
+
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = `не вказано`;
   static readonly MODAL_SMALL = '500px';
@@ -61,7 +61,7 @@ export class PaginationConstants {
     element: 1,
     isActive: true
   };
-};
+}
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -111,9 +111,9 @@ export class NotificationsConstants {
 }
 
 export class CropperConfigurationConstants {
-  static readonly defaultCropperAspectRatio = 1/1;
-  static readonly coverImageCropperAspectRatio = 5/3;
-  static readonly galleryImagesCropperAspectRatio = 7/4;
+  static readonly defaultCropperAspectRatio = 1 / 1;
+  static readonly coverImageCropperAspectRatio = 5 / 3;
+  static readonly galleryImagesCropperAspectRatio = 7 / 4;
   static readonly cropperMinWidth = 512;
   static readonly cropperMaxWidth = 10000;
   static readonly cropperMinHeight = 250;

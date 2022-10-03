@@ -2,9 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
+import { Child, ChildCards, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { TruncatedItem } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -21,28 +22,28 @@ export class ChildrenService {
   private setParams( parameters?: ChildrenParameters, isParent?: boolean ): HttpParams {
     let params = new HttpParams();
 
-    if(parameters){
-      if(parameters.searchString){
-      params = params.set('SearchString', parameters.searchString);}
-      if(parameters.tabTitle){ 
-        if(parameters.tabTitle == "Батьки"){
-          isParent= true;
+    if (parameters){
+      if (parameters.searchString){
+      params = params.set('SearchString', parameters.searchString); }
+      if (parameters.tabTitle){
+        if (parameters.tabTitle == 'Батьки'){
+          isParent = true;
         }
-        if(parameters.tabTitle == "Діти"){
-          isParent= false;
+        if (parameters.tabTitle == 'Діти'){
+          isParent = false;
         }
       }
 
-    if(isParent !== undefined){
-      params = params.set('isParent', isParent.toString());}
+      if (isParent !== undefined){
+      params = params.set('isParent', isParent.toString()); }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
     const from: number = size * (+currentPage.element - 1);
-    
+
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
-   
+
     return params;
   }
 
@@ -54,6 +55,10 @@ export class ChildrenService {
     const options = { params: this.setParams() };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
+  }
+
+  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]>{
+    return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
   }
 
   /**
@@ -68,7 +73,7 @@ export class ChildrenService {
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, { params });
   }
 
-    /**
+  /**
    * This method get children for Admin
    */
   getChildrenForAdmin(paremeters, isParent?): Observable<ChildCards> {

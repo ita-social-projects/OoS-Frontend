@@ -28,7 +28,7 @@ describe('CreateWorkshopAddressComponent', () => {
       declarations: [
         CreateWorkshopAddressComponent,
         MockMapComponent,
-        MockAddressForm
+        MockAddressFormComponent
       ]
     })
       .compileComponents();
@@ -51,12 +51,13 @@ describe('CreateWorkshopAddressComponent', () => {
 })
 class MockMapComponent {
   @Input() addressFormGroup: FormGroup;
+  @Input() settelmentFormGroup: FormGroup;
 }
 @Component({
   selector: 'app-create-address-form',
   template: '',
 })
-class MockAddressForm {
+class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() searchFormGroup: FormGroup;
   @Input() address: Address;

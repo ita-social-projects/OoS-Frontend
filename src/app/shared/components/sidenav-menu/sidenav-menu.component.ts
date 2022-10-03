@@ -61,7 +61,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
     this.sidenavOpenTrue$
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible);
-      this.user$.pipe(
+    this.user$.pipe(
         filter((user) => !!user),
         takeUntil(this.destroy$)
       ).subscribe((user: User) => {
