@@ -1,3 +1,19 @@
+import {
+  ConfirmationModalWindowComponent
+} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { CreateProviderSteps } from '../../../../shared/enum/provider';
+import { Role } from '../../../../shared/enum/role';
+import { Address } from '../../../../shared/models/address.model';
+import { FeaturesList } from '../../../../shared/models/featuresList.model';
+import { Provider } from '../../../../shared/models/provider.model';
+import { User } from '../../../../shared/models/user.model';
+import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { AddNavPath } from '../../../../shared/store/navigation.actions';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import { Util } from '../../../../shared/utils/utils';
 import { Logout } from './../../../../shared/store/registration.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import {
@@ -14,24 +30,16 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { CreateProviderSteps } from 'src/app/shared/enum/provider';
-import { Role } from 'src/app/shared/enum/role';
-import { Address } from 'src/app/shared/models/address.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { User } from 'src/app/shared/models/user.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Util } from 'src/app/shared/utils/utils';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+
+
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
+
+
 import { MatDialog } from '@angular/material/dialog';
-import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { CreateProvider, UpdateProvider } from 'src/app/shared/store/provider.actions';
+
+import { CreateProvider, UpdateProvider } from '../../../../shared/store/provider.actions';
+
 
 @Component({
   selector: 'app-create-provider',
