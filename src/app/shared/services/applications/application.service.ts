@@ -3,7 +3,7 @@ import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
@@ -68,10 +68,10 @@ export class ApplicationService {
 
   /**
    * This method create Application
-   * @param Workshop Workshop
+   * @param application Application
    */
-  createApplication(application: Application): Observable<object> {
-    return this.http.post('/api/v1/Application/Create', application, { observe: 'response' });
+  createApplication(application: Application): Observable<HttpResponse<Application>> {
+    return this.http.post<Application>('/api/v1/Application/Create', application, { observe: 'response' });
   }
 
   /**
