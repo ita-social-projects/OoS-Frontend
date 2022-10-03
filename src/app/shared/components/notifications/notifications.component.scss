@@ -13,8 +13,8 @@
     display: block;
     background-color: #F5BC4A;
   }
-    left: 47px;
-    top: -35px;
+  left: 15px;
+  top: 0px;
   
 }
 
@@ -23,4 +23,11 @@
 }
 .full-width{
   width: 100%;
+}
+
+@media(max-width: 847px) {
+  .mat-badge-content {
+    left: 15px;
+    top: 10px;
+  }
 }
