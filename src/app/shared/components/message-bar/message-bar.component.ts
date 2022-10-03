@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { messageType } from '../../enum/messageBar';
+import { MessageBar } from '../../models/messageBar.model';
 
 @Component({
   selector: 'app-message-bar',
@@ -13,7 +14,7 @@ export class MessageBarComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    @Inject(MAT_SNACK_BAR_DATA) public data: any) {
+    @Inject(MAT_SNACK_BAR_DATA) public data: MessageBar) {
   }
 
   ngOnInit(): void {

@@ -32,13 +32,13 @@ export class AppComponent implements OnInit, OnDestroy {
    * method defined window.width and assign isMobileView: boolean
    */
 
-  isWindowMobile(event: any): void {
+  isWindowMobile(event: Window): void {
     this.isMobileView = event.innerWidth <= 750;
     this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
   }
 
   @HostListener('window: resize', ['$event.target'])
-  onResize(event: any): void {
+  onResize(event: Window): void {
     this.isWindowMobile(event);
   }
 

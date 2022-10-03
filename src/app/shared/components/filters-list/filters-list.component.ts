@@ -9,6 +9,7 @@ import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } f
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
 import { Direction } from '../../models/category.model';
+import { FilterList } from '../../models/filterList.model';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -16,26 +17,8 @@ import { Direction } from '../../models/category.model';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<any>;
-  filterList: {
-    withDisabilityOption: boolean;
-    categoryCheckBox: Direction[],
-    ageFilter: { minAge: number, maxAge: number, IsAppropriateAge: boolean },
-    priceFilter: {
-      minPrice: number,
-      maxPrice: number,
-      isFree: boolean,
-      isPaid: boolean
-    },
-    workingHours: {
-      workingDays: string[],
-      startTime: string,
-      endTime: string,
-      isStrictWorkdays: boolean
-      isAppropriateHours: boolean
-    },
-    order: string
-  };
+  filterList$: Observable<FilterList>;
+  filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;

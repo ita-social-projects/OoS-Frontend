@@ -3,6 +3,7 @@ import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
 import { RequestParams } from '../models/child.model';
+import { Rate } from '../models/rating';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
@@ -111,7 +112,7 @@ export class ResetSelectedChild {
 
 export class CreateRating {
   static readonly type = '[parent] create Rating';
-  constructor(public payload: any) {}
+  constructor(public payload: Rate) {}
 }
 
 export class OnCreateRatingFail {
@@ -121,7 +122,7 @@ export class OnCreateRatingFail {
 
 export class OnCreateRatingSuccess {
   static readonly type = '[parent] create Rating success';
-  constructor(public payload) {}
+  constructor(public payload: Rate) {}
 }
 
 export class CreateApplication {

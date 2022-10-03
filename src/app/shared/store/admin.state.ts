@@ -107,8 +107,6 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
-  adminStateModel: any;
-
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation {
     return state.aboutPortal;
   }
@@ -357,7 +355,7 @@ export class AdminState {
   }
 
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<any> {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<DirectionsFilter> {
     patchState({ isLoading: true });
     return this.categoriesService.getFilteredDirections(payload).pipe(
       tap(

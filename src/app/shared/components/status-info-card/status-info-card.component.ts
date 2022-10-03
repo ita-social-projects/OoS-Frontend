@@ -20,7 +20,7 @@ export class StatusInfoCardComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  getValuesFromEnum(): Array<any> {
+  getValuesFromEnum(): Array<string> {
     return Object.keys(this.applicationStatus);
   }
 }

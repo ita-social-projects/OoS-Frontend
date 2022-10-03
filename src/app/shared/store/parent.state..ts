@@ -44,6 +44,7 @@ import { Location } from '@angular/common';
 import { RatingService } from '../services/rating/rating.service';
 import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
+import { Rate } from '../models/rating';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -323,9 +324,9 @@ export class ParentState {
   }
 
   @Action(CreateRating)
-  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<object> {
+  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<Observable<void> | Rate> {
     return this.ratingService.createRate(payload).pipe(
-      tap(res => dispatch(new OnCreateRatingSuccess(res))),
+      tap((res: Rate) => dispatch(new OnCreateRatingSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
     );
   }
