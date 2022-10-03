@@ -198,7 +198,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.isDebuty, this.providerAdminId, this.managedWorkshopIds)
+        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.isDebuty, this.providerAdminId, this.managedWorkshopIds, this.provider.id)
         this.store.dispatch(this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin));
       }
     });
