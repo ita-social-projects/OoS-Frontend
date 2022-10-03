@@ -466,7 +466,7 @@ export class ProviderState {
     { payload }: CreateProviderAdmin
   ): Observable<object> {
     return this.providerAdminService.createProviderAdmin(payload).pipe(
-      tap((res: ProviderAdmin) => dispatch(new OnCreateProviderAdminSuccess(res))),
+      tap((res: ProviderAdmin) => dispatch(new OnCreateProviderAdminSuccess(payload))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateProviderAdminFail(error))))
     );
   }
@@ -492,7 +492,7 @@ export class ProviderState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: 'Користувача успішно створено',
+        message: payload.isDeputy ? 'Заступника директора успішно створено!' : 'Адміністратора гуртка успішно створено!',
         type: 'success',
       }),
       new MarkFormDirty(false),
