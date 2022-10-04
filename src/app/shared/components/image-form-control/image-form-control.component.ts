@@ -32,6 +32,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   touched = false;
   disabled = false;
 
+  onChange: FilesToVoid;
+  onTouched: VoidToVoid;
+
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
@@ -85,9 +88,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     });
   }
 
-  onChange: FilesToVoid;
-  onTouched: VoidToVoid;
-  writeValue(array: File[]): void { }
   registerOnChange(onChange: FilesToVoid): void {
     this.onChange = onChange;
   }
