@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { WorkhopStatus } from '../enum/workshop';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
@@ -50,8 +51,7 @@ import {
     isPaid: false,
     maxPrice: ValidationConstants.MAX_PRICE,
     minPrice: ValidationConstants.MIN_PRICE,
-    isOpenRecruitment: false,
-    isClosedRecruitment: false,
+    statuses: [],
     settlement: null,
     searchQuery: '',
     order: 'Rating',
@@ -108,6 +108,7 @@ export class FilterState {
   @Selector()
   static filterList(state: FilterStateModel): {
     withDisabilityOption: boolean;
+    statuses: WorkhopStatus[];
     categoryCheckBox: Direction[];
     ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
     priceFilter: {
@@ -140,10 +141,12 @@ export class FilterState {
       workingDays,
       startTime,
       endTime,
+      statuses,
       order,
     } = state;
     return {
       withDisabilityOption,
+      statuses,
       categoryCheckBox: directions,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
@@ -243,13 +246,13 @@ export class FilterState {
 
   @Action(SetOpenRecruitment)
   setOpenRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
-    patchState({ isOpenRecruitment: payload });
+    patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetClosedRecruitment)
   setClosedRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
-    patchState({ isClosedRecruitment: payload });
+    patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
@@ -330,8 +333,7 @@ export class FilterState {
       isPaid: false,
       maxPrice: ValidationConstants.MAX_PRICE,
       minPrice: ValidationConstants.MIN_PRICE,
-      isOpenRecruitment: false,
-      isClosedRecruitment: false,
+      statuses: [],
       searchQuery: '',
       order: 'Rating',
       withDisabilityOption: false,
