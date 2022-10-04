@@ -3,6 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { WorkhopStatus } from '../enum/workshop';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
@@ -107,7 +108,7 @@ export class FilterState {
   @Selector()
   static filterList(state: FilterStateModel): {
     withDisabilityOption: boolean;
-    statuses: string[];
+    statuses: WorkhopStatus[];
     categoryCheckBox: Direction[];
     ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
     priceFilter: {

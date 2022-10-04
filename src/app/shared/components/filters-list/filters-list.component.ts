@@ -20,7 +20,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   filterList$: Observable<any>;
   filterList: {
     withDisabilityOption: boolean;
-    statuses: string[];
+    statuses: WorkhopStatus[];
     categoryCheckBox: Direction[],
     ageFilter: { minAge: number, maxAge: number, IsAppropriateAge: boolean },
     priceFilter: {
@@ -49,7 +49,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
-  statuses: string[] = [];
+  statuses: WorkhopStatus[];
   readonly workhopStatus = WorkhopStatus;
 
   constructor(private store: Store) {}

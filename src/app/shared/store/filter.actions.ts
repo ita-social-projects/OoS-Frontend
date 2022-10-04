@@ -1,5 +1,6 @@
 import { Codeficator } from './../models/codeficator.model';
 import { Direction } from '../models/category.model';
+import { WorkhopStatus } from '../enum/workshop';
 export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: Codeficator) {}
@@ -54,11 +55,11 @@ export class SetSearchQueryValue {
 }
 export class SetOpenRecruitment {
   static readonly type = '[filter] Set Open Recruitment';
-  constructor(public payload: string[]) {}
+  constructor(public payload: WorkhopStatus[]) {}
 }
 export class SetClosedRecruitment {
   static readonly type = '[filter] Set Closed Recruitment';
-  constructor(public payload: string[]) {}
+  constructor(public payload: WorkhopStatus[]) {}
 }
 export class GetFilteredWorkshops {
   static readonly type = '[filter] Get Filtered Workshops';
