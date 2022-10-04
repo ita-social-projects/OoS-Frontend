@@ -12,6 +12,7 @@ import {
   OnPageChangeProviders,
   SetApplicationsPerPage,
   SetDirectionsPerPage,
+  SetChildrensPerPage,
   SetFirstPage,
   SetRatingPerPage,
   SetWorkshopsPerPage,
@@ -24,6 +25,7 @@ export interface PaginatorStateModel {
   directionsPerPage: number;
   applicationsPerPage: number;
   ratingPerPage: number;
+  childrensPerPage: number;
   currentPage: PaginationElement;
   itemsPerPage: number;
 }
@@ -33,6 +35,7 @@ export interface PaginatorStateModel {
     workshopsPerPage: 12,
     directionsPerPage: 12,
     applicationsPerPage: 8,
+    childrensPerPage: 8,
     ratingPerPage: 12,
     itemsPerPage: 12,
     currentPage: PaginationConstants.firstPage,
@@ -53,6 +56,8 @@ export class PaginatorState {
   @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; }
 
   @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
+  
+  @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; }
 
   constructor() { }
 
@@ -74,6 +79,11 @@ export class PaginatorState {
   @Action(SetItemsPerPage)
   setItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetItemsPerPage): void {
     patchState({ itemsPerPage: payload });
+  }
+
+  @Action(SetChildrensPerPage)
+  setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
+    patchState({ childrensPerPage: payload });
   }
 
   @Action(SetRatingPerPage)

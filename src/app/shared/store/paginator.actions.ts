@@ -15,6 +15,11 @@ export class SetDirectionsPerPage {
   constructor(public payload: number) { }
 }
 
+export class SetChildrensPerPage {
+  static readonly type = '[paginator] Childrens Per Page';
+  constructor(public payload: number) { }
+}
+
 export class SetApplicationsPerPage {
   static readonly type = '[paginator] Applications Per Page';
   constructor(public payload: number) { }
