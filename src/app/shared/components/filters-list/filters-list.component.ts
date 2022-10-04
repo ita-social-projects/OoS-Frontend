@@ -1,3 +1,4 @@
+import { WorkhopStatus } from './../../enum/workshop';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -30,6 +31,8 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
+  statuses: WorkhopStatus[];
+  readonly workhopStatus = WorkhopStatus;
 
   constructor(private store: Store) {}
 
@@ -39,20 +42,37 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     .subscribe(([visibleFiltersSidenav, filterList]) => {
       this.visibleFiltersSidenav = visibleFiltersSidenav;
       this.filterList = filterList;
+      this.statuses = filterList.statuses;
       this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
     });
 
     this.OpenRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.store.dispatch(new SetOpenRecruitment(val)));
+      .subscribe((val: boolean) => {
+        this.statusHandler(val, this.workhopStatus.Open)
+        this.store.dispatch(new SetOpenRecruitment(this.statuses))
+      });
 
     this.ClosedRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.store.dispatch(new SetClosedRecruitment(val)));
-
+      .subscribe((val: boolean) => {
+        this.statusHandler(val, this.workhopStatus.Closed)
+        this.store.dispatch(new SetClosedRecruitment(this.statuses))
+      });
+      
     this.WithDisabilityOptionControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
+  }
+
+   /**
+   * When the user selects filters (OpenRecruitment or ClosedRecruitment), 
+   * we add the status to the array or remove the status from the array.
+   */
+  statusHandler(val: boolean, status: string): void {
+    val ?  
+    this.statuses.push(this.workhopStatus[status]) : 
+    this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1); 
   }
 
   changeView(): void {
