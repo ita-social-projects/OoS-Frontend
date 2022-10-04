@@ -1,5 +1,5 @@
 import { ProviderState } from 'src/app/shared/store/provider.state';
-import { GetAllProviderAdmins, UpdateProviderAdmin } from './../../../../shared/store/provider.actions';
+import { GetAllProviderAdmins, GetWorkshopListByProviderId, UpdateProviderAdmin } from './../../../../shared/store/provider.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { RegistrationState } from 'src/app/shared/store/registration.state';
@@ -28,6 +28,7 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { Util } from 'src/app/shared/utils/utils';
 import { Role } from 'src/app/shared/enum/role';
 import { CreateProviderAdmin } from 'src/app/shared/store/provider.actions';
+import { TruncatedItem } from 'src/app/shared/models/truncated.model';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
@@ -50,8 +51,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  @Select(SharedUserState.workshops)
-  workshops$: Observable<WorkshopCard[]>;
+  @Select(ProviderState.truncated)
+  truncatedItems$: Observable<TruncatedItem[]>;
   @Select(ProviderState.providerAdmins)
   providerAdmins$: Observable<ProviderAdmin[]>;
 
@@ -99,7 +100,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       this.provider = provider;
 
       if(!this.isDebuty){
-        this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
+        this.store.dispatch(new GetWorkshopListByProviderId(this.provider.id));
       }
     });
   }
@@ -197,7 +198,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.isDebuty, this.providerAdminId, this.managedWorkshopIds)
+        const providerAdmin = new ProviderAdmin(this.ProviderAdminFormGroup.value, this.isDebuty, this.providerAdminId, this.managedWorkshopIds, this.provider.id)
         this.store.dispatch(this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin));
       }
     });

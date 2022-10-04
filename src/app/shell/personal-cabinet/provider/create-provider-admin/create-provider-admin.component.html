@@ -102,7 +102,7 @@
                 class="step-required">*</span>
             </label>
             <app-entity-checkbox-dropdown
-              [entities]="workshops$ | async" 
+              [entities]="truncatedItems$ | async" 
               [declination]="WorkshopDeclination"
               [dropdownContainerClass]="'create-admin'"
               (entityCheck)="onWorkshopsSelect($event)">
