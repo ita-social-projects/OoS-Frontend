@@ -55,7 +55,6 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    console.log("aaaaa",this.workhopStatus.Open)
     combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
     .pipe(takeUntil(this.destroy$))
     .subscribe(([visibleFiltersSidenav, filterList]) => {
