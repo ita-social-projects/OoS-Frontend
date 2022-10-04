@@ -83,6 +83,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
   }
 
+   /**
+   * When the user selects filters (OpenRecruitment or ClosedRecruitment), 
+   * we add the status to the array or remove the status from the array.
+   */
   statusHandler(val: boolean, status: string): void {
     val ?  
     this.statuses.push(this.workhopStatus[status]) : 
