@@ -93,7 +93,7 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', filters.order);
     }
 
-    if (filters.statuses.length > 0) {
+    if (!!filters.statuses.length) {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
 

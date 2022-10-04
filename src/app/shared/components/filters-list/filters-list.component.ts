@@ -1,3 +1,4 @@
+import { WorkhopStatus } from './../../enum/workshop';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -49,10 +50,12 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
   statuses: string[] = [];
+  readonly workhopStatus = WorkhopStatus;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    console.log("aaaaa",this.workhopStatus.Open)
     combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
     .pipe(takeUntil(this.destroy$))
     .subscribe(([visibleFiltersSidenav, filterList]) => {
@@ -65,30 +68,26 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     this.OpenRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => {
-        if (val) {
-          this.statuses.push('Open')
-        } else {
-          this.statuses.splice(this.statuses.indexOf('Open'), 1)
-        }
-
+        this.statusHandler(val, this.workhopStatus.Open)
         this.store.dispatch(new SetOpenRecruitment(this.statuses))
       });
 
     this.ClosedRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => {
-        if (val) {
-          this.statuses.push('Closed')
-        } else {
-          this.statuses.splice(this.statuses.indexOf('Closed'), 1)
-        }
-
-        this.store.dispatch(new SetOpenRecruitment(this.statuses))
+        this.statusHandler(val, this.workhopStatus.Closed)
+        this.store.dispatch(new SetClosedRecruitment(this.statuses))
       });
-
+      
     this.WithDisabilityOptionControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
+  }
+
+  statusHandler(val: boolean, status: string): void {
+    val ?  
+    this.statuses.push(this.workhopStatus[status]) : 
+    this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1); 
   }
 
   changeView(): void {
