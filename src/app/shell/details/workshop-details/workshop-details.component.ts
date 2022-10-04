@@ -19,7 +19,7 @@ import {
   GetWorkshopsByProviderId,
 } from 'src/app/shared/store/shared-user.actions';
 import { RecruitmentStatusUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { WorkhopStatus } from 'src/app/shared/enum/workshop';
+import { WorkshopOpenStatus } from 'src/app/shared/enum/workshop';
 import { ResetAchievements } from 'src/app/shared/store/provider.actions';
 import { OnCreateRatingSuccess } from 'src/app/shared/store/parent.actions';
 
@@ -31,7 +31,7 @@ import { OnCreateRatingSuccess } from 'src/app/shared/store/parent.actions';
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
-  readonly workhopStatus = WorkhopStatus;
+  readonly workhopStatus = WorkshopOpenStatus;
 
   @Input() role: Role;
   @Input() workshop: Workshop;

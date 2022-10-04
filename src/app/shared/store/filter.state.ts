@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { WorkhopStatus } from '../enum/workshop';
+import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';

@@ -1,4 +1,4 @@
-import { WorkhopStatus } from './../../enum/workshop';
+import { WorkshopOpenStatus } from './../../enum/workshop';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -31,8 +31,8 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
-  statuses: WorkhopStatus[];
-  readonly workhopStatus = WorkhopStatus;
+  statuses: WorkshopOpenStatus[];
+  readonly workhopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 
