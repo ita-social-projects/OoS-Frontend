@@ -3,10 +3,11 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { WorkhopStatus } from '../enum/workshop';
+import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
+import { FilterList } from '../models/filterList.model';
 import { WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
@@ -106,26 +107,7 @@ export class FilterState {
   }
 
   @Selector()
-  static filterList(state: FilterStateModel): {
-    withDisabilityOption: boolean;
-    statuses: WorkhopStatus[];
-    categoryCheckBox: Direction[];
-    ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
-    priceFilter: {
-      minPrice: number;
-      maxPrice: number;
-      isFree: boolean;
-      isPaid: boolean;
-    };
-    workingHours: {
-      workingDays: string[];
-      startTime: string;
-      endTime: string;
-      isStrictWorkdays: boolean;
-      isAppropriateHours: boolean;
-    };
-    order: string;
-  } {
+  static filterList(state: FilterStateModel): FilterList{
     const {
       withDisabilityOption,
       isStrictWorkdays,
@@ -257,7 +239,7 @@ export class FilterState {
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<any> {
+  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<WorkshopFilterCard> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 

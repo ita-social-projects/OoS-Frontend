@@ -87,16 +87,16 @@ export class ChildrenService {
    * This method create Child
    * @param child: Child
    */
-  createChild(child: Child): Observable<object> {
-    return this.http.post('/api/v1/Child/Create', child);
+  createChild(child: Child): Observable<Child> {
+    return this.http.post<Child>('/api/v1/Child/Create', child);
   }
 
   /**
    * This method update Child
    * @param child: Child
    */
-  updateChild(child: Child): Observable<object> {
-    return this.http.put('/api/v1/Child/Update', child);
+  updateChild(child: Child): Observable<Child> {
+    return this.http.put<Child>('/api/v1/Child/Update', child);
   }
 
   /**
@@ -112,8 +112,8 @@ export class ChildrenService {
    * This method delete child by Child id
    * @param id: string
    */
-  deleteChild(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Child/Delete/${id}`);
+  deleteChild(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Child/Delete/${id}`);
   }
 
   /**

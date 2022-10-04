@@ -14,7 +14,7 @@ export class HttpTokenInterceptor implements HttpInterceptor {
     public store: Store,
     private oidcSecurityService: OidcSecurityService) { }
 
-  public intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+  public intercept(request: HttpRequest<HttpInterceptor>, next: HttpHandler): Observable<HttpEvent<HttpInterceptor>> {
 
     const url: string = environment.serverUrl + request.url;
 

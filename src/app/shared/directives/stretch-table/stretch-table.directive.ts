@@ -5,9 +5,9 @@ import { StretchCellComponent } from '../../components/stretch-cell/stretch-cell
   selector: '[appStretchTable]'
 })
 export class StretchTableDirective implements AfterViewInit{
-  private selectedTh!: any;
-  private tableContainerWidth!: any;
-  private mouseMoveFunc!: any;
+  private selectedTh!: HTMLElement;
+  private tableContainerWidth!: number;
+  private mouseMoveFunc!: (event: MouseEvent) => void;
 
   constructor(
     private el: ElementRef,
@@ -44,15 +44,15 @@ export class StretchTableDirective implements AfterViewInit{
     }
   }
   
-  @HostListener('mousedown',['$event']) onMouseDown(event: any){
-    if(!event.target.closest(".resize-border")){
+  @HostListener('mousedown',['$event']) onMouseDown(event: MouseEvent){
+    if(!(event.target as HTMLElement).closest(".resize-border")){
       return;
     }
 
     const body = document.querySelector('body');
 
-    this.selectedTh = event.target.closest("th");
-    this.tableContainerWidth = this.selectedTh.closest('.table-container').offsetWidth;
+    this.selectedTh = (event.target as HTMLElement).closest("th");
+    this.tableContainerWidth = (this.selectedTh.closest('.table-container') as HTMLElement).offsetWidth;
     this.mouseMoveFunc = this.changeWidth.bind(this);
 
     document.addEventListener('mouseup', this.onUpMouse.bind(this), {once: true})
@@ -68,7 +68,7 @@ export class StretchTableDirective implements AfterViewInit{
     document.querySelector('body')!.style.pointerEvents = 'auto';
   }
 
-  private changeWidth(event: any){
+  private changeWidth(event: MouseEvent){
     let minWidth = 50;
     let tableWidth = this.selectedTh.closest('table').offsetWidth;
 

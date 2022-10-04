@@ -1,4 +1,4 @@
-import { WorkhopStatus } from '../enum/workshop';
+import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from './category.model';
 import { Codeficator } from './codeficator.model';
 import { WorkshopFilterCard } from './workshop.model';
@@ -24,5 +24,5 @@ export interface FilterStateModel {
   isAppropriateHours: boolean;
   isLoading: boolean;
   isConfirmCity: boolean;
-  statuses: WorkhopStatus[];
+  statuses: WorkshopOpenStatus[];
 }

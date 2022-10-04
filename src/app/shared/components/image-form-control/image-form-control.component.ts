@@ -6,6 +6,10 @@ import { Constants } from '../../constants/constants';
 import { Cropper } from '../../models/cropper';
 import { DecodedImage } from '../../models/image.model';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
+
+type FilesToVoid = (array: File[]) => void;
+type VoidToVoid = () => void;
+
 @Component({
   selector: 'app-image-form-control',
   templateUrl: './image-form-control.component.html',
@@ -28,6 +32,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   touched = false;
   disabled = false;
 
+  onChange: FilesToVoid;
+  onTouched: VoidToVoid;
+
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
@@ -46,7 +53,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
    * This methods decodes the file for its correct displaying
    * @param file: File)
    */
-  imageDecoder(file: any): void {
+  imageDecoder(file: Blob): void {
     const myReader = new FileReader();
     myReader.onload = () => {
       this.decodedImages.push(new DecodedImage(myReader.result, file));
@@ -81,13 +88,10 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     });
   }
 
-  onChange = (array: File[]): void => { };
-  onTouched = (): void => { };
-  writeValue(array: File[]): void { }
-  registerOnChange(onChange: any): void {
+  registerOnChange(onChange: FilesToVoid): void {
     this.onChange = onChange;
   }
-  registerOnTouched(onTouched: any): void {
+  registerOnTouched(onTouched: VoidToVoid): void {
     this.onTouched = onTouched;
   }
   markAsTouched(): void {
@@ -101,7 +105,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   }
 
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
-  onResize(screen): void {
+  onResize(screen: Window): void {
     if (screen.innerWidth >= this.mediumScreen) {
       this.gridCols = 4;
     } else if (screen.innerWidth < this.mediumScreen && screen.innerWidth >= this.smallScreen) {
@@ -122,7 +126,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
       }
     });
 
-    dialogRef.afterClosed().subscribe((image: any)  => {
+    dialogRef.afterClosed().subscribe((image: File)  => {
       this.markAsTouched();
       if (!this.disabled && image) {
         this.imageDecoder(image);

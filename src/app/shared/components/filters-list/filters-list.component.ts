@@ -1,4 +1,4 @@
-import { WorkhopStatus } from './../../enum/workshop';
+import { WorkshopOpenStatus } from './../../enum/workshop';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -10,6 +10,7 @@ import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } f
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
 import { Direction } from '../../models/category.model';
+import { FilterList } from '../../models/filterList.model';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -17,27 +18,8 @@ import { Direction } from '../../models/category.model';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<any>;
-  filterList: {
-    withDisabilityOption: boolean;
-    statuses: WorkhopStatus[];
-    categoryCheckBox: Direction[],
-    ageFilter: { minAge: number, maxAge: number, IsAppropriateAge: boolean },
-    priceFilter: {
-      minPrice: number,
-      maxPrice: number,
-      isFree: boolean,
-      isPaid: boolean
-    },
-    workingHours: {
-      workingDays: string[],
-      startTime: string,
-      endTime: string,
-      isStrictWorkdays: boolean
-      isAppropriateHours: boolean
-    },
-    order: string
-  };
+  filterList$: Observable<FilterList>;
+  filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;
@@ -49,8 +31,8 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
-  statuses: WorkhopStatus[];
-  readonly workhopStatus = WorkhopStatus;
+  statuses: WorkshopOpenStatus[];
+  readonly workhopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 

@@ -1,8 +1,9 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
 import { RequestParams } from '../models/child.model';
+import { Rate } from '../models/rating';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
@@ -71,7 +72,7 @@ export class OnCreateChildrenFail {
 
 export class OnCreateChildrenSuccess {
   static readonly type = '[parent] create Children success';
-  constructor(public payload) {}
+  constructor(public payload: Child) {}
 }
 
 export class DeleteChildById {
@@ -81,7 +82,7 @@ export class DeleteChildById {
 
 export class OnDeleteChildSuccess {
   static readonly type = '[parent] delete Children success';
-  constructor(public payload) {}
+  constructor() {}
 }
 
 export class OnDeleteChildFail {
@@ -101,7 +102,7 @@ export class OnUpdateChildFail {
 
 export class OnUpdateChildSuccess {
   static readonly type = '[parent] update Child success';
-  constructor(public payload) {}
+  constructor(public payload: Child) {}
 }
 
 export class ResetSelectedChild {
@@ -111,7 +112,7 @@ export class ResetSelectedChild {
 
 export class CreateRating {
   static readonly type = '[parent] create Rating';
-  constructor(public payload: any) {}
+  constructor(public payload: Rate) {}
 }
 
 export class OnCreateRatingFail {
@@ -121,7 +122,7 @@ export class OnCreateRatingFail {
 
 export class OnCreateRatingSuccess {
   static readonly type = '[parent] create Rating success';
-  constructor(public payload) {}
+  constructor(public payload: Rate) {}
 }
 
 export class CreateApplication {
@@ -136,5 +137,5 @@ export class OnCreateApplicationFail {
 
 export class OnCreateApplicationSuccess {
   static readonly type = '[parent] create Application success';
-  constructor(public payload) {}
+  constructor(public payload: HttpResponse<Application> ) {}
 }

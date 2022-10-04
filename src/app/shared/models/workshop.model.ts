@@ -1,5 +1,5 @@
 import { Direction } from 'src/app/shared/models/category.model';
-import { WorkhopStatus } from '../enum/workshop';
+import { WorkshopOpenStatus } from '../enum/workshop';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
 import { SectionItem } from './sectionItem.model';
@@ -131,7 +131,7 @@ export interface ProviderWorkshopCard extends WorkshopBaseCard {
   availableSeats: number;
   takenSeats: number;
   amountOfPendingApplications: number;
-  status: WorkhopStatus;
+  status: WorkshopOpenStatus;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {
