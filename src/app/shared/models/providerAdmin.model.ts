@@ -19,19 +19,25 @@ export class ProviderAdmin implements Person {
   isDeputy: boolean;
   managedWorkshopIds?: string[];
   accountStatus?: string;
+  returnUrl?: string;
+  providerId?: string;
 
-  constructor(info, isDebuty: boolean, providerId?: string, workshopIds?: string[], accountStatus?: string) {
+  constructor(info, isDebuty: boolean, userId?: string, workshopIds?: string[], providerId?: string, accountStatus?: string) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;
     this.middleName = info.middleName;
     this.lastName = info.lastName;
     this.isDeputy = isDebuty;
-    if (providerId) {
-      this.id = providerId;
+    if (userId) {
+      this.id = userId;
+      this.userId = userId;
     }
     if (workshopIds?.length) {
       this.managedWorkshopIds = workshopIds;
+    }
+    if (providerId) {
+      this.providerId = providerId;
     }
     this.accountStatus = accountStatus;
   }
