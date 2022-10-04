@@ -1,4 +1,3 @@
-import { User } from 'src/app/shared/models/user.model';
 import { Store, NgxsModule } from '@ngxs/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActionsComponent } from './actions.component';
@@ -7,6 +6,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
+import { User } from '../../../../shared/models/user.model';
 
 describe('ActionsComponent', () => {
   let component: ActionsComponent;

@@ -1,9 +1,10 @@
 import { Select } from '@ngxs/store';
 import { Component} from '@angular/core';
-import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { AdminState } from 'src/app/shared/store/admin.state';
 import { Observable } from 'rxjs';
-import { AdminTabsTitle } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsTitle } from '../../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
+import { AdminState } from '../../../../shared/store/admin.state';
+
 @Component({
   selector: 'app-support-info',
   template: '<app-info-card [type]="supportInformation" [platformInfo]="SupportInformation$ | async"></app-info-card>',

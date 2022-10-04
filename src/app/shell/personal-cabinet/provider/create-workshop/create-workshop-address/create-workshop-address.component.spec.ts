@@ -7,8 +7,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Address } from 'src/app/shared/models/address.model';
+import { Address } from '../../../../../shared/models/address.model';
 
 describe('CreateWorkshopAddressComponent', () => {
   let component: CreateWorkshopAddressComponent;

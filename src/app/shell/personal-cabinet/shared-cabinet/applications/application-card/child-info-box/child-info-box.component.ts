@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { DetectedDeviceService } from 'src/app/shared/services/detected-device/detected-device.service';
 import { Constants } from '../../../../../../shared/constants/constants';
 import { Gender } from '../../../../../../shared/enum/gender';
 import { Child } from '../../../../../../shared/models/child.model';
+import { DetectedDeviceService } from '../../../../../../shared/services/detected-device/detected-device.service';
 import { Util } from '../../../../../../shared/utils/utils';
 
 @Component({

@@ -6,19 +6,19 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Role } from 'src/app/shared/enum/role';
-import { Address } from 'src/app/shared/models/address.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
-import { Util } from 'src/app/shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { CreateWorkshop, UpdateWorkshop } from 'src/app/shared/store/provider.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { Role } from '../../../../shared/enum/role';
+import { Address } from '../../../../shared/models/address.model';
+import { Teacher } from '../../../../shared/models/teacher.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from '../../../../shared/store/navigation.actions';
+import { UpdateWorkshop, CreateWorkshop } from '../../../../shared/store/provider.actions';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import { Util } from '../../../../shared/utils/utils';
+import { Provider } from '../../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-create-workshop',

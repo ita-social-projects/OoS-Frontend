@@ -1,9 +1,9 @@
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Store } from '@ngxs/store';
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { AdminTabsTitle } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
+import { Component, OnInit } from '@angular/core';
+import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from '../../../shared/store/navigation.actions';
+import { NavBarName } from '../../../shared/enum/navigation-bar';
+import { AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
 
 @Component({
   selector: 'app-data',

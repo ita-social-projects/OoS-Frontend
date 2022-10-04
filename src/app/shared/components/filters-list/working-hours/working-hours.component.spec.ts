@@ -8,8 +8,8 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatButtonModule } from '@angular/material/button';
-import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../modules/material.module';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;

@@ -8,8 +8,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderListComponent } from './provider-list.component';
 
 describe('ProviderListComponent', () => {

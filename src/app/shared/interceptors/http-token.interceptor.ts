@@ -4,8 +4,8 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Store } from '@ngxs/store';
-import { environment } from 'src/environments/environment';
 import { OnAuthFail } from '../store/registration.actions';
+import { environment } from '../../../environments/environment';
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {
 

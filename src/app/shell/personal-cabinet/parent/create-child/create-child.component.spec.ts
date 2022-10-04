@@ -5,11 +5,11 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
-import { ChildCards } from 'src/app/shared/models/child.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ChildCards } from '../../../../shared/models/child.model';
+import { SocialGroup } from '../../../../shared/models/socialGroup.model';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;

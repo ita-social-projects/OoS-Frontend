@@ -6,11 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Address } from 'src/app/shared/models/address.model';
 import { FormArray, FormGroup } from '@angular/forms';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { Provider } from '../../../../shared/models/provider.model';
+import { Address } from '../../../../shared/models/address.model';
+import { Teacher } from '../../../../shared/models/teacher.model';
 
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;

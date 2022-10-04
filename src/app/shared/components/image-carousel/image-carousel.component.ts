@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
-import { ImgPath } from 'src/app/shared/models/carousel.model';
+import { ImgPath } from '../../models/carousel.model';
 
 @Component({
   selector: 'app-image-carousel',

@@ -1,9 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DataRoutingModule } from './data-routing.module';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { ProviderListComponent } from './provider-list/provider-list.component';
-import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { UsersComponent } from './users/users.component';
 import { DataComponent } from './data.component';
@@ -12,6 +10,8 @@ import { CreateAdminComponent } from './admins/create-admin/create-admin.compone
 import { HistoryLogComponent } from './history-log/history-log.component';
 import { HistoryLogTableComponent } from './history-log-table/history-log-table.component';
 import { HistoryLogFiltersComponent } from './history-log-filters/history-log-filters.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { MaterialModule } from '../../../shared/modules/material.module';
 
 @NgModule({
   declarations: [

@@ -1,15 +1,15 @@
-import { ParentState } from 'src/app/shared/store/parent.state.';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { ProviderState } from './../../shared/store/provider.state';
-import { MainPageState } from 'src/app/shared/store/main-page.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
+import { FilterState } from '../../shared/store/filter.state';
+import { SharedUserState } from '../../shared/store/shared-user.state';
+import { MetaDataState } from '../../shared/store/meta-data.state';
+import { AdminState } from '../../shared/store/admin.state';
+import { MainPageState } from '../../shared/store/main-page.state';
+import { ParentState } from '../../shared/store/parent.state.';
+import { RegistrationState } from '../../shared/store/registration.state';
 
 @Component({
   selector: 'app-progress-bar',

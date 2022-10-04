@@ -20,9 +20,7 @@ import { User } from '../models/user.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { ParentService } from '../services/parent/parent.service';
 import { Parent } from '../models/parent.model';
-import { TechAdmin } from '../models/techAdmin.model';
 import { catchError, tap } from 'rxjs/operators';
-import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
@@ -31,6 +29,8 @@ import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { SignalRService } from '../services/signalR/signal-r.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TechAdmin } from '../models/techAdmin.model';
+import { Provider } from '../models/provider.model';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -89,11 +89,6 @@ export class RegistrationState {
   @Selector()
   static parent(state: RegistrationStateModel): Parent {
     return state.parent;
-  }
-
-  @Selector()
-  static techAdmin(state: RegistrationStateModel): TechAdmin {
-    return state.techAdmin;
   }
 
   @Selector()

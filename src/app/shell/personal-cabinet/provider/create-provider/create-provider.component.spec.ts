@@ -1,15 +1,14 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CreateProviderComponent } from './create-provider.component';
-import { Component, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Provider } from '../../../../shared/models/provider.model';
 
 fdescribe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;

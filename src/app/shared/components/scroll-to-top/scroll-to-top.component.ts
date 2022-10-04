@@ -1,6 +1,5 @@
 import { Component, HostListener, OnInit } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
-
+import { Constants } from '../../constants/constants';
 
 @Component({
   selector: 'app-scroll-to-top',

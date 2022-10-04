@@ -6,17 +6,17 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
-import { Constants } from 'src/app/shared/constants/constants';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../../../../shared/enum/enumUA/provider-admin';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { providerAdminRole } from '../../../../shared/enum/provider-admin';
+import { ProviderAdmin, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { DeleteProviderAdminById, BlockProviderAdminById, GetAllProviderAdmins } from '../../../../shared/store/provider.actions';
 import { ProviderComponent } from '../provider.component';
-import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/provider.actions';
 import { ProviderState } from './../../../../shared/store/provider.state';
 
 @Component({

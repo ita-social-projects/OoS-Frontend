@@ -12,11 +12,11 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
-import { Parent } from 'src/app/shared/models/parent.model';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Child } from 'src/app/shared/models/child.model';
 import { of } from 'rxjs';
+import { Child } from '../../../../shared/models/child.model';
+import { Parent } from '../../../../shared/models/parent.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;

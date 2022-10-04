@@ -12,19 +12,16 @@ import {
   takeUntil,
   map,
 } from 'rxjs/operators';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import {
-  OnPageChangeHistoryLog,
-  SetHistoryItemsPerPage,
-} from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
 import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ApplicationsHistory, DropdownData, FilterData, ProviderAdminsHistory, ProvidersHistory } from '../../../../shared/models/history-log.model';
 import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { ApplicationOptions, ProviderAdminOptions, ProviderOptions } from 'src/app/shared/constants/drop-down';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
+import { SetHistoryItemsPerPage, OnPageChangeHistoryLog } from '../../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-history-log',

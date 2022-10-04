@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Constants } from 'src/app/shared/constants/constants';
+import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../../shared/constants/constants';
+import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
+import { Teacher } from '../../../../../shared/models/teacher.model';
+
 @Component({
   selector: 'app-create-teacher',
   templateUrl: './create-teacher.component.html',

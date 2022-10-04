@@ -2,21 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { ProviderWorkshopCard } from 'src/app/shared/models/workshop.model';
-import { Constants } from 'src/app/shared/constants/constants';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Role } from 'src/app/shared/enum/role';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import {
-  DeleteWorkshopById,
-  GetProviderAdminWorkshops,
-  GetProviderWorkshops,
-  OnUpdateWorkshopStatusSuccess,
-} from 'src/app/shared/store/provider.actions';
-import { ProviderState } from 'src/app/shared/store/provider.state';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { Role } from '../../../../shared/enum/role';
+import { ProviderWorkshopCard } from '../../../../shared/models/workshop.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { OnUpdateWorkshopStatusSuccess, GetProviderWorkshops, GetProviderAdminWorkshops, DeleteWorkshopById } from '../../../../shared/store/provider.actions';
+import { ProviderState } from '../../../../shared/store/provider.state';
 import { ProviderComponent } from '../provider.component';
 
 @Component({

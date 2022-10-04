@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { PersonalCabinetComponent } from './personal-cabinet.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { User } from 'src/app/shared/models/user.model';
 import { of } from 'rxjs';
+import { User } from '../../shared/models/user.model';
 
 describe('PersonalCabinetComponent', () => {
   let component: PersonalCabinetComponent;

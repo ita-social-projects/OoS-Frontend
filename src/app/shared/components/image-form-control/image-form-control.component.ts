@@ -1,11 +1,12 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { Constants } from '../../constants/constants';
 import { Cropper } from '../../models/cropper';
 import { DecodedImage } from '../../models/image.model';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
+
 @Component({
   selector: 'app-image-form-control',
   templateUrl: './image-form-control.component.html',

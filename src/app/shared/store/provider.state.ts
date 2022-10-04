@@ -1,5 +1,3 @@
-import { HttpResponse } from '@angular/common/http';
-import { Workshop, WorkshopStatus } from 'src/app/shared/models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -11,7 +9,7 @@ import { Achievement } from '../models/achievement.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
-import { ProviderWorkshopCard } from '../models/workshop.model';
+import { ProviderWorkshopCard, Workshop, WorkshopStatus } from '../models/workshop.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { ProviderAdminService } from '../services/provider-admins/provider-admin.service';
 import { ProviderService } from '../services/provider/provider.service';

@@ -1,18 +1,16 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { GetFilteredDirections } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { PaginationConstants } from '../../shared/constants/constants';
+import { NavBarName } from '../../shared/enum/navigation-bar';
+import { DirectionsFilter } from '../../shared/models/category.model';
+import { PaginationElement } from '../../shared/models/paginationElement.model';
+import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
+import { GetFilteredDirections } from '../../shared/store/admin.actions';
+import { AdminState } from '../../shared/store/admin.state';
+import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
+import { OnPageChangeDirections, SetDirectionsPerPage } from '../../shared/store/paginator.actions';
+import { PaginatorState } from '../../shared/store/paginator.state';
 
 @Component({
   selector: 'app-all-categories',

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { NavigationState } from 'src/app/shared/store/navigation.state';
+import { NavigationState } from '../../store/navigation.state';
 
 @Component({
   selector: 'app-sidenav-filters',

@@ -6,10 +6,10 @@ import { Workshop } from '../../shared/models/workshop.model';
 import { User } from '../../shared/models/user.model';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { Role } from 'src/app/shared/enum/role';
 import { of } from 'rxjs';
+import { Provider } from '../../shared/models/provider.model';
+import { Role } from '../../shared/enum/role';
 
 const MockUser = {
   role: '',

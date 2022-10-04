@@ -1,21 +1,21 @@
 import { ParentState } from './../../../../shared/store/parent.state.';
 import { Select, Store } from '@ngxs/store';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Login } from 'src/app/shared/store/registration.actions';
-import { Role } from 'src/app/shared/enum/role';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { WorkshopCardDialog } from 'src/app/shared/components/workshop-card/workshop-card.component';
-import { Favorite } from 'src/app/shared/models/favorite.model';
-import { ShowMessageBar } from 'src/app/shared/store/app.actions';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { AppState } from 'src/app/shared/store/app.state';
-import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { WorkhopStatus } from 'src/app/shared/enum/workshop';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'src/app/shared/store/parent.actions';
+import { WorkshopCardDialog } from '../../../../shared/components/workshop-card/workshop-card.component';
+import { PayRateTypeUkr } from '../../../../shared/enum/enumUA/workshop';
+import { Role } from '../../../../shared/enum/role';
+import { WorkhopStatus } from '../../../../shared/enum/workshop';
+import { Favorite } from '../../../../shared/models/favorite.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { ShowMessageBar } from '../../../../shared/store/app.actions';
+import { AppState } from '../../../../shared/store/app.state';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
+import { Login } from '../../../../shared/store/registration.actions';
+import { RegistrationState } from '../../../../shared/store/registration.state';
 
 
 @Component({

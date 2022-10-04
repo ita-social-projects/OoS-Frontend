@@ -1,10 +1,10 @@
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'src/app/shared/store/filter.actions';
+import { ValidationConstants } from '../../../constants/validation';
+import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from '../../../store/filter.actions';
 
 @Component({
   selector: 'app-age-filter',

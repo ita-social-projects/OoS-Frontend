@@ -3,14 +3,14 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { WorkshopTypeUkr } from 'src/app/shared/enum/enumUA/provider';
-import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { OwnershipTypeName, ProviderWorkshopSameValues, WorkshopType } from 'src/app/shared/enum/provider';
-import { PayRateType } from 'src/app/shared/enum/workshop';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { WorkshopTypeUkr } from '../../../../../shared/enum/enumUA/provider';
+import { PayRateTypeUkr } from '../../../../../shared/enum/enumUA/workshop';
+import { WorkshopType, OwnershipTypeName, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
+import { PayRateType } from '../../../../../shared/enum/workshop';
+import { Provider } from '../../../../../shared/models/provider.model';
+import { Workshop } from '../../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-about-form',

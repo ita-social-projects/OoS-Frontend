@@ -2,11 +2,11 @@ import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, 
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { CropperConfigurationConstants } from '../../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { Provider } from '../../../../../shared/models/provider.model';
+import { Workshop, WorkshopSectionItem } from '../../../../../shared/models/workshop.model';
+
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',

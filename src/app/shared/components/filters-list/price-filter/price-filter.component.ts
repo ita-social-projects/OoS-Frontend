@@ -4,8 +4,8 @@ import { FormControl, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from 'src/app/shared/store/filter.actions';
+import { ValidationConstants } from '../../../constants/validation';
+import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from '../../../store/filter.actions';
 
 @Component({
   selector: 'app-price-filter',

@@ -1,32 +1,29 @@
 import { ActivatedRoute, Params } from '@angular/router';
-import { AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { AdminTabsTitle } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
-import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
-import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
+import { AdminTabsTitle, AdminTabsUkr } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { Location } from '@angular/common';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Observable } from 'rxjs';
-import { UpdatePlatformInfo } from 'src/app/shared/store/admin.actions';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { CompanyInformationSectionItem } from 'src/app/shared/models/сompanyInformation.model';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import {
+  CompanyInformation,
+  CompanyInformationSectionItem,
+} from '../../../../../shared/models/сompanyInformation.model';
+import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
+import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';
+import { AdminState } from '../../../../../shared/store/admin.state';
+import { AddNavPath } from '../../../../../shared/store/navigation.actions';
+import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-info-edit',
   templateUrl: './info-edit.component.html',
   styleUrls: ['./info-edit.component.scss'],
 })
-export class InfoEditComponent
-  extends CreateFormComponent
-  implements OnInit, OnDestroy
-{
+export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
 
   @Select(AdminState.AboutPortal)
@@ -117,7 +114,10 @@ export class InfoEditComponent
     });
 
     if (platformInfoItem) {
-      this.platformInfoEditFormGroup.addControl('companyInformationId', this.fb.control(platformInfoItem.companyInformationId));
+      this.platformInfoEditFormGroup.addControl(
+        'companyInformationId',
+        this.fb.control(platformInfoItem.companyInformationId)
+      );
       this.platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
     }
 

@@ -1,5 +1,5 @@
-import { Teacher } from 'src/app/shared/models/teacher.model';
 import { Child } from './child.model';
+import { Teacher } from './teacher.model';
 
 export class Achievement {
   id: string;

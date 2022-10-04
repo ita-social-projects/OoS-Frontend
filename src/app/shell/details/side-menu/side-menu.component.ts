@@ -1,8 +1,8 @@
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { Role } from 'src/app/shared/enum/role';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Address } from 'src/app/shared/models/address.model';
+import { Role } from '../../../shared/enum/role';
+import { Address } from '../../../shared/models/address.model';
+import { Provider } from '../../../shared/models/provider.model';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',

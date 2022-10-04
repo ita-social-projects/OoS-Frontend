@@ -3,12 +3,12 @@ import { SideMenuComponent } from './side-menu.component';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Store } from '@ngxs/store';
-import { User } from 'src/app/shared/models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { Address } from 'src/app/shared/models/address.model';
 import { of } from 'rxjs';
+import { User } from '../../../shared/models/user.model';
+import { Address } from '../../../shared/models/address.model';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;

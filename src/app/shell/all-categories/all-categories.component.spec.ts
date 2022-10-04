@@ -1,9 +1,8 @@
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Direction } from 'src/app/shared/models/category.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-
+import { Direction } from '../../shared/models/category.model';
+import { PaginationElement } from '../../shared/models/paginationElement.model';
 import { AllCategoriesComponent } from './all-categories.component';
 
 describe('AllCategoriesComponent', () => {

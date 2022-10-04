@@ -1,5 +1,4 @@
 import { Observable } from 'rxjs/internal/Observable';
-import { Parent } from 'src/app/shared/models/parent.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -7,9 +6,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { NgxsModule, Store } from '@ngxs/store';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { of } from 'rxjs';
+import { NoResultCardComponent } from '../../../shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from '../../../shared/models/paginationElement.model';
+import { Parent } from '../../../shared/models/parent.model';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;

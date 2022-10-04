@@ -1,4 +1,3 @@
-import { ProviderState } from 'src/app/shared/store/provider.state';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -9,7 +8,8 @@ import { Application } from '../../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../../shared/models/block.model';
 import { Provider } from '../../../../../../shared/models/provider.model';
 import { RegistrationState } from '../../../../../../shared/store/registration.state';
-import { GetBlockedParents, OnClearBlockedParents } from 'src/app/shared/store/provider.actions';
+import { ProviderState } from '../../../../../../shared/store/provider.state';
+import { GetBlockedParents, OnClearBlockedParents } from '../../../../../../shared/store/provider.actions';
 
 @Component({
   selector: 'app-info-status',

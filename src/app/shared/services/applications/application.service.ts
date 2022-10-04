@@ -1,8 +1,7 @@
 import { ApplicationStatus } from './../../enum/applications';
-import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
+import { Application, ApplicationCards, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';

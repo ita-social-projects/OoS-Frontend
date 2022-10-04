@@ -6,11 +6,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { ImageCarouselComponent } from 'src/app/shared/components/image-carousel/image-carousel.component';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-
+import { ImageCarouselComponent } from '../../../shared/components/image-carousel/image-carousel.component';
+import { Provider } from '../../../shared/models/provider.model';
+import { Workshop } from '../../../shared/models/workshop.model';
 import { ProviderDetailsComponent } from './provider-details.component';
 
 describe('ProviderDetailsComponent', () => {

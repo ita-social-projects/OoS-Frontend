@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import * as signalR from '@microsoft/signalr';
 import { Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { GetAmountOfNewUsersNotifications } from '../../store/notifications.actions';
 
 

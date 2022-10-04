@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ApplicationStatus, ApplicationIcons } from 'src/app/shared/enum/applications';
-import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications';
-import { Role } from 'src/app/shared/enum/role';
-import { Application } from 'src/app/shared/models/application.model';
-import { Util } from 'src/app/shared/utils/utils';
-import { BlockedParent } from 'src/app/shared/models/block.model';
+import { Constants } from '../../../../../shared/constants/constants';
+import { ApplicationStatus, ApplicationIcons } from '../../../../../shared/enum/applications';
+import { ApplicationTitles, ApplicationStatusDescription } from '../../../../../shared/enum/enumUA/applications';
+import { Role } from '../../../../../shared/enum/role';
+import { Application } from '../../../../../shared/models/application.model';
+import { BlockedParent } from '../../../../../shared/models/block.model';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-application-card',

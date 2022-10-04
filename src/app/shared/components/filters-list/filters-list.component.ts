@@ -1,5 +1,3 @@
-import { NavigationState } from 'src/app/shared/store/navigation.state';
-import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
@@ -9,6 +7,9 @@ import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } f
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
 import { Direction } from '../../models/category.model';
+import { SetWithDisabilityOption } from './../../store/filter.actions';
+import { NavigationState } from '../../store/navigation.state';
+
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',

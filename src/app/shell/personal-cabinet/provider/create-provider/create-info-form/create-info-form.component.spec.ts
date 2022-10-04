@@ -8,11 +8,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
-import { KeyFilterDirective } from 'src/app/shared/directives/key-filter.directive';
 import { NgxsModule } from '@ngxs/store';
-import { ImageFormControlComponent } from 'src/app/shared/components/image-form-control/image-form-control.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
+import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
+import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;

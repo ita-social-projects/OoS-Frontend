@@ -1,22 +1,21 @@
-import { PersonalInfoRole } from './../../../../../shared/enum/role';
-import { Util } from 'src/app/shared/utils/utils';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { Role } from 'src/app/shared/enum/role';
+import { PersonalInfoRole, Role } from './../../../../../shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/shared/models/user.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Constants } from 'src/app/shared/constants/constants';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { ActivatedRoute } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { UpdateUser } from 'src/app/shared/store/registration.actions';
+import { Constants } from '../../../../../shared/constants/constants';
+import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { User } from '../../../../../shared/models/user.model';
+import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath, DeleteNavPath } from '../../../../../shared/store/navigation.actions';
+import { UpdateUser } from '../../../../../shared/store/registration.actions';
+import { RegistrationState } from '../../../../../shared/store/registration.state';
+import { CreateFormComponent } from '../../create-form/create-form.component';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-user-config-edit',

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Util } from 'src/app/shared/utils/utils';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../../../environments/environment';
+import { Constants } from '../../../../../shared/constants/constants';
+import { Teacher } from '../../../../../shared/models/teacher.model';
+import { Util } from '../../../../../shared/utils/utils';
 
 
 @Component({

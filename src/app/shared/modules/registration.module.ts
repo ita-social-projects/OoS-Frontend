@@ -1,10 +1,9 @@
-import { APP_INITIALIZER } from '@angular/core';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AbstractSecurityStorage, AuthModule, LogLevel } from 'angular-auth-oidc-client';
 import { HttpClientModule } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { LocalSessionManagerService } from '../services/local-session-manager/local-session-manager.service';
+import { environment } from '../../../environments/environment';
 
 @NgModule({
   declarations: [

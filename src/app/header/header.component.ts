@@ -1,4 +1,3 @@
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
@@ -15,6 +14,7 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
 import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
+import { MetaDataState } from '../shared/store/meta-data.state';
 
 @Component({
   selector: 'app-header',

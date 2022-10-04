@@ -1,5 +1,4 @@
-import { Role } from 'src/app/shared/enum/role';
-import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
@@ -9,20 +8,20 @@ import {
 } from '../../../../shared/models/application.model';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
-import { Child } from 'src/app/shared/models/child.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { ApplicationStatus } from '../../../../shared/enum/applications';
+import { ApplicationTitles, ApplicationTitlesReverse } from '../../../../shared/enum/enumUA/applications';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Role } from '../../../../shared/enum/role';
+import { Child } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { OnPageChangeApplications, SetApplicationsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-applications',

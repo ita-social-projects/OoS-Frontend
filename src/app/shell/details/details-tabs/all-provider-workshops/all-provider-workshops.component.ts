@@ -2,10 +2,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Role } from 'src/app/shared/enum/role';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Role } from '../../../../shared/enum/role';
+import { Workshop, WorkshopCard } from '../../../../shared/models/workshop.model';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-all-provider-workshops',

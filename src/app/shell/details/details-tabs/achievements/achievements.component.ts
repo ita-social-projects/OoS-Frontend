@@ -1,20 +1,20 @@
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Achievement, AchievementType } from 'src/app/shared/models/achievement.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { GetAchievementsType } from 'src/app/shared/store/meta-data.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { ProviderState } from 'src/app/shared/store/provider.state';
-import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'src/app/shared/store/provider.actions';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Achievement, AchievementType } from '../../../../shared/models/achievement.model';
+import { Provider } from '../../../../shared/models/provider.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { GetAchievementsType } from '../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { GetAchievementsByWorkshopId, DeleteAchievementById } from '../../../../shared/store/provider.actions';
+import { ProviderState } from '../../../../shared/store/provider.state';
+import { RegistrationState } from '../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-achievements',
