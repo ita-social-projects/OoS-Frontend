@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
 import { FeaturesList } from '../../../models/featuresList.model';
 import { MetaDataState } from '../../../store/meta-data.state';
-import { TruncatedItem } from 'src/app/shared/models/truncated.model';
+import { TruncatedItem } from '../../../models/truncated.model';
 
 @Injectable({
   providedIn: 'root',

@@ -18,7 +18,6 @@ import { AddNavPath } from '../../../shared/store/navigation.actions';
 import { OnCreateRatingSuccess } from '../../../shared/store/parent.actions';
 import { ResetAchievements } from '../../../shared/store/provider.actions';
 import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
-e_file_a14356;
 
 @Component({
   selector: 'app-workshop-details',
