@@ -5,7 +5,7 @@ import {TypeChange} from '../../../../../shared/enum/enumUA/tech-admin/history-l
 import {ApplicationTitles} from '../../../../../shared/enum/enumUA/applications';
 import {Util} from '../../../../../shared/utils/utils';
 import {ProviderHistory} from '../../../../../shared/models/history-log.model';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants } from '../../../../../shared/constants/constants';
 
 @Component({
   selector: 'app-history-log-table',

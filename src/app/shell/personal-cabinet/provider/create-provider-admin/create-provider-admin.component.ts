@@ -1,4 +1,3 @@
-import { ProviderState } from 'src/app/shared/store/provider.state';
 import {
   GetAllProviderAdmins,
   GetWorkshopListByProviderId,
@@ -30,6 +29,7 @@ import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Util } from '../../../../shared/utils/utils';
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { ProviderState } from '../../../../shared/store/provider.state';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
