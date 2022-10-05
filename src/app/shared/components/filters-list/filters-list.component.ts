@@ -1,3 +1,4 @@
+import { WorkshopOpenStatus } from './../../enum/workshop';
 import { NavigationState } from 'src/app/shared/store/navigation.state';
 import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
@@ -9,6 +10,7 @@ import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } f
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
 import { Direction } from '../../models/category.model';
+import { FilterList } from '../../models/filterList.model';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
@@ -16,26 +18,8 @@ import { Direction } from '../../models/category.model';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<any>;
-  filterList: {
-    withDisabilityOption: boolean;
-    categoryCheckBox: Direction[],
-    ageFilter: { minAge: number, maxAge: number, IsAppropriateAge: boolean },
-    priceFilter: {
-      minPrice: number,
-      maxPrice: number,
-      isFree: boolean,
-      isPaid: boolean
-    },
-    workingHours: {
-      workingDays: string[],
-      startTime: string,
-      endTime: string,
-      isStrictWorkdays: boolean
-      isAppropriateHours: boolean
-    },
-    order: string
-  };
+  filterList$: Observable<FilterList>;
+  filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
   filtersSidenavOpenTrue$: Observable<boolean>;
@@ -47,6 +31,8 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
+  statuses: WorkshopOpenStatus[];
+  readonly workhopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 
@@ -56,20 +42,37 @@ export class FiltersListComponent implements OnInit, OnDestroy {
     .subscribe(([visibleFiltersSidenav, filterList]) => {
       this.visibleFiltersSidenav = visibleFiltersSidenav;
       this.filterList = filterList;
+      this.statuses = filterList.statuses;
       this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
     });
 
     this.OpenRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.store.dispatch(new SetOpenRecruitment(val)));
+      .subscribe((val: boolean) => {
+        this.statusHandler(val, this.workhopStatus.Open)
+        this.store.dispatch(new SetOpenRecruitment(this.statuses))
+      });
 
     this.ClosedRecruitmentControl.valueChanges
       .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => this.store.dispatch(new SetClosedRecruitment(val)));
-
+      .subscribe((val: boolean) => {
+        this.statusHandler(val, this.workhopStatus.Closed)
+        this.store.dispatch(new SetClosedRecruitment(this.statuses))
+      });
+      
     this.WithDisabilityOptionControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
+  }
+
+   /**
+   * When the user selects filters (OpenRecruitment or ClosedRecruitment), 
+   * we add the status to the array or remove the status from the array.
+   */
+  statusHandler(val: boolean, status: string): void {
+    val ?  
+    this.statuses.push(this.workhopStatus[status]) : 
+    this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1); 
   }
 
   changeView(): void {

@@ -70,6 +70,8 @@
 
   &_logo-wrapper {
     position: relative;
+    display: block;
+    width: 215px;
 
     .logo {
       position: absolute;
@@ -79,7 +81,7 @@
   }
 
   &_btns {
-    gap: 40px
+    gap: 2rem
   }
 
   &_login {
@@ -247,7 +249,13 @@
 
 @media (max-width : 1200px) {
   .header_btns {
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
+  }
+  .header {
+    padding: 1.5rem 2rem;
+    &_btns {
+      gap: 0;
+    }
   }
 }
 

@@ -59,8 +59,8 @@ export class DirectionsService {
     return this.http.put<Direction>('/api/v1/Direction/Update', direction);
   }
 
-  deleteDirection(id: number): Observable<object> {
-    return this.http.delete(`/api/v1/Direction/Delete/${id}`);
+  deleteDirection(id: number): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Direction/Delete/${id}`);
   }
 
   getDirectionById(id: number): Observable<Direction> {

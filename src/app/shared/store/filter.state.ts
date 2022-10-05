@@ -3,9 +3,11 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
+import { FilterList } from '../models/filterList.model';
 import { WorkshopFilterCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
@@ -50,8 +52,7 @@ import {
     isPaid: false,
     maxPrice: ValidationConstants.MAX_PRICE,
     minPrice: ValidationConstants.MIN_PRICE,
-    isOpenRecruitment: false,
-    isClosedRecruitment: false,
+    statuses: [],
     settlement: null,
     searchQuery: '',
     order: 'Rating',
@@ -106,25 +107,7 @@ export class FilterState {
   }
 
   @Selector()
-  static filterList(state: FilterStateModel): {
-    withDisabilityOption: boolean;
-    categoryCheckBox: Direction[];
-    ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
-    priceFilter: {
-      minPrice: number;
-      maxPrice: number;
-      isFree: boolean;
-      isPaid: boolean;
-    };
-    workingHours: {
-      workingDays: string[];
-      startTime: string;
-      endTime: string;
-      isStrictWorkdays: boolean;
-      isAppropriateHours: boolean;
-    };
-    order: string;
-  } {
+  static filterList(state: FilterStateModel): FilterList{
     const {
       withDisabilityOption,
       isStrictWorkdays,
@@ -140,10 +123,12 @@ export class FilterState {
       workingDays,
       startTime,
       endTime,
+      statuses,
       order,
     } = state;
     return {
       withDisabilityOption,
+      statuses,
       categoryCheckBox: directions,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
@@ -243,18 +228,18 @@ export class FilterState {
 
   @Action(SetOpenRecruitment)
   setOpenRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
-    patchState({ isOpenRecruitment: payload });
+    patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetClosedRecruitment)
   setClosedRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
-    patchState({ isClosedRecruitment: payload });
+    patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<any> {
+  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<WorkshopFilterCard> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
@@ -330,8 +315,7 @@ export class FilterState {
       isPaid: false,
       maxPrice: ValidationConstants.MAX_PRICE,
       minPrice: ValidationConstants.MIN_PRICE,
-      isOpenRecruitment: false,
-      isClosedRecruitment: false,
+      statuses: [],
       searchQuery: '',
       order: 'Rating',
       withDisabilityOption: false,

@@ -25,7 +25,7 @@ export class ImageCropperModalComponent {
     this.dialogRef.close(this.imageFile);
   }
 
-  fileChangeEvent(event: any): void {
+  fileChangeEvent(event: string): void {
     this.imageChangedEvent = event;
   }
 

@@ -4,6 +4,7 @@ import { Actions, ofAction } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MessageBarComponent } from '../shared/components/message-bar/message-bar.component';
+import { MessageBar } from '../shared/models/messageBar.model';
 import { ShowMessageBar } from '../shared/store/app.actions';
 
 @Component({
@@ -24,13 +25,13 @@ export class FooterComponent implements OnInit, OnDestroy {
       .subscribe((payload) => this.showSnackBar(payload.payload));
   }
 
-  showSnackBar({ message, type, info }): void {
+  showSnackBar(message: MessageBar): void {
     this.snackBar.openFromComponent(MessageBarComponent, {
       duration: 5000,
       verticalPosition: 'top',
       horizontalPosition: 'center',
-      panelClass: type,
-      data: { message, type, info },
+      panelClass: message.type,
+      data: message,
     });
   }
 

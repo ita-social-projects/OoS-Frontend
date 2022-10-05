@@ -93,7 +93,11 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', filters.order);
     }
 
-    if (filters.directions.length > 0) {
+    if (!!filters.statuses.length) {
+      filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
+    }
+
+    if (!!filters.directions.length) {
       filters.directions.forEach(
         (direction: Direction) => (params = params.append('DirectionIds', direction.id.toString()))
       );

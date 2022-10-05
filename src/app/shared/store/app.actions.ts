@@ -1,3 +1,5 @@
+import { MessageBar } from "../models/messageBar.model";
+
 export class ToggleLoading {
   static readonly type = '[app] toggle page loading';
   constructor(public payload: boolean) { }
@@ -12,7 +14,7 @@ export class ActivateEditMode {
 }
 export class ShowMessageBar {
   static readonly type = '[app] show message bar';
-  constructor(public payload: { message: string, type: string, info?: string }) { }
+  constructor(public payload: MessageBar) { }
 }
 
 export class ToggleMobileScreen {

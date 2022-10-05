@@ -7,7 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { LocalSessionManagerService } from '../services/local-session-manager/local-session-manager.service';
 
-export function configureAuth(oidcConfigService: OidcConfigService): any {
+export function configureAuth(oidcConfigService: OidcConfigService): () => void {
 
   return () => {
     oidcConfigService.withConfig({
