@@ -13,7 +13,6 @@ export class SideMenuComponent implements OnInit {
 
   @Input() provider: Provider;
   @Input() workshop: Workshop;
-
   @Input() role: string;
   @Input() isMobileScreen: boolean;
   @Input() displayActionCard: boolean;

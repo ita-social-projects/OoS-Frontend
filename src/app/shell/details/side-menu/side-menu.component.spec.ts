@@ -33,9 +33,6 @@ describe('SideMenuComponent', () => {
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
-    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({ role: '' } as User));
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
   });
