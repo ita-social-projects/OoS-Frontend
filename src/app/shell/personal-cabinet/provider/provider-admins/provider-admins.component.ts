@@ -67,11 +67,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method delete provider Admin By Id
    */
-  onDelete(user): void {
+  onDelete(user: ProviderAdminTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.deputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
         property: user.pib,
       },
     });
@@ -90,11 +90,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method block provider Admin By Id
    */
-  onBlock(user): void {
+  onBlock(user: ProviderAdminTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.deputy ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
+        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
         property: user.pib,
       },
     });
@@ -108,6 +108,13 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           })
         );
     });
+  }
+
+  /**
+   * This method update provider Admin By Id
+  */
+  onUpdate(user: ProviderAdminTable): void {
+    this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`])
   }
 
   protected addNavPath(): void {

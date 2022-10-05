@@ -4,24 +4,32 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, map } from 'rxjs/operators';
 import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  startWith,
-  takeUntil,
-  map,
-} from 'rxjs/operators';
-import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+  HistoryLogTabsUkr,
+  HistoryLogTabsUkrReverse,
+  TypeChange,
+  Tabs,
+} from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { ApplicationsHistory, DropdownData, FilterData, ProviderAdminsHistory, ProvidersHistory } from '../../../../shared/models/history-log.model';
-import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
+import {
+  ApplicationsHistory,
+  DropdownData,
+  FilterData,
+  ProviderAdminsHistory,
+  ProvidersHistory,
+} from '../../../../shared/models/history-log.model';
+import {
+  GetApplicationHistory,
+  GetProviderAdminHistory,
+  GetProviderHistory,
+} from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
-import { SetHistoryItemsPerPage, OnPageChangeHistoryLog } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-history-log',
@@ -44,9 +52,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   @Select(AdminState.applicationHistory)
   applicationHistory$: Observable<ApplicationsHistory>;
 
-  @Select(PaginatorState.historyItemsPerPage)
-  historyItemsPerPage$: Observable<number>;
-  historyItemsPerPage: number;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
+  itemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   provider: ProvidersHistory;
@@ -61,11 +69,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   filters: FilterData;
   readonly typeChange = TypeChange;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public store: Store
-  ) {}
+  constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
 
   ngOnInit(): void {
     this.dispatchProperValue(this.tabIndex);
@@ -100,12 +104,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.application = this.tableData;
       });
 
-    this.historyItemsPerPage$
+    this.itemsPerPage$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (historyItemsPerPage: number) =>
-          (this.historyItemsPerPage = historyItemsPerPage)
-      );
+      .subscribe((itemsPerPage: number) => (this.itemsPerPage = itemsPerPage));
 
     this.searchFormControl.valueChanges
       .pipe(
@@ -134,8 +135,8 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.historyItemsPerPage = itemsPerPage;
-    this.store.dispatch([new SetHistoryItemsPerPage(itemsPerPage)]);
+    this.itemsPerPage = itemsPerPage;
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage)]);
     this.dispatchProperValue(this.tabIndex);
   }
 

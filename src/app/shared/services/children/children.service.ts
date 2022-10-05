@@ -2,9 +2,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
+import { Child, ChildCards, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SocialGroup } from '../../models/socialGroup.model';
+import { TruncatedItem } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -37,7 +38,7 @@ export class ChildrenService {
       params = params.set('isParent', isParent.toString()); }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
+    const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString());
@@ -54,6 +55,10 @@ export class ChildrenService {
     const options = { params: this.setParams() };
 
     return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
+  }
+
+  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]>{
+    return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
   }
 
   /**
@@ -82,16 +87,16 @@ export class ChildrenService {
    * This method create Child
    * @param child: Child
    */
-  createChild(child: Child): Observable<object> {
-    return this.http.post('/api/v1/Child/Create', child);
+  createChild(child: Child): Observable<Child> {
+    return this.http.post<Child>('/api/v1/Child/Create', child);
   }
 
   /**
    * This method update Child
    * @param child: Child
    */
-  updateChild(child: Child): Observable<object> {
-    return this.http.put('/api/v1/Child/Update', child);
+  updateChild(child: Child): Observable<Child> {
+    return this.http.put<Child>('/api/v1/Child/Update', child);
   }
 
   /**
@@ -107,8 +112,8 @@ export class ChildrenService {
    * This method delete child by Child id
    * @param id: string
    */
-  deleteChild(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Child/Delete/${id}`);
+  deleteChild(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Child/Delete/${id}`);
   }
 
   /**

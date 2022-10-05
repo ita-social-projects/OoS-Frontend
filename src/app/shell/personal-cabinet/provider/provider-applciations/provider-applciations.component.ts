@@ -2,8 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { ReasonModalWindowComponent } from '../../shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
 import { Provider } from '../../../../shared/models/provider.model';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
@@ -16,11 +14,21 @@ import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmatio
 import { EntityType, Role } from '../../../../shared/enum/role';
 import { ApplicationParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../shared/models/block.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { BlockParent, UnBlockParent, GetProviderAdminWorkshops } from '../../../../shared/store/provider.actions';
+import {
+  BlockParent,
+  UnBlockParent,
+  GetProviderAdminWorkshops,
+  GetWorkshopListByProviderId,
+} from '../../../../shared/store/provider.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import { GetApplicationsByProviderId, UpdateApplication, GetWorkshopsByProviderId } from '../../../../shared/store/shared-user.actions';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import {
+  GetApplicationsByProviderId,
+  UpdateApplication,
+} from '../../../../shared/store/shared-user.actions';
+import { Observable } from 'rxjs';
+import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { ProviderState } from '../../../../shared/store/provider.state';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 
 @Component({
   selector: 'app-provider-applciations',
@@ -29,8 +37,8 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
-  @Select(SharedUserState.workshops)
-  workshops$: Observable<Workshop[]>;
+  @Select(ProviderState.truncated)
+  workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   providerId: string;
@@ -137,7 +145,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   private getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
-      this.store.dispatch(new GetWorkshopsByProviderId(this.providerId));
+      this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     } else {
       this.store.dispatch(new GetProviderAdminWorkshops());
     }

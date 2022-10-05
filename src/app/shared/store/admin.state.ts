@@ -78,7 +78,7 @@ export interface AdminStateModel {
   filteredDirections: DirectionsFilter;
   parents: Parent[];
   children: ChildCards;
-  providers: Provider[];
+  providers: Provider[];
   selectedMinistryAdmin: MinistryAdmin;
   ministryAdmins: AllMinistryAdmins;
   providerHistory: ProvidersHistory | [];
@@ -107,8 +107,6 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
-  adminStateModel: any;
-
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation {
     return state.aboutPortal;
   }
@@ -175,10 +173,10 @@ export class AdminState {
     private ministryAdminService: MinistryAdminService,
     private historyLogService: HistoryLogService,
     private location: Location
-  ) {}
+  ) { }
 
   @Action(GetPlatformInfo)
-  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {}: GetPlatformInfo): void {
+  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, { }: GetPlatformInfo): void {
     dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
   }
 
@@ -196,14 +194,15 @@ export class AdminState {
   getFilteredProvider(
     { patchState }: StateContext<AdminStateModel>,
     { payload }: GetFilteredProviders
-  ): Observable<object> {
+  ): Observable<Provider[]> {
     patchState({ isLoading: true });
     return this.providerService.getFilteredProviders(payload).pipe(
       tap((filteredProviders: Provider[]) => patchState({ providers: filteredProviders, isLoading: false }))
     );
   }
+
   @Action(GetAboutPortal)
-  getAboutPortal({ patchState }: StateContext<AdminStateModel>, {}: GetAboutPortal): Observable<CompanyInformation> {
+  getAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
       .getPlatformInfo(AdminTabsTitle.AboutPortal)
@@ -213,7 +212,6 @@ export class AdminState {
   @Action(GetSupportInformation)
   getSupportInformation(
     { patchState }: StateContext<AdminStateModel>,
-    {}: GetSupportInformation
   ): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
@@ -228,7 +226,6 @@ export class AdminState {
   @Action(GetLawsAndRegulations)
   getLawsAndRegulations(
     { patchState }: StateContext<AdminStateModel>,
-    {}: GetLawsAndRegulations
   ): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
@@ -244,9 +241,9 @@ export class AdminState {
   updatePlatformInfo(
     { dispatch }: StateContext<AdminStateModel>,
     { payload, type }: UpdatePlatformInfo
-  ): Observable<object> {
+  ): Observable<CompanyInformation | Observable<void>> {
     return this.platformService.updatePlatformInfo(payload, type).pipe(
-      tap(res => dispatch(new OnUpdatePlatformInfoSuccess(res, type))),
+      tap((res: CompanyInformation) => dispatch(new OnUpdatePlatformInfoSuccess(res, type))),
       catchError((error: Error) => of(dispatch(new OnUpdatePlatformInfoFail(error))))
     );
   }
@@ -260,7 +257,7 @@ export class AdminState {
   @Action(OnUpdatePlatformInfoSuccess)
   onUpdatePlatformInfoSuccess(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload, type }: OnUpdatePlatformInfoSuccess
+    { type }: OnUpdatePlatformInfoSuccess
   ): void {
     dispatch([
       new MarkFormDirty(false),
@@ -273,9 +270,9 @@ export class AdminState {
   deleteDirectionById(
     { dispatch }: StateContext<AdminStateModel>,
     { payload }: DeleteDirectionById
-  ): Observable<object> {
+  ): Observable<void | Observable<void>> {
     return this.categoriesService.deleteDirection(payload).pipe(
-      tap(res => dispatch(new OnDeleteDirectionSuccess(res))),
+      tap(() => dispatch(new OnDeleteDirectionSuccess())),
       catchError((error: Error) => of(dispatch(new OnDeleteDirectionFail(error))))
     );
   }
@@ -287,14 +284,14 @@ export class AdminState {
   }
 
   @Action(OnDeleteDirectionSuccess)
-  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionSuccess): void {
+  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>): void {
     dispatch([new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }), new GetFilteredDirections()]);
   }
 
   @Action(CreateDirection)
-  createDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<object> {
+  createDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<Observable<void> | Direction> {
     return this.categoriesService.createDirection(payload).pipe(
-      tap(res => dispatch(new OnCreateDirectionSuccess(res))),
+      tap((res: Direction) => dispatch(new OnCreateDirectionSuccess(res))),
       catchError((error: Error) => of(dispatch(new OnCreateDirectionFail(error))))
     );
   }
@@ -317,16 +314,18 @@ export class AdminState {
     patchState({ direction: payload });
     this.location.back();
   }
+
   @Action(UpdateDirection)
   updateDirection(
     { dispatch }: StateContext<AdminStateModel>,
     { payload }: UpdateDirection
   ): Observable<Direction | Observable<void>> {
     return this.categoriesService.updateDirection(payload).pipe(
-      tap(res => dispatch(new OnUpdateDirectionSuccess(res))),
+      tap((res: Direction) => dispatch(new OnUpdateDirectionSuccess(res))),
       catchError((error: Error) => of(dispatch(new OnUpdateDirectionFail(error))))
     );
   }
+
   @Action(OnUpdateDirectionFail)
   onUpdateDirectionfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
     throwError(payload);
@@ -357,7 +356,7 @@ export class AdminState {
   }
 
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<any> {
+  getFilteredDirections({ patchState, getState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<DirectionsFilter> {
     patchState({ isLoading: true });
     return this.categoriesService.getFilteredDirections(payload).pipe(
       tap(
@@ -373,7 +372,7 @@ export class AdminState {
   }
 
   @Action(GetParents)
-  getParents({ patchState }: StateContext<AdminStateModel>, {}: GetParents): Observable<Parent[]> {
+  getParents({ patchState }: StateContext<AdminStateModel>): Observable<Parent[]> {
     patchState({ isLoading: true });
     return this.parentService.getParents().pipe(
       tap((parents: Parent[]) => {
@@ -399,7 +398,7 @@ export class AdminState {
   GetProviderHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderHistory
-    ): Observable<ProvidersHistory> {
+  ): Observable<ProvidersHistory> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderHistory(payload, searchSting).pipe(
       tap((providers: ProvidersHistory) => {
@@ -412,7 +411,7 @@ export class AdminState {
   GetProviderAdminHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderAdminHistory
-    ): Observable<ProviderAdminsHistory> {
+  ): Observable<ProviderAdminsHistory> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
       tap((providerAdmin: ProviderAdminsHistory) => {
@@ -425,7 +424,7 @@ export class AdminState {
   GetApplicationHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetApplicationHistory
-    ): Observable<ApplicationsHistory> {
+  ): Observable<ApplicationsHistory> {
     patchState({ isLoading: true });
     return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
       tap((application: ApplicationsHistory) => {
@@ -435,21 +434,21 @@ export class AdminState {
   }
 
   @Action(GetMinistryAdminProfile)
-  getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>, {}: GetMinistryAdminProfile): Observable<MinistryAdmin>{
+  getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<MinistryAdmin> {
     patchState({ isLoading: true });
     return this.ministryAdminService
-    .getMinistryAdminProfile()
-    .pipe(
-      tap((selectedMinistryAdmin: MinistryAdmin) => patchState({ selectedMinistryAdmin: selectedMinistryAdmin, isLoading: false})));
+      .getMinistryAdminProfile()
+      .pipe(
+        tap((selectedMinistryAdmin: MinistryAdmin) => patchState({ selectedMinistryAdmin: selectedMinistryAdmin, isLoading: false })));
   }
 
   @Action(CreateMinistryAdmin)
   createMinistryAdmin(
     { dispatch }: StateContext<AdminState>,
     { payload }: CreateMinistryAdmin
-  ): Observable<object> {
+  ): Observable<MinistryAdmin | Observable<void>> {
     return this.ministryAdminService.createMinistryAdmin(payload).pipe(
-      tap((res: object) => dispatch(new OnCreateMinistryAdminSuccess(res))),
+      tap(() => dispatch(new OnCreateMinistryAdminSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateMinistryAdminFail(error))))
     );
   }
@@ -468,7 +467,6 @@ export class AdminState {
   @Action(OnCreateMinistryAdminSuccess)
   onCreateMinistryAdminSuccess(
     { dispatch }: StateContext<AdminState>,
-    { payload }: OnCreateMinistryAdminSuccess
   ): void {
     dispatch([
       new ShowMessageBar({
@@ -503,9 +501,9 @@ export class AdminState {
   }
 
   @Action(DeleteMinistryAdminById)
-  deleteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteMinistryAdminById): Observable<object> {
+  deleteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteMinistryAdminById): Observable<void | Observable<void>> {
     return this.ministryAdminService.deleteMinistryAdmin(payload).pipe(
-      tap((res: object) => dispatch(new OnDeleteMinistryAdminSuccess(res))),
+      tap(() => dispatch(new OnDeleteMinistryAdminSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteMinistryAdminFail(error))))
     );
   }
@@ -519,7 +517,6 @@ export class AdminState {
   @Action(OnDeleteMinistryAdminSuccess)
   onDeleteMinistryAdminSuccess(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnDeleteMinistryAdminSuccess
   ): void {
     dispatch([
       new ShowMessageBar({
@@ -534,9 +531,9 @@ export class AdminState {
   blockMinistryAdmin(
     { dispatch }: StateContext<AdminStateModel>,
     { payload }: BlockMinistryAdminById
-  ): Observable<object> {
+  ): Observable<void | Observable<void>> {
     return this.ministryAdminService.blockMinistryAdmin(payload).pipe(
-      tap((res: object) => dispatch(new OnBlockMinistryAdminSuccess(res))),
+      tap(() => dispatch(new OnBlockMinistryAdminSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockMinistryAdminFail(error))))
     );
   }
@@ -550,7 +547,6 @@ export class AdminState {
   @Action(OnBlockMinistryAdminSuccess)
   onBlockMinistryAdminSuccess(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnBlockMinistryAdminSuccess
   ): void {
     dispatch([
       new GetAllMinistryAdmins(),
@@ -565,9 +561,9 @@ export class AdminState {
   updateMinistryAdmin(
     { dispatch }: StateContext<AdminStateModel>,
     { payload }: UpdateMinistryAdmin,
-  ): Observable<object> {
+  ): Observable<MinistryAdmin | Observable<void>> {
     return this.ministryAdminService.updateMinistryAdmin(payload).pipe(
-      tap((res: object) => dispatch(new OnUpdateMinistryAdminSuccess(res))),
+      tap((res: MinistryAdmin) => dispatch(new OnUpdateMinistryAdminSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateMinistryAdminFail(error))))
     );
   }
@@ -586,8 +582,7 @@ export class AdminState {
 
   @Action(OnUpdateMinistryAdminSuccess)
   onUpdateMinistryAdminSuccess(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnUpdateMinistryAdminSuccess
+    { dispatch }: StateContext<AdminStateModel>
   ): void {
     dispatch([
       new MarkFormDirty(false),

@@ -16,14 +16,14 @@ export class MinistryAdminService {
     private store: Store,
   ) {}
 
-  private setParams( parameters?: MinistryAdminParameters ): HttpParams {
+  private setParams( parameters: MinistryAdminParameters = {searchString: '',}): HttpParams {
     let params = new HttpParams();
 
     if (parameters.searchString){
       params = params.set('SearchString', parameters.searchString);
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.adminsPerPage);
+    const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString());
@@ -71,22 +71,22 @@ export class MinistryAdminService {
    * This method delete Ministry Admin by id
    * @param ministryAdminId: string
    */
-  deleteMinistryAdmin(ministryAdminId: string): Observable<MinistryAdmin> {
+  deleteMinistryAdmin(ministryAdminId: string): Observable<void> {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
 
-    return this.http.delete<MinistryAdmin>(`/api/v1/MinistryAdmin/Delete`, { params });
+    return this.http.delete<void>(`/api/v1/MinistryAdmin/Delete`, { params });
   }
 
   /**
    * This method block Ministry Admin
    * @param ministryAdminId: string
    */
-  blockMinistryAdmin(ministryAdminId: string): Observable<MinistryAdmin> {
+  blockMinistryAdmin(ministryAdminId: string): Observable<void> {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
 
-    return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Block`, {}, { params });
+    return this.http.put<void>(`/api/v1/MinistryAdmin/Block`, {}, { params });
   }
 
   /**

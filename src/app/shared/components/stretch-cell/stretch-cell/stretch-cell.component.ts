@@ -10,7 +10,7 @@ export class StretchCellComponent {
 
   constructor(private cdr: ChangeDetectorRef, private renderer: Renderer2, private el: ElementRef) { }
 
-  insertNode(node: any){
+  insertNode(node: Node){
     this.renderer.insertBefore(this.el.nativeElement.childNodes[0], node, this.el.nativeElement.getElementsByClassName('resize-border')[0]);
     this.cdr.detectChanges();
   }

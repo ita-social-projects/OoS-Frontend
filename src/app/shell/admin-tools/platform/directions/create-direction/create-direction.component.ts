@@ -83,7 +83,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   }
 
   setEditMode(): void {
-    const directionId = this.route.snapshot.paramMap.get('param');
+    const directionId = +this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetDirectionById(directionId));
 
     this.direction$

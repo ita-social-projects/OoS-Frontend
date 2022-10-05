@@ -1,4 +1,4 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -19,6 +19,7 @@ import {
   DeleteChildById,
   DeleteFavoriteWorkshop,
   GetAllUsersChildren,
+  GetAllUsersChildrenByParentId,
   GetFavoriteWorkshops,
   GetFavoriteWorkshopsByUserId,
   GetReviewedApplications,
@@ -42,6 +43,9 @@ import {
 import { Location } from '@angular/common';
 import { RatingService } from '../services/rating/rating.service';
 import { Util } from '../utils/utils';
+import { TruncatedItem } from '../models/truncated.model';
+import { Rate } from '../models/rating';
+import { Application } from '../models/application.model';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -51,6 +55,7 @@ export interface ParentStateModel {
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
   children: ChildCards;
+  truncatedItems: TruncatedItem[];
   selectedChild: Child;
 }
 
@@ -64,6 +69,7 @@ export interface ParentStateModel {
     favoriteWorkshops: null,
     favoriteWorkshopsCard: null,
     children: null,
+    truncatedItems: null,
     selectedChild: null,
   },
 })
@@ -107,6 +113,11 @@ export class ParentState {
   @Selector()
   static children(state: ParentStateModel): ChildCards {
     return state.children;
+  }
+
+  @Selector()
+  static truncatedItems(state: ParentStateModel): TruncatedItem[] {
+    return state.truncatedItems;
   }
 
   constructor(
@@ -179,7 +190,7 @@ export class ParentState {
   createFavoriteWorkshop(
     { dispatch }: StateContext<ParentStateModel>,
     { payload }: CreateFavoriteWorkshop
-  ): Observable<object> {
+  ): Observable<Favorite> {
     return this.favoriteWorkshopsService.createFavoriteWorkshop(payload).pipe(
       debounceTime(2000),
       tap(() => dispatch(new GetFavoriteWorkshops()))
@@ -190,7 +201,7 @@ export class ParentState {
   deleteFavoriteWorkshop(
     { dispatch }: StateContext<ParentStateModel>,
     { payload }: DeleteFavoriteWorkshop
-  ): Observable<object> {
+  ): Observable<void> {
     return this.favoriteWorkshopsService.deleteFavoriteWorkshop(payload).pipe(
       debounceTime(2000),
       tap(() => dispatch(new GetFavoriteWorkshops()))
@@ -229,10 +240,18 @@ export class ParentState {
       .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
   }
 
+  @Action(GetAllUsersChildrenByParentId)
+  getAllUsersChildrenByParentId({ patchState }: StateContext<ParentStateModel>, { payload }: GetAllUsersChildrenByParentId): Observable<TruncatedItem[]> {
+    patchState({ isLoading: true });
+    return this.childrenService
+      .getUsersChildrenByParentId(payload)
+      .pipe(tap((trunckated: TruncatedItem[]) => patchState({ truncatedItems: trunckated, isLoading: false })));
+  }
+
   @Action(DeleteChildById)
-  deleteChildById({ dispatch }: StateContext<ParentStateModel>, { payload }: DeleteChildById): Observable<object> {
+  deleteChildById({ dispatch }: StateContext<ParentStateModel>, { payload }: DeleteChildById): Observable<void | Observable<void>>{
     return this.childrenService.deleteChild(payload).pipe(
-      tap(res => dispatch(new OnDeleteChildSuccess(res))),
+      tap(() => dispatch(new OnDeleteChildSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteChildFail(error))))
     );
   }
@@ -244,14 +263,14 @@ export class ParentState {
   }
 
   @Action(OnDeleteChildSuccess)
-  onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildSuccess): void {
+  onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>): void {
     dispatch([new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }), new GetUsersChildren()]);
   }
 
   @Action(UpdateChild)
-  updateChild({ dispatch }: StateContext<ParentStateModel>, { payload }: UpdateChild): Observable<object> {
+  updateChild({ dispatch }: StateContext<ParentStateModel>, { payload }: UpdateChild): Observable<Child | Observable<void>> {
     return this.childrenService.updateChild(payload).pipe(
-      tap(res => dispatch(new OnUpdateChildSuccess(res))),
+      tap((res: Child) => dispatch(new OnUpdateChildSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateChildFail(error))))
     );
   }
@@ -275,9 +294,9 @@ export class ParentState {
   }
 
   @Action(CreateChildren)
-  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<object> {
+  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Observable<void> | Child> {
     return this.childrenService.createChild(payload).pipe(
-      tap(res => dispatch(new OnCreateChildrenSuccess(res))),
+      tap((res: Child) => dispatch(new OnCreateChildrenSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
     );
   }
@@ -306,9 +325,9 @@ export class ParentState {
   }
 
   @Action(CreateRating)
-  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<object> {
+  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<Observable<void> | Rate> {
     return this.ratingService.createRate(payload).pipe(
-      tap(res => dispatch(new OnCreateRatingSuccess(res))),
+      tap((res: Rate) => dispatch(new OnCreateRatingSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
     );
   }
@@ -330,9 +349,9 @@ export class ParentState {
   }
 
   @Action(CreateApplication)
-  createApplication({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateApplication): Observable<object> {
+  createApplication({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateApplication): Observable<HttpResponse<Application> | Observable<void>> {
     return this.applicationService.createApplication(payload).pipe(
-      tap(res => dispatch(new OnCreateApplicationSuccess(res))),
+      tap((res: HttpResponse<Application>) => dispatch(new OnCreateApplicationSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
     );
   }

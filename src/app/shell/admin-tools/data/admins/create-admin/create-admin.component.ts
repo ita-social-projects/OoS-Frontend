@@ -1,4 +1,3 @@
-import { CreateMinistryAdmin, GetMinistryAdminById, UpdateMinistryAdmin } from './../../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -26,6 +25,7 @@ import { AddNavPath } from '../../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../../shared/store/registration.state';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Util } from '../../../../../shared/utils/utils';
+import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin } from '../../../../../shared/store/admin.actions';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,

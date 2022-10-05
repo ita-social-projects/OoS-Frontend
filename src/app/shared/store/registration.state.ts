@@ -150,7 +150,7 @@ export class RegistrationState {
 
   @Action(OnAuthFail)
   onAuthFail(): void {
-    this.snackBar.open('Упс! Перевірте з\'єднання', '', {
+    this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
       panelClass: ['red-snackbar'],
     });

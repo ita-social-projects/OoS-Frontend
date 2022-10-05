@@ -46,7 +46,7 @@ export class OnUpdatePlatformInfoSuccess {
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
-  constructor(public payload) {}
+  constructor(public payload: number) {}
 }
 export class OnDeleteDirectionFail {
   static readonly type = '[admin] delete Direction fail';
@@ -54,7 +54,7 @@ export class OnDeleteDirectionFail {
 }
 export class OnDeleteDirectionSuccess {
   static readonly type = '[admin] delete Direction success';
-  constructor(public payload) {}
+  constructor() {}
 }
 export class CreateDirection {
   static readonly type = '[admin] create Direction';
@@ -66,7 +66,7 @@ export class OnCreateDirectionFail {
 }
 export class OnCreateDirectionSuccess {
   static readonly type = '[admin] create Direction success';
-  constructor(public payload) {}
+  constructor(public payload: Direction) {}
 }
 export class UpdateDirection {
   static readonly type = '[admin] update Direction';
@@ -78,11 +78,11 @@ export class OnUpdateDirectionFail {
 }
 export class OnUpdateDirectionSuccess {
   static readonly type = '[admin] update Direction success';
-  constructor(public payload) {}
+  constructor(public payload: Direction) {}
 }
 export class GetDirectionById {
   static readonly type = '[admin] get Direction By Direction Id';
-  constructor(public payload) {}
+  constructor(public payload: number) {}
 }
 
 export class GetFilteredDirections {
@@ -132,7 +132,7 @@ export class OnCreateMinistryAdminFail {
 
 export class OnCreateMinistryAdminSuccess {
   static readonly type = '[admin] create Ministry Admin success';
-  constructor(public payload: object) { }
+  constructor() { }
 }
 
 export class GetAllMinistryAdmins {
@@ -152,7 +152,7 @@ export class DeleteMinistryAdminById {
 
 export class OnDeleteMinistryAdminSuccess {
   static readonly type = '[admin] delete Ministry Admin success';
-  constructor(public payload: object) { }
+  constructor() { }
 }
 
 export class OnDeleteMinistryAdminFail {
@@ -167,7 +167,7 @@ export class BlockMinistryAdminById {
 
 export class OnBlockMinistryAdminSuccess {
   static readonly type = '[admin] block Ministry Admin success';
-  constructor(public payload: object) { }
+  constructor() { }
 }
 
 export class OnBlockMinistryAdminFail {
@@ -187,6 +187,6 @@ export class OnUpdateMinistryAdminFail {
 
 export class OnUpdateMinistryAdminSuccess {
   static readonly type = '[admin] update Ministry Admin success';
-  constructor(public payload: object) { }
+  constructor(public payload: MinistryAdmin) { }
 }
 

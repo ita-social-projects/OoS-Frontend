@@ -1,3 +1,4 @@
+import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from './category.model';
 import { Codeficator } from './codeficator.model';
 import { WorkshopFilterCard } from './workshop.model';
@@ -14,8 +15,6 @@ export interface FilterStateModel {
   isPaid: boolean;
   maxPrice: number;
   minPrice: number;
-  isOpenRecruitment: boolean;
-  isClosedRecruitment: boolean;
   settlement: Codeficator;
   searchQuery: string;
   order: string;
@@ -25,4 +24,5 @@ export interface FilterStateModel {
   isAppropriateHours: boolean;
   isLoading: boolean;
   isConfirmCity: boolean;
+  statuses: WorkshopOpenStatus[];
 }

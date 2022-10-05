@@ -20,7 +20,7 @@ import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { UsersTable } from '../../../../shared/models/usersTable';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetAdminsPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 
@@ -39,8 +39,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ministryAdmins$: Observable<AllMinistryAdmins>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  @Select(PaginatorState.adminsPerPage)
-  adminsPerPage$: Observable<number>;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
 
   tabIndex: number;
   filterValue: string;
@@ -163,7 +163,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetAdminsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
   }
 
   ngOnDestroy(): void {

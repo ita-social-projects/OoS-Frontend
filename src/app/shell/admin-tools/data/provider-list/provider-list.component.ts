@@ -17,9 +17,8 @@ import { ProviderService } from '../../../../shared/services/provider/provider.s
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { OnPageChangeAdminTable, SetProvidersPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
-
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -35,8 +34,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Select(AdminState.providers)
   providers$: Observable<ProviderCards>;
-  @Select(PaginatorState.providersPerPage)
-  providersPerPage$: Observable<number>;
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -123,7 +122,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetProvidersPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
   }
 
   ngOnDestroy(): void {

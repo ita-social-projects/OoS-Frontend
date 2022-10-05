@@ -81,6 +81,11 @@ export class GetAllProviderAdmins {
   constructor() {}
 }
 
+export class GetWorkshopListByProviderId {
+  static readonly type = '[user] get Workshop List By Provider Id';
+  constructor(public payload: string) { }
+}
+
 export class CreateWorkshop {
   static readonly type = '[provider] create Workshop';
   constructor(public payload: Workshop) {}
@@ -199,6 +204,21 @@ export class OnDeleteProviderAdminSuccess {
 export class OnDeleteProviderAdminFail {
   static readonly type = '[provider] delete Provider Admin fail';
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class UpdateProviderAdmin {
+  static readonly type = '[provider] update Provider Admin';
+  constructor(public providerId: string, public providerAdmin: ProviderAdmin) { }
+}
+
+export class OnUpdateProviderAdminFail {
+  static readonly type = '[provider] update Provider Admin fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+
+export class OnUpdateProviderAdminSuccess {
+  static readonly type = '[provider] update Provider Admin success';
+  constructor(public payload: ProviderAdmin) { }
 }
 
 export class UpdateWorkshopStatus {

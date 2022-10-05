@@ -16,7 +16,7 @@ import { CategoryIcons } from '../../enum/category-icons';
 import { PayRateTypeUkr, RecruitmentStatusUkr } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
-import { WorkhopStatus } from '../../enum/workshop';
+import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
@@ -34,7 +34,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly PayRateTypeUkr = PayRateTypeUkr;
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  readonly workhopStatus = WorkhopStatus;
+  readonly workhopStatus = WorkshopOpenStatus;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
 

@@ -66,7 +66,7 @@ export class ProviderAdminService {
    * @param providerAdminId: string
    * @param providerId: string
    */
-   blockProviderAdmin(
+  blockProviderAdmin(
     providerAdminId: string,
     providerId: string
   ): Observable<object> {
@@ -75,5 +75,20 @@ export class ProviderAdminService {
     params = params.set('providerId', `${providerId}`);
 
     return this.http.put(`/api/v1/ProviderAdmin/Block`, {}, { params });
+  }
+
+  /**
+   * This method update Provider Admin
+   * @param providerId: string
+   * @param providerAdmin: ProviderAdmin
+  */
+  updateProviderAdmin(
+    providerId: string, 
+    providerAdmin: ProviderAdmin
+  ): Observable<ProviderAdmin> {
+    let params = new HttpParams();
+    params = params.set('providerId', `${providerId}`);
+
+    return this.http.put<ProviderAdmin>(`/api/v1/ProviderAdmin/Update`, providerAdmin, { params });  
   }
 }

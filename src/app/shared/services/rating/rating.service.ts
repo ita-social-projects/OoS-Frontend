@@ -44,8 +44,8 @@ export class RatingService {
    * This method create Rate
    * @param rate: Rate
    */
-  createRate(rate: Rate): Observable<object> {
-    return this.http.post('/api/v1/Rating/Create', rate);
+  createRate(rate: Rate): Observable<Rate> {
+    return this.http.post<Rate>('/api/v1/Rating/Create', rate);
   }
 
   /**

@@ -5,6 +5,7 @@ import {TypeChange} from '../../../../shared/enum/enumUA/tech-admin/history-log-
 import {ApplicationTitles} from '../../../../shared/enum/enumUA/applications';
 import {Util} from '../../../../shared/utils/utils';
 import {ProviderHistory} from '../../../../shared/models/history-log.model';
+import { Constants } from 'src/app/shared/constants/constants';
 
 @Component({
   selector: 'app-history-log-table',
@@ -15,6 +16,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
 
   readonly typeChange = TypeChange;
   readonly applicationTitles = ApplicationTitles;
+  readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
   public util = Util;
 
   @Input() table: Array<object>;

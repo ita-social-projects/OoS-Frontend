@@ -7,7 +7,7 @@ import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { RecruitmentStatusUkr } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
-import { WorkhopStatus } from '../../../shared/enum/workshop';
+import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
 import { ImgPath } from '../../../shared/models/carousel.model';
 import { Provider } from '../../../shared/models/provider.model';
 import { Workshop } from '../../../shared/models/workshop.model';
@@ -18,6 +18,7 @@ import { AddNavPath } from '../../../shared/store/navigation.actions';
 import { OnCreateRatingSuccess } from '../../../shared/store/parent.actions';
 import { ResetAchievements } from '../../../shared/store/provider.actions';
 import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
+e_file_a14356;
 
 @Component({
   selector: 'app-workshop-details',
@@ -27,7 +28,7 @@ import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../.
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
-  readonly workhopStatus = WorkhopStatus;
+  readonly workhopStatus = WorkshopOpenStatus;
 
   @Input() role: Role;
   @Input() workshop: Workshop;

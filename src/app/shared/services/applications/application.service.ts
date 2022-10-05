@@ -1,11 +1,12 @@
 import { ApplicationStatus } from './../../enum/applications';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application, ApplicationCards, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Application, ApplicationCards, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -67,10 +68,10 @@ export class ApplicationService {
 
   /**
    * This method create Application
-   * @param Workshop Workshop
+   * @param application Application
    */
-  createApplication(application: Application): Observable<object> {
-    return this.http.post('/api/v1/Application/Create', application, { observe: 'response' });
+  createApplication(application: Application): Observable<HttpResponse<Application>> {
+    return this.http.post<Application>('/api/v1/Application/Create', application, { observe: 'response' });
   }
 
   /**
@@ -112,7 +113,7 @@ export class ApplicationService {
     return this.http.get<boolean>(`/api/v1/Application/AllowedToReview`, {
       params: {
         parentId,
-        workshopId
+        workshopId,
       },
     });
   }
@@ -125,7 +126,7 @@ export class ApplicationService {
     return this.http.get<boolean>(`/api/v1/Rating/IsReviewed`, {
       params: {
         parentId,
-        workshopId
+        workshopId,
       },
     });
   }
