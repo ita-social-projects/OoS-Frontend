@@ -115,10 +115,8 @@ export class RegistrationState {
   @Action(Login)
   Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
     const configIdOrNull = null;
-    this.oidcSecurityService.authorize(
-      configIdOrNull,
-      {
-        customParams: {
+    this.oidcSecurityService.authorize(configIdOrNull, {
+      customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
         ProviderRegistration: payload,
@@ -134,15 +132,16 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe((auth) => {
+    this.oidcSecurityService.checkAuth().subscribe(auth => {
       patchState({ isAuthorized: auth.isAuthenticated });
-      if (auth) {
-        const token = this.oidcSecurityService.getAccessToken().subscribe((value: string) => jwt_decode(value));
-        const subrole = token['subrole'];
-        const role = token['role'];
-        patchState({ subrole, role });
-
-        dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
+      if (auth.isAuthenticated) {
+        this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
+          const token = jwt_decode(value);
+          const subrole = token['subrole'];
+          const role = token['role'];
+          patchState({ subrole, role });
+          dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
+        });
       } else {
         patchState({ role: Role.unauthorized, isAutorizationLoading: false });
       }

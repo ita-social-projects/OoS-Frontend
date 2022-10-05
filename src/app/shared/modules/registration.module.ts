@@ -24,7 +24,7 @@ import { environment } from '../../../environments/environment';
         scope: 'openid outofschoolapi.read offline_access',
         logLevel: LogLevel.Error,
         // @ts-ignore: Object is possibly 'null'
-        secureRoutes: [this.authority],
+        secureRoutes: [environment.stsServer],
       }, }),
     HttpClientModule
   ],

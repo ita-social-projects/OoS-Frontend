@@ -17,6 +17,7 @@ import { CreateAchievementComponent } from './create-achievement.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { Workshop } from '../../../../shared/models/workshop.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;
@@ -39,6 +40,7 @@ describe('CreateAchievementComponent', () => {
         MatNativeDateModule,
         MatChipsModule,
         MatIconModule,
+        MatDialogModule,
       ],
       declarations: [
         CreateAchievementComponent,

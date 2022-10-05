@@ -6,7 +6,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
 import { ParentComponent } from '../parent.component';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 
