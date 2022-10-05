@@ -16,14 +16,14 @@ export class MinistryAdminService {
     private store: Store,
   ) {}
 
-  private setParams( parameters?: MinistryAdminParameters ): HttpParams {
+  private setParams( parameters: MinistryAdminParameters = {searchString: '',}): HttpParams {
     let params = new HttpParams();
 
     if (parameters.searchString){
       params = params.set('SearchString', parameters.searchString);
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.adminsPerPage);
+    const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString());

@@ -38,7 +38,7 @@ export class ChildrenService {
       params = params.set('isParent', isParent.toString()); }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
+    const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString());
