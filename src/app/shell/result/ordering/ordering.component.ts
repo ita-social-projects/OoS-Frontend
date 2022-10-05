@@ -4,10 +4,11 @@ import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Ordering } from 'src/app/shared/enum/ordering';
-import { FilterList } from 'src/app/shared/models/filterList.model';
-import { SetOrder } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
+import { Ordering } from '../../../shared/enum/ordering';
+import { FilterList } from '../../../shared/models/filterList.model';
+import { SetOrder } from '../../../shared/store/filter.actions';
+import { FilterState } from '../../../shared/store/filter.state';
+
 
 @Component({
   selector: 'app-ordering',

@@ -1,10 +1,10 @@
-import { EntityType } from 'src/app/shared/enum/role';
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent } from '../models/block.model';
+import { EntityType } from '../enum/role';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';

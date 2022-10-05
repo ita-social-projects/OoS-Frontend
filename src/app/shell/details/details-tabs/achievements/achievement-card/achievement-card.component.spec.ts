@@ -5,9 +5,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Achievement } from 'src/app/shared/models/achievement.model';
 import { AchievementCardComponent } from './achievement-card.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Achievement } from '../../../../../shared/models/achievement.model';
 
 describe('AchievementCardComponent', () => {
   let component: AchievementCardComponent;

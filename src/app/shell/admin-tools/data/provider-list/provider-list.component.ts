@@ -1,26 +1,24 @@
-import { Provider, ProviderCards } from 'src/app/shared/models/provider.model';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { AdminState } from 'src/app/shared/store/admin.state';
-
-import { GetFilteredProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
-import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { FormControl } from '@angular/forms';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeAdminTable, SetItemsPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
-import { ApplicationIcons } from 'src/app/shared/enum/applications';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/enumUA/provider';
-
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
+import { ApplicationIcons } from '../../../../shared/enum/applications';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { Provider, ProviderCards } from '../../../../shared/models/provider.model';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { ProviderService } from '../../../../shared/services/provider/provider.service';
+import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -38,7 +36,6 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   providers$: Observable<ProviderCards>;
   @Select(PaginatorState.itemsPerPage)
   itemsPerPage$: Observable<number>;
-
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();

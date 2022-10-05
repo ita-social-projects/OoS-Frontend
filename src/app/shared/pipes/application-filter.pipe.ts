@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
 import { ApplicationStatus } from '../enum/applications';
 import { Application } from '../models/application.model';
 

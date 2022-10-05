@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { ValidationConstants } from '../../constants/validation';
 
 @Component({
   selector: 'app-info-form',

@@ -1,17 +1,16 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { Subject } from 'rxjs';
-import { EntityType, Role } from 'src/app/shared/enum/role';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { takeUntil } from 'rxjs/operators';
-import { ImgPath } from 'src/app/shared/models/carousel.model';
-import { ImagesService } from 'src/app/shared/services/images/images.service';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
-import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { Subject, takeUntil } from 'rxjs';
+import { NavBarName } from '../../../shared/enum/navigation-bar';
+import { Role, EntityType } from '../../../shared/enum/role';
+import { ImgPath } from '../../../shared/models/carousel.model';
+import { Provider } from '../../../shared/models/provider.model';
+import { ImagesService } from '../../../shared/services/images/images.service';
+import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
+import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
+import { AddNavPath } from '../../../shared/store/navigation.actions';
+import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-provider-details',

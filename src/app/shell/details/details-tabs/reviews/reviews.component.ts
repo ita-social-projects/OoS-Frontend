@@ -4,22 +4,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
-import { ReviewDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { EntityType, Role } from 'src/app/shared/enum/role';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { Rate } from 'src/app/shared/models/rating';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ClearRatings, GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { OnPageChangeRating, SetRatingPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateRating, GetReviewedApplications, GetStatusAllowedToReview, OnCreateRatingSuccess } from 'src/app/shared/store/parent.actions';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
+import { ReviewDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Role, EntityType } from '../../../../shared/enum/role';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { Parent } from '../../../../shared/models/parent.model';
+import { Rate } from '../../../../shared/models/rating';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { GetRateByEntityId, ClearRatings } from '../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { SetRatingPerPage, OnPageChangeRating } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { OnCreateRatingSuccess, GetReviewedApplications, GetStatusAllowedToReview, CreateRating } from '../../../../shared/store/parent.actions';
+import { RegistrationState } from '../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-reviews',

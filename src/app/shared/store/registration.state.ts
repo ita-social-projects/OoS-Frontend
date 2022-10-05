@@ -20,9 +20,7 @@ import { User } from '../models/user.model';
 import { ProviderService } from '../services/provider/provider.service';
 import { ParentService } from '../services/parent/parent.service';
 import { Parent } from '../models/parent.model';
-import { TechAdmin } from '../models/techAdmin.model';
 import { catchError, tap } from 'rxjs/operators';
-import { Provider } from '../models/provider.model';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
@@ -31,6 +29,8 @@ import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { SignalRService } from '../services/signalR/signal-r.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
+import { TechAdmin } from '../models/techAdmin.model';
+import { Provider } from '../models/provider.model';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -92,11 +92,6 @@ export class RegistrationState {
   }
 
   @Selector()
-  static techAdmin(state: RegistrationStateModel): TechAdmin {
-    return state.techAdmin;
-  }
-
-  @Selector()
   static role(state: RegistrationStateModel): Role | undefined {
     return state.role;
   }
@@ -119,7 +114,8 @@ export class RegistrationState {
 
   @Action(Login)
   Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
-    this.oidcSecurityService.authorize({
+    const configIdOrNull = null;
+    this.oidcSecurityService.authorize(configIdOrNull, {
       customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
@@ -136,15 +132,16 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe((auth: boolean) => {
-      patchState({ isAuthorized: auth });
-      if (auth) {
-        const token = jwt_decode(this.oidcSecurityService.getToken());
-        const subrole = token['subrole'];
-        const role = token['role'];
-        patchState({ subrole, role });
-
-        dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
+    this.oidcSecurityService.checkAuth().subscribe(auth => {
+      patchState({ isAuthorized: auth.isAuthenticated });
+      if (auth.isAuthenticated) {
+        this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
+          const token = jwt_decode(value);
+          const subrole = token['subrole'];
+          const role = token['role'];
+          patchState({ subrole, role });
+          dispatch(new GetUserPersonalInfo(PersonalInfoRole[role])).subscribe(() => dispatch(new CheckRegistration()));
+        });
       } else {
         patchState({ role: Role.unauthorized, isAutorizationLoading: false });
       }

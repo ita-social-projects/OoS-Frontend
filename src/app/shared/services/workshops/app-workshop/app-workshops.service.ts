@@ -2,15 +2,16 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Ordering } from 'src/app/shared/enum/ordering';
-import { Direction } from 'src/app/shared/models/category.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { Constants } from '../../../constants/constants';
+import { Ordering } from '../../../enum/ordering';
+import { Direction } from '../../../models/category.model';
+import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filter-state.model';
-import { Codeficator } from 'src/app/shared/models/codeficator.model';
+import { PaginationElement } from '../../../models/paginationElement.model';
 import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
+import { PaginatorState } from '../../../store/paginator.state';
+
 @Injectable({
   providedIn: 'root',
 })

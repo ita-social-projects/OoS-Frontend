@@ -1,4 +1,3 @@
-import { ParentState } from 'src/app/shared/store/parent.state.';
 import { ProviderWorkshopCard } from './../../models/workshop.model';
 import { OwnershipTypeName } from './../../enum/provider';
 import { Favorite } from './../../models/favorite.model';
@@ -21,6 +20,7 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
+import { ParentState } from '../../store/parent.state.';
 
 @Component({
   selector: 'app-workshop-card',

@@ -1,4 +1,3 @@
-import { Direction } from 'src/app/shared/models/category.model';
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Address } from './address.model';
 import { Provider } from './provider.model';

@@ -2,13 +2,13 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { Role } from 'src/app/shared/enum/role';
-import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
-import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
+import { NoResultsTitle } from '../../../shared/enum/no-results';
+import { Role } from '../../../shared/enum/role';
+import { PaginationElement } from '../../../shared/models/paginationElement.model';
+import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
+import { FilterState } from '../../../shared/store/filter.state';
+import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-workshop-cards-list',

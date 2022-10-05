@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Role } from 'src/app/shared/enum/role';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { ParentComponent } from '../parent.component';
 import { MatDialog } from '@angular/material/dialog';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
 import { takeUntil } from 'rxjs/operators';
-import { ParentState } from 'src/app/shared/store/parent.state.';
-import { DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId } from 'src/app/shared/store/parent.actions';
+import { Role } from '../../../../shared/enum/role';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { WorkshopCard } from '../../../../shared/models/workshop.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { OnPageChangeWorkshops } from '../../../../shared/store/paginator.actions';
+import { GetFavoriteWorkshopsByUserId, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
+import { ParentState } from '../../../../shared/store/parent.state.';
 
 @Component({
   selector: 'app-favorite-workshops',

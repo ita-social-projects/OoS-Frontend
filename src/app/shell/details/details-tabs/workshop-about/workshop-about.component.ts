@@ -1,9 +1,9 @@
 import { Component, Input } from '@angular/core';
-import { WorkingDaysValues } from 'src/app/shared/constants/constants';
-import { WorkingDays, WorkingDaysReverse } from 'src/app/shared/enum/enumUA/working-hours';
-import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { WorkingDaysToggleValue } from 'src/app/shared/models/workingHours.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { WorkingDaysValues } from '../../../../shared/constants/constants';
+import { WorkingDays, WorkingDaysReverse } from '../../../../shared/enum/enumUA/working-hours';
+import { PayRateTypeUkr } from '../../../../shared/enum/enumUA/workshop';
+import { WorkingDaysToggleValue } from '../../../../shared/models/workingHours.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-workshop-about',

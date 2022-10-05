@@ -1,27 +1,23 @@
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Actions, Store, ofActionCompleted } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { CategoryIcons } from 'src/app/shared/enum/category-icons';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { EntityType, Role } from 'src/app/shared/enum/role';
-import { ImgPath } from 'src/app/shared/models/carousel.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ImagesService } from 'src/app/shared/services/images/images.service';
-import { GetRateByEntityId } from 'src/app/shared/store/meta-data.actions';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import {
-  GetProviderById,
-  GetWorkshopById,
-  GetWorkshopsByProviderId,
-} from 'src/app/shared/store/shared-user.actions';
-import { RecruitmentStatusUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { WorkshopOpenStatus } from 'src/app/shared/enum/workshop';
-import { ResetAchievements } from 'src/app/shared/store/provider.actions';
-import { OnCreateRatingSuccess } from 'src/app/shared/store/parent.actions';
+import { CategoryIcons } from '../../../shared/enum/category-icons';
+import { RecruitmentStatusUkr } from '../../../shared/enum/enumUA/workshop';
+import { NavBarName } from '../../../shared/enum/navigation-bar';
+import { Role, EntityType } from '../../../shared/enum/role';
+import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
+import { ImgPath } from '../../../shared/models/carousel.model';
+import { Provider } from '../../../shared/models/provider.model';
+import { Workshop } from '../../../shared/models/workshop.model';
+import { ImagesService } from '../../../shared/services/images/images.service';
+import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
+import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
+import { AddNavPath } from '../../../shared/store/navigation.actions';
+import { OnCreateRatingSuccess } from '../../../shared/store/parent.actions';
+import { ResetAchievements } from '../../../shared/store/provider.actions';
+import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-workshop-details',

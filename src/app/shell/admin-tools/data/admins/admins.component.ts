@@ -1,29 +1,28 @@
-import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
+import { AllMinistryAdmins, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins, UpdateMinistryAdmin } from './../../../../shared/store/admin.actions';
+import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Subject, Observable } from 'rxjs';
-import { AdminRole } from 'src/app/shared/enum/admins';
-import { AdminRoleUkr, AdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/admins';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Role } from 'src/app/shared/enum/role';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { FormControl } from '@angular/forms';
-import { AllMinistryAdmins } from 'src/app/shared/models/ministryAdmin.model';
-import { Util } from 'src/app/shared/utils/utils';
-import { UsersTable } from 'src/app/shared/models/usersTable';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeAdminTable, SetItemsPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
+import { AdminRole } from '../../../../shared/enum/admins';
+import { AdminRoleUkr, AdminRoleUkrReverse } from '../../../../shared/enum/enumUA/admins';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Role } from '../../../../shared/enum/role';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { UsersTable } from '../../../../shared/models/usersTable';
+import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-admins',

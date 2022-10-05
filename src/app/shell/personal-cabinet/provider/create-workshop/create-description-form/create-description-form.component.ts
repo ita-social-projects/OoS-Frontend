@@ -1,14 +1,12 @@
-import { Institution } from './../../../../../shared/models/institution.model';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { WorkshopSectionItem } from 'src/app/shared/models/workshop.model';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { CropperConfigurationConstants } from '../../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { Provider } from '../../../../../shared/models/provider.model';
+import { Workshop, WorkshopSectionItem } from '../../../../../shared/models/workshop.model';
+
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
@@ -36,9 +34,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   @ViewChild('keyWordsInput') keyWordsInputElement: ElementRef;
 
   DescriptionFormGroup: FormGroup;
+  EditFormGroup: FormGroup;
   SectionItemsFormArray = new FormArray([]);
-
   keyWordsCtrl: FormControl = new FormControl('', Validators.required);
+
   keyWords: string[] = [];
   keyWord: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -155,7 +154,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup
    */
   private newForm(item?: WorkshopSectionItem): FormGroup {
-    const EditFormGroup = this.formBuilder.group({
+    this.EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
@@ -169,14 +168,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     });
 
     if (this.workshop) {
-      EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id));
+      this.EditFormGroup.addControl('workshopId', this.formBuilder.control(this.workshop.id));
     }
 
     if (item) {
-      EditFormGroup.patchValue(item, { emitEvent: false });
+      this.EditFormGroup.patchValue(item, { emitEvent: false });
     }
 
-    return EditFormGroup;
+    return this.EditFormGroup;
   }
 
   /**

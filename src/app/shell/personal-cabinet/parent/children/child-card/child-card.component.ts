@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Child } from '../../../../../shared/models/child.model';
-import { Util } from 'src/app/shared/utils/utils';
 import { Constants } from '../../../../../shared/constants/constants';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-child-card',

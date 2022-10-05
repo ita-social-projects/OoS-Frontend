@@ -5,7 +5,7 @@ import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateContactsFormComponent } from './create-contacts-form.component';
 import { NgxsModule } from '@ngxs/store';
-import { Address } from 'src/app/shared/models/address.model';
+import { Address } from '../../../../../shared/models/address.model';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;

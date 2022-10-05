@@ -8,7 +8,7 @@ import { NgxSliderModule } from '@angular-slider/ngx-slider';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
+import { MinMaxDirective } from '../../../directives/min-max.directive';
 
 
 describe('PriceFilterComponent', () => {
@@ -30,7 +30,8 @@ describe('PriceFilterComponent', () => {
       ],
       declarations: [
         PriceFilterComponent,
-        MinMaxDirective],
+        MinMaxDirective
+      ],
     })
       .compileComponents();
   });

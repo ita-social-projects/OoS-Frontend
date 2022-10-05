@@ -1,17 +1,16 @@
 import { takeUntil } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/shared-user.actions';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { AppState } from 'src/app/shared/store/app.state';
-import { EntityType, Role } from 'src/app/shared/enum/role';
+import { EntityType, Role } from '../../shared/enum/role';
+import { Workshop } from '../../shared/models/workshop.model';
+import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
+import { AppState } from '../../shared/store/app.state';
+import { DeleteNavPath } from '../../shared/store/navigation.actions';
+import { RegistrationState } from '../../shared/store/registration.state';
+import { ResetProviderWorkshopDetails, GetWorkshopById, GetProviderById } from '../../shared/store/shared-user.actions';
+import { SharedUserState } from '../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-details',

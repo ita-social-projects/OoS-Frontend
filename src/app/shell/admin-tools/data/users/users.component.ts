@@ -4,21 +4,21 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { UserTabs, UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Child, ChildCards, ChildrenParameters } from 'src/app/shared/models/child.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { UsersTable } from 'src/app/shared/models/usersTable';
-import { GetChildrenForAdmin } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetItemsPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { Util } from 'src/app/shared/utils/utils';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { ChildCards, ChildrenParameters } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { UsersTable } from '../../../../shared/models/usersTable';
+import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { Util } from '../../../../shared/utils/utils';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',

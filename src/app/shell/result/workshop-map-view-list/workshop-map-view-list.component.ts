@@ -13,12 +13,12 @@ import {
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Role } from 'src/app/shared/enum/role';
-import { Address } from 'src/app/shared/models/address.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
-import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
+import { Role } from '../../../shared/enum/role';
+import { Address } from '../../../shared/models/address.model';
+import { PaginationElement } from '../../../shared/models/paginationElement.model';
+import { WorkshopCard, WorkshopFilterCard } from '../../../shared/models/workshop.model';
+import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
+import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-workshop-map-view-list',

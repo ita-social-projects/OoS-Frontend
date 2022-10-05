@@ -1,12 +1,12 @@
 import { ApplicationStatus } from './../../enum/applications';
-import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Application, ApplicationCards, ApplicationUpdate } from '../../models/application.model';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { Application, ApplicationCards, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -113,7 +113,7 @@ export class ApplicationService {
     return this.http.get<boolean>(`/api/v1/Application/AllowedToReview`, {
       params: {
         parentId,
-        workshopId
+        workshopId,
       },
     });
   }
@@ -126,7 +126,7 @@ export class ApplicationService {
     return this.http.get<boolean>(`/api/v1/Rating/IsReviewed`, {
       params: {
         parentId,
-        workshopId
+        workshopId,
       },
     });
   }

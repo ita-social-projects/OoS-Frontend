@@ -1,13 +1,12 @@
 import { Component, EventEmitter, Input, Output, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Util } from 'src/app/shared/utils/utils';
-import { DATE_REGEX } from 'src/app/shared/constants/regex-constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { Child } from 'src/app/shared/models/child.model';
+import { Constants } from '../../../../../shared/constants/constants';
+import { DATE_REGEX } from '../../../../../shared/constants/regex-constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { SocialGroup } from '../../../../../shared/models/socialGroup.model';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-child-form',

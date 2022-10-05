@@ -1,7 +1,6 @@
 import { ParentWithContactInfo } from './parent.model';
 import { Person } from './user.model';
 import { SocialGroup } from './socialGroup.model';
-import { UserTabs, UserTabsUkr } from '../enum/enumUA/tech-admin/users-tabs';
 
 export class Child implements Person {
   id: string;

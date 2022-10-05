@@ -1,4 +1,5 @@
 import { TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { AdminToolsGuard } from './admin-tools.guard';
 
@@ -6,7 +7,9 @@ describe('AdminToolsGuard', () => {
   let guard: AdminToolsGuard;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot([])],
+    });
     guard = TestBed.inject(AdminToolsGuard);
   });
 

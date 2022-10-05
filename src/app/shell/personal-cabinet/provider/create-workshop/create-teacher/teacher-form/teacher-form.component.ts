@@ -1,9 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
-import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Util } from 'src/app/shared/utils/utils';
+import { Constants, CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../../../shared/constants/validation';
+import { Util } from '../../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-teacher-form',

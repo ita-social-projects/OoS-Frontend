@@ -1,8 +1,6 @@
 import { PlatformComponent } from './platform.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { MaterialModule } from 'src/app/shared/modules/material.module';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CreateDirectionComponent } from './directions/create-direction/create-direction.component';
@@ -13,6 +11,8 @@ import { SupportInfoComponent } from './platform-info/support-info.component';
 import { AboutInfoComponent } from './platform-info/about-info.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
 import { MainPageInfoComponent } from './main-page-info/main-page-info.component';
+import { SharedModule } from '../../../shared/shared.module';
+import { MaterialModule } from '../../../shared/modules/material.module';
 
 @NgModule({
   declarations: [

@@ -1,6 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationParameters } from 'src/app/shared/models/application.model';
-import { ApplicationUpdate } from '../models/application.model';
+import { ApplicationParameters, ApplicationUpdate } from '../models/application.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';

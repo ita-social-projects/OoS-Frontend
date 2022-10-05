@@ -2,9 +2,8 @@ import { AdminToolsComponent } from './admin-tools.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminToolsRoutingModule } from './admin-tools-routing.module';
-import { SharedModule } from 'src/app/shared/shared.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
-
+import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
   declarations: [

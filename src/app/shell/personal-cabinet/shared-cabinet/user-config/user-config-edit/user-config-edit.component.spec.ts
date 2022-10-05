@@ -7,11 +7,11 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { User } from 'src/app/shared/models/user.model';
 import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatRadioModule } from '@angular/material/radio';
+import { User } from '../../../../../shared/models/user.model';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;

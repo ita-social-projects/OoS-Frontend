@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Address } from 'src/app/shared/models/address.model';
+import { Constants } from '../../../../shared/constants/constants';
+import { Address } from '../../../../shared/models/address.model';
 
 @Component({
   selector: 'app-contacts',

@@ -4,12 +4,13 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Direction } from 'src/app/shared/models/category.model';
-import { AppState } from 'src/app/shared/store/app.state';
-import { SetDirections } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { Direction } from '../../../models/category.model';
+import { AppState } from '../../../store/app.state';
+import { SetDirections } from '../../../store/filter.actions';
+import { FilterState } from '../../../store/filter.state';
+import { GetDirections } from '../../../store/meta-data.actions';
+import { MetaDataState } from '../../../store/meta-data.state';
+
 
 @Component({
   selector: 'app-category-check-box',

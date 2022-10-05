@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ApplicationIcons, ApplicationStatus } from 'src/app/shared/enum/applications';
-import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications';
+import { ApplicationIcons, ApplicationStatus } from '../../enum/applications';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/applications';
 import { Application } from '../../models/application.model';
 @Component({
   selector: 'app-status-info-card',

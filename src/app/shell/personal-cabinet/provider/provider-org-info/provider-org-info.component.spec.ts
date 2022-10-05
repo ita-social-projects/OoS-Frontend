@@ -1,15 +1,14 @@
 import { MatDialogModule } from '@angular/material/dialog';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProviderOrgInfoComponent } from './provider-org-info.component';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
-import { Component, Input } from '@angular/core';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { Component, Input, Provider } from '@angular/core';
 import { ProviderComponent } from '../provider.component';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { PhoneTransformPipe } from '../../../../shared/pipes/phone-transform.pipe';
+import { ProviderOrgInfoComponent } from './provider-org-info.component';
 
 describe('ProviderOrgInfoComponent', () => {
   let component: ProviderOrgInfoComponent;

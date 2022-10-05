@@ -3,22 +3,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { tap, filter, takeUntil } from 'rxjs/operators';
-import { Provider } from 'src/app/shared/models/provider.model';
-import {
-  HierarchyElement,
-  InstituitionHierarchy,
-  Institution,
-  InstitutionFieldDescription,
-} from 'src/app/shared/models/institution.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import {
-  GetAllByInstitutionAndLevel,
-  GetAllInstitutions,
-  GetFieldDescriptionByInstitutionId,
-  GetInstitutionHierarchyChildrenById,
-  GetInstitutionHierarchyParentsById,
-  ResetInstitutionHierarchy,
-} from 'src/app/shared/store/meta-data.actions';
+import { Provider } from '../../models/provider.model';
+import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
+import { MetaDataState } from '../../store/meta-data.state';
+import { GetAllByInstitutionAndLevel, GetAllInstitutions, GetFieldDescriptionByInstitutionId, GetInstitutionHierarchyChildrenById, GetInstitutionHierarchyParentsById, ResetInstitutionHierarchy } from '../../store/meta-data.actions';
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',

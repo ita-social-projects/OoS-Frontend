@@ -2,10 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
 import { CabinetDataComponent } from '../shared-cabinet/cabinet-data.component';
 import { filter, takeUntil } from 'rxjs/operators';
+import { Parent } from '../../../shared/models/parent.model';
+import { RegistrationState } from '../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-parent',

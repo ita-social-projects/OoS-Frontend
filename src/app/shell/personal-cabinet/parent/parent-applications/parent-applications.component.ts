@@ -4,24 +4,23 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Application, ApplicationParameters, ApplicationUpdate } from 'src/app/shared/models/application.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { GetApplicationsByParentId, UpdateApplication } from 'src/app/shared/store/shared-user.actions';
-import { SharedUserState } from 'src/app/shared/store/shared-user.state';
+import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { ApplicationParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
+import { Parent } from '../../../../shared/models/parent.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import { UpdateApplication, GetApplicationsByParentId } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { GetAllUsersChildrenByParentId } from 'src/app/shared/store/parent.actions';
-import { TruncatedItem } from 'src/app/shared/models/truncated.model';
+import { ApplicationStatus } from '../../../../shared/enum/applications';
+import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 
 @Component({
   selector: 'app-parent-applications',
   templateUrl: './parent-applications.component.html',
 })
-export class ParentApplicationsComponent extends CabinetDataComponent  implements OnInit, OnDestroy {
+export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly ChildDeclination = ChildDeclination;
 
   @Select(RegistrationState.parent)
@@ -38,10 +37,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
     showBlocked: false,
   };
 
-  constructor(
-    protected store: Store,
-    protected matDialog: MatDialog,
-  ) {
+  constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
   }
 
@@ -91,6 +87,6 @@ export class ParentApplicationsComponent extends CabinetDataComponent  implement
   }
 
   private getParentChildren(isParent: boolean = false): void {
-    this.store.dispatch(new GetAllUsersChildrenByParentId({id: this.parent.id, isParent }));
+    this.store.dispatch(new GetAllUsersChildrenByParentId({ id: this.parent.id, isParent }));
   }
 }

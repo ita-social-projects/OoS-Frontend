@@ -2,14 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
-import { merge, Observable, Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { Address } from 'src/app/shared/models/address.model';
-import { Codeficator } from 'src/app/shared/models/codeficator.model';
-import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { Constants } from '../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../shared/constants/validation';
+import { Address } from '../../../../shared/models/address.model';
+import { Codeficator } from '../../../../shared/models/codeficator.model';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-address-form',

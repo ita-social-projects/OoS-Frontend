@@ -5,7 +5,7 @@ import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
+import { PhoneTransformPipe } from '../../../../shared/pipes/phone-transform.pipe';
 
 describe('UserConfigComponent', () => {
   let component: UserConfigComponent;

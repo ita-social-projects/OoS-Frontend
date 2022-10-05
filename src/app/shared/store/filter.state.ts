@@ -2,8 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { WorkshopOpenStatus } from '../enum/workshop';
+import { ValidationConstants } from '../constants/validation';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
@@ -66,11 +65,6 @@ import {
 })
 @Injectable()
 export class FilterState {
-  @Selector()
-  static filterState(state: FilterStateModel): FilterStateModel {
-    return state;
-  }
-
   @Selector()
   static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard {
     return state.filteredWorkshops;

@@ -5,9 +5,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-import { Achievement } from 'src/app/shared/models/achievement.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { Achievement } from '../../../../shared/models/achievement.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
 import { AchievementsComponent } from './achievements.component';
 
 describe('AchievementsComponent', () => {

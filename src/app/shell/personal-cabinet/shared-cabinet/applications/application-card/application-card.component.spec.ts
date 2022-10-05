@@ -5,15 +5,15 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { HttpClientModule } from '@angular/common/http';
 import { Component, Input, LOCALE_ID } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { StatusInfoCardComponent } from 'src/app/shared/components/status-info-card/status-info-card.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { InfoStatusComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/applications/application-card/info-status/info-status.component';
-import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
-import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
-import { Child } from 'src/app/shared/models/child.model';
+import { StatusInfoCardComponent } from '../../../../../shared/components/status-info-card/status-info-card.component';
+import { Child } from '../../../../../shared/models/child.model';
+import { JoinPipe } from '../../../../../shared/pipes/join.pipe';
+import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
+import { InfoStatusComponent } from './info-status/info-status.component';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;

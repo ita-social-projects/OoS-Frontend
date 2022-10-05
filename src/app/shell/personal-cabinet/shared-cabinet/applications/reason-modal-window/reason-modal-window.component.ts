@@ -1,9 +1,9 @@
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Component, Inject, Input, OnInit } from '@angular/core';
-import { Application } from 'src/app/shared/models/application.model';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType} from '../../../../../shared/enum/modal-confirmation';
+import { Application } from '../../../../../shared/models/application.model';
 
 @Component({
   selector: 'app-reason-modal-window',

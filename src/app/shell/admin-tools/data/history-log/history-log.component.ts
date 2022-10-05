@@ -1,30 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, map } from 'rxjs/operators';
 import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  startWith,
-  takeUntil,
-  map,
-} from 'rxjs/operators';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import {
-  OnPageChangeHistoryLog,
-  SetItemsPerPage,
-} from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+  HistoryLogTabsUkr,
+  HistoryLogTabsUkrReverse,
+  TypeChange,
+  Tabs,
+} from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { ApplicationsHistory, DropdownData, FilterData, ProviderAdminsHistory, ProvidersHistory } from '../../../../shared/models/history-log.model';
-import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
+import {
+  ApplicationsHistory,
+  DropdownData,
+  FilterData,
+  ProviderAdminsHistory,
+  ProvidersHistory,
+} from '../../../../shared/models/history-log.model';
+import {
+  GetApplicationHistory,
+  GetProviderAdminHistory,
+  GetProviderHistory,
+} from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { ApplicationOptions, ProviderAdminOptions, ProviderOptions } from 'src/app/shared/constants/drop-down';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
+import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-history-log',
@@ -64,11 +69,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   filters: FilterData;
   readonly typeChange = TypeChange;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    public store: Store
-  ) {}
+  constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
 
   ngOnInit(): void {
     this.dispatchProperValue(this.tabIndex);
@@ -105,10 +106,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
     this.itemsPerPage$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (itemsPerPage: number) =>
-          (this.itemsPerPage = itemsPerPage)
-      );
+      .subscribe((itemsPerPage: number) => (this.itemsPerPage = itemsPerPage));
 
     this.searchFormControl.valueChanges
       .pipe(

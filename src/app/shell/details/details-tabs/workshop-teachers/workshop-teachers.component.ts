@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Teacher } from 'src/app/shared/models/teacher.model';
+import { Component, Input } from '@angular/core';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Teacher } from '../../../../shared/models/teacher.model';
 
 @Component({
   selector: 'app-workshop-teachers',

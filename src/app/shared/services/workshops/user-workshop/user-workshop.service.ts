@@ -1,13 +1,12 @@
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { ProviderWorkshopCard } from './../../../models/workshop.model';
+import { ProviderWorkshopCard, WorkshopCard } from './../../../models/workshop.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
-import { TruncatedItem } from 'src/app/shared/models/truncated.model';
+import { FeaturesList } from '../../../models/featuresList.model';
+import { MetaDataState } from '../../../store/meta-data.state';
+import { TruncatedItem } from '../../../models/truncated.model';
 
 @Injectable({
   providedIn: 'root',
