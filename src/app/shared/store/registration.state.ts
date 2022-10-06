@@ -201,9 +201,9 @@ export class RegistrationState {
   }
 
   @Action(UpdateUser)
-  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { userRole, user }: UpdateUser): Observable<object> {
+  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { userRole, user }: UpdateUser): Observable<User | Observable<void>> {
     return this.userService.updatePersonalInfo(userRole, user).pipe(
-      tap((res: User) => dispatch(new OnUpdateUserSuccess(userRole))),
+      tap(() => dispatch(new OnUpdateUserSuccess(userRole))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
     );
   }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { ApplicationCards } from '../models/application.model';
+import { Application, ApplicationCards } from '../models/application.model';
 import { Provider } from '../models/provider.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -83,7 +83,7 @@ export class SharedUserState {
   getWorkshopById(
     { patchState, dispatch }: StateContext<SharedUserStateModel>,
     { payload }: GetWorkshopById
-  ): Observable<object> {
+  ): Observable<Workshop | Observable<void>> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopById(payload).pipe(
       tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
@@ -105,7 +105,7 @@ export class SharedUserState {
   getProviderById(
     { patchState, dispatch }: StateContext<SharedUserStateModel>,
     { payload }: GetProviderById
-  ): Observable<object> {
+  ): Observable<Provider | Observable<void>> {
     patchState({ isLoading: true });
     return this.providerService.getProviderById(payload).pipe(
       tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
@@ -176,9 +176,9 @@ export class SharedUserState {
   }
 
   @Action(UpdateApplication)
-  updateApplication({ dispatch }: StateContext<SharedUserStateModel>, { payload }: UpdateApplication): Observable<object> {
+  updateApplication({ dispatch }: StateContext<SharedUserStateModel>, { payload }: UpdateApplication): Observable<Application | Observable<void>> {
     return this.applicationService.updateApplication(payload).pipe(
-      tap(res => dispatch(new OnUpdateApplicationSuccess(res))),
+      tap((res: Application) => dispatch(new OnUpdateApplicationSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateApplicationFail(error))))
     );
   }

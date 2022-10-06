@@ -99,8 +99,8 @@ export class UserWorkshopService {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
   }
 
-  deleteWorkshop(id: string): Observable<object> {
-    return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
+  deleteWorkshop(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {
