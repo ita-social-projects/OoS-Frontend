@@ -7,6 +7,7 @@ export class Application {
   id: string;
   status: string;
   creationTime: Date;
+  approvedTime: Date;
   workshopId: string;
   childId: string;
   parentId: string;
