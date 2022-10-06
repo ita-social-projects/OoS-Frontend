@@ -183,7 +183,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     const resetValue = value => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
-      // tslint:disable-next-line:forin
+      // eslint-disable-next-line guard-for-in
       for (const value in ProviderWorkshopSameValues) {
         useProviderInfo ? setValue(value) : resetValue(value);
       }
