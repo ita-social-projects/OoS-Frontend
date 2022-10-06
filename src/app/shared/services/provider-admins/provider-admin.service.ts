@@ -41,8 +41,8 @@ export class ProviderAdminService {
    * This method create Provider Admin
    * @param providerAdmin: ProviderAdmin
    */
-  createProviderAdmin(providerAdmin: ProviderAdmin): Observable<object> {
-    return this.http.post('/api/v1/ProviderAdmin/Create', providerAdmin);
+  createProviderAdmin(providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
+    return this.http.post<ProviderAdmin>('/api/v1/ProviderAdmin/Create', providerAdmin);
   }
 
   /**
@@ -53,12 +53,12 @@ export class ProviderAdminService {
   deleteProviderAdmin(
     providerAdminId: string,
     providerId: string
-  ): Observable<object> {
+  ): Observable<void> {
     let params = new HttpParams();
     params = params.set('providerAdminId', `${providerAdminId}`);
     params = params.set('providerId', `${providerId}`);
 
-    return this.http.delete(`/api/v1/ProviderAdmin/Delete`, { params });
+    return this.http.delete<void>(`/api/v1/ProviderAdmin/Delete`, { params });
   }
 
   /**
@@ -69,12 +69,12 @@ export class ProviderAdminService {
   blockProviderAdmin(
     providerAdminId: string,
     providerId: string
-  ): Observable<object> {
+  ): Observable<void> {
     let params = new HttpParams();
     params = params.set('providerAdminId', `${providerAdminId}`);
     params = params.set('providerId', `${providerId}`);
 
-    return this.http.put(`/api/v1/ProviderAdmin/Block`, {}, { params });
+    return this.http.put<void>(`/api/v1/ProviderAdmin/Block`, {}, { params });
   }
 
   /**

@@ -270,7 +270,7 @@ export class ParentState {
   @Action(UpdateChild)
   updateChild({ dispatch }: StateContext<ParentStateModel>, { payload }: UpdateChild): Observable<Child | Observable<void>> {
     return this.childrenService.updateChild(payload).pipe(
-      tap((res: Child) => dispatch(new OnUpdateChildSuccess(res))),
+      tap(() => dispatch(new OnUpdateChildSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateChildFail(error))))
     );
   }
@@ -282,7 +282,7 @@ export class ParentState {
   }
 
   @Action(OnUpdateChildSuccess)
-  onUpdateChildSuccess({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUpdateChildSuccess): void {
+  onUpdateChildSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnUpdateChildSuccess): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
@@ -296,7 +296,7 @@ export class ParentState {
   @Action(CreateChildren)
   createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Observable<void> | Child> {
     return this.childrenService.createChild(payload).pipe(
-      tap((res: Child) => dispatch(new OnCreateChildrenSuccess(res))),
+      tap(() => dispatch(new OnCreateChildrenSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
     );
   }
@@ -308,7 +308,7 @@ export class ParentState {
   }
 
   @Action(OnCreateChildrenSuccess)
-  onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateChildrenSuccess): void {
+  onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateChildrenSuccess): void {
     dispatch([
       new ShowMessageBar({
         message: 'Дякуємо! Дитина була успішно додана.',
@@ -327,7 +327,7 @@ export class ParentState {
   @Action(CreateRating)
   createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<Observable<void> | Rate> {
     return this.ratingService.createRate(payload).pipe(
-      tap((res: Rate) => dispatch(new OnCreateRatingSuccess(res))),
+      tap(() => dispatch(new OnCreateRatingSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
     );
   }
@@ -339,7 +339,7 @@ export class ParentState {
   }
 
   @Action(OnCreateRatingSuccess)
-  onCreateRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateRatingSuccess): void {
+  onCreateRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateRatingSuccess): void {
     dispatch(
       new ShowMessageBar({
         message: 'Оцінка успішно поставлена!',
@@ -351,7 +351,7 @@ export class ParentState {
   @Action(CreateApplication)
   createApplication({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateApplication): Observable<HttpResponse<Application> | Observable<void>> {
     return this.applicationService.createApplication(payload).pipe(
-      tap((res: HttpResponse<Application>) => dispatch(new OnCreateApplicationSuccess(res))),
+      tap(() => dispatch(new OnCreateApplicationSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
     );
   }
@@ -363,7 +363,7 @@ export class ParentState {
       new ShowMessageBar({
         message:
           payload.error.status === 429
-            ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(payload.headers.get('retry-after'))}`
+            ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(+payload.headers.get('retry-after'))}`
             : 'На жаль виникла помилка',
         type: 'error',
         info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : '',
@@ -374,7 +374,7 @@ export class ParentState {
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess(
     { dispatch }: StateContext<ParentStateModel>,
-    { payload }: OnCreateApplicationSuccess
+    { }: OnCreateApplicationSuccess
   ): void {
     dispatch([new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);

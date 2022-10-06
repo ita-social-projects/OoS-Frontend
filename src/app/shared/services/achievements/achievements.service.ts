@@ -26,8 +26,8 @@ export class AchievementsService {
     return this.http.put<Achievement>('/api/v1/Achievement/Update', achievement);
   }
 
-  deleteAchievement(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Achievement/Delete/${id}`);
+  deleteAchievement(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Achievement/Delete/${id}`);
   }
 
   getAchievementsType(): Observable<AchievementType[]> {

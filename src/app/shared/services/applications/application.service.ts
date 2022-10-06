@@ -86,8 +86,8 @@ export class ApplicationService {
    * This method update Application
    * @param application: ApplicationUpdate
    */
-  updateApplication(application: ApplicationUpdate): Observable<object> {
-    return this.http.put('/api/v1/Application/Update', application);
+  updateApplication(application: ApplicationUpdate): Observable<Application> {
+    return this.http.put<Application>('/api/v1/Application/Update', application);
   }
 
   /**

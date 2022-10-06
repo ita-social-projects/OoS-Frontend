@@ -30,14 +30,14 @@ export class BlockService {
    * This method get blocked parents
    * @param block: BlockedParent
    */
-  getBlockedParents(providerId: string, parentId: string): Observable<object> {
+  getBlockedParents(providerId: string, parentId: string): Observable<BlockedParent> {
     const params = {
       params: {
         providerId: providerId,
         parentId: parentId
       }
     };
-    return this.http.get<object>('/api/v1/BlockedProviderParent/GetBlock', params);
+    return this.http.get<BlockedParent>('/api/v1/BlockedProviderParent/GetBlock', params);
   }
 
   /**
