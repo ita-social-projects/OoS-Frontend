@@ -7,6 +7,7 @@ import { PersonalInfoRole, Role } from '../enum/role';
 import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
+import { Actions } from '../enum/actions';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -173,10 +174,9 @@ export class Util {
    * @param payload Object
    * @returns string
    */
-  public static getWorkshopMessage(payload): { text: string; type: string } {
+  public static getWorkshopMessage(payload, action: Actions): { text: string; type: string } {
     const finalMessage = { text: '', type: 'success' };
     const messageArr = [];
-
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
     let statuses, invalidImages;
@@ -191,7 +191,15 @@ export class Util {
       isInvalidGaleryImages = !!invalidImages.length;
     }
 
-    messageArr.push(`Гурток оновлено!`);
+    switch(action){
+      case Actions.Create:
+        messageArr.push(`Дякуємо! Новий гурток успішно доданий.`);
+        break;
+      case Actions.Update:
+        messageArr.push(`Гурток оновлено!`);
+        break;
+    }
+    
 
     if (isInvalidCoverImage) {
       const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
