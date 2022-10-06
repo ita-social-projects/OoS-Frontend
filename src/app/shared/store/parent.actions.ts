@@ -72,7 +72,7 @@ export class OnCreateChildrenFail {
 
 export class OnCreateChildrenSuccess {
   static readonly type = '[parent] create Children success';
-  constructor(public payload: Child) {}
+  constructor() {}
 }
 
 export class DeleteChildById {
@@ -102,7 +102,7 @@ export class OnUpdateChildFail {
 
 export class OnUpdateChildSuccess {
   static readonly type = '[parent] update Child success';
-  constructor(public payload: Child) {}
+  constructor() {}
 }
 
 export class ResetSelectedChild {
@@ -122,7 +122,7 @@ export class OnCreateRatingFail {
 
 export class OnCreateRatingSuccess {
   static readonly type = '[parent] create Rating success';
-  constructor(public payload: Rate) {}
+  constructor() {}
 }
 
 export class CreateApplication {
@@ -132,10 +132,10 @@ export class CreateApplication {
 
 export class OnCreateApplicationFail {
   static readonly type = '[parent] create Application fail';
-  constructor(public payload) {}
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnCreateApplicationSuccess {
   static readonly type = '[parent] create Application success';
-  constructor(public payload: HttpResponse<Application> ) {}
+  constructor() {}
 }
