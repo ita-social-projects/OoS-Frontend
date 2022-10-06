@@ -55,7 +55,7 @@ export class GetAllUsersChildren {
   constructor() {}
 }
 
-export class GetAllUsersChildrenByParentId{
+export class GetAllUsersChildrenByParentId {
   static readonly type = '[parent] get all users Children by Parent Id';
   constructor(public payload: RequestParams) {}
 }

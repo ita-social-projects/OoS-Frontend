@@ -24,23 +24,23 @@ export class MainComponent implements OnInit, OnDestroy {
   Role = Role;
 
   @Select(MainPageState.topWorkshops)
-  topWorkshops$: Observable<WorkshopCard[]>;
+    topWorkshops$: Observable<WorkshopCard[]>;
   topWorkshops: WorkshopCard[];
   @Select(MainPageState.topDirections)
-  topDirections$: Observable<Direction[]>;
+    topDirections$: Observable<Direction[]>;
   topDirections: Direction[];
   @Select(MainPageState.isLoadingData)
-  isLoadingData$: Observable<boolean>;
+    isLoadingData$: Observable<boolean>;
   isLoadingData: boolean;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+    role$: Observable<Role>;
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+    favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+    settlement$: Observable<Codeficator>;
   settlement: Codeficator;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   isMobile: boolean;
 
   destroy$: Subject<boolean> = new Subject<boolean>();

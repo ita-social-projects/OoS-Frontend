@@ -37,7 +37,7 @@ describe('AppComponent', () => {
   selector: 'app-header',
   template: ''
 })
-class MockHeaderComponent{
+class MockHeaderComponent {
   @Input() isMobileView: boolean;
 }
 
@@ -45,19 +45,19 @@ class MockHeaderComponent{
   selector: 'app-shell',
   template: ''
 })
-class MockShellComponent{}
+class MockShellComponent {}
 
 @Component({
   selector: 'app-footer',
   template: ''
 })
-class MockFooterComponent{}
+class MockFooterComponent {}
 
 @Component({
   selector: 'app-sidenav-menu',
   template: ''
 })
-class MockSidenavComponent{
+class MockSidenavComponent {
   @Input() isMobileView: boolean;
 }
 
@@ -65,6 +65,6 @@ class MockSidenavComponent{
   selector: 'app-sidenav-filters',
   template: ''
 })
-class MockSidenavFilterComponent{
+class MockSidenavFilterComponent {
   @Input() isMobileView: boolean;
 }

@@ -18,9 +18,9 @@ export class SupportComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
   @Select(AdminState.SupportInformation)
-  platformSupport$: Observable<CompanyInformation>;
+    platformSupport$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
 
   platformSupport: CompanyInformation;
 

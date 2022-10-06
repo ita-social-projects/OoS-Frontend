@@ -43,6 +43,6 @@ export class CodeficatorService {
     params = params.set('Lat', lat.toString());
     params = params.set('Lon', lon.toString());
 
-    return this.http.get<Codeficator>(`/api/v1/Codeficator/NearestByCoordinates`, { params });
+    return this.http.get<Codeficator>('/api/v1/Codeficator/NearestByCoordinates', { params });
   }
 }

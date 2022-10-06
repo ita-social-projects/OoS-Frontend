@@ -21,7 +21,7 @@ export class CompanyInformationSectionItem extends SectionItem {
     if (info.companyInformationId) {
       this.companyInformationId =  info.companyInformationId;
     }
-    }
+  }
 }
 
 export interface PlatformInfoStateModel {

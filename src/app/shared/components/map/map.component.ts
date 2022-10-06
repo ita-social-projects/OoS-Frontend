@@ -31,9 +31,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() selectedWorkshopAddress = new EventEmitter<Address>();
 
   @Select(SharedUserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
+    selectedWorkshop$: Observable<Workshop>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+    settlement$: Observable<Codeficator>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   map: Layer.Map;

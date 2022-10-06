@@ -33,9 +33,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly providerAdminIcons = ApplicationIcons;
 
   @Select(AdminState.providers)
-  providers$: Observable<ProviderCards>;
+    providers$: Observable<ProviderCards>;
   @Select(PaginatorState.itemsPerPage)
-  itemsPerPage$: Observable<number>;
+    itemsPerPage$: Observable<number>;
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -77,14 +77,14 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       ),
     ]);
     this.providers$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter(providers => !!providers)
-    )
-    .subscribe((providers: ProviderCards) => {
-      this.dataSource = new MatTableDataSource(providers?.entities);
-      this.dataSource.sort = this.sort;
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(providers => !!providers)
+      )
+      .subscribe((providers: ProviderCards) => {
+        this.dataSource = new MatTableDataSource(providers?.entities);
+        this.dataSource.sort = this.sort;
+      });
 
     this.filterFormControl.valueChanges
       .pipe(

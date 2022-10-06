@@ -14,7 +14,7 @@ describe('SupportComponent', () => {
       ],
       declarations: [ SupportComponent, NoResultCardComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

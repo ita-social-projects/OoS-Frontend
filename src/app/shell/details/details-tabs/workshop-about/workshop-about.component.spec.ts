@@ -10,7 +10,7 @@ describe('WorkshopAboutComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ WorkshopAboutComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

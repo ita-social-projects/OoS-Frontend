@@ -1,5 +1,5 @@
-import { WorkshopOpenStatus } from "../enum/workshop";
-import { Direction } from "./category.model";
+import { WorkshopOpenStatus } from '../enum/workshop';
+import { Direction } from './category.model';
 
 export interface FilterList{
   withDisabilityOption: boolean;

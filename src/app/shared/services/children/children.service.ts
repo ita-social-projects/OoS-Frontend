@@ -22,20 +22,20 @@ export class ChildrenService {
   private setParams( parameters?: ChildrenParameters, isParent?: boolean ): HttpParams {
     let params = new HttpParams();
 
-    if (parameters){
-      if (parameters.searchString){
-      params = params.set('SearchString', parameters.searchString); }
-      if (parameters.tabTitle){
-        if (parameters.tabTitle == 'Батьки'){
+    if (parameters) {
+      if (parameters.searchString) {
+        params = params.set('SearchString', parameters.searchString); }
+      if (parameters.tabTitle) {
+        if (parameters.tabTitle == 'Батьки') {
           isParent = true;
         }
-        if (parameters.tabTitle == 'Діти'){
+        if (parameters.tabTitle == 'Діти') {
           isParent = false;
         }
       }
 
-      if (isParent !== undefined){
-      params = params.set('isParent', isParent.toString()); }
+      if (isParent !== undefined) {
+        params = params.set('isParent', isParent.toString()); }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
@@ -54,10 +54,10 @@ export class ChildrenService {
   getUsersChildren(): Observable<ChildCards> {
     const options = { params: this.setParams() };
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
+    return this.http.get<ChildCards>('/api/v1/Child/GetUsersChildren', options);
   }
 
-  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]>{
+  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
   }
 
@@ -70,7 +70,7 @@ export class ChildrenService {
     params = params.set('Size', '0');
     params = params.set('From', '0');
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, { params });
+    return this.http.get<ChildCards>('/api/v1/Child/GetUsersChildren', { params });
   }
 
   /**
@@ -79,7 +79,7 @@ export class ChildrenService {
   getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<ChildCards> {
     const options = { params: this.setParams(paremeters, isParent), };
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, options);
+    return this.http.get<ChildCards>('/api/v1/Child/GetAllForAdmin', options);
   }
 
 

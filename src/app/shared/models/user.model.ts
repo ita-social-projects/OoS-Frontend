@@ -21,10 +21,10 @@ export class User implements Person {
     this.firstName = info.firstName;
     this.lastName = info.lastName;
     this.middleName = info.middleName;
-    if (info.gender){
+    if (info.gender) {
       this.gender = info.gender;
     }
-    if (info.dateOfBirth){
+    if (info.dateOfBirth) {
       this.dateOfBirth = info.dateOfBirth;
     }
     this.phoneNumber = info.phoneNumber;

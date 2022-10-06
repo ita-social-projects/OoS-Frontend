@@ -11,7 +11,7 @@ import { Role } from '../../../shared/enum/role';
 })
 export class ParentGuard implements CanLoad {
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
 
   constructor(public store: Store) { }
 

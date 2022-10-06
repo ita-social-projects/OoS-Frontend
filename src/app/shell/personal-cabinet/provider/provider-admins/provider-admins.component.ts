@@ -31,9 +31,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   readonly constants = Constants;
 
   @Select(ProviderState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
   @Select(ProviderState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdmin[]>;
+    providerAdmins$: Observable<ProviderAdmin[]>;
 
   providerAdmins: ProviderAdminTable[] = [];
   filterFormControl: FormControl = new FormControl('');
@@ -56,7 +56,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * This method filter users according to selected tab
    * @param event: MatTabChangeEvent
    */
-   onTabChange(event: MatTabChangeEvent): void {
+  onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
@@ -114,7 +114,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * This method update provider Admin By Id
   */
   onUpdate(user: ProviderAdminTable): void {
-    this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`])
+    this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`]);
   }
 
   protected addNavPath(): void {

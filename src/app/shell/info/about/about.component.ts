@@ -18,9 +18,9 @@ export class AboutComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
   @Select(AdminState.AboutPortal)
-  platformInformation$: Observable<CompanyInformation>;
+    platformInformation$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
 
   platformInformation: CompanyInformation;
 

@@ -29,11 +29,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   readonly noUsers = NoResultsTitle.noUsers;
 
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
-  children$: Observable<ChildCards>;
+    children$: Observable<ChildCards>;
   @Select(PaginatorState.itemsPerPage)
-  itemsPerPage$: Observable<number>;
+    itemsPerPage$: Observable<number>;
 
   filterFormControl = new FormControl('');
   filterValue: string;

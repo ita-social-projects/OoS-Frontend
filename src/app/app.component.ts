@@ -15,7 +15,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+    isAutorizationLoading$: Observable<boolean>;
 
   isMobileView: boolean;
 

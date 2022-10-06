@@ -13,7 +13,7 @@ import { Provider } from '../../../shared/models/provider.model';
 })
 export abstract class ProviderComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+    provider$: Observable<Provider>;
   provider: Provider;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {

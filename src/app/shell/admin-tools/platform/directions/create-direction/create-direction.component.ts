@@ -32,9 +32,9 @@ import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet
 })
 export class CreateDirectionComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
-  direction$: Observable<Direction>;
+    direction$: Observable<Direction>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
 
   directionFormGroup: FormGroup;
 

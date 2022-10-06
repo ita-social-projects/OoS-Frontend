@@ -22,9 +22,9 @@ import { RegistrationState } from '../../../../shared/store/registration.state';
 })
 export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
 
   constructor(public store: Store) {}
 
@@ -37,9 +37,9 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     return isEditMode
       ? true
       : this.user$.pipe(
-          filter((user: User) => !!user),
-          map((user: User) => user.role === Role.provider && user.isRegistered === false)
-        );
+        filter((user: User) => !!user),
+        map((user: User) => user.role === Role.provider && user.isRegistered === false)
+      );
   }
 
   canDeactivate(

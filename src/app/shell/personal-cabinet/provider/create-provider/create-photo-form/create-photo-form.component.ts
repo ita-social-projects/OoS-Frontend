@@ -37,7 +37,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   @Output() passPhotoFormGroup = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
+    institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatuses: InstitutionStatus[];
 
   PhotoFormGroup: FormGroup;

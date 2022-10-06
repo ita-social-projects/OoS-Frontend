@@ -101,7 +101,7 @@ export class FilterState {
   }
 
   @Selector()
-  static filterList(state: FilterStateModel): FilterList{
+  static filterList(state: FilterStateModel): FilterList {
     const {
       withDisabilityOption,
       isStrictWorkdays,

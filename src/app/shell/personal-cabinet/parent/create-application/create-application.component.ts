@@ -30,16 +30,16 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(ParentState.children)
-  children$: Observable<ChildCards>;
+    children$: Observable<ChildCards>;
   children: Child[];
   parentCard: Child;
   @Select(ParentState.isAllowChildToApply)
-  isAllowChildToApply$: Observable<boolean>;
+    isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.parent)
-  parent$: Observable<ParentWithContactInfo>;
+    parent$: Observable<ParentWithContactInfo>;
   parent: ParentWithContactInfo;
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+    workshop$: Observable<Workshop>;
   workshop: Workshop;
 
   ContraindicationAgreementFormControl = new FormControl(false);

@@ -19,7 +19,7 @@ describe('MainPageInfoComponent', () => {
       ],
       declarations: [ MainPageInfoComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

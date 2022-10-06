@@ -34,12 +34,12 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
-  socialGroups$: Observable<SocialGroup[]>;
+    socialGroups$: Observable<SocialGroup[]>;
   socialGroups: SocialGroup[];
   @Select(ParentState.children)
-  childrenCards$: Observable<ChildCards[]>;
+    childrenCards$: Observable<ChildCards[]>;
   @Select(ParentState.selectedChild)
-  selectedChild$: Observable<Child>;
+    selectedChild$: Observable<Child>;
   child: Child;
 
   ChildrenFormArray = new FormArray([]);
@@ -82,14 +82,14 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   addNavPath(): void {
     let previousNavPath: Navigation;
     const workshopId = this.routeParams.snapshot.queryParams['workshopId'];
-    if (workshopId){
+    if (workshopId) {
       previousNavPath = {
         name: NavBarName.RequestOnWorkshop,
         path: `/create-application/${workshopId}`,
         isActive: false,
         disable: false,
       };
-    }else{
+    } else {
       previousNavPath = {
         name: PersonalCabinetTitle.parent,
         path: '/personal-cabinet/parent/info',
@@ -118,14 +118,14 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.store.dispatch(new GetUsersChildById(childId));
 
     this.selectedChild$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((child: Child) => !!child)
-    )
-    .subscribe((child: Child) => {
-      this.child = child;
-      this.ChildrenFormArray.push(this.newForm(this.child));
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((child: Child) => !!child)
+      )
+      .subscribe((child: Child) => {
+        this.child = child;
+        this.ChildrenFormArray.push(this.newForm(this.child));
+      });
   }
 
   /**

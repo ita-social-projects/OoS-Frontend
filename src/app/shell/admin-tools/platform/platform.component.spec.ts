@@ -37,7 +37,7 @@ describe('PlatformComponent', () => {
         MockDirectionsComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

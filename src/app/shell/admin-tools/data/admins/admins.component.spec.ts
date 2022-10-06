@@ -37,9 +37,9 @@ describe('AdminsComponent', () => {
         NoResultCardComponent,
         MockListAdminsPaginatorComponent,
         MockUsersListComponent
-       ]
+      ]
     })
-    .compileComponents();
+      .compileComponents();
 
   });
 

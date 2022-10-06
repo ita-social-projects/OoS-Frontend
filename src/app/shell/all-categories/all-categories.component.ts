@@ -20,9 +20,9 @@ import { PaginatorState } from '../../shared/store/paginator.state';
 export class AllCategoriesComponent implements OnInit, OnDestroy {
 
   @Select(PaginatorState.directionsPerPage)
-  directionsPerPage$: Observable<number>;
+    directionsPerPage$: Observable<number>;
   @Select(AdminState.filteredDirections)
-  filteredDirections$: Observable<DirectionsFilter>;
+    filteredDirections$: Observable<DirectionsFilter>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 

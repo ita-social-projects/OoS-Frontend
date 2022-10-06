@@ -16,7 +16,7 @@ describe('SidenavFiltersComponent', () => {
       ],
       declarations: [ SidenavFiltersComponent, MockFiltersListComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

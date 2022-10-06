@@ -43,10 +43,10 @@ export class Constants {
     latitude: 50.44029,
     longitude: 30.5595,
     fullName: 'Київ'
-   };
+  };
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
-  static readonly NO_INFORMATION = `не вказано`;
+  static readonly NO_INFORMATION = 'не вказано';
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
 }

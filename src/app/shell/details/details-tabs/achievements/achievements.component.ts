@@ -25,9 +25,9 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
 
   @Select(ProviderState.achievements)
-  achievements$: Observable<Achievement[]>;
+    achievements$: Observable<Achievement[]>;
   @Select(MetaDataState.achievementsTypes)
-  achievementsTypes$: Observable<AchievementType[]>;
+    achievementsTypes$: Observable<AchievementType[]>;
 
   @Input() workshop: Workshop;
 

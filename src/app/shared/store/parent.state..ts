@@ -249,7 +249,7 @@ export class ParentState {
   }
 
   @Action(DeleteChildById)
-  deleteChildById({ dispatch }: StateContext<ParentStateModel>, { payload }: DeleteChildById): Observable<void | Observable<void>>{
+  deleteChildById({ dispatch }: StateContext<ParentStateModel>, { payload }: DeleteChildById): Observable<void | Observable<void>> {
     return this.childrenService.deleteChild(payload).pipe(
       tap(() => dispatch(new OnDeleteChildSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteChildFail(error))))

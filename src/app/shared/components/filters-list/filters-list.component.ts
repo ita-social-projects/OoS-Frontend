@@ -23,11 +23,11 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<FilterList>;
+    filterList$: Observable<FilterList>;
   filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
+    filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
 
   @Input() isMobileView: boolean;

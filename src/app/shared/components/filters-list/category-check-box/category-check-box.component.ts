@@ -19,11 +19,11 @@ import { MetaDataState } from '../../../store/meta-data.state';
 })
 export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
+    directions$: Observable<Direction[]>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   @Select(FilterState.directions)
-  filterDirections$: Observable<Direction[]>;
+    filterDirections$: Observable<Direction[]>;
 
   @Input() stateDirections: Direction[];
   @Input()
@@ -71,9 +71,9 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
     event.checked
       ? this.selectedDirections.push(direction)
       : this.selectedDirections.splice(
-          this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
-          1
-        );
+        this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
+        1
+      );
     this.store.dispatch(new SetDirections(this.selectedDirections));
   }
 

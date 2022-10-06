@@ -13,9 +13,9 @@ export class RegulationsInfoComponent {
   readonly lawsAndRegulations = AdminTabsTitle.LawsAndRegulations;
 
   @Select(AdminState.LawsAndRegulations)
-  LawsAndRegulations$: Observable<CompanyInformation>;
+    LawsAndRegulations$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
 
   constructor() {}
 

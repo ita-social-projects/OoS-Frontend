@@ -10,7 +10,7 @@ describe('StretchCellComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ StretchCellComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

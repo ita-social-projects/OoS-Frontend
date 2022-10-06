@@ -10,7 +10,7 @@ describe('NoResultCardComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ NoResultCardComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

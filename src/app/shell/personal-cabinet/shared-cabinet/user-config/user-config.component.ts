@@ -22,9 +22,9 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   readonly role = Role;
 
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+    role$: Observable<Role>;
 
   authServer: string = environment.stsServer;
   culture: string = localStorage.getItem('ui-culture');

@@ -263,7 +263,7 @@ export class AdminState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }),
     ]);
-    this.router.navigate([`/admin-tools/platform`], { queryParams: { page: type } });
+    this.router.navigate(['/admin-tools/platform'], { queryParams: { page: type } });
   }
 
   @Action(DeleteDirectionById)
@@ -551,7 +551,7 @@ export class AdminState {
     dispatch([
       new GetAllMinistryAdmins(),
       new ShowMessageBar({
-        message: `Дякуємо! адміністратора міністерства заблоковано!`,
+        message: 'Дякуємо! адміністратора міністерства заблоковано!',
         type: 'success',
       }),
     ]);

@@ -38,13 +38,13 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   readonly validationConstants = ValidationConstants;
 
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+    workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
-  approvedChildren$: Observable<ChildCards>;
+    approvedChildren$: Observable<ChildCards>;
   @Select(ProviderState.selectedAchievement)
-  selectedAchievement$: Observable<Achievement>;
+    selectedAchievement$: Observable<Achievement>;
   @Select(MetaDataState.achievementsTypes)
-  achievementsTypes$: Observable<AchievementType[]>;
+    achievementsTypes$: Observable<AchievementType[]>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;

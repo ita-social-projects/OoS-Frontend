@@ -37,7 +37,7 @@ describe('DirectionsComponent', () => {
         MockAllCategoriesCardComponent,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -160,12 +160,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   ) => {
     this.availableSeatsControl[action]({ emitEvent });
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
-  }
+  };
 
   private setPriceControlValue = (price: number = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
-  }
+  };
 
   /**
    * This method sets null as value for payRate when the price is null, otherwise it sests either workshop value, or null for selecting new value
@@ -173,7 +173,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   private setPayRateControlValue = (payRate: string = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
-  }
+  };
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked

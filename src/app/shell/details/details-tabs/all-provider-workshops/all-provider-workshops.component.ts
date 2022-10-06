@@ -19,7 +19,7 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
 
   @Select(SharedUserState.workshops)
-  workshops$: Observable<WorkshopCard[]>;
+    workshops$: Observable<WorkshopCard[]>;
   workshops: WorkshopCard[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 

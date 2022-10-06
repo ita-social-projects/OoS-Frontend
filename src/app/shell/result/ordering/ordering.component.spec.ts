@@ -28,7 +28,7 @@ describe('OrderingComponent', () => {
         NgxsModule.forRoot([]),
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

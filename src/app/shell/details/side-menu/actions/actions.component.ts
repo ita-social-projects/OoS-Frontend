@@ -35,11 +35,11 @@ export class ActionsComponent implements OnInit, OnDestroy {
   @Input() role: string;
 
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+    favoriteWorkshops$: Observable<Favorite[]>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 

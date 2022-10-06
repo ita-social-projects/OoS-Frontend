@@ -32,7 +32,7 @@ export class ReasonModalWindowComponent implements OnInit {
       property: string
     },
     private dialogRef: MatDialogRef<ReasonModalWindowComponent>,
-    ) {}
+  ) {}
 
   ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];

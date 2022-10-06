@@ -1,4 +1,4 @@
-import { Person } from "./user.model";
+import { Person } from './user.model';
 export interface ProviderAdminTable {
   id: string;
   pib: string;

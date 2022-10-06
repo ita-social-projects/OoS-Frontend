@@ -4,6 +4,6 @@ import { Component } from '@angular/core';
   templateUrl: './admin-tools.component.html',
   styleUrls: ['./admin-tools.component.scss']
 })
-export class AdminToolsComponent{
+export class AdminToolsComponent {
   constructor() { }
 }

@@ -30,7 +30,7 @@ describe('ProviderAdminWorkshopsComponent', () => {
         NoResultCardComponent
       ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

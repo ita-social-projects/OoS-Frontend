@@ -28,7 +28,7 @@ describe('InstitutionHierarchyComponent', () => {
         MockValidationHintHierarchyComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

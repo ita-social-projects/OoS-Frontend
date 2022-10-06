@@ -18,21 +18,21 @@ import { RegistrationState } from '../../shared/store/registration.state';
 })
 export class ProgressBarComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
+    isLoadingResultPage$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
-  isLoadingMetaData$: Observable<boolean>;
+    isLoadingMetaData$: Observable<boolean>;
   @Select(AdminState.isLoading)
-  isLoadingAdminData$: Observable<boolean>;
+    isLoadingAdminData$: Observable<boolean>;
   @Select(MainPageState.isLoadingData)
-  isLoadingMainPage$: Observable<boolean>;
+    isLoadingMainPage$: Observable<boolean>;
   @Select(ProviderState.isLoading)
-  isLoadingProvider$: Observable<boolean>;
+    isLoadingProvider$: Observable<boolean>;
   @Select(ParentState.isLoading)
-  isLoadingParent$: Observable<boolean>;
+    isLoadingParent$: Observable<boolean>;
   @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+    isAutorizationLoading$: Observable<boolean>;
 
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;

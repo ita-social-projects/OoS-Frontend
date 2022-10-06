@@ -527,7 +527,7 @@ export class ProviderState {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
-        message: `Дякуємо! користувача заблоковано!`,
+        message: 'Дякуємо! користувача заблоковано!',
         type: 'success',
       }),
     ]);
@@ -561,7 +561,7 @@ export class ProviderState {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
-        message: `Дякуємо! користувача видалено!`,
+        message: 'Дякуємо! користувача видалено!',
         type: 'success',
       }),
     ]);
@@ -582,9 +582,9 @@ export class ProviderState {
   onUpdateProviderAdminfail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminFail): void {
     throwError(payload);
 
-    dispatch(new ShowMessageBar({ 
-      message: 'На жаль виникла помилка', 
-      type: 'error' 
+    dispatch(new ShowMessageBar({
+      message: 'На жаль виникла помилка',
+      type: 'error'
     }));
   }
 
