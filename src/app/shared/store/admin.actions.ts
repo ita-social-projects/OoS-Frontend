@@ -58,7 +58,7 @@ export class OnDeleteDirectionSuccess {
 }
 export class CreateDirection {
   static readonly type = '[admin] create Direction';
-  constructor(public payload) {}
+  constructor(public payload: Direction) {}
 }
 export class OnCreateDirectionFail {
   static readonly type = '[admin] create Direction fail';
