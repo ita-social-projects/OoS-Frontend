@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
-import { BlockedParent } from '../models/block.model';
+import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { EntityType } from '../enum/role';
 
 export class GetAchievementById {
@@ -58,7 +58,7 @@ export class OnCreateAchievementSuccess {
 
 export class OnDeleteAchievementSuccess {
   static readonly type = '[provider] delete Achievement success';
-  constructor(public payload) {}
+  constructor(public payload: string) {}
 }
 
 export class OnDeleteAchievementFail {
@@ -98,7 +98,7 @@ export class OnCreateWorkshopFail {
 
 export class OnCreateWorkshopSuccess {
   static readonly type = '[provider] create Workshop success';
-  constructor(public payload) {}
+  constructor(public payload: Workshop) {}
 }
 
 export class UpdateWorkshop {
@@ -158,7 +158,7 @@ export class OnUpdateProviderFail {
 
 export class OnUpdateProviderSuccess {
   static readonly type = '[provider] update Provider success';
-  constructor(public payload) { }
+  constructor() { }
 }
 
 export class CreateProviderAdmin {
@@ -178,12 +178,12 @@ export class OnCreateProviderAdminSuccess {
 
 export class BlockProviderAdminById {
   static readonly type = '[provider] block Provider Admin';
-  constructor(public payload) {}
+  constructor(public payload: ProviderAdminBlockData) {}
 }
 
 export class OnBlockProviderAdminSuccess {
   static readonly type = '[provider] block Provider Admin success';
-  constructor(public payload) {}
+  constructor() {}
 }
 
 export class OnBlockProviderAdminFail {
@@ -193,12 +193,12 @@ export class OnBlockProviderAdminFail {
 
 export class DeleteProviderAdminById {
   static readonly type = '[provider] delete Provider Admin';
-  constructor(public payload) {}
+  constructor(public payload: ProviderAdminBlockData) {}
 }
 
 export class OnDeleteProviderAdminSuccess {
   static readonly type = '[provider] delete Provider Admin success';
-  constructor(public payload) {}
+  constructor() {}
 }
 
 export class OnDeleteProviderAdminFail {
