@@ -78,7 +78,6 @@ import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
-import { Actions } from '../enum/actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -344,7 +343,7 @@ export class ProviderState {
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnCreateWorkshopSuccess
   ): void {
-    const message = Util.getWorkshopMessage(payload, Actions.Create);
+    const message = Util.getWorkshopMessage(payload, 'Дякуємо! Новий гурток успішно доданий.');
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
@@ -360,7 +359,7 @@ export class ProviderState {
 
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
-    const message = Util.getWorkshopMessage(payload, Actions.Update);
+    const message = Util.getWorkshopMessage(payload, 'Гурток оновлено!');
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['/personal-cabinet/provider/workshops']);
   }
