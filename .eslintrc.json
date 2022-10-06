@@ -31,9 +31,7 @@
         ],
         "eol-last": "warn",
         "no-console": ["error", { "allow": ["warn", "error"]}],
-        "no-empty": "warn",
         "quotes": ["error", "single", { "avoidEscape": true }],
-        "no-nested-ternary": "warn",
         "indent": [
           "error",
           2,
@@ -41,6 +39,8 @@
             "SwitchCase": 1
           }
         ],
+        "keyword-spacing": "error",
+        "space-before-blocks": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {
@@ -57,9 +57,6 @@
             "style": "kebab-case"
           }
         ],
-        "keyword-spacing": "error",
-        "space-before-blocks": "error",
-        "no-empty-pattern": "warn",
         "@angular-eslint/no-empty-lifecycle-method": "off",
         "@angular-eslint/use-pipe-transform-interface": "error",
         "@angular-eslint/use-lifecycle-interface": "error",
