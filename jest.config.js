@@ -13,6 +13,7 @@ module.exports = {
       isolatedModules: true,
     },
   },
+  "modulePaths": ["<rootDir>/src"],
   "transform": {
     "^.+\\.(ts|mjs|js|html)$": "jest-preset-angular",
   },

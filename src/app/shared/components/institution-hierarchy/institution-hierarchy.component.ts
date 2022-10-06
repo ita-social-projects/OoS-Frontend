@@ -53,7 +53,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value));
     }
 
-    // tslint:disable-next-line:no-shadowed-variable
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
     });
