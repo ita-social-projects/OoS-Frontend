@@ -27,11 +27,11 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   readonly validationConstants = ValidationConstants;
 
   @Select(AdminState.AboutPortal)
-  AboutPortal$: Observable<CompanyInformation>;
+    AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
-  SupportInformation$: Observable<CompanyInformation>;
+    SupportInformation$: Observable<CompanyInformation>;
   @Select(AdminState.LawsAndRegulations)
-  LawsAndRegulations$: Observable<CompanyInformation>;
+    LawsAndRegulations$: Observable<CompanyInformation>;
 
   PlatformInfoItemArray = new FormArray([]);
   platformInfoEditFormGroup: FormGroup;
@@ -71,7 +71,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
           { name: NavBarName.Administration, isActive: false, disable: false },
           {
             name: NavBarName.Platform,
-            path: `/admin-tools/platform/`,
+            path: '/admin-tools/platform/',
             queryParams: { page: this.platformInfoType },
             isActive: false,
             disable: false,

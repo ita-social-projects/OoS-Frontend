@@ -16,7 +16,7 @@ import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from '../shared/st
 })
 export class ShellComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private geolocationService: GeolocationService, private store: Store) {}

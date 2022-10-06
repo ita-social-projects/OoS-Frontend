@@ -41,19 +41,19 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
 
   @Select(AdminState.providerHistory)
-  providersHistory$: Observable<ProvidersHistory>;
+    providersHistory$: Observable<ProvidersHistory>;
 
   @Select(AdminState.providerAdminHistory)
-  providerAdminHistory$: Observable<ProviderAdminsHistory>;
+    providerAdminHistory$: Observable<ProviderAdminsHistory>;
 
   @Select(AdminState.applicationHistory)
-  applicationHistory$: Observable<ApplicationsHistory>;
+    applicationHistory$: Observable<ApplicationsHistory>;
 
   @Select(PaginatorState.itemsPerPage)
-  itemsPerPage$: Observable<number>;
+    itemsPerPage$: Observable<number>;
   itemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();

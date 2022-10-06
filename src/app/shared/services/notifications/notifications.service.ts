@@ -14,14 +14,14 @@ export class NotificationsService {
    * This method get amount of notifications
    */
   getAmountOfNewUsersNotifications(): Observable<NotificationsAmount> {
-    return this.http.get<NotificationsAmount>(`/api/v1/Notification/GetAmountOfNewUsersNotifications`);
+    return this.http.get<NotificationsAmount>('/api/v1/Notification/GetAmountOfNewUsersNotifications');
   }
 
   /**
    * This method get all notifications
    */
   getAllUsersNotificationsGrouped(): Observable<Notifications> {
-    return this.http.get<Notifications>(`/api/v1/Notification/GetAllUsersNotificationsGrouped`);
+    return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotificationsGrouped');
   }
 
   /**
@@ -44,6 +44,6 @@ export class NotificationsService {
    * This method get all notifications
    */
   getAllUsersNotifications(): Observable<Notifications> {
-    return this.http.get<Notifications>(`/api/v1/Notification/GetAllUsersNotifications`);
+    return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotifications');
   }
 }

@@ -38,9 +38,9 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(ProviderState.truncated)
-  workshops$: Observable<TruncatedItem[]>;
+    workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+    provider$: Observable<Provider>;
   providerId: string;
 
   applicationParams: ApplicationParameters = {

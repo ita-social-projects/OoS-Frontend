@@ -23,9 +23,9 @@ import { ParentState } from './../../../../shared/store/parent.state.';
 })
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
-  childrensPerPage$: Observable<number>;
+    childrensPerPage$: Observable<number>;
   @Select(ParentState.children)
-  childrenCards$: Observable<ChildCards>;
+    childrenCards$: Observable<ChildCards>;
   childrenCards: ChildCards;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;

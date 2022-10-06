@@ -51,11 +51,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly title = CreateProviderAdminTitle;
 
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+    provider$: Observable<Provider>;
   @Select(ProviderState.truncated)
-  truncatedItems$: Observable<TruncatedItem[]>;
+    truncatedItems$: Observable<TruncatedItem[]>;
   @Select(ProviderState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdmin[]>;
+    providerAdmins$: Observable<ProviderAdmin[]>;
 
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;

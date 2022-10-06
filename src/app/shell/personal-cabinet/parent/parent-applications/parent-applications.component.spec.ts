@@ -24,7 +24,7 @@ describe('ParentApplicationsComponent', () => {
         CabinetDataComponent,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

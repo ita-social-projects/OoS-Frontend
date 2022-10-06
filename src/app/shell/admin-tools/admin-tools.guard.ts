@@ -13,7 +13,7 @@ export class AdminToolsGuard implements CanLoad {
   constructor() { }
 
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.role$.pipe(filter((role: string) => (role === Role.techAdmin)), map((role: string) => (role === Role.techAdmin)));

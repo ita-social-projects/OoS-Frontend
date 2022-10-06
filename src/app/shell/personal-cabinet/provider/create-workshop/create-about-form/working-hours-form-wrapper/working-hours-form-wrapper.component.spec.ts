@@ -27,7 +27,7 @@ describe('WorkingHoursFormWrapperComponent', () => {
         MockWorkingHoursComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

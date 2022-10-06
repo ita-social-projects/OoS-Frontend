@@ -34,15 +34,15 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   user: User;
 
   @Select(NavigationState.sidenavOpenTrue)
-  sidenavOpenTrue$: Observable<boolean>;
+    sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+    subrole$: Observable<string>;
   @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<string>;
+    isAuthorized$: Observable<string>;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+    featuresList$: Observable<FeaturesList>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -62,11 +62,11 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(visible => this.visibleSidenav = visible);
     this.user$.pipe(
-        filter((user) => !!user),
-        takeUntil(this.destroy$)
-      ).subscribe((user: User) => {
-        this.user = user;
-      });
+      filter((user) => !!user),
+      takeUntil(this.destroy$)
+    ).subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
   login(): void {

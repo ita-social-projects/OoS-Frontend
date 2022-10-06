@@ -29,7 +29,7 @@ describe('HistoryLogFiltersComponent', () => {
       ],
       declarations: [ HistoryLogFiltersComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

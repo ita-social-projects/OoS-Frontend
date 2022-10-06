@@ -32,7 +32,7 @@ describe('ProviderDetailsComponent', () => {
         ImageCarouselComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -16,7 +16,7 @@ describe('ErrorPageComponent', () => {
       ],
       declarations: [ ErrorPageComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -16,7 +16,7 @@ describe('WorkshopTeachersComponent', () => {
         NoResultCardComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

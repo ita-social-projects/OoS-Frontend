@@ -31,22 +31,22 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userShortName = '';
 
   @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+    isAutorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
-  isRegistered$: Observable<boolean>;
+    isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>;
+    navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<string>;
+    isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   user: User;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+    featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+    subrole$: Observable<string>;
 
   navigationPaths: Navigation[];
   subrole: string;

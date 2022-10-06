@@ -23,7 +23,7 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   readonly applicationStatus = ApplicationStatus;
 
   @Select(ProviderState.blockedParent)
-  blockedParent$: Observable<BlockedParent>;
+    blockedParent$: Observable<BlockedParent>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() application: Application = null;

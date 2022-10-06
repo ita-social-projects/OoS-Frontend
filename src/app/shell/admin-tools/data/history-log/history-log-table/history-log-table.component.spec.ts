@@ -21,7 +21,7 @@ describe('HistoryLogTableComponent', () => {
       ],
       declarations: [ HistoryLogTableComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

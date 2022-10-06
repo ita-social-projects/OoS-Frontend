@@ -25,7 +25,7 @@ export class CreateAddressFormComponent implements OnInit {
   @Input() address: Address;
 
   @Select(MetaDataState.codeficatorSearch)
-  codeficatorSearch$: Observable<Codeficator[]>;
+    codeficatorSearch$: Observable<Codeficator[]>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 

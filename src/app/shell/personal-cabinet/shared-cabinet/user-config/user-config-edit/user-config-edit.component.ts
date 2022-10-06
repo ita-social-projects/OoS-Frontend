@@ -28,7 +28,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   user: User;
 
   userEditFormGroup: FormGroup;

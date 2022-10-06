@@ -13,7 +13,7 @@ export class SupportInfoComponent {
   readonly supportInformation = AdminTabsTitle.SupportInformation;
 
   @Select(AdminState.SupportInformation)
-  SupportInformation$: Observable<CompanyInformation>;
+    SupportInformation$: Observable<CompanyInformation>;
 
   constructor() { }
 }

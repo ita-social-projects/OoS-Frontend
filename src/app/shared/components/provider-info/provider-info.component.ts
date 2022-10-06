@@ -38,7 +38,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
+    institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

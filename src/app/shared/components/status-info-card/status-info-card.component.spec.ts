@@ -15,7 +15,7 @@ describe('StatusInfoCardComponent', () => {
         NgxsModule.forRoot([]),
         MatMenuModule,
         MatDialogModule]
-        ,
+      ,
       declarations: [StatusInfoCardComponent],
     })
       .compileComponents();

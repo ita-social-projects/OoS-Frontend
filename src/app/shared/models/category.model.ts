@@ -5,7 +5,7 @@ export class Direction {
   workshopsCount?: number;
 
   constructor(info) {
-    if (info.id){
+    if (info.id) {
       this.id = info.id;
     }
     this.title = info.title;

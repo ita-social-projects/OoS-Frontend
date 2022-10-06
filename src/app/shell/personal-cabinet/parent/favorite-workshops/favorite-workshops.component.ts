@@ -25,7 +25,7 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   @Select(ParentState.favoriteWorkshopsCard)
-  favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
+    favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 

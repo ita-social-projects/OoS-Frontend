@@ -19,9 +19,9 @@ export class RulesComponent implements OnInit, OnDestroy  {
   readonly noData = NoResultsTitle.noInfo;
 
   @Select(AdminState.LawsAndRegulations)
-  platformRules$: Observable<CompanyInformation>;
+    platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
 
   platformRules: CompanyInformation;
 

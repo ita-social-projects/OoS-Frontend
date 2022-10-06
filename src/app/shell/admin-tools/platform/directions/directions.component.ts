@@ -25,9 +25,9 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   readonly noDirections = NoResultsTitle.noDirections;
 
   @Select(AdminState.filteredDirections)
-  filteredDirections$: Observable<DirectionsFilter>;
+    filteredDirections$: Observable<DirectionsFilter>;
   @Select(PaginatorState.directionsPerPage)
-  directionsPerPage$: Observable<number>;
+    directionsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);

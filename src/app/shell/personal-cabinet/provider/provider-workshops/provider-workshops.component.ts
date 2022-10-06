@@ -23,7 +23,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   readonly constants: typeof Constants = Constants;
 
   @Select(ProviderState.providerWorkshops)
-  workshops$: Observable<ProviderWorkshopCard[]>;
+    workshops$: Observable<ProviderWorkshopCard[]>;
 
   constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
     super(store, matDialog);

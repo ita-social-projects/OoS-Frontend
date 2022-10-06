@@ -14,7 +14,7 @@ describe('AboutComponent', () => {
       ],
       declarations: [ AboutComponent, NoResultCardComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

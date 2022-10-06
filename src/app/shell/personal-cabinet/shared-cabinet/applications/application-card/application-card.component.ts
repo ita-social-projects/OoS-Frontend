@@ -27,9 +27,9 @@ export class ApplicationCardComponent implements OnInit {
     status: string;
     showBlocked: boolean;
   } = {
-    status: undefined,
-    showBlocked: false,
-  };
+      status: undefined,
+      showBlocked: false,
+    };
 
   @Input() application: Application;
   @Input() userRole: string;

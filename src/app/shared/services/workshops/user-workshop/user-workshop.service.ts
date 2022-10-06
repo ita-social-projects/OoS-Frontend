@@ -20,7 +20,7 @@ export class UserWorkshopService {
    * This method get related workshops for provider admins
    */
   getProviderAdminsWorkshops(): Observable<ProviderWorkshopCard[]> {
-    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/ProviderAdmin/ManagedWorkshops`);
+    return this.http.get<ProviderWorkshopCard[]>('/api/v1/ProviderAdmin/ManagedWorkshops');
   }
 
   /**
@@ -51,7 +51,7 @@ export class UserWorkshopService {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
   }
 
-  getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]>{
+  getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 

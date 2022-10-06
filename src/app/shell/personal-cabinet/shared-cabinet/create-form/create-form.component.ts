@@ -18,11 +18,11 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
+    isDirtyForm$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+    featuresList$: Observable<FeaturesList>;
   isRelease3: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -30,23 +30,23 @@ export class ResultComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(AppState.isMobileScreen)
-  isMobileView$: Observable<boolean>;
+    isMobileView$: Observable<boolean>;
   isMobileView: boolean;
   @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopFilterCard>;
+    filteredWorkshops$: Observable<WorkshopFilterCard>;
   @Select(FilterState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
   role: string;
   @Select(PaginatorState.workshopsPerPage)
-  workshopsPerPage$: Observable<number>;
+    workshopsPerPage$: Observable<number>;
   workshopsPerPage: number;
   @Select(PaginatorState.currentPage)
-  currentPage$: Observable<number>;
+    currentPage$: Observable<number>;
   currentPage: number;
   @Select(NavigationState.filtersSidenavOpenTrue)
-  isFiltersSidenavOpen$: Observable<boolean>;
+    isFiltersSidenavOpen$: Observable<boolean>;
   isFiltersSidenavOpen: boolean;
 
   currentView: ViewType = ViewType.data;

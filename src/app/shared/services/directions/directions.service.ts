@@ -50,7 +50,7 @@ export class DirectionsService {
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
     params = params.set('limit', size.toString());
 
-    return this.http.get<Direction[]>(`/api/v1/Statistic/GetDirections`, { params });
+    return this.http.get<Direction[]>('/api/v1/Statistic/GetDirections', { params });
   }
   createDirection(direction: Direction): Observable<Direction> {
     return this.http.post<Direction>('/api/v1/Direction/Create', direction);

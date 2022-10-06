@@ -12,7 +12,7 @@ export class AboutInfoComponent {
   readonly aboutPortal = AdminTabsTitle.AboutPortal;
 
   @Select(AdminState.AboutPortal)
-  AboutPortal$: Observable<CompanyInformation>;
+    AboutPortal$: Observable<CompanyInformation>;
 
   constructor() { }
 }

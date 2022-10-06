@@ -14,7 +14,7 @@ import { delay } from 'rxjs/operators';
 export class NavigationMobileBarComponent implements OnInit, OnDestroy {
 
   @Select(NavigationState.navigationPathsMobile)
-  navigationPathsMobile$: Observable<Navigation[]>;
+    navigationPathsMobile$: Observable<Navigation[]>;
   navigationPathsMobile: Navigation[] = [];
 
   private navigation: Subscription;
@@ -27,11 +27,11 @@ export class NavigationMobileBarComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.navigation = this.navigationPathsMobile$
-    .pipe(delay(0))
-    .subscribe((navigation) => this.navigationPathsMobile = navigation);
+      .pipe(delay(0))
+      .subscribe((navigation) => this.navigationPathsMobile = navigation);
   }
 
   ngOnDestroy(): void {
-     this.navigation.unsubscribe();
+    this.navigation.unsubscribe();
   }
 }

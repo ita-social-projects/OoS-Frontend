@@ -66,8 +66,8 @@ export class Util {
     lastDigit === 1 && year !== 11
       ? (ageString = 'рік')
       : lastDigit > 1 && lastDigit < 5
-      ? (ageString = 'роки')
-      : (ageString = 'років');
+        ? (ageString = 'роки')
+        : (ageString = 'років');
     return ageString;
   }
 
@@ -151,7 +151,7 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
     const constants: typeof Constants = Constants;
     const updatedAdmins = [];
     admins.forEach((admin: MinistryAdmin) => {
@@ -191,7 +191,7 @@ export class Util {
     }
 
     messageArr.push(message);
-    
+
 
     if (isInvalidCoverImage) {
       const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors

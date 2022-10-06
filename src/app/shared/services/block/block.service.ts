@@ -50,6 +50,6 @@ export class BlockService {
         workshopId: workshopId
       }
     };
-    return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
+    return this.http.get<boolean>('/api/v1/Application/AllowedNewApplicationByChildStatus', options);
   }
 }

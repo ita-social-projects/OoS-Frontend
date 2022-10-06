@@ -19,7 +19,7 @@ export class MinistryAdminService {
   private setParams( parameters: MinistryAdminParameters = {searchString: '',}): HttpParams {
     let params = new HttpParams();
 
-    if (parameters.searchString){
+    if (parameters.searchString) {
       params = params.set('SearchString', parameters.searchString);
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
@@ -35,8 +35,8 @@ export class MinistryAdminService {
   /**
    * This method get Profile of authorized MinistryAdmin
    */
-  getMinistryAdminProfile(): Observable<MinistryAdmin>{
-    return this.http.get<MinistryAdmin>(`/api/v1/MinistryAdmin/Profile`);
+  getMinistryAdminProfile(): Observable<MinistryAdmin> {
+    return this.http.get<MinistryAdmin>('/api/v1/MinistryAdmin/Profile');
   }
 
   /**
@@ -47,7 +47,7 @@ export class MinistryAdminService {
     let params = new HttpParams();
     params = params.set('id', `${ministryAdminId}`);
 
-    return this.http.get<MinistryAdmin>(`/api/v1/MinistryAdmin/GetById`, { params });
+    return this.http.get<MinistryAdmin>('/api/v1/MinistryAdmin/GetById', { params });
   }
 
   /**
@@ -56,7 +56,7 @@ export class MinistryAdminService {
   getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<AllMinistryAdmins> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<AllMinistryAdmins>(`/api/v1/MinistryAdmin/GetByFilter`, options);
+    return this.http.get<AllMinistryAdmins>('/api/v1/MinistryAdmin/GetByFilter', options);
   }
 
   /**
@@ -75,7 +75,7 @@ export class MinistryAdminService {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
 
-    return this.http.delete<void>(`/api/v1/MinistryAdmin/Delete`, { params });
+    return this.http.delete<void>('/api/v1/MinistryAdmin/Delete', { params });
   }
 
   /**
@@ -86,14 +86,14 @@ export class MinistryAdminService {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
 
-    return this.http.put<void>(`/api/v1/MinistryAdmin/Block`, {}, { params });
+    return this.http.put<void>('/api/v1/MinistryAdmin/Block', {}, { params });
   }
 
   /**
    * This method update Ministry Admin
    * @param ministryAdmin: MinistryAdmin
    */
-   updateMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
-    return this.http.put<MinistryAdmin>(`/api/v1/MinistryAdmin/Update`, ministryAdmin);
+  updateMinistryAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
+    return this.http.put<MinistryAdmin>('/api/v1/MinistryAdmin/Update', ministryAdmin);
   }
 }

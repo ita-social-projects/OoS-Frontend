@@ -21,12 +21,12 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   readonly Constants = Constants;
 
   @Select(FilterState.isConfirmCity)
-  isConfirmCity$: Observable<boolean>;
+    isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+    settlement$: Observable<Codeficator>;
   settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
-  codeficatorSearch$: Observable<Codeficator[]>;
+    codeficatorSearch$: Observable<Codeficator[]>;
 
   settlementSearchControl = new FormControl('');
   isDispalyed = true;

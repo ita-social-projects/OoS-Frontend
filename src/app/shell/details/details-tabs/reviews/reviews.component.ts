@@ -35,17 +35,17 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Input() role: string;
 
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
+    parent$: Observable<Parent>;
   @Select(ParentState.isAllowedToReview)
-  isAllowedToReview$: Observable<boolean>;
+    isAllowedToReview$: Observable<boolean>;
   @Select(ParentState.isReviewed)
-  isReviewed$: Observable<boolean>;
+    isReviewed$: Observable<boolean>;
 
   @Select(MetaDataState.rating)
-  rating$: Observable<Rate[]>;
+    rating$: Observable<Rate[]>;
   rating: Rate[];
   @Select(PaginatorState.ratingPerPage)
-  ratingPerPage$: Observable<number>;
+    ratingPerPage$: Observable<number>;
   ratingPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();

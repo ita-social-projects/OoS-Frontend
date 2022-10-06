@@ -33,9 +33,9 @@ describe('UsersComponent', () => {
         MockUsersListComponent,
         NoResultCardComponent,
         MockListAdminChildrenPaginatorComponent
-       ]
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

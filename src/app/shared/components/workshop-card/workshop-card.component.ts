@@ -53,9 +53,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+    favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+    role$: Observable<Role>;
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

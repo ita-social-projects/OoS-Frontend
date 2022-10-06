@@ -24,10 +24,10 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   readonly ChildDeclination = ChildDeclination;
 
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
+    parent$: Observable<Parent>;
   parent: Parent;
   @Select(ParentState.truncatedItems)
-  truncatedItems$: Observable<TruncatedItem[]>;
+    truncatedItems$: Observable<TruncatedItem[]>;
 
   applicationParams: ApplicationParameters = {
     property: null,

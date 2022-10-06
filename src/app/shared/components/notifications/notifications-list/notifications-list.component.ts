@@ -22,9 +22,9 @@ import { RegistrationState } from '../../../store/registration.state';
 export class NotificationsListComponent implements OnInit, OnDestroy {
 
   @Select(NotificationsState.notificationsAmount)
-  notificationsAmount$: Observable<NotificationsAmount>;
+    notificationsAmount$: Observable<NotificationsAmount>;
   @Select(NotificationsState.notifications)
-  notificationsData$: Observable<Notifications>;
+    notificationsData$: Observable<Notifications>;
   notificationsAmount: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

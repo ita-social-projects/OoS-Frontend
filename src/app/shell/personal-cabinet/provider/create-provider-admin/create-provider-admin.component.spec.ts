@@ -35,7 +35,7 @@ describe('CreateProviderAdminComponent', () => {
         MockWorkshopChekcboxDropdownComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

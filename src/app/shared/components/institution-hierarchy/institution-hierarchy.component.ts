@@ -18,13 +18,13 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() provider: Provider;
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+    institutions$: Observable<Institution[]>;
   @Select(MetaDataState.instituitionsHierarchy)
-  instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+    instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
-  editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+    editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.institutionFieldDesc)
-  institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
+    institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
 
   destroy$: Subject<boolean> = new Subject<boolean>();

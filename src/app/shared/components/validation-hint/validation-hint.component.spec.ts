@@ -11,7 +11,7 @@ describe('ValidationHintComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ ValidationHintComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

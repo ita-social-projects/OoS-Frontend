@@ -23,7 +23,7 @@ describe('UsersListComponent', () => {
       ],
       declarations: [ UsersListComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

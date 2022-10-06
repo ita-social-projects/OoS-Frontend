@@ -17,7 +17,7 @@ export class PreviousUrlService {
       .subscribe((event: NavigationEnd) => {
         this.previousUrl = this.currentUrl;
         this.currentUrl = event.url;
-    });
+      });
   }
 
   public getPreviousUrl(): string {

@@ -35,12 +35,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly Role = Role;
 
   @Select(SharedUserState.applications)
-  applicationCards$: Observable<ApplicationCards>;
+    applicationCards$: Observable<ApplicationCards>;
   @Select(PaginatorState.applicationsPerPage)
-  applicationsPerPage$: Observable<number>;
+    applicationsPerPage$: Observable<number>;
   applicationCards: ApplicationCards;
   @Select(SharedUserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 

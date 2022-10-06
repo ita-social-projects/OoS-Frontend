@@ -32,7 +32,7 @@ fdescribe('PlatformInfoEditComponent', () => {
         MockValidationHintForInputComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

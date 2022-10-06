@@ -21,19 +21,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
   readonly entityType = EntityType;
 
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   isMobileScreen: boolean;
 
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+    workshop$: Observable<Workshop>;
   workshop: Workshop;
 
   @Select(SharedUserState.selectedProvider)
-  provider$: Observable<Provider>;
+    provider$: Observable<Provider>;
   provider: Provider;
 
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+    role$: Observable<Role>;
   role: Role;
 
   entity: EntityType;
@@ -69,15 +69,15 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   private setDataSubscribtion(): void {
     combineLatest([this.isMobileScreen$, this.role$, this.workshop$, this.provider$])
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(([isMobileScreen, role, workshop, provider]) => {
-          this.isMobileScreen = isMobileScreen;
-          this.role = role;
-          this.workshop = workshop;
-          this.provider = provider;
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([isMobileScreen, role, workshop, provider]) => {
+        this.isMobileScreen = isMobileScreen;
+        this.role = role;
+        this.workshop = workshop;
+        this.provider = provider;
 
-          this.displayActionCard = (this.role === Role.parent || this.role ===  Role.unauthorized);
-        });
+        this.displayActionCard = (this.role === Role.parent || this.role ===  Role.unauthorized);
+      });
   }
 
   /**

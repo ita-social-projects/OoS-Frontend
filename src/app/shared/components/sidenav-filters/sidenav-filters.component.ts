@@ -11,7 +11,7 @@ import { NavigationState } from '../../store/navigation.state';
 })
 export class SidenavFiltersComponent implements OnInit, OnDestroy {
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
+    filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
 
   @Input() isMobileView: boolean;

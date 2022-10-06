@@ -38,7 +38,7 @@ describe('CreateAdminComponent', () => {
         CreateAdminComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

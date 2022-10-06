@@ -18,7 +18,7 @@ describe('ScrollToTopComponent', () => {
       ],
       declarations: [ ScrollToTopComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

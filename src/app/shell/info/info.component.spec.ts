@@ -14,7 +14,7 @@ describe('InfoComponent', () => {
       ],
       declarations: [ InfoComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -102,7 +102,7 @@ export class ApplicationService {
         workshopId: workshopId,
       },
     };
-    return this.http.get<boolean>(`/api/v1/Application/AllowedNewApplicationByChildStatus`, options);
+    return this.http.get<boolean>('/api/v1/Application/AllowedNewApplicationByChildStatus', options);
   }
 
   /**
@@ -110,7 +110,7 @@ export class ApplicationService {
    * @param id string
    */
   getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
-    return this.http.get<boolean>(`/api/v1/Application/AllowedToReview`, {
+    return this.http.get<boolean>('/api/v1/Application/AllowedToReview', {
       params: {
         parentId,
         workshopId,
@@ -123,7 +123,7 @@ export class ApplicationService {
    * @param id string
    */
   getReviewedApplications(parentId: string, workshopId: string): Observable<boolean> {
-    return this.http.get<boolean>(`/api/v1/Rating/IsReviewed`, {
+    return this.http.get<boolean>('/api/v1/Rating/IsReviewed', {
       params: {
         parentId,
         workshopId,

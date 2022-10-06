@@ -46,9 +46,9 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   readonly title = CreateAdminTitle;
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+    institutions$: Observable<Institution[]>;
   @Select(AdminState.selectedMinistryAdmin)
-  selectedMinistryAdmin$: Observable<MinistryAdmin>;
+    selectedMinistryAdmin$: Observable<MinistryAdmin>;
 
   AdminFormGroup: FormGroup;
   adminRole: AdminRole;
@@ -110,17 +110,17 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       takeUntil(this.destroy$),
       filter((ministryAdmin: MinistryAdmin) => !!ministryAdmin)
     )
-    .subscribe((ministryAdmin: MinistryAdmin) => {
-      this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
-      this.AdminFormGroup.get('institution')
-        .setValue(
-          {
-            id: ministryAdmin.institutionId,
-            title: ministryAdmin.institutionTitle
-          },
-          { emitEvent: false }
-        );
-    });
+      .subscribe((ministryAdmin: MinistryAdmin) => {
+        this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
+        this.AdminFormGroup.get('institution')
+          .setValue(
+            {
+              id: ministryAdmin.institutionId,
+              title: ministryAdmin.institutionTitle
+            },
+            { emitEvent: false }
+          );
+      });
   }
 
   compareInstitutions(institution1: Institution, institution2: Institution): boolean {

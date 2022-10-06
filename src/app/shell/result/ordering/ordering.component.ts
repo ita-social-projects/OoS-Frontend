@@ -19,7 +19,7 @@ export class OrderingComponent implements OnInit, OnDestroy {
   readonly ordering = Ordering;
 
   @Select(FilterState.filterList)
-  filterList$: Observable<FilterList>;
+    filterList$: Observable<FilterList>;
 
   orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();

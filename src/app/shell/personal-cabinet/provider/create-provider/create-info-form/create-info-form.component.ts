@@ -39,7 +39,7 @@ export class CreateInfoFormComponent implements OnInit {
   };
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+    institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
   @Input() isRelease3: boolean;

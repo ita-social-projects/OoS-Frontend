@@ -68,7 +68,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.deleteWorkingHour.emit(this.index);
   }
 
-  onCancel(): void{
+  onCancel(): void {
     (this.startTimeFormControl.statusChanges as EventEmitter<any>).emit();
     (this.endTimeFormControl.statusChanges as EventEmitter<any>).emit();
   }

@@ -134,6 +134,6 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.onChange(this.selectedImages);
       }
       this.inputImage.nativeElement.value = '';
-   });
+    });
   }
 }

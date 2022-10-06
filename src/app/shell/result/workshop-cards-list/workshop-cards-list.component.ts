@@ -27,7 +27,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Output() itemsPerPageChange = new EventEmitter<number>();
 
   @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
+    isLoadingResultPage$: Observable<boolean>;
 
   isVisible = false;
   parent: boolean;

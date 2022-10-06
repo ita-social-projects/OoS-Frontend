@@ -13,9 +13,9 @@ import { NotificationsState } from '../../store/notifications.state';
 })
 export class NotificationsComponent implements OnInit {
   @Select(NotificationsState.notificationsAmount)
-  notificationsAmount$: Observable<NotificationsAmount>;
+    notificationsAmount$: Observable<NotificationsAmount>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
 
   constructor(private store: Store) { }
 

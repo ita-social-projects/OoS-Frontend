@@ -21,7 +21,7 @@ describe('InfoCardComponent', () => {
       ],
       declarations: [ InfoCardComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

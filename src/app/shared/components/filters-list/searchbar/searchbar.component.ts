@@ -22,9 +22,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   filteredResults: string[];
 
   @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>;
+    navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
-  searchQuery$: Observable<string>;
+    searchQuery$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   private previousResults: string[] = this.getPreviousResults();

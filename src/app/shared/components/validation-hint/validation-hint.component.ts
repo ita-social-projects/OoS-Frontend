@@ -72,9 +72,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    if (this.isPhoneNumber){
+    if (this.isPhoneNumber) {
       this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
-    }else{
+    } else {
       this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
     }
   }
@@ -82,7 +82,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    if (requiredPattern){
+    if (requiredPattern) {
       this.invalidSymbols = NAME_REGEX == requiredPattern;
       this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     }
@@ -91,9 +91,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkMatDatePciker(): void {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
-        this.validationFormControl.hasError('matDatepickerMin') ||
+      this.validationFormControl.hasError('matDatepickerMin') ||
         this.validationFormControl.hasError('matDatepickerMax')
-      );
+    );
   }
 
   ngOnDestroy(): void {
