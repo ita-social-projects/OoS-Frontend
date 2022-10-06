@@ -159,5 +159,5 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     </div>`,
   styleUrls: ['./workshop-card.component.scss'],
 })
-// tslint:disable-next-line:component-class-suffix
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkshopCardDialog {}
