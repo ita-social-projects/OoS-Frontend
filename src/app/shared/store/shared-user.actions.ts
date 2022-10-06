@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationParameters, ApplicationUpdate } from '../models/application.model';
+import { Application, ApplicationParameters, ApplicationUpdate } from '../models/application.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -53,7 +53,7 @@ export class OnUpdateApplicationFail {
 
 export class OnUpdateApplicationSuccess {
   static readonly type = '[user] update Application success';
-  constructor(public payload) { }
+  constructor(public payload: Application) { }
 }
 
 export class GetFilteredChildrens {

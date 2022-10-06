@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { NotificationType } from '../enum/notifications';
-import { Notifications, NotificationsAmount } from '../models/notifications.model';
+import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
 import { GetAllUsersNotificationsGrouped, GetAmountOfNewUsersNotifications, OnReadUsersNotificationsFail, OnReadUsersNotificationsByTypeSuccess, ReadUsersNotificationsByType, ReadUsersNotificationById, OnReadUsersNotificationByIdSuccess } from './notifications.actions';
@@ -49,7 +49,7 @@ export class NotificationsState {
   }
 
   @Action(ReadUsersNotificationsByType)
-  readUsersNotificationsByType({ dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationsByType): Observable<object> {
+  readUsersNotificationsByType({ dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationsByType): Observable<void | Observable<void>> {
     return this.notificationsService
       .readUsersNotificationsByType(payload)
       .pipe(
@@ -59,12 +59,12 @@ export class NotificationsState {
   }
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
-  onReadUsersNotificationsByTypeSuccess({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsByTypeSuccess): void {
+  onReadUsersNotificationsByTypeSuccess({ dispatch }: StateContext<NotificationsStateModel>, { }: OnReadUsersNotificationsByTypeSuccess): void {
     dispatch(new GetAmountOfNewUsersNotifications());
   }
 
   @Action(ReadUsersNotificationById)
-  readUsersNotificationsById({ dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationById): Observable<object> {
+  readUsersNotificationsById({ dispatch }: StateContext<NotificationsStateModel>, { payload }: ReadUsersNotificationById): Observable<Notification | Observable<void>> {
     return this.notificationsService
       .readUsersNotificationById(payload)
       .pipe(
