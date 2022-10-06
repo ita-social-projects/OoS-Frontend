@@ -343,7 +343,7 @@ export class ProviderState {
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnCreateWorkshopSuccess
   ): void {
-    const message = Util.getWorkshopMessage(payload);
+    const message = Util.getWorkshopMessage(payload, 'Дякуємо! Новий гурток успішно доданий.');
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
@@ -359,7 +359,7 @@ export class ProviderState {
 
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
-    const message = Util.getWorkshopMessage(payload);
+    const message = Util.getWorkshopMessage(payload, 'Гурток оновлено!');
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['/personal-cabinet/provider/workshops']);
   }

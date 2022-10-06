@@ -173,10 +173,9 @@ export class Util {
    * @param payload Object
    * @returns string
    */
-  public static getWorkshopMessage(payload): { text: string; type: string } {
+  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
     const finalMessage = { text: '', type: 'success' };
     const messageArr = [];
-
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
     let statuses, invalidImages;
@@ -191,7 +190,8 @@ export class Util {
       isInvalidGaleryImages = !!invalidImages.length;
     }
 
-    messageArr.push(`Гурток оновлено!`);
+    messageArr.push(message);
+    
 
     if (isInvalidCoverImage) {
       const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
