@@ -1,4 +1,4 @@
-import { AllMinistryAdmins, MinistryAdminParameters } from './../models/ministryAdmin.model';
+import { MinistryAdminParameters } from './../models/ministryAdmin.model';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Direction, DirectionsFilter } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
@@ -67,6 +67,7 @@ import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
+import { SearchResponse } from '../models/searchResponse.model';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -80,7 +81,7 @@ export interface AdminStateModel {
   children: ChildCards;
   providers: Provider[];
   selectedMinistryAdmin: MinistryAdmin;
-  ministryAdmins: AllMinistryAdmins;
+  ministryAdmins: SearchResponse<MinistryAdmin[]>;
   providerHistory: ProvidersHistory | [];
   providerAdminHistory: ProviderAdminsHistory | [];
   applicationHistory: ApplicationsHistory | [];
@@ -115,7 +116,7 @@ export class AdminState {
     return state.providers;
   }
 
-  @Selector() static ministryAdmins(state: AdminStateModel): AllMinistryAdmins {
+  @Selector() static ministryAdmins(state: AdminStateModel): SearchResponse<MinistryAdmin[]> {
     return state.ministryAdmins;
   }
 
@@ -482,10 +483,10 @@ export class AdminState {
   getAllMinistryAdmin(
     { patchState }: StateContext<AdminStateModel>,
     { parameters }: GetAllMinistryAdmins
-  ): Observable<AllMinistryAdmins> {
+  ): Observable<SearchResponse<MinistryAdmin[]>> {
     patchState({ isLoading: true });
     return this.ministryAdminService.getAllMinistryAdmin(parameters).pipe(
-      tap((ministryAdmins: AllMinistryAdmins) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
+      tap((ministryAdmins: SearchResponse<MinistryAdmin[]>) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
     );
   }
 

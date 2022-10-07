@@ -1,10 +1,11 @@
-import { AllMinistryAdmins, MinistryAdmin, MinistryAdminParameters } from './../../models/ministryAdmin.model';
+import { MinistryAdmin, MinistryAdminParameters } from './../../models/ministryAdmin.model';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
+import { SearchResponse } from '../../models/searchResponse.model';
 
 @Injectable({
   providedIn: 'root'
@@ -53,10 +54,10 @@ export class MinistryAdminService {
   /**
    * This method get All Ministry Admins
    */
-  getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<AllMinistryAdmins> {
+  getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<SearchResponse<MinistryAdmin[]>> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<AllMinistryAdmins>('/api/v1/MinistryAdmin/GetByFilter', options);
+    return this.http.get<SearchResponse<MinistryAdmin[]>>('/api/v1/MinistryAdmin/GetByFilter', options);
   }
 
   /**
