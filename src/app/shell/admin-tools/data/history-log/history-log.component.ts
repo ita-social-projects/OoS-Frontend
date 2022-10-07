@@ -13,7 +13,7 @@ import {
 } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import {
-  ApplicationsHistory,
+  ApplicationHistory,
   DropdownData,
   FilterData,
   ProviderAdminHistory,
@@ -51,7 +51,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
 
   @Select(AdminState.applicationHistory)
-    applicationHistory$: Observable<ApplicationsHistory>;
+    applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
 
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
@@ -60,7 +60,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   provider: SearchResponse<ProviderHistory[]>;
   providerAdmin: SearchResponse<ProviderAdminHistory[]>;
-  application: ApplicationsHistory;
+  application: SearchResponse<ApplicationHistory[]>;
   tableData: any = [];
   tabIndex = 0;
   searchString: string;
@@ -98,9 +98,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.applicationHistory$
       .pipe(
         takeUntil(this.destroy$),
-        filter((application: ApplicationsHistory) => !!application)
+        filter((application: SearchResponse<ApplicationHistory[]>) => !!application)
       )
-      .subscribe((application: ApplicationsHistory) => {
+      .subscribe((application: SearchResponse<ApplicationHistory[]>) => {
         this.tableData = application.entities;
         this.application = this.tableData;
       });

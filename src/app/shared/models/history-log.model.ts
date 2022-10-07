@@ -37,11 +37,6 @@ export interface ApplicationHistory {
   providerTitle: string;
 }
 
-export interface ApplicationsHistory {
-  totalAmount: number;
-  entities: ApplicationHistory[];
-}
-
 export interface FilterData {
   dateFrom: string;
   dateTo: string;

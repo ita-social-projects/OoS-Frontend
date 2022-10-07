@@ -62,7 +62,7 @@ import {
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationsHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
+import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
@@ -84,7 +84,7 @@ export interface AdminStateModel {
   ministryAdmins: SearchResponse<MinistryAdmin[]>;
   providerHistory: SearchResponse<ProviderHistory[]> | [];
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]> | [];
-  applicationHistory: ApplicationsHistory | [];
+  applicationHistory: SearchResponse<ApplicationHistory[]> | [];
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -160,7 +160,7 @@ export class AdminState {
     return state.providerAdminHistory;
   }
 
-  @Selector() static applicationHistory(state: AdminStateModel): ApplicationsHistory | [] {
+  @Selector() static applicationHistory(state: AdminStateModel): SearchResponse<ApplicationHistory[]> | [] {
     return state.applicationHistory;
   }
 
@@ -425,10 +425,10 @@ export class AdminState {
   GetApplicationHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetApplicationHistory
-  ): Observable<ApplicationsHistory> {
+  ): Observable<SearchResponse<ApplicationHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
-      tap((application: ApplicationsHistory) => {
+      tap((application: SearchResponse<ApplicationHistory[]>) => {
         return patchState({ applicationHistory: application ? application : [], isLoading: false });
       })
     );
