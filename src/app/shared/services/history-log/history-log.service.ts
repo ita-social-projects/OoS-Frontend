@@ -2,8 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ApplicationsHistory, FilterData, ProviderAdminsHistory, ProvidersHistory } from '../../models/history-log.model';
+import { ApplicationsHistory, FilterData, ProviderAdminsHistory, ProviderHistory } from '../../models/history-log.model';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/searchResponse.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -45,9 +46,9 @@ export class HistoryLogService {
     return params;
   }
 
-  getProviderHistory(filters: FilterData, searchString: string): Observable<ProvidersHistory> {
+  getProviderHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ProviderHistory[]>> {
     const body = { params: this.setParams(filters, searchString) };
-    return this.http.get<ProvidersHistory>('/api/v1/ChangesLog/Provider', body);
+    return this.http.get<SearchResponse<ProviderHistory[]>>('/api/v1/ChangesLog/Provider', body);
   }
   getProviderAdminHistory(filters: FilterData, searchString: string): Observable<ProviderAdminsHistory> {
     const body = { params: this.setParams(filters, searchString) };

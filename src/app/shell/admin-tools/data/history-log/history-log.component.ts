@@ -17,7 +17,7 @@ import {
   DropdownData,
   FilterData,
   ProviderAdminsHistory,
-  ProvidersHistory,
+  ProviderHistory,
 } from '../../../../shared/models/history-log.model';
 import {
   GetApplicationHistory,
@@ -30,6 +30,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
 import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { SearchResponse } from '../../../../shared/models/searchResponse.model';
 
 @Component({
   selector: 'app-history-log',
@@ -44,7 +45,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     isLoadingCabinet$: Observable<boolean>;
 
   @Select(AdminState.providerHistory)
-    providersHistory$: Observable<ProvidersHistory>;
+    providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
 
   @Select(AdminState.providerAdminHistory)
     providerAdminHistory$: Observable<ProviderAdminsHistory>;
@@ -57,7 +58,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   itemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  provider: ProvidersHistory;
+  provider: SearchResponse<ProviderHistory[]>;
   providerAdmin: ProviderAdminsHistory;
   application: ApplicationsHistory;
   tableData: any = [];
@@ -77,9 +78,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.providersHistory$
       .pipe(
         takeUntil(this.destroy$),
-        filter((provider: ProvidersHistory) => !!provider)
+        filter((provider: SearchResponse<ProviderHistory[]>) => !!provider)
       )
-      .subscribe((provider: ProvidersHistory) => {
+      .subscribe((provider: SearchResponse<ProviderHistory[]>) => {
         this.tableData = provider.entities;
         this.provider = this.tableData;
       });

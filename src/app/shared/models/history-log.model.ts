@@ -12,11 +12,6 @@ export interface ProviderHistory {
   providerCity: string;
 }
 
-export interface ProvidersHistory {
-  totalAmount: number;
-  entities: ProviderHistory[];
-}
-
 export interface ProviderAdminHistory {
   providerAdminId: string;
   providerAdminFullName: string;
