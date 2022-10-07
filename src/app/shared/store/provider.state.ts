@@ -78,7 +78,7 @@ import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
-import { SearchResponse } from '../models/searchResponse.model';
+import { SearchResponse } from '../models/search.model';
 
 export interface ProviderStateModel {
   isLoading: boolean;

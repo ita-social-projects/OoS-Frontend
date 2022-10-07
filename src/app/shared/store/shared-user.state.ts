@@ -27,7 +27,7 @@ import { messageStatus } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TruncatedItem } from '../models/truncated.model';
-import { SearchResponse } from '../models/searchResponse.model';
+import { SearchResponse } from '../models/search.model';
 import { EMPTY_RESULT } from '../constants/constants';
 
 export interface SharedUserStateModel {

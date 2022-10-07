@@ -46,7 +46,7 @@ import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
-import { SearchResponse } from '../models/searchResponse.model';
+import { SearchResponse } from '../models/search.model';
 import { EMPTY_RESULT } from '../constants/constants';
 
 export interface ParentStateModel {

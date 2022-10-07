@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { SearchResponse } from '../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../shared/models/search.model';
 import { PaginationConstants } from '../../shared/constants/constants';
 import { NavBarName } from '../../shared/enum/navigation-bar';
 import { Direction } from '../../shared/models/category.model';

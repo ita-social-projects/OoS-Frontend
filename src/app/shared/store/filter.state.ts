@@ -8,7 +8,7 @@ import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
 import { FilterList } from '../models/filterList.model';
-import { SearchResponse } from '../models/searchResponse.model';
+import { SearchResponse } from '../models/search.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
