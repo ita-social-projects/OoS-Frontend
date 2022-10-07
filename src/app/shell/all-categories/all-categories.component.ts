@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { SearchResponse } from '../../shared/models/search.model';
 import { PaginationConstants } from '../../shared/constants/constants';
 import { NavBarName } from '../../shared/enum/navigation-bar';
-import { DirectionsFilter } from '../../shared/models/category.model';
+import { Direction } from '../../shared/models/category.model';
 import { PaginationElement } from '../../shared/models/paginationElement.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { GetFilteredDirections } from '../../shared/store/admin.actions';
@@ -22,7 +23,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.directionsPerPage)
     directionsPerPage$: Observable<number>;
   @Select(AdminState.filteredDirections)
-    filteredDirections$: Observable<DirectionsFilter>;
+    filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 

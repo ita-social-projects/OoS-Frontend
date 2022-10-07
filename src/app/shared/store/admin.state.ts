@@ -1,12 +1,12 @@
-import { AllMinistryAdmins, MinistryAdminParameters } from './../models/ministryAdmin.model';
+import { MinistryAdminParameters } from './../models/ministryAdmin.model';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Direction, DirectionsFilter } from '../models/category.model';
+import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
-import { ChildCards } from '../models/child.model';
+import { Child } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { Injectable } from '@angular/core';
@@ -62,12 +62,13 @@ import {
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationsHistory, ProviderAdminsHistory, ProvidersHistory } from '../models/history-log.model';
+import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
 import { SnackbarText } from '../enum/messageBar';
+import { SearchResponse } from '../models/search.model';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -76,15 +77,15 @@ export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   selectedDirection: Direction;
-  filteredDirections: DirectionsFilter;
+  filteredDirections: SearchResponse<Direction[]>;
   parents: Parent[];
-  children: ChildCards;
+  children: SearchResponse<Child[]>;
   providers: Provider[];
   selectedMinistryAdmin: MinistryAdmin;
-  ministryAdmins: AllMinistryAdmins;
-  providerHistory: ProvidersHistory | [];
-  providerAdminHistory: ProviderAdminsHistory | [];
-  applicationHistory: ApplicationsHistory | [];
+  ministryAdmins: SearchResponse<MinistryAdmin[]>;
+  providerHistory: SearchResponse<ProviderHistory[]> | [];
+  providerAdminHistory: SearchResponse<ProviderAdminHistory[]> | [];
+  applicationHistory: SearchResponse<ApplicationHistory[]> | [];
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -116,7 +117,7 @@ export class AdminState {
     return state.providers;
   }
 
-  @Selector() static ministryAdmins(state: AdminStateModel): AllMinistryAdmins {
+  @Selector() static ministryAdmins(state: AdminStateModel): SearchResponse<MinistryAdmin[]> {
     return state.ministryAdmins;
   }
 
@@ -136,7 +137,7 @@ export class AdminState {
     return state.direction;
   }
 
-  @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter {
+  @Selector() static filteredDirections(state: AdminStateModel): SearchResponse<Direction[]> {
     return state.filteredDirections;
   }
 
@@ -148,19 +149,19 @@ export class AdminState {
     return state.parents;
   }
 
-  @Selector() static children(state: AdminStateModel): ChildCards {
+  @Selector() static children(state: AdminStateModel): SearchResponse<Child[]> {
     return state.children;
   }
 
-  @Selector() static providerHistory(state: AdminStateModel): ProvidersHistory | [] {
+  @Selector() static providerHistory(state: AdminStateModel): SearchResponse<ProviderHistory[]> | [] {
     return state.providerHistory;
   }
 
-  @Selector() static providerAdminHistory(state: AdminStateModel): ProviderAdminsHistory | [] {
+  @Selector() static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
     return state.providerAdminHistory;
   }
 
-  @Selector() static applicationHistory(state: AdminStateModel): ApplicationsHistory | [] {
+  @Selector() static applicationHistory(state: AdminStateModel): SearchResponse<ApplicationHistory[]> | [] {
     return state.applicationHistory;
   }
 
@@ -357,11 +358,11 @@ export class AdminState {
   }
 
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<DirectionsFilter> {
+  getFilteredDirections({ patchState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<SearchResponse<Direction[]>> {
     patchState({ isLoading: true });
     return this.categoriesService.getFilteredDirections(payload).pipe(
       tap(
-        (filterResult: DirectionsFilter) =>
+        (filterResult: SearchResponse<Direction[]>) =>
           patchState(
             filterResult
               ? { filteredDirections: filterResult, isLoading: false }
@@ -386,10 +387,10 @@ export class AdminState {
   getChildrenForAdmin(
     { patchState }: StateContext<AdminStateModel>,
     { parameters }: GetChildrenForAdmin
-  ): Observable<ChildCards> {
+  ): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService.getChildrenForAdmin(parameters).pipe(
-      tap((children: ChildCards) => {
+      tap((children: SearchResponse<Child[]>) => {
         return patchState({ children: children, isLoading: false });
       })
     );
@@ -399,10 +400,10 @@ export class AdminState {
   GetProviderHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderHistory
-  ): Observable<ProvidersHistory> {
+  ): Observable<SearchResponse<ProviderHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderHistory(payload, searchSting).pipe(
-      tap((providers: ProvidersHistory) => {
+      tap((providers: SearchResponse<ProviderHistory[]>) => {
         return patchState({ providerHistory: providers ? providers : [], isLoading: false });
       })
     );
@@ -412,10 +413,10 @@ export class AdminState {
   GetProviderAdminHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderAdminHistory
-  ): Observable<ProviderAdminsHistory> {
+  ): Observable<SearchResponse<ProviderAdminHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
-      tap((providerAdmin: ProviderAdminsHistory) => {
+      tap((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => {
         return patchState({ providerAdminHistory: providerAdmin ? providerAdmin : [], isLoading: false });
       })
     );
@@ -425,10 +426,10 @@ export class AdminState {
   GetApplicationHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetApplicationHistory
-  ): Observable<ApplicationsHistory> {
+  ): Observable<SearchResponse<ApplicationHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
-      tap((application: ApplicationsHistory) => {
+      tap((application: SearchResponse<ApplicationHistory[]>) => {
         return patchState({ applicationHistory: application ? application : [], isLoading: false });
       })
     );
@@ -483,10 +484,10 @@ export class AdminState {
   getAllMinistryAdmin(
     { patchState }: StateContext<AdminStateModel>,
     { parameters }: GetAllMinistryAdmins
-  ): Observable<AllMinistryAdmins> {
+  ): Observable<SearchResponse<MinistryAdmin[]>> {
     patchState({ isLoading: true });
     return this.ministryAdminService.getAllMinistryAdmin(parameters).pipe(
-      tap((ministryAdmins: AllMinistryAdmins) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
+      tap((ministryAdmins: SearchResponse<MinistryAdmin[]>) => patchState({ ministryAdmins: ministryAdmins, isLoading: false }))
     );
   }
 

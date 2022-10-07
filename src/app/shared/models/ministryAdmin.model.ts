@@ -27,10 +27,6 @@ export class MinistryAdmin {
     }
   }
 }
-export interface AllMinistryAdmins{
-  totalAmount: number;
-  entities: MinistryAdmin[];
-}
 
 export interface MinistryAdminParameters {
   tabTitle?: string;

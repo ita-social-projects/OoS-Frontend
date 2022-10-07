@@ -3,9 +3,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Constants } from '../../constants/constants';
-import { Direction, DirectionsFilter } from '../../models/category.model';
+import { Direction } from '../../models/category.model';
 import { Codeficator } from '../../models/codeficator.model';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/search.model';
 import { FilterState } from '../../store/filter.state';
 import { PaginatorState } from '../../store/paginator.state';
 
@@ -32,9 +33,9 @@ export class DirectionsService {
     return params;
   }
 
-  getFilteredDirections(searchString: string): Observable<DirectionsFilter> {
+  getFilteredDirections(searchString: string): Observable<SearchResponse<Direction[]>> {
     const options = { params: this.setParams(searchString) };
-    return this.http.get<DirectionsFilter>('/api/v1/Direction/GetByFilter', options);
+    return this.http.get<SearchResponse<Direction[]>>('/api/v1/Direction/GetByFilter', options);
   }
 
   getDirections(): Observable<Direction[]> {

@@ -13,7 +13,7 @@ import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName, PersonalCabinetTitle } from '../../../../shared/enum/navigation-bar';
-import { ChildCards, Child } from '../../../../shared/models/child.model';
+import { Child } from '../../../../shared/models/child.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { SocialGroup } from '../../../../shared/models/socialGroup.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
@@ -24,6 +24,7 @@ import { ResetSelectedChild, GetUsersChildById, UpdateChild, CreateChildren } fr
 import { ParentState } from '../../../../shared/store/parent.state.';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Navigation } from '../../../../shared/models/navigation.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-create-child',
@@ -37,7 +38,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     socialGroups$: Observable<SocialGroup[]>;
   socialGroups: SocialGroup[];
   @Select(ParentState.children)
-    childrenCards$: Observable<ChildCards[]>;
+    childrenCards$: Observable<SearchResponse<Child[]>>;
   @Select(ParentState.selectedChild)
     selectedChild$: Observable<Child>;
   child: Child;

@@ -2,12 +2,14 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { EMPTY_RESULT } from '../constants/constants';
 import { ValidationConstants } from '../constants/validation';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
 import { FilterList } from '../models/filterList.model';
-import { WorkshopFilterCard } from '../models/workshop.model';
+import { SearchResponse } from '../models/search.model';
+import { WorkshopCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
   CleanCity,
@@ -66,7 +68,7 @@ import {
 @Injectable()
 export class FilterState {
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard {
+  static filteredWorkshops(state: FilterStateModel): SearchResponse<WorkshopCard[]> {
     return state.filteredWorkshops;
   }
 
@@ -233,16 +235,16 @@ export class FilterState {
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<WorkshopFilterCard> {
+  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
     return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
-      tap((filterResult: WorkshopFilterCard) => {
+      tap((filterResult: SearchResponse<WorkshopCard[]>) => {
         patchState(
           filterResult
             ? { filteredWorkshops: filterResult, isLoading: false }
-            : { filteredWorkshops: { totalAmount: 0, entities: [] }, isLoading: false }
+            : { filteredWorkshops: EMPTY_RESULT, isLoading: false }
         );
       })
     );

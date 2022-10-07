@@ -28,10 +28,7 @@ export class Child implements Person {
     this.isParent = info.isParent;
   }
 }
-export interface ChildCards {
-  totalAmount: number;
-  entities: Child[];
-}
+
 export interface ChildrenParameters {
   tabTitle?: string;
   searchString?: string;

@@ -9,8 +9,3 @@ export class Favorite {
     this.userId = userId;
   }
 }
-
-export interface WorkshopFavoriteCard {
-  totalAmount: number;
-  entities: WorkshopCard[];
-}
