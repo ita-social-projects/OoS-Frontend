@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Constants } from '../constants/constants';
+import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { Achievement } from '../models/achievement.model';
 import { ChildCards } from '../models/child.model';
 import { Provider } from '../models/provider.model';
@@ -187,7 +187,7 @@ export class ProviderState {
         return patchState(
           approvedChildren
             ? { approvedChildren: approvedChildren, isLoading: false }
-            : { approvedChildren: { totalAmount: 0, entities: [] }, isLoading: false }
+            : { approvedChildren: EMPTY_RESULT, isLoading: false }
         );
       })
     );
