@@ -15,7 +15,7 @@ import { SetFirstPage, SetWorkshopsPerPage } from '../../shared/store/paginator.
 import { PaginatorState } from '../../shared/store/paginator.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
-import { SearchResponse } from '../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../shared/models/search.model';
 
 enum ViewType {
   map = 'map',

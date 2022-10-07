@@ -2,7 +2,7 @@ import { Favorite } from './../../../models/favorite.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../models/search.model';
 import { WorkshopCard } from '../../../../shared/models/workshop.model';
 
 @Injectable({

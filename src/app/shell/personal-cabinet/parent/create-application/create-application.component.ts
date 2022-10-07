@@ -22,7 +22,7 @@ import { ParentState } from '../../../../shared/store/parent.state.';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { GetWorkshopById } from '../../../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-create-application',

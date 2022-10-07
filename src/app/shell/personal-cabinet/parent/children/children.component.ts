@@ -15,7 +15,7 @@ import { SetFirstPage, SetChildrensPerPage, OnPageChangeChildrens } from '../../
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { GetUsersChildren, DeleteChildById } from '../../../../shared/store/parent.actions';
 import { ParentState } from './../../../../shared/store/parent.state.';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-children',

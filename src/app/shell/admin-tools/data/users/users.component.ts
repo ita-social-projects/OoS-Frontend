@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';

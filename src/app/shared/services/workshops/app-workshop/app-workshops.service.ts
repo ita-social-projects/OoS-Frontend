@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../models/search.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
 import { Direction } from '../../../models/category.model';

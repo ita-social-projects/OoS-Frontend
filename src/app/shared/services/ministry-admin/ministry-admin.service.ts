@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
-import { SearchResponse } from '../../models/searchResponse.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'

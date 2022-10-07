@@ -67,7 +67,7 @@ import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
-import { SearchResponse } from '../models/searchResponse.model';
+import { SearchResponse } from '../models/search.model';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;

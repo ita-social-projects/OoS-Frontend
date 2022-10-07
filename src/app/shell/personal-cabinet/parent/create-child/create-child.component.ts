@@ -24,7 +24,7 @@ import { ResetSelectedChild, GetUsersChildById, UpdateChild, CreateChildren } fr
 import { ParentState } from '../../../../shared/store/parent.state.';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Navigation } from '../../../../shared/models/navigation.model';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-create-child',

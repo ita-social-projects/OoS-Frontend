@@ -30,7 +30,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
 import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-history-log',

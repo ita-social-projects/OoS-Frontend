@@ -19,7 +19,7 @@ import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.act
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',

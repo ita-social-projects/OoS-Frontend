@@ -9,7 +9,7 @@ import { PaginationElement } from '../../../shared/models/paginationElement.mode
 import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
 import { FilterState } from '../../../shared/store/filter.state';
 import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
-import { SearchResponse } from '../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../shared/models/search.model';
 
 @Component({
   selector: 'app-workshop-cards-list',

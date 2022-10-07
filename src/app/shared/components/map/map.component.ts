@@ -15,7 +15,7 @@ import { GeocoderService } from './../../services/geolocation/geocoder.service';
 import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
-import { SearchResponse } from '../../models/searchResponse.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Component({
   selector: 'app-map',

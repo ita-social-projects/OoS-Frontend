@@ -27,7 +27,7 @@ import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../share
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { Util } from '../../../../shared/utils/utils';
 import { Navigation } from '../../../../shared/models/navigation.model';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { Child } from '../../../../shared/models/child.model';
 
 @Component({

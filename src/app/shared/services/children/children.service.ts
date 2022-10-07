@@ -4,7 +4,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Child, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
-import { SearchResponse } from '../../models/searchResponse.model';
+import { SearchResponse } from '../../models/search.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { TruncatedItem } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';

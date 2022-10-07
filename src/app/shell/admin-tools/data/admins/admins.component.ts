@@ -23,7 +23,7 @@ import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.act
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-admins',

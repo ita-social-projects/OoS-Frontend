@@ -1,7 +1,7 @@
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from './category.model';
 import { Codeficator } from './codeficator.model';
-import { SearchResponse } from './searchResponse.model';
+import { SearchResponse } from './search.model';
 import { WorkshopCard } from './workshop.model';
 
 export interface FilterStateModel {

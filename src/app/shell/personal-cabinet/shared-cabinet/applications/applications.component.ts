@@ -22,7 +22,7 @@ import { Workshop } from '../../../../shared/models/workshop.model';
 import { OnPageChangeApplications, SetApplicationsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
-import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-applications',

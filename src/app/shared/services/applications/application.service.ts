@@ -6,7 +6,7 @@ import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Application, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
-import { SearchResponse } from '../../models/searchResponse.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root',

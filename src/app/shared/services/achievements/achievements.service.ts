@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Achievement, AchievementType } from '../../models/achievement.model';
 import { Child } from '../../models/child.model';
-import { SearchResponse } from '../../models/searchResponse.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root',
