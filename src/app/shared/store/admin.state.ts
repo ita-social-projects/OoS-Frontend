@@ -67,7 +67,7 @@ import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
-import { messageText } from '../enum/messageBar';
+import { SnackbarText } from '../enum/messageBar';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -252,7 +252,7 @@ export class AdminState {
   @Action(OnUpdatePlatformInfoFail)
   onUpdatePlatformInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdatePlatformInfoSuccess)
@@ -262,7 +262,7 @@ export class AdminState {
   ): void {
     dispatch([
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: messageText.updatePortal, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.updatePortal, type: 'success' }),
     ]);
     this.router.navigate(['/admin-tools/platform'], { queryParams: { page: type } });
   }
@@ -281,12 +281,12 @@ export class AdminState {
   @Action(OnDeleteDirectionFail)
   onDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteDirectionSuccess)
   onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch([new ShowMessageBar({ message: messageText.deleteDirection, type: 'success' }), new GetFilteredDirections()]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteDirection, type: 'success' }), new GetFilteredDirections()]);
   }
 
   @Action(CreateDirection)
@@ -300,7 +300,7 @@ export class AdminState {
   @Action(OnCreateDirectionFail)
   onCreateDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateDirectionSuccess)
@@ -310,7 +310,7 @@ export class AdminState {
   ): void {
     dispatch([
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: messageText.createDirection, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.createDirection, type: 'success' }),
     ]);
     patchState({ direction: payload });
     this.location.back();
@@ -330,7 +330,7 @@ export class AdminState {
   @Action(OnUpdateDirectionFail)
   onUpdateDirectionfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateDirectionSuccess)
@@ -338,7 +338,7 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new GetDirectionById(payload.id),
-      new ShowMessageBar({ message: messageText.updateDirection, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.updateDirection, type: 'success' }),
       new OnPageChangeDirections(PaginationConstants.firstPage),
       new GetFilteredDirections(),
     ]);
@@ -459,7 +459,7 @@ export class AdminState {
     throwError(payload);
     dispatch(
       new ShowMessageBar({
-        message: messageText.error,
+        message: SnackbarText.error,
         type: 'error',
       })
     );
@@ -471,7 +471,7 @@ export class AdminState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: messageText.createMinistryAdmin,
+        message: SnackbarText.createMinistryAdmin,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -512,7 +512,7 @@ export class AdminState {
   @Action(OnDeleteMinistryAdminFail)
   onDeleteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteMinistryAdminSuccess)
@@ -521,7 +521,7 @@ export class AdminState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: messageText.deleteMinistryAdmin,
+        message: SnackbarText.deleteMinistryAdmin,
         type: 'success'
       }),
       new GetAllMinistryAdmins()
@@ -542,7 +542,7 @@ export class AdminState {
   @Action(OnBlockMinistryAdminFail)
   onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnBlockMinistryAdminSuccess)
@@ -552,7 +552,7 @@ export class AdminState {
     dispatch([
       new GetAllMinistryAdmins(),
       new ShowMessageBar({
-        message: messageText.blockPerson,
+        message: SnackbarText.blockPerson,
         type: 'success',
       }),
     ]);
@@ -576,7 +576,7 @@ export class AdminState {
   ): void {
     throwError(payload);
     dispatch(new ShowMessageBar({
-      message: messageText.error,
+      message: SnackbarText.error,
       type: 'error'
     }));
   }
@@ -588,7 +588,7 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: messageText.updateMinistryAdmin,
+        message: SnackbarText.updateMinistryAdmin,
         type: 'success',
       }),
     ]);

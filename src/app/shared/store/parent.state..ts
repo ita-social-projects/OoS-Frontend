@@ -46,7 +46,7 @@ import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
-import { messageText } from '../enum/messageBar';
+import { SnackbarText } from '../enum/messageBar';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -260,12 +260,12 @@ export class ParentState {
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>): void {
-    dispatch([new ShowMessageBar({ message: messageText.deleteChild, type: 'success' }), new GetUsersChildren()]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren()]);
   }
 
   @Action(UpdateChild)
@@ -279,7 +279,7 @@ export class ParentState {
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUpdateChildFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateChildSuccess)
@@ -287,7 +287,7 @@ export class ParentState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: messageText.updateChild,
+        message: SnackbarText.updateChild,
         type: 'success',
       }),
     ]);
@@ -305,14 +305,14 @@ export class ParentState {
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateChildrenFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateChildrenSuccess)
   onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateChildrenSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: messageText.createChild,
+        message: SnackbarText.createChild,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -336,14 +336,14 @@ export class ParentState {
   @Action(OnCreateRatingFail)
   onCreateRatingFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateRatingFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateRatingSuccess)
   onCreateRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateRatingSuccess): void {
     dispatch(
       new ShowMessageBar({
-        message: messageText.createRating,
+        message: SnackbarText.createRating,
         type: 'success',
       })
     );
@@ -364,10 +364,10 @@ export class ParentState {
       new ShowMessageBar({
         message:
           payload.error.status === 429
-            ? messageText.applicationLimit
-            : messageText.error,
+            ? SnackbarText.applicationLimit
+            : SnackbarText.error,
         type: 'error',
-        info: payload.error.status === 429 ? messageText.applicationLimitPerPerson : '',
+        info: payload.error.status === 429 ? SnackbarText.applicationLimitPerPerson : '',
       })
     );
   }
@@ -377,7 +377,7 @@ export class ParentState {
     { dispatch }: StateContext<ParentStateModel>,
     { }: OnCreateApplicationSuccess
   ): void {
-    dispatch([new ShowMessageBar({ message: messageText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);
   }
 }

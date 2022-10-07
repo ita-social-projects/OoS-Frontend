@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { messageText } from '../enum/messageBar';
+import { SnackbarText } from '../enum/messageBar';
 import { NotificationType } from '../enum/notifications';
 import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
 import { NotificationsService } from '../services/notifications/notifications.service';
@@ -83,6 +83,6 @@ export class NotificationsState {
   @Action(OnReadUsersNotificationsFail)
   onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }

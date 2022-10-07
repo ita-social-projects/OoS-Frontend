@@ -11,7 +11,7 @@ export enum messageStatus {
   rejected = 'Заявку успішно відхилено'
 }
 
-export enum messageText{
+export enum SnackbarText{
   createWorkshop = 'Дякуємо! Новий гурток успішно доданий.',
   updateWorkshop = 'Гурток оновлено!',
   deleteWorkshop = 'Дякуємо! Гурток видалено!',
