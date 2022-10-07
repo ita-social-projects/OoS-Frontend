@@ -24,11 +24,6 @@ export interface ProviderAdminHistory {
   institutionTitle: string;
 }
 
-export interface ProviderAdminsHistory {
-  totalAmount: number;
-  entities: ProviderAdminHistory[];
-}
-
 export interface ApplicationHistory {
   fieldName: string;
   oldValue: string;

@@ -62,7 +62,7 @@ import {
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ApplicationsHistory, ProviderAdminsHistory, ProviderHistory } from '../models/history-log.model';
+import { ApplicationsHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
@@ -83,7 +83,7 @@ export interface AdminStateModel {
   selectedMinistryAdmin: MinistryAdmin;
   ministryAdmins: SearchResponse<MinistryAdmin[]>;
   providerHistory: SearchResponse<ProviderHistory[]> | [];
-  providerAdminHistory: ProviderAdminsHistory | [];
+  providerAdminHistory: SearchResponse<ProviderAdminHistory[]> | [];
   applicationHistory: ApplicationsHistory | [];
 }
 @State<AdminStateModel>({
@@ -156,7 +156,7 @@ export class AdminState {
     return state.providerHistory;
   }
 
-  @Selector() static providerAdminHistory(state: AdminStateModel): ProviderAdminsHistory | [] {
+  @Selector() static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
     return state.providerAdminHistory;
   }
 
@@ -412,10 +412,10 @@ export class AdminState {
   GetProviderAdminHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderAdminHistory
-  ): Observable<ProviderAdminsHistory> {
+  ): Observable<SearchResponse<ProviderAdminHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
-      tap((providerAdmin: ProviderAdminsHistory) => {
+      tap((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => {
         return patchState({ providerAdminHistory: providerAdmin ? providerAdmin : [], isLoading: false });
       })
     );

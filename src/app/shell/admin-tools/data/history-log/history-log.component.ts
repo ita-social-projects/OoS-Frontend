@@ -16,7 +16,7 @@ import {
   ApplicationsHistory,
   DropdownData,
   FilterData,
-  ProviderAdminsHistory,
+  ProviderAdminHistory,
   ProviderHistory,
 } from '../../../../shared/models/history-log.model';
 import {
@@ -48,7 +48,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
 
   @Select(AdminState.providerAdminHistory)
-    providerAdminHistory$: Observable<ProviderAdminsHistory>;
+    providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
 
   @Select(AdminState.applicationHistory)
     applicationHistory$: Observable<ApplicationsHistory>;
@@ -59,7 +59,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   provider: SearchResponse<ProviderHistory[]>;
-  providerAdmin: ProviderAdminsHistory;
+  providerAdmin: SearchResponse<ProviderAdminHistory[]>;
   application: ApplicationsHistory;
   tableData: any = [];
   tabIndex = 0;
@@ -88,9 +88,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.providerAdminHistory$
       .pipe(
         takeUntil(this.destroy$),
-        filter((providerAdmin: ProviderAdminsHistory) => !!providerAdmin)
+        filter((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => !!providerAdmin)
       )
-      .subscribe((providerAdmin: ProviderAdminsHistory) => {
+      .subscribe((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => {
         this.tableData = providerAdmin.entities;
         this.providerAdmin = this.tableData;
       });
