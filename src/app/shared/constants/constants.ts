@@ -127,3 +127,5 @@ export class CropperConfigurationConstants {
     height: 250
   };
 }
+
+export const EMPTY_RESULT = { totalAmount: 0, entities: [] };
