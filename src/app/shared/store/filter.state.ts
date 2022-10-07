@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { EMPTY_RESULT } from '../constants/constants';
 import { ValidationConstants } from '../constants/validation';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
@@ -242,7 +243,7 @@ export class FilterState {
         patchState(
           filterResult
             ? { filteredWorkshops: filterResult, isLoading: false }
-            : { filteredWorkshops: { totalAmount: 0, entities: [] }, isLoading: false }
+            : { filteredWorkshops: EMPTY_RESULT, isLoading: false }
         );
       })
     );

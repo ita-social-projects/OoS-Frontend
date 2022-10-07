@@ -27,6 +27,7 @@ import { messageStatus } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TruncatedItem } from '../models/truncated.model';
+import { EMPTY_RESULT } from '../constants/constants';
 
 export interface SharedUserStateModel {
   isLoading: boolean;
@@ -149,7 +150,7 @@ export class SharedUserState {
           patchState(
             applicationCards
               ? { applicationCards: applicationCards, isLoading: false }
-              : { applicationCards: { totalAmount: 0, entities: [] }, isLoading: false }
+              : { applicationCards: EMPTY_RESULT, isLoading: false }
           )
         )
       );
@@ -169,7 +170,7 @@ export class SharedUserState {
           patchState(
             applicationCards
               ? { applicationCards: applicationCards, isLoading: false }
-              : { applicationCards: { totalAmount: 0, entities: [] }, isLoading: false }
+              : { applicationCards: EMPTY_RESULT, isLoading: false }
           )
         )
       );

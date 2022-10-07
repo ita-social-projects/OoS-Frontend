@@ -46,6 +46,7 @@ import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
+import { EMPTY_RESULT } from '../constants/constants';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -218,7 +219,7 @@ export class ParentState {
           patchState(
             children
               ? { children: children, isLoading: false }
-              : { children: { totalAmount: 0, entities: [] }, isLoading: false }
+              : { children: EMPTY_RESULT, isLoading: false }
           )
         )
       );
