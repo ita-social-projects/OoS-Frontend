@@ -13,10 +13,11 @@ import {
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { SearchResponse } from '../../../shared/models/searchResponse.model';
 import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { WorkshopCard, WorkshopFilterCard } from '../../../shared/models/workshop.model';
+import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
 import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
 
@@ -38,7 +39,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
 
-  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
   @Input() role: string;
   @Input() currentPage: PaginationElement;
   @Input() itemsPerPage: number;
@@ -63,9 +64,9 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.filteredWorkshops$
       .pipe(
         takeUntil(this.destroy$),
-        filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
+        filter((filteredWorkshops: SearchResponse<WorkshopCard[]>) => !!filteredWorkshops)
       )
-      .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+      .subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
         this.workshops = filteredWorkshops.entities;
         this.onSelectedAddress(null);
       });

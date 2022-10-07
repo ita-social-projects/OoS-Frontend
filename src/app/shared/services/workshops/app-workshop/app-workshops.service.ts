@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { SearchResponse } from '../../../../shared/models/searchResponse.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
 import { Direction } from '../../../models/category.model';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filter-state.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
-import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
+import { WorkshopCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
 import { PaginatorState } from '../../../store/paginator.state';
 
@@ -137,9 +138,9 @@ export class AppWorkshopsService {
   /**
    * This method get workshops with applied filter options
    */
-  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
+  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<SearchResponse<WorkshopCard[]>> {
     const options = { params: this.setParams(filters, isMapView) };
-    return this.http.get<WorkshopFilterCard>('/api/v1/Workshop/GetByFilter', options);
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Workshop/GetByFilter', options);
   }
 
   /**
