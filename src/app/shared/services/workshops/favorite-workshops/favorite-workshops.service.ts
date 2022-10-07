@@ -1,7 +1,9 @@
-import { Favorite, WorkshopFavoriteCard } from './../../../models/favorite.model';
+import { Favorite } from './../../../models/favorite.model';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { WorkshopCard } from '../../../../shared/models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,8 +22,8 @@ export class FavoriteWorkshopsService {
   /**
    * This method get favorite workshops by Userid
    */
-  getFavoriteWorkshopsByUserId(): Observable<WorkshopFavoriteCard> {
-    return this.http.get<WorkshopFavoriteCard>('/api/v1/Favorite/workshops');
+  getFavoriteWorkshopsByUserId(): Observable<SearchResponse<WorkshopCard[]>> {
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Favorite/workshops');
   }
 
   /**

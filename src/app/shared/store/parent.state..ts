@@ -5,7 +5,7 @@ import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
 import { Child, ChildCards } from '../models/child.model';
-import { Favorite, WorkshopFavoriteCard } from '../models/favorite.model';
+import { Favorite } from '../models/favorite.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -46,6 +46,7 @@ import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
+import { SearchResponse } from '../models/searchResponse.model';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -176,11 +177,11 @@ export class ParentState {
   getFavoriteWorkshopsByUserId(
     { patchState }: StateContext<ParentStateModel>,
     {}: GetFavoriteWorkshopsByUserId
-  ): Observable<WorkshopFavoriteCard> {
+  ): Observable<SearchResponse<WorkshopCard[]>> {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshopsByUserId()
       .pipe(
-        tap((favoriteWorkshopCard: WorkshopFavoriteCard) =>
+        tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) =>
           patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities })
         )
       );
