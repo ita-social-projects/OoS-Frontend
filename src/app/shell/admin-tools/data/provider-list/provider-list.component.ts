@@ -10,7 +10,7 @@ import { Constants, PaginationConstants } from '../../../../shared/constants/con
 import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { Provider, ProviderCards } from '../../../../shared/models/provider.model';
+import { Provider } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderService } from '../../../../shared/services/provider/provider.service';
@@ -19,6 +19,7 @@ import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.act
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
+import { SearchResponse } from '../../../../shared/models/searchResponse.model';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -33,7 +34,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly providerAdminIcons = ApplicationIcons;
 
   @Select(AdminState.providers)
-    providers$: Observable<ProviderCards>;
+    providers$: Observable<SearchResponse<Provider[]>>;
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
 
@@ -81,7 +82,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
         takeUntil(this.destroy$),
         filter(providers => !!providers)
       )
-      .subscribe((providers: ProviderCards) => {
+      .subscribe((providers: SearchResponse<Provider[]>) => {
         this.dataSource = new MatTableDataSource(providers?.entities);
         this.dataSource.sort = this.sort;
       });
