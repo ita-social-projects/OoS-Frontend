@@ -6,7 +6,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
-import { ChildCards } from '../models/child.model';
+import { Child } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { Injectable } from '@angular/core';
@@ -78,7 +78,7 @@ export interface AdminStateModel {
   selectedDirection: Direction;
   filteredDirections: DirectionsFilter;
   parents: Parent[];
-  children: ChildCards;
+  children: SearchResponse<Child[]>;
   providers: Provider[];
   selectedMinistryAdmin: MinistryAdmin;
   ministryAdmins: SearchResponse<MinistryAdmin[]>;
@@ -148,7 +148,7 @@ export class AdminState {
     return state.parents;
   }
 
-  @Selector() static children(state: AdminStateModel): ChildCards {
+  @Selector() static children(state: AdminStateModel): SearchResponse<Child[]> {
     return state.children;
   }
 
@@ -386,10 +386,10 @@ export class AdminState {
   getChildrenForAdmin(
     { patchState }: StateContext<AdminStateModel>,
     { parameters }: GetChildrenForAdmin
-  ): Observable<ChildCards> {
+  ): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService.getChildrenForAdmin(parameters).pipe(
-      tap((children: ChildCards) => {
+      tap((children: SearchResponse<Child[]>) => {
         return patchState({ children: children, isLoading: false });
       })
     );

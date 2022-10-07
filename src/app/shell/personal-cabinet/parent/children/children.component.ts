@@ -8,13 +8,14 @@ import { ConfirmationModalWindowComponent } from '../../../../shared/components/
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { ChildCards, Child } from '../../../../shared/models/child.model';
+import { Child } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { SetFirstPage, SetChildrensPerPage, OnPageChangeChildrens } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { GetUsersChildren, DeleteChildById } from '../../../../shared/store/parent.actions';
 import { ParentState } from './../../../../shared/store/parent.state.';
+import { SearchResponse } from '../../../../shared/models/searchResponse.model';
 
 @Component({
   selector: 'app-children',
@@ -25,8 +26,8 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   @Select(PaginatorState.childrensPerPage)
     childrensPerPage$: Observable<number>;
   @Select(ParentState.children)
-    childrenCards$: Observable<ChildCards>;
-  childrenCards: ChildCards;
+    childrenCards$: Observable<SearchResponse<Child[]>>;
+  childrenCards: SearchResponse<Child[]>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
@@ -48,10 +49,10 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     this.store.dispatch([new SetFirstPage(), new GetUsersChildren()]);
     this.childrenCards$
       .pipe(
-        filter((childrenCards: ChildCards) => !!childrenCards),
+        filter((childrenCards: SearchResponse<Child[]>) => !!childrenCards),
         takeUntil(this.destroy$)
       )
-      .subscribe((childrenCards: ChildCards) => {
+      .subscribe((childrenCards: SearchResponse<Child[]>) => {
         childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
         this.childrenCards = childrenCards;
       });

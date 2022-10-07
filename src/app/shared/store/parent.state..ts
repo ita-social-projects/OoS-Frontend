@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
-import { Child, ChildCards } from '../models/child.model';
+import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -55,7 +55,7 @@ export interface ParentStateModel {
   isReviewed: boolean;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
-  children: ChildCards;
+  children: SearchResponse<Child[]>;
   truncatedItems: TruncatedItem[];
   selectedChild: Child;
 }
@@ -112,7 +112,7 @@ export class ParentState {
   }
 
   @Selector()
-  static children(state: ParentStateModel): ChildCards {
+  static children(state: ParentStateModel): SearchResponse<Child[]> {
     return state.children;
   }
 
@@ -210,12 +210,12 @@ export class ParentState {
   }
 
   @Action(GetUsersChildren)
-  getUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetUsersChildren): Observable<ChildCards> {
+  getUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService
       .getUsersChildren()
       .pipe(
-        tap((children: ChildCards) =>
+        tap((children: SearchResponse<Child[]>) =>
           patchState(
             children
               ? { children: children, isLoading: false }
@@ -234,11 +234,11 @@ export class ParentState {
   }
 
   @Action(GetAllUsersChildren)
-  getAllUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetAllUsersChildren): Observable<ChildCards> {
+  getAllUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetAllUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService
       .getAllUsersChildren()
-      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
+      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(GetAllUsersChildrenByParentId)

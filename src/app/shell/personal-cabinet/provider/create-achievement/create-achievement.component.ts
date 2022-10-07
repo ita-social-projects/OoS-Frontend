@@ -16,7 +16,6 @@ import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmatio
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Role } from '../../../../shared/enum/role';
 import { Achievement, AchievementType } from '../../../../shared/models/achievement.model';
-import { ChildCards } from '../../../../shared/models/child.model';
 import { Person } from '../../../../shared/models/user.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
@@ -28,6 +27,8 @@ import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../share
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { Util } from '../../../../shared/utils/utils';
 import { Navigation } from '../../../../shared/models/navigation.model';
+import { SearchResponse } from '../../../../shared/models/searchResponse.model';
+import { Child } from '../../../../shared/models/child.model';
 
 @Component({
   selector: 'app-create-achievement',
@@ -40,7 +41,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   @Select(SharedUserState.selectedWorkshop)
     workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
-    approvedChildren$: Observable<ChildCards>;
+    approvedChildren$: Observable<SearchResponse<Child[]>>;
   @Select(ProviderState.selectedAchievement)
     selectedAchievement$: Observable<Achievement>;
   @Select(MetaDataState.achievementsTypes)
@@ -50,7 +51,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   workshop: Workshop;
   achievement: Achievement;
   workshopId: string;
-  approvedChildren: ChildCards;
+  approvedChildren: SearchResponse<Child[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   get teachersFormControl(): FormControl {
@@ -114,9 +115,9 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     combineLatest([this.workshop$, this.approvedChildren$])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([workshop, approvedChildren]: [Workshop, ChildCards]) => !!(workshop && approvedChildren))
+        filter(([workshop, approvedChildren]: [Workshop, SearchResponse<Child[]>]) => !!(workshop && approvedChildren))
       )
-      .subscribe(([workshop, approvedChildren]: [Workshop, ChildCards]) => {
+      .subscribe(([workshop, approvedChildren]: [Workshop, SearchResponse<Child[]>]) => {
         this.workshop = workshop;
         this.approvedChildren = approvedChildren;
         this.determineEditMode();
