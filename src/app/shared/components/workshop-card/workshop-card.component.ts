@@ -21,6 +21,7 @@ import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
+import { SnackbarText } from '../../enum/messageBar';
 
 @Component({
   selector: 'app-workshop-card',
@@ -91,7 +92,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} додано до Улюблених`, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -99,7 +100,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   onDisLike(): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(this.favoriteWorkshopId),
-      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }

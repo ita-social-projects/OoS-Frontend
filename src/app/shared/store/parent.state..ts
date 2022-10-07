@@ -46,6 +46,7 @@ import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
+import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { EMPTY_RESULT } from '../constants/constants';
 
@@ -261,12 +262,12 @@ export class ParentState {
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>): void {
-    dispatch([new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }), new GetUsersChildren()]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren()]);
   }
 
   @Action(UpdateChild)
@@ -280,7 +281,7 @@ export class ParentState {
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUpdateChildFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateChildSuccess)
@@ -288,7 +289,7 @@ export class ParentState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: 'Дитина успішно відредагована',
+        message: SnackbarText.updateChild,
         type: 'success',
       }),
     ]);
@@ -306,14 +307,14 @@ export class ParentState {
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateChildrenFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateChildrenSuccess)
   onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateChildrenSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: 'Дякуємо! Дитина була успішно додана.',
+        message: SnackbarText.createChild,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -337,14 +338,14 @@ export class ParentState {
   @Action(OnCreateRatingFail)
   onCreateRatingFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateRatingFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateRatingSuccess)
   onCreateRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateRatingSuccess): void {
     dispatch(
       new ShowMessageBar({
-        message: 'Оцінка успішно поставлена!',
+        message: SnackbarText.createRating,
         type: 'success',
       })
     );
@@ -365,10 +366,10 @@ export class ParentState {
       new ShowMessageBar({
         message:
           payload.error.status === 429
-            ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(+payload.headers.get('retry-after'))}`
-            : 'На жаль виникла помилка',
+            ? SnackbarText.applicationLimit
+            : SnackbarText.error,
         type: 'error',
-        info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : '',
+        info: payload.error.status === 429 ? SnackbarText.applicationLimitPerPerson : '',
       })
     );
   }
@@ -378,7 +379,7 @@ export class ParentState {
     { dispatch }: StateContext<ParentStateModel>,
     { }: OnCreateApplicationSuccess
   ): void {
-    dispatch([new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }), new MarkFormDirty(false)]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);
   }
 }

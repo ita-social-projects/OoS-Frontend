@@ -78,6 +78,7 @@ import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
+import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 
 export interface ProviderStateModel {
@@ -221,14 +222,14 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnCreateAchievementSuccess
   ): void {
-    dispatch([new ShowMessageBar({ message: 'Новe Досягнення додано!', type: 'success' }), new MarkFormDirty(false)]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.createAchievement, type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
 
   @Action(OnCreateAchievementFail)
   onCreateAchievementFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateAchievementFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(UpdateAchievement)
@@ -248,7 +249,7 @@ export class ProviderState {
     { payload }: OnUpdateAchievementSuccess
   ): void {
     dispatch([
-      new ShowMessageBar({ message: 'Досягненян успішно відредаговано!', type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.updateAchievement, type: 'success' }),
       new MarkFormDirty(false),
     ]);
     this.router.navigate(['/details/workshop/', payload.workshopId]);
@@ -257,7 +258,7 @@ export class ProviderState {
   @Action(OnUpdateAchievementFail)
   onUpdateAchievementFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateAchievementFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(DeleteAchievementById)
@@ -276,7 +277,7 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnDeleteAchievementSuccess
   ): void {
-    dispatch([new ShowMessageBar({ message: 'Досягнення видалено!', type: 'success' })]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'success' })]);
     this.router.navigate(['/details/workshop', payload]);
   }
 
@@ -336,7 +337,7 @@ export class ProviderState {
   ): void {
     throwError(payload);
     patchState({ isLoading: false });
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateWorkshopSuccess)
@@ -344,7 +345,7 @@ export class ProviderState {
     { patchState, dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnCreateWorkshopSuccess
   ): void {
-    const message = Util.getWorkshopMessage(payload, 'Дякуємо! Новий гурток успішно доданий.');
+    const message = Util.getWorkshopMessage(payload, SnackbarText.createWorkshop);
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
@@ -360,7 +361,7 @@ export class ProviderState {
 
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
-    const message = Util.getWorkshopMessage(payload, 'Гурток оновлено!');
+    const message = Util.getWorkshopMessage(payload, SnackbarText.updateWorkshop);
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
     this.router.navigate(['/personal-cabinet/provider/workshops']);
   }
@@ -368,7 +369,7 @@ export class ProviderState {
   @Action(OnUpdateWorkshopFail)
   onUpdateWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(DeleteWorkshopById)
@@ -382,14 +383,14 @@ export class ProviderState {
   @Action(OnDeleteWorkshopFail)
   onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteWorkshopSuccess)
   onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: `Дякуємо! Гурток "${payload.title}" видалено!`,
+        message: SnackbarText.deleteWorkshop,
         type: 'success',
       }),
       new GetProviderWorkshops(payload.providerId),
@@ -413,8 +414,8 @@ export class ProviderState {
     const message =
       payload.error === Constants.UNABLE_CREATE_PROVIDER ||
       Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
-        ? 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними'
-        : 'На жаль виникла помилка';
+        ? SnackbarText.notUniqueData
+        : SnackbarText.error;
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
@@ -423,7 +424,7 @@ export class ProviderState {
     dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['']));
     dispatch([
       new ShowMessageBar({
-        message: 'Організацію успішно створено',
+        message: SnackbarText.createProvider,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -445,7 +446,7 @@ export class ProviderState {
   onUpdateProviderfail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderFail): void {
     throwError(payload);
 
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateProviderSuccess)
@@ -453,7 +454,7 @@ export class ProviderState {
     dispatch(new MarkFormDirty(false));
     dispatch([
       new ShowMessageBar({
-        message: 'Організація успішно відредагована',
+        message: SnackbarText.updateProvider,
         type: 'success',
       }),
     ]);
@@ -479,7 +480,7 @@ export class ProviderState {
     throwError(payload);
     dispatch(
       new ShowMessageBar({
-        message: 'На жаль виникла помилка при створенні користувача',
+        message: SnackbarText.error,
         type: 'error',
       })
     );
@@ -492,7 +493,8 @@ export class ProviderState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.isDeputy ? 'Заступника директора успішно створено!' : 'Адміністратора гуртка успішно створено!',
+        message: payload.isDeputy ? SnackbarText.createDeputy 
+                                  : SnackbarText.createProviderAdminSuccess,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -517,7 +519,7 @@ export class ProviderState {
     { payload }: OnBlockProviderAdminFail
   ): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnBlockProviderAdminSuccess)
@@ -528,7 +530,7 @@ export class ProviderState {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
-        message: 'Дякуємо! користувача заблоковано!',
+        message: SnackbarText.blockPerson,
         type: 'success',
       }),
     ]);
@@ -551,7 +553,7 @@ export class ProviderState {
     { payload }: OnDeleteProviderAdminFail
   ): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteProviderAdminSuccess)
@@ -562,7 +564,7 @@ export class ProviderState {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
-        message: 'Дякуємо! користувача видалено!',
+        message: SnackbarText.deleteProviderAdmin,
         type: 'success',
       }),
     ]);
@@ -584,7 +586,7 @@ export class ProviderState {
     throwError(payload);
 
     dispatch(new ShowMessageBar({
-      message: 'На жаль виникла помилка',
+      message: SnackbarText.error,
       type: 'error'
     }));
   }
@@ -596,7 +598,8 @@ export class ProviderState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.isDeputy ? 'Заступника директора успішно відредаговано!' : 'Адміністратора гуртка успішно відредаговано!',
+        message: payload.isDeputy ? SnackbarText.updateDeputy
+                                  : SnackbarText.updateProviderAdmin,
         type: 'success',
       }),
       new MarkFormDirty(false)
@@ -618,7 +621,7 @@ export class ProviderState {
   @Action(OnUpdateWorkshopStatusFail)
   onUpdateStatusFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopStatusFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateWorkshopStatusSuccess)
@@ -641,7 +644,7 @@ export class ProviderState {
   @Action(BlockParentFail)
   blockParentFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParentFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(BlockParentSuccess)
@@ -654,7 +657,7 @@ export class ProviderState {
         workshops: [],
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Користувач успішно заблокований', type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' }),
     ]);
   }
 
@@ -672,7 +675,7 @@ export class ProviderState {
   @Action(UnBlockParentFail)
   unBlockParentFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParentFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(UnBlockParentSuccess)
@@ -685,7 +688,7 @@ export class ProviderState {
         workshops: [],
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Користувач успішно розблокований', type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' }),
     ]);
   }
 
