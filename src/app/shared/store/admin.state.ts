@@ -1,6 +1,6 @@
 import { MinistryAdminParameters } from './../models/ministryAdmin.model';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Direction, DirectionsFilter } from '../models/category.model';
+import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
@@ -76,7 +76,7 @@ export interface AdminStateModel {
   isLoading: boolean;
   direction: Direction;
   selectedDirection: Direction;
-  filteredDirections: DirectionsFilter;
+  filteredDirections: SearchResponse<Direction[]>;
   parents: Parent[];
   children: SearchResponse<Child[]>;
   providers: Provider[];
@@ -136,7 +136,7 @@ export class AdminState {
     return state.direction;
   }
 
-  @Selector() static filteredDirections(state: AdminStateModel): DirectionsFilter {
+  @Selector() static filteredDirections(state: AdminStateModel): SearchResponse<Direction[]> {
     return state.filteredDirections;
   }
 
@@ -357,11 +357,11 @@ export class AdminState {
   }
 
   @Action(GetFilteredDirections)
-  getFilteredDirections({ patchState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<DirectionsFilter> {
+  getFilteredDirections({ patchState }: StateContext<AdminStateModel>, { payload }: GetFilteredDirections): Observable<SearchResponse<Direction[]>> {
     patchState({ isLoading: true });
     return this.categoriesService.getFilteredDirections(payload).pipe(
       tap(
-        (filterResult: DirectionsFilter) =>
+        (filterResult: SearchResponse<Direction[]>) =>
           patchState(
             filterResult
               ? { filteredDirections: filterResult, isLoading: false }
