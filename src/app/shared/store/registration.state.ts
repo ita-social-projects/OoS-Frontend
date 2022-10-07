@@ -31,6 +31,7 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TechAdmin } from '../models/techAdmin.model';
 import { Provider } from '../models/provider.model';
+import { messageText } from '../enum/messageBar';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -211,7 +212,7 @@ export class RegistrationState {
   @Action(OnUpdateUserFail)
   onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>, { payload }: OnUpdateUserFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnUpdateUserSuccess)
@@ -220,7 +221,7 @@ export class RegistrationState {
       new MarkFormDirty(false),
       new GetUserPersonalInfo(payload),
       new ShowMessageBar({
-        message: 'Особиста інформація успішно відредагована',
+        message: messageText.updateUser,
         type: 'success',
       }),
     ]);

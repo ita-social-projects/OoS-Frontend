@@ -16,6 +16,7 @@ import { AppState } from '../../../../shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { Login } from '../../../../shared/store/registration.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
+import { messageText } from 'src/app/shared/enum/messageBar';
 
 @Component({
   selector: 'app-actions',
@@ -73,7 +74,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: `Гурток ${this.workshop.title} додано до Улюблених`, type: 'success' }),
+      new ShowMessageBar({ message: messageText.addedWorkshopFavorite, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -81,7 +82,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
   onDisLike(): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
-      new ShowMessageBar({ message: `Гурток ${this.workshop.title} видалено з Улюблених`, type: 'success' }),
+      new ShowMessageBar({ message: messageText.deleteWorkshopFavorite, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }

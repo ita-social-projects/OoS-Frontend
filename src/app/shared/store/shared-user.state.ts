@@ -23,7 +23,7 @@ import {
   ResetProviderWorkshopDetails,
 } from './shared-user.actions';
 import { ApplicationStatus } from '../enum/applications';
-import { messageStatus } from '../enum/messageBar';
+import { messageStatus, messageText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TruncatedItem } from '../models/truncated.model';
@@ -98,7 +98,7 @@ export class SharedUserState {
   ): void {
     throwError(payload);
     patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(new ShowMessageBar({ message: 'Даний гурток видалено', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.deletedWorkshop, type: 'error' }));
   }
 
   @Action(GetProviderById)
@@ -120,7 +120,7 @@ export class SharedUserState {
   ): void {
     throwError(payload);
     patchState({ isLoading: false });
-    dispatch(new ShowMessageBar({ message: 'Виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(GetWorkshopsByProviderId)
@@ -186,7 +186,7 @@ export class SharedUserState {
   @Action(OnUpdateApplicationFail)
   onUpdateApplicationfail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnUpdateApplicationSuccess)

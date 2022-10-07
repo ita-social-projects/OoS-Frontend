@@ -67,6 +67,7 @@ import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
+import { messageText } from '../enum/messageBar';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -251,7 +252,7 @@ export class AdminState {
   @Action(OnUpdatePlatformInfoFail)
   onUpdatePlatformInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnUpdatePlatformInfoSuccess)
@@ -261,7 +262,7 @@ export class AdminState {
   ): void {
     dispatch([
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Інформація про портал успішно відредагована', type: 'success' }),
+      new ShowMessageBar({ message: messageText.updatePortal, type: 'success' }),
     ]);
     this.router.navigate(['/admin-tools/platform'], { queryParams: { page: type } });
   }
@@ -280,12 +281,12 @@ export class AdminState {
   @Action(OnDeleteDirectionFail)
   onDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnDeleteDirectionSuccess)
   onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch([new ShowMessageBar({ message: 'Напрямок видалено!', type: 'success' }), new GetFilteredDirections()]);
+    dispatch([new ShowMessageBar({ message: messageText.deleteDirection, type: 'success' }), new GetFilteredDirections()]);
   }
 
   @Action(CreateDirection)
@@ -299,7 +300,7 @@ export class AdminState {
   @Action(OnCreateDirectionFail)
   onCreateDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnCreateDirectionSuccess)
@@ -309,7 +310,7 @@ export class AdminState {
   ): void {
     dispatch([
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: 'Напрямок успішно створенний', type: 'success' }),
+      new ShowMessageBar({ message: messageText.createDirection, type: 'success' }),
     ]);
     patchState({ direction: payload });
     this.location.back();
@@ -329,7 +330,7 @@ export class AdminState {
   @Action(OnUpdateDirectionFail)
   onUpdateDirectionfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnUpdateDirectionSuccess)
@@ -337,7 +338,7 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new GetDirectionById(payload.id),
-      new ShowMessageBar({ message: 'Напрямок успішно відредагованний', type: 'success' }),
+      new ShowMessageBar({ message: messageText.updateDirection, type: 'success' }),
       new OnPageChangeDirections(PaginationConstants.firstPage),
       new GetFilteredDirections(),
     ]);
@@ -458,7 +459,7 @@ export class AdminState {
     throwError(payload);
     dispatch(
       new ShowMessageBar({
-        message: 'На жаль виникла помилка при створенні адміністратора міністерства',
+        message: messageText.error,
         type: 'error',
       })
     );
@@ -470,7 +471,7 @@ export class AdminState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: 'Адміністратор міністерства успішно створено',
+        message: messageText.createMinistryAdmin,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -511,7 +512,7 @@ export class AdminState {
   @Action(OnDeleteMinistryAdminFail)
   onDeleteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnDeleteMinistryAdminSuccess)
@@ -520,7 +521,7 @@ export class AdminState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: 'Адміна міністерства видалено!',
+        message: messageText.deleteMinistryAdmin,
         type: 'success'
       }),
       new GetAllMinistryAdmins()
@@ -541,7 +542,7 @@ export class AdminState {
   @Action(OnBlockMinistryAdminFail)
   onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: messageText.error, type: 'error' }));
   }
 
   @Action(OnBlockMinistryAdminSuccess)
@@ -551,7 +552,7 @@ export class AdminState {
     dispatch([
       new GetAllMinistryAdmins(),
       new ShowMessageBar({
-        message: 'Дякуємо! адміністратора міністерства заблоковано!',
+        message: messageText.blockPerson,
         type: 'success',
       }),
     ]);
@@ -575,7 +576,7 @@ export class AdminState {
   ): void {
     throwError(payload);
     dispatch(new ShowMessageBar({
-      message: 'На жаль виникла помилка',
+      message: messageText.error,
       type: 'error'
     }));
   }
@@ -587,7 +588,7 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: 'Адміністратор міністерства успішно відредагований',
+        message: messageText.updateMinistryAdmin,
         type: 'success',
       }),
     ]);

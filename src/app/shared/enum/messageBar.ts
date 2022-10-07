@@ -10,3 +10,56 @@ export enum messageStatus {
   approved = 'Статус заявки успішно змінено',
   rejected = 'Заявку успішно відхилено'
 }
+
+export enum messageText{
+  createWorkshop = 'Дякуємо! Новий гурток успішно доданий.',
+  updateWorkshop = 'Гурток оновлено!',
+  deleteWorkshop = 'Дякуємо! Гурток видалено!',
+  deletedWorkshop = 'Даний гурток видалено!',
+  
+  addedWorkshopFavorite = 'Гурток додано до Улюблених',
+  deleteWorkshopFavorite = 'Гурток видалено з Улюблених',
+
+  createDirection = 'Напрямок успішно створений',
+  updateDirection = 'Напрямок успішно відредагований',
+  deleteDirection = 'Напрямок видалено!',
+
+  createMinistryAdmin = 'Адміністратор міністерства успішно створено',
+  updateMinistryAdmin = 'Адміністратор міністерства успішно відредагований',
+  deleteMinistryAdmin = 'Адміна міністерства видалено!',
+
+  createChild = 'Дякуємо! Дитина була успішно додана.',
+  updateChild = 'Дитина успішно відредагована',
+  deleteChild = 'Дитину видалено!',
+
+  createAchievement = 'Нове досягнення додано!',
+  updateAchievement = 'Досягнення успішно відредаговано!',
+  deleteAchievement = 'Досягнення видалено!',
+
+  createProviderAdmin = 'Адміністратора гуртка успішно створено!',
+  updateProviderAdmin = 'Адміністратора гуртка успішно відредаговано!',
+  deleteProviderAdmin = 'Дякуємо! Користувача видалено!',
+
+  createApplication = 'Заявку створено!',
+  applicationLimit = 'Перевищено ліміт заявок. Спробуйте ще раз пізніше.',
+  applicationLimitPerPerson = 'Користувач може подати не більше 2-х заяв в тиждень на людину',
+
+  createProvider = 'Організацію успішно створено',
+  updateProvider = 'Організація успішно відредагована',
+
+  createDeputy = 'Заступника директора успішно створено!',
+  updateDeputy = 'Заступника директора успішно відредаговано!',
+  
+  createRating = 'Оцінка успішно поставлена!',
+  
+  updatePortal = 'Інформація про портал успішно відредагована',
+
+  updateUser = 'Особиста інформація успішно відредагована!',
+
+  blockPerson = 'Користувач успішно заблокований!',
+  unblockPerson = 'Користувач успішно розблокований',
+
+  error = 'На жаль, виникла помилка',
+  
+  notUniqueData = 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними',
+}
