@@ -5,11 +5,12 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { ChildCards, ChildrenParameters } from '../../../../shared/models/child.model';
+import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { UsersTable } from '../../../../shared/models/usersTable';
 import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
@@ -31,7 +32,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   @Select(AdminState.isLoading)
     isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
-    children$: Observable<ChildCards>;
+    children$: Observable<SearchResponse<Child[]>>;
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
 
@@ -65,9 +66,9 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.children$
       .pipe(
         takeUntil(this.destroy$),
-        filter((children: ChildCards) => !!children)
+        filter((children: SearchResponse<Child[]>) => !!children)
       )
-      .subscribe((children: ChildCards) => {
+      .subscribe((children: SearchResponse<Child[]>) => {
         this.allUsers = Util.updateStructureForTheTable(children.entities);
         this.totalEntities = children.totalAmount;
       });

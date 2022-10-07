@@ -14,7 +14,8 @@ import { NavigationState } from '../../shared/store/navigation.state';
 import { SetFirstPage, SetWorkshopsPerPage } from '../../shared/store/paginator.actions';
 import { PaginatorState } from '../../shared/store/paginator.state';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { WorkshopFilterCard } from '../../shared/models/workshop.model';
+import { WorkshopCard } from '../../shared/models/workshop.model';
+import { SearchResponse } from '../../shared/models/search.model';
 
 enum ViewType {
   map = 'map',
@@ -33,7 +34,7 @@ export class ResultComponent implements OnInit, OnDestroy {
     isMobileView$: Observable<boolean>;
   isMobileView: boolean;
   @Select(FilterState.filteredWorkshops)
-    filteredWorkshops$: Observable<WorkshopFilterCard>;
+    filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
   @Select(FilterState.isLoading)
     isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)

@@ -5,7 +5,8 @@ import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Application, ApplicationCards, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
+import { Application, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root',
@@ -51,19 +52,19 @@ export class ApplicationService {
    * This method get applications by Parent id
    * @param id string
    */
-  getApplicationsByParentId(id: string, parameters: ApplicationParameters): Observable<ApplicationCards> {
+  getApplicationsByParentId(id: string, parameters: ApplicationParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
-    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByParentId/${id}`, options);
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
 
   /**
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByProviderId(id: string, parameters: ApplicationParameters): Observable<ApplicationCards> {
+  getApplicationsByProviderId(id: string, parameters: ApplicationParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<ApplicationCards>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
   }
 
   /**

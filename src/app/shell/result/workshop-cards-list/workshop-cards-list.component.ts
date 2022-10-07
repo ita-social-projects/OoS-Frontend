@@ -2,13 +2,14 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { WorkshopFilterCard } from '../../../shared/models/workshop.model';
+import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from '../../../shared/enum/no-results';
 import { Role } from '../../../shared/enum/role';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
 import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
 import { FilterState } from '../../../shared/store/filter.state';
 import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
+import { SearchResponse } from '../../../shared/models/search.model';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -19,7 +20,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   readonly Role = Role;
 
-  @Input() workshops$: Observable<WorkshopFilterCard>;
+  @Input() workshops$: Observable<SearchResponse<WorkshopCard[]>>;
   @Input() currentPage: PaginationElement;
   @Input() role: string;
   @Input() itemsPerPage: number;
@@ -31,15 +32,15 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   isVisible = false;
   parent: boolean;
-  workshops: WorkshopFilterCard;
+  workshops: SearchResponse<WorkshopCard[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public store: Store) {}
 
   ngOnInit(): void {
     this.workshops$
-      .pipe(takeUntil(this.destroy$), filter((workshops: WorkshopFilterCard) => !!workshops))
-      .subscribe((workshops: WorkshopFilterCard) => (this.workshops = workshops));
+      .pipe(takeUntil(this.destroy$), filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops))
+      .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
   }
 
   onPageChange(page: PaginationElement): void {

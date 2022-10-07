@@ -6,7 +6,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { Achievement } from '../models/achievement.model';
-import { ChildCards } from '../models/child.model';
+import { Child } from '../models/child.model';
 import { Provider } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from '../models/workshop.model';
@@ -78,12 +78,13 @@ import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
+import { SearchResponse } from '../models/search.model';
 
 export interface ProviderStateModel {
   isLoading: boolean;
   achievements: Achievement[];
   selectedAchievement: Achievement;
-  approvedChildren: ChildCards;
+  approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: ProviderWorkshopCard[];
   providerAdmins: ProviderAdmin[];
   blockedParent: BlockedParent;
@@ -111,7 +112,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static approvedChildren(state: ProviderStateModel): ChildCards {
+  static approvedChildren(state: ProviderStateModel): SearchResponse<Child[]> {
     return state.approvedChildren;
   }
 
@@ -180,10 +181,10 @@ export class ProviderState {
   getChildrenByWorkshopId(
     { patchState }: StateContext<ProviderStateModel>,
     { payload }: GetChildrenByWorkshopId
-  ): Observable<ChildCards> {
+  ): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
-      tap((approvedChildren: ChildCards) => {
+      tap((approvedChildren: SearchResponse<Child[]>) => {
         return patchState(
           approvedChildren
             ? { approvedChildren: approvedChildren, isLoading: false }

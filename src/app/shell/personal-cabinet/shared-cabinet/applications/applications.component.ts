@@ -3,7 +3,7 @@ import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Outpu
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import {
-  ApplicationCards,
+  Application,
   ApplicationParameters,
 } from '../../../../shared/models/application.model';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -22,6 +22,7 @@ import { Workshop } from '../../../../shared/models/workshop.model';
 import { OnPageChangeApplications, SetApplicationsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-applications',
@@ -35,10 +36,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly Role = Role;
 
   @Select(SharedUserState.applications)
-    applicationCards$: Observable<ApplicationCards>;
+    applicationCards$: Observable<SearchResponse<Application[]>>;
   @Select(PaginatorState.applicationsPerPage)
     applicationsPerPage$: Observable<number>;
-  applicationCards: ApplicationCards;
+  applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
     isLoadingCabinet$: Observable<boolean>;
 
@@ -89,9 +90,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.applicationCards$.pipe(
-      filter((applicationCards: ApplicationCards) => !!applicationCards),
+      filter((applicationCards: SearchResponse<Application[]>) => !!applicationCards),
       takeUntil(this.destroy$)
-    ).subscribe((applicationCards: ApplicationCards) => this.applicationCards = applicationCards);
+    ).subscribe((applicationCards: SearchResponse<Application[]>) => this.applicationCards = applicationCards);
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))

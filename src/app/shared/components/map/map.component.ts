@@ -3,7 +3,7 @@ import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
@@ -15,6 +15,7 @@ import { GeocoderService } from './../../services/geolocation/geocoder.service';
 import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
+import { SearchResponse } from '../../models/search.model';
 
 @Component({
   selector: 'app-map',
@@ -25,7 +26,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
   @Input() settelmentFormGroup: FormGroup;
 
-  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
   @Output() addressSelect = new EventEmitter<Geocoder>();
   @Output() selectedWorkshopAddress = new EventEmitter<Address>();
@@ -123,7 +124,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setFilteredWorkshops(): void {
-    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
+    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
       this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
       this.workshopMarkers = [];
       if (filteredWorkshops) {

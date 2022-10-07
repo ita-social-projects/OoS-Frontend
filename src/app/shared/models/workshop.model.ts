@@ -147,10 +147,7 @@ export interface WorkshopCard extends WorkshopBaseCard {
   address: Address;
 }
 
-export interface WorkshopFilterCard {
-  totalAmount: number;
-  entities: WorkshopCard[];
-}
+
 
 export interface WorkshopStatus {
   workshopId: string;

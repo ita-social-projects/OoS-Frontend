@@ -4,11 +4,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, skip, startWith, takeUntil } from 'rxjs/operators';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { Direction, DirectionsFilter } from '../../../../shared/models/category.model';
+import { Direction } from '../../../../shared/models/category.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { GetFilteredDirections, DeleteDirectionById } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
@@ -25,7 +26,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   readonly noDirections = NoResultsTitle.noDirections;
 
   @Select(AdminState.filteredDirections)
-    filteredDirections$: Observable<DirectionsFilter>;
+    filteredDirections$: Observable<SearchResponse<Direction[]>>;
   @Select(PaginatorState.directionsPerPage)
     directionsPerPage$: Observable<number>;
 
