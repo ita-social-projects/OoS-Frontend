@@ -35,10 +35,6 @@ export class ApplicationUpdate {
     this.rejectionMessage = rejectionMessage;
   }
 }
-export interface ApplicationCards {
-  totalAmount: number;
-  entities: Application[];
-}
 
 export interface ApplicationParameters {
   property?: EntityType;

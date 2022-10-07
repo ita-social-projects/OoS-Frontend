@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { Application, ApplicationCards } from '../models/application.model';
+import { Application } from '../models/application.model';
 import { Provider } from '../models/provider.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
@@ -27,13 +27,14 @@ import { messageStatus } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { TruncatedItem } from '../models/truncated.model';
+import { SearchResponse } from '../models/searchResponse.model';
 
 export interface SharedUserStateModel {
   isLoading: boolean;
   workshops: WorkshopCard[];
   selectedWorkshop: Workshop;
   selectedProvider: Provider;
-  applicationCards: ApplicationCards;
+  applicationCards: SearchResponse<Application[]>;
 }
 @State<SharedUserStateModel>({
   name: 'user',
@@ -68,7 +69,7 @@ export class SharedUserState {
   }
 
   @Selector()
-  static applications(state: SharedUserStateModel): ApplicationCards {
+  static applications(state: SharedUserStateModel): SearchResponse<Application[]> {
     return state.applicationCards;
   }
 
@@ -140,12 +141,12 @@ export class SharedUserState {
   getApplicationsByParentId(
     { patchState }: StateContext<SharedUserStateModel>,
     { id, parameters }: GetApplicationsByParentId
-  ): Observable<ApplicationCards> {
+  ): Observable<SearchResponse<Application[]>> {
     patchState({ isLoading: true });
     return this.applicationService
       .getApplicationsByParentId(id, parameters)
       .pipe(
-        tap((applicationCards: ApplicationCards) =>
+        tap((applicationCards: SearchResponse<Application[]>) =>
           patchState(
             applicationCards
               ? { applicationCards: applicationCards, isLoading: false }
@@ -159,13 +160,13 @@ export class SharedUserState {
   getApplicationsByProviderId(
     { patchState }: StateContext<SharedUserStateModel>,
     { id, parameters }: GetApplicationsByProviderId
-  ): Observable<ApplicationCards> {
+  ): Observable<SearchResponse<Application[]>> {
     patchState({ isLoading: true });
 
     return this.applicationService
       .getApplicationsByProviderId(id, parameters)
       .pipe(
-        tap((applicationCards: ApplicationCards) =>
+        tap((applicationCards: SearchResponse<Application[]>) =>
           patchState(
             applicationCards
               ? { applicationCards: applicationCards, isLoading: false }
