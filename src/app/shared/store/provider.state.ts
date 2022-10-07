@@ -493,7 +493,7 @@ export class ProviderState {
     dispatch([
       new ShowMessageBar({
         message: payload.isDeputy ? SnackbarText.createDeputy 
-                                  : SnackbarText.createProviderAdmin,
+                                  : SnackbarText.createProviderAdminSuccess,
         type: 'success',
       }),
       new MarkFormDirty(false),

@@ -471,7 +471,7 @@ export class AdminState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.createMinistryAdmin,
+        message: SnackbarText.createMinistryAdminSuccess,
         type: 'success',
       }),
       new MarkFormDirty(false),

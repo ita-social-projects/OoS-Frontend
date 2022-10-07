@@ -24,9 +24,11 @@ export enum SnackbarText{
   updateDirection = 'Напрямок успішно відредагований',
   deleteDirection = 'Напрямок видалено!',
 
-  createMinistryAdmin = 'Адміністратор міністерства успішно створено',
+  createMinistryAdminSuccess = 'Адміністратор міністерства успішно створено',
+  createMinistryAdminFail = 'На жаль виникла помилка при створенні адміністратора міністерства',
   updateMinistryAdmin = 'Адміністратор міністерства успішно відредагований',
   deleteMinistryAdmin = 'Адміна міністерства видалено!',
+  blockMinistryAdmin = 'Дякуємо! Адміністратора міністерства заблоковано!',
 
   createChild = 'Дякуємо! Дитина була успішно додана.',
   updateChild = 'Дитина успішно відредагована',
@@ -36,7 +38,8 @@ export enum SnackbarText{
   updateAchievement = 'Досягнення успішно відредаговано!',
   deleteAchievement = 'Досягнення видалено!',
 
-  createProviderAdmin = 'Адміністратора гуртка успішно створено!',
+  createProviderAdminSuccess = 'Адміністратора гуртка успішно створено!',
+  createProviderAdminFail = 'На жаль виникла помилка при створенні адміністратора гуртка!',
   updateProviderAdmin = 'Адміністратора гуртка успішно відредаговано!',
   deleteProviderAdmin = 'Дякуємо! Користувача видалено!',
 
@@ -57,7 +60,7 @@ export enum SnackbarText{
   updateUser = 'Особиста інформація успішно відредагована!',
 
   blockPerson = 'Користувач успішно заблокований!',
-  unblockPerson = 'Користувач успішно розблокований',
+  unblockPerson = 'Користувач успішно розблокований!',
 
   error = 'На жаль, виникла помилка',
   
