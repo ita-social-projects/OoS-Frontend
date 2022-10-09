@@ -32,6 +32,7 @@ import {
   GetFilteredDirections,
   GetFilteredProviders,
   GetLawsAndRegulations,
+  GetMainPageInformation,
   GetMinistryAdminById,
   GetMinistryAdminProfile,
   GetParents,
@@ -72,6 +73,7 @@ import { SearchResponse } from '../models/search.model';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
+  mainPageInformation: CompanyInformation;
   supportInformation: CompanyInformation;
   lawsAndRegulations: CompanyInformation;
   isLoading: boolean;
@@ -91,6 +93,7 @@ export interface AdminStateModel {
   name: 'admin',
   defaults: {
     aboutPortal: null,
+    mainPageInformation: null,
     supportInformation: null,
     lawsAndRegulations: null,
     direction: null,
@@ -111,6 +114,10 @@ export interface AdminStateModel {
 export class AdminState {
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation {
     return state.aboutPortal;
+  }
+
+  @Selector() static MainInformation(state: AdminStateModel): CompanyInformation {
+    return state.mainPageInformation;
   }
 
   @Selector() static providers(state: AdminStateModel): Provider[] {
@@ -179,7 +186,7 @@ export class AdminState {
 
   @Action(GetPlatformInfo)
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, { }: GetPlatformInfo): void {
-    dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
+    dispatch([new GetAboutPortal(), new GetMainPageInformation(), new GetSupportInformation(), new GetLawsAndRegulations()]);
   }
 
   @Action(GetAllProviders)
@@ -209,6 +216,14 @@ export class AdminState {
     return this.platformService
       .getPlatformInfo(AdminTabsTitle.AboutPortal)
       .pipe(tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+  }
+
+  @Action(GetMainPageInformation)
+  getMainPageInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(AdminTabsTitle.MainPage)
+      .pipe(tap((mainPageInformation: CompanyInformation) => patchState({ mainPageInformation, isLoading: false })));
   }
 
   @Action(GetSupportInformation)

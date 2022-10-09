@@ -13,6 +13,7 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
 import { MainPageInfoComponent } from './main-page-info/main-page-info.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
+import { MainInfoComponent } from './platform-info/main-info.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MaterialModule } from '../../../shared/modules/material.module';
     SupportInfoComponent,
     InfoEditComponent,
     PlatformComponent,
-    MainPageInfoComponent
+    MainPageInfoComponent,
+    MainInfoComponent,
   ],
   imports: [
     CommonModule,
