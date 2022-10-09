@@ -10,7 +10,6 @@ import { RegulationsInfoComponent } from './platform-info/regulations-info.compo
 import { SupportInfoComponent } from './platform-info/support-info.component';
 import { AboutInfoComponent } from './platform-info/about-info.component';
 import { InfoEditComponent } from './platform-info/info-edit/info-edit.component';
-import { MainPageInfoComponent } from './main-page-info/main-page-info.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { MainInfoComponent } from './platform-info/main-info.component';
@@ -25,7 +24,6 @@ import { MainInfoComponent } from './platform-info/main-info.component';
     SupportInfoComponent,
     InfoEditComponent,
     PlatformComponent,
-    MainPageInfoComponent,
     MainInfoComponent,
   ],
   imports: [
