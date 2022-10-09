@@ -12,6 +12,8 @@ import { HistoryLogTableComponent } from './history-log/history-log-table/histor
 import { HistoryLogFiltersComponent } from './history-log/history-log-filters/history-log-filters.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
+import { DirectionsComponent } from './directions/directions.component';
+import { CreateDirectionComponent } from './directions/create-direction/create-direction.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { MaterialModule } from '../../../shared/modules/material.module';
     CreateAdminComponent,
     HistoryLogComponent,
     HistoryLogTableComponent,
-    HistoryLogFiltersComponent
+    HistoryLogFiltersComponent,
+    DirectionsComponent,
+    CreateDirectionComponent
   ],
   imports: [
     CommonModule,
