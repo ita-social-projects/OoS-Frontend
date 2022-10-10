@@ -42,6 +42,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   platformInfo: CompanyInformation;
 
   platformInfoType: AdminTabsTitle;
+  isMainPage: boolean = false;
 
   constructor(
     store: Store,
@@ -91,6 +92,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
         break;
       case AdminTabsTitle.MainPage:
         this.getMainInfo();
+        this.isMainPage = true;
         break;
       case AdminTabsTitle.SupportInformation:
         this.getSupportInformation();
