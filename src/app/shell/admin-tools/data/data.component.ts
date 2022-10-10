@@ -1,7 +1,7 @@
 import { Store } from '@ngxs/store';
 import { Component, OnInit } from '@angular/core';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath } from '../../../shared/store/navigation.actions';
+import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
 
@@ -11,7 +11,7 @@ import { AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tab
 })
 export class DataComponent implements OnInit {
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
-
+  
   ngOnInit(): void {
     this.addNavPath();
   }
@@ -28,5 +28,9 @@ export class DataComponent implements OnInit {
         })
       )
     );
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new DeleteNavPath());
   }
 }
