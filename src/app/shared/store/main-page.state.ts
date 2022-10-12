@@ -4,12 +4,16 @@ import { Observable } from 'rxjs';
 import { Direction } from '../models/category.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { DirectionsService } from '../services/directions/directions.service';
-import { GetTopDirections, GetTopWorkshops } from './main-page.actions';
+import { GetMainPageInfo, GetTopDirections, GetTopWorkshops } from './main-page.actions';
 import { tap } from 'rxjs/operators';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+import { CompanyInformation } from '../models/сompanyInformation.model';
+import { PlatformService } from '../services/platform/platform.service';
+import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 
 export interface MainPageStateModel {
   isLoadingData: boolean;
+  headerInfo: CompanyInformation;
   topWorkshops: WorkshopCard[];
   topDirections: Direction[];
 }
@@ -18,6 +22,7 @@ export interface MainPageStateModel {
   name: 'mainPage',
   defaults: {
     isLoadingData: false,
+    headerInfo: null,
     topWorkshops: null,
     topDirections: null,
   },
@@ -30,6 +35,11 @@ export class MainPageState {
   }
 
   @Selector()
+  static headerInfo(state: MainPageStateModel): CompanyInformation {
+    return state.headerInfo;
+  }
+
+  @Selector()
   static topDirections(state: MainPageStateModel): Direction[] {
     return state.topDirections;
   }
@@ -39,7 +49,15 @@ export class MainPageState {
     return state.topWorkshops;
   }
 
-  constructor(private categoriesService: DirectionsService, private appWorkshopsService: AppWorkshopsService) {}
+  constructor(private categoriesService: DirectionsService, private appWorkshopsService: AppWorkshopsService, private platformSercice: PlatformService) {}
+
+  @Action(GetMainPageInfo)
+  getMainPageInfo({ patchState }: StateContext<MainPageStateModel>): Observable<CompanyInformation>{
+    patchState({ isLoadingData: true });
+    return this.platformSercice
+      .getPlatformInfo(AdminTabsTitle.MainPage)
+      .pipe(tap((headerInfo: CompanyInformation) => patchState({headerInfo, isLoadingData: true})));
+  }
 
   @Action(GetTopDirections)
   getTopDirections({ patchState }: StateContext<MainPageStateModel>, {}: GetTopDirections): Observable<Direction[]> {

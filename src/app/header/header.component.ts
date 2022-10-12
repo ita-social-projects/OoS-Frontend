@@ -15,6 +15,9 @@ import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
 import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 import { MetaDataState } from '../shared/store/meta-data.state';
+import { MainPageState } from '../shared/store/main-page.state';
+import { CompanyInformation } from '../shared/models/сompanyInformation.model';
+import { GetMainPageInfo } from '../shared/store/main-page.actions';;
 
 @Component({
   selector: 'app-header',
@@ -47,7 +50,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
     featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
     subrole$: Observable<string>;
-
+  @Select(MainPageState.headerInfo)
+    headerInfo$: Observable<CompanyInformation>;
+    headerTitle: string;
+    headerSubtitle: string;
   navigationPaths: Navigation[];
   subrole: string;
   btnView: string = providerAdminRoleUkr.all;
@@ -61,6 +67,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.store.dispatch(new GetMainPageInfo());
+    
     combineLatest([this.subrole$, this.navigationPaths$])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(([subrole, navigationPaths]: [Role, Navigation[]]) => {
@@ -77,6 +85,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userShortName = this.getFullName(user);
         this.user = user;
       });
+    
+      this.headerInfo$
+        .pipe(
+          filter(info => !!info),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((headerInfo: CompanyInformation) => {
+          this.headerTitle = headerInfo.title;
+          this.headerSubtitle = headerInfo.companyInformationItems[0].description;
+        });
   }
 
   private getFullName(user: User): string {

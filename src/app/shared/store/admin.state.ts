@@ -1,5 +1,5 @@
 import { MinistryAdminParameters } from './../models/ministryAdmin.model';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of, throwError } from 'rxjs';
@@ -70,6 +70,7 @@ import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
+import { GetMainPageInfo } from './main-page.actions';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -181,7 +182,8 @@ export class AdminState {
     private providerService: ProviderService,
     private ministryAdminService: MinistryAdminService,
     private historyLogService: HistoryLogService,
-    private location: Location
+    private location: Location,
+    private store: Store
   ) { }
 
   @Action(GetPlatformInfo)
@@ -281,6 +283,7 @@ export class AdminState {
       new ShowMessageBar({ message: SnackbarText.updatePortal, type: 'success' }),
     ]);
     if(type == AdminTabsTitle.MainPage){
+      this.store.dispatch(new GetMainPageInfo());
       this.router.navigate(['/']);
       return;
     }
