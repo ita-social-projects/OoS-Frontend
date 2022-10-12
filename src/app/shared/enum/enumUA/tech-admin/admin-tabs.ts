@@ -1,6 +1,6 @@
 export enum AdminTabsUkr {
   AboutPortal = 'Про портал',
-  MainPage = 'Головна сторінка',
+  MainInformation = 'Головна сторінка',
   Directions = 'Напрямки',
   LawsAndRegulations = 'Нормативно-правові акти',
   SupportInformation = 'Підтримка',
