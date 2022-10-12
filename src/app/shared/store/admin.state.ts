@@ -280,6 +280,11 @@ export class AdminState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: SnackbarText.updatePortal, type: 'success' }),
     ]);
+    debugger;
+    if(type == AdminTabsTitle.MainPage){
+      this.router.navigate(['/']);
+      return;
+    }
     this.router.navigate(['/admin-tools/platform'], { queryParams: { page: type } });
   }
 
