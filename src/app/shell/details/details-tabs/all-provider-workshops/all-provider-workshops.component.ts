@@ -1,25 +1,25 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Role } from 'src/app/shared/enum/role';
-import { Workshop, WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { UserState } from 'src/app/shared/store/user.state';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Role } from '../../../../shared/enum/role';
+import { Workshop, WorkshopCard } from '../../../../shared/models/workshop.model';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-all-provider-workshops',
   templateUrl: './all-provider-workshops.component.html',
   styleUrls: ['./all-provider-workshops.component.scss']
 })
-export class AllProviderWorkshopsComponent implements OnInit {
+export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
   readonly Role = Role;
 
   @Input() workshop: Workshop;
 
-  @Select(UserState.workshops)
-  workshops$: Observable<WorkshopCard[]>;
+  @Select(SharedUserState.workshops)
+    workshops$: Observable<WorkshopCard[]>;
   workshops: WorkshopCard[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -28,7 +28,7 @@ export class AllProviderWorkshopsComponent implements OnInit {
   ngOnInit(): void {
     this.workshops$.pipe(
       filter((workshops: WorkshopCard[]) => !!workshops),
-      takeUntil(this.destroy$)).subscribe((workshops: WorkshopCard[]) => this.workshops = workshops)
+      takeUntil(this.destroy$)).subscribe((workshops: WorkshopCard[]) => this.workshops = workshops);
   }
 
   ngOnDestroy(): void {

@@ -1,8 +1,8 @@
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Component, Input, OnInit } from '@angular/core';
-import { Role } from 'src/app/shared/enum/role';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Address } from 'src/app/shared/models/address.model';
+import { Role } from '../../../shared/enum/role';
+import { Address } from '../../../shared/models/address.model';
+import { Provider } from '../../../shared/models/provider.model';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',
@@ -13,7 +13,6 @@ export class SideMenuComponent implements OnInit {
 
   @Input() provider: Provider;
   @Input() workshop: Workshop;
-
   @Input() role: string;
   @Input() isMobileScreen: boolean;
   @Input() displayActionCard: boolean;
@@ -29,7 +28,7 @@ export class SideMenuComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void { 
+  ngOnInit(): void {
     this.getContactsData();
   }
 
@@ -41,6 +40,6 @@ export class SideMenuComponent implements OnInit {
       instagram: this.workshop?.instagram || this.provider.instagram,
       website: this.workshop?.website || this.provider.website,
     };
-    this.address = {...this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress}
+    this.address = {...this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress};
   }
 }

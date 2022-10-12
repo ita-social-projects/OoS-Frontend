@@ -3,14 +3,14 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { WorkshopTypeUkr } from 'src/app/shared/enum/enumUA/provider';
-import { PayRateTypeUkr } from 'src/app/shared/enum/enumUA/workshop';
-import { OwnershipTypeName, ProviderWorkshopSameValues, WorkshopType } from 'src/app/shared/enum/provider';
-import { PayRateType } from 'src/app/shared/enum/workshop';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { WorkshopTypeUkr } from '../../../../../shared/enum/enumUA/provider';
+import { PayRateTypeUkr } from '../../../../../shared/enum/enumUA/workshop';
+import { WorkshopType, OwnershipTypeName, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
+import { PayRateType } from '../../../../../shared/enum/workshop';
+import { Provider } from '../../../../../shared/models/provider.model';
+import { Workshop } from '../../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-about-form',
@@ -53,7 +53,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   useProviderInfoCtrl: FormControl = new FormControl(false);
   availableSeatsRadioBtnControl: FormControl = new FormControl(true);
 
-  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to teh second release
+  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to the second release
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
@@ -183,7 +183,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     const resetValue = value => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
-      for (let value in ProviderWorkshopSameValues) {
+      // eslint-disable-next-line guard-for-in
+      for (const value in ProviderWorkshopSameValues) {
         useProviderInfo ? setValue(value) : resetValue(value);
       }
     });
@@ -216,7 +217,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to teh formgroup TODO: add to teh second release
+   * is true and sets the value to teh formgroup TODO: add to the second release
    */
   // private onCompetitiveSelectionCtrlInit(): void {
   //   this.competitiveSelectionRadioBtn.valueChanges

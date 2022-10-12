@@ -6,10 +6,10 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
+import { Workshop, WorkshopFilterCard } from '../../shared/models/workshop.model';
+import { DeclinationPipe } from '../../shared/pipes/declination.pipe';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -88,7 +88,7 @@ class MockWorkshopCardsListComponent {
 })
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Input() currentPage;;
+  @Input() currentPage;
   @Input() role: string;
 }
 @Component({

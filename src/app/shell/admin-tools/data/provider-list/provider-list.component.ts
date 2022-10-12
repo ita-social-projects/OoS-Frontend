@@ -1,26 +1,25 @@
-import { Provider, ProviderCards } from 'src/app/shared/models/provider.model';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ProviderService } from 'src/app/shared/services/provider/provider.service';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { AdminState } from 'src/app/shared/store/admin.state';
-
-import { GetFilteredProviders } from 'src/app/shared/store/admin.actions';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
-import { DeleteNavPath, PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { FormControl } from '@angular/forms';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeAdminTable, SetProvidersPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
-import { ApplicationIcons } from 'src/app/shared/enum/applications';
-import { OwnershipTypeUkr } from 'src/app/shared/enum/enumUA/provider';
-
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
+import { ApplicationIcons } from '../../../../shared/enum/applications';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { Provider } from '../../../../shared/models/provider.model';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { ProviderService } from '../../../../shared/services/provider/provider.service';
+import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
+import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -33,13 +32,12 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTitleUkr = ApplicationTitles;
   readonly providerAdminIcons = ApplicationIcons;
-  
-  @Select(AdminState.providers)
-  providers$: Observable<ProviderCards>;
-  @Select(PaginatorState.providersPerPage)
-  providersPerPage$: Observable<number>;
 
-  
+  @Select(AdminState.providers)
+    providers$: Observable<SearchResponse<Provider[]>>;
+  @Select(PaginatorState.itemsPerPage)
+    itemsPerPage$: Observable<number>;
+
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
   isInfoDisplayed: boolean;
@@ -66,7 +64,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalEntities: number;
   searchString: string;
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -80,14 +78,14 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       ),
     ]);
     this.providers$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter(providers => !!providers)
-    )
-    .subscribe((providers: ProviderCards) => {
-      this.dataSource = new MatTableDataSource(providers?.entities);
-      this.dataSource.sort = this.sort;
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+        filter(providers => !!providers)
+      )
+      .subscribe((providers: SearchResponse<Provider[]>) => {
+        this.dataSource = new MatTableDataSource(providers?.entities);
+        this.dataSource.sort = this.sort;
+      });
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -113,9 +111,9 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      this.liveAnnouncer.announce('Sorting cleared');
     }
   }
 
@@ -125,7 +123,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetProvidersPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
   }
 
   ngOnDestroy(): void {

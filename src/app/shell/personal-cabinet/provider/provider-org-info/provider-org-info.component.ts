@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { MatDialog } from '@angular/material/dialog';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ProviderComponent } from '../provider.component';
 
 @Component({

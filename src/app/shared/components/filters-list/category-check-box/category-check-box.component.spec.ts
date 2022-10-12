@@ -25,7 +25,7 @@ describe('CategoryCheckBoxComponent', () => {
       ],
       declarations: [ CategoryCheckBoxComponent ],
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

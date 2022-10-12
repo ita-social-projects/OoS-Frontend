@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-
+import { NoResultCardComponent } from '../../../shared/components/no-result-card/no-result-card.component';
 import { SupportComponent } from './support.component';
 
 describe('SupportComponent', () => {
@@ -15,7 +14,7 @@ describe('SupportComponent', () => {
       ],
       declarations: [ SupportComponent, NoResultCardComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,4 +1,3 @@
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
@@ -15,6 +14,7 @@ import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
 import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
+import { MetaDataState } from '../shared/store/meta-data.state';
 
 @Component({
   selector: 'app-header',
@@ -28,25 +28,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   selectedLanguage = 'uk';
   showModalReg = false;
-  userShortName: string = '';
+  userShortName = '';
 
   @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+    isAutorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
-  isRegistered$: Observable<boolean>;
+    isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>;
+    navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<string>;
+    isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   user: User;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+    featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+    subrole$: Observable<string>;
 
   navigationPaths: Navigation[];
   subrole: string;
@@ -80,7 +80,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ''}`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
   }
 
   logout(): void {

@@ -4,12 +4,13 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { Direction } from 'src/app/shared/models/category.model';
-import { AppState } from 'src/app/shared/store/app.state';
-import { SetDirections } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { GetDirections } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { Direction } from '../../../models/category.model';
+import { AppState } from '../../../store/app.state';
+import { SetDirections } from '../../../store/filter.actions';
+import { FilterState } from '../../../store/filter.state';
+import { GetDirections } from '../../../store/meta-data.actions';
+import { MetaDataState } from '../../../store/meta-data.state';
+
 
 @Component({
   selector: 'app-category-check-box',
@@ -18,11 +19,11 @@ import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 })
 export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
+    directions$: Observable<Direction[]>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   @Select(FilterState.directions)
-  filterDirections$: Observable<Direction[]>;
+    filterDirections$: Observable<Direction[]>;
 
   @Input() stateDirections: Direction[];
   @Input()
@@ -70,9 +71,9 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
     event.checked
       ? this.selectedDirections.push(direction)
       : this.selectedDirections.splice(
-          this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
-          1
-        );
+        this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
+        1
+      );
     this.store.dispatch(new SetDirections(this.selectedDirections));
   }
 

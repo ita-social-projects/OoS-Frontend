@@ -1,4 +1,5 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
 
 @font-face {
   font-family: "Innerspace";
@@ -93,14 +94,14 @@ a {
   }
 }
 
-$config: mat-typography-config(
+$config: mat.define-typography-config(
   $font-family: "Innerspace",
-  $button: mat-typography-level(13px, 15px, 700)
+  $button: mat.define-typography-level(13px, 15px, 700)
 );
 
 @mixin mat-button-toggle-typography($config) {
   .mat-button-toggle, .mat-button-toggle-button {
-    @include mat-typography-level-to-styles($config, button);
+    @include mat.typography-level($config, button);
     font-family: "Open Sans", sans-serif;
   }
 }
@@ -109,8 +110,8 @@ $config: mat-typography-config(
     font-family: "Open Sans", sans-serif;
   }
 }
-@include mat-button-typography($config);
-@include mat-button-toggle-typography($config);
+@include mat.button-typography($config);
+@include mat.button-toggle-typography($config);
 @include mat-form-typography($config);
 // @include mat-core($config);
 

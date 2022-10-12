@@ -17,7 +17,7 @@
 }
 
 ::ng-deep .dropdown-panel{
-  max-height:150px !important;    
+  max-height:150px !important;
 }
 
 @media (max-width: 750px) {
@@ -35,12 +35,19 @@
     width: 65px;
     }
 
-  .price, .radio-button-wrap{
-    place-content:start !important;
-  }  
-  .step-input-age{
+  .price, .radio-button-wrap {
+    place-content:flex-start !important;
+  }
+  .step-input-age {
     max-width: 100%;
     height: 40px;
-  } 
+  }
 }
+
+::ng-deep .mat-form-field {
+  .mat-form-field-wrapper  {
+    padding:0;
+  }
+}
+
 

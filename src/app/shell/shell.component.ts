@@ -1,14 +1,13 @@
 import { Codeficator } from './../shared/models/codeficator.model';
 import { Observable, Subject } from 'rxjs';
-import { GetFavoriteWorkshopsByUserId } from './../shared/store/user.actions';
 import { Select, Store } from '@ngxs/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Coords } from '../shared/models/coords.model';
 import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
 import { RegistrationState } from '../shared/store/registration.state';
-import { GetFavoriteWorkshops } from '../shared/store/user.actions';
 import { takeUntil } from 'rxjs/operators';
 import { Role } from '../shared/enum/role';
+import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from '../shared/store/parent.actions';
 
 @Component({
   selector: 'app-shell',
@@ -17,7 +16,7 @@ import { Role } from '../shared/enum/role';
 })
 export class ShellComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private geolocationService: GeolocationService, private store: Store) {}

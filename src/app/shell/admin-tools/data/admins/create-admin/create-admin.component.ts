@@ -1,36 +1,38 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { filter, takeUntil } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { AdminRole } from 'src/app/shared/enum/admins';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Role } from 'src/app/shared/enum/role';
-import { Institution } from 'src/app/shared/models/institution.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { GetAllInstitutions } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { Util } from 'src/app/shared/utils/utils';
 import { Location } from '@angular/common';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { MinistryAdmin } from 'src/app/shared/models/ministryAdmin.model';
-import { CreateMinistryAdmin } from 'src/app/shared/store/admin.actions';
-import { CreateAdminTitle } from 'src/app/shared/enum/enumUA/tech-admin/create-admin';
+import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
+import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { AdminRole } from '../../../../../shared/enum/admins';
+import { CreateAdminTitle } from '../../../../../shared/enum/enumUA/tech-admin/create-admin';
+import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { Role } from '../../../../../shared/enum/role';
+import { Institution } from '../../../../../shared/models/institution.model';
+import { MinistryAdmin } from '../../../../../shared/models/ministryAdmin.model';
+import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
+import { AdminState } from '../../../../../shared/store/admin.state';
+import { GetAllInstitutions } from '../../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../../shared/store/meta-data.state';
+import { AddNavPath } from '../../../../../shared/store/navigation.actions';
+import { RegistrationState } from '../../../../../shared/store/registration.state';
+import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
+import { Util } from '../../../../../shared/utils/utils';
+import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin } from '../../../../../shared/store/admin.actions';
 
 const defaultValidators: ValidatorFn[] = [
-  Validators.required, 
+  Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-]
+];
 @Component({
   selector: 'app-create-admin',
   templateUrl: './create-admin.component.html',
@@ -42,12 +44,15 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly adminsRole = AdminRole;
   readonly title = CreateAdminTitle;
-  
+
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
-  
+    institutions$: Observable<Institution[]>;
+  @Select(AdminState.selectedMinistryAdmin)
+    selectedMinistryAdmin$: Observable<MinistryAdmin>;
+
   AdminFormGroup: FormGroup;
   adminRole: AdminRole;
+  adminId: string;
 
   constructor(
     store: Store,
@@ -56,7 +61,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location
-  ) { 
+  ) {
     super(store, route, navigationBarService);
 
     this.AdminFormGroup = this.formBuilder.group({
@@ -68,12 +73,12 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phoneNumber: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
       institution: new FormControl('', Validators.required),
       email: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.email
       ])
     });
@@ -83,16 +88,50 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    this.addNavPath();
     this.store.dispatch(new GetAllInstitutions());
+    this.determineEditMode();
   }
 
-  setEditMode(): void { }
-  
-  addNavPath(): void { 
+  determineEditMode(): void {
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
+    this.addNavPath();
+
+    if (this.editMode) {
+      this.setEditMode();
+    }
+  }
+
+  setEditMode(): void {
+    this.adminId = this.route.snapshot.paramMap.get('id');
+
+    this.store.dispatch(new GetMinistryAdminById(this.adminId));
+
+    this.selectedMinistryAdmin$.pipe(
+      takeUntil(this.destroy$),
+      filter((ministryAdmin: MinistryAdmin) => !!ministryAdmin)
+    )
+      .subscribe((ministryAdmin: MinistryAdmin) => {
+        this.AdminFormGroup.patchValue(ministryAdmin, { emitEvent: false });
+        this.AdminFormGroup.get('institution')
+          .setValue(
+            {
+              id: ministryAdmin.institutionId,
+              title: ministryAdmin.institutionTitle
+            },
+            { emitEvent: false }
+          );
+      });
+  }
+
+  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
+  }
+
+  addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -103,7 +142,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
             disable: false,
           },
           {
-            name: NavBarName.CreateAdmin,
+            name: this.editMode ? NavBarName.UpdateAdmin : NavBarName.CreateAdmin,
             isActive: false,
             disable: true,
           }
@@ -120,18 +159,19 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: (this.adminRole === AdminRole.ministryAdmin) ? ModalConfirmationType.createMinistryAdmin : undefined
+        type: this.editMode ? ModalConfirmationType.updateMinistryAdmin : ModalConfirmationType.createMinistryAdmin
       }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        let ministryAdmin = new MinistryAdmin(
-          this.AdminFormGroup.value, 
-          this.AdminFormGroup.get('institution').value.id
-          );
-        this.store.dispatch(new CreateMinistryAdmin(ministryAdmin));
+        const ministryAdmin = new MinistryAdmin(
+          this.AdminFormGroup.value,
+          this.AdminFormGroup.get('institution').value.id,
+          this.adminId
+        );
+        this.store.dispatch(this.editMode ? new UpdateMinistryAdmin(ministryAdmin) : new CreateMinistryAdmin(ministryAdmin));
       }
-    });   
+    });
   }
 }

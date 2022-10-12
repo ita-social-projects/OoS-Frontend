@@ -31,13 +31,13 @@ describe('PlatformComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         PlatformComponent,
-        MockRegulations,
-        MockSupport,
-        MockAbout,
-        MockDirections
+        MockRegulationsComponent,
+        MockSupportComponent,
+        MockAboutComponent,
+        MockDirectionsComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -54,21 +54,21 @@ describe('PlatformComponent', () => {
   selector: 'app-about-info',
   template: ''
 })
-class MockAbout { }
+class MockAboutComponent { }
 
 @Component({
   selector: 'app-support-info',
   template: ''
 })
-class MockSupport { }
+class MockSupportComponent { }
 @Component({
   selector: 'app-regulations-info',
   template: ''
 })
-class MockRegulations { }
+class MockRegulationsComponent { }
 @Component({
   selector: 'app-directions',
   template: ''
 })
-class MockDirections { }
+class MockDirectionsComponent { }
 

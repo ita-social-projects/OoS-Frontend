@@ -1,20 +1,21 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
-import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'src/app/shared/store/navigation.actions';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { FilterChange, GetFilteredWorkshops, ResetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { AppState } from 'src/app/shared/store/app.state';
 import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { SetFirstPage, SetWorkshopsPerPage } from 'src/app/shared/store/paginator.actions';
-import { NavigationState } from 'src/app/shared/store/navigation.state';
+import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
+import { NavBarName } from '../../shared/enum/navigation-bar';
+import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
+import { AppState } from '../../shared/store/app.state';
+import { FilterChange, GetFilteredWorkshops, ResetFilteredWorkshops } from '../../shared/store/filter.actions';
+import { FilterState } from '../../shared/store/filter.state';
+import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
+import { NavigationState } from '../../shared/store/navigation.state';
+import { SetFirstPage, SetWorkshopsPerPage } from '../../shared/store/paginator.actions';
+import { PaginatorState } from '../../shared/store/paginator.state';
+import { RegistrationState } from '../../shared/store/registration.state';
+import { WorkshopCard } from '../../shared/models/workshop.model';
+import { SearchResponse } from '../../shared/models/search.model';
 
 enum ViewType {
   map = 'map',
@@ -30,23 +31,23 @@ export class ResultComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(AppState.isMobileScreen)
-  isMobileView$: Observable<boolean>;
+    isMobileView$: Observable<boolean>;
   isMobileView: boolean;
   @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<WorkshopFilterCard>;
+    filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
   @Select(FilterState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+    role$: Observable<string>;
   role: string;
   @Select(PaginatorState.workshopsPerPage)
-  workshopsPerPage$: Observable<number>;
+    workshopsPerPage$: Observable<number>;
   workshopsPerPage: number;
   @Select(PaginatorState.currentPage)
-  currentPage$: Observable<number>;
+    currentPage$: Observable<number>;
   currentPage: number;
   @Select(NavigationState.filtersSidenavOpenTrue)
-  isFiltersSidenavOpen$: Observable<boolean>;
+    isFiltersSidenavOpen$: Observable<boolean>;
   isFiltersSidenavOpen: boolean;
 
   currentView: ViewType = ViewType.data;
@@ -75,7 +76,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.role = role;
         this.currentView = params.param;
         this.currentPage = currentPage;
-       this.workshopsPerPage = workshopsPerPage;
+        this.workshopsPerPage = workshopsPerPage;
         if (!this.isMobileView) {
           this.store.dispatch(new FiltersSidenavToggle(true));
         }

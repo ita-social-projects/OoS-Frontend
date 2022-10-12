@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import {
   CreateProviderSteps,
@@ -11,10 +10,11 @@ import { Select, Store } from '@ngxs/store';
 import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
-import { ActivateEditMode } from 'src/app/shared/store/app.actions';
 import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
 import { InstitutionTypes, OwnershipTypeUkr, ProviderTypeUkr } from '../../enum/enumUA/provider';
+import { Constants } from '../../constants/constants';
+import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
   selector: 'app-provider-info',
@@ -38,7 +38,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
+    institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

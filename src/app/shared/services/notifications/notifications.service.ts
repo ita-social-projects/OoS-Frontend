@@ -14,36 +14,36 @@ export class NotificationsService {
    * This method get amount of notifications
    */
   getAmountOfNewUsersNotifications(): Observable<NotificationsAmount> {
-    return this.http.get<NotificationsAmount>(`/api/v1/Notification/GetAmountOfNewUsersNotifications`);
+    return this.http.get<NotificationsAmount>('/api/v1/Notification/GetAmountOfNewUsersNotifications');
   }
 
   /**
    * This method get all notifications
    */
   getAllUsersNotificationsGrouped(): Observable<Notifications> {
-    return this.http.get<Notifications>(`/api/v1/Notification/GetAllUsersNotificationsGrouped`);
+    return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotificationsGrouped');
   }
 
   /**
    * This method read notifications by notifications type
    * @param type: string
    */
-  readUsersNotificationsByType(notificationsGrouped: NotificationGrouped): Observable<Object> {
-    return this.http.put<Object>(`/api/v1/Notification/ReadUsersNotificationsByType/${notificationsGrouped.type}`, notificationsGrouped);
+  readUsersNotificationsByType(notificationsGrouped: NotificationGrouped): Observable<void> {
+    return this.http.put<void>(`/api/v1/Notification/ReadUsersNotificationsByType/${notificationsGrouped.type}`, notificationsGrouped);
   }
 
   /**
    * This method read notification by notification id
    * @param id: string
    */
-  readUsersNotificationById(notification: Notification): Observable<Object> {
-    return this.http.put<Object>(`/api/v1/Notification/Read/${notification.id}`, notification);
+  readUsersNotificationById(notification: Notification): Observable<Notification> {
+    return this.http.put<Notification>(`/api/v1/Notification/Read/${notification.id}`, notification);
   }
 
   /**
    * This method get all notifications
    */
   getAllUsersNotifications(): Observable<Notifications> {
-    return this.http.get<Notifications>(`/api/v1/Notification/GetAllUsersNotifications`);
+    return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotifications');
   }
 }

@@ -1,9 +1,8 @@
 import { Geocoder } from './../../../../../shared/models/geolocation';
-import { Codeficator } from './../../../../../shared/models/codeficator.model';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Address } from 'src/app/shared/models/address.model';
-import { FormValidators, ValidationConstants } from 'src/app/shared/constants/validation';
+import { ValidationConstants, FormValidators } from '../../../../../shared/constants/validation';
+import { Address } from '../../../../../shared/models/address.model';
 
 @Component({
   selector: 'app-create-workshop-address',
@@ -44,7 +43,6 @@ export class CreateWorkshopAddressComponent implements OnInit {
       settlement: new FormControl(''),
     });
 
-    this.addressFormGroup.valueChanges.subscribe(val => console.log(val))
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
@@ -53,8 +51,6 @@ export class CreateWorkshopAddressComponent implements OnInit {
     if (result) {
       this.settlementFormControl.setValue(result.codeficator);
       this.settlementSearchFormControl.setValue(result.codeficator.settlement);
-    } else {
-      this.searchFormGroup.reset();
     }
   }
 }

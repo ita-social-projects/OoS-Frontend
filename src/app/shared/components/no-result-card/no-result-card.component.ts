@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
       <p class="text">{{title}}</p>
     </div>
   `,
-  styleUrls: ['/src/app/shared/styles/list-wrappers.scss']
+  styleUrls: ['../../styles/list-wrappers.scss']
 })
 export class NoResultCardComponent implements OnInit {
 

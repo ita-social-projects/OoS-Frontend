@@ -13,12 +13,11 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MinMaxDirective } from '../../../../../shared/directives/min-max.directive';
+import { Workshop } from '../../../../../shared/models/workshop.model';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -48,7 +47,7 @@ describe('CreateAboutFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MinMaxDirective,
-        MockWorkingHours
+        MockWorkingHoursComponent
       ]
     })
       .compileComponents();
@@ -85,7 +84,7 @@ describe('CreateAboutFormComponent', () => {
   selector: 'app-working-hours-form-wrapper',
   template: ''
 })
-class MockWorkingHours {
+class MockWorkingHoursComponent {
   @Input() workshop: Workshop;
   @Input() workingHoursFormArray: FormArray;
 }
@@ -95,8 +94,8 @@ class MockWorkingHours {
   template: ''
 })
 class MockValidationHintAboutComponent {
-  @Input() validationFormControl: FormControl; //required for validation
-  @Input() isTouched: boolean; 
+  @Input() validationFormControl: FormControl; // required for validation
+  @Input() isTouched: boolean;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;

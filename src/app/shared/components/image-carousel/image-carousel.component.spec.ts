@@ -14,7 +14,7 @@ describe('ImageCarouselComponent', () => {
       ],
       declarations: [ ImageCarouselComponent ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

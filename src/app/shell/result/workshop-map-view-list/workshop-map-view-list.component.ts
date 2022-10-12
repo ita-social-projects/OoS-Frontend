@@ -13,12 +13,13 @@ import {
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Role } from 'src/app/shared/enum/role';
-import { Address } from 'src/app/shared/models/address.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { WorkshopCard, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
-import { GetFilteredWorkshops } from 'src/app/shared/store/filter.actions';
-import { OnPageChangeWorkshops } from 'src/app/shared/store/paginator.actions';
+import { SearchResponse } from '../../../shared/models/search.model';
+import { Role } from '../../../shared/enum/role';
+import { Address } from '../../../shared/models/address.model';
+import { PaginationElement } from '../../../shared/models/paginationElement.model';
+import { WorkshopCard } from '../../../shared/models/workshop.model';
+import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
+import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -38,12 +39,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
 
-  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
   @Input() role: string;
   @Input() currentPage: PaginationElement;
   @Input() itemsPerPage: number;
 
-  @Output() itemsPerPageChange = new EventEmitter<Number>();
+  @Output() itemsPerPageChange = new EventEmitter<number>();
 
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
@@ -53,9 +54,9 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   private swipeCoord?: [number, number];
   private swipeTime?: number;
-  public currentWorkShopIndex: number = 0;
+  public currentWorkShopIndex = 0;
   public direct: string;
-  public left: number = 0;
+  public left = 0;
 
   constructor(private store: Store) {}
 
@@ -63,9 +64,9 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.filteredWorkshops$
       .pipe(
         takeUntil(this.destroy$),
-        filter((filteredWorkshops: WorkshopFilterCard) => !!filteredWorkshops)
+        filter((filteredWorkshops: SearchResponse<WorkshopCard[]>) => !!filteredWorkshops)
       )
-      .subscribe((filteredWorkshops: WorkshopFilterCard) => {
+      .subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
         this.workshops = filteredWorkshops.entities;
         this.onSelectedAddress(null);
       });
@@ -97,12 +98,12 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     }
   }
 
-  triggerNameDone(e) {
+  triggerNameDone(e): void {
     if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
-      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) - 92;
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) - 92;
     }
     if (this.direct === 'previous' && this.selectedWorkshops.length > 1) {
-      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left) + 92;
+      this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) + 92;
     }
   }
 
@@ -112,11 +113,11 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.currentWorkShopIndex = 0;
     this.direct = null;
 
-    if (this.isSelectedMarker) {
+    if ( this.isSelectedMarker) {
       this.selectedWorkshops = this.workshops.filter(
-        (workshop: WorkshopCard) => address.catottgId === workshop.address.catottgId
+        (workshop: WorkshopCard) =>
+          address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
       );
-
       this.workshopDetailsAnimationState = true;
     } else {
       this.selectedWorkshops = [];

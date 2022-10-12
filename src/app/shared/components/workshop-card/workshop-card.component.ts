@@ -6,9 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Role } from '../../enum/role';
 import { WorkshopCard } from '../../models/workshop.model';
 import { RegistrationState } from '../../store/registration.state';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/user.actions';
 import { ShowMessageBar } from '../../store/app.actions';
-import { UserState } from '../../store/user.state';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
@@ -18,9 +16,12 @@ import { CategoryIcons } from '../../enum/category-icons';
 import { PayRateTypeUkr, RecruitmentStatusUkr } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
-import { WorkhopStatus } from '../../enum/workshop';
+import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
+import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
+import { ParentState } from '../../store/parent.state.';
+import { SnackbarText } from '../../enum/messageBar';
 
 @Component({
   selector: 'app-workshop-card',
@@ -34,7 +35,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly PayRateTypeUkr = PayRateTypeUkr;
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  readonly workhopStatus = WorkhopStatus;
+  readonly workhopStatus = WorkshopOpenStatus;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
 
@@ -46,16 +47,16 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
-  @Input() isCabinetView: boolean = false;
+  @Input() isCabinetView = false;
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
 
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
-  @Select(UserState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(ParentState.favoriteWorkshops)
+    favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+    role$: Observable<Role>;
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -91,7 +92,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} додано до Улюблених`, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -99,7 +100,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   onDisLike(): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(this.favoriteWorkshopId),
-      new ShowMessageBar({ message: `Гурток ${this.workshopData.title} видалено з Улюблених`, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' }),
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -159,4 +160,5 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     </div>`,
   styleUrls: ['./workshop-card.component.scss'],
 })
+// eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkshopCardDialog {}

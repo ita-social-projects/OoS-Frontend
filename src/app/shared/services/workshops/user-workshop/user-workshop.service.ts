@@ -1,12 +1,12 @@
-import { WorkshopCard } from 'src/app/shared/models/workshop.model';
-import { ProviderWorkshopCard } from './../../../models/workshop.model';
+import { ProviderWorkshopCard, WorkshopCard } from './../../../models/workshop.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
+import { FeaturesList } from '../../../models/featuresList.model';
+import { MetaDataState } from '../../../store/meta-data.state';
+import { TruncatedItem } from '../../../models/truncated.model';
 
 @Injectable({
   providedIn: 'root',
@@ -20,7 +20,7 @@ export class UserWorkshopService {
    * This method get related workshops for provider admins
    */
   getProviderAdminsWorkshops(): Observable<ProviderWorkshopCard[]> {
-    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/ProviderAdmin/ManagedWorkshops`);
+    return this.http.get<ProviderWorkshopCard[]>('/api/v1/ProviderAdmin/ManagedWorkshops');
   }
 
   /**
@@ -49,6 +49,10 @@ export class UserWorkshopService {
    */
   getWorkshopById(id: string): Observable<Workshop> {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
+  }
+
+  getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
+    return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
   /**
@@ -95,8 +99,8 @@ export class UserWorkshopService {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
   }
 
-  deleteWorkshop(id: string): Observable<object> {
-    return this.http.delete(`/api/v2/Workshop/Delete/${id}`);
+  deleteWorkshop(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v2/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {

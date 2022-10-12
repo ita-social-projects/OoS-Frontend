@@ -1,19 +1,19 @@
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
 import { StarsComponent } from './stars/stars.component';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgxsModule, Store } from '@ngxs/store';
-
-import { Parent } from 'src/app/shared/models/parent.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { ReviewsComponent } from './reviews.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
 import { Component, Input } from '@angular/core';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { of } from 'rxjs';
+import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { Parent } from '../../../../shared/models/parent.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
 
 @Component({
   selector: 'app-paginator',
@@ -55,7 +55,7 @@ describe('ReviewsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({} as Parent));
     fixture = TestBed.createComponent(ReviewsComponent);
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;

@@ -1,16 +1,16 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocomplete, MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Codeficator } from 'src/app/shared/models/codeficator.model';
-import { SetFocusOnCityField } from 'src/app/shared/store/app.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
+import { Constants } from '../../../constants/constants';
+import { Codeficator } from '../../../models/codeficator.model';
+import { SetFocusOnCityField } from '../../../store/app.actions';
 import { ConfirmCity, SetCity } from '../../../store/filter.actions';
+import { FilterState } from '../../../store/filter.state';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../store/meta-data.actions';
+import { MetaDataState } from '../../../store/meta-data.state';
 
 @Component({
   selector: 'app-city-filter',
@@ -21,12 +21,12 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   readonly Constants = Constants;
 
   @Select(FilterState.isConfirmCity)
-  isConfirmCity$: Observable<boolean>;
+    isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+    settlement$: Observable<Codeficator>;
   settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
-  codeficatorSearch$: Observable<Codeficator[]>;
+    codeficatorSearch$: Observable<Codeficator[]>;
 
   settlementSearchControl = new FormControl('');
   isDispalyed = true;
@@ -41,9 +41,9 @@ export class CityFilterComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
         filter((settlement: Codeficator) => !!settlement)
       )
-      .subscribe((settlement: Codeficator) =>{
+      .subscribe((settlement: Codeficator) => {
         this.settlement = settlement;
-        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false })
+        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false });
       });
   }
 

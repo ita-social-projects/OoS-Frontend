@@ -5,12 +5,11 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
+import { NgxsModule } from '@ngxs/store';
 import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
 import { Observable, of } from 'rxjs';
+import { PaginationElement } from '../../../shared/models/paginationElement.model';
+import { Workshop, WorkshopFilterCard } from '../../../shared/models/workshop.model';
 
 describe('WorkshopMapViewListComponent', () => {
   let component: WorkshopMapViewListComponent;

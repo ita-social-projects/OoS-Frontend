@@ -1,5 +1,4 @@
-import { StringMapWithRename } from "@angular/compiler/src/compiler_facade_interface";
-import { Person } from "./user.model";
+import { Person } from './user.model';
 export class Teacher implements Person {
   id?: string;
   workshopId?: string;

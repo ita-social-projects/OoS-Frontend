@@ -3,32 +3,32 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
-import { Achievement, AchievementType, AchievmentTeacherValue } from 'src/app/shared/models/achievement.model';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from 'src/app/shared/store/user.actions';
-import { UserState } from 'src/app/shared/store/user.state';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { ChildCards } from 'src/app/shared/models/child.model';
-import { Person } from 'src/app/shared/models/user.model';
-import { Util } from 'src/app/shared/utils/utils';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { GetAchievementsType } from 'src/app/shared/store/meta-data.actions';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { Role } from 'src/app/shared/enum/role';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
 import { Location } from '@angular/common';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { CreateAchievement, GetChildrenByWorkshopId } from 'src/app/shared/store/provider.actions';
-import { GetAchievementById, UpdateAchievement, ResetAchievements } from './../../../../shared/store/provider.actions';
-import { Navigation } from 'src/app/shared/models/navigation.model';
+import { CreateAchievement, GetAchievementById, GetChildrenByWorkshopId, UpdateAchievement } from './../../../../shared/store/provider.actions';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ValidationConstants } from '../../../../shared/constants/validation';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { Role } from '../../../../shared/enum/role';
+import { Achievement, AchievementType } from '../../../../shared/models/achievement.model';
+import { Person } from '../../../../shared/models/user.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import { GetAchievementsType } from '../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { AddNavPath } from '../../../../shared/store/navigation.actions';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../shared/store/shared-user.actions';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import { Util } from '../../../../shared/utils/utils';
+import { Navigation } from '../../../../shared/models/navigation.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { Child } from '../../../../shared/models/child.model';
 
 @Component({
   selector: 'app-create-achievement',
@@ -38,20 +38,20 @@ import { Navigation } from 'src/app/shared/models/navigation.model';
 export class CreateAchievementComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
 
-  @Select(UserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+  @Select(SharedUserState.selectedWorkshop)
+    workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
-  approvedChildren$: Observable<ChildCards>;
+    approvedChildren$: Observable<SearchResponse<Child[]>>;
   @Select(ProviderState.selectedAchievement)
-  selectedAchievement$: Observable<Achievement>;
+    selectedAchievement$: Observable<Achievement>;
   @Select(MetaDataState.achievementsTypes)
-  achievementsTypes$: Observable<AchievementType[]>;
+    achievementsTypes$: Observable<AchievementType[]>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
   achievement: Achievement;
   workshopId: string;
-  approvedChildren: ChildCards;
+  approvedChildren: SearchResponse<Child[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   get teachersFormControl(): FormControl {
@@ -115,9 +115,9 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     combineLatest([this.workshop$, this.approvedChildren$])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([workshop, approvedChildren]: [Workshop, ChildCards]) => !!(workshop && approvedChildren))
+        filter(([workshop, approvedChildren]: [Workshop, SearchResponse<Child[]>]) => !!(workshop && approvedChildren))
       )
-      .subscribe(([workshop, approvedChildren]: [Workshop, ChildCards]) => {
+      .subscribe(([workshop, approvedChildren]: [Workshop, SearchResponse<Child[]>]) => {
         this.workshop = workshop;
         this.approvedChildren = approvedChildren;
         this.determineEditMode();
@@ -201,7 +201,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
 
   onRemoveItem(item: string, control: string): void {
     const formControl = this.AchievementFormGroup.get(control);
-    let items = formControl.value;
+    const items = formControl.value;
     if (items.indexOf(item) >= 0) {
       items.splice(items.indexOf(item), 1);
       if (items.length !== 0) {

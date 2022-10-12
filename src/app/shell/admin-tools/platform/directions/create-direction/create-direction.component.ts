@@ -1,23 +1,23 @@
-import { GetDirectionById } from './../../../../../shared/store/admin.actions';
-import { CreateDirection, UpdateDirection } from 'src/app/shared/store/admin.actions';
+import { CreateDirection, GetDirectionById, UpdateDirection } from './../../../../../shared/store/admin.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Direction } from 'src/app/shared/models/category.model';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { CreateFormComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/create-form/create-form.component';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
 import { Location } from '@angular/common';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { Direction } from '../../../../../shared/models/category.model';
+import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
+import { AdminState } from '../../../../../shared/store/admin.state';
+import { AddNavPath } from '../../../../../shared/store/navigation.actions';
+import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
+
 
 @Component({
   selector: 'app-create-direction',
@@ -32,9 +32,9 @@ import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 })
 export class CreateDirectionComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
-  direction$: Observable<Direction>;
+    direction$: Observable<Direction>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+    isLoading$: Observable<boolean>;
 
   directionFormGroup: FormGroup;
 
@@ -55,7 +55,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
 
   ngOnInit(): void {
     this.determineEditMode();
-    this.addNavPath(); //TODO: move this to abstract create-form component
+    this.addNavPath(); // TODO: move this to abstract create-form component
   }
 
   addNavPath(): void {
@@ -83,7 +83,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   }
 
   setEditMode(): void {
-    const directionId = this.route.snapshot.paramMap.get('param');
+    const directionId = +this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetDirectionById(directionId));
 
     this.direction$

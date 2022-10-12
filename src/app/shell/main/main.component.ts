@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { DirectionsStatistic } from 'src/app/shared/models/category.model';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/shared/store/user.state';
-import { Favorite } from 'src/app/shared/models/favorite.model';
-import { Role } from 'src/app/shared/enum/role';
-import { Login } from 'src/app/shared/store/registration.actions';
-import { AppState } from 'src/app/shared/store/app.state';
-import { Codeficator } from 'src/app/shared/models/codeficator.model';
-import { MainPageState } from 'src/app/shared/store/main-page.state';
-import { GetTopDirections, GetTopWorkshops } from 'src/app/shared/store/main-page.actions';
+import { Direction } from '../../shared/models/category.model';
+import { Role } from '../../shared/enum/role';
+import { Codeficator } from '../../shared/models/codeficator.model';
+import { Favorite } from '../../shared/models/favorite.model';
+import { AppState } from '../../shared/store/app.state';
+import { FilterState } from '../../shared/store/filter.state';
+import { GetTopWorkshops, GetTopDirections } from '../../shared/store/main-page.actions';
+import { MainPageState } from '../../shared/store/main-page.state';
+import { ParentState } from '../../shared/store/parent.state.';
+import { Login } from '../../shared/store/registration.actions';
 
 @Component({
   selector: 'app-main',
@@ -24,23 +24,23 @@ export class MainComponent implements OnInit, OnDestroy {
   Role = Role;
 
   @Select(MainPageState.topWorkshops)
-  topWorkshops$: Observable<WorkshopCard[]>;
+    topWorkshops$: Observable<WorkshopCard[]>;
   topWorkshops: WorkshopCard[];
   @Select(MainPageState.topDirections)
-  topDirections$: Observable<DirectionsStatistic[]>;
-  topDirections: DirectionsStatistic[];
+    topDirections$: Observable<Direction[]>;
+  topDirections: Direction[];
   @Select(MainPageState.isLoadingData)
-  isLoadingData$: Observable<boolean>;
+    isLoadingData$: Observable<boolean>;
   isLoadingData: boolean;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
-  @Select(UserState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+    role$: Observable<Role>;
+  @Select(ParentState.favoriteWorkshops)
+    favoriteWorkshops$: Observable<Favorite[]>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+    settlement$: Observable<Codeficator>;
   settlement: Codeficator;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+    isMobileScreen$: Observable<boolean>;
   isMobile: boolean;
 
   destroy$: Subject<boolean> = new Subject<boolean>();

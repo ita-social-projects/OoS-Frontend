@@ -1,23 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Ordering } from 'src/app/shared/enum/ordering';
-import { SetOrder } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
+import { Ordering } from '../../../shared/enum/ordering';
+import { FilterList } from '../../../shared/models/filterList.model';
+import { SetOrder } from '../../../shared/store/filter.actions';
+import { FilterState } from '../../../shared/store/filter.state';
+
 
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
   styleUrls: ['./ordering.component.scss'],
 })
-export class OrderingComponent implements OnInit {
+export class OrderingComponent implements OnInit, OnDestroy {
   readonly ordering = Ordering;
 
   @Select(FilterState.filterList)
-  filterList$: Observable<any>;
+    filterList$: Observable<FilterList>;
 
   orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -34,7 +36,7 @@ export class OrderingComponent implements OnInit {
     this.store.dispatch(new SetOrder(event.value));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

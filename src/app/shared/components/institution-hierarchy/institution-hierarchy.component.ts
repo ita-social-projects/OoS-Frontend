@@ -3,22 +3,10 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { tap, filter, takeUntil } from 'rxjs/operators';
-import { Provider } from 'src/app/shared/models/provider.model';
-import {
-  HierarchyElement,
-  InstituitionHierarchy,
-  Institution,
-  InstitutionFieldDescription,
-} from 'src/app/shared/models/institution.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import {
-  GetAllByInstitutionAndLevel,
-  GetAllInstitutions,
-  GetFieldDescriptionByInstitutionId,
-  GetInstitutionHierarchyChildrenById,
-  GetInstitutionHierarchyParentsById,
-  ResetInstitutionHierarchy,
-} from 'src/app/shared/store/meta-data.actions';
+import { Provider } from '../../models/provider.model';
+import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
+import { MetaDataState } from '../../store/meta-data.state';
+import { GetAllByInstitutionAndLevel, GetAllInstitutions, GetFieldDescriptionByInstitutionId, GetInstitutionHierarchyChildrenById, GetInstitutionHierarchyParentsById, ResetInstitutionHierarchy } from '../../store/meta-data.actions';
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',
@@ -30,13 +18,13 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() provider: Provider;
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+    institutions$: Observable<Institution[]>;
   @Select(MetaDataState.instituitionsHierarchy)
-  instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+    instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
-  editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+    editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.institutionFieldDesc)
-  institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
+    institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -65,6 +53,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.instituitionIdFormControl.value));
     }
 
+    // eslint-disable-next-line @typescript-eslint/no-shadow
     this.instituitionIdFormControl.valueChanges.subscribe((institutionId: string) => {
       this.store.dispatch(new GetFieldDescriptionByInstitutionId(institutionId));
     });
@@ -125,12 +114,12 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy && !!this.hierarchyArray.length)
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
-        instituitionsHierarchy.forEach((instituitionsHierarchy: InstituitionHierarchy) => {
-          this.hierarchyArray[instituitionsHierarchy.hierarchyLevel - 1].formControl.setValue(
-            instituitionsHierarchy.id,
+        instituitionsHierarchy.forEach((institutionsHierarchy: InstituitionHierarchy) => {
+          this.hierarchyArray[institutionsHierarchy.hierarchyLevel - 1].formControl.setValue(
+            institutionsHierarchy.id,
             { emitEvent: false }
           );
-          this.store.dispatch(new GetInstitutionHierarchyChildrenById(instituitionsHierarchy.id));
+          this.store.dispatch(new GetInstitutionHierarchyChildrenById(institutionsHierarchy.id));
         });
       });
   }
@@ -141,7 +130,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       this.hierarchyArray[nextEl].formControl.setValue('');
       this.hierarchyArray[nextEl].shouldDisplay = false;
       this.store.dispatch(new GetInstitutionHierarchyChildrenById(optionId));
-    } 
+    }
     this.setFinalHierarchyLevel(optionId);
   }
 

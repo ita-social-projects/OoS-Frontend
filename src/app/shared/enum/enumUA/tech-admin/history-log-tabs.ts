@@ -18,3 +18,9 @@ export enum TypeChange {
   LegalAddress = 'Юридична адреса',
   Status = 'Зміна статусів заявок',
 }
+
+export enum Tabs {
+  Provider,
+  ProviderAdmin,
+  Application
+}

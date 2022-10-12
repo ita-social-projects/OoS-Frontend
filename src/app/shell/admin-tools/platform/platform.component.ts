@@ -1,14 +1,14 @@
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { GetPlatformInfo } from 'src/app/shared/store/admin.actions';
 import { Store } from '@ngxs/store';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { AdminTabs, AdminTabsTitle, AdminTabsUkr } from 'src/app/shared/enum/enumUA/tech-admin/admin-tabs';
-import { AddNavPath, DeleteNavPath, PopNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { AdminTabs, AdminTabsUkr, AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { NavBarName } from '../../../shared/enum/navigation-bar';
+import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
+import { GetPlatformInfo } from '../../../shared/store/admin.actions';
+import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.actions';
 
 @Component({
   selector: 'app-platform',
@@ -20,7 +20,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabsUkr = AdminTabsUkr;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  tabIndex: number = 0;
+  tabIndex = 0;
   type: AdminTabs;
 
   constructor(
@@ -62,7 +62,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   }
 
   onSelectedTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate([`admin-tools/platform`], { queryParams: { page: AdminTabs[event.index] } });
+    this.router.navigate(['admin-tools/platform'], { queryParams: { page: AdminTabs[event.index] } });
   }
 
   ngOnDestroy(): void {

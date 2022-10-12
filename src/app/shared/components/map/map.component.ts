@@ -3,18 +3,19 @@ import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
-import { Workshop, WorkshopCard, WorkshopFilterCard } from '../../models/workshop.model';
+import { Workshop, WorkshopCard } from '../../models/workshop.model';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
-import { UserState } from '../../store/user.state';
+import { SharedUserState } from '../../store/shared-user.state';
 import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
 import { GeocoderService } from './../../services/geolocation/geocoder.service';
 import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
+import { SearchResponse } from '../../models/search.model';
 
 @Component({
   selector: 'app-map',
@@ -23,14 +24,17 @@ import { FilterState } from '../../store/filter.state';
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
-  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() settelmentFormGroup: FormGroup;
+
+  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
   @Output() addressSelect = new EventEmitter<Geocoder>();
+  @Output() selectedWorkshopAddress = new EventEmitter<Address>();
 
-  @Select(UserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
+  @Select(SharedUserState.selectedWorkshop)
+    selectedWorkshop$: Observable<Workshop>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+    settlement$: Observable<Codeficator>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   map: Layer.Map;
@@ -87,29 +91,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       });
   }
 
-  private setFilteredWorkshops(): void {
-    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: WorkshopFilterCard) => {
-      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
-      this.workshopMarkers = [];
-      if (filteredWorkshops) {
-        this.workshops = filteredWorkshops.entities;
-        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setAddressLocation(workshop.address));
-        this.setPrevWorkshopMarker();
-      }
-    });
-  }
-
-  private setAddress(): void {
-    const address: Geocoder = this.addressFormGroup.getRawValue();
-    if (address.catottgId) {
-      this.addressDecode(address);
-    }
-
-    this.addressFormGroup.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((address: Geocoder) => this.addressDecode(address));
-  }
-
   /**
    * changing position on map
    * @param coords:Coords
@@ -129,27 +110,40 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       subdomains: '123',
       maxZoom: 19,
       tms: true,
-      attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»",
+      attribution: 'Дані карт © 2019 ПРаТ «<a href=\'https://api.visicom.ua/\'>Визиком</a>»',
     }).addTo(this.map);
 
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
       if (this.workshops) {
         this.unselectMarkers();
-        this.addressSelect.emit(null);
+        this.selectedWorkshopAddress.emit(null);
       } else {
         this.setMapLocation(L.latlng);
       }
     });
   }
 
-  /**
-   * uses GoelocationService to translate address into coords and sets marker on default
-   * @param address - type Address
-   */
-  private setAddressLocation(address: Address): void {
-    this.workshops
-      ? this.setWorkshopMarkers(address)
-      : this.setNewSingleMarker([address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude]);
+  private setFilteredWorkshops(): void {
+    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
+      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+      this.workshopMarkers = [];
+      if (filteredWorkshops) {
+        this.workshops = filteredWorkshops.entities;
+        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setWorkshopMarkers(workshop.address));
+      }
+    });
+  }
+
+  private setAddress(): void {
+    const address: Geocoder = this.addressFormGroup.getRawValue();
+    if (address.catottgId) {
+      this.addressDecode(address);
+    }
+    this.settelmentFormGroup.valueChanges.subscribe(val => console.log(val));
+
+    this.addressFormGroup.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe((address: Geocoder) => this.addressDecode(address));
   }
 
   /**
@@ -173,6 +167,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (result) {
         this.setNewSingleMarker([result.latitude, result.longitude]);
       } else {
+        this.flyTo({ lat: this.settelmentFormGroup.value.latitude, lng: this.settelmentFormGroup.value.longitude });
+        this.addressSelect.emit(null);
         this.map.removeLayer(this.singleMarker);
       }
     });
@@ -185,6 +181,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setNewSingleMarker(coords: [number, number]): void {
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
+    this.singleMarker.on('dragend', (event: Layer.LeafletMouseEvent) => {
+      this.setMapLocation(event.target['_latlng']);
+    });
     this.map.addLayer(this.singleMarker);
     this.map.flyTo(coords);
   }
@@ -194,7 +193,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param coords - type [number, number]
    */
   private setWorkshopMarkers(address: Address): void {
-    const coords: [number, number] = [address.codeficatorAddressDto.latitude, address.codeficatorAddressDto.longitude];
+    const coords: [number, number] = [address.latitude, address.longitude];
     const marker = this.createMarker(coords, false);
     this.map.addLayer(marker);
     this.workshopMarkers.push({ marker, isSelected: false });
@@ -204,36 +203,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       const targetMarker = this.workshopMarkers.find(workshopMarker => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
-      // this.selectedAddress.emit({
-      //   ...address,
-      //   codeficatorAddressDto: address.codeficatorAddressDto,
-      // });
+      this.selectedWorkshopAddress.emit(address);
     });
-  }
-
-  private setPrevWorkshopMarker(): void {
-    this.selectedWorkshop$
-      .pipe(
-        filter((workshop: Workshop) => !!workshop),
-        filter((workshop: Workshop) => '/workshop-details/' + workshop.id === this.previousUrlService.getPreviousUrl())
-      )
-      .subscribe((workshop: Workshop) => {
-        const targetMarkers = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => {
-          const { lat, lng } = workshopMarker.marker.getLatLng();
-          return (
-            lat === workshop.address.codeficatorAddressDto.latitude &&
-            lng === workshop.address.codeficatorAddressDto.longitude
-          );
-        });
-        targetMarkers.forEach((targetMarker: WorkshopMarker) => {
-          targetMarker.isSelected = true;
-          targetMarker.marker.setIcon(this.selectedMarkerIcon);
-        });
-        // this.selectedAddress.emit({
-        //   ...workshop.address,
-        //   codeficatorAddressDto: workshop.address.codeficatorAddressDto,
-        // });
-      });
   }
 
   /**

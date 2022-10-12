@@ -8,19 +8,19 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { WorkshopDetailsComponent } from './workshop-details.component';
-import { Role } from 'src/app/shared/enum/role';
+import { Provider } from '../../../shared/models/provider.model';
+import { Role } from '../../../shared/enum/role';
+import { Teacher } from '../../../shared/models/teacher.model';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
-  WorkshopDetailsComponent
+  WorkshopDetailsComponent;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports:[
+      imports: [
         MatChipsModule,
         MatTabsModule,
         RouterTestingModule,
@@ -30,7 +30,7 @@ describe('WorkshopDetailsComponent', () => {
         NgxsModule.forRoot([]),
         BrowserAnimationsModule
       ],
-      declarations: [ 
+      declarations: [
         WorkshopDetailsComponent,
         MockAllProviderWorkshopsComponent,
         MockProviderAboutComponent,
@@ -42,7 +42,7 @@ describe('WorkshopDetailsComponent', () => {
       ],
       schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { Constants } from '../../constants/constants';
+import { environment } from '../../../../environments/environment';
 import { CategoryIcons } from '../../enum/category-icons';
+import { ImgPath } from '../../models/carousel.model';
 import { Provider } from '../../models/provider.model';
 import { ProviderWorkshopCard, Workshop, WorkshopCard } from '../../models/workshop.model';
-import { imgPath } from 'src/app/shared/models/carousel.model';
 
 @Injectable({
   providedIn: 'root',
@@ -19,8 +18,8 @@ export class ImagesService {
     return workshop;
   }
 
-  setCarouselImages(enityty: Workshop | Provider): imgPath[] {
-    let images: imgPath[];
+  setCarouselImages(enityty: Workshop | Provider): ImgPath[] {
+    let images: ImgPath[];
 
     if (enityty.imageIds?.length) {
       images = enityty.imageIds.map((imgId: string) => {

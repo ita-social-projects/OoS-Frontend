@@ -1,20 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
 import { Observable } from 'rxjs';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeChildrens, SetChildrensPerPage, SetFirstPage } from 'src/app/shared/store/paginator.actions';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 import { ParentComponent } from '../parent.component';
-import { UserState } from 'src/app/shared/store/user.state';
-import { filter, takeUntil, map } from 'rxjs/operators';
+import { filter, takeUntil } from 'rxjs/operators';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { Child } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { SetFirstPage, SetChildrensPerPage, OnPageChangeChildrens } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { GetUsersChildren, DeleteChildById } from '../../../../shared/store/parent.actions';
+import { ParentState } from './../../../../shared/store/parent.state.';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-children',
@@ -23,10 +24,10 @@ import { filter, takeUntil, map } from 'rxjs/operators';
 })
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
-  childrensPerPage$: Observable<number>;
-  @Select(UserState.children)
-  childrenCards$: Observable<ChildCards>;
-  childrenCards: ChildCards;
+    childrensPerPage$: Observable<number>;
+  @Select(ParentState.children)
+    childrenCards$: Observable<SearchResponse<Child[]>>;
+  childrenCards: SearchResponse<Child[]>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
@@ -45,18 +46,16 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   initParentData(): void {
-    this.store.dispatch([new SetFirstPage(),new GetUsersChildren()]);
+    this.store.dispatch([new SetFirstPage(), new GetUsersChildren()]);
     this.childrenCards$
       .pipe(
-        filter((childrenCards: ChildCards) => !!childrenCards),
+        filter((childrenCards: SearchResponse<Child[]>) => !!childrenCards),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (childrenCards: ChildCards) => {
-          childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent)
-          this.childrenCards = childrenCards
-        }
-      );
+      .subscribe((childrenCards: SearchResponse<Child[]>) => {
+        childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
+        this.childrenCards = childrenCards;
+      });
   }
 
   onDelete(child: Child): void {

@@ -68,6 +68,7 @@
 }
 
 :host::ng-deep.mat-drawer-inner-container{
+  box-sizing: border-box;
   padding: 1rem;
 }
 .mat-drawer-container {

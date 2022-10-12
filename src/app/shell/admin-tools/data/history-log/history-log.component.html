@@ -1,36 +1,55 @@
 <div class="wrapper">
-    <div class="tab-wrapper">
-      <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-        <mat-tab [label]="historyLogTabsUkr.Provider">
-          <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: provider, tableTitle: 'Provider'}">
-          </ng-container>
-        </mat-tab>
-        <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
-          <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: providerAdmin, tableTitle: 'ProviderAdmin'}">
-          </ng-container>
-        </mat-tab>
-        <mat-tab [label]="historyLogTabsUkr.Application">
-          <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: application, tableTitle: 'Application'}">
-          </ng-container>
-        </mat-tab>
-      </mat-tab-group>
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        [formControl]="searchFormControl"
+        matInput
+        type="text"
+        class="search"
+        placeholder="Пошук за ПІБ, емейлом, містом, типом чи зміною"
+      />
     </div>
-
-    <ng-template #HistoryLogTable let-table="table" let-tableTitle="tableTitle">
-      <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-        <ng-container *ngIf="table?.length else isEmptyList;">
-          <div class="table-wrapper">
-            <app-history-log-table [table]="table" [tableTitle]="tableTitle"></app-history-log-table>
-          </div>
-        </ng-container>
-      </ng-container>
-    </ng-template>
-
-    <ng-template #isEmptyList>
-      <div class="table-wrapper">
-        <app-no-result-card [title]="noHistory"></app-no-result-card>
-      </div>
-    </ng-template>
   </div>
+  <div class="filters-wrapper">
+    <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
+  </div>
+
+  <div class="tab-wrapper">  
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+      <mat-tab [label]="historyLogTabsUkr.Provider">
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: provider, tableTitle: 'Provider'}">
+        </ng-container>
+      </mat-tab>
+      <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: providerAdmin, tableTitle: 'ProviderAdmin'}">
+        </ng-container>
+      </mat-tab>
+      <mat-tab [label]="historyLogTabsUkr.Application">
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: application, tableTitle: 'Application'}">
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <ng-template #HistoryLogTable let-table="table" let-tableTitle="tableTitle">
+    <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+      <ng-container *ngIf="table?.length else isEmptyList;">
+        <div class="table-wrapper">
+          <app-history-log-table [table]="table" [tableTitle]="tableTitle"></app-history-log-table>
+        </div>
+        <app-paginator [totalEntities]="table.length" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
+          (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
+        </app-paginator>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #isEmptyList>
+    <div class="table-wrapper">
+      <app-no-result-card [title]="noHistory"></app-no-result-card>
+    </div>
+  </ng-template>
+</div>
 
 

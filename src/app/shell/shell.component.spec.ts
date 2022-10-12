@@ -1,9 +1,9 @@
 /* istanbul ignore file */
-import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShellComponent } from './shell.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component } from '@angular/core';
+import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
 export class GeolocationServiceStub {
   handleUserLocation(): void {
 

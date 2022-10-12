@@ -4,13 +4,13 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
-import { FeaturesList } from 'src/app/shared/models/featuresList.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { MarkFormDirty } from 'src/app/shared/store/app.actions';
-import { AppState } from 'src/app/shared/store/app.state';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { UserState } from 'src/app/shared/store/user.state';
+import { FeaturesList } from '../../../../shared/models/featuresList.model';
+import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import { MarkFormDirty } from '../../../../shared/store/app.actions';
+import { AppState } from '../../../../shared/store/app.state';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { DeleteNavPath } from '../../../../shared/store/navigation.actions';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
@@ -18,11 +18,11 @@ import { UserState } from 'src/app/shared/store/user.state';
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
-  @Select(UserState.isLoading)
-  isLoading$: Observable<boolean>;
+    isDirtyForm$: Observable<boolean>;
+  @Select(SharedUserState.isLoading)
+    isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+    featuresList$: Observable<FeaturesList>;
   isRelease3: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

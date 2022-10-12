@@ -9,7 +9,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
 import { CreateProviderAdminComponent } from './create-provider-admin.component';
 
 describe('CreateProviderAdminComponent', () => {
@@ -29,13 +29,13 @@ describe('CreateProviderAdminComponent', () => {
         MatDialogModule,
         NgxsModule.forRoot([]),
       ],
-      declarations: [ 
+      declarations: [
         CreateProviderAdminComponent,
         MockValidationHintForInputComponent,
         MockWorkshopChekcboxDropdownComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

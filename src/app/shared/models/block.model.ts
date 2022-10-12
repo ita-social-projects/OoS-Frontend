@@ -13,3 +13,8 @@ export class BlockedParent {
     this.reason = reason;
   }
 }
+
+export interface ProviderAdminBlockData{
+  userId: string;
+  providerId: string;
+}

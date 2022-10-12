@@ -8,7 +8,7 @@ export enum PayRateType {
   AllPeriod
 }
 
-export enum WorkhopStatus {
+export enum WorkshopOpenStatus {
   Open = 'Open',
   Closed = 'Closed'
 }

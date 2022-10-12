@@ -5,7 +5,7 @@ import { Child } from '../../../../../../shared/models/child.model';
 import { HttpClientModule } from '@angular/common/http';
 import { ChildrenService } from '../../../../../../shared/services/children/children.service';
 import { PhoneTransformPipe } from '../../../../../../shared/pipes/phone-transform.pipe';
-import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
+import { JoinPipe } from '../../../../../../shared/pipes/join.pipe';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;

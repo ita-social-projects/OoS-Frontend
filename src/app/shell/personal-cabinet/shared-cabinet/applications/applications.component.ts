@@ -1,34 +1,28 @@
-import { Role } from 'src/app/shared/enum/role';
-import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import {
   Application,
-  ApplicationCards,
   ApplicationParameters,
-  ApplicationUpdate,
 } from '../../../../shared/models/application.model';
-import { UpdateApplication } from 'src/app/shared/store/user.actions';
-import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { ApplicationTitles, ApplicationTitlesReverse } from 'src/app/shared/enum/enumUA/applications';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { OnUpdateApplicationSuccess } from '../../../../shared/store/user.actions';
+import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { OnPageChangeApplications, SetApplicationsPerPage } from 'src/app/shared/store/paginator.actions';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { UserState } from 'src/app/shared/store/user.state';
-import { CabinetDataComponent } from '../cabinet-data.component';
-import { Child } from 'src/app/shared/models/child.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ChildDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { ApplicationStatus } from '../../../../shared/enum/applications';
+import { ApplicationTitles, ApplicationTitlesReverse } from '../../../../shared/enum/enumUA/applications';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Role } from '../../../../shared/enum/role';
+import { Child } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { OnPageChangeApplications, SetApplicationsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-applications',
@@ -41,13 +35,13 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly Role = Role;
 
-  @Select(UserState.applications)
-  applicationCards$: Observable<ApplicationCards>;
+  @Select(SharedUserState.applications)
+    applicationCards$: Observable<SearchResponse<Application[]>>;
   @Select(PaginatorState.applicationsPerPage)
-  applicationsPerPage$: Observable<number>;
-  applicationCards: ApplicationCards;
-  @Select(UserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    applicationsPerPage$: Observable<number>;
+  applicationCards: SearchResponse<Application[]>;
+  @Select(SharedUserState.isLoading)
+    isLoadingCabinet$: Observable<boolean>;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -61,6 +55,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() leave = new EventEmitter();
   @Output() approve = new EventEmitter();
   @Output() reject = new EventEmitter();
+  @Output() block = new EventEmitter();
+  @Output() unblock = new EventEmitter();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
@@ -86,7 +82,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEntitiesSelect(IDs: string[]): void {
     this.enititiesSelect.emit(IDs);
-  };
+  }
 
   ngAfterViewInit(): void {
     this.tabGroup.selectedIndex = this.tabIndex;
@@ -94,9 +90,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.applicationCards$.pipe(
-      filter((applicationCards: ApplicationCards) => !!applicationCards),
+      filter((applicationCards: SearchResponse<Application[]>) => !!applicationCards),
       takeUntil(this.destroy$)
-    ).subscribe((applicationCards: ApplicationCards) => this.applicationCards = applicationCards);
+    ).subscribe((applicationCards: SearchResponse<Application[]>) => this.applicationCards = applicationCards);
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))

@@ -2,14 +2,13 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { PaginationConstants } from '../../constants/constants';
-import { UserTabs, UserTabsUkr } from '../../enum/enumUA/tech-admin/users-tabs';
-import { Child, ChildCards, ChildrenParameters } from '../../models/child.model';
+import { Child, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/search.model';
 import { SocialGroup } from '../../models/socialGroup.model';
-import { AdminStateModel } from '../../store/admin.state';
+import { TruncatedItem } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';
-import { UserStateModel } from '../../store/user.state';
+
 @Injectable({
   providedIn: 'root'
 })
@@ -24,28 +23,28 @@ export class ChildrenService {
   private setParams( parameters?: ChildrenParameters, isParent?: boolean ): HttpParams {
     let params = new HttpParams();
 
-    if(parameters){
-      if(parameters.searchString){
-      params = params.set('SearchString', parameters.searchString);}
-      if(parameters.tabTitle){ 
-        if(parameters.tabTitle == "Батьки"){
-          isParent= true;
+    if (parameters) {
+      if (parameters.searchString) {
+        params = params.set('SearchString', parameters.searchString); }
+      if (parameters.tabTitle) {
+        if (parameters.tabTitle == 'Батьки') {
+          isParent = true;
         }
-        if(parameters.tabTitle == "Діти"){
-          isParent= false;
+        if (parameters.tabTitle == 'Діти') {
+          isParent = false;
         }
       }
 
-    if(isParent !== undefined){
-      params = params.set('isParent', isParent.toString());}
+      if (isParent !== undefined) {
+        params = params.set('isParent', isParent.toString()); }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.childrensPerPage);
+    const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
-    
+
     params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
-   
+
     return params;
   }
 
@@ -53,31 +52,35 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(): Observable<ChildCards> {
+  getUsersChildren(): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams() };
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', options);
+  }
+
+  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]> {
+    return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
   }
 
   /**
    * This method get children by Parent Child id
    * @param id: number
    */
-  getAllUsersChildren(): Observable<ChildCards> {
+  getAllUsersChildren(): Observable<SearchResponse<Child[]>> {
     let params = new HttpParams();
     params = params.set('Size', '0');
     params = params.set('From', '0');
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetUsersChildren`, { params });
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', { params });
   }
 
-    /**
+  /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(paremeters, isParent?): Observable<ChildCards> {
+  getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams(paremeters, isParent), };
 
-    return this.http.get<ChildCards>(`/api/v1/Child/GetAllForAdmin`, options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
   }
 
 
@@ -85,16 +88,16 @@ export class ChildrenService {
    * This method create Child
    * @param child: Child
    */
-  createChild(child: Child): Observable<object> {
-    return this.http.post('/api/v1/Child/Create', child);
+  createChild(child: Child): Observable<Child> {
+    return this.http.post<Child>('/api/v1/Child/Create', child);
   }
 
   /**
    * This method update Child
    * @param child: Child
    */
-  updateChild(child: Child): Observable<object> {
-    return this.http.put('/api/v1/Child/Update', child);
+  updateChild(child: Child): Observable<Child> {
+    return this.http.put<Child>('/api/v1/Child/Update', child);
   }
 
   /**
@@ -110,8 +113,8 @@ export class ChildrenService {
    * This method delete child by Child id
    * @param id: string
    */
-  deleteChild(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Child/Delete/${id}`);
+  deleteChild(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Child/Delete/${id}`);
   }
 
   /**

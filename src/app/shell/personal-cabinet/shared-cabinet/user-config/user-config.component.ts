@@ -1,15 +1,14 @@
-import { PopNavPath } from '../../../../shared/store/navigation.actions';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/shared/models/user.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { environment } from 'src/environments/environment';
-import { Constants } from 'src/app/shared/constants/constants';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { Role } from 'src/app/shared/enum/role';
-import { Gender } from 'src/app/shared/enum/gender';
+import { Constants } from '../../../../shared/constants/constants';
+import { Gender } from '../../../../shared/enum/gender';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { Role } from '../../../../shared/enum/role';
+import { User } from '../../../../shared/models/user.model';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import { environment } from '../../../../../environments/environment';
 
 @Component({
   selector: 'app-user-config',
@@ -23,12 +22,12 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   readonly role = Role;
 
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+    user$: Observable<User>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
-  
+    role$: Observable<Role>;
+
   authServer: string = environment.stsServer;
-  culture: string = localStorage.getItem('ui-culture');;
+  culture: string = localStorage.getItem('ui-culture');
   link: string;
 
   constructor(private store: Store) { }
@@ -42,7 +41,7 @@ export class UserConfigComponent implements OnInit, OnDestroy {
           disable: true,
         }
       )
-    );    
+    );
   }
 
   onRedirect(link: string): void {

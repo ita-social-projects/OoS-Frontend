@@ -1,7 +1,7 @@
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { DateTimeRanges } from '../../../../../../shared/models/workingHours.model';
+import { Workshop } from '../../../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-working-hours-form-wrapper',
@@ -11,6 +11,7 @@ import { DateTimeRanges } from '../../../../../../shared/models/workingHours.mod
 export class WorkingHoursFormWrapperComponent implements OnInit {
   @Input() workshop: Workshop;
   @Input() workingHoursFormArray: FormArray;
+  workingHoursFormGroup: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -26,8 +27,8 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
    * This method create new FormGroup add new FormGroup to the FormArray
    */
   addWorkingHours(range?: DateTimeRanges): void {
-    const formGroup = this.newWorkingHoursForm(range)
-    this.workingHoursFormArray.controls.push(formGroup); //for preventing emitting value changes in edit mode on initial value set
+    const formGroup = this.newWorkingHoursForm(range);
+    this.workingHoursFormArray.controls.push(formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.workingHoursFormArray['_registerControl'](formGroup);
   }
 
@@ -44,16 +45,16 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
    * @param DateTimeRanges range
    */
   private newWorkingHoursForm(range?: DateTimeRanges): FormGroup {
-    const workingHoursFormGroup = this.formBuilder.group({
+    this.workingHoursFormGroup = this.formBuilder.group({
       workdays: new FormControl('', Validators.required),
       startTime: new FormControl('', Validators.required),
       endTime: new FormControl('', Validators.required),
     });
     if (range) {
-      workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
-      workingHoursFormGroup.setValue(range);
+      this.workingHoursFormGroup.addControl('id', this.formBuilder.control(''));
+      this.workingHoursFormGroup.setValue(range);
     }
-  
-    return workingHoursFormGroup;
+
+    return this.workingHoursFormGroup;
   }
 }

@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Role } from 'src/app/shared/enum/role';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { UserState } from 'src/app/shared/store/user.state';
-import { PopNavPath } from 'src/app/shared/store/navigation.actions';
-import { Constants } from 'src/app/shared/constants/constants';
+import { Constants } from '../../../shared/constants/constants';
+import { Role } from '../../../shared/enum/role';
+import { PopNavPath } from '../../../shared/store/navigation.actions';
+import { RegistrationState } from '../../../shared/store/registration.state';
+import { SharedUserState } from '../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-cabinet-data',
@@ -18,16 +18,16 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   readonly Role = Role;
 
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+    role$: Observable<Role>;
   role: string;
   @Select(RegistrationState.subrole)
-  subRole$: Observable<Role>;
+    subRole$: Observable<Role>;
   subRole: Role;
-  @Select(UserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  @Select(SharedUserState.isLoading)
+    isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  
+
   constructor(protected store: Store, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {

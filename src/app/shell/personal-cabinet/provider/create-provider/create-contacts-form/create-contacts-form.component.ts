@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnI
 import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FormValidators } from 'src/app/shared/constants/validation';
-import { Provider } from 'src/app/shared/models/provider.model';
+import { FormValidators } from '../../../../../shared/constants/validation';
+import { Provider } from '../../../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-create-contacts-form',

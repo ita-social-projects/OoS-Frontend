@@ -1,20 +1,5 @@
 import { Observable } from 'rxjs';
 
-export const MockCityFilterService = {
-  fetchCities: () => {
-    return new Observable<any>();
-  },
-};
-
-export const MockStore = {
-  dispatch: () => {
-  },
-  subscribe: () => {
-  },
-  select: () => {
-  },
-};
-
 export const MockOidcSecurityService = {
   authorize: () => {
   },

@@ -19,7 +19,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
 
-  workdaysFormControl = new FormControl('');
+  workdaysFormControl = new FormControl(['']);
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
 
@@ -37,9 +37,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
     this.workingHoursForm.valueChanges.pipe(
-      filter(()=> !this.workdaysFormControl.touched),
+      filter(() => !this.workdaysFormControl.touched),
       takeUntil(this.destroy$)
-    ).subscribe(()=> this.workdaysFormControl.markAsTouched());
+    ).subscribe(() => this.workdaysFormControl.markAsTouched());
 
     this.workdaysFormControl.value.length && this.activateEditMode();
   }
@@ -68,9 +68,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     this.deleteWorkingHour.emit(this.index);
   }
 
-  onCancel(): void{
-    (<EventEmitter<any>>this.startTimeFormControl.statusChanges).emit();
-    (<EventEmitter<any>>this.endTimeFormControl.statusChanges).emit();
+  onCancel(): void {
+    (this.startTimeFormControl.statusChanges as EventEmitter<any>).emit();
+    (this.endTimeFormControl.statusChanges as EventEmitter<any>).emit();
   }
 
   activateEditMode(): void {

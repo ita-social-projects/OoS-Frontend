@@ -1,8 +1,9 @@
+/* eslint-disable linebreak-style */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatMenuModule, _MatMenuDirectivesModule } from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
 import { Application } from '../../../../../../shared/models/application.model';
@@ -19,8 +20,7 @@ describe('InfoStatusComponent', () => {
         MatMenuModule,
         MatCardModule,
         MatDialogModule,
-        MatIconModule,
-        _MatMenuDirectivesModule],
+        MatIconModule],
       declarations: [InfoStatusComponent, TextSliceTransformPipe,],
     })
       .compileComponents();

@@ -1,30 +1,30 @@
-import { ResetSelectedChild } from './../../../../shared/store/user.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
-import { NavBarName, PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { SocialGroup } from 'src/app/shared/models/socialGroup.model';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { GetSocialGroup } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { AddNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { CreateChildren, GetUsersChildById, UpdateChild } from 'src/app/shared/store/user.actions';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { Constants } from 'src/app/shared/constants/constants';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { UserState } from 'src/app/shared/store/user.state';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
 import { Location } from '@angular/common';
-import { Navigation } from 'src/app/shared/models/navigation.model';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
+import { ValidationConstants } from '../../../../shared/constants/validation';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName, PersonalCabinetTitle } from '../../../../shared/enum/navigation-bar';
+import { Child } from '../../../../shared/models/child.model';
+import { Parent } from '../../../../shared/models/parent.model';
+import { SocialGroup } from '../../../../shared/models/socialGroup.model';
+import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import { GetSocialGroup } from '../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { AddNavPath } from '../../../../shared/store/navigation.actions';
+import { ResetSelectedChild, GetUsersChildById, UpdateChild, CreateChildren } from '../../../../shared/store/parent.actions';
+import { ParentState } from '../../../../shared/store/parent.state.';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import { Navigation } from '../../../../shared/models/navigation.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-create-child',
@@ -35,17 +35,17 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
-  socialGroups$: Observable<SocialGroup[]>;
+    socialGroups$: Observable<SocialGroup[]>;
   socialGroups: SocialGroup[];
-  @Select(UserState.children)
-  childrenCards$: Observable<ChildCards[]>;
-  @Select(UserState.selectedChild)
-  selectedChild$: Observable<Child>;
+  @Select(ParentState.children)
+    childrenCards$: Observable<SearchResponse<Child[]>>;
+  @Select(ParentState.selectedChild)
+    selectedChild$: Observable<Child>;
   child: Child;
 
   ChildrenFormArray = new FormArray([]);
   AgreementFormControl = new FormControl(false);
-  isAgreed: boolean = false;
+  isAgreed = false;
 
   constructor(
     private fb: FormBuilder,
@@ -82,21 +82,21 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
 
   addNavPath(): void {
     let previousNavPath: Navigation;
-    const workshopId = this.routeParams.snapshot.queryParams['workshopId']; 
-    if(workshopId){
+    const workshopId = this.routeParams.snapshot.queryParams['workshopId'];
+    if (workshopId) {
       previousNavPath = {
         name: NavBarName.RequestOnWorkshop,
         path: `/create-application/${workshopId}`,
         isActive: false,
         disable: false,
-      }
-    }else{
+      };
+    } else {
       previousNavPath = {
         name: PersonalCabinetTitle.parent,
         path: '/personal-cabinet/parent/info',
         isActive: false,
         disable: false,
-      }
+      };
     }
     this.store.dispatch(
       new AddNavPath(
@@ -119,14 +119,14 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.store.dispatch(new GetUsersChildById(childId));
 
     this.selectedChild$
-    .pipe(
-      takeUntil(this.destroy$),
-      filter((child: Child) => !!child)
-    )
-    .subscribe((child: Child) => {
-      this.child = child
-      this.ChildrenFormArray.push(this.newForm(this.child));
-    });
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((child: Child) => !!child)
+      )
+      .subscribe((child: Child) => {
+        this.child = child;
+        this.ChildrenFormArray.push(this.newForm(this.child));
+      });
   }
 
   /**
@@ -154,17 +154,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       dateOfBirth: new FormControl('', Validators.required),
-      gender: new FormControl('', Validators.required),
+      gender: new FormControl(null, Validators.required),
       socialGroups: new FormControl([]),
-      placeOfLiving: new FormControl('', [
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
-      ]),
-      certificateOfBirth: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_10),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30),
-      ]),
       placeOfStudy: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
@@ -242,7 +233,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   private checkValidationChild(): void {
     Object.keys(this.ChildrenFormArray.controls).forEach(key => {
-      this.checkValidation(<FormGroup>this.ChildrenFormArray.get(key));
+      this.checkValidation(this.ChildrenFormArray.get(key) as FormGroup);
     });
   }
 

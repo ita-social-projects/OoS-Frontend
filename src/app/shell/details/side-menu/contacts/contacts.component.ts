@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Address } from 'src/app/shared/models/address.model';
+import { Constants } from '../../../../shared/constants/constants';
+import { Address } from '../../../../shared/models/address.model';
 
 @Component({
   selector: 'app-contacts',
@@ -28,7 +28,7 @@ export class ContactsComponent implements OnInit {
   /*Detects device and opens map*/
   mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
-      this.addressLink = 'http://maps.apple.com:';
+      this.addressLink = 'https://maps.apple.com:';
       window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`);
     } else if (/Android/i.test(navigator.userAgent)) {
       window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`);

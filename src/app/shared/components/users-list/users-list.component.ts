@@ -3,7 +3,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
-  Input,
+  Input, OnChanges,
   OnInit,
   Output,
   SimpleChanges,
@@ -31,15 +31,15 @@ import { Constants } from '../../constants/constants';
   templateUrl: './users-list.component.html',
   styleUrls: ['./users-list.component.scss'],
 })
-export class UsersListComponent implements OnInit, AfterViewInit {
+export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
   @Input() filterValue: string;
-  @Input() isEditable: boolean = false;
-
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
+  @Input() isEdit: boolean;
 
   @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
   @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
+  @Output() update = new EventEmitter<ProviderAdminTable>();
 
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminTitles = ProviderAdminTitles;
@@ -51,7 +51,7 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   Role = Role;
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
-  constructor(private _liveAnnouncer: LiveAnnouncer, private store: Store) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store) {}
 
   @ViewChild(MatSort) sort: MatSort;
 
@@ -60,15 +60,15 @@ export class UsersListComponent implements OnInit, AfterViewInit {
     this.dataSource = new MatTableDataSource(this.users);
   }
 
-  ngAfterViewInit() {
+  ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
 
-  ngOnChanges(changes: SimpleChanges) {
+  ngOnChanges(changes: SimpleChanges): void {
     if (changes.filterValue && changes.filterValue.currentValue) {
-      let filter = changes.filterValue.currentValue;
+      const filter = changes.filterValue.currentValue;
       this.dataSource.filter = filter.trim().toLowerCase();
-    } else this.dataSource.filter = '';
+    } else { this.dataSource.filter = ''; }
 
     if (changes.users && changes.users.currentValue) {
       const users = changes.users.currentValue;
@@ -77,19 +77,23 @@ export class UsersListComponent implements OnInit, AfterViewInit {
   }
 
   /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort) {
+  announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
-      this._liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
+      this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
-      this._liveAnnouncer.announce('Sorting cleared');
+      this.liveAnnouncer.announce('Sorting cleared');
     }
   }
 
-  onDelete(user: ProviderAdminTable): void {    
+  onDelete(user: ProviderAdminTable): void {
     this.deleteAdmin.emit(user);
   }
-  
+
   onBlock(user: ProviderAdminTable): void {
     this.blockAdmin.emit(user);
+  }
+
+  onUpdate(user: ProviderAdminTable): void {
+    this.update.emit(user);
   }
 }

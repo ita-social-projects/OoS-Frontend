@@ -38,7 +38,7 @@ export class Util {
    */
   public static getMinBirthDate(maxAge: number): Date {
     const today = new Date();
-    let minBirthDate = new Date();
+    const minBirthDate = new Date();
 
     minBirthDate.setFullYear(today.getFullYear() - maxAge);
 
@@ -62,12 +62,12 @@ export class Util {
    */
   public static getDeclensionYear(year: number): string {
     let ageString;
-    let lastDigit = year % 10;
+    const lastDigit = year % 10;
     lastDigit === 1 && year !== 11
       ? (ageString = 'рік')
       : lastDigit > 1 && lastDigit < 5
-      ? (ageString = 'роки')
-      : (ageString = 'років');
+        ? (ageString = 'роки')
+        : (ageString = 'років');
     return ageString;
   }
 
@@ -129,7 +129,7 @@ export class Util {
    */
   public static updateStructureForTheTable(users): UsersTable[] {
     const constants: typeof Constants = Constants;
-    let updatedUsers = [];
+    const updatedUsers = [];
     users.forEach(user => {
       updatedUsers.push({
         id: user.id,
@@ -151,18 +151,18 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
     const constants: typeof Constants = Constants;
     const updatedAdmins = [];
-    admins.forEach((admins: MinistryAdmin) => {
+    admins.forEach((admin: MinistryAdmin) => {
       updatedAdmins.push({
-        id: admins.id,
-        pib: `${admins.lastName} ${admins.firstName} ${admins.middleName}` || constants.NO_INFORMATION,
-        email: admins.email || constants.NO_INFORMATION,
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}` || constants.NO_INFORMATION,
+        email: admin.email || constants.NO_INFORMATION,
         place: constants.NO_INFORMATION,
-        phoneNumber: admins.phoneNumber ? `${constants.PHONE_PREFIX} ${admins.phoneNumber}` : constants.NO_INFORMATION,
-        role: admins.id,
-        status: admins.accountStatus || 'Accepted',
+        phoneNumber: admin.phoneNumber ? `${constants.PHONE_PREFIX} ${admin.phoneNumber}` : constants.NO_INFORMATION,
+        role: admin.id,
+        status: admin.accountStatus || 'Accepted',
       });
     });
     return updatedAdmins;
@@ -173,10 +173,9 @@ export class Util {
    * @param payload Object
    * @returns string
    */
-  public static getWorkshopMessage(payload) {
-    let finalMessage = { text: '', type: 'success' };
-    let messageArr = [];
-
+  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
+    const finalMessage = { text: '', type: 'success' };
+    const messageArr = [];
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
     let statuses, invalidImages;
@@ -191,7 +190,8 @@ export class Util {
       isInvalidGaleryImages = !!invalidImages.length;
     }
 
-    messageArr.push(`Гурток оновлено!`);
+    messageArr.push(message);
+
 
     if (isInvalidCoverImage) {
       const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
@@ -203,7 +203,7 @@ export class Util {
     }
 
     if (isInvalidGaleryImages) {
-      let errorCodes = new Set();
+      const errorCodes = new Set();
       invalidImages.map(img => img[1]).forEach(img => img['errors'].forEach(error => errorCodes.add(error.code)));
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
       const indexes = invalidImages.map(img => img[0]);

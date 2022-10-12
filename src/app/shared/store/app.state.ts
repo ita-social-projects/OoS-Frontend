@@ -5,7 +5,7 @@ import { ActivateEditMode, MarkFormDirty, ShowMessageBar, ToggleMobileScreen } f
 export interface AppStateModel {
   isDirtyForm: boolean;
   isEditMode: boolean;
-  isMobileScreen: undefined | boolean;  
+  isMobileScreen: undefined | boolean;
 }
 
 @State<AppStateModel>({
@@ -13,7 +13,7 @@ export interface AppStateModel {
   defaults: {
     isDirtyForm: false,
     isEditMode: false,
-    isMobileScreen: undefined    
+    isMobileScreen: undefined
   }
 })
 @Injectable()
@@ -41,7 +41,7 @@ export class AppState {
   }
 
   @Action(ShowMessageBar)
-  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void {     
+  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void {
   }
 
   @Action(ToggleMobileScreen)

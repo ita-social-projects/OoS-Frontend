@@ -13,10 +13,21 @@
     display: block;
     background-color: #F5BC4A;
   }
+  left: 15px;
+  top: 0px;
+  
 }
+
 .icon-mobile{
   top: 10px;
 }
 .full-width{
   width: 100%;
+}
+
+@media(max-width: 847px) {
+  .mat-badge-content {
+    left: 15px;
+    top: 10px;
+  }
 }

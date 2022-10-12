@@ -1,20 +1,22 @@
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { OnPageChangeDirections, SetDirectionsPerPage } from 'src/app/shared/store/paginator.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Direction, DirectionsFilter } from 'src/app/shared/models/category.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
-import { PopNavPath } from 'src/app/shared/store/navigation.actions';
-import { DeleteDirectionById, GetFilteredDirections } from 'src/app/shared/store/admin.actions';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Direction } from '../../../../shared/models/category.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { GetFilteredDirections, DeleteDirectionById } from '../../../../shared/store/admin.actions';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { PopNavPath } from '../../../../shared/store/navigation.actions';
+import { OnPageChangeDirections, SetDirectionsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+
 @Component({
   selector: 'app-directions',
   templateUrl: './directions.component.html',
@@ -24,9 +26,9 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   readonly noDirections = NoResultsTitle.noDirections;
 
   @Select(AdminState.filteredDirections)
-  filteredDirections$: Observable<DirectionsFilter>;
+    filteredDirections$: Observable<SearchResponse<Direction[]>>;
   @Select(PaginatorState.directionsPerPage)
-  directionsPerPage$: Observable<number>;
+    directionsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);

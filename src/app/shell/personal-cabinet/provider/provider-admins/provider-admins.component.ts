@@ -1,22 +1,22 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs/tab-group';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from 'src/app/shared/enum/enumUA/provider-admin';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { providerAdminRole } from 'src/app/shared/enum/provider-admin';
-import { ProviderAdmin, ProviderAdminTable } from 'src/app/shared/models/providerAdmin.model';
-import { Constants } from 'src/app/shared/constants/constants';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../../../../shared/enum/enumUA/provider-admin';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { providerAdminRole } from '../../../../shared/enum/provider-admin';
+import { ProviderAdmin, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { DeleteProviderAdminById, BlockProviderAdminById, GetAllProviderAdmins } from '../../../../shared/store/provider.actions';
 import { ProviderComponent } from '../provider.component';
-import { BlockProviderAdminById, DeleteProviderAdminById, GetAllProviderAdmins } from 'src/app/shared/store/provider.actions';
 import { ProviderState } from './../../../../shared/store/provider.state';
 
 @Component({
@@ -31,9 +31,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   readonly constants = Constants;
 
   @Select(ProviderState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
   @Select(ProviderState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdmin[]>;
+    providerAdmins$: Observable<ProviderAdmin[]>;
 
   providerAdmins: ProviderAdminTable[] = [];
   filterFormControl: FormControl = new FormControl('');
@@ -56,7 +56,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * This method filter users according to selected tab
    * @param event: MatTabChangeEvent
    */
-   onTabChange(event: MatTabChangeEvent): void {
+  onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
@@ -67,11 +67,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method delete provider Admin By Id
    */
-  onDelete(user): void {
+  onDelete(user: ProviderAdminTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.deputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
         property: user.pib,
       },
     });
@@ -90,11 +90,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method block provider Admin By Id
    */
-  onBlock(user): void {
+  onBlock(user: ProviderAdminTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.deputy ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
+        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
         property: user.pib,
       },
     });
@@ -108,6 +108,13 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           })
         );
     });
+  }
+
+  /**
+   * This method update provider Admin By Id
+  */
+  onUpdate(user: ProviderAdminTable): void {
+    this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`]);
   }
 
   protected addNavPath(): void {
@@ -134,7 +141,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param admins: ProviderAdmin[]
    */
   private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
-    let updatedAdmins = [];
+    const updatedAdmins = [];
     admins.forEach((admin: ProviderAdmin) => {
       updatedAdmins.push({
         id: admin.id,

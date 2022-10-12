@@ -1,11 +1,11 @@
-import { Util } from 'src/app/shared/utils/utils';
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Role, RoleLinks } from 'src/app/shared/enum/role';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
-import { PersonalCabinetTitle } from 'src/app/shared/enum/navigation-bar';
+import { PersonalCabinetTitle } from '../../shared/enum/navigation-bar';
+import { RoleLinks, Role } from '../../shared/enum/role';
+import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
+import { RegistrationState } from '../../shared/store/registration.state';
+import { Util } from '../../shared/utils/utils';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -32,15 +32,15 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createOneNavPath({
-          path:'/personal-cabinet/config',
+          path: '/personal-cabinet/config',
           name: this.personalCabinetTitle,
           isActive: false,
           disable: false,
         })
       )
-    );    
+    );
   }
-  
+
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }

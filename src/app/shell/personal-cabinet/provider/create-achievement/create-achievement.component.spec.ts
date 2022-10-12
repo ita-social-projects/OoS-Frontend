@@ -14,9 +14,10 @@ import { HttpClient } from '@microsoft/signalr';
 import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { CreateAchievementComponent } from './create-achievement.component';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { MatDialogModule } from '@angular/material/dialog';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;
@@ -39,6 +40,7 @@ describe('CreateAchievementComponent', () => {
         MatNativeDateModule,
         MatChipsModule,
         MatIconModule,
+        MatDialogModule,
       ],
       declarations: [
         CreateAchievementComponent,

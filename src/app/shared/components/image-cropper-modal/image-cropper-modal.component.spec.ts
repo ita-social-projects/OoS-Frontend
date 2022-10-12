@@ -16,15 +16,15 @@ describe('ImageCropperModalComponent', () => {
         ImageCropperModule,
         MatDialogModule,
       ],
-      declarations: [ 
+      declarations: [
         ImageCropperModalComponent,
-       ],
-       providers: [
+      ],
+      providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

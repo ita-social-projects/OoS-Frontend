@@ -4,10 +4,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
 import { ParentComponent } from '../parent.component';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
+import { of } from 'rxjs';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;
@@ -26,7 +27,7 @@ describe('FavoriteWorkshopsComponent', () => {
         MockWorkshopCardComponent,
         MockListWorkshopCardPaginatorComponent,
         NoWorkshopsCardComponent,
-        ParentComponent, 
+        ParentComponent,
         CabinetDataComponent,
       ]
     })
@@ -35,7 +36,7 @@ describe('FavoriteWorkshopsComponent', () => {
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue([] as Workshop[]);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of([] as Workshop[]));
     fixture = TestBed.createComponent(FavoriteWorkshopsComponent);
     component = fixture.componentInstance;
   });

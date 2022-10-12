@@ -33,12 +33,12 @@ describe('CreateAdminComponent', () => {
         FormsModule,
         MatSelectModule
       ],
-      declarations: [ 
+      declarations: [
         MockValidationHintForInputComponent,
         CreateAdminComponent
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
@@ -66,7 +66,7 @@ describe('CreateAdminComponent', () => {
 })
 
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
+  @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;

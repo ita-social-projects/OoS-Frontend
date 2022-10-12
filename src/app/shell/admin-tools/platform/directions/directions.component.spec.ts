@@ -9,9 +9,8 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Direction } from 'leaflet';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-
+import { Direction } from '../../../../shared/models/category.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { DirectionsComponent } from './directions.component';
 
 describe('DirectionsComponent', () => {
@@ -38,7 +37,7 @@ describe('DirectionsComponent', () => {
         MockAllCategoriesCardComponent,
       ]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {

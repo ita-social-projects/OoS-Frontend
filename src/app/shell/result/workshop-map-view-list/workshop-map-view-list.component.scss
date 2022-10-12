@@ -4,12 +4,13 @@
 $links-color: #3849F9;
 
 .wrapper{
-  max-height: 650px;
+  height: 77vh;
 }
 
 .map {
-  width: 1200px;
-  height: 650px;
+  width: 100vw;
+  height: 77vh;
+  margin: 1.5rem;
 
   &-full{
     width: 100%;
@@ -22,6 +23,7 @@ $links-color: #3849F9;
 
 .workshop-list{
   overflow-y: scroll;
+  margin: 2rem 0 2rem 2rem;
 }
 
 ::-webkit-scrollbar {
@@ -75,6 +77,10 @@ $links-color: #3849F9;
     position: relative;
   }
 
+  .map{
+    margin: 0;
+  }  
+
   app-map {
     height: calc(100vh - 81px) !important;
     position: relative;
@@ -96,7 +102,6 @@ $links-color: #3849F9;
     bottom: 60px;
     z-index: 400;
     overflow: scroll;
-    // padding: 15px 10px;
 
     .workshop-details-card {
       flex-grow: 2;

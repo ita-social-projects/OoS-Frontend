@@ -1,12 +1,12 @@
-import { PaginationElement } from "../models/paginationElement.model";
+import { PaginationElement } from '../models/paginationElement.model';
 
 export class SetWorkshopsPerPage {
   static readonly type = '[paginator] Workshops Per Page';
   constructor(public payload: number) { }
 }
 
-export class SetProvidersPerPage {
-  static readonly type = '[paginator] Providers Per Page';
+export class SetItemsPerPage {
+  static readonly type = '[paginator] Items Per Page';
   constructor(public payload: number) { }
 }
 
@@ -22,11 +22,6 @@ export class SetChildrensPerPage {
 
 export class SetApplicationsPerPage {
   static readonly type = '[paginator] Applications Per Page';
-  constructor(public payload: number) { }
-}
-
-export class SetAdminsPerPage {
-  static readonly type = '[paginator] Admins Per Page';
   constructor(public payload: number) { }
 }
 
@@ -67,6 +62,11 @@ export class OnPageChangeAdminTable {
 
 export class OnPageChangeRating {
   static readonly type = '[paginator] Change Page';
+  constructor(public payload: PaginationElement) { }
+}
+
+export class OnPageChangeHistoryLog {
+  static readonly type = '[paginator] Change History Log Page';
   constructor(public payload: PaginationElement) { }
 }
 

@@ -2,16 +2,15 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { Constants, CropperConfigurationConstants } from 'src/app/shared/constants/constants';
 import { takeUntil, filter, first } from 'rxjs/operators';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
-import { InstitutionStatus } from 'src/app/shared/models/institutionStatus.model';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { ProviderSectionItem } from 'src/app/shared/models/provider.model';
-import { GetInstitutionStatus } from 'src/app/shared/store/meta-data.actions';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
-import { InstitutionTypes } from 'src/app/shared/enum/enumUA/provider';
+import { CropperConfigurationConstants, Constants } from '../../../../../shared/constants/constants';
+import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { InstitutionTypes } from '../../../../../shared/enum/enumUA/provider';
+import { InstitutionStatus } from '../../../../../shared/models/institutionStatus.model';
+import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
+import { GetInstitutionStatus } from '../../../../../shared/store/meta-data.actions';
+import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-photo-form',
@@ -33,15 +32,17 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   };
 
   @Input() provider: Provider;
+  @Input() isRelease3: boolean;
 
   @Output() passPhotoFormGroup = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
+    institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatuses: InstitutionStatus[];
 
   PhotoFormGroup: FormGroup;
   SectionItemsFormArray = new FormArray([]);
+  editFormGroup: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
@@ -100,7 +101,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup
    */
   private newForm(item?: ProviderSectionItem): FormGroup {
-    const EditFormGroup = this.formBuilder.group({
+    this.editFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [Validators.required]),
       description: new FormControl('', [
         Validators.required,
@@ -110,14 +111,14 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     });
 
     if (this.provider) {
-      EditFormGroup.addControl('providerId', this.formBuilder.control(this.provider.id));
+      this.editFormGroup.addControl('providerId', this.formBuilder.control(this.provider.id));
     }
 
     if (item) {
-      EditFormGroup.patchValue(item, { emitEvent: false });
+      this.editFormGroup.patchValue(item, { emitEvent: false });
     }
 
-    return EditFormGroup;
+    return this.editFormGroup;
   }
 
   /**

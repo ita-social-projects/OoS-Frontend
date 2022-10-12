@@ -1,16 +1,18 @@
-import { FilterState } from 'src/app/shared/store/filter.state';
-import { Codeficator } from 'src/app/shared/models/codeficator.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Ordering } from 'src/app/shared/enum/ordering';
-import { Direction } from 'src/app/shared/models/category.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
-import { FilterStateModel } from '../../../store/filter.state';
+import { SearchResponse } from '../../../models/search.model';
+import { Constants } from '../../../constants/constants';
+import { Ordering } from '../../../enum/ordering';
+import { Direction } from '../../../models/category.model';
+import { Codeficator } from '../../../models/codeficator.model';
+import { FilterStateModel } from '../../../models/filter-state.model';
+import { PaginationElement } from '../../../models/paginationElement.model';
+import { WorkshopCard } from '../../../models/workshop.model';
+import { FilterState } from '../../../store/filter.state';
+import { PaginatorState } from '../../../store/paginator.state';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -18,7 +20,6 @@ export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
   private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
-    params = params.set('City', settlement.settlement);
     params = params.set('Latitude', settlement.latitude.toString());
     params = params.set('Longitude', settlement.longitude.toString());
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
@@ -94,7 +95,11 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', filters.order);
     }
 
-    if (filters.directions.length > 0) {
+    if (!!filters.statuses.length) {
+      filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
+    }
+
+    if (!!filters.directions.length) {
       filters.directions.forEach(
         (direction: Direction) => (params = params.append('DirectionIds', direction.id.toString()))
       );
@@ -133,9 +138,9 @@ export class AppWorkshopsService {
   /**
    * This method get workshops with applied filter options
    */
-  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
+  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<SearchResponse<WorkshopCard[]>> {
     const options = { params: this.setParams(filters, isMapView) };
-    return this.http.get<WorkshopFilterCard>('/api/v1/Workshop/GetByFilter', options);
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Workshop/GetByFilter', options);
   }
 
   /**

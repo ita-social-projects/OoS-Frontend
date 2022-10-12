@@ -14,3 +14,8 @@ export enum RecruitmentStatusUkr {
   Stop = 'Призупинити набір',
   Open = 'Відкрити набір'
 }
+
+export enum NotificationWorkshopStatusUkr {
+  Open = 'відкрито',
+  Closed = 'закрито'
+}

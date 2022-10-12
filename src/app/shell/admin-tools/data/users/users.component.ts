@@ -4,21 +4,22 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { UserTabs, UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Child, ChildCards, ChildrenParameters } from 'src/app/shared/models/child.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { UsersTable } from 'src/app/shared/models/usersTable';
-import { GetChildrenForAdmin } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { PopNavPath, PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetChildrensPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
-import { Util } from 'src/app/shared/utils/utils';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { UsersTable } from '../../../../shared/models/usersTable';
+import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { Util } from '../../../../shared/utils/utils';
+
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
@@ -29,11 +30,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   readonly noUsers = NoResultsTitle.noUsers;
 
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+    isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
-  children$: Observable<ChildCards>;
-  @Select(PaginatorState.childrensPerPage)
-  childrensPerPage$: Observable<number>;
+    children$: Observable<SearchResponse<Child[]>>;
+  @Select(PaginatorState.itemsPerPage)
+    itemsPerPage$: Observable<number>;
 
   filterFormControl = new FormControl('');
   filterValue: string;
@@ -44,7 +45,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
-    searchString: "",
+    searchString: '',
     tabTitle: undefined,
   };
 
@@ -52,26 +53,26 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe( 
+      .pipe(
         takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(2000),)
-      .subscribe((searchString:string)=> {
+        debounceTime(2000), )
+      .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
-        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))});
+        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)); });
 
     this.children$
       .pipe(
         takeUntil(this.destroy$),
-        filter((children: ChildCards) => !!children)
+        filter((children: SearchResponse<Child[]>) => !!children)
       )
-      .subscribe((children: ChildCards) => {
+      .subscribe((children: SearchResponse<Child[]>) => {
         this.allUsers = Util.updateStructureForTheTable(children.entities);
         this.totalEntities = children.totalAmount;
       });
-     
+
     this.store.dispatch([
       new GetChildrenForAdmin(this.childrenParams),
       new PushNavPath(
@@ -90,7 +91,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.filterFormControl.reset();
-    this.childrenParams.searchString = "";
+    this.childrenParams.searchString = '';
     this.childrenParams.tabTitle = event.tab.textLabel;
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.router.navigate(['./'], {
@@ -105,7 +106,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   ngOnDestroy(): void {

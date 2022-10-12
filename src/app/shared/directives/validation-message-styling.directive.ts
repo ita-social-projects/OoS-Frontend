@@ -3,7 +3,7 @@ import { Directive, ElementRef, Renderer2 } from '@angular/core';
 @Directive({
   selector: '[appValidationMessageStyling]'
 })
-export class ValidationMessageStyling {
+export class ValidationMessageStylingDirective {
   /**
    * This directive adds styling to error messages for input validation
    */
