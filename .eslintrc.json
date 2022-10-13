@@ -26,8 +26,7 @@
           "always"
         ],
         "linebreak-style": [
-          "error",
-          "windows"
+          "error"
         ],
         "eol-last": "warn",
         "no-console": ["error", { "allow": ["warn", "error"]}],
