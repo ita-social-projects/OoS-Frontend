@@ -16,3 +16,9 @@
   color: blue;
   font-weight: 300;
 }
+
+::ng-deep .mat-form-field {
+  .mat-form-field-wrapper  {
+    padding:0;
+  } 
+}
