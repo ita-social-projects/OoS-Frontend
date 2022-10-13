@@ -1,5 +1,6 @@
 export enum NavBarName {
   MainPage = 'Головна',
+  MainInformation = 'Головна сторінка',
   WorkshopResult = 'Результати пошуку',
   TopDestination = 'Найпопулярніші напрямки',
   Portal = 'Портал',

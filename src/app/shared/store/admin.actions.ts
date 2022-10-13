@@ -15,6 +15,10 @@ export class GetAboutPortal {
   static readonly type = '[admin] Get AboutPortal';
   constructor() {}
 }
+export class GetMainPageInformation {
+  static readonly type = '[admin] Get Main Page Information';
+  constructor() {}
+}
 export class GetSupportInformation {
   static readonly type = '[admin] Get SupportInformation';
   constructor() {}
