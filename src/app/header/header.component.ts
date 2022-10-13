@@ -93,7 +93,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         )
         .subscribe((headerInfo: CompanyInformation) => {
           this.headerTitle = headerInfo.title;
-          this.headerSubtitle = headerInfo.companyInformationItems[0].description;
+          this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
         });
   }
 
