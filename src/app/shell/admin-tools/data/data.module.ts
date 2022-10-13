@@ -12,8 +12,9 @@ import { HistoryLogTableComponent } from './history-log/history-log-table/histor
 import { HistoryLogFiltersComponent } from './history-log/history-log-filters/history-log-filters.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
-import { DirectionsComponent } from './directions/directions.component';
-import { CreateDirectionComponent } from './directions/create-direction/create-direction.component';
+import { DirectionsComponent } from './directions-wrapper/directions/directions.component';
+import { CreateDirectionComponent } from './directions-wrapper/directions/create-direction/create-direction.component';
+import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrapper.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { CreateDirectionComponent } from './directions/create-direction/create-d
     HistoryLogTableComponent,
     HistoryLogFiltersComponent,
     DirectionsComponent,
-    CreateDirectionComponent
+    CreateDirectionComponent,
+    DirectionsWrapperComponent
   ],
   imports: [
     CommonModule,
