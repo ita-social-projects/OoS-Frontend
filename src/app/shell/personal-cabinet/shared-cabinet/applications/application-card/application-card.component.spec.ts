@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationCardComponent } from './application-card.component';
 import { MatCardModule } from '@angular/material/card';
@@ -10,12 +9,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { JoinPipe } from 'src/app/shared/pipes/join.pipe';
-import { Child } from 'src/app/shared/models/child.model';
-import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
+import { JoinPipe } from '../../../../../shared/pipes/join.pipe';
+import { Child } from '../../../../../shared/models/child.model';
+import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
 import { StatusInfoCardComponent } from '../../../../../shared/components/status-info-card/status-info-card.component';
 import { InfoStatusComponent } from './info-status/info-status.component';
-import { PhoneTransformPipe } from 'src/app/shared/pipes/phone-transform.pipe';
+import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
 
 
 describe('ApplicationCardComponent', () => {

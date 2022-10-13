@@ -1,11 +1,10 @@
-/* eslint-disable linebreak-style */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
-import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
+import { TextSliceTransformPipe } from '../../../../../../shared/pipes/text-slice-transform.pipe';
 import { Application } from '../../../../../../shared/models/application.model';
 import { InfoStatusComponent } from './info-status.component';
 

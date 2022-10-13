@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
@@ -8,15 +7,15 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ApplicationChildSortingPipe } from 'src/app/shared/pipes/application-child-sorting.pipe';
-import { WorkshopDeclination } from 'src/app/shared/enum/enumUA/declinations/declination';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
+import { ApplicationChildSortingPipe } from '../../../../shared/pipes/application-child-sorting.pipe';
+import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { TextSliceTransformPipe } from '../../../../shared/pipes/text-slice-transform.pipe';
 import { StatusInfoCardComponent } from '../../../../shared/components/status-info-card/status-info-card.component';
-import { Application, ApplicationCards } from '../../../../shared/models/application.model';
+import { Application } from '../../../../shared/models/application.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { ApplicationChildFilterPipe } from '../../../../shared/pipes/application-child-filter.pipe';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
+import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
 ;
 
 describe('ApplicationsComponent', () => {
@@ -64,7 +63,6 @@ describe('ApplicationsComponent', () => {
 })
 class MockApplicationCardComponent {
   @Input() application: Application;
-  @Input() applicationCards: ApplicationCards;
   @Input() userRole: string;
 }
 

@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReasonModalWindowComponent } from './reason-modal-window.component';
-import { TextSliceTransformPipe } from 'src/app/shared/pipes/text-slice-transform.pipe';
+import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
 
 describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;

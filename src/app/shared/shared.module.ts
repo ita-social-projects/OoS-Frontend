@@ -1,4 +1,3 @@
-/* eslint-disable linebreak-style */
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FiltersListComponent } from './components/filters-list/filters-list.component';
