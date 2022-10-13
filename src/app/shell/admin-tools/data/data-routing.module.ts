@@ -13,9 +13,9 @@ const routes: Routes = [
   { path: 'users', component: UsersComponent},
   { path: 'admins', component: AdminsComponent},
   { path: 'history-log', component: HistoryLogComponent},
-  { path: 'directions', component: DirectionsComponent},
   { path: 'directions-wrapper', component: DirectionsWrapperComponent},
-  { path: 'directions/create/:param', component: CreateDirectionComponent}
+  { path: 'directions-wrapper/directions', component: DirectionsComponent},
+  { path: 'directions-wrapper/directions/create/:param', component: CreateDirectionComponent}
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
