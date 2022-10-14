@@ -4,7 +4,7 @@ export class GetTopDirections {
 
 export class GetMainPageInfo {
   static readonly type = '[mainPage] Get Main Page Info';
-  constructor(){}
+  constructor() {}
 }
 
 export class GetTopWorkshops {

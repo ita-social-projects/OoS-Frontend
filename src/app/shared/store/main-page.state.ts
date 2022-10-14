@@ -52,7 +52,7 @@ export class MainPageState {
   constructor(private categoriesService: DirectionsService, private appWorkshopsService: AppWorkshopsService, private platformSercice: PlatformService) {}
 
   @Action(GetMainPageInfo)
-  getMainPageInfo({ patchState }: StateContext<MainPageStateModel>): Observable<CompanyInformation>{
+  getMainPageInfo({ patchState }: StateContext<MainPageStateModel>): Observable<CompanyInformation> {
     patchState({ isLoadingData: true });
     return this.platformSercice
       .getPlatformInfo(AdminTabsTitle.MainPage)

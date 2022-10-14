@@ -282,7 +282,7 @@ export class AdminState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: SnackbarText.updatePortal, type: 'success' }),
     ]);
-    if(type == AdminTabsTitle.MainPage){
+    if (type == AdminTabsTitle.MainPage) {
       this.store.dispatch(new GetMainPageInfo());
       this.router.navigate(['/']);
       return;

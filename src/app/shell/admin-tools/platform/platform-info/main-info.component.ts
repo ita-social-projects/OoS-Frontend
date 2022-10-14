@@ -15,7 +15,7 @@ export class MainInfoComponent {
   readonly mainInformation = AdminTabsTitle.MainPage;
 
   @Select(AdminState.MainInformation)
-  MainInformation$: Observable<CompanyInformation>;
+    MainInformation$: Observable<CompanyInformation>;
 
   constructor() { }
 }

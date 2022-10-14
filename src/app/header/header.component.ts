@@ -52,8 +52,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
     headerInfo$: Observable<CompanyInformation>;
-    headerTitle: string;
-    headerSubtitle: string;
+  headerTitle: string;
+  headerSubtitle: string;
   navigationPaths: Navigation[];
   subrole: string;
   btnView: string = providerAdminRoleUkr.all;
@@ -86,15 +86,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.user = user;
       });
     
-      this.headerInfo$
-        .pipe(
-          filter(info => !!info),
-          takeUntil(this.destroy$)
-        )
-        .subscribe((headerInfo: CompanyInformation) => {
-          this.headerTitle = headerInfo.title;
-          this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
-        });
+    this.headerInfo$
+      .pipe(
+        filter(info => !!info),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((headerInfo: CompanyInformation) => {
+        this.headerTitle = headerInfo.title;
+        this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
+      });
   }
 
   private getFullName(user: User): string {
