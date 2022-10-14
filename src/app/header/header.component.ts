@@ -78,7 +78,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
     this.user$
       .pipe(
-        filter(user => !!user),
+        filter((user: User) => !!user),
         takeUntil(this.destroy$)
       )
       .subscribe((user: User) => {
@@ -88,7 +88,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
     
     this.headerInfo$
       .pipe(
-        filter(info => !!info),
+        filter((info: CompanyInformation) => !!info),
         takeUntil(this.destroy$)
       )
       .subscribe((headerInfo: CompanyInformation) => {
