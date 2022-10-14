@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Select, Store } from '@ngxs/store';
+import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
 import { Constants } from '../../../constants/constants';
@@ -32,7 +32,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   isDispalyed = true;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private actions$: Actions) {}
 
   ngOnInit(): void {
     this.settlementListener();
@@ -43,7 +43,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
       )
       .subscribe((settlement: Codeficator) => {
         this.settlement = settlement;
-        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false });
+        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: true });
       });
   }
 
@@ -70,7 +70,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   }
 
   onSelectedCity(event: MatAutocompleteSelectedEvent): void {
-    this.store.dispatch(new SetCity(event.option.value));
+    this.store.dispatch(new SetCity(event.option.value, true));
   }
 
   /**
@@ -93,11 +93,13 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   }
 
   confirmCity(): void {
-    this.store.dispatch(new ConfirmCity(true));
+    this.store.dispatch([new SetCity(this.settlement, true), new ConfirmCity(true)]);
   }
 
-  changeCity(): void {
-    this.store.dispatch([new ConfirmCity(false), new SetFocusOnCityField()]);
+  changeCity(searchInput: HTMLElement): void {
+    this.isDispalyed = false;
+    this.store.dispatch(new SetCity(Constants.KYIV, false));
+    this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => {searchInput.focus();});
   }
 
   ngOnDestroy(): void {

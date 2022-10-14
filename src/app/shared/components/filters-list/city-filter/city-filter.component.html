@@ -1,5 +1,6 @@
 <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
   <input
+    #searchInput
     class="input-filter"
     matInput
     type="text"
@@ -40,7 +41,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">
       <button mat-button class="button" (click)="confirmCity()">Підтвердити</button>
-      <button mat-button class="button button-change" (click)="changeCity()">Змінити</button>
+      <button mat-button class="button button-change" (click)="changeCity(searchInput)">Змінити</button>
     </div>
   </div>
 </div>

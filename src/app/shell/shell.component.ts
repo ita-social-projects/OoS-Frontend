@@ -8,6 +8,7 @@ import { RegistrationState } from '../shared/store/registration.state';
 import { takeUntil } from 'rxjs/operators';
 import { Role } from '../shared/enum/role';
 import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from '../shared/store/parent.actions';
+import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 
 @Component({
   selector: 'app-shell',
@@ -22,12 +23,17 @@ export class ShellComponent implements OnInit, OnDestroy {
   constructor(private geolocationService: GeolocationService, private store: Store) {}
 
   ngOnInit(): void {
-    this.geolocationService.handleUserLocation((coords: Coords) => {
-      coords &&
-        this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-          this.geolocationService.confirmCity(result);
-        });
-    });
+    if (this.geolocationService.isCityInStorage()) {
+      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')));
+    } else {
+      this.geolocationService.handleUserLocation((coords: Coords) => {
+        coords &&
+          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+            this.store.dispatch([new SetCity(result, false), new ConfirmCity(false)]);
+          });
+      });
+    }
+    
 
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
       role == Role.parent && this.store.dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()]);

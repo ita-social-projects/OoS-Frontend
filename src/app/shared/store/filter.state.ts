@@ -147,10 +147,12 @@ export class FilterState {
   constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
-  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
+  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload, isNeedWriteInStorage }: SetCity): void {
     patchState({ settlement: payload });
-    localStorage.setItem('cityConfirmation', JSON.stringify(payload));
-
+    if (isNeedWriteInStorage) {
+      localStorage.setItem('cityConfirmation', JSON.stringify(payload));
+    }
+    
     dispatch(new FilterChange());
   }
 
