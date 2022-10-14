@@ -1,4 +1,4 @@
-import { CreateDirection, GetDirectionById, UpdateDirection } from './../../../../../shared/store/admin.actions';
+import { CreateDirection, GetDirectionById, UpdateDirection } from './../../../../../../shared/store/admin.actions';
 import { takeUntil, filter } from 'rxjs/operators';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -8,15 +8,15 @@ import { Observable } from 'rxjs';
 import { Location } from '@angular/common';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
-import { Direction } from '../../../../../shared/models/category.model';
-import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
-import { AdminState } from '../../../../../shared/store/admin.state';
-import { AddNavPath } from '../../../../../shared/store/navigation.actions';
-import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
+import { ConfirmationModalWindowComponent } from '../../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../../../shared/enum/navigation-bar';
+import { Direction } from '../../../../../../shared/models/category.model';
+import { NavigationBarService } from '../../../../../../shared/services/navigation-bar/navigation-bar.service';
+import { AdminState } from '../../../../../../shared/store/admin.state';
+import { AddNavPath } from '../../../../../../shared/store/navigation.actions';
+import { CreateFormComponent } from '../../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 
 @Component({
