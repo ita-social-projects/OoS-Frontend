@@ -20,13 +20,13 @@ export class GeolocationService {
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation
    */
-  confirmCity(settlement: Codeficator): void {
-    this.store.dispatch([new SetCity(settlement, true), new ConfirmCity(true)]);
+  confirmCity(settlement: Codeficator, isConfirmed: boolean): void {
+    this.store.dispatch([new SetCity(settlement, isConfirmed), new ConfirmCity(isConfirmed)]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(Constants.KYIV);
+    this.confirmCity(Constants.KYIV, true);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {

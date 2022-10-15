@@ -24,12 +24,12 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     if (this.geolocationService.isCityInStorage()) {
-      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')));
+      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
     } else {
       this.geolocationService.handleUserLocation((coords: Coords) => {
         coords &&
           this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-            this.store.dispatch([new SetCity(result, false), new ConfirmCity(false)]);
+            this.geolocationService.confirmCity(result, false);
           });
       });
     }
