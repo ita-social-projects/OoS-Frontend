@@ -33,11 +33,11 @@
 <div class="confirmation">
   <div class="city-confirmation" *ngIf="isDispalyed && !(isConfirmCity$ | async)">
     <div fxLayout="row" fxLayoutAlign="space-between start">
-      <p>
+      <p fxFlex="93%">
         Ви знаходитесь в населеному пункті <span>{{ settlement.settlement }}</span
         >?
       </p>
-      <mat-icon (click)="isDispalyed = false">clear</mat-icon>
+      <mat-icon (click)="isDispalyed = false" fxFlex="7%">clear</mat-icon>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">
       <button mat-button class="button" (click)="confirmCity()">Підтвердити</button>
