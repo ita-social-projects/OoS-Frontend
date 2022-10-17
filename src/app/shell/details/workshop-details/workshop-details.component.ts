@@ -1,13 +1,17 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions, Store, ofActionCompleted } from '@ngxs/store';
-import { Subject } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { ApplicationStatus } from 'src/app/shared/enum/applications';
+import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
+import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { RecruitmentStatusUkr } from '../../../shared/enum/enumUA/workshop';
+import { RecruitmentStatusUkr, WorkshopTitles, WorkshopTitlesReverse } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
-import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
+import { WorkshopOpenStatus, WorkshopStatus } from '../../../shared/enum/workshop';
 import { ImgPath } from '../../../shared/models/carousel.model';
 import { Provider } from '../../../shared/models/provider.model';
 import { Workshop } from '../../../shared/models/workshop.model';
@@ -27,8 +31,12 @@ import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../.
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
-  readonly workhopStatus = WorkshopOpenStatus;
+  readonly workshopStatus = WorkshopOpenStatus;
+  
+  readonly workshopTitles = WorkshopTitles;
 
+  // @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  
   @Input() role: Role;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
@@ -37,21 +45,30 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
   workshopStatusOpen: boolean;
   selectedIndex: number;
+  tabIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: ImgPath[] = [];
+  routerOutletNavService: any;
+  activatedRoute: any;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private imagesService: ImagesService,
     private actions$: Actions,
     private store: Store,
     private navigationBarService: NavigationBarService
-  ) {}
+  ) {this.route.queryParams
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((params: Params) => {
+      this.tabIndex = Object.keys(WorkshopTitles).indexOf(params['status']);
+    });}
 
   ngOnInit(): void {
+
     this.getWorkshopData();
 
-    this.workshopStatusOpen = this.workshop.status === this.workhopStatus.Open;
+    this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
     this.actions$
@@ -78,6 +95,13 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         )
       ),
     ]);
+  }
+
+  onTabChange(event: MatTabChangeEvent): void {
+    const tabLabel = event.tab.textLabel;
+    // return WorkshopTitlesReverse[tabLabel]
+    // this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: WorkshopTitlesReverse[tabLabel] } });
+    this.router.navigate([`./details/workshop/${this.workshop.id}/${WorkshopTitlesReverse[tabLabel]}`]);
   }
 
   ngOnDestroy(): void {

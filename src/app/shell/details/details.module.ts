@@ -2,7 +2,7 @@ import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { SideMenuComponent } from './side-menu/side-menu.component';
 import { DetailsComponent } from './details.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Routes } from '@angular/router';
 import { WorkshopAboutComponent } from './details-tabs/workshop-about/workshop-about.component';
 import { ProviderAboutComponent } from './details-tabs/provider-about/provider-about.component';
 import { WorkshopTeachersComponent } from './details-tabs/workshop-teachers/workshop-teachers.component';
@@ -17,6 +17,27 @@ import { AchievementsComponent } from './details-tabs/achievements/achievements.
 import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-card/teacher-card.component';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { SharedModule } from '../../shared/shared.module';
+
+const routes: Routes = [
+  {
+    path: 'AboutWorkshopl', component: WorkshopAboutComponent,
+  },
+  {
+    path: 'AboutProvider', component: ProviderAboutComponent,
+  },
+  {
+    path: 'Teachers', component: WorkshopTeachersComponent,
+  },
+  {
+    path: 'OtherWorkshops', component: AllProviderWorkshopsComponent,
+  },
+  {
+    path: 'Reviews', component: ReviewsComponent,
+  },
+  {
+    path: 'Achievements', component: AchievementsComponent,
+  },
+];
 
 @NgModule({
   declarations: [
@@ -39,7 +60,7 @@ import { SharedModule } from '../../shared/shared.module';
     FlexLayoutModule,
     SharedModule,
     MaterialModule,
-    RouterModule
+    RouterModule.forChild(routes)
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []
