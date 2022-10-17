@@ -41,7 +41,7 @@
         <hr class="hr-grey">
 
         <div class="mobile-sidenav-menu">
-          <div *ngIf="(user?.role !== Role.techAdmin) then UserView; else AdminView"></div>
+          <div *ngIf="(user?.role == Role.techAdmin || user?.role == Role.ministryAdmin) then AdminView; else UserView"></div>
           <ng-template #UserView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
             <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація

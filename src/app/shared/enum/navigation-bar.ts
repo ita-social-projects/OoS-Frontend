@@ -47,4 +47,5 @@ export enum PersonalCabinetTitle {
   ProviderDeputy = 'Кабінет заступника директора',
   ProviderAdmin = 'Кабінет адміністратора гуртка',
   None = 'Кабінет надавача',
+  ministryadmin = 'Кабінет адміна міністерства'
 }
