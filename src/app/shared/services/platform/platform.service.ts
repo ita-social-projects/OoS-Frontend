@@ -15,7 +15,7 @@ export class PlatformService {
    * This method get information about Platform from the database.
    */
   getPlatformInfo(type: AdminTabsTitle): Observable<CompanyInformation> {
-    return this.http.get<CompanyInformation>(`/api/v1/${AdminTabsTitle[type]}/Get`);
+    return this.http.get<CompanyInformation>(`/api/v1/${type}/Get`);
   }
 
   /**
@@ -23,6 +23,6 @@ export class PlatformService {
    * @param PlatformInfo: CompanyInformation
    */
   updatePlatformInfo(platformInfo: CompanyInformation, type: AdminTabsTitle): Observable<CompanyInformation> {
-    return this.http.put<CompanyInformation>(`/api/v1/${AdminTabsTitle[type]}/Update`, platformInfo);
+    return this.http.put<CompanyInformation>(`/api/v1/${type}/Update`, platformInfo);
   }
 }

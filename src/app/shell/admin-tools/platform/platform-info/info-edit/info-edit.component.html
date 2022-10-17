@@ -7,7 +7,7 @@
     <div fxLayout="column" fxLayoutAlign="center center">
 
       <div fxLayout="column" fxLayoutAlign="start space-between" class="step">
-        <label class="step-label"> Заголовок </label>
+        <label class="step-label"> Заголовок <span class="step-required">*</span></label>
         <mat-form-field>
           <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue>
         </mat-form-field>
@@ -21,7 +21,7 @@
         [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000" (deleteForm)="onDeleteForm($event)">
       </app-info-form>
 
-      <button *ngIf="PlatformInfoItemArray.controls.length < 10" class="btn-add" mat-button (click)="onAddForm()">
+      <button *ngIf="PlatformInfoItemArray.controls.length < 10 && !isMainPage" class="btn-add" mat-button (click)="onAddForm()">
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
       </button>
 

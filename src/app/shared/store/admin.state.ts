@@ -1,5 +1,5 @@
 import { MinistryAdminParameters } from './../models/ministryAdmin.model';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of, throwError } from 'rxjs';
@@ -32,6 +32,7 @@ import {
   GetFilteredDirections,
   GetFilteredProviders,
   GetLawsAndRegulations,
+  GetMainPageInformation,
   GetMinistryAdminById,
   GetMinistryAdminProfile,
   GetParents,
@@ -69,9 +70,11 @@ import { HistoryLogService } from '../services/history-log/history-log.service';
 import { GetProfile } from './registration.actions';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
+import { GetMainPageInfo } from './main-page.actions';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
+  mainPageInformation: CompanyInformation;
   supportInformation: CompanyInformation;
   lawsAndRegulations: CompanyInformation;
   isLoading: boolean;
@@ -91,6 +94,7 @@ export interface AdminStateModel {
   name: 'admin',
   defaults: {
     aboutPortal: null,
+    mainPageInformation: null,
     supportInformation: null,
     lawsAndRegulations: null,
     direction: null,
@@ -111,6 +115,10 @@ export interface AdminStateModel {
 export class AdminState {
   @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation {
     return state.aboutPortal;
+  }
+
+  @Selector() static MainInformation(state: AdminStateModel): CompanyInformation {
+    return state.mainPageInformation;
   }
 
   @Selector() static providers(state: AdminStateModel): Provider[] {
@@ -174,12 +182,13 @@ export class AdminState {
     private providerService: ProviderService,
     private ministryAdminService: MinistryAdminService,
     private historyLogService: HistoryLogService,
-    private location: Location
+    private location: Location,
+    private store: Store
   ) { }
 
   @Action(GetPlatformInfo)
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, { }: GetPlatformInfo): void {
-    dispatch([new GetAboutPortal(), new GetSupportInformation(), new GetLawsAndRegulations()]);
+    dispatch([new GetAboutPortal(), new GetMainPageInformation(), new GetSupportInformation(), new GetLawsAndRegulations()]);
   }
 
   @Action(GetAllProviders)
@@ -209,6 +218,14 @@ export class AdminState {
     return this.platformService
       .getPlatformInfo(AdminTabsTitle.AboutPortal)
       .pipe(tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+  }
+
+  @Action(GetMainPageInformation)
+  getMainPageInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
+    patchState({ isLoading: true });
+    return this.platformService
+      .getPlatformInfo(AdminTabsTitle.MainPage)
+      .pipe(tap((mainPageInformation: CompanyInformation) => patchState({ mainPageInformation, isLoading: false })));
   }
 
   @Action(GetSupportInformation)
@@ -265,6 +282,11 @@ export class AdminState {
       new MarkFormDirty(false),
       new ShowMessageBar({ message: SnackbarText.updatePortal, type: 'success' }),
     ]);
+    if (type == AdminTabsTitle.MainPage) {
+      this.store.dispatch(new GetMainPageInfo());
+      this.router.navigate(['/']);
+      return;
+    }
     this.router.navigate(['/admin-tools/platform'], { queryParams: { page: type } });
   }
 
