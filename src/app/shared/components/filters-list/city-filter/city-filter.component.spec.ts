@@ -8,10 +8,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CityFilterComponent } from './city-filter.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
-xdescribe('CityFilterComponent', () => {
+describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
   let fixture: ComponentFixture<CityFilterComponent>;
+  const mockGeolocation = {
+    getCurrentPosition: jest.fn()
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -23,7 +27,8 @@ xdescribe('CityFilterComponent', () => {
         MatFormFieldModule,
         MatOptionModule,
         MatInputModule,
-        MatIconModule
+        MatIconModule,
+        HttpClientTestingModule
       ],
       declarations: [CityFilterComponent],
     }).compileComponents();
@@ -32,6 +37,7 @@ xdescribe('CityFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CityFilterComponent);
     component = fixture.componentInstance;
+    navigator.geolocation = mockGeolocation;
     component.settlementSearchControl = new FormControl('');
     component.settlement = {} as any;
     fixture.detectChanges();
