@@ -3,7 +3,7 @@ import { Direction } from '../models/category.model';
 import { WorkshopOpenStatus } from '../enum/workshop';
 export class SetCity {
   static readonly type = '[app] Set City';
-  constructor(public payload: Codeficator, public isNeedWriteInStorage: boolean) {}
+  constructor(public payload: Codeficator, public isConfirmedCity: boolean) {}
 }
 export class CleanCity {
   static readonly type = '[app] Clean City';

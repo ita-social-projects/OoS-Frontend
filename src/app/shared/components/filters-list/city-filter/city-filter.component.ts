@@ -87,7 +87,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   }
 
   onSelectedCity(event: MatAutocompleteSelectedEvent): void {
-    this.store.dispatch(new SetCity(event.option.value, true));
+    this.geolocationService.confirmCity(event.option.value, true);
   }
 
   /**
@@ -110,13 +110,13 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   }
 
   confirmCity(): void {
-    this.store.dispatch([new SetCity(this.settlement, true), new ConfirmCity(true)]);
+    this.geolocationService.confirmCity(this.settlement, true);
   }
 
   changeCity(): void {
     this.isDispalyed = false;
     if (this.settlement != Constants.KYIV) {
-      this.store.dispatch([new SetCity(Constants.KYIV, false)]);
+      this.geolocationService.confirmCity(Constants.KYIV, false);
       this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => {this.setInputFocus();});
       return;
     }
