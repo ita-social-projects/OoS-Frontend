@@ -105,6 +105,31 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           new BlockProviderAdminById({
             userId: user.id,
             providerId: this.provider.id,
+            isBlocked: true
+          })
+        );
+    });
+  }
+
+  /**
+   * This method unblock provider Admin By Id
+   */
+  unBlock(user: ProviderAdminTable): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.unBlockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdmin,
+        property: user.pib,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result &&
+        this.store.dispatch(
+          new BlockProviderAdminById({
+            userId: user.id,
+            providerId: this.provider.id,
+            isBlocked: false
           })
         );
     });
@@ -129,7 +154,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   protected initProviderData(): void {
     this.getAllProviderAdmins();
-    this.addProviderAdmisnSubscribtions();
+    this.addProviderAdminsSubscribtions();
   }
 
   private getAllProviderAdmins(): void {
@@ -158,7 +183,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method subscribes on provider admins and filter form control value changing for data filtartion
    */
-  private addProviderAdmisnSubscribtions(): void {
+  private addProviderAdminsSubscribtions(): void {
     this.filterFormControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
@@ -174,7 +199,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         takeUntil(this.destroy$)
       )
       .subscribe(
-        (providerAdmins: ProviderAdmin[]) => (this.providerAdmins = this.updateStructureForTheTable(providerAdmins))
-      );
+        (providerAdmins: ProviderAdmin[]) => {
+          this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
+          console.log(providerAdmins);
+      });
   }
 }

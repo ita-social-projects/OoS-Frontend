@@ -4,7 +4,7 @@ import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
-import { MinistryAdmin, MinistryAdminParameters } from './../models/ministryAdmin.model';
+import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -166,7 +166,7 @@ export class OnDeleteMinistryAdminFail {
 
 export class BlockMinistryAdminById {
   static readonly type = '[admin] block Ministry Admin';
-  constructor(public payload: string) { }
+  constructor(public payload: MinistryAdminBlockData) { }
 }
 
 export class OnBlockMinistryAdminSuccess {

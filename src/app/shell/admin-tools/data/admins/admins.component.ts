@@ -118,10 +118,36 @@ export class AdminsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
-          new BlockMinistryAdminById(admin.id)
+          new BlockMinistryAdminById({
+            ministryAdminId: admin.id,
+            isBlocked: true
+          })
         );
     });
   }
+
+   /**
+   * This method unBlock Admin By Id
+   */
+    unBlock(admin: UsersTable): void {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockMinistryAdmin,
+          property: admin.pib,
+        },
+      });
+  
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result &&
+          this.store.dispatch(
+            new BlockMinistryAdminById({
+              ministryAdminId: admin.id,
+              isBlocked: false
+            })
+          );
+      });
+    }
 
   /**
    * This method delete Admin By Id

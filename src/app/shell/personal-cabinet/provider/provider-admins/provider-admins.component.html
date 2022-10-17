@@ -57,8 +57,15 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length else isEmptyList;">
       <div class="table-wrapper">
-        <app-users-list [users]="users" [filterValue]="filterValue" [isEdit]="true" (deleteAdmin)="onDelete($event)"
-          (blockAdmin)="onBlock($event)" (update)="onUpdate($event)"></app-users-list>
+        <app-users-list 
+          [users]="users" 
+          [filterValue]="filterValue" 
+          [isEdit]="true" 
+          (delete)="onDelete($event)"
+          (block)="onBlock($event)" 
+          (update)="onUpdate($event)" 
+          (unblock)="unBlock($event)">
+        </app-users-list>
       </div>
     </ng-container>
   </ng-container>

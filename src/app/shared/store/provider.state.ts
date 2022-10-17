@@ -507,7 +507,7 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: BlockProviderAdminById
   ): Observable<void | Observable<void>> {
-    return this.providerAdminService.blockProviderAdmin(payload.userId, payload.providerId).pipe(
+    return this.providerAdminService.blockProviderAdmin(payload.userId, payload.providerId, payload.isBlocked).pipe(
       tap(() => dispatch(new OnBlockProviderAdminSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
     );

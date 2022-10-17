@@ -68,11 +68,13 @@ export class ProviderAdminService {
    */
   blockProviderAdmin(
     providerAdminId: string,
-    providerId: string
+    providerId: string,
+    isBlocked: boolean
   ): Observable<void> {
     let params = new HttpParams();
     params = params.set('providerAdminId', `${providerAdminId}`);
     params = params.set('providerId', `${providerId}`);
+    params = params.set('isBlocked', `${isBlocked}`);
 
     return this.http.put<void>('/api/v1/ProviderAdmin/Block', {}, { params });
   }

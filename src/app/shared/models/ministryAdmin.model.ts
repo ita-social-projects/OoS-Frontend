@@ -34,3 +34,8 @@ export interface MinistryAdminParameters {
   from?: number;
   size?: number;
 }
+
+export interface MinistryAdminBlockData {
+  ministryAdminId: string;
+  isBlocked: boolean;
+}

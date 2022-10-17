@@ -6,6 +6,8 @@ export enum ModalConfirmationType {
   deleteProviderAdminDeputy = 'deleteProviderAdminDeputy',
   blockProviderAdmin = 'blockProviderAdmin',
   blockProviderAdminDeputy = 'blockProviderAdminDeputy',
+  unBlockProviderAdmin = 'unBlockProviderAdmin',
+  unBlockProviderAdminDeputy = 'unBlockProviderAdminDeputy',
   leaveWorkshop = 'leaveWorkshop',
   deleteChild = 'deleteChild',
   deleteAchievement = 'deleteAchievement',
@@ -29,6 +31,7 @@ export enum ModalConfirmationType {
   openSet = 'openSet',
   deleteMinistryAdmin = 'deleteMinistryAdmin',
   blockMinistryAdmin = 'blockMinistryAdmin',
+  unBlockMinistryAdmin = 'unBlockMinistryAdmin',
   createMinistryAdmin = 'createMinistryAdmin',
   updateMinistryAdmin = 'updateMinistryAdmin',
 }
@@ -44,6 +47,8 @@ export enum ModalConfirmationTitle {
   deleteProviderAdminDeputy = 'ВИДАЛИТИ ЗАСТУПНИКА ДИРЕКТОРА',
   blockProviderAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА',
   blockProviderAdminDeputy = 'БЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА',
+  unBlockProviderAdmin = 'РОЗБЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА',
+  unBlockProviderAdminDeputy = "РОЗБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
   leavePage = 'ЗАЛИШИТИ СТОРІНКУ?',
   deleteAchievement = 'ВИДАЛИТИ ДОСЯГНЕННЯ?',
@@ -62,6 +67,7 @@ export enum ModalConfirmationTitle {
   openSet = 'Відкрити набір',
   deleteMinistryAdmin = 'ВИДАЛИТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
   blockMinistryAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
+  unBlockMinistryAdmin = 'РОЗБЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
   createMinistryAdmin = 'ДОДАТИ АДМІНА МІНІСТЕРСТВА',
   updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА'
 }
@@ -79,6 +85,8 @@ export enum ModalConfirmationText {
   deleteProviderAdminDeputy = 'Ви впевнені, що хочете видалити заступника директора',
   blockProviderAdmin = 'Ви впевнені, що хочете блокувати адміністратора гуртка',
   blockProviderAdminDeputy = 'Ви впевнені, що хочете блокувати заступника директора',
+  unBlockProviderAdmin = 'Ви впевнені, що хочете розблокувати адміністратора гуртка',
+  unBlockProviderAdminDeputy = 'Ви впевнені, що хочете розблокувати заступника директора',
   leaveWorkshop = 'Ви впевнені, що хочете залишити гурток',
   leavePage = 'Ви впевнені, що хочете залишити сторінку?',
   leaveRegistration = 'Ви впевнені, що хочете перервати реєстрацію? Ви зможете повернутися до неї пізніше',
@@ -98,6 +106,7 @@ export enum ModalConfirmationText {
   openSet = 'Ви впевнені, що хочете відкрити набір?',
   deleteMinistryAdmin = 'Ви впевнені, що хочете видалити адміністратора міністерства',
   blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства',
+  unBlockMinistryAdmin = 'Ви впевнені, що хочете розблокувати адміністратора міністерства',
   createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
   updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства',
 }
