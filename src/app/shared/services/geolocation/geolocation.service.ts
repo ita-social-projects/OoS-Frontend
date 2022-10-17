@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { Coords } from '../../models/coords.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { Constants } from '../../constants/constants';
 import { Codeficator } from '../../models/codeficator.model';
 
 @Injectable({
@@ -26,7 +25,6 @@ export class GeolocationService {
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(Constants.KYIV, true);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {

@@ -1,12 +1,13 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
+import { Coords } from '../../../../shared/models/coords.model';
+import { GeolocationService } from '../../../../shared/services/geolocation/geolocation.service';
 import { Constants } from '../../../constants/constants';
 import { Codeficator } from '../../../models/codeficator.model';
-import { SetFocusOnCityField } from '../../../store/app.actions';
 import { ConfirmCity, SetCity } from '../../../store/filter.actions';
 import { FilterState } from '../../../store/filter.state';
 import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../store/meta-data.actions';
@@ -27,14 +28,30 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
     codeficatorSearch$: Observable<Codeficator[]>;
+  
+  @ViewChild('searchInput') searchInput: ElementRef;
 
   settlementSearchControl = new FormControl('');
   isDispalyed = true;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private actions$: Actions) {}
+  constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
 
   ngOnInit(): void {
+    if (this.geolocationService.isCityInStorage()) {
+      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
+    } else {
+      this.geolocationService.handleUserLocation((coords: Coords) => {
+        if (coords) {
+          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+            this.geolocationService.confirmCity(result, false);
+          });
+        } else {
+          this.geolocationService.confirmCity(Constants.KYIV, false);
+        }          
+      });
+    }
+
     this.settlementListener();
     this.settlement$
       .pipe(
@@ -96,10 +113,19 @@ export class CityFilterComponent implements OnInit, OnDestroy {
     this.store.dispatch([new SetCity(this.settlement, true), new ConfirmCity(true)]);
   }
 
-  changeCity(searchInput: HTMLElement): void {
+  changeCity(): void {
     this.isDispalyed = false;
-    this.store.dispatch(new SetCity(Constants.KYIV, false));
-    this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => {searchInput.focus();});
+    if (this.settlement != Constants.KYIV) {
+      this.store.dispatch([new SetCity(Constants.KYIV, false)]);
+      this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => {this.setInputFocus();});
+      return;
+    }
+    
+    this.setInputFocus();
+  }
+
+  setInputFocus(): void {
+    this.searchInput.nativeElement.focus();
   }
 
   ngOnDestroy(): void {

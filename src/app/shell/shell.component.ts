@@ -1,14 +1,10 @@
-import { Codeficator } from './../shared/models/codeficator.model';
 import { Observable, Subject } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Coords } from '../shared/models/coords.model';
-import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
 import { RegistrationState } from '../shared/store/registration.state';
 import { takeUntil } from 'rxjs/operators';
 import { Role } from '../shared/enum/role';
 import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from '../shared/store/parent.actions';
-import { ConfirmCity, SetCity } from '../shared/store/filter.actions';
 
 @Component({
   selector: 'app-shell',
@@ -20,21 +16,9 @@ export class ShellComponent implements OnInit, OnDestroy {
     role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private geolocationService: GeolocationService, private store: Store) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-    if (this.geolocationService.isCityInStorage()) {
-      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
-    } else {
-      this.geolocationService.handleUserLocation((coords: Coords) => {
-        coords &&
-          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-            this.geolocationService.confirmCity(result, false);
-          });
-      });
-    }
-    
-
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
       role == Role.parent && this.store.dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()]);
     });
