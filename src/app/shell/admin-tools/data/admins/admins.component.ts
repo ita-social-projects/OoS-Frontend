@@ -24,7 +24,7 @@ import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/stor
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { RegistrationState } from './../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-admins',
