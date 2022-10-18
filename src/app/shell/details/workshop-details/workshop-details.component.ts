@@ -29,7 +29,7 @@ import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../.
   templateUrl: './workshop-details.component.html',
   styleUrls: ['./workshop-details.component.scss'],
 })
-export class WorkshopDetailsComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly workshopStatus = WorkshopOpenStatus;
@@ -59,14 +59,7 @@ export class WorkshopDetailsComponent implements OnInit, AfterViewInit, OnDestro
     private store: Store,
     private navigationBarService: NavigationBarService
   ) {}
-  ngAfterViewInit(): void {
-    this.route.queryParams
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
-      this.selectedIndex = this.tabIndex;
-    });
-  }
+
 
   ngOnInit(): void {
     console.log(this.route)
@@ -79,6 +72,13 @@ export class WorkshopDetailsComponent implements OnInit, AfterViewInit, OnDestro
       .pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(takeUntil(this.destroy$), distinctUntilChanged())
       .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
+
+    this.route.queryParams
+    .pipe(takeUntil(this.destroy$))
+    .subscribe((params: Params) => {
+      this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
+      this.selectedIndex = this.tabIndex;
+    });
   }
 
   private getWorkshopData(): void {
