@@ -8,7 +8,6 @@ import { Coords } from '../../../../shared/models/coords.model';
 import { GeolocationService } from '../../../../shared/services/geolocation/geolocation.service';
 import { Constants } from '../../../constants/constants';
 import { Codeficator } from '../../../models/codeficator.model';
-import { ConfirmCity, SetCity } from '../../../store/filter.actions';
 import { FilterState } from '../../../store/filter.state';
 import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../store/meta-data.actions';
 import { MetaDataState } from '../../../store/meta-data.state';
@@ -23,16 +22,16 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   readonly sliceLength = 25;
 
   @Select(FilterState.isConfirmCity)
-    isConfirmCity$: Observable<boolean>;
+  isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settlement)
-    settlement$: Observable<Codeficator>;
+  settlement$: Observable<Codeficator>;
   settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
-    codeficatorSearch$: Observable<Codeficator[]>;
-  
+  codeficatorSearch$: Observable<Codeficator[]>;
+
   @ViewChild('searchInput') searchInput: ElementRef;
 
-  settlementSearchControl = new FormControl('');
+  settlementSearchControl: FormControl = new FormControl('');
   isDispalyed = true;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -49,7 +48,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
           });
         } else {
           this.geolocationService.confirmCity(Constants.KYIV, false);
-        }          
+        }
       });
     }
 
@@ -82,9 +81,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
         }),
         filter((value: string) => value?.length > 2)
       )
-      .subscribe((value: string) => {
-        this.store.dispatch(new GetCodeficatorSearch(value));
-      });
+      .subscribe((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)));
   }
 
   onSelectedCity(event: MatAutocompleteSelectedEvent): void {
@@ -118,10 +115,10 @@ export class CityFilterComponent implements OnInit, OnDestroy {
     this.isDispalyed = false;
     if (this.settlement != Constants.KYIV) {
       this.geolocationService.confirmCity(Constants.KYIV, false);
-      this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => {this.setInputFocus();});
+      this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => this.setInputFocus());
       return;
     }
-    
+
     this.setInputFocus();
   }
 
