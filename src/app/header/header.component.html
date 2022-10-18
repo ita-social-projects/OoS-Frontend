@@ -122,7 +122,9 @@
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
+        <a *ngIf="user.role == Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
+          <button mat-menu-item>Адміністрування</button></a>
+        <a *ngIf="user.role == Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
           <button mat-menu-item>Адміністрування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
