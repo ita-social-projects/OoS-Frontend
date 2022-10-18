@@ -1,6 +1,8 @@
 import { Codeficator } from './../models/codeficator.model';
 import { Direction } from '../models/category.model';
 import { WorkshopOpenStatus } from '../enum/workshop';
+import { Coords } from '../models/coords.model';
+
 export class SetCity {
   static readonly type = '[app] Set City';
   constructor(public payload: Codeficator) {}
@@ -110,4 +112,14 @@ export class SetMaxAge {
 export class SetIsAppropriateAge {
   static readonly type = '[filter] Set with Strict age';
   constructor(public payload: boolean) { }
+}
+
+export class SetCoordsByMap {
+  static readonly type = '[filter] Set coords by map';
+  constructor(public payload: Coords) {
+  }
+}
+
+export class ClearCoordsByMap {
+  static readonly type = '[filter] Clear coords by map';
 }

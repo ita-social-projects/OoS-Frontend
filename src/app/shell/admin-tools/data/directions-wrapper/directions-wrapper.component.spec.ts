@@ -10,7 +10,7 @@ describe('DirectionsWrapperComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ DirectionsWrapperComponent ]
     })
-    .compileComponents();
+      .compileComponents();
 
     fixture = TestBed.createComponent(DirectionsWrapperComponent);
     component = fixture.componentInstance;

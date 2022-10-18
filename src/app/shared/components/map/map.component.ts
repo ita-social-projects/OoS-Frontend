@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
 import { Address } from '../../models/address.model';
 import { Workshop, WorkshopCard } from '../../models/workshop.model';
-import { Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
@@ -16,6 +16,7 @@ import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
+import { ClearCoordsByMap, SetCoordsByMap } from '../../store/filter.actions';
 
 @Component({
   selector: 'app-map',
@@ -44,6 +45,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private defaultCoords: Coords;
   private zoom = 11;
   private workshops: WorkshopCard[];
+  private customCoords: Coords;
   private unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
@@ -60,8 +62,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     popupAnchor: [-3, -76],
     iconUrl: '/assets/icons/selectMarker.png',
   });
+  private userIcon: Layer.Icon = Layer.icon({
+    iconSize: [35, 35],
+    shadowSize: [0, 0],
+    iconAnchor: [16, 17],
+    shadowAnchor: [0, 0],
+    popupAnchor: [-3, -76],
+    iconUrl: '/assets/icons/user_dot.svg',
+  });
 
-  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService) {}
+  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService, private store: Store) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -121,6 +131,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.setMapLocation(L.latlng);
       }
     });
+
+    this.createUserRadius();
   }
 
   private setFilteredWorkshops(): void {
@@ -139,6 +151,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     if (address.catottgId) {
       this.addressDecode(address);
     }
+    // eslint-disable-next-line no-console
     this.settelmentFormGroup.valueChanges.subscribe(val => console.log(val));
 
     this.addressFormGroup.valueChanges
@@ -232,7 +245,52 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return new Layer.Marker(coords, { draggable, icon: this.unselectedMarkerIcon, riseOnHover: true });
   }
 
+  /**
+   * This method create user marker and radius
+   */
+  private createUserRadius(): void {
+    const userMarker = new Layer.Marker(this.defaultCoords, {
+      draggable: true,
+      icon: this.userIcon,
+      riseOnHover: true,
+      zIndexOffset: 5
+    }).addTo(this.map);
+
+    const userRadius = Layer.circle(this.defaultCoords, {
+      color: '#C72A21',
+      fillOpacity: 0,
+      opacity: 0.6,
+      radius: 5500,
+      className: 'leaflet-grab'
+    }).addTo(this.map);
+
+    this.setUserRadiusEvent(userMarker, userRadius);
+  }
+
+  /**
+   * This method set events for draw and drop user marker
+   * @param userMarker
+   * @param userRadius
+   */
+  private setUserRadiusEvent(userMarker: Layer.Marker, userRadius: Layer.Circle): void {
+    userMarker.on('dragstart', () => {
+      userRadius.setStyle({
+        opacity: 0
+      });
+    });
+
+    userMarker.on('dragend', () => {
+      userRadius.setStyle({
+        opacity: 1
+      });
+      this.customCoords = userMarker.getLatLng();
+      userRadius.setLatLng(this.customCoords);
+      this.store.dispatch(new SetCoordsByMap(this.customCoords));
+    });
+  }
+
   ngOnDestroy(): void {
+    this.store.dispatch(new ClearCoordsByMap());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

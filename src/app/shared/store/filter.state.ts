@@ -13,6 +13,7 @@ import { WorkshopCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
   CleanCity,
+  ClearCoordsByMap,
   ConfirmCity,
   FilterChange,
   FilterClear,
@@ -20,6 +21,7 @@ import {
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
+  SetCoordsByMap,
   SetDirections,
   SetEndTime,
   SetIsAppropriateAge,
@@ -63,6 +65,7 @@ import {
     isAppropriateHours: false,
     isLoading: false,
     isConfirmCity: true,
+    mapViewCoords: null
   },
 })
 @Injectable()
@@ -317,6 +320,25 @@ export class FilterState {
       withDisabilityOption: false,
       isStrictWorkdays: false,
       isAppropriateHours: false,
+    });
+  }
+
+  @Action(SetCoordsByMap)
+  SetCoordsByMap(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetCoordsByMap
+  ): void {
+    patchState({
+      mapViewCoords: payload
+    });
+
+    dispatch(new GetFilteredWorkshops(true));
+  }
+
+  @Action(ClearCoordsByMap)
+  ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({
+      mapViewCoords: null
     });
   }
 }
