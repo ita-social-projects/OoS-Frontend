@@ -20,6 +20,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
 })
 export class CityFilterComponent implements OnInit, OnDestroy {
   readonly Constants = Constants;
+  readonly sliceLength = 25;
 
   @Select(FilterState.isConfirmCity)
     isConfirmCity$: Observable<boolean>;
