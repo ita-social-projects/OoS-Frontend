@@ -18,26 +18,6 @@ import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-c
 import { MaterialModule } from '../../shared/modules/material.module';
 import { SharedModule } from '../../shared/shared.module';
 
-const routes: Routes = [
-  {
-    path: 'AboutWorkshopl', component: WorkshopAboutComponent,
-  },
-  {
-    path: 'AboutProvider', component: ProviderAboutComponent,
-  },
-  {
-    path: 'Teachers', component: WorkshopTeachersComponent,
-  },
-  {
-    path: 'OtherWorkshops', component: AllProviderWorkshopsComponent,
-  },
-  {
-    path: 'Reviews', component: ReviewsComponent,
-  },
-  {
-    path: 'Achievements', component: AchievementsComponent,
-  },
-];
 
 @NgModule({
   declarations: [
@@ -60,7 +40,7 @@ const routes: Routes = [
     FlexLayoutModule,
     SharedModule,
     MaterialModule,
-    RouterModule.forChild(routes)
+    RouterModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []

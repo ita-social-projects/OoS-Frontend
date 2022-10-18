@@ -20,7 +20,7 @@ export enum NotificationWorkshopStatusUkr {
   Closed = 'закрито'
 }
 
-export enum WorkshopTitles {
+export enum DetailsTabTitles {
   AboutWorkshop = 'ПРО ГУРТОК',
   AboutProvider = 'ПРО ЗАКЛАД',
   Teachers = 'ВИКЛАДАЧІ',
@@ -29,7 +29,7 @@ export enum WorkshopTitles {
   Achievements = 'ДОСЯГНЕННЯ',
 }
 
-export enum WorkshopTitlesReverse {
+export enum DetailsTabTitlesReverse {
   'ПРО ГУРТОК' = 'AboutWorkshopl',
   'ПРО ЗАКЛАД' = 'AboutProvider',
   'ВИКЛАДАЧІ' = 'Teachers',
