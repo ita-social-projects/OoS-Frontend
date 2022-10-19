@@ -155,7 +155,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (result) {
         this.addressFormGroup.patchValue(result);
       } else {
-        this.addressFormGroup.reset();
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
