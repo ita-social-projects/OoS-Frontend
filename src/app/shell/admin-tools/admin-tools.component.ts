@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { Role } from 'src/app/shared/enum/role';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { Role } from '../../shared/enum/role';
+import { RegistrationState } from '../../shared/store/registration.state';
 @Component({
   selector: 'app-admin-tools',
   templateUrl: './admin-tools.component.html',
@@ -30,6 +30,3 @@ export class AdminToolsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 }
-
-
-
