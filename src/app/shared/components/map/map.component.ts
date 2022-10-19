@@ -137,7 +137,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.setNewSingleMarker([this.addressFormGroup.value.latitude, this.addressFormGroup.value.longitude]);
+      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
     }
     this.addressFormGroup.valueChanges
       .pipe(debounceTime(500), takeUntil(this.destroy$))
