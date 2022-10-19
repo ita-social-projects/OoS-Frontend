@@ -137,10 +137,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.addressDecode(address);
+      this.setNewSingleMarker([this.addressFormGroup.value.latitude, this.addressFormGroup.value.longitude]);
     }
-    this.settelmentFormGroup.valueChanges.subscribe(val => console.log(val));
-
     this.addressFormGroup.valueChanges
       .pipe(debounceTime(500), takeUntil(this.destroy$))
       .subscribe((address: Geocoder) => this.addressDecode(address));
@@ -167,6 +165,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.geocoderService.addressDecode(address, (result: Geocoder) => {
       if (result) {
         this.setNewSingleMarker([result.lat, result.lon]);
+        this.addressSelect.emit(result);
       } else {
         this.addressSelect.emit(null);
         this.map.removeLayer(this.singleMarker);
