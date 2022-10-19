@@ -1,4 +1,6 @@
-import { HttpClient } from '@angular/common/http';
+import { PaginationElement } from './../../models/paginationElement.model';
+import { PaginatorState } from './../../store/paginator.state';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -11,6 +13,23 @@ import { Provider } from '../../models/provider.model';
 export class ProviderService {
   constructor(private http: HttpClient, private store: Store) {}
 
+  private setParams(searchString: string): HttpParams {
+    let params = new HttpParams();
+
+    if (searchString) {
+      params = params.set('SearchString', searchString);
+    }
+
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    const from: number = size * (+currentPage.element - 1);
+
+    params = params.set('Size', size.toString());
+    params = params.set('From', from.toString());
+
+    return params;
+  }
+  
   /**
    * This method get Providers from the database
    * @param
@@ -32,8 +51,9 @@ export class ProviderService {
    * @param
    */
   getFilteredProviders(searchString: string): Observable<Provider[]> {
-    const param = searchString ? `?SearchString=${searchString}` : '';
-    return this.http.get<Provider[]>(`/api/v1/Provider/GetByFilter${param}`);
+    const options = { params: this.setParams(searchString) };
+
+    return this.http.get<Provider[]>(`/api/v1/Provider/GetByFilter`, options);
   }
 
   /**

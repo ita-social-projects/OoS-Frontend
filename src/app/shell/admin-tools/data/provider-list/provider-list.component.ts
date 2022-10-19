@@ -92,6 +92,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((providers: SearchResponse<Provider[]>) => {
         this.dataSource = new MatTableDataSource(providers?.entities);
         this.dataSource.sort = this.sort;
+        this.totalEntities = providers.totalAmount;
       });
 
     this.filterFormControl.valueChanges
@@ -125,7 +126,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onChangeStatus(provider: Provider, status: string): void {
-    
+
   }
 
   onDelete(provider: Provider): void {
@@ -144,11 +145,11 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders()]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
   }
 
   ngOnDestroy(): void {
