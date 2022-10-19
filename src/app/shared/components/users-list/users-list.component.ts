@@ -40,7 +40,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() delete = new EventEmitter<ProviderAdminTable>();
   @Output() block = new EventEmitter<ProviderAdminTable>();
   @Output() update = new EventEmitter<ProviderAdminTable>();
-  @Output() unblock = new EventEmitter<ProviderAdminTable>();
   
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminTitles = ProviderAdminTitles;
@@ -91,11 +90,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   onBlock(user: ProviderAdminTable): void {
-    this.block.emit(user);
-  }
-
-  unBlock(user: ProviderAdminTable): void {
-    this.unblock.emit(user);
+   this.block.emit(user);
   }
 
   onUpdate(user: ProviderAdminTable): void {

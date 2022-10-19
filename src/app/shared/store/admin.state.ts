@@ -557,7 +557,7 @@ export class AdminState {
     { payload }: BlockMinistryAdminById
   ): Observable<void | Observable<void>> {
     return this.ministryAdminService.blockMinistryAdmin(payload.ministryAdminId, payload.isBlocked).pipe(
-      tap(() => dispatch(new OnBlockMinistryAdminSuccess())),
+      tap(() => dispatch(new OnBlockMinistryAdminSuccess(payload))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockMinistryAdminFail(error))))
     );
   }
@@ -571,11 +571,12 @@ export class AdminState {
   @Action(OnBlockMinistryAdminSuccess)
   onBlockMinistryAdminSuccess(
     { dispatch }: StateContext<AdminStateModel>,
+    { payload }: BlockMinistryAdminById
   ): void {
     dispatch([
       new GetAllMinistryAdmins(),
       new ShowMessageBar({
-        message: SnackbarText.blockPerson,
+        message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success',
       }),
     ]);

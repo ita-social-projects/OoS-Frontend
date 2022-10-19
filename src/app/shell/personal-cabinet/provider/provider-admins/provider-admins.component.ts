@@ -91,10 +91,19 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * This method block provider Admin By Id
    */
   onBlock(user: ProviderAdminTable): void {
+    let messageType: string;
+    const isBlocked = user.status === 'Blocked';
+
+    if(providerAdminRoleUkrReverse[user.role] === 'deputy') {
+      messageType = isBlocked ? ModalConfirmationType.unBlockProviderAdminDeputy : ModalConfirmationType.blockProviderAdminDeputy;
+    } else {
+      messageType = isBlocked ? ModalConfirmationType.unBlockProviderAdmin : ModalConfirmationType.blockProviderAdmin;
+    }
+
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
+        type: messageType,
         property: user.pib,
       },
     });
@@ -105,31 +114,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           new BlockProviderAdminById({
             userId: user.id,
             providerId: this.provider.id,
-            isBlocked: true
-          })
-        );
-    });
-  }
-
-  /**
-   * This method unblock provider Admin By Id
-   */
-  unBlock(user: ProviderAdminTable): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.unBlockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdmin,
-        property: user.pib,
-      },
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
-        this.store.dispatch(
-          new BlockProviderAdminById({
-            userId: user.id,
-            providerId: this.provider.id,
-            isBlocked: false
+            isBlocked: !isBlocked
           })
         );
     });
@@ -199,9 +184,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         takeUntil(this.destroy$)
       )
       .subscribe(
-        (providerAdmins: ProviderAdmin[]) => {
-          this.providerAdmins = this.updateStructureForTheTable(providerAdmins);
-          console.log(providerAdmins);
-      });
+        (providerAdmins: ProviderAdmin[]) => (this.providerAdmins = this.updateStructureForTheTable(providerAdmins))
+      );
   }
 }

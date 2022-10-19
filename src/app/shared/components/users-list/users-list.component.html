@@ -122,11 +122,8 @@
           </div>
   
           <mat-menu #actions="matMenu" class="header_menu">
-            <button *ngIf="user.status !== 'Blocked'" mat-menu-item (click)="onBlock(user)">
-              Заблокувати користувача
-            </button>
-            <button *ngIf="user.status == 'Blocked'" mat-menu-item (click)="unBlock(user)">
-              Розблокувати користувача
+            <button mat-menu-item (click)="onBlock(user)">
+              {{user.status === providerAdminStatus['Blocked'] ? 'Розблокувати користувача' : 'Заблокувати користувача' }}
             </button>
             <button mat-menu-item (click)="onDelete(user)">
               Видалити користувача

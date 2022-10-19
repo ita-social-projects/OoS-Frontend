@@ -171,7 +171,7 @@ export class BlockMinistryAdminById {
 
 export class OnBlockMinistryAdminSuccess {
   static readonly type = '[admin] block Ministry Admin success';
-  constructor() { }
+  constructor(public payload: MinistryAdminBlockData ) { }
 }
 
 export class OnBlockMinistryAdminFail {
