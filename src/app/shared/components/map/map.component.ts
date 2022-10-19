@@ -153,9 +153,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setMapLocation(coords: Coords): void {
     this.geocoderService.locationDecode(coords, (result: Geocoder) => {
       if (result) {
-        this.addressFormGroup.patchValue(result);
+        this.setNewSingleMarker([result.lat, result.lon]);
+        this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId });
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
