@@ -68,6 +68,7 @@
     "jest-preset-angular": "^12.2.2",
     "karma-coverage": "~2.2.0",
     "lint-staged": "^13.0.3",
+    "prettier": "2.7.1",
     "protractor": "~7.0.0",
     "ts-jest": "^28.0.8",
     "ts-node": "~10.9.1",

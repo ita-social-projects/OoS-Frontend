@@ -1,0 +1,71 @@
+# compiled output
+/dist/*
+/tmp
+/out-tsc
+# Only exists if Bazel was run
+/bazel-out
+
+# dependencies
+/node_modules
+node_modules/
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/.angular
+/.github
+/.vscode
+/e2e
+/.includes
+/.husky
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/typings
+
+# System Files
+.DS_Store
+Thumbs.db
+
+package-lock.json
+tsconfig.app.json
+tsconfig.json
+tsconfig.spec.json
+setup-jest.ts
+README.md
+package.json
+nginx.conf
+LICENSE
+jest.config.js
+cloudbuild-tag.yaml
+cloudbuild-stage.yaml
+cloudbuild.yaml
+.npmrc
+.lintstagedrc
+.gitignore
+.eslintrc.json
+.editorconfig
+.browserslistrc
