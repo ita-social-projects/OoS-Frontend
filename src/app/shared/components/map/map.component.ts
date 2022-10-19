@@ -167,7 +167,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       if (result) {
         this.setNewSingleMarker([result.latitude, result.longitude]);
       } else {
-        this.flyTo({ lat: this.settelmentFormGroup.value.latitude, lng: this.settelmentFormGroup.value.longitude });
         this.addressSelect.emit(null);
         this.map.removeLayer(this.singleMarker);
       }
