@@ -6,7 +6,6 @@ import { filter, map } from 'rxjs/operators';
 import { Geocoder } from '../../models/geolocation';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { Coords } from '../../models/coords.model';
-import { GeocoderDTO } from './../../models/geolocation';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +29,8 @@ export class GeocoderService {
 
   locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
     this.geocode({
-      latitude: coords.lat,
-      longitude: coords.lng,
+      lat: coords.lat,
+      lon: coords.lng,
       isReverse: true,
     }).subscribe((result: Geocoder) => callback(result));
   }
@@ -41,10 +40,10 @@ export class GeocoderService {
    */
   private geocode(payload: Geocoder): Observable<Geocoder | null> {
     return this.http
-      .post<GeocoderDTO>('/api/v1/Geocoding', { ...payload, lat: payload.latitude, lon: payload.longitude })
+      .post<Geocoder>('/api/v1/Geocoding', { ...payload })
       .pipe(
-        map((result: GeocoderDTO) => {
-          return result ? { ...result, latitude: result.lat, longitude: result.lon } : null;
+        map((result: Geocoder) => {
+          return result ? result : null;
         })
       );
   }

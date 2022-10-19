@@ -165,7 +165,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private addressDecode(address: Geocoder): void {
     this.geocoderService.addressDecode(address, (result: Geocoder) => {
       if (result) {
-        this.setNewSingleMarker([result.latitude, result.longitude]);
+        this.setNewSingleMarker([result.lat, result.lon]);
       } else {
         this.addressSelect.emit(null);
         this.map.removeLayer(this.singleMarker);
