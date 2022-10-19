@@ -62,12 +62,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
-    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
-    this.actions$
-      .pipe(ofActionCompleted(OnCreateRatingSuccess))
-      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
-      .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
-
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
