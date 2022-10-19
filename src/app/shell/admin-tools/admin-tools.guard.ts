@@ -16,6 +16,10 @@ export class AdminToolsGuard implements CanLoad {
     role$: Observable<string>;
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$.pipe(filter((role: string) => (role === Role.techAdmin)), map((role: string) => (role === Role.techAdmin)));
+    return this.role$
+      .pipe(
+        filter((role: string) => (role === Role.techAdmin || role === Role.ministryAdmin)), 
+        map((role: string) => (role === Role.techAdmin || role === Role.ministryAdmin))
+      );
   }
 }
