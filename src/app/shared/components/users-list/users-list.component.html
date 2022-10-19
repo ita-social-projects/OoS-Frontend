@@ -123,7 +123,7 @@
   
           <mat-menu #actions="matMenu" class="header_menu">
             <button mat-menu-item (click)="onBlock(user)">
-              {{user.status === providerAdminStatus['Blocked'] ? 'Розблокувати користувача' : 'Заблокувати користувача' }}
+              {{providerAdminStatus[user.status] === 'Blocked' ? 'Розблокувати користувача' : 'Заблокувати користувача' }}
             </button>
             <button mat-menu-item (click)="onDelete(user)">
               Видалити користувача

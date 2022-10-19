@@ -1,3 +1,4 @@
+import { ProviderAdminStatus } from './../../../../shared/enum/provider-admin';
 import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
@@ -35,6 +36,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly adminRole = AdminRole;
   readonly adminRoleUkr = AdminRoleUkr;
   readonly Role = Role;
+  readonly providerAdminStatus = ProviderAdminStatus;
 
   @Select(AdminState.ministryAdmins)
     ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
@@ -107,7 +109,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
    * This method block and unblock Admin By Id
    */
   onBlock(admin: UsersTable): void {
-    const isBlocked = admin.status === 'Blocked';
+    const isBlocked = this.providerAdminStatus[admin.status] === 'Blocked';
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
