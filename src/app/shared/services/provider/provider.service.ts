@@ -83,4 +83,11 @@ export class ProviderService {
   getInstitutionStatus(): Observable<InstitutionStatus[]> {
     return this.http.get<InstitutionStatus[]>('/api/v1/InstitutionStatus/Get');
   }
+
+  /**
+   * This method delete a specific Provider from the database
+   */
+  deleteProviderById(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Provider/Delete/${id}`);
+  }
 }

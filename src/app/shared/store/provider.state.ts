@@ -27,6 +27,7 @@ import {
   CreateWorkshop,
   DeleteAchievementById,
   DeleteProviderAdminById,
+  DeleteProviderById,
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
@@ -51,6 +52,8 @@ import {
   OnDeleteAchievementSuccess,
   OnDeleteProviderAdminFail,
   OnDeleteProviderAdminSuccess,
+  OnDeleteProviderByIdFail,
+  OnDeleteProviderByIdSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
   OnUpdateAchievementFail,
@@ -80,6 +83,7 @@ import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
+import { GetFilteredProviders } from './admin.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -710,5 +714,43 @@ export class ProviderState {
   @Action(ResetAchievements)
   resetAchievement({ patchState }: StateContext<ProviderStateModel>, {}: ResetAchievements): void {
     patchState({ selectedAchievement: null, achievements: null });
+  }
+  
+  @Action(DeleteProviderById)
+  deleteProviderById(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: DeleteProviderById
+  ): Observable<void | Observable<void>> {
+    return this.providerService.deleteProviderById(payload).pipe(
+      tap(() => dispatch(new OnDeleteProviderByIdSuccess(payload))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderByIdFail(error))))
+    );
+  }
+
+  @Action(OnDeleteProviderByIdFail)
+  onDeleteProviderByIdFail(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnDeleteProviderByIdFail
+  ): void {
+    throwError(payload);
+    dispatch(
+      new ShowMessageBar({ 
+        message: SnackbarText.error, 
+        type: 'error' 
+      }));
+  }
+
+  @Action(OnDeleteProviderByIdSuccess)
+  onDeleteProviderByIdSuccess(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnDeleteProviderByIdSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteProvider,
+        type: 'success',
+      }),
+      new GetFilteredProviders(),
+    ]);
   }
 }

@@ -279,3 +279,18 @@ export class ResetAchievements {
   static readonly type = '[provider] reset achievements';
   constructor() {}
 }
+
+export class DeleteProviderById {
+  static readonly type = '[provider] delete Provider By Id';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteProviderByIdSuccess {
+  static readonly type = '[provider] delete Provider By Id success';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteProviderByIdFail {
+  static readonly type = '[provider] delete Provider By Id fail';
+  constructor(public payload: HttpErrorResponse) {}
+}

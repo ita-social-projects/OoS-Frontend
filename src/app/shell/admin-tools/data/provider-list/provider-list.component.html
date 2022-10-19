@@ -153,26 +153,22 @@
                 <mat-icon class="action-icon">arrow_forward</mat-icon>
               </a>
             </div>
+          
+            <mat-menu #actions="matMenu" class="header_menu">
+              <button mat-menu-item (click)="onChangeStatus(element, 'Approved')">
+                Підтвердити
+              </button>
+              <button mat-menu-item (click)="onChangeStatus(element, 'Editing')">
+                Відправити на редагування
+              </button>
+              <button mat-menu-item >
+                Заблокувати
+              </button>
+              <button mat-menu-item (click)="onDelete(element)">
+                Видалити
+              </button>
+            </mat-menu>
           </td>
-
-          <mat-menu #actions="matMenu" class="header_menu">
-            <button mat-menu-item>
-              Підтвердити
-            </button>
-            <button mat-menu-item>
-              Відмовити
-            </button>
-            <button mat-menu-item>
-              Відправити на редагування
-            </button>
-            <button mat-menu-item>
-              Заблокувати
-            </button>
-            <button mat-menu-item>
-              Видалити
-            </button>
-          </mat-menu>
-
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -1,3 +1,6 @@
+import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
+import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { DeleteProviderById, OnDeleteProviderByIdFail } from './../../../../shared/store/provider.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -20,6 +23,7 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -64,7 +68,10 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalEntities: number;
   searchString: string;
 
-  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
+  constructor(
+    private liveAnnouncer: LiveAnnouncer, 
+    private store: Store,
+    private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -115,6 +122,24 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  onChangeStatus(provider: Provider, status: string): void {
+    
+  }
+
+  onDelete(provider: Provider): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteProvider,
+        property: provider.fullTitle,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteProviderById(provider.id));
+    });
   }
 
   onPageChange(page: PaginationElement): void {
