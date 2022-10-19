@@ -328,17 +328,13 @@ export class FilterState {
     { patchState, dispatch }: StateContext<FilterStateModel>,
     { payload }: SetCoordsByMap
   ): void {
-    patchState({
-      mapViewCoords: payload
-    });
+    patchState({ mapViewCoords: payload });
 
     dispatch(new GetFilteredWorkshops(true));
   }
 
   @Action(ClearCoordsByMap)
   ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({
-      mapViewCoords: null
-    });
+    patchState({ mapViewCoords: null });
   }
 }

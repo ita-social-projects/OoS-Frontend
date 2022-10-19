@@ -93,6 +93,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         // checking if there are filtered workshops on the map for teh result page view
         if (!!this.filteredWorkshops$) {
           this.setFilteredWorkshops();
+          this.createUserRadius();
         }
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
@@ -131,8 +132,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.setMapLocation(L.latlng);
       }
     });
-
-    this.createUserRadius();
   }
 
   private setFilteredWorkshops(): void {
@@ -273,11 +272,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param userRadius
    */
   private setUserRadiusEvent(userMarker: Layer.Marker, userRadius: Layer.Circle): void {
-    userMarker.on('dragstart', () => {
-      userRadius.setStyle({
-        opacity: 0
-      });
-    });
+    userMarker.on('dragstart', () => userRadius.setStyle({ opacity: 0 }));
 
     userMarker.on('dragend', () => {
       userRadius.setStyle({
