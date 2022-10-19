@@ -155,10 +155,10 @@
             </div>
           
             <mat-menu #actions="matMenu" class="header_menu">
-              <button mat-menu-item (click)="onChangeStatus(element, 'Approved')">
+              <button mat-menu-item (click)="onChangeStatus(element, applicationStatus[element.status])">
                 Підтвердити
               </button>
-              <button mat-menu-item (click)="onChangeStatus(element, 'Editing')">
+              <button mat-menu-item (click)="onChangeStatus(element, applicationStatus[element.status])">
                 Відправити на редагування
               </button>
               <button mat-menu-item >

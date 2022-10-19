@@ -11,7 +11,7 @@ import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, 
 import { FormControl } from '@angular/forms';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
-import { ApplicationIcons } from '../../../../shared/enum/applications';
+import { ApplicationIcons, ApplicationStatus } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
@@ -36,6 +36,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTitleUkr = ApplicationTitles;
   readonly providerAdminIcons = ApplicationIcons;
+  readonly applicationStatus = ApplicationStatus;
 
   @Select(AdminState.providers)
     providers$: Observable<SearchResponse<Provider[]>>;
@@ -126,7 +127,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onChangeStatus(provider: Provider, status: string): void {
-
+    
   }
 
   onDelete(provider: Provider): void {
