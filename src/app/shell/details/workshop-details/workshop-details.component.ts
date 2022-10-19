@@ -2,17 +2,13 @@ import { Component, Input, OnInit, OnDestroy, Output, EventEmitter, ViewChild, A
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions, Store, ofActionCompleted } from '@ngxs/store';
-import { Observable, of, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { ApplicationStatus } from 'src/app/shared/enum/applications';
-import { ApplicationTitles } from 'src/app/shared/enum/enumUA/applications';
-import { Tabs } from 'src/app/shared/enum/enumUA/tech-admin/history-log-tabs';
-import { ApplicationParameters } from 'src/app/shared/models/application.model';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { RecruitmentStatusUkr, DetailsTabTitles, DetailsTabTitlesReverse } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
-import { WorkshopOpenStatus, WorkshopStatus } from '../../../shared/enum/workshop';
+import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
 import { ImgPath } from '../../../shared/models/carousel.model';
 import { Provider } from '../../../shared/models/provider.model';
 import { Workshop } from '../../../shared/models/workshop.model';
@@ -62,7 +58,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
-    console.log(this.route)
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
@@ -74,9 +69,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
       .subscribe(() => this.store.dispatch(new GetWorkshopById(this.workshop.id)));
 
     this.route.queryParams
-    .pipe(takeUntil(this.destroy$))
-    .subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params: Params) => {this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
       this.selectedIndex = this.tabIndex;
     });
   }

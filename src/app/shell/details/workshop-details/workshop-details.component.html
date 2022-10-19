@@ -42,8 +42,8 @@
     </div>
 
     <mat-tab-group class="nav" 
-    [(selectedIndex)]="selectedIndex" 
-    (selectedTabChange)="onTabChange($event)"
+      [(selectedIndex)]="selectedIndex" 
+      (selectedTabChange)="onTabChange($event)"
     >
       <mat-tab class="label"   label="{{ workshopTitles.AboutWorkshop }}">
         <app-workshop-about [workshop]="workshop"></app-workshop-about>
