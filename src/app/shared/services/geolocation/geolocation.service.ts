@@ -5,7 +5,6 @@ import { Injectable } from '@angular/core';
 import { Coords } from '../../models/coords.model';
 import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
 import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { Constants } from '../../constants/constants';
 import { Codeficator } from '../../models/codeficator.model';
 
 @Injectable({
@@ -20,19 +19,20 @@ export class GeolocationService {
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation
    */
-  confirmCity(settlement: Codeficator): void {
-    !!localStorage.getItem('cityConfirmation')
-      ? this.store.dispatch([new SetCity(JSON.parse(localStorage.getItem('cityConfirmation'))), new ConfirmCity(true)])
-      : this.store.dispatch([new SetCity(settlement), new ConfirmCity(false)]);
+  confirmCity(settlement: Codeficator, isConfirmed: boolean): void {
+    this.store.dispatch([new SetCity(settlement, isConfirmed), new ConfirmCity(isConfirmed)]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
-    this.confirmCity(Constants.KYIV);
   }
 
   navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
     callback({ lat: data.coords.latitude, lng: data.coords.longitude });
+  }
+
+  isCityInStorage(): boolean {
+    return !!localStorage.getItem('cityConfirmation');
   }
 
   /**
