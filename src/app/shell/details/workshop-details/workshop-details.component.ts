@@ -1,9 +1,9 @@
-import { Component, Input, OnInit, OnDestroy, Output, EventEmitter, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Actions, Store, ofActionCompleted } from '@ngxs/store';
+import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { RecruitmentStatusUkr, DetailsTabTitles, DetailsTabTitlesReverse } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
@@ -16,9 +16,8 @@ import { ImagesService } from '../../../shared/services/images/images.service';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
 import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
 import { AddNavPath } from '../../../shared/store/navigation.actions';
-import { OnCreateRatingSuccess } from '../../../shared/store/parent.actions';
 import { ResetAchievements } from '../../../shared/store/provider.actions';
-import { GetWorkshopById, GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
+import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-workshop-details',
@@ -44,18 +43,14 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   tabIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: ImgPath[] = [];
-  routerOutletNavService: any;
-  activatedRoute: any;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private imagesService: ImagesService,
-    private actions$: Actions,
     private store: Store,
     private navigationBarService: NavigationBarService
   ) {}
-
 
   ngOnInit(): void {
     this.getWorkshopData();
@@ -64,9 +59,10 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => {this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
-      this.selectedIndex = this.tabIndex;
-    });
+      .subscribe((params: Params) => {
+        this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
+        this.selectedIndex = this.tabIndex;
+      });
   }
 
   private getWorkshopData(): void {
