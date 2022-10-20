@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
-import { ReasonModalWindowComponent } from '../../shared-cabinet/applications/reason-modal-window/reason-modal-window.component';
 import { Provider } from '../../../../shared/models/provider.model';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
@@ -29,6 +28,7 @@ import { Observable } from 'rxjs';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
   selector: 'app-provider-applciations',

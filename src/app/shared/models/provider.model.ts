@@ -3,6 +3,7 @@ import { Address } from './address.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
 import { SectionItem } from './sectionItem.model';
+import { ApplicationStatus } from '../enum/applications';
 
 export class Provider {
   id: string;
@@ -106,4 +107,9 @@ export class ProviderSectionItem extends SectionItem {
       this.providerId = info.providerId;
     }
   }
+}
+
+export interface  ProviderStatusUpdateData {
+  providerId: string,
+  status: string
 }

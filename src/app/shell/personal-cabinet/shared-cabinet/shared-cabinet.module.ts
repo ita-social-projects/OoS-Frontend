@@ -6,9 +6,9 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { InfoStatusComponent } from './applications/application-card/info-status/info-status.component';
 import { ChildInfoBoxComponent } from './applications/application-card/child-info-box/child-info-box.component';
-import { ReasonModalWindowComponent } from './applications/reason-modal-window/reason-modal-window.component';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/shared.module';
+import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @NgModule({
   declarations: [

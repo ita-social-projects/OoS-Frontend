@@ -1,6 +1,6 @@
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, OnDeleteProviderByIdFail } from './../../../../shared/store/provider.actions';
+import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -24,6 +24,7 @@ import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/stor
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
+import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -127,7 +128,25 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onChangeStatus(provider: Provider, status: string): void {
-    
+    if (status == 'Editing') {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.editingProvider },
+      });
+      dialogRef.afterClosed().subscribe((result: string) => {
+        if (result) {
+          this.store.dispatch(new UpdateProviderStatus({
+            providerId: provider.id,
+            status: status
+          }));
+        }
+      });
+    } else {
+      this.store.dispatch(new UpdateProviderStatus({
+        providerId: provider.id,
+        status: status
+      }));
+    }
+  
   }
 
   onDelete(provider: Provider): void {

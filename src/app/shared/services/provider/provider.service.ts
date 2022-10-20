@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
-import { Provider } from '../../models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../../models/provider.model';
 
 @Injectable({
   providedIn: 'root',
@@ -96,6 +96,13 @@ export class ProviderService {
     const formData = Provider.createFormData(provider);
     return this.http.put<Provider>('/api/v2/Provider/Update', formData);
   }
+
+   /**
+   * This method update Provider status
+   */
+   updateProviderStatus(updateStatus: ProviderStatusUpdateData): Observable<ProviderStatusUpdateData> {
+    return this.http.put<ProviderStatusUpdateData>('/api/v1/Provider/StatusUpdate', updateStatus);
+   }
 
   /**
    * This method get all institution statuses
