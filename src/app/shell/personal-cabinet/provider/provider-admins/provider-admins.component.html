@@ -58,11 +58,12 @@
     <ng-container *ngIf="users?.length else isEmptyList;">
       <div class="table-wrapper">
         <app-users-list 
-          [users]="users" 
+          [users]="users"
           [filterValue]="filterValue" 
           [isEdit]="true" 
           (delete)="onDelete($event)"
           (block)="onBlock($event)" 
+          (unblock)="unBlock($event)"
           (update)="onUpdate($event)">
         </app-users-list>
       </div>

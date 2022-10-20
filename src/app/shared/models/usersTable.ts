@@ -3,6 +3,12 @@ export interface UsersTable {
   pib: string;
   email: string;
   phoneNumber: string;
-  role: boolean;
   status: string;
+  isDeputy: boolean;
+  role?:string;
+}
+
+export interface BlockDate {
+  user: UsersTable,
+  isBlocked: boolean
 }

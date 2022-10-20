@@ -1,3 +1,4 @@
+import { BlockDate, UsersTable } from './../../../../shared/models/usersTable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -67,11 +68,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method delete provider Admin By Id
    */
-  onDelete(user: ProviderAdminTable): void {
+  onDelete(user: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
         property: user.pib,
       },
     });
@@ -87,24 +88,20 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
   }
 
-  /**
-   * This method block provider Admin By Id
-   */
-  onBlock(user: ProviderAdminTable): void {
+  private openBlockModal(admin: BlockDate): void {
     let messageType: string;
-    const isBlocked = user.status === 'Blocked';
 
-    if(providerAdminRoleUkrReverse[user.role] === 'deputy') {
-      messageType = isBlocked ? ModalConfirmationType.unBlockProviderAdminDeputy : ModalConfirmationType.blockProviderAdminDeputy;
+    if(admin.user.isDeputy) {
+      messageType = admin.isBlocked ? ModalConfirmationType.unBlockProviderAdminDeputy : ModalConfirmationType.blockProviderAdminDeputy;
     } else {
-      messageType = isBlocked ? ModalConfirmationType.unBlockProviderAdmin : ModalConfirmationType.blockProviderAdmin;
+      messageType = admin.isBlocked ? ModalConfirmationType.unBlockProviderAdmin : ModalConfirmationType.blockProviderAdmin;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
         type: messageType,
-        property: user.pib,
+        property: admin.user.pib,
       },
     });
 
@@ -112,12 +109,26 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       result &&
         this.store.dispatch(
           new BlockProviderAdminById({
-            userId: user.id,
+            userId: admin.user.id,
             providerId: this.provider.id,
-            isBlocked: !isBlocked
+            isBlocked: admin.isBlocked
           })
         );
     });
+  }
+  
+  /**
+   * This method block provider Admin By Id
+   */
+  onBlock(admin: BlockDate): void {
+    this.openBlockModal(admin);
+  }
+
+  /**
+   * This method unBlock provider Admin By Id
+   */
+   unBlock(admin: BlockDate): void {
+    this.openBlockModal(admin);
   }
 
   /**

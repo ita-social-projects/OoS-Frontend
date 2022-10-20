@@ -19,7 +19,7 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { UsersTable } from '../../../../shared/models/usersTable';
+import { BlockDate, UsersTable } from '../../../../shared/models/usersTable';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
@@ -105,16 +105,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  /**
-   * This method block and unblock Admin By Id
-   */
-  onBlock(admin: UsersTable): void {
-    const isBlocked = this.providerAdminStatus[admin.status] === 'Blocked';
+  private openBlockModal(admin: BlockDate): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: isBlocked ? ModalConfirmationType.unBlockMinistryAdmin : ModalConfirmationType.blockMinistryAdmin,
-        property: admin.pib,
+        type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
+        property: admin.user.pib,
       },
     });
 
@@ -122,11 +118,26 @@ export class AdminsComponent implements OnInit, OnDestroy {
       result &&
         this.store.dispatch(
           new BlockMinistryAdminById({
-            ministryAdminId: admin.id,
-            isBlocked: !isBlocked
+            ministryAdminId: admin.user.id,
+            isBlocked: admin.isBlocked
           })
         );
     });
+  }
+
+  /**
+   * This method block Admin By Id
+   */
+  onBlock(admin: BlockDate): void {
+    
+    this.openBlockModal(admin);
+  }
+
+  /**
+   * This method unblock Admin By Id
+   */
+  unBlock(admin: BlockDate): void {
+     this.openBlockModal(admin);
   }
 
   /**
