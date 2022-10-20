@@ -41,10 +41,6 @@ export class GeocoderService {
   private geocode(payload: Geocoder): Observable<Geocoder | null> {
     return this.http
       .post<Geocoder>('/api/v1/Geocoding', { ...payload })
-      .pipe(
-        map((result: Geocoder) => {
-          return result ? result : null;
-        })
-      );
+      .pipe(map((result: Geocoder) => result ? result : null));
   }
 }
