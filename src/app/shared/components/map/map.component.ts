@@ -152,7 +152,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     } 
     this.addressFormGroup.valueChanges
       .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((address: Geocoder) => this.addressDecode(address));
+      .subscribe((address: Geocoder) => {
+        if (this.addressFormGroup.valid) {
+          this.addressDecode(address);
+        }
+      });
   }
 
   /**
