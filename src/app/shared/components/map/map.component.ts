@@ -148,11 +148,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.addressDecode(address);
-    }
-    // eslint-disable-next-line no-console
-    this.settelmentFormGroup.valueChanges.subscribe(val => console.log(val));
-
+      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
+    } 
     this.addressFormGroup.valueChanges
       .pipe(debounceTime(500), takeUntil(this.destroy$))
       .subscribe((address: Geocoder) => this.addressDecode(address));
@@ -165,9 +162,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private setMapLocation(coords: Coords): void {
     this.geocoderService.locationDecode(coords, (result: Geocoder) => {
       if (result) {
-        this.addressFormGroup.patchValue(result);
+        this.setNewSingleMarker([result.lat, result.lon]);
+        this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset();
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
@@ -177,9 +175,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private addressDecode(address: Geocoder): void {
     this.geocoderService.addressDecode(address, (result: Geocoder) => {
       if (result) {
-        this.setNewSingleMarker([result.latitude, result.longitude]);
+        this.setNewSingleMarker([result.lat, result.lon]);
+        this.addressSelect.emit(result);
       } else {
-        this.flyTo({ lat: this.settelmentFormGroup.value.latitude, lng: this.settelmentFormGroup.value.longitude });
         this.addressSelect.emit(null);
         this.map.removeLayer(this.singleMarker);
       }

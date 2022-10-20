@@ -56,7 +56,7 @@ export class MainPageState {
     patchState({ isLoadingData: true });
     return this.platformSercice
       .getPlatformInfo(AdminTabsTitle.MainPage)
-      .pipe(tap((headerInfo: CompanyInformation) => patchState({headerInfo, isLoadingData: true})));
+      .pipe(tap((headerInfo: CompanyInformation) => patchState({headerInfo, isLoadingData: false})));
   }
 
   @Action(GetTopDirections)

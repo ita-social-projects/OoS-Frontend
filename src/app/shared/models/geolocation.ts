@@ -19,21 +19,12 @@ export interface GeolocationCoordinates {
   speed: number | null;
 }
 
-export interface BaseGeocoder {
+export interface Geocoder {
   catottgId?: number;
   street?: string;
   buildingNumber?: string;
-  latitude?: number;
-  longitude?: number;
+  lat?: number;
+  lon?: number;
   isReverse?: boolean;
   codeficator?: Codeficator;
-}
-export interface Geocoder extends BaseGeocoder {
-  latitude?: number;
-  longitude?: number;
-}
-
-export interface GeocoderDTO extends BaseGeocoder {
-  lat: number;
-  lon: number;
 }
