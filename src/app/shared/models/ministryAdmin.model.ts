@@ -7,7 +7,6 @@ export class MinistryAdmin {
   firstName: string;
   accountStatus?: string;
   institutionId: string;
-  gender?: number;
   institutionTitle?: string;
 
   constructor(info, institutionId: string, id?: string, accountStatus?: string) {
@@ -17,7 +16,6 @@ export class MinistryAdmin {
     this.middleName = info.middleName;
     this.firstName = info.firstName;
     this.institutionId = institutionId;
-    this.gender = info.gender;
     this.institutionTitle = info.institutionTitle;
     if (id) {
       this.id = id;
@@ -26,10 +24,6 @@ export class MinistryAdmin {
       this.accountStatus = accountStatus;
     }
   }
-}
-export interface AllMinistryAdmins{
-  totalAmount: number;
-  entities: MinistryAdmin[];
 }
 
 export interface MinistryAdminParameters {

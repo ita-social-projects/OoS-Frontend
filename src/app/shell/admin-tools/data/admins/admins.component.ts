@@ -1,4 +1,4 @@
-import { AllMinistryAdmins, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
+import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
 import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
@@ -23,6 +23,8 @@ import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.act
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { RegistrationState } from './../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-admins',
@@ -36,16 +38,19 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly Role = Role;
 
   @Select(AdminState.ministryAdmins)
-    ministryAdmins$: Observable<AllMinistryAdmins>;
+    ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
   @Select(AdminState.isLoading)
     isLoadingCabinet$: Observable<boolean>;
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
+  @Select(RegistrationState.role)
+    role$: Observable<string>;
 
   tabIndex: number;
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
+  role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -77,12 +82,16 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.ministryAdmins$
       .pipe(
         takeUntil(this.destroy$),
-        filter((ministryAdmins: AllMinistryAdmins) => !!ministryAdmins)
+        filter((ministryAdmins: SearchResponse<MinistryAdmin[]>) => !!ministryAdmins)
       )
-      .subscribe((ministryAdmins: AllMinistryAdmins) => {
+      .subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {
         this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
         this.totalEntities = ministryAdmins.totalAmount;
       });
+
+    this.role$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((role: Role) => (this.role = role));
 
     this.addNavPath();
   }

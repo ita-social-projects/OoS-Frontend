@@ -12,7 +12,7 @@ import { Constants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Application } from '../../../../shared/models/application.model';
-import { ChildCards, Child } from '../../../../shared/models/child.model';
+import { Child } from '../../../../shared/models/child.model';
 import { ParentWithContactInfo } from '../../../../shared/models/parent.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
@@ -22,6 +22,7 @@ import { ParentState } from '../../../../shared/store/parent.state.';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { GetWorkshopById } from '../../../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-create-application',
@@ -30,7 +31,7 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
   @Select(ParentState.children)
-    children$: Observable<ChildCards>;
+    children$: Observable<SearchResponse<Child[]>>;
   children: Child[];
   parentCard: Child;
   @Select(ParentState.isAllowChildToApply)
@@ -95,10 +96,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     this.children$
       .pipe(
-        filter((children: ChildCards) => !!children),
+        filter((children: SearchResponse<Child[]>) => !!children),
         takeUntil(this.destroy$)
       )
-      .subscribe((children: ChildCards) => {
+      .subscribe((children: SearchResponse<Child[]>) => {
         this.parentCard = children.entities.find((child: Child) => child.isParent);
         this.children = children.entities.filter((child: Child) => !child.isParent);
       });

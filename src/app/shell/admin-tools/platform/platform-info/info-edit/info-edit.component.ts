@@ -28,6 +28,8 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   @Select(AdminState.AboutPortal)
     AboutPortal$: Observable<CompanyInformation>;
+  @Select(AdminState.MainInformation)
+    MainInformation$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
     SupportInformation$: Observable<CompanyInformation>;
   @Select(AdminState.LawsAndRegulations)
@@ -40,6 +42,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   platformInfo: CompanyInformation;
 
   platformInfoType: AdminTabsTitle;
+  isMainPage: boolean = false;
 
   constructor(
     store: Store,
@@ -86,6 +89,10 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     switch (this.platformInfoType) {
       case AdminTabsTitle.AboutPortal:
         this.getAboutInfo();
+        break;
+      case AdminTabsTitle.MainPage:
+        this.getMainInfo();
+        this.isMainPage = true;
         break;
       case AdminTabsTitle.SupportInformation:
         this.getSupportInformation();
@@ -166,6 +173,14 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
       tap((aboutPortal: CompanyInformation) => !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
       filter((aboutPortal: CompanyInformation) => !!aboutPortal)
     ).subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal));
+  }
+
+  private getMainInfo(): void {
+    this.MainInformation$.pipe(
+      takeUntil(this.destroy$),
+      tap((mainInformation: CompanyInformation) => !mainInformation && this.store.dispatch(new GetPlatformInfo())),
+      filter((mainInformation: CompanyInformation) => !!mainInformation)
+    ).subscribe((mainInformation: CompanyInformation) => this.setPlatformInfo(mainInformation));
   }
 
   private getSupportInformation(): void {

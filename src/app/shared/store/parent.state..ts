@@ -4,8 +4,8 @@ import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
-import { Child, ChildCards } from '../models/child.model';
-import { Favorite, WorkshopFavoriteCard } from '../models/favorite.model';
+import { Child } from '../models/child.model';
+import { Favorite } from '../models/favorite.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
@@ -46,6 +46,9 @@ import { Util } from '../utils/utils';
 import { TruncatedItem } from '../models/truncated.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
+import { SnackbarText } from '../enum/messageBar';
+import { SearchResponse } from '../models/search.model';
+import { EMPTY_RESULT } from '../constants/constants';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -54,7 +57,7 @@ export interface ParentStateModel {
   isReviewed: boolean;
   favoriteWorkshops: Favorite[];
   favoriteWorkshopsCard: WorkshopCard[];
-  children: ChildCards;
+  children: SearchResponse<Child[]>;
   truncatedItems: TruncatedItem[];
   selectedChild: Child;
 }
@@ -111,7 +114,7 @@ export class ParentState {
   }
 
   @Selector()
-  static children(state: ParentStateModel): ChildCards {
+  static children(state: ParentStateModel): SearchResponse<Child[]> {
     return state.children;
   }
 
@@ -176,11 +179,11 @@ export class ParentState {
   getFavoriteWorkshopsByUserId(
     { patchState }: StateContext<ParentStateModel>,
     {}: GetFavoriteWorkshopsByUserId
-  ): Observable<WorkshopFavoriteCard> {
+  ): Observable<SearchResponse<WorkshopCard[]>> {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshopsByUserId()
       .pipe(
-        tap((favoriteWorkshopCard: WorkshopFavoriteCard) =>
+        tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) =>
           patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities })
         )
       );
@@ -209,16 +212,16 @@ export class ParentState {
   }
 
   @Action(GetUsersChildren)
-  getUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetUsersChildren): Observable<ChildCards> {
+  getUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService
       .getUsersChildren()
       .pipe(
-        tap((children: ChildCards) =>
+        tap((children: SearchResponse<Child[]>) =>
           patchState(
             children
               ? { children: children, isLoading: false }
-              : { children: { totalAmount: 0, entities: [] }, isLoading: false }
+              : { children: EMPTY_RESULT, isLoading: false }
           )
         )
       );
@@ -233,11 +236,11 @@ export class ParentState {
   }
 
   @Action(GetAllUsersChildren)
-  getAllUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetAllUsersChildren): Observable<ChildCards> {
+  getAllUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetAllUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService
       .getAllUsersChildren()
-      .pipe(tap((children: ChildCards) => patchState({ children: children, isLoading: false })));
+      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children, isLoading: false })));
   }
 
   @Action(GetAllUsersChildrenByParentId)
@@ -259,12 +262,12 @@ export class ParentState {
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>): void {
-    dispatch([new ShowMessageBar({ message: 'Дитину видалено!', type: 'success' }), new GetUsersChildren()]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren()]);
   }
 
   @Action(UpdateChild)
@@ -278,7 +281,7 @@ export class ParentState {
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUpdateChildFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateChildSuccess)
@@ -286,7 +289,7 @@ export class ParentState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: 'Дитина успішно відредагована',
+        message: SnackbarText.updateChild,
         type: 'success',
       }),
     ]);
@@ -304,14 +307,14 @@ export class ParentState {
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateChildrenFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateChildrenSuccess)
   onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateChildrenSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: 'Дякуємо! Дитина була успішно додана.',
+        message: SnackbarText.createChild,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -335,14 +338,14 @@ export class ParentState {
   @Action(OnCreateRatingFail)
   onCreateRatingFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateRatingFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateRatingSuccess)
   onCreateRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { }: OnCreateRatingSuccess): void {
     dispatch(
       new ShowMessageBar({
-        message: 'Оцінка успішно поставлена!',
+        message: SnackbarText.createRating,
         type: 'success',
       })
     );
@@ -363,10 +366,10 @@ export class ParentState {
       new ShowMessageBar({
         message:
           payload.error.status === 429
-            ? `Перевищено ліміт заявок. Спробуйте ще раз через ${Util.secondsToDh(+payload.headers.get('retry-after'))}`
-            : 'На жаль виникла помилка',
+            ? SnackbarText.applicationLimit
+            : SnackbarText.error,
         type: 'error',
-        info: payload.error.status === 429 ? 'Користувач може подати не більше 2-х заяв в тиждень на людину' : '',
+        info: payload.error.status === 429 ? SnackbarText.applicationLimitPerPerson : '',
       })
     );
   }
@@ -376,7 +379,7 @@ export class ParentState {
     { dispatch }: StateContext<ParentStateModel>,
     { }: OnCreateApplicationSuccess
   ): void {
-    dispatch([new ShowMessageBar({ message: 'Заявку створено!', type: 'success' }), new MarkFormDirty(false)]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);
   }
 }

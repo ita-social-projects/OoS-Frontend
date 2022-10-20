@@ -1,3 +1,4 @@
+import { MinistryAdmin } from './../models/ministryAdmin.model';
 import { PersonalInfoRole } from './../enum/role';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
@@ -31,6 +32,8 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TechAdmin } from '../models/techAdmin.model';
 import { Provider } from '../models/provider.model';
+import { SnackbarText } from '../enum/messageBar';
+import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -40,6 +43,7 @@ export interface RegistrationStateModel {
   provider: Provider;
   parent: Parent;
   techAdmin: TechAdmin;
+  ministryAdmin: MinistryAdmin;
   role: Role;
   subrole: Role;
 }
@@ -54,6 +58,7 @@ export interface RegistrationStateModel {
     provider: undefined,
     parent: undefined,
     techAdmin: undefined,
+    ministryAdmin: undefined,
     role: Role.unauthorized,
     subrole: null,
   },
@@ -109,7 +114,8 @@ export class RegistrationState {
     private parentService: ParentService,
     private techAdminService: TechAdminService,
     private router: Router,
-    private signalRservice: SignalRService
+    private signalRservice: SignalRService,
+    private ministryAdminService: MinistryAdminService
   ) {}
 
   @Action(Login)
@@ -179,11 +185,17 @@ export class RegistrationState {
 
     switch (state.user.role) {
       case Role.parent:
-        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
+        return this.parentService
+          .getProfile()
+          .pipe(tap((parent: Parent) => patchState({ parent: parent })));
       case Role.techAdmin:
         return this.techAdminService
           .getProfile()
           .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
+      case Role.ministryAdmin:
+        return this.ministryAdminService
+          .getMinistryAdminProfile()
+          .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
       default:
         return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }
@@ -211,7 +223,7 @@ export class RegistrationState {
   @Action(OnUpdateUserFail)
   onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>, { payload }: OnUpdateUserFail): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: 'На жаль виникла помилка', type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateUserSuccess)
@@ -220,7 +232,7 @@ export class RegistrationState {
       new MarkFormDirty(false),
       new GetUserPersonalInfo(payload),
       new ShowMessageBar({
-        message: 'Особиста інформація успішно відредагована',
+        message: SnackbarText.updateUser,
         type: 'success',
       }),
     ]);

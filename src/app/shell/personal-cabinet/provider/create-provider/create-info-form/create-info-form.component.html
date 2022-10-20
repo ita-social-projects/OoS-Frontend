@@ -160,15 +160,14 @@
   </app-validation-hint>
 
   <label class="step-label"> Електронна пошта<span class="step-required">*</span></label>
-  <mat-form-field>
-    <mat-label></mat-label>
+  <mat-form-field appearance="none">
     <input
       matInput
       class="step-input"
       type="email"
       formControlName="email"
       appTrimValue
-      [placeholder]="mailFormPlaceholder" />
+      [placeholder]="mailFormPlaceholder"/>
   </mat-form-field>
   <app-validation-hint [validationFormControl]="InfoFormGroup.get('email')"> </app-validation-hint>
 

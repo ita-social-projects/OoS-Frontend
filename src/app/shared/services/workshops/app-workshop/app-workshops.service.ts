@@ -2,13 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { SearchResponse } from '../../../models/search.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
 import { Direction } from '../../../models/category.model';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filter-state.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
-import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
+import { WorkshopCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
 import { PaginatorState } from '../../../store/paginator.state';
 
@@ -29,8 +30,12 @@ export class AppWorkshopsService {
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
-    if (filters.settlement) {
+    if (filters.settlement && !filters.mapViewCoords) {
       params = this.setCityFilterParams(filters.settlement, params);
+    } else if (!!filters.mapViewCoords) {
+      const {lat, lng} = filters.mapViewCoords;
+      params = params.set('Latitude', lat.toFixed(5).toString());
+      params = params.set('Longitude', lng.toFixed(5).toString());
     }
 
     if (filters.isFree) {
@@ -90,7 +95,7 @@ export class AppWorkshopsService {
       params = params.set('IsStrictWorkdays', 'true');
     }
 
-    if (filters.order) {
+    if (filters.order && !filters.mapViewCoords) {
       params = params.set('OrderByField', filters.order);
     }
 
@@ -137,9 +142,9 @@ export class AppWorkshopsService {
   /**
    * This method get workshops with applied filter options
    */
-  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
+  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<SearchResponse<WorkshopCard[]>> {
     const options = { params: this.setParams(filters, isMapView) };
-    return this.http.get<WorkshopFilterCard>('/api/v1/Workshop/GetByFilter', options);
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Workshop/GetByFilter', options);
   }
 
   /**

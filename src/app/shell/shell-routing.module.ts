@@ -29,7 +29,7 @@ import { DetailsComponent } from './details/details.component';
 import { CreateAchievementComponent } from './personal-cabinet/provider/create-achievement/create-achievement.component';
 import { ErrorPageComponent } from '../shared/components/error-page/error-page.component';
 import { CreateAdminComponent } from './admin-tools/data/admins/create-admin/create-admin.component';
-import { CreateDirectionComponent } from './admin-tools/platform/directions/create-direction/create-direction.component';
+import { CreateDirectionComponent } from './admin-tools/data/directions-wrapper/directions/create-direction/create-direction.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -101,9 +101,9 @@ const routes: Routes = [
     canDeactivate: [CreateGuard],
   },
   {
-    path: 'admin-tools/platform/directions/create/:param',
+    path: 'admin-tools/data/directions/create/:param',
     component: CreateDirectionComponent,
-    loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
+    loadChildren: () => import('./admin-tools/data/data.module').then(m => m.DataModule),
   },
   {
     path: 'create-workshop',

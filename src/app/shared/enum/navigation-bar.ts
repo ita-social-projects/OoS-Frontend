@@ -1,5 +1,6 @@
 export enum NavBarName {
   MainPage = 'Головна',
+  MainInformation = 'Головна сторінка',
   WorkshopResult = 'Результати пошуку',
   TopDestination = 'Найпопулярніші напрямки',
   Portal = 'Портал',
@@ -46,4 +47,5 @@ export enum PersonalCabinetTitle {
   ProviderDeputy = 'Кабінет заступника директора',
   ProviderAdmin = 'Кабінет адміністратора гуртка',
   None = 'Кабінет надавача',
+  ministryadmin = 'Кабінет адміна міністерства'
 }

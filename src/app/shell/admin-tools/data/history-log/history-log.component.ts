@@ -13,11 +13,11 @@ import {
 } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import {
-  ApplicationsHistory,
+  ApplicationHistory,
   DropdownData,
   FilterData,
-  ProviderAdminsHistory,
-  ProvidersHistory,
+  ProviderAdminHistory,
+  ProviderHistory,
 } from '../../../../shared/models/history-log.model';
 import {
   GetApplicationHistory,
@@ -30,6 +30,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
 import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-history-log',
@@ -44,22 +45,22 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     isLoadingCabinet$: Observable<boolean>;
 
   @Select(AdminState.providerHistory)
-    providersHistory$: Observable<ProvidersHistory>;
+    providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
 
   @Select(AdminState.providerAdminHistory)
-    providerAdminHistory$: Observable<ProviderAdminsHistory>;
+    providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
 
   @Select(AdminState.applicationHistory)
-    applicationHistory$: Observable<ApplicationsHistory>;
+    applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
 
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
   itemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  provider: ProvidersHistory;
-  providerAdmin: ProviderAdminsHistory;
-  application: ApplicationsHistory;
+  provider: SearchResponse<ProviderHistory[]>;
+  providerAdmin: SearchResponse<ProviderAdminHistory[]>;
+  application: SearchResponse<ApplicationHistory[]>;
   tableData: any = [];
   tabIndex = 0;
   searchString: string;
@@ -77,9 +78,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.providersHistory$
       .pipe(
         takeUntil(this.destroy$),
-        filter((provider: ProvidersHistory) => !!provider)
+        filter((provider: SearchResponse<ProviderHistory[]>) => !!provider)
       )
-      .subscribe((provider: ProvidersHistory) => {
+      .subscribe((provider: SearchResponse<ProviderHistory[]>) => {
         this.tableData = provider.entities;
         this.provider = this.tableData;
       });
@@ -87,9 +88,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.providerAdminHistory$
       .pipe(
         takeUntil(this.destroy$),
-        filter((providerAdmin: ProviderAdminsHistory) => !!providerAdmin)
+        filter((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => !!providerAdmin)
       )
-      .subscribe((providerAdmin: ProviderAdminsHistory) => {
+      .subscribe((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => {
         this.tableData = providerAdmin.entities;
         this.providerAdmin = this.tableData;
       });
@@ -97,9 +98,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.applicationHistory$
       .pipe(
         takeUntil(this.destroy$),
-        filter((application: ApplicationsHistory) => !!application)
+        filter((application: SearchResponse<ApplicationHistory[]>) => !!application)
       )
-      .subscribe((application: ApplicationsHistory) => {
+      .subscribe((application: SearchResponse<ApplicationHistory[]>) => {
         this.tableData = application.entities;
         this.application = this.tableData;
       });

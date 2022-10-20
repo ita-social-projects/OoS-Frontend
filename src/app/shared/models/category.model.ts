@@ -13,8 +13,3 @@ export class Direction {
     this.workshopsCount = info.workshopsCount;
   }
 }
-export interface DirectionsFilter {
-  totalAmount: number;
-  entities: Direction[];
-}
-

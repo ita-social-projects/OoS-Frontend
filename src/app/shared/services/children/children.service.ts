@@ -2,8 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Child, ChildCards, ChildrenParameters, RequestParams } from '../../models/child.model';
+import { Child, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/search.model';
 import { SocialGroup } from '../../models/socialGroup.model';
 import { TruncatedItem } from '../../models/truncated.model';
 import { PaginatorState } from '../../store/paginator.state';
@@ -51,10 +52,10 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(): Observable<ChildCards> {
+  getUsersChildren(): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams() };
 
-    return this.http.get<ChildCards>('/api/v1/Child/GetUsersChildren', options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', options);
   }
 
   getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]> {
@@ -65,21 +66,21 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getAllUsersChildren(): Observable<ChildCards> {
+  getAllUsersChildren(): Observable<SearchResponse<Child[]>> {
     let params = new HttpParams();
     params = params.set('Size', '0');
     params = params.set('From', '0');
 
-    return this.http.get<ChildCards>('/api/v1/Child/GetUsersChildren', { params });
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', { params });
   }
 
   /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<ChildCards> {
+  getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams(paremeters, isParent), };
 
-    return this.http.get<ChildCards>('/api/v1/Child/GetAllForAdmin', options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
   }
 
 

@@ -1,7 +1,9 @@
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Direction } from './category.model';
 import { Codeficator } from './codeficator.model';
-import { WorkshopFilterCard } from './workshop.model';
+import { SearchResponse } from './search.model';
+import { WorkshopCard } from './workshop.model';
+import { Coords } from './coords.model';
 
 export interface FilterStateModel {
   directions: Direction[];
@@ -18,11 +20,12 @@ export interface FilterStateModel {
   settlement: Codeficator;
   searchQuery: string;
   order: string;
-  filteredWorkshops: WorkshopFilterCard;
+  filteredWorkshops: SearchResponse<WorkshopCard[]>;
   withDisabilityOption: boolean;
   isStrictWorkdays: boolean;
   isAppropriateHours: boolean;
   isLoading: boolean;
   isConfirmCity: boolean;
   statuses: WorkshopOpenStatus[];
+  mapViewCoords: Coords | null;
 }
