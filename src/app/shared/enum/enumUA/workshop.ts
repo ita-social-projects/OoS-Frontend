@@ -19,3 +19,21 @@ export enum NotificationWorkshopStatusUkr {
   Open = 'відкрито',
   Closed = 'закрито'
 }
+
+export enum DetailsTabTitles {
+  AboutWorkshop = 'ПРО ГУРТОК',
+  AboutProvider = 'ПРО ЗАКЛАД',
+  Teachers = 'ВИКЛАДАЧІ',
+  OtherWorkshops = 'ІНШІ ГУРТКИ ЗАКЛАДУ',
+  Reviews = 'ВІДГУКИ',
+  Achievements = 'ДОСЯГНЕННЯ',
+}
+
+export enum DetailsTabTitlesReverse {
+  'ПРО ГУРТОК' = 'AboutWorkshopl',
+  'ПРО ЗАКЛАД' = 'AboutProvider',
+  'ВИКЛАДАЧІ' = 'Teachers',
+  'ІНШІ ГУРТКИ ЗАКЛАДУ' = 'OtherWorkshops',
+  'ВІДГУКИ' = 'Reviews',
+  'ДОСЯГНЕННЯ' = 'Achievements',
+}
