@@ -8,7 +8,7 @@ export interface UsersTable {
   role?:string;
 }
 
-export interface BlockDate {
+export interface BlockData {
   user: UsersTable,
   isBlocked: boolean
 }

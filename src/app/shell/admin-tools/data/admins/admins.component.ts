@@ -19,7 +19,7 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { BlockDate, UsersTable } from '../../../../shared/models/usersTable';
+import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
@@ -105,7 +105,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private openBlockModal(admin: BlockDate): void {
+  private openBlockModal(admin: BlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -128,7 +128,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method block Admin By Id
    */
-  onBlock(admin: BlockDate): void {
+  onBlock(admin: BlockData): void {
     
     this.openBlockModal(admin);
   }
@@ -136,7 +136,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method unblock Admin By Id
    */
-  unBlock(admin: BlockDate): void {
+  unBlock(admin: BlockData): void {
      this.openBlockModal(admin);
   }
 

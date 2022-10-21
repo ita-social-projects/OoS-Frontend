@@ -1,4 +1,4 @@
-import { BlockDate } from './../../models/usersTable';
+import { BlockData } from './../../models/usersTable';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   AfterViewInit,
@@ -39,8 +39,8 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() isEdit: boolean;
 
   @Output() delete = new EventEmitter<UsersTable>();
-  @Output() block = new EventEmitter<BlockDate>();
-  @Output() unblock = new EventEmitter<BlockDate>();
+  @Output() block = new EventEmitter<BlockData>();
+  @Output() unblock = new EventEmitter<BlockData>();
   @Output() update = new EventEmitter<UsersTable>();
   
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
@@ -91,7 +91,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
     this.delete.emit(user);
   }
 
-  onBlock(user: BlockDate): void {
+  onBlock(user: BlockData): void {
    user.isBlocked ? this.unblock.emit(user) : this.block.emit(user);
   }
 

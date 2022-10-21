@@ -1,4 +1,4 @@
-import { BlockDate, UsersTable } from './../../../../shared/models/usersTable';
+import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -88,7 +88,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
   }
 
-  private openBlockModal(admin: BlockDate): void {
+  private openBlockModal(admin: BlockData): void {
     let messageType: string;
 
     if(admin.user.isDeputy) {
@@ -120,14 +120,14 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method block provider Admin By Id
    */
-  onBlock(admin: BlockDate): void {
+  onBlock(admin: BlockData): void {
     this.openBlockModal(admin);
   }
 
   /**
    * This method unBlock provider Admin By Id
    */
-   unBlock(admin: BlockDate): void {
+   unBlock(admin: BlockData): void {
     this.openBlockModal(admin);
   }
 
