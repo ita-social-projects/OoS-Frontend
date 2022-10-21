@@ -92,9 +92,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     let messageType: string;
 
     if(admin.user.isDeputy) {
-      messageType = admin.isBlocked ? ModalConfirmationType.unBlockProviderAdminDeputy : ModalConfirmationType.blockProviderAdminDeputy;
+      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
-      messageType = admin.isBlocked ? ModalConfirmationType.unBlockProviderAdmin : ModalConfirmationType.blockProviderAdmin;
+      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
@@ -118,16 +118,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
   
   /**
-   * This method block provider Admin By Id
+   * This method block and unBlock provider Admin By Id
    */
   onBlock(admin: BlockData): void {
-    this.openBlockModal(admin);
-  }
-
-  /**
-   * This method unBlock provider Admin By Id
-   */
-   unBlock(admin: BlockData): void {
     this.openBlockModal(admin);
   }
 

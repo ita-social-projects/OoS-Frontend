@@ -126,18 +126,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method block Admin By Id
+   * This method block, unBlock Admin By Id
    */
   onBlock(admin: BlockData): void {
-    
     this.openBlockModal(admin);
-  }
-
-  /**
-   * This method unblock Admin By Id
-   */
-  unBlock(admin: BlockData): void {
-     this.openBlockModal(admin);
   }
 
   /**

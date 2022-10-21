@@ -40,7 +40,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
 
   @Output() delete = new EventEmitter<UsersTable>();
   @Output() block = new EventEmitter<BlockData>();
-  @Output() unblock = new EventEmitter<BlockData>();
   @Output() update = new EventEmitter<UsersTable>();
   
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
@@ -92,7 +91,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   onBlock(user: BlockData): void {
-   user.isBlocked ? this.unblock.emit(user) : this.block.emit(user);
+    this.block.emit(user);
   }
 
   onUpdate(user: UsersTable): void {
