@@ -88,9 +88,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
   }
 
-  private openBlockModal(admin: BlockData): void {
+  /**
+   * This method block and unBlock provider Admin By Id
+   */
+  onBlock(admin: BlockData): void {
     let messageType: string;
-
+ 
     if(admin.user.isDeputy) {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
@@ -115,13 +118,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           })
         );
     });
-  }
-  
-  /**
-   * This method block and unBlock provider Admin By Id
-   */
-  onBlock(admin: BlockData): void {
-    this.openBlockModal(admin);
   }
 
   /**
@@ -164,6 +160,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
         role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
+        isDeputy: admin.isDeputy
       });
     });
     return updatedAdmins;

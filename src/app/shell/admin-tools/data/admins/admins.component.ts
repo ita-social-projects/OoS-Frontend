@@ -105,7 +105,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  private openBlockModal(admin: BlockData): void {
+  /**
+   * This method block, unBlock Admin By Id
+   */
+  onBlock(admin: BlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -123,13 +126,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
           })
         );
     });
-  }
-
-  /**
-   * This method block, unBlock Admin By Id
-   */
-  onBlock(admin: BlockData): void {
-    this.openBlockModal(admin);
   }
 
   /**
