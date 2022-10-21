@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ProviderAdminBlockData } from '../../models/block.model';
 import { ProviderAdmin } from '../../models/providerAdmin.model';
 
 @Injectable({
@@ -63,16 +64,13 @@ export class ProviderAdminService {
 
   /**
    * This method delete Provider Admin
-   * @param providerAdminId: string
-   * @param providerId: string
+   * @param providerAdminBlockParams: ProviderAdminBlockData
    */
-  blockProviderAdmin(
-    providerAdminId: string,
-    providerId: string
-  ): Observable<void> {
+  blockProviderAdmin(providerAdminBlockParams: ProviderAdminBlockData): Observable<void> {
     let params = new HttpParams();
-    params = params.set('providerAdminId', `${providerAdminId}`);
-    params = params.set('providerId', `${providerId}`);
+    params = params.set('providerAdminId', `${providerAdminBlockParams.userId}`);
+    params = params.set('providerId', `${providerAdminBlockParams.providerId}`);
+    params = params.set('isBlocked', `${providerAdminBlockParams.isBlocked}`);
 
     return this.http.put<void>('/api/v1/ProviderAdmin/Block', {}, { params });
   }
