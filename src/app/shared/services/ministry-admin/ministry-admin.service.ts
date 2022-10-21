@@ -83,9 +83,10 @@ export class MinistryAdminService {
    * This method block Ministry Admin
    * @param ministryAdminId: string
    */
-  blockMinistryAdmin(ministryAdminId: string): Observable<void> {
+  blockMinistryAdmin(ministryAdminId: string, isBlocked: boolean): Observable<void> {
     let params = new HttpParams();
     params = params.set('ministryAdminId', `${ministryAdminId}`);
+    params = params.set('isBlocked', `${isBlocked}`);
 
     return this.http.put<void>('/api/v1/MinistryAdmin/Block', {}, { params });
   }
