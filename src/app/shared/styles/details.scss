@@ -1,3 +1,17 @@
+@mixin devices ($breakpoint) { 
+  @if $breakpoint == tablet {    
+  @media only screen and (max-width: 680px) {
+    @content;
+  }
+}
+
+@if $breakpoint == mobile {
+  @media only screen and (max-width: 481px) {
+    @content;
+  }
+}
+}
+
 .container {
   background: #FFFFFF;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
@@ -29,6 +43,9 @@
   .details {
     &-wrapper{
       margin: 0 2rem 2rem 2rem;
+      @include devices(mobile) {
+        margin: 0;
+      }
     }
 
     &-icon{
