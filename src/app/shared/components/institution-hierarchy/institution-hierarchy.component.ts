@@ -23,6 +23,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
     editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  editInstituitionsHierarchy: InstituitionHierarchy[];
   @Select(MetaDataState.institutionFieldDesc)
     institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
@@ -71,6 +72,15 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
           this.createInstitutionFormControl(nextLevel);
           this.hierarchyArray[nextLevel].options = instituitionsHierarchy;
           this.hierarchyArray[nextLevel].shouldDisplay = true;
+
+          if (this.editInstituitionsHierarchy && this.editInstituitionsHierarchy[nextLevel]) {
+            this.hierarchyArray[nextLevel].formControl.setValue(
+              this.editInstituitionsHierarchy[nextLevel].id,
+              { emitEvent: false }
+            );
+          } else {
+            this.editInstituitionsHierarchy = null;
+          }
         } else {
           let finalInstitutionId = this.hierarchyArray[this.hierarchyArray.length - 1].formControl.value;
           this.setFinalHierarchyLevel(finalInstitutionId);
@@ -129,15 +139,14 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.editInstituitionsHierarchy$
       .pipe(
         takeUntil(this.destroy$),
-        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy && !!this.hierarchyArray.length)
+        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!instituitionsHierarchy),
+        tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
+          instituitionsHierarchy.sort((a, b) => a.hierarchyLevel - b.hierarchyLevel)
+        )
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
-        debugger;
+        this.editInstituitionsHierarchy = instituitionsHierarchy;
         instituitionsHierarchy.forEach((institutionsHierarchy: InstituitionHierarchy) => {
-          this.hierarchyArray[institutionsHierarchy.hierarchyLevel - 1].formControl.setValue(
-            institutionsHierarchy.id,
-            { emitEvent: false }
-          );
           this.store.dispatch(new GetInstitutionHierarchyChildrenById(institutionsHierarchy.id));
         });
       });
