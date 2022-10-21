@@ -25,6 +25,7 @@ import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/stor
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { RegistrationState } from './../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-admins',
@@ -44,11 +45,14 @@ export class AdminsComponent implements OnInit, OnDestroy {
     isLoadingCabinet$: Observable<boolean>;
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
+  @Select(RegistrationState.role)
+    role$: Observable<string>;
 
   tabIndex: number;
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
+  role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -86,6 +90,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
         this.totalEntities = ministryAdmins.totalAmount;
       });
+
+    this.role$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((role: Role) => (this.role = role));
 
     this.addNavPath();
   }

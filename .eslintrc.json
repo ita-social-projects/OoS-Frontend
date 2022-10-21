@@ -25,9 +25,6 @@
           "error",
           "always"
         ],
-        "linebreak-style": [
-          "error"
-        ],
         "eol-last": "warn",
         "no-console": ["error", { "allow": ["warn", "error"]}],
         "quotes": ["error", "single", { "avoidEscape": true }],
