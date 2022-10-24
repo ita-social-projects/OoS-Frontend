@@ -24,7 +24,7 @@ import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/stor
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',

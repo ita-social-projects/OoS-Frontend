@@ -64,6 +64,7 @@ import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
+import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
+    ReasonModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStylingDirective,
     NavigationBarComponent,
@@ -124,6 +126,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     GetFullNamePipe,
     StretchCellComponent,
     StretchTableDirective,
+    
   ],
 
   imports: [
@@ -156,6 +159,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
+    ReasonModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStylingDirective,
     NavigationBarComponent,

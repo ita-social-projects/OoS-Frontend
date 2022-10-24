@@ -1,4 +1,3 @@
-import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -9,9 +8,9 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
+import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderListComponent } from './provider-list.component';
-import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 describe('ProviderListComponent', () => {
   let component: ProviderListComponent;

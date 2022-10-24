@@ -8,7 +8,6 @@ import { InfoStatusComponent } from './applications/application-card/info-status
 import { ChildInfoBoxComponent } from './applications/application-card/child-info-box/child-info-box.component';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/shared.module';
-import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +15,6 @@ import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmati
     ApplicationsComponent,
     InfoStatusComponent,
     ChildInfoBoxComponent,
-    ReasonModalWindowComponent,
   ],
   imports: [
     MaterialModule,

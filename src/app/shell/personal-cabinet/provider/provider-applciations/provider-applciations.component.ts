@@ -28,7 +28,7 @@ import { Observable } from 'rxjs';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { ReasonModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
   selector: 'app-provider-applciations',
