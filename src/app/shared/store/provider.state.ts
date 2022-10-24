@@ -475,12 +475,15 @@ export class ProviderState {
   ): Observable<ProviderStatusUpdateData | Observable<void>> {
     return this.providerService.updateProviderStatus(payload).pipe(
       tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderStatusFail(error))))
     );
 }
 
   @Action(OnUpdateProviderStatusFail)
-  onUpdateProviderStatusFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderStatusFail): void {
+  onUpdateProviderStatusFail(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnUpdateProviderStatusFail
+  ): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }

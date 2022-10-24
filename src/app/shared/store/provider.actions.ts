@@ -226,7 +226,6 @@ export class UpdateProviderAdmin {
   constructor(public providerId: string, public providerAdmin: ProviderAdmin) { }
 }
 
-
 export class OnUpdateProviderAdminFail {
   static readonly type = '[provider] update Provider Admin fail';
   constructor(public payload: HttpErrorResponse) { }
