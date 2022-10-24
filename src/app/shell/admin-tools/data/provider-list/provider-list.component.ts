@@ -136,7 +136,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
         if (result) {
           this.store.dispatch(new UpdateProviderStatus({
             providerId: provider.id,
-            status: status
+            status: status,
+            statusReason: result
           }));
         }
       });

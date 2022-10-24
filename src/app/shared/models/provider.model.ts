@@ -111,5 +111,6 @@ export class ProviderSectionItem extends SectionItem {
 
 export interface  ProviderStatusUpdateData {
   providerId: string,
-  status: string
+  status: string,
+  statusReason?: string
 }

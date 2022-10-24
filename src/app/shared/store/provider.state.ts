@@ -474,7 +474,7 @@ export class ProviderState {
     { payload }: UpdateProviderStatus
   ): Observable<ProviderStatusUpdateData | Observable<void>> {
     return this.providerService.updateProviderStatus(payload).pipe(
-      tap(() => dispatch(new OnUpdateProviderSuccess())),
+      tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
     );
 }
@@ -491,7 +491,8 @@ export class ProviderState {
     { payload }: OnUpdateProviderStatusSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.changeProviderStatus,
+        message: payload.status == 'Editing' ? SnackbarText.statusEditing :
+          SnackbarText.changeProviderStatus,
         type: 'success',
       }),
       new MarkFormDirty(false),

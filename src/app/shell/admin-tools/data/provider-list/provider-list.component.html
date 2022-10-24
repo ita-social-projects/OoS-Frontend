@@ -155,10 +155,11 @@
             </div>
           
             <mat-menu #actions="matMenu" class="header_menu">
-              <button mat-menu-item (click)="onChangeStatus(element, applicationStatus['Approved'])">
+
+              <button *ngIf="element.status !== applicationStatus.Approved" mat-menu-item (click)="onChangeStatus(element, applicationStatus.Approved)">
                 Підтвердити
               </button>
-              <button mat-menu-item (click)="onChangeStatus(element, applicationStatus['Editing'])">
+              <button *ngIf="element.status !== applicationStatus.Editing" mat-menu-item (click)="onChangeStatus(element, applicationStatus.Editing)">
                 Відправити на редагування
               </button>
               <button mat-menu-item >
