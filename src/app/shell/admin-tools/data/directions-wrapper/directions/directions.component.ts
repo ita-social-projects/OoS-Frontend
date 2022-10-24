@@ -79,6 +79,5 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-    this.store.dispatch(new PopNavPath());
   }
 }
