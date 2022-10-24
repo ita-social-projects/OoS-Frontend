@@ -1,3 +1,4 @@
+import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -67,11 +68,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method delete provider Admin By Id
    */
-  onDelete(user: ProviderAdminTable): void {
+  onDelete(user: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
         property: user.pib,
       },
     });
@@ -88,14 +89,22 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method block provider Admin By Id
+   * This method block and unBlock provider Admin By Id
    */
-  onBlock(user: ProviderAdminTable): void {
+  onBlock(admin: BlockData): void {
+    let messageType: string;
+ 
+    if(admin.user.isDeputy) {
+      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
+    } else {
+      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
+    }
+
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: (providerAdminRoleUkrReverse[user.role] === 'deputy') ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.blockProviderAdmin,
-        property: user.pib,
+        type: messageType,
+        property: admin.user.pib,
       },
     });
 
@@ -103,8 +112,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       result &&
         this.store.dispatch(
           new BlockProviderAdminById({
-            userId: user.id,
+            userId: admin.user.id,
             providerId: this.provider.id,
+            isBlocked: admin.isBlocked
           })
         );
     });
@@ -129,7 +139,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   protected initProviderData(): void {
     this.getAllProviderAdmins();
-    this.addProviderAdmisnSubscribtions();
+    this.addProviderAdminsSubscribtions();
   }
 
   private getAllProviderAdmins(): void {
@@ -150,6 +160,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
         role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
+        isDeputy: admin.isDeputy
       });
     });
     return updatedAdmins;
@@ -158,7 +169,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method subscribes on provider admins and filter form control value changing for data filtartion
    */
-  private addProviderAdmisnSubscribtions(): void {
+  private addProviderAdminsSubscribtions(): void {
     this.filterFormControl.valueChanges
       .pipe(
         takeUntil(this.destroy$),
