@@ -78,12 +78,11 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
               this.editInstituitionsHierarchy[nextLevel].id,
               { emitEvent: false }
             );
-          } else {
-            this.editInstituitionsHierarchy = null;
           }
         } else {
           let finalInstitutionId = this.hierarchyArray[this.hierarchyArray.length - 1].formControl.value;
           this.setFinalHierarchyLevel(finalInstitutionId);
+          this.editInstituitionsHierarchy = null;
         }
       });
   }
@@ -106,6 +105,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         this.hierarchyArray = [];
         this.institutionFieldDesc = institutionFieldDesc;
         this.store.dispatch(new GetAllByInstitutionAndLevel(this.instituitionIdFormControl.value, 1));
+        this.setFinalHierarchyLevel(null);
       });
   }
 
