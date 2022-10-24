@@ -1,3 +1,4 @@
+import { MatDialog } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -27,6 +28,7 @@ describe('ProviderListComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatDialog
       ],
       declarations: [
         ProviderListComponent,
