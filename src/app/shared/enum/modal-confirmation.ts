@@ -120,4 +120,5 @@ export enum ModalConfirmationText {
 export enum ModalConfirmationDescription {
   blockParent = 'Вкажіть причину блокування',
   reject = 'Вкажіть причину відмови',
+  editingProvider = 'Вкажіть причину редагування'
 }
