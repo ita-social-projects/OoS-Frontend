@@ -17,4 +17,5 @@ export class BlockedParent {
 export interface ProviderAdminBlockData{
   userId: string;
   providerId: string;
+  isBlocked?: boolean;
 }
