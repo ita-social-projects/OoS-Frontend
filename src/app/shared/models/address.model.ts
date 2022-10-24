@@ -17,11 +17,11 @@ export class Address {
     if (address) {
       this.id = address.id;
     }
-    if (info.latitude) {
-      this.latitude = info.latitude;
+    if (info.lat) {
+      this.latitude = info.lat;
     }
-    if (info.longitude) {
-      this.longitude = info.longitude;
+    if (info.lat) {
+      this.longitude = info.lon;
     }
   }
 }

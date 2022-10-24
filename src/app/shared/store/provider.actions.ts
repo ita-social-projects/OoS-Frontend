@@ -198,7 +198,7 @@ export class BlockProviderAdminById {
 
 export class OnBlockProviderAdminSuccess {
   static readonly type = '[provider] block Provider Admin success';
-  constructor() {}
+  constructor(public payload: ProviderAdminBlockData) {}
 }
 
 export class OnBlockProviderAdminFail {

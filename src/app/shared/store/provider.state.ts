@@ -545,8 +545,8 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: BlockProviderAdminById
   ): Observable<void | Observable<void>> {
-    return this.providerAdminService.blockProviderAdmin(payload.userId, payload.providerId).pipe(
-      tap(() => dispatch(new OnBlockProviderAdminSuccess())),
+    return this.providerAdminService.blockProviderAdmin(payload).pipe(
+      tap(() => dispatch(new OnBlockProviderAdminSuccess(payload))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
     );
   }
@@ -563,12 +563,12 @@ export class ProviderState {
   @Action(OnBlockProviderAdminSuccess)
   onBlockProviderAdminSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { }: OnBlockProviderAdminSuccess
+    { payload }: OnBlockProviderAdminSuccess
   ): void {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
-        message: SnackbarText.blockPerson,
+        message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success',
       }),
     ]);
