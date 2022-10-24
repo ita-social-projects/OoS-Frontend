@@ -37,8 +37,10 @@ export enum NavBarName {
   UpdateAchievement = 'Редагувтаи досягнення',
   Admins = 'Адміністратори',
   Directions = 'Напрямки',
-  UpdateAdmin = 'Редагування адміністратора'
+  UpdateAdmin = 'Редагування адміністратора',
+  HistoryLog = 'Історія змін'
 }
+
 export enum PersonalCabinetTitle {
   techadmin = 'Кабінет тех.адміна',
   user = 'Кабінет користувача',
