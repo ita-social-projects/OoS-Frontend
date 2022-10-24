@@ -46,6 +46,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private zoom = 11;
   private workshops: WorkshopCard[];
   private customCoords: Coords;
+  private userMarker: Layer.Marker;
+  private userRadius: Layer.Circle;
   private unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
@@ -92,8 +94,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
         // checking if there are filtered workshops on the map for teh result page view
         if (!!this.filteredWorkshops$) {
-          this.setFilteredWorkshops();
           this.createUserRadius();
+          this.setFilteredWorkshops();
         }
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
@@ -149,10 +151,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
       this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
-    } 
+    }
     this.addressFormGroup.valueChanges
       .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((address: Geocoder) => this.addressDecode(address));
+      .subscribe((address: Geocoder) => {
+        if (this.addressFormGroup.valid) {
+          this.addressDecode(address);
+        }
+      });
   }
 
   /**
@@ -246,14 +252,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method create user marker and radius
    */
   private createUserRadius(): void {
-    const userMarker = new Layer.Marker(this.defaultCoords, {
+    this.clearUserRadius();
+
+    this.userMarker = new Layer.Marker(this.defaultCoords, {
       draggable: true,
       icon: this.userIcon,
       riseOnHover: true,
       zIndexOffset: 5
     }).addTo(this.map);
 
-    const userRadius = Layer.circle(this.defaultCoords, {
+    this.userRadius = Layer.circle(this.defaultCoords, {
       color: '#C72A21',
       fillOpacity: 0,
       opacity: 0.6,
@@ -261,7 +269,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       className: 'leaflet-grab'
     }).addTo(this.map);
 
-    this.setUserRadiusEvent(userMarker, userRadius);
+    this.setUserRadiusEvent();
   }
 
   /**
@@ -269,17 +277,26 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param userMarker
    * @param userRadius
    */
-  private setUserRadiusEvent(userMarker: Layer.Marker, userRadius: Layer.Circle): void {
-    userMarker.on('dragstart', () => userRadius.setStyle({ opacity: 0 }));
+  private setUserRadiusEvent(): void {
+    this.userMarker.on('dragstart', () => this.userRadius.setStyle({ opacity: 0 }));
 
-    userMarker.on('dragend', () => {
-      userRadius.setStyle({
+    this.userMarker.on('dragend', () => {
+      this.userRadius.setStyle({
         opacity: 1
       });
-      this.customCoords = userMarker.getLatLng();
-      userRadius.setLatLng(this.customCoords);
+      this.customCoords = this.userMarker.getLatLng();
+      this.userRadius.setLatLng(this.customCoords);
       this.store.dispatch(new SetCoordsByMap(this.customCoords));
     });
+  }
+
+  private clearUserRadius() {
+    if (this.userRadius && this.userMarker) {
+      this.userRadius.removeFrom(this.map);
+      this.userMarker.removeFrom(this.map);
+    }
+    this.workshopMarkers &&
+      this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
   }
 
   ngOnDestroy(): void {

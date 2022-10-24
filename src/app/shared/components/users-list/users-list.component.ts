@@ -1,3 +1,4 @@
+import { BlockData } from './../../models/usersTable';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import {
   AfterViewInit,
@@ -19,9 +20,9 @@ import {
 
 import { Role } from '../../enum/role';
 import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
-import { ProviderAdminTable } from '../../models/providerAdmin.model';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
+import { UsersTable } from '../../models/usersTable';
 
 /**
  * @title Table with sorting
@@ -37,10 +38,10 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
   @Input() isEdit: boolean;
 
-  @Output() deleteAdmin = new EventEmitter<ProviderAdminTable>();
-  @Output() blockAdmin = new EventEmitter<ProviderAdminTable>();
-  @Output() update = new EventEmitter<ProviderAdminTable>();
-
+  @Output() delete = new EventEmitter<UsersTable>();
+  @Output() block = new EventEmitter<BlockData>();
+  @Output() update = new EventEmitter<UsersTable>();
+  
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly providerAdminTitles = ProviderAdminTitles;
   readonly providerAdminStatus = ProviderAdminStatus;
@@ -85,15 +86,15 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
     }
   }
 
-  onDelete(user: ProviderAdminTable): void {
-    this.deleteAdmin.emit(user);
+  onDelete(user: UsersTable): void {
+    this.delete.emit(user);
   }
 
-  onBlock(user: ProviderAdminTable): void {
-    this.blockAdmin.emit(user);
+  onBlock(user: BlockData): void {
+    this.block.emit(user);
   }
 
-  onUpdate(user: ProviderAdminTable): void {
+  onUpdate(user: UsersTable): void {
     this.update.emit(user);
   }
 }

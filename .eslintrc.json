@@ -17,26 +17,13 @@
       },
       "extends": [
         "plugin:@angular-eslint/recommended",
-        "plugin:@angular-eslint/template/process-inline-templates"
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier"
       ],
       "rules": {
         "curly": "error",
-        "semi": [
-          "error",
-          "always"
-        ],
-        "eol-last": "warn",
         "no-console": ["error", { "allow": ["warn", "error"]}],
         "quotes": ["error", "single", { "avoidEscape": true }],
-        "indent": [
-          "error",
-          2,
-          {
-            "SwitchCase": 1
-          }
-        ],
-        "keyword-spacing": "error",
-        "space-before-blocks": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {

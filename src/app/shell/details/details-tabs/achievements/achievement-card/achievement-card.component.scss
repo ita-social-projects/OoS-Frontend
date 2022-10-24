@@ -65,3 +65,19 @@
     max-width: 300px;
  }
 }
+
+@media (max-width: 450px) {
+ .image {
+   display: none;
+ }
+ .card_achievement  {
+  width: 100%;
+ }
+}
+
+@media (max-width: 350px) {
+ .wrap-for-details{
+  padding-left: 5px;
+  padding-right: 5px;
+ }
+}
