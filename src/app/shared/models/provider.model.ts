@@ -109,8 +109,16 @@ export class ProviderSectionItem extends SectionItem {
   }
 }
 
-export interface  ProviderStatusUpdateData {
-  providerId: string,
-  status: string,
-  statusReason?: string
+export class  ProviderStatusUpdateData {
+  providerId: string;
+  status: string;
+  statusReason?: string;
+
+  constructor(providerId: string, status:string, statusReason?:string) {
+    this.providerId = providerId;
+    this.status = status;
+    if (statusReason) {
+      this.statusReason = statusReason;
+    }
+  }
 }

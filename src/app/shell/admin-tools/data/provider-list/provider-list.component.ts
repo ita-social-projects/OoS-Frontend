@@ -13,7 +13,7 @@ import { Constants, PaginationConstants } from '../../../../shared/constants/con
 import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
 import { ApplicationIcons, ApplicationStatus } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { Provider } from '../../../../shared/models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderService } from '../../../../shared/services/provider/provider.service';
@@ -128,26 +128,17 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onChangeStatus(provider: Provider, status: string): void {
-    if (status == 'Editing') {
+    const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
+    if (status === ApplicationStatus.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.editingProvider },
       });
-      dialogRef.afterClosed().subscribe((result: string) => {
-        if (result) {
-          this.store.dispatch(new UpdateProviderStatus({
-            providerId: provider.id,
-            status: status,
-            statusReason: result
-          }));
-        }
-      });
+      dialogRef.afterClosed().subscribe((statusReason: string) => {
+        statusReason && this.store.dispatch(new UpdateProviderStatus({...statusUpdateData, statusReason}));
+       });
     } else {
-      this.store.dispatch(new UpdateProviderStatus({
-        providerId: provider.id,
-        status: status
-      }));
+      this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
     }
-  
   }
 
   onDelete(provider: Provider): void {
