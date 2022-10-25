@@ -30,8 +30,12 @@ export class AppWorkshopsService {
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
     let params = new HttpParams();
 
-    if (filters.settlement) {
+    if (filters.settlement && !filters.mapViewCoords) {
       params = this.setCityFilterParams(filters.settlement, params);
+    } else if (!!filters.mapViewCoords) {
+      const {lat, lng} = filters.mapViewCoords;
+      params = params.set('Latitude', lat.toFixed(5).toString());
+      params = params.set('Longitude', lng.toFixed(5).toString());
     }
 
     if (filters.isFree) {
@@ -91,7 +95,7 @@ export class AppWorkshopsService {
       params = params.set('IsStrictWorkdays', 'true');
     }
 
-    if (filters.order) {
+    if (filters.order && !filters.mapViewCoords) {
       params = params.set('OrderByField', filters.order);
     }
 

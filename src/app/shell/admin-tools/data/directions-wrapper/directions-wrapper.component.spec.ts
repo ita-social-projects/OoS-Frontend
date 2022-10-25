@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { NgxsModule } from '@ngxs/store';
 import { DirectionsWrapperComponent } from './directions-wrapper.component';
 
 describe('DirectionsWrapperComponent', () => {
@@ -8,9 +8,9 @@ describe('DirectionsWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DirectionsWrapperComponent ]
-    })
-    .compileComponents();
+      imports: [NgxsModule.forRoot([])],
+      declarations: [DirectionsWrapperComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DirectionsWrapperComponent);
     component = fixture.componentInstance;

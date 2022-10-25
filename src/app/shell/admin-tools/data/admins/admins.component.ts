@@ -1,3 +1,4 @@
+import { ProviderAdminStatus } from './../../../../shared/enum/provider-admin';
 import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
@@ -18,12 +19,13 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { UsersTable } from '../../../../shared/models/usersTable';
+import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { RegistrationState } from './../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-admins',
@@ -35,6 +37,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly adminRole = AdminRole;
   readonly adminRoleUkr = AdminRoleUkr;
   readonly Role = Role;
+  readonly providerAdminStatus = ProviderAdminStatus;
 
   @Select(AdminState.ministryAdmins)
     ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
@@ -42,11 +45,14 @@ export class AdminsComponent implements OnInit, OnDestroy {
     isLoadingCabinet$: Observable<boolean>;
   @Select(PaginatorState.itemsPerPage)
     itemsPerPage$: Observable<number>;
+  @Select(RegistrationState.role)
+    role$: Observable<string>;
 
   tabIndex: number;
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
+  role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -85,6 +91,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.totalEntities = ministryAdmins.totalAmount;
       });
 
+    this.role$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((role: Role) => (this.role = role));
+
     this.addNavPath();
   }
 
@@ -104,21 +114,24 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method block Admin By Id
+   * This method block, unBlock Admin By Id
    */
-  onBlock(admin: UsersTable): void {
+  onBlock(admin: BlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.blockMinistryAdmin,
-        property: admin.pib,
+        type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
+        property: admin.user.pib,
       },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
-          new BlockMinistryAdminById(admin.id)
+          new BlockMinistryAdminById({
+            ministryAdminId: admin.user.id,
+            isBlocked: admin.isBlocked
+          })
         );
     });
   }
