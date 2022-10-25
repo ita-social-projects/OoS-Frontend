@@ -2,11 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs';
 import { NavBarName } from '../../../enum/navigation-bar';
 import { Navigation } from '../../../models/navigation.model';
-import { GetFilteredWorkshops, SetSearchQueryValue } from '../../../store/filter.actions';
+import { SetSearchQueryValue } from '../../../store/filter.actions';
 import { FilterState } from '../../../store/filter.state';
 import { NavigationState } from '../../../store/navigation.state';
 
@@ -22,9 +21,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   filteredResults: string[];
 
   @Select(NavigationState.navigationPaths)
-    navigationPaths$: Observable<Navigation[]>;
+  navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
-    searchQuery$: Observable<string>;
+  searchQuery$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   private previousResults: string[] = this.getPreviousResults();
@@ -32,6 +31,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private searchedText: string;
 
   ngOnInit(): void {
+    // Detects if search bar is displayed on the main page or on the result page
     this.navigationPaths$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
@@ -53,6 +53,8 @@ export class SearchbarComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValueFormControl.setValue(text, { emitEvent: false }));
 
+    // The input value is reset when the user is on main page, but when the user is on the result page,
+    // the input value should be remained
     if (!this.isResultPage) {
       this.searchValueFormControl.setValue('', { emitEvent: false });
     }
@@ -71,16 +73,24 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     !this.isResultPage && this.router.navigate(['/result']);
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
-
+  /**
+   * This method saves the search input value to teh local storage if the value exists
+   * and if it is not included to teh previous results. If teh length of the saved search length is more
+   * than the 4, then it is shifted and added the new one to teh array.
+   */
   private saveSearchResults(): void {
     this.previousResults = this.getPreviousResults();
 
-    this.previousResults.length > 4 && this.previousResults.shift();
-    this.previousResults.unshift(this.searchedText.trim());
-
-    localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
+    if (this.searchedText && !this.previousResults.includes(this.searchedText)) {
+      this.previousResults.length > 4 && this.previousResults.shift();
+      this.previousResults.unshift(this.searchedText);
+      localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
+    }
   }
 
+  /**
+   * This method gets the previous entered serach values from the local storage, if there is no value, then it sets an empty array
+   */
   private getPreviousResults(): string[] {
     const previousResults: string[] | undefined = JSON.parse(localStorage.getItem('previousResults'));
     if (previousResults?.length) {
@@ -92,16 +102,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   private filter(value: string): void {
-    if (value) {
-      this.filteredResults = this.previousResults.filter((result: string) =>
-        result.toLowerCase().includes(value.toLowerCase())
-      );
-    } else {
-      this.filteredResults = this.previousResults;
-      if (this.isResultPage) {
-        this.store.dispatch(new GetFilteredWorkshops());
-      }
-    }
+    this.filteredResults = this.previousResults.filter((result: string) =>
+      result.toLowerCase().includes(value.toLowerCase())
+    );
   }
 
   ngOnDestroy(): void {
