@@ -1,3 +1,11 @@
-<mat-drawer class="mobile-sidenav" mode="side" *ngIf="isMobileView" [(opened)]="visibleFiltersSidenav">
-  <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
+<mat-drawer
+  class="mobile-sidenav"
+  mode="side"
+  *ngIf="isMobileView"
+  [(opened)]="visibleFiltersSidenav"
+>
+  <app-filters-list
+    [isMobileView]="isMobileView"
+    [isMapView]="true"
+  ></app-filters-list>
 </mat-drawer>

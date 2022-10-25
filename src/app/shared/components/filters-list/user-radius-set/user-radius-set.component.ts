@@ -8,6 +8,7 @@ import {
 } from '../../../store/filter.actions';
 import { DestroyableDirective } from '../../../directives/destroyable.directive';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-user-radius-set',
@@ -25,7 +26,7 @@ export class UserRadiusSetComponent
     disabled: true
   });
   8;
-  constructor(private store: Store) {
+  constructor(private store: Store, private snackBar: MatSnackBar) {
     super();
   }
 
@@ -48,6 +49,14 @@ export class UserRadiusSetComponent
       .pipe(takeUntil(this.destroy$), debounceTime(300))
       .subscribe(() => {
         this.store.dispatch(new GetFilteredWorkshops(true));
+        this.snackBar.open(
+          'Важливо! Тільки 100 найближчих гуртків будуть відображені на мапі.',
+          '',
+          {
+            duration: 5000,
+            panelClass: ['red-snackbar']
+          }
+        );
       });
   }
 }
