@@ -29,8 +29,10 @@
     </button>
 
     <mat-menu #actions="matMenu" class="header_menu">
-      <button mat-menu-item (click)="onBlock()">Заблокувати користувача</button>
-      <button mat-menu-item (click)="onUnBlock()">
+      <button *ngIf="!mockIsBlocked" mat-menu-item (click)="onBlock()">
+        Заблокувати користувача
+      </button>
+      <button *ngIf="mockIsBlocked" mat-menu-item (click)="onUnBlock()">
         Розблокувати користувача
       </button>
     </mat-menu>

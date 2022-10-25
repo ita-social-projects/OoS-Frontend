@@ -14,6 +14,7 @@ export class MessageCardComponent implements OnInit {
   readonly constants = Constants;
 
   parentFullName: string;
+  mockIsBlocked: false;
 
   @Input() chatroom: ChatRoom;
 
