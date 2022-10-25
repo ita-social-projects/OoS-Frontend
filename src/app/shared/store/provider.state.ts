@@ -7,7 +7,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { Achievement } from '../models/achievement.model';
 import { Child } from '../models/child.model';
-import { Provider } from '../models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from '../models/workshop.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
@@ -27,6 +27,7 @@ import {
   CreateWorkshop,
   DeleteAchievementById,
   DeleteProviderAdminById,
+  DeleteProviderById,
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
@@ -51,6 +52,8 @@ import {
   OnDeleteAchievementSuccess,
   OnDeleteProviderAdminFail,
   OnDeleteProviderAdminSuccess,
+  OnDeleteProviderByIdFail,
+  OnDeleteProviderByIdSuccess,
   OnDeleteWorkshopFail,
   OnDeleteWorkshopSuccess,
   OnUpdateAchievementFail,
@@ -58,6 +61,8 @@ import {
   OnUpdateProviderAdminFail,
   OnUpdateProviderAdminSuccess,
   OnUpdateProviderFail,
+  OnUpdateProviderStatusFail,
+  OnUpdateProviderStatusSuccess,
   OnUpdateProviderSuccess,
   OnUpdateWorkshopFail,
   OnUpdateWorkshopStatusFail,
@@ -70,6 +75,7 @@ import {
   UpdateAchievement,
   UpdateProvider,
   UpdateProviderAdmin,
+  UpdateProviderStatus,
   UpdateWorkshop,
   UpdateWorkshopStatus,
 } from './provider.actions';
@@ -80,6 +86,7 @@ import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
+import { GetFilteredProviders } from './admin.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -461,6 +468,41 @@ export class ProviderState {
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
 
+  @Action(UpdateProviderStatus)
+  updateProviderStatus(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: UpdateProviderStatus
+  ): Observable<ProviderStatusUpdateData | Observable<void>> {
+    return this.providerService.updateProviderStatus(payload).pipe(
+      tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderStatusFail(error))))
+    );
+}
+
+  @Action(OnUpdateProviderStatusFail)
+  onUpdateProviderStatusFail(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnUpdateProviderStatusFail
+  ): void {
+    throwError(payload);
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(OnUpdateProviderStatusSuccess)
+  onUpdateProviderStatusSuccess(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnUpdateProviderStatusSuccess): void {
+    dispatch([
+      new ShowMessageBar({
+        message: payload.status == 'Editing' ? SnackbarText.statusEditing :
+          SnackbarText.changeProviderStatus,
+        type: 'success',
+      }),
+      new MarkFormDirty(false),
+      new GetFilteredProviders()
+    ]);
+  }
+  
   @Action(CreateProviderAdmin)
   createProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
@@ -710,5 +752,43 @@ export class ProviderState {
   @Action(ResetAchievements)
   resetAchievement({ patchState }: StateContext<ProviderStateModel>, {}: ResetAchievements): void {
     patchState({ selectedAchievement: null, achievements: null });
+  }
+  
+  @Action(DeleteProviderById)
+  deleteProviderById(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: DeleteProviderById
+  ): Observable<void | Observable<void>> {
+    return this.providerService.deleteProviderById(payload).pipe(
+      tap(() => dispatch(new OnDeleteProviderByIdSuccess(payload))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderByIdFail(error))))
+    );
+  }
+
+  @Action(OnDeleteProviderByIdFail)
+  onDeleteProviderByIdFail(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnDeleteProviderByIdFail
+  ): void {
+    throwError(payload);
+    dispatch(
+      new ShowMessageBar({ 
+        message: SnackbarText.error, 
+        type: 'error' 
+      }));
+  }
+
+  @Action(OnDeleteProviderByIdSuccess)
+  onDeleteProviderByIdSuccess(
+    { dispatch }: StateContext<ProviderStateModel>, 
+    { payload }: OnDeleteProviderByIdSuccess
+  ): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteProvider,
+        type: 'success',
+      }),
+      new GetFilteredProviders(),
+    ]);
   }
 }

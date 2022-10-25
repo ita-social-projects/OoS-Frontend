@@ -1,3 +1,6 @@
+import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
+import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -8,9 +11,9 @@ import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, 
 import { FormControl } from '@angular/forms';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
-import { ApplicationIcons } from '../../../../shared/enum/applications';
+import { ApplicationIcons, ApplicationStatus } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { Provider } from '../../../../shared/models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderService } from '../../../../shared/services/provider/provider.service';
@@ -20,6 +23,8 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { MatDialog } from '@angular/material/dialog';
+import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -32,6 +37,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTitleUkr = ApplicationTitles;
   readonly providerAdminIcons = ApplicationIcons;
+  readonly applicationStatus = ApplicationStatus;
 
   @Select(AdminState.providers)
     providers$: Observable<SearchResponse<Provider[]>>;
@@ -64,7 +70,10 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalEntities: number;
   searchString: string;
 
-  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, public providerService: ProviderService) {}
+  constructor(
+    private liveAnnouncer: LiveAnnouncer, 
+    private store: Store,
+    private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -85,6 +94,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((providers: SearchResponse<Provider[]>) => {
         this.dataSource = new MatTableDataSource(providers?.entities);
         this.dataSource.sort = this.sort;
+        this.totalEntities = providers.totalAmount;
       });
 
     this.filterFormControl.valueChanges
@@ -117,13 +127,41 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  onChangeStatus(provider: Provider, status: string): void {
+    const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
+    if (status === ApplicationStatus.Editing) {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.editingProvider },
+      });
+      dialogRef.afterClosed().subscribe((statusReason: string) => {
+        statusReason && this.store.dispatch(new UpdateProviderStatus({...statusUpdateData, statusReason}));
+       });
+    } else {
+      this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
+    }
+  }
+
+  onDelete(provider: Provider): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteProvider,
+        property: provider.fullTitle,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteProviderById(provider.id));
+    });
+  }
+
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders()]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders(this.searchString)]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
   }
 
   ngOnDestroy(): void {
