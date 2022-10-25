@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Role } from 'src/app/shared/enum/role';
-import { ChatRoom } from 'src/app/shared/models/chat.model';
-import { Util } from 'src/app/shared/utils/utils';
+import { Constants } from '../../../../../shared/constants/constants';
+import { Role } from '../../../../../shared/enum/role';
+import { ChatRoom } from '../../../../../shared/models/chat.model';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-message-card',

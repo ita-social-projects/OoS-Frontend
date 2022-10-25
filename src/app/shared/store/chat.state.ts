@@ -13,7 +13,7 @@ export interface ChatStateModel {
 }
 
 @State<ChatStateModel>({
-  name: 'chats',
+  name: 'chat',
   defaults: {
     isLoadingData: false,
     chatRooms: null,

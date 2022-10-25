@@ -1,4 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialogModule } from '@angular/material/dialog';
+import { NgxsModule } from '@ngxs/store';
 
 import { MessagesComponent } from './messages.component';
 
@@ -8,9 +10,9 @@ describe('MessagesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ MessagesComponent ]
-    })
-    .compileComponents();
+      declarations: [MessagesComponent],
+      imports: [MatDialogModule, NgxsModule.forRoot([])]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(MessagesComponent);
     component = fixture.componentInstance;

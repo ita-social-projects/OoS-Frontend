@@ -18,23 +18,22 @@ import {
   UnBlockParent
 } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { ParentWithContactInfo } from 'src/app/shared/models/parent.model';
-import { ChatRoom } from 'src/app/shared/models/chat.model';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'src/app/shared/constants/constants';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { BlockedParent } from 'src/app/shared/models/block.model';
+import { ChatRoom } from '../../../../shared/models/chat.model';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { BlockedParent } from '../../../../shared/models/block.model';
 import { ReasonModalWindowComponent } from '../applications/reason-modal-window/reason-modal-window.component';
 import { CabinetDataComponent } from '../cabinet-data.component';
 import { MatDialog } from '@angular/material/dialog';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { PushNavPath } from 'src/app/shared/store/navigation.actions';
-import { GetUserChatRooms } from 'src/app/shared/store/chat.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { PushNavPath } from '../../../..//shared/store/navigation.actions';
+import { GetUserChatRooms } from '../../../..//shared/store/chat.actions';
 import { FormControl } from '@angular/forms';
-import { ChatState } from 'src/app/shared/store/chat.state';
-import { SearchResponse } from 'src/app/shared/models/search.model';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
+import { ChatState } from '../../../../shared/store/chat.state';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
 
 @Component({
   selector: 'app-messages',

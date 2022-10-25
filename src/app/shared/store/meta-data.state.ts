@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../environments/environment';
 import { AchievementType } from '../models/achievement.model';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
@@ -204,16 +204,14 @@ export class MetaDataState {
     {}: GetInstitutionStatus
   ): Observable<InstitutionStatus[]> {
     patchState({ isLoading: true });
-    return this.providerService
-      .getInstitutionStatus()
-      .pipe(
-        tap((institutionStatuses: InstitutionStatus[]) =>
-          patchState({
-            institutionStatuses: institutionStatuses,
-            isLoading: false
-          })
-        )
-      );
+    return this.providerService.getInstitutionStatus().pipe(
+      tap((institutionStatuses: InstitutionStatus[]) =>
+        patchState({
+          institutionStatuses: institutionStatuses,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(ClearRatings)
@@ -247,17 +245,15 @@ export class MetaDataState {
     { patchState }: StateContext<MetaDataStateModel>,
     {}: GetFeaturesList
   ): Observable<FeaturesList> {
-    return this.featureManagementService
-      .getFeaturesList()
-      .pipe(
-        tap((featuresList: FeaturesList) =>
-          patchState({
-            featuresList: environment.production
-              ? featuresList
-              : { release1: true, release2: true, release3: true }
-          })
-        )
-      );
+    return this.featureManagementService.getFeaturesList().pipe(
+      tap((featuresList: FeaturesList) =>
+        patchState({
+          featuresList: environment.production
+            ? featuresList
+            : { release1: true, release2: true, release3: true }
+        })
+      )
+    );
   }
 
   @Action(GetAllInstitutions)
@@ -350,16 +346,14 @@ export class MetaDataState {
     { id }: GetInstitutionHierarchyParentsById
   ): Observable<InstituitionHierarchy[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getInstitutionHierarchyParentsId(id)
-      .pipe(
-        tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
-          patchState({
-            editInstituitionsHierarchy: instituitionsHierarchy,
-            isLoading: false
-          })
-        )
-      );
+    return this.institutionsService.getInstitutionHierarchyParentsId(id).pipe(
+      tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
+        patchState({
+          editInstituitionsHierarchy: instituitionsHierarchy,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(ResetInstitutionHierarchy)
