@@ -31,6 +31,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private searchedText: string;
 
   ngOnInit(): void {
+    // Detects if search bar is displayed on the main page or on the result page
     this.navigationPaths$
       .pipe(takeUntil(this.destroy$))
       .subscribe(
@@ -46,14 +47,16 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         map((value: string) => value.trim()),
         tap((value: string) => this.filter(value))
       )
-      .subscribe((value: string) => (this.searchedText = value.trim()));
+      .subscribe((value: string) => (this.searchedText = value));
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValueFormControl.setValue(text, { emitEvent: false }));
 
+    // The input value is reset when the user is on main page, but when the user is on the result page,
+    // the input value should be remained
     if (!this.isResultPage) {
-      this.resetSearchInput();
+      this.searchValueFormControl.setValue('', { emitEvent: false });
     }
   }
 
@@ -66,15 +69,15 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.performSearch();
   }
 
-  private resetSearchInput(): void {
-    this.searchValueFormControl.setValue('', { emitEvent: false });
-  }
-
   private performSearch(): void {
     !this.isResultPage && this.router.navigate(['/result']);
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
-
+  /**
+   * This method saves the search input value to teh local storage if the value exists
+   * and if it is not included to teh previous results. If teh length of the saved search length is more
+   * than the 4, then it is shifted and added the new one to teh array.
+   */
   private saveSearchResults(): void {
     this.previousResults = this.getPreviousResults();
 
@@ -85,6 +88,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  /**
+   * This method gets the previous entered serach values from the local storage, if there is no value, then it sets an empty array
+   */
   private getPreviousResults(): string[] {
     const previousResults: string[] | undefined = JSON.parse(localStorage.getItem('previousResults'));
     if (previousResults?.length) {
