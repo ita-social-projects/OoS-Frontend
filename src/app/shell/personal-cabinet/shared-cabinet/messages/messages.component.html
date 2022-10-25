@@ -21,5 +21,9 @@
 </div>
 
 <ng-container>
-  <app-message-card [chatroom]="mockChatRoom"></app-message-card>
+  <app-message-card
+    [chatroom]="mockChatRoom"
+    (block)="onBlock($event)"
+    (unblock)="onUnBlock($event)"
+  ></app-message-card>
 </ng-container>

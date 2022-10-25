@@ -29,8 +29,10 @@
     </button>
 
     <mat-menu #actions="matMenu" class="header_menu">
-      <button mat-menu-item>Заблокувати користувача</button>
-      <button mat-menu-item>Розблокувати користувача</button>
+      <button mat-menu-item (click)="onBlock()">Заблокувати користувача</button>
+      <button mat-menu-item (click)="onUnBlock()">
+        Розблокувати користувача
+      </button>
     </mat-menu>
     <mat-menu #email="matMenu" class="header_menu">
       <button mat-menu-item>Надіслати запрошення</button>
