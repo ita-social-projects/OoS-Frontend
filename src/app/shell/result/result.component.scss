@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/toggle-button.scss";
+@import 'src/app/shared/styles/toggle-button.scss';
 
 .shadow {
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
@@ -48,7 +48,7 @@
     }
 
     .shell-city {
-      border-right: 1px solid #E3E3E3;
+      border-right: 1px solid #e3e3e3;
       width: 30%;
     }
   }
@@ -56,23 +56,23 @@
   .view-toggle {
     height: 30px;
     align-items: center;
-    background: #FFFFFF;
+    background: #ffffff;
   }
 }
 .mat-button-toggle-group {
   height: 2rem;
-  .mat-button-toggle{
+  .mat-button-toggle {
     height: 100%;
-    min-width:100px;
+    min-width: 100px;
   }
 }
 
-:host::ng-deep.mat-drawer-inner-container{
+:host::ng-deep.mat-drawer-inner-container {
   box-sizing: border-box;
   padding: 1rem;
 }
 .mat-drawer-container {
-  min-height: 1000px;
+  min-height: 80vh;
   background-color: inherit;
   color: inherit;
 
@@ -101,13 +101,18 @@
   padding: 0;
 
   &.visible {
-    background: linear-gradient(0deg, rgba(56, 73, 249, 0.07), rgba(56, 73, 249, 0.07)), #FFFFFF;
-    border: 1px solid #3849F9;
-    color: #3849F9;
+    background: linear-gradient(
+        0deg,
+        rgba(56, 73, 249, 0.07),
+        rgba(56, 73, 249, 0.07)
+      ),
+      #ffffff;
+    border: 1px solid #3849f9;
+    color: #3849f9;
   }
 
   &.hidden {
-    background: #FFFFFF;
+    background: #ffffff;
   }
 
   .btn-icon {
@@ -142,19 +147,19 @@
   }
 }
 
-@media(max-width: 960px) {
+@media (max-width: 960px) {
   .workshops-count .filters-toggle-btn {
     display: none;
   }
 }
 
-@media(min-width: 961px) {
+@media (min-width: 961px) {
   .workshops-search .filters-toggle-btn {
     display: none;
   }
 }
 
-@media(max-width: 1000px) {
+@media (max-width: 1000px) {
   .view-control-panel {
     flex-wrap: wrap-reverse;
     margin-bottom: 16px;
@@ -165,8 +170,7 @@
   }
 }
 
-@media(max-width: 750px) {
-
+@media (max-width: 750px) {
   .view-control-panel {
     position: relative;
     z-index: 2;
@@ -180,7 +184,6 @@
       display: none;
     }
   }
-
 
   .workshops-count {
     .mobile-map-view {
@@ -249,7 +252,7 @@
         app-workshop-cards-list {
           display: block;
 
-          ::ng-deep>div {
+          ::ng-deep > div {
             overflow: scroll;
             height: 100%;
           }

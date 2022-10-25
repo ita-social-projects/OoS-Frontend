@@ -64,6 +64,7 @@ import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
+import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 
 @NgModule({
   declarations: [
@@ -124,6 +125,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     GetFullNamePipe,
     StretchCellComponent,
     StretchTableDirective,
+    UserRadiusSetComponent,
   ],
 
   imports: [

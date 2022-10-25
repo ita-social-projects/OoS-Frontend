@@ -28,4 +28,5 @@ export interface FilterStateModel {
   isConfirmCity: boolean;
   statuses: WorkshopOpenStatus[];
   mapViewCoords: Coords | null;
+  userRadiusSize: number | null;
 }
