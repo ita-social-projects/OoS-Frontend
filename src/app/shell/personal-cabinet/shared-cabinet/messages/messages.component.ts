@@ -1,6 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, takeUntil } from 'rxjs';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  Observable,
+  takeUntil
+} from 'rxjs';
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
@@ -24,6 +30,11 @@ import { CabinetDataComponent } from '../cabinet-data.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NavBarName } from 'src/app/shared/enum/navigation-bar';
 import { PushNavPath } from 'src/app/shared/store/navigation.actions';
+import { GetUserChatRooms } from 'src/app/shared/store/chat.actions';
+import { FormControl } from '@angular/forms';
+import { ChatState } from 'src/app/shared/store/chat.state';
+import { SearchResponse } from 'src/app/shared/models/search.model';
+import { NoResultsTitle } from 'src/app/shared/enum/no-results';
 
 @Component({
   selector: 'app-messages',
@@ -33,44 +44,19 @@ import { PushNavPath } from 'src/app/shared/store/navigation.actions';
 export class MessagesComponent extends CabinetDataComponent implements OnInit {
   readonly Role = Role;
   readonly WorkshopDeclination = WorkshopDeclination;
-
-  //TODO: Delete after connecting to server
-  mockChatRoom: ChatRoom = {
-    id: 'mockId',
-    parentId: 'mockParentId',
-    workshopId: 'mockWorkShopId',
-    parent: {
-      id: 'mockParentId',
-      userId: 'mockUserId',
-      firstName: 'mockFName',
-      lastName: 'mockLName',
-      email: 'mockEmail',
-      phoneNumber: 'mockNumber',
-      middleName: 'mockMName'
-    },
-    workshop: {
-      id: 'mockWorkShopId',
-      providerTitle: 'mockProviderTitle',
-      title: 'mockTitle',
-      providerId: 'mockProviderId'
-    } as Workshop,
-    notReadByCurrentUserMessagesCount: 1,
-    lastMessage: {
-      id: 'mockMessageId',
-      chatRoomId: 'mockId',
-      text: 'mockText',
-      senderRoleIsProvider: false,
-      createdDateTime: '2022-10-25T09:59:08.504Z'
-    }
-  };
+  readonly noMessagesTitle = NoResultsTitle.noMessages;
 
   userRole: Role;
   providerId: string;
+  filterFormControl: FormControl = new FormControl('');
+  chatRooms: SearchResponse<ChatRoom[]> = { entities: [], totalAmount: 0 };
 
   @Select(ProviderState.truncated)
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
+  @Select(ChatState.chatRooms)
+  chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
@@ -83,8 +69,14 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
       .pipe(filter((provider: Provider) => !!provider))
       .subscribe((provider: Provider) => {
         this.providerId = provider.id;
-        this.getProviderWorkshops();
+
+        if (this.userRole == Role.provider) {
+          this.getProviderWorkshops();
+        }
+        this.getChats();
       });
+
+    this.setListeners();
   }
 
   protected addNavPath(): void {
@@ -99,6 +91,35 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
 
   getProviderWorkshops() {
     this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
+  }
+
+  getChats() {
+    this.store.dispatch(new GetUserChatRooms(this.userRole));
+  }
+
+  setListeners() {
+    this.chatRooms.entities = this.mockChatRoom;
+    this.chatRooms.totalAmount = this.mockChatRoom.length;
+
+    this.chatRooms$
+      .pipe(
+        filter((chatRooms: SearchResponse<ChatRoom[]>) => !!chatRooms),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((chatRooms: SearchResponse<ChatRoom[]>) => {
+        this.chatRooms = chatRooms;
+      });
+
+    this.filterFormControl.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(200),
+        distinctUntilChanged(),
+        filter((val: string) => !!val)
+      )
+      .subscribe((val: string) => {
+        //TODO: Implement search logic
+      });
   }
 
   onBlock(parentId: string): void {
@@ -118,10 +139,6 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
     });
   }
 
-  /**
-   * This method emit unblock Application
-   * @param Application application
-   */
   onUnBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
@@ -141,4 +158,68 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
       }
     });
   }
+
+  onEntitiesSelect(IDs: string[]): void {
+    //Need to be implemented when requests with parameters are made
+  }
+
+  //Delete after connecting to server
+  mockChatRoom: ChatRoom[] = [
+    {
+      id: 'mockId',
+      parentId: 'mockParentId',
+      workshopId: 'mockWorkShopId',
+      parent: {
+        id: 'mockParentId',
+        userId: 'mockUserId',
+        firstName: 'mockFName',
+        lastName: 'mockLName',
+        email: 'mockEmail',
+        phoneNumber: 'mockNumber',
+        middleName: 'mockMName'
+      },
+      workshop: {
+        id: 'mockWorkShopId',
+        providerTitle: 'mockProviderTitle',
+        title: 'mockTitle',
+        providerId: 'mockProviderId'
+      } as Workshop,
+      notReadByCurrentUserMessagesCount: 1,
+      lastMessage: {
+        id: 'mockMessageId',
+        chatRoomId: 'mockId',
+        text: 'mockText',
+        senderRoleIsProvider: false,
+        createdDateTime: '2022-10-25T09:59:08.504Z'
+      }
+    },
+    {
+      id: 'mockId',
+      parentId: 'mockParentId',
+      workshopId: 'mockWorkShopId',
+      parent: {
+        id: 'mockParentId',
+        userId: 'mockUserId',
+        firstName: 'mockFName',
+        lastName: 'mockLName',
+        email: 'mockEmail',
+        phoneNumber: 'mockNumber',
+        middleName: 'mockMName'
+      },
+      workshop: {
+        id: 'mockWorkShopId',
+        providerTitle: 'mockProviderTitle',
+        title: 'mockTitle',
+        providerId: 'mockProviderId'
+      } as Workshop,
+      notReadByCurrentUserMessagesCount: 1,
+      lastMessage: {
+        id: 'mockMessageId',
+        chatRoomId: 'mockId',
+        text: 'mockText',
+        senderRoleIsProvider: false,
+        createdDateTime: '2022-10-25T09:59:08.504Z'
+      }
+    }
+  ];
 }

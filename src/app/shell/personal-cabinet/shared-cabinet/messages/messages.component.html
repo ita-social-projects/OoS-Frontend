@@ -5,6 +5,7 @@
     >
     <input
       #input
+      [formControl]="filterFormControl"
       matInput
       type="text"
       class="search"
@@ -16,14 +17,24 @@
     *ngIf="userRole === Role.provider"
     [entities]="workshops$ | async"
     [declination]="WorkshopDeclination"
+    (entityCheck)="onEntitiesSelect($event)"
   >
   </app-entity-checkbox-dropdown>
 </div>
 
 <ng-container>
-  <app-message-card
-    [chatroom]="mockChatRoom"
-    (block)="onBlock($event)"
-    (unblock)="onUnBlock($event)"
-  ></app-message-card>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="chatRooms && chatRooms.totalAmount; else isEmptyList">
+      <app-message-card
+        *ngFor="let chatRoom of chatRooms.entities"
+        [chatroom]="chatRoom"
+        (block)="onBlock($event)"
+        (unblock)="onUnBlock($event)"
+      ></app-message-card>
+    </ng-container>
+  </ng-container>
 </ng-container>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noMessagesTitle"></app-no-result-card>
+</ng-template>
