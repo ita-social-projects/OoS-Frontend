@@ -1,1 +1,32 @@
-<p>message-card works!</p>
+<mat-card class="card card-new">
+  <mat-card-content class="card-block" fxLayout="column">
+    <h4 class="title">Коваль Василь</h4>
+    <p class="text">15 Січня 2021, 12:23</p>
+  </mat-card-content>
+  <mat-card-content class="card-block">
+    <h4 class="title">Бальні танці</h4>
+  </mat-card-content>
+  <mat-card-content class="card-block">
+    <p class="text">
+      Вітаю! Підкажіть будь ласка, який статус нашої заявки по Бальних Танцях. Я
+      реєстрував свого сина ще 2 тижні тому, але ...
+    </p>
+  </mat-card-content>
+  <mat-card-content class="card-block card-block-buttons">
+    <button mat-icon-button [matMenuTriggerFor]="actions">
+      <mat-icon class="material-icons">more_vert</mat-icon>
+    </button>
+
+    <button mat-icon-button [matMenuTriggerFor]="email">
+      <mat-icon class="material-icons">email</mat-icon>
+    </button>
+
+    <mat-menu #actions="matMenu" class="header_menu">
+      <button mat-menu-item>Заблокувати користувача</button>
+      <button mat-menu-item>Розблокувати користувача</button>
+    </mat-menu>
+    <mat-menu #email="matMenu" class="header_menu">
+      <button mat-menu-item>Надіслати запрошення</button>
+    </mat-menu>
+  </mat-card-content>
+</mat-card>
