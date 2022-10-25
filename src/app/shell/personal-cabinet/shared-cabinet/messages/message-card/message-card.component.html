@@ -1,15 +1,22 @@
-<mat-card class="card card-new">
+<mat-card
+  [ngClass]="
+    chatroom.notReadByCurrentUserMessagesCount > 0 ? 'card card-new' : 'card'
+  "
+>
   <mat-card-content class="card-block" fxLayout="column">
-    <h4 class="title">Коваль Василь</h4>
-    <p class="text">15 Січня 2021, 12:23</p>
+    <h4 class="title">{{ parentFullName }}</h4>
+    <p class="text">
+      {{
+        chatroom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT
+      }}
+    </p>
   </mat-card-content>
   <mat-card-content class="card-block">
-    <h4 class="title">Бальні танці</h4>
+    <h4 class="title">{{ chatroom.workshop.title }}</h4>
   </mat-card-content>
   <mat-card-content class="card-block">
     <p class="text">
-      Вітаю! Підкажіть будь ласка, який статус нашої заявки по Бальних Танцях. Я
-      реєстрував свого сина ще 2 тижні тому, але ...
+      {{ chatroom.lastMessage.text }}
     </p>
   </mat-card-content>
   <mat-card-content class="card-block card-block-buttons">

@@ -1,4 +1,4 @@
-import { Parent } from './parent.model';
+import { ParentWithContactInfo } from './parent.model';
 import { Workshop } from './workshop.model';
 
 export interface Message {
@@ -15,7 +15,7 @@ export interface ChatRoom {
   workshopId: string;
   parentId: string;
   workshop: Workshop;
-  parent: Parent;
+  parent: ParentWithContactInfo;
   notReadByCurrentUserMessagesCount?: number;
   lastMessage?: Message;
 }

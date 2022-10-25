@@ -8,6 +8,9 @@ import { Role } from '../../../../shared/enum/role';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { GetWorkshopListByProviderId } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { ParentWithContactInfo } from 'src/app/shared/models/parent.model';
+import { ChatRoom } from 'src/app/shared/models/chat.model';
+import { Workshop } from 'src/app/shared/models/workshop.model';
 
 @Component({
   selector: 'app-messages',
@@ -17,6 +20,36 @@ import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations
 export class MessagesComponent implements OnInit {
   readonly Role = Role;
   readonly WorkshopDeclination = WorkshopDeclination;
+
+  //TODO: Delete after connecting to server
+  mockChatRoom: ChatRoom = {
+    id: 'mockId',
+    parentId: 'mockParentId',
+    workshopId: 'mockWorkShopId',
+    parent: {
+      id: 'mockParentId',
+      userId: 'mockUserId',
+      firstName: 'mockFName',
+      lastName: 'mockLName',
+      email: 'mockEmail',
+      phoneNumber: 'mockNumber',
+      middleName: 'mockMName'
+    },
+    workshop: {
+      id: 'mockWorkShopId',
+      providerTitle: 'mockProviderTitle',
+      title: 'mockTitle',
+      providerId: 'mockProviderId'
+    } as Workshop,
+    notReadByCurrentUserMessagesCount: 1,
+    lastMessage: {
+      id: 'mockMessageId',
+      chatRoomId: 'mockId',
+      text: 'mockText',
+      senderRoleIsProvider: false,
+      createdDateTime: '2022-10-25T09:59:08.504Z'
+    }
+  };
 
   userRole: Role;
   providerId: string;
