@@ -1,3 +1,4 @@
+import { AddNavPath } from './../../../store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -6,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs/operators';
 import { NavBarName } from '../../../enum/navigation-bar';
 import { Navigation } from '../../../models/navigation.model';
-import { GetFilteredWorkshops, SetSearchQueryValue } from '../../../store/filter.actions';
+import { SetSearchQueryValue } from '../../../store/filter.actions';
 import { FilterState } from '../../../store/filter.state';
 import { NavigationState } from '../../../store/navigation.state';
 
@@ -22,9 +23,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   filteredResults: string[];
 
   @Select(NavigationState.navigationPaths)
-    navigationPaths$: Observable<Navigation[]>;
+  navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
-    searchQuery$: Observable<string>;
+  searchQuery$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   private previousResults: string[] = this.getPreviousResults();
@@ -47,14 +48,14 @@ export class SearchbarComponent implements OnInit, OnDestroy {
         map((value: string) => value.trim()),
         tap((value: string) => this.filter(value))
       )
-      .subscribe((value: string) => (this.searchedText = value));
+      .subscribe((value: string) => (this.searchedText = value.trim()));
 
     this.searchQuery$
       .pipe(takeUntil(this.destroy$))
       .subscribe((text: string) => this.searchValueFormControl.setValue(text, { emitEvent: false }));
 
     if (!this.isResultPage) {
-      this.searchValueFormControl.setValue('', { emitEvent: false });
+      this.resetSearchInput();
     }
   }
 
@@ -67,6 +68,10 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.performSearch();
   }
 
+  private resetSearchInput(): void {
+    this.searchValueFormControl.setValue('', { emitEvent: false });
+  }
+
   private performSearch(): void {
     !this.isResultPage && this.router.navigate(['/result']);
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
@@ -75,10 +80,11 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private saveSearchResults(): void {
     this.previousResults = this.getPreviousResults();
 
-    this.previousResults.length > 4 && this.previousResults.shift();
-    this.previousResults.unshift(this.searchedText.trim());
-
-    localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
+    if (this.searchedText && !this.previousResults.includes(this.searchedText)) {
+      this.previousResults.length > 4 && this.previousResults.shift();
+      this.previousResults.unshift(this.searchedText);
+      localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
+    }
   }
 
   private getPreviousResults(): string[] {
@@ -92,16 +98,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   private filter(value: string): void {
-    if (value) {
-      this.filteredResults = this.previousResults.filter((result: string) =>
-        result.toLowerCase().includes(value.toLowerCase())
-      );
-    } else {
-      this.filteredResults = this.previousResults;
-      if (this.isResultPage) {
-        this.store.dispatch(new GetFilteredWorkshops());
-      }
-    }
+    this.filteredResults = this.previousResults.filter((result: string) =>
+      result.toLowerCase().includes(value.toLowerCase())
+    );
   }
 
   ngOnDestroy(): void {
