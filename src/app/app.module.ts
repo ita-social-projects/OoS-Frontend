@@ -32,6 +32,7 @@ import { FooterComponent } from './footer/footer.component';
 import { MainPageState } from './shared/store/main-page.state';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
 import { ProviderState } from './shared/store/provider.state';
+import { ChatState } from './shared/store/chat.state';
 
 registerLocaleData(localeUk);
 
@@ -61,7 +62,8 @@ registerLocaleData(localeUk);
       PaginatorState,
       MainPageState,
       ProviderState,
-      ParentState
+      ParentState,
+      ChatState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -72,11 +74,14 @@ registerLocaleData(localeUk);
     }),
     FlexLayoutModule,
     ShellModule,
-    RegistrationModule,
+    RegistrationModule
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
-    { provide: MAT_SELECT_CONFIG, useValue: { overlayPanelClass: 'custom-overlay-panel' } },
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'custom-overlay-panel' }
+    }
   ],
   bootstrap: [AppComponent]
 })
