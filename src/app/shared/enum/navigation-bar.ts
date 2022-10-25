@@ -38,8 +38,10 @@ export enum NavBarName {
   Admins = 'Адміністратори',
   Directions = 'Напрямки',
   UpdateAdmin = 'Редагування адміністратора',
-  Messages = 'Повідомлення'
+  Messages = 'Повідомлення',
+  HistoryLog = 'Історія змін'
 }
+
 export enum PersonalCabinetTitle {
   techadmin = 'Кабінет тех.адміна',
   user = 'Кабінет користувача',
