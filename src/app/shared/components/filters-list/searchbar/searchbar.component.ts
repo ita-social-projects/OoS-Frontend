@@ -1,10 +1,8 @@
-import { AddNavPath } from './../../../store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs/operators';
+import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs';
 import { NavBarName } from '../../../enum/navigation-bar';
 import { Navigation } from '../../../models/navigation.model';
 import { SetSearchQueryValue } from '../../../store/filter.actions';
