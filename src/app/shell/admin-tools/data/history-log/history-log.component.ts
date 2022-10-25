@@ -31,6 +31,8 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
 import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-history-log',
@@ -74,6 +76,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.dispatchProperValue(this.tabIndex);
+    this.addNavPath();
 
     this.providersHistory$
       .pipe(
@@ -147,7 +150,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.dispatchProperValue(this.tabIndex, this.filters, this.searchString);
   }
 
-  dispatchProperValue(tabIndex: number, filters?: FilterData, searchString?: string): void {
+  private dispatchProperValue(tabIndex: number, filters?: FilterData, searchString?: string): void {
     switch (tabIndex) {
       case Tabs.Provider:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
@@ -169,8 +172,19 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.dispatchProperValue(this.tabIndex, event, this.searchString);
   }
 
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.HistoryLog,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 }
