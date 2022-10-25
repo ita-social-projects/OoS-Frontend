@@ -126,7 +126,6 @@ import { ReasonModalWindowComponent } from './components/confirmation-modal-wind
     GetFullNamePipe,
     StretchCellComponent,
     StretchTableDirective,
-    
   ],
 
   imports: [
