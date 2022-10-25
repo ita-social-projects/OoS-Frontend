@@ -3,13 +3,26 @@
     <mat-tab label="Напрямки для користувача">
       <app-directions></app-directions>
     </mat-tab>
-    <mat-tab label="МОН">
+    <mat-tab label="{{mainInstitutionTitles.MON}}">
+      <ng-template matTabContent>
+        <app-directions-institution-hierarchies-list [institutionTitle]="mainInstitutionTitles.MON"
+          [displayedColumns]="mainInstitutionDisplayColumns.MONDisplayColumns">
+        </app-directions-institution-hierarchies-list>
+      </ng-template>
     </mat-tab>
-    <mat-tab label="МКІП">
+    <mat-tab label="{{mainInstitutionTitles.MKIP}}">
+      <ng-template matTabContent>
+        <app-directions-institution-hierarchies-list [institutionTitle]="mainInstitutionTitles.MKIP"
+          [displayedColumns]="mainInstitutionDisplayColumns.MKIPDisplayColumns">
+        </app-directions-institution-hierarchies-list>
+      </ng-template>
     </mat-tab>
-    <mat-tab label="Мінспорт">
-    </mat-tab>
-    <mat-tab label="Інші">
+    <mat-tab label="{{mainInstitutionTitles.MinSport}}">
+      <ng-template matTabContent>
+        <app-directions-institution-hierarchies-list [institutionTitle]="mainInstitutionTitles.MinSport"
+          [displayedColumns]="mainInstitutionDisplayColumns.MinSportDisplayColumns">
+        </app-directions-institution-hierarchies-list>
+      </ng-template>
     </mat-tab>
   </mat-tab-group>
 </div>

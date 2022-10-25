@@ -13,6 +13,10 @@ export class InstitutionsService {
     return this.http.get<Institution[]>('/api/v1/Institution/GetAll');
   }
 
+  getAllInstitutionHierarchies(): Observable<InstituitionHierarchy[]> {
+    return this.http.get<InstituitionHierarchy[]> ('/api/v1/InstitutionHierarchy/GetAll');
+  }
+
   getAllByInstitutionAndLevel(institutionsId: string, hierarchyLevel: number): Observable<InstituitionHierarchy[]> {
     let params = new HttpParams();
     params = params.set('institutionId', institutionsId);
