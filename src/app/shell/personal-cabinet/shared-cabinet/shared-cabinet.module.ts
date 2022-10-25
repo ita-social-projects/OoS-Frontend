@@ -9,6 +9,8 @@ import { ChildInfoBoxComponent } from './applications/application-card/child-inf
 import { ReasonModalWindowComponent } from './applications/reason-modal-window/reason-modal-window.component';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/shared.module';
+import { MessagesComponent } from './messages/messages.component';
+import { MessageCardComponent } from './messages/message-card/message-card.component';
 
 @NgModule({
   declarations: [
@@ -17,17 +19,16 @@ import { SharedModule } from '../../../shared/shared.module';
     InfoStatusComponent,
     ChildInfoBoxComponent,
     ReasonModalWindowComponent,
+    MessagesComponent,
+    MessageCardComponent
   ],
   imports: [
     MaterialModule,
     SharedModule,
     CommonModule,
     FlexLayoutModule,
-    RouterModule,
+    RouterModule
   ],
-  exports: [
-    ApplicationsComponent,
-  ]
-
+  exports: [ApplicationsComponent]
 })
-export class SharedCabinetModule { }
+export class SharedCabinetModule {}
