@@ -1,9 +1,8 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } from './../../../enum/modal-confirmation';
+import { ValidationConstants } from './../../../constants/validation';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType} from '../../../../../shared/enum/modal-confirmation';
-import { Application } from '../../../../../shared/models/application.model';
 
 @Component({
   selector: 'app-reason-modal-window',
@@ -14,7 +13,6 @@ export class ReasonModalWindowComponent implements OnInit {
 
   readonly validationConstants = ValidationConstants;
 
-  @Input() application: Application;
   modalTitle: string;
   modalConfirmationText: string;
   modalConfirmationDescription: string;
