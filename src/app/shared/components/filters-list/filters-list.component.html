@@ -10,6 +10,7 @@
       </button>
     </ng-container>
   </div>
+  <app-user-radius-set *ngIf="isMapView$ | async"></app-user-radius-set>
   <app-category-check-box
     [categoryCheckBox]="filterList.categoryCheckBox"
     [stateDirections]="filterList.categoryCheckBox"
@@ -36,5 +37,4 @@
       Наявні
     </mat-checkbox>
   </div>
-  <app-user-radius-set *ngIf="isMapView$ | async"></app-user-radius-set>
 </div>
