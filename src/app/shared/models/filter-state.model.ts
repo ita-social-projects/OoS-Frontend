@@ -29,4 +29,5 @@ export interface FilterStateModel {
   statuses: WorkshopOpenStatus[];
   mapViewCoords: Coords | null;
   userRadiusSize: number | null;
+  isMapView: boolean;
 }

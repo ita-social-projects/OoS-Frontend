@@ -19,10 +19,7 @@
 
 <mat-drawer-container>
   <mat-drawer mode="side" [(opened)]="isFiltersSidenavOpen">
-    <app-filters-list
-      [isMobileView]="isMobileView"
-      [isMapView]="currentView === viewType.map"
-    ></app-filters-list>
+    <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content
     [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'"

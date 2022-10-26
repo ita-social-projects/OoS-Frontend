@@ -131,3 +131,8 @@ export class SetRadiusSize {
 export class ClearRadiusSize {
   static readonly type = '[filter] Clear Radius Size';
 }
+
+export class SetMapView {
+  static readonly type = '[filter] Set Map View';
+  constructor(public payload: boolean) {}
+}

@@ -30,8 +30,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
 
+  @Select(FilterState.isMapView)
+  isMapView$: Observable<boolean>;
+
   @Input() isMobileView: boolean;
-  @Input() isMapView: boolean;
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
@@ -74,7 +76,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   statusHandler(val: boolean, status: string): void {
     val
       ? this.statuses.push(this.workhopStatus[status])
-      : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
+      : this.statuses.splice(
+          this.statuses.indexOf(this.workhopStatus[status]),
+          1
+        );
   }
 
   changeView(): void {

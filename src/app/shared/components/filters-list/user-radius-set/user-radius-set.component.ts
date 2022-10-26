@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ChangeContext } from '@angular-slider/ngx-slider';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
@@ -9,54 +9,40 @@ import {
 import { DestroyableDirective } from '../../../directives/destroyable.directive';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-user-radius-set',
   templateUrl: './user-radius-set.component.html',
   styleUrls: ['./user-radius-set.component.scss']
 })
-export class UserRadiusSetComponent
-  extends DestroyableDirective
-  implements OnInit
-{
-  public defaultValue: number = 5;
+export class UserRadiusSetComponent implements OnInit, OnDestroy {
+  public defaultValue = 5;
   public options = { floor: 2, ceil: 10 };
   public currentRadius: FormControl = new FormControl({
     value: '',
     disabled: true
   });
-  8;
-  constructor(private store: Store, private snackBar: MatSnackBar) {
-    super();
-  }
+
+  private destroy$: Subject<void> = new Subject<void>();
+
+  constructor(private store: Store, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.setValue(this.defaultValue);
-    this.subscribeOnValueChanges();
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   public radiusHandler(event: ChangeContext): void {
     event.pointerType && this.setValue(event.highValue);
   }
 
-  private setValue(number): void {
-    this.currentRadius.setValue(number);
-    this.store.dispatch(new SetRadiusSize(number));
-  }
-
-  private subscribeOnValueChanges() {
-    this.currentRadius.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300))
-      .subscribe(() => {
-        this.store.dispatch(new GetFilteredWorkshops(true));
-        this.snackBar.open(
-          'Важливо! Тільки 100 найближчих гуртків будуть відображені на мапі.',
-          '',
-          {
-            duration: 5000,
-            panelClass: ['red-snackbar']
-          }
-        );
-      });
+  private setValue(num: number): void {
+    this.currentRadius.setValue(num);
+    this.store.dispatch(new SetRadiusSize(num));
   }
 }

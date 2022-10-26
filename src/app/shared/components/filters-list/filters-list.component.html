@@ -36,5 +36,5 @@
       Наявні
     </mat-checkbox>
   </div>
-  <app-user-radius-set *ngIf="isMapView"></app-user-radius-set>
+  <app-user-radius-set *ngIf="isMapView$ | async"></app-user-radius-set>
 </div>

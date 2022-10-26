@@ -30,6 +30,7 @@ import {
   SetIsFree,
   SetIsPaid,
   SetIsStrictWorkdays,
+  SetMapView,
   SetMaxAge,
   SetMaxPrice,
   SetMinAge,
@@ -68,7 +69,8 @@ import {
     isLoading: false,
     isConfirmCity: true,
     mapViewCoords: null,
-    userRadiusSize: null
+    userRadiusSize: null,
+    isMapView: false
   }
 })
 @Injectable()
@@ -114,6 +116,11 @@ export class FilterState {
   static userRadiusSize(state: FilterStateModel) {
     const meterInKilometer = 1000;
     return state.userRadiusSize * meterInKilometer;
+  }
+
+  @Selector()
+  static isMapView(state: FilterStateModel) {
+    return state.isMapView;
   }
 
   @Selector()
@@ -409,7 +416,7 @@ export class FilterState {
   ): void {
     patchState({ mapViewCoords: payload });
 
-    dispatch(new GetFilteredWorkshops(true));
+    dispatch(new FilterChange());
   }
 
   @Action(ClearCoordsByMap)
@@ -423,10 +430,20 @@ export class FilterState {
     { payload }: SetRadiusSize
   ): void {
     patchState({ userRadiusSize: payload });
+
+    dispatch(new FilterChange());
   }
 
   @Action(ClearRadiusSize)
   ClearRadiusSize({ patchState }: StateContext<FilterStateModel>): void {
     patchState({ userRadiusSize: null });
+  }
+
+  @Action(SetMapView)
+  SetMapView(
+    { patchState }: StateContext<FilterStateModel>,
+    { payload }: SetMapView
+  ): void {
+    patchState({ isMapView: payload });
   }
 }

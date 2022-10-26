@@ -26,7 +26,8 @@ import { SearchResponse } from '../../models/search.model';
 import {
   ClearCoordsByMap,
   ClearRadiusSize,
-  SetCoordsByMap
+  SetCoordsByMap,
+  SetMapView
 } from '../../store/filter.actions';
 
 @Component({
@@ -117,6 +118,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         if (!!this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
+          this.store.dispatch(new SetMapView(true));
         }
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
@@ -358,6 +360,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private clearUnnecessaryStore(): void {
     this.store.dispatch(new ClearCoordsByMap());
     this.store.dispatch(new ClearRadiusSize());
+    this.store.dispatch(new SetMapView(false));
   }
 
   ngOnDestroy(): void {

@@ -4,8 +4,5 @@
   *ngIf="isMobileView"
   [(opened)]="visibleFiltersSidenav"
 >
-  <app-filters-list
-    [isMobileView]="isMobileView"
-    [isMapView]="true"
-  ></app-filters-list>
+  <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
 </mat-drawer>
