@@ -14,6 +14,7 @@ import { EntityType, Role } from '../../../../shared/enum/role';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import {
   BlockParent,
+  GetProviderAdminWorkshops,
   GetWorkshopListByProviderId,
   UnBlockParent
 } from '../../../../shared/store/provider.actions';
@@ -82,7 +83,11 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   }
 
   getProviderWorkshops(): void {
-    this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
+    if (this.subRole === Role.None) {
+      this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
+    } else {
+      this.store.dispatch(new GetProviderAdminWorkshops());
+    }
   }
 
   getChats(): void {
