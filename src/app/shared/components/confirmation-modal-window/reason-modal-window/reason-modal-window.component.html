@@ -20,7 +20,12 @@
   </form>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
-    <button class="btn" mat-button [mat-dialog-close]="ReasonFormControl.value" cdkFocusInitial>ПІДТВЕРДИТИ</button>
+    <button class="btn" 
+      mat-button 
+      [mat-dialog-close]="ReasonFormControl.value" 
+      [disabled]="!ReasonFormControl.value"
+      cdkFocusInitial>
+      ПІДТВЕРДИТИ</button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>
