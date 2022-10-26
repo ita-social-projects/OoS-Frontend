@@ -230,7 +230,7 @@ export class ProviderState {
     { payload }: OnCreateAchievementSuccess
   ): void {
     dispatch([new ShowMessageBar({ message: SnackbarText.createAchievement, type: 'success' }), new MarkFormDirty(false)]);
-    this.router.navigate(['/details/workshop/', payload.workshopId]);
+    this.router.navigate([`/details/workshop/${ payload.workshopId}`], { queryParams: { status: 'Achievements' } });
   }
 
   @Action(OnCreateAchievementFail)
