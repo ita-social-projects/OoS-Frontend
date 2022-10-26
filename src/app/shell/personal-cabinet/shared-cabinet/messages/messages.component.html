@@ -24,9 +24,9 @@
 
 <ng-container>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="chatRooms && chatRooms.totalAmount; else isEmptyList">
+    <ng-container *ngIf="chatRooms; else isEmptyList">
       <app-message-card
-        *ngFor="let chatRoom of chatRooms.entities"
+        *ngFor="let chatRoom of chatRooms"
         [chatroom]="chatRoom"
         (block)="onBlock($event)"
         (unblock)="onUnBlock($event)"

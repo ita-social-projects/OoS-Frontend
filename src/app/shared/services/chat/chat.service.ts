@@ -11,6 +11,7 @@ export class ChatService {
   constructor(private http: HttpClient) {}
 
   getChatRooms(role: string): Observable<ChatRoom[]> {
-    return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`);
+    return this.http.get<ChatRoom[]>('assets/mocks/chatrooms.json');
+    //return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`);
   }
 }

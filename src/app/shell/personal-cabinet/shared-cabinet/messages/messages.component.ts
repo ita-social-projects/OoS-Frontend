@@ -47,14 +47,14 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
 
   providerId: string;
   filterFormControl: FormControl = new FormControl('');
-  chatRooms: SearchResponse<ChatRoom[]> = { entities: [], totalAmount: 0 };
+  chatRooms: ChatRoom[];
 
   @Select(ProviderState.truncated)
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   @Select(ChatState.chatRooms)
-  chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
+  chatRooms$: Observable<ChatRoom[]>;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
@@ -90,17 +90,12 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   }
 
   setListeners(): void {
-    this.chatRooms.entities = this.mockChatRoom;
-    this.chatRooms.totalAmount = this.mockChatRoom.length;
-
     this.chatRooms$
       .pipe(
-        filter((chatRooms: SearchResponse<ChatRoom[]>) => !!chatRooms),
+        filter((chatRooms: ChatRoom[]) => !!chatRooms),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms)
-      );
+      .subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -152,64 +147,4 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   onEntitiesSelect(IDs: string[]): void {
     //TODO: Need to be implemented when requests with parameters are made
   }
-
-  //Delete after connecting to server
-  mockChatRoom: ChatRoom[] = [
-    {
-      id: 'mockId',
-      parentId: 'mockParentId',
-      workshopId: 'mockWorkShopId',
-      parent: {
-        id: 'mockParentId',
-        userId: 'mockUserId',
-        firstName: 'mockFName',
-        lastName: 'mockLName',
-        email: 'mockEmail',
-        phoneNumber: 'mockNumber',
-        middleName: 'mockMName'
-      },
-      workshop: {
-        id: 'mockWorkShopId',
-        providerTitle: 'mockProviderTitle',
-        title: 'mockTitle',
-        providerId: 'mockProviderId'
-      } as Workshop,
-      notReadByCurrentUserMessagesCount: 1,
-      lastMessage: {
-        id: 'mockMessageId',
-        chatRoomId: 'mockId',
-        text: 'mockText',
-        senderRoleIsProvider: false,
-        createdDateTime: '2022-10-25T09:59:08.504Z'
-      }
-    },
-    {
-      id: 'mockId',
-      parentId: 'mockParentId',
-      workshopId: 'mockWorkShopId',
-      parent: {
-        id: 'mockParentId',
-        userId: 'mockUserId',
-        firstName: 'mockFName',
-        lastName: 'mockLName',
-        email: 'mockEmail',
-        phoneNumber: 'mockNumber',
-        middleName: 'mockMName'
-      },
-      workshop: {
-        id: 'mockWorkShopId',
-        providerTitle: 'mockProviderTitle',
-        title: 'mockTitle',
-        providerId: 'mockProviderId'
-      } as Workshop,
-      notReadByCurrentUserMessagesCount: 1,
-      lastMessage: {
-        id: 'mockMessageId',
-        chatRoomId: 'mockId',
-        text: 'mockText',
-        senderRoleIsProvider: false,
-        createdDateTime: '2022-10-25T09:59:08.504Z'
-      }
-    }
-  ];
 }
