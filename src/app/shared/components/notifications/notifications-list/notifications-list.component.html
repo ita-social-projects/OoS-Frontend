@@ -22,8 +22,16 @@
   </ng-container>
   <ng-container *ngIf="notificationsData.notifications.length">
     <div *ngFor="let notification of notificationsData.notifications" matMenuItem disableRipple="true">
-      <span fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <span fxLayout="row" fxLayoutAlign="space-between center">
+        <ng-container *ngIf="notification.data.Title">
           Набір у гурток "{{notification.data.Title}}" {{notificationWorkshopStatusUkr[notification.data.Status]}}
+        </ng-container>
+        <ng-container *ngIf="notification.data.Status === notificationStatus.Approved">
+          {{notificationText[notification.data.Status]}}
+        </ng-container>
+        <div class="editing" *ngIf="notification.data.Status === notificationStatus.Editing">
+          {{notificationText.Editing}}
+        </div>
         <mat-icon class="icon"
           (click)="onReadSingle($event, notification)">
           highlight_off
