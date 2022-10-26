@@ -25,7 +25,6 @@ import { ConfirmationModalWindowComponent } from '../../../../shared/components/
 import { Constants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { BlockedParent } from '../../../../shared/models/block.model';
-import { ReasonModalWindowComponent } from '../applications/reason-modal-window/reason-modal-window.component';
 import { CabinetDataComponent } from '../cabinet-data.component';
 import { MatDialog } from '@angular/material/dialog';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
@@ -35,6 +34,7 @@ import { FormControl } from '@angular/forms';
 import { ChatState } from '../../../../shared/store/chat.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
   selector: 'app-messages',
