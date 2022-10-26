@@ -27,7 +27,7 @@
           Набір у гурток "{{notification.data.Title}}" {{notificationWorkshopStatusUkr[notification.data.Status]}}
         </ng-container>
         <ng-container *ngIf="notification.data.Status === notificationStatus.Approved">
-          {{notificationText[notification.data.Status]}}
+          {{notificationText.Approved}}
         </ng-container>
         <div class="editing" *ngIf="notification.data.Status === notificationStatus.Editing">
           {{notificationText.Editing}}
