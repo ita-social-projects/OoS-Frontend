@@ -10,7 +10,7 @@ import { ChatRoom } from '../../models/chat.model';
 export class ChatService {
   constructor(private http: HttpClient) {}
 
-  getChatRooms(role: Role): Observable<ChatRoom[]> {
+  getChatRooms(role: string): Observable<ChatRoom[]> {
     return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`);
   }
 }

@@ -45,7 +45,6 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly noMessagesTitle = NoResultsTitle.noMessages;
 
-  userRole: Role;
   providerId: string;
   filterFormControl: FormControl = new FormControl('');
   chatRooms: SearchResponse<ChatRoom[]> = { entities: [], totalAmount: 0 };
@@ -62,19 +61,13 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   }
 
   protected init(): void {
-    this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-
     this.provider$
       .pipe(filter((provider: Provider) => !!provider))
       .subscribe((provider: Provider) => {
         this.providerId = provider.id;
-
-        if (this.userRole == Role.provider) {
-          this.getProviderWorkshops();
-        }
-        this.getChats();
+        this.getProviderWorkshops();
       });
-
+    this.getChats();
     this.setListeners();
   }
 
@@ -88,15 +81,15 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
     );
   }
 
-  getProviderWorkshops() {
+  getProviderWorkshops(): void {
     this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
   }
 
-  getChats() {
-    this.store.dispatch(new GetUserChatRooms(this.userRole));
+  getChats(): void {
+    this.store.dispatch(new GetUserChatRooms(this.role));
   }
 
-  setListeners() {
+  setListeners(): void {
     this.chatRooms.entities = this.mockChatRoom;
     this.chatRooms.totalAmount = this.mockChatRoom.length;
 
@@ -105,9 +98,9 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
         filter((chatRooms: SearchResponse<ChatRoom[]>) => !!chatRooms),
         takeUntil(this.destroy$)
       )
-      .subscribe((chatRooms: SearchResponse<ChatRoom[]>) => {
-        this.chatRooms = chatRooms;
-      });
+      .subscribe(
+        (chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms)
+      );
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -127,10 +120,11 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
-        const providerId = this.store.selectSnapshot<Provider>(
-          RegistrationState.provider
-        ).id;
-        const blockedParent = new BlockedParent(parentId, providerId, result);
+        const blockedParent = new BlockedParent(
+          parentId,
+          this.providerId,
+          result
+        );
         this.store.dispatch(
           new BlockParent(blockedParent, EntityType[this.subRole])
         );
@@ -147,10 +141,7 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
-        const providerId = this.store.selectSnapshot<Provider>(
-          RegistrationState.provider
-        ).id;
-        const blockedParent = new BlockedParent(parentId, providerId);
+        const blockedParent = new BlockedParent(parentId, this.providerId);
         this.store.dispatch(
           new UnBlockParent(blockedParent, EntityType[this.subRole])
         );
@@ -159,7 +150,7 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   }
 
   onEntitiesSelect(IDs: string[]): void {
-    //Need to be implemented when requests with parameters are made
+    //TODO: Need to be implemented when requests with parameters are made
   }
 
   //Delete after connecting to server

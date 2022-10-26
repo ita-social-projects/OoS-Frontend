@@ -1,7 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
-
 import { MessagesComponent } from './messages.component';
 
 describe('MessagesComponent', () => {
