@@ -25,10 +25,7 @@ import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user
 import { Observable, Subject } from 'rxjs';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { Statuses } from '../../../../shared/enum/statuses';
-import {
-  ApplicationTitles,
-  ApplicationTitlesReverse
-} from '../../../../shared/enum/enumUA/applications';
+import { Titles, TitlesReverse } from '../../../../shared/enum/enumUA/titles';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { Child } from '../../../../shared/models/child.model';
@@ -48,7 +45,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly applicationTitles = ApplicationTitles;
+  readonly titles = Titles;
   readonly statuses = Statuses;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly Role = Role;
@@ -90,9 +87,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(ApplicationTitles).indexOf(
-          params['status']
-        );
+        this.tabIndex = Object.keys(Titles).indexOf(params['status']);
       });
   }
 
@@ -134,16 +129,15 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = event.tab.textLabel;
     const statuses =
-      tabLabel !== ApplicationTitles.Blocked &&
-      tabLabel !== ApplicationTitles.All
-        ? [ApplicationTitlesReverse[tabLabel]]
+      tabLabel !== Titles.Blocked && tabLabel !== Titles.All
+        ? [TitlesReverse[tabLabel]]
         : [];
     this.applicationParams.statuses = statuses;
-    this.applicationParams.showBlocked = tabLabel === ApplicationTitles.Blocked;
+    this.applicationParams.showBlocked = tabLabel === Titles.Blocked;
     this.onGetApplications();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: ApplicationTitlesReverse[tabLabel] }
+      queryParams: { status: TitlesReverse[tabLabel] }
     });
   }
 

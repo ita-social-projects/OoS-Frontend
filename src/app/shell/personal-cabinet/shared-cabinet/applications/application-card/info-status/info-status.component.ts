@@ -3,10 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationIcons } from '../../../../../../shared/enum/applications';
-import {
-  ApplicationStatusDescription,
-  ApplicationTitles
-} from '../../../../../../shared/enum/enumUA/applications';
+import { ApplicationStatusDescription } from '../../../../../../shared/enum/enumUA/applications';
 import { Application } from '../../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../../shared/models/block.model';
 import { Provider } from '../../../../../../shared/models/provider.model';
@@ -17,6 +14,7 @@ import {
   OnClearBlockedParents
 } from '../../../../../../shared/store/provider.actions';
 import { Statuses } from '../../../../../../shared/enum/statuses';
+import { Titles } from '../../../../../../shared/enum/enumUA/titles';
 
 @Component({
   selector: 'app-info-status',
@@ -24,7 +22,7 @@ import { Statuses } from '../../../../../../shared/enum/statuses';
   styleUrls: ['./info-status.component.scss']
 })
 export class InfoStatusComponent implements OnInit, OnDestroy {
-  readonly applicationTitles = ApplicationTitles;
+  readonly titles = Titles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
 

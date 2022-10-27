@@ -39,7 +39,7 @@
       >
       </ng-container>
     </mat-tab>
-    <mat-tab label="{{ applicationTitles[statuses.Pending] }}">
+    <mat-tab label="{{ titles[statuses.Pending] }}">
       <ng-container
         *ngTemplateOutlet="
           Applications;
@@ -48,11 +48,11 @@
       >
       </ng-container>
     </mat-tab>
-    <!-- <mat-tab label="{{applicationTitles[statuses.AcceptedForSelection]}}">
+    <!-- <mat-tab label="{{titles[statuses.AcceptedForSelection]}}">
     <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
     </ng-container>
     </mat-tab> TODO: display when functionality is ready -->
-    <mat-tab label="{{ applicationTitles[statuses.Approved] }}">
+    <mat-tab label="{{ titles[statuses.Approved] }}">
       <ng-container
         *ngTemplateOutlet="
           Applications;
@@ -61,7 +61,7 @@
       >
       </ng-container>
     </mat-tab>
-    <mat-tab label="{{ applicationTitles[statuses.Rejected] }}">
+    <mat-tab label="{{ titles[statuses.Rejected] }}">
       <ng-container
         *ngTemplateOutlet="
           Applications;
@@ -70,7 +70,7 @@
       >
       </ng-container>
     </mat-tab>
-    <mat-tab label="{{ applicationTitles[statuses.Left] }}">
+    <mat-tab label="{{ titles[statuses.Left] }}">
       <ng-container
         *ngTemplateOutlet="
           Applications;
@@ -79,10 +79,7 @@
       >
       </ng-container>
     </mat-tab>
-    <mat-tab
-      *ngIf="role === Role.provider"
-      label="{{ applicationTitles.Blocked }}"
-    >
+    <mat-tab *ngIf="role === Role.provider" label="{{ titles.Blocked }}">
       <ng-container
         *ngTemplateOutlet="
           Applications;

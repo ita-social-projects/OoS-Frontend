@@ -30,7 +30,7 @@ import {
   Constants,
   PaginationConstants
 } from '../../../../shared/constants/constants';
-import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
+import { Titles } from '../../../../shared/enum/enumUA/titles';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
 import {
@@ -65,7 +65,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-  readonly providerTitleUkr = ApplicationTitles;
+  readonly titles = Titles;
   readonly providerAdminIcons = ApplicationIcons;
   readonly statuses = Statuses;
 
