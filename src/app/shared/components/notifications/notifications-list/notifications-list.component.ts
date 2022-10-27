@@ -6,8 +6,9 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsConstants } from '../../../constants/constants';
 import { ApplicationStatus } from '../../../enum/applications';
 import { ApplicationApproved, ApplicationPending, ApplicationRejected, ApplicationLeft } from '../../../enum/enumUA/declinations/notification-declination';
+import { NotificationsText } from '../../../enum/enumUA/notifications';
 import { NotificationWorkshopStatusUkr } from '../../../enum/enumUA/workshop';
-import { NotificationType } from '../../../enum/notifications';
+import { NotificationStatus, NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
 import { GetAllUsersNotificationsGrouped, ReadUsersNotificationById, ReadUsersNotificationsByType } from '../../../store/notifications.actions';
@@ -30,6 +31,8 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   readonly notificationsConstants = NotificationsConstants;
   readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
+  readonly notificationStatus = NotificationStatus;
+  readonly notificationText = NotificationsText;
 
   constructor(
     private store: Store,
