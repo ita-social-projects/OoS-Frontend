@@ -1,22 +1,22 @@
 <mat-card
   [ngClass]="
-    chatroom.notReadByCurrentUserMessagesCount > 0 ? 'card card-new' : 'card'
+    !chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'
   "
 >
   <mat-card-content class="card-block" fxLayout="column">
-    <h4 class="title">{{ parentFullName }}</h4>
+    <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
     <p class="text">
       {{
-        chatroom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT
+        chatRoom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT
       }}
     </p>
   </mat-card-content>
   <mat-card-content class="card-block">
-    <h4 class="title">{{ chatroom.workshop.title }}</h4>
+    <h4 class="title">{{ chatRoom.workshop.title }}</h4>
   </mat-card-content>
   <mat-card-content class="card-block">
     <p class="text">
-      {{ chatroom.lastMessage.text }}
+      {{ chatRoom.lastMessage.text }}
     </p>
   </mat-card-content>
   <mat-card-content class="card-block card-block-buttons">
@@ -29,12 +29,14 @@
     </button>
 
     <mat-menu #actions="matMenu" class="header_menu">
-      <button *ngIf="!mockIsBlocked" mat-menu-item (click)="onBlock()">
-        Заблокувати користувача
-      </button>
-      <button *ngIf="mockIsBlocked" mat-menu-item (click)="onUnBlock()">
-        Розблокувати користувача
-      </button>
+      <button mat-menu-item (click)="onBlock()">Заблокувати користувача</button>
+      <!--
+        TODO: uncomment when value for condition is available
+
+        <button mat-menu-item (click)="onUnBlock()">
+          Розблокувати користувача
+        </button>
+      -->
     </mat-menu>
     <mat-menu #email="matMenu" class="header_menu">
       <button mat-menu-item>Надіслати запрошення</button>

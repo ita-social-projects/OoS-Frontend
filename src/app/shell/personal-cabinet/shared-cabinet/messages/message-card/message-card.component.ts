@@ -9,30 +9,22 @@ import { Util } from '../../../../../shared/utils/utils';
   templateUrl: './message-card.component.html',
   styleUrls: ['./message-card.component.scss']
 })
-export class MessageCardComponent implements OnInit {
+export class MessageCardComponent {
   readonly Role = Role;
   readonly constants = Constants;
 
-  parentFullName: string;
-  mockIsBlocked: false;
-
-  @Input() chatroom: ChatRoom;
+  @Input() chatRoom: ChatRoom;
 
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.parentFullName = Util.getFullName(this.chatroom.parent);
-    this.chatroom.notReadByCurrentUserMessagesCount;
-  }
-
   onBlock(): void {
-    this.block.emit(this.chatroom.parentId);
+    this.block.emit(this.chatRoom.parentId);
   }
 
   onUnBlock(): void {
-    this.unblock.emit(this.chatroom.parentId);
+    this.unblock.emit(this.chatRoom.parentId);
   }
 }

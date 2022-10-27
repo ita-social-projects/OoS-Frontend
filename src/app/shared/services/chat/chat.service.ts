@@ -12,6 +12,6 @@ export class ChatService {
 
   getChatRooms(role: string): Observable<ChatRoom[]> {
     return this.http.get<ChatRoom[]>('assets/mocks/chatrooms.json');
-    //return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`);
+    //TODO: return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`);
   }
 }

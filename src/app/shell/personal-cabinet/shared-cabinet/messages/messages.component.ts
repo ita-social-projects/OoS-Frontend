@@ -62,12 +62,15 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   }
 
   protected init(): void {
-    this.provider$
-      .pipe(filter((provider: Provider) => !!provider))
-      .subscribe((provider: Provider) => {
-        this.providerId = provider.id;
-        this.getProviderWorkshops();
-      });
+    if (this.role === Role.provider) {
+      this.provider$
+        .pipe(filter((provider: Provider) => !!provider))
+        .subscribe((provider: Provider) => {
+          this.providerId = provider.id;
+          this.getProviderWorkshops();
+        });
+    }
+
     this.getChats();
     this.setListeners();
   }

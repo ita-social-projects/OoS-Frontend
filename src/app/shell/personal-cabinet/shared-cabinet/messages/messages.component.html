@@ -27,7 +27,7 @@
     <ng-container *ngIf="chatRooms; else isEmptyList">
       <app-message-card
         *ngFor="let chatRoom of chatRooms"
-        [chatroom]="chatRoom"
+        [chatRoom]="chatRoom"
         (block)="onBlock($event)"
         (unblock)="onUnBlock($event)"
       ></app-message-card>
