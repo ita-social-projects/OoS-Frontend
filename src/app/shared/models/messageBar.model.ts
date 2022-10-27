@@ -1,5 +1,6 @@
-export interface MessageBar{
+export interface MessageBar {
   message: string;
   type: string;
   info?: string;
+  infinityDuration?: boolean;
 }

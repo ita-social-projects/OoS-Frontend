@@ -2,12 +2,7 @@ import { Component, OnChanges, OnDestroy, OnInit } from '@angular/core';
 import { ChangeContext } from '@angular-slider/ngx-slider';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
-import {
-  GetFilteredWorkshops,
-  SetRadiusSize
-} from '../../../store/filter.actions';
-import { DestroyableDirective } from '../../../directives/destroyable.directive';
-import { debounceTime, takeUntil } from 'rxjs/operators';
+import { SetRadiusSize } from '../../../store/filter.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subject } from 'rxjs';
 
@@ -26,7 +21,7 @@ export class UserRadiusSetComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<void> = new Subject<void>();
 
-  constructor(private store: Store, private snackBar: MatSnackBar) {}
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.setValue(this.defaultValue);

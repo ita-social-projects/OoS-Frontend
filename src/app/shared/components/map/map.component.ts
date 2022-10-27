@@ -29,6 +29,9 @@ import {
   SetCoordsByMap,
   SetMapView
 } from '../../store/filter.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ShowMessageBar } from '../../store/app.actions';
+import { SnackbarText } from '../../enum/messageBar';
 
 @Component({
   selector: 'app-map',
@@ -118,6 +121,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         if (!!this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
+          this.showWarningMessage();
           this.store.dispatch(new SetMapView(true));
         }
         // checking if user edit workshop information to create adress for workshop
@@ -280,7 +284,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method creates new marker
    * @param coords - type [number, number]
    * @param draggable - type boolean
-   * @param address - type Address
    */
   private createMarker(
     coords: [number, number],
@@ -319,8 +322,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   /**
    * This method set events for draw and drop user marker
-   * @param userMarker
-   * @param userRadius
    */
   private setUserRadiusEvent(): void {
     this.userMarker.on('dragstart', () =>
@@ -361,6 +362,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.store.dispatch(new ClearCoordsByMap());
     this.store.dispatch(new ClearRadiusSize());
     this.store.dispatch(new SetMapView(false));
+  }
+
+  private showWarningMessage(): void {
+    this.store.dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.mapWarning,
+        type: 'warningBlue',
+        infinityDuration: true
+      })
+    );
   }
 
   ngOnDestroy(): void {

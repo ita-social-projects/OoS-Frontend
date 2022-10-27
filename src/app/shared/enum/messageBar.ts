@@ -2,7 +2,7 @@ export enum messageType {
   success = 'done',
   warningYellow = 'priority_high',
   warningBlue = 'priority_high',
-  error = 'close',
+  error = 'close'
 }
 
 export enum messageStatus {
@@ -11,12 +11,12 @@ export enum messageStatus {
   rejected = 'Заявку успішно відхилено'
 }
 
-export enum SnackbarText{
+export enum SnackbarText {
   createWorkshop = 'Дякуємо! Новий гурток успішно доданий.',
   updateWorkshop = 'Гурток оновлено!',
   deleteWorkshop = 'Дякуємо! Гурток видалено!',
   deletedWorkshop = 'Даний гурток видалено!',
-  
+
   addedWorkshopFavorite = 'Гурток додано до Улюблених',
   deleteWorkshopFavorite = 'Гурток видалено з Улюблених',
 
@@ -52,9 +52,9 @@ export enum SnackbarText{
 
   createDeputy = 'Заступника директора успішно створено!',
   updateDeputy = 'Заступника директора успішно відредаговано!',
-  
+
   createRating = 'Оцінка успішно поставлена!',
-  
+
   updatePortal = 'Інформація про портал успішно відредагована',
 
   updateUser = 'Особиста інформація успішно відредагована!',
@@ -63,6 +63,8 @@ export enum SnackbarText{
   unblockPerson = 'Користувач успішно розблокований!',
 
   error = 'На жаль, виникла помилка',
-  
+
   notUniqueData = 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними',
+
+  mapWarning = 'Важливо! Тільки 100 найближчих гуртків будуть відображені на карті.'
 }
