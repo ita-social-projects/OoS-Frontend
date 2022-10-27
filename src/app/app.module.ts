@@ -32,6 +32,10 @@ import { FooterComponent } from './footer/footer.component';
 import { MainPageState } from './shared/store/main-page.state';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
 import { ProviderState } from './shared/store/provider.state';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+
 
 registerLocaleData(localeUk);
 
@@ -73,6 +77,16 @@ registerLocaleData(localeUk);
     FlexLayoutModule,
     ShellModule,
     RegistrationModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'uk',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
+
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
@@ -84,4 +98,7 @@ export class AppModule {
   constructor() {
     localStorage.setItem('ui-culture', 'uk');
   }
+}
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

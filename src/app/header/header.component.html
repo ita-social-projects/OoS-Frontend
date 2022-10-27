@@ -26,13 +26,13 @@
         </div>
         <button mat-flat-button class="header_lang">
           <mat-icon>language</mat-icon>
-          <mat-select
-            (selectionChange)="setLanguage()"
-            [(value)]="selectedLanguage"
-            class="lang-option"
-            disableOptionCentering
-            panelClass="dropdownOption">
-            <mat-option [ngClass]="'lang-option-text'" value="uk"> {{ Languages.uk }} </mat-option>
+          <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option"
+            disableOptionCentering panelClass="dropdownOption">
+            <mat-option [ngClass]="'lang-option-text'" value="uk"> {{ Languages.uk }}
+            </mat-option>
+
+            <mat-option [ngClass]="'lang-option-text'" value="en"> {{ Languages.en }}
+            </mat-option>
           </mat-select>
         </button>
         <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
@@ -85,18 +85,15 @@
     <mat-menu #log="matMenu" class="header_menu">
       <button mat-menu-item class="header_menu_account-button">
         <ng-container>{{ userShortName }}</ng-container>
-        <button
-          mat-raised-button
-          class="header_menu_account-button_account-circle"
-          matBadge="2"
-          matBadgePosition="before"
-          matBadgeColor="accent">
+        <button mat-raised-button class="header_menu_account-button_account-circle" matBadge="2"
+          matBadgePosition="before" matBadgeColor="accent">
           <i>
             <mat-icon class="icon-account">account_circle</mat-icon>
           </i>
         </button>
       </button>
-      <div *ngIf="user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin; then UserView; else AdminView"></div>
+      <div *ngIf="user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin; then UserView; else AdminView">
+      </div>
       <ng-template #UserView>
         <ng-container *ngIf="isRegistered$ | async">
           <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
@@ -109,8 +106,7 @@
           <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
             <button mat-menu-item>Мої заяви</button>
           </a>
-          <a
-            *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
+          <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
             [routerLink]="'./personal-cabinet/provider/administration'">
             <button mat-menu-item>Адміністрування</button>
           </a>
@@ -122,9 +118,10 @@
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a *ngIf="user.role == Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
+        <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'"
+          [queryParams]="{ page: defaultAdminTabs }">
           <button mat-menu-item>Адміністрування</button></a>
-        <a *ngIf="user.role == Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
+        <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
           <button mat-menu-item>Адміністрування</button></a>
         <button mat-menu-item (click)="logout()">Вийти</button>
       </ng-template>
