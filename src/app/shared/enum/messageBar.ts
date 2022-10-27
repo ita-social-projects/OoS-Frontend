@@ -49,6 +49,9 @@ export enum SnackbarText {
 
   createProvider = 'Організацію успішно створено',
   updateProvider = 'Організація успішно відредагована',
+  deleteProvider = 'Організація успішно видалена',
+  changeProviderStatus = 'Статус успішно змінений',
+  statusEditing = 'Організацію відправлено на редагування',
 
   createDeputy = 'Заступника директора успішно створено!',
   updateDeputy = 'Заступника директора успішно відредаговано!',

@@ -7,6 +7,7 @@ export enum ApplicationStatus {
   Rejected = 'Rejected',
   Left = 'Left',
   Blocked = 'Blocked',
+  Editing = 'Editing'
 }
 
 export enum ApplicationIcons {
@@ -18,4 +19,5 @@ export enum ApplicationIcons {
   Rejected = 'fas fa-user-slash',
   Left = 'fas fa-user-slash',
   Blocked = 'fas fa-user-lock',
+  Editing = 'fas fa-user-clock'
 }

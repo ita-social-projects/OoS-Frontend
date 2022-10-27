@@ -67,6 +67,7 @@ import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
+import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 
 @NgModule({
@@ -87,6 +88,7 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
+    ReasonModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStylingDirective,
     NavigationBarComponent,
@@ -161,6 +163,7 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
+    ReasonModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStylingDirective,
     NavigationBarComponent,
