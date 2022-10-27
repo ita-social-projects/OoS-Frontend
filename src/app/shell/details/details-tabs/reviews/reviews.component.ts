@@ -63,7 +63,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
     this.actions$
       .pipe(ofActionCompleted(OnCreateRatingSuccess))
-      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
+      .pipe(distinctUntilChanged(),takeUntil(this.destroy$))
       .subscribe(() =>
         this.store.dispatch([
           new GetRateByEntityId(EntityType.workshop, this.workshop.id),

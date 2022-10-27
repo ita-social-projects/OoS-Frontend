@@ -71,7 +71,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   searchString: string;
 
   constructor(
-    private liveAnnouncer: LiveAnnouncer, 
+    private liveAnnouncer: LiveAnnouncer,
     private store: Store,
     private matDialog: MatDialog) {}
 
@@ -99,11 +99,11 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
         debounceTime(1000),
+        takeUntil(this.destroy$),
         map((value: string) => value.trim())
       )
       .subscribe((searchString: string) => {

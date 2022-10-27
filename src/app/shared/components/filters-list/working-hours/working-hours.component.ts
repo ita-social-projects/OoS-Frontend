@@ -58,33 +58,33 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
 
     this.startTimeFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.destroy$),
     ).subscribe((time: string) => {
       this.store.dispatch(new SetStartTime(time?.split(':')[0]));
       this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
     });
 
     this.endTimeFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.destroy$),
     ).subscribe((time: string) => {
       this.store.dispatch(new SetEndTime(time?.split(':')[0]));
       this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
     });
 
     this.isStrictWorkdaysControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
 
     this.isAppropriateHoursControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
       debounceTime(300),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.destroy$),
     ).subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
   }
 
