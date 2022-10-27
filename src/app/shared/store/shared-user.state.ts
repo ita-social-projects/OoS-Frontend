@@ -20,9 +20,9 @@ import {
   OnUpdateApplicationFail,
   GetProviderById,
   OnGetProviderByIdFail,
-  ResetProviderWorkshopDetails,
+  ResetProviderWorkshopDetails
 } from './shared-user.actions';
-import { ApplicationStatus } from '../enum/applications';
+import { Statuses } from '../enum/applications';
 import { messageStatus, SnackbarText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -44,8 +44,8 @@ export interface SharedUserStateModel {
     workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applicationCards: null,
-  },
+    applicationCards: null
+  }
 })
 @Injectable()
 export class SharedUserState {
@@ -70,7 +70,9 @@ export class SharedUserState {
   }
 
   @Selector()
-  static applications(state: SharedUserStateModel): SearchResponse<Application[]> {
+  static applications(
+    state: SharedUserStateModel
+  ): SearchResponse<Application[]> {
     return state.applicationCards;
   }
 
@@ -88,8 +90,12 @@ export class SharedUserState {
   ): Observable<Workshop | Observable<void>> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopById(payload).pipe(
-      tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnGetWorkshopByIdFail(error))))
+      tap((workshop: Workshop) =>
+        patchState({ selectedWorkshop: workshop, isLoading: false })
+      ),
+      catchError((error: HttpErrorResponse) =>
+        of(dispatch(new OnGetWorkshopByIdFail(error)))
+      )
     );
   }
 
@@ -100,7 +106,12 @@ export class SharedUserState {
   ): void {
     throwError(payload);
     patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(new ShowMessageBar({ message: SnackbarText.deletedWorkshop, type: 'error' }));
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedWorkshop,
+        type: 'error'
+      })
+    );
   }
 
   @Action(GetProviderById)
@@ -110,8 +121,12 @@ export class SharedUserState {
   ): Observable<Provider | Observable<void>> {
     patchState({ isLoading: true });
     return this.providerService.getProviderById(payload).pipe(
-      tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnGetProviderByIdFail(error))))
+      tap((provider: Provider) =>
+        patchState({ selectedProvider: provider, isLoading: false })
+      ),
+      catchError((error: HttpErrorResponse) =>
+        of(dispatch(new OnGetProviderByIdFail(error)))
+      )
     );
   }
 
@@ -122,7 +137,9 @@ export class SharedUserState {
   ): void {
     throwError(payload);
     patchState({ isLoading: false });
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    dispatch(
+      new ShowMessageBar({ message: SnackbarText.error, type: 'error' })
+    );
   }
 
   @Action(GetWorkshopsByProviderId)
@@ -131,11 +148,13 @@ export class SharedUserState {
     { payload, excludedWorkshopId }: GetWorkshopsByProviderId
   ): Observable<WorkshopCard[]> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getWorkshopsByProviderId(payload, excludedWorkshopId).pipe(
-      tap((userWorkshops: WorkshopCard[]) => {
-        return patchState({ workshops: userWorkshops, isLoading: false });
-      })
-    );
+    return this.userWorkshopService
+      .getWorkshopsByProviderId(payload, excludedWorkshopId)
+      .pipe(
+        tap((userWorkshops: WorkshopCard[]) => {
+          return patchState({ workshops: userWorkshops, isLoading: false });
+        })
+      );
   }
 
   @Action(GetApplicationsByParentId)
@@ -178,17 +197,27 @@ export class SharedUserState {
   }
 
   @Action(UpdateApplication)
-  updateApplication({ dispatch }: StateContext<SharedUserStateModel>, { payload }: UpdateApplication): Observable<Application | Observable<void>> {
+  updateApplication(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: UpdateApplication
+  ): Observable<Application | Observable<void>> {
     return this.applicationService.updateApplication(payload).pipe(
       tap((res: Application) => dispatch(new OnUpdateApplicationSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateApplicationFail(error))))
+      catchError((error: HttpErrorResponse) =>
+        of(dispatch(new OnUpdateApplicationFail(error)))
+      )
     );
   }
 
   @Action(OnUpdateApplicationFail)
-  onUpdateApplicationfail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
+  onUpdateApplicationfail(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: OnUpdateApplicationFail
+  ): void {
     throwError(payload);
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    dispatch(
+      new ShowMessageBar({ message: SnackbarText.error, type: 'error' })
+    );
   }
 
   @Action(OnUpdateApplicationSuccess)
@@ -198,14 +227,19 @@ export class SharedUserState {
   ): void {
     dispatch(
       new ShowMessageBar({
-        message: payload.status === ApplicationStatus.Left ? messageStatus.left : messageStatus.approved,
-        type: 'success',
+        message:
+          payload.status === Statuses.Left
+            ? messageStatus.left
+            : messageStatus.approved,
+        type: 'success'
       })
     );
   }
 
   @Action(ResetProviderWorkshopDetails)
-  clearProviderWorkshopDetails({ patchState }: StateContext<SharedUserStateModel>): void {
+  clearProviderWorkshopDetails({
+    patchState
+  }: StateContext<SharedUserStateModel>): void {
     patchState({ selectedWorkshop: null, selectedProvider: null });
   }
 }

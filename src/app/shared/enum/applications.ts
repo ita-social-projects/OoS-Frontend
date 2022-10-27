@@ -1,4 +1,4 @@
-export enum ApplicationStatus {
+export enum Statuses {
   Pending = 'Pending',
   AcceptedForSelection = 'AcceptedForSelection',
   Approved = 'Approved',

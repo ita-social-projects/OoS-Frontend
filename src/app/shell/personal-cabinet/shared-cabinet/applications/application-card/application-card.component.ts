@@ -1,7 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from '../../../../../shared/constants/constants';
-import { ApplicationStatus, ApplicationIcons } from '../../../../../shared/enum/applications';
-import { ApplicationTitles, ApplicationStatusDescription } from '../../../../../shared/enum/enumUA/applications';
+import {
+  Statuses,
+  ApplicationIcons
+} from '../../../../../shared/enum/applications';
+import {
+  ApplicationTitles,
+  ApplicationStatusDescription
+} from '../../../../../shared/enum/enumUA/applications';
 import { Role } from '../../../../../shared/enum/role';
 import { Application } from '../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../shared/models/block.model';
@@ -10,11 +16,11 @@ import { Util } from '../../../../../shared/utils/utils';
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
-  styleUrls: ['./application-card.component.scss'],
+  styleUrls: ['./application-card.component.scss']
 })
 export class ApplicationCardComponent implements OnInit {
   readonly applicationTitles = ApplicationTitles;
-  readonly applicationStatus = ApplicationStatus;
+  readonly applicationStatus = Statuses;
   readonly applicationIcons = ApplicationIcons;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly constants: typeof Constants = Constants;
@@ -27,9 +33,9 @@ export class ApplicationCardComponent implements OnInit {
     status: string;
     showBlocked: boolean;
   } = {
-      status: undefined,
-      showBlocked: false,
-    };
+    status: undefined,
+    showBlocked: false
+  };
 
   @Input() application: Application;
   @Input() userRole: string;
