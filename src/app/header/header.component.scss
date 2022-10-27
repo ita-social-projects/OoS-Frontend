@@ -4,7 +4,6 @@
   width: 100%;
 }
 
-
 .hide-content {
   visibility: hidden;
 }
@@ -19,7 +18,8 @@
 
 .header {
   padding: 1.5rem 5rem;
-  background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+  background: url(../../assets/images/header_bg.png) center center/cover
+    no-repeat;
 
   .header-full-search-bar-wrap {
     max-width: 846px;
@@ -50,7 +50,7 @@
   }
 
   &_secondary {
-    background: #3849F9;
+    background: #3849f9;
     max-height: 92px;
     box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
   }
@@ -76,12 +76,11 @@
     .logo {
       position: absolute;
       transform: translate(0, -41%);
-
     }
   }
 
   &_btns {
-    gap: 2rem
+    gap: 2rem;
   }
 
   &_login {
@@ -194,8 +193,9 @@
 
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
-  padding-right: 25px;
+  width: 25px !important;
   overflow: visible;
+  padding-right: 0px !important;
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
@@ -210,7 +210,7 @@
   padding: 0;
   font-size: 0.7rem;
   font-weight: bold;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   text-align: center;
   background-color: white !important;
 }
@@ -237,7 +237,6 @@
 
 @media (max-width: 375px) {
   .header {
-
     &_top,
     &_btns {
       display: flex;
@@ -247,7 +246,7 @@
   }
 }
 
-@media (max-width : 1200px) {
+@media (max-width: 1200px) {
   .header_btns {
     flex-wrap: wrap;
   }
@@ -259,14 +258,13 @@
   }
 }
 
-@media(max-width: 705px) {
+@media (max-width: 705px) {
   .category_card[_ngcontent-plu-c162] {
     margin: 2%;
   }
 }
 
-
-@media(max-width: 750px) {
+@media (max-width: 750px) {
   .authorization {
     flex-direction: row-reverse;
 
@@ -309,7 +307,6 @@
       display: block;
       background-color: inherit;
 
-
       mat-icon {
         font-size: 30px;
         width: 30px;
@@ -324,12 +321,10 @@
 
     &_about {
       display: none;
-      ;
     }
 
     &_support {
       display: none;
-      ;
     }
 
     &_menu {
@@ -355,7 +350,7 @@
             top: 0;
             left: 0 !important;
             position: absolute;
-            background-color: #F5BC4A;
+            background-color: #f5bc4a;
           }
         }
       }
@@ -399,7 +394,7 @@
       width: 100%;
       box-sizing: border-box;
       padding: 40px 0 15px 15px;
-      background-color: #3849F9;
+      background-color: #3849f9;
     }
 
     &_btns {
@@ -415,7 +410,7 @@
   }
 
   ::ng-deep .mat-menu-panel.header_menu {
-    background-color: #3849F9;
+    background-color: #3849f9;
 
     .mat-menu-item {
       color: white;
@@ -451,4 +446,14 @@
 }
 .logout-btn {
   width: 160px;
+}
+
+::ng-deep {
+  .cdk-overlay-pane {
+    top: 0 !important;
+  }
+
+  // .header_lang {
+  //   width: 200px !important;
+  // }
 }
