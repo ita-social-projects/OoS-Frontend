@@ -34,24 +34,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userShortName = '';
 
   @Select(RegistrationState.isAutorizationLoading)
-    isAutorizationLoading$: Observable<boolean>;
+  isAutorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
-    isRegistered$: Observable<boolean>;
+  isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
-    navigationPaths$: Observable<Navigation[]>;
+  navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
-    isAuthorized$: Observable<string>;
+  isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
-    isMobileScreen$: Observable<boolean>;
+  isMobileScreen$: Observable<boolean>;
   @Select(RegistrationState.user)
-    user$: Observable<User>;
+  user$: Observable<User>;
   user: User;
   @Select(MetaDataState.featuresList)
-    featuresList$: Observable<FeaturesList>;
+  featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
-    subrole$: Observable<string>;
+  subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
-    headerInfo$: Observable<CompanyInformation>;
+  headerInfo$: Observable<CompanyInformation>;
   headerTitle: string;
   headerSubtitle: string;
   navigationPaths: Navigation[];
@@ -68,7 +68,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetMainPageInfo());
-    
+
     combineLatest([this.subrole$, this.navigationPaths$])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(([subrole, navigationPaths]: [Role, Navigation[]]) => {
@@ -85,7 +85,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userShortName = this.getFullName(user);
         this.user = user;
       });
-    
+
     this.headerInfo$
       .pipe(
         filter((info: CompanyInformation) => !!info),

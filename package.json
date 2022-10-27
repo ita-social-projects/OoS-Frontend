@@ -4,7 +4,9 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
+    "start:loc": "ng serve dist/out-of-school/",
     "build": "ng build",
+    "build:loc": "ng build --localize",
     "build:prod": "ng build --configuration production",
     "pre-commit": "yarn lint-staged",
     "test": "jest",
@@ -55,6 +57,7 @@
     "@angular-eslint/template-parser": "14.1.2",
     "@angular/cli": "^14.2.3",
     "@angular/compiler-cli": "^14.2.3",
+    "@angular/localize": "^14.2.8",
     "@ngxs/devtools-plugin": "^3.7.5",
     "@ngxs/logger-plugin": "^3.7.5",
     "@types/jasmine": "~4.3.0",

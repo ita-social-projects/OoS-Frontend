@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+  <file source-language="uk" datatype="plaintext" original="ng2.template">
+    <body>
+      <trans-unit id="8aa1bf93693fa5b3aeb5c903ebc1e718bb502300" datatype="html">
+        <source>ПРО ПОРТАЛ</source>
+        <target>ABOUT PORTAL</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">16,19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9856725fac8f2f8f2b5eb8959013dd325d543921" datatype="html">
+        <source>НОРМАТИВНО-ПРАВОВІ АКТИ</source>
+        <target>REGULATORY AND LEGAL ACTS</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">19,22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f5ef3b0be02b7c36d4092f594b7511caa3fda278" datatype="html">
+        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="support&lt;/span&gt;"/>support<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> ПІДТРИМКА </source>
+        <target>SUPPORT</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">23,25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fc95dd3ed4caff9e4a1c62b043c910f73d1ffad4" datatype="html">
+        <source>УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ</source>
+        <target>LOG IN/REGISTER</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">58,62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a585aaeac3a97db4de6656849508e22880dbc89a" datatype="html">
+        <source>Особиста інформація</source>
+        <target>Personal information</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">96,97</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">117,118</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1a11ec3f752300c50c049a356718fd0aa5008f89" datatype="html">
+        <source>Інформація про <x id="INTERPOLATION" equiv-text="{{ roles[user.role] }}"/></source>
+        <target>Information about</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">98,99</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="234ed700447282f0bd51954c1739f46faf8b7402" datatype="html">
+        <source>Мої гуртки</source>
+        <target>My groups</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">101,103</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ac4f9840f78212cd49d9868248f17e141c2cb565" datatype="html">
+        <source>Мої заяви</source>
+        <target>My statements</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">104,106</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="534c3291a9861bdf3e5cd338fda87213c3e132da" datatype="html">
+        <source>Адміністрування</source>
+        <target>Administration</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">108,110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">120,121</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">122,123</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a011617277d68248365e314016a5215fdd72b743" datatype="html">
+        <source>Улюблене</source>
+        <target>Favorite</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">111,114</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="37ddf62b701e60a9fb4efaf343772ed9a098669f" datatype="html">
+        <source>Вийти</source>
+        <target>Log out</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">114,117</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/header/header.component.html</context>
+          <context context-type="linenumber">123,127</context>
+        </context-group>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
