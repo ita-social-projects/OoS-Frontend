@@ -23,3 +23,16 @@
     opacity: 0.5;
   }
 }
+
+.editing {
+  line-height: normal;
+  margin: 0.5rem 0;
+  width: 200px;
+  text-align: justify;
+}
+
+@media (max-width: 750px) {
+  .editing {
+    width: auto;
+  }
+}
