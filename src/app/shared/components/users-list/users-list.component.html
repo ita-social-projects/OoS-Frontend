@@ -17,16 +17,19 @@
         >
           ПІБ
         </th>
-        <td mat-cell *matCellDef="let element" class="tab"> 
-          <div [matTooltip]="element.pib"
+        <td mat-cell *matCellDef="let element" class="tab">
+          <div
+            [matTooltip]="element.pib"
             showTooltipIfTruncated
             matTooltipClass="tooltip"
             [matTooltipPosition]="tooltipPosition"
-            class="tab-text"> {{ element.pib }}
+            class="tab-text"
+          >
+            {{ element.pib }}
           </div>
         </td>
       </ng-container>
-  
+
       <!-- Email Column -->
       <ng-container matColumnDef="email">
         <th
@@ -38,23 +41,30 @@
           Електронна пошта
         </th>
         <td mat-cell *matCellDef="let element" class="tab">
-          <div [matTooltip]="element.email"
+          <div
+            [matTooltip]="element.email"
             showTooltipIfTruncated
             matTooltipClass="tooltip"
             [matTooltipPosition]="tooltipPosition"
-            class="tab-text"> {{ element.email }}
+            class="tab-text"
+          >
+            {{ element.email }}
           </div>
-      </td>
+        </td>
       </ng-container>
-  
+
       <!-- Phone Column -->
       <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          sortActionDescription="Sort by phone"
+        >
           Телефон
         </th>
-        <td mat-cell *matCellDef="let element">{{element.phoneNumber}} </td>
+        <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="place">
         <th
@@ -66,23 +76,31 @@
           Населений пункт
         </th>
         <td mat-cell *matCellDef="let element" class="tab">
-          <div [matTooltip]="element.place"
+          <div
+            [matTooltip]="element.place"
             showTooltipIfTruncated
             matTooltipClass="tooltip"
             [matTooltipPosition]="tooltipPosition"
-            class="tab-text">{{ element.place || "" }}
+            class="tab-text"
+          >
+            {{ element.place || '' }}
           </div>
         </td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          sortActionDescription="Sort by role"
+        >
           Роль
         </th>
-        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+        <td mat-cell *matCellDef="let element">{{ element.role }}</td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="status">
         <th
@@ -96,33 +114,45 @@
         <td mat-cell *matCellDef="let element">
           <div class="provider-admin-status {{ element.status }}">
             <span>
-              <i class="status-icon {{ providerAdminIcons[element.status] }}"></i
+              <i
+                class="status-icon {{ providerAdminIcons[element.status] }}"
+              ></i
             ></span>
-            <span> {{ providerAdminTitles[element.status] }}</span>
+            <span> {{ titles[element.status] }}</span>
           </div>
         </td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="actions" stickyEnd>
         <th
           mat-header-cell
           *matHeaderCellDef
           sortActionDescription="Sort by actions"
-          style="width: 7%;"
+          style="width: 7%"
         ></th>
         <td mat-cell *matCellDef="let user">
           <div class="icons">
-            <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
+            <button
+              *ngIf="subrole !== Role.deputy"
+              mat-icon-button
+              [matMenuTriggerFor]="actions"
+            >
               <mat-icon class="action-icon">more_vert</mat-icon>
             </button>
             <button mat-icon-button [matMenuTriggerFor]="email">
               <mat-icon class="action-icon">email</mat-icon>
             </button>
           </div>
-  
+
           <mat-menu #actions="matMenu" class="header_menu">
-            <div *ngIf="user.status === providerAdminStatus.Blocked; then unBlock; else Block"></div>
+            <div
+              *ngIf="
+                user.status === providerAdminStatus.Blocked;
+                then unBlock;
+                else Block
+              "
+            ></div>
             <ng-template #Block>
               <button mat-menu-item (click)="onBlock({user, isBlocked: true})">
                 Заблокувати користувача
@@ -147,7 +177,7 @@
           </mat-menu>
         </td>
       </ng-container>
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>

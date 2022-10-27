@@ -7,6 +7,8 @@ export enum Titles {
   AcceptedForSelection = 'Прийнято до конкурсного відбору',
   StudyingForYears = 'Навчається 1-11 років',
   Completed = 'Навчання завершено',
+  NeverLogged = 'Очікує логування',
+  Accepted = 'Підтвердженно',
   Blocked = 'Заблоковано',
   Editing = 'Відправлено на редагування'
 }
@@ -20,5 +22,7 @@ export enum TitlesReverse {
   'Відмовлено' = 'Rejected',
   'Гурток залишено' = 'Left',
   'Користувач завершив навчання' = 'Completed',
-  'Заблоковано' = 'Blocked'
+  'Заблоковано' = 'Blocked',
+  'Очікує логування' = 'NeverLogged',
+  'Підтвердженно' = 'Accepted'
 }
