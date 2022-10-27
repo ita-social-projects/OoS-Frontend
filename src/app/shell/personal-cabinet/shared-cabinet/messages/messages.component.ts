@@ -20,7 +20,6 @@ import {
 } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ChatRoom } from '../../../../shared/models/chat.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
@@ -32,7 +31,6 @@ import { PushNavPath } from '../../../..//shared/store/navigation.actions';
 import { GetUserChatRooms } from '../../../..//shared/store/chat.actions';
 import { FormControl } from '@angular/forms';
 import { ChatState } from '../../../../shared/store/chat.state';
-import { SearchResponse } from '../../../../shared/models/search.model';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
