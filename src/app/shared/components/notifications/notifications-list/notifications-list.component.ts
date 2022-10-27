@@ -99,16 +99,16 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   defineDeclination(status: string): number {
     let declination;
     switch (status) {
-      case 'Approved':
+      case Statuses.Approved:
         declination = ApplicationApproved;
         break;
-      case 'Pending':
+      case Statuses.Pending:
         declination = ApplicationPending;
         break;
-      case 'Rejected':
+      case Statuses.Rejected:
         declination = ApplicationRejected;
         break;
-      case 'Left':
+      case Statuses.Left:
         declination = ApplicationLeft;
         break;
       default:
