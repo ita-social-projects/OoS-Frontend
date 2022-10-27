@@ -31,10 +31,7 @@ import {
   PaginationConstants
 } from '../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
-import {
-  ApplicationIcons,
-  Statuses
-} from '../../../../shared/enum/applications';
+import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
 import {
   Provider,
@@ -57,6 +54,7 @@ import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { Statuses } from '../../../../shared/enum/statuses';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -69,7 +67,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly providerTitleUkr = ApplicationTitles;
   readonly providerAdminIcons = ApplicationIcons;
-  readonly applicationStatus = Statuses;
+  readonly statuses = Statuses;
 
   @Select(AdminState.providers)
   providers$: Observable<SearchResponse<Provider[]>>;

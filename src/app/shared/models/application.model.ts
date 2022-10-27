@@ -1,4 +1,4 @@
-import { Statuses } from '../enum/applications';
+import { Statuses } from '../enum/statuses';
 import { EntityType } from '../enum/role';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';

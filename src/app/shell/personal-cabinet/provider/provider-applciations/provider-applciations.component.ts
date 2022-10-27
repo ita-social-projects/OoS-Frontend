@@ -7,7 +7,7 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
-import { Statuses } from '../../../../shared/enum/applications';
+import { Statuses } from '../../../../shared/enum/statuses';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { EntityType, Role } from '../../../../shared/enum/role';

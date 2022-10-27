@@ -22,7 +22,7 @@ import {
   OnGetProviderByIdFail,
   ResetProviderWorkshopDetails
 } from './shared-user.actions';
-import { Statuses } from '../enum/applications';
+import { Statuses } from '../enum/statuses';
 import { messageStatus, SnackbarText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';

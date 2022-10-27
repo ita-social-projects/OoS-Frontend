@@ -24,7 +24,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { Statuses } from '../../../../shared/enum/applications';
+import { Statuses } from '../../../../shared/enum/statuses';
 import {
   ApplicationTitles,
   ApplicationTitlesReverse
@@ -49,7 +49,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly applicationTitles = ApplicationTitles;
-  readonly applicationStatus = Statuses;
+  readonly statuses = Statuses;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly Role = Role;
 

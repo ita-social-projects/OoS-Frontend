@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NotificationsConstants } from '../../../constants/constants';
-import { Statuses } from '../../../enum/applications';
+import { Statuses } from '../../../enum/statuses';
 import {
   ApplicationApproved,
   ApplicationPending,

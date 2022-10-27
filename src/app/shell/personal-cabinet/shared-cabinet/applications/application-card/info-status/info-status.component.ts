@@ -2,10 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import {
-  ApplicationIcons,
-  Statuses
-} from '../../../../../../shared/enum/applications';
+import { ApplicationIcons } from '../../../../../../shared/enum/applications';
 import {
   ApplicationStatusDescription,
   ApplicationTitles
@@ -19,6 +16,7 @@ import {
   GetBlockedParents,
   OnClearBlockedParents
 } from '../../../../../../shared/store/provider.actions';
+import { Statuses } from '../../../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-info-status',
@@ -29,7 +27,6 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   readonly applicationTitles = ApplicationTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
-  readonly applicationStatus = Statuses;
 
   @Select(ProviderState.blockedParent)
   blockedParent$: Observable<BlockedParent>;

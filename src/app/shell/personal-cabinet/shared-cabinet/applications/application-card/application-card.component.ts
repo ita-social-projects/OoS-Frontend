@@ -1,9 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Statuses } from '../../../../../shared/enum/statuses';
 import { Constants } from '../../../../../shared/constants/constants';
-import {
-  Statuses,
-  ApplicationIcons
-} from '../../../../../shared/enum/applications';
+import { ApplicationIcons } from '../../../../../shared/enum/applications';
 import {
   ApplicationTitles,
   ApplicationStatusDescription
@@ -20,7 +18,7 @@ import { Util } from '../../../../../shared/utils/utils';
 })
 export class ApplicationCardComponent implements OnInit {
   readonly applicationTitles = ApplicationTitles;
-  readonly applicationStatus = Statuses;
+  readonly statuses = Statuses;
   readonly applicationIcons = ApplicationIcons;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly constants: typeof Constants = Constants;

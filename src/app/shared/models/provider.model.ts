@@ -3,7 +3,6 @@ import { Address } from './address.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
 import { SectionItem } from './sectionItem.model';
-import { Statuses } from '../enum/applications';
 
 export class Provider {
   id: string;

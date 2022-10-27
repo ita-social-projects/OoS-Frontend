@@ -19,7 +19,7 @@ import {
   GetApplicationsByParentId
 } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { Statuses } from '../../../../shared/enum/applications';
+import { Statuses } from '../../../../shared/enum/statuses';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 

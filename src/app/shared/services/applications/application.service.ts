@@ -1,4 +1,4 @@
-import { Statuses } from './../../enum/applications';
+import { Statuses } from './../../enum/statuses';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatorState } from '../../store/paginator.state';

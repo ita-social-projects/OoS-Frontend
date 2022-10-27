@@ -1,5 +1,6 @@
 <mat-card *ngIf="workshopData">
-  <ng-container *ngIf="!isCabinetView; then UserActions; else ProviderActions"> </ng-container>
+  <ng-container *ngIf="!isCabinetView; then UserActions; else ProviderActions">
+  </ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
@@ -7,22 +8,31 @@
         [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
         mat-card-image
         [src]="workshopData['_meta']"
-        alt="{{ workshopData.title }}" />
+        alt="{{ workshopData.title }}"
+      />
     </div>
 
-    <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
+    <div
+      [ngClass]="
+        isHorizontalView
+          ? 'wrap-for-details wrap-for-details-map'
+          : 'wrap-for-details'
+      "
+    >
       <mat-card-header>
         <mat-card-title
           [matTooltip]="workshopData.title"
           showTooltipIfTruncated
           matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition"
-          class="card-title">
+          class="card-title"
+        >
           <a
             *ngIf="isCabinetView"
             matTooltip="Детальніше"
             matTooltipPosition="above"
-            [routerLink]="['/details/workshop', workshopData.workshopId]">
+            [routerLink]="['/details/workshop', workshopData.workshopId]"
+          >
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           {{ workshopData.title }}
@@ -33,18 +43,30 @@
       </mat-card-header>
 
       <mat-card-content fxLayout="column" fxLayoutAlign="space-between">
-        <ng-container *ngIf="isCabinetView; then ProviderWorkshopView; else UserWorkshopView"></ng-container>
+        <ng-container
+          *ngIf="
+            isCabinetView;
+            then ProviderWorkshopView;
+            else UserWorkshopView
+          "
+        ></ng-container>
       </mat-card-content>
 
       <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
         <ng-container *ngIf="!isCabinetView">
-          <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
+          <a
+            class="more-details"
+            [routerLink]="['/details/workshop', workshopData.workshopId]"
+          >
             <span class="card_link">Детальніше</span>
             <mat-icon>arrow_forward</mat-icon>
           </a>
         </ng-container>
         <ng-container *ngIf="isCabinetView">
-          <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
+          <a
+            class="more-details"
+            [routerLink]="['/create-achievement', workshopData.workshopId]"
+          >
             <mat-icon>add</mat-icon>
             <span class="card_link">Додати досягнення</span>
           </a>
@@ -56,11 +78,19 @@
 
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
-    <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+    <div class="chip-color-close">
+      {{ recruitmentStatusUkr.RecruitmentStoped }}
+    </div>
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
-      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
+      (click)="
+        onChangeWorkshopStatus(
+          workhopStatus.Open,
+          modalConfirmationType.openSet
+        )
+      "
+    >
       <span class="card_link">{{ recruitmentStatusUkr.Open }}</span>
     </a>
   </div>
@@ -68,7 +98,10 @@
 
 <ng-template #ProviderActions>
   <div fxLayout="row" fxLayoutAlign="end start" class="actions">
-    <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshopData.workshopId]">
+    <div
+      class="actions_btn action-icon"
+      [routerLink]="['/create-workshop', workshopData.workshopId]"
+    >
       <mat-icon>edit</mat-icon>
     </div>
     <div class="actions_btn action-icon" (click)="onDelete()">
@@ -78,39 +111,69 @@
 </ng-template>
 
 <ng-template #UserActions>
-  <div *ngIf="!isHorizontalView && role !== Role.provider" fxLayout="row" fxLayoutAlign="end start" class="actions">
-    <ng-container *ngIf="isFavorite; then favorite; else notFavorite"></ng-container>
+  <div
+    *ngIf="!isHorizontalView && role !== Role.provider"
+    fxLayout="row"
+    fxLayoutAlign="end start"
+    class="actions"
+  >
+    <ng-container
+      *ngIf="isFavorite; then favorite; else notFavorite"
+    ></ng-container>
   </div>
 </ng-template>
 
 <ng-template #favorite>
   <div
     class="actions_btn action-icon favorite-icon"
-    (click)="role === Role.parent && onDisLike()">
+    (click)="role === Role.parent && onDisLike()"
+  >
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
 
 <ng-template #notFavorite>
-  <div (click)="role === Role.parent ? onLike() : onOpenDialog()" class="actions_btn action-icon">
+  <div
+    (click)="role === Role.parent ? onLike() : onOpenDialog()"
+    class="actions_btn action-icon"
+  >
     <mat-icon>favorite_border</mat-icon>
   </div>
 </ng-template>
 
 <ng-template #ProviderWorkshopView>
-  <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
+  <ng-container
+    *ngIf="
+      workshopData.status === workhopStatus.Open;
+      else WorkshopStatusClosed
+    "
+  >
     <div fxLayoutAlign="space-between">
-      <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+      <div class="chip-color-open">
+        {{ recruitmentStatusUkr.RecruitmentOngoing }}
+      </div>
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
-        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
+        (click)="
+          onChangeWorkshopStatus(
+            workhopStatus.Closed,
+            modalConfirmationType.closeSet
+          )
+        "
+      >
         <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
       </a>
     </div>
   </ng-container>
-  <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> Всього учасників:</p>
+  <div
+    class="provider-content"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <p class="card_text">
+      <i class="fas fa-user card_icon"></i> Всього учасників:
+    </p>
     <span class="card_text card_text_blue">
       {{ workshopData.takenSeats }}
       <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS">
@@ -118,21 +181,35 @@
       </ng-container>
     </span>
   </div>
-  <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:</p>
-    <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
+  <div
+    class="provider-content"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+  >
+    <p class="card_text">
+      <i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:
+    </p>
+    <span class="card_text card_text_blue">
+      {{ workshopData.amountOfPendingApplications }}</span
+    >
   </div>
 </ng-template>
 
 <ng-template #UserWorkshopView>
-  <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
+  <div
+    *ngIf="userRoleView === Role.parent"
+    fxLayout="row"
+    fxLayoutAlign="space-between center"
+    class="parent-status"
+  >
     <p class="{{ application.status }} icon">
       <mat-icon>how_to_reg</mat-icon>{{ applicationTitles[application.status] }}
     </p>
     <p
       class="card_link status_action"
-      *ngIf="application.status === applicationStatus.Approved"
-      (click)="onWorkshopLeave()">
+      *ngIf="application.status === statuses.Approved"
+      (click)="onWorkshopLeave()"
+    >
       Залишити гурток
     </p>
   </div>
@@ -146,19 +223,26 @@
     [routerLink]="['/details/provider', workshopData.providerId]"
     class="provider-link"
     fxLayout="row"
-    fxLayoutAlign="start center">
+    fxLayoutAlign="start center"
+  >
     <mat-icon class="card_icon">home</mat-icon>
     <p
       class="card_text_label"
       [matTooltip]="workshopData.providerTitle"
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition">
+      [matTooltipPosition]="tooltipPosition"
+    >
       {{ workshopData.providerTitle }}
     </p>
   </a>
 
-  <p class="card_text" *ngIf="ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView">
+  <p
+    class="card_text"
+    *ngIf="
+      ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView
+    "
+  >
     <mat-icon class="card_icon">account_balance</mat-icon>
     Форма власності: {{ ownershipTypeUkr[workshopData.providerOwnership] }}
   </p>
@@ -188,8 +272,10 @@
       "
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition">
-      {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
+      [matTooltipPosition]="tooltipPosition"
+    >
+      {{ workshopData.address.codeficatorAddressDto.settlement }},
+      {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>
   </div>
