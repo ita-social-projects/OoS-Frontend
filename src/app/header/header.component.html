@@ -13,15 +13,15 @@
 
       <div class="header_btns">
         <div class="header_about">
-          <a [routerLink]="'./info/about'">ПРО ПОРТАЛ</a>
+          <a [routerLink]="'./info/about'"> {{ 'header.top.about' | translate}}</a>
         </div>
         <div class="header_about">
-          <a [routerLink]="'./info/rules'">НОРМАТИВНО-ПРАВОВІ АКТИ</a>
+          <a [routerLink]="'./info/rules'">{{ 'header.top.rules' | translate}}</a>
         </div>
         <div class="header_support">
           <a class="header_support_title" [routerLink]="'./info/support'">
             <span class="header_support_icon material-icons">support</span>
-            ПІДТРИМКА
+            {{ 'header.top.support' | translate}}
           </a>
         </div>
         <button mat-flat-button class="header_lang">
@@ -58,7 +58,7 @@
   <button mat-flat-button class="header_menu-button-mobile" (click)="changeView()">
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-stroked-button class="header_login" (click)="login()">УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ</button>
+  <button mat-stroked-button class="header_login" (click)="login()">{{ 'header.top.login' | translate}}</button>
 </ng-template>
 
 <ng-template #isAuthorized>
