@@ -6,6 +6,8 @@ export enum Statuses {
   Completed = 'Completed',
   Rejected = 'Rejected',
   Left = 'Left',
+  NeverLogged = 'NeverLogged',
+  Accepted = 'Accepted',
   Blocked = 'Blocked',
   Editing = 'Editing'
 }

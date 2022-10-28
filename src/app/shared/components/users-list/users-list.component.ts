@@ -17,14 +17,12 @@ import { Store } from '@ngxs/store';
 import { providerAdminRoleUkr } from '../../enum/enumUA/provider-admin';
 
 import { Role } from '../../enum/role';
-import {
-  ProviderAdminIcons,
-  ProviderAdminStatus
-} from '../../enum/provider-admin';
+import { ProviderAdminIcons } from '../../enum/provider-admin';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
 import { Titles } from '../../enum/enumUA/titles';
+import { Statuses } from '../../enum/statuses';
 
 /**
  * @title Table with sorting
@@ -54,7 +52,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
 
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly titles = Titles;
-  readonly providerAdminStatus = ProviderAdminStatus;
+  readonly statuses = Statuses;
   readonly providerAdminIcons = ProviderAdminIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
