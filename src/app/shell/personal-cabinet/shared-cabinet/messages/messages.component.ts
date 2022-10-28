@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import {
   debounceTime,
@@ -39,7 +39,7 @@ import { ReasonModalWindowComponent } from '../../../../shared/components/confir
   templateUrl: './messages.component.html',
   styleUrls: ['./messages.component.scss']
 })
-export class MessagesComponent extends CabinetDataComponent implements OnInit {
+export class MessagesComponent extends CabinetDataComponent {
   readonly Role = Role;
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly noMessagesTitle = NoResultsTitle.noMessages;
