@@ -9,9 +9,3 @@ export enum AdminRoleUkrReverse {
   'Адміністратор регіона' = 'regionAdmin',
   'Адміністратор ОТГ' = 'territorialCommunityAdmin'
 }
-
-export enum AdminTitles {
-  NeverLogged = 'Очікує логування',
-  Accepted = 'Підтвердженно',
-  Blocked = 'Заблоковано',
-}
