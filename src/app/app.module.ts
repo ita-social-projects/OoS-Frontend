@@ -32,6 +32,8 @@ import { FooterComponent } from './footer/footer.component';
 import { MainPageState } from './shared/store/main-page.state';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
 import { ProviderState } from './shared/store/provider.state';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorHandleInterceptor } from './shared/interceptors/error-handle.interceptor';
 import { ChatState } from './shared/store/chat.state';
 
 registerLocaleData(localeUk);
@@ -81,6 +83,11 @@ registerLocaleData(localeUk);
     {
       provide: MAT_SELECT_CONFIG,
       useValue: { overlayPanelClass: 'custom-overlay-panel' }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandleInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent]
