@@ -92,7 +92,7 @@ export class MessagesComponent extends CabinetDataComponent implements OnInit {
   }
 
   getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(this.role));
+    this.store.dispatch(new GetUserChatRooms(Role[this.role]));
   }
 
   setListeners(): void {
