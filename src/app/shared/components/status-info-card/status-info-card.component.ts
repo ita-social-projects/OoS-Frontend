@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ApplicationIcons, ApplicationStatus } from '../../enum/applications';
-import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/applications';
+import { ApplicationIcons } from '../../enum/applications';
+import { ApplicationStatusDescription } from '../../enum/enumUA/applications';
+import { Statuses, StatusTitles } from '../../enum/statuses';
 import { Application } from '../../models/application.model';
 @Component({
   selector: 'app-status-info-card',
@@ -8,19 +9,18 @@ import { Application } from '../../models/application.model';
   styleUrls: ['./status-info-card.component.scss']
 })
 export class StatusInfoCardComponent implements OnInit {
-
-  readonly applicationTitles = ApplicationTitles;
+  readonly statusTitles = StatusTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
-  readonly applicationStatus = ApplicationStatus;
+  readonly statuses = Statuses;
 
   @Input() application: Application = null;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {}
 
   getValuesFromEnum(): Array<string> {
-    return Object.keys(this.applicationStatus);
+    return Object.keys(this.statuses);
   }
 }
