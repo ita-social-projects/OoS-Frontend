@@ -10,3 +10,8 @@ export enum NotificationAction {
   delete = 'Delete',
   message = 'Message'
 }
+
+export enum NotificationStatus {
+  Approved = 'Approved',
+  Editing = 'Editing',
+}
