@@ -11,6 +11,7 @@ import {
   ApplicationRejected,
   ApplicationLeft
 } from '../../../enum/enumUA/declinations/notification-declination';
+import { NotificationsText } from '../../../enum/enumUA/notifications';
 import { NotificationWorkshopStatusUkr } from '../../../enum/enumUA/workshop';
 import { NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
@@ -43,6 +44,8 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   readonly notificationsConstants = NotificationsConstants;
   readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
+  readonly statuses = Statuses;
+  readonly notificationText = NotificationsText;
 
   constructor(
     private store: Store,
