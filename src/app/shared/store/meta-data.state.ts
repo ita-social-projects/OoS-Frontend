@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
 import { AchievementType } from '../models/achievement.model';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
@@ -17,7 +18,11 @@ import { FeatureManagementService } from '../services/feature-management/feature
 import { ProviderService } from '../services/provider/provider.service';
 import { RatingService } from '../services/rating/rating.service';
 import { Constants } from './../constants/constants';
-import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
+import {
+  InstituitionHierarchy,
+  Institution,
+  InstitutionFieldDescription
+} from './../models/institution.model';
 import { InstitutionsService } from './../services/institutions/institutions.service';
 import {
   GetSocialGroup,
@@ -71,8 +76,8 @@ export interface MetaDataStateModel {
     instituitionsHierarchy: null,
     editInstituitionsHierarchy: null,
     codeficatorSearch: [],
-    codeficator: null,
-  },
+    codeficator: null
+  }
 })
 @Injectable()
 export class MetaDataState {
@@ -122,17 +127,23 @@ export class MetaDataState {
   }
 
   @Selector()
-  static institutionFieldDesc(state: MetaDataStateModel): InstitutionFieldDescription[] {
+  static institutionFieldDesc(
+    state: MetaDataStateModel
+  ): InstitutionFieldDescription[] {
     return state.institutionFieldDesc;
   }
 
   @Selector()
-  static instituitionsHierarchy(state: MetaDataStateModel): InstituitionHierarchy[] {
+  static instituitionsHierarchy(
+    state: MetaDataStateModel
+  ): InstituitionHierarchy[] {
     return state.instituitionsHierarchy;
   }
 
   @Selector()
-  static editInstituitionsHierarchy(state: MetaDataStateModel): InstituitionHierarchy[] {
+  static editInstituitionsHierarchy(
+    state: MetaDataStateModel
+  ): InstituitionHierarchy[] {
     return state.editInstituitionsHierarchy;
   }
 
@@ -154,23 +165,37 @@ export class MetaDataState {
     private featureManagementService: FeatureManagementService,
     private institutionsService: InstitutionsService,
     private achievementService: AchievementsService,
-    private codeficatorService: CodeficatorService,
+    private codeficatorService: CodeficatorService
   ) {}
 
   @Action(GetDirections)
-  getDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetDirections): Observable<Direction[]> {
+  getDirections(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: GetDirections
+  ): Observable<Direction[]> {
     patchState({ isLoading: true });
     return this.categoriesService
       .getDirections()
-      .pipe(tap((directions: Direction[]) => patchState({ directions: directions, isLoading: false })));
+      .pipe(
+        tap((directions: Direction[]) =>
+          patchState({ directions: directions, isLoading: false })
+        )
+      );
   }
 
   @Action(GetSocialGroup)
-  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, {}: GetSocialGroup): Observable<SocialGroup[]> {
+  getSocialGroup(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: GetSocialGroup
+  ): Observable<SocialGroup[]> {
     patchState({ isLoading: true });
     return this.childrenService
       .getSocialGroup()
-      .pipe(tap((socialGroups: SocialGroup[]) => patchState({ socialGroups: socialGroups, isLoading: false })));
+      .pipe(
+        tap((socialGroups: SocialGroup[]) =>
+          patchState({ socialGroups: socialGroups, isLoading: false })
+        )
+      );
   }
 
   @Action(GetInstitutionStatus)
@@ -179,22 +204,29 @@ export class MetaDataState {
     {}: GetInstitutionStatus
   ): Observable<InstitutionStatus[]> {
     patchState({ isLoading: true });
-    return this.providerService
-      .getInstitutionStatus()
-      .pipe(
-        tap((institutionStatuses: InstitutionStatus[]) =>
-          patchState({ institutionStatuses: institutionStatuses, isLoading: false })
-        )
-      );
+    return this.providerService.getInstitutionStatus().pipe(
+      tap((institutionStatuses: InstitutionStatus[]) =>
+        patchState({
+          institutionStatuses: institutionStatuses,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(ClearRatings)
-  clearRatings({ patchState }: StateContext<MetaDataStateModel>, {}: ClearRatings): void {
+  clearRatings(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: ClearRatings
+  ): void {
     patchState({ rating: null });
   }
 
   @Action(FilteredDirectionsList)
-  filteredDirectionsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredDirectionsList): void {
+  filteredDirectionsList(
+    { patchState }: StateContext<MetaDataStateModel>,
+    { payload }: FilteredDirectionsList
+  ): void {
     patchState({ filteredDirections: payload });
   }
 
@@ -209,10 +241,19 @@ export class MetaDataState {
   }
 
   @Action(GetFeaturesList)
-  getFeaturesList({ patchState }: StateContext<MetaDataStateModel>, {}: GetFeaturesList): Observable<FeaturesList> {
-    return this.featureManagementService
-      .getFeaturesList()
-      .pipe(tap((featuresList: FeaturesList) => patchState({ featuresList: featuresList })));
+  getFeaturesList(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: GetFeaturesList
+  ): Observable<FeaturesList> {
+    return this.featureManagementService.getFeaturesList().pipe(
+      tap((featuresList: FeaturesList) =>
+        patchState({
+          featuresList: environment.production
+            ? featuresList
+            : { release1: true, release2: true, release3: true }
+        })
+      )
+    );
   }
 
   @Action(GetAllInstitutions)
@@ -223,7 +264,11 @@ export class MetaDataState {
     patchState({ isLoading: true });
     return this.institutionsService
       .getAllInstitutions()
-      .pipe(tap((institutions: Institution[]) => patchState({ institutions: institutions, isLoading: false })));
+      .pipe(
+        tap((institutions: Institution[]) =>
+          patchState({ institutions: institutions, isLoading: false })
+        )
+      );
   }
 
   @Action(GetAchievementsType)
@@ -251,7 +296,10 @@ export class MetaDataState {
       .getFieldDescriptionByInstitutionId(payload)
       .pipe(
         tap((institutionFieldDesc: InstitutionFieldDescription[]) =>
-          patchState({ institutionFieldDesc: institutionFieldDesc, isLoading: false })
+          patchState({
+            institutionFieldDesc: institutionFieldDesc,
+            isLoading: false
+          })
         )
       );
   }
@@ -266,7 +314,10 @@ export class MetaDataState {
       .getAllByInstitutionAndLevel(institutionId, level)
       .pipe(
         tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
-          patchState({ instituitionsHierarchy: instituitionsHierarchy, isLoading: false })
+          patchState({
+            instituitionsHierarchy: instituitionsHierarchy,
+            isLoading: false
+          })
         )
       );
   }
@@ -281,7 +332,10 @@ export class MetaDataState {
       .getInstitutionHierarchyChildrenById(id)
       .pipe(
         tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
-          patchState({ instituitionsHierarchy: instituitionsHierarchy, isLoading: false })
+          patchState({
+            instituitionsHierarchy: instituitionsHierarchy,
+            isLoading: false
+          })
         )
       );
   }
@@ -292,18 +346,26 @@ export class MetaDataState {
     { id }: GetInstitutionHierarchyParentsById
   ): Observable<InstituitionHierarchy[]> {
     patchState({ isLoading: true });
-    return this.institutionsService
-      .getInstitutionHierarchyParentsId(id)
-      .pipe(
-        tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
-          patchState({ editInstituitionsHierarchy: instituitionsHierarchy, isLoading: false })
-        )
-      );
+    return this.institutionsService.getInstitutionHierarchyParentsId(id).pipe(
+      tap((instituitionsHierarchy: InstituitionHierarchy[]) =>
+        patchState({
+          editInstituitionsHierarchy: instituitionsHierarchy,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(ResetInstitutionHierarchy)
-  resetInstitutionHierarchy({ patchState }: StateContext<MetaDataStateModel>, {}: ResetInstitutionHierarchy): void {
-    patchState({ instituitionsHierarchy: null, editInstituitionsHierarchy: null, institutionFieldDesc: null });
+  resetInstitutionHierarchy(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: ResetInstitutionHierarchy
+  ): void {
+    patchState({
+      instituitionsHierarchy: null,
+      editInstituitionsHierarchy: null,
+      institutionFieldDesc: null
+    });
   }
 
   @Action(GetCodeficatorSearch)
@@ -312,14 +374,16 @@ export class MetaDataState {
     { payload }: GetCodeficatorSearch
   ): Observable<Codeficator[]> {
     patchState({ isLoading: true });
-    return this.codeficatorService
-      .searchCodeficator(payload)
-      .pipe(tap((codeficatorSearch: Codeficator[]) => {
+    return this.codeficatorService.searchCodeficator(payload).pipe(
+      tap((codeficatorSearch: Codeficator[]) => {
         patchState({
-          codeficatorSearch: codeficatorSearch ?? [{ settlement: Constants.NO_SETTLEMENT } as Codeficator],
+          codeficatorSearch: codeficatorSearch ?? [
+            { settlement: Constants.NO_SETTLEMENT } as Codeficator
+          ],
           isLoading: false
         });
-      }));
+      })
+    );
   }
 
   @Action(GetCodeficatorById)
@@ -330,7 +394,11 @@ export class MetaDataState {
     patchState({ isLoading: true });
     return this.codeficatorService
       .getCodeficatorById(id)
-      .pipe(tap((codeficator: Codeficator) => patchState({ codeficator, isLoading: false })));
+      .pipe(
+        tap((codeficator: Codeficator) =>
+          patchState({ codeficator, isLoading: false })
+        )
+      );
   }
 
   @Action(ClearCodeficatorSearch)

@@ -4,7 +4,14 @@ import { Provider } from './provider.model';
 import { SectionItem } from './sectionItem.model';
 import { Teacher } from './teacher.model';
 import { DateTimeRanges } from './workingHours.model';
-export class Workshop {
+
+export interface WorkshopTruncated {
+  id?: string;
+  title: string;
+  providerTitle?: string;
+  providerId: string;
+}
+export class Workshop implements WorkshopTruncated {
   id?: string;
   title: string;
   phone: string;
@@ -41,7 +48,14 @@ export class Workshop {
   takenSeats: number;
   status?: string;
 
-  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(
+    about,
+    description,
+    address: Address,
+    teachers: Teacher[],
+    provider: Provider,
+    id?: string
+  ) {
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -146,8 +160,6 @@ export interface WorkshopCard extends WorkshopBaseCard {
   price: number;
   address: Address;
 }
-
-
 
 export interface WorkshopStatus {
   workshopId: string;

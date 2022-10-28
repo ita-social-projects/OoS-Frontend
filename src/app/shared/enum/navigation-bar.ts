@@ -38,6 +38,7 @@ export enum NavBarName {
   Admins = 'Адміністратори',
   Directions = 'Напрямки',
   UpdateAdmin = 'Редагування адміністратора',
+  Messages = 'Повідомлення',
   HistoryLog = 'Історія змін'
 }
 
