@@ -34,6 +34,7 @@ import { ProgressBarComponent } from './header/progress-bar/progress-bar.compone
 import { ProviderState } from './shared/store/provider.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandleInterceptor } from './shared/interceptors/error-handle.interceptor';
+import { ChatState } from './shared/store/chat.state';
 
 registerLocaleData(localeUk);
 
@@ -63,7 +64,8 @@ registerLocaleData(localeUk);
       PaginatorState,
       MainPageState,
       ProviderState,
-      ParentState
+      ParentState,
+      ChatState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
