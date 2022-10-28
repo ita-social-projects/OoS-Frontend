@@ -16,6 +16,14 @@ import { Store } from '@ngxs/store';
 export class ErrorHandleInterceptor implements HttpInterceptor {
   constructor(private store: Store) {}
 
+  private displayErrorMessageBar(message: string): void {
+    this.store.dispatch(
+      new ShowMessageBar({
+        message: message,
+        type: 'error'
+      })
+    );
+  }
   intercept(
     request: HttpRequest<unknown>,
     next: HttpHandler
@@ -26,38 +34,18 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
         switch (error.status) {
           case 401:
             errorMsg = 'Unauthorized';
-            this.store.dispatch(
-              new ShowMessageBar({
-                message: SnackbarText.error401,
-                type: 'error'
-              })
-            );
+            this.displayErrorMessageBar(SnackbarText.error401);
             break;
           case 404:
             errorMsg = `URL NOT FOUND: ${error.url}`;
-            this.store.dispatch(
-              new ShowMessageBar({
-                message: SnackbarText.error404,
-                type: 'error'
-              })
-            );
+            this.displayErrorMessageBar(SnackbarText.error404);
             break;
           case 403:
             errorMsg = 'Action is forbidden for this user';
-            this.store.dispatch(
-              new ShowMessageBar({
-                message: SnackbarText.error403,
-                type: 'error'
-              })
-            );
+            this.displayErrorMessageBar(SnackbarText.error403);
           case 500:
             errorMsg = 'Internal Server Error';
-            this.store.dispatch(
-              new ShowMessageBar({
-                message: SnackbarText.error500,
-                type: 'error'
-              })
-            );
+            this.displayErrorMessageBar(SnackbarText.error500);
             break;
         }
         return throwError(() => new Error(errorMsg));
