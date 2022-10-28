@@ -21,8 +21,7 @@ import { ProviderAdminIcons } from '../../enum/provider-admin';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
-import { Titles } from '../../enum/enumUA/titles';
-import { Statuses } from '../../enum/statuses';
+import { Statuses, StatusTitles } from '../../enum/statuses';
 
 /**
  * @title Table with sorting
@@ -51,7 +50,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() update = new EventEmitter<UsersTable>();
 
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
-  readonly titles = Titles;
+  readonly statusTitles = StatusTitles;
   readonly statuses = Statuses;
   readonly providerAdminIcons = ProviderAdminIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;

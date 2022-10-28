@@ -13,8 +13,7 @@ import {
   GetBlockedParents,
   OnClearBlockedParents
 } from '../../../../../../shared/store/provider.actions';
-import { Statuses } from '../../../../../../shared/enum/statuses';
-import { Titles } from '../../../../../../shared/enum/enumUA/titles';
+import { Statuses, StatusTitles } from '../../../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-info-status',
@@ -22,7 +21,7 @@ import { Titles } from '../../../../../../shared/enum/enumUA/titles';
   styleUrls: ['./info-status.component.scss']
 })
 export class InfoStatusComponent implements OnInit, OnDestroy {
-  readonly titles = Titles;
+  readonly statusTitles = StatusTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
 

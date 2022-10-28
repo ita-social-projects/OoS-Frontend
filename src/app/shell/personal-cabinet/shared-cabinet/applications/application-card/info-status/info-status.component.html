@@ -1,7 +1,7 @@
 <div class="application-status" fxLayout="row">
   <div class="application-popup-status {{ status }}">
     <span> <i class="status-icon {{ applicationIcons[status] }}"></i></span>
-    <span> {{ titles[status] }}</span>
+    <span> {{ statusTitles[status] }}</span>
   </div>
   <span
     ><i
@@ -25,7 +25,7 @@
   >
     <div class="application-popup-status {{ status }}">
       <span> <i class="{{ applicationIcons[status] }}"></i></span>
-      <span> {{ titles[status] }}</span>
+      <span> {{ statusTitles[status] }}</span>
     </div>
     <div class="application-info-menu application-info-description-card">
       ({{ applicationStatusDescription[status] }})

@@ -30,7 +30,6 @@ import {
   Constants,
   PaginationConstants
 } from '../../../../shared/constants/constants';
-import { Titles } from '../../../../shared/enum/enumUA/titles';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
 import {
@@ -54,7 +53,7 @@ import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { Statuses } from '../../../../shared/enum/statuses';
+import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -65,7 +64,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-  readonly titles = Titles;
+  readonly statusTitles = StatusTitles;
   readonly providerAdminIcons = ApplicationIcons;
   readonly statuses = Statuses;
 

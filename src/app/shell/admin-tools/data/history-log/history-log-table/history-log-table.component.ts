@@ -8,10 +8,10 @@ import {
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
-import { Titles } from '../../../../../shared/enum/enumUA/titles';
 import { Util } from '../../../../../shared/utils/utils';
 import { ProviderHistory } from '../../../../../shared/models/history-log.model';
 import { Constants } from '../../../../../shared/constants/constants';
+import { StatusTitles } from '../../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-history-log-table',
@@ -20,7 +20,7 @@ import { Constants } from '../../../../../shared/constants/constants';
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   readonly typeChange = TypeChange;
-  readonly titles = Titles;
+  readonly statusTitles = StatusTitles;
   readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
   public util = Util;
 

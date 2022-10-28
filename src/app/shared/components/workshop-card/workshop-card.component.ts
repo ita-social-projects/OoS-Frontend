@@ -35,8 +35,7 @@ import {
 } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
-import { Statuses } from '../../enum/statuses';
-import { Titles } from '../../enum/enumUA/titles';
+import { Statuses, StatusTitles } from '../../enum/statuses';
 
 @Component({
   selector: 'app-workshop-card',
@@ -54,7 +53,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
   readonly statuses = Statuses;
-  readonly titles = Titles;
+  readonly statusTitles = StatusTitles;
 
   isFavorite = false;
   canChangeWorkshopStatus: boolean;
