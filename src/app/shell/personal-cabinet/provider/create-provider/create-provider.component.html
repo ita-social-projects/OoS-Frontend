@@ -16,9 +16,9 @@
           (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <a [routerLink]="'/personal-cabinet/provider/info'"
-            ><button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button></a
-          >
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            СКАСУВАТИ
+          </button>
           <button
             class="btn"
             mat-raised-button
@@ -41,9 +41,9 @@
         </app-create-contacts-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
-          <a [routerLink]="'/personal-cabinet/provider/info'"
-            ><button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button></a
-          >
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            СКАСУВАТИ
+          </button>
           <button
             class="btn"
             mat-raised-button
@@ -66,24 +66,28 @@
         </app-create-photo-form>
 
         <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
-          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl"
+          <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"
             >Я надаю згоду на обробку персональних даних
           </mat-checkbox>
-          <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"
+          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl"
             >Я не робот
           </mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
-          <a [routerLink]="'/personal-cabinet/provider/info'"
-            ><button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button></a
-          >
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            СКАСУВАТИ
+          </button>
           <button
             class="btn"
             mat-button
             type="submit"
             (click)="onSubmit()"
-            [disabled]="(!isAgreed || !isNotRobot) || PhotoFormGroup.invalid">
+            [disabled]="
+              (!editMode && !isAgreed && !isNotRobot) ||
+              PhotoFormGroup.invalid ||
+              ContactsFormGroup.invalid ||
+              InfoFormGroup.invalid">
             ЗБЕРЕГТИ
           </button>
         </div>
