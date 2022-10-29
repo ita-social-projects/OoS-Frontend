@@ -1,10 +1,22 @@
-import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  ChildDeclination,
+  WorkshopDeclination
+} from '../../../../shared/enum/enumUA/declinations/declination';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import {
   Application,
-  ApplicationParameters,
+  ApplicationParameters
 } from '../../../../shared/models/application.model';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -12,14 +24,20 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { ApplicationStatus } from '../../../../shared/enum/applications';
-import { ApplicationTitles, ApplicationTitlesReverse } from '../../../../shared/enum/enumUA/applications';
+import {
+  Statuses,
+  StatusTitles,
+  StatusTitlesReverse
+} from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { Child } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
-import { OnPageChangeApplications, SetApplicationsPerPage } from '../../../../shared/store/paginator.actions';
+import {
+  OnPageChangeApplications,
+  SetApplicationsPerPage
+} from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
@@ -27,21 +45,21 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss'],
+  styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly applicationTitles = ApplicationTitles;
-  readonly applicationStatus = ApplicationStatus;
+  readonly statusTitles = StatusTitles;
+  readonly statuses = Statuses;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly Role = Role;
 
   @Select(SharedUserState.applications)
-    applicationCards$: Observable<SearchResponse<Application[]>>;
+  applicationCards$: Observable<SearchResponse<Application[]>>;
   @Select(PaginatorState.applicationsPerPage)
-    applicationsPerPage$: Observable<number>;
+  applicationsPerPage$: Observable<number>;
   applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
-    isLoadingCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -72,7 +90,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.route.queryParams
       .pipe(takeUntil(this.destroy$))
       .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(ApplicationTitles).indexOf(params['status']);
+        this.tabIndex = Object.keys(StatusTitles).indexOf(params['status']);
       });
   }
 
@@ -89,10 +107,18 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.applicationCards$.pipe(
-      filter((applicationCards: SearchResponse<Application[]>) => !!applicationCards),
-      takeUntil(this.destroy$)
-    ).subscribe((applicationCards: SearchResponse<Application[]>) => this.applicationCards = applicationCards);
+    this.applicationCards$
+      .pipe(
+        filter(
+          (applicationCards: SearchResponse<Application[]>) =>
+            !!applicationCards
+        ),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(
+        (applicationCards: SearchResponse<Application[]>) =>
+          (this.applicationCards = applicationCards)
+      );
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))
@@ -105,11 +131,17 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = event.tab.textLabel;
-    const statuses = (tabLabel !== ApplicationTitles.Blocked && tabLabel !== ApplicationTitles.All) ? [ApplicationTitlesReverse[tabLabel]] : [];
+    const statuses =
+      tabLabel !== StatusTitles.Blocked && tabLabel !== StatusTitles.All
+        ? [StatusTitlesReverse[tabLabel]]
+        : [];
     this.applicationParams.statuses = statuses;
-    this.applicationParams.showBlocked = tabLabel === ApplicationTitles.Blocked;
+    this.applicationParams.showBlocked = tabLabel === StatusTitles.Blocked;
     this.onGetApplications();
-    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: ApplicationTitlesReverse[tabLabel] } });
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { status: StatusTitlesReverse[tabLabel] }
+    });
   }
 
   onPageChange(page: PaginationElement): void {
