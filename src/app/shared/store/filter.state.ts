@@ -43,6 +43,7 @@ import {
   SetWithDisabilityOption,
   SetWorkingDays
 } from './filter.actions';
+import { SetFirstPage } from './paginator.actions';
 
 @State<FilterStateModel>({
   name: 'filter',
@@ -381,7 +382,10 @@ export class FilterState {
   }
 
   @Action(FilterChange)
-  filterChange({}: StateContext<FilterStateModel>, {}: FilterChange): void {}
+  filterChange({ getState, dispatch }: StateContext<FilterStateModel>): void {
+    const isMapView = getState().isMapView;
+    dispatch([new SetFirstPage(), new GetFilteredWorkshops(isMapView)]);
+  }
 
   @Action(FilterClear)
   FilterClear(
@@ -415,7 +419,6 @@ export class FilterState {
     { payload }: SetCoordsByMap
   ): void {
     patchState({ mapViewCoords: payload });
-
     dispatch(new FilterChange());
   }
 
@@ -430,7 +433,6 @@ export class FilterState {
     { payload }: SetRadiusSize
   ): void {
     patchState({ userRadiusSize: payload });
-
     dispatch(new FilterChange());
   }
 

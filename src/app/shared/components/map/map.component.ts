@@ -29,7 +29,6 @@ import {
   SetCoordsByMap,
   SetMapView
 } from '../../store/filter.actions';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ShowMessageBar } from '../../store/app.actions';
 import { SnackbarText } from '../../enum/messageBar';
 
@@ -287,7 +286,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    */
   private createMarker(
     coords: [number, number],
-    draggable: boolean = true
+    draggable = true
   ): Layer.Marker {
     return new Layer.Marker(coords, {
       draggable,
@@ -358,12 +357,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.userRadius.setRadius(num);
   }
 
-  private clearUnnecessaryStore(): void {
-    this.store.dispatch(new ClearCoordsByMap());
-    this.store.dispatch(new ClearRadiusSize());
-    this.store.dispatch(new SetMapView(false));
-  }
-
   private showWarningMessage(): void {
     this.store.dispatch(
       new ShowMessageBar({
@@ -375,7 +368,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.clearUnnecessaryStore();
+    this.store.dispatch([
+      new ClearCoordsByMap(),
+      new ClearRadiusSize(),
+      new SetMapView(false)
+    ]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
