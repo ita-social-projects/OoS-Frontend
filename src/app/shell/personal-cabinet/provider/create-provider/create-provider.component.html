@@ -84,7 +84,7 @@
             type="submit"
             (click)="onSubmit()"
             [disabled]="
-              (!editMode && !isAgreed && !isNotRobot) ||
+              (!editMode && !isAgreed || !isNotRobot) ||
               PhotoFormGroup.invalid ||
               ContactsFormGroup.invalid ||
               InfoFormGroup.invalid">
