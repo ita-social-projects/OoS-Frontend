@@ -128,17 +128,4 @@ export class CropperConfigurationConstants {
   };
 }
 
-export class MainInstitutionTitles {
-  static readonly MON = "МОН";
-  static readonly MKIP = "МКІП";
-  static readonly MinSport = "Мінспорт";
-  
-}
-
-export class MainInstitutionDisplayColumns {
-  static readonly MONDisplayColumns = ['Назва напрямку', 'Назва профілю/наукового відділення'];
-  static readonly MKIPDisplayColumns = ['Назва напряму', 'Назва профілю', 'Назва відділу/відділення', 'Назва класу'];
-  static readonly MinSportDisplayColumns = ['Вид спорту', 'Назва виду спорту'];
-}
-
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };

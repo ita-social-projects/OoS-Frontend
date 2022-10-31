@@ -1,8 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MainInstitutionTitles, MainInstitutionDisplayColumns } from 'src/app/shared/constants/constants';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { MetaDataState } from '../../../../shared/store/meta-data.state';
+import { Institution } from '../../../../shared/models/institution.model';
+import { GetAllInstitutions } from '../../../../shared/store/meta-data.actions';
 
 @Component({
   selector: 'app-directions-wrapper',
@@ -10,11 +13,13 @@ import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.act
   styleUrls: ['./directions-wrapper.component.scss'],
 })
 export class DirectionsWrapperComponent implements OnInit, OnDestroy {
-  readonly mainInstitutionTitles = MainInstitutionTitles;
-  readonly mainInstitutionDisplayColumns = MainInstitutionDisplayColumns;
+  @Select(MetaDataState.institutions)
+  institutions$: Observable<Institution[]>;
+  
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new GetAllInstitutions());
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Directions,

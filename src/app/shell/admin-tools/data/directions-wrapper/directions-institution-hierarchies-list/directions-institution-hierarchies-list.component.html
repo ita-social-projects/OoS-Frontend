@@ -1,7 +1,6 @@
 <div class="wrapper">
   <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort appStretchTable>
-      
       <ng-container *ngFor="let column of displayedColumns; index as i">
         <ng-container matColumnDef="{{column}}" sticky>
           <th mat-header-cell *matHeaderCellDef mat-sort-header>
@@ -13,7 +12,6 @@
           </td>
         </ng-container>
       </ng-container>
-
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>

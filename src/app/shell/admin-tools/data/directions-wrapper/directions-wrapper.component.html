@@ -3,26 +3,15 @@
     <mat-tab label="Напрямки для користувача">
       <app-directions></app-directions>
     </mat-tab>
-    <mat-tab label="{{mainInstitutionTitles.MON}}">
-      <ng-template matTabContent>
-        <app-directions-institution-hierarchies-list [institutionTitle]="mainInstitutionTitles.MON"
-          [displayedColumns]="mainInstitutionDisplayColumns.MONDisplayColumns">
-        </app-directions-institution-hierarchies-list>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="{{mainInstitutionTitles.MKIP}}">
-      <ng-template matTabContent>
-        <app-directions-institution-hierarchies-list [institutionTitle]="mainInstitutionTitles.MKIP"
-          [displayedColumns]="mainInstitutionDisplayColumns.MKIPDisplayColumns">
-        </app-directions-institution-hierarchies-list>
-      </ng-template>
-    </mat-tab>
-    <mat-tab label="{{mainInstitutionTitles.MinSport}}">
-      <ng-template matTabContent>
-        <app-directions-institution-hierarchies-list [institutionTitle]="mainInstitutionTitles.MinSport"
-          [displayedColumns]="mainInstitutionDisplayColumns.MinSportDisplayColumns">
-        </app-directions-institution-hierarchies-list>
-      </ng-template>
-    </mat-tab>
+
+    <ng-container *ngFor="let institution of (institutions$ | async)">
+      <mat-tab label="{{institution.title}}">
+        <ng-template matTabContent>
+          <app-directions-institution-hierarchies-list [institution]="institution">
+          </app-directions-institution-hierarchies-list>
+        </ng-template>
+      </mat-tab>
+    </ng-container>
+    
   </mat-tab-group>
 </div>
