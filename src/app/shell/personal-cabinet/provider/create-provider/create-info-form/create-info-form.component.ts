@@ -1,12 +1,36 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
-import { DATE_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex-constants';
+import {
+  Constants,
+  CropperConfigurationConstants
+} from '../../../../../shared/constants/constants';
+import {
+  DATE_REGEX,
+  NAME_REGEX
+} from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { OwnershipTypeUkr, ProviderTypeUkr } from '../../../../../shared/enum/enumUA/provider';
-import { OwnershipType, ProviderType } from '../../../../../shared/enum/provider';
+import {
+  OwnershipTypeUkr,
+  ProviderTypeUkr
+} from '../../../../../shared/enum/enumUA/provider';
+import {
+  OwnershipType,
+  ProviderType
+} from '../../../../../shared/enum/provider';
 import { Institution } from '../../../../../shared/models/institution.model';
 import { Provider } from '../../../../../shared/models/provider.model';
 import { GetAllInstitutions } from '../../../../../shared/store/meta-data.actions';
@@ -16,7 +40,8 @@ import { Util } from '../../../../../shared/utils/utils';
 @Component({
   selector: 'app-create-info-form',
   templateUrl: './create-info-form.component.html',
-  styleUrls: ['./create-info-form.component.scss']
+  styleUrls: ['./create-info-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateInfoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
@@ -32,14 +57,15 @@ export class CreateInfoFormComponent implements OnInit {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
+    cropperAspectRatio:
+      CropperConfigurationConstants.coverImageCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Select(MetaDataState.institutions)
-    institutions$: Observable<Institution[]>;
+  institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
   @Input() isRelease3: boolean;
@@ -79,10 +105,7 @@ export class CreateInfoFormComponent implements OnInit {
         Validators.required,
         Validators.minLength(ValidationConstants.PHONE_LENGTH)
       ]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ]),
+      email: new FormControl('', [Validators.required, Validators.email]),
       website: new FormControl('', [
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
@@ -96,17 +119,20 @@ export class CreateInfoFormComponent implements OnInit {
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),
       coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
+      coverImageId: new FormControl('')
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions());
-    (this.provider) && this.activateEditMode();
+    this.provider && this.activateEditMode();
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
 
-  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+  compareInstitutions(
+    institution1: Institution,
+    institution2: Institution
+  ): boolean {
     return institution1.id === institution2.id;
   }
 
@@ -116,7 +142,10 @@ export class CreateInfoFormComponent implements OnInit {
   private activateEditMode(): void {
     this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
     if (this.provider.coverImageId) {
-      this.InfoFormGroup.get('coverImageId').setValue([this.provider.coverImageId], { emitEvent: false });
+      this.InfoFormGroup.get('coverImageId').setValue(
+        [this.provider.coverImageId],
+        { emitEvent: false }
+      );
     }
   }
 }

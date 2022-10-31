@@ -1,4 +1,12 @@
-import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { environment } from '../../../../environments/environment';
@@ -20,9 +28,12 @@ type VoidToVoid = () => void;
       multi: true,
       useExisting: ImageFormControlComponent
     }
-  ]
+  ],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
+export class ImageFormControlComponent
+  implements OnInit, ImageFormControlComponent
+{
   photoFormGroup: FormGroup;
   gridCols: number;
   mediumScreen = 500;
@@ -42,11 +53,16 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   @ViewChild('inputImage') inputImage: ElementRef;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(
+    public dialog: MatDialog,
+    private changeDetection: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.onResize(window);
-    (this.imageIdsFormControl && this.imageIdsFormControl.value?.length) && this.activateEditMode();
+    this.imageIdsFormControl &&
+      this.imageIdsFormControl.value?.length &&
+      this.activateEditMode();
   }
 
   /**
@@ -72,7 +88,10 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         const imageIndex = this.decodedImages.indexOf(img);
         this.decodedImages.splice(imageIndex, 1);
         if (img.imgFile) {
-          this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
+          this.selectedImages.splice(
+            this.selectedImages.indexOf(img.imgFile),
+            1
+          );
         }
         if (this.imageIdsFormControl) {
           this.imageIdsFormControl.value.splice(imageIndex, 1);
@@ -84,7 +103,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
+      this.decodedImages.push(
+        new DecodedImage(environment.storageUrl + imageId, null)
+      );
     });
   }
 
@@ -108,7 +129,10 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   onResize(screen: Window): void {
     if (screen.innerWidth >= this.mediumScreen) {
       this.gridCols = 4;
-    } else if (screen.innerWidth < this.mediumScreen && screen.innerWidth >= this.smallScreen) {
+    } else if (
+      screen.innerWidth < this.mediumScreen &&
+      screen.innerWidth >= this.smallScreen
+    ) {
       this.gridCols = 3;
     } else {
       this.gridCols = 2;
@@ -122,11 +146,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
       height: 'auto',
       data: {
         image: event,
-        cropperConfig: this.cropperConfig,
+        cropperConfig: this.cropperConfig
       }
     });
 
-    dialogRef.afterClosed().subscribe((image: File)  => {
+    dialogRef.afterClosed().subscribe((image: File) => {
       this.markAsTouched();
       if (!this.disabled && image) {
         this.imageDecoder(image);
@@ -134,6 +158,7 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.onChange(this.selectedImages);
       }
       this.inputImage.nativeElement.value = '';
+      this.changeDetection.markForCheck();
     });
   }
 }

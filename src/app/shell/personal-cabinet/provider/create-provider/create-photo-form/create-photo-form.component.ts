@@ -1,14 +1,35 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators
+} from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter, first } from 'rxjs/operators';
-import { CropperConfigurationConstants, Constants } from '../../../../../shared/constants/constants';
+import { filter, first, takeUntil } from 'rxjs/operators';
+import {
+  Constants,
+  CropperConfigurationConstants
+} from '../../../../../shared/constants/constants';
 import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { InstitutionTypes } from '../../../../../shared/enum/enumUA/provider';
 import { InstitutionStatus } from '../../../../../shared/models/institutionStatus.model';
-import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
+import {
+  Provider,
+  ProviderSectionItem
+} from '../../../../../shared/models/provider.model';
 import { GetInstitutionStatus } from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 
@@ -16,6 +37,7 @@ import { MetaDataState } from '../../../../../shared/store/meta-data.state';
   selector: 'app-create-photo-form',
   templateUrl: './create-photo-form.component.html',
   styleUrls: ['./create-photo-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -25,10 +47,11 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
     cropperMaxHeight: CropperConfigurationConstants.cropperMaxHeight,
-    cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
+    cropperAspectRatio:
+      CropperConfigurationConstants.galleryImagesCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Input() provider: Provider;
@@ -37,7 +60,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   @Output() passPhotoFormGroup = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-    institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatuses: InstitutionStatus[];
 
   PhotoFormGroup: FormGroup;
@@ -45,7 +68,11 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   editFormGroup: FormGroup;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store,
+    private changeDetector: ChangeDetectorRef
+  ) {
     this.PhotoFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
@@ -56,8 +83,8 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-      ]),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ])
     });
   }
 
@@ -67,7 +94,9 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
 
     this.institutionStatuses$
       .pipe(
-        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses),
+        filter(
+          (institutionStatuses: InstitutionStatus[]) => !!institutionStatuses
+        ),
         first(),
         takeUntil(this.destroy$)
       )
@@ -77,20 +106,28 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
           this.activateEditMode();
         } else {
           this.onAddForm();
-          this.PhotoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
+          this.PhotoFormGroup.get('institutionStatusId').setValue(
+            institutionStatuses[0].id,
+            { emitEvent: false }
+          );
         }
+        this.changeDetector.markForCheck();
       });
   }
 
   private activateEditMode(): void {
     this.PhotoFormGroup.patchValue(this.provider, { emitEvent: false });
-    this.provider.institutionStatusId = this.provider.institutionStatusId || Constants.INSTITUTION_ID_ABSENT_VALUE;
+    this.provider.institutionStatusId =
+      this.provider.institutionStatusId ||
+      Constants.INSTITUTION_ID_ABSENT_VALUE;
     if (this.provider.providerSectionItems?.length) {
-      this.provider.providerSectionItems.forEach((item: ProviderSectionItem) => {
-        const itemFrom = this.newForm(item);
-        this.SectionItemsFormArray.controls.push(itemFrom);
-        this.SectionItemsFormArray['_registerControl'](itemFrom);
-      });
+      this.provider.providerSectionItems.forEach(
+        (item: ProviderSectionItem) => {
+          const itemFrom = this.newForm(item);
+          this.SectionItemsFormArray.controls.push(itemFrom);
+          this.SectionItemsFormArray['_registerControl'](itemFrom);
+        }
+      );
     } else {
       this.onAddForm();
     }
@@ -106,12 +143,15 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ])
     });
 
     if (this.provider) {
-      this.editFormGroup.addControl('providerId', this.formBuilder.control(this.provider.id));
+      this.editFormGroup.addControl(
+        'providerId',
+        this.formBuilder.control(this.provider.id)
+      );
     }
 
     if (item) {
@@ -126,7 +166,9 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
    */
   onAddForm(): void {
     if (this.PhotoFormGroup.get('providerSectionItems')) {
-      (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+      (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(
+        this.newForm()
+      );
     }
   }
 
