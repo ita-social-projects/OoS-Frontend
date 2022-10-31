@@ -1,11 +1,17 @@
-import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
-import {MatTableDataSource} from '@angular/material/table';
-import {TypeChange} from '../../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
-import {ApplicationTitles} from '../../../../../shared/enum/enumUA/applications';
-import {Util} from '../../../../../shared/utils/utils';
-import {ProviderHistory} from '../../../../../shared/models/history-log.model';
+import {
+  AfterViewInit,
+  Component,
+  Input,
+  OnInit,
+  ViewChild
+} from '@angular/core';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+import { Util } from '../../../../../shared/utils/utils';
+import { ProviderHistory } from '../../../../../shared/models/history-log.model';
 import { Constants } from '../../../../../shared/constants/constants';
+import { StatusTitles } from '../../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-history-log-table',
@@ -13,9 +19,8 @@ import { Constants } from '../../../../../shared/constants/constants';
   styleUrls: ['./history-log-table.component.scss']
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
-
   readonly typeChange = TypeChange;
-  readonly applicationTitles = ApplicationTitles;
+  readonly statusTitles = StatusTitles;
   readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
   public util = Util;
 
@@ -23,7 +28,17 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   @Input() tableTitle: string;
   @ViewChild(MatSort) sort: MatSort;
 
-  displayedColumns = ['pib', 'email', 'providerTitle', 'institutionTitle', 'providerCity', 'fieldName', 'updatedDate', 'oldValue', 'newValue'];
+  displayedColumns = [
+    'pib',
+    'email',
+    'providerTitle',
+    'institutionTitle',
+    'providerCity',
+    'fieldName',
+    'updatedDate',
+    'oldValue',
+    'newValue'
+  ];
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   ngOnInit(): void {
