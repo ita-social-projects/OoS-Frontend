@@ -1,0 +1,80 @@
+p {
+  margin: 0;
+}
+
+.card {
+  background: white;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  width: inherit;
+  border-radius: 5px;
+  padding: 1rem 1.5rem;
+  margin: 1.5rem 0;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+
+  &-block{
+    flex: 1;
+  }
+  &-new {
+    border-left: 5px solid #3849f9;
+  }
+}
+
+.title{
+  font-family: 'Innerspace';
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  color: #000000;
+}
+
+.text{
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 0px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  &-bold{
+    font-weight: 700;
+  }
+  &-link{
+    &:hover {
+      color: #3849F9;
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+  &_icon{
+    color: #AAAAAA;
+    width: 16px;
+    height: 16px;
+    padding-right: 10px;
+  }
+}
+
+.card-block {
+  margin: 0px;
+
+  &:not(:first-child){
+    padding-left: 5px;
+  }  
+}
+
+.material-icons {
+  font-size: 16px;
+  color: #888;
+  height: 16px;
+  width: 16px;
+  overflow: visible;
+  &-actions{
+    margin: 0 8px;
+  }
+}
