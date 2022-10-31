@@ -102,6 +102,8 @@ export class CreateProviderComponent
   setEditMode(): void {
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.addNavPath();
+    this.isAgreed = true;
+    this.isNotRobot = true;
   }
 
   addNavPath(): void {
