@@ -18,7 +18,7 @@
           Додати <mat-icon>arrow_drop_down</mat-icon>
         </button>
         <mat-menu #add="matMenu" class="header_menu">
-          <a *ngIf="role == Role.techAdmin" [routerLink]="['/create-admin', adminRole.ministryAdmin]"><button mat-menu-item>Адміністратор міністерства</button></a>
+          <a *ngIf="role === Role.techAdmin" [routerLink]="['/create-admin', adminRole.ministryAdmin]"><button mat-menu-item>Адміністратор міністерства</button></a>
           <a ><button mat-menu-item>Адміністратор області</button></a>
           <a ><button mat-menu-item>Адміністратор ОТГ</button></a>
         </mat-menu>
@@ -27,7 +27,7 @@
   
     <div class="tab-wrapper">
       <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-        <mat-tab *ngIf="role == Role.techAdmin" label="{{adminRoleUkr.ministryAdmin}}">
+        <mat-tab *ngIf="role === Role.techAdmin" label="{{adminRoleUkr.ministryAdmin}}">
           <ng-container *ngTemplateOutlet="AdminsList; context:{ $implicit: filterValue, admins: ministryAdminsTable}">
           </ng-container>
         </mat-tab>

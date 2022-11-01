@@ -27,9 +27,9 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.entityControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),
+        takeUntil(this.destroy$),
       ).subscribe((entities) => {
         this.ids = entities.map((entity) => entity.id);
         this.entityCheck.emit(this.ids);

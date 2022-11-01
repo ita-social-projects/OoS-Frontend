@@ -54,11 +54,11 @@ export class UsersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(2000), )
+        debounceTime(2000),
+        takeUntil(this.destroy$),)
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
         this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)); });

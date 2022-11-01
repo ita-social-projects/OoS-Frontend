@@ -70,10 +70,10 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   private settlementListener(): void {
     this.settlementSearchControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
+        takeUntil(this.destroy$),
         tap((value: string) => {
           if (!value?.length) {
             this.store.dispatch(new ClearCodeficatorSearch());

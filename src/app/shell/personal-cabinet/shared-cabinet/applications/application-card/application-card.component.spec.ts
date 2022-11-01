@@ -9,11 +9,13 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { StatusInfoCardComponent } from '../../../../../shared/components/status-info-card/status-info-card.component';
-import { Child } from '../../../../../shared/models/child.model';
 import { JoinPipe } from '../../../../../shared/pipes/join.pipe';
-import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
+import { Child } from '../../../../../shared/models/child.model';
+import { StatusInfoCardComponent } from '../../../../../shared/components/status-info-card/status-info-card.component';
 import { InfoStatusComponent } from './info-status/info-status.component';
+import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
+import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
+
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -41,7 +43,8 @@ describe('ApplicationCardComponent', () => {
         InfoStatusComponent,
         MockChildInfoComponent,
         PhoneTransformPipe,
-        JoinPipe
+        JoinPipe,
+        TextSliceTransformPipe,
       ],
     }).compileComponents();
   });
