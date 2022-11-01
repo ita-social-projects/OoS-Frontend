@@ -110,6 +110,7 @@
         *ngFor="let application of applicationCards.entities"
         [application]="application"
         [userRole]="role"
+        [isMobileView]="isMobileView"
         (approve)="approve.emit($event)"
         (reject)="reject.emit($event)"
         (unblock)="unblock.emit($event)"

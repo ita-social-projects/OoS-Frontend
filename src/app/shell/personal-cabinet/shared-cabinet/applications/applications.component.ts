@@ -6,6 +6,7 @@ import {
   AfterViewInit,
   Component,
   EventEmitter,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -80,6 +81,16 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   isActiveInfoButton = false;
   tabIndex: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  isMobileView: boolean;
+
+  @HostListener('window: resize', ['$event.target'])
+  onResize(event: Window): void {
+    if (event.outerWidth < 530) {
+      this.isMobileView = true;
+    } else {
+      this.isMobileView = false;
+    }
+  }
 
   constructor(
     protected store: Store,
@@ -92,6 +103,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe((params: Params) => {
         this.tabIndex = Object.keys(StatusTitles).indexOf(params['status']);
       });
+    this.onResize(window);
   }
 
   onGetApplications(): void {

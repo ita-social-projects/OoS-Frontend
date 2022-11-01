@@ -37,8 +37,8 @@ export class ApplicationCardComponent implements OnInit {
     status: undefined,
     showBlocked: false
   };
-  isMobileView: boolean;
 
+  @Input() isMobileView: boolean;
   @Input() application: Application;
   @Input() userRole: string;
 
@@ -48,21 +48,11 @@ export class ApplicationCardComponent implements OnInit {
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
 
-  @HostListener('window: resize', ['$event.target'])
-  onResize(event: Window): void {
-    if (event.outerWidth < 530) {
-      this.isMobileView = true;
-    } else {
-      this.isMobileView = false;
-    }
-  }
-
   constructor() {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);
     this.childFullName = Util.getFullName(this.application.child);
-    this.onResize(window);
   }
 
   /**
