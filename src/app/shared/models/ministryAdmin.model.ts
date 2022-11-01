@@ -7,7 +7,6 @@ export class MinistryAdmin {
   firstName: string;
   accountStatus?: string;
   institutionId: string;
-  gender?: number;
   institutionTitle?: string;
 
   constructor(info, institutionId: string, id?: string, accountStatus?: string) {
@@ -17,7 +16,6 @@ export class MinistryAdmin {
     this.middleName = info.middleName;
     this.firstName = info.firstName;
     this.institutionId = institutionId;
-    this.gender = info.gender;
     this.institutionTitle = info.institutionTitle;
     if (id) {
       this.id = id;
@@ -33,4 +31,9 @@ export interface MinistryAdminParameters {
   searchString?: string;
   from?: number;
   size?: number;
+}
+
+export interface MinistryAdminBlockData {
+  ministryAdminId: string;
+  isBlocked: boolean;
 }

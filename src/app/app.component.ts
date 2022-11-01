@@ -13,6 +13,7 @@ import { RegistrationState } from './shared/store/registration.state';
 })
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private previousMobileScreenValue: boolean;
 
   @Select(RegistrationState.isAutorizationLoading)
     isAutorizationLoading$: Observable<boolean>;
@@ -34,7 +35,10 @@ export class AppComponent implements OnInit, OnDestroy {
 
   isWindowMobile(event: Window): void {
     this.isMobileView = event.innerWidth <= 750;
-    this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
+    if (this.previousMobileScreenValue !== this.isMobileView) {
+      this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
+      this.previousMobileScreenValue = this.isMobileView;
+    }
   }
 
   @HostListener('window: resize', ['$event.target'])

@@ -1,7 +1,7 @@
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
-import { Provider } from '../models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { EntityType } from '../enum/role';
@@ -161,6 +161,21 @@ export class OnUpdateProviderSuccess {
   constructor() { }
 }
 
+export class UpdateProviderStatus {
+  static readonly type = '[provider] update Provider status';
+  constructor(public payload: ProviderStatusUpdateData) { }
+}
+
+export class OnUpdateProviderStatusFail {
+  static readonly type = '[provider] update Provider status fail';
+  constructor(public payload: HttpErrorResponse) { }
+}
+
+export class OnUpdateProviderStatusSuccess {
+  static readonly type = '[provider] update Provider status success';
+  constructor(public payload: ProviderStatusUpdateData) { }
+}
+
 export class CreateProviderAdmin {
   static readonly type = '[provider] create Provider Admin';
   constructor(public payload: ProviderAdmin) {}
@@ -183,7 +198,7 @@ export class BlockProviderAdminById {
 
 export class OnBlockProviderAdminSuccess {
   static readonly type = '[provider] block Provider Admin success';
-  constructor() {}
+  constructor(public payload: ProviderAdminBlockData) {}
 }
 
 export class OnBlockProviderAdminFail {
@@ -278,4 +293,19 @@ export class OnClearBlockedParents {
 export class ResetAchievements {
   static readonly type = '[provider] reset achievements';
   constructor() {}
+}
+
+export class DeleteProviderById {
+  static readonly type = '[provider] delete Provider By Id';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteProviderByIdSuccess {
+  static readonly type = '[provider] delete Provider By Id success';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteProviderByIdFail {
+  static readonly type = '[provider] delete Provider By Id fail';
+  constructor(public payload: HttpErrorResponse) {}
 }

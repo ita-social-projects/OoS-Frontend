@@ -4,7 +4,11 @@ import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
-import { MinistryAdmin, MinistryAdminParameters } from './../models/ministryAdmin.model';
+import {
+  MinistryAdmin,
+  MinistryAdminParameters,
+  MinistryAdminBlockData
+} from './../models/ministryAdmin.model';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -38,7 +42,10 @@ export class GetLawsAndRegulations {
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
+  constructor(
+    public payload: CompanyInformation,
+    public type: AdminTabsTitle
+  ) {}
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';
@@ -46,7 +53,10 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
+  constructor(
+    public payload: CompanyInformation,
+    public type: AdminTabsTitle
+  ) {}
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
@@ -121,22 +131,22 @@ export class GetApplicationHistory {
 
 export class GetMinistryAdminProfile {
   static readonly type = '[admin] Get Ministry Admin Profile';
-  constructor() { }
+  constructor() {}
 }
 
 export class CreateMinistryAdmin {
   static readonly type = '[admin] create Ministry Admin';
-  constructor(public payload: MinistryAdmin) { }
+  constructor(public payload: MinistryAdmin) {}
 }
 
 export class OnCreateMinistryAdminFail {
   static readonly type = '[admin] create Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnCreateMinistryAdminSuccess {
   static readonly type = '[admin] create Ministry Admin success';
-  constructor() { }
+  constructor() {}
 }
 
 export class GetAllMinistryAdmins {
@@ -151,46 +161,45 @@ export class GetMinistryAdminById {
 
 export class DeleteMinistryAdminById {
   static readonly type = '[admin] delete Ministry Admin';
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class OnDeleteMinistryAdminSuccess {
   static readonly type = '[admin] delete Ministry Admin success';
-  constructor() { }
+  constructor() {}
 }
 
 export class OnDeleteMinistryAdminFail {
   static readonly type = '[admin] delete Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class BlockMinistryAdminById {
   static readonly type = '[admin] block Ministry Admin';
-  constructor(public payload: string) { }
+  constructor(public payload: MinistryAdminBlockData) {}
 }
 
 export class OnBlockMinistryAdminSuccess {
   static readonly type = '[admin] block Ministry Admin success';
-  constructor() { }
+  constructor(public payload: MinistryAdminBlockData) {}
 }
 
 export class OnBlockMinistryAdminFail {
   static readonly type = '[admin] block Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class UpdateMinistryAdmin {
   static readonly type = '[admin] update Ministry Admin';
-  constructor(public payload: MinistryAdmin) { }
+  constructor(public payload: MinistryAdmin) {}
 }
 
 export class OnUpdateMinistryAdminFail {
   static readonly type = '[admin] update Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnUpdateMinistryAdminSuccess {
   static readonly type = '[admin] update Ministry Admin success';
-  constructor(public payload: MinistryAdmin) { }
+  constructor(public payload: MinistryAdmin) {}
 }
-

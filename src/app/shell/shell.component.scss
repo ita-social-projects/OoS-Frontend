@@ -7,3 +7,9 @@ section {
     padding: 1rem;
   }
 }
+
+@media(max-width: 450px) {
+  section {
+    padding: 0.5rem;
+  }
+}

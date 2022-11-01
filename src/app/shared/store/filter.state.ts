@@ -13,6 +13,7 @@ import { WorkshopCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
   CleanCity,
+  ClearCoordsByMap,
   ConfirmCity,
   FilterChange,
   FilterClear,
@@ -20,6 +21,7 @@ import {
   ResetFilteredWorkshops,
   SetCity,
   SetClosedRecruitment,
+  SetCoordsByMap,
   SetDirections,
   SetEndTime,
   SetIsAppropriateAge,
@@ -63,6 +65,7 @@ import {
     isAppropriateHours: false,
     isLoading: false,
     isConfirmCity: true,
+    mapViewCoords: null
   },
 })
 @Injectable()
@@ -147,10 +150,12 @@ export class FilterState {
   constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
-  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload }: SetCity): void {
+  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
     patchState({ settlement: payload });
-    localStorage.setItem('cityConfirmation', JSON.stringify(payload));
-
+    if (isConfirmedCity) {
+      localStorage.setItem('cityConfirmation', JSON.stringify(payload));
+    }
+    
     dispatch(new FilterChange());
   }
 
@@ -318,5 +323,20 @@ export class FilterState {
       isStrictWorkdays: false,
       isAppropriateHours: false,
     });
+  }
+
+  @Action(SetCoordsByMap)
+  SetCoordsByMap(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetCoordsByMap
+  ): void {
+    patchState({ mapViewCoords: payload });
+
+    dispatch(new GetFilteredWorkshops(true));
+  }
+
+  @Action(ClearCoordsByMap)
+  ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ mapViewCoords: null });
   }
 }

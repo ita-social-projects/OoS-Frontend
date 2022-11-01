@@ -1,7 +1,21 @@
-import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
+import {
+  MinistryAdmin,
+  MinistryAdminParameters
+} from './../../../../shared/models/ministryAdmin.model';
+import {
+  debounceTime,
+  distinctUntilChanged,
+  filter,
+  takeUntil,
+  startWith,
+  skip
+} from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
+import {
+  BlockMinistryAdminById,
+  DeleteMinistryAdminById,
+  GetAllMinistryAdmins
+} from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,20 +24,34 @@ import { Subject, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
+import {
+  PaginationConstants,
+  Constants
+} from '../../../../shared/constants/constants';
 import { AdminRole } from '../../../../shared/enum/admins';
-import { AdminRoleUkr, AdminRoleUkrReverse } from '../../../../shared/enum/enumUA/admins';
+import {
+  AdminRoleUkr,
+  AdminRoleUkrReverse
+} from '../../../../shared/enum/enumUA/admins';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { UsersTable } from '../../../../shared/models/usersTable';
-import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
+import {
+  PushNavPath,
+  PopNavPath
+} from '../../../../shared/store/navigation.actions';
+import {
+  OnPageChangeAdminTable,
+  SetItemsPerPage
+} from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { RegistrationState } from './../../../../shared/store/registration.state';
+import { Statuses } from '../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-admins',
@@ -35,31 +63,35 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly adminRole = AdminRole;
   readonly adminRoleUkr = AdminRoleUkr;
   readonly Role = Role;
+  readonly statuses = Statuses;
 
   @Select(AdminState.ministryAdmins)
-    ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
+  ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
   @Select(AdminState.isLoading)
-    isLoadingCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
   @Select(PaginatorState.itemsPerPage)
-    itemsPerPage$: Observable<number>;
+  itemsPerPage$: Observable<number>;
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
 
   tabIndex: number;
   filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
+  role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   adminParams: MinistryAdminParameters = {
     searchString: '',
-    tabTitle: undefined,
+    tabTitle: undefined
   };
 
   constructor(
     private store: Store,
     private router: Router,
     private route: ActivatedRoute,
-    protected matDialog: MatDialog,
+    protected matDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -69,7 +101,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
         distinctUntilChanged(),
         startWith(''),
         skip(1),
-        debounceTime(2000))
+        debounceTime(2000)
+      )
       .subscribe((searchString: string) => {
         this.adminParams.searchString = searchString;
         this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
@@ -78,12 +111,20 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.ministryAdmins$
       .pipe(
         takeUntil(this.destroy$),
-        filter((ministryAdmins: SearchResponse<MinistryAdmin[]>) => !!ministryAdmins)
+        filter(
+          (ministryAdmins: SearchResponse<MinistryAdmin[]>) => !!ministryAdmins
+        )
       )
       .subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {
-        this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
+        this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(
+          ministryAdmins.entities
+        );
         this.totalEntities = ministryAdmins.totalAmount;
       });
+
+    this.role$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((role: Role) => (this.role = role));
 
     this.addNavPath();
   }
@@ -99,26 +140,31 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] },
+      queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] }
     });
   }
 
   /**
-   * This method block Admin By Id
+   * This method block, unBlock Admin By Id
    */
-  onBlock(admin: UsersTable): void {
+  onBlock(admin: BlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.blockMinistryAdmin,
-        property: admin.pib,
-      },
+        type: admin.isBlocked
+          ? ModalConfirmationType.blockMinistryAdmin
+          : ModalConfirmationType.unBlockMinistryAdmin,
+        property: admin.user.pib
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
-          new BlockMinistryAdminById(admin.id)
+          new BlockMinistryAdminById({
+            ministryAdminId: admin.user.id,
+            isBlocked: admin.isBlocked
+          })
         );
     });
   }
@@ -131,15 +177,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteMinistryAdmin,
-        property: admin.pib,
-      },
+        property: admin.pib
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
-        this.store.dispatch(
-          new DeleteMinistryAdminById(admin.id)
-        );
+      result && this.store.dispatch(new DeleteMinistryAdminById(admin.id));
     });
   }
 
@@ -153,18 +196,24 @@ export class AdminsComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,
-        disable: true,
+        disable: true
       })
     ]);
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins()]);
+    this.store.dispatch([
+      new OnPageChangeAdminTable(page),
+      new GetAllMinistryAdmins()
+    ]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
+    this.store.dispatch([
+      new SetItemsPerPage(itemsPerPage),
+      new GetAllMinistryAdmins()
+    ]);
   }
 
   ngOnDestroy(): void {

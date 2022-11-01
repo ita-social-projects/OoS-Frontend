@@ -1,13 +1,28 @@
 <div class="header" [ngClass]="isRouter('/') ? '' : 'header_secondary'">
-  <div [ngClass]="{ 'hide-content header_secondary': (isAutorizationLoading$ | async) }">
+  <div
+    [ngClass]="{
+      'hide-content header_secondary': (isAutorizationLoading$ | async)
+    }"
+  >
     <div class="header_top">
       <div class="header_logo-wrapper">
-        <div *ngIf="(isMobileScreen$ | async) && navigationPaths?.length > 0; then mobileNav; else logo"></div>
+        <div
+          *ngIf="
+            (isMobileScreen$ | async) && navigationPaths?.length > 0;
+            then mobileNav;
+            else logo
+          "
+        ></div>
         <ng-template #mobileNav>
           <app-navigation-mobile-bar></app-navigation-mobile-bar>
         </ng-template>
         <ng-template #logo>
-          <a routerLink="/"><img class="logo" src="../../assets/images/Logo.svg" alt="Позашкілля" /></a>
+          <a routerLink="/"
+            ><img
+              class="logo"
+              src="../../assets/images/Logo.svg"
+              alt="Позашкілля"
+          /></a>
         </ng-template>
       </div>
 
@@ -31,11 +46,20 @@
             [(value)]="selectedLanguage"
             class="lang-option"
             disableOptionCentering
-            panelClass="dropdownOption">
-            <mat-option [ngClass]="'lang-option-text'" value="uk"> {{ Languages.uk }} </mat-option>
+            panelClass="dropdownOption"
+          >
+            <mat-option [ngClass]="'lang-option-text'" value="uk">
+              {{ Languages.uk }}
+            </mat-option>
           </mat-select>
         </button>
-        <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
+        <div
+          *ngIf="
+            (isAuthorized$ | async) && user;
+            then isAuthorized;
+            else isUnauthorized
+          "
+        ></div>
       </div>
     </div>
 
@@ -55,16 +79,24 @@
 </ng-template>
 
 <ng-template #isUnauthorized>
-  <button mat-flat-button class="header_menu-button-mobile" (click)="changeView()">
+  <button
+    mat-flat-button
+    class="header_menu-button-mobile"
+    (click)="changeView()"
+  >
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-stroked-button class="header_login" (click)="login()">УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ</button>
+  <button mat-stroked-button class="header_login" (click)="login()">
+    УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
+  </button>
 </ng-template>
 
 <ng-template #isAuthorized>
   <div class="authorization">
     <span class="header_menu-button">
-      <app-notifications *ngIf="(featuresList$ | async).release2"></app-notifications>
+      <app-notifications
+        *ngIf="(featuresList$ | async).release2"
+      ></app-notifications>
 
       <button mat-icon-button class="header_menu-button_account-circle">
         <mat-icon>account_circle</mat-icon>
@@ -78,7 +110,11 @@
       </button>
     </span>
 
-    <button mat-flat-button class="header_menu-button-mobile" (click)="changeView()">
+    <button
+      mat-flat-button
+      class="header_menu-button-mobile"
+      (click)="changeView()"
+    >
       <mat-icon>menu</mat-icon>
     </button>
 
@@ -90,39 +126,74 @@
           class="header_menu_account-button_account-circle"
           matBadge="2"
           matBadgePosition="before"
-          matBadgeColor="accent">
+          matBadgeColor="accent"
+        >
           <i>
             <mat-icon class="icon-account">account_circle</mat-icon>
           </i>
         </button>
       </button>
-      <div *ngIf="user?.role !== Role.techAdmin; then UserView; else AdminView"></div>
+      <div
+        *ngIf="
+          user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin;
+          then UserView;
+          else AdminView
+        "
+      ></div>
       <ng-template #UserView>
         <ng-container *ngIf="isRegistered$ | async">
-          <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
+          <a [routerLink]="'./personal-cabinet/config'"
+            ><button mat-menu-item>Особиста інформація</button></a
+          >
           <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
             <button mat-menu-item>Інформація про {{ roles[user.role] }}</button>
           </a>
-          <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/' + user.role + '/workshops'">
+          <a
+            *ngIf="user.role === Role.provider"
+            [routerLink]="'./personal-cabinet/' + user.role + '/workshops'"
+          >
             <button mat-menu-item>Мої гуртки</button>
           </a>
           <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
             <button mat-menu-item>Мої заяви</button>
           </a>
+          <a [routerLink]="'./personal-cabinet/messages'">
+            <button mat-menu-item>Повідомлення</button>
+          </a>
           <a
-            *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
-            [routerLink]="'./personal-cabinet/provider/administration'">
+            *ngIf="
+              user.role === Role.provider && subrole !== Role.ProviderAdmin
+            "
+            [routerLink]="'./personal-cabinet/provider/administration'"
+          >
             <button mat-menu-item>Адміністрування</button>
           </a>
-          <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'">
+          <a
+            *ngIf="user.role === Role.parent"
+            [routerLink]="'./personal-cabinet/parent/favorite'"
+          >
             <button mat-menu-item>Улюблене</button>
           </a>
         </ng-container>
-        <button mat-menu-item class="logout-btn" (click)="logout()">Вийти</button>
+        <button mat-menu-item class="logout-btn" (click)="logout()">
+          Вийти
+        </button>
       </ng-template>
       <ng-template #AdminView>
-        <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>Особиста інформація</button></a>
-        <a [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
+        <a [routerLink]="'./personal-cabinet/config'"
+          ><button mat-menu-item>Особиста інформація</button></a
+        >
+        <a
+          *ngIf="user.role === Role.techAdmin"
+          [routerLink]="'./admin-tools/platform'"
+          [queryParams]="{ page: defaultAdminTabs }"
+        >
+          <button mat-menu-item>Адміністрування</button></a
+        >
+        <a
+          *ngIf="user.role === Role.ministryAdmin"
+          [routerLink]="'./admin-tools/data/admins'"
+        >
           <button mat-menu-item>Адміністрування</button></a
         >
         <button mat-menu-item (click)="logout()">Вийти</button>
