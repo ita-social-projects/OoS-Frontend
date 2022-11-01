@@ -27,19 +27,13 @@ import {
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-
-
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-
-
 import { MatDialog } from '@angular/material/dialog';
-
 import { CreateProvider, UpdateProvider } from '../../../../shared/store/provider.actions';
-
 
 @Component({
   selector: 'app-create-provider',
@@ -74,6 +68,7 @@ export class CreateProviderComponent
   constructor(
     store: Store,
     route: ActivatedRoute,
+    private router: Router,
     navigationBarService: NavigationBarService,
     private changeDetector: ChangeDetectorRef,
     private matDialog: MatDialog
@@ -107,6 +102,8 @@ export class CreateProviderComponent
   setEditMode(): void {
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.addNavPath();
+    this.isAgreed = true;
+    this.isNotRobot = true;
   }
 
   addNavPath(): void {
@@ -232,6 +229,8 @@ export class CreateProviderComponent
           this.store.dispatch(new Logout());
         }
       });
+    } else {
+      this.router.navigate(['/personal-cabinet/provider/info']);
     }
   }
 }
