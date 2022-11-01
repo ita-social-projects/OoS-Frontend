@@ -11,10 +11,10 @@ import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { JoinPipe } from '../../../../../shared/pipes/join.pipe';
 import { Child } from '../../../../../shared/models/child.model';
-import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
 import { StatusInfoCardComponent } from '../../../../../shared/components/status-info-card/status-info-card.component';
 import { InfoStatusComponent } from './info-status/info-status.component';
 import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
+import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
 
 
 describe('ApplicationCardComponent', () => {
