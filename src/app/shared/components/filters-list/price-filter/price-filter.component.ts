@@ -47,11 +47,11 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.minPriceControl.disable();
 
     this.isFreeControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
+      .pipe( debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$),)
       .subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
 
     this.isPaidControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$),)
       .subscribe((val: boolean) => {
         const func = val ? 'enable' : 'disable';
         if (!val) {
@@ -67,14 +67,14 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
       });
 
     this.minPriceControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$),)
       .subscribe((val: number) => {
         !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMinPrice(val));
       });
 
     this.maxPriceControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$),)
       .subscribe((val: number) => {
         !this.isPaidControl.value && this.isPaidControl.setValue(true);
         this.store.dispatch(new SetMaxPrice(val));
