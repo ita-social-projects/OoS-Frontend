@@ -10,7 +10,7 @@
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="start">
           <h4 class="title">{{ childFullName }}</h4>
-          <mat-icon
+          <i
             [ngClass]="
               cildTriger.menuOpen
                 ? 'material-icons status-info-icon activeInfoBtn'
@@ -18,7 +18,7 @@
             "
             [matMenuTriggerFor]="childInfo"
             #cildTriger="matMenuTrigger"
-            >info_outline</mat-icon
+            >info_outline</i
           >
           <mat-menu
             class="status-menu childInfo-menu"

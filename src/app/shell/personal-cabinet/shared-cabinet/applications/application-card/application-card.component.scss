@@ -70,10 +70,6 @@
   padding-bottom: 8px;
 }
 
-.status-info-icon{
-  margin: 0 5px;
-}
-
 ::ng-deep .mat-menu-panel.childInfo-menu{
   max-width:none;
   background: #FFFFFF;
@@ -155,5 +151,8 @@
   .btn{
     min-width: 140px;
     margin: 0;
+  }
+  .material-icons{
+    margin-top: 2px !important;
   }
 }
