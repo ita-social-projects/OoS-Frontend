@@ -26,7 +26,7 @@ import { SearchResponse } from '../../shared/models/search.model';
 
 enum ViewType {
   map = 'map',
-  data = 'list'
+  list = 'list'
 }
 
 @Component({
@@ -60,7 +60,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   isMapView$: Observable<boolean>;
   isMapView: boolean;
 
-  currentView: ViewType = ViewType.data;
+  currentView: ViewType = ViewType.list;
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
