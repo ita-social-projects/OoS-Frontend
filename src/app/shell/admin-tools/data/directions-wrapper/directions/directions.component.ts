@@ -41,11 +41,11 @@ export class DirectionsComponent implements OnInit, OnDestroy {
     this.store.dispatch([new OnPageChangeDirections(PaginationConstants.firstPage), new GetFilteredDirections()]);
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
         debounceTime(1000),
+        takeUntil(this.destroy$),
         map((searchedText: string) => searchedText.trim())
       )
       .subscribe((searchedText: string) => {
