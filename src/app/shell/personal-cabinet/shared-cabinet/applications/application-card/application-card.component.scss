@@ -90,6 +90,7 @@
   .card-block{
     &__buttons{
       flex-direction: column;
+      justify-content: center;
       gap: 10px;
     }
   }
@@ -110,7 +111,6 @@
         }
       }
     }
-    
   }
   .text{
     &-bold{
