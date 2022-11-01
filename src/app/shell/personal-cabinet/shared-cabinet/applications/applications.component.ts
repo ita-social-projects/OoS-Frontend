@@ -85,11 +85,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @HostListener('window: resize', ['$event.target'])
   onResize(event: Window): void {
-    if (event.outerWidth < 530) {
-      this.isMobileView = true;
-    } else {
-      this.isMobileView = false;
-    }
+    this.isMobileView = event.outerWidth < 530;
   }
 
   constructor(
