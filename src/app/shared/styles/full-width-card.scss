@@ -13,7 +13,7 @@ p {
   display: flex;
   flex-direction: row;
   justify-content: space-evenly;
-  align-items: center;
+  align-items: stretch;
 
   &-block{
     flex: 1;
@@ -39,9 +39,6 @@ p {
   line-height: 18px;
   padding: 0px;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
   &-bold{
     font-weight: 700;
   }
@@ -66,6 +63,13 @@ p {
   &:not(:first-child){
     padding-left: 5px;
   }  
+  &__actions {
+    max-width: 60px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+  }
 }
 
 .material-icons {
@@ -74,7 +78,7 @@ p {
   height: 16px;
   width: 16px;
   overflow: visible;
-  &-actions{
+  &__actions{
     margin: 0 8px;
   }
 }

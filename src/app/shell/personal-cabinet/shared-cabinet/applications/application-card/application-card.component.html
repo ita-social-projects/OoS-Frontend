@@ -1,7 +1,11 @@
 <mat-card
   [ngClass]="application.status === statuses.Pending ? 'card card-new' : 'card'"
 >
-  <mat-card-content class="card-block card-block__parent">
+  <mat-card-content
+    [ngClass]="
+      userRole === role.parent ? 'card-block card-block__parent' : 'card-block'
+    "
+  >
     <div class="card-block__info">
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="start">
@@ -132,12 +136,12 @@
 <ng-template #actionsBlock>
   <mat-card-content class="card-block card-block__actions">
     <mat-icon
-      class="material-icons material-icons-actions"
+      class="material-icons material-icons__actions"
       [matMenuTriggerFor]="actions"
       >more_vert</mat-icon
     >
     <mat-icon
-      class="material-icons material-icons-actions"
+      class="material-icons material-icons__actions"
       [matMenuTriggerFor]="email"
       >email</mat-icon
     >

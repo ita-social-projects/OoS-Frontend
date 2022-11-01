@@ -8,7 +8,7 @@
   &__info{
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
     &>div{
       flex: 1;
       &:not(:first-child){
@@ -19,13 +19,6 @@
   &__buttons {
     max-width: 340px;
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-  }
-  &__actions {
-    max-width: 60px;
-    display: flex;
-    flex-direction: row;
     justify-content: flex-end;
     align-items: center;
   }
@@ -45,6 +38,11 @@
 .workshop-age{
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+.text{
+  display: flex;
+  justify-content: start;
   align-items: center;
 }
 
@@ -151,7 +149,7 @@
 
     }
     &__actions{
-      align-items: start;
+      align-items: flex-start;
     }
   }
   .btn{
