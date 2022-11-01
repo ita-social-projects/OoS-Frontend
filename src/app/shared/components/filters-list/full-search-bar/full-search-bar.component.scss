@@ -30,3 +30,7 @@
   margin: 0 0.5rem 0 1rem;
   color: #AAAAAA;
 }
+
+.search ::ng-deep .mat-icon{
+  overflow: visible;
+}
