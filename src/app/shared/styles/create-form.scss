@@ -106,6 +106,25 @@ button:focus {
   outline: none;
 }
 
+.step-input ::ng-deep .mat-select-trigger{
+  height: auto;
+}
+
+.mat-chip-list ::ng-deep .mat-chip-list-wrapper{
+  padding-right: 10px;
+}
+
+.mat-chip-list ::ng-deep .mat-chip{
+  width: 100%;
+  span{
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .mat-icon{
+    overflow: visible;
+  }
+}
+
 ::ng-deep .placeholder {
   color: #333333;
   font-family: Open Sans;
