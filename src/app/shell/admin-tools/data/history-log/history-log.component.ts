@@ -114,10 +114,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
     this.searchFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         debounceTime(2000),
+        takeUntil(this.destroy$),
         map((value: string) => value.trim())
       )
       .subscribe((searchString: string) => {

@@ -135,10 +135,10 @@ export class CreateAddressFormComponent implements OnInit {
   private initSettlementListener(): void {
     this.settlementSearchFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         debounceTime(500),
         distinctUntilChanged(),
         startWith(''),
+        takeUntil(this.destroy$),
         tap((value: string) => {
           if (!value?.length) {
             this.store.dispatch(new ClearCodeficatorSearch());
