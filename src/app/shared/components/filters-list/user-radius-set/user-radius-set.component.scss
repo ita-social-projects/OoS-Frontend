@@ -1,0 +1,34 @@
+.user-radius {
+  margin-top: 30px;
+  .slider-row {
+    display: flex;
+  }
+
+  ::ng-deep .slider {
+    flex: 1 1 auto;
+    margin-top: -27px;
+
+    .ngx-slider {
+      .ngx-slider-pointer-min {
+        display: none;
+      }
+      .ngx-slider-pointer-max {
+        outline: none;
+      }
+    }
+  }
+  .current-radius {
+    text-align: center;
+    margin-left: 20px;
+    border: 1px solid #e3e3e3;
+    background-color: #ffffff;
+    box-sizing: border-box;
+    border-radius: 21px;
+    padding: 0.5rem;
+    max-height: 34px;
+    width: 54px;
+  }
+  .mat-input-element:disabled {
+    color: #444444;
+  }
+}

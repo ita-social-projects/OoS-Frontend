@@ -1,4 +1,11 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import {
+  Component,
+  AfterViewInit,
+  Input,
+  Output,
+  EventEmitter,
+  OnDestroy
+} from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
@@ -16,12 +23,19 @@ import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
-import { ClearCoordsByMap, SetCoordsByMap } from '../../store/filter.actions';
+import {
+  ClearCoordsByMap,
+  ClearRadiusSize,
+  SetCoordsByMap,
+  SetMapView
+} from '../../store/filter.actions';
+import { ShowMessageBar } from '../../store/app.actions';
+import { SnackbarText } from '../../enum/messageBar';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
-  styleUrls: ['./map.component.scss'],
+  styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
@@ -33,9 +47,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   @Output() selectedWorkshopAddress = new EventEmitter<Address>();
 
   @Select(SharedUserState.selectedWorkshop)
-    selectedWorkshop$: Observable<Workshop>;
+  selectedWorkshop$: Observable<Workshop>;
   @Select(FilterState.settlement)
-    settlement$: Observable<Codeficator>;
+  settlement$: Observable<Codeficator>;
+  @Select(FilterState.userRadiusSize)
+  userRadiusSize$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   map: Layer.Map;
@@ -48,13 +64,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private customCoords: Coords;
   private userMarker: Layer.Marker;
   private userRadius: Layer.Circle;
+  private radiusSize: number;
   private unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
     iconAnchor: [10, 41],
     shadowAnchor: [0, 0],
     popupAnchor: [-3, -76],
-    iconUrl: '/assets/icons/marker.png',
+    iconUrl: '/assets/icons/marker.png'
   });
   private selectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
@@ -62,7 +79,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconAnchor: [10, 41],
     shadowAnchor: [0, 0],
     popupAnchor: [-3, -76],
-    iconUrl: '/assets/icons/selectMarker.png',
+    iconUrl: '/assets/icons/selectMarker.png'
   });
   private userIcon: Layer.Icon = Layer.icon({
     iconSize: [35, 35],
@@ -70,10 +87,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconAnchor: [16, 17],
     shadowAnchor: [0, 0],
     popupAnchor: [-3, -76],
-    iconUrl: '/assets/icons/user_dot.svg',
+    iconUrl: '/assets/icons/user_dot.svg'
   });
 
-  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService, private store: Store) {}
+  constructor(
+    private geocoderService: GeocoderService,
+    private previousUrlService: PreviousUrlService,
+    private store: Store
+  ) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -88,7 +109,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         filter((settlement: Codeficator) => !!settlement)
       )
       .subscribe((settlement: Codeficator) => {
-        this.defaultCoords = { lat: settlement.latitude, lng: settlement.longitude };
+        this.defaultCoords = {
+          lat: settlement.latitude,
+          lng: settlement.longitude
+        };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 
@@ -96,6 +120,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         if (!!this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
+          this.showWarningMessage();
+          this.store.dispatch(new SetMapView(true));
         }
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
@@ -123,7 +149,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       subdomains: '123',
       maxZoom: 19,
       tms: true,
-      attribution: 'Дані карт © 2019 ПРаТ «<a href=\'https://api.visicom.ua/\'>Визиком</a>»',
+      attribution:
+        "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
 
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
@@ -137,20 +164,29 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setFilteredWorkshops(): void {
-    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
-      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
-      this.workshopMarkers = [];
-      if (filteredWorkshops) {
-        this.workshops = filteredWorkshops.entities;
-        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setWorkshopMarkers(workshop.address));
-      }
-    });
+    this.filteredWorkshops$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
+        this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) =>
+          this.map.removeLayer(workshopMarker.marker)
+        );
+        this.workshopMarkers = [];
+        if (filteredWorkshops) {
+          this.workshops = filteredWorkshops.entities;
+          filteredWorkshops.entities.forEach((workshop: WorkshopCard) =>
+            this.setWorkshopMarkers(workshop.address)
+          );
+        }
+      });
   }
 
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
+      this.setNewSingleMarker([
+        this.addressFormGroup.value.lat,
+        this.addressFormGroup.value.lon
+      ]);
     }
     this.addressFormGroup.valueChanges
       .pipe(debounceTime(500), takeUntil(this.destroy$))
@@ -171,7 +207,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.setNewSingleMarker([result.lat, result.lon]);
         this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
+        this.addressFormGroup.reset(
+          { catottgId: this.addressFormGroup.value.catottgId },
+          { emitEvent: false }
+        );
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
@@ -216,7 +255,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-      const targetMarker = this.workshopMarkers.find(workshopMarker => workshopMarker.marker === event.target);
+      const targetMarker = this.workshopMarkers.find(
+        (workshopMarker) => workshopMarker.marker === event.target
+      );
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedWorkshopAddress.emit(address);
@@ -242,10 +283,16 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method creates new marker
    * @param coords - type [number, number]
    * @param draggable - type boolean
-   * @param address - type Address
    */
-  private createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
-    return new Layer.Marker(coords, { draggable, icon: this.unselectedMarkerIcon, riseOnHover: true });
+  private createMarker(
+    coords: [number, number],
+    draggable = true
+  ): Layer.Marker {
+    return new Layer.Marker(coords, {
+      draggable,
+      icon: this.unselectedMarkerIcon,
+      riseOnHover: true
+    });
   }
 
   /**
@@ -253,6 +300,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    */
   private createUserRadius(): void {
     this.clearUserRadius();
+    this.subscribeOnUserRadiusSize();
 
     this.userMarker = new Layer.Marker(this.defaultCoords, {
       draggable: true,
@@ -264,8 +312,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     this.userRadius = Layer.circle(this.defaultCoords, {
       color: '#C72A21',
       fillOpacity: 0,
-      opacity: 0.6,
-      radius: 5500,
+      radius: 5000 || this.radiusSize,
       className: 'leaflet-grab'
     }).addTo(this.map);
 
@@ -274,11 +321,11 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
   /**
    * This method set events for draw and drop user marker
-   * @param userMarker
-   * @param userRadius
    */
   private setUserRadiusEvent(): void {
-    this.userMarker.on('dragstart', () => this.userRadius.setStyle({ opacity: 0 }));
+    this.userMarker.on('dragstart', () =>
+      this.userRadius.setStyle({ opacity: 0 })
+    );
 
     this.userMarker.on('dragend', () => {
       this.userRadius.setStyle({
@@ -299,8 +346,33 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
   }
 
+  private subscribeOnUserRadiusSize(): void {
+    this.userRadiusSize$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+      this.radiusSize && this.updateUserRadius(value);
+      this.radiusSize = value;
+    });
+  }
+
+  private updateUserRadius(num: number): void {
+    this.userRadius.setRadius(num);
+  }
+
+  private showWarningMessage(): void {
+    this.store.dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.mapWarning,
+        type: 'warningBlue',
+        infinityDuration: true
+      })
+    );
+  }
+
   ngOnDestroy(): void {
-    this.store.dispatch(new ClearCoordsByMap());
+    this.store.dispatch([
+      new ClearCoordsByMap(),
+      new ClearRadiusSize(),
+      new SetMapView(false)
+    ]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

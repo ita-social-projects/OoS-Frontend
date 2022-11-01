@@ -14,15 +14,21 @@ import { FilterState } from '../../../store/filter.state';
 import { PaginatorState } from '../../../store/paginator.state';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
+  private setCityFilterParams(
+    settlement: Codeficator,
+    params: HttpParams
+  ): HttpParams {
     params = params.set('Latitude', settlement.latitude.toString());
     params = params.set('Longitude', settlement.longitude.toString());
-    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
+    params = params.set(
+      'catottgId',
+      settlement?.id?.toString() ?? Constants.KYIV.id.toString()
+    );
 
     return params;
   }
@@ -33,7 +39,7 @@ export class AppWorkshopsService {
     if (filters.settlement && !filters.mapViewCoords) {
       params = this.setCityFilterParams(filters.settlement, params);
     } else if (!!filters.mapViewCoords) {
-      const {lat, lng} = filters.mapViewCoords;
+      const { lat, lng } = filters.mapViewCoords;
       params = params.set('Latitude', lat.toFixed(5).toString());
       params = params.set('Longitude', lng.toFixed(5).toString());
     }
@@ -105,7 +111,8 @@ export class AppWorkshopsService {
 
     if (!!filters.directions.length) {
       filters.directions.forEach(
-        (direction: Direction) => (params = params.append('DirectionIds', direction.id.toString()))
+        (direction: Direction) =>
+          (params = params.append('DirectionIds', direction.id.toString()))
       );
     }
 
@@ -113,9 +120,16 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', Ordering.nearest);
       params = params.set('Size', '100');
       params = params.set('From', '0');
+      if (filters.userRadiusSize) {
+        params = params.set('RadiusKm', filters.userRadiusSize);
+      }
     } else {
-      const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-      const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+      const currentPage = this.store.selectSnapshot(
+        PaginatorState.currentPage
+      ) as PaginationElement;
+      const size: number = this.store.selectSnapshot(
+        PaginatorState.workshopsPerPage
+      );
       const from: number = size * (+currentPage.element - 1);
 
       params = params.set('Size', size.toString());
@@ -159,6 +173,8 @@ export class AppWorkshopsService {
     params = params.set('Limit', size.toString());
     params = this.setCityFilterParams(settlement, params);
 
-    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
+    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', {
+      params
+    });
   }
 }
