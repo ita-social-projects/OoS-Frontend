@@ -2,14 +2,14 @@
   [ngClass]="application.status === statuses.Pending ? 'card card-new' : 'card'"
 >
   <mat-card-content
-    class="card-block"
-    fxLayout="column"
-    fxLayoutAlign="start start"
+    [ngClass]="
+      userRole === role.parent ? 'card-block card-block__parent' : 'card-block'
+    "
   >
-    <div class="workshop-header" fxLayout="column" fxLayoutAlign="start start">
-      <div #name class="workshop-header">
-        <h4 class="name title" fxLayout="row" fxLayoutAlign="start">
-          {{ childFullName }}
+    <div class="card-block__info">
+      <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
+        <div fxLayout="row" fxLayoutAlign="start">
+          <h4 class="title">{{ childFullName }}</h4>
           <i
             [ngClass]="
               cildTriger.menuOpen
@@ -30,121 +30,89 @@
               (click)="$event.stopPropagation()"
             ></app-child-info-box>
           </mat-menu>
-        </h4>
-      </div>
-      <p class="text text-bold">{{ childAge }}</p>
-      <p class="text">
-        {{ application.creationTime | date: constants.FULL_DATE_FORMAT }}
-      </p>
-    </div>
-  </mat-card-content>
-  <mat-card-content
-    class="card-block"
-    fxLayout="column"
-    fxLayoutAlign="start center"
-  >
-    <div
-      class="workshop-description"
-      fxLayout="column"
-      fxLayoutAlign="start start"
-    >
-      <h4
-        [routerLink]="['/details/workshop', application?.workshopId]"
-        [matTooltip]="application?.workshop.title"
-        showTooltipIfTruncated
-        matTooltipClass="tooltip"
-        matTooltipPosition="below"
-        class="title text-link"
-      >
-        {{ application?.workshop.title }}
-      </h4>
-      <div
-        class="organization"
-        fxLayout="row"
-        fxLayoutAlign="center center"
-        *ngIf="userRole === role.parent"
-      >
-        <mat-icon class="text_icon">home</mat-icon>
-        <p
-          class="text text-link"
-          [routerLink]="['/details/provider', application?.workshop.providerId]"
-        >
-          {{ application?.workshop.providerTitle }}
-        </p>
-      </div>
-      <div
-        class="workshop-age"
-        fxLayout="row"
-        fxLayoutAlign="center center"
-        *ngIf="userRole === role.parent"
-      >
-        <mat-icon class="text_icon">person</mat-icon>
+        </div>
+        <p class="text text-bold">{{ childAge }}</p>
         <p class="text">
-          {{ application?.workshop.minAge }} -
-          {{ application?.workshop.maxAge }} років
+          {{ application.creationTime | date: constants.FULL_DATE_FORMAT }}
         </p>
       </div>
+      <div class="workshop-description">
+        <h4
+          [routerLink]="['/details/workshop', application?.workshopId]"
+          [matTooltip]="application?.workshop.title"
+          showTooltipIfTruncated
+          matTooltipClass="tooltip"
+          matTooltipPosition="below"
+          class="title text-link"
+        >
+          {{ application?.workshop.title }}
+        </h4>
+        <div
+          class="organization"
+          fxLayout="row"
+          fxLayoutAlign="center center"
+          *ngIf="userRole === role.parent"
+        >
+          <mat-icon class="text_icon">home</mat-icon>
+          <p
+            class="text text-link"
+            [routerLink]="[
+              '/details/provider',
+              application?.workshop.providerId
+            ]"
+          >
+            {{ application?.workshop.providerTitle }}
+          </p>
+        </div>
+        <div class="workshop-age" *ngIf="userRole === role.parent">
+          <mat-icon class="text_icon">person</mat-icon>
+          <p class="text">
+            {{ application?.workshop.minAge }} -
+            {{ application?.workshop.maxAge }} років
+          </p>
+        </div>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <app-info-status [application]="application"></app-info-status>
+      </div>
     </div>
-  </mat-card-content>
-  <mat-card-content
-    class="card-block"
-    fxLayout="row"
-    fxLayoutAlign="start center"
-  >
-    <app-info-status [application]="application"></app-info-status>
-  </mat-card-content>
 
+    <ng-container
+      *ngIf="userRole === role.provider && isMobileView; then actionsBlock"
+    >
+    </ng-container>
+  </mat-card-content>
   <mat-card-content
-    class="card-block card-block-buttons"
+    class="card-block card-block__buttons"
     *ngIf="userRole === role.provider"
   >
-    <div
-      fxLayout="column"
-      fxLayoutAlign="start start"
+    <button
+      class="btn btn-blue"
+      (click)="onApprove(application)"
       [ngClass]="application.status === statuses.Approved && 'hidden'"
     >
-      <button class="btn btn-blue" (click)="onApprove(application)">
-        <p>ПРИЙНЯТИ</p>
-      </button>
-    </div>
-    <div
-      fxLayout="column"
-      fxLayoutAlign="start start"
+      <p>ПРИЙНЯТИ</p>
+    </button>
+    <button
+      class="btn btn-gray"
+      (click)="onReject(application)"
       [ngClass]="
         (application.status === statuses.Rejected ||
           application.status === statuses.Left) &&
         'hidden'
       "
     >
-      <button class="btn btn-gray" (click)="onReject(application)">
-        <p>ВІДМОВИТИ</p>
-      </button>
-    </div>
-    <button mat-icon-button [matMenuTriggerFor]="actions">
-      <mat-icon class="material-icons">more_vert</mat-icon>
+      <p>ВІДМОВИТИ</p>
     </button>
-
-    <button mat-icon-button [matMenuTriggerFor]="email">
-      <mat-icon class="material-icons">email</mat-icon>
-    </button>
-
-    <mat-menu #actions="matMenu" class="header_menu">
-      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">
-        Заблокувати користувача
-      </button>
-      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">
-        Розблокувати користувача
-      </button>
-    </mat-menu>
-    <mat-menu #email="matMenu" class="header_menu">
-      <button mat-menu-item (click)="sendInvitation()">
-        Надіслати запрошення
-      </button>
-    </mat-menu>
   </mat-card-content>
 
+  <ng-container
+    *ngIf="userRole === role.provider && !isMobileView; then actionsBlock"
+  >
+  </ng-container>
+
   <mat-card-content
-    class="card-block"
+    class="card-block card-block__buttons"
     fxLayout="row"
     fxLayoutAlign="center center"
     *ngIf="userRole === role.parent"
@@ -164,3 +132,32 @@
     </div>
   </mat-card-content>
 </mat-card>
+
+<ng-template #actionsBlock>
+  <mat-card-content class="card-block card-block__actions">
+    <mat-icon
+      class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="actions"
+      >more_vert</mat-icon
+    >
+    <mat-icon
+      class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="email"
+      >email</mat-icon
+    >
+
+    <mat-menu #actions="matMenu" class="header_menu">
+      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">
+        Заблокувати користувача
+      </button>
+      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">
+        Розблокувати користувача
+      </button>
+    </mat-menu>
+    <mat-menu #email="matMenu" class="header_menu">
+      <button mat-menu-item (click)="sendInvitation()">
+        Надіслати запрошення
+      </button>
+    </mat-menu>
+  </mat-card-content>
+</ng-template>
