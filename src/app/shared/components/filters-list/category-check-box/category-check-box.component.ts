@@ -46,7 +46,10 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
     this.directions$.pipe(takeUntil(this.destroy$)).subscribe(directions => (this.allDirections = directions));
 
     this.directionSearch.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$),)
       .subscribe(val => {
         if (val) {
           this.onDirectionFilter(val);

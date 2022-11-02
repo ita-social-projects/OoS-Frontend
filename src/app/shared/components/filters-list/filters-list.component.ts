@@ -8,7 +8,7 @@ import {
   FilterClear,
   SetClosedRecruitment,
   SetOpenRecruitment,
-  SetWithDisabilityOption,
+  SetWithDisabilityOption
 } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
@@ -19,16 +19,19 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
-  styleUrls: ['./filters-list.component.scss'],
+  styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-    filterList$: Observable<FilterList>;
+  filterList$: Observable<FilterList>;
   filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
-    filtersSidenavOpenTrue$: Observable<boolean>;
+  filtersSidenavOpenTrue$: Observable<boolean>;
   visibleFiltersSidenav: boolean;
+
+  @Select(FilterState.isMapView)
+  isMapView$: Observable<boolean>;
 
   @Input() isMobileView: boolean;
 
@@ -73,7 +76,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   statusHandler(val: boolean, status: string): void {
     val
       ? this.statuses.push(this.workhopStatus[status])
-      : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
+      : this.statuses.splice(
+          this.statuses.indexOf(this.workhopStatus[status]),
+          1
+        );
   }
 
   changeView(): void {

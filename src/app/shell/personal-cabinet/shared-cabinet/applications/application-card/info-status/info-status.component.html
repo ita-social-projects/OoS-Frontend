@@ -21,8 +21,7 @@
     disabled
     [overlapTrigger]="false"
     xPosition="after"
-    class="mat-application-menu"
-  >
+    class="mat-application-menu">
     <div class="application-popup-status {{ status }}">
       <span> <i class="{{ applicationIcons[status] }}"></i></span>
       <span> {{ statusTitles[status] }}</span>
@@ -30,6 +29,6 @@
     <div class="application-info-menu application-info-description-card">
       ({{ applicationStatusDescription[status] }})
     </div>
-    <p *ngIf="reason" class="application-info-menu">{{ reason }}</p>
+    <p *ngIf="reason" class="application-info-menu">{{ reason | textSliceTransform }}</p>
   </mat-menu>
 </div>

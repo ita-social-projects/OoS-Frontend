@@ -41,9 +41,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
     this.searchValueFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
+        takeUntil(this.destroy$),
         map((value: string) => value.trim()),
         tap((value: string) => this.filter(value))
       )

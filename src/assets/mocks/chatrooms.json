@@ -15,14 +15,14 @@
     "workshop": {
       "id": "mockWorkshopId",
       "providerTitle": "mockProviderTitle",
-      "title": "mockTitle",
+      "title": "Спляча Красуня Фан-Клаб",
       "providerId": "mockProviderId"
     },
     "notReadByCurrentUserMessagesCount": 0,
     "lastMessage": {
       "id": "mockMessageId",
       "chatRoomId": "mockId",
-      "text": "mockText",
+      "text": "mockTextmock TextmockTextmock Textmock Textmock TextmockTextmockT extmockTextmockTextmock TextmockTextmockTextmock TextmockTextmockTextm ockTextmockTextmo ckText",
       "senderRoleIsProvider": false,
       "createdDateTime": "2022-10-25T09:59:08.504Z"
     }

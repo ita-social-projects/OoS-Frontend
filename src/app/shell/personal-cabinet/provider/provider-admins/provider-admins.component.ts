@@ -93,7 +93,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    */
   onBlock(admin: BlockData): void {
     let messageType: string;
- 
+
     if(admin.user.isDeputy) {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
@@ -172,9 +172,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   private addProviderAdminsSubscribtions(): void {
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         debounceTime(200),
         distinctUntilChanged(),
+        takeUntil(this.destroy$),
         filter((val: string) => !!val)
       )
       .subscribe((val: string) => (this.filterValue = val));

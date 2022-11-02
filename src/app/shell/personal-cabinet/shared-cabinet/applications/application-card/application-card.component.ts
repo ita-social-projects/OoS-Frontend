@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output
+} from '@angular/core';
 import { Statuses } from '../../../../../shared/enum/statuses';
 import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../../shared/enum/applications';
@@ -31,6 +38,7 @@ export class ApplicationCardComponent implements OnInit {
     showBlocked: false
   };
 
+  @Input() isMobileView: boolean;
   @Input() application: Application;
   @Input() userRole: string;
 
