@@ -1,3 +1,4 @@
+import { ValidationConstants } from '../constants/validation';
 import { MinistryAdmin } from './../models/ministryAdmin.model';
 import { map } from 'rxjs/internal/operators/map';
 import { Constants } from '../constants/constants';
@@ -224,5 +225,86 @@ export class Util {
 
   public static getFullName(person: Person): string {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
+  }
+
+  public static getFilterStateQuery(filterState): string {
+    let filterStateURL: any = {};
+    let filterStateQuery = '';
+    const clearFilterState = {
+      directions: [],
+      maxAge: null,
+      minAge: null,
+      isAppropriateAge: false,
+      startTime: null,
+      endTime: null,
+      workingDays: [],
+      isFree: false,
+      isPaid: false,
+      maxPrice: ValidationConstants.MAX_PRICE,
+      minPrice: ValidationConstants.MIN_PRICE,
+      statuses: [],
+      searchQuery: '',
+      order: 'Rating',
+      withDisabilityOption: false,
+      isStrictWorkdays: false,
+      isAppropriateHours: false,
+    };
+
+    for (let [key, value] of Object.entries(clearFilterState)) {
+      if (key === 'directions' || key === 'workingDays' || key === 'statuses') {
+        continue;
+      }
+      if (value !== filterState[key]) {
+        filterStateURL[key] = filterState[key];
+      }
+    }
+
+    if (filterState.directions?.length > 0 ) {
+      filterStateURL.directions = filterState.directions.map((direction => direction.id)).join();
+    }
+
+    if (filterState.workingDays?.length > 0 ) {
+      filterStateURL.workingDays = filterState.workingDays.join();
+    }
+
+    if (filterState.statuses?.length > 0 ) {
+      filterStateURL.statuses = filterState.statuses.join();
+    }
+
+    Object.keys(filterStateURL).forEach((key,index, keyArray) => {
+      // Shouldn't add semicolon on last iteration
+      if (index === keyArray.length - 1) {
+        filterStateQuery += `${key}=${filterStateURL[key]}`;
+      }
+      else {
+        filterStateQuery += `${key}=${filterStateURL[key]};`;
+      }
+    })
+
+    return filterStateQuery;
+  }
+
+  public static parseFilterStateQuery(params: string) {
+    // eslint-disable-next-line no-console
+    console.log(params);
+    let filterState = {};
+    params.split(';').forEach(param => {
+      const [ key, value ] = param.split('=');
+      // if key is 'directions' or 'workingDays' or 'statuses',
+      // values should be parsed into array, also check if array has only one item
+      if ([ 'directions', 'workingDays', 'statuses' ].includes(key)) {
+        filterState[key] = value.includes(',') ? value.split(',') : [ value ];
+      }
+      else if (value === 'false' || value === 'true') {
+        filterState[key] = value === 'true';
+      }
+      else {
+        filterState[key] = value;
+      }
+    });
+
+    // eslint-disable-next-line no-console
+    console.log({ filterState });
+    return filterState;
   }
 }

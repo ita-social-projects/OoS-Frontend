@@ -25,6 +25,7 @@ import {
   SetCoordsByMap,
   SetDirections,
   SetEndTime,
+  SetFilterFromURL,
   SetIsAppropriateAge,
   SetIsAppropriateHours,
   SetIsFree,
@@ -76,6 +77,10 @@ import { SetFirstPage } from './paginator.actions';
 })
 @Injectable()
 export class FilterState {
+  @Selector()
+  static FilterState(state: FilterStateModel) {
+    return state;
+  }
   @Selector()
   static filteredWorkshops(
     state: FilterStateModel
@@ -447,5 +452,14 @@ export class FilterState {
     { payload }: SetMapView
   ): void {
     patchState({ isMapView: payload });
+  }
+
+  @Action(SetFilterFromURL)
+  setFilterFromURL(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: any
+  ): void {
+    patchState( payload );
+    dispatch(new FilterChange());
   }
 }

@@ -136,3 +136,8 @@ export class SetMapView {
   static readonly type = '[filter] Set Map View';
   constructor(public payload: boolean) {}
 }
+
+export class SetFilterFromURL {
+  static readonly type = '[filter] Set Filter from URL';
+  constructor(public payload: any) {}
+}

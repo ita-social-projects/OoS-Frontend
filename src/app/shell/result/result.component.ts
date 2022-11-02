@@ -1,15 +1,16 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Actions, Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Router, ActivatedRoute, NavigationStart } from '@angular/router';
+import { map, takeUntil, tap } from 'rxjs/operators';
+import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
 import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../shared/enum/navigation-bar';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
 import {
+  FilterClear,
   GetFilteredWorkshops,
-  ResetFilteredWorkshops
+  ResetFilteredWorkshops, SetFilterFromURL
 } from '../../shared/store/filter.actions';
 import { FilterState } from '../../shared/store/filter.state';
 import {
@@ -23,10 +24,31 @@ import { PaginatorState } from '../../shared/store/paginator.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { SearchResponse } from '../../shared/models/search.model';
+import { Util } from '../../shared/utils/utils';
 
 enum ViewType {
   map = 'map',
   list = 'list'
+}
+
+interface FilterClearInterface {
+  directionIds: any
+  maxAge: number
+  minAge: number
+  isAppropriateAge: boolean
+  startTime: number
+  endTime: number
+  workingDays: any
+  isFree: boolean
+  isPaid: boolean
+  maxPrice: number
+  minPrice: number
+  statuses: any
+  searchQuery: string
+  order: string
+  withDisabilityOption: boolean
+  isStrictWorkdays: boolean
+  isAppropriateHours: boolean
 }
 
 @Component({
@@ -34,7 +56,7 @@ enum ViewType {
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
-export class ResultComponent implements OnInit, OnDestroy {
+export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(AppState.isMobileScreen)
@@ -59,10 +81,15 @@ export class ResultComponent implements OnInit, OnDestroy {
   @Select(FilterState.isMapView)
   isMapView$: Observable<boolean>;
   isMapView: boolean;
+  @Select(FilterState)
+    filterState$: Observable<any>;
+  filterState: any;
 
   currentView: ViewType = ViewType.list;
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
+
+  filterQuery$: Observable<string>;
 
   constructor(
     private actions$: Actions,
@@ -70,12 +97,27 @@ export class ResultComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService,
     private route: ActivatedRoute,
     private router: Router
-  ) {}
+  ) {
+      this.route.queryParamMap.pipe(tap((params: ParamMap) => {
+        const filterParams = params.get('filter');
+        if (filterParams) {
+          this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
+        }
+        else {
+          // eslint-disable-next-line no-console
+          console.info('params is null');
+        }
+      }))
+  }
 
   ngOnInit(): void {
     this.addNavPath();
     this.getWorkshops();
     this.setInitialSubscribtions();
+  }
+
+  ngAfterViewInit(): void {
+    this.setFilterStateURLParams();
   }
 
   private setInitialSubscribtions(): void {
@@ -136,6 +178,22 @@ export class ResultComponent implements OnInit, OnDestroy {
     );
   }
 
+  private setFilterStateURLParams(): void {
+    this.filterState$
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe((val ) => {
+        this.filterState = val;
+        const filterQueryParams = Util.getFilterStateQuery(this.filterState);
+        if (filterQueryParams === '') {
+          this.router.navigate([], { queryParams: {filter: null}, replaceUrl: true });
+        } else if (this.router.url.includes('result/list')) { // check if at that current moment url is still result/list
+          this.router.navigate([], { queryParams: {filter: filterQueryParams}, replaceUrl: true });
+        }
+      });
+  }
+
   viewHandler(value: ViewType): void {
     this.store
       .dispatch(new GetFilteredWorkshops(this.isMapView))
@@ -155,8 +213,9 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops()]);
+    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops(), new FilterClear()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.router.navigate([], { queryParams: null});
   }
 }
