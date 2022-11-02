@@ -54,6 +54,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
+
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
@@ -127,11 +128,11 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
         debounceTime(1000),
+        takeUntil(this.destroy$),
         map((value: string) => value.trim())
       )
       .subscribe((searchString: string) => {

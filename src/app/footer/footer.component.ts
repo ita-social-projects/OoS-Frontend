@@ -27,11 +27,11 @@ export class FooterComponent implements OnInit, OnDestroy {
 
   showSnackBar(message: MessageBar): void {
     this.snackBar.openFromComponent(MessageBarComponent, {
-      duration: 5000,
+      duration: message.infinityDuration ? null : 5000,
       verticalPosition: 'top',
       horizontalPosition: 'center',
       panelClass: message.type,
-      data: message,
+      data: message
     });
   }
 
@@ -39,5 +39,4 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

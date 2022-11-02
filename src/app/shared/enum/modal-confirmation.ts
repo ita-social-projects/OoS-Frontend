@@ -35,7 +35,7 @@ export enum ModalConfirmationType {
   blockMinistryAdmin = 'blockMinistryAdmin',
   unBlockMinistryAdmin = 'unBlockMinistryAdmin',
   createMinistryAdmin = 'createMinistryAdmin',
-  updateMinistryAdmin = 'updateMinistryAdmin',
+  updateMinistryAdmin = 'updateMinistryAdmin'
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -52,11 +52,11 @@ export enum ModalConfirmationTitle {
   blockProviderAdminDeputy = 'БЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА',
   editingProvider = 'ВІДПРАВИТИ НА РЕДАГУВАННЯ',
   unBlockProviderAdmin = 'РОЗБЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА',
-  unBlockProviderAdminDeputy = "РОЗБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
+  unBlockProviderAdminDeputy = 'РОЗБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
   leavePage = 'ЗАЛИШИТИ СТОРІНКУ?',
   deleteAchievement = 'ВИДАЛИТИ ДОСЯГНЕННЯ?',
-  leaveRegistration= 'ПЕРЕРВАТИ РЕЄСТРАЦІЮ?',
+  leaveRegistration = 'ПЕРЕРВАТИ РЕЄСТРАЦІЮ?',
   createApplication = 'ПОДАТИ ЗАЯВКУ?',
   approveApplication = 'ЗАРАХУВАТИ',
   rejectApplication = 'ВІДМОВИТИ',
@@ -73,7 +73,7 @@ export enum ModalConfirmationTitle {
   blockMinistryAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
   unBlockMinistryAdmin = 'РОЗБЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
   createMinistryAdmin = 'ДОДАТИ АДМІНА МІНІСТЕРСТВА',
-  updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА'
+  updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА',
 }
 
 export enum ModalConfirmationText {
@@ -114,11 +114,11 @@ export enum ModalConfirmationText {
   blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства',
   unBlockMinistryAdmin = 'Ви впевнені, що хочете розблокувати адміністратора міністерства',
   createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
-  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства',
+  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства'
 }
 
 export enum ModalConfirmationDescription {
   blockParent = 'Вкажіть причину блокування',
   reject = 'Вкажіть причину відмови',
-  editingProvider = 'Вкажіть причину редагування'
+  editingProvider = 'Вкажіть причину редагування',
 }
