@@ -1,9 +1,10 @@
-import { MinistryAdmin } from './../models/ministryAdmin.model';
-import { map } from 'rxjs/internal/operators/map';
+import { DefaultFilterState } from '../models/defaultFilterState.model';
+import { FilterStateModel } from '../models/filterState.model';
+import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { Constants } from '../constants/constants';
 import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { PersonalCabinetTitle } from '../enum/navigation-bar';
-import { PersonalInfoRole, Role } from '../enum/role';
+import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
@@ -165,6 +166,7 @@ export class Util {
   /**
    * This method returns union message for the workshop updating
    * @param payload Object
+   * @param message
    * @returns string
    */
   public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
@@ -217,5 +219,79 @@ export class Util {
 
   public static getFullName(person: Person): string {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
+  }
+
+  /**
+   * Create filter state query string depending on current and default filter values
+   * As an alternative, it can be refactored to use JSON.stringify to serialize filterStateDiff object to string
+   * @param filterState
+   * @return Query string
+   */
+  public static getFilterStateQuery(filterState: FilterStateModel): string {
+    let filterStateDiff: Partial<DefaultFilterState> = {};
+    let serializedFilters = '';
+    const defaultFilterState = new DefaultFilterState();
+
+    // Compare current filter state and default
+    for (let [ key, value ] of Object.entries(defaultFilterState)) {
+      if (Array.isArray(filterState[key])) {
+        if (filterState[key].length > 0) {
+          filterStateDiff[key] = filterState[key].join();
+        }
+        continue;
+      }
+      if (value !== filterState[key]) {
+        filterStateDiff[key] = filterState[key];
+      }
+    }
+    // Create query string from filterStateDiff object
+    Object.keys(filterStateDiff).forEach((key,index, keyArray) => {
+      // Shouldn't add semicolon on last iteration
+      if (index === keyArray.length - 1) {
+        serializedFilters += `${key}=${filterStateDiff[key]}`;
+      }
+      else {
+        serializedFilters += `${key}=${filterStateDiff[key]};`;
+      }
+    });
+
+    return serializedFilters;
+  }
+
+  /**
+   * Parse query string into filter state object to merge
+   * As an alternative, it can be refactored to use JSON.parse serialized Filters query
+   * @param params - filter parameter in url query string
+   * @returns parsed string into Filter state object or empty object
+   */
+  public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
+    let filterState: Partial<DefaultFilterState> = {};
+    params.split(';').forEach(param => {
+      const [ key, value ] = param.split('=');
+      const arrayKeys = [ 'directionIds', 'workingDays', 'statuses' ];
+      // Check if key has value of type array
+      if (arrayKeys.includes(key)) {
+        filterState[key] = key !== 'directionIds' ?
+          value.split(',') :
+          value.split(',').map(Number);
+      }
+      else {
+        filterState[key] = this.parseToPrimitive(value);
+      }
+    });
+    return filterState;
+  }
+
+  /**
+   * Parse string to the primitive value
+   * @param value
+   */
+  private static parseToPrimitive(value) {
+    try {
+      return JSON.parse(value);
+    }
+    catch (e) {
+      return value.toString();
+    }
   }
 }
