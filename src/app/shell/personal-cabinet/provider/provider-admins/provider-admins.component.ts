@@ -94,7 +94,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   onBlock(admin: BlockData): void {
     let messageType: string;
 
-    if(admin.user.isDeputy) {
+    if (admin.user.isDeputy) {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
