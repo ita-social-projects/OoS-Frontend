@@ -41,3 +41,8 @@
   margin-right: 1rem;
 }
 
+@media (max-width: 820px) {
+  .header-wrapper{
+    gap: 10px;
+  }
+}
