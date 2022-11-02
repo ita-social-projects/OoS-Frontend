@@ -11,9 +11,10 @@ import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { WorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeWorkshops } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeWorkshops, SetWorkshopsPerPage } from '../../../../shared/store/paginator.actions';
 import { GetFavoriteWorkshopsByUserId, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { ParentState } from '../../../../shared/store/parent.state.';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
 
 @Component({
   selector: 'app-favorite-workshops',
@@ -26,6 +27,8 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
 
   @Select(ParentState.favoriteWorkshopsCard)
     favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
+  @Select(PaginatorState.workshopsPerPage)
+    favoriteWorkshopsPerPage$: Observable<number>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
@@ -54,6 +57,10 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeWorkshops(page));
+    this.store.dispatch([new OnPageChangeWorkshops(page), new GetFavoriteWorkshopsByUserId()]);
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetWorkshopsPerPage(itemsPerPage), new GetFavoriteWorkshopsByUserId()]);
   }
 }
