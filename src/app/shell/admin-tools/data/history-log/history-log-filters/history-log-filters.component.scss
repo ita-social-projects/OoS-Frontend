@@ -21,6 +21,13 @@
   }
 }
 
+.filters-period{
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  row-gap: 10px;
+}
+
 .select,
 .date {
   min-width: 150px;
@@ -65,4 +72,29 @@
   margin: 0 5px;
   align-self: center;
   border-top: 1px solid rgba(0, 0, 0, .54);
+}
+
+@media (max-width: 1200px) {
+  .form-wrapper{
+    justify-content: end;
+  }
+  .filters-wrapper{
+    flex-wrap: wrap;
+    row-gap: 10px;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 440px){
+  .filters-period{
+    span{
+      display: block;
+      width: 100%;
+      margin: 0 0 5px 10px;
+    }
+  }
+  .separate-line{
+    position: relative;
+    top: 10px;
+  }
 }

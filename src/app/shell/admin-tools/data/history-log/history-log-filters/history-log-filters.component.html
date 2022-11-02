@@ -1,25 +1,38 @@
 <div [formGroup]="filtersForm" class="form-wrapper">
   <div class="filters-wrapper">
-    <span>Період</span>
-    <mat-form-field
-      appPlaceholderStyling
-      class="step-input step-input-date date"
-      floatLabel="never"
-    >
-      <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
-      <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
-      <mat-datepicker #dateFrom></mat-datepicker>
-    </mat-form-field>
-    <div class="separate-line"></div>
-    <mat-form-field
-      appPlaceholderStyling
-      class="step-input step-input-date date"
-      floatLabel="never"
-    >
-      <input matInput [matDatepicker]="dateTo" formControlName="dateTo" />
-      <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
-      <mat-datepicker #dateTo></mat-datepicker>
-    </mat-form-field>
+    <div class="filters-period">
+      <div>
+        <span>Період</span>
+        <mat-form-field
+          appPlaceholderStyling
+          class="step-input step-input-date date"
+          floatLabel="never"
+        >
+          <input
+            matInput
+            [matDatepicker]="dateFrom"
+            formControlName="dateFrom"
+          />
+          <mat-datepicker-toggle
+            matSuffix
+            [for]="dateFrom"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #dateFrom></mat-datepicker>
+        </mat-form-field>
+      </div>
+
+      <div class="separate-line"></div>
+      <mat-form-field
+        appPlaceholderStyling
+        class="step-input step-input-date date"
+        floatLabel="never"
+      >
+        <input matInput [matDatepicker]="dateTo" formControlName="dateTo" />
+        <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
+        <mat-datepicker #dateTo></mat-datepicker>
+      </mat-form-field>
+    </div>
+
     <mat-form-field>
       <mat-select
         disableOptionCentering
@@ -36,9 +49,8 @@
         >
       </mat-select>
     </mat-form-field>
+    <button class="btn" mat-raised-button (click)="applyFilters()">
+      Показати
+    </button>
   </div>
-
-  <button class="btn" mat-raised-button (click)="applyFilters()">
-    Показати
-  </button>
 </div>
