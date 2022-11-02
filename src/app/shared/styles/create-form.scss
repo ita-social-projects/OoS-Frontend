@@ -115,10 +115,10 @@ button:focus {
 }
 
 .mat-chip-list ::ng-deep .mat-chip{
-  width: 100%;
   span{
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 210px;
   }
   .mat-icon{
     overflow: visible;
