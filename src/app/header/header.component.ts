@@ -19,8 +19,6 @@ import { MainPageState } from '../shared/store/main-page.state';
 import { CompanyInformation } from '../shared/models/сompanyInformation.model';
 import { GetMainPageInfo } from '../shared/store/main-page.actions';;
 import { TranslateService } from '@ngx-translate/core';
-import { SetLanguage } from './../shared/store/language.action';
-import { LanguagesState } from './../shared/store/language.state';
 
 @Component({
   selector: 'app-header',
@@ -56,8 +54,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
   headerInfo$: Observable<CompanyInformation>;
-  @Select(LanguagesState.language)
-  language$: Observable<any>;
   headerTitle: string;
   headerSubtitle: string;
   navigationPaths: Navigation[];
@@ -105,9 +101,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
       });
 
-    this.language$.subscribe((language) => {
-      language;
-    })
   }
 
   private getFullName(user: User): string {
@@ -129,7 +122,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   setLanguage(): void {
     this.translate.use(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
-    this.store.dispatch(new SetLanguage(this.selectedLanguage));
   }
 
   ngOnDestroy(): void {

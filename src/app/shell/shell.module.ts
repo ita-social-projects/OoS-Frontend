@@ -28,6 +28,7 @@ import { MOMENT_DATE_FORMATS } from '../shared/constants/constants';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 import { IsMobileGuard } from './is-mobile.guard';
 import { RulesComponent } from './info/rules/rules.component';
+import { TranslateModule } from '@ngx-translate/core';
 @NgModule({
   declarations: [
     MainComponent,
@@ -50,7 +51,8 @@ import { RulesComponent } from './info/rules/rules.component';
     SharedModule,
     NgxPaginationModule,
     HttpClientModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    TranslateModule,
   ],
   providers: [
     PersonalCabinetGuard,
@@ -66,4 +68,4 @@ import { RulesComponent } from './info/rules/rules.component';
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ]
 })
-export class ShellModule { }
+export class ShellModule {}

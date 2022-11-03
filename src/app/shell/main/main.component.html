@@ -1,7 +1,7 @@
 <div class="main">
   <ng-container *ngIf="!(isLoadingData$ | async) && !!settlement">
     <div class="main-header">
-      <h3>Найпопулярніші напрямки</h3>
+      <h3>{{ 'main.header' | translate}}</h3>
       <a routerLink="/all-categories" class="main_link">
         {{ isMobile ? 'Всі' : 'Переглянути всі' }} <span class="material-icons arrow">arrow_forward</span>
       </a>
@@ -11,10 +11,7 @@
 
     <ng-template #topDirections>
       <div class="card-wrapper">
-        <app-category-card
-          class="card"
-          *ngFor="let direction of topDirections$ | async"
-          [direction]="direction"
+        <app-category-card class="card" *ngFor="let direction of topDirections$ | async" [direction]="direction"
           [workshopsCount]="direction.workshopsCount">
         </app-category-card>
       </div>
@@ -31,10 +28,7 @@
   </ng-container>
   <ng-template #topWorkshops>
     <div class="card-wrapper">
-      <app-workshop-card
-        class="card"
-        *ngFor="let workshop of topWorkshops$ | async"
-        [workshop]="workshop">
+      <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop">
       </app-workshop-card>
     </div>
   </ng-template>

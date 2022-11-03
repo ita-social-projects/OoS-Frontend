@@ -6,5 +6,8 @@
       "support": "SUPPORT",
       "login": "LOG IN/REGISTER"
     }
+  },
+  "main": {
+    "header": "The most popular destinations"
   }
 }
