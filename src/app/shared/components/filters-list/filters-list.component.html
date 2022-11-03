@@ -1,4 +1,4 @@
-<div [ngClass]="isMobileView ?  'side-nav-filter' : 'filters-wrapper'">
+<div [ngClass]="isMobileView ? 'side-nav-filter' : 'filters-wrapper'">
   <div fxLayout="row" fxLayoutAlign="space-between">
     <button mat-raised-button class="resetFilter" (click)="onFilterReset()">
       <mat-icon class="matFilter">delete_forever</mat-icon>
@@ -10,12 +10,18 @@
       </button>
     </ng-container>
   </div>
-  <app-category-check-box [categoryCheckBox]="filterList.categoryCheckBox" [stateDirections]="filterList.categoryCheckBox"></app-category-check-box>
+  <app-user-radius-set *ngIf="isMapView$ | async"></app-user-radius-set>
+  <app-category-check-box
+    [categoryCheckBox]="filterList.categoryCheckBox"
+    [stateDirections]="filterList.categoryCheckBox"
+  ></app-category-check-box>
   <app-age-filter [ageFilter]="filterList.ageFilter"></app-age-filter>
-  <app-working-hours [workingHours]="filterList.workingHours"></app-working-hours>
+  <app-working-hours
+    [workingHours]="filterList.workingHours"
+  ></app-working-hours>
   <app-price-filter [priceFilter]="filterList.priceFilter"></app-price-filter>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <p class=" filter-text">Набір</p>
+    <p class="filter-text">Набір</p>
     <mat-checkbox color="primary" [formControl]="OpenRecruitmentControl">
       Лише з відкритим відбором
     </mat-checkbox>
@@ -24,7 +30,11 @@
     </mat-checkbox>
   </div>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-    <p class="filter-text">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</p>
-    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl"> Наявні </mat-checkbox>
+    <p class="filter-text">
+      Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю
+    </p>
+    <mat-checkbox color="primary" [formControl]="WithDisabilityOptionControl">
+      Наявні
+    </mat-checkbox>
   </div>
 </div>

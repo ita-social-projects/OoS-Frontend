@@ -1,6 +1,6 @@
-<div class="view-control-panel" [class.mobile-map-view]="currentView === viewType.map">
+<div class="view-control-panel" [class.mobile-map-view]="isMapView">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
-    <h3 [class.mobile-map-view]="currentView === viewType.map">
+    <h3 [class.mobile-map-view]="isMapView">
       Знайдено {{ (filteredWorkshops$ | async)?.totalAmount || 0 | declination: WorkshopDeclination }}
     </h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
@@ -23,8 +23,13 @@
   </mat-drawer>
   <mat-drawer-content
     [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'"
-    [style.marginTop]="currentView === viewType.map ? '0' : '2rem'">
-    <div *ngIf="currentView === viewType.map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
+    [style.marginTop]="isMapView ? '0' : '2rem'"
+  >
+    <div
+      *ngIf="isMapView; else ShowData"
+      fxLayout="row wrap"
+      fxLayoutAlign="start"
+    >
       <app-workshop-map-view-list
         [role]="role"
         [filteredWorkshops$]="filteredWorkshops$"
@@ -61,7 +66,7 @@
   <app-full-search-bar></app-full-search-bar>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
-    <app-ordering *ngIf="currentView !== viewType.map"></app-ordering>
+    <app-ordering *ngIf="!isMapView"></app-ordering>
 
     <mat-button-toggle-group
       class="view-toggle"
@@ -70,8 +75,8 @@
       (change)="viewHandler(group.value)">
 
       <mat-button-toggle
-        value="{{ viewType.data }}"
-        aria-label="{{ viewType.data }}"
+        value="{{ viewType.list }}"
+        aria-label="{{ viewType.list }}"
         fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>

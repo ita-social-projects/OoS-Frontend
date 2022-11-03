@@ -35,7 +35,7 @@ export enum ModalConfirmationType {
   blockMinistryAdmin = 'blockMinistryAdmin',
   unBlockMinistryAdmin = 'unBlockMinistryAdmin',
   createMinistryAdmin = 'createMinistryAdmin',
-  updateMinistryAdmin = 'updateMinistryAdmin',
+  updateMinistryAdmin = 'updateMinistryAdmin'
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -114,7 +114,7 @@ export enum ModalConfirmationText {
   blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства',
   unBlockMinistryAdmin = 'Ви впевнені, що хочете розблокувати адміністратора міністерства',
   createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
-  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства',
+  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства'
 }
 
 export enum ModalConfirmationDescription {
