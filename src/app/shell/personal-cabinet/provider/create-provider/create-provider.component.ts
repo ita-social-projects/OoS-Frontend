@@ -24,9 +24,10 @@ import {
   OnDestroy,
   AfterViewChecked,
   ChangeDetectorRef,
+  ElementRef,
 } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { MatStepper } from '@angular/material/stepper';
+import { MatStep, MatStepper, MatStepperIntl } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
@@ -89,7 +90,7 @@ export class CreateProviderComponent
   }
 
   ngAfterViewInit(): void {
-    if (this.editMode) {
+    if (this.editMode) { 
       this.route.params.subscribe((params: Params) => {
         this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
