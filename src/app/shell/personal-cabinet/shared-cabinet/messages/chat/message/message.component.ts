@@ -1,5 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Message } from 'src/app/shared/models/chat.model';
+import { Message } from '../../../../../../shared/models/chat.model';
+import { ParentWithContactInfo } from '../../../../../../shared/models/parent.model';
+import { Workshop } from '../../../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-message',
@@ -9,18 +11,10 @@ import { Message } from 'src/app/shared/models/chat.model';
 export class MessageComponent implements OnInit {
   @Input() message: Message;
   @Input() isFirstMessage: boolean;
+  @Input() parent: ParentWithContactInfo;
+  @Input() workshop: Workshop;
 
-  constructor() {
-    this.message = {
-      chatRoomId: '2',
-      id: 'd',
-      createdDateTime: '2022-11-03T09:03:16.870Z',
-      text: 'Доброго дня! Я хотіла запитатись що потрібно мати з собою на перше заняття?',
-      senderRoleIsProvider: false,
-      readDateTime: 's'
-    };
-    this.isFirstMessage = true;
-  }
+  constructor() {}
 
   ngOnInit(): void {}
 }

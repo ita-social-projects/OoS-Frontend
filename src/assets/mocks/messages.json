@@ -1,0 +1,32 @@
+[
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "chatRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "text": "Доброго дня! Я хотіла запитатись що потрібно мати з собою на перше заняття?",
+    "senderRoleIsProvider": false,
+    "createdDateTime": "2022-11-03T09:03:16.870Z",
+    "readDateTime": "2022-11-03T09:03:16.870Z"
+  },
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "chatRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "text": "Доброго дня! Вам буде потрібне тільки змінне взуття.",
+    "senderRoleIsProvider": true,
+    "createdDateTime": "2022-11-03T09:03:16.870Z",
+    "readDateTime": "2022-11-03T09:03:16.870Z"
+  },
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "chatRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "text": "Таке змінне взуття підійде?",
+    "senderRoleIsProvider": false,
+    "createdDateTime": "2022-11-03T09:03:16.870Z"
+  },
+  {
+    "id": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "chatRoomId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+    "text": "Таке змінне взуття підійде?",
+    "senderRoleIsProvider": false,
+    "createdDateTime": "2022-11-03T09:03:16.870Z"
+  }
+]

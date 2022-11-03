@@ -38,4 +38,6 @@
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noMessagesTitle"></app-no-result-card>
 </ng-template>
-<app-chat></app-chat>
+<ng-container *ngIf="!(isLoadingCabinet$ | async)">
+  <app-chat [chatRoom]="chatRooms[0]"></app-chat>
+</ng-container>

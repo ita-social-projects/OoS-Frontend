@@ -6,8 +6,23 @@
       <p class="header__subtitle">Школа бальних танців "Едельвейс"</p>
     </div>
   </div>
-  <div class="chat-card__content content">
-    <app-message [ngClass]="'message message__income'"> </app-message>
+  <div #chat class="chat-card__content content">
+    <ng-container *ngFor="let message of messages; index as i">
+      <app-message
+        [ngClass]="
+          message.senderRoleIsProvider
+            ? 'message message__income'
+            : 'message message__outcome'
+        "
+        [message]="message"
+        [isFirstMessage]="
+          messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider
+        "
+        [parent]="chatRoom.parent"
+        [workshop]="chatRoom.workshop"
+      >
+      </app-message>
+    </ng-container>
   </div>
   <div class="chat-card__footer">send</div>
 </mat-card>

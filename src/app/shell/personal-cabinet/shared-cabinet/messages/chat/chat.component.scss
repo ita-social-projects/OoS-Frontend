@@ -1,5 +1,7 @@
 .chat-card{
-  
+  display: flex;
+  flex-direction: column;
+  height: 580px;
 }
 
 .header{
@@ -34,8 +36,9 @@
 
   display: flex;
   flex-direction: column;
-
+  flex: 1 1 100%;
   
+  overflow: scroll;
 }
 
 .message{
