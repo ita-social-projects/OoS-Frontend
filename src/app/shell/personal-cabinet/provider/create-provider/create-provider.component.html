@@ -6,8 +6,8 @@
     </div>
 
     <mat-horizontal-stepper #stepper linear >
-      <mat-step #step [stepControl]="InfoFormGroup">
-        <ng-template matStepLabel >
+      <mat-step [stepControl]="InfoFormGroup">
+        <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
         </ng-template>
         <app-create-info-form
