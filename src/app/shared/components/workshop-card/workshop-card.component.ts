@@ -1,6 +1,6 @@
-import { ProviderWorkshopCard } from './../../models/workshop.model';
-import { OwnershipTypeName } from './../../enum/provider';
-import { Favorite } from './../../models/favorite.model';
+import { ProviderWorkshopCard } from '../../models/workshop.model';
+import { OwnershipTypeName } from '../../enum/provider';
+import { Favorite } from '../../models/favorite.model';
 import {
   Component,
   EventEmitter,
@@ -36,6 +36,7 @@ import {
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
 import { Statuses, StatusTitles } from '../../enum/statuses';
+import {WorkshopModalComponent} from '../workshop-modal/workshop-modal.component';
 
 @Component({
   selector: 'app-workshop-card',
@@ -55,6 +56,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly statuses = Statuses;
   readonly statusTitles = StatusTitles;
 
+  openDialog = false;
   isFavorite = false;
   canChangeWorkshopStatus: boolean;
   workshopData: ProviderWorkshopCard | WorkshopCard;
@@ -155,7 +157,12 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onOpenDialog(): void {
-    this.dialog.open(WorkshopCardDialog);
+    this.dialog.open(WorkshopModalComponent, {
+      data: {
+        message: 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо',
+        buttonLabel: 'Зареєструватися'
+      },
+    });
   }
 
   ngOnDestroy(): void {
@@ -180,25 +187,3 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       });
   }
 }
-
-@Component({
-  selector: 'app-workshop-dialog',
-  template: ` <div
-      mat-dialog-content
-      fxLayoutAlign="center"
-      class="dialog-title"
-    >
-      <p>
-        Для того щоб додати в улюблені будь ласка зареєструйтеся на порталі.
-        Дякуємо
-      </p>
-    </div>
-    <div mat-dialog-actions fxLayoutAlign="center">
-      <button mat-raised-button mat-dialog-close class="dialog-action-button">
-        Повернутись
-      </button>
-    </div>`,
-  styleUrls: ['./workshop-card.component.scss']
-})
-// eslint-disable-next-line @angular-eslint/component-class-suffix
-export class WorkshopCardDialog {}

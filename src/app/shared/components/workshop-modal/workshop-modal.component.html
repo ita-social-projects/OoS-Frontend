@@ -1,0 +1,32 @@
+<div
+    class="workshop-modal__content"
+    mat-dialog-content
+    fxLayoutAlign="center"
+  >
+    <h2 *ngIf="data.title" class="workshop-modal__title">
+      {{data?.title}}
+    </h2>
+    <p *ngIf="data.message" class="workshop-modal__message">
+      {{data?.message}}
+    </p>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="center">
+    <button
+      class="workshop-modal__action-button white"
+      mat-raised-button
+      mat-dialog-close
+    >
+      Повернутись
+    </button>
+    <button
+      *ngIf="data.buttonLabel"
+      class="workshop-modal__action-button"
+      mat-raised-button
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      (click)="login()"
+    >
+      {{data?.buttonLabel}}
+    </button>
+  </div>
+

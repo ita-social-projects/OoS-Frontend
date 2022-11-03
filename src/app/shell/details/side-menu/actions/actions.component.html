@@ -2,9 +2,9 @@
   <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center"> {{ workshop.price }} грн/{{ PayRateTypeUkr[workshop.payRate] }} </h4>
   <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
     <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center" [disabled]="hideApplicationSubmission">
-      <a 
+      <a
       [ngClass]="{'disable': hideApplicationSubmission}"
-      [routerLink]="['/create-application', workshop.id]" (click)="login()">ПОДАТИ ЗАЯВУ</a>
+      [routerLink]="['/create-application', workshop.id]" (click)="onOpenDialog()">ПОДАТИ ЗАЯВУ</a>
     </button>
 
   <!-- <button mat-raised-button class="button button-msg" (click)="login()">
