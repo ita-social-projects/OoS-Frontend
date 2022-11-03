@@ -22,8 +22,16 @@
       ],
       "rules": {
         "curly": "error",
-        "no-console": ["error", { "allow": ["warn", "error"]}],
+        "semi": [
+          "warn",
+          "always"
+        ],
+        "eol-last": "warn",
+        "no-console": ["warn", { "allow": ["warn", "error"]}],
         "quotes": ["error", "single", { "avoidEscape": true }],
+        "indent": ["error", 2, { "SwitchCase": 1, "ignoredNodes": ["PropertyDefinition"] }],
+        "keyword-spacing": "error",
+        "space-before-blocks": "error",
         "@angular-eslint/directive-selector": [
           "error",
           {
