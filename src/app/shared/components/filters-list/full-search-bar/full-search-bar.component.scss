@@ -7,26 +7,26 @@
   .search-city {
     width: 280px;
     vertical-align: bottom;
-    
-    @media(max-width: 375px){
+
+    @media (max-width: 375px) {
       width: auto;
     }
   }
 
   .search-bar-wrap {
     width: 80%;
-    border-left: 1px solid #E3E3E3;
+    border-left: 1px solid #e3e3e3;
 
     .search-bar {
       width: 100%;
     }
   }
 }
-.max-height{
+.max-height {
   max-height: 40px;
 }
 
-.icon{
+.icon {
   margin: 0 0.5rem 0 1rem;
-  color: #AAAAAA;
+  color: #aaaaaa;
 }

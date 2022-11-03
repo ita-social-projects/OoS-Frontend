@@ -8,10 +8,7 @@ import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { NavBarName } from '../../../../../shared/enum/navigation-bar';
-import {
-  CompanyInformation,
-  CompanyInformationSectionItem,
-} from '../../../../../shared/models/сompanyInformation.model';
+import { CompanyInformation, CompanyInformationSectionItem } from '../../../../../shared/models/сompanyInformation.model';
 import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
 import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../../shared/store/admin.state';
@@ -21,19 +18,19 @@ import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet
 @Component({
   selector: 'app-info-edit',
   templateUrl: './info-edit.component.html',
-  styleUrls: ['./info-edit.component.scss'],
+  styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
 
   @Select(AdminState.AboutPortal)
-    AboutPortal$: Observable<CompanyInformation>;
+  AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.MainInformation)
-    MainInformation$: Observable<CompanyInformation>;
+  MainInformation$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
-    SupportInformation$: Observable<CompanyInformation>;
+  SupportInformation$: Observable<CompanyInformation>;
   @Select(AdminState.LawsAndRegulations)
-    LawsAndRegulations$: Observable<CompanyInformation>;
+  LawsAndRegulations$: Observable<CompanyInformation>;
 
   PlatformInfoItemArray = new FormArray([]);
   platformInfoEditFormGroup: FormGroup;
@@ -77,7 +74,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
             path: '/admin-tools/platform/',
             queryParams: { page: this.platformInfoType },
             isActive: false,
-            disable: false,
+            disable: false
           },
           { name: `Редагувати інфомацію "${NavBarName[this.platformInfoType]}"`, isActive: false, disable: true }
         )
@@ -111,20 +108,17 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
       sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
-        Validators.required,
+        Validators.required
       ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ])
     });
 
     if (platformInfoItem) {
-      this.platformInfoEditFormGroup.addControl(
-        'companyInformationId',
-        this.fb.control(platformInfoItem.companyInformationId)
-      );
+      this.platformInfoEditFormGroup.addControl('companyInformationId', this.fb.control(platformInfoItem.companyInformationId));
       this.platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
     }
 
@@ -186,9 +180,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   private getSupportInformation(): void {
     this.SupportInformation$.pipe(
       takeUntil(this.destroy$),
-      tap(
-        (supportInformation: CompanyInformation) => !supportInformation && this.store.dispatch(new GetPlatformInfo())
-      ),
+      tap((supportInformation: CompanyInformation) => !supportInformation && this.store.dispatch(new GetPlatformInfo())),
       filter((supportInformation: CompanyInformation) => !!supportInformation)
     ).subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation));
   }
@@ -196,9 +188,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   private getLawsAndRegulations(): void {
     this.LawsAndRegulations$.pipe(
       takeUntil(this.destroy$),
-      tap(
-        (lawsAndRegulations: CompanyInformation) => !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())
-      ),
+      tap((lawsAndRegulations: CompanyInformation) => !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())),
       filter((lawsAndRegulations: CompanyInformation) => !!lawsAndRegulations)
     ).subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations));
   }

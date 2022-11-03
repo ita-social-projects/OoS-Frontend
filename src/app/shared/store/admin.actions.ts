@@ -4,11 +4,7 @@ import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
-import {
-  MinistryAdmin,
-  MinistryAdminParameters,
-  MinistryAdminBlockData
-} from './../models/ministryAdmin.model';
+import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
 
 export class GetPlatformInfo {
   static readonly type = '[admin] Get Information Platform Info';
@@ -42,10 +38,7 @@ export class GetLawsAndRegulations {
 }
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(
-    public payload: CompanyInformation,
-    public type: AdminTabsTitle
-  ) {}
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';
@@ -53,10 +46,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(
-    public payload: CompanyInformation,
-    public type: AdminTabsTitle
-  ) {}
+  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';

@@ -6,11 +6,18 @@ import { tap, filter, takeUntil } from 'rxjs/operators';
 import { Provider } from '../../models/provider.model';
 import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
 import { MetaDataState } from '../../store/meta-data.state';
-import { GetAllByInstitutionAndLevel, GetAllInstitutions, GetFieldDescriptionByInstitutionId, GetInstitutionHierarchyChildrenById, GetInstitutionHierarchyParentsById, ResetInstitutionHierarchy } from '../../store/meta-data.actions';
+import {
+  GetAllByInstitutionAndLevel,
+  GetAllInstitutions,
+  GetFieldDescriptionByInstitutionId,
+  GetInstitutionHierarchyChildrenById,
+  GetInstitutionHierarchyParentsById,
+  ResetInstitutionHierarchy
+} from '../../store/meta-data.actions';
 @Component({
   selector: 'app-institution-hierarchy',
   templateUrl: './institution-hierarchy.component.html',
-  styleUrls: ['./institution-hierarchy.component.scss'],
+  styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() instituitionHierarchyIdFormControl: FormControl;
@@ -18,13 +25,13 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   @Input() provider: Provider;
 
   @Select(MetaDataState.institutions)
-    institutions$: Observable<Institution[]>;
+  institutions$: Observable<Institution[]>;
   @Select(MetaDataState.instituitionsHierarchy)
-    instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
-    editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.institutionFieldDesc)
-    institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
+  institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
   institutionFieldDesc: InstitutionFieldDescription[];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -61,10 +68,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
     this.instituitionsHierarchy$
       .pipe(
         takeUntil(this.destroy$),
-        filter(
-          (instituitionsHierarchy: InstituitionHierarchy[]) =>
-            !!(instituitionsHierarchy && instituitionsHierarchy.length)
-        )
+        filter((instituitionsHierarchy: InstituitionHierarchy[]) => !!(instituitionsHierarchy && instituitionsHierarchy.length))
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         const nextLevel = instituitionsHierarchy[0].hierarchyLevel - 1;
@@ -97,7 +101,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
         hierarchyLevel: institutionFieldDesc.hierarchyLevel,
         institutionId: institutionFieldDesc.institutionId,
         shouldDisplay: institutionFieldDesc.hierarchyLevel === 1,
-        options: [],
+        options: []
       };
 
       this.hierarchyArray.push(hierarchy);
@@ -115,10 +119,9 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         instituitionsHierarchy.forEach((institutionsHierarchy: InstituitionHierarchy) => {
-          this.hierarchyArray[institutionsHierarchy.hierarchyLevel - 1].formControl.setValue(
-            institutionsHierarchy.id,
-            { emitEvent: false }
-          );
+          this.hierarchyArray[institutionsHierarchy.hierarchyLevel - 1].formControl.setValue(institutionsHierarchy.id, {
+            emitEvent: false
+          });
           this.store.dispatch(new GetInstitutionHierarchyChildrenById(institutionsHierarchy.id));
         });
       });

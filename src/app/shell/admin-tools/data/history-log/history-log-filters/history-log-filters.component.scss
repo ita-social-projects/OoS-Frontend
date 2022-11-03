@@ -1,6 +1,6 @@
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/calendar.scss";
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/calendar.scss';
+@import 'src/app/shared/styles/buttons.scss';
 
 .form-wrapper {
   display: flex;
@@ -17,7 +17,7 @@
     line-height: 14.6px;
     color: #444444;
     font-weight: 700;
-    font-family: Roboto, "Helvetica Neue", sans-serif;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
 }
 
@@ -38,7 +38,7 @@
 .select,
 .options,
 .date {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-size: 13px;
   line-height: 22px;
@@ -64,5 +64,5 @@
   width: 14px;
   margin: 0 5px;
   align-self: center;
-  border-top: 1px solid rgba(0, 0, 0, .54);
+  border-top: 1px solid rgba(0, 0, 0, 0.54);
 }

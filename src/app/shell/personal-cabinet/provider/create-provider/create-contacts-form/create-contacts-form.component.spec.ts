@@ -1,4 +1,4 @@
-import { Component, Input} from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,14 +13,8 @@ describe('CreateContactsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        BrowserAnimationsModule,
-        FormsModule,
-        MatCheckboxModule,
-        NgxsModule.forRoot([]),
-        ReactiveFormsModule
-      ],
-      declarations: [CreateContactsFormComponent, MockAddressFormComponent],
+      imports: [BrowserAnimationsModule, FormsModule, MatCheckboxModule, NgxsModule.forRoot([]), ReactiveFormsModule],
+      declarations: [CreateContactsFormComponent, MockAddressFormComponent]
     }).compileComponents();
   });
 
@@ -37,7 +31,7 @@ describe('CreateContactsFormComponent', () => {
 
 @Component({
   selector: 'app-create-address-form',
-  template: '',
+  template: ''
 })
 class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;

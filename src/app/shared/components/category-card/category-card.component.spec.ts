@@ -14,19 +14,9 @@ describe('CategoryCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatCardModule,
-        MatButtonModule,
-        NgxsModule.forRoot([]),
-        RouterTestingModule,
-        MatIconModule
-      ],
-      declarations: [
-        CategoryCardComponent,
-        DeclinationPipe
-      ],
-    })
-      .compileComponents();
+      imports: [MatCardModule, MatButtonModule, NgxsModule.forRoot([]), RouterTestingModule, MatIconModule],
+      declarations: [CategoryCardComponent, DeclinationPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

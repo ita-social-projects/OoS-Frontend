@@ -12,16 +12,15 @@ import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.acti
 @Component({
   selector: 'app-rules',
   templateUrl: './rules.component.html',
-  styleUrls: ['./rules.component.scss'],
+  styleUrls: ['./rules.component.scss']
 })
-
-export class RulesComponent implements OnInit, OnDestroy  {
+export class RulesComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
   @Select(AdminState.LawsAndRegulations)
-    platformRules$: Observable<CompanyInformation>;
+  platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-    isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   platformRules: CompanyInformation;
 
@@ -31,14 +30,10 @@ export class RulesComponent implements OnInit, OnDestroy  {
 
   ngOnInit(): void {
     this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.LawsAndRegulations, isActive: false, disable: true })
-      )
+      new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.LawsAndRegulations, isActive: false, disable: true }))
     );
     this.store.dispatch(new GetLawsAndRegulations());
-    this.platformRules$.pipe(takeUntil(this.destroy$)).subscribe(
-      (rules: CompanyInformation) => this.platformRules = rules
-    );
+    this.platformRules$.pipe(takeUntil(this.destroy$)).subscribe((rules: CompanyInformation) => (this.platformRules = rules));
   }
 
   ngOnDestroy(): void {

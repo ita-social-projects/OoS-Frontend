@@ -35,11 +35,11 @@ export class CreateInfoFormComponent implements OnInit {
     cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Select(MetaDataState.institutions)
-    institutions$: Observable<Institution[]>;
+  institutions$: Observable<Institution[]>;
 
   @Input() provider: Provider;
   @Input() isRelease3: boolean;
@@ -75,34 +75,22 @@ export class CreateInfoFormComponent implements OnInit {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
-      phoneNumber: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.PHONE_LENGTH)
-      ]),
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ]),
-      website: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ]),
-      facebook: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ]),
-      instagram: new FormControl('', [
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      email: new FormControl('', [Validators.required, Validators.email]),
+      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       type: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),
       coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
+      coverImageId: new FormControl('')
     });
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions());
-    (this.provider) && this.activateEditMode();
+    this.provider && this.activateEditMode();
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
 

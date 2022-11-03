@@ -15,16 +15,9 @@ describe('ChildCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatCardModule,
-        MatTooltipModule,
-        RouterTestingModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [MatIconModule, MatCardModule, MatTooltipModule, RouterTestingModule, NgxsModule.forRoot([])],
       declarations: [ChildCardComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

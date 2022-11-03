@@ -28,12 +28,10 @@ describe('WorkingHoursComponent', () => {
         ReactiveFormsModule,
         MatButtonModule,
         MaterialModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([])
       ],
-      declarations: [
-        WorkingHoursComponent]
-    })
-      .compileComponents();
+      declarations: [WorkingHoursComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

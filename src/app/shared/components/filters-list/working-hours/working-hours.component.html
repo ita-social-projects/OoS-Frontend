@@ -10,7 +10,8 @@
       fxLayout="row"
       fxLayoutAlign="center center"
       (click)="onToggleDays(day)"
-      [ngClass]="day.selected ? 'toggle-selected' : ''">
+      [ngClass]="day.selected ? 'toggle-selected' : ''"
+    >
       {{ day.value }}
     </div>
   </div>
@@ -30,7 +31,8 @@
           format="24"
           [formControl]="startTimeFormControl"
           [max]="maxTime"
-          autocomplete="off" />
+          autocomplete="off"
+        />
         <mat-icon class="clear-time-start clear-time" (click)="clearStart()">clear</mat-icon>
       </div>
     </mat-form-field>
@@ -45,15 +47,14 @@
           format="24"
           [formControl]="endTimeFormControl"
           [min]="minTime"
-          autocomplete="off" />
-          <mat-icon class="clear-time" (click)="clearEnd()">clear</mat-icon>
+          autocomplete="off"
+        />
+        <mat-icon class="clear-time" (click)="clearEnd()">clear</mat-icon>
       </div>
     </mat-form-field>
   </div>
-  <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
-  </ngx-mat-timepicker>
-  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
-  </ngx-mat-timepicker>
+  <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
+  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
 
   <ng-template #btnCancel>
     <button mat-raised-button class="btn btn-cancel">Скасувати</button>

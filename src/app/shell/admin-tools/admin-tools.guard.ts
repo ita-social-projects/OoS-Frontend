@@ -10,16 +10,15 @@ import { RegistrationState } from '../../shared/store/registration.state';
   providedIn: 'root'
 })
 export class AdminToolsGuard implements CanLoad {
-  constructor() { }
+  constructor() {}
 
   @Select(RegistrationState.role)
-    role$: Observable<string>;
+  role$: Observable<string>;
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$
-      .pipe(
-        filter((role: string) => (role === Role.techAdmin || role === Role.ministryAdmin)), 
-        map((role: string) => (role === Role.techAdmin || role === Role.ministryAdmin))
-      );
+    return this.role$.pipe(
+      filter((role: string) => role === Role.techAdmin || role === Role.ministryAdmin),
+      map((role: string) => role === Role.techAdmin || role === Role.ministryAdmin)
+    );
   }
 }

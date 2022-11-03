@@ -34,14 +34,8 @@ import { SharedModule } from '../../shared/shared.module';
     AchievementsComponent,
     TeacherCardComponent
   ],
-  imports: [
-    CommonModule,
-    FlexLayoutModule,
-    SharedModule,
-    MaterialModule,
-    RouterModule
-  ],
+  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []
 })
-export class DetailsModule { }
+export class DetailsModule {}

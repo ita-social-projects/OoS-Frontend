@@ -12,14 +12,14 @@
         [currentPage]="currentPage"
         [itemsPerPage]="itemsPerPage"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="itemsPerPageChange.emit($event)"></app-paginator>
+        (itemsPerPageChange)="itemsPerPageChange.emit($event)"
+      ></app-paginator>
     </ng-container>
   </div>
 
   <div [ngClass]="selectedWorkshops.length ? 'map-half' : 'map-full'">
     <div fxLayout="row" fxLayoutAlign="center">
-      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedWorkshopAddress)="onSelectedAddress($event)">
-      </app-map>
+      <app-map class="map" [filteredWorkshops$]="filteredWorkshops$" (selectedWorkshopAddress)="onSelectedAddress($event)"> </app-map>
     </div>
   </div>
 
@@ -32,7 +32,8 @@
     [@triggerName]="currentWorkShopIndex"
     [style.left.vw]="left"
     (touchstart)="swipe($event, 'start')"
-    (touchend)="swipe($event, 'end')">
+    (touchend)="swipe($event, 'end')"
+  >
     <div class="mock"></div>
     <div class="card-wrapper" *ngFor="let workshop of selectedWorkshops; let i = index">
       <app-workshop-card
@@ -40,7 +41,8 @@
         [workshop]="workshop"
         [isHorizontalView]="true"
         [@fade]="workshopDetailsAnimationState"
-        (@fade.done)="fadeAnimationDone()">
+        (@fade.done)="fadeAnimationDone()"
+      >
       </app-workshop-card>
     </div>
     <div class="mock"></div>
@@ -51,19 +53,15 @@
     </div>
   </div>
   <ng-template #elseBlock>
-    <div
-      *ngIf="isSelectedMarker"
-      #CurSelectedWorkshop
-      class="workshop-details-cards"
-      fxLayout="row"
-      [style.left.vw]="left">
+    <div *ngIf="isSelectedMarker" #CurSelectedWorkshop class="workshop-details-cards" fxLayout="row" [style.left.vw]="left">
       <div class="mock"></div>
       <app-workshop-card
         class="workshop-details-card"
         [workshop]="selectedWorkshops[0]"
         [isHorizontalView]="true"
         [@fade]="workshopDetailsAnimationState"
-        (@fade.done)="fadeAnimationDone()">
+        (@fade.done)="fadeAnimationDone()"
+      >
       </app-workshop-card>
       <div class="mock"></div>
     </div>

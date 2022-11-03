@@ -6,15 +6,14 @@
       disableOptionCentering
       panelClass="dropdown-panel"
       placeholder="Оберіть підпорядкування"
-      class="step-input">
+      class="step-input"
+    >
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">
         {{ institution.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="instituitionIdFormControl"
-    [isTouched]="instituitionIdFormControl.touched">
+  <app-validation-hint [validationFormControl]="instituitionIdFormControl" [isTouched]="instituitionIdFormControl.touched">
   </app-validation-hint>
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
@@ -26,19 +25,15 @@
           disableOptionCentering
           panelClass="dropdown-panel"
           class="step-input"
-          (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy)">
-          <mat-option
-            *ngFor="let option of hierarchy.options"
-            [value]="option.id"
-            class="dropdown-option">
+          (selectionChange)="onHierarchyLevelSelect($event.value, hierarchy)"
+        >
+          <mat-option *ngFor="let option of hierarchy.options" [value]="option.id" class="dropdown-option">
             {{ option.title }}
           </mat-option>
         </mat-select>
       </mat-form-field>
-      <app-validation-hint
-        [validationFormControl]="hierarchy.formControl"
-        [isTouched]="hierarchy.formControl.touched">
-    </app-validation-hint>
+      <app-validation-hint [validationFormControl]="hierarchy.formControl" [isTouched]="hierarchy.formControl.touched">
+      </app-validation-hint>
     </ng-container>
   </ng-container>
 </div>

@@ -24,12 +24,8 @@ describe('CreateAddressFormComponent', () => {
         NgxsModule.forRoot([]),
         BrowserAnimationsModule
       ],
-      declarations: [
-        CreateAddressFormComponent,
-        MockValidationHintForInputComponent,
-        MockCityAutocompleteComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+      declarations: [CreateAddressFormComponent, MockValidationHintForInputComponent, MockCityAutocompleteComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
 
@@ -38,11 +34,11 @@ describe('CreateAddressFormComponent', () => {
     component = fixture.componentInstance;
     component.addressFormGroup = new FormGroup({
       street: new FormControl(''),
-      buildingNumber: new FormControl(''),
+      buildingNumber: new FormControl('')
     });
     component.searchFormGroup = new FormGroup({
       settlementSearch: new FormControl(''),
-      settlement: new FormControl(''),
+      settlement: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -54,7 +50,7 @@ describe('CreateAddressFormComponent', () => {
 
 @Component({
   selector: 'app-validation-hint',
-  template: '',
+  template: ''
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
@@ -65,7 +61,7 @@ class MockValidationHintForInputComponent {
 }
 @Component({
   selector: 'app-city-autocomplete',
-  template: '',
+  template: ''
 })
 class MockCityAutocompleteComponent {
   @Input() InitialCity: string;

@@ -9,7 +9,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
 import { TruncatedItem } from '../../../models/truncated.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserWorkshopService {
   isRelease3: boolean;

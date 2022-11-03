@@ -8,7 +8,7 @@ import { ProviderComponent } from '../provider.component';
 @Component({
   selector: 'app-provider-org-info',
   templateUrl: './provider-org-info.component.html',
-  styleUrls: ['./provider-org-info.component.scss'],
+  styleUrls: ['./provider-org-info.component.scss']
 })
 export class ProviderOrgInfoComponent extends ProviderComponent implements OnInit, OnDestroy {
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -20,7 +20,7 @@ export class ProviderOrgInfoComponent extends ProviderComponent implements OnIni
       new PushNavPath({
         name: NavBarName.ProviderInfo,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }

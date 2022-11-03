@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/dropdown.scss";
+@import 'src/app/shared/styles/dropdown.scss';
 .mat-form-field {
   font-size: 16px;
 }
@@ -20,13 +20,13 @@
   color: #161414;
   text-overflow: ellipsis;
 
-  &::placeholder{
+  &::placeholder {
     opacity: 0.4;
   }
 }
 .icon {
   margin: 0 1rem 0 0.5rem;
-  color: #AAAAAA;
+  color: #aaaaaa;
   cursor: pointer;
 }
 .search-bar {

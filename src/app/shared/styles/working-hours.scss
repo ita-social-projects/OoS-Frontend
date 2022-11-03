@@ -3,32 +3,32 @@
   padding: 5px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #EBEBEB;
-  background: #FFFFFF;
-  &-selected{
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  &-selected {
     background: rgba(56, 73, 249, 0.07);
-    border: 1px solid #3849F9;
+    border: 1px solid #3849f9;
   }
-  &:first-child{
+  &:first-child {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
   }
-  &:last-child{
+  &:last-child {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
   }
 }
 
-.text{
+.text {
   font-family: Open Sans;
   font-weight: 700;
-  color: #AAAAAA;
+  color: #aaaaaa;
   padding: 5px;
 }
 
 .input {
   font-family: Open Sans;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem 2rem;

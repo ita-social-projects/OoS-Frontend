@@ -18,16 +18,15 @@ describe('ProviderApplciationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ NgxsModule.forRoot([]), MatDialogModule],
+      imports: [NgxsModule.forRoot([]), MatDialogModule],
       declarations: [
         ProviderApplciationsComponent,
         ApplicationsMockComponent,
         ProviderComponent,
         CabinetDataComponent,
-        ReasonModalWindowComponent 
+        ReasonModalWindowComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -44,7 +43,6 @@ describe('ProviderApplciationsComponent', () => {
   selector: 'app-applications',
   template: ''
 })
-
 class ApplicationsMockComponent {
   @Input() applicationParams: ApplicationParameters;
   @Input() dropdownEntities: Child[] | Workshop[];

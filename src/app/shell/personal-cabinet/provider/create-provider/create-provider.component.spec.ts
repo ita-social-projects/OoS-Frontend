@@ -27,15 +27,8 @@ fdescribe('CreateProviderComponent', () => {
         RouterTestingModule,
         MatDialogModule
       ],
-      declarations: [
-        CreateProviderComponent,
-        MockCreatePhotoFormComponent,
-        MockCreateInfoComponent,
-        MockCreateContactsFormComponent
-
-      ]
-    })
-      .compileComponents();
+      declarations: [CreateProviderComponent, MockCreatePhotoFormComponent, MockCreateInfoComponent, MockCreateContactsFormComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -44,13 +37,13 @@ fdescribe('CreateProviderComponent', () => {
     fb = TestBed.inject(FormBuilder);
 
     component.InfoFormGroup = fb.group({
-      fullTitle: new FormControl(''),
+      fullTitle: new FormControl('')
     });
     component.LegalAddressFormGroup = fb.group({
-      fullTitle: new FormControl(''),
+      fullTitle: new FormControl('')
     });
     component.ActualAddressFormGroup = fb.group({
-      fullTitle: new FormControl(''),
+      fullTitle: new FormControl('')
     });
   });
 

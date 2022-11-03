@@ -5,7 +5,8 @@
     floatLabel="never"
     appearance="none"
     fxLayout="row"
-    fxLayoutAlign="space-between center">
+    fxLayoutAlign="space-between center"
+  >
     <input
       matInput
       type="text"
@@ -17,13 +18,10 @@
       appTrimValue
       [formControl]="searchValueFormControl"
       [matAutocomplete]="autoSearch"
-      (keyup.enter)="onValueEnter()" />
+      (keyup.enter)="onValueEnter()"
+    />
 
-    <mat-autocomplete
-      #autoSearch="matAutocomplete"
-      class="search-input"
-      panelClass="dropdown-panel"
-      (optionSelected)="onValueSelect()">
+    <mat-autocomplete #autoSearch="matAutocomplete" class="search-input" panelClass="dropdown-panel" (optionSelected)="onValueSelect()">
       <mat-option class="dropdown-option option" *ngFor="let result of filteredResults" [value]="result">
         {{ result }}
       </mat-option>

@@ -6,7 +6,7 @@ import { Workshop } from '../../../../../shared/models/workshop.model';
 @Component({
   selector: 'app-achievement-card',
   templateUrl: './achievement-card.component.html',
-  styleUrls: ['./achievement-card.component.scss'],
+  styleUrls: ['./achievement-card.component.scss']
 })
 export class AchievementCardComponent {
   @Input() achievement: Achievement;

@@ -11,18 +11,10 @@ describe('NotificationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatMenuModule,
-        MatIconModule,
-      ],
-      declarations: [
-        NotificationsComponent,
-        MockNotificationsListComponent
-      ],
+      imports: [NgxsModule.forRoot([]), MatMenuModule, MatIconModule],
+      declarations: [NotificationsComponent, MockNotificationsListComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -39,4 +31,4 @@ describe('NotificationsComponent', () => {
   selector: 'app-notifications-list',
   template: ''
 })
-class MockNotificationsListComponent { }
+class MockNotificationsListComponent {}

@@ -1,10 +1,10 @@
-@import "src/app/shared/styles/cards.scss";
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
+@import 'src/app/shared/styles/cards.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
 
 .card-person {
   padding: 16px;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   box-sizing: border-box;
   border-radius: 20px;
 
@@ -17,7 +17,7 @@
     vertical-align: sub;
   }
 }
-.card-edit{
+.card-edit {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -26,22 +26,22 @@
   .edit {
     font-size: 13px;
     line-height: 18px;
-    color: #3849F9;
+    color: #3849f9;
     cursor: pointer;
-    
+
     &:hover {
       opacity: 0.8;
     }
   }
 }
 .card-label {
-  font-family: "Innerspace";
+  font-family: 'Innerspace';
   font-weight: 700;
 }
 .step-label {
   margin-top: 10px;
-  margin-bottom: 8px
+  margin-bottom: 8px;
 }
 .user-form {
-  margin-top:1rem;
+  margin-top: 1rem;
 }

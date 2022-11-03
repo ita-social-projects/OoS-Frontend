@@ -8,16 +8,13 @@ import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
-
 describe('OrderingComponent', () => {
   let component: OrderingComponent;
   let fixture: ComponentFixture<OrderingComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        OrderingComponent
-      ],
+      declarations: [OrderingComponent],
       imports: [
         MatFormFieldModule,
         MatSelectModule,
@@ -25,10 +22,9 @@ describe('OrderingComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxsModule.forRoot([]),
-      ],
-    })
-      .compileComponents();
+        NgxsModule.forRoot([])
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

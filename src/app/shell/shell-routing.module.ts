@@ -44,125 +44,128 @@ const routes: Routes = [
     children: [
       { path: 'about', component: AboutComponent },
       { path: 'support', component: SupportComponent },
-      { path: 'rules', component: RulesComponent },
-    ],
+      { path: 'rules', component: RulesComponent }
+    ]
   },
   {
     path: 'personal-cabinet',
     component: PersonalCabinetComponent,
-    loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then(m => m.PersonalCabinetModule),
+    loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then((m) => m.PersonalCabinetModule),
     canLoad: [PersonalCabinetGuard],
-    canActivate: [PersonalCabinetGuard],
+    canActivate: [PersonalCabinetGuard]
   },
   {
     path: 'admin-tools',
     component: AdminToolsComponent,
-    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
-    canLoad: [AdminToolsGuard],
+    loadChildren: () => import('./admin-tools/admin-tools.module').then((m) => m.AdminToolsModule),
+    canLoad: [AdminToolsGuard]
   },
   {
     path: 'personal-cabinet/config/edit',
     component: UserConfigEditComponent,
-    canDeactivate: [CreateGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'admin-tools/platform/update/:param/:mode',
     component: InfoEditComponent,
-    loadChildren: () => import('./admin-tools/platform/platform.module').then(m => m.PlatformModule),
-    canDeactivate: [CreateGuard],
+    loadChildren: () => import('./admin-tools/platform/platform.module').then((m) => m.PlatformModule),
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'notifications',
     component: NotificationsListComponent,
     canLoad: [PersonalCabinetGuard, IsMobileGuard],
-    canActivate: [IsMobileGuard],
+    canActivate: [IsMobileGuard]
   },
   {
     path: 'details/workshop/:id',
     component: DetailsComponent,
-    loadChildren: () => import('./details/details.module').then(m => m.DetailsModule),
+    loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
   {
     path: 'details/provider/:id',
     component: DetailsComponent,
-    loadChildren: () => import('./details/details.module').then(m => m.DetailsModule),
+    loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
   {
     path: 'create-workshop/:param',
     component: CreateWorkshopComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-achievement/:param',
     component: CreateAchievementComponent,
     canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'admin-tools/data/directions/create/:param',
     component: CreateDirectionComponent,
-    loadChildren: () => import('./admin-tools/data/data.module').then(m => m.DataModule),
+    loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule)
   },
   {
     path: 'create-workshop',
     component: CreateWorkshopComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-provider/:param',
     component: CreateProviderComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [CreateProviderGuard],
-    canDeactivate: [CreateProviderGuard, CreateGuard],
+    canDeactivate: [CreateProviderGuard, CreateGuard]
   },
   {
     path: 'create-provider-admin/:param',
     component: CreateProviderAdminComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
-    canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard],
-  },
-  {
-    path: 'update-provider-admin/:param/:id', component: CreateProviderAdminComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'create-admin/:param', component: CreateAdminComponent,
-    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
+    path: 'update-provider-admin/:param/:id',
+    component: CreateProviderAdminComponent,
+    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
+    canLoad: [ProviderGuard],
+    canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-admin/:param',
+    component: CreateAdminComponent,
+    loadChildren: () => import('./admin-tools/admin-tools.module').then((m) => m.AdminToolsModule),
     canLoad: [AdminToolsGuard],
     canDeactivate: [CreateGuard]
   },
   {
-    path: 'update-admin/:param/:id', component: CreateAdminComponent,
-    loadChildren: () => import('./admin-tools/admin-tools.module').then(m => m.AdminToolsModule),
+    path: 'update-admin/:param/:id',
+    component: CreateAdminComponent,
+    loadChildren: () => import('./admin-tools/admin-tools.module').then((m) => m.AdminToolsModule),
     canLoad: [AdminToolsGuard],
     canDeactivate: [CreateGuard]
   },
   {
     path: 'create-child/:param',
     component: CreateChildComponent,
-    loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
+    loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard],
-    canDeactivate: [CreateGuard],
+    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-application/:id',
     component: CreateApplicationComponent,
-    loadChildren: () => import('./personal-cabinet/parent/parent.module').then(m => m.ParentModule),
+    loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard],
-    canDeactivate: [CreateGuard],
+    canDeactivate: [CreateGuard]
   },
-  { path: '**', component: ErrorPageComponent },
+  { path: '**', component: ErrorPageComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ShellRoutingModule {}

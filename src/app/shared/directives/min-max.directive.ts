@@ -7,14 +7,13 @@ import { debounceTime } from 'rxjs/operators';
   selector: '[appMinMax]'
 })
 export class MinMaxDirective implements OnInit, OnDestroy {
-
   @Input() public min: number;
   @Input() public max: number;
   @Input() public directiveFormControl: FormControl;
 
   debounce$: Subject<number> = new Subject<number>();
 
-  constructor(private ref: ElementRef) { }
+  constructor(private ref: ElementRef) {}
 
   ngOnInit(): void {
     this.debounce$.pipe(debounceTime(1000)).subscribe((val: number) => this.MaxMinValidation(val));
@@ -29,8 +28,7 @@ export class MinMaxDirective implements OnInit, OnDestroy {
   private MaxMinValidation(val: number): void {
     if (this.max !== null && this.max !== undefined && val >= this.max) {
       this.directiveFormControl.setValue(this.max);
-    }
-    else if (this.min !== null && this.min !== undefined && val <= this.min) {
+    } else if (this.min !== null && this.min !== undefined && val <= this.min) {
       this.directiveFormControl.setValue(this.min);
     }
   }

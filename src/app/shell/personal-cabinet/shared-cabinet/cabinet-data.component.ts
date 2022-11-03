@@ -11,20 +11,20 @@ import { SharedUserState } from '../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-cabinet-data',
-  template: '',
+  template: ''
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   readonly constants = Constants;
   readonly Role = Role;
 
   @Select(RegistrationState.role)
-    role$: Observable<Role>;
+  role$: Observable<Role>;
   role: string;
   @Select(RegistrationState.subrole)
-    subRole$: Observable<Role>;
+  subRole$: Observable<Role>;
   subRole: Role;
   @Select(SharedUserState.isLoading)
-    isLoadingCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -6,7 +6,7 @@ import { Child } from '../../models/child.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AchievementsService {
   constructor(private http: HttpClient) {}

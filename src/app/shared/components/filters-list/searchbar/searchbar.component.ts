@@ -12,7 +12,7 @@ import { NavigationState } from '../../../store/navigation.state';
 @Component({
   selector: 'app-searchbar',
   templateUrl: './searchbar.component.html',
-  styleUrls: ['./searchbar.component.scss'],
+  styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router) {}
@@ -102,9 +102,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   private filter(value: string): void {
-    this.filteredResults = this.previousResults.filter((result: string) =>
-      result.toLowerCase().includes(value.toLowerCase())
-    );
+    this.filteredResults = this.previousResults.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
   }
 
   ngOnDestroy(): void {

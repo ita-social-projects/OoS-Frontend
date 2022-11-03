@@ -36,14 +36,8 @@ describe('CreateInfoFormComponent', () => {
         NgxsModule.forRoot([]),
         MatDialogModule
       ],
-      declarations: [
-        CreateInfoFormComponent,
-        MockValidationHintForInputComponent,
-        ImageFormControlComponent,
-        KeyFilterDirective
-      ]
-    })
-      .compileComponents();
+      declarations: [CreateInfoFormComponent, MockValidationHintForInputComponent, ImageFormControlComponent, KeyFilterDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -64,7 +58,7 @@ describe('CreateInfoFormComponent', () => {
       ownership: new FormControl(null),
       institution: new FormControl(''),
       coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
+      coverImageId: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -78,7 +72,6 @@ describe('CreateInfoFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

@@ -17,19 +17,10 @@ describe('SideMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NgxsModule.forRoot([]),
-        FlexLayoutModule
-      ],
-      declarations: [
-        SideMenuComponent,
-        MockActionsComponent,
-        MockContactsComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-      .compileComponents();
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), FlexLayoutModule],
+      declarations: [SideMenuComponent, MockActionsComponent, MockContactsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -59,4 +50,3 @@ class MockActionsComponent {
   @Input() workshop: Workshop;
   @Input() role: string;
 }
-

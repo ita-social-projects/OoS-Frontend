@@ -10,7 +10,7 @@ import { Util } from '../../shared/utils/utils';
 @Component({
   selector: 'app-personal-cabinet',
   templateUrl: './personal-cabinet.component.html',
-  styleUrls: ['./personal-cabinet.component.scss'],
+  styleUrls: ['./personal-cabinet.component.scss']
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
   roles = RoleLinks;
@@ -19,14 +19,11 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   userRole: Role;
   subRole: Role;
 
-  constructor(
-    private store: Store,
-    public navigationBarService: NavigationBarService
-  ) {}
+  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    this.subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subRole);
 
     this.store.dispatch(
@@ -35,7 +32,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
           path: '/personal-cabinet/config',
           name: this.personalCabinetTitle,
           isActive: false,
-          disable: false,
+          disable: false
         })
       )
     );

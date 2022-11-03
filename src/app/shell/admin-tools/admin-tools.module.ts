@@ -6,18 +6,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    AdminToolsComponent
-  ],
-  imports: [
-    CommonModule,
-    AdminToolsRoutingModule,
-    SharedModule,
-    FlexLayoutModule,
-  ],
+  declarations: [AdminToolsComponent],
+  imports: [CommonModule, AdminToolsRoutingModule, SharedModule, FlexLayoutModule],
 
-  exports: [
-    AdminToolsComponent
-  ]
+  exports: [AdminToolsComponent]
 })
 export class AdminToolsModule {}

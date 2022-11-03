@@ -3,7 +3,7 @@ export enum AdminTabsUkr {
   MainInformation = 'Головна сторінка',
   Directions = 'Напрямки',
   LawsAndRegulations = 'Нормативно-правові акти',
-  SupportInformation = 'Підтримка',
+  SupportInformation = 'Підтримка'
 }
 
 export enum AdminTabsTitle {
@@ -11,12 +11,12 @@ export enum AdminTabsTitle {
   MainPage = 'MainInformation',
   Directions = 'Directions',
   LawsAndRegulations = 'LawsAndRegulations',
-  SupportInformation = 'SupportInformation',
+  SupportInformation = 'SupportInformation'
 }
 export enum AdminTabs {
   AboutPortal,
   MainPage,
   Directions,
   LawsAndRegulations,
-  SupportInformation,
+  SupportInformation
 }

@@ -29,14 +29,10 @@ describe('AgeFilterComponent', () => {
         MatDatepickerModule,
         NgxMatTimepickerModule,
         MatButtonModule,
-        MaterialModule,
+        MaterialModule
       ],
-      declarations: [
-        AgeFilterComponent,
-        MinMaxDirective
-      ],
-    })
-      .compileComponents();
+      declarations: [AgeFilterComponent, MinMaxDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {

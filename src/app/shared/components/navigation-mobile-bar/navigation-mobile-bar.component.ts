@@ -12,23 +12,20 @@ import { delay } from 'rxjs/operators';
   styleUrls: ['./navigation-mobile-bar.component.scss']
 })
 export class NavigationMobileBarComponent implements OnInit, OnDestroy {
-
   @Select(NavigationState.navigationPathsMobile)
-    navigationPathsMobile$: Observable<Navigation[]>;
+  navigationPathsMobile$: Observable<Navigation[]>;
   navigationPathsMobile: Navigation[] = [];
 
   private navigation: Subscription;
 
-  constructor(private location: Location) { }
+  constructor(private location: Location) {}
 
   goBack(): void {
     this.location.back();
   }
 
   ngOnInit(): void {
-    this.navigation = this.navigationPathsMobile$
-      .pipe(delay(0))
-      .subscribe((navigation) => this.navigationPathsMobile = navigation);
+    this.navigation = this.navigationPathsMobile$.pipe(delay(0)).subscribe((navigation) => (this.navigationPathsMobile = navigation));
   }
 
   ngOnDestroy(): void {

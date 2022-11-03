@@ -6,7 +6,9 @@
       </div>
       <div class="info-text">
         <div *ngFor="let item of platformInformation?.companyInformationItems">
-          <p><strong>{{ item.sectionName }}</strong></p>
+          <p>
+            <strong>{{ item.sectionName }}</strong>
+          </p>
           <p>{{ item.description }}</p>
         </div>
       </div>

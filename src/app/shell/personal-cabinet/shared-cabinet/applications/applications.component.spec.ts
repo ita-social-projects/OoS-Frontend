@@ -1,7 +1,7 @@
 import { MatTabsModule } from '@angular/material/tabs';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ApplicationsComponent } from './applications.component';
-import { NgxsModule} from '@ngxs/store';
+import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatMenuModule } from '@angular/material/menu';
@@ -16,22 +16,13 @@ import { Application } from '../../../../shared/models/application.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { ApplicationChildFilterPipe } from '../../../../shared/pipes/application-child-filter.pipe';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
-;
-
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
   let fixture: ComponentFixture<ApplicationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatTabsModule,
-        MatDialogModule,
-        MatMenuModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-      ],
+      imports: [NgxsModule.forRoot([]), MatTabsModule, MatDialogModule, MatMenuModule, RouterTestingModule, BrowserAnimationsModule],
       declarations: [
         ApplicationsComponent,
         MockApplicationCardComponent,
@@ -41,10 +32,9 @@ describe('ApplicationsComponent', () => {
         StatusInfoCardComponent,
         NoResultCardComponent,
         MockApplicationCardPaginatorComponent,
-        TextSliceTransformPipe,
-      ],
-    })
-      .compileComponents();
+        TextSliceTransformPipe
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {

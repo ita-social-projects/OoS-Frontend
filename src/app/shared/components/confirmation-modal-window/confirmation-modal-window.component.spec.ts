@@ -8,30 +8,19 @@ import { ConfirmationModalWindowComponent } from './confirmation-modal-window.co
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-
 describe('ConfirmationModalWindowComponent', () => {
   let component: ConfirmationModalWindowComponent;
   let fixture: ComponentFixture<ConfirmationModalWindowComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatButtonToggleModule,
-        MatIconModule,
-      ],
-      declarations: [
-        ConfirmationModalWindowComponent,
-        StarsComponent
-      ],
+      imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatButtonToggleModule, MatIconModule],
+      declarations: [ConfirmationModalWindowComponent, StarsComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -7,11 +7,11 @@ import { AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tab
 
 @Component({
   selector: 'app-data',
-  templateUrl: './data.component.html',
+  templateUrl: './data.component.html'
 })
 export class DataComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private navigationBarService: NavigationBarService) {}
-  
+
   ngOnInit(): void {
     this.addNavPath();
   }
@@ -24,7 +24,7 @@ export class DataComponent implements OnInit, OnDestroy {
           path: '/admin-tools/platform',
           queryParams: { page: AdminTabsTitle.AboutPortal },
           isActive: false,
-          disable: false,
+          disable: false
         })
       )
     );

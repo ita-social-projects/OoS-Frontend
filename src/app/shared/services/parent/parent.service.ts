@@ -4,7 +4,7 @@ import { Parent } from '../../models/parent.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ParentService {
   constructor(private http: HttpClient) {}

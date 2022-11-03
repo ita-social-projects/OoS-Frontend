@@ -1,9 +1,9 @@
-@import "src/app/shared/styles/pagination.scss";
-@import "src/app/shared/styles/card-wrapper.scss";
+@import 'src/app/shared/styles/pagination.scss';
+@import 'src/app/shared/styles/card-wrapper.scss';
 
-$links-color: #3849F9;
+$links-color: #3849f9;
 
-.wrapper{
+.wrapper {
   height: 77vh;
 }
 
@@ -12,16 +12,16 @@ $links-color: #3849F9;
   height: 77vh;
   margin: 1.5rem;
 
-  &-full{
+  &-full {
     width: 100%;
   }
-  &-half{
+  &-half {
     display: inline-block;
     width: 70%;
   }
 }
 
-.workshop-list{
+.workshop-list {
   overflow-y: scroll;
   margin: 2rem 0 2rem 2rem;
 }
@@ -45,7 +45,7 @@ $links-color: #3849F9;
   }
 
   .wrapper-workshop-list {
-     display: none !important;
+    display: none !important;
   }
 
   .workshop-counter-wrapper {
@@ -61,7 +61,7 @@ $links-color: #3849F9;
   .workshop-counter {
     font-weight: 700;
     padding: 8px 16px;
-    background: #FFFFFF;
+    background: #ffffff;
     box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
     border-radius: 20px;
     z-index: 400;
@@ -71,15 +71,15 @@ $links-color: #3849F9;
     width: 2vw;
     margin: 1vw;
   }
-  .wrapper{
+  .wrapper {
     max-height: none !important;
     width: 100vw;
     position: relative;
   }
 
-  .map{
+  .map {
     margin: 0;
-  }  
+  }
 
   app-map {
     height: calc(100vh - 81px) !important;
@@ -113,7 +113,7 @@ $links-color: #3849F9;
       width: 40px;
       background-color: #fff;
       border: none;
-      color: #3849F9;
+      color: #3849f9;
       .mat-icon {
         font-size: 2rem;
       }

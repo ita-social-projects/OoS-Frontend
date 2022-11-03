@@ -5,10 +5,10 @@ export interface UsersTable {
   phoneNumber: string;
   status: string;
   isDeputy: boolean;
-  role?:string;
+  role?: string;
 }
 
 export interface BlockData {
-  user: UsersTable,
-  isBlocked: boolean
+  user: UsersTable;
+  isBlocked: boolean;
 }

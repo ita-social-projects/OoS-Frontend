@@ -9,8 +9,7 @@ import { WorkshopCard } from '../../../../shared/models/workshop.model';
   providedIn: 'root'
 })
 export class FavoriteWorkshopsService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get favorite workshops

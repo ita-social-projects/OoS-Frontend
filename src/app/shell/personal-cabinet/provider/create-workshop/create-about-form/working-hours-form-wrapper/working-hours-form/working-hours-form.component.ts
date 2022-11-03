@@ -29,17 +29,19 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   @Output() deleteWorkingHour = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
     this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
-    this.workingHoursForm.valueChanges.pipe(
-      filter(() => !this.workdaysFormControl.touched),
-      takeUntil(this.destroy$)
-    ).subscribe(() => this.workdaysFormControl.markAsTouched());
+    this.workingHoursForm.valueChanges
+      .pipe(
+        filter(() => !this.workdaysFormControl.touched),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => this.workdaysFormControl.markAsTouched());
 
     this.workdaysFormControl.value.length && this.activateEditMode();
   }

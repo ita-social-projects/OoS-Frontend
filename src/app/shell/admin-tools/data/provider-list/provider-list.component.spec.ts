@@ -28,14 +28,9 @@ describe('ProviderListComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
-        MatDialogModule,
+        MatDialogModule
       ],
-      declarations: [
-        ProviderListComponent,
-        MockproviderInfoComponent,
-        MockListAdminProviderPaginatorComponent,
-        ReasonModalWindowComponent 
-      ],
+      declarations: [ProviderListComponent, MockproviderInfoComponent, MockListAdminProviderPaginatorComponent, ReasonModalWindowComponent]
     }).compileComponents();
   });
 
@@ -51,7 +46,7 @@ describe('ProviderListComponent', () => {
 });
 @Component({
   selector: 'app-provider-info',
-  template: '',
+  template: ''
 })
 class MockproviderInfoComponent {
   @Input() provider: Provider;
@@ -62,7 +57,6 @@ class MockproviderInfoComponent {
   selector: 'app-paginator',
   template: ''
 })
-
 class MockListAdminProviderPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;

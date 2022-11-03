@@ -29,11 +29,8 @@ describe('WorkingHoursFormComponent', () => {
         MatIconModule,
         MaterialModule
       ],
-      declarations: [
-        WorkingHoursFormComponent,
-        MockValidationHintForInputComponent]
-    })
-      .compileComponents();
+      declarations: [WorkingHoursFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -42,7 +39,7 @@ describe('WorkingHoursFormComponent', () => {
     component.workingHoursForm = new FormGroup({
       workdays: new FormControl([]),
       endTime: new FormControl(''),
-      startTime: new FormControl(''),
+      startTime: new FormControl('')
     });
     fixture.detectChanges();
   });

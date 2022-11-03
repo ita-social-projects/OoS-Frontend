@@ -13,7 +13,7 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
   @Input() workingHoursFormArray: FormArray;
   workingHoursFormGroup: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.workshop ? this.activateEditMode() : this.addWorkingHours();
@@ -48,7 +48,7 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
     this.workingHoursFormGroup = this.formBuilder.group({
       workdays: new FormControl('', Validators.required),
       startTime: new FormControl('', Validators.required),
-      endTime: new FormControl('', Validators.required),
+      endTime: new FormControl('', Validators.required)
     });
     if (range) {
       this.workingHoursFormGroup.addControl('id', this.formBuilder.control(''));

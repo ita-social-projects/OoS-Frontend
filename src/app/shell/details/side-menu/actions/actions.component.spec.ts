@@ -15,15 +15,9 @@ describe('ActionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatDialogModule,
-        RouterTestingModule,
-        MatIconModule,
-        NgxsModule.forRoot([])
-      ],
-      declarations: [ActionsComponent],
-    })
-      .compileComponents();
+      imports: [MatDialogModule, RouterTestingModule, MatIconModule, NgxsModule.forRoot([])],
+      declarations: [ActionsComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

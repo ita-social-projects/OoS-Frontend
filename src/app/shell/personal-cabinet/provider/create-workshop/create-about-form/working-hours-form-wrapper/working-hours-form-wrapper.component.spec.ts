@@ -14,20 +14,9 @@ describe('WorkingHoursFormWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatButtonModule,
-        BrowserModule,
-        BrowserAnimationsModule,
-      ],
-      declarations: [
-        WorkingHoursFormWrapperComponent,
-        MockWorkingHoursComponent
-      ]
-    })
-      .compileComponents();
+      imports: [MatIconModule, ReactiveFormsModule, FormsModule, MatButtonModule, BrowserModule, BrowserAnimationsModule],
+      declarations: [WorkingHoursFormWrapperComponent, MockWorkingHoursComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -14,15 +14,9 @@ describe('InfoStatusComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatMenuModule,
-        MatCardModule,
-        MatDialogModule,
-        MatIconModule],
-      declarations: [InfoStatusComponent, TextSliceTransformPipe,],
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), MatMenuModule, MatCardModule, MatDialogModule, MatIconModule],
+      declarations: [InfoStatusComponent, TextSliceTransformPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {
