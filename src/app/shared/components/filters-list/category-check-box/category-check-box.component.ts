@@ -1,13 +1,13 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { Child } from 'src/app/shared/models/child.model';
 import { Direction } from '../../../models/category.model';
 import { AppState } from '../../../store/app.state';
 import { SetDirections } from '../../../store/filter.actions';
-import { FilterState } from '../../../store/filter.state';
 import { GetDirections } from '../../../store/meta-data.actions';
 import { MetaDataState } from '../../../store/meta-data.state';
 
@@ -17,13 +17,13 @@ import { MetaDataState } from '../../../store/meta-data.state';
   templateUrl: './category-check-box.component.html',
   styleUrls: ['./category-check-box.component.scss'],
 })
-export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
+export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Select(MetaDataState.directions)
     directions$: Observable<Direction[]>;
   @Select(AppState.isMobileScreen)
     isMobileScreen$: Observable<boolean>;
-  @Select(FilterState.directions)
-    filterDirections$: Observable<Direction[]>;
+
+  @ViewChild('listWrapper') filterContainer: ElementRef;
 
   @Input() stateDirections: Direction[];
   @Input()
@@ -40,26 +40,50 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store) {}
 
+  ngAfterViewInit(): void {
+
+
+    // const selectedElement: ElementRef[] = this.filterContainer.nativeElement.children;
+    // let id: number = 0;
+    // for(let i: number = 1; i <= selectedElement.length; i++ ){
+    //   console.dir(selectedElement[i]);
+    //   // if(elements.classList.contains('mat-checkbox-checked')){
+    //   //   id = i;
+    //   //   break
+    //   // }
+    // }
+    // this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[id].offsetTop;
+
+
+    // const selectedItem = itemsList.find(el => el.classList.contains('mat-checkbox-checked'))
+
+    this.directions$.pipe(filter((direction)=> !!direction), 
+    takeUntil(this.destroy$)).subscribe(directions => {
+      this.allDirections = directions; 
+      if (this.stateDirections) { 
+        this.selectedDirections = this.stateDirections;
+        this.scrollToSelectedDirection();
+      };
+    });
+
+
+
+  }  
+
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
 
-    this.directions$.pipe(takeUntil(this.destroy$)).subscribe(directions => (this.allDirections = directions));
-
+ 
     this.directionSearch.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe(val => {
+      .subscribe((val: string) => {
+        this.showAll = !!val;
         if (val) {
           this.onDirectionFilter(val);
-          this.showAll = false;
         } else {
           this.filteredDirections = [];
-          this.showAll = true;
         }
       });
-
-    if (this.stateDirections) {
-      this.selectedDirections = this.stateDirections;
-    }
   }
 
   /**
@@ -74,8 +98,9 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
         this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
         1
       );
-    this.store.dispatch(new SetDirections(this.selectedDirections));
-  }
+      this.store.dispatch(new SetDirections(this.selectedDirections));
+      console.log(this.store.dispatch(new SetDirections(this.selectedDirections)));
+    }
 
   /**
    * This method filter directions according to the input value
@@ -94,6 +119,20 @@ export class CategoryCheckBoxComponent implements OnInit, OnDestroy {
   onSelectCheck(value: Direction): boolean {
     const result = this.selectedDirections.some(direction => direction.title.startsWith(value.title));
     return result;
+  }
+
+  private scrollToSelectedDirection(): void {
+    setTimeout(() => {
+      const itemsList: HTMLCollection = this.filterContainer.nativeElement.children; //list of li elements
+      for(let i = 0; i <= itemsList.length; i++ ){
+        const checkboxElement = itemsList.item(i)?.children[0]; // checkbox element of li item
+  
+        if(checkboxElement?.classList.contains('mat-checkbox-checked')){
+          console.log(checkboxElement);
+          this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[i].offsetTop;
+        }
+      }
+    }, 1000)
   }
 
   onSearch(): void {

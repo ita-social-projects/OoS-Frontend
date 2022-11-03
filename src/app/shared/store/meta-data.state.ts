@@ -58,7 +58,7 @@ export interface MetaDataStateModel {
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
-    directions: [],
+    directions: null,
     socialGroups: [],
     institutionStatuses: null,
     achievementsTypes: null,
