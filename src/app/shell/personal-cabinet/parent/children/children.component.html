@@ -5,12 +5,7 @@
   </ng-container>
 
   <a [routerLink]="['/create-child', '']">
-    <button
-      class="btn"
-      mat-raised-button
-      [disabled]="childrenCards.totalAmount >= 20">
-      Додати дитину
-    </button>
+    <button class="btn" mat-raised-button [disabled]="childrenCards.totalAmount >= 20">Додати дитину</button>
   </a>
 </div>
 
@@ -20,11 +15,7 @@
 
 <ng-template #ChildList>
   <div class="card-wrapper">
-    <app-child-card
-      class="card"
-      *ngFor="let child of childrenCards.entities"
-      [child]="child"
-      (deleteChild)="onDelete($event)">
+    <app-child-card class="card" *ngFor="let child of childrenCards.entities" [child]="child" (deleteChild)="onDelete($event)">
     </app-child-card>
   </div>
   <app-paginator
@@ -32,6 +23,7 @@
     [currentPage]="currentPage"
     [itemsPerPage]="childrensPerPage$ | async"
     (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)">
+    (itemsPerPageChange)="onItemsPerPageChange($event)"
+  >
   </app-paginator>
 </ng-template>

@@ -29,15 +29,10 @@ describe('TeacherFormComponent', () => {
         BrowserAnimationsModule,
         MatIconModule,
         MatGridListModule,
-        MatRadioModule,
+        MatRadioModule
       ],
-      declarations: [
-        ImageFormControlComponent,
-        TeacherFormComponent,
-        MockValidationHintForInputComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [ImageFormControlComponent, TeacherFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -50,7 +45,7 @@ describe('TeacherFormComponent', () => {
       middleName: new FormControl(''),
       gender: new FormControl(''),
       dateOfBirth: new FormControl(''),
-      description: new FormControl(''),
+      description: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -64,7 +59,6 @@ describe('TeacherFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

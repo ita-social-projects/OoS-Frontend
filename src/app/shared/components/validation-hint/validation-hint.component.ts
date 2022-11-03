@@ -12,7 +12,7 @@ enum ValidatorsTypes {
 }
 @Component({
   selector: 'app-validation-hint',
-  templateUrl: './validation-hint.component.html',
+  templateUrl: './validation-hint.component.html'
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
@@ -42,10 +42,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   constructor() {}
 
   ngOnInit(): void {
-    this.validationFormControl.statusChanges.pipe(
-      debounceTime(200),
-      takeUntil(this.destroy$)
-    ).subscribe(() => {
+    this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       const errors = this.validationFormControl.errors;
       // Check is the field valid
       this.invalid = this.validationFormControl.invalid && this.validationFormControl.touched;
@@ -91,8 +88,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkMatDatePciker(): void {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
-      this.validationFormControl.hasError('matDatepickerMin') ||
-        this.validationFormControl.hasError('matDatepickerMax')
+      this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')
     );
   }
 

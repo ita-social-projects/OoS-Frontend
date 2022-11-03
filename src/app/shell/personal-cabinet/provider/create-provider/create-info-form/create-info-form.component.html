@@ -5,7 +5,8 @@
     [cropperConfig]="cropperConfig"
     [label]="'Фонове зображення'"
     formControlName="coverImage"
-    [imageIdsFormControl]="InfoFormGroup.get('coverImageId')"></app-image-form-control>
+    [imageIdsFormControl]="InfoFormGroup.get('coverImageId')"
+  ></app-image-form-control>
 
   <label class="step-label">Форма власності<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
@@ -15,7 +16,8 @@
       class="step-input"
       formControlName="ownership"
       name="ownership"
-      placeholder="Оберіть форму власності">
+      placeholder="Оберіть форму власності"
+    >
       <ng-container *ngFor="let type of ownershipType | keyvalue">
         <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
           {{ ownershipTypeUkr[type.key] }}
@@ -23,9 +25,7 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('ownership')"
-    [isTouched]="InfoFormGroup.get('ownership').touched">
+  <app-validation-hint [validationFormControl]="InfoFormGroup.get('ownership')" [isTouched]="InfoFormGroup.get('ownership').touched">
   </app-validation-hint>
 
   <label class="step-label">Тип організації<span class="step-required">*</span></label>
@@ -36,7 +36,8 @@
       class="step-input"
       formControlName="type"
       name="type"
-      placeholder="Оберіть тип організації">
+      placeholder="Оберіть тип організації"
+    >
       <ng-container *ngFor="let type of providerType | keyvalue">
         <mat-option *ngIf="providerTypeUkr[type.key]" [value]="+type.key" class="dropdown-option">
           {{ providerTypeUkr[type.key] }}
@@ -44,9 +45,7 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('type')"
-    [isTouched]="InfoFormGroup.get('type').touched">
+  <app-validation-hint [validationFormControl]="InfoFormGroup.get('type')" [isTouched]="InfoFormGroup.get('type').touched">
   </app-validation-hint>
 
   <label class="step-label">Підпорядкування<span class="step-required">*</span></label>
@@ -57,15 +56,14 @@
       class="step-input"
       formControlName="institution"
       placeholder="Оберіть підпорядкування"
-      [compareWith]="compareInstitutions">
+      [compareWith]="compareInstitutions"
+    >
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
         {{ institution.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('institution')"
-    [isTouched]="InfoFormGroup.get('institution').touched">
+  <app-validation-hint [validationFormControl]="InfoFormGroup.get('institution')" [isTouched]="InfoFormGroup.get('institution').touched">
   </app-validation-hint>
 
   <label class="step-label"> Повна назва організації<span class="step-required">*</span></label>
@@ -75,7 +73,8 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('fullTitle')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <label class="step-label"> Скорочена назва організації<span class="step-required">*</span></label>
@@ -85,7 +84,8 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('shortTitle')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <label class="step-label"> ПІБ керівника<span class="step-required">*</span></label>
@@ -95,7 +95,8 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('director')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <label class="step-label">Дата народження керівника<span class="step-required">*</span></label>
@@ -107,19 +108,19 @@
       [matDatepicker]="picker"
       formControlName="directorDateOfBirth"
       [appKeyFilter]="dateFilter"
-      [placeholder]="dateFormPlaceholder" />
+      [placeholder]="dateFormPlaceholder"
+    />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('directorDateOfBirth')"
     [isTouched]="InfoFormGroup.get('directorDateOfBirth').touched"
-    minMaxDate="true">
+    minMaxDate="true"
+  >
   </app-validation-hint>
 
-  <label class="step-label">
-    {{ this.InfoFormGroup.get('type').value ? 'ІПН' : 'ЄДРПОУ' }}<span class="step-required">*</span></label
-  >
+  <label class="step-label"> {{ this.InfoFormGroup.get('type').value ? 'ІПН' : 'ЄДРПОУ' }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input
       matInput
@@ -129,12 +130,14 @@
       [maxlength]="validationConstants.INPUT_LENGTH_10"
       formControlName="edrpouIpn"
       autocomplete="none"
-      appTrimValue />
+      appTrimValue
+    />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('edrpouIpn')"
     [minCharachters]="validationConstants.INPUT_LENGTH_8"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_10">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_10"
+  >
   </app-validation-hint>
 
   <label class="step-label"> Телефон<span class="step-required">*</span></label>
@@ -150,24 +153,20 @@
         appTrimValue
         ui-number-mask
         ui-hide-group-sep
-        maxlength="{{ validationConstants.PHONE_LENGTH }}" />
+        maxlength="{{ validationConstants.PHONE_LENGTH }}"
+      />
     </div>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('phoneNumber')"
     [minCharachters]="validationConstants.PHONE_LENGTH"
-    [isPhoneNumber]="true">
+    [isPhoneNumber]="true"
+  >
   </app-validation-hint>
 
   <label class="step-label"> Електронна пошта<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
-    <input
-      matInput
-      class="step-input"
-      type="email"
-      formControlName="email"
-      appTrimValue
-      [placeholder]="mailFormPlaceholder"/>
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
   <app-validation-hint [validationFormControl]="InfoFormGroup.get('email')"> </app-validation-hint>
 
@@ -178,7 +177,8 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('website')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
+  >
   </app-validation-hint>
 
   <label class="step-label">Facebook</label>
@@ -188,7 +188,8 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('facebook')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
+  >
   </app-validation-hint>
 
   <label class="step-label">Instagram</label>
@@ -198,6 +199,7 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('instagram')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
+  >
   </app-validation-hint>
 </form>

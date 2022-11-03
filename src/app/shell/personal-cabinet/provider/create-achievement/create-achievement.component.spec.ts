@@ -40,15 +40,10 @@ describe('CreateAchievementComponent', () => {
         MatNativeDateModule,
         MatChipsModule,
         MatIconModule,
-        MatDialogModule,
+        MatDialogModule
       ],
-      declarations: [
-        CreateAchievementComponent,
-        MockMainWorkshopCardComponent,
-        MockValidationHintForInputComponent,
-        GetFullNamePipe,
-      ],
-      providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }],
+      declarations: [CreateAchievementComponent, MockMainWorkshopCardComponent, MockValidationHintForInputComponent, GetFullNamePipe],
+      providers: [HttpClient, { provide: APP_BASE_HREF, useValue: '/' }]
     }).compileComponents();
   });
 
@@ -60,7 +55,7 @@ describe('CreateAchievementComponent', () => {
       teachers: new FormControl(''),
       childrenIDs: new FormControl(''),
       achievementTypeId: new FormControl(''),
-      achievementDate: new FormControl(''),
+      achievementDate: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -72,7 +67,7 @@ describe('CreateAchievementComponent', () => {
 
 @Component({
   selector: 'app-workshop-card',
-  template: '',
+  template: ''
 })
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
@@ -85,7 +80,7 @@ class MockMainWorkshopCardComponent {
 }
 @Component({
   selector: 'app-validation-hint',
-  template: '',
+  template: ''
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;

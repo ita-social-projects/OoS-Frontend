@@ -7,16 +7,13 @@
     [cropperConfig]="cropperConfig"
     [label]="'Фото'"
     formControlName="imageFiles"
-    [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
+    [imageIdsFormControl]="PhotoFormGroup.get('imageIds')"
+  >
   </app-image-form-control>
 
   <label class="step-label">Статус<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select
-      disableOptionCentering
-      panelClass="dropdown-panel"
-      class="step-input"
-      formControlName="institutionStatusId">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="institutionStatusId">
       <mat-option *ngFor="let status of institutionStatuses$ | async" [value]="status.id" class="dropdown-option">
         {{ status.name }}
       </mat-option>
@@ -30,7 +27,8 @@
       panelClass="dropdown-panel"
       class="step-input"
       formControlName="institutionType"
-      placeholder="Оберіть тип закладу">
+      placeholder="Оберіть тип закладу"
+    >
       <mat-option *ngFor="let type of institutionTypes | keyvalue" [value]="type.key" class="dropdown-option">
         {{ type.value }}
       </mat-option>
@@ -38,7 +36,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="PhotoFormGroup.get('institutionType')"
-    [isTouched]="PhotoFormGroup.get('institutionType').touched">
+    [isTouched]="PhotoFormGroup.get('institutionType').touched"
+  >
   </app-validation-hint>
 
   <label class="step-label">Засновник<span class="step-required">*</span></label>
@@ -48,7 +47,8 @@
   <app-validation-hint
     [validationFormControl]="PhotoFormGroup.get('founder')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <app-info-form
@@ -57,7 +57,8 @@
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-    (deleteForm)="onDeleteForm($event)">
+    (deleteForm)="onDeleteForm($event)"
+  >
   </app-info-form>
 
   <button
@@ -65,7 +66,8 @@
     class="btn-add"
     mat-button
     (click)="onAddForm()"
-    [disabled]="SectionItemsFormArray.invalid">
+    [disabled]="SectionItemsFormArray.invalid"
+  >
     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
   </button>
 </form>

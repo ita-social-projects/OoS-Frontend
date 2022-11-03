@@ -27,9 +27,8 @@ describe('HistoryLogFiltersComponent', () => {
         FormsModule,
         BrowserAnimationsModule
       ],
-      declarations: [ HistoryLogFiltersComponent ]
-    })
-      .compileComponents();
+      declarations: [HistoryLogFiltersComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

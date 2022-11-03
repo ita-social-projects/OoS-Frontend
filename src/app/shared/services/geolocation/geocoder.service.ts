@@ -8,7 +8,7 @@ import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { Coords } from '../../models/coords.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GeocoderService {
   constructor(private http: HttpClient) {}
@@ -23,7 +23,7 @@ export class GeocoderService {
     this.geocode({
       catottgId: address.catottgId,
       street: address.street,
-      buildingNumber: address.buildingNumber,
+      buildingNumber: address.buildingNumber
     }).subscribe((result: Geocoder) => callback(result));
   }
 
@@ -31,7 +31,7 @@ export class GeocoderService {
     this.geocode({
       lat: coords.lat,
       lon: coords.lng,
-      isReverse: true,
+      isReverse: true
     }).subscribe((result: Geocoder) => callback(result));
   }
 
@@ -39,8 +39,6 @@ export class GeocoderService {
    * This method get geolocation for map
    */
   private geocode(payload: Geocoder): Observable<Geocoder | null> {
-    return this.http
-      .post<Geocoder>('/api/v1/Geocoding', { ...payload })
-      .pipe(map((result: Geocoder) => result ? result : null));
+    return this.http.post<Geocoder>('/api/v1/Geocoding', { ...payload }).pipe(map((result: Geocoder) => (result ? result : null)));
   }
 }

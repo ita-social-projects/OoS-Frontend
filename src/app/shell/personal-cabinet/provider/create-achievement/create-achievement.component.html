@@ -3,29 +3,19 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">ДОДАТИ ДОСЯГНЕННЯ</h3>
     </div>
-    <app-workshop-card
-      class="application-workshop"
-      [workshop]="workshop"
-      [isHorizontalView]="true"
-      [isCreateFormView]="true">
+    <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true" [isCreateFormView]="true">
     </app-workshop-card>
     <div class="card-border" fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="AchievementFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
         <label class="step-label">Назва досягнення<span class="step-required">*</span></label>
         <mat-form-field appearance="none">
-          <mat-select
-            formControlName="achievementTypeId"
-            disableOptionCentering
-            panelClass="dropdown-panel"
-            class="step-input">
+          <mat-select formControlName="achievementTypeId" disableOptionCentering panelClass="dropdown-panel" class="step-input">
             <mat-option *ngFor="let achievement of achievementsTypes$ | async" [value]="achievement.id">
               {{ achievement.title }}
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-validation-hint
-          [validationFormControl]="achievementTypeIdFormControl"
-          [isTouched]="achievementTypeIdFormControl.touched">
+        <app-validation-hint [validationFormControl]="achievementTypeIdFormControl" [isTouched]="achievementTypeIdFormControl.touched">
         </app-validation-hint>
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <ng-container *ngIf="approvedChildren">
@@ -37,13 +27,15 @@
                 formControlName="children"
                 panelClass="dropdown-panel"
                 class="step-input"
-                [compareWith]="compareEntities">
+                [compareWith]="compareEntities"
+              >
                 <mat-select-trigger>
                   <mat-chip-list>
                     <mat-chip
                       *ngFor="let child of childrenFormControl.value"
                       [removable]="true"
-                      (removed)="onRemoveItem(child, 'children')">
+                      (removed)="onRemoveItem(child, 'children')"
+                    >
                       {{ child | getFullName }}
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
@@ -54,9 +46,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <app-validation-hint
-              [validationFormControl]="childrenFormControl"
-              [isTouched]="childrenFormControl.touched">
+            <app-validation-hint [validationFormControl]="childrenFormControl" [isTouched]="childrenFormControl.touched">
             </app-validation-hint>
           </ng-container>
         </ng-container>
@@ -84,12 +74,11 @@
               panelClass="dropdown-panel"
               class="step-input"
               placeholder="Обрати тренера/викладача"
-              [compareWith]="compareEntities">
+              [compareWith]="compareEntities"
+            >
               <mat-select-trigger>
                 <mat-chip-list #chipList>
-                  <mat-chip
-                    *ngFor="let teacher of teachersFormControl.value"
-                    (removed)="onRemoveItem(teacher, 'teachers')">
+                  <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
                     {{ teacher | getFullName }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
@@ -104,12 +93,9 @@
           </mat-form-field>
         </ng-container>
         <ng-template #noTeachers>
-          <span class="warning-message">
-            Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку.
-          </span>
+          <span class="warning-message"> Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку. </span>
         </ng-template>
-        <app-validation-hint [validationFormControl]="teachersFormControl" [isTouched]="teachersFormControl">
-        </app-validation-hint>
+        <app-validation-hint [validationFormControl]="teachersFormControl" [isTouched]="teachersFormControl"> </app-validation-hint>
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
           <input matInput [matDatepicker]="picker" formControlName="achievementDate" />
@@ -118,7 +104,8 @@
         </mat-form-field>
         <app-validation-hint
           [validationFormControl]="AchievementFormGroup.get('achievementDate')"
-          [isTouched]="AchievementFormGroup.get('achievementDate').touched">
+          [isTouched]="AchievementFormGroup.get('achievementDate').touched"
+        >
         </app-validation-hint>
         <div class="step-label-combined">
           <label class="step-label">Опис Досягнення<span class="step-required">*</span></label>
@@ -133,15 +120,14 @@
           [validationFormControl]="AchievementFormGroup.get('title')"
           [isTouched]="AchievementFormGroup.get('title').touched"
           [minCharachters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
-          [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+          [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
+        >
         </app-validation-hint>
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button class="btn btn-cancel" mat-raised-button (click)="onBack()">СКАСУВАТИ</button>
-      <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="AchievementFormGroup.invalid">
-        ЗБЕРЕГТИ
-      </button>
+      <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="AchievementFormGroup.invalid">ЗБЕРЕГТИ</button>
     </div>
   </div>
 </div>

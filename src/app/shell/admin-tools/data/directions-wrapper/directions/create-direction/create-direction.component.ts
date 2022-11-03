@@ -18,7 +18,6 @@ import { AdminState } from '../../../../../../shared/store/admin.state';
 import { AddNavPath } from '../../../../../../shared/store/navigation.actions';
 import { CreateFormComponent } from '../../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
-
 @Component({
   selector: 'app-create-direction',
   templateUrl: './create-direction.component.html',
@@ -26,15 +25,15 @@ import { CreateFormComponent } from '../../../../../personal-cabinet/shared-cabi
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false },
-    },
-  ],
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
 export class CreateDirectionComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
-    direction$: Observable<Direction>;
+  direction$: Observable<Direction>;
   @Select(AdminState.isLoading)
-    isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   directionFormGroup: FormGroup;
 
@@ -49,7 +48,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
     super(store, route, navigationBarService);
     this.directionFormGroup = this.fb.group({
       title: new FormControl('', Validators.required),
-      id: new FormControl(''),
+      id: new FormControl('')
     });
   }
 
@@ -66,12 +65,12 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
             name: NavBarName.Directions,
             path: '/admin-tools/platform?page=Directions',
             isActive: false,
-            disable: false,
+            disable: false
           },
           {
             name: this.editMode ? NavBarName.EditDirection : NavBarName.CreateDirection,
             isActive: false,
-            disable: true,
+            disable: true
           }
         )
       )
@@ -99,15 +98,13 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
-          type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection,
-        },
+          type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection
+        }
       });
       dialogRef.afterClosed().subscribe((result: boolean) => {
         if (result) {
           const direction: Direction = new Direction(this.directionFormGroup.value);
-          this.editMode
-            ? this.store.dispatch(new UpdateDirection(direction))
-            : this.store.dispatch(new CreateDirection(direction));
+          this.editMode ? this.store.dispatch(new UpdateDirection(direction)) : this.store.dispatch(new CreateDirection(direction));
 
           this.directionFormGroup.markAsPristine();
         }

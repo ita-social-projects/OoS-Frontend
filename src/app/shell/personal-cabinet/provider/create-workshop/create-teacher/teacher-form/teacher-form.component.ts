@@ -21,7 +21,7 @@ export class TeacherFormComponent {
     cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   today: Date = new Date();
@@ -34,7 +34,7 @@ export class TeacherFormComponent {
 
   @Output() deleteForm = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);

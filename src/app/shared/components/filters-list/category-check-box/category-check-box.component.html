@@ -1,34 +1,39 @@
-<div [ngClass]="{'wrapper-full-width': (isMobileScreen$ | async)}">
+<div [ngClass]="{ 'wrapper-full-width': (isMobileScreen$ | async) }">
   <p class="filter-text">Напрямки</p>
   <div class="search-bar" fxLayout="row" fxLayoutAlign="space-evenly center">
     <button mat-stroked-button>
-      <mat-icon class="search-icon" style="transform: rotate(90deg)" (click)="onSearch()">
-        search</mat-icon>
+      <mat-icon class="search-icon" style="transform: rotate(90deg)" (click)="onSearch()"> search</mat-icon>
     </button>
-    <mat-form-field floatLabel=never appearance="none">
-      <input matInput type="text" maxlength="200" [formControl]="directionSearch" class="search" matInput
-        placeholder="Пошук за напрямком" autocomplete="off">
+    <mat-form-field floatLabel="never" appearance="none">
+      <input
+        matInput
+        type="text"
+        maxlength="200"
+        [formControl]="directionSearch"
+        class="search"
+        matInput
+        placeholder="Пошук за напрямком"
+        autocomplete="off"
+      />
     </mat-form-field>
   </div>
   <div class="list-wrapper">
-    <div *ngIf="(showAll) then AllDirections; else FilteredDirections"></div>
+    <div *ngIf="showAll; then AllDirections; else FilteredDirections"></div>
   </div>
 </div>
 
 <ng-template #AllDirections>
-  <ng-container *ngTemplateOutlet="Directions; context:{$implicit: allDirections}">
-  </ng-container>
+  <ng-container *ngTemplateOutlet="Directions; context: { $implicit: allDirections }"> </ng-container>
 </ng-template>
 
 <ng-template #FilteredDirections>
-  <ng-container *ngTemplateOutlet="Directions; context:{$implicit:filteredDirections}">
-  </ng-container>
+  <ng-container *ngTemplateOutlet="Directions; context: { $implicit: filteredDirections }"> </ng-container>
 </ng-template>
 
 <ng-template #Directions let-directions>
-  <li class=" list" *ngFor="let direction of directions">
-    <mat-checkbox color="primary" (change)="onDirectionCheck(direction, $event )" [checked]="onSelectCheck(direction)">
-      {{direction.title}}
+  <li class="list" *ngFor="let direction of directions">
+    <mat-checkbox color="primary" (change)="onDirectionCheck(direction, $event)" [checked]="onSelectCheck(direction)">
+      {{ direction.title }}
     </mat-checkbox>
   </li>
 </ng-template>

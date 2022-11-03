@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProviderAdminsComponent } from './provider-admins.component';
 import { MatTabsModule } from '@angular/material/tabs';
-import { NgxsModule} from '@ngxs/store';
+import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatIconModule } from '@angular/material/icon';
@@ -32,16 +32,10 @@ describe('ProviderAdminsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        MatDialogModule,
+        MatDialogModule
       ],
-      declarations: [
-        ProviderAdminsComponent,
-        MockUsersListComponent,
-        NoResultCardComponent,
-        ProviderAdminsFilterPipe,
-      ],
-    })
-      .compileComponents();
+      declarations: [ProviderAdminsComponent, MockUsersListComponent, NoResultCardComponent, ProviderAdminsFilterPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -22,25 +22,23 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   readonly role = Role;
 
   @Select(RegistrationState.user)
-    user$: Observable<User>;
+  user$: Observable<User>;
   @Select(RegistrationState.role)
-    role$: Observable<Role>;
+  role$: Observable<Role>;
 
   authServer: string = environment.stsServer;
   culture: string = localStorage.getItem('ui-culture');
   link: string;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(
-      new PushNavPath(
-        {
-          name: NavBarName.UserInfo,
-          isActive: false,
-          disable: true,
-        }
-      )
+      new PushNavPath({
+        name: NavBarName.UserInfo,
+        isActive: false,
+        disable: true
+      })
     );
   }
 

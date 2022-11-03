@@ -12,15 +12,15 @@ import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.acti
 @Component({
   selector: 'app-about',
   templateUrl: './about.component.html',
-  styleUrls: ['./about.component.scss'],
+  styleUrls: ['./about.component.scss']
 })
 export class AboutComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
   @Select(AdminState.AboutPortal)
-    platformInformation$: Observable<CompanyInformation>;
+  platformInformation$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-    isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   platformInformation: CompanyInformation;
 
@@ -30,14 +30,10 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.AboutPortal, isActive: false, disable: true })
-      )
+      new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.AboutPortal, isActive: false, disable: true }))
     );
     this.store.dispatch(new GetAboutPortal());
-    this.platformInformation$.pipe(takeUntil(this.destroy$)).subscribe(
-      (info: CompanyInformation) => this.platformInformation = info
-    );
+    this.platformInformation$.pipe(takeUntil(this.destroy$)).subscribe((info: CompanyInformation) => (this.platformInformation = info));
   }
 
   ngOnDestroy(): void {

@@ -1,13 +1,13 @@
-@import "src/app/shared/styles/create-form-wrapper.scss";
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/create-form-wrapper.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/buttons.scss';
 
-.wrapper{
+.wrapper {
   padding: 1rem 5rem;
   margin-bottom: 2rem;
-  &-title{
+  &-title {
     text-align: center;
   }
 }
@@ -15,7 +15,7 @@
   padding: 0 !important;
 }
 
-:host ::ng-deep .mat-form-field-wrapper{
+:host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
 }
 
@@ -33,11 +33,11 @@
 .edit-wrapper {
   margin-top: 1rem;
   padding: 16px;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   box-sizing: border-box;
   border-radius: 20px;
 
-  li::before{
+  li::before {
     content: '';
     -webkit-border-radius: 0.375rem;
     border-radius: 0.375rem;

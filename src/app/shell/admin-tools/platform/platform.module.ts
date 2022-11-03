@@ -20,17 +20,9 @@ import { MainInfoComponent } from './platform-info/main-info.component';
     SupportInfoComponent,
     InfoEditComponent,
     PlatformComponent,
-    MainInfoComponent,
+    MainInfoComponent
   ],
-  imports: [
-    CommonModule,
-    FlexLayoutModule,
-    SharedModule,
-    MaterialModule,
-    RouterModule,
-  ],
-  exports: [
-    PlatformComponent
-  ]
+  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule],
+  exports: [PlatformComponent]
 })
-export class PlatformModule { }
+export class PlatformModule {}

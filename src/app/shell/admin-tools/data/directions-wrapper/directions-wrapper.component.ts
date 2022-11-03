@@ -6,7 +6,7 @@ import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.act
 @Component({
   selector: 'app-directions-wrapper',
   templateUrl: './directions-wrapper.component.html',
-  styleUrls: ['./directions-wrapper.component.scss'],
+  styleUrls: ['./directions-wrapper.component.scss']
 })
 export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
@@ -16,7 +16,7 @@ export class DirectionsWrapperComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Directions,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }

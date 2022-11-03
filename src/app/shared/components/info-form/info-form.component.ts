@@ -17,7 +17,7 @@ export class InfoFormComponent {
 
   @Output() deleteForm = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   onDelete(): void {
     this.deleteForm.emit(this.index);

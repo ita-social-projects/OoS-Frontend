@@ -12,7 +12,7 @@ describe('ContactsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [RouterTestingModule, MaterialModule],
-      declarations: [ContactsComponent],
+      declarations: [ContactsComponent]
     }).compileComponents();
   });
 

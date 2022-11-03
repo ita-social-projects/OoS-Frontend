@@ -30,9 +30,9 @@ describe('ProviderInfoComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
         MatTabsModule,
-        BrowserAnimationsModule,
+        BrowserAnimationsModule
       ],
-      declarations: [ProviderInfoComponent, PhoneTransformPipe],
+      declarations: [ProviderInfoComponent, PhoneTransformPipe]
     }).compileComponents();
   });
 

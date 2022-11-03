@@ -30,7 +30,7 @@ describe('CityFilterComponent', () => {
         MatIconModule,
         HttpClientTestingModule
       ],
-      declarations: [CityFilterComponent],
+      declarations: [CityFilterComponent]
     }).compileComponents();
   });
 

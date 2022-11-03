@@ -1,18 +1,10 @@
 <mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
   <div class="mobile-sidenav-content" *ngIf="isMobileView">
-    <div
-      *ngIf="
-        (isAuthorized$ | async) && user;
-        then isAuthorized;
-        else isUnauthorized
-      "
-    ></div>
+    <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
 
     <ng-template #isUnauthorized>
       <div class="mobile-sidenav-header">
-        <button mat-stroked-button class="header_login" (click)="login()">
-          УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ
-        </button>
+        <button mat-stroked-button class="header_login" (click)="login()">УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ</button>
         <button mat-button (click)="changeView()">
           <mat-icon>close</mat-icon>
         </button>
@@ -34,84 +26,35 @@
       <div class="mobile-sidenav-shell">
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
-        <div
-          class="mobile-sidenav-menu"
-          *ngIf="(featuresList$ | async).release2"
-        >
-          <a
-            [routerLink]="'./notifications'"
-            (click)="changeView()"
-            class="full-width notif"
-          >
-            <app-notifications
-              fxLayout="row"
-              fxLayoutAlign="space-between center"
-            >
-            </app-notifications>
+        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async).release2">
+          <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
+            <app-notifications fxLayout="row" fxLayoutAlign="space-between center"> </app-notifications>
           </a>
         </div>
 
         <hr class="hr-grey" />
 
         <div class="mobile-sidenav-menu">
-          <div
-            *ngIf="
-              user?.role !== Role.techAdmin &&
-                user?.role !== Role.ministryAdmin;
-              then UserView;
-              else AdminView
-            "
-          ></div>
+          <div *ngIf="user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin; then UserView; else AdminView"></div>
           <ng-template #UserView>
-            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()"
-              >Особиста Інформація</a
-            >
-            <a
-              [routerLink]="'./personal-cabinet/' + user.role + '/info'"
-              (click)="changeView()"
-              >Інформація про {{ roles[user.role] }}</a
-            >
-            <a
-              *ngIf="user.role === Role.provider"
-              [routerLink]="'./personal-cabinet/provider/workshops'"
-              (click)="changeView()"
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація про {{ roles[user.role] }}</a>
+            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()"
               >Мої гуртки</a
             >
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">Мої заяви</a>
+            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a>
             <a
-              [routerLink]="'./personal-cabinet/' + user.role + '/applications'"
-              (click)="changeView()"
-              >Мої заяви</a
-            >
-            <a
-              [routerLink]="'./personal-cabinet/messages'"
-              (click)="changeView()"
-              >Повідомлення</a
-            >
-            <a
-              *ngIf="
-                user.role === Role.provider &&
-                (subrole$ | async) !== Role.ProviderAdmin
-              "
+              *ngIf="user.role === Role.provider && (subrole$ | async) !== Role.ProviderAdmin"
               [routerLink]="'./personal-cabinet/provider/administration'"
               (click)="changeView()"
               >Адміністрування</a
             >
-            <a
-              *ngIf="user.role === Role.parent"
-              [routerLink]="'./personal-cabinet/parent/favorite'"
-              (click)="changeView()"
-              >Улюблене</a
-            >
+            <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'" (click)="changeView()">Улюблене</a>
           </ng-template>
           <ng-template #AdminView>
-            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()"
-              >Особиста інформація</a
-            >
-            <a
-              [routerLink]="'./personal-cabinet/messages'"
-              (click)="changeView()"
-              >Повідомлення</a
-            >
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста інформація</a>
+            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">Повідомлення</a>
             <a
               *ngIf="user.role === Role.techAdmin"
               [routerLink]="'./admin-tools/platform'"
@@ -119,10 +62,7 @@
               (click)="changeView()"
               >Адміністрування</a
             >
-            <a
-              *ngIf="user.role === Role.ministryAdmin"
-              [routerLink]="'./admin-tools/data/admins'"
-              (click)="changeView()"
+            <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'" (click)="changeView()"
               >Адміністрування</a
             >
           </ng-template>
@@ -146,15 +86,11 @@
     <hr class="hr-grey" />
 
     <ng-container *ngIf="user?.role === Role.techAdmin">
-      <a (click)="changeView()">
-        <button mat-flat-button>Нормативно-правові акти</button></a
-      >
+      <a (click)="changeView()"> <button mat-flat-button>Нормативно-правові акти</button></a>
       <hr class="hr-grey" />
     </ng-container>
 
-    <button *ngIf="isAuthorized$ | async" mat-flat-button (click)="logout()">
-      Вийти
-    </button>
+    <button *ngIf="isAuthorized$ | async" mat-flat-button (click)="logout()">Вийти</button>
   </div>
 </mat-drawer>
 

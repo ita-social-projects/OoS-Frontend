@@ -13,15 +13,14 @@ import { ShowMessageBar } from '../shared/store/app.actions';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private actions$: Actions, private snackBar: MatSnackBar) { }
+  constructor(private actions$: Actions, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.actions$.pipe(ofAction(ShowMessageBar))
-      .pipe(
-        takeUntil(this.destroy$))
+    this.actions$
+      .pipe(ofAction(ShowMessageBar))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((payload) => this.showSnackBar(payload.payload));
   }
 

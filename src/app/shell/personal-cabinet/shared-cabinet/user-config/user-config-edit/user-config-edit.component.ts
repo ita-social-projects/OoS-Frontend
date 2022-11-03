@@ -20,7 +20,7 @@ import { Util } from '../../../../../shared/utils/utils';
 @Component({
   selector: 'app-user-config-edit',
   templateUrl: './user-config-edit.component.html',
-  styleUrls: ['./user-config-edit.component.scss'],
+  styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly role = Role;
@@ -28,19 +28,14 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
-    user$: Observable<User>;
+  user$: Observable<User>;
   user: User;
 
   userEditFormGroup: FormGroup;
   userRole: Role;
   subRole: Role;
 
-  constructor(
-    private fb: FormBuilder,
-    store: Store,
-    navigationBarService: NavigationBarService,
-    route: ActivatedRoute
-  ) {
+  constructor(private fb: FormBuilder, store: Store, navigationBarService: NavigationBarService, route: ActivatedRoute) {
     super(store, route, navigationBarService);
 
     this.userEditFormGroup = this.fb.group({
@@ -48,21 +43,21 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       firstName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
     });
     this.subscribeOnDirtyForm(this.userEditFormGroup);
   }
@@ -95,7 +90,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
             name: personalCabinetTitle,
             path: '/personal-cabinet/config',
             isActive: false,
-            disable: false,
+            disable: false
           },
           { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
         )
@@ -109,6 +104,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   onSubmit(): void {
     const user = new User(this.userEditFormGroup.value, this.user.id);
-    this.store.dispatch(new UpdateUser(PersonalInfoRole[this.userRole] , user));
+    this.store.dispatch(new UpdateUser(PersonalInfoRole[this.userRole], user));
   }
 }

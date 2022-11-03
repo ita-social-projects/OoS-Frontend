@@ -6,15 +6,13 @@ import { Provider } from '../../models/provider.model';
 import { ProviderWorkshopCard, Workshop, WorkshopCard } from '../../models/workshop.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ImagesService {
   constructor() {}
 
   setWorkshopCoverImage(workshop: WorkshopCard | ProviderWorkshopCard): WorkshopCard | ProviderWorkshopCard {
-    workshop['_meta'] = workshop.coverImageId
-      ? environment.storageUrl + workshop.coverImageId
-      : CategoryIcons[workshop.directionIds[0]];
+    workshop['_meta'] = workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
     return workshop;
   }
 

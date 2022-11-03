@@ -10,7 +10,7 @@ describe('ProgressBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatProgressBarModule, NgxsModule.forRoot([])],
-      declarations: [ProgressBarComponent],
+      declarations: [ProgressBarComponent]
     }).compileComponents();
   });
 

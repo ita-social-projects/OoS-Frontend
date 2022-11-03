@@ -8,9 +8,8 @@ describe('StretchCellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ StretchCellComponent ]
-    })
-      .compileComponents();
+      declarations: [StretchCellComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

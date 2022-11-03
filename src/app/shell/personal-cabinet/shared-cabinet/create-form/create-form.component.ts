@@ -14,36 +14,32 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
-  template: '',
+  template: ''
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
-    isDirtyForm$: Observable<boolean>;
+  isDirtyForm$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
-    isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
-    featuresList$: Observable<FeaturesList>;
+  featuresList$: Observable<FeaturesList>;
   isRelease3: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   isPristine = true;
   editMode: boolean;
 
-  constructor(
-    public store: Store,
-    public route: ActivatedRoute,
-    public navigationBarService: NavigationBarService) { }
+  constructor(public store: Store, public route: ActivatedRoute, public navigationBarService: NavigationBarService) {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   abstract setEditMode(): void;
   abstract addNavPath(): void;
 
   determineRelease(): void {
     this.featuresList$
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe((featuresList: FeaturesList) => this.isRelease3 = featuresList.release3);
+      .pipe(takeWhile(() => this.isPristine))
+      .subscribe((featuresList: FeaturesList) => (this.isRelease3 = featuresList.release3));
   }
 
   determineEditMode(): void {
@@ -54,13 +50,10 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   }
 
   public subscribeOnDirtyForm(form: FormGroup | FormArray): void {
-    form.valueChanges
-      .pipe(
-        takeWhile(() => this.isPristine))
-      .subscribe(() => {
-        this.isPristine = false;
-        this.store.dispatch(new MarkFormDirty(true));
-      });
+    form.valueChanges.pipe(takeWhile(() => this.isPristine)).subscribe(() => {
+      this.isPristine = false;
+      this.store.dispatch(new MarkFormDirty(true));
+    });
   }
 
   ngOnDestroy(): void {

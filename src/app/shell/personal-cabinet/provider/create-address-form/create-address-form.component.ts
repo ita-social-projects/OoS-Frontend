@@ -14,7 +14,7 @@ import { MetaDataState } from '../../../../shared/store/meta-data.state';
 @Component({
   selector: 'app-create-address-form',
   templateUrl: './create-address-form.component.html',
-  styleUrls: ['./create-address-form.component.scss'],
+  styleUrls: ['./create-address-form.component.scss']
 })
 export class CreateAddressFormComponent implements OnInit {
   readonly ValidationConstants = ValidationConstants;
@@ -25,7 +25,7 @@ export class CreateAddressFormComponent implements OnInit {
   @Input() address: Address;
 
   @Select(MetaDataState.codeficatorSearch)
-    codeficatorSearch$: Observable<Codeficator[]>;
+  codeficatorSearch$: Observable<Codeficator[]>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -61,7 +61,7 @@ export class CreateAddressFormComponent implements OnInit {
       this.addressFormGroup.patchValue({ ...this.address, lat: this.address.latitude, lon: this.address.longitude }, { emitEvent: false });
       this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, {
         emitEvent: false,
-        onlySelf: true,
+        onlySelf: true
       });
     }
   }
@@ -93,11 +93,11 @@ export class CreateAddressFormComponent implements OnInit {
     this.store.dispatch(new ClearCodeficatorSearch());
     controls.searchControl.setValue(event.option.value.settlement, {
       emitEvent: false,
-      onlySelf: true,
+      onlySelf: true
     });
     controls.settlementControl.setValue(event.option.value, {
       emitEvent: false,
-      onlySelf: true,
+      onlySelf: true
     });
 
     controls.codeficatorIdControl.reset();

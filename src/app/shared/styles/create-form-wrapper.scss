@@ -1,68 +1,69 @@
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/buttons.scss';
 
-.create-form{
+.create-form {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   flex-wrap: wrap;
-  &-header{
+  &-header {
     margin: 2rem 0 1rem 0;
   }
 }
 
 .wrapper {
   max-width: 654px;
-  border-radius:5px;
-  background: #FFFFFF;
+  border-radius: 5px;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding: 1rem;
   margin: 1rem 0;
   box-sizing: border-box;
 
-  p,h3{
+  p,
+  h3 {
     margin: 0;
     padding: 0;
   }
 
   &-title {
     text-align: center;
-    font-family:Open Sans;
+    font-family: Open Sans;
     font-weight: 700;
-    color:#444444;
+    color: #444444;
     margin: 1rem 0;
   }
   &-text {
     text-align: center;
-    font-family:Open Sans;
+    font-family: Open Sans;
     font-weight: 700;
-    color: #AAAAAA;
+    color: #aaaaaa;
     margin-top: 1rem !important;
   }
 }
-.footer{
+.footer {
   margin: 1rem;
 }
 .btn {
   min-width: 150px;
 
   &-add {
-    margin:0;
+    margin: 0;
   }
 
   .btn-add {
-    margin:0;
+    margin: 0;
   }
 }
 .link {
   text-decoration: underline;
-  color: #3849F9;
+  color: #3849f9;
   cursor: pointer;
 }
 
 .mat-icon-delete {
-  color:#3849F9;
+  color: #3849f9;
   opacity: 1;
   &:hover {
     opacity: 0.5;
@@ -71,7 +72,7 @@
 }
 
 .wrapper-check-box {
-  margin:0 auto;
+  margin: 0 auto;
   max-width: 654px;
 }
 
@@ -88,23 +89,23 @@
 }
 
 @media (max-width: 750px) {
-  .wrapper-title{
+  .wrapper-title {
     margin: 1rem 0;
   }
-  .create-form{
+  .create-form {
     display: block;
-    &-header{
+    &-header {
       margin: 0;
     }
   }
-  .wrapper{
+  .wrapper {
     padding-top: 1rem;
     margin: 1rem auto;
   }
-  .btn{
+  .btn {
     margin-top: 1rem !important;
   }
-  .footer{
+  .footer {
     display: flex;
     flex-direction: column !important;
     justify-content: center;
@@ -112,8 +113,7 @@
   }
 }
 @media only screen and (max-width: 650px) {
-  .step-name{
+  .step-name {
     display: none;
   }
 }
-

@@ -11,8 +11,7 @@ import { PaginatorState } from '../../store/paginator.state';
   providedIn: 'root'
 })
 export class HistoryLogService {
-
-  constructor(private http: HttpClient, private store: Store) { }
+  constructor(private http: HttpClient, private store: Store) {}
 
   setParams(filters: FilterData, searchString: string): HttpParams {
     let params = new HttpParams();
@@ -33,12 +32,8 @@ export class HistoryLogService {
       params = params.set('SearchString', searchString);
     }
 
-    const currentPage = this.store.selectSnapshot(
-      PaginatorState.currentPage
-    ) as PaginationElement;
-    const size: number = this.store.selectSnapshot(
-      PaginatorState.itemsPerPage
-    );
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString());

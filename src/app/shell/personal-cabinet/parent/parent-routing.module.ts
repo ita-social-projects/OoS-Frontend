@@ -7,11 +7,11 @@ import { ParentApplicationsComponent } from './parent-applications/parent-applic
 const routes: Routes = [
   { path: 'info', component: ChildrenComponent },
   { path: 'favorite', component: FavoriteWorkshopsComponent },
-  { path: 'applications', component: ParentApplicationsComponent },
+  { path: 'applications', component: ParentApplicationsComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ParentRoutingModule {}

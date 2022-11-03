@@ -10,14 +10,9 @@ describe('FooterComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatSnackBarModule,
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [FooterComponent],
-
-    })
-      .compileComponents();
+      imports: [MatSnackBarModule, NgxsModule.forRoot([])],
+      declarations: [FooterComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

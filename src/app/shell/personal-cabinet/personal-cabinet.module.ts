@@ -10,20 +10,8 @@ import { SharedCabinetModule } from './shared-cabinet/shared-cabinet.module';
 import { SharedModule } from '../../shared/shared.module';
 
 @NgModule({
-  declarations: [
-    UserConfigComponent,
-    UserConfigEditComponent,
-  ],
-  imports: [
-    CommonModule,
-    PersonalCabinetRoutingModule,
-    FlexLayoutModule,
-    SharedModule,
-    SharedCabinetModule
-  ],
-  providers: [
-    ParentGuard,
-    ProviderGuard,
-  ]
+  declarations: [UserConfigComponent, UserConfigEditComponent],
+  imports: [CommonModule, PersonalCabinetRoutingModule, FlexLayoutModule, SharedModule, SharedCabinetModule],
+  providers: [ParentGuard, ProviderGuard]
 })
-export class PersonalCabinetModule { }
+export class PersonalCabinetModule {}

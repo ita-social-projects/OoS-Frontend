@@ -1,9 +1,10 @@
 <app-applications
   [applicationParams]="applicationParams"
   [declination]="ChildDeclination"
-  [dropdownEntities]="(truncatedItems$ | async)"
+  [dropdownEntities]="truncatedItems$ | async"
   [role]="role"
   (enititiesSelect)="onEntitiesSelect($event)"
   (getApplications)="onGetApplications()"
-  (leave)="onLeave($event)">
+  (leave)="onLeave($event)"
+>
 </app-applications>

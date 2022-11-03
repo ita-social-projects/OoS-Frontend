@@ -1,6 +1,5 @@
 <!-- eslint-disable @angular-eslint/template/eqeqeq -->
 <div class="users-wrapper">
-
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
@@ -14,9 +13,7 @@
       />
     </div>
     <ng-template [ngIf]="tabIndex == 0 && subRole === Role.None">
-      <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-        Додати <mat-icon>arrow_drop_down</mat-icon>
-      </button>
+      <button class="btn" mat-raised-button [matMenuTriggerFor]="add">Додати <mat-icon>arrow_drop_down</mat-icon></button>
       <mat-menu #add="matMenu" class="header_menu">
         <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button mat-menu-item>Заступника директора</button></a>
         <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
@@ -32,38 +29,39 @@
     </ng-template>
   </div>
 
-
-
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab label="{{providerAdminRoleUkr.all}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins}">
+      <mat-tab label="{{ providerAdminRoleUkr.all }}">
+        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: filterValue, users: providerAdmins }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ providerAdminRoleUkr.deputy }}">
+        <ng-container
+          *ngTemplateOutlet="UsersList; context: { $implicit: filterValue, users: providerAdmins | providerAdminsFilter: 'deputy' }"
+        >
         </ng-container>
       </mat-tab>
-      <mat-tab label="{{providerAdminRoleUkr.deputy}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins | providerAdminsFilter : 'deputy'}">
-        </ng-container>
-      </mat-tab>
-      <mat-tab label="{{providerAdminRoleUkr.admin}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: providerAdmins | providerAdminsFilter : 'admin'}">
+      <mat-tab label="{{ providerAdminRoleUkr.admin }}">
+        <ng-container
+          *ngTemplateOutlet="UsersList; context: { $implicit: filterValue, users: providerAdmins | providerAdminsFilter: 'admin' }"
+        >
         </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
-
 </div>
 
 <ng-template #UsersList let-filterValue let-users="users">
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="users?.length else isEmptyList;">
+    <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list 
+        <app-users-list
           [users]="users"
-          [filterValue]="filterValue" 
-          [isEdit]="true" 
+          [filterValue]="filterValue"
+          [isEdit]="true"
           (delete)="onDelete($event)"
           (block)="onBlock($event)"
-          (update)="onUpdate($event)">
+          (update)="onUpdate($event)"
+        >
         </app-users-list>
       </div>
     </ng-container>

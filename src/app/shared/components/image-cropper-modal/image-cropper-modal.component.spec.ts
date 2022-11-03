@@ -12,19 +12,13 @@ describe('ImageCropperModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ImageCropperModule,
-        MatDialogModule,
-      ],
-      declarations: [
-        ImageCropperModalComponent,
-      ],
+      imports: [ImageCropperModule, MatDialogModule],
+      declarations: [ImageCropperModalComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

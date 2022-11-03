@@ -12,13 +12,9 @@ describe('PersonalCabinetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        RouterTestingModule
-      ],
-      declarations: [PersonalCabinetComponent],
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), RouterTestingModule],
+      declarations: [PersonalCabinetComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

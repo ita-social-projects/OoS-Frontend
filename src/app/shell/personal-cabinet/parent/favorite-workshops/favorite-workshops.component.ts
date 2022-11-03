@@ -19,16 +19,16 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 @Component({
   selector: 'app-favorite-workshops',
   templateUrl: './favorite-workshops.component.html',
-  styleUrls: ['./favorite-workshops.component.scss'],
+  styleUrls: ['./favorite-workshops.component.scss']
 })
 export class FavoriteWorkshopsComponent extends ParentComponent implements OnInit, OnDestroy {
   readonly Role = Role;
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   @Select(ParentState.favoriteWorkshopsCard)
-    favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
+  favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
   @Select(PaginatorState.workshopsPerPage)
-    favoriteWorkshopsPerPage$: Observable<number>;
+  favoriteWorkshopsPerPage$: Observable<number>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
@@ -41,7 +41,7 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
       new PushNavPath({
         name: NavBarName.Favorite,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }

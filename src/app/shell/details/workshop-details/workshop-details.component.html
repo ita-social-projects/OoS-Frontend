@@ -1,31 +1,18 @@
 <div class="container" *ngIf="provider">
-  <app-actions
-    *ngIf="isMobileScreen && displayActionCard"
-    [role]="role"
-    [workshop]="workshop"
-  >
-  </app-actions>
+  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"> </app-actions>
   <app-image-carousel [images]="images"></app-image-carousel>
 
   <div class="details-wrapper">
     <div fxLayout="column" fxLayoutAlign="space-between space-between">
       <div fxLayout="row" fxLayoutAlign="space-between center">
-        <div
-          fxLayout="row"
-          fxLayout.lt-sm="row wrap"
-          fxLayoutAlign="start center"
-        >
+        <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
           <h1 class="title">{{ workshop.title }}</h1>
           <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
             <div class="chip chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
           </ng-container>
         </div>
         <div *ngFor="let direction of workshop.directions">
-          <img
-            class="details-icon"
-            [src]="categoryIcons[direction.id]"
-            alt="{{ workshop.title }}"
-          />
+          <img class="details-icon" [src]="categoryIcons[direction.id]" alt="{{ workshop.title }}" />
         </div>
       </div>
       <span class="icon-text">
@@ -34,17 +21,12 @@
       </span>
       <div fxLayout="row" fxLayoutAlign="start center">
         <a [routerLink]="['/details/provider', workshop.providerId]">
-          <span class="icon-text details-link">
-            <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }}
-          </span>
+          <span class="icon-text details-link"> <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }} </span>
         </a>
       </div>
     </div>
 
-    <mat-tab-group class="nav" 
-      [(selectedIndex)]="selectedIndex" 
-      (selectedTabChange)="onTabChange($event)"
-    >
+    <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
       <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop }}">
         <app-workshop-about [workshop]="workshop"></app-workshop-about>
       </mat-tab>
@@ -52,13 +34,10 @@
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Teachers }}">
-        <app-workshop-teachers
-          [teachers]="workshop.teachers"
-        ></app-workshop-teachers>
+        <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops }}">
-        <app-all-provider-workshops [workshop]="workshop">
-        </app-all-provider-workshops>
+        <app-all-provider-workshops [workshop]="workshop"> </app-all-provider-workshops>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Reviews }}">
         <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>

@@ -8,7 +8,7 @@ describe('HistoryLogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule, NgxsModule.forRoot([])],
+      imports: [HttpClientTestingModule, NgxsModule.forRoot([])]
     });
     service = TestBed.inject(HistoryLogService);
   });

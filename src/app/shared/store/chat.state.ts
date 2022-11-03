@@ -46,17 +46,8 @@ export class ChatState {
   constructor(private chatService: ChatService) {}
 
   @Action(GetUserChatRooms)
-  getUserChatRooms(
-    { patchState }: StateContext<ChatStateModel>,
-    { userRole }: GetUserChatRooms
-  ): Observable<ChatRoom[]> {
+  getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { userRole }: GetUserChatRooms): Observable<ChatRoom[]> {
     patchState({ isLoadingData: true });
-    return this.chatService
-      .getChatRooms(userRole)
-      .pipe(
-        tap((chatRooms: ChatRoom[]) =>
-          patchState({ chatRooms, isLoadingData: false })
-        )
-      );
+    return this.chatService.getChatRooms(userRole).pipe(tap((chatRooms: ChatRoom[]) => patchState({ chatRooms, isLoadingData: false })));
   }
 }

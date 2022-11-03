@@ -5,7 +5,7 @@ import { DropdownData, FilterData } from '../../../../../shared/models/history-l
 @Component({
   selector: 'app-history-log-filters',
   templateUrl: './history-log-filters.component.html',
-  styleUrls: ['./history-log-filters.component.scss'],
+  styleUrls: ['./history-log-filters.component.scss']
 })
 export class HistoryLogFiltersComponent implements OnInit {
   @Input() dropdownOptions: DropdownData;
@@ -19,7 +19,7 @@ export class HistoryLogFiltersComponent implements OnInit {
     this.filtersForm = this.fb.group({
       dateFrom: new FormControl(''),
       dateTo: new FormControl(''),
-      options: new FormControl(''),
+      options: new FormControl('')
     });
   }
 

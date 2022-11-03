@@ -1,4 +1,4 @@
-export interface SearchResponse<T>{
+export interface SearchResponse<T> {
   totalAmount: number;
   entities: T;
 }

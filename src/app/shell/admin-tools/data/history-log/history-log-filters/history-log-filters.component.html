@@ -1,44 +1,24 @@
 <div [formGroup]="filtersForm" class="form-wrapper">
   <div class="filters-wrapper">
     <span>Період</span>
-    <mat-form-field
-      appPlaceholderStyling
-      class="step-input step-input-date date"
-      floatLabel="never"
-    >
+    <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
       <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
       <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
       <mat-datepicker #dateFrom></mat-datepicker>
     </mat-form-field>
     <div class="separate-line"></div>
-    <mat-form-field
-      appPlaceholderStyling
-      class="step-input step-input-date date"
-      floatLabel="never"
-    >
+    <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
       <input matInput [matDatepicker]="dateTo" formControlName="dateTo" />
       <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
       <mat-datepicker #dateTo></mat-datepicker>
     </mat-form-field>
     <mat-form-field>
-      <mat-select
-        disableOptionCentering
-        formControlName="options"
-        panelClass="dropdown-panel"
-        class="select"
-      >
+      <mat-select disableOptionCentering formControlName="options" panelClass="dropdown-panel" class="select">
         <mat-option value="" class="dropdown-option">Усі фільтри</mat-option>
-        <mat-option
-          *ngFor="let option of dropdownOptions"
-          [value]="option.value"
-          class="dropdown-option"
-          >{{ option.label }}</mat-option
-        >
+        <mat-option *ngFor="let option of dropdownOptions" [value]="option.value" class="dropdown-option">{{ option.label }}</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
 
-  <button class="btn" mat-raised-button (click)="applyFilters()">
-    Показати
-  </button>
+  <button class="btn" mat-raised-button (click)="applyFilters()">Показати</button>
 </div>

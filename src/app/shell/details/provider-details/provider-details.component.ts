@@ -17,7 +17,7 @@ import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.acti
   templateUrl: './provider-details.component.html',
   styleUrls: ['./provider-details.component.scss']
 })
-export class ProviderDetailsComponent implements OnInit, OnDestroy  {
+export class ProviderDetailsComponent implements OnInit, OnDestroy {
   @Input() role: Role;
   @Input() provider: Provider;
 
@@ -29,13 +29,12 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy  {
     private route: ActivatedRoute,
     private imagesService: ImagesService,
     private store: Store,
-    private navigationBarService: NavigationBarService) { }
+    private navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {
     this.getProviderData();
-    this.route.params
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => (this.selectedIndex = 0));
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
   }
 
   private getProviderData(): void {
@@ -46,8 +45,9 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy  {
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           { name: NavBarName.WorkshopResult, path: '/result', isActive: false, disable: false },
-          { name: this.provider.fullTitle, isActive: false, disable: true },
-        ))
+          { name: this.provider.fullTitle, isActive: false, disable: true }
+        )
+      )
     ]);
   }
 

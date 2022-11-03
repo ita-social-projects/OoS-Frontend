@@ -14,25 +14,13 @@ describe('ReasonModalWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        FormsModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatFormFieldModule,
-        MatInputModule,
-        BrowserAnimationsModule
-      ],
-      declarations: [
-        ReasonModalWindowComponent,
-        MockValidationHintForInputComponent,
-        TextSliceTransformPipe,
-      ],
+      imports: [FormsModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule],
+      declarations: [ReasonModalWindowComponent, MockValidationHintForInputComponent, TextSliceTransformPipe],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,7 +43,6 @@ describe('ReasonModalWindowComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

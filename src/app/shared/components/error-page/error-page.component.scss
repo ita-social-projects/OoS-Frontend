@@ -1,26 +1,25 @@
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/buttons.scss';
 
-.error-img{
+.error-img {
   width: 724px;
   height: 428px;
 }
-.error-title{
+.error-title {
   font-family: Innerspace;
   font-size: 33px;
   font-weight: 700px;
   line-height: 50px;
   text-align: center;
 }
-.error-description{
-  font-family: Open Sans;;
+.error-description {
+  font-family: Open Sans;
   font-size: 18px;
   font-weight: 400px;
-  line-height: 24,5px;
+  line-height: 24, 5px;
 }
-.btn{
+.btn {
   margin-top: 30px;
   width: 162px;
   height: 38px;
   margin-bottom: 399px;
 }
-

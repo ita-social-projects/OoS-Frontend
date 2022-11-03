@@ -20,15 +20,15 @@ import { PaginatorState } from '../../../../../shared/store/paginator.state';
 @Component({
   selector: 'app-directions',
   templateUrl: './directions.component.html',
-  styleUrls: ['./directions.component.scss'],
+  styleUrls: ['./directions.component.scss']
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
   readonly noDirections = NoResultsTitle.noDirections;
 
   @Select(AdminState.filteredDirections)
-    filteredDirections$: Observable<SearchResponse<Direction[]>>;
+  filteredDirections$: Observable<SearchResponse<Direction[]>>;
   @Select(PaginatorState.directionsPerPage)
-    directionsPerPage$: Observable<number>;
+  directionsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);
@@ -67,8 +67,8 @@ export class DirectionsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteDirection,
-        property: direction.title,
-      },
+        property: direction.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
