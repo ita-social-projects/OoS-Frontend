@@ -1,0 +1,17 @@
+<div
+  [ngClass]="
+    message.senderRoleIsProvider
+      ? 'message message__outcome'
+      : 'message message__income'
+  "
+>
+  <span class="message__text">
+    {{ message.text }}
+  </span>
+  <mat-icon class="message__read-status">
+    {{ message.readDateTime ? 'done_all' : 'done' }}</mat-icon
+  >
+  <span class="message__send-time">{{
+    message.createdDateTime | date: 'h:mm'
+  }}</span>
+</div>

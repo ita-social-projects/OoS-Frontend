@@ -1,0 +1,45 @@
+.message{
+  padding: 10px 15px;
+
+  display: flex;
+  align-items: center;
+
+  width: fit-content;
+
+  &__income{
+    background-color: rgba(56, 110, 249, 0.1);
+    border-radius: 0 10px 10px 10px;
+  }
+
+  &__outcome{
+    background-color: rgba(255, 189, 0, 0.2);
+    border-radius: 10px 0 10px 10px;
+  }
+
+  &__text{
+    font-family: 'Open Sans';
+    font-size: 15px;
+    line-height: 20px;
+    
+    margin-right: 32px;
+  }
+
+  &__read-status{
+    margin-right: 16px;
+
+    width: 16px;
+    height: 16px;
+
+    font-size: 16px;
+    line-height: 16px;
+    color: #3849F9;
+  }
+
+  &__send-time{
+    font-family: 'Open Sans';
+    font-size: 13px;
+    line-height: 18px;
+
+    color: #333333;
+  }
+}

@@ -1,0 +1,50 @@
+.chat-card{
+  
+}
+
+.header{
+  border-bottom: 1px #e3e3e3 solid;
+
+  p{
+    margin: 6px 0 16px;
+  }
+
+  &__icon{
+    font-size: 18px;
+    color: #444444;
+  }
+
+  &__title{
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  &__subtitle{
+    font-family: 'Open Sans';
+    font-size: 13px;
+    line-height: 18px;
+    color: #3849F9;
+  }
+}
+
+.content{
+  padding: 20px 11px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+
+  
+}
+
+.message{
+  max-width: 80%;
+  &__income{
+    align-self: flex-start;
+  }
+  
+  &__outcome{
+    align-self: flex-end;
+  }
+}
