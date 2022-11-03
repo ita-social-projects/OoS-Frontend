@@ -61,6 +61,7 @@ class MockWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: PaginationElement;
 }
 
 @Component({
