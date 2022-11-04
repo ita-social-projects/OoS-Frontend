@@ -1,16 +1,14 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit, } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { Child } from 'src/app/shared/models/child.model';
 import { Direction } from '../../../models/category.model';
 import { AppState } from '../../../store/app.state';
 import { SetDirections } from '../../../store/filter.actions';
 import { GetDirections } from '../../../store/meta-data.actions';
 import { MetaDataState } from '../../../store/meta-data.state';
-
 
 @Component({
   selector: 'app-category-check-box',
@@ -19,71 +17,42 @@ import { MetaDataState } from '../../../store/meta-data.state';
 })
 export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Select(MetaDataState.directions)
-    directions$: Observable<Direction[]>;
+  directions$: Observable<Direction[]>;
   @Select(AppState.isMobileScreen)
-    isMobileScreen$: Observable<boolean>;
+  isMobileScreen$: Observable<boolean>;
 
   @ViewChild('listWrapper') filterContainer: ElementRef;
 
-  @Input() stateDirections: Direction[];
-  @Input()
-  set categoryCheckBox(filter: Direction[]) {
-    this.selectedDirections = filter;
-  }
+  @Input() slectedDirectionIds: number[];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   allDirections: Direction[] = [];
-  selectedDirections: Direction[] = [];
   filteredDirections: Direction[] = [];
-  directionSearch = new FormControl('');
-  showAll = true;
+  directionSearchFormControl = new FormControl('');
 
   constructor(private store: Store) {}
 
   ngAfterViewInit(): void {
-
-
-    // const selectedElement: ElementRef[] = this.filterContainer.nativeElement.children;
-    // let id: number = 0;
-    // for(let i: number = 1; i <= selectedElement.length; i++ ){
-    //   console.dir(selectedElement[i]);
-    //   // if(elements.classList.contains('mat-checkbox-checked')){
-    //   //   id = i;
-    //   //   break
-    //   // }
-    // }
-    // this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[id].offsetTop;
-
-
-    // const selectedItem = itemsList.find(el => el.classList.contains('mat-checkbox-checked'))
-
-    this.directions$.pipe(filter((direction)=> !!direction), 
-    takeUntil(this.destroy$)).subscribe(directions => {
-      this.allDirections = directions; 
-      if (this.stateDirections) { 
-        this.selectedDirections = this.stateDirections;
-        this.scrollToSelectedDirection();
-      };
-    });
-
-
-
-  }  
+    if (this.slectedDirectionIds?.length) {
+      this.scrollToSelectedDirection();
+    }
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
-
- 
-    this.directionSearch.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((val: string) => {
-        this.showAll = !!val;
-        if (val) {
-          this.onDirectionFilter(val);
-        } else {
-          this.filteredDirections = [];
-        }
+    this.directions$
+      .pipe(
+        filter(direction => !!direction),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(directions => {
+        this.allDirections = directions;
+        this.filteredDirections = directions;
       });
+
+    this.directionSearchFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
+      .subscribe((val: string) => this.onDirectionFilter(val));
   }
 
   /**
@@ -93,50 +62,43 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    */
   onDirectionCheck(direction: Direction, event: MatCheckbox): void {
     event.checked
-      ? this.selectedDirections.push(direction)
-      : this.selectedDirections.splice(
-        this.selectedDirections.findIndex((selectedDirection: Direction) => selectedDirection.id === direction.id),
-        1
-      );
-      this.store.dispatch(new SetDirections(this.selectedDirections));
-      console.log(this.store.dispatch(new SetDirections(this.selectedDirections)));
-    }
+      ? this.slectedDirectionIds.push(direction.id)
+      : this.slectedDirectionIds.splice(
+          this.slectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+          1
+        );
+    this.store.dispatch(new SetDirections(this.slectedDirectionIds));
+  }
 
   /**
    * This method filter directions according to the input value
    * @param value string
    */
   onDirectionFilter(value: string): void {
-    this.filteredDirections = this.allDirections
-      .filter(direction => direction.title.toLowerCase().startsWith(value.toLowerCase()))
-      .map(direction => direction);
+    this.filteredDirections = this.allDirections.filter((direction: Direction) =>
+      direction.title.toLowerCase().startsWith(value.toLowerCase())
+    );
   }
 
   /**
    * This method check if value is checked
    * @returns boolean
    */
-  onSelectCheck(value: Direction): boolean {
-    const result = this.selectedDirections.some(direction => direction.title.startsWith(value.title));
-    return result;
+  onSelectCheck(direction: Direction): boolean {
+    return this.slectedDirectionIds.some((directionId: number) => directionId === direction.id);
   }
 
   private scrollToSelectedDirection(): void {
     setTimeout(() => {
-      const itemsList: HTMLCollection = this.filterContainer.nativeElement.children; //list of li elements
-      for(let i = 0; i <= itemsList.length; i++ ){
-        const checkboxElement = itemsList.item(i)?.children[0]; // checkbox element of li item
-  
-        if(checkboxElement?.classList.contains('mat-checkbox-checked')){
-          console.log(checkboxElement);
+      const itemsList: HTMLCollection = this.filterContainer.nativeElement.children;
+      for (let i = 0; i <= itemsList.length; i++) {
+        const checkboxElement = itemsList.item(i)?.children[0];
+
+        if (checkboxElement?.classList.contains('mat-checkbox-checked')) {
           this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[i].offsetTop;
         }
       }
-    }, 1000)
-  }
-
-  onSearch(): void {
-    this.showAll = true;
+    }, 1000);
   }
 
   ngOnDestroy(): void {

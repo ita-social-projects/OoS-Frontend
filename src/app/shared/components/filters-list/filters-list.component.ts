@@ -4,7 +4,6 @@ import { Store, Select } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {
-  FilterChange,
   FilterClear,
   SetClosedRecruitment,
   SetOpenRecruitment,
@@ -81,7 +80,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   }
 
   onFilterReset(): void {
-    this.store.dispatch([new FilterClear(), new FilterChange()]);
+    this.store.dispatch(new FilterClear());
   }
 
   ngOnDestroy(): void {

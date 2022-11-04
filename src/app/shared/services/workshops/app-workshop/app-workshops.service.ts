@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { SearchResponse } from '../../../models/search.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
-import { Direction } from '../../../models/category.model';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filter-state.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
@@ -33,7 +32,7 @@ export class AppWorkshopsService {
     if (filters.settlement && !filters.mapViewCoords) {
       params = this.setCityFilterParams(filters.settlement, params);
     } else if (!!filters.mapViewCoords) {
-      const {lat, lng} = filters.mapViewCoords;
+      const { lat, lng } = filters.mapViewCoords;
       params = params.set('Latitude', lat.toFixed(5).toString());
       params = params.set('Longitude', lng.toFixed(5).toString());
     }
@@ -103,10 +102,8 @@ export class AppWorkshopsService {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
 
-    if (!!filters.directions.length) {
-      filters.directions.forEach(
-        (direction: Direction) => (params = params.append('DirectionIds', direction.id.toString()))
-      );
+    if (!!filters.directionIds.length) {
+      filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
     }
 
     if (isMapView) {

@@ -1,10 +1,9 @@
 import { WorkshopOpenStatus } from '../enum/workshop';
-import { Direction } from './category.model';
 
 export interface FilterList{
   withDisabilityOption: boolean;
   statuses: WorkshopOpenStatus[];
-  categoryCheckBox: Direction[];
+  directionIds: number[];
   ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
   priceFilter: {
     minPrice: number;
