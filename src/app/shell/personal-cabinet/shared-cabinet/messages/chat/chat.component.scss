@@ -91,6 +91,11 @@
 .attach-icon{
   color: #AAAAAA;
   margin-right: 14px;
+  cursor: pointer;
+}
+
+#file-input{
+  display: none;
 }
 
 .btn{
