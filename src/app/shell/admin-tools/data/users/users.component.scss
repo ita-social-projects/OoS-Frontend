@@ -1,41 +1,41 @@
-@import "src/app/shared/styles/navigation-tabs.scss";
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/list-wrappers.scss";
-@import "src/app/shared/styles/search.scss";
+@import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/search.scss';
 
 .users-wrapper {
   position: relative;
-  }
+}
+.tab-wrapper {
+  margin-bottom: 4rem;
+}
+.table-wrapper {
+  padding: 1rem;
+}
+.search {
+  padding-left: 10px;
+}
+.search-area {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+  position: absolute;
+  right: 12px;
+}
+@media (max-width: 1070px) {
   .tab-wrapper {
-    margin-bottom: 4rem;
-  }
-  .table-wrapper {
-    padding: 1rem;
-  }
-  .search {
-    padding-left: 10px;
+    bottom: 0;
   }
   .search-area {
     display: flex;
-    justify-content: flex-end;
-    z-index: 1000;
-    position: absolute;
-    right: 12px;
+    justify-content: flex-start;
   }
-  @media (max-width: 1070px) {
-    .tab-wrapper {
-      bottom: 0;
-    }
-    .search-area {
-      display: flex;
-      justify-content: flex-start;
-    }
-  }
+}
 
-  @media (max-width: 1200px) {
-    .search-area {
-      position: static;
-      margin-bottom: 1rem;
-      justify-content: space-between;
-    }
+@media (max-width: 1200px) {
+  .search-area {
+    position: static;
+    margin-bottom: 1rem;
+    justify-content: space-between;
   }
+}

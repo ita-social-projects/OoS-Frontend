@@ -1,10 +1,10 @@
-.wrapper{
+.wrapper {
   margin: 2rem 0;
 }
 
 .title {
-  font-family: "Innerspace";
-  line-height: 14,6px;
+  font-family: 'Innerspace';
+  line-height: 14, 6px;
   font-size: 14px;
   font-weight: 700;
   color: black;
@@ -14,9 +14,9 @@
 }
 
 .txt {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   font-size: 13px;
-  line-height: 17,7px;
+  line-height: 17, 7px;
   font-weight: 400;
   color: #444444;
   overflow-wrap: break-word;
@@ -29,30 +29,30 @@
   padding: 5px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #EBEBEB;
-  background: #FFFFFF;
-  color: #AAAAAA;
-  &-selected{
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  color: #aaaaaa;
+  &-selected {
     color: #454545;
     background: rgba(56, 73, 249, 0.07);
     border: 1px solid rgb(170, 170, 170, 0.1);
   }
-  &:first-child{
+  &:first-child {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
   }
-  &:last-child{
+  &:last-child {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
   }
 }
 
-.text{
+.text {
   font-family: Open Sans;
   font-weight: 700;
-  color: #AAAAAA;
+  color: #aaaaaa;
   padding: 5px;
-  &:last-child{
+  &:last-child {
     padding: 5px 5px 5px 0px;
   }
 }

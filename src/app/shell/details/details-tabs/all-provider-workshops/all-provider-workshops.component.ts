@@ -19,16 +19,19 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   @Input() workshop: Workshop;
 
   @Select(SharedUserState.workshops)
-    workshops$: Observable<WorkshopCard[]>;
+  workshops$: Observable<WorkshopCard[]>;
   workshops: WorkshopCard[];
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.workshops$.pipe(
-      filter((workshops: WorkshopCard[]) => !!workshops),
-      takeUntil(this.destroy$)).subscribe((workshops: WorkshopCard[]) => this.workshops = workshops);
+    this.workshops$
+      .pipe(
+        filter((workshops: WorkshopCard[]) => !!workshops),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((workshops: WorkshopCard[]) => (this.workshops = workshops));
   }
 
   ngOnDestroy(): void {

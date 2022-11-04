@@ -1,28 +1,17 @@
 import { BlockData } from './../../models/usersTable';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input, OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import {
-  providerAdminRoleUkr,
-  ProviderAdminTitles,
-} from '../../enum/enumUA/provider-admin';
+import { providerAdminRoleUkr } from '../../enum/enumUA/provider-admin';
 
 import { Role } from '../../enum/role';
-import { ProviderAdminIcons, ProviderAdminStatus } from '../../enum/provider-admin';
+import { ProviderAdminIcons } from '../../enum/provider-admin';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
+import { Statuses, StatusTitles } from '../../enum/statuses';
 
 /**
  * @title Table with sorting
@@ -30,7 +19,7 @@ import { UsersTable } from '../../models/usersTable';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss'],
+  styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
@@ -41,10 +30,10 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() delete = new EventEmitter<UsersTable>();
   @Output() block = new EventEmitter<BlockData>();
   @Output() update = new EventEmitter<UsersTable>();
-  
+
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
-  readonly providerAdminTitles = ProviderAdminTitles;
-  readonly providerAdminStatus = ProviderAdminStatus;
+  readonly statusTitles = StatusTitles;
+  readonly statuses = Statuses;
   readonly providerAdminIcons = ProviderAdminIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
@@ -69,7 +58,9 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
     if (changes.filterValue && changes.filterValue.currentValue) {
       const filter = changes.filterValue.currentValue;
       this.dataSource.filter = filter.trim().toLowerCase();
-    } else { this.dataSource.filter = ''; }
+    } else {
+      this.dataSource.filter = '';
+    }
 
     if (changes.users && changes.users.currentValue) {
       const users = changes.users.currentValue;

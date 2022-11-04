@@ -8,7 +8,7 @@ import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { Provider, ProviderStatusUpdateData } from '../../models/provider.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProviderService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -29,7 +29,7 @@ export class ProviderService {
 
     return params;
   }
-  
+
   /**
    * This method get Providers from the database
    * @param
@@ -53,7 +53,7 @@ export class ProviderService {
   getFilteredProviders(searchString: string): Observable<Provider[]> {
     const options = { params: this.setParams(searchString) };
 
-    return this.http.get<Provider[]>(`/api/v1/Provider/GetByFilter`, options);
+    return this.http.get<Provider[]>('/api/v1/Provider/GetByFilter', options);
   }
 
   /**
@@ -97,12 +97,12 @@ export class ProviderService {
     return this.http.put<Provider>('/api/v2/Provider/Update', formData);
   }
 
-   /**
+  /**
    * This method update Provider status
    */
-   updateProviderStatus(updateStatus: ProviderStatusUpdateData): Observable<ProviderStatusUpdateData> {
+  updateProviderStatus(updateStatus: ProviderStatusUpdateData): Observable<ProviderStatusUpdateData> {
     return this.http.put<ProviderStatusUpdateData>('/api/v1/Provider/StatusUpdate', updateStatus);
-   }
+  }
 
   /**
    * This method get all institution statuses

@@ -10,15 +10,10 @@ describe('SnackBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatSnackBarModule],
+      imports: [MatIconModule, MatSnackBarModule],
       declarations: [MessageBarComponent],
-      providers: [
-        { provide: MAT_SNACK_BAR_DATA, useValue: {} }
-      ]
-    })
-      .compileComponents();
+      providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }]
+    }).compileComponents();
   });
 
   beforeEach(() => {

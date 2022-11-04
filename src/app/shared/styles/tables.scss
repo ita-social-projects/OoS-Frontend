@@ -2,9 +2,9 @@ table {
   width: 100%;
   table-layout: fixed;
 }
-.wrapper{
+.wrapper {
   margin-bottom: 5rem;
-  &-header{
+  &-header {
     display: flex;
     justify-content: space-between;
     margin-bottom: 20px;
@@ -36,20 +36,21 @@ table {
 
 .icons {
   display: flex;
-    .action-icon:hover {
-      opacity: 0.5;
-      color: #3849f9;
-    }
+  .action-icon:hover {
+    opacity: 0.5;
+    color: #3849f9;
+  }
 }
 .fas {
   margin-right: 5px;
 }
 
-th{
+th {
   height: inherit;
 }
 
-th,td{
+th,
+td {
   box-sizing: border-box;
   overflow: hidden;
 }
@@ -61,7 +62,7 @@ td.mat-footer-cell {
 }
 
 td.mat-cell,
-td.mat-footer-cell{
+td.mat-footer-cell {
   padding-right: 10px;
 }
 

@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
+import { MessagesComponent } from './shared-cabinet/messages/messages.component';
 
 const routes: Routes = [
   {
@@ -10,13 +11,17 @@ const routes: Routes = [
     component: UserConfigComponent
   },
   {
+    path: 'messages',
+    component: MessagesComponent
+  },
+  {
     path: 'provider',
-    loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard]
   },
   {
     path: 'parent',
-    loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule),
+    loadChildren: () => import('./parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard]
   }
 ];
@@ -25,4 +30,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PersonalCabinetRoutingModule { }
+export class PersonalCabinetRoutingModule {}

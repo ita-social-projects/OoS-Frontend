@@ -23,9 +23,8 @@ describe('CategoryCheckBoxComponent', () => {
         MatCheckboxModule,
         BrowserAnimationsModule
       ],
-      declarations: [ CategoryCheckBoxComponent ],
-    })
-      .compileComponents();
+      declarations: [CategoryCheckBoxComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

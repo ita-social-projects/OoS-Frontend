@@ -1,12 +1,14 @@
 <ng-container *ngIf="!(isLoading$ | async)">
   <div *ngIf="platformSupport?.companyInformationItems.length; else noInfo">
-    <div class="support-content">
+    <div class="info-content">
       <div>
-        <h2 class="support-title">{{ platformSupport.title }}</h2>
+        <h2 class="info-title">{{ platformSupport.title }}</h2>
       </div>
-      <div class="support-text">
+      <div class="info-text">
         <div *ngFor="let item of platformSupport?.companyInformationItems">
-          <p><strong>{{ item.sectionName }}</strong></p>
+          <p>
+            <strong>{{ item.sectionName }}</strong>
+          </p>
           <p>{{ item.description }}</p>
         </div>
       </div>

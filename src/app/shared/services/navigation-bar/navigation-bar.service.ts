@@ -6,7 +6,6 @@ import { NavBarName } from '../../enum/navigation-bar';
   providedIn: 'root'
 })
 export class NavigationBarService {
-
   /**
    * Method create one navigation path
    * This method using for creating array of objects with params
@@ -16,9 +15,7 @@ export class NavigationBarService {
    *
    */
   createOneNavPath(navPath: Navigation): Navigation[] {
-    return [
-      { name: NavBarName.MainPage, path: '/', isActive: true, disable: false },
-      navPath];
+    return [{ name: NavBarName.MainPage, path: '/', isActive: true, disable: false }, navPath];
   }
 
   /**
@@ -29,17 +26,10 @@ export class NavigationBarService {
    */
   createNavPaths(firstNavPath: Navigation, secondNavPath: Navigation, thirdNavPath?: Navigation): Navigation[] {
     if (thirdNavPath !== undefined) {
-      return [
-        { name: NavBarName.MainPage, path: '/', isActive: true, disable: false },
-        firstNavPath,
-        secondNavPath,
-        thirdNavPath];
+      return [{ name: NavBarName.MainPage, path: '/', isActive: true, disable: false }, firstNavPath, secondNavPath, thirdNavPath];
     }
-    return [
-      { name: NavBarName.MainPage, path: '/', isActive: true, disable: false },
-      firstNavPath,
-      secondNavPath];
+    return [{ name: NavBarName.MainPage, path: '/', isActive: true, disable: false }, firstNavPath, secondNavPath];
   }
 
-  constructor() { }
+  constructor() {}
 }

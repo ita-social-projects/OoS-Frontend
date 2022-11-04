@@ -5,7 +5,7 @@
 
   <nav class="nav" mat-tab-nav-bar>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА ІНФОРМАЦІЯ</a>
-    <ng-container *ngIf="(userRole !== Role.techAdmin && userRole !== Role.ministryAdmin)">
+    <ng-container *ngIf="userRole !== Role.techAdmin && userRole !== Role.ministryAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/info'">
         ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}
       </a>
@@ -15,8 +15,11 @@
         {{ userRole === Role.parent ? 'МОЇ ГУРТКИ' : 'ГУРТКИ' }}
       </a>
     </ng-container>
-    <ng-container *ngIf="(userRole !== Role.techAdmin && userRole !== Role.ministryAdmin)">
+    <ng-container *ngIf="userRole !== Role.techAdmin && userRole !== Role.ministryAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/applications'">ЗАЯВИ</a>
+    </ng-container>
+    <ng-container *ngIf="userRole !== Role.techAdmin && userRole !== Role.ministryAdmin">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">ПОВІДОМЛЕННЯ</a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider && subRole !== Role.ProviderAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/administration'">АДМІНІСТРУВАННЯ</a>

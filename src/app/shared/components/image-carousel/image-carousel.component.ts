@@ -7,13 +7,11 @@ import { ImgPath } from '../../models/carousel.model';
   styleUrls: ['./image-carousel.component.scss']
 })
 export class ImageCarouselComponent implements OnInit, OnChanges {
-
   @Input() images: ImgPath[] = [];
-  @ViewChild('myCarousel', {static: false}) myCarousel;
-  constructor() { }
+  @ViewChild('myCarousel', { static: false }) myCarousel;
+  constructor() {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   ngOnChanges(): void {
     if (this.myCarousel) {

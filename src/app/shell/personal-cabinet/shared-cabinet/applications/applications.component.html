@@ -14,7 +14,8 @@
     *ngIf="dropdownEntities"
     [entities]="dropdownEntities"
     [declination]="declination"
-    (entityCheck)="onEntitiesSelect($event)">
+    (entityCheck)="onEntitiesSelect($event)"
+  >
   </app-entity-checkbox-dropdown>
 </div>
 
@@ -23,23 +24,23 @@
     <mat-tab label="Усі">
       <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
     </mat-tab>
-    <mat-tab label="{{ applicationTitles[applicationStatus.Pending] }}">
+    <mat-tab label="{{ statusTitles[statuses.Pending] }}">
       <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
     </mat-tab>
-    <!-- <mat-tab label="{{applicationTitles[applicationStatus.AcceptedForSelection]}}">
+    <!-- <mat-tab label="{{statusTitles[statuses.AcceptedForSelection]}}">
     <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
     </ng-container>
     </mat-tab> TODO: display when functionality is ready -->
-    <mat-tab label="{{ applicationTitles[applicationStatus.Approved] }}">
+    <mat-tab label="{{ statusTitles[statuses.Approved] }}">
       <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
     </mat-tab>
-    <mat-tab label="{{ applicationTitles[applicationStatus.Rejected] }}">
+    <mat-tab label="{{ statusTitles[statuses.Rejected] }}">
       <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
     </mat-tab>
-    <mat-tab label="{{ applicationTitles[applicationStatus.Left] }}">
+    <mat-tab label="{{ statusTitles[statuses.Left] }}">
       <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
     </mat-tab>
-    <mat-tab *ngIf="role === Role.provider" label="{{ applicationTitles.Blocked }}">
+    <mat-tab *ngIf="role === Role.provider" label="{{ statusTitles.Blocked }}">
       <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
     </mat-tab>
   </mat-tab-group>
@@ -51,25 +52,27 @@
   [currentPage]="currentPage"
   [itemsPerPage]="applicationsPerPage$ | async"
   (pageChange)="onPageChange($event)"
-  (itemsPerPageChange)="onItemsPerPageChange($event)">
+  (itemsPerPageChange)="onItemsPerPageChange($event)"
+>
 </app-paginator>
 
 <ng-template #Applications let-applicationCards>
-    <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-      <ng-container *ngIf="applicationCards && applicationCards.totalAmount; else isEmptyList">
-        <app-application-card
-          *ngFor="let application of applicationCards.entities"
-          [application]="application"
-          [userRole]="role"
-          (approve)="approve.emit($event)"
-          (reject)="reject.emit($event)"
-          (unblock)="unblock.emit($event)"
-          (block)="block.emit($event)"
-          (leave)="leave.emit($event)">
-        </app-application-card>
-      </ng-container>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+    <ng-container *ngIf="applicationCards && applicationCards.totalAmount; else isEmptyList">
+      <app-application-card
+        *ngFor="let application of applicationCards.entities"
+        [application]="application"
+        [userRole]="role"
+        [isMobileView]="isMobileView"
+        (approve)="approve.emit($event)"
+        (reject)="reject.emit($event)"
+        (unblock)="unblock.emit($event)"
+        (block)="block.emit($event)"
+        (leave)="leave.emit($event)"
+      >
+      </app-application-card>
     </ng-container>
-  
+  </ng-container>
 </ng-template>
 
 <ng-template #isEmptyList>

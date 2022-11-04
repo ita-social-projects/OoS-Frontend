@@ -21,19 +21,26 @@ export class ContactsComponent implements OnInit {
 
   addressLink = 'https://www.google.com/maps/place/';
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void { }
+  ngOnInit(): void {}
 
   /*Detects device and opens map*/
   mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       this.addressLink = 'https://maps.apple.com:';
-      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`);
+      window.open(
+        `${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`
+      );
     } else if (/Android/i.test(navigator.userAgent)) {
-      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`);
+      window.open(
+        `${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`
+      );
     } else {
-      window.open(`${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`, '_blank');
+      window.open(
+        `${this.addressLink} ${this.address.street},+ ${this.address.buildingNumber} ,+ ${this.address.codeficatorAddressDto.fullAddress}`,
+        '_blank'
+      );
     }
   }
 }

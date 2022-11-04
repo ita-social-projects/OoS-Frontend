@@ -1,4 +1,3 @@
-import { ProviderAdminStatus } from './../../../../shared/enum/provider-admin';
 import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
@@ -26,6 +25,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { RegistrationState } from './../../../../shared/store/registration.state';
+import { Statuses } from '../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-admins',
@@ -37,16 +37,16 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly adminRole = AdminRole;
   readonly adminRoleUkr = AdminRoleUkr;
   readonly Role = Role;
-  readonly providerAdminStatus = ProviderAdminStatus;
+  readonly statuses = Statuses;
 
   @Select(AdminState.ministryAdmins)
-    ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
+  ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
   @Select(AdminState.isLoading)
-    isLoadingCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
   @Select(PaginatorState.itemsPerPage)
-    itemsPerPage$: Observable<number>;
+  itemsPerPage$: Observable<number>;
   @Select(RegistrationState.role)
-    role$: Observable<string>;
+  role$: Observable<string>;
 
   tabIndex: number;
   filterValue: string;
@@ -58,24 +58,14 @@ export class AdminsComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   adminParams: MinistryAdminParameters = {
     searchString: '',
-    tabTitle: undefined,
+    tabTitle: undefined
   };
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private route: ActivatedRoute,
-    protected matDialog: MatDialog,
-  ) {}
+  constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(2000))
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.adminParams.searchString = searchString;
         this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
@@ -91,9 +81,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.totalEntities = ministryAdmins.totalAmount;
       });
 
-    this.role$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((role: Role) => (this.role = role));
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
 
     this.addNavPath();
   }
@@ -109,7 +97,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] },
+      queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] }
     });
   }
 
@@ -121,8 +109,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
-        property: admin.user.pib,
-      },
+        property: admin.user.pib
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -144,15 +132,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteMinistryAdmin,
-        property: admin.pib,
-      },
+        property: admin.pib
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
-        this.store.dispatch(
-          new DeleteMinistryAdminById(admin.id)
-        );
+      result && this.store.dispatch(new DeleteMinistryAdminById(admin.id));
     });
   }
 
@@ -166,7 +151,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,
-        disable: true,
+        disable: true
       })
     ]);
   }

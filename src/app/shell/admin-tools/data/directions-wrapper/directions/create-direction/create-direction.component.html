@@ -18,9 +18,7 @@
 
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-          <button [disabled]="directionFormGroup.invalid" class="btn" (click)="onSubmit()" mat-raised-button>
-            Зберегти
-          </button>
+          <button [disabled]="directionFormGroup.invalid" class="btn" (click)="onSubmit()" mat-raised-button>Зберегти</button>
         </div>
       </form>
     </ng-container>

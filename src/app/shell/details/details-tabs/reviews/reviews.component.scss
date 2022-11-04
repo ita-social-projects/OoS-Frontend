@@ -1,5 +1,4 @@
-
-.wrapper{
+.wrapper {
   margin: 1rem 0;
   font-family: Open Sans;
   font-style: normal;
@@ -18,24 +17,24 @@
   line-height: 15px;
   color: #272425;
 
-  &-icon{
+  &-icon {
     margin: 5px;
   }
 }
-.star-icon{
-  color: #FFBD00;
+.star-icon {
+  color: #ffbd00;
 }
-.star-icon-gray{
-  color: #AAAAAA;
+.star-icon-gray {
+  color: #aaaaaa;
 }
-.rate-amount{
-  color:#AAAAAA;
+.rate-amount {
+  color: #aaaaaa;
   margin-left: 10px;
 }
-.rate{
-  border-bottom: 1px solid #E3E3E3;
+.rate {
+  border-bottom: 1px solid #e3e3e3;
   margin: 0;
-  &-author{
+  &-author {
     font-family: Innerspace;
     font-style: normal;
     font-weight: bold;
@@ -44,7 +43,7 @@
 
     color: #000000;
   }
-  &-date{
+  &-date {
     font-family: Open Sans;
     font-style: normal;
     font-weight: normal;

@@ -1,13 +1,11 @@
 <mat-card class="card" #childInfoBox id="child-box" [class.isMobile]="isMobile">
-  <div fxLayout='column' fxLayoutAlign='center start'>
-    <h3 class="title">{{child.isParent ? 'ДАНІ КОРИСТУВАЧА' : 'ДАНІ ДИТИНИ'}}</h3>
+  <div fxLayout="column" fxLayoutAlign="center start">
+    <h3 class="title">{{ child.isParent ? 'ДАНІ КОРИСТУВАЧА' : 'ДАНІ ДИТИНИ' }}</h3>
 
     <div class="info-group" *ngIf="!child.isParent">
-      <h4 class="textChildrenName">{{childFullName}}</h4>
+      <h4 class="textChildrenName">{{ childFullName }}</h4>
       <h5 class="text">Дата народження:</h5>
-      <p>
-        {{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }} ({{ childAge }})
-      </p>
+      <p>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }} ({{ childAge }})</p>
     </div>
 
     <div class="info-group">
@@ -17,7 +15,7 @@
     <ng-container *ngIf="!child.isParent">
       <div class="info-group">
         <h5 class="text">Соціальні групи:</h5>
-        <p> {{ child.socialGroups | join : 'name'}} </p>
+        <p>{{ child.socialGroups | join: 'name' }}</p>
       </div>
 
       <div class="info-group">
@@ -28,12 +26,12 @@
 
     <div class="info-group">
       <h5 class="text">Телефон:</h5>
-      <p>{{ phonePrefix + parentPhoneNumber | phoneTransform}}</p>
+      <p>{{ phonePrefix + parentPhoneNumber | phoneTransform }}</p>
     </div>
 
     <div class="info-group">
       <h5 class="text">Електронна пошта:</h5>
-      <p>{{parentEmail}}</p>
+      <p>{{ parentEmail }}</p>
     </div>
   </div>
 </mat-card>

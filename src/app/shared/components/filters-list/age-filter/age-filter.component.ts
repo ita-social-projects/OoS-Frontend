@@ -26,27 +26,20 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   isAppropriateAgeControl = new FormControl(false);
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.minAgeFormControl.valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
 
-    this.minAgeFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
+    this.maxAgeFormControl.valueChanges
+      .pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
 
-    this.maxAgeFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(400),
-      distinctUntilChanged()
-    ).subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
-
-    this.isAppropriateAgeControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
+    this.isAppropriateAgeControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
   }
 
   ngOnDestroy(): void {

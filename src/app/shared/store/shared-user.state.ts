@@ -20,9 +20,9 @@ import {
   OnUpdateApplicationFail,
   GetProviderById,
   OnGetProviderByIdFail,
-  ResetProviderWorkshopDetails,
+  ResetProviderWorkshopDetails
 } from './shared-user.actions';
-import { ApplicationStatus } from '../enum/applications';
+import { Statuses } from '../enum/statuses';
 import { messageStatus, SnackbarText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -44,8 +44,8 @@ export interface SharedUserStateModel {
     workshops: null,
     selectedWorkshop: null,
     selectedProvider: null,
-    applicationCards: null,
-  },
+    applicationCards: null
+  }
 })
 @Injectable()
 export class SharedUserState {
@@ -94,13 +94,15 @@ export class SharedUserState {
   }
 
   @Action(OnGetWorkshopByIdFail)
-  onGetWorkshopByIdFail(
-    { dispatch, patchState }: StateContext<SharedUserStateModel>,
-    { payload }: OnGetWorkshopByIdFail
-  ): void {
+  onGetWorkshopByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetWorkshopByIdFail): void {
     throwError(payload);
     patchState({ selectedWorkshop: null, isLoading: false });
-    dispatch(new ShowMessageBar({ message: SnackbarText.deletedWorkshop, type: 'error' }));
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.deletedWorkshop,
+        type: 'error'
+      })
+    );
   }
 
   @Action(GetProviderById)
@@ -116,10 +118,7 @@ export class SharedUserState {
   }
 
   @Action(OnGetProviderByIdFail)
-  onGetProviderByIdFail(
-    { dispatch, patchState }: StateContext<SharedUserStateModel>,
-    { payload }: OnGetProviderByIdFail
-  ): void {
+  onGetProviderByIdFail({ dispatch, patchState }: StateContext<SharedUserStateModel>, { payload }: OnGetProviderByIdFail): void {
     throwError(payload);
     patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
@@ -178,7 +177,10 @@ export class SharedUserState {
   }
 
   @Action(UpdateApplication)
-  updateApplication({ dispatch }: StateContext<SharedUserStateModel>, { payload }: UpdateApplication): Observable<Application | Observable<void>> {
+  updateApplication(
+    { dispatch }: StateContext<SharedUserStateModel>,
+    { payload }: UpdateApplication
+  ): Observable<Application | Observable<void>> {
     return this.applicationService.updateApplication(payload).pipe(
       tap((res: Application) => dispatch(new OnUpdateApplicationSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateApplicationFail(error))))
@@ -192,14 +194,11 @@ export class SharedUserState {
   }
 
   @Action(OnUpdateApplicationSuccess)
-  onUpdateApplicationSuccess(
-    { dispatch }: StateContext<SharedUserStateModel>,
-    { payload }: OnUpdateApplicationSuccess
-  ): void {
+  onUpdateApplicationSuccess({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
     dispatch(
       new ShowMessageBar({
-        message: payload.status === ApplicationStatus.Left ? messageStatus.left : messageStatus.approved,
-        type: 'success',
+        message: payload.status === Statuses.Left ? messageStatus.left : messageStatus.approved,
+        type: 'success'
       })
     );
   }

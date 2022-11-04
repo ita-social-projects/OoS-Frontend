@@ -6,8 +6,7 @@ import { LocalSessionManagerService } from '../services/local-session-manager/lo
 import { environment } from '../../../environments/environment';
 
 @NgModule({
-  declarations: [
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
     AuthModule.forRoot({
@@ -24,12 +23,12 @@ import { environment } from '../../../environments/environment';
         scope: 'openid outofschoolapi.read offline_access',
         logLevel: LogLevel.Error,
         // @ts-ignore: Object is possibly 'null'
-        secureRoutes: [environment.stsServer],
-      }, }),
+        secureRoutes: [environment.stsServer]
+      }
+    }),
     HttpClientModule
   ],
   providers: [{ provide: AbstractSecurityStorage, useClass: LocalSessionManagerService }],
   bootstrap: []
 })
-export class RegistrationModule {
-}
+export class RegistrationModule {}

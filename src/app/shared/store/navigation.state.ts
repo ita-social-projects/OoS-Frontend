@@ -20,8 +20,8 @@ export interface NavStateModel {
   defaults: {
     navigation: [],
     sidenavOpen: false,
-    filtersSidenavOpen: false,
-  },
+    filtersSidenavOpen: false
+  }
 })
 @Injectable()
 export class NavigationState {
@@ -49,7 +49,7 @@ export class NavigationState {
   @Action(AddNavPath)
   addNavPath({ patchState }: StateContext<NavStateModel>, { payload }: AddNavPath): void {
     patchState({
-      navigation: payload,
+      navigation: payload
     });
   }
 
@@ -58,7 +58,7 @@ export class NavigationState {
     const stateNavigation = getState().navigation;
 
     patchState({
-      navigation: stateNavigation.concat(payload),
+      navigation: stateNavigation.concat(payload)
     });
   }
 
@@ -67,14 +67,14 @@ export class NavigationState {
     const state = getState().navigation;
     state.pop();
     patchState({
-      navigation: [...state],
+      navigation: [...state]
     });
   }
 
   @Action(DeleteNavPath)
   deleteNavPath({ patchState }: StateContext<NavStateModel>): void {
     patchState({
-      navigation: [],
+      navigation: []
     });
   }
 
@@ -83,7 +83,7 @@ export class NavigationState {
     const stateNavigation = getState().navigation;
     stateNavigation.pop();
     patchState({
-      navigation: stateNavigation,
+      navigation: stateNavigation
     });
   }
 
@@ -91,14 +91,14 @@ export class NavigationState {
   SidenavToggle({ patchState, getState }: StateContext<NavStateModel>): void {
     const sidenavOpenState = getState().sidenavOpen;
     patchState({
-      sidenavOpen: !sidenavOpenState,
+      sidenavOpen: !sidenavOpenState
     });
   }
 
   @Action(FiltersSidenavToggle)
   FiltersSidenavToggle({ patchState }: StateContext<NavStateModel>, { payload }: FiltersSidenavToggle): void {
     patchState({
-      filtersSidenavOpen: payload,
+      filtersSidenavOpen: payload
     });
   }
 }

@@ -30,13 +30,10 @@ describe('SidenavComponent', () => {
         MatProgressBarModule,
         MatSelectModule,
         MatSidenavModule,
-        BrowserAnimationsModule,
+        BrowserAnimationsModule
       ],
-      declarations: [
-        SidenavMenuComponent,
-        MockSideNavNotificationsComponent]
-    })
-      .compileComponents();
+      declarations: [SidenavMenuComponent, MockSideNavNotificationsComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -53,4 +50,4 @@ describe('SidenavComponent', () => {
   selector: 'app-notifications',
   template: ''
 })
-class MockSideNavNotificationsComponent { }
+class MockSideNavNotificationsComponent {}

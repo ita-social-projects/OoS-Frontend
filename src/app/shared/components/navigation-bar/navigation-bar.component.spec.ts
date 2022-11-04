@@ -6,7 +6,6 @@ import { NavigationBarComponent } from './navigation-bar.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 
-
 describe('NavigationBarComponent', () => {
   let component: NavigationBarComponent;
   let fixture: ComponentFixture<NavigationBarComponent>;
@@ -14,14 +13,9 @@ describe('NavigationBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        MatIconModule,
-        NgxsModule.forRoot([])
-      ],
+      imports: [RouterTestingModule, MatIconModule, NgxsModule.forRoot([])],
       declarations: [NavigationBarComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -3,7 +3,6 @@ import { Address } from './address.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
 import { SectionItem } from './sectionItem.model';
-import { ApplicationStatus } from '../enum/applications';
 
 export class Provider {
   id: string;
@@ -94,7 +93,6 @@ export class Provider {
 
     return formData;
   }
-
 }
 
 export class ProviderSectionItem extends SectionItem {
@@ -109,12 +107,12 @@ export class ProviderSectionItem extends SectionItem {
   }
 }
 
-export class  ProviderStatusUpdateData {
+export class ProviderStatusUpdateData {
   providerId: string;
   status: string;
   statusReason?: string;
 
-  constructor(providerId: string, status:string, statusReason?:string) {
+  constructor(providerId: string, status: string, statusReason?: string) {
     this.providerId = providerId;
     this.status = status;
     if (statusReason) {

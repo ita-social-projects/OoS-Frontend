@@ -77,7 +77,7 @@ import {
   UpdateProviderAdmin,
   UpdateProviderStatus,
   UpdateWorkshop,
-  UpdateWorkshopStatus,
+  UpdateWorkshopStatus
 } from './provider.actions';
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
@@ -87,6 +87,7 @@ import { TruncatedItem } from '../models/truncated.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetFilteredProviders } from './admin.actions';
+import { Statuses } from '../enum/statuses';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -109,8 +110,8 @@ export interface ProviderStateModel {
     providerWorkshops: null,
     providerAdmins: null,
     blockedParent: null,
-    truncatedItems: null,
-  },
+    truncatedItems: null
+  }
 })
 @Injectable()
 export class ProviderState {
@@ -164,10 +165,7 @@ export class ProviderState {
   ) {}
 
   @Action(GetAchievementById)
-  getAchievementById(
-    { patchState }: StateContext<ProviderStateModel>,
-    { payload }: GetAchievementById
-  ): Observable<Achievement> {
+  getAchievementById({ patchState }: StateContext<ProviderStateModel>, { payload }: GetAchievementById): Observable<Achievement> {
     patchState({ isLoading: true });
     return this.achievementsService
       .getAchievementById(payload)
@@ -194,9 +192,7 @@ export class ProviderState {
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
       tap((approvedChildren: SearchResponse<Child[]>) => {
         return patchState(
-          approvedChildren
-            ? { approvedChildren: approvedChildren, isLoading: false }
-            : { approvedChildren: EMPTY_RESULT, isLoading: false }
+          approvedChildren ? { approvedChildren: approvedChildren, isLoading: false } : { approvedChildren: EMPTY_RESULT, isLoading: false }
         );
       })
     );
@@ -204,7 +200,7 @@ export class ProviderState {
 
   @Action(GetWorkshopListByProviderId)
   getWorkshopListByProviderId(
-    { patchState } : StateContext<ProviderStateModel>,
+    { patchState }: StateContext<ProviderStateModel>,
     { payload }: GetWorkshopListByProviderId
   ): Observable<TruncatedItem[]> {
     patchState({ isLoading: true });
@@ -214,10 +210,7 @@ export class ProviderState {
   }
 
   @Action(CreateAchievement)
-  createAchievement(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: CreateAchievement
-  ): Observable<void | Achievement> {
+  createAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateAchievement): Observable<void | Achievement> {
     return this.achievementsService.createAchievement(payload).pipe(
       tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
@@ -225,12 +218,17 @@ export class ProviderState {
   }
 
   @Action(OnCreateAchievementSuccess)
-  onCreateAchievementSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnCreateAchievementSuccess
-  ): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.createAchievement, type: 'success' }), new MarkFormDirty(false)]);
-    this.router.navigate([`/details/workshop/${ payload.workshopId}`], { queryParams: { status: 'Achievements' } });
+  onCreateAchievementSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateAchievementSuccess): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.createAchievement,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
+    ]);
+    this.router.navigate([`/details/workshop/${payload.workshopId}`], {
+      queryParams: { status: 'Achievements' }
+    });
   }
 
   @Action(OnCreateAchievementFail)
@@ -240,10 +238,7 @@ export class ProviderState {
   }
 
   @Action(UpdateAchievement)
-  updateAchievement(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: UpdateAchievement
-  ): Observable<void | Achievement> {
+  updateAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateAchievement): Observable<void | Achievement> {
     return this.achievementsService.updateAchievement(payload).pipe(
       tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
@@ -251,13 +246,13 @@ export class ProviderState {
   }
 
   @Action(OnUpdateAchievementSuccess)
-  onUpdateAchievementSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnUpdateAchievementSuccess
-  ): void {
+  onUpdateAchievementSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateAchievementSuccess): void {
     dispatch([
-      new ShowMessageBar({ message: SnackbarText.updateAchievement, type: 'success' }),
-      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.updateAchievement,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
     ]);
     this.router.navigate(['/details/workshop/', payload.workshopId]);
   }
@@ -280,11 +275,13 @@ export class ProviderState {
   }
 
   @Action(OnDeleteAchievementSuccess)
-  onDeleteAchievementSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnDeleteAchievementSuccess
-  ): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'success' })]);
+  onDeleteAchievementSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteAchievementSuccess): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteAchievement,
+        type: 'success'
+      })
+    ]);
     this.router.navigate(['/details/workshop', payload]);
   }
 
@@ -315,10 +312,7 @@ export class ProviderState {
   }
 
   @Action(GetAllProviderAdmins)
-  getAllProviderAdmins(
-    { patchState }: StateContext<ProviderStateModel>,
-    {}: GetAllProviderAdmins
-  ): Observable<ProviderAdmin[]> {
+  getAllProviderAdmins({ patchState }: StateContext<ProviderStateModel>, {}: GetAllProviderAdmins): Observable<ProviderAdmin[]> {
     patchState({ isLoading: true });
     return this.providerAdminService
       .getAllProviderAdmins()
@@ -338,20 +332,14 @@ export class ProviderState {
   }
 
   @Action(OnCreateWorkshopFail)
-  onCreateWorkshopFail(
-    { dispatch, patchState }: StateContext<ProviderStateModel>,
-    { payload }: OnCreateWorkshopFail
-  ): void {
+  onCreateWorkshopFail({ dispatch, patchState }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopFail): void {
     throwError(payload);
     patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateWorkshopSuccess)
-  onCreateWorkshopSuccess(
-    { patchState, dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnCreateWorkshopSuccess
-  ): void {
+  onCreateWorkshopSuccess({ patchState, dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
     const message = Util.getWorkshopMessage(payload, SnackbarText.createWorkshop);
     patchState({ isLoading: false });
     dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
@@ -398,9 +386,9 @@ export class ProviderState {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteWorkshop,
-        type: 'success',
+        type: 'success'
       }),
-      new GetProviderWorkshops(payload.providerId),
+      new GetProviderWorkshops(payload.providerId)
     ]);
   }
 
@@ -411,7 +399,7 @@ export class ProviderState {
   ): Observable<Provider | Observable<void>> {
     return this.providerService.createProvider(payload, isRelease3).pipe(
       tap((res: Provider) => dispatch(new OnCreateProviderSuccess(res))),
-      catchError(error => of(dispatch(new OnCreateProviderFail(error))))
+      catchError((error) => of(dispatch(new OnCreateProviderFail(error))))
     );
   }
 
@@ -419,22 +407,21 @@ export class ProviderState {
   onCreateProviderFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderFail): void {
     throwError(payload);
     const message =
-      payload.error === Constants.UNABLE_CREATE_PROVIDER ||
-      Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
+      payload.error === Constants.UNABLE_CREATE_PROVIDER || Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
         ? SnackbarText.notUniqueData
         : SnackbarText.error;
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 
   @Action(OnCreateProviderSuccess)
-  onCreateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, { }: OnCreateProviderSuccess): void {
+  onCreateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnCreateProviderSuccess): void {
     dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['']));
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.createProvider,
-        type: 'success',
+        type: 'success'
       }),
-      new MarkFormDirty(false),
+      new MarkFormDirty(false)
     ]);
   }
 
@@ -457,13 +444,13 @@ export class ProviderState {
   }
 
   @Action(OnUpdateProviderSuccess)
-  onUpdateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, { }: OnUpdateProviderSuccess): void {
+  onUpdateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnUpdateProviderSuccess): void {
     dispatch(new MarkFormDirty(false));
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.updateProvider,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
@@ -477,32 +464,26 @@ export class ProviderState {
       tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderStatusFail(error))))
     );
-}
+  }
 
   @Action(OnUpdateProviderStatusFail)
-  onUpdateProviderStatusFail(
-    { dispatch }: StateContext<ProviderStateModel>, 
-    { payload }: OnUpdateProviderStatusFail
-  ): void {
+  onUpdateProviderStatusFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderStatusFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateProviderStatusSuccess)
-  onUpdateProviderStatusSuccess(
-    { dispatch }: StateContext<ProviderStateModel>, 
-    { payload }: OnUpdateProviderStatusSuccess): void {
+  onUpdateProviderStatusSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderStatusSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.status == 'Editing' ? SnackbarText.statusEditing :
-          SnackbarText.changeProviderStatus,
-        type: 'success',
+        message: payload.status == Statuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
+        type: 'success'
       }),
       new MarkFormDirty(false),
       new GetFilteredProviders()
     ]);
   }
-  
+
   @Action(CreateProviderAdmin)
   createProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
@@ -515,31 +496,24 @@ export class ProviderState {
   }
 
   @Action(OnCreateProviderAdminFail)
-  onCreateProviderAdminFail(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnCreateProviderAdminFail
-  ): void {
+  onCreateProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderAdminFail): void {
     throwError(payload);
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
-        type: 'error',
+        type: 'error'
       })
     );
   }
 
   @Action(OnCreateProviderAdminSuccess)
-  onCreateProviderAdminSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnCreateProviderAdminSuccess
-  ): void {
+  onCreateProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.isDeputy ? SnackbarText.createDeputy 
-          : SnackbarText.createProviderAdminSuccess,
-        type: 'success',
+        message: payload.isDeputy ? SnackbarText.createDeputy : SnackbarText.createProviderAdminSuccess,
+        type: 'success'
       }),
-      new MarkFormDirty(false),
+      new MarkFormDirty(false)
     ]);
     this.router.navigate(['/personal-cabinet/provider/administration']);
   }
@@ -556,25 +530,19 @@ export class ProviderState {
   }
 
   @Action(OnBlockProviderAdminFail)
-  onBlockProviderAdminFail(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnBlockProviderAdminFail
-  ): void {
+  onBlockProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnBlockProviderAdminFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnBlockProviderAdminSuccess)
-  onBlockProviderAdminSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnBlockProviderAdminSuccess
-  ): void {
+  onBlockProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnBlockProviderAdminSuccess): void {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
   }
 
@@ -590,25 +558,19 @@ export class ProviderState {
   }
 
   @Action(OnDeleteProviderAdminFail)
-  onDeleteProviderAdminFail(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnDeleteProviderAdminFail
-  ): void {
+  onDeleteProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteProviderAdminFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnDeleteProviderAdminSuccess)
-  onDeleteProviderAdminSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { }: OnDeleteProviderAdminSuccess
-  ): void {
+  onDeleteProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnDeleteProviderAdminSuccess): void {
     dispatch([
       new GetAllProviderAdmins(),
       new ShowMessageBar({
         message: SnackbarText.deleteProviderAdmin,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
   }
 
@@ -627,22 +589,20 @@ export class ProviderState {
   onUpdateProviderAdminfail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminFail): void {
     throwError(payload);
 
-    dispatch(new ShowMessageBar({
-      message: SnackbarText.error,
-      type: 'error'
-    }));
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.error,
+        type: 'error'
+      })
+    );
   }
 
   @Action(OnUpdateProviderAdminSuccess)
-  onUpdateProviderAdminSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnUpdateProviderAdminSuccess
-  ): void {
+  onUpdateProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminSuccess): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.isDeputy ? SnackbarText.updateDeputy
-          : SnackbarText.updateProviderAdmin,
-        type: 'success',
+        message: payload.isDeputy ? SnackbarText.updateDeputy : SnackbarText.updateProviderAdmin,
+        type: 'success'
       }),
       new MarkFormDirty(false)
     ]);
@@ -667,10 +627,7 @@ export class ProviderState {
   }
 
   @Action(OnUpdateWorkshopStatusSuccess)
-  onUpdateStatusSuccess(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnUpdateWorkshopStatusSuccess
-  ): void {}
+  onUpdateStatusSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopStatusSuccess): void {}
 
   @Action(BlockParent)
   blockParent(
@@ -690,16 +647,16 @@ export class ProviderState {
   }
 
   @Action(BlockParentSuccess)
-  blockParentFailSuccess({ dispatch }: StateContext<ProviderStateModel>,  { payload, entityType }: BlockParentSuccess): void {
+  blockParentFailSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, entityType }: BlockParentSuccess): void {
     dispatch([
       new GetApplicationsByProviderId(payload.providerId, {
         property: entityType,
         statuses: [],
         showBlocked: false,
-        workshops: [],
+        workshops: []
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' })
     ]);
   }
 
@@ -727,10 +684,13 @@ export class ProviderState {
         property: entityType,
         statuses: [],
         showBlocked: true,
-        workshops: [],
+        workshops: []
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' }),
+      new ShowMessageBar({
+        message: SnackbarText.unblockPerson,
+        type: 'success'
+      })
     ]);
   }
 
@@ -753,12 +713,9 @@ export class ProviderState {
   resetAchievement({ patchState }: StateContext<ProviderStateModel>, {}: ResetAchievements): void {
     patchState({ selectedAchievement: null, achievements: null });
   }
-  
+
   @Action(DeleteProviderById)
-  deleteProviderById(
-    { dispatch }: StateContext<ProviderStateModel>, 
-    { payload }: DeleteProviderById
-  ): Observable<void | Observable<void>> {
+  deleteProviderById({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteProviderById): Observable<void | Observable<void>> {
     return this.providerService.deleteProviderById(payload).pipe(
       tap(() => dispatch(new OnDeleteProviderByIdSuccess(payload))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderByIdFail(error))))
@@ -766,29 +723,24 @@ export class ProviderState {
   }
 
   @Action(OnDeleteProviderByIdFail)
-  onDeleteProviderByIdFail(
-    { dispatch }: StateContext<ProviderStateModel>, 
-    { payload }: OnDeleteProviderByIdFail
-  ): void {
+  onDeleteProviderByIdFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteProviderByIdFail): void {
     throwError(payload);
     dispatch(
-      new ShowMessageBar({ 
-        message: SnackbarText.error, 
-        type: 'error' 
-      }));
+      new ShowMessageBar({
+        message: SnackbarText.error,
+        type: 'error'
+      })
+    );
   }
 
   @Action(OnDeleteProviderByIdSuccess)
-  onDeleteProviderByIdSuccess(
-    { dispatch }: StateContext<ProviderStateModel>, 
-    { payload }: OnDeleteProviderByIdSuccess
-  ): void {
+  onDeleteProviderByIdSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteProviderByIdSuccess): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteProvider,
-        type: 'success',
+        type: 'success'
       }),
-      new GetFilteredProviders(),
+      new GetFilteredProviders()
     ]);
   }
 }

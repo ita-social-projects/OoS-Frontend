@@ -12,7 +12,6 @@ import { DeclinationPipe } from '../../pipes/declination.pipe';
   providers: [DeclinationPipe]
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
-
   entityControl = new FormControl();
   ids: string[];
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -22,18 +21,13 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
 
-  constructor(private declinationPipe: DeclinationPipe) { }
+  constructor(private declinationPipe: DeclinationPipe) {}
 
   ngOnInit(): void {
-    this.entityControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(500),
-        distinctUntilChanged(),
-      ).subscribe((entities) => {
-        this.ids = entities.map((entity) => entity.id);
-        this.entityCheck.emit(this.ids);
-      });
+    this.entityControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((entities) => {
+      this.ids = entities.map((entity) => entity.id);
+      this.entityCheck.emit(this.ids);
+    });
     this.Declination = this.declination;
   }
 
@@ -43,15 +37,13 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
       allChildrenDeclination = this.Declination[4];
       allApplicationsDeclination = this.Declination[1];
     }
-    const allEntities =  allChildrenDeclination || allApplicationsDeclination;
+    const allEntities = allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.declinationPipe.transform(quantity, this.Declination);
     return quantity < 1 ? selectedEntities : `Усі ${allEntities}`;
   }
-
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

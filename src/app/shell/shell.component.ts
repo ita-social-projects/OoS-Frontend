@@ -9,11 +9,11 @@ import { GetFavoriteWorkshops, GetFavoriteWorkshopsByUserId } from '../shared/st
 @Component({
   selector: 'app-shell',
   templateUrl: './shell.component.html',
-  styleUrls: ['./shell.component.scss'],
+  styleUrls: ['./shell.component.scss']
 })
 export class ShellComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.role)
-    role$: Observable<string>;
+  role$: Observable<string>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}

@@ -22,11 +22,12 @@ import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
+import { Statuses, StatusTitles } from '../../enum/statuses';
 
 @Component({
   selector: 'app-workshop-card',
   templateUrl: './workshop-card.component.html',
-  styleUrls: ['./workshop-card.component.scss'],
+  styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly ownershipTypeUkr = OwnershipTypeUkr;
@@ -38,6 +39,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly workhopStatus = WorkshopOpenStatus;
   readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
+  readonly statuses = Statuses;
+  readonly statusTitles = StatusTitles;
 
   isFavorite = false;
   canChangeWorkshopStatus: boolean;
@@ -54,9 +57,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(ParentState.favoriteWorkshops)
-    favoriteWorkshops$: Observable<Favorite[]>;
+  favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
-    role$: Observable<Role>;
+  role$: Observable<Role>;
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -86,13 +89,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onLike(): void {
-    const param = new Favorite(
-      this.workshopData.workshopId,
-      this.store.selectSnapshot(RegistrationState.parent).userId.toString()
-    );
+    const param = new Favorite(this.workshopData.workshopId, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' }),
+      new ShowMessageBar({
+        message: SnackbarText.addedWorkshopFavorite,
+        type: 'success'
+      })
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -100,7 +103,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   onDisLike(): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(this.favoriteWorkshopId),
-      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' }),
+      new ShowMessageBar({
+        message: SnackbarText.deleteWorkshopFavorite,
+        type: 'success'
+      })
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -109,17 +115,14 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: type,
-      },
+        type: type
+      }
     });
 
     dialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
         this.store.dispatch(
-          new UpdateWorkshopStatus(
-            { workshopId: this.workshopData.workshopId, status: status },
-            this.workshopData.providerId
-          )
+          new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
         );
       }
     });
@@ -158,7 +161,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     <div mat-dialog-actions fxLayoutAlign="center">
       <button mat-raised-button mat-dialog-close class="dialog-action-button">Повернутись</button>
     </div>`,
-  styleUrls: ['./workshop-card.component.scss'],
+  styleUrls: ['./workshop-card.component.scss']
 })
 // eslint-disable-next-line @angular-eslint/component-class-suffix
 export class WorkshopCardDialog {}

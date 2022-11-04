@@ -30,13 +30,7 @@ import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrap
     CreateDirectionComponent,
     DirectionsWrapperComponent
   ],
-  imports: [
-    CommonModule,
-    DataRoutingModule,
-    SharedModule,
-    MaterialModule,
-    FlexLayoutModule
-  ],
+  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule],
   exports: [DataComponent]
 })
-export class DataModule { }
+export class DataModule {}

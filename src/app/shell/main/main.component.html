@@ -15,7 +15,8 @@
           class="card"
           *ngFor="let direction of topDirections$ | async"
           [direction]="direction"
-          [workshopsCount]="direction.workshopsCount">
+          [workshopsCount]="direction.workshopsCount"
+        >
         </app-category-card>
       </div>
     </ng-template>
@@ -31,11 +32,7 @@
   </ng-container>
   <ng-template #topWorkshops>
     <div class="card-wrapper">
-      <app-workshop-card
-        class="card"
-        *ngFor="let workshop of topWorkshops$ | async"
-        [workshop]="workshop">
-      </app-workshop-card>
+      <app-workshop-card class="card" *ngFor="let workshop of topWorkshops$ | async" [workshop]="workshop"> </app-workshop-card>
     </div>
   </ng-template>
 

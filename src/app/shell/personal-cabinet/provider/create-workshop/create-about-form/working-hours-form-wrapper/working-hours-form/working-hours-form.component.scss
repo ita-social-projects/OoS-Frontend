@@ -1,54 +1,54 @@
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/working-hours.scss";
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/working-hours.scss';
 
-.days-toggle{
+.days-toggle {
   min-width: 200px;
-  &-invalid{
+  &-invalid {
     border-radius: 21px;
     outline: none;
-    border: 1px solid #C72A21;
+    border: 1px solid #c72a21;
   }
 }
-.toggle{    
-    &:hover{
-      cursor: pointer;
-      opacity: 0.8;
-    }
+.toggle {
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
   }
+}
 
-.mat-icon-delete{
-  color:#3849F9;
-  &:hover{
+.mat-icon-delete {
+  color: #3849f9;
+  &:hover {
     opacity: 0.5;
     cursor: pointer;
   }
 }
 
-.btn{
+.btn {
   min-width: 150px;
 }
 
-::ng-deep .mat-toolbar.mat-primary{
-  background-color: #3849F9 !important;
+::ng-deep .mat-toolbar.mat-primary {
+  background-color: #3849f9 !important;
 }
-::ng-deep .timepicker__main-content{
+::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
 }
 
-::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog>mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
+::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog > mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
   justify-content: center;
   flex-flow: wrap-reverse;
   row-gap: 1rem;
 }
 
 @media (max-width: 750px) {
-  .step{
-    flex-direction:column !important;
+  .step {
+    flex-direction: column !important;
   }
 
-  .days{
+  .days {
     width: 100%;
   }
 }

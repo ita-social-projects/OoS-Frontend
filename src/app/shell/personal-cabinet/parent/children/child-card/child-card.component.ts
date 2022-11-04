@@ -27,5 +27,4 @@ export class ChildCardComponent implements OnInit {
   onDelete(): void {
     this.deleteChild.emit(this.child);
   }
-
 }

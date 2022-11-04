@@ -15,7 +15,6 @@ import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, S
   styleUrls: ['./working-hours.component.scss']
 })
 export class WorkingHoursComponent implements OnInit, OnDestroy {
-
   public minTime: string;
   public maxTime: string;
 
@@ -26,8 +25,8 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     const { workingDays, isStrictWorkdays, isAppropriateHours } = filter;
 
     this.selectedWorkingDays = workingDays;
-    this.days.forEach(day => {
-      day.selected = this.selectedWorkingDays.some(el => el === this.workingDaysReverse[day.value]);
+    this.days.forEach((day) => {
+      day.selected = this.selectedWorkingDays.some((el) => el === this.workingDaysReverse[day.value]);
     });
     if (endTime) {
       endTime = endTime + ':00';
@@ -53,39 +52,30 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   selectedWorkingDays: string[] = [];
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
+    this.startTimeFormControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((time: string) => {
+        this.store.dispatch(new SetStartTime(time?.split(':')[0]));
+        this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
+      });
 
-    this.startTimeFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe((time: string) => {
-      this.store.dispatch(new SetStartTime(time?.split(':')[0]));
-      this.minTime = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MIN_TIME;
-    });
+    this.endTimeFormControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((time: string) => {
+        this.store.dispatch(new SetEndTime(time?.split(':')[0]));
+        this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
+      });
 
-    this.endTimeFormControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe((time: string) => {
-      this.store.dispatch(new SetEndTime(time?.split(':')[0]));
-      this.maxTime = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
-    });
+    this.isStrictWorkdaysControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
 
-    this.isStrictWorkdaysControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe((val: boolean) => this.store.dispatch(new SetIsStrictWorkdays(val)));
-
-    this.isAppropriateHoursControl.valueChanges.pipe(
-      takeUntil(this.destroy$),
-      debounceTime(300),
-      distinctUntilChanged()
-    ).subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
+    this.isAppropriateHoursControl.valueChanges
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateHours(val)));
   }
 
   clearStart(): void {

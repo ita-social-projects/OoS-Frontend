@@ -1,28 +1,3 @@
-export enum ApplicationTitles {
-  All = 'Усі',
-  Pending = 'Очікує підтвердження',
-  Approved = 'Зараховано',
-  Rejected = 'Відмовлено',
-  Left = 'Гурток залишено',
-  AcceptedForSelection = 'Прийнято до конкурсного відбору',
-  StudyingForYears = 'Навчається 1-11 років',
-  Completed = 'Навчання завершено',
-  Blocked = 'Заблоковано',
-  Editing = 'Відправлено на редагування'
-}
-
-export enum ApplicationTitlesReverse {
-  'Усі' = 'All',
-  'Очікує підтвердження' = 'Pending',
-  'Прийнято до конкурсного відбору' = 'AcceptedForSelection',
-  'Навчається 1-11 років' = 'StudyingForYears',
-  'Зараховано' = 'Approved',
-  'Відмовлено' = 'Rejected',
-  'Гурток залишено' = 'Left',
-  'Користувач завершив навчання' = 'Completed',
-  'Заблоковано' = 'Blocked',
-}
-
 export enum ApplicationStatusDescription {
   Pending = 'Нова створена заява, яка очікує підтвердження від надавача послуг',
   AcceptedForSelection = 'Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір)',

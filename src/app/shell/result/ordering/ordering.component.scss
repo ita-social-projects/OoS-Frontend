@@ -1,13 +1,14 @@
-@import "src/app/shared/styles/dropdown.scss";
-.select{
-  min-width:200px;
-  background: #FFFFFF;
+@import 'src/app/shared/styles/dropdown.scss';
+.select {
+  min-width: 200px;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
 }
-.select, .options{
-  font-family: "Open Sans", sans-serif;
+.select,
+.options {
+  font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-weight: bold;
   font-size: 13px;
@@ -17,6 +18,6 @@
 }
 
 ::ng-deep .mat-form-field.mat-focused.mat-primary,
-::ng-deep .mat-form-field-infix{
+::ng-deep .mat-form-field-infix {
   border: 0;
 }

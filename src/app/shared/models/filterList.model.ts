@@ -1,6 +1,6 @@
 import { WorkshopOpenStatus } from '../enum/workshop';
 
-export interface FilterList{
+export interface FilterList {
   withDisabilityOption: boolean;
   statuses: WorkshopOpenStatus[];
   directionIds: number[];

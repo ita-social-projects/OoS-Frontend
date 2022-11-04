@@ -19,7 +19,6 @@ import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
   selector: 'app-paginator',
   template: ''
 })
-
 class MockReviewsPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
@@ -40,17 +39,10 @@ describe('ReviewsComponent', () => {
         MatTooltipModule,
         FormsModule,
         ReactiveFormsModule,
-        MatButtonToggleModule,
+        MatButtonToggleModule
       ],
-      declarations: [
-        ReviewsComponent,
-        StarsComponent,
-        DeclinationPipe,
-        NoResultCardComponent,
-        MockReviewsPaginatorComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [ReviewsComponent, StarsComponent, DeclinationPipe, NoResultCardComponent, MockReviewsPaginatorComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

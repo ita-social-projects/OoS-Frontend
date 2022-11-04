@@ -11,7 +11,7 @@ import { FilterState } from '../../store/filter.state';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class DirectionsService {
   constructor(private http: HttpClient, private store: Store) {}

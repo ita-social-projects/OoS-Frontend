@@ -62,9 +62,11 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
+import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 
 @NgModule({
   declarations: [
@@ -124,8 +126,10 @@ import { ReasonModalWindowComponent } from './components/confirmation-modal-wind
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    TextSliceTransformPipe,
     StretchCellComponent,
     StretchTableDirective,
+    UserRadiusSetComponent
   ],
 
   imports: [
@@ -195,8 +199,10 @@ import { ReasonModalWindowComponent } from './components/confirmation-modal-wind
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    TextSliceTransformPipe,
     StretchCellComponent,
     StretchTableDirective,
+    UserRadiusSetComponent
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

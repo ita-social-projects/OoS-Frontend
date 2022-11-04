@@ -6,6 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Direction } from '../../models/category.model';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('FiltersListComponent', () => {
   let component: FiltersListComponent;
@@ -13,13 +14,7 @@ describe('FiltersListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatCheckboxModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [MatIconModule, MatCheckboxModule, FormsModule, ReactiveFormsModule, NgxsModule.forRoot([]), RouterTestingModule],
       declarations: [
         FiltersListComponent,
         MockCityFilterComponent,
@@ -29,9 +24,8 @@ describe('FiltersListComponent', () => {
         MockAgeFilterComponent,
         MockCategoryCheckBoxComponent,
         MockCityFilterComponent
-      ],
-    })
-      .compileComponents();
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -82,6 +76,3 @@ class MockWorkingHoursComponent {
 class MockPriceFilterComponent {
   @Input() priceFilter: {};
 }
-
-
-

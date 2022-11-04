@@ -7,7 +7,7 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
-import { ApplicationStatus } from '../../../../shared/enum/applications';
+import { Statuses } from '../../../../shared/enum/statuses';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { EntityType, Role } from '../../../../shared/enum/role';
@@ -17,13 +17,10 @@ import {
   BlockParent,
   UnBlockParent,
   GetProviderAdminWorkshops,
-  GetWorkshopListByProviderId,
+  GetWorkshopListByProviderId
 } from '../../../../shared/store/provider.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import {
-  GetApplicationsByProviderId,
-  UpdateApplication,
-} from '../../../../shared/store/shared-user.actions';
+import { GetApplicationsByProviderId, UpdateApplication } from '../../../../shared/store/shared-user.actions';
 import { Observable } from 'rxjs';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
@@ -32,15 +29,15 @@ import { ReasonModalWindowComponent } from './../../../../shared/components/conf
 
 @Component({
   selector: 'app-provider-applciations',
-  templateUrl: './provider-applciations.component.html',
+  templateUrl: './provider-applciations.component.html'
 })
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(ProviderState.truncated)
-    workshops$: Observable<TruncatedItem[]>;
+  workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
-    provider$: Observable<Provider>;
+  provider$: Observable<Provider>;
   providerId: string;
 
   applicationParams: ApplicationParameters = {
@@ -48,7 +45,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false,
+    showBlocked: false
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -60,7 +57,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -73,8 +70,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       )
       .subscribe((provider: Provider) => {
         this.applicationParams.property = EntityType[this.subRole];
-        this.providerId =
-          this.subRole === Role.ProviderAdmin ? this.store.selectSnapshot(RegistrationState.user).id : provider.id;
+        this.providerId = this.subRole === Role.ProviderAdmin ? this.store.selectSnapshot(RegistrationState.user).id : provider.id;
         this.getProviderWorkshops();
         this.onGetApplications();
       });
@@ -89,7 +85,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    * @param Application event
    */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.Approved);
+    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -98,11 +94,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    * @param Application event
    */
   onReject(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(
-      application.id,
-      ApplicationStatus.Rejected,
-      application?.rejectionMessage
-    );
+    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Rejected, application?.rejectionMessage);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -112,7 +104,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    */
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent },
+      data: { type: ModalConfirmationType.blockParent }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -131,8 +123,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.unBlockParent,
-      },
+        type: ModalConfirmationType.unBlockParent
+      }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {

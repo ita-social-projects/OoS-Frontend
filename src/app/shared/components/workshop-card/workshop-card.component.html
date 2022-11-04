@@ -7,7 +7,8 @@
         [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
         mat-card-image
         [src]="workshopData['_meta']"
-        alt="{{ workshopData.title }}" />
+        alt="{{ workshopData.title }}"
+      />
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
@@ -17,12 +18,14 @@
           showTooltipIfTruncated
           matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition"
-          class="card-title">
+          class="card-title"
+        >
           <a
             *ngIf="isCabinetView"
             matTooltip="Детальніше"
             matTooltipPosition="above"
-            [routerLink]="['/details/workshop', workshopData.workshopId]">
+            [routerLink]="['/details/workshop', workshopData.workshopId]"
+          >
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           {{ workshopData.title }}
@@ -56,11 +59,14 @@
 
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
-    <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+    <div class="chip-color-close">
+      {{ recruitmentStatusUkr.RecruitmentStoped }}
+    </div>
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
-      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
+      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)"
+    >
       <span class="card_link">{{ recruitmentStatusUkr.Open }}</span>
     </a>
   </div>
@@ -84,9 +90,7 @@
 </ng-template>
 
 <ng-template #favorite>
-  <div
-    class="actions_btn action-icon favorite-icon"
-    (click)="role === Role.parent && onDisLike()">
+  <div class="actions_btn action-icon favorite-icon" (click)="role === Role.parent && onDisLike()">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
@@ -100,11 +104,14 @@
 <ng-template #ProviderWorkshopView>
   <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
     <div fxLayoutAlign="space-between">
-      <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+      <div class="chip-color-open">
+        {{ recruitmentStatusUkr.RecruitmentOngoing }}
+      </div>
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
-        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
+        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)"
+      >
         <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
       </a>
     </div>
@@ -113,9 +120,7 @@
     <p class="card_text"><i class="fas fa-user card_icon"></i> Всього учасників:</p>
     <span class="card_text card_text_blue">
       {{ workshopData.takenSeats }}
-      <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS">
-        / {{ workshopData.availableSeats }}
-      </ng-container>
+      <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
     </span>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
@@ -126,15 +131,8 @@
 
 <ng-template #UserWorkshopView>
   <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
-    <p class="{{ application.status }} icon">
-      <mat-icon>how_to_reg</mat-icon>{{ applicationTitles[application.status] }}
-    </p>
-    <p
-      class="card_link status_action"
-      *ngIf="application.status === applicationStatus.Approved"
-      (click)="onWorkshopLeave()">
-      Залишити гурток
-    </p>
+    <p class="{{ application.status }} icon"><mat-icon>how_to_reg</mat-icon>{{ statusTitles[application.status] }}</p>
+    <p class="card_link status_action" *ngIf="application.status === statuses.Approved" (click)="onWorkshopLeave()">Залишити гурток</p>
   </div>
 
   <p *ngIf="!isHorizontalView" class="card_text">
@@ -142,18 +140,15 @@
     {{ workshopData.rating }}
   </p>
 
-  <a
-    [routerLink]="['/details/provider', workshopData.providerId]"
-    class="provider-link"
-    fxLayout="row"
-    fxLayoutAlign="start center">
+  <a [routerLink]="['/details/provider', workshopData.providerId]" class="provider-link" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="card_icon">home</mat-icon>
     <p
       class="card_text_label"
       [matTooltip]="workshopData.providerTitle"
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition">
+      [matTooltipPosition]="tooltipPosition"
+    >
       {{ workshopData.providerTitle }}
     </p>
   </a>
@@ -188,7 +183,8 @@
       "
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition">
+      [matTooltipPosition]="tooltipPosition"
+    >
       {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>

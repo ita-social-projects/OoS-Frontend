@@ -2,11 +2,11 @@
   position: fixed;
   bottom: 25px;
   left: 45%;
-  border: 1px solid #3849F9;
+  border: 1px solid #3849f9;
   border-radius: 50%;
   outline: none;
   padding: 0 !important;
-  background-color: #3849F9;
+  background-color: #3849f9;
   color: white;
 
   &.mat-button {
@@ -15,7 +15,7 @@
 
     ::ng-deep .material-icons {
       font-size: 18px;
-      padding-top: 10px
+      padding-top: 10px;
     }
   }
 }

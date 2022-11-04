@@ -7,18 +7,21 @@
     appTrimValue
     [formControl]="settlementSearchControl"
     [matAutocomplete]="auto"
-    (focusout)="onFocusOut(auto)" />
+    (focusout)="onFocusOut(auto)"
+  />
   <mat-autocomplete
     #auto="matAutocomplete"
     disableOptionCentering
     panelClass="dropdown-panel"
     [displayWith]="displaySettlementNameFn"
-    (optionSelected)="onSelectedCity($event)">
+    (optionSelected)="onSelectedCity($event)"
+  >
     <mat-option
       class="dropdown-option"
       *ngFor="let codeficator of codeficatorSearch$ | async"
       [value]="codeficator"
-      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
+      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT"
+    >
       {{ codeficator.settlement }} <br />
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>

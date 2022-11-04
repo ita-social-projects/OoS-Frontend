@@ -31,12 +31,8 @@ describe('UserConfigEditComponent', () => {
         MatRadioModule,
         MatDatepickerModule
       ],
-      declarations: [
-        UserConfigEditComponent,
-        MockValidationHintForInputComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [UserConfigEditComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -47,14 +43,14 @@ describe('UserConfigEditComponent', () => {
       firstName: '',
       middleName: '',
       phoneNumber: '',
-      gender: 0,
+      gender: 0
     } as User;
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       middleName: new FormControl('', [Validators.required]),
       gender: new FormControl('', [Validators.required]),
-      phoneNumber: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [Validators.required])
     });
     fixture.detectChanges();
   });
@@ -68,7 +64,6 @@ describe('UserConfigEditComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

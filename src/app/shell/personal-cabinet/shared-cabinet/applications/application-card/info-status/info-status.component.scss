@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/application-statuses.scss";
+@import 'src/app/shared/styles/application-statuses.scss';
 
 .status-menu,
 .application-popup-status,
@@ -27,15 +27,18 @@
   max-width: fit-content;
   display: flex;
   flex-direction: column;
-  overflow:scroll;
+  overflow: scroll;
   margin: 11px 0 0 -10px;
 }
 .application-info-menu {
   display: flex;
   flex-direction: row;
-  max-width: max-content;
+  max-width: 600px;
+  padding-left: 5px;
   font-size: 13px;
   line-height: 17px;
+  overflow-wrap: break-word;
+  word-break: break-all;
 }
 
 .card-block {
@@ -55,7 +58,7 @@
 }
 
 .status-icon {
-  font-size: 12px!important;
+  font-size: 12px !important;
 }
 
 @media (min-width: 751px) and (max-width: 950px) {
@@ -71,15 +74,17 @@
   }
 }
 
-@media(max-width: 750px) {
-  .card{
+@media (max-width: 750px) {
+  .card {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: flex-start !important;
   }
-
-  .card>:nth-of-type(2) {
+  .application-info-menu {
+    max-width: 300px;
+  }
+  .card > :nth-of-type(2) {
     max-width: 100%;
   }
 
@@ -96,28 +101,31 @@
       flex-direction: row;
       justify-content: space-around;
       align-items: center;
-      .btn{
+      .btn {
         min-width: min-content;
         margin: 1rem 0 0 0;
       }
     }
-    .title,.name{
+    .title,
+    .name {
       width: 100%;
       text-align: center;
     }
-    .application-status, .title, .btn-gray{
+    .application-status,
+    .title,
+    .btn-gray {
       margin-top: 1rem;
     }
   }
 }
-.status-info-icon{
-  margin-left: 1px;
+.status-info-icon {
+  margin-top: 2.5px;
+  margin-left: 5px;
   font-size: 16px;
 }
 .activeInfoBtn {
   color: #3849f9;
 }
 .inactiveInfoBtn {
-  color: #AAAAAA;
+  color: #aaaaaa;
 }
-

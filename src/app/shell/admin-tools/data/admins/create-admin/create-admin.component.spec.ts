@@ -33,12 +33,8 @@ describe('CreateAdminComponent', () => {
         FormsModule,
         MatSelectModule
       ],
-      declarations: [
-        MockValidationHintForInputComponent,
-        CreateAdminComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [MockValidationHintForInputComponent, CreateAdminComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -50,7 +46,7 @@ describe('CreateAdminComponent', () => {
       middleName: new FormControl(''),
       phoneNumber: new FormControl(''),
       institution: new FormControl(''),
-      email: new FormControl(''),
+      email: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -64,7 +60,6 @@ describe('CreateAdminComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
@@ -73,4 +68,3 @@ class MockValidationHintForInputComponent {
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;
 }
-

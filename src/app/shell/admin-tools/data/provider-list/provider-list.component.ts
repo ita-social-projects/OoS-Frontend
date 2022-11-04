@@ -10,8 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
-import { ApplicationIcons, ApplicationStatus } from '../../../../shared/enum/applications';
+import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
@@ -25,24 +24,26 @@ import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
+
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
-  styleUrls: ['./provider-list.component.scss'],
+  styleUrls: ['./provider-list.component.scss']
 })
 export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   readonly constants: typeof Constants = Constants;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
-  readonly providerTitleUkr = ApplicationTitles;
+  readonly statusTitles = StatusTitles;
   readonly providerAdminIcons = ApplicationIcons;
-  readonly applicationStatus = ApplicationStatus;
+  readonly statuses = Statuses;
 
   @Select(AdminState.providers)
-    providers$: Observable<SearchResponse<Provider[]>>;
+  providers$: Observable<SearchResponse<Provider[]>>;
   @Select(PaginatorState.itemsPerPage)
-    itemsPerPage$: Observable<number>;
+  itemsPerPage$: Observable<number>;
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -62,7 +63,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     'founder',
     'actualAddress',
     'status',
-    'star',
+    'star'
   ];
   filterFormControl: FormControl = new FormControl('');
   dataSource = new MatTableDataSource([{}]);
@@ -70,26 +71,21 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalEntities: number;
   searchString: string;
 
-  constructor(
-    private liveAnnouncer: LiveAnnouncer, 
-    private store: Store,
-    private matDialog: MatDialog) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.store.dispatch([
       new GetFilteredProviders(),
-      new PushNavPath(
-        {
-          name: NavBarName.Providers,
-          isActive: false,
-          disable: true,
-        },
-      ),
+      new PushNavPath({
+        name: NavBarName.Providers,
+        isActive: false,
+        disable: true
+      })
     ]);
     this.providers$
       .pipe(
         takeUntil(this.destroy$),
-        filter(providers => !!providers)
+        filter((providers) => !!providers)
       )
       .subscribe((providers: SearchResponse<Provider[]>) => {
         this.dataSource = new MatTableDataSource(providers?.entities);
@@ -99,11 +95,11 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         distinctUntilChanged(),
         startWith(''),
         skip(1),
         debounceTime(1000),
+        takeUntil(this.destroy$),
         map((value: string) => value.trim())
       )
       .subscribe((searchString: string) => {
@@ -112,7 +108,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       });
   }
 
-  ngAfterViewInit(): void { }
+  ngAfterViewInit(): void {}
 
   onViewProviderInfo(provider: Provider): void {
     this.provider = provider;
@@ -129,13 +125,13 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onChangeStatus(provider: Provider, status: string): void {
     const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
-    if (status === ApplicationStatus.Editing) {
+    if (status === Statuses.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-        data: { type: ModalConfirmationType.editingProvider },
+        data: { type: ModalConfirmationType.editingProvider }
       });
       dialogRef.afterClosed().subscribe((statusReason: string) => {
-        statusReason && this.store.dispatch(new UpdateProviderStatus({...statusUpdateData, statusReason}));
-       });
+        statusReason && this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }));
+      });
     } else {
       this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
     }
@@ -146,8 +142,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteProvider,
-        property: provider.fullTitle,
-      },
+        property: provider.fullTitle
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

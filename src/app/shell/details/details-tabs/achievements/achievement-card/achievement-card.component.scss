@@ -1,5 +1,5 @@
-@import "src/app/shared/styles/card-wrapper.scss";
-@import "src/app/shared/styles/cards.scss";
+@import 'src/app/shared/styles/card-wrapper.scss';
+@import 'src/app/shared/styles/cards.scss';
 
 .mat-card {
   margin: 1.3rem;
@@ -41,43 +41,43 @@
   max-width: 480px;
   white-space: wrap;
   overflow-wrap: break-word;
-} 
+}
 
 .show-more {
   overflow: visible;
 }
 .more_btn {
-  color: #3849F9;
+  color: #3849f9;
   font-weight: 700;
   font-size: 13px;
   cursor: pointer;
 }
 
 @media (max-width: 750px) {
- .image {
-   display: none;
- }
- .card_achievement  {
+  .image {
+    display: none;
+  }
+  .card_achievement {
     max-width: 350px;
     padding-top: 2rem;
- }
- .achievement_title{
+  }
+  .achievement_title {
     max-width: 300px;
- }
+  }
 }
 
 @media (max-width: 450px) {
- .image {
-   display: none;
- }
- .card_achievement  {
-  width: 100%;
- }
+  .image {
+    display: none;
+  }
+  .card_achievement {
+    width: 100%;
+  }
 }
 
 @media (max-width: 350px) {
- .wrap-for-details{
-  padding-left: 5px;
-  padding-right: 5px;
- }
+  .wrap-for-details {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
 }

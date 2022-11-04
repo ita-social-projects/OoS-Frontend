@@ -13,6 +13,7 @@ import { AppWorkshopsService } from '../services/workshops/app-workshop/app-work
 import {
   CleanCity,
   ClearCoordsByMap,
+  ClearRadiusSize,
   ConfirmCity,
   FilterChange,
   FilterClear,
@@ -28,17 +29,20 @@ import {
   SetIsFree,
   SetIsPaid,
   SetIsStrictWorkdays,
+  SetMapView,
   SetMaxAge,
   SetMaxPrice,
   SetMinAge,
   SetMinPrice,
   SetOpenRecruitment,
   SetOrder,
+  SetRadiusSize,
   SetSearchQueryValue,
   SetStartTime,
   SetWithDisabilityOption,
   SetWorkingDays,
 } from './filter.actions';
+import { SetFirstPage } from './paginator.actions';
 
 @State<FilterStateModel>({
   name: 'filter',
@@ -65,6 +69,8 @@ import {
     isLoading: false,
     isConfirmCity: true,
     mapViewCoords: null,
+    userRadiusSize: null,
+    isMapView: false,
   },
 })
 @Injectable()
@@ -102,6 +108,17 @@ export class FilterState {
   @Selector()
   static order(state: FilterStateModel): {} {
     return state.order;
+  }
+
+  @Selector()
+  static userRadiusSize(state: FilterStateModel) {
+    const meterInKilometer = 1000;
+    return state.userRadiusSize * meterInKilometer;
+  }
+
+  @Selector()
+  static isMapView(state: FilterStateModel) {
+    return state.isMapView;
   }
 
   @Selector()
@@ -317,7 +334,10 @@ export class FilterState {
   }
 
   @Action(FilterChange)
-  filterChange({}: StateContext<FilterStateModel>, {}: FilterChange): void {}
+  filterChange({ getState, dispatch }: StateContext<FilterStateModel>): void {
+    const isMapView = getState().isMapView;
+    dispatch([new SetFirstPage(), new GetFilteredWorkshops(isMapView)]);
+  }
 
   @Action(FilterClear)
   FilterClear({ patchState, dispatch }: StateContext<FilterStateModel>, {}: FilterChange): void {
@@ -346,12 +366,27 @@ export class FilterState {
   @Action(SetCoordsByMap)
   SetCoordsByMap({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCoordsByMap): void {
     patchState({ mapViewCoords: payload });
-
-    dispatch(new GetFilteredWorkshops(true));
+    dispatch(new FilterChange());
   }
 
   @Action(ClearCoordsByMap)
   ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
     patchState({ mapViewCoords: null });
+  }
+
+  @Action(SetRadiusSize)
+  SetRadiusSize({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetRadiusSize): void {
+    patchState({ userRadiusSize: payload });
+    dispatch(new FilterChange());
+  }
+
+  @Action(ClearRadiusSize)
+  ClearRadiusSize({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ userRadiusSize: null });
+  }
+
+  @Action(SetMapView)
+  SetMapView({ patchState }: StateContext<FilterStateModel>, { payload }: SetMapView): void {
+    patchState({ isMapView: payload });
   }
 }

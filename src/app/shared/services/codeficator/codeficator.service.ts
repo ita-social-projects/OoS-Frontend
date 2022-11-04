@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Codeficator, CodeficatorCityDistrict } from '../../models/codeficator.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CodeficatorService {
   constructor(private http: HttpClient) {}

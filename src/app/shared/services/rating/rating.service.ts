@@ -19,12 +19,8 @@ export class RatingService {
    */
   setParams(): HttpParams {
     let params = new HttpParams();
-    const currentPage = this.store.selectSnapshot(
-      PaginatorState.currentPage
-    ) as PaginationElement;
-    const size: number = this.store.selectSnapshot(
-      PaginatorState.ratingPerPage
-    );
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.ratingPerPage);
     const from: number = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString());
@@ -34,10 +30,7 @@ export class RatingService {
 
   getRateByEntityId(entityType: string, entityId: string): Observable<Rate[]> {
     const body = { params: this.setParams() };
-    return this.http.get<Rate[]>(
-      `/api/v1/Rating/GetByEntityId/${entityType}/${entityId}`,
-      body
-    );
+    return this.http.get<Rate[]>(`/api/v1/Rating/GetByEntityId/${entityType}/${entityId}`, body);
   }
 
   /**

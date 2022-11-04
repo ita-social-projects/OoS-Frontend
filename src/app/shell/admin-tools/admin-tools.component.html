@@ -1,7 +1,7 @@
 <div class="container">
   <h1 class="title">АДМІНІСТРУВАННЯ</h1>
   <nav class="nav" mat-tab-nav-bar>
-    <a *ngIf="role == Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'">ПОРТАЛ</a>
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'">ПОРТАЛ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/admins']">АДМІНІСТРАТОРИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/directions']">НАПРЯМКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/provider-list'">ЗАКЛАДИ</a>

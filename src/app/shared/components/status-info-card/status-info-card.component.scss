@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/application-statuses.scss";
+@import 'src/app/shared/styles/application-statuses.scss';
 
 .mat-application-menu,
 .application-info-menu {
@@ -53,10 +53,16 @@
 }
 
 .application-info-description {
-  .Approved, .Pending, .StudyingForYears, .AcceptedForSelection, .Rejected, .Completed, .Left, .Blocked {
+  .Approved,
+  .Pending,
+  .StudyingForYears,
+  .AcceptedForSelection,
+  .Rejected,
+  .Completed,
+  .Left,
+  .Blocked {
     color: black;
   }
-
 }
 
 .application-info-menu-title {
@@ -64,11 +70,14 @@
   font-weight: bold;
   padding: 8px;
 }
-@media(max-width: 750px) {
-  .application-info-menu,::ng-deep .mat-application-menu {
+@media (max-width: 750px) {
+  .application-info-menu,
+  ::ng-deep .mat-application-menu {
     width: 100vw;
   }
 }
-.application-status, .title, .btn-gray{
+.application-status,
+.title,
+.btn-gray {
   margin-top: 1rem;
 }

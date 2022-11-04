@@ -1,15 +1,14 @@
 <div class="container" *ngIf="provider">
-
   <app-image-carousel [images]="images"></app-image-carousel>
 
   <div class="details-wrapper">
     <div fxLayout="column" fxLayoutAlign="space-between space-between">
       <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
-        <h1 class="title">{{provider.fullTitle}}</h1>
+        <h1 class="title">{{ provider.fullTitle }}</h1>
       </div>
       <p class="icon-text">
         <mat-icon class="icon">star</mat-icon>
-        {{provider.rating}}
+        {{ provider.rating }}
       </p>
     </div>
 
@@ -21,6 +20,5 @@
         <app-all-provider-workshops></app-all-provider-workshops>
       </mat-tab>
     </mat-tab-group>
-
   </div>
 </div>

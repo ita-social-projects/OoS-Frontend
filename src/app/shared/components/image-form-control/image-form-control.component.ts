@@ -42,11 +42,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
 
   @ViewChild('inputImage') inputImage: ElementRef;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.onResize(window);
-    (this.imageIdsFormControl && this.imageIdsFormControl.value?.length) && this.activateEditMode();
+    this.imageIdsFormControl && this.imageIdsFormControl.value?.length && this.activateEditMode();
   }
 
   /**
@@ -122,11 +122,11 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
       height: 'auto',
       data: {
         image: event,
-        cropperConfig: this.cropperConfig,
+        cropperConfig: this.cropperConfig
       }
     });
 
-    dialogRef.afterClosed().subscribe((image: File)  => {
+    dialogRef.afterClosed().subscribe((image: File) => {
       this.markAsTouched();
       if (!this.disabled && image) {
         this.imageDecoder(image);

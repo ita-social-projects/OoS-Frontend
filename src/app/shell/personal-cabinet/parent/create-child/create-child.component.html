@@ -1,44 +1,58 @@
 <div class="create-form" *ngIf="(editMode && child) || !editMode">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{(editMode) ? 'РЕДАГУВАТИ' : 'ДОДАТИ'}} ДАНІ ПРО ДИТИНУ</h3>
-      <p class="wrapper-text" *ngIf="!editMode">Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете
-        додати цю
-        інформацію
-        у вашому особистому кабінеті. </p>
+      <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАТИ' : 'ДОДАТИ' }} ДАНІ ПРО ДИТИНУ</h3>
+      <p class="wrapper-text" *ngIf="!editMode">
+        Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті.
+      </p>
     </div>
 
     <ng-container>
-      <app-child-form *ngFor="let form of ChildrenFormArray.controls" [ChildFormGroup]="form"
-        [index]="ChildrenFormArray.controls.indexOf(form)" [childrenAmount]="ChildrenFormArray.controls.length"
-        [socialGroups]="socialGroups" (deleteForm)="onDeleteForm($event)"></app-child-form>
+      <app-child-form
+        *ngFor="let form of ChildrenFormArray.controls"
+        [ChildFormGroup]="form"
+        [index]="ChildrenFormArray.controls.indexOf(form)"
+        [childrenAmount]="ChildrenFormArray.controls.length"
+        [socialGroups]="socialGroups"
+        (deleteForm)="onDeleteForm($event)"
+      ></app-child-form>
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
       <button
         *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
-        class="btn-add" mat-button (click)="addChild()" [disabled]="ChildrenFormArray.invalid">
+        class="btn-add"
+        mat-button
+        (click)="addChild()"
+        [disabled]="ChildrenFormArray.invalid"
+      >
         <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
       </button>
       <ng-template #noMoreChildren>
-        <p>Можливо додати не більш, ніж {{childrenMaxAmount}} дітей</p>
+        <p>Можливо додати не більш, ніж {{ childrenMaxAmount }} дітей</p>
       </ng-template>
     </div>
 
-    <div [ngClass]="{'hidden': editMode}" class="step" fxLayout="row" fxLayoutAlign="start center">
-      <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
-      </mat-checkbox>
-      <p class="agreement">Додаючи дані про
-        дитину
-        я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" [queryParams]="{childID: child?.id}" target="_blank"> Правилами користування</a>
+    <div [ngClass]="{ hidden: editMode }" class="step" fxLayout="row" fxLayoutAlign="start center">
+      <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"> </mat-checkbox>
+      <p class="agreement">
+        Додаючи дані про дитину я погоджуюсь з
+        <a class="link" [routerLink]="'/info/rules'" [queryParams]="{ childID: child?.id }" target="_blank"> Правилами користування</a>
         та надаю згоду на обробку персональних даних
       </p>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">СКАСУВАТИ</button>
-      <button [disabled]="!AgreementFormControl.value || ChildrenFormArray.invalid" class="btn" mat-button type="submit"(click)="onSubmit()">ЗБЕРЕГТИ</button>
+      <button
+        [disabled]="!AgreementFormControl.value || ChildrenFormArray.invalid"
+        class="btn"
+        mat-button
+        type="submit"
+        (click)="onSubmit()"
+      >
+        ЗБЕРЕГТИ
+      </button>
     </div>
-
   </div>
 </div>

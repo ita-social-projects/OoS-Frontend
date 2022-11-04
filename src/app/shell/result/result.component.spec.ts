@@ -34,10 +34,9 @@ describe('ResultComponent', () => {
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent,
-        DeclinationPipe,
+        DeclinationPipe
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,8 +54,7 @@ describe('ResultComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockSearchbarComponent {
-}
+class MockSearchbarComponent {}
 
 @Component({
   selector: 'app-ordering',
@@ -95,4 +93,4 @@ class MockWorkshopMapViewListComponent {
   selector: 'app-scroll-to-top',
   template: ''
 })
-class MockScrollToTopComponent { }
+class MockScrollToTopComponent {}

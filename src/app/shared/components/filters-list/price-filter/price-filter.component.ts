@@ -10,7 +10,7 @@ import { SetIsFree, SetIsPaid, SetMaxPrice, SetMinPrice } from '../../../store/f
 @Component({
   selector: 'app-price-filter',
   templateUrl: './price-filter.component.html',
-  styleUrls: ['./price-filter.component.scss'],
+  styleUrls: ['./price-filter.component.scss']
 })
 export class PriceFilterComponent implements OnInit, OnDestroy {
   @Input()
@@ -47,45 +47,36 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.minPriceControl.disable();
 
     this.isFreeControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
+      .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsFree(val)));
 
-    this.isPaidControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((val: boolean) => {
-        const func = val ? 'enable' : 'disable';
-        if (!val) {
-          this.store.dispatch([
-            new SetMinPrice(ValidationConstants.MIN_PRICE),
-            new SetMaxPrice(ValidationConstants.MAX_PRICE),
-          ]);
-        }
-        this.store.dispatch(new SetIsPaid(val));
-        this.minPriceControl[func]();
-        this.maxPriceControl[func]();
-        this.options = this.getSliderOprions(!val);
-      });
+    this.isPaidControl.valueChanges.pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: boolean) => {
+      const func = val ? 'enable' : 'disable';
+      if (!val) {
+        this.store.dispatch([new SetMinPrice(ValidationConstants.MIN_PRICE), new SetMaxPrice(ValidationConstants.MAX_PRICE)]);
+      }
+      this.store.dispatch(new SetIsPaid(val));
+      this.minPriceControl[func]();
+      this.maxPriceControl[func]();
+      this.options = this.getSliderOprions(!val);
+    });
 
-    this.minPriceControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
-      .subscribe((val: number) => {
-        !this.isPaidControl.value && this.isPaidControl.setValue(true);
-        this.store.dispatch(new SetMinPrice(val));
-      });
+    this.minPriceControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: number) => {
+      !this.isPaidControl.value && this.isPaidControl.setValue(true);
+      this.store.dispatch(new SetMinPrice(val));
+    });
 
-    this.maxPriceControl.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
-      .subscribe((val: number) => {
-        !this.isPaidControl.value && this.isPaidControl.setValue(true);
-        this.store.dispatch(new SetMaxPrice(val));
-      });
+    this.maxPriceControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((val: number) => {
+      !this.isPaidControl.value && this.isPaidControl.setValue(true);
+      this.store.dispatch(new SetMaxPrice(val));
+    });
   }
 
   getSliderOprions(val): Options {
     return {
       floor: ValidationConstants.MIN_PRICE,
       ceil: ValidationConstants.MAX_PRICE,
-      disabled: val,
+      disabled: val
     };
   }
 

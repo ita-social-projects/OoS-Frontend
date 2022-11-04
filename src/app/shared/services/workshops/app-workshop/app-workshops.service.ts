@@ -13,7 +13,7 @@ import { FilterState } from '../../../store/filter.state';
 import { PaginatorState } from '../../../store/paginator.state';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -110,6 +110,9 @@ export class AppWorkshopsService {
       params = params.set('OrderByField', Ordering.nearest);
       params = params.set('Size', '100');
       params = params.set('From', '0');
+      if (filters.userRadiusSize) {
+        params = params.set('RadiusKm', filters.userRadiusSize);
+      }
     } else {
       const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
       const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
@@ -156,6 +159,8 @@ export class AppWorkshopsService {
     params = params.set('Limit', size.toString());
     params = this.setCityFilterParams(settlement, params);
 
-    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
+    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', {
+      params
+    });
   }
 }
