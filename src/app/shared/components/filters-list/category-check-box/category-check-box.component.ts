@@ -98,7 +98,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
           this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[i].offsetTop;
         }
       }
-    }, 1000);
+    }, 1000); //this is needed to wait until loaded direction list will be displayed in the template
   }
 
   ngOnDestroy(): void {
