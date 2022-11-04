@@ -2,6 +2,7 @@ import {
   AfterViewInit,
   Component,
   ElementRef,
+  HostListener,
   Input,
   OnDestroy,
   OnInit,
@@ -30,6 +31,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     from: 0,
     size: 0
   };
+  isMobileView: boolean;
 
   @Select(ChatState.selectedChatRoomMessages)
   messages$: Observable<Message[]>;
@@ -37,6 +39,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() chatRoom: ChatRoom;
 
   @ViewChild('chat') chatEl: ElementRef;
+
+  @HostListener('window: resize', ['$event.target'])
+  onResize(event: Window): void {
+    this.isMobileView = event.outerWidth < 530;
+  }
 
   constructor(private store: Store) {}
 
@@ -52,9 +59,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((messages: Message[]) => {
         this.messages = messages;
       });
+    this.onResize(window);
   }
 
   ngAfterViewInit(): void {
+    //TODO: Replace setTimeout
     setTimeout(() => {
       this.chatEl.nativeElement.scrollTop =
         this.chatEl.nativeElement.scrollHeight;

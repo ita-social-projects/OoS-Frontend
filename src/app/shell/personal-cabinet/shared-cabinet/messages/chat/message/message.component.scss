@@ -55,3 +55,14 @@
     color: #333333;
   }
 }
+
+@media (max-width:530px) {
+  .message{
+    &__text{
+      margin-right: 10px;
+    }
+    &__read-status{
+      margin-right: 10px;
+    }
+  }
+}

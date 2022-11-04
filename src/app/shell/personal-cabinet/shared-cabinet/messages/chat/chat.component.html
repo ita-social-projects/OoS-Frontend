@@ -1,7 +1,7 @@
 <mat-card class="chat-card">
-  <div class="chat-card__header header" fxLayout="row">
-    <mat-icon class="header__icon" fxFlex="1 1 3%">arrow_back</mat-icon>
-    <div fxFlex="1 1 97%">
+  <div class="chat-card__header header">
+    <mat-icon class="header__icon">arrow_back</mat-icon>
+    <div class="header__companion-info">
       <h4 class="header__title">Бальні танці</h4>
       <p class="header__subtitle">Школа бальних танців "Едельвейс"</p>
     </div>
@@ -24,5 +24,18 @@
       </app-message>
     </ng-container>
   </div>
-  <div class="chat-card__footer">send</div>
+  <div class="chat-card__footer footer">
+    <mat-icon class="attach-icon">attach_file</mat-icon>
+    <textarea
+      type="text"
+      class="search-input"
+      placeholder="Написати повідомлення"
+      cdkTextareaAutosize
+      autocomplete="off"
+    ></textarea>
+    <button *ngIf="!isMobileView" class="btn" mat-button>НАДІСЛАТИ</button>
+    <button *ngIf="isMobileView" class="btn" mat-button>
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
 </mat-card>

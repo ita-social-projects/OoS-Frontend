@@ -1,10 +1,17 @@
+@import 'src/app/shared/styles/buttons.scss';
+
 .chat-card{
   display: flex;
   flex-direction: column;
   height: 580px;
 }
 
+.chat-card ::ng-deep .mat-icon{
+  overflow: visible;
+}
+
 .header{
+  display: flex;
   border-bottom: 1px #e3e3e3 solid;
 
   p{
@@ -12,8 +19,13 @@
   }
 
   &__icon{
-    font-size: 18px;
+    font-size: 16px;
     color: #444444;
+    
+    width: 16px;
+    height: 16px;
+    
+    margin-right: 16px;
   }
 
   &__title{
@@ -49,5 +61,56 @@
   
   &__outcome{
     align-self: flex-end;
+  }
+}
+
+.footer{
+  display: flex;
+  align-items: center;
+
+  border-top: 1px #e3e3e3 solid;;
+  padding: 32px 0 16px;
+}
+
+.search-input {
+  font-weight: normal;
+  line-height: 22px;
+  color: #161414;
+  width: 100%;
+  max-height: 80px;
+
+  align-self: center;
+  
+  border: 0;
+  outline: 0;
+
+  &::placeholder{
+    opacity: 0.4;
+  }
+}
+
+.attach-icon{
+  color: #AAAAAA;
+  margin-right: 14px;
+}
+
+.btn{
+  line-height: 15px;
+  padding: 10px 30px;
+  min-width: auto;
+}
+
+@media (max-width:530px) {
+  .footer{
+    padding: 16px 0 0;
+  }
+  .btn{
+    padding: 10px 16px;
+    margin: 0 8px;
+    .mat-icon{
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+    }
   }
 }
