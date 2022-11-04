@@ -24,13 +24,7 @@ import { MessageComponent } from './messages/chat/message/message.component';
     ChatComponent,
     MessageComponent
   ],
-  imports: [
-    MaterialModule,
-    SharedModule,
-    CommonModule,
-    FlexLayoutModule,
-    RouterModule
-  ],
+  imports: [MaterialModule, SharedModule, CommonModule, FlexLayoutModule, RouterModule],
   exports: [ApplicationsComponent]
 })
 export class SharedCabinetModule {}

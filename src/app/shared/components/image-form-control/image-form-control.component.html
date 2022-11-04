@@ -1,18 +1,17 @@
 <form>
   <div class="form-wrapper">
-    <div class="step-label">{{label}}</div>
-    <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{imgMaxAmount}} фото</div>
-    <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px"
-      (window:resize)="onResize($event.target)">
+    <div class="step-label">{{ label }}</div>
+    <div class="photo-subheader">Додайте фото натистувши на “+”. Максимум {{ imgMaxAmount }} фото</div>
+    <mat-grid-list [cols]="gridCols" rowHeight="58px" class="logo" gutterSize="8px" (window:resize)="onResize($event.target)">
       <mat-grid-tile class="logo_button" *ngIf="decodedImages.length < imgMaxAmount">
         <label>
-          <input type="file" (input)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png" #inputImage>
+          <input type="file" (input)="fileChangeEvent($event)" accept=".jpg, .jpeg, .png" #inputImage />
           <mat-icon class="card_icon">add</mat-icon>
         </label>
       </mat-grid-tile>
-      <mat-grid-tile *ngFor="let img of decodedImages;" class="logo_button">
+      <mat-grid-tile *ngFor="let img of decodedImages" class="logo_button">
         <div class="logo_images">
-          <img src="{{img.image}}" alt="image">
+          <img src="{{ img.image }}" alt="image" />
           <mat-icon class="logo_cancel" (click)="onRemoveImg(img)">clear</mat-icon>
         </div>
       </mat-grid-tile>

@@ -18,13 +18,7 @@ describe('CreateWorkshopComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatStepperModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-        NgxsModule.forRoot([]),
-        HttpClientTestingModule
-      ],
+      imports: [MatStepperModule, RouterTestingModule, BrowserAnimationsModule, NgxsModule.forRoot([]), HttpClientTestingModule],
       declarations: [
         CreateWorkshopComponent,
         MockCreateWorkshopAddressComponent,
@@ -32,8 +26,7 @@ describe('CreateWorkshopComponent', () => {
         MockCreateAboutFormComponent,
         MockCreateDescriptionFormComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

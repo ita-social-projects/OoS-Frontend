@@ -1,16 +1,6 @@
 import { BlockData } from './../../models/usersTable';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
@@ -34,15 +24,7 @@ import { Statuses, StatusTitles } from '../../enum/statuses';
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
   @Input() filterValue: string;
-  @Input() displayedColumns: string[] = [
-    'pib',
-    'email',
-    'phone',
-    'place',
-    'role',
-    'status',
-    'actions'
-  ];
+  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
   @Input() isEdit: boolean;
 
   @Output() delete = new EventEmitter<UsersTable>();

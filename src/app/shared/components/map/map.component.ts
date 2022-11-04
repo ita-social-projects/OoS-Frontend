@@ -1,11 +1,4 @@
-import {
-  Component,
-  AfterViewInit,
-  Input,
-  Output,
-  EventEmitter,
-  OnDestroy
-} from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
@@ -23,12 +16,7 @@ import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
-import {
-  ClearCoordsByMap,
-  ClearRadiusSize,
-  SetCoordsByMap,
-  SetMapView
-} from '../../store/filter.actions';
+import { ClearCoordsByMap, ClearRadiusSize, SetCoordsByMap, SetMapView } from '../../store/filter.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { SnackbarText } from '../../enum/messageBar';
 
@@ -90,11 +78,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/user_dot.svg'
   });
 
-  constructor(
-    private geocoderService: GeocoderService,
-    private previousUrlService: PreviousUrlService,
-    private store: Store
-  ) {}
+  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService, private store: Store) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -149,8 +133,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       subdomains: '123',
       maxZoom: 19,
       tms: true,
-      attribution:
-        "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
+      attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
 
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
@@ -164,37 +147,26 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setFilteredWorkshops(): void {
-    this.filteredWorkshops$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
-        this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) =>
-          this.map.removeLayer(workshopMarker.marker)
-        );
-        this.workshopMarkers = [];
-        if (filteredWorkshops) {
-          this.workshops = filteredWorkshops.entities;
-          filteredWorkshops.entities.forEach((workshop: WorkshopCard) =>
-            this.setWorkshopMarkers(workshop.address)
-          );
-        }
-      });
+    this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
+      this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
+      this.workshopMarkers = [];
+      if (filteredWorkshops) {
+        this.workshops = filteredWorkshops.entities;
+        filteredWorkshops.entities.forEach((workshop: WorkshopCard) => this.setWorkshopMarkers(workshop.address));
+      }
+    });
   }
 
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.setNewSingleMarker([
-        this.addressFormGroup.value.lat,
-        this.addressFormGroup.value.lon
-      ]);
+      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
     }
-    this.addressFormGroup.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((address: Geocoder) => {
-        if (this.addressFormGroup.valid) {
-          this.addressDecode(address);
-        }
-      });
+    this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((address: Geocoder) => {
+      if (this.addressFormGroup.valid) {
+        this.addressDecode(address);
+      }
+    });
   }
 
   /**
@@ -207,10 +179,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.setNewSingleMarker([result.lat, result.lon]);
         this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset(
-          { catottgId: this.addressFormGroup.value.catottgId },
-          { emitEvent: false }
-        );
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
@@ -255,9 +224,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-      const targetMarker = this.workshopMarkers.find(
-        (workshopMarker) => workshopMarker.marker === event.target
-      );
+      const targetMarker = this.workshopMarkers.find((workshopMarker) => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedWorkshopAddress.emit(address);
@@ -268,9 +235,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method unselect target Marker
    */
   private unselectMarkers(): void {
-    const selectedWorkshopMarker = this.workshopMarkers.filter(
-      (workshopMarker: WorkshopMarker) => workshopMarker.isSelected
-    );
+    const selectedWorkshopMarker = this.workshopMarkers.filter((workshopMarker: WorkshopMarker) => workshopMarker.isSelected);
     if (selectedWorkshopMarker.length > 0) {
       selectedWorkshopMarker.forEach((targetMarker: WorkshopMarker) => {
         targetMarker.isSelected = false;
@@ -284,10 +249,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * @param coords - type [number, number]
    * @param draggable - type boolean
    */
-  private createMarker(
-    coords: [number, number],
-    draggable = true
-  ): Layer.Marker {
+  private createMarker(coords: [number, number], draggable = true): Layer.Marker {
     return new Layer.Marker(coords, {
       draggable,
       icon: this.unselectedMarkerIcon,
@@ -323,9 +285,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * This method set events for draw and drop user marker
    */
   private setUserRadiusEvent(): void {
-    this.userMarker.on('dragstart', () =>
-      this.userRadius.setStyle({ opacity: 0 })
-    );
+    this.userMarker.on('dragstart', () => this.userRadius.setStyle({ opacity: 0 }));
 
     this.userMarker.on('dragend', () => {
       this.userRadius.setStyle({
@@ -342,8 +302,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       this.userRadius.removeFrom(this.map);
       this.userMarker.removeFrom(this.map);
     }
-    this.workshopMarkers &&
-      this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
+    this.workshopMarkers && this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
   }
 
   private subscribeOnUserRadiusSize(): void {
@@ -368,11 +327,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([
-      new ClearCoordsByMap(),
-      new ClearRadiusSize(),
-      new SetMapView(false)
-    ]);
+    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new SetMapView(false)]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

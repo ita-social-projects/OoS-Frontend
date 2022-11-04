@@ -1,17 +1,17 @@
 <div class="wrapper">
   <h5 class="title">Форма власності</h5>
-  <p class="txt">{{ownershipTypeUkr[this.provider.ownership]}}</p>
+  <p class="txt">{{ ownershipTypeUkr[this.provider.ownership] }}</p>
   <h5 class="title">Тип організації</h5>
-  <p class="txt">{{providerTypeUkr[this.provider.type]}}</p>
+  <p class="txt">{{ providerTypeUkr[this.provider.type] }}</p>
   <h5 class="title">ПІБ керівника</h5>
-  <p class="txt">{{provider.director}}</p>
+  <p class="txt">{{ provider.director }}</p>
   <ng-container *ngIf="provider.providerSectionItems?.length">
     <h5 class="title">Про заклад</h5>
     <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
-      <h5 class="section-title">{{item.sectionName}}</h5>
-      <p>{{item.description}}</p>
+      <h5 class="section-title">{{ item.sectionName }}</h5>
+      <p>{{ item.description }}</p>
     </div>
   </ng-container>
   <h5 class="title">Засновник</h5>
-  <p class="txt">{{provider.founder}}</p>
+  <p class="txt">{{ provider.founder }}</p>
 </div>

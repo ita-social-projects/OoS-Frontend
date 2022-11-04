@@ -15,8 +15,7 @@ export class InfoCardComponent {
   @Input() platformInfo: CompanyInformation;
 
   @Select(AdminState.isLoading)
-    isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
-  constructor() {
-  }
+  constructor() {}
 }

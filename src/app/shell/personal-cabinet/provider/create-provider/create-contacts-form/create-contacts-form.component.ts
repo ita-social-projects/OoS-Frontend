@@ -96,24 +96,24 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.legalAddressFormGroup = new FormGroup({
       street: new FormControl('', FormValidators.defaultAddressValidators),
       buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
-      catottgId: new FormControl('', Validators.required),
+      catottgId: new FormControl('', Validators.required)
     });
 
     this.actualAddressFormGroup = new FormGroup({
       street: new FormControl('', FormValidators.defaultAddressValidators),
       buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
-      catottgId: new FormControl('', Validators.required),
+      catottgId: new FormControl('', Validators.required)
     });
 
     this.searchFormGroup = new FormGroup({
       legalAddress: new FormGroup({
         settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-        settlement: new FormControl(''),
+        settlement: new FormControl('')
       }),
       actualAddress: new FormGroup({
         settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-        settlement: new FormControl(''),
-      }),
+        settlement: new FormControl('')
+      })
     });
   }
 
@@ -128,9 +128,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to the formGroup
    */
   private sameAddressListener(): void {
-    this.isSameAddressControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((isSame: boolean) => this.handleSameAddress(isSame));
+    this.isSameAddressControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isSame: boolean) => this.handleSameAddress(isSame));
   }
 
   /**
@@ -146,7 +144,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
     this.legalAddressFormGroup.patchValue(legalAddress, { emitEvent: false });
     this.settlementLegalSearchFormControl.patchValue(legalCodeficatorAddress.settlement, {
       emitEvent: false,
-      onlySelf: true,
+      onlySelf: true
     });
     this.settlementLegalFormControl.patchValue(legalCodeficatorAddress, { emitEvent: false, onlySelf: true });
 
@@ -155,7 +153,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       this.actualAddressFormGroup.patchValue(actualAddress, { emitEvent: false });
       this.settlementActualSearchFormControl.patchValue(actualCodeficatorAddress.settlement, {
         emitEvent: false,
-        onlySelf: true,
+        onlySelf: true
       });
       this.settlementActualFormControl.patchValue(actualCodeficatorAddress, { emitEvent: false, onlySelf: true });
     }
@@ -215,7 +213,7 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
         { control: this.streetActualFormControl, validators: FormValidators.defaultAddressValidators },
         { control: this.buildingNumberActualFormControl, validators: FormValidators.defaultAddressValidators },
         { control: this.codeficatorIdActualFormControl, validators: Validators.required },
-        { control: this.settlementActualSearchFormControl, validators: FormValidators.defaultSearchValidators },
+        { control: this.settlementActualSearchFormControl, validators: FormValidators.defaultSearchValidators }
       ];
       controlsConfigList.forEach((config: { control: AbstractControl; validators: ValidatorFn | ValidatorFn[] }) => {
         this.setValidators(config.control, config.validators);

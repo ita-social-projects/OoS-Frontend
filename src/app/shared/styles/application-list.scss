@@ -1,17 +1,17 @@
-.tab-wrapper{
+.tab-wrapper {
   bottom: 3rem;
   position: relative;
 }
-.dropdown{
+.dropdown {
   display: flex;
   justify-content: flex-end;
   z-index: 1000;
 }
 @media (max-width: 1070px) {
-  .tab-wrapper{
+  .tab-wrapper {
     bottom: 0;
   }
-  .dropdown{
+  .dropdown {
     display: flex;
     justify-content: flex-start;
   }

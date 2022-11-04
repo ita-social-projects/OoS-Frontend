@@ -1,19 +1,19 @@
 export enum OwnershipTypeUkr {
   State = 'Державна',
   Common = 'Комунальна',
-  Private = 'Приватна',
+  Private = 'Приватна'
 }
 
 export enum InstitutionTypes {
   Complex = 'Комплексний',
   Profile = 'Профільний',
-  Specialized = 'Спеціалізований',
+  Specialized = 'Спеціалізований'
 }
 
 export enum WorkshopTypeUkr {
   'Гурток',
   'Секція',
-  'Клас',
+  'Клас'
 }
 
 export enum ProviderTypeUkr {
@@ -22,5 +22,5 @@ export enum ProviderTypeUkr {
   'ТОВ',
   'ПП',
   'Заклад освіти',
-  'Інше',
+  'Інше'
 }

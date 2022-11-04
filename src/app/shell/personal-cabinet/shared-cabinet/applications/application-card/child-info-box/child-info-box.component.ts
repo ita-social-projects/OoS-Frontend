@@ -15,7 +15,7 @@ export class ChildInfoBoxComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly phonePrefix = Constants.PHONE_PREFIX;
 
-  constructor(private detectedDevice: DetectedDeviceService) { }
+  constructor(private detectedDevice: DetectedDeviceService) {}
 
   @Input() child: Child;
 

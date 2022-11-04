@@ -23,18 +23,18 @@ import { Util } from '../../../../shared/utils/utils';
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
   readonly userRoleUkr = UserTabsUkr;
   readonly noUsers = NoResultsTitle.noUsers;
 
   @Select(AdminState.isLoading)
-    isLoadingCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
-    children$: Observable<SearchResponse<Child[]>>;
+  children$: Observable<SearchResponse<Child[]>>;
   @Select(PaginatorState.itemsPerPage)
-    itemsPerPage$: Observable<number>;
+  itemsPerPage$: Observable<number>;
 
   filterFormControl = new FormControl('');
   filterValue: string;
@@ -46,22 +46,18 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    tabTitle: undefined,
+    tabTitle: undefined
   };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(2000),
-        takeUntil(this.destroy$),)
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
-        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)); });
+        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+      });
 
     this.children$
       .pipe(
@@ -75,13 +71,11 @@ export class UsersComponent implements OnInit, OnDestroy {
 
     this.store.dispatch([
       new GetChildrenForAdmin(this.childrenParams),
-      new PushNavPath(
-        {
-          name: NavBarName.Users,
-          isActive: false,
-          disable: true,
-        },
-      ),
+      new PushNavPath({
+        name: NavBarName.Users,
+        isActive: false,
+        disable: true
+      })
     ]);
   }
 
@@ -96,7 +90,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] },
+      queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] }
     });
   }
 

@@ -47,13 +47,13 @@ export class FormValidators {
     Validators.required,
     Validators.pattern(NO_LATIN_REGEX),
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
 
   static readonly defaultSearchValidators: ValidatorFn[] = [
     Validators.required,
     Validators.pattern(NO_LATIN_REGEX),
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
 }

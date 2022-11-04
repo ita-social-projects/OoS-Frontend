@@ -13,7 +13,7 @@ import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.acti
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
-  styleUrls: ['./platform.component.scss'],
+  styleUrls: ['./platform.component.scss']
 })
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly adminTabs = AdminTabs;
@@ -47,14 +47,14 @@ export class PlatformComponent implements OnInit, OnDestroy {
             path: '/admin-tools/platform',
             queryParams: { page: AdminTabsTitle.AboutPortal },
             isActive: false,
-            disable: false,
+            disable: false
           },
           {
             name: NavBarName.Portal,
             path: '/admin-tools/platform',
             queryParams: { page: AdminTabsTitle.AboutPortal },
             isActive: false,
-            disable: true,
+            disable: true
           }
         )
       )

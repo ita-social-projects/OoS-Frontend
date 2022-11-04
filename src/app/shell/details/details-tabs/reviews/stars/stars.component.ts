@@ -7,9 +7,7 @@ import { Constants } from '../../../../../shared/constants/constants';
   templateUrl: './stars.component.html',
   styleUrls: ['./stars.component.scss']
 })
-
 export class StarsComponent implements OnInit {
-
   ratingFormControl = new FormControl('');
   selectedStars = 0;
   ratingStars: number[] = [
@@ -17,14 +15,14 @@ export class StarsComponent implements OnInit {
     Constants.RATE_TWO_STAR,
     Constants.RATE_THREE_STAR,
     Constants.RATE_FOUR_STAR,
-    Constants.RATE_FIVE_STAR,
+    Constants.RATE_FIVE_STAR
   ];
 
   @Output() ratingSelect = new EventEmitter();
   @Input() modalWindow = false;
   @Input() rating: number;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.ratingSelect.emit(this.ratingFormControl);

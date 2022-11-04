@@ -15,7 +15,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
 @Component({
   selector: 'app-city-filter',
   templateUrl: './city-filter.component.html',
-  styleUrls: ['./city-filter.component.scss'],
+  styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent implements OnInit, OnDestroy {
   readonly Constants = Constants;

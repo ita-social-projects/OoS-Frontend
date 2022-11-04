@@ -26,16 +26,10 @@ describe('UsersComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatTabsModule,
-        MatIconModule,
+        MatIconModule
       ],
-      declarations: [
-        UsersComponent,
-        MockUsersListComponent,
-        NoResultCardComponent,
-        MockListAdminChildrenPaginatorComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [UsersComponent, MockUsersListComponent, NoResultCardComponent, MockListAdminChildrenPaginatorComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -63,10 +57,8 @@ class MockUsersListComponent {
   selector: 'app-paginator',
   template: ''
 })
-
 class MockListAdminChildrenPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
   @Input() itemsPerPage: number;
 }
-

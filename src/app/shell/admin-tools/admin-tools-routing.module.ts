@@ -5,16 +5,18 @@ import { PlatformComponent } from './platform/platform.component';
 
 const routes: Routes = [
   {
-    path: 'platform', component: PlatformComponent,
-    loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule),
+    path: 'platform',
+    component: PlatformComponent,
+    loadChildren: () => import('./platform/platform.module').then((m) => m.PlatformModule)
   },
   {
-    path: 'data', component: DataComponent,
-    loadChildren: () => import('./data/data.module').then((m) => m.DataModule),
-  },
+    path: 'data',
+    component: DataComponent,
+    loadChildren: () => import('./data/data.module').then((m) => m.DataModule)
+  }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AdminToolsRoutingModule {}

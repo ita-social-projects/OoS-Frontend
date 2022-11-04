@@ -9,12 +9,7 @@ import { AppComponent } from './app.component';
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        MatSidenavModule,
-        MatProgressBarModule,
-        NgxsModule.forRoot([])
-      ],
+      imports: [RouterTestingModule, MatSidenavModule, MatProgressBarModule, NgxsModule.forRoot([])],
       declarations: [
         AppComponent,
         MockHeaderComponent,
@@ -22,7 +17,7 @@ describe('AppComponent', () => {
         MockFooterComponent,
         MockSidenavComponent,
         MockSidenavFilterComponent
-      ],
+      ]
     }).compileComponents();
   });
 
@@ -31,7 +26,6 @@ describe('AppComponent', () => {
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
-
 });
 @Component({
   selector: 'app-header',

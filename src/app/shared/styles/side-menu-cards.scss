@@ -1,17 +1,17 @@
-.container{
-  background: #FFFFFF;
+.container {
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   padding: 24px;
   width: 300px;
   min-height: 206px;
   margin: 0 0 2rem 0;
 
-    &-mobile {
-      min-height: min-content;
-      padding: 1rem;
-    }
+  &-mobile {
+    min-height: min-content;
+    padding: 1rem;
+  }
 
-  .card-title{
+  .card-title {
     font-family: Innerspace;
     font-style: normal;
     font-weight: bold;
@@ -38,11 +38,11 @@
 
     .card_icon {
       position: relative;
-      color: #AAAAAA;
+      color: #aaaaaa;
       font-size: 16px;
     }
     a {
-      color: #3849F9;
+      color: #3849f9;
     }
 
     span {
@@ -61,35 +61,35 @@
   line-height: 15px;
   line-height: 15px;
 
-  &-msg{
+  &-msg {
     color: #272425;
-      &-icon{
-        margin:5px;
-      }
+    &-icon {
+      margin: 5px;
+    }
   }
 }
 
-.map{
+.map {
   margin-left: 24px;
-  color: #3849F9;
+  color: #3849f9;
   font-size: 11px;
   font-weight: 700;
   line-height: 12.35px;
   font-family: Innerspace, serif;
-  &:hover{
+  &:hover {
     text-decoration: underline;
     cursor: pointer;
   }
 }
 
-.link{
-  margin:0.5rem;
-  &:hover{
+.link {
+  margin: 0.5rem;
+  &:hover {
     opacity: 0.6;
   }
 }
-.disable{
-  margin:0.5rem;
+.disable {
+  margin: 0.5rem;
   pointer-events: none;
   opacity: 0.6;
 }
@@ -99,14 +99,14 @@
   margin-left: 22px;
 }
 
-@media(min-width: 1280px) {
-  .container{
+@media (min-width: 1280px) {
+  .container {
     margin: 0;
   }
 }
 
-@media(max-width: 750px) {
-  .container{
+@media (max-width: 750px) {
+  .container {
     width: 100%;
   }
 }

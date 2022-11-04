@@ -13,9 +13,7 @@ export class ProviderAboutComponent implements OnInit {
 
   @Input() provider: Provider;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

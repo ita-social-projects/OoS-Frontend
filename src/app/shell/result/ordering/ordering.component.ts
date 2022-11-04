@@ -9,17 +9,16 @@ import { FilterList } from '../../../shared/models/filterList.model';
 import { SetOrder } from '../../../shared/store/filter.actions';
 import { FilterState } from '../../../shared/store/filter.state';
 
-
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
-  styleUrls: ['./ordering.component.scss'],
+  styleUrls: ['./ordering.component.scss']
 })
 export class OrderingComponent implements OnInit, OnDestroy {
   readonly ordering = Ordering;
 
   @Select(FilterState.filterList)
-    filterList$: Observable<FilterList>;
+  filterList$: Observable<FilterList>;
 
   orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -29,7 +28,7 @@ export class OrderingComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.filterList$
       .pipe(takeUntil(this.destroy$))
-      .subscribe(filters => this.orderFormControl.setValue(filters.order, { emitEvent: false }));
+      .subscribe((filters) => this.orderFormControl.setValue(filters.order, { emitEvent: false }));
   }
 
   OnSelectOption(event: MatSelectChange): void {

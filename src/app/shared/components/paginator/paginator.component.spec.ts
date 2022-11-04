@@ -15,17 +15,10 @@ describe('PaginatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatButtonModule,
-        MatIconModule,
-        MatSelectModule,
-        MatOptionModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [MatButtonModule, MatIconModule, MatSelectModule, MatOptionModule, NgxsModule.forRoot([])],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PaginatorComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

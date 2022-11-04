@@ -3,7 +3,7 @@ import { SectionItem } from './sectionItem.model';
 export class CompanyInformation {
   id?: string;
   title?: string;
-  companyInformationItems: CompanyInformationSectionItem [];
+  companyInformationItems: CompanyInformationSectionItem[];
 
   constructor(title: string, portalItems: CompanyInformationSectionItem[], id?) {
     this.id = id;
@@ -19,7 +19,7 @@ export class CompanyInformationSectionItem extends SectionItem {
     super(info);
 
     if (info.companyInformationId) {
-      this.companyInformationId =  info.companyInformationId;
+      this.companyInformationId = info.companyInformationId;
     }
   }
 }

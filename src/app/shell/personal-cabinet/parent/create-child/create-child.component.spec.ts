@@ -27,11 +27,8 @@ describe('CreateChildComponent', () => {
         MatCheckboxModule,
         MatDialogModule
       ],
-      declarations: [
-        CreateChildComponent,
-        MockChildFormComponent]
-    })
-      .compileComponents();
+      declarations: [CreateChildComponent, MockChildFormComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

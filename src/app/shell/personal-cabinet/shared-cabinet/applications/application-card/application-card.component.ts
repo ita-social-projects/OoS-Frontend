@@ -1,11 +1,4 @@
-import {
-  Component,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { Statuses } from '../../../../../shared/enum/statuses';
 import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../../shared/enum/applications';

@@ -10,7 +10,7 @@ import { Workshop, WorkshopSectionItem } from '../../../../../shared/models/work
 @Component({
   selector: 'app-create-description-form',
   templateUrl: './create-description-form.component.html',
-  styleUrls: ['./create-description-form.component.scss'],
+  styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -22,7 +22,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Input() workshop: Workshop;
@@ -51,12 +51,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       imageIds: new FormControl(''),
       disabilityOptionsDesc: new FormControl({ value: '', disabled: true }, [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
       ]),
       keyWords: new FormControl(''),
       institutionHierarchyId: new FormControl('', Validators.required),
       institutionId: new FormControl('', Validators.required),
-      workshopDescriptionItems: this.SectionItemsFormArray,
+      workshopDescriptionItems: this.SectionItemsFormArray
     });
   }
 
@@ -89,10 +89,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       if (!!this.keyWord.trim() && !this.keyWords.includes(inputKeyWord)) {
         if (this.keyWords.length < 5) {
           this.keyWords.push(inputKeyWord);
-          this.DescriptionFormGroup.get('keyWords').setValue(
-            [...this.keyWords],
-            { emitEvent: isEditMode }
-          );
+          this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
           this.keyWordsCtrl.setValue(null);
           this.keyWord = '';
         }
@@ -110,14 +107,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
   onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string) =>
-      this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
+    const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
 
-    this.disabilityOptionRadioBtn.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((isDisabilityOptionsDesc: boolean) => {
-        isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
-      });
+    this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
+      isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
+    });
   }
 
   /**
@@ -163,8 +157,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ])
     });
 
     if (this.workshop) {
@@ -183,9 +177,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   onAddForm(): void {
     if (this.DescriptionFormGroup.get('workshopDescriptionItems')) {
-      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(
-        this.newForm()
-      );
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(this.newForm());
     }
   }
 

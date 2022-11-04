@@ -6,7 +6,7 @@ import { Workshop } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',
-  templateUrl: './side-menu.component.html',
+  templateUrl: './side-menu.component.html'
 })
 export class SideMenuComponent implements OnInit {
   readonly Role: typeof Role = Role;
@@ -26,7 +26,7 @@ export class SideMenuComponent implements OnInit {
     website: string;
   };
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.getContactsData();
@@ -38,8 +38,8 @@ export class SideMenuComponent implements OnInit {
       email: this.workshop?.email || this.provider.email,
       facebook: this.workshop?.facebook || this.provider.facebook,
       instagram: this.workshop?.instagram || this.provider.instagram,
-      website: this.workshop?.website || this.provider.website,
+      website: this.workshop?.website || this.provider.website
     };
-    this.address = {...this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress};
+    this.address = { ...(this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress) };
   }
 }

@@ -11,11 +11,14 @@ import { Role } from '../../../shared/enum/role';
 })
 export class ParentGuard implements CanLoad {
   @Select(RegistrationState.role)
-    role$: Observable<string>;
+  role$: Observable<string>;
 
-  constructor(public store: Store) { }
+  constructor(public store: Store) {}
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.role$.pipe(filter((role: string) => role === Role.parent), map((role: string) => role === Role.parent));
+    return this.role$.pipe(
+      filter((role: string) => role === Role.parent),
+      map((role: string) => role === Role.parent)
+    );
   }
 }

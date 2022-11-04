@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { FeaturesList } from '../../models/featuresList.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class FeatureManagementService {
   constructor(private http: HttpClient) {}

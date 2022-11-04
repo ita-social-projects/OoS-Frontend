@@ -1,16 +1,19 @@
 <div fxLayout="column" fxLayoutAlign="center center">
   <h2 mat-dialog-title>{{ modalTitle }}</h2>
-  <p class="confirmation"> {{ modalConfirmationText }} {{ modalConfirmationProperty && '"'+ modalConfirmationProperty +
-    '"?'}}
-  </p>
+  <p class="confirmation">{{ modalConfirmationText }} {{ modalConfirmationProperty && '"' + modalConfirmationProperty + '"?' }}</p>
 
   <div *ngIf="data.type === modalConfirmationType.rate">
     <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
   </div>
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
-    <button class="btn" mat-button
-      [mat-dialog-close]="(data.type === modalConfirmationType.rate) ? ratingSelectControl?.value : true"
-      cdkFocusInitial>{{data.type === modalConfirmationType.delete ? 'ВИДАЛИТИ' : 'ПІДТВЕРДИТИ'}}</button>
+    <button
+      class="btn"
+      mat-button
+      [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true"
+      cdkFocusInitial
+    >
+      {{ data.type === modalConfirmationType.delete ? 'ВИДАЛИТИ' : 'ПІДТВЕРДИТИ' }}
+    </button>
     <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">СКАСУВАТИ</button>
   </mat-dialog-actions>
 </div>

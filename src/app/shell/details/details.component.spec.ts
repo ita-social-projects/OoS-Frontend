@@ -12,7 +12,7 @@ import { Provider } from '../../shared/models/provider.model';
 import { Role } from '../../shared/enum/role';
 
 const MockUser = {
-  role: '',
+  role: ''
 };
 
 describe('DetailsComponent', () => {
@@ -22,20 +22,10 @@ describe('DetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        RouterModule.forRoot([]),
-        FlexLayoutModule
-      ],
-      declarations: [
-        DetailsComponent,
-        MockSideMenuComponent,
-        MockDetailsWorkshopComponent,
-        MockDetailsProviderComponent,
-      ],
+      imports: [NgxsModule.forRoot([]), RouterModule.forRoot([]), FlexLayoutModule],
+      declarations: [DetailsComponent, MockSideMenuComponent, MockDetailsWorkshopComponent, MockDetailsProviderComponent],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

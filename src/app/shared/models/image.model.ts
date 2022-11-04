@@ -1,4 +1,3 @@
-
 export class DecodedImage {
   image: string;
   imgFile: File | null;

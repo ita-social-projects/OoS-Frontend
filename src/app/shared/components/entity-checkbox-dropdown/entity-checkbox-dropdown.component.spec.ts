@@ -23,12 +23,8 @@ describe('EntityCheckboxDropdownComponent', () => {
         FormsModule,
         BrowserAnimationsModule
       ],
-      declarations: [
-        EntityCheckboxDropdownComponent,
-        DeclinationPipe
-      ]
-    })
-      .compileComponents();
+      declarations: [EntityCheckboxDropdownComponent, DeclinationPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

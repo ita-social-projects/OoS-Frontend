@@ -9,12 +9,9 @@ describe('SupportComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [ SupportComponent, NoResultCardComponent ]
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([])],
+      declarations: [SupportComponent, NoResultCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

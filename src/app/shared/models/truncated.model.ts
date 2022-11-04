@@ -1,4 +1,4 @@
-export interface TruncatedItem{
-  id: string,
-  title: string,
+export interface TruncatedItem {
+  id: string;
+  title: string;
 }

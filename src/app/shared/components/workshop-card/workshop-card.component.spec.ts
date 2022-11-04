@@ -29,9 +29,8 @@ describe('WorkshopCardComponent', () => {
         MatTooltipModule,
         MatDialogModule
       ],
-      declarations: [WorkshopCardComponent],
-    })
-      .compileComponents();
+      declarations: [WorkshopCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -52,9 +51,9 @@ describe('WorkshopCardComponent', () => {
       address: {
         codeficatorAddressDto: {},
         street: '',
-        buildingNumber: '',
+        buildingNumber: ''
       } as Address,
-      teachers: [{} as Teacher],
+      teachers: [{} as Teacher]
     } as unknown as WorkshopCard;
     fixture.detectChanges();
   });

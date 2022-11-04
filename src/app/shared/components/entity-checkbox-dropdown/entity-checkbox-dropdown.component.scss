@@ -1,10 +1,10 @@
-@import "src/app/shared/styles/dropdown.scss";
+@import 'src/app/shared/styles/dropdown.scss';
 
 .dropdown {
   width: 200px;
-  background: #FFFFFF;
+  background: #ffffff;
   font-weight: 500;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.8rem;
@@ -31,7 +31,7 @@ mat-form-field mat-label {
   display: none;
 }
 ::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
-  background: #3849F9;
+  background: #3849f9;
 }
 
 :host ::ng-deep .mat-form-field-underline {

@@ -26,18 +26,11 @@ describe('PlatformComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         NoopAnimationsModule,
-        MatDialogModule,
+        MatDialogModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        PlatformComponent,
-        MockRegulationsComponent,
-        MockSupportComponent,
-        MockAboutComponent,
-        MockDirectionsComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [PlatformComponent, MockRegulationsComponent, MockSupportComponent, MockAboutComponent, MockDirectionsComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -54,21 +47,20 @@ describe('PlatformComponent', () => {
   selector: 'app-about-info',
   template: ''
 })
-class MockAboutComponent { }
+class MockAboutComponent {}
 
 @Component({
   selector: 'app-support-info',
   template: ''
 })
-class MockSupportComponent { }
+class MockSupportComponent {}
 @Component({
   selector: 'app-regulations-info',
   template: ''
 })
-class MockRegulationsComponent { }
+class MockRegulationsComponent {}
 @Component({
   selector: 'app-directions',
   template: ''
 })
-class MockDirectionsComponent { }
-
+class MockDirectionsComponent {}
