@@ -1,4 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+import { ChatRoom } from '../../../../../shared/models/chat.model';
+import { ParentWithContactInfo } from '../../../../../shared/models/parent.model';
+import { GetFullNamePipe } from '../../../../../shared/pipes/get-full-name.pipe';
 
 import { ChatComponent } from './chat.component';
 
@@ -8,12 +13,19 @@ describe('ChatComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ChatComponent ]
-    })
-    .compileComponents();
+      declarations: [ChatComponent, GetFullNamePipe],
+      imports: [RouterTestingModule, NgxsModule.forRoot([])]
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ChatComponent);
     component = fixture.componentInstance;
+    component.chatRoom = {
+      parent: {
+        lastName: '',
+        firstName: '',
+        middleName: ''
+      } as ParentWithContactInfo
+    } as ChatRoom;
     fixture.detectChanges();
   });
 
