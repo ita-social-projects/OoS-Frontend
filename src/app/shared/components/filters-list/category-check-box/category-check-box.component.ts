@@ -52,7 +52,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
 
     this.directionSearchFormControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((val: string) => this.onDirectionFilter(val));
+      .subscribe((val: string) => this.filterDirections(val));
   }
 
   /**
@@ -74,7 +74,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    * This method filter directions according to the input value
    * @param value string
    */
-  onDirectionFilter(value: string): void {
+   private filterDirections(value: string): void {
     this.filteredDirections = this.allDirections.filter((direction: Direction) =>
       direction.title.toLowerCase().startsWith(value.toLowerCase())
     );
