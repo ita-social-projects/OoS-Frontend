@@ -26,6 +26,8 @@ import {
 import { ChatState } from '../../../../../shared/store/chat.state';
 import { NavBarName } from '../../../../../shared/enum/navigation-bar';
 import { Location } from '@angular/common';
+import { Role } from '../../../../../shared/enum/role';
+import { RegistrationState } from '../../../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-chat',
@@ -33,6 +35,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
+  readonly Role = Role;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   messages: Message[];
@@ -42,11 +45,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   };
   isMobileView: boolean;
   chatRoom: ChatRoom;
+  userRole: Role;
 
   @Select(ChatState.selectedChatRoomMessages)
   messages$: Observable<Message[]>;
   @Select(ChatState.selectedChatRoom)
   chatRoom$: Observable<ChatRoom>;
+  @Select(RegistrationState.role)
+  role$: Observable<Role>;
 
   @ViewChild('chat') chatEl: ElementRef;
 
@@ -64,6 +70,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.addNavPath();
     this.getChatRoom();
+    this.getUserRole();
     this.addListeners();
     this.onResize(window);
   }
@@ -79,6 +86,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   getChatRoom() {
     const chatRoomId = this.route.snapshot.queryParams['chatRoomId'];
     this.store.dispatch(new GetChatRoomById(chatRoomId));
+  }
+
+  getUserRole() {
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => {
+      this.userRole = role;
+    });
   }
 
   addNavPath() {
