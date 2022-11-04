@@ -26,7 +26,6 @@ import {
   GetInstitutionStatus,
   ClearCodeficatorSearch,
   ClearRatings,
-  FilteredDirectionsList,
   GetAchievementsType,
   GetAllByInstitutionAndLevel,
   GetAllInstitutions,
@@ -45,7 +44,6 @@ export interface MetaDataStateModel {
   socialGroups: SocialGroup[];
   institutionStatuses: InstitutionStatus[];
   achievementsTypes: AchievementType[];
-  filteredDirections: Direction[];
   rating: Rate[];
   isLoading: boolean;
   featuresList: FeaturesList;
@@ -59,11 +57,11 @@ export interface MetaDataStateModel {
 @State<MetaDataStateModel>({
   name: 'metaDataState',
   defaults: {
-    directions: [],
+    directions: null,
     socialGroups: [],
     institutionStatuses: null,
     achievementsTypes: null,
-    filteredDirections: [],
+
     rating: [],
     isLoading: false,
     featuresList: { release1: true, release2: true, release3: false },
@@ -95,11 +93,6 @@ export class MetaDataState {
   @Selector()
   static achievementsTypes(state: MetaDataStateModel): AchievementType[] {
     return state.achievementsTypes;
-  }
-
-  @Selector()
-  static filteredDirections(state: MetaDataStateModel): Direction[] {
-    return state.filteredDirections;
   }
 
   @Selector()
@@ -190,11 +183,6 @@ export class MetaDataState {
   @Action(ClearRatings)
   clearRatings({ patchState }: StateContext<MetaDataStateModel>, {}: ClearRatings): void {
     patchState({ rating: null });
-  }
-
-  @Action(FilteredDirectionsList)
-  filteredDirectionsList({ patchState }: StateContext<MetaDataStateModel>, { payload }: FilteredDirectionsList): void {
-    patchState({ filteredDirections: payload });
   }
 
   @Action(GetRateByEntityId)

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { SearchResponse } from '../../../models/search.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
-import { Direction } from '../../../models/category.model';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filter-state.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
@@ -103,8 +102,8 @@ export class AppWorkshopsService {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
 
-    if (!!filters.directions.length) {
-      filters.directions.forEach((direction: Direction) => (params = params.append('DirectionIds', direction.id.toString())));
+    if (!!filters.directionIds.length) {
+      filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
     }
 
     if (isMapView) {
