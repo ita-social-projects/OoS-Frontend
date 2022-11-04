@@ -3,7 +3,10 @@
     !chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'
   "
 >
-  <mat-card-content class="card-block card-block__message">
+  <mat-card-content
+    class="card-block card-block__message"
+    [routerLink]="['./', chatRoom.id]"
+  >
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
       <p class="text">

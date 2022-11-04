@@ -4,6 +4,9 @@
   display: flex;
   flex-direction: column;
   height: 580px;
+
+  margin-bottom: 32px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 }
 
 .chat-card ::ng-deep .mat-icon{
@@ -12,6 +15,9 @@
 
 .header{
   display: flex;
+
+  padding-bottom: 16px;
+
   border-bottom: 1px #e3e3e3 solid;
 
   p{
@@ -32,13 +38,6 @@
     font-weight: 700;
     font-size: 18px;
     line-height: 20px;
-  }
-
-  &__subtitle{
-    font-family: 'Open Sans';
-    font-size: 13px;
-    line-height: 18px;
-    color: #3849F9;
   }
 }
 

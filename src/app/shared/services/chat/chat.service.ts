@@ -21,4 +21,8 @@ export class ChatService {
   ): Observable<Message[]> {
     return this.http.get<Message[]>('assets/mocks/messages.json');
   }
+
+  getChatRoomById(chatRoomId: string) {
+    return this.http.get<ChatRoom>('assets/mocks/chatRoom.json');
+  }
 }

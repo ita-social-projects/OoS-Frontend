@@ -3,20 +3,29 @@ import {
   Component,
   ElementRef,
   HostListener,
-  Input,
   OnDestroy,
   OnInit,
   ViewChild
 } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { GetChatRoomMessages } from 'src/app/shared/store/chat.actions';
+import {
+  GetChatRoomById,
+  GetChatRoomMessages
+} from '../../../../../shared/store/chat.actions';
+import {
+  PopNavPath,
+  PushNavPath
+} from '../../../../../shared/store/navigation.actions';
 import {
   ChatRoom,
   Message,
   MessagesParameters
 } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
+import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-chat',
@@ -32,11 +41,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     size: 0
   };
   isMobileView: boolean;
+  chatRoom: ChatRoom;
 
   @Select(ChatState.selectedChatRoomMessages)
   messages$: Observable<Message[]>;
-
-  @Input() chatRoom: ChatRoom;
+  @Select(ChatState.selectedChatRoom)
+  chatRoom$: Observable<ChatRoom>;
 
   @ViewChild('chat') chatEl: ElementRef;
 
@@ -45,20 +55,16 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.isMobileView = event.outerWidth < 530;
   }
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private location: Location
+  ) {}
 
   ngOnInit(): void {
-    this.store.dispatch(
-      new GetChatRoomMessages(this.chatRoom.id, this.messagesParameters)
-    );
-    this.messages$
-      .pipe(
-        filter((messages: Message[]) => !!messages),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((messages: Message[]) => {
-        this.messages = messages;
-      });
+    this.addNavPath();
+    this.getChatRoom();
+    this.addListeners();
     this.onResize(window);
   }
 
@@ -70,7 +76,49 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }, 100);
   }
 
+  getChatRoom() {
+    const chatRoomId = this.route.snapshot.queryParams['chatRoomId'];
+    this.store.dispatch(new GetChatRoomById(chatRoomId));
+  }
+
+  addNavPath() {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Chat,
+        isActive: false,
+        disable: true
+      })
+    );
+  }
+
+  addListeners() {
+    this.chatRoom$
+      .pipe(
+        filter((chatRoom: ChatRoom) => !!chatRoom),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((chatRoom: ChatRoom) => {
+        this.chatRoom = chatRoom;
+        this.store.dispatch(
+          new GetChatRoomMessages(this.chatRoom.id, this.messagesParameters)
+        );
+      });
+    this.messages$
+      .pipe(
+        filter((messages: Message[]) => !!messages),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((messages: Message[]) => {
+        this.messages = messages;
+      });
+  }
+
+  onBack() {
+    this.location.back();
+  }
+
   ngOnDestroy(): void {
+    this.store.dispatch(new PopNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
