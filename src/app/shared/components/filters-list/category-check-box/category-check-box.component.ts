@@ -41,22 +41,6 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   constructor(private store: Store) {}
 
   ngAfterViewInit(): void {
-
-
-    // const selectedElement: ElementRef[] = this.filterContainer.nativeElement.children;
-    // let id: number = 0;
-    // for(let i: number = 1; i <= selectedElement.length; i++ ){
-    //   console.dir(selectedElement[i]);
-    //   // if(elements.classList.contains('mat-checkbox-checked')){
-    //   //   id = i;
-    //   //   break
-    //   // }
-    // }
-    // this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[id].offsetTop;
-
-
-    // const selectedItem = itemsList.find(el => el.classList.contains('mat-checkbox-checked'))
-
     this.directions$.pipe(filter((direction)=> !!direction), 
     takeUntil(this.destroy$)).subscribe(directions => {
       this.allDirections = directions; 
@@ -65,9 +49,6 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
         this.scrollToSelectedDirection();
       };
     });
-
-
-
   }  
 
   ngOnInit(): void {
