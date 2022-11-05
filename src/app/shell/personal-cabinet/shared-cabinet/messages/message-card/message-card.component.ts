@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, Output, ViewChildren } from '@angular/core';
+import { MatIcon } from '@angular/material/icon';
 import { Constants } from '../../../../../shared/constants/constants';
 import { Role } from '../../../../../shared/enum/role';
 import { ChatRoom } from '../../../../../shared/models/chat.model';
@@ -8,7 +9,7 @@ import { ChatRoom } from '../../../../../shared/models/chat.model';
   templateUrl: './message-card.component.html',
   styleUrls: ['./message-card.component.scss']
 })
-export class MessageCardComponent {
+export class MessageCardComponent implements AfterViewInit {
   readonly Role = Role;
   readonly constants = Constants;
 
@@ -17,7 +18,16 @@ export class MessageCardComponent {
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
 
+  @ViewChildren('stopPropagation') stopPropagationElements: MatIcon[];
+
   constructor() {}
+  ngAfterViewInit(): void {
+    this.stopPropagationElements.forEach((el: MatIcon) => {
+      el._elementRef.nativeElement.onclick = (event: PointerEvent) => {
+        event.stopPropagation();
+      };
+    });
+  }
 
   onBlock(): void {
     this.block.emit(this.chatRoom.parentId);
