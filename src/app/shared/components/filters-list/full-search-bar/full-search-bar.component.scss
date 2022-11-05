@@ -8,7 +8,7 @@
     width: 280px;
     vertical-align: bottom;
     
-    @media(max-width: 375px){
+    @media(max-width: 375px) {
       width: auto;
     }
   }
@@ -22,15 +22,15 @@
     }
   }
 }
-.max-height{
+.max-height {
   max-height: 40px;
 }
 
-.icon{
+.icon {
   margin: 0 0.5rem 0 1rem;
   color: #AAAAAA;
 }
 
-.search ::ng-deep .mat-icon{
+.search ::ng-deep .mat-icon {
   overflow: visible;
 }

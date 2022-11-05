@@ -1,4 +1,4 @@
-.wrapper{
+.wrapper {
   margin: 2rem 1rem;
 }
 
@@ -9,6 +9,7 @@
   font-weight: 700;
   color: black;
 }
+
 .section-title {
   margin: 1rem 0;
 }
@@ -32,27 +33,27 @@
   border: 1px solid #EBEBEB;
   background: #FFFFFF;
   color: #AAAAAA;
-  &-selected{
+  &-selected {
     color: #454545;
     background: rgba(56, 73, 249, 0.07);
     border: 1px solid rgb(170, 170, 170, 0.1);
   }
-  &:first-child{
+  &:first-child {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
   }
-  &:last-child{
+  &:last-child {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
   }
 }
 
-.text{
+.text {
   font-family: Open Sans;
   font-weight: 700;
   color: #AAAAAA;
   padding: 5px;
-  &:last-child{
+  &:last-child {
     padding: 5px 5px 5px 0px;
   }
 }

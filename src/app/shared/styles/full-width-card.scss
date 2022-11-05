@@ -23,7 +23,7 @@ p {
   }
 }
 
-.title{
+.title {
   font-family: 'Innerspace';
   font-style: normal;
   font-weight: bold;
@@ -32,24 +32,24 @@ p {
   color: #000000;
 }
 
-.text{
+.text {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-size: 13px;
   line-height: 18px;
   padding: 0px;
 
-  &-bold{
+  &-bold {
     font-weight: 700;
   }
-  &-link{
+  &-link {
     &:hover {
       color: #3849F9;
       cursor: pointer;
       opacity: 0.5;
     }
   }
-  &_icon{
+  &_icon {
     color: #AAAAAA;
     width: 16px;
     height: 16px;
@@ -60,7 +60,7 @@ p {
 .card-block {
   margin: 0px;
 
-  &:not(:first-child){
+  &:not(:first-child) {
     padding-left: 5px;
   }  
   &__actions {
@@ -79,7 +79,7 @@ p {
   width: 16px;
   overflow: visible;
   margin-top: 2px;
-  &__actions{
+  &__actions {
     margin: 0 8px;
   }
 }

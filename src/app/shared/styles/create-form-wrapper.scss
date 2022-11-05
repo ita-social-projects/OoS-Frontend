@@ -1,6 +1,6 @@
 @import "src/app/shared/styles/buttons.scss";
 
-.create-form{
+.create-form {
   display: flex;
   flex-direction: row;
   justify-content: center;
@@ -21,7 +21,7 @@
   margin: 1rem 0;
   box-sizing: border-box;
 
-  p,h3{
+  p,h3 {
     margin: 0;
     padding: 0;
   }
@@ -88,23 +88,23 @@
 }
 
 @media (max-width: 750px) {
-  .wrapper-title{
+  .wrapper-title {
     margin: 1rem 0;
   }
-  .create-form{
+  .create-form {
     display: block;
     &-header{
       margin: 0 0 1rem;
     }
   }
-  .wrapper{
+  .wrapper {
     padding-top: 1rem;
     margin: 1rem auto;
   }
-  .btn{
+  .btn {
     margin-top: 1rem !important;
   }
-  .footer{
+  .footer {
     display: flex;
     flex-direction: column !important;
     justify-content: center;
@@ -112,7 +112,7 @@
   }
 }
 @media only screen and (max-width: 650px) {
-  .step-name{
+  .step-name {
     display: none;
   }
 }

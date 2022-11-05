@@ -75,25 +75,25 @@
 }
 
 @media (max-width: 1200px) {
-  .form-wrapper{
+  .form-wrapper {
     justify-content: end;
   }
-  .filters-wrapper{
+  .filters-wrapper {
     flex-wrap: wrap;
     row-gap: 10px;
     justify-content: center;
   }
 }
 
-@media (max-width: 440px){
-  .filters-period{
-    span{
+@media (max-width: 440px) {
+  .filters-period {
+    span {
       display: block;
       width: 100%;
       margin: 0 0 5px 10px;
     }
   }
-  .separate-line{
+  .separate-line {
     position: relative;
     top: 10px;
   }

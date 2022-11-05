@@ -3,7 +3,7 @@
   fxLayout="column"
   fxLayoutAlign="center space-between"
   class="step form"
-  [ngClass]="childrenAmount > 1 ? 'step-border' : ''"
+  [ngClass]="{ 'step-border': !!childrenAmount }"
 >
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
@@ -187,7 +187,7 @@
   <div
     fxLayout="row"
     fxLayoutAlign="center"
-    *ngIf="childrenAmount > 1"
+    *ngIf="!!childrenAmount"
     class="addChild"
   >
     <button class="btn-reset" mat-button (click)="onDelete()">
