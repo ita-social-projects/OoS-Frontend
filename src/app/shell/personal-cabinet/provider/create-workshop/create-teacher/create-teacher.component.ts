@@ -11,7 +11,7 @@ import { Teacher } from '../../../../../shared/models/teacher.model';
 @Component({
   selector: 'app-create-teacher',
   templateUrl: './create-teacher.component.html',
-  styleUrls: ['./create-teacher.component.scss'],
+  styleUrls: ['./create-teacher.component.scss']
 })
 export class CreateTeacherComponent implements OnInit {
   TeacherFormArray: FormArray = new FormArray([]);
@@ -52,27 +52,27 @@ export class CreateTeacherComponent implements OnInit {
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       firstName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       gender: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300)
+      ])
     });
 
     if (teacher) {
@@ -87,9 +87,7 @@ export class CreateTeacherComponent implements OnInit {
   private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
-      teacherFormGroup
-        .get('coverImageId')
-        .setValue([teacher.coverImageId], { emitEvent: false });
+      teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
     }
   }
 
@@ -98,8 +96,7 @@ export class CreateTeacherComponent implements OnInit {
    * @param index: number
    */
   onDeleteForm(index: number): void {
-    const teacherFormGroup: AbstractControl =
-      this.TeacherFormArray.controls[index];
+    const teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
     const isPristine = teacherFormGroup.pristine;
 
     if (teacherFormGroup.status === 'VALID' || !isPristine) {
@@ -107,15 +104,11 @@ export class CreateTeacherComponent implements OnInit {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteTeacher,
-          property: '',
-        },
+          property: ''
+        }
       });
 
-      dialogRef
-        .afterClosed()
-        .subscribe(
-          (result: boolean) => result && this.TeacherFormArray.removeAt(index)
-        );
+      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
     } else {
       this.TeacherFormArray.removeAt(index);
     }

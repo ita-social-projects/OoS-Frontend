@@ -1,10 +1,4 @@
-import {
-  AfterViewInit,
-  Component,
-  Input,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log-tabs';

@@ -24,8 +24,8 @@ export interface MainPageStateModel {
     isLoadingData: false,
     headerInfo: null,
     topWorkshops: null,
-    topDirections: null,
-  },
+    topDirections: null
+  }
 })
 @Injectable()
 export class MainPageState {
@@ -49,14 +49,18 @@ export class MainPageState {
     return state.topWorkshops;
   }
 
-  constructor(private categoriesService: DirectionsService, private appWorkshopsService: AppWorkshopsService, private platformSercice: PlatformService) {}
+  constructor(
+    private categoriesService: DirectionsService,
+    private appWorkshopsService: AppWorkshopsService,
+    private platformSercice: PlatformService
+  ) {}
 
   @Action(GetMainPageInfo)
   getMainPageInfo({ patchState }: StateContext<MainPageStateModel>): Observable<CompanyInformation> {
     patchState({ isLoadingData: true });
     return this.platformSercice
       .getPlatformInfo(AdminTabsTitle.MainPage)
-      .pipe(tap((headerInfo: CompanyInformation) => patchState({headerInfo, isLoadingData: false})));
+      .pipe(tap((headerInfo: CompanyInformation) => patchState({ headerInfo, isLoadingData: false })));
   }
 
   @Action(GetTopDirections)
@@ -68,14 +72,10 @@ export class MainPageState {
   }
 
   @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState }: StateContext<MainPageStateModel>, { }: GetTopWorkshops): Observable<WorkshopCard[]> {
+  getTopWorkshops({ patchState }: StateContext<MainPageStateModel>, {}: GetTopWorkshops): Observable<WorkshopCard[]> {
     patchState({ isLoadingData: true });
     return this.appWorkshopsService
       .getTopWorkshops()
-      .pipe(
-        tap((filterResult: WorkshopCard[]) =>
-          patchState({ topWorkshops: filterResult ? filterResult : [], isLoadingData: false })
-        )
-      );
+      .pipe(tap((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult ? filterResult : [], isLoadingData: false })));
   }
 }

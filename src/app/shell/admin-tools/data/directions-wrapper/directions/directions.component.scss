@@ -1,11 +1,10 @@
+@import 'src/app/shared/styles/card-wrapper.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/pagination.scss';
+@import 'src/app/shared/styles/search.scss';
 
-@import "src/app/shared/styles/card-wrapper.scss";
-@import "src/app/shared/styles/list-wrappers.scss";
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/pagination.scss";
-@import "src/app/shared/styles/search.scss";
-
-.wrapper{
+.wrapper {
   p {
     font-family: Open Sans;
     font-style: normal;
@@ -17,7 +16,7 @@
 
 .link {
   color: blue;
-  font-weight: 300!important;
+  font-weight: 300 !important;
 }
 
 .support-title {
@@ -26,11 +25,11 @@
 
 .config-button {
   font-weight: 300;
-  font-family:Open Sans;
+  font-family: Open Sans;
 }
 
 .config-support p {
-    margin: 0;
+  margin: 0;
 }
 
 .header-wrapper {

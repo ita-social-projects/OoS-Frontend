@@ -15,12 +15,7 @@ import { NotificationsText } from '../../../enum/enumUA/notifications';
 import { NotificationWorkshopStatusUkr } from '../../../enum/enumUA/workshop';
 import { NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
-import {
-  NotificationGrouped,
-  Notifications,
-  NotificationsAmount,
-  Notification
-} from '../../../models/notifications.model';
+import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
 import {
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
@@ -47,20 +42,14 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly statuses = Statuses;
   readonly notificationText = NotificationsText;
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
     this.notificationsAmount$
       .pipe(
         takeUntil(this.destroy$),
-        filter(
-          (notificationsAmount: NotificationsAmount) => !!notificationsAmount
-        )
+        filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
       )
       .subscribe((notificationsAmount: NotificationsAmount) => {
         this.notificationsAmount = notificationsAmount.amount;
@@ -76,16 +65,14 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
     this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
-    const userRole: Role = this.store.selectSnapshot<Role>(
-      RegistrationState.role
-    );
+    const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
     switch (NotificationType[notificationsGrouped.type]) {
       case NotificationType.Application:
         const status: string = Statuses[notificationsGrouped.groupedData];
-        this.router.navigate(
-          [`/personal-cabinet/${userRole}/${NotificationType.Application}/`],
-          { relativeTo: this.route, queryParams: { status: status } }
-        );
+        this.router.navigate([`/personal-cabinet/${userRole}/${NotificationType.Application}/`], {
+          relativeTo: this.route,
+          queryParams: { status: status }
+        });
         break;
       case NotificationType.Workshop:
         break;

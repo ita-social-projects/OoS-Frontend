@@ -1,15 +1,5 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import {
-  Component,
-  ElementRef,
-  Input,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  ChangeDetectionStrategy,
-  Output,
-  EventEmitter,
-} from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -29,10 +19,10 @@ import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
     trigger('fade', [transition('* => true', [style({ bottom: '-25px', opacity: 0 }), animate('200ms ease-in-out')])]),
     trigger('triggerName', [
       transition(':decrement', [animate('0.2s ease-in-out', style({ transform: 'translateX(+92vw)' }))]),
-      transition(':increment', [animate('0.2s ease-in-out', style({ transform: 'translateX(-92vw)' }))]),
-    ]),
+      transition(':increment', [animate('0.2s ease-in-out', style({ transform: 'translateX(-92vw)' }))])
+    ])
   ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   readonly Role = Role;
@@ -113,10 +103,9 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.currentWorkShopIndex = 0;
     this.direct = null;
 
-    if ( this.isSelectedMarker) {
+    if (this.isSelectedMarker) {
       this.selectedWorkshops = this.workshops.filter(
-        (workshop: WorkshopCard) =>
-          address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
+        (workshop: WorkshopCard) => address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
       );
       this.workshopDetailsAnimationState = true;
     } else {

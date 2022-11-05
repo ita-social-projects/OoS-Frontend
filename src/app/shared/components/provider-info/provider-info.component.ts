@@ -1,10 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {
-  CreateProviderSteps,
-  OwnershipType,
-  ProviderType,
-} from '../../enum/provider';
+import { CreateProviderSteps, OwnershipType, ProviderType } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
 import { MetaDataState } from '../../store/meta-data.state';
@@ -19,7 +15,7 @@ import { ActivateEditMode } from '../../store/app.actions';
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
-  styleUrls: ['./provider-info.component.scss'],
+  styleUrls: ['./provider-info.component.scss']
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
@@ -38,7 +34,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-    institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -49,7 +45,8 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
     this.institutionStatuses$
       .pipe(
         takeUntil(this.destroy$),
-        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses))
+        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses)
+      )
       .subscribe((institutionStatuses: InstitutionStatus[]) => {
         this.institutionStatusName = institutionStatuses.find(
           (item: InstitutionStatus) => item.id === this.provider.institutionStatusId

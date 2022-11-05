@@ -7,14 +7,7 @@
 >
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="lastName"
-      autocomplete="none"
-      appTrimValue
-    />
+    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('lastName')"
@@ -25,14 +18,7 @@
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="firstName"
-      autocomplete="none"
-      appTrimValue
-    />
+    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('firstName')"
@@ -41,18 +27,9 @@
   >
   </app-validation-hint>
 
-  <label class="step-label"
-    >По-батькові<span class="step-required">*</span></label
-  >
+  <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="middleName"
-      autocomplete="none"
-      appTrimValue
-    />
+    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('middleName')"
@@ -61,14 +38,8 @@
   >
   </app-validation-hint>
 
-  <label class="step-label"
-    >Дата народження<span class="step-required">*</span></label
-  >
-  <mat-form-field
-    appPlaceholderStyling
-    class="step-input step-input-date"
-    floatLabel="never"
-  >
+  <label class="step-label">Дата народження<span class="step-required">*</span></label>
+  <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
     <input
       [min]="minDate"
       [max]="maxDate"
@@ -93,8 +64,7 @@
     <mat-radio-button class="step-radio" [value]="0">Чоловіча</mat-radio-button>
     <mat-radio-button class="step-radio" [value]="1">Жіноча</mat-radio-button>
   </mat-radio-group>
-  <app-validation-hint [validationFormControl]="ChildFormGroup.get('gender')">
-  </app-validation-hint>
+  <app-validation-hint [validationFormControl]="ChildFormGroup.get('gender')"> </app-validation-hint>
 
   <label class="step-label">Соціальна група</label>
   <mat-form-field appearance="none">
@@ -110,21 +80,13 @@
     >
       <mat-select-trigger>
         <mat-chip-list #chipList>
-          <mat-chip
-            *ngFor="let group of socialGroupControl.value"
-            (removed)="onRemoveItem(group)"
-          >
+          <mat-chip *ngFor="let group of socialGroupControl.value" (removed)="onRemoveItem(group)">
             <span>{{ group.name }}</span>
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
         </mat-chip-list>
       </mat-select-trigger>
-      <mat-option
-        class="dropdown-option"
-        *ngFor="let group of socialGroups"
-        [value]="group"
-        [disabled]="checkDisabled(group)"
-      >
+      <mat-option class="dropdown-option" *ngFor="let group of socialGroups" [value]="group" [disabled]="checkDisabled(group)">
         {{ group.name }}
       </mat-option>
     </mat-select>
@@ -132,14 +94,7 @@
 
   <label class="step-label">Місце проживання</label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="placeOfLiving"
-      autocomplete="none"
-      appTrimValue
-    />
+    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
@@ -150,14 +105,7 @@
 
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="placeOfStudy"
-      autocomplete="none"
-      appTrimValue
-    />
+    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
@@ -168,14 +116,7 @@
 
   <label class="step-label">Серія та номер свідоцтва про народження</label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="certificateOfBirth"
-      autocomplete="none"
-      appTrimValue
-    />
+    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
@@ -184,15 +125,9 @@
   >
   </app-validation-hint>
 
-  <div
-    fxLayout="row"
-    fxLayoutAlign="center"
-    *ngIf="!!childrenAmount"
-    class="addChild"
-  >
+  <div fxLayout="row" fxLayoutAlign="center" *ngIf="!!childrenAmount" class="addChild">
     <button class="btn-reset" mat-button (click)="onDelete()">
-      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про
-      дитину
+      <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину
     </button>
   </div>
 </form>

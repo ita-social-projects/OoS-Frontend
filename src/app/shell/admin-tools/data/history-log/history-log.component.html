@@ -15,31 +15,33 @@
     <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
   </div>
 
-  <div class="tab-wrapper">  
+  <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab [label]="historyLogTabsUkr.Provider">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: provider, tableTitle: 'Provider'}">
-        </ng-container>
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: provider, tableTitle: 'Provider' }"> </ng-container>
       </mat-tab>
       <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: providerAdmin, tableTitle: 'ProviderAdmin'}">
-        </ng-container>
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdmin, tableTitle: 'ProviderAdmin' }"> </ng-container>
       </mat-tab>
       <mat-tab [label]="historyLogTabsUkr.Application">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context:{table: application, tableTitle: 'Application'}">
-        </ng-container>
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: application, tableTitle: 'Application' }"> </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
 
   <ng-template #HistoryLogTable let-table="table" let-tableTitle="tableTitle">
     <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-      <ng-container *ngIf="table?.length else isEmptyList;">
+      <ng-container *ngIf="table?.length; else isEmptyList">
         <div class="table-wrapper">
           <app-history-log-table [table]="table" [tableTitle]="tableTitle"></app-history-log-table>
         </div>
-        <app-paginator [totalEntities]="table.length" [currentPage]="currentPage" [itemsPerPage]="itemsPerPage"
-          (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
+        <app-paginator
+          [totalEntities]="table.length"
+          [currentPage]="currentPage"
+          [itemsPerPage]="itemsPerPage"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)"
+        >
         </app-paginator>
       </ng-container>
     </ng-container>
@@ -51,5 +53,3 @@
     </div>
   </ng-template>
 </div>
-
-

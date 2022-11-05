@@ -10,7 +10,6 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinMaxDirective } from '../../../directives/min-max.directive';
 
-
 describe('PriceFilterComponent', () => {
   let component: PriceFilterComponent;
   let fixture: ComponentFixture<PriceFilterComponent>;
@@ -28,12 +27,8 @@ describe('PriceFilterComponent', () => {
         NgxsModule.forRoot([]),
         MatIconModule
       ],
-      declarations: [
-        PriceFilterComponent,
-        MinMaxDirective
-      ],
-    })
-      .compileComponents();
+      declarations: [PriceFilterComponent, MinMaxDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {

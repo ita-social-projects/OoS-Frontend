@@ -12,16 +12,9 @@ describe('InfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-        MatButtonModule,
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [ InfoCardComponent ]
-    })
-      .compileComponents();
+      imports: [MatIconModule, RouterTestingModule, BrowserAnimationsModule, MatButtonModule, NgxsModule.forRoot([])],
+      declarations: [InfoCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

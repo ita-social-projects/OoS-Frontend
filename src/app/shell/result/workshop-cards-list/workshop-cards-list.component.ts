@@ -14,7 +14,7 @@ import { SearchResponse } from '../../../shared/models/search.model';
 @Component({
   selector: 'app-workshop-cards-list',
   templateUrl: './workshop-cards-list.component.html',
-  styleUrls: ['./workshop-cards-list.component.scss'],
+  styleUrls: ['./workshop-cards-list.component.scss']
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
@@ -28,7 +28,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Output() itemsPerPageChange = new EventEmitter<number>();
 
   @Select(FilterState.isLoading)
-    isLoadingResultPage$: Observable<boolean>;
+  isLoadingResultPage$: Observable<boolean>;
 
   isVisible = false;
   parent: boolean;
@@ -39,7 +39,10 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workshops$
-      .pipe(takeUntil(this.destroy$), filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops))
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops)
+      )
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
   }
 

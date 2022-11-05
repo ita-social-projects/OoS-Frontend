@@ -9,25 +9,25 @@
   margin-right: 2rem;
   margin-bottom: 2rem;
 
-  &_edit-icon{
+  &_edit-icon {
     position: absolute;
     top: 18px;
     right: 10px;
     z-index: 2;
-    color : #3849F9;
+    color: #3849f9;
   }
-  .important{
-    color : red;
+  .important {
+    color: red;
   }
-  .link{
-    color : #3849F9;
+  .link {
+    color: #3849f9;
     font-weight: 600;
     cursor: pointer;
   }
 }
 
-@media(max-width: 750px) {
-  .config{
+@media (max-width: 750px) {
+  .config {
     margin: 0 0 1rem 0;
   }
 }

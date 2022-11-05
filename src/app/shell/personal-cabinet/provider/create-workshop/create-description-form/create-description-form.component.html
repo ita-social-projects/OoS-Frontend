@@ -1,6 +1,12 @@
-<form [formGroup]="DescriptionFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <app-image-form-control *ngIf="isRelease3" [imgMaxAmount]="10" [cropperConfig]="cropperConfig" [label]="'Фото'" formControlName="imageFiles"
-    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
+<form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <app-image-form-control
+    *ngIf="isRelease3"
+    [imgMaxAmount]="10"
+    [cropperConfig]="cropperConfig"
+    [label]="'Фото'"
+    formControlName="imageFiles"
+    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')"
+  >
   </app-image-form-control>
 
   <app-info-form
@@ -9,7 +15,8 @@
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-    (deleteForm)="onDeleteForm($event)">
+    (deleteForm)="onDeleteForm($event)"
+  >
   </app-info-form>
 
   <button
@@ -17,31 +24,37 @@
     [disabled]="SectionItemsFormArray.invalid"
     class="btn-add"
     mat-button
-    (click)="onAddForm()">
+    (click)="onAddForm()"
+  >
     <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
   </button>
 
   <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
-  <mat-radio-group
-    [formControl]="disabilityOptionRadioBtn"
-    color="primary"
-    fxLayout="column"
-    fxLayoutAlign="center space-between">
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
-    <input matInput class="step-input" [ngClass]="{'disabled-field' : !disabilityOptionRadioBtn.value}"
-      placeholder="Пандус/спец. обладнання" formControlName="disabilityOptionsDesc" autocomplete="none" appTrimValue>
-      <app-validation-hint
+    <input
+      matInput
+      class="step-input"
+      [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
+      placeholder="Пандус/спец. обладнання"
+      formControlName="disabilityOptionsDesc"
+      autocomplete="none"
+      appTrimValue
+    />
+    <app-validation-hint
       [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
       [minCharachters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-      </app-validation-hint>
+      [maxCharachters]="validationConstants.INPUT_LENGTH_256"
+    >
+    </app-validation-hint>
   </mat-radio-group>
 
   <app-institution-hierarchy
     [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
     [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')"
-    [provider]="provider">
+    [provider]="provider"
+  >
   </app-institution-hierarchy>
 
   <div class="step-label-combined">
@@ -70,7 +83,8 @@
         (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord"
         autocomplete="none"
-        appTrimValue />
+        appTrimValue
+      />
     </mat-chip-list>
   </div>
 </form>

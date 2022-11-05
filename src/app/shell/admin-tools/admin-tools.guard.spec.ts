@@ -8,7 +8,7 @@ describe('AdminToolsGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([])],
+      imports: [NgxsModule.forRoot([])]
     });
     guard = TestBed.inject(AdminToolsGuard);
   });

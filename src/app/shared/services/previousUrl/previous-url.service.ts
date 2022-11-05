@@ -6,18 +6,15 @@ import { filter } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class PreviousUrlService {
-
   private previousUrl: string = undefined;
   private currentUrl: string = undefined;
 
   constructor(private router: Router) {
     this.currentUrl = this.router.url;
-    router.events
-      .pipe(filter(event => event instanceof NavigationEnd))
-      .subscribe((event: NavigationEnd) => {
-        this.previousUrl = this.currentUrl;
-        this.currentUrl = event.url;
-      });
+    router.events.pipe(filter((event) => event instanceof NavigationEnd)).subscribe((event: NavigationEnd) => {
+      this.previousUrl = this.currentUrl;
+      this.currentUrl = event.url;
+    });
   }
 
   public getPreviousUrl(): string {

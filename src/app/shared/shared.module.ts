@@ -5,10 +5,7 @@ import { AgeFilterComponent } from './components/filters-list/age-filter/age-fil
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import {
-  WorkshopCardComponent,
-  WorkshopCardDialog
-} from './components/workshop-card/workshop-card.component';
+import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CategoryCardComponent } from './components/category-card/category-card.component';

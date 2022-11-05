@@ -4,31 +4,31 @@ export enum ProviderType {
   TOV,
   Private,
   EducationalInstitution,
-  Other,
+  Other
 }
 
 export enum OwnershipType {
   State,
   Common,
-  Private,
+  Private
 }
 
 export enum OwnershipTypeName {
   State = 'State',
   Common = 'Common',
-  Private = 'Private',
+  Private = 'Private'
 }
 
 export enum WorkshopType {
   Group,
   Section,
-  Class,
+  Class
 }
 
 export enum CreateProviderSteps {
   'info',
   'contacts',
-  'description',
+  'description'
 }
 
 export enum ProviderWorkshopSameValues {
@@ -36,5 +36,5 @@ export enum ProviderWorkshopSameValues {
   phone = 'phoneNumber',
   website = 'website',
   facebook = 'facebook',
-  instagram = 'instagram',
+  instagram = 'instagram'
 }

@@ -26,7 +26,7 @@ export enum DetailsTabTitles {
   Teachers = 'ВИКЛАДАЧІ',
   OtherWorkshops = 'ІНШІ ГУРТКИ ЗАКЛАДУ',
   Reviews = 'ВІДГУКИ',
-  Achievements = 'ДОСЯГНЕННЯ',
+  Achievements = 'ДОСЯГНЕННЯ'
 }
 
 export enum DetailsTabTitlesReverse {
@@ -35,5 +35,5 @@ export enum DetailsTabTitlesReverse {
   'ВИКЛАДАЧІ' = 'Teachers',
   'ІНШІ ГУРТКИ ЗАКЛАДУ' = 'OtherWorkshops',
   'ВІДГУКИ' = 'Reviews',
-  'ДОСЯГНЕННЯ' = 'Achievements',
+  'ДОСЯГНЕННЯ' = 'Achievements'
 }

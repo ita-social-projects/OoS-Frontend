@@ -3,7 +3,7 @@ export enum Role {
   parent = 'parent',
   unauthorized = 'unauthorized',
   techAdmin = 'techadmin',
-  ministryAdmin= 'ministryadmin',
+  ministryAdmin = 'ministryadmin',
   ProviderDeputy = 'ProviderDeputy',
   ProviderAdmin = 'ProviderAdmin',
   all = 'all',
@@ -15,7 +15,7 @@ export enum PersonalInfoRole {
   provider = 'Provider',
   parent = 'Parent',
   techadmin = 'TechAdmin',
-  ministryadmin = 'MinistryAdmin',
+  ministryadmin = 'MinistryAdmin'
 }
 
 export enum RoleLinks {

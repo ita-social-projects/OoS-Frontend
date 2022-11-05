@@ -12,7 +12,7 @@ import {
   OnUpdateUserSuccess,
   UpdateUser,
   OnUpdateUserFail,
-  GetUserPersonalInfo,
+  GetUserPersonalInfo
 } from './registration.actions';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
@@ -60,8 +60,8 @@ export interface RegistrationStateModel {
     techAdmin: undefined,
     ministryAdmin: undefined,
     role: Role.unauthorized,
-    subrole: null,
-  },
+    subrole: null
+  }
 })
 @Injectable()
 export class RegistrationState {
@@ -125,8 +125,8 @@ export class RegistrationState {
       customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
-        ProviderRegistration: payload,
-      },
+        ProviderRegistration: payload
+      }
     });
   }
 
@@ -138,7 +138,7 @@ export class RegistrationState {
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe(auth => {
+    this.oidcSecurityService.checkAuth().subscribe((auth) => {
       patchState({ isAuthorized: auth.isAuthenticated });
       if (auth.isAuthenticated) {
         this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
@@ -158,7 +158,7 @@ export class RegistrationState {
   onAuthFail(): void {
     this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
-      panelClass: ['red-snackbar'],
+      panelClass: ['red-snackbar']
     });
   }
 
@@ -176,22 +176,15 @@ export class RegistrationState {
   }
 
   @Action(GetProfile)
-  getProfile(
-    { patchState, getState }: StateContext<RegistrationStateModel>,
-    {}: GetProfile
-  ): Observable<Parent> | Observable<Provider> {
+  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, {}: GetProfile): Observable<Parent> | Observable<Provider> {
     const state = getState();
     patchState({ role: state.user.role as Role });
 
     switch (state.user.role) {
       case Role.parent:
-        return this.parentService
-          .getProfile()
-          .pipe(tap((parent: Parent) => patchState({ parent: parent })));
+        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
       case Role.techAdmin:
-        return this.techAdminService
-          .getProfile()
-          .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
+        return this.techAdminService.getProfile().pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       case Role.ministryAdmin:
         return this.ministryAdminService
           .getMinistryAdminProfile()
@@ -202,14 +195,9 @@ export class RegistrationState {
   }
 
   @Action(GetUserPersonalInfo)
-  getUserPersonalInfo(
-    { patchState }: StateContext<RegistrationStateModel>,
-    { userRole }: GetUserPersonalInfo
-  ): Observable<User> {
+  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>, { userRole }: GetUserPersonalInfo): Observable<User> {
     patchState({ isLoading: true });
-    return this.userService
-      .getPersonalInfo(userRole)
-      .pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
+    return this.userService.getPersonalInfo(userRole).pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
   }
 
   @Action(UpdateUser)
@@ -233,8 +221,8 @@ export class RegistrationState {
       new GetUserPersonalInfo(payload),
       new ShowMessageBar({
         message: SnackbarText.updateUser,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
     this.router.navigate(['/personal-cabinet/config']);
   }

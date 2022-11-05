@@ -56,14 +56,9 @@ import { SharedModule } from '../../../shared/shared.module';
     MaterialModule,
     SharedCabinetModule,
     RouterModule,
-    FormsModule,
+    FormsModule
   ],
 
-  providers: [
-    DatePipe,
-    GeolocationService
-  ],
-
+  providers: [DatePipe, GeolocationService]
 })
-export class ProviderModule {
-}
+export class ProviderModule {}

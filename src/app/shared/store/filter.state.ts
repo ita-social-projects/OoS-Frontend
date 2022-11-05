@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { EMPTY_RESULT } from '../constants/constants';
 import { ValidationConstants } from '../constants/validation';
-import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FilterStateModel } from '../models/filter-state.model';
 import { FilterList } from '../models/filterList.model';
@@ -41,14 +40,14 @@ import {
   SetSearchQueryValue,
   SetStartTime,
   SetWithDisabilityOption,
-  SetWorkingDays
+  SetWorkingDays,
 } from './filter.actions';
 import { SetFirstPage } from './paginator.actions';
 
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    directions: [],
+    directionIds: [],
     maxAge: null,
     minAge: null,
     isAppropriateAge: false,
@@ -71,21 +70,19 @@ import { SetFirstPage } from './paginator.actions';
     isConfirmCity: true,
     mapViewCoords: null,
     userRadiusSize: null,
-    isMapView: false
-  }
+    isMapView: false,
+  },
 })
 @Injectable()
 export class FilterState {
   @Selector()
-  static filteredWorkshops(
-    state: FilterStateModel
-  ): SearchResponse<WorkshopCard[]> {
+  static filteredWorkshops(state: FilterStateModel): SearchResponse<WorkshopCard[]> {
     return state.filteredWorkshops;
   }
 
   @Selector()
-  static directions(state: FilterStateModel): Direction[] {
-    return state.directions;
+  static directions(state: FilterStateModel): number[] {
+    return state.directionIds;
   }
 
   @Selector()
@@ -133,7 +130,7 @@ export class FilterState {
       isAppropriateAge,
       minAge,
       maxAge,
-      directions,
+      directionIds,
       minPrice,
       maxPrice,
       isFree,
@@ -142,37 +139,34 @@ export class FilterState {
       startTime,
       endTime,
       statuses,
-      order
+      order,
     } = state;
     return {
       withDisabilityOption,
       statuses,
-      categoryCheckBox: directions,
+      directionIds,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
         minPrice,
         maxPrice,
         isFree,
-        isPaid
+        isPaid,
       },
       workingHours: {
         workingDays,
         startTime,
         endTime,
         isStrictWorkdays,
-        isAppropriateHours
+        isAppropriateHours,
       },
-      order
+      order,
     };
   }
 
   constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
-  setCity(
-    { patchState, dispatch, getState }: StateContext<FilterStateModel>,
-    { payload, isConfirmedCity }: SetCity
-  ): void {
+  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
     patchState({ settlement: payload });
     if (isConfirmedCity) {
       localStorage.setItem('cityConfirmation', JSON.stringify(payload));
@@ -187,88 +181,58 @@ export class FilterState {
   }
 
   @Action(ConfirmCity)
-  confirmCity(
-    { patchState }: StateContext<FilterStateModel>,
-    { payload }: ConfirmCity
-  ): void {
+  confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
     patchState({ isConfirmCity: payload });
   }
 
   @Action(SetOrder)
-  setOrder(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetOrder
-  ): void {
+  setOrder({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOrder): void {
     patchState({ order: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetDirections)
-  setDirections(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetDirections
-  ): void {
-    patchState({ directions: payload });
+  setDirections({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
+    patchState({ directionIds: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetWorkingDays)
-  setWorkingDays(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetWorkingDays
-  ): void {
+  setWorkingDays({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWorkingDays): void {
     patchState({ workingDays: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetStartTime)
-  setStartTime(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetStartTime
-  ): void {
+  setStartTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
     patchState({ startTime: payload });
     dispatch(new FilterChange());
   }
   @Action(SetEndTime)
-  setEndTime(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetEndTime
-  ): void {
+  setEndTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
     patchState({ endTime: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetIsFree)
-  setIsFree(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetIsFree
-  ): void {
+  setIsFree({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
     patchState({ isFree: payload });
     dispatch(new FilterChange());
   }
   @Action(SetIsPaid)
-  setIsPaid(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetIsPaid
-  ): void {
+  setIsPaid({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
     patchState({ isPaid: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetMinPrice)
-  setMinPrice(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetMinPrice
-  ): void {
+  setMinPrice({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinPrice): void {
     patchState({ minPrice: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetMaxPrice)
-  setMaxPrice(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetMaxPrice
-  ): void {
+  setMaxPrice({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxPrice): void {
     patchState({ maxPrice: payload });
     dispatch(new FilterChange());
   }
@@ -283,10 +247,7 @@ export class FilterState {
   }
 
   @Action(SetOpenRecruitment)
-  setOpenRecruitment(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetOpenRecruitment
-  ): void {
+  setOpenRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
     patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
@@ -347,19 +308,13 @@ export class FilterState {
   }
 
   @Action(SetMinAge)
-  setMinAge(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetMinAge
-  ): void {
+  setMinAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinAge): void {
     patchState({ minAge: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetMaxAge)
-  setMaxAge(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetMaxAge
-  ): void {
+  setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge): void {
     patchState({ maxAge: payload });
     dispatch(new FilterChange());
   }
@@ -374,10 +329,7 @@ export class FilterState {
   }
 
   @Action(ResetFilteredWorkshops)
-  resetFilteredWorkshops(
-    { patchState }: StateContext<FilterStateModel>,
-    {}: ResetFilteredWorkshops
-  ): void {
+  resetFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, {}: ResetFilteredWorkshops): void {
     patchState({ filteredWorkshops: null });
   }
 
@@ -388,12 +340,9 @@ export class FilterState {
   }
 
   @Action(FilterClear)
-  FilterClear(
-    { patchState }: StateContext<FilterStateModel>,
-    {}: FilterChange
-  ): void {
+  FilterClear({ patchState, dispatch }: StateContext<FilterStateModel>, {}: FilterChange): void {
     patchState({
-      directions: [],
+      directionIds: [],
       maxAge: null,
       minAge: null,
       isAppropriateAge: false,
@@ -409,15 +358,13 @@ export class FilterState {
       order: 'Rating',
       withDisabilityOption: false,
       isStrictWorkdays: false,
-      isAppropriateHours: false
+      isAppropriateHours: false,
     });
+    dispatch(new FilterChange());
   }
 
   @Action(SetCoordsByMap)
-  SetCoordsByMap(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetCoordsByMap
-  ): void {
+  SetCoordsByMap({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCoordsByMap): void {
     patchState({ mapViewCoords: payload });
     dispatch(new FilterChange());
   }
@@ -428,10 +375,7 @@ export class FilterState {
   }
 
   @Action(SetRadiusSize)
-  SetRadiusSize(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetRadiusSize
-  ): void {
+  SetRadiusSize({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetRadiusSize): void {
     patchState({ userRadiusSize: payload });
     dispatch(new FilterChange());
   }
@@ -442,10 +386,7 @@ export class FilterState {
   }
 
   @Action(SetMapView)
-  SetMapView(
-    { patchState }: StateContext<FilterStateModel>,
-    { payload }: SetMapView
-  ): void {
+  SetMapView({ patchState }: StateContext<FilterStateModel>, { payload }: SetMapView): void {
     patchState({ isMapView: payload });
   }
 }

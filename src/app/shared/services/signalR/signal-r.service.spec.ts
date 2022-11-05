@@ -10,12 +10,8 @@ describe('SignalRService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-      ],
-      providers: [
-        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
-      ]
+      imports: [NgxsModule.forRoot([])],
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
     });
     service = TestBed.inject(SignalRService);
   });

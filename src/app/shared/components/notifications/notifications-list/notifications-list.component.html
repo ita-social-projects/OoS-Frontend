@@ -1,47 +1,25 @@
 <div class="container">
   <ng-container *ngIf="notificationsData$ | async as notificationsData">
     <h3 class="title">СПОВІЩЕННЯ</h3>
-    <ng-container
-      *ngIf="(notificationsAmount$ | async)?.amount; else isEmptyList"
-    >
-      <ng-container
-        *ngTemplateOutlet="
-          Notifications;
-          context: { $implicit: notificationsData }
-        "
-      >
-      </ng-container>
+    <ng-container *ngIf="(notificationsAmount$ | async)?.amount; else isEmptyList">
+      <ng-container *ngTemplateOutlet="Notifications; context: { $implicit: notificationsData }"> </ng-container>
     </ng-container>
   </ng-container>
 </div>
 
 <ng-template #isEmptyList>
-  <span fxLayout="row wrap" fxLayoutAlign="start start">{{
-    notificationsConstants.NO_MESSAGE
-  }}</span>
+  <span fxLayout="row wrap" fxLayoutAlign="start start">{{ notificationsConstants.NO_MESSAGE }}</span>
 </ng-template>
 
 <ng-template #Notifications let-notificationsData>
   <ng-container *ngIf="notificationsData.notificationsGrouped.length">
-    <span
-      *ngFor="let notifications of notificationsData.notificationsGrouped"
-      fxLayout="row wrap"
-      fxLayoutAlign="space-between center"
-      >{{
-        notifications.amount
-          | declination: defineDeclination(notifications.groupedData)
-      }}
-      <mat-icon class="icon" (click)="onReadGroup(notifications)">
-        arrow_forward</mat-icon
-      >
+    <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap" fxLayoutAlign="space-between center"
+      >{{ notifications.amount | declination: defineDeclination(notifications.groupedData) }}
+      <mat-icon class="icon" (click)="onReadGroup(notifications)"> arrow_forward</mat-icon>
     </span>
   </ng-container>
   <ng-container *ngIf="notificationsData.notifications.length">
-    <div
-      *ngFor="let notification of notificationsData.notifications"
-      matMenuItem
-      disableRipple="true"
-    >
+    <div *ngFor="let notification of notificationsData.notifications" matMenuItem disableRipple="true">
       <span fxLayout="row" fxLayoutAlign="space-between center">
         <div *ngIf="notification.data.Title">
           Набір у гурток "{{ notification.data.Title }}"
@@ -50,16 +28,11 @@
         <div *ngIf="notification.data.Status === statuses.Approved">
           {{ notificationText.Approved }}
         </div>
-        <div
-          class="editing"
-          *ngIf="notification.data.Status === statuses.Editing"
-        >
+        <div class="editing" *ngIf="notification.data.Status === statuses.Editing">
           {{ notificationText.Editing }}
         </div>
         <div>
-          <mat-icon class="icon" (click)="onReadSingle($event, notification)">
-            highlight_off
-          </mat-icon>
+          <mat-icon class="icon" (click)="onReadSingle($event, notification)"> highlight_off </mat-icon>
         </div>
       </span>
     </div>

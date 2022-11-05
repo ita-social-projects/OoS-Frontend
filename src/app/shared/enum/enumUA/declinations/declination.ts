@@ -1,44 +1,44 @@
 export enum ReviewDeclination {
   'відгук',
   'відгуки',
-  'відгуків',
+  'відгуків'
 }
 
 export enum ApplicationDeclination {
   'заява',
   'заяви',
-  'заяв',
+  'заяв'
 }
 
 export enum WorkshopDeclination {
   'гурток',
   'гуртки',
   'гуртків',
-  'Гуртки відсутні',
+  'Гуртки відсутні'
 }
 
 export enum HourDeclination {
   'година',
   'години',
-  'годин',
+  'годин'
 }
 
 export enum DayDeclination {
   'день',
   'дні',
-  'днів',
+  'днів'
 }
 
 export enum MonthDeclination {
   'місяць',
   'місяці',
-  'місяців',
+  'місяців'
 }
 
 export enum YearDeclination {
   'рік',
   'роки',
-  'років',
+  'років'
 }
 
 export enum ChildDeclination {

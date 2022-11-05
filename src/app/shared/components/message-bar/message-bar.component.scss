@@ -1,8 +1,8 @@
-.popup-body{
+.popup-body {
   height: 30px;
 }
 
-::ng-deep .mat-snack-bar-container{
+::ng-deep .mat-snack-bar-container {
   padding: 0.5rem 1rem;
   border-radius: 2rem;
   color: #444444;
@@ -14,49 +14,49 @@
   font-size: 13px;
   line-height: 19px;
 }
-:host ::ng-deep .mat-icon{
+:host ::ng-deep .mat-icon {
   height: 1.2rem;
   width: 1.2rem;
 }
 
-.icon{
+.icon {
   margin-right: 0.5rem;
   border-radius: 2rem;
   border: solid 1px #444444;
   font-size: 13px;
 }
 
-.action{
+.action {
   display: flex;
   justify-content: center;
   align-items: center;
 
   color: #444444;
   cursor: pointer;
-  &:hover{
-    opacity: 0.5;;
+  &:hover {
+    opacity: 0.5;
   }
 }
 
-::ng-deep .success{
-  background: #C4EBC5;
-  .icon{    
+::ng-deep .success {
+  background: #c4ebc5;
+  .icon {
     border: solid 1px #199953;
     color: #199953;
   }
 }
-::ng-deep .error{
-  background: #F8E4DD;
-  .icon{    
+::ng-deep .error {
+  background: #f8e4dd;
+  .icon {
     border: solid 1px #ff5252;
     color: #ff5252;
   }
 }
-::ng-deep .warningBlue{
-  background:#E1F1F9;
+::ng-deep .warningBlue {
+  background: #e1f1f9;
 }
-::ng-deep .warningYellow{
-  background:#FFBD00 30%;
+::ng-deep .warningYellow {
+  background: #ffbd00 30%;
 }
 
 .info {
@@ -69,7 +69,7 @@
   text-align: left;
 }
 
-.drop-below{
+.drop-below {
   position: relative;
   top: 1px;
   left: 0;

@@ -1,4 +1,13 @@
-import { AfterViewChecked, AfterViewInit, ComponentFactoryResolver, Directive, ElementRef, HostListener, Renderer2, ViewContainerRef } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ComponentFactoryResolver,
+  Directive,
+  ElementRef,
+  HostListener,
+  Renderer2,
+  ViewContainerRef
+} from '@angular/core';
 import { StretchCellComponent } from '../../components/stretch-cell/stretch-cell/stretch-cell.component';
 
 @Directive({
@@ -14,7 +23,7 @@ export class StretchTableDirective implements AfterViewInit {
     private componentFactoryResolver: ComponentFactoryResolver,
     private renderer: Renderer2,
     private viewContainerRef: ViewContainerRef
-  ) { }
+  ) {}
 
   ngAfterViewInit(): void {
     setTimeout(() => this.addResizeStructure(), 100);
@@ -24,8 +33,7 @@ export class StretchTableDirective implements AfterViewInit {
     let THs = this.el.nativeElement.getElementsByTagName('th');
 
     for (let i = 0; i < THs.length - 1; i++) {
-      if (THs[i + 1].classList.contains('mat-table-sticky')
-        && THs[i + 1].classList.contains('mat-table-sticky-border-elem-right')) {
+      if (THs[i + 1].classList.contains('mat-table-sticky') && THs[i + 1].classList.contains('mat-table-sticky-border-elem-right')) {
         break;
       }
 
@@ -44,7 +52,7 @@ export class StretchTableDirective implements AfterViewInit {
     }
   }
 
-  @HostListener('mousedown',['$event']) onMouseDown(event: MouseEvent) {
+  @HostListener('mousedown', ['$event']) onMouseDown(event: MouseEvent) {
     if (!(event.target as HTMLElement).closest('.resize-border')) {
       return;
     }
@@ -55,7 +63,7 @@ export class StretchTableDirective implements AfterViewInit {
     this.tableContainerWidth = (this.selectedTh.closest('.table-container') as HTMLElement).offsetWidth;
     this.mouseMoveFunc = this.changeWidth.bind(this);
 
-    document.addEventListener('mouseup', this.onUpMouse.bind(this), {once: true});
+    document.addEventListener('mouseup', this.onUpMouse.bind(this), { once: true });
     document.addEventListener('mousemove', this.mouseMoveFunc);
 
     body.style.userSelect = 'none';
@@ -76,7 +84,7 @@ export class StretchTableDirective implements AfterViewInit {
       return;
     }
 
-    if ((this.selectedTh.offsetWidth <= minWidth || tableWidth <= this.tableContainerWidth) && event.movementX < 0 ) {
+    if ((this.selectedTh.offsetWidth <= minWidth || tableWidth <= this.tableContainerWidth) && event.movementX < 0) {
       return;
     }
 

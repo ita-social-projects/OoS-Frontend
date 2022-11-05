@@ -38,11 +38,8 @@ describe('HeaderComponent', () => {
         MockNotificationsComponent,
         ProgressBarComponent
       ],
-      providers: [
-        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
-      ]
-    })
-      .compileComponents();
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -60,17 +57,16 @@ describe('HeaderComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockSearchBarComponent {
-}
+class MockSearchBarComponent {}
 
 @Component({
   selector: 'app-navigation-mobile-bar',
   template: ''
 })
-class MockNavigationMobileBarComponent { }
+class MockNavigationMobileBarComponent {}
 
 @Component({
   selector: 'app-notifications',
   template: ''
 })
-class MockNotificationsComponent { }
+class MockNotificationsComponent {}

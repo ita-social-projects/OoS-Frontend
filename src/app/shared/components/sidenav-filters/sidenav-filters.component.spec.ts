@@ -10,13 +10,9 @@ describe('SidenavFiltersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatSidenavModule,
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [ SidenavFiltersComponent, MockFiltersListComponent ]
-    })
-      .compileComponents();
+      imports: [MatSidenavModule, NgxsModule.forRoot([])],
+      declarations: [SidenavFiltersComponent, MockFiltersListComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

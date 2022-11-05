@@ -17,21 +17,16 @@ describe('FavoriteWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NgxsModule.forRoot([]),
-        MatDialogModule
-      ],
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), MatDialogModule],
       declarations: [
         FavoriteWorkshopsComponent,
         MockWorkshopCardComponent,
         MockListWorkshopCardPaginatorComponent,
         NoWorkshopsCardComponent,
         ParentComponent,
-        CabinetDataComponent,
+        CabinetDataComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -61,6 +56,7 @@ class MockWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: PaginationElement;
 }
 
 @Component({

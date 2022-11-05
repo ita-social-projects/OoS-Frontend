@@ -12,9 +12,7 @@ describe('ErrorHandleInterceptor', () => {
   );
 
   it('should be created', () => {
-    const interceptor: ErrorHandleInterceptor = TestBed.inject(
-      ErrorHandleInterceptor
-    );
+    const interceptor: ErrorHandleInterceptor = TestBed.inject(ErrorHandleInterceptor);
     expect(interceptor).toBeTruthy();
   });
 });

@@ -40,9 +40,8 @@ describe('CreateDescriptionFormComponent', () => {
         MockValidationHintAboutComponent,
         MockInfoFormComponent,
         MockIstitutionHierarchyComponent
-      ],
-    })
-      .compileComponents();
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -63,7 +62,6 @@ describe('CreateDescriptionFormComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-
 
 @Component({
   selector: 'app-validation-hint',

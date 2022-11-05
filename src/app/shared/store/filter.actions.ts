@@ -21,7 +21,7 @@ export class SetOrder {
 }
 export class SetDirections {
   static readonly type = '[filter] Set Direction';
-  constructor(public payload: Direction[]) {}
+  constructor(public payload: number[]) {}
 }
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';

@@ -20,7 +20,7 @@ import { SnackbarText } from '../../../../shared/enum/messageBar';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
-  styleUrls: ['./actions.component.scss'],
+  styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
@@ -35,11 +35,11 @@ export class ActionsComponent implements OnInit, OnDestroy {
   @Input() role: string;
 
   @Select(RegistrationState.role)
-    role$: Observable<string>;
+  role$: Observable<string>;
   @Select(ParentState.favoriteWorkshops)
-    favoriteWorkshops$: Observable<Favorite[]>;
+  favoriteWorkshops$: Observable<Favorite[]>;
   @Select(AppState.isMobileScreen)
-    isMobileScreen$: Observable<boolean>;
+  isMobileScreen$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -47,12 +47,12 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workhopStatus.Closed;
-    this.role$.pipe(takeUntil(this.destroy$)).subscribe(role => (this.role = role));
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
 
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([favorites, params]) => {
-        this.favoriteWorkshop = favorites?.find(item => item.workshopId === params.id);
+        this.favoriteWorkshop = favorites?.find((item) => item.workshopId === params.id);
         this.isFavorite = !!this.favoriteWorkshop;
       });
   }
@@ -73,7 +73,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
     );
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
-      new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }
@@ -81,7 +81,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
   onDisLike(): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
-      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' }),
+      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }

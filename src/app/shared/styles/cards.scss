@@ -26,7 +26,7 @@
   }
 
   &_link {
-    color: #3849F9;
+    color: #3849f9;
     font-family: Innerspace;
     font-weight: 700;
     font-style: normal;
@@ -53,34 +53,33 @@
     padding: 0;
     min-width: 0;
 
-    &_label{
+    &_label {
       margin: 0;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    &_bold{
+    &_bold {
       font-weight: bold;
     }
 
     &_blue {
-      color: #3849F9;
+      color: #3849f9;
     }
   }
 
-
-  &_icon{
+  &_icon {
     display: flex;
     justify-content: center;
     align-items: center;
 
-    color: #AAAAAA;
+    color: #aaaaaa;
     margin-right: 0.2rem;
     font-size: 16px;
 
-    &_blue{
-      color: #3849F9;
+    &_blue {
+      color: #3849f9;
     }
   }
 }
@@ -105,10 +104,10 @@
     font-size: 16px;
     width: 16px;
     height: 16px;
-    color: #3849F9;
+    color: #3849f9;
     font-weight: 700;
   }
-  &:hover{
+  &:hover {
     opacity: 0.5;
   }
 }
@@ -120,7 +119,7 @@
   cursor: pointer;
   z-index: 2;
   display: flex;
-  &:hover{
+  &:hover {
     opacity: 0.5;
   }
 }
@@ -145,7 +144,7 @@
     font-weight: bold;
     font-size: 11px;
     line-height: 12px;
-    color: #FFFFFF;
+    color: #ffffff;
     margin: 0;
     padding: 0;
   }
@@ -160,8 +159,7 @@
 }
 
 .chip_approved {
-  background: #99CD56;
-
+  background: #99cd56;
 }
 
 .chip_denied {
@@ -192,7 +190,7 @@
 }
 ::ng-deep .mat-card-header-text {
   width: calc(100% - 40px);
-  margin: 0!important;
+  margin: 0 !important;
 }
 .mat-card-image {
   display: flex;
@@ -209,7 +207,7 @@
   top: 0;
   right: 0;
 }
-.card-img-full{
+.card-img-full {
   width: 100%;
   height: 180px;
 }

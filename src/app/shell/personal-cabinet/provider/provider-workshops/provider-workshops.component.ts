@@ -10,20 +10,25 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Role } from '../../../../shared/enum/role';
 import { ProviderWorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { OnUpdateWorkshopStatusSuccess, GetProviderWorkshops, GetProviderAdminWorkshops, DeleteWorkshopById } from '../../../../shared/store/provider.actions';
+import {
+  OnUpdateWorkshopStatusSuccess,
+  GetProviderWorkshops,
+  GetProviderAdminWorkshops,
+  DeleteWorkshopById
+} from '../../../../shared/store/provider.actions';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { ProviderComponent } from '../provider.component';
 
 @Component({
   selector: 'app-provider-workshops',
   templateUrl: './provider-workshops.component.html',
-  styleUrls: ['./provider-workshops.component.scss'],
+  styleUrls: ['./provider-workshops.component.scss']
 })
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
 
   @Select(ProviderState.providerWorkshops)
-    workshops$: Observable<ProviderWorkshopCard[]>;
+  workshops$: Observable<ProviderWorkshopCard[]>;
 
   constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
     super(store, matDialog);
@@ -37,7 +42,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       new PushNavPath({
         name: NavBarName.Workshops,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -70,8 +75,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.delete,
-        property: workshop.title,
-      },
+        property: workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

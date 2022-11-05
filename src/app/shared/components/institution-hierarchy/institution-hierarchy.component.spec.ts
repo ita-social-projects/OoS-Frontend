@@ -21,14 +21,10 @@ describe('InstitutionHierarchyComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([])
       ],
-      declarations: [
-        InstitutionHierarchyComponent,
-        MockValidationHintHierarchyComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [InstitutionHierarchyComponent, MockValidationHintHierarchyComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -39,7 +35,6 @@ describe('InstitutionHierarchyComponent', () => {
       institution: ''
     } as any;
     fixture.detectChanges();
-
   });
 
   it('should create', () => {

@@ -14,16 +14,15 @@ import { AppState } from '../../../../shared/store/app.state';
   providedIn: 'root'
 })
 export class CreateGuard implements CanDeactivate<unknown> {
-
   result: boolean;
-  constructor(private matDialog: MatDialog, private store: Store) { }
+  constructor(private matDialog: MatDialog, private store: Store) {}
 
   canDeactivate(
     component: unknown,
     currentRoute: ActivatedRouteSnapshot,
     currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
+    nextState?: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isDirty = this.store.selectSnapshot<boolean>(AppState.isDirtyForm);
 
     if (isDirty) {
@@ -33,12 +32,12 @@ export class CreateGuard implements CanDeactivate<unknown> {
           type: ModalConfirmationType.leavePage
         }
       });
-      dialogRef.afterClosed()
+      dialogRef
+        .afterClosed()
         .pipe(takeWhile(() => isDirty))
-        .subscribe(response => response && this.store.dispatch(new MarkFormDirty(false)));
+        .subscribe((response) => response && this.store.dispatch(new MarkFormDirty(false)));
 
       return dialogRef.afterClosed();
-
     } else {
       return true;
     }

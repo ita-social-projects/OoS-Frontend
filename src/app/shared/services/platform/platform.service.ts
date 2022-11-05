@@ -8,8 +8,7 @@ import { AdminTabsTitle } from '../../enum/enumUA/tech-admin/admin-tabs';
   providedIn: 'root'
 })
 export class PlatformService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get information about Platform from the database.

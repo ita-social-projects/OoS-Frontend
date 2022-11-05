@@ -10,13 +10,8 @@ describe('WorkshopTeachersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [
-        WorkshopTeachersComponent,
-        MockTeacherCardComponent,
-        NoResultCardComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [WorkshopTeachersComponent, MockTeacherCardComponent, NoResultCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

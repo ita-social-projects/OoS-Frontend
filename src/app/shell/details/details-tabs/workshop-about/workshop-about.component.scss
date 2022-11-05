@@ -3,8 +3,8 @@
 }
 
 .title {
-  font-family: "Innerspace";
-  line-height: 14,6px;
+  font-family: 'Innerspace';
+  line-height: 14, 6px;
   font-size: 14px;
   font-weight: 700;
   color: black;
@@ -15,9 +15,9 @@
 }
 
 .txt {
-  font-family: "Open Sans";
+  font-family: 'Open Sans';
   font-size: 13px;
-  line-height: 17,7px;
+  line-height: 17, 7px;
   font-weight: 400;
   color: #444444;
   overflow-wrap: break-word;
@@ -30,9 +30,9 @@
   padding: 5px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #EBEBEB;
-  background: #FFFFFF;
-  color: #AAAAAA;
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  color: #aaaaaa;
   &-selected {
     color: #454545;
     background: rgba(56, 73, 249, 0.07);
@@ -51,7 +51,7 @@
 .text {
   font-family: Open Sans;
   font-weight: 700;
-  color: #AAAAAA;
+  color: #aaaaaa;
   padding: 5px;
   &:last-child {
     padding: 5px 5px 5px 0px;

@@ -12,7 +12,8 @@
         <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('lastName')"
           [minCharachters]="validationConstants.INPUT_LENGTH_1"
-          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+        >
         </app-validation-hint>
 
         <label class="step-label"> Ім'я <span class="step-required">*</span></label>
@@ -22,7 +23,8 @@
         <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('firstName')"
           [minCharachters]="validationConstants.INPUT_LENGTH_1"
-          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+        >
         </app-validation-hint>
 
         <label class="step-label"> По-батькові <span class="step-required">*</span></label>
@@ -32,7 +34,8 @@
         <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('middleName')"
           [minCharachters]="validationConstants.INPUT_LENGTH_1"
-          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+        >
         </app-validation-hint>
 
         <ng-container *ngIf="userRole === role.parent">
@@ -64,23 +67,21 @@
               ui-number-mask
               ui-hide-group-sep
               maxlength="{{ validationConstants.PHONE_LENGTH }}"
-              appTrimValue />
+              appTrimValue
+            />
           </div>
         </mat-form-field>
         <app-validation-hint
           [validationFormControl]="userEditFormGroup.get('phoneNumber')"
           [minCharachters]="validationConstants.PHONE_LENGTH"
-          [isPhoneNumber]="true">
+          [isPhoneNumber]="true"
+        >
         </app-validation-hint>
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/personal-cabinet/config'"
-        ><button mat-raised-button class="btn btn-cancel">Скасувати</button></a
-      >
-      <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">
-        Зберегти
-      </button>
+      <a [routerLink]="'/personal-cabinet/config'"><button mat-raised-button class="btn btn-cancel">Скасувати</button></a>
+      <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
     </div>
   </div>
 </div>

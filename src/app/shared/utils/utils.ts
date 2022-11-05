@@ -63,11 +63,7 @@ export class Util {
   public static getDeclensionYear(year: number): string {
     let ageString;
     const lastDigit = year % 10;
-    lastDigit === 1 && year !== 11
-      ? (ageString = 'рік')
-      : lastDigit > 1 && lastDigit < 5
-        ? (ageString = 'роки')
-        : (ageString = 'років');
+    lastDigit === 1 && year !== 11 ? (ageString = 'рік') : lastDigit > 1 && lastDigit < 5 ? (ageString = 'роки') : (ageString = 'років');
     return ageString;
   }
 
@@ -130,17 +126,15 @@ export class Util {
   public static updateStructureForTheTable(users): UsersTable[] {
     const constants: typeof Constants = Constants;
     const updatedUsers = [];
-    users.forEach(user => {
+    users.forEach((user) => {
       updatedUsers.push({
         id: user.id,
         pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
         email: user.parent?.email || constants.NO_INFORMATION,
         place: user.place || constants.NO_INFORMATION,
-        phoneNumber: user.parent.phoneNumber
-          ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}`
-          : constants.NO_INFORMATION,
+        phoneNumber: user.parent.phoneNumber ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}` : constants.NO_INFORMATION,
         role: user.isParent ? 'Батьки' : 'Діти',
-        status: user.accountStatus || 'Accepted',
+        status: user.accountStatus || 'Accepted'
       });
     });
     return updatedUsers;
@@ -162,7 +156,7 @@ export class Util {
         place: constants.NO_INFORMATION,
         phoneNumber: admin.phoneNumber ? `${constants.PHONE_PREFIX} ${admin.phoneNumber}` : constants.NO_INFORMATION,
         role: admin.id,
-        status: admin.accountStatus || 'Accepted',
+        status: admin.accountStatus || 'Accepted'
       });
     });
     return updatedAdmins;
@@ -186,16 +180,15 @@ export class Util {
 
     if (payload.uploadingImagesResults?.results) {
       statuses = Object.entries(payload.uploadingImagesResults.results);
-      invalidImages = statuses.filter(result => !result[1]['succeeded']);
+      invalidImages = statuses.filter((result) => !result[1]['succeeded']);
       isInvalidGaleryImages = !!invalidImages.length;
     }
 
     messageArr.push(message);
 
-
     if (isInvalidCoverImage) {
       const coverImageErrorMsg = payload.uploadingCoverImageResult?.result.errors
-        .map(error => `"${CodeMessageErrors[error.code]}"`)
+        .map((error) => `"${CodeMessageErrors[error.code]}"`)
         .join(', ');
 
       messageArr.push(`Помилка завантаження фонового зображення: ${coverImageErrorMsg}`);
@@ -204,9 +197,9 @@ export class Util {
 
     if (isInvalidGaleryImages) {
       const errorCodes = new Set();
-      invalidImages.map(img => img[1]).forEach(img => img['errors'].forEach(error => errorCodes.add(error.code)));
+      invalidImages.map((img) => img[1]).forEach((img) => img['errors'].forEach((error) => errorCodes.add(error.code)));
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
-      const indexes = invalidImages.map(img => img[0]);
+      const indexes = invalidImages.map((img) => img[0]);
       const quantityMsg = indexes.length > 1 ? `у ${indexes.length} зображень` : `у ${+indexes[0] + 1}-го зображення`;
 
       messageArr.push(`Помилка завантаження ${quantityMsg} для галереї: ${errorMsg}`);

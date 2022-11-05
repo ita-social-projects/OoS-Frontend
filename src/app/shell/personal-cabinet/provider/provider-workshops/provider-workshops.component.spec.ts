@@ -16,21 +16,15 @@ describe('ProviderAdminWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NgxsModule.forRoot([]),
-        MatDialogModule,
-        MatTabsModule
-      ],
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), MatDialogModule, MatTabsModule],
       declarations: [
         ProviderWorkshopsComponent,
         MockWorkshopCardComponent,
         ApplicationFilterPipe,
         ApplicationChildFilterPipe,
         NoResultCardComponent
-      ],
-    })
-      .compileComponents();
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -47,7 +41,6 @@ describe('ProviderAdminWorkshopsComponent', () => {
   selector: 'app-workshop-card',
   template: ''
 })
-
 class MockWorkshopCardComponent {
   @Input() workshop: Workshop;
   @Input() isCabinetView: boolean;

@@ -10,13 +10,9 @@ describe('AdminToolsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        RouterTestingModule
-      ],
-      declarations: [AdminToolsComponent],
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), RouterTestingModule],
+      declarations: [AdminToolsComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

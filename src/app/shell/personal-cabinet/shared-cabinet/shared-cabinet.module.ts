@@ -20,13 +20,7 @@ import { MessageCardComponent } from './messages/message-card/message-card.compo
     MessagesComponent,
     MessageCardComponent
   ],
-  imports: [
-    MaterialModule,
-    SharedModule,
-    CommonModule,
-    FlexLayoutModule,
-    RouterModule
-  ],
+  imports: [MaterialModule, SharedModule, CommonModule, FlexLayoutModule, RouterModule],
   exports: [ApplicationsComponent]
 })
 export class SharedCabinetModule {}
