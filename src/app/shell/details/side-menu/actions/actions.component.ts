@@ -15,7 +15,7 @@ import { AppState } from '../../../../shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { SnackbarText } from '../../../../shared/enum/messageBar';
-import {WorkshopModalComponent} from '../../../../shared/components/workshop-modal/workshop-modal.component';
+import {UnregisteredUserModalComponent} from '../../../../shared/components/unregistered-user-modal/unregistered-user-modal.component';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -62,7 +62,9 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
 
   onOpenDialog(): void {
-    !(this.role !== Role.unauthorized) && this.dialog.open(WorkshopModalComponent, {
+    !(this.role !== Role.unauthorized) && this.dialog.open(UnregisteredUserModalComponent, {
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         message: 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
         buttonLabel: 'Зареєструватися'

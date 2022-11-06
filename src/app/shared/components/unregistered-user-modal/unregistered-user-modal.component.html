@@ -1,18 +1,18 @@
 <div
-    class="workshop-modal__content"
+    class="unregistered-user-modal__content"
     mat-dialog-content
     fxLayoutAlign="center"
   >
-    <h2 *ngIf="data.title" class="workshop-modal__title">
+    <h2 *ngIf="data.title" class="unregistered-user-modal__title">
       {{data?.title}}
     </h2>
-    <p *ngIf="data.message" class="workshop-modal__message">
+    <p *ngIf="data.message" class="unregistered-user-modal__message">
       {{data?.message}}
     </p>
   </div>
   <div mat-dialog-actions fxLayoutAlign="center">
     <button
-      class="workshop-modal__action-button white"
+      class="unregistered-user-modal__action-button white"
       mat-raised-button
       mat-dialog-close
     >
@@ -20,7 +20,7 @@
     </button>
     <button
       *ngIf="data.buttonLabel"
-      class="workshop-modal__action-button"
+      class="unregistered-user-modal__action-button"
       mat-raised-button
       fxLayout="row"
       fxLayoutAlign="center center"
@@ -28,5 +28,6 @@
     >
       {{data?.buttonLabel}}
     </button>
+
   </div>
 

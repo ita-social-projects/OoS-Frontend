@@ -36,7 +36,7 @@ import {
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
 import { Statuses, StatusTitles } from '../../enum/statuses';
-import {WorkshopModalComponent} from '../workshop-modal/workshop-modal.component';
+import {UnregisteredUserModalComponent} from '../unregistered-user-modal/unregistered-user-modal.component';
 
 @Component({
   selector: 'app-workshop-card',
@@ -157,7 +157,9 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onOpenDialog(): void {
-    this.dialog.open(WorkshopModalComponent, {
+    this.dialog.open(UnregisteredUserModalComponent, {
+      autoFocus: false,
+      restoreFocus: false,
       data: {
         message: 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо',
         buttonLabel: 'Зареєструватися'
