@@ -20,13 +20,13 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-children',
   templateUrl: './children.component.html',
-  styleUrls: ['./children.component.scss'],
+  styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.childrensPerPage)
-    childrensPerPage$: Observable<number>;
+  childrensPerPage$: Observable<number>;
   @Select(ParentState.children)
-    childrenCards$: Observable<SearchResponse<Child[]>>;
+  childrenCards$: Observable<SearchResponse<Child[]>>;
   childrenCards: SearchResponse<Child[]>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -40,7 +40,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
       new PushNavPath({
         name: NavBarName.Children,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -63,8 +63,8 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
-        property: `${child.firstName} ${child.lastName}`,
-      },
+        property: `${child.firstName} ${child.lastName}`
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

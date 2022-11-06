@@ -11,12 +11,8 @@ describe('FullSearchBarComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatIconModule],
-      declarations: [
-        FullSearchBarComponent,
-        MockCityFilterComponent,
-        MockSearchBarComponent]
-    })
-      .compileComponents();
+      declarations: [FullSearchBarComponent, MockCityFilterComponent, MockSearchBarComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -33,11 +29,9 @@ describe('FullSearchBarComponent', () => {
   selector: 'app-searchbar',
   template: ''
 })
-class MockSearchBarComponent {
-}
+class MockSearchBarComponent {}
 @Component({
   selector: 'app-city-filter',
   template: ''
 })
-class MockCityFilterComponent {
-}
+class MockCityFilterComponent {}

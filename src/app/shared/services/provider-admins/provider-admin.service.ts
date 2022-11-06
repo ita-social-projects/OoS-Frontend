@@ -5,18 +5,16 @@ import { ProviderAdminBlockData } from '../../models/block.model';
 import { ProviderAdmin } from '../../models/providerAdmin.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProviderAdminService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get all provider Admins
    */
   getAllProviderAdmins(): Observable<ProviderAdmin[]> {
-    return this.http.get<ProviderAdmin[]>(
-      '/api/v1/ProviderAdmin/GetRelatedProviderAdmins'
-    );
+    return this.http.get<ProviderAdmin[]>('/api/v1/ProviderAdmin/GetRelatedProviderAdmins');
   }
 
   /**
@@ -24,18 +22,12 @@ export class ProviderAdminService {
    * @param deputyOnly: boolean
    * @param assistantsOnly: boolean
    */
-  getFilteredProviderAdmins(
-    deputyOnly: boolean,
-    assistantsOnly: boolean
-  ): Observable<ProviderAdmin> {
+  getFilteredProviderAdmins(deputyOnly: boolean, assistantsOnly: boolean): Observable<ProviderAdmin> {
     let params = new HttpParams();
     params = params.set('deputyOnly', `${deputyOnly}`);
     params = params.set('assistantsOnly', `${assistantsOnly}`);
 
-    return this.http.get<ProviderAdmin>(
-      '/api/v1/ProviderAdmin/GetFilteredProviderAdmins',
-      { params }
-    );
+    return this.http.get<ProviderAdmin>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', { params });
   }
 
   /**
@@ -51,10 +43,7 @@ export class ProviderAdminService {
    * @param providerAdminId: string
    * @param providerId: string
    */
-  deleteProviderAdmin(
-    providerAdminId: string,
-    providerId: string
-  ): Observable<void> {
+  deleteProviderAdmin(providerAdminId: string, providerId: string): Observable<void> {
     let params = new HttpParams();
     params = params.set('providerAdminId', `${providerAdminId}`);
     params = params.set('providerId', `${providerId}`);
@@ -79,11 +68,8 @@ export class ProviderAdminService {
    * This method update Provider Admin
    * @param providerId: string
    * @param providerAdmin: ProviderAdmin
-  */
-  updateProviderAdmin(
-    providerId: string,
-    providerAdmin: ProviderAdmin
-  ): Observable<ProviderAdmin> {
+   */
+  updateProviderAdmin(providerId: string, providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
     let params = new HttpParams();
     params = params.set('providerId', `${providerId}`);
 

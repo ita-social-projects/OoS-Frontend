@@ -1,13 +1,13 @@
 export enum HistoryLogTabsUkr {
   Provider = 'Заклади',
   ProviderAdmin = 'Адміністратори',
-  Application = 'Заяви',
+  Application = 'Заяви'
 }
 
 export enum HistoryLogTabsUkrReverse {
   'Заклади' = 'Provider',
   'Адміністратори' = 'ProviderAdmin',
-  'Заяви' = 'Application',
+  'Заяви' = 'Application'
 }
 
 export enum TypeChange {
@@ -16,7 +16,7 @@ export enum TypeChange {
   Director = 'ПІБ Директора',
   Institution = 'Підпрядкування',
   LegalAddress = 'Юридична адреса',
-  Status = 'Зміна статусів заявок',
+  Status = 'Зміна статусів заявок'
 }
 
 export enum Tabs {

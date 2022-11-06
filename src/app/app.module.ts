@@ -39,13 +39,7 @@ import { ChatState } from './shared/store/chat.state';
 registerLocaleData(localeUk);
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    AppComponent,
-    ShellComponent,
-    FooterComponent,
-    ProgressBarComponent
-  ],
+  declarations: [HeaderComponent, AppComponent, ShellComponent, FooterComponent, ProgressBarComponent],
   imports: [
     SharedModule,
     FormsModule,

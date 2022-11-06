@@ -30,17 +30,10 @@ describe('AdminsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        RouterTestingModule,
+        RouterTestingModule
       ],
-      declarations: [
-        AdminsComponent,
-        NoResultCardComponent,
-        MockListAdminsPaginatorComponent,
-        MockUsersListComponent
-      ]
-    })
-      .compileComponents();
-
+      declarations: [AdminsComponent, NoResultCardComponent, MockListAdminsPaginatorComponent, MockUsersListComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -68,7 +61,6 @@ class MockUsersListComponent {
   selector: 'app-paginator',
   template: ''
 })
-
 class MockListAdminsPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;

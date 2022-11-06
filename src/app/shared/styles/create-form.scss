@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/buttons.scss';
 
 .step {
   min-width: 410px;
@@ -23,13 +23,12 @@
   }
 
   &-input {
-    border: 1px solid #E3E3E3;
+    border: 1px solid #e3e3e3;
     border-radius: 21px;
     padding: 0.5rem 1rem;
     line-height: initial;
     font-family: 'Open Sans', sans-serif;
     box-sizing: border-box;
-
 
     &-field {
       margin-bottom: -1.34em;
@@ -49,12 +48,11 @@
       text-align: center;
       box-sizing: border-box;
     }
-
   }
 
   &-textarea {
     font-family: 'Open Sans', sans-serif;
-    border: 1px solid #E3E3E3;
+    border: 1px solid #e3e3e3;
     border-radius: 25px;
     padding: 20px;
     height: 200px;
@@ -76,7 +74,7 @@
 
   &-text {
     font-weight: 700;
-    color: #AAAAAA;
+    color: #aaaaaa;
     padding: 5px;
     line-height: initial;
   }
@@ -90,7 +88,7 @@
 
   &-characters-count {
     font-family: 'Open Sans', sans-serif;
-    color: #AAAAAA;
+    color: #aaaaaa;
   }
 
   &-border {
@@ -117,7 +115,7 @@ button:focus {
   width: 95px;
   height: 58px;
   background: rgba(56, 73, 249, 0.1);
-  border: 1px dashed #3849F9;
+  border: 1px dashed #3849f9;
   border-radius: 5px;
   margin: 1rem;
 
@@ -185,7 +183,7 @@ button:focus {
   font-weight: 700;
   font-size: 14px;
   margin-bottom: 5px;
-  color: #3849F9;
+  color: #3849f9;
 }
 
 .step-label-input {
@@ -204,7 +202,7 @@ button:focus {
 }
 
 .border-bottom {
-  border-bottom: 2px solid #E3E3E3;
+  border-bottom: 2px solid #e3e3e3;
   margin: 1rem 0;
 }
 

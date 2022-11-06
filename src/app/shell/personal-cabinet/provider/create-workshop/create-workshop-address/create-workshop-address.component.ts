@@ -7,7 +7,7 @@ import { Address } from '../../../../../shared/models/address.model';
 @Component({
   selector: 'app-create-workshop-address',
   templateUrl: './create-workshop-address.component.html',
-  styleUrls: ['./create-workshop-address.component.scss'],
+  styleUrls: ['./create-workshop-address.component.scss']
 })
 export class CreateWorkshopAddressComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
@@ -36,11 +36,11 @@ export class CreateWorkshopAddressComponent implements OnInit {
       buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
       catottgId: new FormControl('', Validators.required),
       lat: new FormControl(''),
-      lon: new FormControl(''),
+      lon: new FormControl('')
     });
     this.searchFormGroup = this.formBuilder.group({
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
-      settlement: new FormControl(''),
+      settlement: new FormControl('')
     });
 
     this.passAddressFormGroup.emit(this.addressFormGroup);

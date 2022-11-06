@@ -1,14 +1,14 @@
 :host ::ng-deep {
   .mat-tab-label-active {
-    color: #3849F9;
+    color: #3849f9;
     background: rgba(56, 73, 249, 0.07);
-    border: 2px solid #3849F9;
+    border: 2px solid #3849f9;
     box-sizing: border-box;
     border-radius: 20px;
     opacity: 1;
   }
 
-  .mat-tab-label{
+  .mat-tab-label {
     font-weight: 600;
     max-height: 40px;
   }
@@ -18,11 +18,11 @@
     margin-bottom: 1rem;
   }
 
-  .mat-ink-bar{
+  .mat-ink-bar {
     display: none;
   }
 
-  .mat-tab-label{
+  .mat-tab-label {
     min-width: min-content;
   }
 }

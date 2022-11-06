@@ -1,4 +1,3 @@
-
 export interface GeolocationAddress {
   address: {
     city?: string;

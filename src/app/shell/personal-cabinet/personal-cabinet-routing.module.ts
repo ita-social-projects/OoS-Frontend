@@ -16,14 +16,12 @@ const routes: Routes = [
   },
   {
     path: 'provider',
-    loadChildren: () =>
-      import('./provider/provider.module').then((m) => m.ProviderModule),
+    loadChildren: () => import('./provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard]
   },
   {
     path: 'parent',
-    loadChildren: () =>
-      import('./parent/parent.module').then((m) => m.ParentModule),
+    loadChildren: () => import('./parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard]
   }
 ];

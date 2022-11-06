@@ -1,20 +1,21 @@
-@import "src/app/shared/styles/create-form-wrapper.scss";
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/create-form-wrapper.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/buttons.scss';
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
-.wrapper-check-box, .info-wrapper{
+.wrapper-check-box,
+.info-wrapper {
   margin-top: 1rem;
   margin-bottom: 0.5rem;
   .step-label {
     margin-bottom: 1rem;
   }
 }
-.application-workshop{
+.application-workshop {
   margin: 0 1rem;
 }
 
@@ -40,14 +41,14 @@
   }
 }
 
-.line{
-border: 1px solid #E3E3E3;
+.line {
+  border: 1px solid #e3e3e3;
 }
-.warning{
+.warning {
   margin-bottom: 1rem;
 }
 
-.background-text{
+.background-text {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
@@ -63,5 +64,5 @@ small.warning {
 }
 .redBorder {
   outline: none;
-  border: 1px solid #C72A21;
+  border: 1px solid #c72a21;
 }

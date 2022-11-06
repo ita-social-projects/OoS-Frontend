@@ -1,13 +1,13 @@
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/toggle-button.scss";
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/toggle-button.scss';
 
-.pay-type{
+.pay-type {
   flex-grow: 1;
 }
 
-.price-text{
+.price-text {
   width: 65px;
 }
 
@@ -16,27 +16,28 @@
   text-align: center;
 }
 
-::ng-deep .dropdown-panel{
-  max-height:150px !important;
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
 }
 
 @media (max-width: 750px) {
-  .conteiner{
+  .conteiner {
     flex-direction: column !important;
-    align-items:initial !important;
-    }
+    align-items: initial !important;
+  }
 
-  .price::after{
-    content: "грн";
+  .price::after {
+    content: 'грн';
     font-weight: 700;
-    color:#AAAAAA;
-    padding:5px;
-    line-height:initial;
+    color: #aaaaaa;
+    padding: 5px;
+    line-height: initial;
     width: 65px;
-    }
+  }
 
-  .price, .radio-button-wrap {
-    place-content:flex-start !important;
+  .price,
+  .radio-button-wrap {
+    place-content: flex-start !important;
   }
   .step-input-age {
     max-width: 100%;
@@ -45,9 +46,7 @@
 }
 
 ::ng-deep .mat-form-field {
-  .mat-form-field-wrapper  {
-    padding:0;
+  .mat-form-field-wrapper {
+    padding: 0;
   }
 }
-
-

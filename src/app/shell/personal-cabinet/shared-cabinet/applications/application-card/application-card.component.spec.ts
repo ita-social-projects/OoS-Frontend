@@ -16,7 +16,6 @@ import { InfoStatusComponent } from './info-status/info-status.component';
 import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
 
-
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
   let fixture: ComponentFixture<ApplicationCardComponent>;
@@ -31,11 +30,11 @@ describe('ApplicationCardComponent', () => {
         MatIconModule,
         MatMenuModule,
         MatDialogModule,
-        MatTooltipModule,
+        MatTooltipModule
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'uk' },
-        { provide: MatDialog, useValue: {} },
+        { provide: MatDialog, useValue: {} }
       ],
       declarations: [
         ApplicationCardComponent,
@@ -44,8 +43,8 @@ describe('ApplicationCardComponent', () => {
         MockChildInfoComponent,
         PhoneTransformPipe,
         JoinPipe,
-        TextSliceTransformPipe,
-      ],
+        TextSliceTransformPipe
+      ]
     }).compileComponents();
   });
 

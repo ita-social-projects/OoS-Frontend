@@ -1,14 +1,7 @@
 import { ProviderWorkshopCard } from '../../models/workshop.model';
 import { OwnershipTypeName } from '../../enum/provider';
 import { Favorite } from '../../models/favorite.model';
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Role } from '../../enum/role';
 import { WorkshopCard } from '../../models/workshop.model';
@@ -20,19 +13,13 @@ import { MatDialog } from '@angular/material/dialog';
 import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
-import {
-  PayRateTypeUkr,
-  RecruitmentStatusUkr
-} from '../../enum/enumUA/workshop';
+import { PayRateTypeUkr, RecruitmentStatusUkr } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
-import {
-  DeleteFavoriteWorkshop,
-  CreateFavoriteWorkshop
-} from '../../store/parent.actions';
+import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
 import { Statuses, StatusTitles } from '../../enum/statuses';
@@ -69,9 +56,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
 
-  @Output() deleteWorkshop = new EventEmitter<
-    WorkshopCard | ProviderWorkshopCard
-  >();
+  @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(ParentState.favoriteWorkshops)
   favoriteWorkshops$: Observable<Favorite[]>;
@@ -82,18 +67,13 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   private favoriteWorkshopId: string;
 
-  constructor(
-    private store: Store,
-    private dialog: MatDialog,
-    private imagesService: ImagesService
-  ) {}
+  constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
   ngOnInit(): void {
     if (this.isCabinetView) {
       this.canChangeWorkshopStatus = !(
         this.workshopData.providerOwnership === OwnershipTypeName.State ||
-        (this.workshopData as ProviderWorkshopCard).availableSeats ===
-          this.UNLIMITED_SEATS
+        (this.workshopData as ProviderWorkshopCard).availableSeats === this.UNLIMITED_SEATS
       );
     }
 
@@ -111,10 +91,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onLike(): void {
-    const param = new Favorite(
-      this.workshopData.workshopId,
-      this.store.selectSnapshot(RegistrationState.parent).userId.toString()
-    );
+    const param = new Favorite(this.workshopData.workshopId, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({
@@ -147,10 +124,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((res: boolean) => {
       if (res) {
         this.store.dispatch(
-          new UpdateWorkshopStatus(
-            { workshopId: this.workshopData.workshopId, status: status },
-            this.workshopData.providerId
-          )
+          new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
         );
       }
     });
@@ -179,9 +153,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
         filter((favorites: Favorite[]) => !!favorites)
       )
       .subscribe((favorites: Favorite[]) => {
-        const favorite = favorites.find(
-          (item: Favorite) => item.workshopId === this.workshopData.workshopId
-        );
+        const favorite = favorites.find((item: Favorite) => item.workshopId === this.workshopData.workshopId);
         if (!!favorite) {
           this.favoriteWorkshopId = favorite.id;
           this.isFavorite = true;

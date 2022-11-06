@@ -1,17 +1,23 @@
-<div [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap='1.5rem'>
-  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center"> {{ workshop.price }} грн/{{ PayRateTypeUkr[workshop.payRate] }} </h4>
-  <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
- <a
-   [ngClass]="{'disable': hideApplicationSubmission}"
-   [routerLink]="['/create-application', workshop.id]" (click)="onOpenDialog()">
-   <button
-     mat-raised-button class="button button-application"
-     fxLayout="row"
-     fxLayoutAlign="center center"
-     [disabled]="hideApplicationSubmission">
-     ПОДАТИ ЗАЯВУ
-   </button>
- </a>
+<div
+  [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="1.5rem"
+>
+  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center">{{ workshop.price }} грн/{{ PayRateTypeUkr[workshop.payRate] }}</h4>
+  <h4 class="card-title" *ngIf="!workshop.price">Безкоштовний гурток</h4>
+  <a [ngClass]="{ disable: hideApplicationSubmission }"
+     [routerLink]="['/create-application', workshop.id]"
+     (click)="login()">
+    <button
+      mat-raised-button
+      class="button button-application"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      [disabled]="hideApplicationSubmission">
+        ПОДАТИ ЗАЯВУ
+    </button>
+  </a>
 
 
   <!-- <button mat-raised-button class="button button-msg" (click)="login()">
@@ -19,19 +25,23 @@
     Надіслати повідомлення
   </button> TODO: second release-->
 
-  <ng-container *ngIf="isFavorite then disLike; else like"></ng-container>
+  <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
 
   <ng-template #disLike>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center"
-      (click)="role === Role.parent && onDisLike()">
+    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center" (click)="role === Role.parent && onDisLike()">
       <mat-icon>favorite</mat-icon>
       Додано в улюблені
     </button>
   </ng-template>
 
   <ng-template #like>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center"
-      (click)="(role === Role.parent) ? onLike() : onOpenDialog()">
+    <button
+      mat-button
+      class="button button-msg"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      (click)="role === Role.parent ? onLike() : onOpenDialog()"
+    >
       <mat-icon>favorite_border</mat-icon>
       Додати в улюблені
     </button>

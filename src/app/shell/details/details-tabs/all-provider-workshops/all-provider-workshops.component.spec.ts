@@ -11,16 +11,9 @@ describe('AllProviderWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [
-        AllProviderWorkshopsComponent,
-        MockProviderWorkshopCardComponent,
-        NoResultCardComponent
-      ]
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([])],
+      declarations: [AllProviderWorkshopsComponent, MockProviderWorkshopCardComponent, NoResultCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

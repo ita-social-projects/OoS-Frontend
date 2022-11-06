@@ -2,13 +2,10 @@
 <div class="application-info-menu">
   <div class="application-info-title">
     <span *ngFor="let status of getValuesFromEnum()" class="{{ status }}">
-      <i class="{{ applicationIcons[status] }}"></i
-      >{{ statusTitles[status] }}</span
+      <i class="{{ applicationIcons[status] }}"></i>{{ statusTitles[status] }}</span
     >
   </div>
   <div class="application-info-description">
-    <span *ngFor="let status of getValuesFromEnum()" class=" {{ status }}">{{
-      applicationStatusDescription[status]
-    }}</span>
+    <span *ngFor="let status of getValuesFromEnum()" class=" {{ status }}">{{ applicationStatusDescription[status] }}</span>
   </div>
 </div>

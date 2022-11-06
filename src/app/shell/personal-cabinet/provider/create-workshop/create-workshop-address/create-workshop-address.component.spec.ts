@@ -24,13 +24,8 @@ describe('CreateWorkshopAddressComponent', () => {
         MatInputModule,
         BrowserAnimationsModule
       ],
-      declarations: [
-        CreateWorkshopAddressComponent,
-        MockMapComponent,
-        MockAddressFormComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [CreateWorkshopAddressComponent, MockMapComponent, MockAddressFormComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -54,7 +49,7 @@ class MockMapComponent {
 }
 @Component({
   selector: 'app-create-address-form',
-  template: '',
+  template: ''
 })
 class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;

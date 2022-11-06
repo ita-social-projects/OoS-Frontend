@@ -1,44 +1,34 @@
-<small *ngIf = "invalid" appValidationMessageStyling>
-  <ng-container *ngIf = "required && !invalidDateFormat; then requiredInputTmpl"></ng-container>
-  <ng-container *ngIf = "required && invalidDateFormat; then incorrectDateFieldTmpl"></ng-container>
-  <ng-container *ngIf = "!required">
-    <ng-container *ngIf = "invalidCharacters; then invalidCharactersTmpl"></ng-container>
-    <ng-container *ngIf = "invalidSymbols; then invalidSymbolsTmpl"></ng-container>
-    <ng-container *ngIf = "invalidFieldLength; then invalidLengthTmpl"></ng-container>
-    <ng-container *ngIf = "invalidPhoneLength; then invalidPhoneTmpl"></ng-container>
-    <ng-container *ngIf = "invalidDateRange; then invalidDateRangeTmpl"></ng-container>
-    <ng-container *ngIf = "invalidEmail; then invalidEmailTmpl"></ng-container>
+<small *ngIf="invalid" appValidationMessageStyling>
+  <ng-container *ngIf="required && !invalidDateFormat; then requiredInputTmpl"></ng-container>
+  <ng-container *ngIf="required && invalidDateFormat; then incorrectDateFieldTmpl"></ng-container>
+  <ng-container *ngIf="!required">
+    <ng-container *ngIf="invalidCharacters; then invalidCharactersTmpl"></ng-container>
+    <ng-container *ngIf="invalidSymbols; then invalidSymbolsTmpl"></ng-container>
+    <ng-container *ngIf="invalidFieldLength; then invalidLengthTmpl"></ng-container>
+    <ng-container *ngIf="invalidPhoneLength; then invalidPhoneTmpl"></ng-container>
+    <ng-container *ngIf="invalidDateRange; then invalidDateRangeTmpl"></ng-container>
+    <ng-container *ngIf="invalidEmail; then invalidEmailTmpl"></ng-container>
   </ng-container>
 </small>
 
-<ng-template #requiredInputTmpl>
-  Це поле є обов'язковим. <br>
-</ng-template>
+<ng-template #requiredInputTmpl> Це поле є обов'язковим. <br /> </ng-template>
 
-<ng-template #invalidCharactersTmpl>
-  Перевірте введені дані, використовуйте будь-ласка тільки кирилицю <br>
-</ng-template>
+<ng-template #invalidCharactersTmpl> Перевірте введені дані, використовуйте будь-ласка тільки кирилицю <br /> </ng-template>
 
-<ng-template #invalidSymbolsTmpl>
-  Перевірте введені дані, використовуйте будь-ласка тільки кирилицю та символи ( ' - ) <br>
-</ng-template>
+<ng-template #invalidSymbolsTmpl> Перевірте введені дані, використовуйте будь-ласка тільки кирилицю та символи ( ' - ) <br /> </ng-template>
 
-<ng-template #invalidLengthTmpl>
-  Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів. <br>
-</ng-template>
+<ng-template #invalidLengthTmpl> Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів. <br /> </ng-template>
 
 <ng-template #incorrectDateFieldTmpl>
-  Перевірте введені данні. <br> Використовуйте "{{ dateFormPlaceholder }}" формат. Наприклад "20/10/2010". <br>
+  Перевірте введені данні. <br />
+  Використовуйте "{{ dateFormPlaceholder }}" формат. Наприклад "20/10/2010". <br />
 </ng-template>
 
 <ng-template #invalidDateRangeTmpl>
-    Перевірте введені данні. <br> Дата народження виходить за межі допустимих. <br>
+  Перевірте введені данні. <br />
+  Дата народження виходить за межі допустимих. <br />
 </ng-template>
 
-<ng-template #invalidEmailTmpl>
-    Введіть коректний імейл. <br>
-</ng-template> 
+<ng-template #invalidEmailTmpl> Введіть коректний імейл. <br /> </ng-template>
 
-<ng-template #invalidPhoneTmpl>
-    Це поле має містити {{ minCharachters }} символів. <br>
-</ng-template> 
+<ng-template #invalidPhoneTmpl> Це поле має містити {{ minCharachters }} символів. <br /> </ng-template>

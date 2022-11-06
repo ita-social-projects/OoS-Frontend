@@ -40,7 +40,7 @@ import { RulesComponent } from './info/rules/rules.component';
     AboutComponent,
     SupportComponent,
     InfoComponent,
-    RulesComponent,
+    RulesComponent
   ],
   imports: [
     CommonModule,
@@ -66,4 +66,4 @@ import { RulesComponent } from './info/rules/rules.component';
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ]
 })
-export class ShellModule { }
+export class ShellModule {}

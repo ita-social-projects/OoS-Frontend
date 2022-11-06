@@ -1,21 +1,7 @@
-import {
-  MinistryAdmin,
-  MinistryAdminParameters
-} from './../../../../shared/models/ministryAdmin.model';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  takeUntil,
-  startWith,
-  skip
-} from 'rxjs/operators';
+import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import {
-  BlockMinistryAdminById,
-  DeleteMinistryAdminById,
-  GetAllMinistryAdmins
-} from './../../../../shared/store/admin.actions';
+import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -24,29 +10,17 @@ import { Subject, Observable } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import {
-  PaginationConstants,
-  Constants
-} from '../../../../shared/constants/constants';
+import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { AdminRole } from '../../../../shared/enum/admins';
-import {
-  AdminRoleUkr,
-  AdminRoleUkrReverse
-} from '../../../../shared/enum/enumUA/admins';
+import { AdminRoleUkr, AdminRoleUkrReverse } from '../../../../shared/enum/enumUA/admins';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
-import {
-  PushNavPath,
-  PopNavPath
-} from '../../../../shared/store/navigation.actions';
-import {
-  OnPageChangeAdminTable,
-  SetItemsPerPage
-} from '../../../../shared/store/paginator.actions';
+import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
@@ -87,22 +61,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
     tabTitle: undefined
   };
 
-  constructor(
-    private store: Store,
-    private router: Router,
-    private route: ActivatedRoute,
-    protected matDialog: MatDialog
-  ) {}
+  constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.filterFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(2000),
-        takeUntil(this.destroy$)
-      ).subscribe((searchString: string) => {
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
+      .subscribe((searchString: string) => {
         this.adminParams.searchString = searchString;
         this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
       });
@@ -110,20 +74,14 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.ministryAdmins$
       .pipe(
         takeUntil(this.destroy$),
-        filter(
-          (ministryAdmins: SearchResponse<MinistryAdmin[]>) => !!ministryAdmins
-        )
+        filter((ministryAdmins: SearchResponse<MinistryAdmin[]>) => !!ministryAdmins)
       )
       .subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {
-        this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(
-          ministryAdmins.entities
-        );
+        this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
         this.totalEntities = ministryAdmins.totalAmount;
       });
 
-    this.role$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((role: Role) => (this.role = role));
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
 
     this.addNavPath();
   }
@@ -150,9 +108,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: admin.isBlocked
-          ? ModalConfirmationType.blockMinistryAdmin
-          : ModalConfirmationType.unBlockMinistryAdmin,
+        type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
         property: admin.user.pib
       }
     });
@@ -202,17 +158,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([
-      new OnPageChangeAdminTable(page),
-      new GetAllMinistryAdmins()
-    ]);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins()]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([
-      new SetItemsPerPage(itemsPerPage),
-      new GetAllMinistryAdmins()
-    ]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
   }
 
   ngOnDestroy(): void {

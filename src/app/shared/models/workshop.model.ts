@@ -48,14 +48,7 @@ export class Workshop implements WorkshopTruncated {
   takenSeats: number;
   status?: string;
 
-  constructor(
-    about,
-    description,
-    address: Address,
-    teachers: Teacher[],
-    provider: Provider,
-    id?: string
-  ) {
+  constructor(about, description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;

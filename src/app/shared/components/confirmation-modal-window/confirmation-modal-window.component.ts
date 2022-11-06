@@ -17,10 +17,13 @@ export class ConfirmationModalWindowComponent implements OnInit {
   modalConfirmationProperty: string;
   ratingSelectControl: FormControl;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {
-    type: string,
-    property: string
-  }) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      type: string;
+      property: string;
+    }
+  ) {}
 
   ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];
@@ -29,5 +32,4 @@ export class ConfirmationModalWindowComponent implements OnInit {
       this.modalConfirmationProperty = this.data.property;
     }
   }
-
 }

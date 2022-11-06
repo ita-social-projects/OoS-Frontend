@@ -15,7 +15,7 @@ p {
   justify-content: space-evenly;
   align-items: stretch;
 
-  &-block{
+  &-block {
     flex: 1;
   }
   &-new {
@@ -23,7 +23,7 @@ p {
   }
 }
 
-.title{
+.title {
   font-family: 'Innerspace';
   font-style: normal;
   font-weight: bold;
@@ -32,25 +32,25 @@ p {
   color: #000000;
 }
 
-.text{
+.text {
   font-family: 'Open Sans', sans-serif;
   font-style: normal;
   font-size: 13px;
   line-height: 18px;
   padding: 0px;
 
-  &-bold{
+  &-bold {
     font-weight: 700;
   }
-  &-link{
+  &-link {
     &:hover {
-      color: #3849F9;
+      color: #3849f9;
       cursor: pointer;
       opacity: 0.5;
     }
   }
-  &_icon{
-    color: #AAAAAA;
+  &_icon {
+    color: #aaaaaa;
     width: 16px;
     height: 16px;
     padding-right: 10px;
@@ -60,9 +60,9 @@ p {
 .card-block {
   margin: 0px;
 
-  &:not(:first-child){
+  &:not(:first-child) {
     padding-left: 5px;
-  }  
+  }
   &__actions {
     max-width: 60px;
     display: flex;
@@ -79,7 +79,7 @@ p {
   width: 16px;
   overflow: visible;
   margin-top: 2px;
-  &__actions{
+  &__actions {
     margin: 0 8px;
   }
 }

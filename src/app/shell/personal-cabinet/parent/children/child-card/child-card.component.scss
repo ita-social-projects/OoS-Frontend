@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/cards.scss";
+@import 'src/app/shared/styles/cards.scss';
 .card {
   height: 410px;
   .img-section {
@@ -10,8 +10,8 @@
   color: #fff;
 }
 
-.card_icon{
-  color: #AAAAAA;
+.card_icon {
+  color: #aaaaaa;
 }
 
 .mat-card-header {
@@ -20,18 +20,18 @@
     width: 100%;
   }
 }
-.workshop-list{
-  color: #3849F9;
+.workshop-list {
+  color: #3849f9;
   text-overflow: ellipsis;
   max-height: 64px;
   overflow: scroll;
   width: 100%;
-  .item{
-    margin: .5rem 0 0 2rem;
-    &:last-child{
+  .item {
+    margin: 0.5rem 0 0 2rem;
+    &:last-child {
       margin-bottom: 0;
     }
-    &:hover{
+    &:hover {
       cursor: pointer;
       opacity: 0.5;
     }

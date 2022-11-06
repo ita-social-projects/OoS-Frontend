@@ -15,15 +15,8 @@ describe('AchievementCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        MatCardModule,
-        RouterTestingModule,
-        MatDialogModule,
-        MatTooltipModule,
-      ],
-      declarations: [AchievementCardComponent, GetFullNamePipe],
+      imports: [NgxsModule.forRoot([]), MatIconModule, MatCardModule, RouterTestingModule, MatDialogModule, MatTooltipModule],
+      declarations: [AchievementCardComponent, GetFullNamePipe]
     }).compileComponents();
   });
 

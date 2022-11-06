@@ -8,13 +8,10 @@ import { GeolocationAddress } from '../../models/geolocationAddress.model';
 import { Codeficator } from '../../models/codeficator.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class GeolocationService {
-  constructor(
-    private store: Store,
-    private codeficatorService: CodeficatorService,
-  ) {}
+  constructor(private store: Store, private codeficatorService: CodeficatorService) {}
 
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation
@@ -58,8 +55,6 @@ export class GeolocationService {
    * @param callback - Function, which receives 1 argument of type Address
    */
   getNearestByCoordinates(coords: Coords, callback: (GeolocationAddress) => void): void {
-    this.codeficatorService
-      .getNearestByCoordinates(coords.lat, coords.lng)
-      .subscribe((result: Codeficator) => callback(result));
+    this.codeficatorService.getNearestByCoordinates(coords.lat, coords.lng).subscribe((result: Codeficator) => callback(result));
   }
 }

@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class LocalSessionManagerService {
-  constructor() { }
+  constructor() {}
   remove(key: string): void {
     localStorage.removeItem(key);
   }

@@ -16,18 +16,8 @@ describe('AchievementsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        MatCardModule,
-        RouterTestingModule,
-        MatDialogModule,
-      ],
-      declarations: [
-        AchievementsComponent,
-        NoResultCardComponent,
-        MockAchievementCardComponent,
-      ],
+      imports: [NgxsModule.forRoot([]), MatIconModule, MatCardModule, RouterTestingModule, MatDialogModule],
+      declarations: [AchievementsComponent, NoResultCardComponent, MockAchievementCardComponent]
     }).compileComponents();
   });
 
@@ -45,7 +35,7 @@ describe('AchievementsComponent', () => {
 });
 @Component({
   selector: 'app-achievement-card',
-  template: '',
+  template: ''
 })
 class MockAchievementCardComponent {
   @Input() achievement: Achievement;

@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { SearchResponse } from '../../../models/search.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
-import { Direction } from '../../../models/category.model';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filter-state.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
@@ -19,16 +18,10 @@ import { PaginatorState } from '../../../store/paginator.state';
 export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setCityFilterParams(
-    settlement: Codeficator,
-    params: HttpParams
-  ): HttpParams {
+  private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
     params = params.set('Latitude', settlement.latitude.toString());
     params = params.set('Longitude', settlement.longitude.toString());
-    params = params.set(
-      'catottgId',
-      settlement?.id?.toString() ?? Constants.KYIV.id.toString()
-    );
+    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
 
     return params;
   }
@@ -109,11 +102,8 @@ export class AppWorkshopsService {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
 
-    if (!!filters.directions.length) {
-      filters.directions.forEach(
-        (direction: Direction) =>
-          (params = params.append('DirectionIds', direction.id.toString()))
-      );
+    if (!!filters.directionIds.length) {
+      filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
     }
 
     if (isMapView) {
@@ -124,12 +114,8 @@ export class AppWorkshopsService {
         params = params.set('RadiusKm', filters.userRadiusSize);
       }
     } else {
-      const currentPage = this.store.selectSnapshot(
-        PaginatorState.currentPage
-      ) as PaginationElement;
-      const size: number = this.store.selectSnapshot(
-        PaginatorState.workshopsPerPage
-      );
+      const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+      const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
       const from: number = size * (+currentPage.element - 1);
 
       params = params.set('Size', size.toString());

@@ -13,19 +13,9 @@ describe('UserConfigComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatCardModule,
-        MatIconModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-      ],
-      declarations: [
-        UserConfigComponent,
-        PhoneTransformPipe
-      ],
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), MatCardModule, MatIconModule, ReactiveFormsModule, MatDialogModule],
+      declarations: [UserConfigComponent, PhoneTransformPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

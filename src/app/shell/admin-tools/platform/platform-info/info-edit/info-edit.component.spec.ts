@@ -26,13 +26,8 @@ fdescribe('PlatformInfoEditComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule
       ],
-      declarations: [
-        InfoEditComponent,
-        MockInfoFormComponent,
-        MockValidationHintForInputComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [InfoEditComponent, MockInfoFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

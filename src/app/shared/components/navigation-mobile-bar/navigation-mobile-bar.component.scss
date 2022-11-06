@@ -1,25 +1,25 @@
 .mobile-navigation {
-  color:#fff;
-  
-.mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
-  margin: 0;
-}
+  color: #fff;
 
-&-links {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0;
-  margin: 0;
-
-  li {
-    list-style: none;
-    margin-left: 5px;
+  .mat-icon {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    margin: 0;
   }
-}
+
+  &-links {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+    margin: 0;
+
+    li {
+      list-style: none;
+      margin-left: 5px;
+    }
+  }
 
   .link {
     display: flex;

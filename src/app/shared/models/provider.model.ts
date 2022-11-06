@@ -35,14 +35,7 @@ export class Provider {
   institution: Institution;
   institutionId: string;
 
-  constructor(
-    info,
-    legalAddress: Address,
-    actualAddress: Address,
-    description,
-    user: User,
-    provider?: Provider
-  ) {
+  constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
     this.type = info.type;
@@ -85,12 +78,7 @@ export class Provider {
 
   static createFormData(provider: Provider): FormData {
     const formData = new FormData();
-    const formNames = [
-      'legalAddress',
-      'actualAddress',
-      'imageIds',
-      'providerSectionItems'
-    ];
+    const formNames = ['legalAddress', 'actualAddress', 'imageIds', 'providerSectionItems'];
     const imageFiles = ['imageFiles', 'coverImage'];
 
     Object.keys(provider).forEach((key: string) => {

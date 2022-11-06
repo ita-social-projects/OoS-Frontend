@@ -11,14 +11,9 @@ describe('ScrollToTopComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatButtonModule,
-        NgxsModule.forRoot([])
-      ],
-      declarations: [ ScrollToTopComponent ]
-    })
-      .compileComponents();
+      imports: [MatIconModule, MatButtonModule, NgxsModule.forRoot([])],
+      declarations: [ScrollToTopComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

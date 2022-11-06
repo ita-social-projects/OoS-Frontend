@@ -1,33 +1,34 @@
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
 
 :host ::ng-deep .mat-form-field-wrapper,
-:host ::ng-deep .mat-form-field-infix  {
+:host ::ng-deep .mat-form-field-infix {
   padding: 0;
   border: none;
 }
 
-.address-wrapper, .address-wrapper-border {
+.address-wrapper,
+.address-wrapper-border {
   margin-bottom: 1rem;
   padding-bottom: 1rem;
 }
 
 .address-wrapper-border {
-  border-bottom: 2px solid #E3E3E3;
+  border-bottom: 2px solid #e3e3e3;
 }
 
 .additional-text {
-  opacity: .5;
+  opacity: 0.5;
   margin-left: 1rem;
 }
 
-h4{
+h4 {
   margin-bottom: 1rem;
 }
 .custom-input-autocomplete {
   padding: 0.1rem 1rem;
-  border: 1px solid #E3E3E3;
+  border: 1px solid #e3e3e3;
   border-radius: 21px;
   line-height: initial;
   box-sizing: border-box;
@@ -35,7 +36,7 @@ h4{
 
 .redBorder {
   outline: none;
-  border: 1px solid #C72A21;
+  border: 1px solid #c72a21;
 }
 
 .input-wrapper {
@@ -46,7 +47,7 @@ h4{
   color: #161414;
   opacity: 0.6;
   font-size: 14px;
-  &:hover{
+  &:hover {
     background-color: transparent;
   }
 }
