@@ -40,7 +40,7 @@
       class="button button-msg"
       fxLayout="row"
       fxLayoutAlign="center center"
-      (click)="role === Role.parent ? onLike() : onOpenDialog()"
+      (click)="role === Role.parent ? onLike() : onOpenDialog(true)"
     >
       <mat-icon>favorite_border</mat-icon>
       Додати в улюблені

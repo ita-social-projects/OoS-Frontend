@@ -15,7 +15,7 @@ import { AppState } from '../../../../shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { SnackbarText } from '../../../../shared/enum/messageBar';
-import {UnregisteredUserModalComponent} from '../../../../shared/components/unregistered-user-modal/unregistered-user-modal.component';
+import {UnregisteredUserWarningModalComponent} from '../../../../shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -61,12 +61,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  onOpenDialog(): void {
-    !(this.role !== Role.unauthorized) && this.dialog.open(UnregisteredUserModalComponent, {
+  onOpenDialog(forFavorite?: boolean): void {
+    !(this.role !== Role.unauthorized) && this.dialog.open(UnregisteredUserWarningModalComponent, {
       autoFocus: false,
       restoreFocus: false,
       data: {
-        message: 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
+        message:
+          forFavorite ? 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо' : 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
         buttonLabel: 'Зареєструватися'
       },
     });

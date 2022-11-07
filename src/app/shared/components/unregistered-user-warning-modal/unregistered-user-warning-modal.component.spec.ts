@@ -1,11 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import {UnregisteredUserModalComponent} from './unregistered-user-modal.component';
+import {UnregisteredUserWarningModalComponent} from './unregistered-user-warning-modal.component';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {NgxsModule, Store} from '@ngxs/store';
 
 describe('WorkshopModalComponent', () => {
-  let component: UnregisteredUserModalComponent;
-  let fixture: ComponentFixture<UnregisteredUserModalComponent>;
+  let component: UnregisteredUserWarningModalComponent;
+  let fixture: ComponentFixture<UnregisteredUserWarningModalComponent>;
   const model = {
     title: 'Modal title'
   }
@@ -14,13 +14,13 @@ describe('WorkshopModalComponent', () => {
     await TestBed.configureTestingModule({
       imports:[ NgxsModule.forRoot([])],
       providers: [Store, { provide: MAT_DIALOG_DATA, useValue: model }],
-      declarations: [ UnregisteredUserModalComponent ]
+      declarations: [ UnregisteredUserWarningModalComponent ]
     })
       .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(UnregisteredUserModalComponent);
+    fixture = TestBed.createComponent(UnregisteredUserWarningModalComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

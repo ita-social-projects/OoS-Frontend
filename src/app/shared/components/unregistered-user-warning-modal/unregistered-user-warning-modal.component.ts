@@ -5,12 +5,12 @@ import {Store} from '@ngxs/store';
 import {ModalData} from '../../models/modal-data.model';
 
 @Component({
-  selector: 'app-unregistered-user-modal',
-  templateUrl: './unregistered-user-modal.component.html',
-  styleUrls: ['./unregistered-user-modal.component.scss']
+  selector: 'app-unregistered-user-warning-modal',
+  templateUrl: './unregistered-user-warning-modal.component.html',
+  styleUrls: ['./unregistered-user-warning-modal.component.scss']
 })
 
-export class UnregisteredUserModalComponent {
+export class UnregisteredUserWarningModalComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ModalData, private store: Store) {}
 

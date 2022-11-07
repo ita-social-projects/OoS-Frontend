@@ -23,7 +23,7 @@ import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/pare
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
 import { Statuses, StatusTitles } from '../../enum/statuses';
-import {UnregisteredUserModalComponent} from '../unregistered-user-modal/unregistered-user-modal.component';
+import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @Component({
   selector: 'app-workshop-card',
@@ -131,7 +131,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onOpenDialog(): void {
-    this.dialog.open(UnregisteredUserModalComponent, {
+    this.dialog.open(UnregisteredUserWarningModalComponent, {
       autoFocus: false,
       restoreFocus: false,
       data: {

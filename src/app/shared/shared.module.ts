@@ -67,7 +67,7 @@ import { StretchCellComponent } from './components/stretch-cell/stretch-cell/str
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
-import {UnregisteredUserModalComponent} from './components/unregistered-user-modal/unregistered-user-modal.component';
+import {UnregisteredUserWarningModalComponent} from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @NgModule({
   declarations: [
@@ -130,7 +130,7 @@ import {UnregisteredUserModalComponent} from './components/unregistered-user-mod
     StretchCellComponent,
     StretchTableDirective,
     UserRadiusSetComponent,
-    UnregisteredUserModalComponent
+    UnregisteredUserWarningModalComponent
   ],
 
   imports: [
@@ -203,7 +203,7 @@ import {UnregisteredUserModalComponent} from './components/unregistered-user-mod
     StretchCellComponent,
     StretchTableDirective,
     UserRadiusSetComponent,
-    UnregisteredUserModalComponent
+    UnregisteredUserWarningModalComponent
   ]
 })
 export class SharedModule {}
