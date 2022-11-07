@@ -359,7 +359,6 @@
     .mat-menu-item {
       height: 40px;
       line-height: 40px;
-      font-weight: normal;
     }
   }
 }
@@ -407,13 +406,7 @@
     }
   }
 
-  ::ng-deep .mat-menu-panel.header_menu {
-    background-color: #3849f9;
-
-    .mat-menu-item {
-      color: white;
-    }
-  }
+  
 }
 
 @media (max-width: 750px) {
