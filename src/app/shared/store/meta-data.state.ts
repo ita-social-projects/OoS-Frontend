@@ -29,6 +29,7 @@ import {
   GetAchievementsType,
   GetAllByInstitutionAndLevel,
   GetAllInstitutions,
+  GetAllInstitutionsHierarchy,
   GetCodeficatorById,
   GetCodeficatorSearch,
   GetFeaturesList,
@@ -49,6 +50,7 @@ export interface MetaDataStateModel {
   featuresList: FeaturesList;
   institutions: Institution[];
   institutionFieldDesc: InstitutionFieldDescription[];
+  instituitionsHierarchyAll: InstituitionHierarchy[];
   instituitionsHierarchy: InstituitionHierarchy[];
   editInstituitionsHierarchy: InstituitionHierarchy[];
   codeficatorSearch: Codeficator[];
@@ -67,6 +69,7 @@ export interface MetaDataStateModel {
     featuresList: { release1: true, release2: true, release3: false },
     institutions: null,
     institutionFieldDesc: null,
+    instituitionsHierarchyAll: null,
     instituitionsHierarchy: null,
     editInstituitionsHierarchy: null,
     codeficatorSearch: [],
@@ -111,7 +114,8 @@ export class MetaDataState {
   }
 
   @Selector()
-  static institutions(state: MetaDataStateModel): Institution[] {
+  static institutions(
+    state: MetaDataStateModel): Institution[] {
     return state.institutions;
   }
 
@@ -121,7 +125,16 @@ export class MetaDataState {
   }
 
   @Selector()
-  static instituitionsHierarchy(state: MetaDataStateModel): InstituitionHierarchy[] {
+  static instituitionsHierarchyAll(
+    state: MetaDataStateModel
+    ): InstituitionHierarchy[] {
+      return state.instituitionsHierarchyAll;
+  }
+
+  @Selector()
+  static instituitionsHierarchy(
+    state: MetaDataStateModel
+  ): InstituitionHierarchy[] {
     return state.instituitionsHierarchy;
   }
 
@@ -207,6 +220,17 @@ export class MetaDataState {
     return this.institutionsService
       .getAllInstitutions()
       .pipe(tap((institutions: Institution[]) => patchState({ institutions: institutions, isLoading: false })));
+  }
+
+  @Action(GetAllInstitutionsHierarchy)
+  getAllInstitutionsHierarchy(
+    { patchState }: StateContext<MetaDataStateModel>,
+    {}: GetAllInstitutionsHierarchy
+  ): Observable<InstituitionHierarchy[]> {
+    patchState({ isLoading: true });
+    return this.institutionsService
+      .getAllInstitutionHierarchies()
+      .pipe(tap((instituitionsHierarchyAll: InstituitionHierarchy[]) => patchState({ instituitionsHierarchyAll: instituitionsHierarchyAll, isLoading: false })));
   }
 
   @Action(GetAchievementsType)
