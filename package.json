@@ -29,6 +29,8 @@
     "@angular/router": "^14.2.3",
     "@asymmetrik/ngx-leaflet": "^14.0.1",
     "@microsoft/signalr": "^6.0.9",
+    "@ngx-translate/core": "^14.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
     "@ngxs/store": "^3.7.5",
     "@types/leaflet": "1",
     "angular-auth-oidc-client": "^14.1.5",

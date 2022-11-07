@@ -1,0 +1,53 @@
+{
+  "header": {
+    "top": {
+      "about": "ABOUT PORTAL",
+      "rules": "REGULATORY AND LEGAL ACTS",
+      "support": "SUPPORT",
+      "login": "LOG IN/REGISTER"
+    },
+    "authorization": {
+      "info-personal": "Personal information",
+      "info-about": "Information about",
+      "my-workshops": "My workshops",
+      "my-statements": "My statements",
+      "administration": "Administration",
+      "favorite": "Favorite",
+      "logout": "Log out"
+    }
+  },
+  "main": {
+    "title-direction": "Most popular destinations",
+    "title-workshops": "Most popular workshops",
+    "link": "See all",
+    "link-mobile": "All",
+    "question": "Do you provide educational services?",
+    "hint": "Sign up - we'll help you attract new students!",
+    "button": "SIGN UP",
+    "emptyData": "No results were found"
+  },
+  "enum": {
+    "RoleLinks": {
+      "provider": "establishment",
+      "parent": "children"
+    },
+    "ReviewDeclination": {
+      "feedback": "feedback",
+      "feedbacks": "feedbacks",
+      "feedbacks-2": "feedbacks"
+    },
+    "WorkshopDeclination": {
+      "workshop": "workshop",
+      "workshops": "workshops",
+      "workshops-2": "workshops",
+      "no-workshops": "There are no workshops"
+    },
+    "ChildDeclination": {
+      "child": "child",
+      "child-2": "child",
+      "children": "дітей",
+      "no-children": "There are no children",
+      "children-2": "діти"
+    }
+  }
+}

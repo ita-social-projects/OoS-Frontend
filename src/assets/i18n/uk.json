@@ -1,0 +1,53 @@
+{
+  "header": {
+    "top": {
+      "about": "ПРО ПОРТАЛ",
+      "rules": "НОРМАТИВНО-ПРАВОВІ АКТИ",
+      "support": "ПІДТРИМКА",
+      "login": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ"
+    },
+    "authorization": {
+      "info-personal": "Особиста інформація",
+      "info-about": "Інформація про",
+      "my-workshops": "Мої гуртки",
+      "my-statements": "Мої заяви",
+      "administration": "Адміністрування",
+      "favorite": "Улюблене",
+      "logout": "Вийти"
+    }
+  },
+  "main": {
+    "title-direction": "Найпопулярніші напрямки",
+    "title-workshops": "Найпопулярніші гуртки",
+    "link": "Переглянути всі",
+    "link-mobile": "Всі",
+    "question": "Надаєш освітні послуги?",
+    "hint": "Зареєструйся - допоможемо залучити нових учнів!",
+    "button": "ЗАРЕЄСТРУВАТИСЯ",
+    "emptyData": "За результатами нічого не знайдено"
+  },
+  "enum": {
+    "RoleLinks": {
+      "provider": "заклад",
+      "parent": "дітей"
+    },
+    "ReviewDeclination": {
+      "feedback": "відгук",
+      "feedbacks": "відгуки",
+      "feedbacks-2": "відгуків"
+    },
+    "WorkshopDeclination": {
+      "workshop": "гурток",
+      "workshops": "гуртки",
+      "workshops-2": "гуртків",
+      "no-workshops": "Гуртки відсутні"
+    },
+    "ChildDeclination": {
+      "child": "дитина",
+      "child-2": "дитини",
+      "children": "дітей",
+      "no-children": "Діти відсутні",
+      "children2": "діти"
+    }
+  }
+}
