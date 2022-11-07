@@ -19,14 +19,13 @@ export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new GetAllInstitutions());
-    this.store.dispatch(
+    this.store.dispatch([new GetAllInstitutions(),
       new PushNavPath({
         name: NavBarName.Directions,
         isActive: false,
         disable: true,
       })
-    );
+    ]);
   }
 
   ngOnDestroy(): void {

@@ -20,43 +20,46 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
   @Select(MetaDataState.institutionFieldDesc)
   institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
 
-
   destroy$: Subject<boolean> = new Subject<boolean>();
-
   displayedColumns: string[];
   institutionalHierarchies: InstituitionHierarchy[];
   records: string[][];
+  isLoaded: boolean = false;
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   constructor(private store: Store) {
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetFieldDescriptionByInstitutionId(this.institution.id));
-    this.store.dispatch(new GetAllInstitutionsHierarchy());
+    this.store.dispatch([new GetFieldDescriptionByInstitutionId(this.institution.id),
+      new GetAllInstitutionsHierarchy()]);
 
     this.institutionFieldDesc$.pipe(
       filter((institutionFieldDesc: InstitutionFieldDescription[]) => !!institutionFieldDesc),
-      takeUntil(this.destroy$),
-      distinctUntilChanged()
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
     ).subscribe((institutionFieldDesc: InstitutionFieldDescription[]) => {
+        this.store.snapshot
         this.displayedColumns = institutionFieldDesc.map((ins: InstitutionFieldDescription) => ins.title);
       });
     this.institutionsHierarchies$.pipe(
       filter((institutiionHierarchies: InstituitionHierarchy[]) => !!institutiionHierarchies),
-      takeUntil(this.destroy$),
       distinctUntilChanged(),
       map((institutionHierarchies: InstituitionHierarchy[]) =>
         this.createDirectionTableRecords(institutionHierarchies.filter(i => i.institution.title == this.institution.title))
       ),
-    ).subscribe(() => {this.dataSource = new MatTableDataSource(this.records);});
+      takeUntil(this.destroy$)
+    ).subscribe(() => {
+      this.isLoaded = true;
+      this.dataSource = new MatTableDataSource(this.records)
+    });
   }
 
-  createDirectionTableRecords(institutionalHierarchies: InstituitionHierarchy[]) {
+  private createDirectionTableRecords(institutionalHierarchies: InstituitionHierarchy[]) {
     if (institutionalHierarchies) {
       this.institutionalHierarchies = institutionalHierarchies;
       this.records = [];
-      let firstLevelInstitutions = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.hierarchyLevel == 1);
+      const firstLevelInstitutions = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.hierarchyLevel == 1);
       firstLevelInstitutions.forEach((ins: InstituitionHierarchy) => {
         let records: string[] = [];
         this.createDirectionTableRecord(ins, [...records]);
@@ -64,7 +67,7 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
     }
   }
 
-  createDirectionTableRecord(parent: InstituitionHierarchy, records: string[]) {
+  private createDirectionTableRecord(parent: InstituitionHierarchy, records: string[]) {
     records.push(parent.title);
     let children = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.parentId == parent.id);
     if (!children.length) {
