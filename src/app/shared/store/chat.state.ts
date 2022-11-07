@@ -3,7 +3,11 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
 import { ChatRoom, Message } from '../models/chat.model';
 import { ChatService } from '../services/chat/chat.service';
-import { GetUserChatRooms } from './chat.actions';
+import {
+  GetChatRoomById,
+  GetChatRoomMessages,
+  GetUserChatRooms
+} from './chat.actions';
 
 export interface ChatStateModel {
   isLoadingData: boolean;
@@ -49,5 +53,37 @@ export class ChatState {
   getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { userRole }: GetUserChatRooms): Observable<ChatRoom[]> {
     patchState({ isLoadingData: true });
     return this.chatService.getChatRooms(userRole).pipe(tap((chatRooms: ChatRoom[]) => patchState({ chatRooms, isLoadingData: false })));
+  }
+
+  @Action(GetChatRoomMessages)
+  getChatRoomMessages(
+    { patchState }: StateContext<ChatStateModel>,
+    { chatRoomId, parameters }: GetChatRoomMessages
+  ): Observable<Message[]> {
+    patchState({ isLoadingData: true });
+    return this.chatService.getChatRoomsMessages(chatRoomId, parameters).pipe(
+      tap((messages: Message[]) =>
+        patchState({
+          selectedChatRoomMessages: messages,
+          isLoadingData: false
+        })
+      )
+    );
+  }
+
+  @Action(GetChatRoomById)
+  getChatRoom(
+    { patchState }: StateContext<ChatStateModel>,
+    { chatRoomId }: GetChatRoomById
+  ): Observable<ChatRoom> {
+    patchState({ isLoadingData: true });
+    return this.chatService.getChatRoomById(chatRoomId).pipe(
+      tap((chatRoom: ChatRoom) =>
+        patchState({
+          selectedChatRoom: chatRoom,
+          isLoadingData: false
+        })
+      )
+    );
   }
 }
