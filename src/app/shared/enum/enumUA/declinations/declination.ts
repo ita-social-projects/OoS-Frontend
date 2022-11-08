@@ -17,6 +17,13 @@ export enum WorkshopDeclination {
   'Гуртки відсутні'
 }
 
+// export enum WorkshopDeclination {
+//   'enum.WorkshopDeclination.workshop',
+//   'enum.WorkshopDeclination.workshops',
+//   'enum.WorkshopDeclination.workshops-2',
+//   'enum.WorkshopDeclination.no-workshops',
+// }
+
 export enum HourDeclination {
   'година',
   'години',

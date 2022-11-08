@@ -26,28 +26,40 @@
     "button": "SIGN UP",
     "emptyData": "No results were found"
   },
+  "searchbar": {
+    "placeholder": "Enter the name of the workshop, school"
+  },
+  "workshop-card": {
+    "card-link": {
+      "more": "More details"
+    }
+  },
   "enum": {
-    "RoleLinks": {
-      "provider": "establishment",
-      "parent": "children"
+    "declination": {
+      "ReviewDeclination": {
+        "feedback": "feedback",
+        "feedbacks": "feedbacks",
+        "feedbacks-2": "feedbacks"
+      },
+      "WorkshopDeclination": {
+        "workshop": "workshop",
+        "workshops": "workshops",
+        "workshops-2": "workshops",
+        "no-workshops": "There are no workshops"
+      },
+      "ChildDeclination": {
+        "child": "child",
+        "child-2": "child",
+        "children": "children",
+        "no-children": "There are no children",
+        "children-2": "children"
+      }
     },
-    "ReviewDeclination": {
-      "feedback": "feedback",
-      "feedbacks": "feedbacks",
-      "feedbacks-2": "feedbacks"
-    },
-    "WorkshopDeclination": {
-      "workshop": "workshop",
-      "workshops": "workshops",
-      "workshops-2": "workshops",
-      "no-workshops": "There are no workshops"
-    },
-    "ChildDeclination": {
-      "child": "child",
-      "child-2": "child",
-      "children": "дітей",
-      "no-children": "There are no children",
-      "children-2": "діти"
+    "role": {
+      "RoleLinks": {
+        "provider": "establishment",
+        "parent": "children"
+      }
     }
   }
 }

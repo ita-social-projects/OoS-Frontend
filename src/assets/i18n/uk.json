@@ -26,28 +26,40 @@
     "button": "ЗАРЕЄСТРУВАТИСЯ",
     "emptyData": "За результатами нічого не знайдено"
   },
+  "searchbar": {
+    "placeholder": "Введіть назву гуртка, школи"
+  },
+  "workshop-card": {
+    "card-link": {
+      "more": "Детальніше"
+    }
+  },
   "enum": {
-    "RoleLinks": {
-      "provider": "заклад",
-      "parent": "дітей"
+    "declination": {
+      "ReviewDeclination": {
+        "feedback": "відгук",
+        "feedbacks": "відгуки",
+        "feedbacks-2": "відгуків"
+      },
+      "WorkshopDeclination": {
+        "workshop": "гурток",
+        "workshops": "гуртки",
+        "workshops-2": "гуртків",
+        "no-workshops": "Гуртки відсутні"
+      },
+      "ChildDeclination": {
+        "child": "дитина",
+        "child-2": "дитини",
+        "children": "дітей",
+        "no-children": "Діти відсутні",
+        "children2": "діти"
+      }
     },
-    "ReviewDeclination": {
-      "feedback": "відгук",
-      "feedbacks": "відгуки",
-      "feedbacks-2": "відгуків"
-    },
-    "WorkshopDeclination": {
-      "workshop": "гурток",
-      "workshops": "гуртки",
-      "workshops-2": "гуртків",
-      "no-workshops": "Гуртки відсутні"
-    },
-    "ChildDeclination": {
-      "child": "дитина",
-      "child-2": "дитини",
-      "children": "дітей",
-      "no-children": "Діти відсутні",
-      "children2": "діти"
+    "role": {
+      "RoleLinks": {
+        "provider": "заклад",
+        "parent": "дітей"
+      }
     }
   }
 }
