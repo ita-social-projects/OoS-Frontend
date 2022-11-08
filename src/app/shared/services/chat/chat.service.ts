@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Role } from '../../enum/role';
@@ -15,11 +15,14 @@ export class ChatService {
     //TODO: return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`);
   }
 
-  getChatRoomsMessages(
-    chatRoomId: string,
-    parameters: MessagesParameters
-  ): Observable<Message[]> {
-    return this.http.get<Message[]>('assets/mocks/messages.json');
+  //TODO: reduce the number of arguments
+  getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<Message[]> {
+    let params = new HttpParams();
+
+    params = params.set('Size', parameters.size.toString());
+    params = params.set('From', parameters.from.toString());
+
+    return this.http.get<Message[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
   }
 
   getChatRoomById(chatRoomId: string) {
