@@ -31,6 +31,10 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
   }
 
   ngOnInit(): void {
+    this.loadDirectionInstitutionHierarchiesData();
+  }
+
+  private loadDirectionInstitutionHierarchiesData() {
     this.store.dispatch([new GetFieldDescriptionByInstitutionId(this.institution.id),
       new GetAllInstitutionsHierarchy()]);
 
@@ -39,14 +43,13 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe((institutionFieldDesc: InstitutionFieldDescription[]) => {
-        this.store.snapshot
         this.displayedColumns = institutionFieldDesc.map((ins: InstitutionFieldDescription) => ins.title);
       });
     this.institutionsHierarchies$.pipe(
       filter((institutiionHierarchies: InstituitionHierarchy[]) => !!institutiionHierarchies),
       distinctUntilChanged(),
       map((institutionHierarchies: InstituitionHierarchy[]) =>
-        this.createDirectionTableRecords(institutionHierarchies.filter(i => i.institution.title == this.institution.title))
+        this.createDirectionTableRecords(institutionHierarchies.filter(ins => ins.institution.title === this.institution.title))
       ),
       takeUntil(this.destroy$)
     ).subscribe(() => {
@@ -59,7 +62,7 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
     if (institutionalHierarchies) {
       this.institutionalHierarchies = institutionalHierarchies;
       this.records = [];
-      const firstLevelInstitutions = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.hierarchyLevel == 1);
+      const firstLevelInstitutions = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.hierarchyLevel === 1);
       firstLevelInstitutions.forEach((ins: InstituitionHierarchy) => {
         let records: string[] = [];
         this.createDirectionTableRecord(ins, [...records]);
@@ -69,7 +72,7 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
 
   private createDirectionTableRecord(parent: InstituitionHierarchy, records: string[]) {
     records.push(parent.title);
-    let children = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.parentId == parent.id);
+    let children = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.parentId === parent.id);
     if (!children.length) {
       this.records.push(records);
     }
