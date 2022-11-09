@@ -18,7 +18,7 @@ export class Achievement {
     this.achievementTypeId = info.achievementTypeId;
     this.childrenIDs = info.children.map((child: Child) => child.id);
     if (!info.teachers) {
-      this.teachers = achievement.teachers.map(teacher => (teacher as unknown as AchievmentTeacherValue).title);
+      this.teachers = achievement.teachers.map((teacher) => (teacher as unknown as AchievmentTeacherValue).title);
     } else {
       this.teachers = info.teachers.map((teacher: Teacher) => `${teacher.lastName} ${teacher.firstName}`);
     }

@@ -1,17 +1,17 @@
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/full-width-card.scss";
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/full-width-card.scss';
 
-.card-block{
-  &__parent{
+.card-block {
+  &__parent {
     flex: 2;
   }
-  &__info{
+  &__info {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    &>div{
+    & > div {
       flex: 1;
-      &:not(:first-child){
+      &:not(:first-child) {
         padding-left: 8px;
       }
     }
@@ -23,30 +23,30 @@
     align-items: center;
   }
 }
-.workshop-description{
+.workshop-description {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-start;
-  h4{
-    &:not(:last-child){
+  h4 {
+    &:not(:last-child) {
       padding-bottom: 8px;
     }
   }
 }
 
-.workshop-age{
+.workshop-age {
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.text{
+.text {
   display: flex;
   justify-content: start;
   align-items: center;
 }
 
-.btn{
+.btn {
   font-family: 'Innerspace';
   font-style: normal;
   font-weight: bold;
@@ -55,14 +55,14 @@
   padding: 0.6rem 1.9rem;
   margin: 0 8px;
   min-width: 10rem;
-  &-gray{
-    background: #FFFFFF;
-    border: 1px solid #AAAAAA;
+  &-gray {
+    background: #ffffff;
+    border: 1px solid #aaaaaa;
     color: #444444;
     padding: 0.6rem 1.9rem;
   }
 }
-.hidden{
+.hidden {
   visibility: hidden;
 }
 
@@ -70,9 +70,9 @@
   padding-bottom: 8px;
 }
 
-::ng-deep .mat-menu-panel.childInfo-menu{
-  max-width:none;
-  background: #FFFFFF;
+::ng-deep .mat-menu-panel.childInfo-menu {
+  max-width: none;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px !important;
 }
@@ -87,8 +87,8 @@
 }
 
 @media (max-width: 1220px) {
-  .card-block{
-    &__buttons{
+  .card-block {
+    &__buttons {
       flex-direction: column;
       justify-content: center;
       gap: 10px;
@@ -97,42 +97,42 @@
 }
 
 @media (max-width: 1020px) {
-  .card-block{
-    &__parent{
+  .card-block {
+    &__parent {
       flex: 1;
     }
-    &__info{
+    &__info {
       flex-direction: column;
       align-items: start;
       gap: 12px;
-      &>div{
-        &:not(:first-child){
+      & > div {
+        &:not(:first-child) {
           padding-left: 0px;
         }
       }
     }
   }
-  .text{
-    &-bold{
+  .text {
+    &-bold {
       display: none;
     }
   }
-  .workshop-age{
+  .workshop-age {
     display: none;
   }
 }
 
 @media (max-width: 530px) {
-  .title{
+  .title {
     min-width: 180px;
   }
-  .card{
+  .card {
     flex-direction: column;
     align-items: start;
     gap: 20px;
   }
-  .card-block{
-    &:first-child{
+  .card-block {
+    &:first-child {
       width: 100%;
       display: flex;
       justify-content: space-between;
@@ -142,17 +142,16 @@
       width: 100%;
       flex-direction: row;
       justify-content: center;
-
     }
-    &__actions{
+    &__actions {
       align-items: flex-start;
     }
   }
-  .btn{
+  .btn {
     min-width: 140px;
     margin: 0;
   }
-  .material-icons{
+  .material-icons {
     margin-top: 2px !important;
   }
 }

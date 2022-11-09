@@ -5,23 +5,23 @@
   padding: 1.5rem 1.5rem 0 1.5rem;
   border-radius: 5px;
 
-.nav {
-  border-bottom: none;
-  a {
-    font-size: 13px;
-    opacity: 1;
-    min-width: 0px !important;
-    height: inherit!important;
-    padding: 0 24px 8px 24px!important;
+  .nav {
+    border-bottom: none;
+    a {
+      font-size: 13px;
+      opacity: 1;
+      min-width: 0px !important;
+      height: inherit !important;
+      padding: 0 24px 8px 24px !important;
+    }
+    a:first-child {
+      padding: 0 24px 8px 0px !important;
+    }
+    .active {
+      color: #3849f9;
+      border-bottom: 2px solid #3849f9;
+    }
   }
-  a:first-child {
-    padding: 0 24px 8px 0px!important;
-  }
-  .active {
-    color: #3849f9;
-    border-bottom: 2px solid #3849f9;
-  }
-}
 
   @media (max-width: 750px) {
     margin-top: 40px;
@@ -30,7 +30,7 @@
 .title,
 .nav a {
   font-weight: 700;
-  font-family:'Innerspace';
+  font-family: 'Innerspace';
   color: #444444;
 }
 .title {

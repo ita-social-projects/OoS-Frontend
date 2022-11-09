@@ -10,10 +10,6 @@ export class ApplicationFilterPipe implements PipeTransform {
   readonly statuses = Statuses;
 
   transform(array: Application[], statuses: string[]): Application[] {
-    return array.filter((card) =>
-      statuses.find(
-        (status: string) => this.statuses[card.status] === this.statuses[status]
-      )
-    );
+    return array.filter((card) => statuses.find((status: string) => this.statuses[card.status] === this.statuses[status]));
   }
 }

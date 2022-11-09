@@ -10,18 +10,13 @@ describe('ImageFormControlComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatGridListModule,
-        MatDialogModule
-      ],
+      imports: [MatIconModule, MatGridListModule, MatDialogModule],
       declarations: [ImageFormControlComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

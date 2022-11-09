@@ -33,13 +33,8 @@ describe('ChildFormComponent', () => {
         MatIconModule,
         MatChipsModule
       ],
-      declarations: [
-        ChildFormComponent,
-        MockValidationHintForInputComponent,
-        KeyFilterDirective
-      ]
-    })
-      .compileComponents();
+      declarations: [ChildFormComponent, MockValidationHintForInputComponent, KeyFilterDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -69,7 +64,6 @@ describe('ChildFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

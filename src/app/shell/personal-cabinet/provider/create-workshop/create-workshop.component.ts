@@ -24,19 +24,20 @@ import { Provider } from '../../../../shared/models/provider.model';
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
   styleUrls: ['./create-workshop.component.scss'],
-  providers: [{
-    provide: STEPPER_GLOBAL_OPTIONS,
-    useValue: { displayDefaultIndicatorType: false }
-  }]
+  providers: [
+    {
+      provide: STEPPER_GLOBAL_OPTIONS,
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
-
   @Select(RegistrationState.provider)
-    provider$: Observable<Provider>;
+  provider$: Observable<Provider>;
   provider: Provider;
 
   @Select(SharedUserState.selectedWorkshop)
-    selectedWorkshop$: Observable<Workshop>;
+  selectedWorkshop$: Observable<Workshop>;
   workshop: Workshop;
 
   AboutFormGroup: FormGroup;
@@ -44,10 +45,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor(
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService) {
+  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService) {
     super(store, route, navigationBarService);
   }
 
@@ -55,7 +53,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.provider$
       .pipe(
         takeUntil(this.destroy$),
-        filter((provider: Provider) => !!provider))
+        filter((provider: Provider) => !!provider)
+      )
       .subscribe((provider: Provider) => (this.provider = provider));
 
     this.determineEditMode();
@@ -65,7 +64,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole  = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
     this.store.dispatch(
       new AddNavPath(
@@ -74,7 +73,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             name: personalCabinetTitle,
             path: '/personal-cabinet/provider/administration',
             isActive: false,
-            disable: false,
+            disable: false
           },
           {
             name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop,
@@ -93,10 +92,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.selectedWorkshop$
       .pipe(
         takeUntil(this.destroy$),
-        filter((workshop: Workshop) => !!workshop))
+        filter((workshop: Workshop) => !!workshop)
+      )
       .subscribe((workshop: Workshop) => (this.workshop = workshop));
   }
-
 
   /**
    * This method dispatch store action to create a Workshop with Form Groups values

@@ -11,13 +11,9 @@ import { SearchResponse } from '../../models/search.model';
   providedIn: 'root'
 })
 export class MinistryAdminService {
+  constructor(private http: HttpClient, private store: Store) {}
 
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
-
-  private setParams( parameters: MinistryAdminParameters = {searchString: '',}): HttpParams {
+  private setParams(parameters: MinistryAdminParameters = { searchString: '' }): HttpParams {
     let params = new HttpParams();
 
     if (parameters.searchString) {

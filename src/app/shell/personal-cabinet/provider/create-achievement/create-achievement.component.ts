@@ -8,7 +8,12 @@ import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { Location } from '@angular/common';
-import { CreateAchievement, GetAchievementById, GetChildrenByWorkshopId, UpdateAchievement } from './../../../../shared/store/provider.actions';
+import {
+  CreateAchievement,
+  GetAchievementById,
+  GetChildrenByWorkshopId,
+  UpdateAchievement
+} from './../../../../shared/store/provider.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
@@ -33,19 +38,19 @@ import { Child } from '../../../../shared/models/child.model';
 @Component({
   selector: 'app-create-achievement',
   templateUrl: './create-achievement.component.html',
-  styleUrls: ['./create-achievement.component.scss'],
+  styleUrls: ['./create-achievement.component.scss']
 })
 export class CreateAchievementComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
 
   @Select(SharedUserState.selectedWorkshop)
-    workshop$: Observable<Workshop>;
+  workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
-    approvedChildren$: Observable<SearchResponse<Child[]>>;
+  approvedChildren$: Observable<SearchResponse<Child[]>>;
   @Select(ProviderState.selectedAchievement)
-    selectedAchievement$: Observable<Achievement>;
+  selectedAchievement$: Observable<Achievement>;
   @Select(MetaDataState.achievementsTypes)
-    achievementsTypes$: Observable<AchievementType[]>;
+  achievementsTypes$: Observable<AchievementType[]>;
 
   AchievementFormGroup: FormGroup;
   workshop: Workshop;
@@ -80,12 +85,12 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
       ]),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
       teachers: new FormControl('', Validators.required),
-      children: new FormControl('', Validators.required),
+      children: new FormControl('', Validators.required)
     });
 
     this.subscribeOnDirtyForm(this.AchievementFormGroup);
@@ -106,11 +111,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
 
   getData(): void {
     this.workshopId = this.route.snapshot.paramMap.get('param');
-    this.store.dispatch([
-      new GetWorkshopById(this.workshopId),
-      new GetChildrenByWorkshopId(this.workshopId),
-      new GetAchievementsType(),
-    ]);
+    this.store.dispatch([new GetWorkshopById(this.workshopId), new GetChildrenByWorkshopId(this.workshopId), new GetAchievementsType()]);
 
     combineLatest([this.workshop$, this.approvedChildren$])
       .pipe(
@@ -146,7 +147,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
         name: this.workshop.title,
         path: `/details/workshop/${this.workshopId}`,
         isActive: false,
-        disable: false,
+        disable: false
       };
     } else {
       const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
@@ -157,7 +158,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
         name: personalCabinetTitle,
         path: '/personal-cabinet/provider/workshops',
         isActive: false,
-        disable: false,
+        disable: false
       };
     }
 
@@ -166,7 +167,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
         this.navigationBarService.createNavPaths(prevPath, {
           name: this.editMode ? NavBarName.UpdateAchievement : NavBarName.CreateAchievement,
           isActive: false,
-          disable: true,
+          disable: true
         })
       )
     );
@@ -187,8 +188,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.createAchievement,
-        property: '',
-      },
+        property: ''
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

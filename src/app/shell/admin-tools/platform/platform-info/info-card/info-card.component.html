@@ -1,17 +1,14 @@
 <div *ngIf="!(isLoading$ | async)" class="wrapper" fxLayout="row wrap" fxLayoutAlign="start">
   <ng-container *ngIf="platformInfo; else noInfoTmpl">
     <div class="config">
-
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, 'edit']">
-        <button mat-button style="color:#3849F9;">
-          <mat-icon style="color:#3849F9;">edit</mat-icon>Редагувати
-        </button>
+        <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Редагувати</button>
       </a>
-      <h3 *ngIf="platformInfo.title.length<40">{{platformInfo.title}}</h3> 
-      <h3 *ngIf="platformInfo.title.length>=40" style="padding-top: 3rem;">{{platformInfo.title}}</h3>
+      <h3 *ngIf="platformInfo.title.length < 40">{{ platformInfo.title }}</h3>
+      <h3 *ngIf="platformInfo.title.length >= 40" style="padding-top: 3rem">{{ platformInfo.title }}</h3>
       <div *ngFor="let portalItem of platformInfo.companyInformationItems" class="config-wrapper">
-        <h4>{{portalItem.sectionName}}</h4>
-        <p>{{portalItem.description}}</p>
+        <h4>{{ portalItem.sectionName }}</h4>
+        <p>{{ portalItem.description }}</p>
       </div>
     </div>
   </ng-container>
@@ -19,11 +16,9 @@
   <ng-template #noInfoTmpl>
     <div class="config" fxLayout="column" fxLayoutAlign="center center">
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, '']">
-        <button mat-button style="color:#3849F9;">
-          <mat-icon style="color:#3849F9;">edit</mat-icon>Додати інформацію
-        </button>
+        <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Додати інформацію</button>
       </a>
-      <div  class="config-wrapper" >
+      <div class="config-wrapper">
         <h4>Інформації поки немає</h4>
       </div>
     </div>

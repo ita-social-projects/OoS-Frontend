@@ -7,16 +7,9 @@ import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/decli
 import { NavBarName } from '../../shared/enum/navigation-bar';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
-import {
-  GetFilteredWorkshops,
-  ResetFilteredWorkshops
-} from '../../shared/store/filter.actions';
+import { GetFilteredWorkshops, ResetFilteredWorkshops } from '../../shared/store/filter.actions';
 import { FilterState } from '../../shared/store/filter.state';
-import {
-  FiltersSidenavToggle,
-  AddNavPath,
-  DeleteNavPath
-} from '../../shared/store/navigation.actions';
+import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { NavigationState } from '../../shared/store/navigation.state';
 import { SetWorkshopsPerPage } from '../../shared/store/paginator.actions';
 import { PaginatorState } from '../../shared/store/paginator.state';
@@ -79,49 +72,29 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   private setInitialSubscribtions(): void {
-    combineLatest([
-      this.isMobileView$,
-      this.role$,
-      this.route.params,
-      this.currentPage$,
-      this.workshopsPerPage$,
-      this.isMapView$
-    ])
+    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.workshopsPerPage$, this.isMapView$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        ([
-          isMobileView,
-          role,
-          params,
-          currentPage,
-          workshopsPerPage,
-          isMapView
-        ]) => {
-          this.isMobileView = isMobileView;
-          this.role = role;
-          this.currentView = params.param;
-          this.currentPage = currentPage;
-          this.workshopsPerPage = workshopsPerPage;
-          this.isMapView = isMapView;
-          if (!this.isMobileView) {
-            this.store.dispatch(new FiltersSidenavToggle(true));
-          }
+      .subscribe(([isMobileView, role, params, currentPage, workshopsPerPage, isMapView]) => {
+        this.isMobileView = isMobileView;
+        this.role = role;
+        this.currentView = params.param;
+        this.currentPage = currentPage;
+        this.workshopsPerPage = workshopsPerPage;
+        this.isMapView = isMapView;
+        if (!this.isMobileView) {
+          this.store.dispatch(new FiltersSidenavToggle(true));
         }
-      );
+      });
 
-    this.isFiltersSidenavOpen$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
+    this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
   }
 
   private getWorkshops(): void {
-    this.router.events
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event: NavigationStart) => {
-        if (event.navigationTrigger === 'popstate') {
-          this.store.dispatch(new GetFilteredWorkshops(this.isMapView));
-        }
-      });
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
+      if (event.navigationTrigger === 'popstate') {
+        this.store.dispatch(new GetFilteredWorkshops(this.isMapView));
+      }
+    });
   }
 
   private addNavPath(): void {
@@ -144,10 +117,7 @@ export class ResultComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([
-      new SetWorkshopsPerPage(itemsPerPage),
-      new GetFilteredWorkshops()
-    ]);
+    this.store.dispatch([new SetWorkshopsPerPage(itemsPerPage), new GetFilteredWorkshops()]);
   }
 
   filterHandler(): void {

@@ -18,11 +18,6 @@ export class ClearRatings {
   static readonly type = '[meta-data] clear ratings state';
 }
 
-export class FilteredDirectionsList {
-  static readonly type = '[meta-data] Get list of filtered directions';
-  constructor(public payload: Direction[]) {}
-}
-
 export class GetRateByEntityId {
   static readonly type = '[meta-data] Get Rate';
   constructor(public enitityType: string, public entitytId: string) {}

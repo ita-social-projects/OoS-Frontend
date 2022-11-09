@@ -17,23 +17,10 @@ describe('MainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatSnackBarModule,
-        NgxsModule.forRoot([]),
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
-      declarations: [
-        MainComponent,
-        FooterComponent,
-        MockMainCategoryCardComponent,
-        MockMainWorkshopCardComponent
-      ],
-      providers: [
-        { provide: OidcSecurityService, useValue: MockOidcSecurityService }
-      ]
-    })
-      .compileComponents();
+      imports: [MatSnackBarModule, NgxsModule.forRoot([]), HttpClientTestingModule, RouterTestingModule],
+      declarations: [MainComponent, FooterComponent, MockMainCategoryCardComponent, MockMainWorkshopCardComponent],
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
+    }).compileComponents();
   });
 
   beforeEach(() => {

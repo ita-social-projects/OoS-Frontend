@@ -30,7 +30,7 @@ describe('HistoryLogComponent', () => {
         MatIconModule,
         MatInputModule,
         BrowserAnimationsModule,
-        HttpClientModule,
+        HttpClientModule
       ],
       declarations: [
         HistoryLogComponent,
@@ -39,7 +39,7 @@ describe('HistoryLogComponent', () => {
         MockHistoryLogPaginatorComponent,
         MockHistoryLogFiltersComponent
       ],
-      providers: [HistoryLogService],
+      providers: [HistoryLogService]
     }).compileComponents();
   });
 
@@ -56,7 +56,7 @@ describe('HistoryLogComponent', () => {
 
 @Component({
   selector: 'app-history-log-table',
-  template: '',
+  template: ''
 })
 class MockHistoryLogTableComponent {
   @Input() table: object[];
@@ -65,7 +65,7 @@ class MockHistoryLogTableComponent {
 
 @Component({
   selector: 'app-paginator',
-  template: '',
+  template: ''
 })
 class MockHistoryLogPaginatorComponent {
   @Input() totalEntities: number;
@@ -75,9 +75,8 @@ class MockHistoryLogPaginatorComponent {
 
 @Component({
   selector: 'app-history-log-filters',
-  template: '',
+  template: ''
 })
 class MockHistoryLogFiltersComponent {
   @Input() dropdownOptions: DropdownData[];
 }
-

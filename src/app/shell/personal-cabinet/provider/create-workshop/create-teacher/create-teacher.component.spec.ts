@@ -13,20 +13,9 @@ describe('CreateTeacherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatGridListModule,
-        MatDialogModule
-      ],
-      declarations: [
-        CreateTeacherComponent,
-        MockTeacherFormComponent,
-        MockImageFormControlComponent
-      ]
-    })
-      .compileComponents();
+      imports: [MatFormFieldModule, ReactiveFormsModule, MatIconModule, MatGridListModule, MatDialogModule],
+      declarations: [CreateTeacherComponent, MockTeacherFormComponent, MockImageFormControlComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,4 +44,4 @@ class MockTeacherFormComponent {
   selector: 'app-image-form-control',
   template: ''
 })
-class MockImageFormControlComponent { }
+class MockImageFormControlComponent {}

@@ -6,18 +6,11 @@ import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import {
-  ApplicationParameters,
-  Application,
-  ApplicationUpdate
-} from '../../../../shared/models/application.model';
+import { ApplicationParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import {
-  UpdateApplication,
-  GetApplicationsByParentId
-} from '../../../../shared/store/shared-user.actions';
+import { UpdateApplication, GetApplicationsByParentId } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { Statuses } from '../../../../shared/enum/statuses';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
@@ -27,10 +20,7 @@ import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.a
   selector: 'app-parent-applications',
   templateUrl: './parent-applications.component.html'
 })
-export class ParentApplicationsComponent
-  extends CabinetDataComponent
-  implements OnInit, OnDestroy
-{
+export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly ChildDeclination = ChildDeclination;
 
   @Select(RegistrationState.parent)
@@ -79,17 +69,12 @@ export class ParentApplicationsComponent
    * @param Application event
    */
   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(
-      application.id,
-      Statuses.Left
-    );
+    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Left);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
   onGetApplications(): void {
-    this.store.dispatch(
-      new GetApplicationsByParentId(this.parent.id, this.applicationParams)
-    );
+    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, this.applicationParams));
   }
 
   /**
@@ -102,8 +87,6 @@ export class ParentApplicationsComponent
   }
 
   private getParentChildren(isParent: boolean = false): void {
-    this.store.dispatch(
-      new GetAllUsersChildrenByParentId({ id: this.parent.id, isParent })
-    );
+    this.store.dispatch(new GetAllUsersChildrenByParentId({ id: this.parent.id, isParent }));
   }
 }

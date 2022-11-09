@@ -1,54 +1,25 @@
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import {
-  DeleteProviderById,
-  UpdateProviderStatus
-} from './../../../../shared/store/provider.actions';
-import {
-  AfterViewInit,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import {
-  debounceTime,
-  distinctUntilChanged,
-  filter,
-  takeUntil,
-  startWith,
-  map,
-  skip
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import {
-  Constants,
-  PaginationConstants
-} from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
-import {
-  Provider,
-  ProviderStatusUpdateData
-} from '../../../../shared/models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderService } from '../../../../shared/services/provider/provider.service';
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
-import {
-  PopNavPath,
-  PushNavPath
-} from '../../../../shared/store/navigation.actions';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import {
-  OnPageChangeAdminTable,
-  SetItemsPerPage
-} from '../../../../shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -100,11 +71,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   totalEntities: number;
   searchString: string;
 
-  constructor(
-    private liveAnnouncer: LiveAnnouncer,
-    private store: Store,
-    private matDialog: MatDialog
-  ) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     this.store.dispatch([
@@ -163,10 +130,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
         data: { type: ModalConfirmationType.editingProvider }
       });
       dialogRef.afterClosed().subscribe((statusReason: string) => {
-        statusReason &&
-          this.store.dispatch(
-            new UpdateProviderStatus({ ...statusUpdateData, statusReason })
-          );
+        statusReason && this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }));
       });
     } else {
       this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
@@ -189,17 +153,11 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([
-      new OnPageChangeAdminTable(page),
-      new GetFilteredProviders()
-    ]);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders()]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([
-      new SetItemsPerPage(itemsPerPage),
-      new GetFilteredProviders()
-    ]);
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
   }
 
   ngOnDestroy(): void {

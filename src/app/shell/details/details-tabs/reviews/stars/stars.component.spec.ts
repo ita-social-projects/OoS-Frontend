@@ -12,17 +12,9 @@ describe('StarsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatButtonToggleModule,
-        BrowserModule,
-        FormsModule,
-        ReactiveFormsModule,
-        BrowserAnimationsModule,
-        MatIconModule
-      ],
+      imports: [MatButtonToggleModule, BrowserModule, FormsModule, ReactiveFormsModule, BrowserAnimationsModule, MatIconModule],
       declarations: [StarsComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

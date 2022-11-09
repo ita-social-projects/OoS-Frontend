@@ -9,7 +9,8 @@
       *ngFor="let workshop of workshops$ | async"
       [workshop]="workshop"
       [isCabinetView]="true"
-      (deleteWorkshop)="onDelete($event)">
+      (deleteWorkshop)="onDelete($event)"
+    >
     </app-workshop-card>
   </div>
 </ng-container>

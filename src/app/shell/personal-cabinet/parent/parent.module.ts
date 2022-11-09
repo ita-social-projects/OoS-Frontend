@@ -35,9 +35,8 @@ import { MaterialModule } from '../../../shared/modules/material.module';
     MaterialModule,
     SharedCabinetModule,
     RouterModule,
-    FormsModule,
+    FormsModule
   ],
-  providers: [
-  ]
+  providers: []
 })
-export class ParentModule { }
+export class ParentModule {}

@@ -1,40 +1,40 @@
 export const ProviderOptions = [
   {
     value: 'FullTitle',
-    label: 'Назва',
+    label: 'Назва'
   },
   {
     value: 'EdrpouIpn',
-    label: 'ЄРДПО',
+    label: 'ЄРДПО'
   },
   {
     value: 'Director',
-    label: 'ПІБ Директора',
+    label: 'ПІБ Директора'
   },
   {
     value: 'Institution',
-    label: 'Підпрядкування',
+    label: 'Підпрядкування'
   },
   {
     value: 'LegalAddress',
-    label: 'Юридична адреса',
-  },
+    label: 'Юридична адреса'
+  }
 ];
 
 export const ProviderAdminOptions = [
   {
     value: 'delete',
-    label: 'Видалення адміністратора з гуртка',
+    label: 'Видалення адміністратора з гуртка'
   },
   {
     value: 'create',
-    label: 'Створення адміністратора',
-  },
+    label: 'Створення адміністратора'
+  }
 ];
 
 export const ApplicationOptions = [
   {
     value: 'Status',
-    label: 'Зміна статусів заявок',
-  },
+    label: 'Зміна статусів заявок'
+  }
 ];

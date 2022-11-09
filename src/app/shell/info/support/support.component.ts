@@ -12,34 +12,28 @@ import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.acti
 @Component({
   selector: 'app-support',
   templateUrl: './support.component.html',
-  styleUrls: ['./support.component.scss'],
+  styleUrls: ['./support.component.scss']
 })
 export class SupportComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
   @Select(AdminState.SupportInformation)
-    platformSupport$: Observable<CompanyInformation>;
+  platformSupport$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-    isLoading$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
 
   platformSupport: CompanyInformation;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService ) { }
+  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createOneNavPath({ name: NavBarName.SupportInformation, isActive: false, disable: true })
-      )
+      new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.SupportInformation, isActive: false, disable: true }))
     );
     this.store.dispatch(new GetSupportInformation());
-    this.platformSupport$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (support: CompanyInformation) => this.platformSupport = support
-      );
+    this.platformSupport$.pipe(takeUntil(this.destroy$)).subscribe((support: CompanyInformation) => (this.platformSupport = support));
   }
 
   ngOnDestroy(): void {

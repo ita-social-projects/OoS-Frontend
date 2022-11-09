@@ -9,7 +9,7 @@ import { WorkshopDeclination } from '../../enum/enumUA/declinations/declination'
 @Component({
   selector: 'app-category-card',
   templateUrl: './category-card.component.html',
-  styleUrls: ['./category-card.component.scss']
+  styleUrls: ['./category-card.component.scss'],
 })
 export class CategoryCardComponent {
   @Input() workshopsCount: number;
@@ -22,10 +22,7 @@ export class CategoryCardComponent {
 
   public categoryIcons = CategoryIcons;
 
-  constructor(
-    private store: Store,
-    private router: Router
-  ) {}
+  constructor(private store: Store, private router: Router) {}
 
   onDelete(event: Event): void {
     this.deleteDirection.emit(this.direction);
@@ -33,7 +30,7 @@ export class CategoryCardComponent {
   }
 
   selectDirection(direction: Direction): void {
-    this.store.dispatch(new SetDirections([direction]));
+    this.store.dispatch(new SetDirections([direction.id]));
     this.router.navigate(['/result']);
   }
 }

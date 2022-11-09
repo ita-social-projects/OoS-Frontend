@@ -9,10 +9,7 @@ describe('CreateGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatDialogModule
-      ]
+      imports: [NgxsModule.forRoot([]), MatDialogModule]
     });
     guard = TestBed.inject(CreateGuard);
   });

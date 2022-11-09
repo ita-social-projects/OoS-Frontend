@@ -15,7 +15,7 @@ import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 @Component({
   selector: 'app-create-photo-form',
   templateUrl: './create-photo-form.component.html',
-  styleUrls: ['./create-photo-form.component.scss'],
+  styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -28,7 +28,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Input() provider: Provider;
@@ -37,7 +37,7 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
   @Output() passPhotoFormGroup = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-    institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatuses: InstitutionStatus[];
 
   PhotoFormGroup: FormGroup;
@@ -56,8 +56,8 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-      ]),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ])
     });
   }
 
@@ -106,8 +106,8 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ])
     });
 
     if (this.provider) {

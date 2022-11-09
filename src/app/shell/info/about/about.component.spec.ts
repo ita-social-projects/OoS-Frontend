@@ -9,12 +9,9 @@ describe('AboutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [ AboutComponent, NoResultCardComponent ]
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([])],
+      declarations: [AboutComponent, NoResultCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

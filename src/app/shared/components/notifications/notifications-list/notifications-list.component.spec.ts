@@ -11,17 +11,9 @@ describe('NotificationsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        RouterTestingModule,
-      ],
-      declarations: [
-        NotificationsListComponent,
-        DeclinationPipe
-      ]
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), MatIconModule, RouterTestingModule],
+      declarations: [NotificationsListComponent, DeclinationPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

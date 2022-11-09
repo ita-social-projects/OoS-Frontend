@@ -9,10 +9,10 @@ const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
   { path: 'administration', component: ProviderAdminsComponent },
   { path: 'workshops', component: ProviderWorkshopsComponent },
-  { path: 'applications', component: ProviderApplciationsComponent },
+  { path: 'applications', component: ProviderApplciationsComponent }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class ProviderRoutingModule {}

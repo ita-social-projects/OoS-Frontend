@@ -12,5 +12,5 @@ export class WorkshopTeachersComponent {
 
   @Input() teachers: Teacher[];
 
-  constructor() { }
+  constructor() {}
 }

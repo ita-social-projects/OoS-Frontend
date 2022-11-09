@@ -10,13 +10,9 @@ describe('ErrorPageComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NgxsModule.forRoot([]),
-      ],
-      declarations: [ ErrorPageComponent ]
-    })
-      .compileComponents();
+      imports: [RouterTestingModule, NgxsModule.forRoot([])],
+      declarations: [ErrorPageComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

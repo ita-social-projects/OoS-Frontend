@@ -1,12 +1,12 @@
-@import "src/app/shared/styles/card-wrapper.scss";
-@import "src/app/shared/styles/cards.scss";
-@import "src/app/shared/styles/list-wrappers.scss";
-@import "src/app/shared/styles/navigation-tabs.scss";
-@import "src/app/shared/styles/buttons.scss";
-.text{
+@import 'src/app/shared/styles/card-wrapper.scss';
+@import 'src/app/shared/styles/cards.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/buttons.scss';
+.text {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
-  color:#272425;
+  color: #272425;
 }
 .add-wrapper {
   margin-top: 2rem;

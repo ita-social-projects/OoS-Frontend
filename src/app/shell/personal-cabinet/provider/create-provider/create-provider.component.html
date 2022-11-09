@@ -10,21 +10,11 @@
         <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
         </ng-template>
-        <app-create-info-form
-          [isRelease3]="isRelease3"
-          [provider]="provider"
-          (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
+        <app-create-info-form [isRelease3]="isRelease3" [provider]="provider" (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
-            СКАСУВАТИ
-          </button>
-          <button
-            class="btn"
-            mat-raised-button
-            matStepperNext
-            (click)="checkValidation(InfoFormGroup)"
-            [disabled]="InfoFormGroup.invalid">
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button>
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)" [disabled]="InfoFormGroup.invalid">
             ДАЛІ
           </button>
         </div>
@@ -41,19 +31,19 @@
         <app-create-contacts-form
           (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)"
-          [provider]="provider">
+          [provider]="provider"
+        >
         </app-create-contacts-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
-            СКАСУВАТИ
-          </button>
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button>
           <button
             class="btn"
             mat-raised-button
             matStepperNext
             (click)="checkValidationContacts(ContactsFormGroup)"
-            [disabled]="ContactsFormGroup.invalid">
+            [disabled]="ContactsFormGroup.invalid"
+          >
             ДАЛІ
           </button>
         </div>
@@ -66,35 +56,25 @@
         <ng-template matStepLabel>
           <p class="step-name">Опис</p>
         </ng-template>
-        <app-create-photo-form
-          [isRelease3]="isRelease3"
-          [provider]="provider"
-          (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
+        <app-create-photo-form [isRelease3]="isRelease3" [provider]="provider" (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
         </app-create-photo-form>
 
         <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"
             >Я надаю згоду на обробку персональних даних
           </mat-checkbox>
-          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl"
-            >Я не робот
-          </mat-checkbox>
+          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я не робот </mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
-            СКАСУВАТИ
-          </button>
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button>
           <button
             class="btn"
             mat-button
             type="submit"
             (click)="onSubmit()"
-            [disabled]="
-              !isAgreed || !isNotRobot ||
-              PhotoFormGroup.invalid ||
-              ContactsFormGroup.invalid ||
-              InfoFormGroup.invalid">
+            [disabled]="!isAgreed || !isNotRobot || PhotoFormGroup.invalid || ContactsFormGroup.invalid || InfoFormGroup.invalid"
+          >
             ЗБЕРЕГТИ
           </button>
         </div>

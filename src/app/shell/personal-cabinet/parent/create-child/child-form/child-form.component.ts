@@ -11,7 +11,7 @@ import { Util } from '../../../../../shared/utils/utils';
 @Component({
   selector: 'app-child-form',
   templateUrl: './child-form.component.html',
-  styleUrls: ['./child-form.component.scss'],
+  styleUrls: ['./child-form.component.scss']
 })
 export class ChildFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
@@ -54,9 +54,7 @@ export class ChildFormComponent implements OnInit {
     if (!this.socialGroupControl.value.length) {
       return false;
     } else {
-      const isNoneValueSelected = this.socialGroupControl.value.some(
-        (group: SocialGroup) => group.id === this.NONE_SOCIAL_GROUP_ID
-      );
+      const isNoneValueSelected = this.socialGroupControl.value.some((group: SocialGroup) => group.id === this.NONE_SOCIAL_GROUP_ID);
       return option.id === this.NONE_SOCIAL_GROUP_ID ? !isNoneValueSelected : isNoneValueSelected;
     }
   }

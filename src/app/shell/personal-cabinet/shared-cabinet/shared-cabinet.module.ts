@@ -10,6 +10,8 @@ import { MaterialModule } from '../../../shared/modules/material.module';
 import { SharedModule } from '../../../shared/shared.module';
 import { MessagesComponent } from './messages/messages.component';
 import { MessageCardComponent } from './messages/message-card/message-card.component';
+import { ChatComponent } from './messages/chat/chat.component';
+import { MessageComponent } from './messages/chat/message/message.component';
 
 @NgModule({
   declarations: [
@@ -18,15 +20,11 @@ import { MessageCardComponent } from './messages/message-card/message-card.compo
     InfoStatusComponent,
     ChildInfoBoxComponent,
     MessagesComponent,
-    MessageCardComponent
+    MessageCardComponent,
+    ChatComponent,
+    MessageComponent
   ],
-  imports: [
-    MaterialModule,
-    SharedModule,
-    CommonModule,
-    FlexLayoutModule,
-    RouterModule
-  ],
+  imports: [MaterialModule, SharedModule, CommonModule, FlexLayoutModule, RouterModule],
   exports: [ApplicationsComponent]
 })
 export class SharedCabinetModule {}

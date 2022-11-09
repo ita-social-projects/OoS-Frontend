@@ -12,20 +12,16 @@ import { PaginatorState } from '../../store/paginator.state';
 @Injectable({
   providedIn: 'root'
 })
-
 export class ChildrenService {
+  constructor(private http: HttpClient, private store: Store) {}
 
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) { }
-
-  private setParams( parameters?: ChildrenParameters, isParent?: boolean ): HttpParams {
+  private setParams(parameters?: ChildrenParameters, isParent?: boolean): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
       if (parameters.searchString) {
-        params = params.set('SearchString', parameters.searchString); }
+        params = params.set('SearchString', parameters.searchString);
+      }
       if (parameters.tabTitle) {
         if (parameters.tabTitle == 'Батьки') {
           isParent = true;
@@ -36,7 +32,8 @@ export class ChildrenService {
       }
 
       if (isParent !== undefined) {
-        params = params.set('isParent', isParent.toString()); }
+        params = params.set('isParent', isParent.toString());
+      }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
@@ -78,11 +75,10 @@ export class ChildrenService {
    * This method get children for Admin
    */
   getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<SearchResponse<Child[]>> {
-    const options = { params: this.setParams(paremeters, isParent), };
+    const options = { params: this.setParams(paremeters, isParent) };
 
     return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
   }
-
 
   /**
    * This method create Child
@@ -107,7 +103,6 @@ export class ChildrenService {
   getUsersChildById(id: string): Observable<Child> {
     return this.http.get<Child>(`/api/v1/Child/GetUsersChildById/${id}`);
   }
-
 
   /**
    * This method delete child by Child id

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class InstitutionsService {
   constructor(private http: HttpClient) {}
@@ -19,14 +19,12 @@ export class InstitutionsService {
     params = params.set('hierarchyLevel', hierarchyLevel.toString());
 
     return this.http.get<InstituitionHierarchy[]>('/api/v1/InstitutionHierarchy/GetAllByInstitutionAndLevel', {
-      params,
+      params
     });
   }
 
   getFieldDescriptionByInstitutionId(institutionsId: string): Observable<InstitutionFieldDescription[]> {
-    return this.http.get<InstitutionFieldDescription[]>(
-      `/api/v1/InstitutionFieldDescription/GetByInstitutionId/${institutionsId}`
-    );
+    return this.http.get<InstitutionFieldDescription[]>(`/api/v1/InstitutionFieldDescription/GetByInstitutionId/${institutionsId}`);
   }
 
   getInstitutionHierarchyChildrenById(id: string): Observable<InstituitionHierarchy[]> {

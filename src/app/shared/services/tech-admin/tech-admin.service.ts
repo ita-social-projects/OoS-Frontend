@@ -7,12 +7,11 @@ import { TechAdmin } from '../../models/techAdmin.model';
   providedIn: 'root'
 })
 export class TechAdminService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
-  * This method get TechAdmin by id
-  */
+   * This method get TechAdmin by id
+   */
   getProfile(): Observable<TechAdmin> {
     return this.http.get<TechAdmin>('/api/v1/Admin/GetProfile');
   }

@@ -7,8 +7,7 @@ import { NotificationsAmount, Notifications, NotificationGrouped, Notification }
   providedIn: 'root'
 })
 export class NotificationsService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get amount of notifications

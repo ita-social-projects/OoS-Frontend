@@ -4,11 +4,10 @@ import { Store, Select } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import {
-  FilterChange,
   FilterClear,
   SetClosedRecruitment,
   SetOpenRecruitment,
-  SetWithDisabilityOption
+  SetWithDisabilityOption,
 } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
@@ -74,12 +73,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    * we add the status to the array or remove the status from the array.
    */
   statusHandler(val: boolean, status: string): void {
-    val
-      ? this.statuses.push(this.workhopStatus[status])
-      : this.statuses.splice(
-          this.statuses.indexOf(this.workhopStatus[status]),
-          1
-        );
+    val ? this.statuses.push(this.workhopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
   }
 
   changeView(): void {
@@ -87,7 +81,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   }
 
   onFilterReset(): void {
-    this.store.dispatch([new FilterClear(), new FilterChange()]);
+    this.store.dispatch(new FilterClear());
   }
 
   ngOnDestroy(): void {

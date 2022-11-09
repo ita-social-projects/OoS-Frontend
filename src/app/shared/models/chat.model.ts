@@ -19,3 +19,8 @@ export interface ChatRoom {
   notReadByCurrentUserMessagesCount?: number;
   lastMessage?: Message;
 }
+
+export interface MessagesParameters {
+  from: number;
+  size: number;
+}

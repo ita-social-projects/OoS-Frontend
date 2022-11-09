@@ -1,25 +1,26 @@
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/full-width-card.scss";
-
-
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/full-width-card.scss';
+.card{
+  cursor: pointer;
+}
 .card-block {
-  &__message{
+  &__message {
     display: flex;
-    >*{
+    > * {
       padding-right: 10px;
     }
   }
 }
-.companion{
+.companion {
   flex: 1;
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
-.title{
+.title {
   flex: 1;
 }
-.last-message{
+.last-message {
   flex: 2;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -29,26 +30,26 @@
 }
 
 @media (max-width: 1220px) {
-  .last-message{
+  .last-message {
     flex: 1.5;
   }
 }
 
 @media (max-width: 600px) {
-  .card-block{
-    &__message{
+  .card-block {
+    &__message {
       flex-direction: column;
       justify-content: center;
       gap: 12px;
     }
-    &__actions{
+    &__actions {
       align-items: flex-start;
     }
   }
-  .last-message{
+  .last-message {
     flex: auto;
   }
-  .material-icons{
+  .material-icons {
     margin-top: 2px !important;
   }
 }

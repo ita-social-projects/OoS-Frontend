@@ -8,7 +8,7 @@ import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { Provider, ProviderStatusUpdateData } from '../../models/provider.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProviderService {
   constructor(private http: HttpClient, private store: Store) {}

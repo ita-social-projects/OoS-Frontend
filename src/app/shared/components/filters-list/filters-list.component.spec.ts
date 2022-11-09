@@ -14,14 +14,7 @@ describe('FiltersListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatIconModule,
-        MatCheckboxModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgxsModule.forRoot([]),
-        RouterTestingModule
-      ],
+      imports: [MatIconModule, MatCheckboxModule, FormsModule, ReactiveFormsModule, NgxsModule.forRoot([]), RouterTestingModule],
       declarations: [
         FiltersListComponent,
         MockCityFilterComponent,

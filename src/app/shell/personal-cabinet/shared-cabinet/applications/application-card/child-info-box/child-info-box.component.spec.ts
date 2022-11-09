@@ -13,16 +13,10 @@ describe('ChildInfoBoxComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatCardModule,
-        HttpClientModule,
-      ],
+      imports: [MatCardModule, HttpClientModule],
       declarations: [ChildInfoBoxComponent, PhoneTransformPipe, JoinPipe],
-      providers: [
-        { provide: ChildrenService, useValue: ChildrenService }
-      ]
-    })
-      .compileComponents();
+      providers: [{ provide: ChildrenService, useValue: ChildrenService }]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -39,4 +33,3 @@ describe('ChildInfoBoxComponent', () => {
     expect(component).toBeTruthy();
   });
 });
-

@@ -1,23 +1,23 @@
 .navigation {
   padding: 10px 0;
 
-.mat-icon {
-  font-size: 13px;
-  width: 14px;
-  height: 14px;
-  margin: 0 5px;
-}
-
-&-link {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 0;
-
-  li {
-    list-style: none;
+  .mat-icon {
+    font-size: 13px;
+    width: 14px;
+    height: 14px;
+    margin: 0 5px;
   }
-}
+
+  &-link {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0;
+
+    li {
+      list-style: none;
+    }
+  }
 
   .is_active {
     color: #888888;
@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: center;
 
-    .mat-icon{
+    .mat-icon {
       transform: translateY(10%);
     }
   }
@@ -43,7 +43,7 @@
     font-weight: bold;
   }
 
-  @media(max-width: 750px){
+  @media (max-width: 750px) {
     display: none;
   }
 }

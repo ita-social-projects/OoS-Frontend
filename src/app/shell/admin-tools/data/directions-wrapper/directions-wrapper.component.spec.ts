@@ -9,7 +9,7 @@ describe('DirectionsWrapperComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([])],
-      declarations: [DirectionsWrapperComponent],
+      declarations: [DirectionsWrapperComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DirectionsWrapperComponent);

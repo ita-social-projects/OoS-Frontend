@@ -1,0 +1,49 @@
+<mat-card class="chat-card">
+  <div class="chat-card__header header">
+    <mat-icon class="header__icon" (click)="onBack()">arrow_back</mat-icon>
+    <div class="header__companion-info">
+      <h4 class="header__title">
+        {{
+          userRole === Role.parent
+            ? chatRoom?.workshop.title
+            : (chatRoom?.parent | getFullName)
+        }}
+      </h4>
+    </div>
+  </div>
+  <div #chat class="chat-card__content content">
+    <ng-container *ngFor="let message of messages; index as i">
+      <app-message
+        [ngClass]="
+          message.senderRoleIsProvider !== (userRole === Role.provider)
+            ? 'message message__income'
+            : 'message message__outcome'
+        "
+        [message]="message"
+        [isFirstMessage]="
+          messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider
+        "
+        [parent]="chatRoom.parent"
+        [workshop]="chatRoom.workshop"
+      >
+      </app-message>
+    </ng-container>
+  </div>
+  <div class="chat-card__footer footer">
+    <label for="file-input"
+      ><mat-icon class="attach-icon">attach_file</mat-icon></label
+    >
+    <input type="file" id="file-input" />
+    <textarea
+      type="text"
+      class="search-input"
+      placeholder="Написати повідомлення"
+      cdkTextareaAutosize
+      autocomplete="off"
+    ></textarea>
+    <button *ngIf="!isMobileView" class="btn" mat-button>НАДІСЛАТИ</button>
+    <button *ngIf="isMobileView" class="btn" mat-button>
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</mat-card>

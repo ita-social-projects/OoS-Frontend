@@ -24,11 +24,10 @@ describe('SearchbarComponent', () => {
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
         RouterTestingModule,
-        MatAutocompleteModule,
+        MatAutocompleteModule
       ],
-      declarations: [SearchbarComponent],
-    })
-      .compileComponents();
+      declarations: [SearchbarComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

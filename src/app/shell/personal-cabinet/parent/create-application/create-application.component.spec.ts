@@ -46,9 +46,8 @@ describe('CreateApplicationComponent', () => {
         MockPersonCardComponent,
         MockValidationHintForInputComponent,
         MockMainWorkshopCardComponent
-      ],
-    })
-      .compileComponents();
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -75,7 +74,6 @@ class MockPersonCardComponent {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() isTouched: boolean;

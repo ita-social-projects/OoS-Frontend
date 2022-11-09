@@ -19,15 +19,15 @@ import { RegistrationState } from '../../../../shared/store/registration.state';
 @Component({
   selector: 'app-achievements',
   templateUrl: './achievements.component.html',
-  styleUrls: ['./achievements.component.scss'],
+  styleUrls: ['./achievements.component.scss']
 })
 export class AchievementsComponent implements OnInit, OnDestroy {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
 
   @Select(ProviderState.achievements)
-    achievements$: Observable<Achievement[]>;
+  achievements$: Observable<Achievement[]>;
   @Select(MetaDataState.achievementsTypes)
-    achievementsTypes$: Observable<AchievementType[]>;
+  achievementsTypes$: Observable<AchievementType[]>;
 
   @Input() workshop: Workshop;
 
@@ -64,8 +64,8 @@ export class AchievementsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteAchievement,
-        property: '',
-      },
+        property: ''
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
