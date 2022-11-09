@@ -68,9 +68,9 @@ export class ChatState {
   }
 
   @Action(GetChatRoomById)
-  getChatRoom({ patchState }: StateContext<ChatStateModel>, { chatRoomId }: GetChatRoomById): Observable<ChatRoom> {
+  getChatRoom({ patchState }: StateContext<ChatStateModel>, { chatRoomId, role }: GetChatRoomById): Observable<ChatRoom> {
     patchState({ isLoadingData: true });
-    return this.chatService.getChatRoomById(chatRoomId).pipe(
+    return this.chatService.getChatRoomById(chatRoomId, role).pipe(
       tap((chatRoom: ChatRoom) =>
         patchState({
           selectedChatRoom: chatRoom,

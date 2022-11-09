@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, Provider, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
@@ -54,8 +54,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.addNavPath();
-    this.getChatRoom();
     this.getUserRole();
+    this.getChatRoom();
     this.createHubConnection();
     this.addListeners();
     this.onResize(window);
@@ -68,18 +68,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (!this.isAdditionalMessageLoading) {
           this.isAdditionalMessageLoading = true;
-          //TODO: replace hardcode data
-          this.store.dispatch(
-            new GetChatRoomMessages('08dabfe3-766c-40f9-8dca-f0b78fd26c26', this.userRole, { from: this.messages.length, size: 20 })
-          );
+          this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: this.messages.length, size: 20 }));
         }
       }
     };
   }
 
   getChatRoom(): void {
-    const chatRoomId = this.route.snapshot.queryParams['chatRoomId'];
-    this.store.dispatch(new GetChatRoomById(chatRoomId));
+    const chatRoomId = this.route.snapshot.paramMap.get('chatRoomId');
+    this.store.dispatch(new GetChatRoomById(chatRoomId, this.userRole));
   }
 
   getUserRole(): void {
@@ -126,8 +123,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe((chatRoom: ChatRoom) => {
         this.chatRoom = chatRoom;
-        //TODO: replace hardcode data
-        this.store.dispatch(new GetChatRoomMessages('08dabfe3-766c-40f9-8dca-f0b78fd26c26', this.userRole, this.messagesParameters));
+        this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, this.messagesParameters));
       });
 
     this.messages$
@@ -155,19 +151,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendMessage(): void {
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && this.messageControl.value != '') {
-      //TODO: replace hardcode data
       let sendMessage = {
-        WorkshopId: '08da8a68-c234-489f-86b8-b67ecb4c0995',
-        ParentId: '08da8cb9-2b6a-4593-862c-36d01bc894dc',
+        WorkshopId: this.chatRoom.workshopId,
+        ParentId: this.chatRoom.parentId,
         Text: this.messageControl.value
       };
 
       this.hubConnection
         .invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage))
-        //TODO: replace hardcode data
-        .then(() =>
-          this.store.dispatch(new GetChatRoomMessages('08dabfe3-766c-40f9-8dca-f0b78fd26c26', this.userRole, { from: 0, size: 1 }))
-        );
+        .then(() => this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: 0, size: 1 })));
       this.messageControl.setValue('');
     }
   }
