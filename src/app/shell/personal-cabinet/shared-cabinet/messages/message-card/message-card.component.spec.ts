@@ -6,6 +6,7 @@ import { WorkshopTruncated } from '../../../../../shared/models/workshop.model';
 import { GetFullNamePipe } from '../../../../../shared/pipes/get-full-name.pipe';
 import { ChatRoom } from '../../../../../shared/models/chat.model';
 import { MessageCardComponent } from './message-card.component';
+import { MatIconModule } from '@angular/material/icon';
 
 describe('MessageCardComponent', () => {
   let component: MessageCardComponent;
@@ -14,7 +15,7 @@ describe('MessageCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MessageCardComponent, GetFullNamePipe],
-      imports: [HttpClientTestingModule, MatMenuModule]
+      imports: [HttpClientTestingModule, MatMenuModule, MatIconModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MessageCardComponent);

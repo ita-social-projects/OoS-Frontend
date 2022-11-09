@@ -4,6 +4,7 @@ import { UserConfigComponent } from './shared-cabinet/user-config/user-config.co
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
 import { MessagesComponent } from './shared-cabinet/messages/messages.component';
+import { ChatComponent } from './shared-cabinet/messages/chat/chat.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path: 'messages',
     component: MessagesComponent
+  },
+  {
+    path: 'messages/:chatRoomId',
+    component: ChatComponent
   },
   {
     path: 'provider',

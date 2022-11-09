@@ -1,6 +1,8 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/full-width-card.scss';
-
+.card{
+  cursor: pointer;
+}
 .card-block {
   &__message {
     display: flex;
