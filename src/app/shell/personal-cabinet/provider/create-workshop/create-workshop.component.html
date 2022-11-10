@@ -7,7 +7,8 @@
       </div>
 
       <mat-horizontal-stepper [linear]="!editMode">
-        <mat-step>
+        <mat-step
+          [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">Про гурток</p>
           </ng-template>
@@ -26,7 +27,8 @@
           </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step
+         [stepControl]="DescriptionFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">Опис</p>
           </ng-template>
@@ -46,7 +48,8 @@
           </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step
+         [stepControl]="AddressFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">Контакти</p>
           </ng-template>
@@ -59,7 +62,8 @@
           </div>
         </mat-step>
 
-        <mat-step>
+        <mat-step
+         [stepControl]="TeacherFormArray">
           <ng-template matStepLabel>
             <p class="step-name">Викладачі</p>
           </ng-template>
