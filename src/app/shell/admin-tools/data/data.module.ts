@@ -15,6 +15,7 @@ import { MaterialModule } from '../../../shared/modules/material.module';
 import { DirectionsComponent } from './directions-wrapper/directions/directions.component';
 import { CreateDirectionComponent } from './directions-wrapper/directions/create-direction/create-direction.component';
 import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrapper.component';
+import { DirectionsInstitutionHierarchiesListComponent } from './directions-wrapper/directions-institution-hierarchies-list/directions-institution-hierarchies-list.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrap
     HistoryLogFiltersComponent,
     DirectionsComponent,
     CreateDirectionComponent,
-    DirectionsWrapperComponent
+    DirectionsWrapperComponent,
+    DirectionsInstitutionHierarchiesListComponent
   ],
   imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule],
   exports: [DataComponent]

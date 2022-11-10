@@ -7,7 +7,7 @@ import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/decli
 import { NavBarName } from '../../shared/enum/navigation-bar';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
-import { GetFilteredWorkshops, ResetFilteredWorkshops } from '../../shared/store/filter.actions';
+import { GetFilteredWorkshops, ResetFilteredWorkshops, SetMapView } from '../../shared/store/filter.actions';
 import { FilterState } from '../../shared/store/filter.state';
 import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { NavigationState } from '../../shared/store/navigation.state';
@@ -78,6 +78,7 @@ export class ResultComponent implements OnInit, OnDestroy {
         this.isMobileView = isMobileView;
         this.role = role;
         this.currentView = params.param;
+        this.store.dispatch(new SetMapView(this.currentView === this.viewType.map));
         this.currentPage = currentPage;
         this.workshopsPerPage = workshopsPerPage;
         this.isMapView = isMapView;
