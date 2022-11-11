@@ -6,9 +6,8 @@
         <p class="wrapper-text">{{ editMode ? 'Відредагуйте' : 'Додайте новий' }} гурток, секцію або групу для навчання</p>
       </div>
 
-      <mat-horizontal-stepper [linear]="!editMode">
-        <mat-step
-          [stepControl]="AboutFormGroup">
+      <mat-horizontal-stepper linear>
+        <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
             <p class="step-name">Про гурток</p>
           </ng-template>
@@ -28,7 +27,9 @@
         </mat-step>
 
         <mat-step
-         [stepControl]="DescriptionFormGroup">
+         [stepControl]="DescriptionFormGroup"
+         [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid"
+        >
           <ng-template matStepLabel>
             <p class="step-name">Опис</p>
           </ng-template>
@@ -49,7 +50,9 @@
         </mat-step>
 
         <mat-step
-         [stepControl]="AddressFormGroup">
+         [stepControl]="AddressFormGroup"
+         [completed]="!DescriptionFormGroup.invalid && !AboutFormGroup.invalid && !AddressFormGroup.invalid"
+        >
           <ng-template matStepLabel>
             <p class="step-name">Контакти</p>
           </ng-template>
@@ -63,7 +66,9 @@
         </mat-step>
 
         <mat-step
-         [stepControl]="TeacherFormArray">
+         [stepControl]="TeacherFormArray"
+         [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid"
+        >
           <ng-template matStepLabel>
             <p class="step-name">Викладачі</p>
           </ng-template>
