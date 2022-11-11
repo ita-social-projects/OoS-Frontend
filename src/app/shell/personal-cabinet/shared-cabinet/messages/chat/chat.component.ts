@@ -67,8 +67,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.addNavPath();
     this.getUserRole();
-    //TODO: Rename method addListeners to addSubscribers
-    this.addListeners();
+    this.makeSubscriptions();
     this.getChatRoom();
     this.createHubConnection();
     this.onResize(window);
@@ -183,7 +182,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  addListeners(): void {
+  makeSubscriptions(): void {
     this.chatRoom$
       .pipe(
         filter((chatRoom: ChatRoom) => !!chatRoom),
