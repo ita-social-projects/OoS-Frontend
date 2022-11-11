@@ -22,6 +22,7 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
     this.maxValue = maxPrice;
     this.isFreeControl.setValue(isFree, { emitEvent: false });
     this.isPaidControl.setValue(isPaid, { emitEvent: false });
+    this.options.disabled = !isPaid;
   }
 
   readonly validationConstants = ValidationConstants;
@@ -43,8 +44,11 @@ export class PriceFilterComponent implements OnInit, OnDestroy {
    * On ngOnInit subscribe to input value changes, change type of payment depending on input value and distpatch filter action
    */
   ngOnInit(): void {
-    this.maxPriceControl.disable();
-    this.minPriceControl.disable();
+    // We shouldn't disable Price controls if we receive in url query string Paid checkbox as True
+    if (!this.isPaidControl.value) {
+      this.maxPriceControl.disable();
+      this.minPriceControl.disable();
+    }
 
     this.isFreeControl.valueChanges
       .pipe(debounceTime(300), distinctUntilChanged(), takeUntil(this.destroy$))

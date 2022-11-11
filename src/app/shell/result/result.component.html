@@ -23,7 +23,7 @@
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
   <mat-drawer-content [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'" [style.marginTop]="isMapView ? '0' : '2rem'">
-    <div *ngIf="isMapView; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
+    <div *ngIf="currentView === viewType.map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
       <app-workshop-map-view-list
         [role]="role"
         [filteredWorkshops$]="filteredWorkshops$"

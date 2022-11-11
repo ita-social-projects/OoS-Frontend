@@ -6,7 +6,7 @@ import { SearchResponse } from '../../../models/search.model';
 import { Constants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
 import { Codeficator } from '../../../models/codeficator.model';
-import { FilterStateModel } from '../../../models/filter-state.model';
+import { FilterStateModel } from '../../../models/filterState.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
 import { WorkshopCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
