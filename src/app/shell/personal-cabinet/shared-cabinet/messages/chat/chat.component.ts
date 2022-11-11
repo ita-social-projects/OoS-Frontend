@@ -73,7 +73,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {
-    this.makeSubscriptions();
+    this.makeChatSubscriptions();
 
     this.chatEl.nativeElement.onscroll = () => {
       if (this.chatEl.nativeElement.scrollTop < 10) {
@@ -91,7 +91,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const mode = this.route.snapshot.queryParamMap.get('mode');
 
     switch (mode) {
-      case 'new':
+      case 'companion':
         this.createChatRoom();
         break;
       default:
@@ -183,7 +183,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  makeSubscriptions(): void {
+  makeChatSubscriptions(): void {
     this.chatRoom$
       .pipe(
         filter((chatRoom: ChatRoom) => !!chatRoom),
