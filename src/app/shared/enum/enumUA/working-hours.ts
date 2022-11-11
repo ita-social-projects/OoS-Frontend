@@ -1,11 +1,11 @@
 export enum WorkingDays {
-  monday = 'ПН',
-  tuesday = 'ВТ',
-  wednesday = 'СР',
-  thursday = 'ЧТ',
-  friday = 'ПТ',
-  saturday = 'СБ',
-  sunday = 'НД'
+  monday = 'enum.working-hours.monday',
+  tuesday = 'enum.working-hours.tuesday',
+  wednesday = 'enum.working-hours.wednesday',
+  thursday = 'enum.working-hours.thursday',
+  friday = 'enum.working-hours.friday',
+  saturday = 'enum.working-hours.saturday',
+  sunday = 'enum.working-hours.sunday'
 }
 export enum WorkingDaysReverse {
   'ПН' = 'monday',

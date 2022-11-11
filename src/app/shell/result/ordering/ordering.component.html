@@ -1,15 +1,19 @@
 <mat-form-field style="margin-left: 1em">
-  <mat-select
-    disableOptionCentering
-    panelClass="dropdown-panel"
-    class="select"
-    (selectionChange)="OnSelectOption($event)"
-    [formControl]="orderFormControl"
-  >
-    <mat-option value="{{ ordering.rating }}" class="dropdown-option"> За рейтингом</mat-option>
-    <mat-option value="{{ ordering.priceAsc }}" class="dropdown-option"> За зростанням ціни &#8593; </mat-option>
-    <mat-option value="{{ ordering.priceDesc }}" class="dropdown-option"> За спаданням ціни &#8595; </mat-option>
-    <mat-option value="{{ ordering.alphabet }}" class="dropdown-option"> За алфавітом </mat-option>
-    <mat-option value="{{ ordering.nearest }}" class="dropdown-option"> Найближчі </mat-option>
+  <mat-select disableOptionCentering panelClass="dropdown-panel" class="select"
+    (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
+    <mat-option value="{{ ordering.rating }}" class="dropdown-option">
+      {{"ordering.rating" | translate}}
+    </mat-option>
+    <mat-option value="{{ ordering.priceAsc }}" class="dropdown-option">
+      {{"ordering.price-up" | translate}}
+      &#8593; </mat-option>
+    <mat-option value="{{ ordering.priceDesc }}" class="dropdown-option">
+      {{"ordering.price-down" | translate}}
+      &#8595; </mat-option>
+    <mat-option value="{{ ordering.alphabet }}" class="dropdown-option">
+      {{"ordering.alphabet" | translate}}
+    </mat-option>
+    <mat-option value="{{ ordering.nearest }}" class="dropdown-option"> {{"ordering.closet" | translate}}
+    </mat-option>
   </mat-select>
 </mat-form-field>

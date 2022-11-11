@@ -18,10 +18,10 @@ export enum WorkshopDeclination {
 }
 
 // export enum WorkshopDeclination {
-//   'enum.WorkshopDeclination.workshop',
-//   'enum.WorkshopDeclination.workshops',
-//   'enum.WorkshopDeclination.workshops-2',
-//   'enum.WorkshopDeclination.no-workshops',
+//   'enum.declination.WorkshopDeclination.workshop',
+//   'enum.declination.WorkshopDeclination.workshops',
+//   'enum.declination.WorkshopDeclination.workshops-2',
+//   'enum.declination.WorkshopDeclination.no-workshops',
 // }
 
 export enum HourDeclination {

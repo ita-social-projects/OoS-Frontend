@@ -30,11 +30,87 @@
     "placeholder": "Enter the name of the workshop, school"
   },
   "workshop-card": {
-    "card-link": {
-      "more": "More details"
-    }
+    "more": "More details",
+    "achievements": "Add achievements",
+    "participants": "Total participants",
+    "confirmation": "Awaiting confirmation",
+    "leave": "Leave the workshop",
+    "ownership": "Ownership",
+    "ages": "ages",
+    "free": "Free",
+    "currency": "uah"
+  },
+  "result": {
+    "found": "found",
+    "list": "List",
+    "map": "Map"
+  },
+  "filters-list": {
+    "clear-filters": "Clear filters",
+    "set": "Set",
+    "open-selection": "Only with open selection",
+    "close-selection": "Closed selection",
+    "description": "Availability of a resource for providing education for persons with disabilities and persons with disabilities",
+    "available": "available"
+  },
+  "ordering": {
+    "rating": "By rating",
+    "price-up": "By increasing the price",
+    "price-down": "By falling the price",
+    "alphabet": "Alphabetically",
+    "closet": "The closest ones"
+  },
+  "category-check-box": {
+    "directions": "Directions",
+    "search": "Search by direction"
+  },
+  "age-filter": {
+    "age": "Select age",
+    "match": "A complete match",
+    "from": "From",
+    "to": "To"
+  },
+  "working-hours": {
+    "days": "Working days",
+    "hours": "Working hours",
+    "match": "A complete match",
+    "cancel": "Cancel",
+    "add": "Add",
+    "from": "From",
+    "to": "To"
+  },
+  "city-filter": {
+    "settlement": "You are in a settlement",
+    "confirm": "Confirm",
+    "change": "Change"
+  },
+  "price-filter": {
+    "price": "Price",
+    "free": "Free",
+    "paid": "Paid",
+    "from": "From",
+    "to": "To"
+  },
+  "paginator": {
+    "text": "Display on page:"
   },
   "enum": {
+    "provider": {
+      "OwnershipTypeUkr": {
+        "state": "State",
+        "common": "Municipal",
+        "private": "Private"
+      }
+    },
+    "working-hours": {
+      "monday": "MON",
+      "tuesday": "TUE",
+      "wednesday": "WED",
+      "thursday": "THU",
+      "friday": "FRI",
+      "saturday": "SAT",
+      "sunday": "SAN"
+    },
     "declination": {
       "ReviewDeclination": {
         "feedback": "feedback",
