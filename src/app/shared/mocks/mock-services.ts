@@ -6,6 +6,14 @@ export const MockOidcSecurityService = {
   getToken: () => {
     'some_token_eVbnasdQ324';
   },
+  getAccessToken: () => {
+    return new Observable((subscriber) => {
+      setTimeout(() => {
+        subscriber.next(true);
+        subscriber.complete();
+      }, 1);
+    });
+  },
   checkAuth: () => {
     return new Observable((subscriber) => {
       setTimeout(() => {
