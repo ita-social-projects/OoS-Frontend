@@ -1,3 +1,8 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+}
+
 .sender{
   font-family: 'Open Sans';
   font-weight: 700;
@@ -26,6 +31,7 @@
   &__outcome{
     background-color: rgba(255, 189, 0, 0.2);
     border-radius: 10px 0 10px 10px;
+    align-self: flex-end;
   }
 
   &__text{
