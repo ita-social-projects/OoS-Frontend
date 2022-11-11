@@ -36,7 +36,7 @@ import { CreateProvider, UpdateProvider } from '../../../../shared/store/provide
     }
   ]
 })
-export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   provider: Provider;
   isAgreed: boolean;
   isNotRobot: boolean;
@@ -57,6 +57,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     route: ActivatedRoute,
     private router: Router,
     navigationBarService: NavigationBarService,
+    private changeDetector: ChangeDetectorRef,
     private matDialog: MatDialog
   ) {
     super(store, route, navigationBarService);
@@ -76,6 +77,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
         this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
     }
+  }
+  
+  ngAfterViewChecked(): void {
+    this.changeDetector.detectChanges();
   }
 
   setEditMode(): void {
