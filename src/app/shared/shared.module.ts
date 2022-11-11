@@ -5,7 +5,7 @@ import { AgeFilterComponent } from './components/filters-list/age-filter/age-fil
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop-card/workshop-card.component';
+import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
@@ -67,6 +67,7 @@ import { StretchCellComponent } from './components/stretch-cell/stretch-cell/str
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
+import {UnregisteredUserWarningModalComponent} from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @NgModule({
   declarations: [
@@ -101,7 +102,6 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
-    WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
     NotificationsComponent,
@@ -129,7 +129,8 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
     TextSliceTransformPipe,
     StretchCellComponent,
     StretchTableDirective,
-    UserRadiusSetComponent
+    UserRadiusSetComponent,
+    UnregisteredUserWarningModalComponent
   ],
 
   imports: [
@@ -178,7 +179,6 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
-    WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
     NotificationsComponent,
@@ -202,7 +202,8 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
     TextSliceTransformPipe,
     StretchCellComponent,
     StretchTableDirective,
-    UserRadiusSetComponent
+    UserRadiusSetComponent,
+    UnregisteredUserWarningModalComponent
   ]
 })
 export class SharedModule {}
