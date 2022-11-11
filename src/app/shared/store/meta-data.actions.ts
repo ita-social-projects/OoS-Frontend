@@ -33,6 +33,11 @@ export class GetAllInstitutions {
   constructor() {}
 }
 
+export class GetAllInstitutionsHierarchy {
+  static readonly type = '[meta-data] Get All Institutions Hierarchy';
+  constructor() {}
+}
+
 export class GetAchievementsType {
   static readonly type = '[meta-data] Get All Achievement Types';
   constructor() {}

@@ -5,7 +5,7 @@
       <p class="wrapper-text">Додайте свій заклад всього у 3 кроки</p>
     </div>
 
-    <mat-horizontal-stepper #stepper [linear]="!editMode">
+    <mat-horizontal-stepper #stepper linear>
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Інформація про заклад</p>
@@ -20,7 +20,11 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="ContactsFormGroup">
+      <mat-step 
+        [stepControl]="ContactsFormGroup" 
+        [matStepperNext]="!ContactsFormGroup.invalid ? true : false" 
+        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid ? true : false"
+      >
         <ng-template matStepLabel>
           <p class="step-name">Контакти</p>
         </ng-template>
@@ -45,7 +49,10 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="PhotoFormGroup">
+      <mat-step 
+        [stepControl]="PhotoFormGroup" 
+        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid ? true : false"
+      >
         <ng-template matStepLabel>
           <p class="step-name">Опис</p>
         </ng-template>
