@@ -1,0 +1,33 @@
+<div
+    class="unregistered-user-modal__content"
+    mat-dialog-content
+    fxLayoutAlign="center"
+  >
+    <h2 *ngIf="data.title" class="unregistered-user-modal__title">
+      {{data?.title}}
+    </h2>
+    <p *ngIf="data.message" class="unregistered-user-modal__message">
+      {{data?.message}}
+    </p>
+  </div>
+  <div mat-dialog-actions fxLayoutAlign="center">
+    <button
+      class="unregistered-user-modal__action-button white"
+      mat-raised-button
+      mat-dialog-close
+    >
+      Повернутись
+    </button>
+    <button
+      *ngIf="data.buttonLabel"
+      class="unregistered-user-modal__action-button"
+      mat-raised-button
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      (click)="login()"
+    >
+      {{data?.buttonLabel}}
+    </button>
+
+  </div>
+

@@ -5,7 +5,7 @@
       <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.</p>
     </div>
 
-    <mat-horizontal-stepper #stepper [linear]="!editMode">
+    <mat-horizontal-stepper #stepper linear>
       <mat-step [stepControl]="ProviderAdminFormGroup">
         <ng-template matStepLabel>
           <p class="step-name">Особиста інформація</p>
