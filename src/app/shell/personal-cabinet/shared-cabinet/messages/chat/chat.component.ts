@@ -67,13 +67,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.addNavPath();
     this.getUserRole();
-    this.makeSubscriptions();
     this.getChatRoom();
     this.createHubConnection();
     this.onResize(window);
   }
 
   ngAfterViewInit(): void {
+    this.makeSubscriptions();
+
     this.chatEl.nativeElement.onscroll = () => {
       if (this.chatEl.nativeElement.scrollTop < 10) {
         this.chatEl.nativeElement.scrollTop = 10;
