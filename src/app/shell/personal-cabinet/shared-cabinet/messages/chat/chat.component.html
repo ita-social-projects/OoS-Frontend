@@ -3,7 +3,7 @@
     <mat-icon class="header__icon" (click)="onBack()">arrow_back</mat-icon>
     <div class="header__companion-info">
       <h4 class="header__title" *ngIf="!!chatRoom">
-        {{ userRole === Role.parent ? chatRoom?.workshop.title : (chatRoom?.parent | getFullName) }}
+        {{ userRole === Role.parent ? chatRoom?.workshop?.title : (chatRoom?.parent | getFullName) }}
       </h4>
     </div>
   </div>

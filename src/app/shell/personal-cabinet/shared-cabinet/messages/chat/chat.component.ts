@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, Provider, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
@@ -14,6 +14,11 @@ import { SignalRService } from '../../../../../shared/services/signalR/signal-r.
 import { CHAT_HUB_URL } from '../../../../../shared/constants/hubs-Url';
 import * as signalR from '@microsoft/signalr';
 import { FormControl } from '@angular/forms';
+import { Parent } from '../../../../../shared/models/parent.model';
+import { Workshop } from '../../../../../shared/models/workshop.model';
+import { SharedUserState } from '../../../../../shared/store/shared-user.state';
+import { GetWorkshopById } from '../../../../../shared/store/shared-user.actions';
+import { User } from '../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-chat',
@@ -40,6 +45,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   messages$: Observable<Message[]>;
   @Select(ChatState.selectedChatRoom)
   chatRoom$: Observable<ChatRoom>;
+  @Select(SharedUserState.selectedWorkshop)
+  workshop$: Observable<Workshop>;
+  //TODO: Fix parent object formation from two objects
+  @Select(RegistrationState.user)
+  user$: Observable<User>;
+  @Select(RegistrationState.parent)
+  parent$: Observable<Parent>;
   @Select(RegistrationState.role)
   role$: Observable<Role>;
 
@@ -55,9 +67,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.addNavPath();
     this.getUserRole();
+    //TODO: Rename method addListeners to addSubscribers
+    this.addListeners();
     this.getChatRoom();
     this.createHubConnection();
-    this.addListeners();
     this.onResize(window);
   }
 
@@ -75,8 +88,63 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   getChatRoom(): void {
-    const chatRoomId = this.route.snapshot.paramMap.get('chatRoomId');
-    this.store.dispatch(new GetChatRoomById(chatRoomId, this.userRole));
+    const mode = this.route.snapshot.queryParamMap.get('mode');
+
+    switch (mode) {
+      case 'new':
+        this.createChatRoom();
+        break;
+      default:
+        const chatRoomId = this.route.snapshot.paramMap.get('id');
+        this.store.dispatch(new GetChatRoomById(chatRoomId, this.userRole));
+    }
+  }
+
+  createChatRoom(): void {
+    const companionId = this.route.snapshot.paramMap.get('id');
+    this.chatRoom = {
+      id: null,
+      parentId: null,
+      workshopId: null,
+      workshop: null,
+      parent: null
+    };
+
+    this.store.dispatch(new GetWorkshopById(companionId));
+    this.workshop$
+      .pipe(
+        filter((workshop: Workshop) => !!workshop),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((workshop: Workshop) => {
+        this.chatRoom.workshop = workshop;
+        this.chatRoom.workshopId = workshop.id;
+      });
+
+    this.user$
+      .pipe(
+        filter((user: User) => !!user),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((user: User) => {
+        if (this.chatRoom.parentId) {
+          user.id = this.chatRoom.parentId;
+        }
+
+        this.chatRoom.parent = user;
+      });
+
+    this.parent$
+      .pipe(
+        filter((parent: Parent) => !!parent),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((parent: Parent) => {
+        if (this.chatRoom.parent) {
+          this.chatRoom.parent.id = parent.id;
+        }
+        this.chatRoom.parentId = parent.id;
+      });
   }
 
   getUserRole(): void {
@@ -87,9 +155,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   createHubConnection(): void {
     this.hubConnection = this.signalRService.startConnection(CHAT_HUB_URL);
-
+    //TODO: Add listener for read messages (backend)
     this.hubConnection.on('ReceiveMessageInChatGroup', (jsonMessage: string) => {
-      //TODO: Resolve issue with capital letters in incoming object
+      //TODO: Resolve issue with capital letters in incoming object (backend)
       let parsedMessage = JSON.parse(jsonMessage);
       let message: Message = {
         id: parsedMessage.Id,
@@ -156,11 +224,24 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         ParentId: this.chatRoom.parentId,
         Text: this.messageControl.value
       };
-
-      this.hubConnection
-        .invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage))
-        .then(() => this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: 0, size: 1 })));
-      this.messageControl.setValue('');
+      //TODO: Add the sender to the mailing list (backend)
+      //TODO: Remove .then() after adding sender to mailing list
+      this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage)).then(() => {
+        if (this.chatRoom.id) {
+          this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: 0, size: 1 }));
+        } else {
+          this.messages.push({
+            id: '',
+            chatRoomId: '',
+            createdDateTime: Date.now().toString(),
+            senderRoleIsProvider: this.userRole === Role.provider,
+            text: this.messageControl.value
+          });
+        }
+        this.messageControl.setValue('');
+      });
+      //TODO: Uncomment after deleting then
+      //this.messageControl.setValue('');
     }
   }
 
