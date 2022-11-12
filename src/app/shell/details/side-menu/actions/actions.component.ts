@@ -1,11 +1,10 @@
-import { ParentState } from './../../../../shared/store/parent.state.';
+import { ParentState } from '../../../../shared/store/parent.state.';
 import { Select, Store } from '@ngxs/store';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { WorkshopCardDialog } from '../../../../shared/components/workshop-card/workshop-card.component';
 import { PayRateTypeUkr } from '../../../../shared/enum/enumUA/workshop';
 import { Role } from '../../../../shared/enum/role';
 import { WorkshopOpenStatus } from '../../../../shared/enum/workshop';
@@ -14,9 +13,9 @@ import { Workshop } from '../../../../shared/models/workshop.model';
 import { ShowMessageBar } from '../../../../shared/store/app.actions';
 import { AppState } from '../../../../shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
-import { Login } from '../../../../shared/store/registration.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { SnackbarText } from '../../../../shared/enum/messageBar';
+import {UnregisteredUserWarningModalComponent} from '../../../../shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -62,8 +61,16 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  onOpenDialog(): void {
-    this.dialog.open(WorkshopCardDialog);
+  onOpenDialog(forFavorite?: boolean): void {
+    !(this.role !== Role.unauthorized) && this.dialog.open(UnregisteredUserWarningModalComponent, {
+      autoFocus: false,
+      restoreFocus: false,
+      data: {
+        message:
+          forFavorite ? 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо' : 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
+        buttonLabel: 'Зареєструватися'
+      },
+    });
   }
 
   onLike(): void {
@@ -84,9 +91,5 @@ export class ActionsComponent implements OnInit, OnDestroy {
       new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
-  }
-
-  login(): void {
-    !(this.role !== Role.unauthorized) && this.store.dispatch(new Login(false));
   }
 }
