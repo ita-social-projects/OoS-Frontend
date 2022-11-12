@@ -5,6 +5,11 @@ export class SetWorkshopsPerPage {
   constructor(public payload: number) {}
 }
 
+export class SetAchievementsPerPage {
+  static readonly type = '[paginator] Achievements Per Page';
+  constructor(public payload: number) {}
+}
+
 export class SetItemsPerPage {
   static readonly type = '[paginator] Items Per Page';
   constructor(public payload: number) {}
@@ -31,6 +36,11 @@ export class SetRatingPerPage {
 }
 
 export class OnPageChangeWorkshops {
+  static readonly type = '[paginator] Change Page';
+  constructor(public payload: PaginationElement) {}
+}
+
+export class OnPageChangeAchievement {
   static readonly type = '[paginator] Change Page';
   constructor(public payload: PaginationElement) {}
 }

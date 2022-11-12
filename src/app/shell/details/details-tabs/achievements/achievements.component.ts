@@ -15,6 +15,10 @@ import { MetaDataState } from '../../../../shared/store/meta-data.state';
 import { GetAchievementsByWorkshopId, DeleteAchievementById } from '../../../../shared/store/provider.actions';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { RegistrationState } from '../../../../shared/store/registration.state';
+import {SearchResponse} from '../../../../shared/models/search.model';
+import {PaginatorState} from '../../../../shared/store/paginator.state';
+import {PaginationElement} from '../../../../shared/models/paginationElement.model';
+import {OnPageChangeAchievement, SetAchievementsPerPage,} from '../../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-achievements',
@@ -24,16 +28,24 @@ import { RegistrationState } from '../../../../shared/store/registration.state';
 export class AchievementsComponent implements OnInit, OnDestroy {
   readonly noResultAchievements = NoResultsTitle.noAchievements;
 
-  @Select(ProviderState.achievements)
-  achievements$: Observable<Achievement[]>;
-  @Select(MetaDataState.achievementsTypes)
-  achievementsTypes$: Observable<AchievementType[]>;
-
   @Input() workshop: Workshop;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  achievements: Achievement[];
+  @Select(ProviderState.achievements)
+  achievements$: Observable<SearchResponse<Achievement[]>>;
+  achievements: SearchResponse<Achievement[]>;
+  @Select(MetaDataState.achievementsTypes)
+  achievementsTypes$: Observable<AchievementType[]>;
   achievementsTypes: AchievementType[];
+  @Select(PaginatorState.achievementPerPage)
+  achievementPerPage$: Observable<number>;
+  achievementPerPage: number;
+  @Select(PaginatorState.currentPage)
+  currentPage$: Observable<PaginationElement>;
+  currentPage: PaginationElement;
+  @Select(ProviderState.isLoading)
+  isLoading$: Observable<boolean>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
   provider: Provider;
   isAllowedEdit: boolean;
 
@@ -44,14 +56,16 @@ export class AchievementsComponent implements OnInit, OnDestroy {
     this.isAllowedEdit = this.workshop.providerId === provider?.id;
 
     this.getAchievements();
-    combineLatest([this.achievements$, this.achievementsTypes$])
+    combineLatest([this.achievements$, this.achievementsTypes$, this.currentPage$, this.achievementPerPage$])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([achievements, achievementsTypes]: [Achievement[], AchievementType[]]) => !!achievements)
+        filter(([achievements]: [SearchResponse<Achievement[]>, AchievementType[], PaginationElement, number]) => !!achievements)
       )
-      .subscribe(([achievements, achievementsTypes]: [Achievement[], AchievementType[]]) => {
+      .subscribe(([achievements, achievementsTypes, currentPage, achievementPerPage ]: [SearchResponse<Achievement[]>, AchievementType[], PaginationElement, number]) => {
         this.achievementsTypes = achievementsTypes;
         this.achievements = achievements;
+        this.currentPage = currentPage;
+        this.achievementPerPage = achievementPerPage;
       });
   }
 
@@ -76,5 +90,14 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeAchievement(page), new GetAchievementsByWorkshopId(this.workshop.id)]);
+  }
+
+  onItemsPerPageChange(itemPerPage: number) {
+    this.store.dispatch([new SetAchievementsPerPage(itemPerPage), new GetAchievementsByWorkshopId(this.workshop.id)]);
   }
 }

@@ -1,4 +1,4 @@
-import { PaginationConstants } from './../constants/constants';
+import { PaginationConstants } from '../constants/constants';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -21,6 +21,7 @@ import {
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
+  achievementPerPage: number;
   workshopsPerPage: number;
   directionsPerPage: number;
   applicationsPerPage: number;
@@ -32,6 +33,7 @@ export interface PaginatorStateModel {
 @State<PaginatorStateModel>({
   name: 'paginator',
   defaults: {
+    achievementPerPage: 12,
     workshopsPerPage: 12,
     directionsPerPage: 12,
     applicationsPerPage: 8,
@@ -45,6 +47,10 @@ export interface PaginatorStateModel {
 export class PaginatorState {
   @Selector() static workshopsPerPage(state: PaginatorStateModel): number {
     return state.workshopsPerPage;
+  }
+
+  @Selector() static achievementPerPage(state: PaginatorStateModel): number {
+    return state.achievementPerPage;
   }
 
   @Selector() static directionsPerPage(state: PaginatorStateModel): number {
