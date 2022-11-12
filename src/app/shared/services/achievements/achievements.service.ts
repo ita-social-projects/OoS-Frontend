@@ -21,8 +21,8 @@ export class AchievementsService {
     let from: number = size * (+currentPage.element - 1);
 
     params = params.set('WorkshopId', id);
-    params = params.set('Size', size.toString());
     params = params.set('From', from.toString());
+    params = params.set('Size', size.toString());
 
     return this.http.get<SearchResponse<Achievement[]>>(`/api/v1/Achievement/GetByWorkshopId`, { params });
   }
