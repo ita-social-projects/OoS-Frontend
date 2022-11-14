@@ -33,6 +33,10 @@
     
     margin-right: 16px;
     cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
   }
 
   &__title{

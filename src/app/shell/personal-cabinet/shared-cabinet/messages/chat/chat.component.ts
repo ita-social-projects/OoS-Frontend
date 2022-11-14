@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { GetChatRoomById, GetChatRoomMessages } from '../../../../../shared/store/chat.actions';
 import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
-import { ChatRoom, Message, MessagesParameters } from '../../../../../shared/models/chat.model';
+import { ChatRoom, Message, MessagesParameters, SendMessage } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
 import { NavBarName } from '../../../../../shared/enum/navigation-bar';
 import { Location } from '@angular/common';
@@ -27,21 +27,21 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private hubConnection: signalR.HubConnection;
-
   messages: Message[] = [];
-  messagesParameters: MessagesParameters = {
-    from: 0,
-    size: 20
-  };
   messageControl: FormControl = new FormControl('');
   chatRoom: ChatRoom;
-  userRole: Role;
   userIsProvider: boolean;
   userName: string;
   companionName: string;
-  isAdditionalMessageLoading = false;
+
+  private messagesParameters: MessagesParameters = {
+    from: 0,
+    size: 20
+  };
+  private userRole: Role;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private hubConnection: signalR.HubConnection;
+  private isHistoryLoading = false;
 
   @Select(ChatState.selectedChatRoomMessages)
   messages$: Observable<Message[]>;
@@ -49,7 +49,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   chatRoom$: Observable<ChatRoom>;
   @Select(SharedUserState.selectedWorkshop)
   workshop$: Observable<Workshop>;
-  //TODO: Fix parent object formation from two objects
   @Select(RegistrationState.user)
   user$: Observable<User>;
   @Select(RegistrationState.parent)
@@ -75,8 +74,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.chatEl.nativeElement.scrollTop < 10) {
         this.chatEl.nativeElement.scrollTop = 10;
 
-        if (!this.isAdditionalMessageLoading) {
-          this.isAdditionalMessageLoading = true;
+        if (!this.isHistoryLoading) {
+          this.isHistoryLoading = true;
           this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: this.messages.length, size: 20 }));
         }
       }
@@ -97,26 +96,17 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private createChatRoom(): void {
-    const companionId = this.route.snapshot.paramMap.get('id');
+    const workshopId = this.route.snapshot.paramMap.get('id');
 
-    this.store.dispatch(new GetWorkshopById(companionId));
+    this.store.dispatch(new GetWorkshopById(workshopId));
 
     combineLatest([this.workshop$, this.user$, this.parent$])
       .pipe(
-        filter(([workshop, user, parent]) => !!workshop && !!user && !!parent),
+        filter(([workshop, user, parent]) => !!(workshop && user && parent)),
         takeUntil(this.destroy$)
       )
       .subscribe(([workshop, user, parent]) => {
-        this.chatRoom = {
-          id: null,
-          parentId: parent.id,
-          parent: user,
-          workshopId: workshop.id,
-          workshop: workshop
-        };
-        //Replace userId with parentId
-        this.chatRoom.parent.id = parent.id;
-
+        this.chatRoom = new ChatRoom(workshop, user, parent);
         this.getChatMembersNames();
       });
   }
@@ -144,14 +134,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.hubConnection.on('ReceiveMessageInChatGroup', (jsonMessage: string) => {
       //TODO: Resolve issue with capital letters in incoming object (backend)
       let parsedMessage = JSON.parse(jsonMessage);
-      let message: Message = {
-        id: parsedMessage.Id,
-        chatRoomId: parsedMessage.ChatRoomId,
-        text: parsedMessage.Text,
-        createdDateTime: parsedMessage.CreatedDateTime,
-        senderRoleIsProvider: parsedMessage.SenderRoleIsProvider,
-        readDateTime: parsedMessage.ReadDateTime
-      };
+      let message = new Message(parsedMessage);
 
       this.messages.push(message);
       this.scrollDown();
@@ -187,42 +170,44 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe((messages: Message[]) => {
-        let isUserDown =
-          this.chatEl.nativeElement.scrollTop === this.chatEl.nativeElement.scrollHeight - this.chatEl.nativeElement.clientHeight;
-
-        if (this.isAdditionalMessageLoading) {
-          this.messages = [...messages, ...this.messages];
-          this.isAdditionalMessageLoading = false;
-        } else {
-          this.messages.push(...messages);
-        }
-
-        if (isUserDown) {
-          this.scrollDown();
-        }
+        this.addMessages(messages);
       });
   }
 
-  sendMessage(): void {
-    if (this.hubConnection.state === signalR.HubConnectionState.Connected && this.messageControl.value != '') {
-      const sendMessage = {
-        WorkshopId: this.chatRoom.workshopId,
-        ParentId: this.chatRoom.parentId,
-        Text: this.messageControl.value
-      };
+  private addMessages(messages: Message[]): void {
+    const isUserDown =
+      this.chatEl.nativeElement.scrollTop === this.chatEl.nativeElement.scrollHeight - this.chatEl.nativeElement.clientHeight;
+
+    if (this.isHistoryLoading) {
+      this.messages = [...messages, ...this.messages];
+      this.isHistoryLoading = false;
+    } else {
+      this.messages.push(...messages);
+    }
+
+    if (isUserDown) {
+      this.scrollDown();
+    }
+  }
+
+  onSendMessage(): void {
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
+      const sendMessage = new SendMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.messageControl.value);
       //TODO: Add the sender to the mailing list (backend)
       //TODO: Remove .then() after adding sender to mailing list
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage)).then(() => {
         if (this.chatRoom.id) {
           this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: 0, size: 1 }));
         } else {
-          this.messages.push({
-            id: '',
-            chatRoomId: '',
-            createdDateTime: Date.now().toString(),
-            senderRoleIsProvider: this.userRole === Role.provider,
-            text: this.messageControl.value
-          });
+          this.messages.push(
+            new Message({
+              id: '',
+              chatRoomId: '',
+              createdDateTime: Date.now().toString(),
+              senderRoleIsProvider: this.userRole === Role.provider,
+              text: this.messageControl.value
+            })
+          );
         }
         this.messageControl.setValue('');
       });
