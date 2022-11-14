@@ -12,6 +12,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Application } from '../../models/application.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;
@@ -27,7 +28,8 @@ describe('WorkshopCardComponent', () => {
         RouterTestingModule,
         MatChipsModule,
         MatTooltipModule,
-        MatDialogModule
+        MatDialogModule,
+        TranslateModule.forRoot()
       ],
       declarations: [WorkshopCardComponent]
     }).compileComponents();
