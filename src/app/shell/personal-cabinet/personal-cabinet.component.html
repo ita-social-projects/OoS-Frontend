@@ -7,7 +7,7 @@
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">ОСОБИСТА ІНФОРМАЦІЯ</a>
     <ng-container *ngIf="userRole !== Role.techAdmin && userRole !== Role.ministryAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/info'">
-        ІНФОРМАЦІЯ ПРО {{ roles[userRole] | uppercase }}
+        ІНФОРМАЦІЯ ПРО {{ roles[userRole] | translate | uppercase }}
       </a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider">
