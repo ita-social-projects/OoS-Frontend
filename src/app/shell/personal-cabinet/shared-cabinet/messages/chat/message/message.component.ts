@@ -1,20 +1,17 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { Message } from '../../../../../../shared/models/chat.model';
-import { ParentWithContactInfo } from '../../../../../../shared/models/parent.model';
-import { Workshop } from '../../../../../../shared/models/workshop.model';
+import { Component, Input } from '@angular/core';
+import { Constants } from '../../../../../../shared/constants/constants';
+import { IncomingMessage } from '../../../../../../shared/models/chat.model';
 
 @Component({
   selector: 'app-message',
   templateUrl: './message.component.html',
   styleUrls: ['./message.component.scss']
 })
-export class MessageComponent implements OnInit {
-  @Input() message: Message;
+export class MessageComponent {
+  readonly Constants = Constants;
+
+  @Input() message: IncomingMessage;
   @Input() isFirstMessage: boolean;
-  @Input() parent: ParentWithContactInfo;
-  @Input() workshop: Workshop;
-
-  constructor() {}
-
-  ngOnInit(): void {}
+  @Input() senderName: string;
+  @Input() userIsProvider: boolean;
 }

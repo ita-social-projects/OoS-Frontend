@@ -8,13 +8,10 @@ export class GetUserChatRooms {
 
 export class GetChatRoomMessages {
   static readonly type = '[chat] Get Chat Room Messages';
-  constructor(
-    public chatRoomId: string,
-    public parameters: MessagesParameters
-  ) {}
+  constructor(public chatRoomId: string, public role: Role, public parameters: MessagesParameters) {}
 }
 
 export class GetChatRoomById {
   static readonly type = '[chat] Get Chat Room By Id';
-  constructor(public chatRoomId: string) {}
+  constructor(public chatRoomId: string, public role: Role) {}
 }
