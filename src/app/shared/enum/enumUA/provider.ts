@@ -1,7 +1,7 @@
 export enum OwnershipTypeUkr {
-  State = 'Державна',
-  Common = 'Комунальна',
-  Private = 'Приватна'
+  State = 'enum.provider.OwnershipTypeUkr.state',
+  Common = 'enum.provider.OwnershipTypeUkr.common',
+  Private = 'enum.provider.OwnershipTypeUkr.private'
 }
 
 export enum InstitutionTypes {

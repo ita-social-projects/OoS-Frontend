@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop, WorkshopFilterCard } from '../../shared/models/workshop.model';
 import { DeclinationPipe } from '../../shared/pipes/declination.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -23,7 +24,8 @@ describe('ResultComponent', () => {
         MatSidenavModule,
         BrowserAnimationsModule,
         MatIconModule,
-        RouterTestingModule
+        RouterTestingModule,
+        TranslateModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
