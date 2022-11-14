@@ -35,6 +35,9 @@ import { ProviderState } from './shared/store/provider.state';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandleInterceptor } from './shared/interceptors/error-handle.interceptor';
 import { ChatState } from './shared/store/chat.state';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 registerLocaleData(localeUk);
 
@@ -70,7 +73,16 @@ registerLocaleData(localeUk);
     }),
     FlexLayoutModule,
     ShellModule,
-    RegistrationModule
+    RegistrationModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      defaultLanguage: 'uk',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: (createTranslateLoader),
+        deps: [HttpClient]
+      }
+    }),
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
@@ -90,4 +102,8 @@ export class AppModule {
   constructor() {
     localStorage.setItem('ui-culture', 'uk');
   }
+}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

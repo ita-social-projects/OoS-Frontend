@@ -1,19 +1,29 @@
-<p class="filter-text title">Обрати вік</p>
+<p class="filter-text title">
+  {{"age-filter.age" | translate}}
+</p>
 <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
-  <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl"> Повне співпадіння </mat-checkbox>
+  <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl">
+    {{"age-filter.match"| translate}}
+  </mat-checkbox>
 </div>
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start center">
-      <p class="filter-text">Від</p>
-      <input matInput class="age-input" type="text" [formControl]="minAgeFormControl" appDigitOnly maxlength="2" autocomplete="off" />
+      <p class="filter-text">
+        {{"age-filter.from"| translate}}
+      </p>
+      <input matInput class="age-input" type="text" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
+        autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
     </div>
   </mat-form-field>
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start center">
-      <p class="filter-text">До</p>
-      <input matInput class="age-input" type="text" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2" autocomplete="off" />
+      <p class="filter-text">
+        {{"age-filter.to"| translate}}
+      </p>
+      <input matInput class="age-input" type="text" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
+        autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
     </div>
   </mat-form-field>

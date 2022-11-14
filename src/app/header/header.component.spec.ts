@@ -13,6 +13,7 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -29,7 +30,8 @@ describe('HeaderComponent', () => {
         RouterTestingModule,
         MatMenuModule,
         MatSelectModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         HeaderComponent,
