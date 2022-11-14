@@ -14,7 +14,7 @@ import {
   OnUpdateUserFail,
   GetUserPersonalInfo
 } from './registration.actions';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../models/user.model';
@@ -133,14 +133,13 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  Logout({ dispatch }: StateContext<RegistrationStateModel>): void {
+  Logout({ }: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
-    dispatch(new CheckAuth());
   }
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe((auth) => {
+    this.oidcSecurityService.checkAuth().subscribe((auth: LoginResponse) => {
       patchState({ isAuthorized: auth.isAuthenticated });
       if (auth.isAuthenticated) {
         this.oidcSecurityService.getAccessToken().subscribe((value: string) => {

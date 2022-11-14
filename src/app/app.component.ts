@@ -23,9 +23,8 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(public store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new CheckAuth());
+    this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
-    this.store.dispatch(new GetFeaturesList());
   }
 
   /**
