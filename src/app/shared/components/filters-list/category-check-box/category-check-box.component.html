@@ -1,20 +1,13 @@
 <div [ngClass]="{ 'wrapper-full-width': (isMobileScreen$ | async) }">
-  <p class="filter-text">Напрямки</p>
+  <p class="filter-text">{{'category-check-box.directions' | translate}}</p>
   <div class="search-bar" fxLayout="row" fxLayoutAlign="space-evenly center">
     <button mat-stroked-button>
       <mat-icon class="search-icon" style="transform: rotate(90deg)"> search</mat-icon>
       .
     </button>
     <mat-form-field floatLabel="never" appearance="none">
-      <input
-        matInput
-        type="text"
-        maxlength="200"
-        [formControl]="directionSearchFormControl"
-        class="search"
-        matInput
-        placeholder="Пошук за напрямком"
-        autocomplete="off" />
+      <input matInput type="text" maxlength="200" [formControl]="directionSearchFormControl" class="search" matInput
+        placeholder="{{'category-check-box.search' | translate}}" autocomplete="off" />
     </mat-form-field>
   </div>
   <div class="list-wrapper" #listWrapper>
