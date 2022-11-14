@@ -17,7 +17,8 @@ import {
   SetRatingPerPage,
   SetWorkshopsPerPage,
   SetItemsPerPage,
-  OnPageChangeHistoryLog
+  OnPageChangeHistoryLog,
+  SetAchievementsPerPage
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
@@ -99,6 +100,11 @@ export class PaginatorState {
     patchState({ itemsPerPage: payload });
   }
 
+  @Action(SetAchievementsPerPage)
+  setAchievementsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAchievementsPerPage): void {
+    patchState({ achievementPerPage: payload });
+  }
+  
   @Action(SetChildrensPerPage)
   setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
     patchState({ childrensPerPage: payload });
