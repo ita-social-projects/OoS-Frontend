@@ -2,25 +2,16 @@ import { Parent, ParentWithContactInfo } from './parent.model';
 import { User } from './user.model';
 import { WorkshopTruncated } from './workshop.model';
 
-export class Message {
+export interface IncomingMessage {
   id: string;
   chatRoomId: string;
   text: string;
   senderRoleIsProvider: boolean;
   createdDateTime: string;
   readDateTime?: string;
-
-  constructor(message) {
-    this.id = message.Id;
-    this.chatRoomId = message.ChatRoomId;
-    this.text = message.Text;
-    this.createdDateTime = message.CreatedDateTime;
-    this.senderRoleIsProvider = message.SenderRoleIsProvider;
-    this.readDateTime = message.ReadDateTime;
-  }
 }
 
-export class SendMessage {
+export class OutgoingMessage {
   workshopId: string;
   parentId: string;
   text: string;
@@ -39,15 +30,13 @@ export class ChatRoom {
   workshop: WorkshopTruncated;
   parent: ParentWithContactInfo;
   notReadByCurrentUserMessagesCount?: number;
-  lastMessage?: Message;
+  lastMessage?: IncomingMessage;
 
   constructor(workshop: WorkshopTruncated, user: User, parent: Parent) {
     this.workshopId = workshop.id;
     this.workshop = workshop;
     this.parentId = parent.id;
-    this.parent = user;
-    //Replace userId with parentId
-    this.parent.id = parent.id;
+    this.parent = { ...user, id: parent.id };
   }
 }
 

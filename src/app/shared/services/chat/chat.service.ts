@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Role } from '../../enum/role';
-import { ChatRoom, Message, MessagesParameters } from '../../models/chat.model';
+import { ChatRoom, IncomingMessage, MessagesParameters } from '../../models/chat.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,10 +15,10 @@ export class ChatService {
   }
 
   //TODO: reduce the number of arguments
-  getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<Message[]> {
+  getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
-    return this.http.get<Message[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
+    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
   }
 
   getChatRoomById(chatRoomId: string, role: Role) {

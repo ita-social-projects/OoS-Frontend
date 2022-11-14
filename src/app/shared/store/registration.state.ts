@@ -133,7 +133,7 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  Logout({ }: StateContext<RegistrationStateModel>): void {
+  Logout({}: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
   }
 
@@ -166,11 +166,9 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-    let hubConnection = this.signalRservice.startConnection(NOTIFICATION_HUB_URL);
+    const hubConnection = this.signalRservice.startConnection(NOTIFICATION_HUB_URL);
 
-    hubConnection.on('ReceiveNotification', () => {
-      dispatch(new GetAmountOfNewUsersNotifications());
-    });
+    hubConnection.on('ReceiveNotification', () => dispatch(new GetAmountOfNewUsersNotifications()));
 
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
