@@ -8,10 +8,8 @@ export const MockOidcSecurityService = {
   },
   getAccessToken: () => {
     return new Observable((subscriber) => {
-      setTimeout(() => {
-        subscriber.next(true);
-        subscriber.complete();
-      }, 1);
+      subscriber.next(true);
+      subscriber.complete();
     });
   },
   checkAuth: () => {

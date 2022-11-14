@@ -1,8 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Role } from '../../../../../../shared/enum/role';
+import { Constants } from '../../../../../../shared/constants/constants';
 import { Message } from '../../../../../../shared/models/chat.model';
-import { ParentWithContactInfo } from '../../../../../../shared/models/parent.model';
-import { Workshop } from '../../../../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-message',
@@ -10,13 +8,12 @@ import { Workshop } from '../../../../../../shared/models/workshop.model';
   styleUrls: ['./message.component.scss']
 })
 export class MessageComponent implements OnInit {
-  readonly Role = Role;
+  readonly Constants = Constants;
 
   @Input() message: Message;
   @Input() isFirstMessage: boolean;
-  @Input() parent: ParentWithContactInfo;
-  @Input() workshop: Workshop;
-  @Input() userRole: Role;
+  @Input() senderName: string;
+  @Input() userIsProvider: boolean;
 
   constructor() {}
 

@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { GetChatRoomById, GetChatRoomMessages } from '../../../../../shared/store/chat.actions';
 import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
 import { ChatRoom, Message, MessagesParameters } from '../../../../../shared/models/chat.model';
@@ -19,6 +19,7 @@ import { Workshop } from '../../../../../shared/models/workshop.model';
 import { SharedUserState } from '../../../../../shared/store/shared-user.state';
 import { GetWorkshopById } from '../../../../../shared/store/shared-user.actions';
 import { User } from '../../../../../shared/models/user.model';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-chat',
@@ -26,7 +27,6 @@ import { User } from '../../../../../shared/models/user.model';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly Role = Role;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private hubConnection: signalR.HubConnection;
 
@@ -35,10 +35,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     from: 0,
     size: 20
   };
-  isMobileView: boolean;
+  messageControl: FormControl = new FormControl('');
   chatRoom: ChatRoom;
   userRole: Role;
-  messageControl: FormControl = new FormControl('');
+  userIsProvider: boolean;
+  userName: string;
+  companionName: string;
   isAdditionalMessageLoading = false;
 
   @Select(ChatState.selectedChatRoomMessages)
@@ -57,11 +59,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('chat') chatEl: ElementRef;
 
-  @HostListener('window: resize', ['$event.target'])
-  onResize(event: Window): void {
-    this.isMobileView = event.outerWidth < 530;
-  }
-
   constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
   ngOnInit(): void {
@@ -69,11 +66,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.getUserRole();
     this.getChatRoom();
     this.createHubConnection();
-    this.onResize(window);
   }
 
   ngAfterViewInit(): void {
-    this.makeChatSubscriptions();
+    this.setChatSubscriptions();
 
     this.chatEl.nativeElement.onscroll = () => {
       if (this.chatEl.nativeElement.scrollTop < 10) {
@@ -87,7 +83,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  getChatRoom(): void {
+  private getChatRoom(): void {
     const mode = this.route.snapshot.queryParamMap.get('mode');
 
     switch (mode) {
@@ -100,60 +96,49 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  createChatRoom(): void {
+  private createChatRoom(): void {
     const companionId = this.route.snapshot.paramMap.get('id');
-    this.chatRoom = {
-      id: null,
-      parentId: null,
-      workshopId: null,
-      workshop: null,
-      parent: null
-    };
 
     this.store.dispatch(new GetWorkshopById(companionId));
-    this.workshop$
+
+    combineLatest([this.workshop$, this.user$, this.parent$])
       .pipe(
-        filter((workshop: Workshop) => !!workshop),
+        filter(([workshop, user, parent]) => !!workshop && !!user && !!parent),
         takeUntil(this.destroy$)
       )
-      .subscribe((workshop: Workshop) => {
-        this.chatRoom.workshop = workshop;
-        this.chatRoom.workshopId = workshop.id;
-      });
+      .subscribe(([workshop, user, parent]) => {
+        this.chatRoom = {
+          id: null,
+          parentId: parent.id,
+          parent: user,
+          workshopId: workshop.id,
+          workshop: workshop
+        };
+        //Replace userId with parentId
+        this.chatRoom.parent.id = parent.id;
 
-    this.user$
-      .pipe(
-        filter((user: User) => !!user),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((user: User) => {
-        if (this.chatRoom.parentId) {
-          user.id = this.chatRoom.parentId;
-        }
-
-        this.chatRoom.parent = user;
-      });
-
-    this.parent$
-      .pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((parent: Parent) => {
-        if (this.chatRoom.parent) {
-          this.chatRoom.parent.id = parent.id;
-        }
-        this.chatRoom.parentId = parent.id;
+        this.getChatMembersNames();
       });
   }
 
-  getUserRole(): void {
+  private getChatMembersNames(): void {
+    if (this.userIsProvider) {
+      this.userName = this.chatRoom.workshop.title;
+      this.companionName = Util.getFullName(this.chatRoom.parent);
+    } else {
+      this.userName = Util.getFullName(this.chatRoom.parent);
+      this.companionName = this.chatRoom.workshop.title;
+    }
+  }
+
+  private getUserRole(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => {
       this.userRole = role;
+      this.userIsProvider = this.userRole === Role.provider;
     });
   }
 
-  createHubConnection(): void {
+  private createHubConnection(): void {
     this.hubConnection = this.signalRService.startConnection(CHAT_HUB_URL);
     //TODO: Add listener for read messages (backend)
     this.hubConnection.on('ReceiveMessageInChatGroup', (jsonMessage: string) => {
@@ -173,7 +158,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  addNavPath(): void {
+  private addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Chat,
@@ -183,7 +168,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  makeChatSubscriptions(): void {
+  private setChatSubscriptions(): void {
     this.chatRoom$
       .pipe(
         filter((chatRoom: ChatRoom) => !!chatRoom),
@@ -192,6 +177,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe((chatRoom: ChatRoom) => {
         this.chatRoom = chatRoom;
         this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, this.messagesParameters));
+        this.getChatMembersNames();
       });
 
     this.messages$
@@ -219,7 +205,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   sendMessage(): void {
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && this.messageControl.value != '') {
-      let sendMessage = {
+      const sendMessage = {
         WorkshopId: this.chatRoom.workshopId,
         ParentId: this.chatRoom.parentId,
         Text: this.messageControl.value
@@ -245,7 +231,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  scrollDown(): void {
+  private scrollDown(): void {
     //TODO: Replace setTimeout
     setTimeout(() => {
       this.chatEl.nativeElement.scrollTop = this.chatEl.nativeElement.scrollHeight;

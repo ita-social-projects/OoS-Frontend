@@ -1,12 +1,12 @@
 <div class="wrapper">
   <h4 class="sender" *ngIf="isFirstMessage">
-    {{ message.senderRoleIsProvider ? workshop.title : (parent | getFullName) }}
+    {{ senderName }}
   </h4>
-  <div [ngClass]="message.senderRoleIsProvider !== (userRole === Role.provider) ? 'message message__income' : 'message message__outcome'">
+  <div [ngClass]="message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'">
     <span class="message__text">
       {{ message.text }}
     </span>
     <mat-icon class="message__read-status"> {{ message.readDateTime ? 'done_all' : 'done' }}</mat-icon>
-    <span class="message__send-time">{{ message.createdDateTime | date: 'HH:mm' }}</span>
+    <span class="message__send-time">{{ message.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}</span>
   </div>
 </div>

@@ -103,6 +103,9 @@
   line-height: 15px;
   padding: 10px 30px;
   min-width: auto;
+  .mat-icon{
+    display: none;
+  }
 }
 
 @media (max-width:530px) {
@@ -112,7 +115,11 @@
   .btn{
     padding: 10px 16px;
     margin: 0 8px;
+    span{
+      display: none;
+    }
     .mat-icon{
+      display: block;
       font-size: 16px;
       height: 16px;
       width: 16px;

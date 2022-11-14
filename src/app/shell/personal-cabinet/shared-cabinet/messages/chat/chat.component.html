@@ -3,19 +3,18 @@
     <mat-icon class="header__icon" (click)="onBack()">arrow_back</mat-icon>
     <div class="header__companion-info">
       <h4 class="header__title" *ngIf="!!chatRoom">
-        {{ userRole === Role.parent ? chatRoom?.workshop?.title : (chatRoom?.parent | getFullName) }}
+        {{ companionName }}
       </h4>
     </div>
   </div>
   <div #chat class="chat-card__content content">
     <ng-container *ngFor="let message of messages; index as i">
       <app-message
-        [ngClass]="message.senderRoleIsProvider !== (userRole === Role.provider) ? 'message message__income' : 'message message__outcome'"
+        [ngClass]="message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'"
         [message]="message"
         [isFirstMessage]="messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider"
-        [parent]="chatRoom.parent"
-        [workshop]="chatRoom.workshop"
-        [userRole]="userRole"
+        [senderName]="message.senderRoleIsProvider === userIsProvider ? userName : companionName"
+        [userIsProvider]="userIsProvider"
       >
       </app-message>
     </ng-container>
@@ -31,8 +30,8 @@
       autocomplete="off"
       [formControl]="messageControl"
     ></textarea>
-    <button *ngIf="!isMobileView" class="btn" mat-button (click)="sendMessage()">НАДІСЛАТИ</button>
-    <button *ngIf="isMobileView" class="btn" mat-button>
+    <button class="btn" mat-button (click)="sendMessage()">
+      <span>НАДІСЛАТИ</span>
       <mat-icon>send</mat-icon>
     </button>
   </div>

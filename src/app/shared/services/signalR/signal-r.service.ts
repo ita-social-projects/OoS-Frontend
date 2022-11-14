@@ -13,7 +13,7 @@ export class SignalRService {
   constructor(public store: Store, private oidcSecurityService: OidcSecurityService) {}
 
   startConnection(hubUrl: string): signalR.HubConnection {
-    let url = environment.serverUrl + hubUrl;
+    const url = environment.serverUrl + hubUrl;
     let hubConnection: signalR.HubConnection;
 
     this.oidcSecurityService.getAccessToken().subscribe((value: string) => (this.token = value));

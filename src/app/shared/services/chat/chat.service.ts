@@ -16,10 +16,7 @@ export class ChatService {
 
   //TODO: reduce the number of arguments
   getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<Message[]> {
-    let params = new HttpParams();
-
-    params = params.set('Size', parameters.size.toString());
-    params = params.set('From', parameters.from.toString());
+    let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     return this.http.get<Message[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
   }
