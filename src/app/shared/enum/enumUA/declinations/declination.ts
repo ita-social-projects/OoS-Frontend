@@ -17,6 +17,8 @@ export enum WorkshopDeclination {
   'Гуртки відсутні'
 }
 
+// TODO [Localization] – modify the pipe declination #1825
+
 // export enum WorkshopDeclination {
 //   'enum.declination.WorkshopDeclination.workshop',
 //   'enum.declination.WorkshopDeclination.workshops',
