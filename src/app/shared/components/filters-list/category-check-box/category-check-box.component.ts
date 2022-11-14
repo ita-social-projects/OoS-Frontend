@@ -63,9 +63,9 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     event.checked
       ? this.slectedDirectionIds.push(direction.id)
       : this.slectedDirectionIds.splice(
-          this.slectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-          1
-        );
+        this.slectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+        1
+      );
     this.store.dispatch(new SetDirections(this.slectedDirectionIds));
   }
 

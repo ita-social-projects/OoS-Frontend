@@ -1779,6 +1779,20 @@
   resolved "https://registry.yarnpkg.com/@ngtools/webpack/-/webpack-14.2.4.tgz#1ebc02c6d89b0fbd9edc857c937c6d840423fce3"
   integrity sha512-rmoUTz3FNhQctsmsq1HM7OfoT+pJiI2dhK0u6SqKXkP3OJ+dGW7NHQ5jYR7IATa7wLFe0vDiEr8caxZ5JBAEsQ==
 
+"@ngx-translate/core@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/core/-/core-14.0.0.tgz#af421d0e1a28376843f0fed375cd2fae7630a5ff"
+  integrity sha512-UevdwNCXMRCdJv//0kC8h2eSfmi02r29xeE8E9gJ1Al4D4jEJ7eiLPdjslTMc21oJNGguqqWeEVjf64SFtvw2w==
+  dependencies:
+    tslib "^2.3.0"
+
+"@ngx-translate/http-loader@^7.0.0":
+  version "7.0.0"
+  resolved "https://registry.yarnpkg.com/@ngx-translate/http-loader/-/http-loader-7.0.0.tgz#905f38d8d13342621516635bf480ff9a4f73e9fc"
+  integrity sha512-j+NpXXlcGVdyUNyY/qsJrqqeAdJdizCd+GKh3usXExSqy1aE9866jlAIL+xrfDU4w+LiMoma5pgE4emvFebZmA==
+  dependencies:
+    tslib "^2.3.0"
+
 "@ngxs/devtools-plugin@^3.7.5":
   version "3.7.5"
   resolved "https://registry.yarnpkg.com/@ngxs/devtools-plugin/-/devtools-plugin-3.7.5.tgz#9048404903b49088456297b043809247a63e5caa"

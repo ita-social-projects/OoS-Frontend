@@ -18,6 +18,7 @@ import { MetaDataState } from '../shared/store/meta-data.state';
 import { MainPageState } from '../shared/store/main-page.state';
 import { CompanyInformation } from '../shared/models/сompanyInformation.model';
 import { GetMainPageInfo } from '../shared/store/main-page.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -60,7 +61,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store, private router: Router, private translate: TranslateService) {}
 
   changeView(): void {
     this.store.dispatch(new SidenavToggle());
@@ -114,6 +115,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   setLanguage(): void {
+    this.translate.use(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 

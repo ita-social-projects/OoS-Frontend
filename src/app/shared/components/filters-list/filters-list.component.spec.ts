@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Direction } from '../../models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('FiltersListComponent', () => {
   let component: FiltersListComponent;
@@ -14,7 +15,7 @@ describe('FiltersListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, MatCheckboxModule, FormsModule, ReactiveFormsModule, NgxsModule.forRoot([]), RouterTestingModule],
+      imports: [MatIconModule, MatCheckboxModule, FormsModule, ReactiveFormsModule, NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot(),],
       declarations: [
         FiltersListComponent,
         MockCityFilterComponent,
@@ -23,7 +24,7 @@ describe('FiltersListComponent', () => {
         MockWorkingHoursComponent,
         MockAgeFilterComponent,
         MockCategoryCheckBoxComponent,
-        MockCityFilterComponent
+        MockCityFilterComponent,
       ]
     }).compileComponents();
   });
