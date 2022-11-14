@@ -91,7 +91,7 @@ import { Statuses } from '../enum/statuses';
 
 export interface ProviderStateModel {
   isLoading: boolean;
-  achievements: Achievement[];
+  achievements: SearchResponse<Achievement[]>;
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: ProviderWorkshopCard[];
@@ -126,7 +126,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static achievements(state: ProviderStateModel): Achievement[] {
+  static achievements(state: ProviderStateModel): SearchResponse<Achievement[]> {
     return state.achievements;
   }
 
@@ -176,11 +176,11 @@ export class ProviderState {
   getAchievementsByWorkshopId(
     { patchState }: StateContext<ProviderStateModel>,
     { payload }: GetAchievementsByWorkshopId
-  ): Observable<Achievement[]> {
+  ): Observable<SearchResponse<Achievement[]>> {
     patchState({ isLoading: true });
     return this.achievementsService
       .getAchievementsByWorkshopId(payload)
-      .pipe(tap((achievements: Achievement[]) => patchState({ achievements: achievements, isLoading: false })));
+      .pipe(tap((achievements: SearchResponse<Achievement[]>) => patchState({ achievements: achievements, isLoading: false })));
   }
 
   @Action(GetChildrenByWorkshopId)
