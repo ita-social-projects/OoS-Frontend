@@ -192,8 +192,14 @@
 
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
-  padding-right: 25px;
+  width: 25px !important;
   overflow: visible;
+  padding-right: 0px !important;
+}
+
+.header_lang {
+  width: 70px;
+  padding-left: 10px;
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
@@ -359,6 +365,7 @@
     .mat-menu-item {
       height: 40px;
       line-height: 40px;
+      font-weight: normal;
     }
   }
 }
@@ -406,7 +413,13 @@
     }
   }
 
-  
+  ::ng-deep .mat-menu-panel.header_menu {
+    background-color: #3849f9;
+
+    .mat-menu-item {
+      color: white;
+    }
+  }
 }
 
 @media (max-width: 750px) {
@@ -437,4 +450,10 @@
 }
 .logout-btn {
   width: 160px;
+}
+
+::ng-deep {
+  .cdk-overlay-pane {
+    top: 0 !important;
+  }
 }

@@ -67,7 +67,9 @@ import { StretchCellComponent } from './components/stretch-cell/stretch-cell/str
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
+import { TranslateModule } from '@ngx-translate/core';
 import {UnregisteredUserWarningModalComponent} from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+
 
 @NgModule({
   declarations: [
@@ -143,7 +145,8 @@ import {UnregisteredUserWarningModalComponent} from './components/unregistered-u
     NgxSliderModule,
     NgxMatTimepickerModule,
     IvyCarouselModule,
-    ImageCropperModule
+    ImageCropperModule,
+    TranslateModule,
   ],
 
   exports: [

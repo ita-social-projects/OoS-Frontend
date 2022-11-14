@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('OrderingComponent', () => {
   let component: OrderingComponent;
@@ -22,7 +23,8 @@ describe('OrderingComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot()
       ]
     }).compileComponents();
   });

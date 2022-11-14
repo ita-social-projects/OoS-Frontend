@@ -1,18 +1,13 @@
 <div class="view-control-panel" [class.mobile-map-view]="isMapView">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
     <h3 [class.mobile-map-view]="isMapView">
-      Знайдено {{ (filteredWorkshops$ | async)?.totalAmount || 0 | declination: WorkshopDeclination }}
+      {{'result.found' | translate}}
+      {{ (filteredWorkshops$ | async)?.totalAmount || 0 | declination: WorkshopDeclination }}
     </h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
-  <div
-    class="workshops-search"
-    fxFlex
-    fxLayout.lt-lg="row wrap"
-    fxLayout="row"
-    fxLayoutAlign.lt-lg="center center"
-    fxLayoutAlign="space-between center"
-  >
+  <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
+    fxLayoutAlign="space-between center">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
   <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
@@ -22,26 +17,18 @@
   <mat-drawer mode="side" [(opened)]="isFiltersSidenavOpen">
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
-  <mat-drawer-content [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'" [style.marginTop]="isMapView ? '0' : '2rem'">
+  <mat-drawer-content [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'"
+    [style.marginTop]="isMapView ? '0' : '2rem'">
     <div *ngIf="currentView === viewType.map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
-      <app-workshop-map-view-list
-        [role]="role"
-        [filteredWorkshops$]="filteredWorkshops$"
-        [itemsPerPage]="workshopsPerPage"
-        [currentPage]="currentPage"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+      <app-workshop-map-view-list [role]="role" [filteredWorkshops$]="filteredWorkshops$"
+        [itemsPerPage]="workshopsPerPage" [currentPage]="currentPage"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list
-        class="cards"
-        [role]="role"
-        [workshops$]="filteredWorkshops$"
-        [itemsPerPage]="workshopsPerPage"
-        [currentPage]="currentPage"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+      <app-workshop-cards-list class="cards" [role]="role" [workshops$]="filteredWorkshops$"
+        [itemsPerPage]="workshopsPerPage" [currentPage]="currentPage"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
@@ -64,15 +51,18 @@
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="!isMapView"></app-ordering>
 
-    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView" (change)="viewHandler(group.value)">
-      <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row" fxLayoutAlign="center center">
+    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
+      (change)="viewHandler(group.value)">
+      <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row"
+        fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
-        <span class="view-toggle_icon">Список</span>
+        <span class="view-toggle_icon">{{'result.list' | translate}}</span>
       </mat-button-toggle>
 
-      <mat-button-toggle value="{{ viewType.map }}" aria-label="{{ viewType.map }}" fxLayout="row" fxLayoutAlign="center center">
+      <mat-button-toggle value="{{ viewType.map }}" aria-label="{{ viewType.map }}" fxLayout="row"
+        fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">map</mat-icon>
-        <span class="view-toggle_icon">Карта</span>
+        <span class="view-toggle_icon">{{'result.map' | translate}}</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>
