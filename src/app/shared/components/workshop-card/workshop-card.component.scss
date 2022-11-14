@@ -41,7 +41,7 @@
   overflow: hidden;
 
   background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
 
   .card-img {
@@ -62,25 +62,6 @@
   }
 }
 
-.dialog-title {
-  max-width: 370px;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  p {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.5;
-    text-align: center;
-  }
-}
-.dialog-action-button {
-  color: white;
-  background-color: #3849f9;
-  border: 1px solid #3849f9;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
 .wrap-for-details,
 .mat-card-content {
   flex: 1;

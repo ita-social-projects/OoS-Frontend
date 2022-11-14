@@ -78,6 +78,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       });
     }
   }
+  
   ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
   }

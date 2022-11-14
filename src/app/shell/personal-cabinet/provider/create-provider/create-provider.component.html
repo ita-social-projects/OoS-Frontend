@@ -22,8 +22,7 @@
 
       <mat-step 
         [stepControl]="ContactsFormGroup" 
-        [matStepperNext]="!ContactsFormGroup.invalid ? true : false" 
-        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid ? true : false"
+        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid"
       >
         <ng-template matStepLabel>
           <p class="step-name">Контакти</p>
@@ -51,7 +50,7 @@
 
       <mat-step 
         [stepControl]="PhotoFormGroup" 
-        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid ? true : false"
+        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid"
       >
         <ng-template matStepLabel>
           <p class="step-name">Опис</p>
