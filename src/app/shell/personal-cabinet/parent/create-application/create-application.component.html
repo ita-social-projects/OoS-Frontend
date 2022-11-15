@@ -37,7 +37,7 @@
             <div fxLayout="column" fxLayoutAlign="center center">
               <p class="background-text">
                 Немає дитини у списку?
-                <a [routerLink]="['/create-child', 'new']" [queryParams]="{ workshopId: workshop?.id }">
+                <a [routerLink]="['/create-child', ModeConstants.NEW]" [queryParams]="{ workshopId: workshop?.id }">
                   <button class="btn-add" mat-button><mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину</button>
                 </a>
               </p>

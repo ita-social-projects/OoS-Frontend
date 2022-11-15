@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Role } from '../../../../shared/enum/role';
@@ -26,6 +26,7 @@ import { ProviderComponent } from '../provider.component';
 })
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
+  readonly ModeConstants = ModeConstants;
 
   @Select(ProviderState.providerWorkshops)
   workshops$: Observable<ProviderWorkshopCard[]>;

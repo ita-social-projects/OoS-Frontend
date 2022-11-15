@@ -1,6 +1,6 @@
 <div class="add-wrapper">
   <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="['/create-workshop', 'new']"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  <a [routerLink]="['/create-workshop', ModeConstants.NEW]"><button class="btn" mat-raised-button>Додати гурток</button></a>
 </div>
 <ng-container *ngIf="!(isLoadingCabinet$ | async)">
   <div class="card-wrapper">
