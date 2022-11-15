@@ -43,7 +43,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   }
 
   determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param') !== 'new');
     if (this.editMode) {
       this.setEditMode();
     }
