@@ -156,11 +156,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       placeOfStudy: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ]),
-      placeOfLiving: new FormControl('', [Validators.pattern(NO_LATIN_REGEX), Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      certificateOfBirth: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_10),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ])
     });
 
