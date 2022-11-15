@@ -106,13 +106,6 @@ const routes: Routes = [
     loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule)
   },
   {
-    path: 'create-workshop',
-    component: CreateWorkshopComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
-    canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard]
-  },
-  {
     path: 'create-provider/:param',
     component: CreateProviderComponent,
     loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
