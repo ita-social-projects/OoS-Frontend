@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
-import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
+import { NAME_REGEX, NO_LATIN_REGEX } from '../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName, PersonalCabinetTitle } from '../../../../shared/enum/navigation-bar';
@@ -156,6 +156,11 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       placeOfStudy: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
+      ]),
+      placeOfLiving: new FormControl('', [Validators.pattern(NO_LATIN_REGEX), Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      certificateOfBirth: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_10),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_30)
       ])
     });
 
