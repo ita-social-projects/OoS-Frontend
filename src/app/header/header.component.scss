@@ -1,36 +1,65 @@
 @import 'src/app/shared/styles/dropdown.scss';
 
-.authorization {
-  display: flex;
-  width: 100%;
-  color: white;
-  font-weight: bold;
-  font-size: 0.8125rem;
-  line-height: 15px;
-}
-.user-name {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  background: none;
-  color: white;
-
-  &:hover{
-    opacity: 0.5;
-    cursor: pointer;
-  }
-}
-
-.hide-content {
-  visibility: hidden;
-}
-
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
 
-  .header-full-search-bar-wrap {
+  &-secondary {
+    background: #3849f9;
+    max-height: 92px;
+    box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
+  }
+
+  &-action-wrapper {
+    float: right;
+  }
+
+  .logo-wrapper {
+    position: relative;
+    display: block;
+    width: 215px;
+
+    .logo {
+      position: absolute;
+      transform: translate(0, -41%);
+    }
+  }
+  .info-link {
+    background: none;
+    color: white;
+    justify-content: flex-end;
+    font-size: 0.7rem;
+    font-weight: bold;
+    white-space: nowrap;
+    line-height: 40px;
+    cursor: pointer;
+  }
+
+  .login {
+    width: 15rem;
+    height: 2.125rem;
+    border-radius: 20px;
+    border-color: white;
+    color: white;
+    
+    &.mat-stroked-button {
+      font-size: 0.7rem;
+    }
+  }
+
+  &-title {
+    margin-top: 70px;
+    color: white;
+    text-align: center;
+  }
+
+  &-descr {
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 1rem;
+    text-align: center;
+  }
+
+  &-full-search-bar-wrap {
     max-width: 846px;
     width: 100%;
 
@@ -42,127 +71,43 @@
       }
     }
   }
-
-  &-info-link {
-    background: none;
-    color: white;
-    justify-content: flex-end;
-    font-size: 0.7rem;
-    font-weight: bold;
-    white-space: nowrap;
-    line-height: 40px;
-    cursor: pointer;
-  }
-
-  &_secondary {
-    background: #3849f9;
-    max-height: 92px;
-    box-shadow: 0px 7px 19px rgba(0, 0, 0, 0.11);
-  }
-
-  &_wrapper {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  &_top,
-  &_btns {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  &_logo-wrapper {
-    position: relative;
-    display: block;
-    width: 215px;
-
-    .logo {
-      position: absolute;
-      transform: translate(0, -41%);
-    }
-  }
-
-  &_btns {
-    gap: 2rem;
-  }
-
-  &_login {
-    width: 15rem;
-    height: 2.125rem;
-    border-radius: 20px;
-    border-color: white;
-    color: white;
-
-    &.mat-stroked-button {
-      font-size: 0.7rem;
-    }
-  }
-
-  &_lang,
-  &_menu {
-    background: none;
-    color: white;
-    font-size: 0.7rem !important;
-  }
-
-  &_title {
-    margin-top: 70px;
-    color: white;
-    text-align: center;
-  }
-
-  &_descr {
-    color: rgba(255, 255, 255, 0.7);
-    margin-top: 1rem;
-    text-align: center;
-  }
-
-  &_menu {
-    &-button {
-      display: flex;
-
-      &_account-circle {
-        margin: 0 10px;
-      }
-    }
-
-    &-button-mobile,
-    &_account-button {
-      display: none;
-    }
-  }
 }
-
-:host ::ng-deep .search {
-  height: 56px;
-  @media (max-width: 750px) {
-    height: initial;
-  }
-}
-
-::ng-deep .header_menu {
-  .mat-menu-item {
-    height: 35px;
-    line-height: 35px;
-    font-weight: 600;
-    text-rendering: optimizeLegibility;
-  }
-}
-
-::ng-deep .mat-menu-content {
-  font-weight: bold;
-  font-size: x-small;
-  margin: 0.5rem !important;
-}
-
-::ng-deep .mat-menu-panel {
-  border-radius: 15px !important;
-}
-
-.icon-account {
+.lang,
+.menu,
+.login {
+  background: none;
   color: white;
+  font-size: 0.7rem !important;
+}
+
+.account-button {
+  font-weight: bold !important;
+  display: block;
+
+  .icon-account {
+    color: white;
+  }
+  .account-circle {
+    width: 33px;
+    padding: 0 5px;
+    min-width: 0;
+    height: 33px;
+    background-color: transparent;
+    box-shadow: none;
+    top: -2px;
+    left: 5px;
+
+    ::ng-deep.mat-badge-content {
+      font-size: xx-small;
+      height: 15px;
+      width: 15px;
+      line-height: 15px;
+      top: 0;
+      left: 0 !important;
+      position: absolute;
+      background-color: #f5bc4a;
+    }
+  }
 }
 
 ::ng-deep .lang-option .mat-select-value {
@@ -172,20 +117,12 @@
   padding-right: 0px !important;
 }
 
-.header_lang {
-  width: 70px;
-  padding-left: 10px;
-}
-
 ::ng-deep .lang-option .mat-select-arrow {
   display: none;
 }
 
 ::ng-deep .lang-option-text .mat-option-text {
   width: 0;
-}
-
-.lang-option-text {
   padding: 0;
   font-size: 0.7rem;
   font-weight: bold;
@@ -194,235 +131,20 @@
   background-color: white !important;
 }
 
-::ng-deep .mat-form-field-infix {
-  width: auto !important;
-}
-
 ::ng-deep .mat-menu-item {
-  padding: 0px !important;
+  height: 40px;
+  line-height: 40px;
+  font-weight: 600;
+  padding: 0.2;
 }
 
-@media (max-width: 1024px) {
-  .header {
-    &_search {
-      width: 100%;
-    }
 
-    &_title {
-      text-align: center;
-    }
-  }
+::ng-deep .mat-menu-content {
+  font-weight: bold;
+  font-size: x-small;
+  margin: 0.5rem !important;
 }
 
-@media (max-width: 375px) {
-  .header {
-    &_top,
-    &_btns {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-}
-
-@media (max-width: 1200px) {
-  .header_btns {
-    flex-wrap: wrap;
-  }
-  .header {
-    padding: 1.5rem 2rem;
-    &_btns {
-      gap: 0;
-    }
-  }
-}
-
-@media (max-width: 705px) {
-  .category_card[_ngcontent-plu-c162] {
-    margin: 2%;
-  }
-}
-
-@media (max-width: 750px) {
-  .authorization {
-    flex-direction: row-reverse;
-
-    .mat-button-base {
-      min-height: 0px;
-      height: 35px;
-      display: block;
-      min-width: 0;
-      padding: 0;
-      background: transparent;
-      box-shadow: none;
-      border: 0;
-      margin: 0 0 0 10px;
-
-      ::ng-deep {
-        &h1 {
-          line-height: 25px;
-          font-size: small;
-        }
-      }
-    }
-  }
-
-  .header {
-    &_login {
-      display: none;
-    }
-
-    .mat-button-base {
-      width: auto;
-      font-size: xx-small;
-    }
-
-    // &_menu-button {
-    //   display: none;
-    // }
-
-    // &_menu-button-mobile {
-    //   color: white;
-    //   display: block;
-    //   background-color: inherit;
-
-    //   mat-icon {
-    //     font-size: 30px;
-    //     width: 30px;
-    //     height: 30px;
-    //     margin-right: 15px;
-    //   }
-    // }
-
-    &_lang {
-      display: none;
-    }
-
-    &_about {
-      display: none;
-    }
-
-    &_support {
-      display: none;
-    }
-
-    &_menu {
-      &_account-button {
-        font-weight: bold !important;
-        display: block;
-
-        &_account-circle {
-          width: 33px;
-          padding: 0 5px;
-          min-width: 0;
-          height: 33px;
-          background-color: transparent;
-          box-shadow: none;
-          top: -2px;
-          left: 5px;
-
-          ::ng-deep.mat-badge-content {
-            font-size: xx-small;
-            height: 15px;
-            width: 15px;
-            line-height: 15px;
-            top: 0;
-            left: 0 !important;
-            position: absolute;
-            background-color: #f5bc4a;
-          }
-        }
-      }
-    }
-  }
-
-  ::ng-deep .header_menu {
-    .mat-menu-item {
-      height: 40px;
-      line-height: 40px;
-      font-weight: normal;
-    }
-  }
-}
-
-@media (max-width: 750px) {
-  .header {
-    width: 100%;
-    padding: 0;
-
-    &_logo-wrapper {
-      height: 20px;
-
-      .logo {
-        width: 130px;
-        margin-top: 8px;
-      }
-    }
-
-    &_top,
-    &_btns {
-      display: flex;
-      justify-content: space-between;
-    }
-
-    &_top {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      z-index: 998;
-      width: 100%;
-      box-sizing: border-box;
-      padding: 40px 0 15px 15px;
-      background-color: #3849f9;
-    }
-
-    &_btns {
-      flex-direction: column-reverse;
-      align-items: flex-end;
-      gap: 0;
-    }
-
-    &_title {
-      margin-top: 120px;
-      text-align: center;
-    }
-  }
-
-  ::ng-deep .mat-menu-panel.header_menu {
-    background-color: #3849f9;
-
-    .mat-menu-item {
-      color: white;
-    }
-  }
-}
-
-@media (max-width: 750px) {
-  .header {
-    padding: 0;
-
-    &_title {
-      font-size: 1.5rem;
-      line-height: 2rem;
-      text-align: center;
-      margin-top: 2rem;
-    }
-
-    &_descr {
-      text-align: center;
-      font-size: 1rem;
-    }
-
-    .header-full-search-bar-wrap {
-      width: inherit;
-      margin: 1rem;
-    }
-  }
-
-  .mat-button-wrapper {
-    padding: 0.3rem;
-  }
-}
-.logout-btn {
-  width: 160px;
+::ng-deep .mat-menu-panel {
+  border-radius: 15px !important;
 }
