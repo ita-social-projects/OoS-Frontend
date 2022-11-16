@@ -1,6 +1,9 @@
 @import 'src/app/shared/styles/dropdown.scss';
-
 .header {
+  app-notifications {
+    width: max-content;
+  }
+  
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
 
@@ -14,6 +17,10 @@
     float: right;
   }
 
+  button {
+    padding: 0;
+  }
+  
   .logo-wrapper {
     position: relative;
     display: block;
@@ -24,6 +31,16 @@
       transform: translate(0, -41%);
     }
   }
+
+  .link-wrapper{
+    display: inline-flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+  }
+
   .info-link {
     background: none;
     color: white;
@@ -132,10 +149,10 @@
 }
 
 ::ng-deep .mat-menu-item {
-  height: 40px;
-  line-height: 40px;
   font-weight: 600;
-  padding: 0.2;
+  padding: 0.2rem;
+  height: 36px !important;
+  line-height: 36px;
 }
 
 ::ng-deep .mat-menu-content {

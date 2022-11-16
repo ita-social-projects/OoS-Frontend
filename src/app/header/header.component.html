@@ -4,8 +4,8 @@
       <div
         class="logo-wrapper"
         *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
-      <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
-        <div *ngIf="!isMobileScreen" fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="1rem">
+      <div class="link-wrapper">
+        <div *ngIf="!isMobileScreen" class="link-wrapper">
           <a class="info-link" [routerLink]="'./info/about'"> {{ 'header.top.about' | translate }}</a>
 
           <a class="info-link" [routerLink]="'./info/rules'">{{ 'header.top.rules' | translate }}</a>
