@@ -78,12 +78,7 @@ const routes: Routes = [
     canActivate: [IsMobileGuard]
   },
   {
-    path: 'details/workshop/:id',
-    component: DetailsComponent,
-    loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
-  },
-  {
-    path: 'details/provider/:id',
+    path: 'details/:entity/:id',
     component: DetailsComponent,
     loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
