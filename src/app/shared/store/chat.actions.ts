@@ -15,3 +15,8 @@ export class GetChatRoomById {
   static readonly type = '[chat] Get Chat Room By Id';
   constructor(public chatRoomId: string, public role: Role) {}
 }
+
+export class ClearSelectedChatRoom {
+  static readonly type = '[chat] Clear Selected Chat Room';
+  constructor() {}
+}

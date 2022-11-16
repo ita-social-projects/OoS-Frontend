@@ -8,7 +8,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Application } from '../../../../shared/models/application.model';
@@ -30,6 +30,8 @@ import { SearchResponse } from '../../../../shared/models/search.model';
   styleUrls: ['./create-application.component.scss']
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
+  readonly ModeConstants = ModeConstants;
+
   @Select(ParentState.children)
   children$: Observable<SearchResponse<Child[]>>;
   children: Child[];

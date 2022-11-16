@@ -15,7 +15,8 @@ import { AppState } from '../../../../shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { SnackbarText } from '../../../../shared/enum/messageBar';
-import {UnregisteredUserWarningModalComponent} from '../../../../shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { UnregisteredUserWarningModalComponent } from '../../../../shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { ModeConstants } from '../../../../shared/constants/constants';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -25,6 +26,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   readonly PayRateTypeUkr = PayRateTypeUkr;
   readonly workhopStatus = WorkshopOpenStatus;
+  readonly ModeConstants = ModeConstants;
 
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
@@ -62,15 +64,17 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
 
   onOpenDialog(forFavorite?: boolean): void {
-    !(this.role !== Role.unauthorized) && this.dialog.open(UnregisteredUserWarningModalComponent, {
-      autoFocus: false,
-      restoreFocus: false,
-      data: {
-        message:
-          forFavorite ? 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо' : 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
-        buttonLabel: 'Зареєструватися'
-      },
-    });
+    !(this.role !== Role.unauthorized) &&
+      this.dialog.open(UnregisteredUserWarningModalComponent, {
+        autoFocus: false,
+        restoreFocus: false,
+        data: {
+          message: forFavorite
+            ? 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо'
+            : 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
+          buttonLabel: 'Зареєструватися'
+        }
+      });
   }
 
   onLike(): void {
