@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Message } from '../../../../../../shared/models/chat.model';
+import { IncomingMessage } from '../../../../../../shared/models/chat.model';
 
 import { MessageComponent } from './message.component';
 
@@ -16,7 +16,7 @@ describe('MessageComponent', () => {
     component = fixture.componentInstance;
     component.message = {
       senderRoleIsProvider: false
-    } as Message;
+    } as IncomingMessage;
     fixture.detectChanges();
   });
 

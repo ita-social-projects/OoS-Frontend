@@ -34,6 +34,8 @@ import { TechAdmin } from '../models/techAdmin.model';
 import { Provider } from '../models/provider.model';
 import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
+import { NOTIFICATION_HUB_URL } from '../constants/hubs-Url';
+import { GetAmountOfNewUsersNotifications } from './notifications.actions';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -131,7 +133,7 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  Logout({ }: StateContext<RegistrationStateModel>): void {
+  Logout({}: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
   }
 
@@ -164,7 +166,9 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-    this.signalRservice.startConnection();
+    const hubConnection = this.signalRservice.startConnection(NOTIFICATION_HUB_URL);
+
+    hubConnection.on('ReceiveNotification', () => dispatch(new GetAmountOfNewUsersNotifications()));
 
     if (state.user.isRegistered) {
       dispatch(new GetProfile());

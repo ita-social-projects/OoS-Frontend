@@ -5,6 +5,7 @@ import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
 import { MessagesComponent } from './shared-cabinet/messages/messages.component';
 import { ChatComponent } from './shared-cabinet/messages/chat/chat.component';
+import { PersonalCabinetGuard } from './personal-cabinet.guard';
 
 const routes: Routes = [
   {
@@ -16,8 +17,9 @@ const routes: Routes = [
     component: MessagesComponent
   },
   {
-    path: 'messages/:chatRoomId',
-    component: ChatComponent
+    path: 'messages/:id',
+    component: ChatComponent,
+    canLoad: [PersonalCabinetGuard]
   },
   {
     path: 'provider',

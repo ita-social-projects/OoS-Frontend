@@ -20,10 +20,15 @@
   </a>
 
 
-  <!-- <button mat-raised-button class="button button-msg" (click)="login()">
-    <img class="button-msg-icon" src="assets/icons/message.png" alt="email">
+  <button
+    mat-raised-button
+    class="button button-msg"
+    [routerLink]="['/personal-cabinet/messages/', workshop.id]"
+    [queryParams]="{ mode: 'companion' }"
+  >
+    <img class="button-msg-icon" src="assets/icons/message.png" alt="email" />
     Надіслати повідомлення
-  </button> TODO: second release-->
+  </button>
 
   <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
 

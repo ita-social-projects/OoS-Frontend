@@ -1,4 +1,4 @@
-<mat-card [ngClass]="!chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'" [routerLink]="['./', chatRoom.id]">
+<mat-card [ngClass]="chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'" [routerLink]="['./', chatRoom.id]">
   <mat-card-content class="card-block card-block__message">
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
