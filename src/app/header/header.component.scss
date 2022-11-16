@@ -1,12 +1,12 @@
 @import 'src/app/shared/styles/dropdown.scss';
 .header {
+  padding: 1.5rem 5rem;
+  background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
+
   app-notifications {
     width: max-content;
   }
   
-  padding: 1.5rem 5rem;
-  background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
-
   &-secondary {
     background: #3849f9;
     max-height: 92px;
@@ -165,10 +165,17 @@
 }
 
 @media (max-width: 750px) {
-  .header {
-    padding: 2rem;
-  }
   .header-title {
     margin-top: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  .header {
+    padding: 0.8rem;
+
+    .link-wrapper {
+      gap: 0.5rem;
+    }
   }
 }
