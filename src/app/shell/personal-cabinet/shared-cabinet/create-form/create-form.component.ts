@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
+import { ModeConstants } from '../../../../shared/constants/constants';
 import { FeaturesList } from '../../../../shared/models/featuresList.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from '../../../../shared/store/app.actions';
@@ -43,7 +44,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   }
 
   determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('param'));
+    this.editMode = Boolean(this.route.snapshot.paramMap.get('param') !== ModeConstants.NEW);
     if (this.editMode) {
       this.setEditMode();
     }

@@ -4,7 +4,7 @@
     <span class="text">Можливо додати не більш, ніж 20 дітей</span>
   </ng-container>
 
-  <a [routerLink]="['/create-child', '']">
+  <a [routerLink]="['/create-child', ModeConstants.NEW]">
     <button class="btn" mat-raised-button [disabled]="childrenCards.totalAmount >= 20">Додати дитину</button>
   </a>
 </div>

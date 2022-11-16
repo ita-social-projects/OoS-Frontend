@@ -78,12 +78,7 @@ const routes: Routes = [
     canActivate: [IsMobileGuard]
   },
   {
-    path: 'details/workshop/:id',
-    component: DetailsComponent,
-    loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
-  },
-  {
-    path: 'details/provider/:id',
+    path: 'details/:entity/:id',
     component: DetailsComponent,
     loadChildren: () => import('./details/details.module').then((m) => m.DetailsModule)
   },
@@ -104,13 +99,6 @@ const routes: Routes = [
     path: 'admin-tools/data/directions/create/:param',
     component: CreateDirectionComponent,
     loadChildren: () => import('./admin-tools/data/data.module').then((m) => m.DataModule)
-  },
-  {
-    path: 'create-workshop',
-    component: CreateWorkshopComponent,
-    loadChildren: () => import('./personal-cabinet/provider/provider.module').then((m) => m.ProviderModule),
-    canLoad: [ProviderGuard],
-    canDeactivate: [CreateGuard]
   },
   {
     path: 'create-provider/:param',
