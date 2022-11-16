@@ -102,6 +102,11 @@
         {{ 'header.authorization.my-statements' | translate }}
       </button>
     </a>
+    <a [routerLink]="'./personal-cabinet/messages'">
+      <button mat-menu-item> 
+        {{ 'header.authorization.my-messages' | translate }}
+      </button>
+    </a>
     <a
       *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
       [routerLink]="'./personal-cabinet/provider/administration'">
