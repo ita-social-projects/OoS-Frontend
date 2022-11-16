@@ -13,7 +13,7 @@
           (click)="onToggleDays(day)"
           [ngClass]="day.selected ? 'toggle toggle-selected' : 'toggle'"
         >
-          {{ day.value }}
+          {{ day.value | translate }}
         </div>
       </div>
 

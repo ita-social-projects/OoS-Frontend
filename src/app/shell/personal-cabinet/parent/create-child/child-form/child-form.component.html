@@ -92,17 +92,6 @@
     </mat-select>
   </mat-form-field>
 
-  <label class="step-label">Місце проживання</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
-  >
-  </app-validation-hint>
-
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue />
@@ -111,17 +100,6 @@
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
     [maxCharachters]="validationConstants.INPUT_LENGTH_256"
-  >
-  </app-validation-hint>
-
-  <label class="step-label">Серія та номер свідоцтва про народження</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="certificateOfBirth" autocomplete="none" appTrimValue />
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_10"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30"
   >
   </app-validation-hint>
 
