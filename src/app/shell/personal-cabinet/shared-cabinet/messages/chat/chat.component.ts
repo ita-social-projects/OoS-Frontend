@@ -20,6 +20,7 @@ import { SharedUserState } from '../../../../../shared/store/shared-user.state';
 import { GetWorkshopById } from '../../../../../shared/store/shared-user.actions';
 import { User } from '../../../../../shared/models/user.model';
 import { Util } from '../../../../../shared/utils/utils';
+import { ModeConstants } from '../../../../../shared/constants/constants';
 
 @Component({
   selector: 'app-chat',
@@ -113,7 +114,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const mode = this.route.snapshot.queryParamMap.get('mode');
 
     switch (mode) {
-      case 'companion':
+      case ModeConstants.WORKSHOP:
         this.createChatRoom();
         break;
       default:
