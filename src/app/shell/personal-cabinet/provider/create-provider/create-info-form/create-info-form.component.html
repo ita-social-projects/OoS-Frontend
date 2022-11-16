@@ -20,7 +20,7 @@
     >
       <ng-container *ngFor="let type of ownershipType | keyvalue">
         <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-          {{ ownershipTypeUkr[type.key] }}
+          {{ ownershipTypeUkr[type.key] | translate }}
         </mat-option>
       </ng-container>
     </mat-select>

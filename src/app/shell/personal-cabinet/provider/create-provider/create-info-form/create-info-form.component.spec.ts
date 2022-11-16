@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -34,6 +35,7 @@ describe('CreateInfoFormComponent', () => {
         MatIconModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
         MatDialogModule
       ],
       declarations: [CreateInfoFormComponent, MockValidationHintForInputComponent, ImageFormControlComponent, KeyFilterDirective]
