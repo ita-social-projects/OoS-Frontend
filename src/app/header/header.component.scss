@@ -452,8 +452,6 @@
   width: 160px;
 }
 
-::ng-deep {
-  .cdk-overlay-pane {
-    top: 0 !important;
-  }
+::ng-deep .languageDropDown{
+  margin-top: 0;
 }
