@@ -148,3 +148,12 @@
 ::ng-deep .mat-menu-panel {
   border-radius: 15px !important;
 }
+
+@media (max-width: 750px) {
+  .header {
+    padding: 1rem;
+  }
+  .header-title {
+    margin-top: 1rem;
+  }
+}
