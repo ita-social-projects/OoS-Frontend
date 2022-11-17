@@ -39,8 +39,7 @@ export class ChildrenService {
     const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }
@@ -64,9 +63,7 @@ export class ChildrenService {
    * @param id: number
    */
   getAllUsersChildren(): Observable<SearchResponse<Child[]>> {
-    let params = new HttpParams();
-    params = params.set('Size', '0');
-    params = params.set('From', '0');
+    let params = new HttpParams().set('Size', '0').set('From', '0');
 
     return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', { params });
   }
