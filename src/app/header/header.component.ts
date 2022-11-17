@@ -23,7 +23,7 @@ import { TranslateService } from '@ngx-translate/core';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss']
+  styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
+  isMobileScreen: boolean;
   @Select(RegistrationState.user)
   user$: Observable<User>;
   user: User;
@@ -63,7 +64,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store, private router: Router, private translate: TranslateService) {}
 
-  changeView(): void {
+  onViewChange(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
@@ -76,6 +77,10 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.subrole = subrole;
         this.navigationPaths = navigationPaths;
       });
+
+    this.isMobileScreen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isMobileScreen: boolean) => (this.isMobileScreen = isMobileScreen));
 
     this.user$
       .pipe(
@@ -99,14 +104,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${
+      user.middleName ? user.middleName.slice(0, 1) + '.' : ' '
+    }`;
   }
 
-  logout(): void {
+  onLogout(): void {
     this.store.dispatch(new Logout());
   }
 
-  login(): void {
+  onLogin(): void {
     this.store.dispatch(new Login(false));
   }
 

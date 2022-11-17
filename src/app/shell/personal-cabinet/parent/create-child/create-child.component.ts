@@ -9,7 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Location } from '@angular/common';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
-import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
+import { NAME_REGEX, NO_LATIN_REGEX } from '../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName, PersonalCabinetTitle } from '../../../../shared/enum/navigation-bar';

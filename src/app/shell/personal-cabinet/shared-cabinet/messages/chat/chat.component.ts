@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
-import { GetChatRoomById, GetChatRoomMessages } from '../../../../../shared/store/chat.actions';
+import { ClearSelectedChatRoom, GetChatRoomById, GetChatRoomMessages } from '../../../../../shared/store/chat.actions';
 import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
@@ -20,6 +20,7 @@ import { SharedUserState } from '../../../../../shared/store/shared-user.state';
 import { GetWorkshopById } from '../../../../../shared/store/shared-user.actions';
 import { User } from '../../../../../shared/models/user.model';
 import { Util } from '../../../../../shared/utils/utils';
+import { ModeConstants } from '../../../../../shared/constants/constants';
 
 @Component({
   selector: 'app-chat',
@@ -103,7 +104,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new PopNavPath());
+    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom()]);
     this.hubConnection.stop();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -113,7 +114,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     const mode = this.route.snapshot.queryParamMap.get('mode');
 
     switch (mode) {
-      case 'companion':
+      case ModeConstants.WORKSHOP:
         this.createChatRoom();
         break;
       default:

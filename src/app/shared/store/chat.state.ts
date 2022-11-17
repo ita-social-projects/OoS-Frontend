@@ -3,7 +3,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
 import { ChatRoom, IncomingMessage } from '../models/chat.model';
 import { ChatService } from '../services/chat/chat.service';
-import { GetChatRoomById, GetChatRoomMessages, GetUserChatRooms } from './chat.actions';
+import { ClearSelectedChatRoom, GetChatRoomById, GetChatRoomMessages, GetUserChatRooms } from './chat.actions';
 
 export interface ChatStateModel {
   isLoadingData: boolean;
@@ -78,5 +78,10 @@ export class ChatState {
         })
       )
     );
+  }
+
+  @Action(ClearSelectedChatRoom)
+  clearSelectedChatRoom({ patchState }: StateContext<ChatStateModel>): void {
+    patchState({ selectedChatRoom: null, selectedChatRoomMessages: null });
   }
 }
