@@ -27,7 +27,7 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab *ngIf="role === Role.techAdmin" label="{{ adminRoleUkr.ministryAdmin }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { $implicit: filterValue, admins: ministryAdminsTable }"> </ng-container>
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: ministryAdminsTable }"> </ng-container>
       </mat-tab>
       <mat-tab label="{{ adminRoleUkr.regionAdmin }}">
         <ng-container *ngTemplateOutlet="AdminsList"> </ng-container>
@@ -39,18 +39,11 @@
   </div>
 </div>
 
-<ng-template #AdminsList let-filterValue let-admins="admins">
+<ng-template #AdminsList let-admins="admins">
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="admins?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list
-          [users]="admins"
-          [filterValue]="filterValue"
-          [isEdit]="true"
-          (delete)="onDelete($event)"
-          (block)="onBlock($event)"
-          (update)="onUpdate($event)"
-        >
+        <app-users-list [users]="admins" [isEdit]="true" (delete)="onDelete($event)" (block)="onBlock($event)" (update)="onUpdate($event)">
         </app-users-list>
       </div>
       <app-paginator
