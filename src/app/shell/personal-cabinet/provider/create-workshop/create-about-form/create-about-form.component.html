@@ -184,7 +184,9 @@
         [matMenuTriggerFor]="childInfo" #childTrigger="matMenuTrigger"
         (menuOpened)="opened = childTrigger.menuOpen" (menuClosed)="opened = childTrigger.menuOpen">info_outline</i>
       <mat-menu class="hint-menu" #childInfo="matMenu" [overlapTrigger]="false">
-        (Нова створена заява, яка очікує підтвердження від надавача послуг)
+        Обравши опцію "Без обмежень" - гурток не має обмежень на кількість користувачів. 
+        Якщо ввести кількість доступних місць для користувачів - по досягненню ліміта набір 
+        буде автоматично закрито і подачу заявок зупинено автоматично.
       </mat-menu>
     </div>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
