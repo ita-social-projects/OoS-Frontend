@@ -29,8 +29,12 @@
       <mat-tab *ngIf="role === Role.techAdmin" label="{{ adminRoleUkr.ministryAdmin }}">
         <ng-container *ngTemplateOutlet="AdminsList; context: { $implicit: filterValue, admins: ministryAdminsTable }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ adminRoleUkr.regionAdmin }}"> </mat-tab>
-      <mat-tab label="{{ adminRoleUkr.territorialCommunityAdmin }}"> </mat-tab>
+      <mat-tab label="{{ adminRoleUkr.regionAdmin }}">
+        <ng-container *ngTemplateOutlet="AdminsList"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ adminRoleUkr.territorialCommunityAdmin }}">
+        <ng-container *ngTemplateOutlet="AdminsList"> </ng-container>
+      </mat-tab>
     </mat-tab-group>
   </div>
 </div>
