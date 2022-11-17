@@ -68,8 +68,9 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 import { TranslateModule } from '@ngx-translate/core';
-import {UnregisteredUserWarningModalComponent} from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-
+import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
+import { GetFullAddressPipe } from './pipes/get-full-address.pipe';
 
 @NgModule({
   declarations: [
@@ -132,7 +133,9 @@ import {UnregisteredUserWarningModalComponent} from './components/unregistered-u
     StretchCellComponent,
     StretchTableDirective,
     UserRadiusSetComponent,
-    UnregisteredUserWarningModalComponent
+    UnregisteredUserWarningModalComponent,
+    EmptyValueTransformPipe,
+    GetFullAddressPipe
   ],
 
   imports: [
@@ -146,7 +149,7 @@ import {UnregisteredUserWarningModalComponent} from './components/unregistered-u
     NgxMatTimepickerModule,
     IvyCarouselModule,
     ImageCropperModule,
-    TranslateModule,
+    TranslateModule
   ],
 
   exports: [
@@ -206,7 +209,9 @@ import {UnregisteredUserWarningModalComponent} from './components/unregistered-u
     StretchCellComponent,
     StretchTableDirective,
     UserRadiusSetComponent,
-    UnregisteredUserWarningModalComponent
+    UnregisteredUserWarningModalComponent,
+    EmptyValueTransformPipe,
+    GetFullAddressPipe
   ]
 })
 export class SharedModule {}

@@ -39,21 +39,20 @@
 
         <ng-container matColumnDef="licence">
           <th mat-header-cell *matHeaderCellDef>Ліцензія №</th>
-          <td mat-cell *matCellDef="let element"></td>
+          <td mat-cell *matCellDef="let element">{{ '' | emptyValueTransform }}</td>
         </ng-container>
 
         <ng-container matColumnDef="city">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">Населений пункт</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.legalAddress?.codeficatorAddressDto?.settlement || '' }}
+            {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform }}
           </td>
         </ng-container>
 
         <ng-container matColumnDef="street">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">Адреса</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.legalAddress?.street }}
-            {{ element.legalAddress?.buildingNumber }}
+            {{ element.legalAddress?.street + element.legalAddress?.buildingNumber | emptyValueTransform }}
           </td>
         </ng-container>
 
@@ -69,7 +68,7 @@
 
         <ng-container matColumnDef="website">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by website">Website</th>
-          <td mat-cell *matCellDef="let element">{{ element.website }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.website | emptyValueTransform }}</td>
         </ng-container>
 
         <ng-container matColumnDef="shortTitle">
@@ -99,9 +98,7 @@
         <ng-container matColumnDef="actualAddress">
           <th mat-header-cell *matHeaderCellDef>Актуальна адреса</th>
           <td mat-cell *matCellDef="let element">
-            {{ element.actualAddress?.codeficatorAddressDto?.settlement }}
-            {{ element.actualAddress?.street }}
-            {{ element.actualAddress?.buildingNumber }}
+            {{ element.actualAddress | getFullAddress | emptyValueTransform }}
           </td>
         </ng-container>
 
