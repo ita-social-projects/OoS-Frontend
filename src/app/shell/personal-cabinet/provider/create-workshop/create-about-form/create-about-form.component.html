@@ -178,7 +178,17 @@
   </mat-radio-group>
 
   <div *ngIf="provider.ownership !== ownershipTypeName.State" fxLayout="column" fxLayoutAlign="center space-between">
-    <label class="step-label"> Кількість доступних місць<span class="step-required">*</span> </label>
+    <div fxLayout="row" fxLayoutAlign="left space-between">
+      <label class="step-label"> Кількість доступних місць<span class="step-required">*</span></label>
+      <i [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
+        [matMenuTriggerFor]="childInfo" #childTrigger="matMenuTrigger"
+        (menuOpened)="opened = childTrigger.menuOpen" (menuClosed)="opened = childTrigger.menuOpen">info_outline</i>
+      <mat-menu class="hint-menu" #childInfo="matMenu" [overlapTrigger]="false">
+        Обравши опцію "Без обмежень" - гурток не має обмежень на кількість користувачів. 
+        Якщо ввести кількість доступних місць для користувачів - по досягненню ліміта набір 
+        буде автоматично закрито і подачу заявок зупинено автоматично.
+      </mat-menu>
+    </div>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
       <mat-radio-button [value]="true">Без обмежень</mat-radio-button>
       <div class="conteiner" fxLayout="row" fxLayoutAlign="space-between center">
