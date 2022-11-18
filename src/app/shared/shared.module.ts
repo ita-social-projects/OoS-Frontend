@@ -70,7 +70,7 @@ import { UserRadiusSetComponent } from './components/filters-list/user-radius-se
 import { TranslateModule } from '@ngx-translate/core';
 import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
-import { GetFullAddressPipe } from './pipes/get-full-address.pipe';
+import { GetAddressPipe } from './pipes/get-address.pipe';
 
 @NgModule({
   declarations: [
@@ -135,7 +135,7 @@ import { GetFullAddressPipe } from './pipes/get-full-address.pipe';
     UserRadiusSetComponent,
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
-    GetFullAddressPipe
+    GetAddressPipe
   ],
 
   imports: [
@@ -211,7 +211,7 @@ import { GetFullAddressPipe } from './pipes/get-full-address.pipe';
     UserRadiusSetComponent,
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
-    GetFullAddressPipe
+    GetAddressPipe
   ]
 })
 export class SharedModule {}

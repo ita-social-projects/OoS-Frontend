@@ -125,15 +125,14 @@ export class Util {
    * @returns array of objects
    */
   public static updateStructureForTheTable(users): UsersTable[] {
-    const constants: typeof Constants = Constants;
     const updatedUsers = [];
     users.forEach((user) => {
       updatedUsers.push({
         id: user.id,
-        pib: `${user.lastName} ${user.firstName} ${user.middleName}` || constants.NO_INFORMATION,
-        email: user.parent?.email || constants.NO_INFORMATION,
-        place: user.place || constants.NO_INFORMATION,
-        phoneNumber: user.parent.phoneNumber ? `${constants.PHONE_PREFIX} ${user.parent.phoneNumber}` : constants.NO_INFORMATION,
+        pib: this.getFullName(user),
+        email: user.parent?.email,
+        place: user.place,
+        phoneNumber: user.parent.phoneNumber,
         role: user.isParent ? 'Батьки' : 'Діти',
         status: user.accountStatus || 'Accepted'
       });
@@ -147,15 +146,14 @@ export class Util {
    * @returns array of objects
    */
   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
-    const constants: typeof Constants = Constants;
     const updatedAdmins = [];
     admins.forEach((admin: MinistryAdmin) => {
       updatedAdmins.push({
         id: admin.id,
-        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}` || constants.NO_INFORMATION,
-        email: admin.email || constants.NO_INFORMATION,
-        place: constants.NO_INFORMATION,
-        phoneNumber: admin.phoneNumber ? `${constants.PHONE_PREFIX} ${admin.phoneNumber}` : constants.NO_INFORMATION,
+        pib: this.getFullName(admin),
+        email: admin.email,
+        place: '',
+        phoneNumber: admin.phoneNumber,
         role: admin.id,
         status: admin.accountStatus || 'Accepted'
       });
@@ -233,7 +231,7 @@ export class Util {
     const defaultFilterState = new DefaultFilterState();
 
     // Compare current filter state and default
-    for (let [ key, value ] of Object.entries(defaultFilterState)) {
+    for (let [key, value] of Object.entries(defaultFilterState)) {
       if (Array.isArray(filterState[key])) {
         if (filterState[key].length > 0) {
           filterStateDiff[key] = filterState[key].join();
@@ -245,12 +243,11 @@ export class Util {
       }
     }
     // Create query string from filterStateDiff object
-    Object.keys(filterStateDiff).forEach((key,index, keyArray) => {
+    Object.keys(filterStateDiff).forEach((key, index, keyArray) => {
       // Shouldn't add semicolon on last iteration
       if (index === keyArray.length - 1) {
         serializedFilters += `${key}=${filterStateDiff[key]}`;
-      }
-      else {
+      } else {
         serializedFilters += `${key}=${filterStateDiff[key]};`;
       }
     });
@@ -266,16 +263,13 @@ export class Util {
    */
   public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
     let filterState: Partial<DefaultFilterState> = {};
-    params.split(';').forEach(param => {
-      const [ key, value ] = param.split('=');
-      const arrayKeys = [ 'directionIds', 'workingDays', 'statuses' ];
+    params.split(';').forEach((param) => {
+      const [key, value] = param.split('=');
+      const arrayKeys = ['directionIds', 'workingDays', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
-        filterState[key] = key !== 'directionIds' ?
-          value.split(',') :
-          value.split(',').map(Number);
-      }
-      else {
+        filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);
+      } else {
         filterState[key] = this.parseToPrimitive(value);
       }
     });
@@ -289,8 +283,7 @@ export class Util {
   private static parseToPrimitive(value) {
     try {
       return JSON.parse(value);
-    }
-    catch (e) {
+    } catch (e) {
       return value.toString();
     }
   }

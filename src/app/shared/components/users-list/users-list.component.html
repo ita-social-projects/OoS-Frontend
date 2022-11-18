@@ -50,7 +50,7 @@
             [matTooltipPosition]="tooltipPosition"
             class="tab-text"
           >
-            {{ element.place || '' }}
+            {{ element.place | emptyValueTransform }}
           </div>
         </td>
       </ng-container>
