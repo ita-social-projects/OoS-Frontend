@@ -78,7 +78,7 @@
 
         <ng-container matColumnDef="phoneNumber">
           <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">Телефон</th>
-          <td mat-cell *matCellDef="let element">{{ constants.PHONE_PREFIX }}{{ element.phoneNumber }}</td>
+          <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
         </ng-container>
 
         <ng-container matColumnDef="directorDateOfBirth">
