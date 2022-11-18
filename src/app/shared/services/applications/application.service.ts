@@ -32,16 +32,13 @@ export class ApplicationService {
 
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
-    params = params.set('OrderByDateAscending', 'true');
-    params = params.set('OrderByAlphabetically', 'true');
-    params = params.set('OrderByStatus', 'true');
+    params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size: number = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
 
     const from: number = size * (+currentPage.element - 1);
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }

@@ -24,8 +24,7 @@ export class ProviderService {
     const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }

@@ -49,7 +49,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
   role$: Observable<string>;
 
   tabIndex: number;
-  filterValue: string;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
   role: Role;

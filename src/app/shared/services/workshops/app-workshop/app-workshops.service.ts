@@ -19,9 +19,10 @@ export class AppWorkshopsService {
   constructor(private http: HttpClient, private store: Store) {}
 
   private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
-    params = params.set('Latitude', settlement.latitude.toString());
-    params = params.set('Longitude', settlement.longitude.toString());
-    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
+    params = params
+      .set('Latitude', settlement.latitude.toString())
+      .set('Longitude', settlement.longitude.toString())
+      .set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
 
     return params;
   }
@@ -33,8 +34,7 @@ export class AppWorkshopsService {
       params = this.setCityFilterParams(filters.settlement, params);
     } else if (!!filters.mapViewCoords) {
       const { lat, lng } = filters.mapViewCoords;
-      params = params.set('Latitude', lat.toFixed(5).toString());
-      params = params.set('Longitude', lng.toFixed(5).toString());
+      params = params.set('Latitude', lat.toFixed(5).toString()).set('Longitude', lng.toFixed(5).toString());
     }
 
     if (filters.isFree) {
@@ -107,9 +107,7 @@ export class AppWorkshopsService {
     }
 
     if (isMapView) {
-      params = params.set('OrderByField', Ordering.nearest);
-      params = params.set('Size', '100');
-      params = params.set('From', '0');
+      params = params.set('OrderByField', Ordering.nearest).set('Size', '100').set('From', '0');
       if (filters.userRadiusSize) {
         params = params.set('RadiusKm', filters.userRadiusSize);
       }
@@ -118,8 +116,7 @@ export class AppWorkshopsService {
       const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
       const from: number = size * (+currentPage.element - 1);
 
-      params = params.set('Size', size.toString());
-      params = params.set('From', from.toString());
+      params = params.set('Size', size.toString()).set('From', from.toString());
     }
 
     return params;
