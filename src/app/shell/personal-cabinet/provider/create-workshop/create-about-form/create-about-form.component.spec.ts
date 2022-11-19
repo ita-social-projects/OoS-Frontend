@@ -11,6 +11,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -38,6 +39,7 @@ describe('CreateAboutFormComponent', () => {
         MatRadioModule,
         MatButtonToggleModule,
         MatIconModule,
+        MatMenuModule,
         MatSelectModule,
         MatGridListModule,
         NgxMatTimepickerModule

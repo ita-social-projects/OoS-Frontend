@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { ParentComponent } from '../parent.component';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
+import { PaginationConstants, Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Child } from '../../../../shared/models/child.model';
@@ -23,6 +23,8 @@ import { SearchResponse } from '../../../../shared/models/search.model';
   styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
+  readonly ModeConstants = ModeConstants;
+
   @Select(PaginatorState.childrensPerPage)
   childrensPerPage$: Observable<number>;
   @Select(ParentState.children)

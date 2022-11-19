@@ -45,8 +45,27 @@
   }
 }
 
-::ng-deep .mat-form-field {
-  .mat-form-field-wrapper {
-    padding: 0;
+::ng-deep  {
+  .mat-form-field {
+    .mat-form-field-wrapper {
+      padding: 0;
+    }
+  }
+  .hint-menu {
+    width: 600px;
+    max-width: max-content;
+    background: #ffffff;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 5px !important;
+    .hint-menu.isMobile {
+      width: 90vw;
+    }
+    .mat-menu-content {
+      color: grey;
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+    }
   }
 }

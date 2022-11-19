@@ -8,9 +8,7 @@
     {{ workshop.price }} {{"UAH" | translate}}/{{ PayRateTypeUkr[workshop.payRate] | translate }}
   </h4>
   <h4 class="card-title" *ngIf="!workshop.price">{{'FREE_CIRCLE' | translate}}</h4>
-  <a [ngClass]="{ disable: hideApplicationSubmission }"
-     [routerLink]="['/create-application', workshop.id]"
-     (click)="onOpenDialog()">
+  <a [ngClass]="{ disable: hideApplicationSubmission }" [routerLink]="['/create-application', workshop.id]" (click)="onOpenDialog()">
     <button
       mat-raised-button
       class="button button-application"
@@ -21,12 +19,11 @@
     </button>
   </a>
 
-
   <button
     mat-raised-button
     class="button button-msg"
     [routerLink]="['/personal-cabinet/messages/', workshop.id]"
-    [queryParams]="{ mode: 'companion' }"
+    [queryParams]="{ mode: ModeConstants.WORKSHOP }"
   >
     <img class="button-msg-icon" src="assets/icons/message.png" alt="email" />
     {{'SEND_A_MESSAGE' | translate}}

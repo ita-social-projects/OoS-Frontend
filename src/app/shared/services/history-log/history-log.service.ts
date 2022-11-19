@@ -36,8 +36,7 @@ export class HistoryLogService {
     const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
     return params;
   }
 

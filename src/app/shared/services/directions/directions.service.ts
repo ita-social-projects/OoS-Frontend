@@ -27,8 +27,7 @@ export class DirectionsService {
     const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }
@@ -48,8 +47,7 @@ export class DirectionsService {
     const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
-    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
-    params = params.set('limit', size.toString());
+    params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString()).set('limit', size.toString());
 
     return this.http.get<Direction[]>('/api/v1/Statistic/GetDirections', { params });
   }

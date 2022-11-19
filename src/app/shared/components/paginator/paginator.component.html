@@ -14,7 +14,7 @@
   </div>
 
   <label class="step-label">{{"DISPLAY_ON_THE_PAGE" | translate}}</label>
-  <mat-select [(value)]="itemsPerPage" disableOptionCentering panelClass="“dropdown-panel”" class="step-input"
+  <mat-select [(value)]="itemsPerPage" disableOptionCentering panelClass="dropdown-panel" class="step-input"
     (selectionChange)="OnSelectOption($event)" placeholder="{{ itemsPerPage }}">
     <mat-option *ngFor="let value of listOfValues"
       [style.background]="value === itemsPerPage ? 'rgba(0,0,0,.04)' : 'auto'" [value]="value" class="dropdown-option">
