@@ -1,9 +1,9 @@
 <div class="main">
   <ng-container *ngIf="!(isLoadingData$ | async) && !!settlement">
     <div class="main-header">
-      <h3>{{ 'main.title-direction' | translate}}</h3>
+      <h3>{{ 'TOP_DIRECTIONS' | translate}}</h3>
       <a routerLink="/all-categories" class="main_link">
-        {{ isMobile ? ('main.link-mobile' | translate) : ('main.link' | translate) }} <span
+        {{ isMobile ? ('ALL' | translate) : ('VIEW_ALL' | translate) }} <span
           class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
@@ -19,9 +19,9 @@
     </ng-template>
 
     <div class="main-header">
-      <h3>{{ 'main.title-workshops' | translate}}</h3>
+      <h3>{{ 'TOP_WORKSHOPS' | translate}}</h3>
       <a routerLink="/result" class="main_link">
-        {{ isMobile ? ('main.link-mobile' | translate) : ('main.link' | translate) }} <span
+        {{ isMobile ? ('ALL' | translate) : ('VIEW_ALL' | translate) }} <span
           class="material-icons arrow">arrow_forward</span>
       </a>
     </div>
@@ -37,17 +37,17 @@
 
   <ng-template #emptyData>
     <div class="empty-list-wrapper">
-      <p class="text">{{'main.emptyData' | translate}}</p>
+      <p class="text">{{'NO_RESULTS_FOUND' | translate}}</p>
     </div>
   </ng-template>
 </div>
 
 <div *ngIf="(role$ | async) === Role.unauthorized" class="main_registration" fxLayoutAlign="space-between center">
   <div class="main_description">
-    <h2 class="main_question">{{'main.question' | translate}}</h2>
-    <h4 class="main_hint">{{'main.hint' | translate}}</h4>
+    <h2 class="main_question">{{'DO_YOU_PROVIDE_EDUCATIONAL_SERVICES' | translate}}</h2>
+    <h4 class="main_hint">{{'SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS' | translate}}</h4>
   </div>
   <div class="main_button-wrapper">
-    <button mat-stroked-button class="main_button" (click)="onRegister()">{{'main.button' | translate}}</button>
+    <button mat-stroked-button class="main_button" (click)="onRegister()">{{'SIGN_UP' | translate}}</button>
   </div>
 </div>

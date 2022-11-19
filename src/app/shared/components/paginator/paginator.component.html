@@ -13,7 +13,7 @@
     </button>
   </div>
 
-  <label class="step-label">{{"paginator.text" | translate}}</label>
+  <label class="step-label">{{"DISPLAY_ON_THE_PAGE" | translate}}</label>
   <mat-select [(value)]="itemsPerPage" disableOptionCentering panelClass="“dropdown-panel”" class="step-input"
     (selectionChange)="OnSelectOption($event)" placeholder="{{ itemsPerPage }}">
     <mat-option *ngFor="let value of listOfValues"

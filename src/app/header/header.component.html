@@ -13,15 +13,15 @@
 
       <div class="header_btns">
         <div class="header_about">
-          <a [routerLink]="'./info/about'"> {{ 'header.top.about' | translate}}</a>
+          <a [routerLink]="'./info/about'"> {{ 'ABOUT_THE_PORTAL' | translate}}</a>
         </div>
         <div class="header_about">
-          <a [routerLink]="'./info/rules'">{{ 'header.top.rules' | translate}}</a>
+          <a [routerLink]="'./info/rules'">{{ 'REGULATION_AND_LEGAL_ACTS' | translate}}</a>
         </div>
         <div class="header_support">
           <a class="header_support_title" [routerLink]="'./info/support'">
             <span class="header_support_icon material-icons">support</span>
-            {{ 'header.top.support' | translate}}
+            {{ 'SUPPORT' | translate}}
           </a>
         </div>
         <button mat-flat-button class="header_lang">
@@ -58,7 +58,7 @@
   <button mat-flat-button class="header_menu-button-mobile" (click)="changeView()">
     <mat-icon>menu</mat-icon>
   </button>
-  <button mat-stroked-button class="header_login" (click)="login()">{{ 'header.top.login' | translate}}</button>
+  <button mat-stroked-button class="header_login" (click)="login()">{{ 'LOGIN' | translate}}</button>
 </ng-template>
 
 <ng-template #isAuthorized>
@@ -96,7 +96,7 @@
       </div>
       <ng-template #UserView>
         <ng-container *ngIf="isRegistered$ | async">
-          <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>{{ 'header.authorization.info-personal' |
+          <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>{{ 'PERSONAL_INFORMATION' |
               translate}}
             </button></a>
           <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
@@ -106,45 +106,45 @@
           </a>
           <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/' + user.role + '/workshops'">
             <button mat-menu-item>
-              {{ 'header.authorization.my-workshops' | translate}}
+              {{ 'MY_WORKSHOPS' | translate}}
             </button>
           </a>
           <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
             <button mat-menu-item>
-              {{ 'header.authorization.my-statements' | translate}}
+              {{ 'MY_STATEMENTS' | translate}}
             </button>
           </a>
           <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
             [routerLink]="'./personal-cabinet/provider/administration'">
             <button mat-menu-item>
-              {{ 'header.authorization.administration' | translate}}
+              {{ 'ADMINISTRATION' | translate}}
             </button>
           </a>
           <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'">
             <button mat-menu-item>
-              {{ 'header.authorization.favorite' | translate}}
+              {{ 'FAVORITE' | translate}}
             </button>
           </a>
         </ng-container>
         <button mat-menu-item class="logout-btn" (click)="logout()">
-          {{ 'header.authorization.logout' | translate}}
+          {{ 'LOGOUT' | translate}}
         </button>
       </ng-template>
       <ng-template #AdminView>
         <a [routerLink]="'./personal-cabinet/config'"><button mat-menu-item>
-            {{ 'header.authorization.info-personal' | translate}}
+            {{ 'PERSONAL_INFORMATION' | translate}}
           </button></a>
         <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'"
           [queryParams]="{ page: defaultAdminTabs }">
           <button mat-menu-item>
-            {{ 'header.authorization.administration' | translate}}
+            {{ 'ADMINISTRATION' | translate}}
           </button></a>
         <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
           <button mat-menu-item>
-            {{ 'header.authorization.administration' | translate}}
+            {{ 'ADMINISTRATION' | translate}}
           </button></a>
         <button mat-menu-item (click)="logout()">
-          {{ 'header.authorization.logout' | translate}}
+          {{ 'LOGOUT' | translate}}
         </button>
       </ng-template>
     </mat-menu>

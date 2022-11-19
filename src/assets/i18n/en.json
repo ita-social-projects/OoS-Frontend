@@ -1,141 +1,142 @@
 {
-  "header": {
-    "top": {
-      "about": "ABOUT PORTAL",
-      "rules": "REGULATORY AND LEGAL ACTS",
-      "support": "SUPPORT",
-      "login": "LOG IN/REGISTER"
+  "ABOUT_THE_INSTITUTION": "ABOUT THE INSTITUTION",
+  "ABOUT_THE_PORTAL": "ABOUT THE PORTAL",
+  "ABOUT_THE_GROUP": "ABOUT THE GROUP",
+  "ADD": "Add",
+  "ADD_TO_FAVORITES": "Add to favorites",
+  "ADDED_TO_FAVORITES": "Added to favorites",
+  "ADD_ACHIEVEMENTS": "Add Achievements",
+  "ADMINISTRATION": "Administration",
+  "ALL": "All",
+  "AVAILABLE": "Available",
+  "AWAITING_CONFIRMATION": "Awaiting confirmation",
+  "BY_ALPHABET": "By Alphabet",
+  "BY_PRICE_DECREASE": "By price decrease",
+  "BY_PRICE_INCREASE": "By price increase",
+  "BY_RATING": "By rating",
+  "CANCEL": "Cancel",
+  "CHANGE": "Change",
+  "CLEAR_FILTERS": "Clear Filters",
+  "CLOSE_SELECTION": "Closed Selection",
+  "CONFIRM": "Confirm",
+  "CONTACTS": "CONTACTS",
+  "COST": "Cost",
+  "DAYS": {
+    "MONDAY": "MONDAY",
+    "TUESDAY": "TUESDAY",
+    "WEDNESDAY": "WEDNESDAY",
+    "THURSDAY": "THURSDAY",
+    "FRIDAY": "FRIDAY",
+    "SATURDAY": "SATURDAY",
+    "SUNDAY": "SUNDAY"
+  },
+  "DAYS_HOURS": "Days/Hours",
+  "DIRECTIONS": "Directions",
+  "DISPLAY_ON_THE_PAGE": "Display on the page:",
+  "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
+  "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
+  "ENUM": {
+    "CHILD_DECLINATION": {
+      "CHILD": "child",
+      "CHILD_GENITIVE": "children",
+      "CHILDREN_ABLATIVE": "children",
+      "NO_CHILDREN": "No children",
+      "CHILDREN": "children"
     },
-    "authorization": {
-      "info-personal": "Personal information",
-      "info-about": "Information about",
-      "my-workshops": "My workshops",
-      "my-statements": "My statements",
-      "administration": "Administration",
-      "favorite": "Favorite",
-      "logout": "Log out"
+    "DETAILS_TAB_TITLES": {
+      "ABOUT_THE_GROUP": "ABOUT THE GROUP",
+      "ABOUT_THE_INSTITUTION": "ABOUT THE INSTITUTION",
+      "ACHIEVEMENT": "ACHIEVEMENT",
+      "REVIEWS": "REVIEWS",
+      "OTHER_GROUPS_OF_THE_INSTITUTION": "MORE GROUPS",
+      "TEACHERS": "TEACHERS"
+    },
+    "OWNERSHIP_TYPE_UKR": {
+      "COMMON": "Communal",
+      "PRIVATE": "Private",
+      "STATE": "State"
+    },
+    "PAY_RATE_TYPE_UKR": {
+      "ALL_PERIOD": "All period",
+      "CLASSES": "Classes",
+      "COURSE": "Course",
+      "DAY": "Day",
+      "HOUR": "Hour",
+      "MONTH" : "Month",
+      "YEAR": "Year"
+    },
+    "RECRUITMENT_STATUS_UKR": {
+      "RECRUITMENT_ONGOING": "Recruitment is ongoing",
+      "RECRUITMENT_STOPED": "Recruitment Stopped",
+      "STOP": "Stop dialing",
+      "OPEN": "Open set"
+    },
+    "REVIEW_DECLINATION": {
+      "FEEDBACK": "feedback",
+      "FEEDBACKS": "feedback",
+      "FEEDBACKS_ABLATIVE": "feedback"
+    },
+    "ROLE_LINKS": {
+      "PARENT": "children",
+      "PROVIDER": "facility"
+    },
+    "WORKSHOP_DECLINATION": {
+      "WORKSHOP": "circle",
+      "WORKSHOPS": "circles",
+      "WORKSHOPS_ABLATIVE": "circles",
+      "NO_WORKSHOPS": "No workshops"
     }
   },
-  "main": {
-    "title-direction": "Most popular destinations",
-    "title-workshops": "Most popular workshops",
-    "link": "See all",
-    "link-mobile": "All",
-    "question": "Do you provide educational services?",
-    "hint": "Sign up - we'll help you attract new students!",
-    "button": "SIGN UP",
-    "emptyData": "No results were found"
-  },
-  "searchbar": {
-    "placeholder": "Enter the name of the workshop, school"
-  },
-  "workshop-card": {
-    "more": "More details",
-    "achievements": "Add achievements",
-    "participants": "Total participants",
-    "confirmation": "Awaiting confirmation",
-    "leave": "Leave the workshop",
-    "ownership": "Ownership",
-    "ages": "ages",
-    "free": "Free",
-    "currency": "uah"
-  },
-  "result": {
-    "found": "found",
-    "list": "List",
-    "map": "Map"
-  },
-  "filters-list": {
-    "clear-filters": "Clear filters",
-    "set": "Set",
-    "open-selection": "Only with open selection",
-    "close-selection": "Closed selection",
-    "description": "Availability of a resource for providing education for persons with disabilities and persons with disabilities",
-    "available": "available"
-  },
-  "ordering": {
-    "rating": "By rating",
-    "price-up": "By increasing the price",
-    "price-down": "By falling the price",
-    "alphabet": "Alphabetically",
-    "closet": "The closest ones"
-  },
-  "category-check-box": {
-    "directions": "Directions",
-    "search": "Search by direction"
-  },
-  "age-filter": {
-    "age": "Select age",
-    "match": "A complete match",
-    "from": "From",
-    "to": "To"
-  },
-  "working-hours": {
-    "days": "Working days",
-    "hours": "Working hours",
-    "match": "A complete match",
-    "cancel": "Cancel",
-    "add": "Add",
-    "from": "From",
-    "to": "To"
-  },
-  "city-filter": {
-    "settlement": "You are in a settlement",
-    "confirm": "Confirm",
-    "change": "Change"
-  },
-  "price-filter": {
-    "price": "Price",
-    "free": "Free",
-    "paid": "Paid",
-    "from": "From",
-    "to": "To"
-  },
-  "paginator": {
-    "text": "Display on page:"
-  },
-  "enum": {
-    "provider": {
-      "OwnershipTypeUkr": {
-        "state": "State",
-        "common": "Municipal",
-        "private": "Private"
-      }
-    },
-    "working-hours": {
-      "monday": "MON",
-      "tuesday": "TUE",
-      "wednesday": "WED",
-      "thursday": "THU",
-      "friday": "FRI",
-      "saturday": "SAT",
-      "sunday": "SAN"
-    },
-    "declination": {
-      "ReviewDeclination": {
-        "feedback": "feedback",
-        "feedbacks": "feedbacks",
-        "feedbacks-2": "feedbacks"
-      },
-      "WorkshopDeclination": {
-        "workshop": "workshop",
-        "workshops": "workshops",
-        "workshops-2": "workshops",
-        "no-workshops": "There are no workshops"
-      },
-      "ChildDeclination": {
-        "child": "child",
-        "child-2": "child",
-        "children": "children",
-        "no-children": "There are no children",
-        "children-2": "children"
-      }
-    },
-    "role": {
-      "RoleLinks": {
-        "provider": "establishment",
-        "parent": "children"
-      }
-    }
-  }
+  "EXACT_MATCH": "Exact match",
+  "FAVORITE": "Favorite",
+  "FOR_FREE": "For free",
+  "FORM_OF_OWNERSHIP": "Form of Ownership",
+  "FOUND": "found",
+  "FOUNDER": "Founder",
+  "FREE_CIRCLE": "FREE CIRCLE",
+  "FROM": "From",
+  "INFORMATION_ABOUT": "Information about",
+  "LEAVE_A_RATING": "LEAVE A RATING",
+  "LEAVE_CIRCLE": "Leave circle",
+  "LIST": "List",
+  "LOGIN": "LOG IN/REGISTER",
+  "LOGOUT": "Logout",
+  "MANAGER_NAME": "Manager's first name",
+  "MAP": "Map",
+  "MORE_DETAILS": "More details",
+  "MY_STATEMENTS": "My Statements",
+  "MY_WORKSHOPS": "My Circles",
+  "NEAREST": "Nearest",
+  "NO_RESULTS_FOUND": "No results found",
+  "OPEN_SELECTION_ONLY": "Only with open selection",
+  "OWNERSHIP": "Form of ownership",
+  "PAID": "Paid",
+  "PERSONAL_INFORMATION": "Personal Information",
+  "PRICE": "Cost",
+  "THERE_ARE_NO": "There are none",
+  "TO": "To",
+  "TOP_DIRECTIONS": "Top Directions",
+  "TOP_WORKSHOPS": "Top Workshops",
+  "TOTAL_PARTICIPANTS": "Total participants",
+  "TYPE_OF_ORGANIZATION" : "Type of Organization",
+  "REGULATION_AND_LEGAL_ACTS": "REGULATION AND LEGAL ACTS",
+  "SEND_A_MESSAGE" : "Send a message",
+  "SET": "Set",
+  "SEARCH_BY_DIRECTIONS": "Search by direction",
+  "SELECT_AGE": "Select age",
+  "SHOW_ON_THE_MAP": "Show on the map",
+  "SIGN_UP": "SIGN UP",
+  "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS!": "Sign up - we will help you attract new students!",
+  "SUBMIT_AN_APPLICATION": "SUBMIT AN APPLICATION",
+  "SUPPORT": "SUPPORT",
+  "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
+  "UAH": "UAH",
+  "VIEW_ALL": "View All",
+  "WORKING_DAYS": "Working days",
+  "WORKING_HOURS": "Working hours",
+  "YEARS": "years",
+  "YOU_ARE_IN_A_SETTLEMENT": "You are in a settlement",
+  "YOU_HAVE_ALREADY_RATED_THIS_CIRCLE": "You have already rated this circle",
+  "YOU_MUST_BE_ACCEPTED_TO_THIS_CIRCLE": "You must be accepted to this circle"
+
 }

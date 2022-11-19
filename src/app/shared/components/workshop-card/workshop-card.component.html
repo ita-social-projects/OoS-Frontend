@@ -11,7 +11,7 @@
       <mat-card-header>
         <mat-card-title [matTooltip]="workshopData.title" showTooltipIfTruncated matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition" class="card-title">
-          <a *ngIf="isCabinetView" matTooltip="{{'workshop-card.more' | translate}}" matTooltipPosition="above"
+          <a *ngIf="isCabinetView" matTooltip="{{'MORE_DETAILS' | translate}}" matTooltipPosition="above"
             [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
@@ -30,7 +30,7 @@
         <ng-container *ngIf="!isCabinetView">
           <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
             <span class="card_link">
-              {{'workshop-card.more' | translate}}
+              {{'MORE_DETAILS' | translate}}
             </span>
             <mat-icon>arrow_forward</mat-icon>
           </a>
@@ -39,7 +39,7 @@
           <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
             <mat-icon>add</mat-icon>
             <span class="card_link">
-              {{'workshop-card.achievements' | translate}}
+              {{'ADD_ACHIEVEMENTS' | translate}}
             </span>
           </a>
         </ng-container>
@@ -103,7 +103,7 @@
   </ng-container>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user card_icon"></i>
-      {{'workshop-card.participants' | translate}}:</p>
+      {{'TOTAL_PARTICIPANTS' | translate}}:</p>
     <span class="card_text card_text_blue">
       {{ workshopData.takenSeats }}
       <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }}
@@ -112,7 +112,7 @@
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user-clock card_icon"></i>
-      {{'workshop-card.confirmation' | translate}}:</p>
+      {{'AWAITING_CONFIRMATION' | translate}}:</p>
     <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
   </div>
 </ng-template>
@@ -123,7 +123,7 @@
       <mat-icon>how_to_reg</mat-icon>{{ statusTitles[application.status] }}
     </p>
     <p class="card_link status_action" *ngIf="application.status === statuses.Approved" (click)="onWorkshopLeave()">
-      {{'workshop-card.leave' | translate}}
+      {{'LEAVE_CIRCLE' | translate}}
     </p>
   </div>
 
@@ -143,21 +143,21 @@
 
   <p class="card_text" *ngIf="ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon>
-    {{'workshop-card.ownership' | translate}}: {{ ownershipTypeUkr[workshopData.providerOwnership] | translate}}
+    {{'FORM_OF_OWNERSHIP' | translate}}: {{ ownershipTypeUkr[workshopData.providerOwnership] | translate}}
   </p>
   <p class="card_text" [ngClass]="isHorizontalView ? 'hide' : ''">
     <mat-icon class="card_icon">person</mat-icon>
     {{ workshopData.minAge }} - {{ workshopData.maxAge }}
-    {{'workshop-card.ages' | translate}}
+    {{'YEARS' | translate}}
   </p>
   <p class="card_text" *ngIf="!workshopData.price">
     <mat-icon class="card_icon"> attach_money</mat-icon>
-    {{'workshop-card.free' | translate}}
+    {{'FOR_FREE' | translate}}
   </p>
   <p class="card_text" *ngIf="workshopData.price">
     <mat-icon class="card_icon"> attach_money</mat-icon>
-    {{ workshopData.price }} {{'workshop-card.currency' | translate}}/
-    {{ PayRateTypeUkr[workshopData.payRate] }}
+    {{ workshopData.price }} {{'UAH' | translate}}/
+    {{ PayRateTypeUkr[workshopData.payRate] | translate }}
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>

@@ -8,7 +8,7 @@
         <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
           <h1 class="title">{{ workshop.title }}</h1>
           <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-            <div class="chip chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+            <div class="chip chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing | translate}}</div>
           </ng-container>
         </div>
         <div *ngFor="let direction of workshop.directions">
@@ -27,27 +27,27 @@
     </div>
 
     <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop }}">
+      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate }}">
         <app-workshop-about [workshop]="workshop"></app-workshop-about>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.AboutProvider }}">
+      <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate}}">
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Teachers }}">
+      <mat-tab class="label" label="{{ workshopTitles.Teachers | translate }}">
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops }}">
+      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate }}">
         <app-all-provider-workshops [workshop]="workshop"> </app-all-provider-workshops>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Reviews }}">
+      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate }}">
         <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Achievements }}">
+      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate}}">
         <app-achievements [workshop]="workshop"></app-achievements>
       </mat-tab>
     </mat-tab-group>
   </div>
 </div>
 <ng-template #ClosedWorkshopStatus>
-  <div class="chip chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+  <div class="chip chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped | translate}}</div>
 </ng-template>
