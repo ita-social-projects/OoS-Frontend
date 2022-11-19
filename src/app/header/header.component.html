@@ -10,33 +10,6 @@
 
           <a class="info-link" [routerLink]="'./info/rules'">{{ 'REGULATION_AND_LEGAL_ACTS' | translate }}</a>
 
-      <div class="header_btns">
-        <div class="header_about">
-          <a [routerLink]="'./info/about'"> {{ 'ABOUT_THE_PORTAL' | translate}}</a>
-        </div>
-        <div class="header_about">
-          <a [routerLink]="'./info/rules'">{{ 'REGULATION_AND_LEGAL_ACTS' | translate}}</a>
-        </div>
-        <div class="header_support">
-          <a class="header_support_title" [routerLink]="'./info/support'">
-            <span class="header_support_icon material-icons">support</span>
-            {{ 'SUPPORT' | translate}}
-          </a>
-        </div>
-        <button mat-flat-button class="header_lang">
-          <mat-icon>language</mat-icon>
-          <mat-select (selectionChange)="setLanguage()" [(value)]="selectedLanguage" class="lang-option"
-            disableOptionCentering panelClass="dropdownOption">
-            <mat-option [ngClass]="'lang-option-text'" value="uk"> {{ Languages.uk }}
-            </mat-option>
-
-            <mat-option [ngClass]="'lang-option-text'" value="en"> {{ Languages.en }}
-            </mat-option>
-          </mat-select>
-        </button>
-        <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
-      </div>
-    </div>
           <a class="info-link" [routerLink]="'./info/support'">{{ 'SUPPORT' | translate }}</a>
 
           <button mat-flat-button class="lang">
@@ -131,7 +104,7 @@
     </a>
     <a [routerLink]="'./personal-cabinet/messages'">
       <button mat-menu-item>
-        {{ 'header.authorization.my-messages' | translate }}
+        {{ 'MY_MESSAGES' | translate }}
       </button>
     </a>
     <a
