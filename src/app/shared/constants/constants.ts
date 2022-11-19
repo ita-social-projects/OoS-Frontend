@@ -132,6 +132,8 @@ export class CropperConfigurationConstants {
 export class ModeConstants {
   static readonly NEW = 'new';
   static readonly WORKSHOP = 'workshop';
+  static readonly SHORT = 'short';
+  static readonly FULL = 'full';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };
