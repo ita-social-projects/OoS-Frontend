@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -30,40 +30,26 @@ import { RegistrationState } from '../../../store/registration.state';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
-  @Select(NotificationsState.notificationsAmount)
-  notificationsAmount$: Observable<NotificationsAmount>;
-  @Select(NotificationsState.notifications)
-  notificationsData$: Observable<Notifications>;
-  notificationsAmount: number;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-
   readonly notificationsConstants = NotificationsConstants;
   readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
   readonly statuses = Statuses;
   readonly notificationText = NotificationsText;
 
+  @Input() notificationsAmount: NotificationsAmount;
+
+  @Select(NotificationsState.notifications)
+  notificationsData$: Observable<Notifications>;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    this.notificationsAmount$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
-      )
-      .subscribe((notificationsAmount: NotificationsAmount) => {
-        this.notificationsAmount = notificationsAmount.amount;
-      });
     this.notificationsData$.subscribe((not) => {
       console.log(not);
       console.log(222);
     });
-  }
-
-  private getNotifications(): void {
-    if (this.notificationsAmount) {
-      this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    }
   }
 
   onReadGroup(notificationsGrouped: NotificationGrouped): void {
@@ -87,6 +73,9 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   onReadSingle(event: PointerEvent, notification: Notification): void {
     this.store.dispatch(new ReadUsersNotificationById(notification));
     notification.readDateTime = new Date(Date.now()).toISOString();
+
+    this.notificationsAmount.amount--;
+
     event.stopPropagation();
   }
 
