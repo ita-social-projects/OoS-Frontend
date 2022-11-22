@@ -24,6 +24,7 @@ import {
   Notification
 } from '../../../models/notifications.model';
 import {
+  DeleteUsersNotificationById,
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
   ReadUsersNotificationsByType
@@ -50,6 +51,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   notificationsGroupedByType: NotificationsGroupedByType[] = [];
+  notifications: Notification[];
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
@@ -67,6 +69,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
       }
 
       map.forEach((amount, type) => this.notificationsGroupedByType.push({ type, amount, isRead: false }));
+      this.notifications = not.notifications;
     });
   }
 
@@ -84,6 +87,30 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     notification.readDateTime = new Date(Date.now()).toISOString();
 
     this.notificationsAmount.amount--;
+
+    event.stopPropagation();
+  }
+
+  onReadAll(event: PointerEvent) {
+    this.notificationsGroupedByType.forEach((group: NotificationsGroupedByType) => {
+      this.store.dispatch(new ReadUsersNotificationsByType(group));
+      group.isRead = true;
+    });
+    this.notifications.forEach((notification: Notification) => {
+      this.store.dispatch(new ReadUsersNotificationById(notification));
+      notification.readDateTime = new Date(Date.now()).toISOString();
+    });
+
+    this.notificationsAmount.amount = 0;
+
+    event.stopPropagation();
+  }
+  //TODO: onDeleteGroup
+
+  onDeleteSingle(event: PointerEvent, notification: Notification) {
+    this.store.dispatch(new DeleteUsersNotificationById(notification.id));
+
+    this.notifications.filter((notificationItem: Notification) => notificationItem.id != notification.id);
 
     event.stopPropagation();
   }

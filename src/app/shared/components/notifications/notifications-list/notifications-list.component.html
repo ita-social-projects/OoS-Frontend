@@ -4,7 +4,7 @@
       <h3 class="notifications-list__title">СПОВІЩЕННЯ</h3>
       <mat-icon class="menu-icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
-        <button mat-menu-item>Позначити всі як прочитані</button>
+        <button mat-menu-item (click)="onReadAll($event)">Позначити всі як прочитані</button>
         <button mat-menu-item>Видалити всі</button>
       </mat-menu>
     </div>
@@ -84,7 +84,7 @@
               <mat-icon [matMenuTriggerFor]="actions" class="menu-icon" (click)="onRead($event)">more_vert</mat-icon>
               <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
                 <button mat-menu-item (click)="onReadSingle($event, notification)">Позначити як прочитане</button>
-                <button mat-menu-item>Видалити сповіщення</button>
+                <button mat-menu-item (click)="onDeleteSingle($event, notification)">Видалити сповіщення</button>
               </mat-menu>
             </div>
             <div [style.max-height]="accordionItem.expanded ? '100px' : '0px'" role="region" class="item-body">

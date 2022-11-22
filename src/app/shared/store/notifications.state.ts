@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
@@ -15,7 +16,10 @@ import {
   OnReadUsersNotificationsByTypeSuccess,
   ReadUsersNotificationsByType,
   ReadUsersNotificationById,
-  OnReadUsersNotificationByIdSuccess
+  OnReadUsersNotificationByIdSuccess,
+  DeleteUsersNotificationById,
+  OnDeleteUsersNotificationByIdSuccess,
+  OnDeleteUsersNotificationByIdFail
 } from './notifications.actions';
 
 export interface NotificationsStateModel {
@@ -88,6 +92,33 @@ export class NotificationsState {
     return this.notificationsService
       .readUsersNotificationById(payload)
       .pipe(catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error)))));
+  }
+
+  @Action(DeleteUsersNotificationById)
+  deleteUsersNotificationById(
+    { dispatch }: StateContext<NotificationsStateModel>,
+    { notificationId }: DeleteUsersNotificationById
+  ): Observable<void | Observable<void>> {
+    return this.notificationsService.deleteNotification(notificationId).pipe(
+      tap(() => dispatch(new OnDeleteUsersNotificationByIdSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteUsersNotificationByIdFail(error))))
+    );
+  }
+
+  @Action(OnDeleteUsersNotificationByIdSuccess)
+  onDeleteUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>): void {
+    //TODO: Snackbar
+    dispatch(new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'success' }));
+  }
+
+  @Action(OnDeleteUsersNotificationByIdFail)
+  onDeleteUsersNotificationByIdFail(
+    { dispatch }: StateContext<NotificationsStateModel>,
+    { error }: OnDeleteUsersNotificationByIdFail
+  ): void {
+    throwError(() => error);
+    //TODO: Snackbar
+    dispatch(new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'error' }));
   }
 
   @Action(OnReadUsersNotificationByIdSuccess)

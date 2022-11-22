@@ -15,6 +15,21 @@ export class ReadUsersNotificationsByType {
   constructor(public payload: NotificationsGroupedByType) {}
 }
 
+export class DeleteUsersNotificationById {
+  static readonly type = '[user] delete users notification by id';
+  constructor(public notificationId: string) {}
+}
+
+export class OnDeleteUsersNotificationByIdSuccess {
+  static readonly type = '[user] delete users notification by id success';
+  constructor() {}
+}
+
+export class OnDeleteUsersNotificationByIdFail {
+  static readonly type = '[user] delete users notification by id fail';
+  constructor(public error: Error) {}
+}
+
 export class OnReadUsersNotificationsByTypeSuccess {
   static readonly type = '[user] read users notifications by type success';
   constructor(public payload: NotificationGrouped) {}

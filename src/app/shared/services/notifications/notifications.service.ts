@@ -51,4 +51,11 @@ export class NotificationsService {
   getAllUsersNotifications(): Observable<Notifications> {
     return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotifications');
   }
+
+  /**
+   * This method delete notification by id
+   */
+  deleteNotification(notificationId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Notification/Delete/${notificationId}`);
+  }
 }
