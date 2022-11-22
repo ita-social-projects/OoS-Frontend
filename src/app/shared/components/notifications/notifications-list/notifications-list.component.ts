@@ -9,13 +9,20 @@ import {
   ApplicationApproved,
   ApplicationPending,
   ApplicationRejected,
-  ApplicationLeft
+  ApplicationLeft,
+  ApplicationHeader
 } from '../../../enum/enumUA/declinations/notification-declination';
 import { NotificationsText } from '../../../enum/enumUA/notifications';
 import { NotificationWorkshopStatusUkr } from '../../../enum/enumUA/workshop';
 import { NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
-import { NotificationGrouped, Notifications, NotificationsAmount, Notification } from '../../../models/notifications.model';
+import {
+  NotificationsGroupedByType,
+  NotificationGrouped,
+  Notifications,
+  NotificationsAmount,
+  Notification
+} from '../../../models/notifications.model';
 import {
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
@@ -34,6 +41,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
   readonly statuses = Statuses;
   readonly notificationText = NotificationsText;
+  readonly ApplicationHeaderDeclinations = ApplicationHeader;
 
   @Input() notificationsAmount: NotificationsAmount;
 
@@ -41,14 +49,24 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notificationsData$: Observable<Notifications>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
+  notificationsGroupedByType: NotificationsGroupedByType[] = [];
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    this.notificationsData$.subscribe((not) => {
+    this.notificationsData$.pipe(filter((not: Notifications) => !!not)).subscribe((not: Notifications) => {
       console.log(not);
       console.log(222);
+      let map = new Map<string, number>();
+
+      for (const group of not.notificationsGrouped) {
+        const curNotificationsAmount = map.get(group.type);
+        const newNotificationsAmount = curNotificationsAmount ? curNotificationsAmount + group.amount : group.amount;
+        map.set(group.type, newNotificationsAmount);
+      }
+
+      map.forEach((amount, type) => this.notificationsGroupedByType.push({ type, amount }));
     });
   }
 

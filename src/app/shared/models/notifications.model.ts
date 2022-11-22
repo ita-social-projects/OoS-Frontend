@@ -28,3 +28,8 @@ export interface NotificationsDate {
   Status?: string;
   Title?: string;
 }
+
+export interface NotificationsGroupedByType {
+  type: string;
+  amount: number;
+}
