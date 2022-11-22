@@ -67,10 +67,9 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     { payload }: ReadUsersNotificationsByType
   ): Observable<void | Observable<void>> {
-    return this.notificationsService.readUsersNotificationsByType(payload).pipe(
-      tap(() => dispatch(new OnReadUsersNotificationsByTypeSuccess(payload))),
-      catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error))))
-    );
+    return this.notificationsService
+      .readUsersNotificationsByType(payload)
+      .pipe(catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error)))));
   }
 
   @Action(OnReadUsersNotificationsByTypeSuccess)

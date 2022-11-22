@@ -66,26 +66,17 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
         map.set(group.type, newNotificationsAmount);
       }
 
-      map.forEach((amount, type) => this.notificationsGroupedByType.push({ type, amount }));
+      map.forEach((amount, type) => this.notificationsGroupedByType.push({ type, amount, isRead: false }));
     });
   }
 
-  onReadGroup(notificationsGrouped: NotificationGrouped): void {
+  onReadGroup(event: PointerEvent, notificationsGrouped: NotificationsGroupedByType): void {
     this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
-    const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
-    switch (NotificationType[notificationsGrouped.type]) {
-      case NotificationType.Application:
-        const status: string = Statuses[notificationsGrouped.groupedData];
-        this.router.navigate([`/personal-cabinet/${userRole}/${NotificationType.Application}/`], {
-          relativeTo: this.route,
-          queryParams: { status: status }
-        });
-        break;
-      case NotificationType.Workshop:
-        break;
-      case NotificationType.Chat:
-        break;
-    }
+
+    this.notificationsAmount.amount -= notificationsGrouped.amount;
+    notificationsGrouped.isRead = true;
+
+    event.stopPropagation();
   }
 
   onReadSingle(event: PointerEvent, notification: Notification): void {

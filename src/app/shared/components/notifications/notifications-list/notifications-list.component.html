@@ -30,12 +30,12 @@
       <cdk-accordion>
         <cdk-accordion-item
           *ngFor="let notificationGroupByType of notificationsGroupedByType"
-          #accordionItem="cdkAccordionItem"
+          #accordionGroupItem="cdkAccordionItem"
           role="button"
           class="notification-item"
         >
-          <div [class]="'notification-item__wrapper'">
-            <div class="item-header" (click)="accordionItem.toggle()">
+          <div [class]="notificationGroupByType.isRead ? 'notification-item__wrapper' : 'notification-item__wrapper new'">
+            <div class="item-header" (click)="accordionGroupItem.toggle()">
               <div class="item-header__info-block">
                 <span class="item-header__description"
                   >У вас {{ notificationGroupByType.amount | declination: ApplicationHeaderDeclinations }}</span
@@ -43,11 +43,10 @@
               </div>
               <mat-icon [matMenuTriggerFor]="actions" class="menu-icon" (click)="onRead($event)">more_vert</mat-icon>
               <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
-                <button mat-menu-item (click)="onReadSingle($event, notification)">Прочитати групу</button>
-                <button mat-menu-item>Видалити групу</button>
+                <button mat-menu-item (click)="onReadGroup($event, notificationGroupByType)">Прочитати групу</button>
               </mat-menu>
             </div>
-            <div [style.display]="accordionItem.expanded ? '' : 'none'" role="region" class="item-body">
+            <div [style.display]="accordionGroupItem.expanded ? '' : 'none'" role="region" class="item-body">
               <div *ngFor="let notificationGroup of notificationsData.notificationsGrouped" class="notification-item">
                 <div class="group-items-wrapper">
                   <div class="item-header item-header__group-details">
@@ -56,11 +55,6 @@
                         notificationGroup.amount | declination: defineDeclination(notificationGroup.groupedData)
                       }}</span>
                     </div>
-                    <mat-icon [matMenuTriggerFor]="actions" class="menu-icon" (click)="onRead($event)">more_vert</mat-icon>
-                    <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
-                      <button mat-menu-item (click)="onReadSingle($event, notification)">Прочитати всі</button>
-                      <button mat-menu-item>Видалити всі</button>
-                    </mat-menu>
                   </div>
                 </div>
               </div>

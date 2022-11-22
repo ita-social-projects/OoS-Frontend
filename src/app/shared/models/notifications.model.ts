@@ -32,4 +32,5 @@ export interface NotificationsDate {
 export interface NotificationsGroupedByType {
   type: string;
   amount: number;
+  isRead: boolean;
 }
