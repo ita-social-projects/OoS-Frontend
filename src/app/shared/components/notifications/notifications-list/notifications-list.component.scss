@@ -1,39 +1,106 @@
-.container {
-  line-height: 35px;
-  font-weight: bold;
-  margin: 0.5rem;
+.notifications-list {
+  padding: 0.5rem 0;
+
+  width: 355px;
+  min-height: 35px;
+  
   cursor: default;
-}
 
-.title {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 20px;
-  padding: 0 1rem 1rem 0;
-}
+  &__header {
+    padding: 0.5rem 1rem 1rem;
 
-.icon {
-  color: #3849f9;
-  font-size: 16px;
-  font-weight: bold;
-  margin-left: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-  &:hover {
-    cursor: pointer;
-    opacity: 0.5;
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  &__title {
+    position: relative;
+    top: 2px;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 20px;
   }
 }
 
-.editing {
-  line-height: normal;
-  margin: 0.5rem 0;
-  width: 200px;
-  text-align: justify;
+.menu-icon {
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 24px;
+
+  cursor: pointer;
+
+  overflow: visible;
+
+  color: #888888;
 }
 
-@media (max-width: 750px) {
-  .editing {
-    width: auto;
+.accordions-wrapper {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.notification-item {
+  &__wrapper {
+    border-bottom: 1px solid #e3e3e3;
+    padding: 0.5rem 0.75rem 0.5rem 1rem;
+  }
+
+  &:last-child {
+    .notification-item__wrapper {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+  }
+}
+
+.new {
+  border-left: 5px solid #3849f9;
+}
+
+.item-header {
+  display: flex;
+
+  .menu-icon {
+    opacity: 0;
+  }
+
+  &:hover{
+    .menu-icon {
+      opacity: 1;
+      transition: opacity 0.1s;
+    }
+  }
+
+  &__info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+
+    font-size: 13px;
+
+    h4{
+      font-size: inherit;
+    }
+  }
+
+  &__workshop-name {
+    font-weight: 700;
+    line-height: 15px;
+  }
+
+  &__description {
+    font-weight: 400;
+    line-height: 18px;
+  }
+
+  &__time {
+    font-weight: 400;
+    line-height: 18px;
+    color: #aaaaaa;
   }
 }

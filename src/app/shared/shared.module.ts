@@ -68,8 +68,8 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
 import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 import { TranslateModule } from '@ngx-translate/core';
-import {UnregisteredUserWarningModalComponent} from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-
+import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
 
 @NgModule({
   declarations: [
@@ -147,6 +147,7 @@ import {UnregisteredUserWarningModalComponent} from './components/unregistered-u
     IvyCarouselModule,
     ImageCropperModule,
     TranslateModule,
+    CdkAccordionModule
   ],
 
   exports: [

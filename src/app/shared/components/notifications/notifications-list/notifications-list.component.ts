@@ -53,8 +53,11 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
       )
       .subscribe((notificationsAmount: NotificationsAmount) => {
         this.notificationsAmount = notificationsAmount.amount;
-        this.getNotifications();
       });
+    this.notificationsData$.subscribe((not) => {
+      console.log(not);
+      console.log(222);
+    });
   }
 
   private getNotifications(): void {
@@ -83,6 +86,11 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
 
   onReadSingle(event: PointerEvent, notification: Notification): void {
     this.store.dispatch(new ReadUsersNotificationById(notification));
+    notification.readDateTime = new Date(Date.now()).toISOString();
+    event.stopPropagation();
+  }
+
+  onRead(event: PointerEvent) {
     event.stopPropagation();
   }
 

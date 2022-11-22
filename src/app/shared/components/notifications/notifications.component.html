@@ -5,10 +5,8 @@
   <span *ngIf="notificationsAmount$ | async as notificationsAmount">
     <mat-icon *ngIf="notificationsAmount.amount" [matBadge]="notificationsAmount.amount" matBadgePosition="before"></mat-icon>
   </span>
-  <mat-menu #menu="matMenu">
-    <div class="container">
-      <app-notifications-list></app-notifications-list>
-    </div>
+  <mat-menu xPosition="before" #menu="matMenu" [class]="'notification-menu'">
+    <app-notifications-list></app-notifications-list>
   </mat-menu>
 </ng-container>
 

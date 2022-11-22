@@ -1,7 +1,15 @@
-<div class="container">
+<div class="notifications-list" (click)="onRead($event)">
   <ng-container *ngIf="notificationsData$ | async as notificationsData">
-    <h3 class="title">СПОВІЩЕННЯ</h3>
-    <ng-container *ngIf="(notificationsAmount$ | async)?.amount; else isEmptyList">
+    <div class="notifications-list__header">
+      <h3 class="notifications-list__title">СПОВІЩЕННЯ</h3>
+      <mat-icon class="menu-icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
+      <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
+        <button mat-menu-item>Позначити всі як прочитані</button>
+        <button mat-menu-item>Видалити всі</button>
+      </mat-menu>
+    </div>
+
+    <ng-container *ngIf="(notificationsData$ | async)?.notifications.length; else isEmptyList">
       <ng-container *ngTemplateOutlet="Notifications; context: { $implicit: notificationsData }"> </ng-container>
     </ng-container>
   </ng-container>
@@ -12,6 +20,39 @@
 </ng-template>
 
 <ng-template #Notifications let-notificationsData>
+  <ng-container *ngIf="notificationsData.notifications.length">
+    <div class="accordions-wrapper">
+      <cdk-accordion>
+        <cdk-accordion-item
+          *ngFor="let notification of notificationsData.notifications"
+          #accordionItem="cdkAccordionItem"
+          role="button"
+          [disabled]="notification.data ? 'false' : 'true'"
+        >
+          <div [class]="notification.readDateTime ? 'notification-item__wrapper' : 'notification-item__wrapper new'">
+            <div class="notification-item__header item-header" (click)="accordionItem.toggle()">
+              <div class="item-header__info-block">
+                <h4 class="item-header__workshop-name">Лего</h4>
+                <span class="item-header__description">Ваша заявка була відхилена з вказаною причиною</span>
+                <h4 class="item-header__time">{{ notification.createdDateTime | date: 'HH:mm' }}</h4>
+              </div>
+              <mat-icon [matMenuTriggerFor]="actions" class="menu-icon" (click)="onRead($event)">more_vert</mat-icon>
+              <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
+                <button mat-menu-item (click)="onReadSingle($event, notification)">Позначити як прочитане</button>
+                <button mat-menu-item>Видалити сповіщення</button>
+              </mat-menu>
+            </div>
+            <div [style.display]="accordionItem.expanded ? '' : 'none'" role="region" class="notification-body">
+              This is the primary content of the panel.
+            </div>
+          </div>
+        </cdk-accordion-item>
+      </cdk-accordion>
+    </div>
+  </ng-container>
+</ng-template>
+
+<ng-template #Notfications let-notificationsData>
   <ng-container *ngIf="notificationsData.notificationsGrouped.length">
     <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap" fxLayoutAlign="space-between center"
       >{{ notifications.amount | declination: defineDeclination(notifications.groupedData) }}
