@@ -176,6 +176,7 @@ $config: mat.define-typography-config(
 
   .notifications-list-menu {
     border-radius: 5px !important;
+    min-height: 0;
 
     .mat-menu-content {
       padding: 0;

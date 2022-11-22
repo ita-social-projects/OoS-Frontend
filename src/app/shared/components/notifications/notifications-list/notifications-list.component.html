@@ -46,7 +46,7 @@
                 <button mat-menu-item (click)="onReadGroup($event, notificationGroupByType)">Прочитати групу</button>
               </mat-menu>
             </div>
-            <div [style.display]="accordionGroupItem.expanded ? '' : 'none'" role="region" class="item-body">
+            <div [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'" role="region" class="item-body">
               <div *ngFor="let notificationGroup of notificationsData.notificationsGrouped" class="notification-item">
                 <div class="group-items-wrapper">
                   <div class="item-header item-header__group-details">
@@ -87,7 +87,7 @@
                 <button mat-menu-item>Видалити сповіщення</button>
               </mat-menu>
             </div>
-            <div [style.display]="accordionItem.expanded ? '' : 'none'" role="region" class="notification-body">
+            <div [style.max-height]="accordionItem.expanded ? '100px' : '0px'" role="region" class="item-body">
               This is the primary content of the panel.
             </div>
           </div>

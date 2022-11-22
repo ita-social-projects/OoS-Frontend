@@ -118,4 +118,6 @@
 
 .item-body{
   background-color: #f5f5f5;
+  overflow: hidden;
+  transition: max-height 0.5s;
 }
