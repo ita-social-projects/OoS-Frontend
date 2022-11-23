@@ -7,7 +7,6 @@ import { SignalRService } from '../../services/signalR/signal-r.service';
 import { AppState } from '../../store/app.state';
 import { GetAmountOfNewUsersNotifications } from '../../store/notifications.actions';
 import { NotificationsState } from '../../store/notifications.state';
-import { RegistrationState } from '../../store/registration.state';
 
 @Component({
   selector: 'app-notifications',
@@ -19,8 +18,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   notificationsAmount$: Observable<NotificationsAmount>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
-  @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<boolean>;
 
   notificationsAmount: NotificationsAmount;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -28,25 +25,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private signalRService: SignalRService) {}
 
   ngOnInit(): void {
+    const hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
+
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
+    hubConnection.on('ReceiveNotification', () => this.notificationsAmount.amount++);
+
     this.notificationsAmount$
       .pipe(
         takeUntil(this.destroy$),
         filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
       )
       .subscribe((notificationsAmount: NotificationsAmount) => (this.notificationsAmount = notificationsAmount));
-    this.isAuthorized$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((isAuthorized: boolean) => !!isAuthorized)
-      )
-      .subscribe((isAuthorized: boolean) => {
-        if (isAuthorized) {
-          const hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
-
-          hubConnection.on('ReceiveNotification', () => this.notificationsAmount.amount++);
-        }
-      });
   }
 
   ngOnDestroy(): void {

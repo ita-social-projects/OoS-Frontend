@@ -44,31 +44,28 @@
   overflow: auto;
 }
 
-.notification-item {
+.new {
+  border-left: 5px solid #3849f9;
+}
+
+.notification {
   &__wrapper {
     border-bottom: 1px solid #e3e3e3;
     padding-bottom: 0.5rem;
   }
 
   &:last-child {
-    .notification-item__wrapper {
+    .notification__wrapper {
       border-bottom: 0;
       padding-bottom: 0;
     }
   }
 }
 
-.new {
-  border-left: 5px solid #3849f9;
-}
-
-.item-header {
+.header-notification {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  
+
   cursor: pointer;
-  
   padding: 0.75rem 1rem;
 
   >.icon {
@@ -84,27 +81,27 @@
     }
   }
 
-  &__info-block {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-
-    font-size: 13px;
-
-    h4{
-      font-size: inherit;
-    }
+  &__group-info {
+    justify-content: space-between;
+    align-items: center;
   }
 
-  &__group-info {
-    display: flex;
+  &__group-details {
     align-items: center;
     gap: 0.25rem;
-
-    font-size: 13px;
   }
 
+  &__single-info {
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+.info {
+  font-size: 13px;
+
   &__workshop-name {
+    font-size: inherit;
     font-weight: 700;
     line-height: 15px;
   }
@@ -115,12 +112,13 @@
   }
 
   &__time {
+    font-size: inherit;
     font-weight: 400;
     line-height: 18px;
     color: #aaaaaa;
   }
 }
 
-.item-body{
+.body-notification {
   transition: max-height 0.5s;
 }

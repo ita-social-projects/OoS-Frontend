@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -38,10 +38,11 @@ import { RegistrationState } from '../../../store/registration.state';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnDestroy {
-  readonly notificationsConstants = NotificationsConstants;
-  readonly notificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
-  readonly statuses = Statuses;
-  readonly notificationText = NotificationsText;
+  //TODO: Add styles for no applications
+  readonly NotificationsConstants = NotificationsConstants;
+  //TODO: Implement notifications for the workshop
+  readonly NotificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
+  readonly NotificationText = NotificationsText;
   readonly ApplicationHeaderDeclinations = ApplicationHeader;
 
   @Input() notificationsAmount: NotificationsAmount;
@@ -50,70 +51,57 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notificationsData$: Observable<Notifications>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  notificationsGroupedByType: NotificationsGroupedByType[] = [];
+  groupsByType: NotificationsGroupedByType[] = [];
   notifications: Notification[];
 
-  constructor(private store: Store, private router: Router, private route: ActivatedRoute) {}
+  constructor(private store: Store, private router: Router) {}
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    this.notificationsData$.pipe(filter((not: Notifications) => !!not)).subscribe((not: Notifications) => {
-      let map = new Map<string, number>();
-
-      for (const group of not.notificationsGrouped) {
-        const curNotificationsAmount = map.get(group.type);
-        const newNotificationsAmount = curNotificationsAmount ? curNotificationsAmount + group.amount : group.amount;
-        map.set(group.type, newNotificationsAmount);
-      }
-
-      map.forEach((amount, type) => this.notificationsGroupedByType.push({ type, amount, isRead: false }));
-      this.notifications = not.notifications;
-    });
+    this.notificationsData$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((recievedNotifications: Notifications) => !!recievedNotifications)
+      )
+      .subscribe((recievedNotifications: Notifications) => {
+        this.createGroupsByType(recievedNotifications);
+        this.notifications = recievedNotifications.notifications;
+      });
   }
 
-  onReadGroup(event: PointerEvent, notificationsGrouped: NotificationsGroupedByType): void {
-    this.store.dispatch(new ReadUsersNotificationsByType(notificationsGrouped));
-
-    this.notificationsAmount.amount -= notificationsGrouped.amount;
-    notificationsGrouped.isRead = true;
-
-    event.stopPropagation();
-  }
-
-  onReadSingle(event: PointerEvent, notification: Notification): void {
+  onReadSingle(notification: Notification): void {
     this.store.dispatch(new ReadUsersNotificationById(notification));
+
     notification.readDateTime = new Date(Date.now()).toISOString();
-
     this.notificationsAmount.amount--;
-
-    event.stopPropagation();
   }
 
-  onReadAll(event: PointerEvent) {
-    this.notificationsGroupedByType.forEach((group: NotificationsGroupedByType) => {
-      this.store.dispatch(new ReadUsersNotificationsByType(group));
-      group.isRead = true;
+  //TODO: Implement read group by status(Pending, Edit, etc..)
+
+  onReadGroup(groupByType: NotificationsGroupedByType): void {
+    this.store.dispatch(new ReadUsersNotificationsByType(groupByType));
+
+    this.notificationsAmount.amount -= groupByType.amount;
+    groupByType.isRead = true;
+  }
+
+  onReadAll(): void {
+    this.groupsByType.forEach((groupByType: NotificationsGroupedByType) => {
+      this.onReadGroup(groupByType);
     });
     this.notifications.forEach((notification: Notification) => {
-      this.store.dispatch(new ReadUsersNotificationById(notification));
-      notification.readDateTime = new Date(Date.now()).toISOString();
+      this.onReadSingle(notification);
     });
-
-    this.notificationsAmount.amount = 0;
-
-    event.stopPropagation();
   }
-  //TODO: onDeleteGroup
 
-  onDeleteSingle(event: PointerEvent, notification: Notification) {
+  //TODO: Implemented onDeleteAll
+
+  onDeleteSingle(notification: Notification): void {
     this.store.dispatch(new DeleteUsersNotificationById(notification.id));
-
-    this.notifications.filter((notificationItem: Notification) => notificationItem.id != notification.id);
-
-    event.stopPropagation();
+    this.notifications.filter((recievedNotification: Notification) => recievedNotification.id != notification.id);
   }
 
-  onGroupByStatusClick(group: NotificationGrouped) {
+  onGroupByStatusClick(group: NotificationGrouped): void {
     switch (NotificationType[group.type]) {
       case NotificationType.Application:
         const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
@@ -132,7 +120,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onRead(event: PointerEvent) {
+  stopPropagation(event: PointerEvent) {
     event.stopPropagation();
   }
 
@@ -162,5 +150,17 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private createGroupsByType(recievedNotifications: Notifications): void {
+    let groupsByType = new Map<string, number>();
+
+    for (const group of recievedNotifications.notificationsGrouped) {
+      const curNotificationsAmount = groupsByType.get(group.type);
+      const newNotificationsAmount = curNotificationsAmount ? curNotificationsAmount + group.amount : group.amount;
+      groupsByType.set(group.type, newNotificationsAmount);
+    }
+
+    groupsByType.forEach((amount, type) => this.groupsByType.push({ type, amount, isRead: false }));
   }
 }
