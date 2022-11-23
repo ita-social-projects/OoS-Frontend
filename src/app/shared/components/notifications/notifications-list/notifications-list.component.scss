@@ -27,7 +27,7 @@
   }
 }
 
-.menu-icon {
+.icon {
   font-weight: 400;
   font-size: 24px;
   line-height: 24px;
@@ -71,12 +71,14 @@
   
   padding: 0.75rem 1rem;
 
-  .menu-icon {
+  >.icon {
     opacity: 0;
   }
 
   &:hover{
-    .menu-icon {
+    background-color: darken($color: #ffffff, $amount: 3.5);
+
+    >.icon {
       opacity: 1;
       transition: opacity 0.1s;
     }
@@ -94,6 +96,14 @@
     }
   }
 
+  &__group-info {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    font-size: 13px;
+  }
+
   &__workshop-name {
     font-weight: 700;
     line-height: 15px;
@@ -109,15 +119,8 @@
     line-height: 18px;
     color: #aaaaaa;
   }
-
-  &__group-details {
-    cursor: default;
-    padding: 0.5rem 1.5rem;
-  }
 }
 
 .item-body{
-  background-color: #f5f5f5;
-  overflow: hidden;
   transition: max-height 0.5s;
 }

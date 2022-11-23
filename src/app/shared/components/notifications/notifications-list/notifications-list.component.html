@@ -2,7 +2,7 @@
   <ng-container *ngIf="notificationsData$ | async as notificationsData">
     <div class="notifications-list__header">
       <h3 class="notifications-list__title">СПОВІЩЕННЯ</h3>
-      <mat-icon class="menu-icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
+      <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
         <button mat-menu-item (click)="onReadAll($event)">Позначити всі як прочитані</button>
         <button mat-menu-item>Видалити всі</button>
@@ -41,15 +41,21 @@
                   >У вас {{ notificationGroupByType.amount | declination: ApplicationHeaderDeclinations }}</span
                 >
               </div>
-              <mat-icon [matMenuTriggerFor]="actions" class="menu-icon" (click)="onRead($event)">more_vert</mat-icon>
+              <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="onRead($event)">more_vert</mat-icon>
               <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
                 <button mat-menu-item (click)="onReadGroup($event, notificationGroupByType)">Прочитати групу</button>
               </mat-menu>
             </div>
-            <div [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'" role="region" class="item-body">
+            <div
+              [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
+              role="region"
+              class="item-body"
+            >
               <div *ngFor="let notificationGroup of notificationsData.notificationsGrouped" class="notification-item">
-                <div class="item-header item-header__group-details" (click)="onGroupByStatusClick(notificationGroup)">
-                  <div class="item-header__info-block">
+                <div class="item-header" (click)="onGroupByStatusClick(notificationGroup)">
+                  <div class="item-header__group-info">
+                    <mat-icon class="icon">navigate_next</mat-icon>
                     <span class="item-header__description">{{
                       notificationGroup.amount | declination: defineDeclination(notificationGroup.groupedData)
                     }}</span>
@@ -85,7 +91,12 @@
                 <button mat-menu-item (click)="onDeleteSingle($event, notification)">Видалити сповіщення</button>
               </mat-menu>
             </div>
-            <div [style.max-height]="accordionItem.expanded ? '100px' : '0px'" role="region" class="item-body">
+            <div
+              [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
+              role="region"
+              class="item-body"
+            >
               This is the primary content of the panel.
             </div>
           </div>
