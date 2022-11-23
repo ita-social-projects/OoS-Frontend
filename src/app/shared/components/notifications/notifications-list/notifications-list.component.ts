@@ -115,6 +115,25 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     event.stopPropagation();
   }
 
+  onGroupByStatusClick(group: NotificationGrouped) {
+    switch (NotificationType[group.type]) {
+      case NotificationType.Application:
+        const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
+        const status: string = Statuses[group.groupedData];
+        this.router.navigate([`/personal-cabinet/${userRole}/${NotificationType.Application}`], {
+          queryParams: { status: status }
+        });
+        break;
+      case NotificationType.Workshop:
+        this.router.navigate([`/personal-cabinet/provider/${NotificationType.Workshop}`]);
+        break;
+      case NotificationType.Chat:
+        this.router.navigate([`/personal-cabinet/${NotificationType.Chat}`]);
+        break;
+      //TODO: Add navigate to "Provider" application type
+    }
+  }
+
   onRead(event: PointerEvent) {
     event.stopPropagation();
   }

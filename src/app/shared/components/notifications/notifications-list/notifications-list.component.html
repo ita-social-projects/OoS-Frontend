@@ -48,13 +48,11 @@
             </div>
             <div [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'" role="region" class="item-body">
               <div *ngFor="let notificationGroup of notificationsData.notificationsGrouped" class="notification-item">
-                <div class="group-items-wrapper">
-                  <div class="item-header item-header__group-details">
-                    <div class="item-header__info-block">
-                      <span class="item-header__description">{{
-                        notificationGroup.amount | declination: defineDeclination(notificationGroup.groupedData)
-                      }}</span>
-                    </div>
+                <div class="item-header item-header__group-details" (click)="onGroupByStatusClick(notificationGroup)">
+                  <div class="item-header__info-block">
+                    <span class="item-header__description">{{
+                      notificationGroup.amount | declination: defineDeclination(notificationGroup.groupedData)
+                    }}</span>
                   </div>
                 </div>
               </div>

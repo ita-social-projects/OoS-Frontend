@@ -1,6 +1,6 @@
 export enum NotificationType {
   Application = 'applications',
-  Chat = 'chat',
+  Chat = 'messages',
   Workshop = 'workshops'
 }
 
