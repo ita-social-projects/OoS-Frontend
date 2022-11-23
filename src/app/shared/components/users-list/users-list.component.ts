@@ -23,7 +23,6 @@ import { Statuses, StatusTitles } from '../../enum/statuses';
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
-  @Input() filterValue: string;
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'place', 'role', 'status', 'actions'];
   @Input() isEdit: boolean;
 
