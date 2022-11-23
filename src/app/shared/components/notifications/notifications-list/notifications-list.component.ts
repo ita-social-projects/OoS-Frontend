@@ -58,8 +58,6 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
     this.notificationsData$.pipe(filter((not: Notifications) => !!not)).subscribe((not: Notifications) => {
-      console.log(not);
-      console.log(222);
       let map = new Map<string, number>();
 
       for (const group of not.notificationsGrouped) {

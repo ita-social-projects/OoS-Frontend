@@ -39,11 +39,6 @@ export class ReadUsersNotificationById {
   constructor(public payload: Notification) {}
 }
 
-export class OnReadUsersNotificationByIdSuccess {
-  static readonly type = '[user] read users notifications by id success';
-  constructor() {}
-}
-
 export class OnReadUsersNotificationsFail {
   static readonly type = '[user] read users notifications by type fail';
   constructor(public payload: Error) {}

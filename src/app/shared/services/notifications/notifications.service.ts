@@ -1,13 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {
-  NotificationsAmount,
-  Notifications,
-  NotificationGrouped,
-  Notification,
-  NotificationsGroupedByType
-} from '../../models/notifications.model';
+import { NotificationsAmount, Notifications, Notification, NotificationsGroupedByType } from '../../models/notifications.model';
 
 @Injectable({
   providedIn: 'root'

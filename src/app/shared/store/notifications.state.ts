@@ -1,11 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { SnackbarText } from '../enum/messageBar';
-import { NotificationType } from '../enum/notifications';
 import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
@@ -16,7 +14,6 @@ import {
   OnReadUsersNotificationsByTypeSuccess,
   ReadUsersNotificationsByType,
   ReadUsersNotificationById,
-  OnReadUsersNotificationByIdSuccess,
   DeleteUsersNotificationById,
   OnDeleteUsersNotificationByIdSuccess,
   OnDeleteUsersNotificationByIdFail
@@ -119,12 +116,6 @@ export class NotificationsState {
     throwError(() => error);
     //TODO: Snackbar
     dispatch(new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'error' }));
-  }
-
-  @Action(OnReadUsersNotificationByIdSuccess)
-  onReadUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>, {}: OnReadUsersNotificationByIdSuccess): void {
-    dispatch(new GetAmountOfNewUsersNotifications());
-    dispatch(new GetAllUsersNotificationsGrouped());
   }
 
   @Action(OnReadUsersNotificationsFail)
