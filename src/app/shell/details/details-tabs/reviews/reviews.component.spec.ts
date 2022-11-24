@@ -14,6 +14,7 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { Parent } from '../../../../shared/models/parent.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
+import {TranslateModule, TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-paginator',
@@ -39,8 +40,10 @@ describe('ReviewsComponent', () => {
         MatTooltipModule,
         FormsModule,
         ReactiveFormsModule,
-        MatButtonToggleModule
+        MatButtonToggleModule,
+        TranslateModule.forRoot()
       ],
+      providers: [TranslateService],
       declarations: [ReviewsComponent, StarsComponent, DeclinationPipe, NoResultCardComponent, MockReviewsPaginatorComponent]
     }).compileComponents();
   });

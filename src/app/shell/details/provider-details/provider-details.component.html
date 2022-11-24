@@ -13,10 +13,10 @@
     </div>
 
     <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex">
-      <mat-tab class="label" label="ПРО ЗАКЛАД">
+      <mat-tab class="label" label="{{ tabTitles.AboutWorkshop | translate }}">
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
-      <mat-tab class="label" label="ІНШІ ГУРТКИ ЗАКЛАДУ">
+      <mat-tab class="label" label="{{ tabTitles.OtherWorkshops | translate }}">
         <app-all-provider-workshops></app-all-provider-workshops>
       </mat-tab>
     </mat-tab-group>

@@ -168,7 +168,7 @@
         >
           <ng-container *ngFor="let type of PayRateType | keyvalue">
             <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-              {{ PayRateTypeUkr[type.key] }}
+              {{ PayRateTypeUkr[type.key] | translate}}
             </mat-option>
           </ng-container>
         </mat-select>

@@ -1,142 +1,142 @@
 {
-  "header": {
-    "top": {
-      "about": "ПРО ПОРТАЛ",
-      "rules": "НОРМАТИВНО-ПРАВОВІ АКТИ",
-      "support": "ПІДТРИМКА",
-      "login": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ"
+  "ABOUT_THE_INSTITUTION": "ПРО ЗАКЛАД",
+  "ABOUT_THE_PORTAL": "ПРО ПОРТАЛ",
+  "ABOUT_THE_GROUP": "ПРО ГУРТОК",
+  "ADD": "Додати",
+  "ADD_TO_FAVORITES": "Додати в улюблені",
+  "ADDED_TO_FAVORITES": "Додано в улюблені",
+  "ADD_ACHIEVEMENTS": "Додати досягнення",
+  "ADMINISTRATION": "Адміністрування",
+  "ALL": "Всі",
+  "AVAILABLE": "Наявні",
+  "AWAITING_CONFIRMATION": "Очікує підтвердження",
+  "BY_ALPHABET": "За алфавітом",
+  "BY_PRICE_DECREASE": "За спаданням ціни",
+  "BY_PRICE_INCREASE": "За зростанням ціни",
+  "BY_RATING": "За рейтингом",
+  "CANCEL": "Скасувати",
+  "CHANGE": "Змінити",
+  "CLEAR_FILTERS": "Очистити фільтри",
+  "CLOSE_SELECTION": "Закритий відбір",
+  "CONFIRM": "Підтвердити",
+  "CONTACTS": "КОНТАКТИ",
+  "COST": "Вартість",
+  "DAYS": {
+    "MONDAY": "ПН",
+    "TUESDAY": "ВТ",
+    "WEDNESDAY": "СР",
+    "THURSDAY": "ЧТ",
+    "FRIDAY": "ПТ",
+    "SATURDAY": "СБ",
+    "SUNDAY": "НД"
+  },
+  "DAYS_HOURS": "Дні/Години",
+  "DIRECTIONS": "Напрямки",
+  "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
+  "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
+  "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
+  "ENUM": {
+    "CHILD_DECLINATION": {
+      "CHILD": "дитина",
+      "CHILD_GENITIVE": "дитини",
+      "CHILDREN_ABLATIVE": "дітей",
+      "NO_CHILDREN": "Діти відсутні",
+      "CHILDREN": "діти"
     },
-    "authorization": {
-      "info-personal": "Особиста інформація",
-      "info-about": "Інформація про",
-      "my-workshops": "Мої гуртки",
-      "my-statements": "Мої заяви",
-      "my-messages": "Мої повідомлення",
-      "administration": "Адміністрування",
-      "favorite": "Улюблене",
-      "logout": "Вийти"
+    "DETAILS_TAB_TITLES": {
+      "ABOUT_THE_GROUP": "ПРО ГУРТОК",
+      "ABOUT_THE_INSTITUTION": "ПРО ЗАКЛАД",
+      "ACHIEVEMENT": "ДОСЯГНЕННЯ",
+      "REVIEWS": "ВІДГУКИ",
+      "OTHER_GROUPS_OF_THE_INSTITUTION": "ІНШІ, ГУРТКИ ЗАКЛАДУ",
+      "TEACHERS": "ВИКЛАДАЧІ"
+    },
+    "OWNERSHIP_TYPE_UKR": {
+      "COMMON": "Комунальна",
+      "PRIVATE": "Приватна",
+      "STATE": "Державна"
+    },
+    "PAY_RATE_TYPE_UKR": {
+      "ALL_PERIOD": "Увесь період",
+      "CLASSES": "Заняття",
+      "COURSE": "Курс",
+      "DAY": "День",
+      "HOUR": "Година",
+      "MONTH" : "Місяць",
+      "YEAR": "Рік"
+    },
+    "RECRUITMENT_STATUS_UKR": {
+      "RECRUITMENT_ONGOING": "Набір триває",
+      "RECRUITMENT_STOPED": "Набір призупинено",
+      "STOP": "Призупинити набір",
+      "OPEN": "Відкрити набір"
+    },
+    "REVIEW_DECLINATION": {
+      "FEEDBACK": "відгук",
+      "FEEDBACKS": "відгуки",
+      "FEEDBACKS_ABLATIVE": "відгуків"
+    },
+    "ROLE_LINKS": {
+      "PARENT": "дітей",
+      "PROVIDER": "заклад"
+    },
+    "WORKSHOP_DECLINATION": {
+      "WORKSHOP": "гурток",
+      "WORKSHOPS": "гуртки",
+      "WORKSHOPS_ABLATIVE": "гуртків",
+      "NO_WORKSHOPS": "Гуртки відсутні"
     }
   },
-  "main": {
-    "title-direction": "Найпопулярніші напрямки",
-    "title-workshops": "Найпопулярніші гуртки",
-    "link": "Переглянути всі",
-    "link-mobile": "Всі",
-    "question": "Надаєш освітні послуги?",
-    "hint": "Зареєструйся - допоможемо залучити нових учнів!",
-    "button": "ЗАРЕЄСТРУВАТИСЯ",
-    "emptyData": "За результатами нічого не знайдено"
-  },
-  "searchbar": {
-    "placeholder": "Введіть назву гуртка, школи"
-  },
-  "workshop-card": {
-    "more": "Детальніше",
-    "achievements": "Додати досягнення",
-    "participants": "Всього учасників",
-    "confirmation": "Очікує підтвердження",
-    "leave": "Залишити гурток",
-    "ownership": "Форма власності",
-    "ages": "років",
-    "free": "Безкоштовно",
-    "currency": "грн"
-  },
-  "result": {
-    "found": "знайдено",
-    "list": "Список",
-    "map": "Карта"
-  },
-  "filters-list": {
-    "clear-filters": "Очистити фільтри",
-    "set": "Набір",
-    "open-selection": "Лише з відкритим відбором",
-    "close-selection": "Закритий відбір",
-    "description": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
-    "available": "Наявні"
-  },
-  "ordering": {
-    "rating": "За рейтингом",
-    "price-up": "За зростанням ціни",
-    "price-down": "За спаданням ціни",
-    "alphabet": "За алфавітом",
-    "closet": "Найближчі"
-  },
-  "category-check-box": {
-    "directions": "Напрямки",
-    "search": "Пошук за напрямком"
-  },
-  "age-filter": {
-    "age": "Обрати вік",
-    "match": "Повне співпадіння",
-    "from": "Від",
-    "to": "До"
-  },
-  "working-hours": {
-    "days": "Дні роботи",
-    "hours": "Години роботи",
-    "match": "Повне співпадіння",
-    "cancel": "Скасувати",
-    "add": "Додати",
-    "from": "Від",
-    "to": "До"
-  },
-  "city-filter": {
-    "settlement": "Ви знаходитесь в населеному пункті",
-    "confirm": "Підтвердити",
-    "change": "Змінити"
-  },
-  "price-filter": {
-    "price": "Вартість",
-    "free": "Безкоштовно",
-    "paid": "Платні",
-    "from": "Від",
-    "to": "До"
-  },
-  "paginator": {
-    "text": "Відображати на сторінці:"
-  },
-  "enum": {
-    "working-hours": {
-      "monday": "ПН",
-      "tuesday": "ВТ",
-      "wednesday": "СР",
-      "thursday": "ЧТ",
-      "friday": "ПТ",
-      "saturday": "СБ",
-      "sunday": "НД"
-    },
-    "provider": {
-      "OwnershipTypeUkr": {
-        "state": "Державна",
-        "common": "Комунальна",
-        "private": "Приватна"
-      }
-    },
-    "declination": {
-      "ReviewDeclination": {
-        "feedback": "відгук",
-        "feedbacks": "відгуки",
-        "feedbacks-2": "відгуків"
-      },
-      "WorkshopDeclination": {
-        "workshop": "гурток",
-        "workshops": "гуртки",
-        "workshops-2": "гуртків",
-        "no-workshops": "Гуртки відсутні"
-      },
-      "ChildDeclination": {
-        "child": "дитина",
-        "child-2": "дитини",
-        "children": "дітей",
-        "no-children": "Діти відсутні",
-        "children2": "діти"
-      }
-    },
-    "role": {
-      "RoleLinks": {
-        "provider": "заклад",
-        "parent": "дітей"
-      }
-    }
-  }
+  "EXACT_MATCH": "Повне співпадіння",
+  "FAVORITE": "Улюблене",
+  "FOR_FREE": "Безкоштовно",
+  "FORM_OF_OWNERSHIP": "Форма власності",
+  "FOUND": "знайдено",
+  "FOUNDER": "Засновник",
+  "FREE_CIRCLE": "Безкоштовний гурток",
+  "FROM": "Від",
+  "INFORMATION_ABOUT": "Інформація про",
+  "LEAVE_A_RATING": "ЗАЛИШИТИ ОЦІНКУ",
+  "LEAVE_CIRCLE": "Залишити гурток",
+  "LIST": "Список",
+  "LOGIN": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ",
+  "LOGOUT": "Вийти",
+  "MANAGER_NAME": "ПІБ керівника",
+  "MAP": "Карта",
+  "MORE_DETAILS": "Детальніше",
+  "MY_MESSAGES": "Мої повідомлення",
+  "MY_STATEMENTS": "Мої заяви",
+  "MY_WORKSHOPS": "Мої гуртки",
+  "NEAREST": "Найближчі",
+  "NO_RESULTS_FOUND": "За результатами нічого не знайдено",
+  "OPEN_SELECTION_ONLY": "Лише з відкритим відбором",
+  "OWNERSHIP": "Форма власності",
+  "PAID": "Платні",
+  "PERSONAL_INFORMATION": "Особиста інформація",
+  "PRICE": "Вартість",
+  "THERE_ARE_NO": "Відсутні",
+  "TO": "До",
+  "TOP_DIRECTIONS": "Найпопулярніші напрямки",
+  "TOP_WORKSHOPS": "Найпопулярніші гуртки",
+  "TOTAL_PARTICIPANTS": "Всього учасників",
+  "TYPE_OF_ORGANIZATION" : "Тип організації",
+  "REGULATION_AND_LEGAL_ACTS": "НОРМАТИВНО-ПРАВОВІ АКТИ",
+  "SEND_A_MESSAGE" : "Надіслати повідомлення",
+  "SET": "Набір",
+  "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
+  "SELECT_AGE": "Обрати вік",
+  "SHOW_ON_THE_MAP": "Показати на карті",
+  "SIGN_UP": "ЗАРЕЄСТРУВАТИСЯ",
+  "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS!": "Зареєструйся - допоможемо залучити нових учнів!",
+  "SUBMIT_AN_APPLICATION": "ПОДАТИ ЗАЯВУ",
+  "SUPPORT": "ПІДТРИМКА",
+  "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
+  "UAH": "грн",
+  "VIEW_ALL": "Переглянути всі",
+  "WORKING_DAYS": "Дні роботи",
+  "WORKING_HOURS": "Години роботи",
+  "YEARS": "років",
+  "YOU_ARE_IN_A_SETTLEMENT": "Ви знаходитесь в населеному пункті",
+  "YOU_HAVE_ALREADY_RATED_THIS_CIRCLE": "Ви вже оцінили цей гурток",
+  "YOU_MUST_BE_ACCEPTED_TO_THIS_CIRCLE": "Ви повинні бути прийнятим до даного гуртка"
 }

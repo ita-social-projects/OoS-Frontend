@@ -20,10 +20,10 @@ export enum WorkshopDeclination {
 // TODO [Localization] – modify the pipe declination #1825
 
 // export enum WorkshopDeclination {
-//   'enum.declination.WorkshopDeclination.workshop',
-//   'enum.declination.WorkshopDeclination.workshops',
-//   'enum.declination.WorkshopDeclination.workshops-2',
-//   'enum.declination.WorkshopDeclination.no-workshops',
+//   'ENUM.WORKSHOP_DECLINATION.WORKSHOP',
+//   'ENUM.WORKSHOP_DECLINATION.WORKSHOPS',
+//   'ENUM.WORKSHOP_DECLINATION.WORKSHOPS_ABLATIVE',
+//   'ENUM.WORKSHOP_DECLINATION.NO_WORKSHOPS',
 // }
 
 export enum HourDeclination {
