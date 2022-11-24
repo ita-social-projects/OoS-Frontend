@@ -5,7 +5,7 @@
       <p class="rate-amount">({{ ((rating$ | async)?.length ? (rating$ | async)?.length : 0) | declination: ReviewDeclination }})</p>
     </div>
     <div
-      [matTooltip]="!isReviewed ? 'Ви повинні бути прийнятим до даного гуртка' : 'Ви вже оцінили цей гурток'"
+      [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated"
       [matTooltipDisabled]="!(isReviewed || !isAllowedToReview)"
     >
       <button
@@ -15,7 +15,8 @@
         *ngIf="role !== Role.provider"
         [disabled]="isReviewed || !isAllowedToReview"
       >
-        <mat-icon class="button-icon">edit</mat-icon> ЗАЛИШИТИ ОЦІНКУ
+        <mat-icon class="button-icon">edit</mat-icon>
+        {{'LEAVE_A_RATING' | translate}}
       </button>
     </div>
   </div>

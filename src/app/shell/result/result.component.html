@@ -1,7 +1,7 @@
 <div class="view-control-panel" [class.mobile-map-view]="isMapView">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
     <h3 [class.mobile-map-view]="isMapView">
-      {{'result.found' | translate}}
+      {{'FOUND' | translate}}
       {{ (filteredWorkshops$ | async)?.totalAmount || 0 | declination: WorkshopDeclination }}
     </h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
@@ -56,13 +56,13 @@
       <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
-        <span class="view-toggle_icon">{{'result.list' | translate}}</span>
+        <span class="view-toggle_icon">{{'LIST' | translate}}</span>
       </mat-button-toggle>
 
       <mat-button-toggle value="{{ viewType.map }}" aria-label="{{ viewType.map }}" fxLayout="row"
         fxLayoutAlign="center center">
         <mat-icon class="view-toggle_icon_small">map</mat-icon>
-        <span class="view-toggle_icon">{{'result.map' | translate}}</span>
+        <span class="view-toggle_icon">{{'MAP' | translate}}</span>
       </mat-button-toggle>
     </mat-button-toggle-group>
   </div>

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
 import { User } from '../../../../shared/models/user.model';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('ActionsComponent', () => {
   let component: ActionsComponent;
@@ -15,7 +16,7 @@ describe('ActionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule, RouterTestingModule, MatIconModule, NgxsModule.forRoot([])],
+      imports: [MatDialogModule, RouterTestingModule, MatIconModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
       declarations: [ActionsComponent]
     }).compileComponents();
   });

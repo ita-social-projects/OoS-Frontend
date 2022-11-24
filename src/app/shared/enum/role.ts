@@ -19,8 +19,8 @@ export enum PersonalInfoRole {
 }
 
 export enum RoleLinks {
-  provider = 'enum.role.RoleLinks.provider',
-  parent = 'enum.role.RoleLinks.parent'
+  provider = 'ENUM.ROLE_LINKS.PROVIDER',
+  parent = 'ENUM.ROLE_LINKS.PARENT'
 }
 
 export enum EntityType {

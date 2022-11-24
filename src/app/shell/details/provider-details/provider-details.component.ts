@@ -11,6 +11,7 @@ import { NavigationBarService } from '../../../shared/services/navigation-bar/na
 import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
 import { AddNavPath } from '../../../shared/store/navigation.actions';
 import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
+import {DetailsTabTitles} from '../../../shared/enum/enumUA/workshop';
 
 @Component({
   selector: 'app-provider-details',
@@ -18,6 +19,7 @@ import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.acti
   styleUrls: ['./provider-details.component.scss']
 })
 export class ProviderDetailsComponent implements OnInit, OnDestroy {
+  readonly tabTitles = DetailsTabTitles;
   @Input() role: Role;
   @Input() provider: Provider;
 

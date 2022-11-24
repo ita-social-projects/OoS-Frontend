@@ -19,6 +19,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from '../../../../../shared/directives/min-max.directive';
 import { Workshop } from '../../../../../shared/models/workshop.model';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -42,7 +43,8 @@ describe('CreateAboutFormComponent', () => {
         MatMenuModule,
         MatSelectModule,
         MatGridListModule,
-        NgxMatTimepickerModule
+        NgxMatTimepickerModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         CreateAboutFormComponent,

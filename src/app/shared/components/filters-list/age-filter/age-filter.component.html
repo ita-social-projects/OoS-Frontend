@@ -1,16 +1,16 @@
 <p class="filter-text title">
-  {{"age-filter.age" | translate}}
+  {{"SELECT_AGE" | translate}}
 </p>
 <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
   <mat-checkbox color="primary" [formControl]="isAppropriateAgeControl">
-    {{"age-filter.match"| translate}}
+    {{"EXACT_MATCH"| translate}}
   </mat-checkbox>
 </div>
 <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start center">
       <p class="filter-text">
-        {{"age-filter.from"| translate}}
+        {{"FROM"| translate}}
       </p>
       <input matInput class="age-input" type="text" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
         autocomplete="off" />
@@ -20,7 +20,7 @@
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start center">
       <p class="filter-text">
-        {{"age-filter.to"| translate}}
+        {{"TO"| translate}}
       </p>
       <input matInput class="age-input" type="text" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
         autocomplete="off" />

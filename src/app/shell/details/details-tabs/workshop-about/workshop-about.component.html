@@ -1,18 +1,18 @@
 <div class="wrapper">
   <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
-    <h5 class="title">Про гурток</h5>
+    <h5 class="title">{{"ABOUT_THE_GROUP" | translate}}</h5>
     <div *ngFor="let item of workshop.workshopDescriptionItems" class="config-wrapper">
       <h5 class="section-title">{{ item.sectionName }}</h5>
       <p>{{ item.description }}</p>
     </div>
   </ng-container>
-  <h5 class="title">Вартість</h5>
-  <p *ngIf="!workshop.price" class="txt">Безкоштовно</p>
-  <p *ngIf="workshop.price" class="txt">{{ workshop.price }} грн/ {{ PayRateTypeUkr[workshop.payRate] }}</p>
-  <h5 class="title">Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю</h5>
-  <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'Відсутні' }}</p>
+  <h5 class="title">{{ "PRICE" | translate}}</h5>
+  <p *ngIf="!workshop.price" class="txt">{{ "FOR_FREE" | translate}}</p>
+  <p *ngIf="workshop.price" class="txt">{{ workshop.price }} {{ "UAH" | translate}}/ {{ PayRateTypeUkr[workshop.payRate] | translate }}</p>
+  <h5 class="title">{{ "SUPPORT_PERSONS_WITH_DISABILITIES" | translate}}</h5>
+  <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'THERE_ARE_NO' | translate }}</p>
 
-  <h5 class="title">Дні/Години</h5>
+  <h5 class="title">{{"DAYS_HOURS" | translate}}</h5>
   <div *ngFor="let timeRange of workshop.dateTimeRanges">
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="1rem" fxLayout.xs="column" fxLayoutAlign.xs="center start">
       <div fxLayout="row" fxLayoutAlign="space-between">
@@ -23,7 +23,7 @@
           fxLayoutAlign="center center"
           [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }"
         >
-          {{ day.value }}
+          {{ day.value | translate }}
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="center center">

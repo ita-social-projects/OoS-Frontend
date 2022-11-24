@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { environment } from '../../../environments/environment';
 import { AchievementType } from '../models/achievement.model';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
@@ -17,9 +16,9 @@ import { DirectionsService } from '../services/directions/directions.service';
 import { FeatureManagementService } from '../services/feature-management/feature-management.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { RatingService } from '../services/rating/rating.service';
-import { Constants } from './../constants/constants';
+import { Constants } from '../constants/constants';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
-import { InstitutionsService } from './../services/institutions/institutions.service';
+import { InstitutionsService } from '../services/institutions/institutions.service';
 import {
   GetSocialGroup,
   GetDirections,
@@ -127,8 +126,8 @@ export class MetaDataState {
   @Selector()
   static instituitionsHierarchyAll(
     state: MetaDataStateModel
-    ): InstituitionHierarchy[] {
-      return state.instituitionsHierarchyAll;
+  ): InstituitionHierarchy[] {
+    return state.instituitionsHierarchyAll;
   }
 
   @Selector()

@@ -26,9 +26,9 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     return isEditMode
       ? true
       : this.user$.pipe(
-          filter((user: User) => !!user),
-          map((user: User) => user.role === Role.provider && user.isRegistered === false)
-        );
+        filter((user: User) => !!user),
+        map((user: User) => user.role === Role.provider && user.isRegistered === false)
+      );
   }
 
   canDeactivate(
