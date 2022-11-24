@@ -38,7 +38,7 @@
           <div *ngIf="user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin; then UserView; else AdminView"></div>
           <ng-template #UserView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
-            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація про {{ roles[user.role] }}</a>
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація про {{ roles[user.role] | translate }}</a>
             <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()"
               >Мої гуртки</a
             >

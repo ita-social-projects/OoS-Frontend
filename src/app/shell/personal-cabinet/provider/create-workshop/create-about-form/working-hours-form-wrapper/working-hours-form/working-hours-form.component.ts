@@ -18,7 +18,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
-
   workdaysFormControl = new FormControl(['']);
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
