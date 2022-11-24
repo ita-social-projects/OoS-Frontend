@@ -36,6 +36,7 @@ import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { NOTIFICATION_HUB_URL } from '../constants/hubs-Url';
 import { GetAmountOfNewUsersNotifications } from './notifications.actions';
+import { ModeConstants } from '../constants/constants';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -174,7 +175,7 @@ export class RegistrationState {
       dispatch(new GetProfile());
       patchState({ isAutorizationLoading: false });
     } else {
-      this.router.navigate(['/create-provider', '']).finally(() => patchState({ isAutorizationLoading: false }));
+      this.router.navigate(['/create-provider', ModeConstants.NEW]).finally(() => patchState({ isAutorizationLoading: false }));
     }
   }
 

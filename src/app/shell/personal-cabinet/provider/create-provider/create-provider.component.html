@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАННЯ ЗАКЛАДУ' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ' }}</h3>
-      <p class="wrapper-text">Додайте свій заклад всього у 3 кроки</p>
+      <p *ngIf="!editMode" class="wrapper-text">Додайте свій заклад всього у 3 кроки</p>
     </div>
 
     <mat-horizontal-stepper #stepper linear>
