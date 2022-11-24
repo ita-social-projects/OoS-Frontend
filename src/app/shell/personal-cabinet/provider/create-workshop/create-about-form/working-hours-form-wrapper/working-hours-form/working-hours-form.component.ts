@@ -56,7 +56,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     } else {
       this.workingDays.splice(this.workingDays.indexOf(day.value), 1);
     }
-    debugger;
 
     const value = this.workingDays.length ? this.workingDays : null;
     this.workdaysFormControl.setValue(value);
