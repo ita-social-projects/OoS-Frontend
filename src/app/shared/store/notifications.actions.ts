@@ -20,6 +20,11 @@ export class DeleteUsersNotificationById {
   constructor(public notificationId: string) {}
 }
 
+export class ClearNotificationState {
+  static readonly type = '[user] clear notification state';
+  constructor() {}
+}
+
 export class OnDeleteUsersNotificationByIdSuccess {
   static readonly type = '[user] delete users notification by id success';
   constructor() {}

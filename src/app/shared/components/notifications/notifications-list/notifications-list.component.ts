@@ -24,6 +24,7 @@ import {
   Notification
 } from '../../../models/notifications.model';
 import {
+  ClearNotificationState,
   DeleteUsersNotificationById,
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
@@ -148,6 +149,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch(new ClearNotificationState());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

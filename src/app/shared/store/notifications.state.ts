@@ -16,7 +16,8 @@ import {
   ReadUsersNotificationById,
   DeleteUsersNotificationById,
   OnDeleteUsersNotificationByIdSuccess,
-  OnDeleteUsersNotificationByIdFail
+  OnDeleteUsersNotificationByIdFail,
+  ClearNotificationState
 } from './notifications.actions';
 
 export interface NotificationsStateModel {
@@ -122,5 +123,10 @@ export class NotificationsState {
   onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(ClearNotificationState)
+  clearNotificationState({ patchState }: StateContext<NotificationsStateModel>): void {
+    patchState({ notifications: undefined });
   }
 }
