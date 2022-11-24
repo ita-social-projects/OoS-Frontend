@@ -30,7 +30,7 @@ export enum DetailsTabTitles {
 }
 
 export enum DetailsTabTitlesReverse {
-  'ПРО ГУРТОК' = 'AboutWorkshopl',
+  'ПРО ГУРТОК' = 'AboutWorkshop',
   'ПРО ЗАКЛАД' = 'AboutProvider',
   'ВИКЛАДАЧІ' = 'Teachers',
   'ІНШІ ГУРТКИ ЗАКЛАДУ' = 'OtherWorkshops',

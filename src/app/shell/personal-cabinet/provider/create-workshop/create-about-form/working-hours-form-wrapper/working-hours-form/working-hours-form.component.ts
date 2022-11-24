@@ -56,6 +56,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
     } else {
       this.workingDays.splice(this.workingDays.indexOf(day.value), 1);
     }
+    debugger;
 
     const value = this.workingDays.length ? this.workingDays : null;
     this.workdaysFormControl.setValue(value);
@@ -79,7 +80,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workdaysFormControl.value.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
           day.selected = true;
-          this.workingDays.push(day.value);
+          this.workingDays.push(workDay.toLowerCase());
         }
       });
     });
