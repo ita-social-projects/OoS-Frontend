@@ -146,6 +146,10 @@
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   background-color: white !important;
+
+  &:hover {
+    background-color: transparent !important;
+  }
 }
 
 ::ng-deep .mat-menu-item {

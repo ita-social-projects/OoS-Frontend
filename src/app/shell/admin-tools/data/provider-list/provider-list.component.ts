@@ -15,7 +15,6 @@ import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { ProviderService } from '../../../../shared/services/provider/provider.service';
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
