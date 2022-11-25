@@ -36,6 +36,7 @@ import {
 } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
+import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-links';
 
 @Component({
   selector: 'app-notifications-list',
@@ -119,12 +120,12 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
       case NotificationType.Application:
         const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
         const status: string = Statuses[group.groupedData];
-        this.router.navigate([`/personal-cabinet/${userRole}/${NotificationType.Application}`], {
+        this.router.navigate([`/personal-cabinet/${userRole}/${PersonalCabinetLinks.Application}`], {
           queryParams: { status: status }
         });
         break;
       case NotificationType.Chat:
-        this.router.navigate([`/personal-cabinet/${NotificationType.Chat}`]);
+        this.router.navigate([`/personal-cabinet/${PersonalCabinetLinks.Chat}`]);
         break;
     }
   }
