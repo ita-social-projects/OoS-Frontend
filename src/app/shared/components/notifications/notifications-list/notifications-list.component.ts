@@ -133,27 +133,21 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     event.stopPropagation();
   }
 
-  defineDeclination(status: string): number {
-    let declination;
+  defineDeclination(
+    status: string
+  ): typeof ApplicationApproved | typeof ApplicationPending | typeof ApplicationRejected | typeof ApplicationLeft | typeof ApplicationLeft {
     switch (status) {
       case Statuses.Approved:
-        declination = ApplicationApproved;
-        break;
+        return ApplicationApproved;
       case Statuses.Pending:
-        declination = ApplicationPending;
-        break;
+        return ApplicationPending;
       case Statuses.Rejected:
-        declination = ApplicationRejected;
-        break;
+        return ApplicationRejected;
       case Statuses.Left:
-        declination = ApplicationLeft;
-        break;
+        return ApplicationLeft;
       default:
-        declination = ApplicationPending;
-        break;
+        return ApplicationPending;
     }
-
-    return declination;
   }
 
   ngOnDestroy(): void {
