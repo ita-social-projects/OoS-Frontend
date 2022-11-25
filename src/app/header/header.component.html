@@ -88,7 +88,7 @@
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
       <button mat-menu-item>
-        Інформація про
+        {{ 'INFORMATION_ABOUT' | translate }}
         {{ roles[user.role] | translate }}
       </button>
     </a>

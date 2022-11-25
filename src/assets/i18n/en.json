@@ -77,7 +77,7 @@
     },
     "ROLE_LINKS": {
       "PARENT": "children",
-      "PROVIDER": "provider"
+      "PROVIDER": "the provider"
     },
     "WORKSHOP_DECLINATION": {
       "WORKSHOP": "workshop",
@@ -93,7 +93,6 @@
   "FOUNDER": "Founder",
   "FREE_WORKSHOP": "FREE WORKSHOP",
   "FROM": "From",
-  "INFORMATION_ABOUT": "Information about",
   "RATE": "RATE",
   "LEAVE_WORKSHOP": "Leave workshop",
   "LIST": "List",
@@ -102,15 +101,16 @@
   "DIRECTOR_NAME": "Director's full name",
   "MAP": "Map",
   "MORE_DETAILS": "More details",
-  "MY_MESSAGES": "My Messages",
-  "MY_APPLICATIONS": "My Applications",
-  "MY_WORKSHOPS": "My Workshops",
+  "INFORMATION_ABOUT": "Information about",
+  "MY_MESSAGES": "My messages",
+  "MY_APPLICATIONS": "My applications",
+  "MY_WORKSHOPS": "My workshops",
   "NEAREST": "Nearest",
   "NO_RESULTS_FOUND": "No results found",
   "OPEN_RECRUITMENT_ONLY": "Only with open recruitment",
   "OWNERSHIP": "Ownership",
   "PAID": "Paid",
-  "PERSONAL_INFORMATION": "Personal Information",
+  "PERSONAL_INFORMATION": "Personal information",
   "PRICE": "Price",
   "THERE_ARE_NO": "There are none",
   "TO": "To",
