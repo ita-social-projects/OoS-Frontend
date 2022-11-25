@@ -71,6 +71,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
 import { GetAddressPipe } from './pipes/get-address.pipe';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @NgModule({
   declarations: [
