@@ -2,20 +2,22 @@
   [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'"
   fxLayout="column"
   fxLayoutAlign="center center"
-  fxLayoutGap="1.5rem"
->
+  fxLayoutGap="1.5rem">
   <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center">
-    {{ workshop.price }} {{"UAH" | translate}}/{{ PayRateTypeUkr[workshop.payRate] | translate }}
+    {{ workshop.price }} {{ 'UAH' | translate }}/{{ PayRateTypeEnum[workshop.payRate] | translate }}
   </h4>
-  <h4 class="card-title" *ngIf="!workshop.price">{{'FREE_CIRCLE' | translate}}</h4>
-  <a [ngClass]="{ disable: hideApplicationSubmission }" [routerLink]="['/create-application', workshop.id]" (click)="onOpenDialog()">
+  <h4 class="card-title" *ngIf="!workshop.price">{{ 'FREE_WORKSHOP' | translate }}</h4>
+  <a
+    [ngClass]="{ disable: hideApplicationSubmission }"
+    [routerLink]="['/create-application', workshop.id]"
+    (click)="onOpenDialog()">
     <button
       mat-raised-button
       class="button button-application"
       fxLayout="row"
       fxLayoutAlign="center center"
       [disabled]="hideApplicationSubmission">
-        {{'SUBMIT_AN_APPLICATION' | translate}}
+      {{ 'APPLY_AN_APPLICATION' | translate }}
     </button>
   </a>
 
@@ -23,18 +25,21 @@
     mat-raised-button
     class="button button-msg"
     [routerLink]="['/personal-cabinet/messages/', workshop.id]"
-    [queryParams]="{ mode: ModeConstants.WORKSHOP }"
-  >
-    <img class="button-msg-icon" src="assets/icons/message.png" alt="email" />
-    {{'SEND_A_MESSAGE' | translate}}
+    [queryParams]="{ mode: ModeConstants.WORKSHOP }">
+    <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
   </button>
 
   <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
 
   <ng-template #disLike>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center" (click)="role === Role.parent && onDisLike()">
+    <button
+      mat-button
+      class="button button-msg"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      (click)="role === Role.parent && onDisLike()">
       <mat-icon>favorite</mat-icon>
-      {{"ADDED_TO_FAVORITES" | translate}}
+      {{ 'ADDED_TO_FAVORITES' | translate }}
     </button>
   </ng-template>
 
@@ -44,10 +49,9 @@
       class="button button-msg"
       fxLayout="row"
       fxLayoutAlign="center center"
-      (click)="role === Role.parent ? onLike() : onOpenDialog(true)"
-    >
+      (click)="role === Role.parent ? onLike() : onOpenDialog(true)">
       <mat-icon>favorite_border</mat-icon>
-      {{'ADD_TO_FAVORITES' | translate}}
+      {{ 'ADD_TO_FAVORITES' | translate }}
     </button>
   </ng-template>
 </div>

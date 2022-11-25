@@ -1,6 +1,6 @@
 <div class="wrapper">
   <ng-container *ngIf="workshop.workshopDescriptionItems?.length">
-    <h5 class="title">{{"ABOUT_THE_GROUP" | translate}}</h5>
+    <h5 class="title">{{"ABOUT_THE_WORKSHOP" | translate}}</h5>
     <div *ngFor="let item of workshop.workshopDescriptionItems" class="config-wrapper">
       <h5 class="section-title">{{ item.sectionName }}</h5>
       <p>{{ item.description }}</p>
@@ -8,7 +8,7 @@
   </ng-container>
   <h5 class="title">{{ "PRICE" | translate}}</h5>
   <p *ngIf="!workshop.price" class="txt">{{ "FOR_FREE" | translate}}</p>
-  <p *ngIf="workshop.price" class="txt">{{ workshop.price }} {{ "UAH" | translate}}/ {{ PayRateTypeUkr[workshop.payRate] | translate }}</p>
+  <p *ngIf="workshop.price" class="txt">{{ workshop.price }} {{ "UAH" | translate}}/ {{ PayRateTypeEnum[workshop.payRate] | translate }}</p>
   <h5 class="title">{{ "SUPPORT_PERSONS_WITH_DISABILITIES" | translate}}</h5>
   <p class="txt">{{ workshop.withDisabilityOptions ? workshop.disabilityOptionsDesc : 'THERE_ARE_NO' | translate }}</p>
 

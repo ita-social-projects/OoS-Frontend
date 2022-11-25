@@ -8,7 +8,7 @@
         <div *ngIf="!isMobileScreen" class="link-wrapper">
           <a class="info-link" [routerLink]="'./info/about'"> {{ 'ABOUT_THE_PORTAL' | translate }}</a>
 
-          <a class="info-link" [routerLink]="'./info/rules'">{{ 'REGULATION_AND_LEGAL_ACTS' | translate }}</a>
+          <a class="info-link" [routerLink]="'./info/rules'">{{ 'LAWS_AND_REGULATIONS' | translate }}</a>
 
           <a class="info-link" [routerLink]="'./info/support'">{{ 'SUPPORT' | translate }}</a>
 
@@ -99,7 +99,7 @@
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
       <button mat-menu-item>
-        {{ 'MY_STATEMENTS' | translate }}
+        {{ 'MY_APPLICATIONS' | translate }}
       </button>
     </a>
     <a [routerLink]="'./personal-cabinet/messages'">

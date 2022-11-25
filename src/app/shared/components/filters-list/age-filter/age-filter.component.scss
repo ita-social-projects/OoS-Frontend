@@ -32,14 +32,16 @@
   padding: 0 !important;
 }
 
-::ng-deep .mat-form-field-underline {
+:host ::ng-deep .mat-form-field-underline {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
-
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
 .age-input:hover + .clear-age {
   visibility: visible;
 }

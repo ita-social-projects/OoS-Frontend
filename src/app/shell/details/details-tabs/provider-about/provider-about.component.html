@@ -1,12 +1,12 @@
 <div class="wrapper">
   <h5 class="title">{{"OWNERSHIP" | translate}}</h5>
-  <p class="txt">{{ ownershipTypeUkr[this.provider.ownership] | translate }}</p>
+  <p class="txt">{{ OwnershipTypeEnum[this.provider.ownership] | translate }}</p>
   <h5 class="title">{{"TYPE_OF_ORGANIZATION" | translate}}</h5>
   <p class="txt">{{ providerTypeUkr[this.provider.type] }}</p>
-  <h5 class="title">{{"MANAGER_NAME" | translate}}</h5>
+  <h5 class="title">{{"DIRECTOR_NAME" | translate}}</h5>
   <p class="txt">{{ provider.director }}</p>
   <ng-container *ngIf="provider.providerSectionItems?.length">
-    <h5 class="title">{{"ABOUT_THE_INSTITUTION" | translate}}</h5>
+    <h5 class="title">{{"ABOUT_THE_PROVIDER" | translate}}</h5>
     <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
       <h5 class="section-title">{{ item.sectionName }}</h5>
       <p>{{ item.description }}</p>

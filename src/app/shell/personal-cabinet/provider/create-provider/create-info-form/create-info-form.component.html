@@ -19,8 +19,8 @@
       placeholder="Оберіть форму власності"
     >
       <ng-container *ngFor="let type of ownershipType | keyvalue">
-        <mat-option *ngIf="ownershipTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-          {{ ownershipTypeUkr[type.key] | translate }}
+        <mat-option *ngIf="OwnershipTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+          {{ OwnershipTypeEnum[type.key] | translate }}
         </mat-option>
       </ng-container>
     </mat-select>

@@ -15,7 +15,7 @@
   <mat-tab-group (selectedTabChange)="onTabChanged($event)">
     <mat-tab label="Інформація про заклад">
       <h5>Форма власності</h5>
-      <p>{{ ownershipTypeUkr[provider.ownership] | translate }}</p>
+      <p>{{ OwnershipTypeEnum[provider.ownership] | translate }}</p>
       <h5>Тип організації</h5>
       <p>{{ providerTypeUkr[provider.type] }}</p>
       <ng-container *ngIf="provider.institution">
