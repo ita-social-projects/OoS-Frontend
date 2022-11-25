@@ -71,7 +71,9 @@
             <div class="header-notification" (click)="accordionItem.toggle()">
               <div class="header-notification__single-info info">
                 <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
-                <span class="info__description">{{ getNotificationDescription(notification.data.Status, notification.type) }}</span>
+                <span class="info__description">{{
+                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data.Status)
+                }}</span>
                 <h4 class="info__time">{{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}</h4>
               </div>
               <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
@@ -87,7 +89,7 @@
               class="body-notification info info__description"
             >
               <div class="body-notification__single">
-                {{ getNotificationDetails(notification.data.Status, notification.type) }}
+                {{ getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data.Status) }}
               </div>
             </div>
           </div>

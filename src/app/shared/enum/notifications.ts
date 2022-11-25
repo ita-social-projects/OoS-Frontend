@@ -11,3 +11,8 @@ export enum NotificationAction {
   delete = 'Delete',
   message = 'Message'
 }
+
+export enum NotificationDescriptionType {
+  Short,
+  Full
+}

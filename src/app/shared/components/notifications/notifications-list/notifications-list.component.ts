@@ -13,12 +13,12 @@ import {
   ApplicationChanges
 } from '../../../enum/enumUA/declinations/notification-declination';
 import {
-  NotificationsProviderDescriptionByStatus,
-  NotificationsProviderDetailsByStatus,
-  NotificationWorkshopDescriptionByStatus,
-  NotificationWorkshopDetailsByStatus
+  NotificationsProviderFullDescriptions,
+  NotificationsProviderShortDescriptions,
+  NotificationWorkshopShortDescription,
+  NotificationWorkshopFullDescriptions
 } from '../../../enum/enumUA/notifications';
-import { NotificationType } from '../../../enum/notifications';
+import { NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import {
   NotificationsGroupedByType,
@@ -45,6 +45,7 @@ import { RegistrationState } from '../../../store/registration.state';
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
   readonly NotificationsConstants = NotificationsConstants;
   readonly ApplicationHeaderDeclinations = ApplicationChanges;
+  readonly NotificationDescriptionType = NotificationDescriptionType;
   readonly Constants = Constants;
 
   @Input() notificationsAmount: NotificationsAmount;
@@ -149,23 +150,24 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  getNotificationDescription(status: Statuses, type: NotificationType): string {
-    switch (type) {
-      case NotificationType.Workshop:
-        return NotificationWorkshopDescriptionByStatus[status];
-      case NotificationType.Provider:
-        return NotificationsProviderDescriptionByStatus[status];
-      default:
-        return Constants.NO_INFORMATION;
-    }
-  }
-
-  getNotificationDetails(status: Statuses, type: NotificationType): string {
-    switch (type) {
-      case NotificationType.Workshop:
-        return NotificationWorkshopDetailsByStatus[status];
-      case NotificationType.Provider:
-        return NotificationsProviderDetailsByStatus[status];
+  getNotificationDescription(descriptionType: NotificationDescriptionType, notificationType: NotificationType, status: Statuses): string {
+    switch (descriptionType) {
+      case NotificationDescriptionType.Full:
+        switch (notificationType) {
+          case NotificationType.Workshop:
+            return NotificationWorkshopFullDescriptions[status];
+          case NotificationType.Provider:
+            return NotificationsProviderShortDescriptions[status];
+        }
+        break;
+      case NotificationDescriptionType.Short:
+        switch (notificationType) {
+          case NotificationType.Workshop:
+            return NotificationWorkshopShortDescription[status];
+          case NotificationType.Provider:
+            return NotificationsProviderFullDescriptions[status];
+        }
+        break;
       default:
         return Constants.NO_INFORMATION;
     }
