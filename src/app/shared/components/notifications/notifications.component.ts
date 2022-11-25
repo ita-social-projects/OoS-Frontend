@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { NOTIFICATION_HUB_URL } from '../../constants/hubs-Url';
-import { NotificationsAmount } from '../../models/notifications.model';
+import { Notification, NotificationsAmount, NotificationsGroupedByType } from '../../models/notifications.model';
 import { SignalRService } from '../../services/signalR/signal-r.service';
 import { AppState } from '../../store/app.state';
 import { GetAmountOfNewUsersNotifications } from '../../store/notifications.actions';
@@ -22,6 +22,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   private hubConnection: signalR.HubConnection;
 
   notificationsAmount: NotificationsAmount;
+  recievedNotification: Notification;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private signalRService: SignalRService) {}
@@ -30,7 +31,20 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
 
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
-    this.hubConnection.on('ReceiveNotification', () => this.notificationsAmount.amount++);
+    this.hubConnection.on('ReceiveNotification', (recievedNotificationString: string) => {
+      //TODO: solve the problem with keys with capital letters
+      const parsedNotification = JSON.parse(recievedNotificationString);
+      this.recievedNotification = {
+        id: parsedNotification.Id,
+        userId: parsedNotification.UserId,
+        data: parsedNotification.Data,
+        type: parsedNotification.Type,
+        action: parsedNotification.Action,
+        createdDateTime: parsedNotification.CreatedDateTime,
+        readDateTime: parsedNotification.ReadDateTime,
+        objectId: parsedNotification.ObjectId
+      };
+    });
 
     this.notificationsAmount$
       .pipe(

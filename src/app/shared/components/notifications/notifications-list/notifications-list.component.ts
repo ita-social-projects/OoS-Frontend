@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -18,7 +18,7 @@ import { NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import {
   NotificationsGroupedByType,
-  NotificationGrouped,
+  NotificationGroupedByAdditionalData,
   Notifications,
   NotificationsAmount,
   Notification
@@ -38,7 +38,7 @@ import { RegistrationState } from '../../../store/registration.state';
   templateUrl: './notifications-list.component.html',
   styleUrls: ['./notifications-list.component.scss']
 })
-export class NotificationsListComponent implements OnInit, OnDestroy {
+export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
   //TODO: Add styles for no applications
   readonly NotificationsConstants = NotificationsConstants;
   //TODO: Implement notifications for the workshop
@@ -47,6 +47,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   readonly ApplicationHeaderDeclinations = ApplicationHeader;
 
   @Input() notificationsAmount: NotificationsAmount;
+  @Input() recievedNotification: Notification;
 
   @Select(NotificationsState.notifications)
   notificationsData$: Observable<Notifications>;
@@ -56,6 +57,13 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   notifications: Notification[];
 
   constructor(private store: Store, private router: Router) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    const recievedNotification = changes['recievedNotification'];
+    if (recievedNotification && !recievedNotification.firstChange) {
+      this.addRecievedNotification(recievedNotification.currentValue);
+    }
+  }
 
   ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
@@ -102,7 +110,7 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
     this.notifications.filter((recievedNotification: Notification) => recievedNotification.id != notification.id);
   }
 
-  onGroupByStatusClick(group: NotificationGrouped): void {
+  onGroupByStatusClick(group: NotificationGroupedByAdditionalData): void {
     switch (NotificationType[group.type]) {
       case NotificationType.Application:
         const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
@@ -155,14 +163,69 @@ export class NotificationsListComponent implements OnInit, OnDestroy {
   }
 
   private createGroupsByType(recievedNotifications: Notifications): void {
-    let groupsByType = new Map<string, number>();
+    let groupsByType = new Map<string, NotificationsGroupedByType>();
 
     for (const group of recievedNotifications.notificationsGrouped) {
-      const curNotificationsAmount = groupsByType.get(group.type);
-      const newNotificationsAmount = curNotificationsAmount ? curNotificationsAmount + group.amount : group.amount;
-      groupsByType.set(group.type, newNotificationsAmount);
+      const curGroupByType = groupsByType.get(group.type);
+      let newGroupByType: NotificationsGroupedByType;
+
+      if (curGroupByType) {
+        curGroupByType.groupsByAdditionalData.push(group);
+        curGroupByType.amount += group.amount;
+        groupsByType.set(curGroupByType.type, curGroupByType);
+      } else {
+        newGroupByType = new NotificationsGroupedByType(group.type, group.amount, [group]);
+        groupsByType.set(newGroupByType.type, newGroupByType);
+      }
     }
 
-    groupsByType.forEach((amount, type) => this.groupsByType.push({ type, amount, isRead: false }));
+    groupsByType.forEach((groupByType: NotificationsGroupedByType) => this.groupsByType.push(groupByType));
+  }
+
+  private addRecievedNotification(recievedNotification: Notification): void {
+    this.notificationsAmount.amount++;
+
+    //TODO: Move hardcoded type to enum
+    if (recievedNotification.type !== NotificationType.Application && recievedNotification.type !== NotificationType.Chat) {
+      this.notifications.push(recievedNotification);
+      return;
+    }
+
+    for (const groupByType of this.groupsByType) {
+      if (groupByType.type === recievedNotification.type) {
+        for (const groupByAction of groupByType.groupsByAdditionalData) {
+          if (groupByAction.groupedData === recievedNotification.data.Status) {
+            groupByType.amount++;
+            groupByAction.amount++;
+
+            return;
+          }
+        }
+
+        this.addNewGroupByAdditionalData(groupByType, recievedNotification);
+        return;
+      }
+    }
+
+    this.addNewGroupByType(recievedNotification);
+  }
+
+  private addNewGroupByAdditionalData(groupByType: NotificationsGroupedByType, recievedNotification: Notification): void {
+    switch (recievedNotification.type) {
+      case NotificationType.Application:
+        groupByType.groupsByAdditionalData.push(
+          new NotificationGroupedByAdditionalData(recievedNotification.action, recievedNotification.data.Status, recievedNotification.type)
+        );
+        break;
+      case NotificationType.Chat:
+        //TODO
+        break;
+    }
+  }
+
+  private addNewGroupByType(recievedNotification: Notification) {
+    const newGroupByType = new NotificationsGroupedByType(recievedNotification.type, 1, []);
+    this.addNewGroupByAdditionalData(newGroupByType, recievedNotification);
+    this.groupsByType.push(newGroupByType);
   }
 }

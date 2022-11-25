@@ -42,24 +42,27 @@
 .accordions-wrapper {
   max-height: 300px;
   overflow: auto;
+
+
+  cdk-accordion {
+    &:last-child {
+      .notification:not(:last-child) {
+        .notification__wrapper {
+          border-bottom: 1px solid #e3e3e3;
+        }
+      }
+    }
+
+    &:not(:last-child) {
+      .notification__wrapper {
+        border-bottom: 1px solid #e3e3e3;
+      }
+    }
+  }
 }
 
 .new {
   border-left: 5px solid #3849f9;
-}
-
-.notification {
-  &__wrapper {
-    border-bottom: 1px solid #e3e3e3;
-    padding-bottom: 0.5rem;
-  }
-
-  &:last-child {
-    .notification__wrapper {
-      border-bottom: 0;
-      padding-bottom: 0;
-    }
-  }
 }
 
 .header-notification {
@@ -92,6 +95,7 @@
   }
 
   &__single-info {
+    display: flex;
     flex-direction: column;
     gap: 0.25rem;
   }

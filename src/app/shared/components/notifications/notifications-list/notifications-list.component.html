@@ -9,13 +9,8 @@
       </mat-menu>
     </div>
 
-    <ng-container
-      *ngIf="
-        (notificationsData$ | async)?.notifications.length || (notificationsData$ | async)?.notificationsGrouped.length;
-        else isEmptyList
-      "
-    >
-      <ng-container *ngTemplateOutlet="Notifications; context: { $implicit: notificationsData }"> </ng-container>
+    <ng-container *ngIf="notifications.length || groupsByType.length; else isEmptyList">
+      <ng-container *ngTemplateOutlet="Notifications"> </ng-container>
     </ng-container>
   </ng-container>
 </div>
@@ -24,9 +19,9 @@
   <span fxLayout="row wrap" fxLayoutAlign="start start">{{ NotificationsConstants.NO_MESSAGE }}</span>
 </ng-template>
 
-<ng-template #Notifications let-notificationsData>
+<ng-template #Notifications>
   <div class="accordions-wrapper">
-    <cdk-accordion *ngIf="notificationsData.notificationsGrouped.length">
+    <cdk-accordion *ngIf="groupsByType.length">
       <cdk-accordion-item
         *ngFor="let groupByType of groupsByType"
         #accordionGroupItem="cdkAccordionItem"
@@ -50,7 +45,7 @@
             class="body-notification"
           >
             <div
-              *ngFor="let group of notificationsData.notificationsGrouped"
+              *ngFor="let group of groupByType.groupsByAdditionalData"
               class="header-notification header-notification__group-details info"
               (click)="onGroupByStatusClick(group)"
             >
@@ -62,9 +57,9 @@
       </cdk-accordion-item>
     </cdk-accordion>
     <!-- TODO:  Finish notifications for single notifications (when they start coming from the database) -->
-    <cdk-accordion *ngIf="notificationsData.notifications.length">
+    <cdk-accordion *ngIf="notifications.length">
       <cdk-accordion-item
-        *ngFor="let notification of notificationsData.notifications"
+        *ngFor="let notification of notifications"
         #accordionItem="cdkAccordionItem"
         role="button"
         class="notification"
@@ -73,7 +68,7 @@
         <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
           <div class="header-notification" (click)="accordionItem.toggle()">
             <div class="header-notification__single-info info">
-              <h4 class="info__workshop-name">Лего</h4>
+              <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
               <span class="info__description">Ваша заявка була відхилена з вказаною причиною</span>
               <h4 class="info__time">{{ notification.createdDateTime | date: 'HH:mm' }}</h4>
             </div>
@@ -85,7 +80,7 @@
           </div>
           <div
             [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
-            [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
+            [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
             role="region"
             class="body-notification"
           >

@@ -1,4 +1,4 @@
-import { Notification, NotificationGrouped, NotificationsGroupedByType } from '../models/notifications.model';
+import { Notification, NotificationGroupedByAdditionalData, NotificationsGroupedByType } from '../models/notifications.model';
 
 export class GetAmountOfNewUsersNotifications {
   static readonly type = '[user] get amount of new users notifications';
@@ -37,7 +37,7 @@ export class OnDeleteUsersNotificationByIdFail {
 
 export class OnReadUsersNotificationsByTypeSuccess {
   static readonly type = '[user] read users notifications by type success';
-  constructor(public payload: NotificationGrouped) {}
+  constructor(public payload: NotificationGroupedByAdditionalData) {}
 }
 export class ReadUsersNotificationById {
   static readonly type = '[user] read users notifications by id';
