@@ -8,7 +8,7 @@ describe('WorkshopModalComponent', () => {
   let fixture: ComponentFixture<UnregisteredUserWarningModalComponent>;
   const model = {
     title: 'Modal title'
-  }
+  };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({

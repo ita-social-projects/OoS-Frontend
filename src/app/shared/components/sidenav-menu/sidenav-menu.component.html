@@ -38,7 +38,7 @@
           <div *ngIf="user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin; then UserView; else AdminView"></div>
           <ng-template #UserView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">Особиста Інформація</a>
-            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація про {{ roles[user.role] }}</a>
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">Інформація про {{ roles[user.role] | translate }}</a>
             <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()"
               >Мої гуртки</a
             >
@@ -75,6 +75,12 @@
       <button mat-flat-button>Про Портал</button>
     </a>
     <hr class="hr-grey" />
+    
+    <a [routerLink]="'./info/rules'" (click)="changeView()">
+      <button mat-flat-button>Нормативно-правові акти</button>
+    </a>
+    <hr class="hr-grey" />
+
     <a [routerLink]="'./info/support'" (click)="changeView()">
       <button mat-flat-button>Підтримка</button>
     </a>
@@ -84,11 +90,6 @@
       <button mat-flat-button>Головна</button>
     </a>
     <hr class="hr-grey" />
-
-    <ng-container *ngIf="user?.role === Role.techAdmin">
-      <a (click)="changeView()"> <button mat-flat-button>Нормативно-правові акти</button></a>
-      <hr class="hr-grey" />
-    </ng-container>
 
     <button *ngIf="isAuthorized$ | async" mat-flat-button (click)="logout()">Вийти</button>
   </div>

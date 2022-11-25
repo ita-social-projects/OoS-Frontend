@@ -51,9 +51,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   itemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  provider: SearchResponse<ProviderHistory[]>;
-  providerAdmin: SearchResponse<ProviderAdminHistory[]>;
-  application: SearchResponse<ApplicationHistory[]>;
+  provider: ProviderHistory[];
+  providerAdmin: ProviderAdminHistory[];
+  application: ApplicationHistory[];
   tableData: any = [];
   tabIndex = 0;
   searchString: string;

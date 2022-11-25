@@ -1,4 +1,4 @@
-import { ImageCarouselComponent } from './../../../shared/components/image-carousel/image-carousel.component';
+import { ImageCarouselComponent } from '../../../shared/components/image-carousel/image-carousel.component';
 import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatChipsModule } from '@angular/material/chips';
@@ -13,11 +13,11 @@ import { Provider } from '../../../shared/models/provider.model';
 import { Role } from '../../../shared/enum/role';
 import { Teacher } from '../../../shared/models/teacher.model';
 import { Workshop } from '../../../shared/models/workshop.model';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('WorkshopDetailsComponent', () => {
   let component: WorkshopDetailsComponent;
   let fixture: ComponentFixture<WorkshopDetailsComponent>;
-  WorkshopDetailsComponent;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -28,6 +28,7 @@ describe('WorkshopDetailsComponent', () => {
         MatChipsModule,
         IvyCarouselModule,
         NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
         BrowserAnimationsModule
       ],
       declarations: [

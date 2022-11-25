@@ -6,11 +6,11 @@
         *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
-          <a class="info-link" [routerLink]="'./info/about'"> {{ 'header.top.about' | translate }}</a>
+          <a class="info-link" [routerLink]="'./info/about'"> {{ 'ABOUT_THE_PORTAL' | translate }}</a>
 
-          <a class="info-link" [routerLink]="'./info/rules'">{{ 'header.top.rules' | translate }}</a>
+          <a class="info-link" [routerLink]="'./info/rules'">{{ 'REGULATION_AND_LEGAL_ACTS' | translate }}</a>
 
-          <a class="info-link" [routerLink]="'./info/support'">{{ 'header.top.support' | translate }}</a>
+          <a class="info-link" [routerLink]="'./info/support'">{{ 'SUPPORT' | translate }}</a>
 
           <button mat-flat-button class="lang">
             <mat-icon>language</mat-icon>
@@ -56,7 +56,7 @@
 
 <ng-template #isUnauthorizedTmpl>
   <ng-container *ngIf="!isMobileScreen; else menuTmpl">
-    <button mat-stroked-button class="login" (click)="onLogin()">{{ 'header.top.login' | translate }}</button>
+    <button mat-stroked-button class="login" (click)="onLogin()">{{ 'LOGIN' | translate }}</button>
   </ng-container>
 </ng-template>
 
@@ -75,7 +75,7 @@
     <ng-conatiner
       *ngIf="user.role !== (Role.techAdmin || Role.ministryAdmin); then UserView; else AdminView"></ng-conatiner>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
-      {{ 'header.authorization.logout' | translate }}
+      {{ 'LOGOUT' | translate }}
     </button>
   </mat-menu>
 </ng-template>
@@ -84,39 +84,39 @@
 <ng-template #UserView>
   <ng-container *ngIf="isRegistered$ | async">
     <a [routerLink]="'./personal-cabinet/config'">
-      <button mat-menu-item>{{ 'header.authorization.info-personal' | translate }}</button>
+      <button mat-menu-item>{{ 'PERSONAL_INFORMATION' | translate }}</button>
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
       <button mat-menu-item>
-        {{ 'header.authorization.info-about' | translate }}
+        Інформація про
         {{ roles[user.role] | translate }}
       </button>
     </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'">
       <button mat-menu-item>
-        {{ 'header.authorization.my-workshops' | translate }}
+        {{ 'MY_WORKSHOPS' | translate }}
       </button>
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
       <button mat-menu-item>
-        {{ 'header.authorization.my-statements' | translate }}
+        {{ 'MY_STATEMENTS' | translate }}
       </button>
     </a>
     <a [routerLink]="'./personal-cabinet/messages'">
-      <button mat-menu-item> 
-        {{ 'header.authorization.my-messages' | translate }}
+      <button mat-menu-item>
+        {{ 'MY_MESSAGES' | translate }}
       </button>
     </a>
     <a
       *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
       [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
-        {{ 'header.authorization.administration' | translate }}
+        {{ 'ADMINISTRATION' | translate }}
       </button>
     </a>
     <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'">
       <button mat-menu-item>
-        {{ 'header.authorization.favorite' | translate }}
+        {{ 'FAVORITE' | translate }}
       </button>
     </a>
   </ng-container>
@@ -125,7 +125,7 @@
 <ng-template #AdminView>
   <a [routerLink]="'./personal-cabinet/config'">
     <button mat-menu-item>
-      {{ 'header.authorization.info-personal' | translate }}
+      {{ 'PERSONAL_INFORMATION' | translate }}
     </button>
   </a>
   <a
@@ -133,12 +133,12 @@
     [routerLink]="'./admin-tools/platform'"
     [queryParams]="{ page: defaultAdminTabs }">
     <button mat-menu-item>
-      {{ 'header.authorization.administration' | translate }}
+      {{ 'ADMINISTRATION' | translate }}
     </button>
   </a>
   <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
     <button mat-menu-item>
-      {{ 'header.authorization.administration' | translate }}
+      {{ 'ADMINISTRATION' | translate }}
     </button>
   </a>
 </ng-template>

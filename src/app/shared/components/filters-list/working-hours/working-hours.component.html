@@ -1,9 +1,9 @@
 <p class="filter-text title">
-  {{"working-hours.days" | translate}}
+  {{"WORKING_DAYS" | translate}}
 </p>
 <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
   <mat-checkbox color="primary" [formControl]="isStrictWorkdaysControl">
-    {{"working-hours.match" | translate}}
+    {{"EXACT_MATCH" | translate}}
   </mat-checkbox>
 </div>
 <div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
@@ -14,18 +14,18 @@
     </div>
   </div>
   <p class="filter-text title">
-    {{"working-hours.hours" | translate}}
+    {{"WORKING_HOURS" | translate}}
   </p>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
     <mat-checkbox color="primary" [formControl]="isAppropriateHoursControl">
-      {{"working-hours.match" | translate}}
+      {{"EXACT_MATCH" | translate}}
     </mat-checkbox>
   </div>
   <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">
-          {{"working-hours.from" | translate}}
+          {{"FROM" | translate}}
         </p>
         <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24"
           [formControl]="startTimeFormControl" [max]="maxTime" autocomplete="off" />
@@ -35,7 +35,7 @@
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">
-          {{"working-hours.to" | translate}}
+          {{"TO" | translate}}
         </p>
         <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24"
           [formControl]="endTimeFormControl" [min]="minTime" autocomplete="off" />
@@ -48,12 +48,12 @@
 
   <ng-template #btnCancel>
     <button mat-raised-button class="btn btn-cancel">
-      {{"working-hours.cancel" | translate}}
+      {{"CANCEL" | translate}}
     </button>
   </ng-template>
   <ng-template #btnConfirm>
     <button class="btn" mat-raised-button>
-      {{"working-hours.add" | translate}}
+      {{"ADD" | translate}}
     </button>
   </ng-template>
 </div>

@@ -2,18 +2,18 @@
   <mat-select disableOptionCentering panelClass="dropdown-panel" class="select"
     (selectionChange)="OnSelectOption($event)" [formControl]="orderFormControl">
     <mat-option value="{{ ordering.rating }}" class="dropdown-option">
-      {{"ordering.rating" | translate}}
+      {{"BY_RATING" | translate}}
     </mat-option>
     <mat-option value="{{ ordering.priceAsc }}" class="dropdown-option">
-      {{("ordering.price-up" | translate) + (" &#8593;")}}
+      {{("BY_PRICE_INCREASE" | translate) + (" &#8593;")}}
     </mat-option>
     <mat-option value="{{ ordering.priceDesc }}" class="dropdown-option">
-      {{("ordering.price-up" | translate) + (" &#8595;")}}
+      {{("BY_PRICE_DECREASE" | translate) + (" &#8595;")}}
     </mat-option>
     <mat-option value="{{ ordering.alphabet }}" class="dropdown-option">
-      {{"ordering.alphabet" | translate}}
+      {{"BY_ALPHABET" | translate}}
     </mat-option>
-    <mat-option value="{{ ordering.nearest }}" class="dropdown-option"> {{"ordering.closet" | translate}}
+    <mat-option value="{{ ordering.nearest }}" class="dropdown-option"> {{"NEAREST" | translate}}
     </mat-option>
   </mat-select>
 </mat-form-field>

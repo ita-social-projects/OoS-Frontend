@@ -1,12 +1,12 @@
 <p class="filter-text title">
-  {{"price-filter.price" | translate}}
+  {{"PRICE" | translate}}
 </p>
 <div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
   <mat-checkbox color="primary" [formControl]="isFreeControl">
-    {{"price-filter.free" | translate}}
+    {{"FOR_FREE" | translate}}
   </mat-checkbox>
   <mat-checkbox color="primary" [formControl]="isPaidControl">
-    {{"price-filter.paid" | translate}}
+    {{"PAID" | translate}}
   </mat-checkbox>
 
   <div class="input-wrapper" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }" fxLayout="row"
@@ -14,7 +14,7 @@
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">
-          {{"price-filter.from" | translate}}
+          {{"FROM" | translate}}
         </p>
         <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="minPriceControl"
           autocomplete="off" />
@@ -24,7 +24,7 @@
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">
-          {{"price-filter.to" | translate}}
+          {{"TO" | translate}}
         </p>
         <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="maxPriceControl"
           autocomplete="off" />

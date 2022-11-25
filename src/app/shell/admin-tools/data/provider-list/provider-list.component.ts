@@ -9,13 +9,12 @@ import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
-import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
+import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { ProviderService } from '../../../../shared/services/provider/provider.service';
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
@@ -35,6 +34,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
   readonly constants: typeof Constants = Constants;
+  readonly ModeConstants = ModeConstants;
   readonly ownershipTypeUkr = OwnershipTypeUkr;
   readonly statusTitles = StatusTitles;
   readonly providerAdminIcons = ApplicationIcons;
