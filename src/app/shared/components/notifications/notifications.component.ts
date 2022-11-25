@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
 import { NOTIFICATION_HUB_URL } from '../../constants/hubs-Url';
-import { Notification, NotificationsAmount, NotificationsGroupedByType } from '../../models/notifications.model';
+import { Notification, NotificationsAmount } from '../../models/notifications.model';
 import { SignalRService } from '../../services/signalR/signal-r.service';
 import { AppState } from '../../store/app.state';
 import { GetAmountOfNewUsersNotifications } from '../../store/notifications.actions';

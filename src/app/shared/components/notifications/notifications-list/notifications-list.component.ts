@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -43,7 +43,6 @@ import { RegistrationState } from '../../../store/registration.state';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
-  //TODO: Add styles for no applications
   readonly NotificationsConstants = NotificationsConstants;
   readonly ApplicationHeaderDeclinations = ApplicationChanges;
   readonly Constants = Constants;
@@ -123,13 +122,9 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
           queryParams: { status: status }
         });
         break;
-      case NotificationType.Workshop:
-        this.router.navigate([`/personal-cabinet/provider/${NotificationType.Workshop}`]);
-        break;
       case NotificationType.Chat:
         this.router.navigate([`/personal-cabinet/${NotificationType.Chat}`]);
         break;
-      //TODO: Add navigate to "Provider" application type
     }
   }
 
