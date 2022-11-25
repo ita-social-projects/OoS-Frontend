@@ -16,7 +16,9 @@
 </div>
 
 <ng-template #isEmptyList>
-  <span fxLayout="row wrap" fxLayoutAlign="start start">{{ NotificationsConstants.NO_MESSAGE }}</span>
+  <div class="no-message info info__description">
+    {{ NotificationsConstants.NO_MESSAGE }}
+  </div>
 </ng-template>
 
 <ng-template #Notifications>
