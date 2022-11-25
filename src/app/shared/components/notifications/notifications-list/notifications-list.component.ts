@@ -158,7 +158,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
           case NotificationType.Workshop:
             return NotificationWorkshopFullDescriptions[status];
           case NotificationType.Provider:
-            return NotificationsProviderShortDescriptions[status];
+            return NotificationsProviderFullDescriptions[status];
         }
         break;
       case NotificationDescriptionType.Short:
@@ -166,7 +166,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
           case NotificationType.Workshop:
             return NotificationWorkshopShortDescription[status];
           case NotificationType.Provider:
-            return NotificationsProviderFullDescriptions[status];
+            return NotificationsProviderShortDescriptions[status];
         }
         break;
       default:
