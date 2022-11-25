@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { DATE_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { OwnershipTypeUkr, ProviderTypeUkr } from '../../../../../shared/enum/enumUA/provider';
+import { OwnershipTypeEnum, ProviderTypeUkr } from '../../../../../shared/enum/enumUA/provider';
 import { OwnershipType, ProviderType } from '../../../../../shared/enum/provider';
 import { Institution } from '../../../../../shared/models/institution.model';
 import { Provider } from '../../../../../shared/models/provider.model';
@@ -25,7 +25,7 @@ export class CreateInfoFormComponent implements OnInit {
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly ownershipType = OwnershipType;
   readonly providerType = ProviderType;
-  readonly ownershipTypeUkr = OwnershipTypeUkr;
+  readonly OwnershipTypeEnum = OwnershipTypeEnum;
   readonly providerTypeUkr = ProviderTypeUkr;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,

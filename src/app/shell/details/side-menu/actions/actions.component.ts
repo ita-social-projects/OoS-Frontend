@@ -5,7 +5,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
 import { takeUntil } from 'rxjs/operators';
-import { PayRateTypeUkr } from '../../../../shared/enum/enumUA/workshop';
+import { PayRateTypeEnum } from '../../../../shared/enum/enumUA/workshop';
 import { Role } from '../../../../shared/enum/role';
 import { WorkshopOpenStatus } from '../../../../shared/enum/workshop';
 import { Favorite } from '../../../../shared/models/favorite.model';
@@ -24,7 +24,7 @@ import { ModeConstants } from '../../../../shared/constants/constants';
 })
 export class ActionsComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
-  readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly PayRateTypeEnum = PayRateTypeEnum;
   readonly workhopStatus = WorkshopOpenStatus;
   readonly ModeConstants = ModeConstants;
 

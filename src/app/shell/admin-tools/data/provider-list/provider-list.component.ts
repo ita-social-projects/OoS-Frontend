@@ -19,7 +19,7 @@ import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { OwnershipTypeUkr } from '../../../../shared/enum/enumUA/provider';
+import { OwnershipTypeEnum } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
@@ -35,7 +35,7 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
 
   readonly constants: typeof Constants = Constants;
   readonly ModeConstants = ModeConstants;
-  readonly ownershipTypeUkr = OwnershipTypeUkr;
+  readonly OwnershipTypeEnum = OwnershipTypeEnum;
   readonly statusTitles = StatusTitles;
   readonly providerAdminIcons = ApplicationIcons;
   readonly statuses = Statuses;
