@@ -109,7 +109,9 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   onDeleteSingle(notification: Notification): void {
     this.store.dispatch(new DeleteUsersNotificationById(notification.id));
-    this.notifications.filter((recievedNotification: Notification) => recievedNotification.id != notification.id);
+
+    this.notificationsAmount.amount--;
+    this.notifications = this.notifications.filter((recievedNotification: Notification) => recievedNotification.id != notification.id);
   }
 
   onGroupByStatusClick(group: NotificationGroupedByAdditionalData): void {
@@ -203,7 +205,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   private addRecievedNotification(recievedNotification: Notification): void {
     this.notificationsAmount.amount++;
 
-    //TODO: Move hardcoded type to enum
     if (recievedNotification.type !== NotificationType.Application && recievedNotification.type !== NotificationType.Chat) {
       this.notifications.push(recievedNotification);
       return;
