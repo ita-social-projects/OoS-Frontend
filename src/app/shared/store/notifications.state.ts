@@ -105,8 +105,7 @@ export class NotificationsState {
 
   @Action(OnDeleteUsersNotificationByIdSuccess)
   onDeleteUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>): void {
-    //TODO: Snackbar
-    dispatch(new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'success' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.deleteNotification, type: 'success' }));
   }
 
   @Action(OnDeleteUsersNotificationByIdFail)
@@ -115,8 +114,7 @@ export class NotificationsState {
     { error }: OnDeleteUsersNotificationByIdFail
   ): void {
     throwError(() => error);
-    //TODO: Snackbar
-    dispatch(new ShowMessageBar({ message: SnackbarText.deleteAchievement, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnReadUsersNotificationsFail)
