@@ -1,7 +1,8 @@
 export enum NotificationType {
-  Application = 'applications',
-  Chat = 'messages',
-  Workshop = 'workshops'
+  Application = 'Application',
+  Chat = 'Chat',
+  Workshop = 'Workshop',
+  Provider = 'Provider'
 }
 
 export enum NotificationAction {

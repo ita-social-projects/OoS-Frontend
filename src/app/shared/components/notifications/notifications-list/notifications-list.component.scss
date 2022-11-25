@@ -22,15 +22,15 @@
 
     font-style: normal;
     font-weight: bold;
-    font-size: 18px;
-    line-height: 20px;
+    font-size: 1.125rem;
+    line-height: 1.25rem;
   }
 }
 
 .icon {
   font-weight: 400;
-  font-size: 24px;
-  line-height: 24px;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
 
   cursor: pointer;
 
@@ -43,19 +43,17 @@
   max-height: 300px;
   overflow: auto;
 
-
   cdk-accordion {
-    &:last-child {
-      .notification:not(:last-child) {
-        .notification__wrapper {
-          border-bottom: 1px solid #e3e3e3;
-        }
+    .notification__wrapper {
+      border-bottom: 1px solid #e3e3e3;
+      &:hover {
+        background-color: darken($color: #ffffff, $amount: 3.8);
       }
     }
-
-    &:not(:last-child) {
+    
+    .notification:last-child {
       .notification__wrapper {
-        border-bottom: 1px solid #e3e3e3;
+        border-bottom: 0;
       }
     }
   }
@@ -63,21 +61,21 @@
 
 .new {
   border-left: 5px solid #3849f9;
+  background-color: #f8f8f8;
 }
 
 .header-notification {
   display: flex;
+  justify-content: space-between;
 
   cursor: pointer;
-  padding: 0.75rem 1rem;
+  padding: 0.75rem 1rem 0.5rem;
 
   >.icon {
     opacity: 0;
   }
 
   &:hover{
-    background-color: darken($color: #ffffff, $amount: 3.5);
-
     >.icon {
       opacity: 1;
       transition: opacity 0.1s;
@@ -85,11 +83,11 @@
   }
 
   &__group-info {
-    justify-content: space-between;
     align-items: center;
   }
 
   &__group-details {
+    justify-content: start;
     align-items: center;
     gap: 0.25rem;
   }
@@ -102,27 +100,32 @@
 }
 
 .info {
-  font-size: 13px;
+  font-size: 0.8125px;
 
   &__workshop-name {
     font-size: inherit;
     font-weight: 700;
-    line-height: 15px;
+    line-height: 1rem;
   }
 
   &__description {
     font-weight: 400;
-    line-height: 18px;
+    line-height: 1.125rem;
   }
 
   &__time {
     font-size: inherit;
     font-weight: 400;
-    line-height: 18px;
+    line-height: 1.125rem;
     color: #aaaaaa;
   }
 }
 
 .body-notification {
+  background-color: darken($color: #f8f8f8, $amount: 3);
   transition: max-height 0.5s;
+
+  &__single {
+    padding: 0.75rem 1rem;
+  }
 }

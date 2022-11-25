@@ -21,73 +21,76 @@
 
 <ng-template #Notifications>
   <div class="accordions-wrapper">
-    <cdk-accordion *ngIf="groupsByType.length">
-      <cdk-accordion-item
-        *ngFor="let groupByType of groupsByType"
-        #accordionGroupItem="cdkAccordionItem"
-        role="button"
-        class="notification"
-      >
-        <div [class]="groupByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
-          <div class="header-notification header-notification__group-info" (click)="accordionGroupItem.toggle()">
-            <div class="info">
-              <span class="info__description">У вас {{ groupByType.amount | declination: ApplicationHeaderDeclinations }}</span>
+    <cdk-accordion>
+      <ng-container *ngIf="groupsByType.length">
+        <cdk-accordion-item
+          *ngFor="let groupByType of groupsByType"
+          #accordionGroupItem="cdkAccordionItem"
+          role="button"
+          class="notification"
+        >
+          <div [class]="groupByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
+            <div class="header-notification header-notification__group-info" (click)="accordionGroupItem.toggle()">
+              <div class="info">
+                <span class="info__description">У вас {{ groupByType.amount | declination: ApplicationHeaderDeclinations }}</span>
+              </div>
+              <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
+              <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
+                <button mat-menu-item (click)="onReadGroup(groupByType); stopPropagation($event)">Прочитати групу</button>
+              </mat-menu>
             </div>
-            <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
-            <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
-              <button mat-menu-item (click)="onReadGroup(groupByType); stopPropagation($event)">Прочитати групу</button>
-            </mat-menu>
-          </div>
-          <div
-            [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
-            [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
-            role="region"
-            class="body-notification"
-          >
             <div
-              *ngFor="let group of groupByType.groupsByAdditionalData"
-              class="header-notification header-notification__group-details info"
-              (click)="onGroupByStatusClick(group)"
+              [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
+              role="region"
+              class="body-notification"
             >
-              <mat-icon class="icon">navigate_next</mat-icon>
-              <span class="info__description">{{ group.amount | declination: defineDeclination(group.groupedData) }}</span>
+              <div
+                *ngFor="let group of groupByType.groupsByAdditionalData"
+                class="header-notification header-notification__group-details info"
+                (click)="onGroupByStatusClick(group)"
+              >
+                <mat-icon class="icon">navigate_next</mat-icon>
+                <span class="info__description">{{ group.amount | declination: defineDeclination(group.groupedData) }}</span>
+              </div>
             </div>
           </div>
-        </div>
-      </cdk-accordion-item>
-    </cdk-accordion>
-    <!-- TODO:  Finish notifications for single notifications (when they start coming from the database) -->
-    <cdk-accordion *ngIf="notifications.length">
-      <cdk-accordion-item
-        *ngFor="let notification of notifications"
-        #accordionItem="cdkAccordionItem"
-        role="button"
-        class="notification"
-        [disabled]="notification.data ? 'false' : 'true'"
-      >
-        <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
-          <div class="header-notification" (click)="accordionItem.toggle()">
-            <div class="header-notification__single-info info">
-              <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
-              <span class="info__description">Ваша заявка була відхилена з вказаною причиною</span>
-              <h4 class="info__time">{{ notification.createdDateTime | date: 'HH:mm' }}</h4>
+        </cdk-accordion-item>
+      </ng-container>
+      <ng-container *ngIf="notifications.length">
+        <cdk-accordion-item
+          *ngFor="let notification of notifications"
+          #accordionItem="cdkAccordionItem"
+          role="button"
+          class="notification"
+          [disabled]="notification.data ? 'false' : 'true'"
+        >
+          <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
+            <div class="header-notification" (click)="accordionItem.toggle()">
+              <div class="header-notification__single-info info">
+                <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
+                <span class="info__description">{{ getNotificationDescription(notification.data.Status, notification.type) }}</span>
+                <h4 class="info__time">{{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}</h4>
+              </div>
+              <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
+              <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
+                <button mat-menu-item (click)="onReadSingle(notification); stopPropagation($event)">Позначити як прочитане</button>
+                <button mat-menu-item (click)="onDeleteSingle(notification); stopPropagation($event)">Видалити сповіщення</button>
+              </mat-menu>
             </div>
-            <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
-            <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
-              <button mat-menu-item (click)="onReadSingle(notification); stopPropagation($event)">Позначити як прочитане</button>
-              <button mat-menu-item (click)="onDeleteSingle(notification); stopPropagation($event)">Видалити сповіщення</button>
-            </mat-menu>
+            <div
+              [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
+              role="region"
+              class="body-notification info info__description"
+            >
+              <div class="body-notification__single">
+                {{ getNotificationDetails(notification.data.Status, notification.type) }}
+              </div>
+            </div>
           </div>
-          <div
-            [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
-            [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
-            role="region"
-            class="body-notification"
-          >
-            This is the primary content of the panel.
-          </div>
-        </div>
-      </cdk-accordion-item>
+        </cdk-accordion-item>
+      </ng-container>
     </cdk-accordion>
   </div>
 </ng-template>

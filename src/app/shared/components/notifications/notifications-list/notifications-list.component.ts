@@ -3,17 +3,21 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { NotificationsConstants } from '../../../constants/constants';
+import { Constants, NotificationsConstants } from '../../../constants/constants';
 import { Statuses } from '../../../enum/statuses';
 import {
   ApplicationApproved,
   ApplicationPending,
   ApplicationRejected,
   ApplicationLeft,
-  ApplicationHeader
+  ApplicationChanges
 } from '../../../enum/enumUA/declinations/notification-declination';
-import { NotificationsText } from '../../../enum/enumUA/notifications';
-import { NotificationWorkshopStatusUkr } from '../../../enum/enumUA/workshop';
+import {
+  NotificationsProviderDescriptionByStatus,
+  NotificationsProviderDetailsByStatus,
+  NotificationWorkshopDescriptionByStatus,
+  NotificationWorkshopDetailsByStatus
+} from '../../../enum/enumUA/notifications';
 import { NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import {
@@ -41,10 +45,8 @@ import { RegistrationState } from '../../../store/registration.state';
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
   //TODO: Add styles for no applications
   readonly NotificationsConstants = NotificationsConstants;
-  //TODO: Implement notifications for the workshop
-  readonly NotificationWorkshopStatusUkr = NotificationWorkshopStatusUkr;
-  readonly NotificationText = NotificationsText;
-  readonly ApplicationHeaderDeclinations = ApplicationHeader;
+  readonly ApplicationHeaderDeclinations = ApplicationChanges;
+  readonly Constants = Constants;
 
   @Input() notificationsAmount: NotificationsAmount;
   @Input() recievedNotification: Notification;
@@ -147,6 +149,28 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         return ApplicationLeft;
       default:
         return ApplicationPending;
+    }
+  }
+
+  getNotificationDescription(status: Statuses, type: NotificationType): string {
+    switch (type) {
+      case NotificationType.Workshop:
+        return NotificationWorkshopDescriptionByStatus[status];
+      case NotificationType.Provider:
+        return NotificationsProviderDescriptionByStatus[status];
+      default:
+        return Constants.NO_INFORMATION;
+    }
+  }
+
+  getNotificationDetails(status: Statuses, type: NotificationType): string {
+    switch (type) {
+      case NotificationType.Workshop:
+        return NotificationWorkshopDetailsByStatus[status];
+      case NotificationType.Provider:
+        return NotificationsProviderDetailsByStatus[status];
+      default:
+        return Constants.NO_INFORMATION;
     }
   }
 

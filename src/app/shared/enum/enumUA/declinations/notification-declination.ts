@@ -1,4 +1,4 @@
-export enum ApplicationHeader {
+export enum ApplicationChanges {
   'зміна в заявах',
   'зміни в заявах',
   'змін в заявах'
