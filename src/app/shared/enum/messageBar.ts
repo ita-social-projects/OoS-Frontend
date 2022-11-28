@@ -20,6 +20,8 @@ export enum SnackbarText {
   addedWorkshopFavorite = 'Гурток додано до Улюблених',
   deleteWorkshopFavorite = 'Гурток видалено з Улюблених',
 
+  deleteNotification = 'Сповіщення успішно видалено!',
+
   createDirection = 'Напрямок успішно створений',
   updateDirection = 'Напрямок успішно відредагований',
   deleteDirection = 'Напрямок видалено!',

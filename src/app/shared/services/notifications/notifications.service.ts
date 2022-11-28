@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NotificationsAmount, Notifications, NotificationGrouped, Notification } from '../../models/notifications.model';
+import { NotificationsAmount, Notifications, Notification, NotificationsGroupedByType } from '../../models/notifications.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,8 +27,8 @@ export class NotificationsService {
    * This method read notifications by notifications type
    * @param type: string
    */
-  readUsersNotificationsByType(notificationsGrouped: NotificationGrouped): Observable<void> {
-    return this.http.put<void>(`/api/v1/Notification/ReadUsersNotificationsByType/${notificationsGrouped.type}`, notificationsGrouped);
+  readUsersNotificationsByType(notificationsGrouped: NotificationsGroupedByType): Observable<void> {
+    return this.http.put<void>(`/api/v1/Notification/ReadUsersNotificationsByType/${notificationsGrouped.type}`, {});
   }
 
   /**
@@ -44,5 +44,12 @@ export class NotificationsService {
    */
   getAllUsersNotifications(): Observable<Notifications> {
     return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotifications');
+  }
+
+  /**
+   * This method delete notification by id
+   */
+  deleteNotification(notificationId: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Notification/Delete/${notificationId}`);
   }
 }

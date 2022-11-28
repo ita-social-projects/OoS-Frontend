@@ -27,15 +27,12 @@ import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { Observable, of, throwError } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
-import { SignalRService } from '../services/signalR/signal-r.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TechAdmin } from '../models/techAdmin.model';
 import { Provider } from '../models/provider.model';
 import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
-import { NOTIFICATION_HUB_URL } from '../constants/hubs-Url';
-import { GetAmountOfNewUsersNotifications } from './notifications.actions';
 import { ModeConstants } from '../constants/constants';
 
 export interface RegistrationStateModel {
@@ -117,7 +114,6 @@ export class RegistrationState {
     private parentService: ParentService,
     private techAdminService: TechAdminService,
     private router: Router,
-    private signalRservice: SignalRService,
     private ministryAdminService: MinistryAdminService
   ) {}
 
@@ -167,9 +163,6 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-    const hubConnection = this.signalRservice.startConnection(NOTIFICATION_HUB_URL);
-
-    hubConnection.on('ReceiveNotification', () => dispatch(new GetAmountOfNewUsersNotifications()));
 
     if (state.user.isRegistered) {
       dispatch(new GetProfile());

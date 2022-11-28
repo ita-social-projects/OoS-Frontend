@@ -1,3 +1,9 @@
+export enum ApplicationChanges {
+  'зміна в заявах',
+  'зміни в заявах',
+  'змін в заявах'
+}
+
 export enum ApplicationApproved {
   'заявка зарахована',
   'заявки зараховано',

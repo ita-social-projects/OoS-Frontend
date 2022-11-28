@@ -1,4 +1,4 @@
-import { Notification, NotificationGrouped } from '../models/notifications.model';
+import { Notification, NotificationGroupedByAdditionalData, NotificationsGroupedByType } from '../models/notifications.model';
 
 export class GetAmountOfNewUsersNotifications {
   static readonly type = '[user] get amount of new users notifications';
@@ -12,21 +12,36 @@ export class GetAllUsersNotificationsGrouped {
 
 export class ReadUsersNotificationsByType {
   static readonly type = '[user] read users notifications by type';
-  constructor(public payload: NotificationGrouped) {}
+  constructor(public payload: NotificationsGroupedByType) {}
+}
+
+export class DeleteUsersNotificationById {
+  static readonly type = '[user] delete users notification by id';
+  constructor(public notificationId: string) {}
+}
+
+export class ClearNotificationState {
+  static readonly type = '[user] clear notification state';
+  constructor() {}
+}
+
+export class OnDeleteUsersNotificationByIdSuccess {
+  static readonly type = '[user] delete users notification by id success';
+  constructor() {}
+}
+
+export class OnDeleteUsersNotificationByIdFail {
+  static readonly type = '[user] delete users notification by id fail';
+  constructor(public error: Error) {}
 }
 
 export class OnReadUsersNotificationsByTypeSuccess {
   static readonly type = '[user] read users notifications by type success';
-  constructor(public payload: NotificationGrouped) {}
+  constructor(public payload: NotificationGroupedByAdditionalData) {}
 }
 export class ReadUsersNotificationById {
   static readonly type = '[user] read users notifications by id';
   constructor(public payload: Notification) {}
-}
-
-export class OnReadUsersNotificationByIdSuccess {
-  static readonly type = '[user] read users notifications by id success';
-  constructor() {}
 }
 
 export class OnReadUsersNotificationsFail {

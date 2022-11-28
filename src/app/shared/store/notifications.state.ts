@@ -1,10 +1,9 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { SnackbarText } from '../enum/messageBar';
-import { NotificationType } from '../enum/notifications';
 import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
@@ -15,7 +14,10 @@ import {
   OnReadUsersNotificationsByTypeSuccess,
   ReadUsersNotificationsByType,
   ReadUsersNotificationById,
-  OnReadUsersNotificationByIdSuccess
+  DeleteUsersNotificationById,
+  OnDeleteUsersNotificationByIdSuccess,
+  OnDeleteUsersNotificationByIdFail,
+  ClearNotificationState
 } from './notifications.actions';
 
 export interface NotificationsStateModel {
@@ -67,10 +69,9 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     { payload }: ReadUsersNotificationsByType
   ): Observable<void | Observable<void>> {
-    return this.notificationsService.readUsersNotificationsByType(payload).pipe(
-      tap(() => dispatch(new OnReadUsersNotificationsByTypeSuccess(payload))),
-      catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error))))
-    );
+    return this.notificationsService
+      .readUsersNotificationsByType(payload)
+      .pipe(catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error)))));
   }
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
@@ -86,21 +87,44 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     { payload }: ReadUsersNotificationById
   ): Observable<Notification | Observable<void>> {
-    return this.notificationsService.readUsersNotificationById(payload).pipe(
-      tap(() => dispatch(new OnReadUsersNotificationByIdSuccess())),
-      catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error))))
+    return this.notificationsService
+      .readUsersNotificationById(payload)
+      .pipe(catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error)))));
+  }
+
+  @Action(DeleteUsersNotificationById)
+  deleteUsersNotificationById(
+    { dispatch }: StateContext<NotificationsStateModel>,
+    { notificationId }: DeleteUsersNotificationById
+  ): Observable<void | Observable<void>> {
+    return this.notificationsService.deleteNotification(notificationId).pipe(
+      tap(() => dispatch(new OnDeleteUsersNotificationByIdSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteUsersNotificationByIdFail(error))))
     );
   }
 
-  @Action(OnReadUsersNotificationByIdSuccess)
-  onReadUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>, {}: OnReadUsersNotificationByIdSuccess): void {
-    dispatch(new GetAmountOfNewUsersNotifications());
-    dispatch(new GetAllUsersNotificationsGrouped());
+  @Action(OnDeleteUsersNotificationByIdSuccess)
+  onDeleteUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.deleteNotification, type: 'success' }));
+  }
+
+  @Action(OnDeleteUsersNotificationByIdFail)
+  onDeleteUsersNotificationByIdFail(
+    { dispatch }: StateContext<NotificationsStateModel>,
+    { error }: OnDeleteUsersNotificationByIdFail
+  ): void {
+    throwError(() => error);
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnReadUsersNotificationsFail)
   onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
     throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(ClearNotificationState)
+  clearNotificationState({ patchState }: StateContext<NotificationsStateModel>): void {
+    patchState({ notifications: null });
   }
 }

@@ -164,3 +164,40 @@ $config: mat.define-typography-config(
 .mat-horizontal-content-container {
   padding: 0 !important;
 }
+
+.cdk-overlay-container  {
+  .notification-menu {
+    max-width: none;
+
+    .mat-menu-content {
+      padding: 0;
+    }
+  }
+
+  .notifications-list-menu {
+    border-radius: 5px !important;
+    min-height: 0;
+
+    .mat-menu-content {
+      padding: 0;
+
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .mat-menu-item {
+      padding: 0.75rem;
+
+      height: auto !important;
+      
+      font-family: 'Open Sans';
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 18px;
+
+      color: #272425;
+    }
+  }
+}

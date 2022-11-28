@@ -15,11 +15,6 @@ export enum RecruitmentStatusEnum {
   Open = 'ENUM.RECRUITMENT_STATUS.OPEN'
 }
 
-export enum NotificationWorkshopStatusUkr {
-  Open = 'відкрито',
-  Closed = 'закрито'
-}
-
 export enum DetailsTabTitles {
   AboutWorkshop = 'ENUM.DETAILS_TAB_TITLES.ABOUT_THE_WORKSHOP',
   AboutProvider = 'ENUM.DETAILS_TAB_TITLES.ABOUT_THE_PROVIDER',

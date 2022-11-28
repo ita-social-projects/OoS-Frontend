@@ -12,19 +12,38 @@ export interface Notification {
   objectId?: string;
 }
 
-export interface NotificationGrouped {
+export class NotificationGroupedByAdditionalData {
   action: string;
-  amount: number;
+  amount = 1;
   groupedData: string;
   type: string;
+
+  constructor(action: string, groupedData: string, type: string) {
+    this.action = action;
+    this.groupedData = groupedData;
+    this.type = type;
+  }
 }
 
 export interface Notifications {
-  notificationsGrouped: NotificationGrouped[];
+  notificationsGrouped: NotificationGroupedByAdditionalData[];
   notifications: Notification[];
 }
 
 export interface NotificationsDate {
   Status?: string;
   Title?: string;
+}
+
+export class NotificationsGroupedByType {
+  type: string;
+  amount: number;
+  isRead = false;
+  groupsByAdditionalData: NotificationGroupedByAdditionalData[];
+
+  constructor(type: string, amount: number, groupsByAction: NotificationGroupedByAdditionalData[]) {
+    this.type = type;
+    this.amount = amount;
+    this.groupsByAdditionalData = groupsByAction;
+  }
 }
