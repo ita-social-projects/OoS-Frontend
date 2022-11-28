@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { WorkingDaysValues } from '../../../../shared/constants/constants';
 import { WorkingDays, WorkingDaysReverse } from '../../../../shared/enum/enumUA/working-hours';
-import { PayRateTypeUkr } from '../../../../shared/enum/enumUA/workshop';
+import { PayRateTypeEnum } from '../../../../shared/enum/enumUA/workshop';
 import { WorkingDaysToggleValue } from '../../../../shared/models/workingHours.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 
@@ -13,7 +13,7 @@ import { Workshop } from '../../../../shared/models/workshop.model';
 export class WorkshopAboutComponent {
   readonly workingDays = WorkingDays;
   readonly workingDaysReverse = WorkingDaysReverse;
-  readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly PayRateTypeEnum = PayRateTypeEnum;
 
   @Input() workshop!: Workshop;
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));

@@ -31,10 +31,13 @@
   max-height: 34px;
   text-align: center;
 }
-::ng-deep .mat-form-field-underline {
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
+:host ::ng-deep .mat-form-field-underline {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }

@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { WorkshopTypeUkr } from '../../../../../shared/enum/enumUA/provider';
-import { PayRateTypeUkr } from '../../../../../shared/enum/enumUA/workshop';
+import { PayRateTypeEnum } from '../../../../../shared/enum/enumUA/workshop';
 import { WorkshopType, OwnershipTypeName, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
 import { PayRateType } from '../../../../../shared/enum/workshop';
 import { Provider } from '../../../../../shared/models/provider.model';
@@ -27,7 +27,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly PayRateType = PayRateType;
-  readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly PayRateTypeUkr = PayRateType;
   readonly ownershipTypeName = OwnershipTypeName;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,

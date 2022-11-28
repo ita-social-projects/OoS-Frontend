@@ -13,11 +13,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Constants } from '../../constants/constants';
 import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
-import { PayRateTypeUkr, RecruitmentStatusUkr } from '../../enum/enumUA/workshop';
+import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkshopOpenStatus } from '../../enum/workshop';
-import { OwnershipTypeUkr } from '../../enum/enumUA/provider';
+import { OwnershipTypeEnum } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
@@ -31,14 +31,14 @@ import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warnin
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-  readonly ownershipTypeUkr = OwnershipTypeUkr;
+  readonly OwnershipTypeEnum = OwnershipTypeEnum;
+  readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
   readonly Role = Role;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   readonly categoryIcons = CategoryIcons;
-  readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly PayRateTypeEnum = PayRateTypeEnum;
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly workhopStatus = WorkshopOpenStatus;
-  readonly recruitmentStatusUkr = RecruitmentStatusUkr;
   readonly modalConfirmationType = ModalConfirmationType;
   readonly statuses = Statuses;
   readonly statusTitles = StatusTitles;

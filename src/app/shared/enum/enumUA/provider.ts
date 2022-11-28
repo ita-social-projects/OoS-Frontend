@@ -1,7 +1,7 @@
-export enum OwnershipTypeUkr {
-  State = 'ENUM.OWNERSHIP_TYPE_UKR.STATE',
-  Common = 'ENUM.OWNERSHIP_TYPE_UKR.COMMON',
-  Private = 'ENUM.OWNERSHIP_TYPE_UKR.PRIVATE'
+export enum OwnershipTypeEnum {
+  State = 'ENUM.OWNERSHIP_TYPE.STATE',
+  Common = 'ENUM.OWNERSHIP_TYPE.COMMON',
+  Private = 'ENUM.OWNERSHIP_TYPE.PRIVATE'
 }
 
 export enum InstitutionTypes {

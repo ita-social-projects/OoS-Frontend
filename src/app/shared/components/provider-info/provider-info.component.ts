@@ -8,7 +8,7 @@ import { Observable, Subject } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypes, OwnershipTypeUkr, ProviderTypeUkr } from '../../enum/enumUA/provider';
+import { InstitutionTypes, OwnershipTypeEnum, ProviderTypeUkr } from '../../enum/enumUA/provider';
 import { Constants } from '../../constants/constants';
 import { ActivateEditMode } from '../../store/app.actions';
 
@@ -21,7 +21,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
-  readonly ownershipTypeUkr = OwnershipTypeUkr;
+  readonly OwnershipTypeEnum = OwnershipTypeEnum;
   readonly providerTypeUkr = ProviderTypeUkr;
   readonly institutionTypes = InstitutionTypes;
 

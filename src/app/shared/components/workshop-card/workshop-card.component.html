@@ -61,13 +61,13 @@
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
     <div class="chip-color-close">
-      {{ recruitmentStatusUkr.RecruitmentStoped | translate }}
+      {{ RecruitmentStatusEnum.RecruitmentStoped | translate }}
     </div>
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
       (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
-      <span class="card_link">{{ recruitmentStatusUkr.Open | translate }}</span>
+      <span class="card_link">{{ RecruitmentStatusEnum.Open | translate }}</span>
     </a>
   </div>
 </ng-template>
@@ -134,7 +134,7 @@
   <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
     <p class="{{ application.status }} icon"><mat-icon>how_to_reg</mat-icon>{{ statusTitles[application.status] }}</p>
     <p class="card_link status_action" *ngIf="application.status === statuses.Approved" (click)="onWorkshopLeave()">
-      {{ 'LEAVE_CIRCLE' | translate }}
+      {{ 'LEAVE_WORKSHOP' | translate }}
     </p>
   </div>
 
@@ -159,9 +159,9 @@
     </p>
   </a>
 
-  <p class="card_text" *ngIf="ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView">
+  <p class="card_text" *ngIf="OwnershipTypeEnum[workshopData.providerOwnership] && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon>
-    {{ 'FORM_OF_OWNERSHIP' | translate }}: {{ ownershipTypeUkr[workshopData.providerOwnership] | translate }}
+    {{ 'OWNERSHIP' | translate }}: {{ OwnershipTypeEnum[workshopData.providerOwnership] | translate }}
   </p>
   <p class="card_text" [ngClass]="isHorizontalView ? 'hide' : ''">
     <mat-icon class="card_icon">person</mat-icon>
@@ -175,7 +175,7 @@
   <p class="card_text" *ngIf="workshopData.price">
     <mat-icon class="card_icon"> attach_money</mat-icon>
     {{ workshopData.price }} {{ 'UAH' | translate }}/
-    {{ PayRateTypeUkr[workshopData.payRate] | translate }}
+    {{ PayRateTypeEnum[workshopData.payRate] | translate }}
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>

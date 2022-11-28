@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { RecruitmentStatusUkr, DetailsTabTitles, DetailsTabTitlesReverse } from '../../../shared/enum/enumUA/workshop';
+import { RecruitmentStatusEnum, DetailsTabTitles, DetailsTabTitlesReverse } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
 import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
@@ -26,7 +26,7 @@ import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
-  readonly recruitmentStatusUkr = RecruitmentStatusUkr;
+  readonly recruitmentStatusUkr = RecruitmentStatusEnum;
   readonly workshopStatus = WorkshopOpenStatus;
   readonly workshopTitles = DetailsTabTitles;
 
