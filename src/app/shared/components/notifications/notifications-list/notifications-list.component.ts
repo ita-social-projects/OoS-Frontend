@@ -89,7 +89,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   //TODO: Implement read group by status(Pending, Edit, etc..)
-
   onReadGroup(groupByType: NotificationsGroupedByType): void {
     this.store.dispatch(new ReadUsersNotificationsByType(groupByType));
 
@@ -98,16 +97,11 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   onReadAll(): void {
-    this.groupsByType.forEach((groupByType: NotificationsGroupedByType) => {
-      this.onReadGroup(groupByType);
-    });
-    this.notifications.forEach((notification: Notification) => {
-      this.onReadSingle(notification);
-    });
+    this.groupsByType.forEach((groupByType: NotificationsGroupedByType) => this.onReadGroup(groupByType));
+    this.notifications.forEach((notification: Notification) => this.onReadSingle(notification));
   }
 
   //TODO: Implemented onDeleteAll
-
   onDeleteSingle(notification: Notification): void {
     this.store.dispatch(new DeleteUsersNotificationById(notification.id));
 
@@ -130,7 +124,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  stopPropagation(event: PointerEvent) {
+  stopPropagation(event: PointerEvent): void {
     event.stopPropagation();
   }
 
@@ -184,13 +178,13 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     let groupsByType = new Map<string, NotificationsGroupedByType>();
 
     for (const group of recievedNotifications.notificationsGrouped) {
-      const curGroupByType = groupsByType.get(group.type);
+      const currentGroupByType = groupsByType.get(group.type);
       let newGroupByType: NotificationsGroupedByType;
 
-      if (curGroupByType) {
-        curGroupByType.groupsByAdditionalData.push(group);
-        curGroupByType.amount += group.amount;
-        groupsByType.set(curGroupByType.type, curGroupByType);
+      if (currentGroupByType) {
+        currentGroupByType.groupsByAdditionalData.push(group);
+        currentGroupByType.amount += group.amount;
+        groupsByType.set(currentGroupByType.type, currentGroupByType);
       } else {
         newGroupByType = new NotificationsGroupedByType(group.type, group.amount, [group]);
         groupsByType.set(newGroupByType.type, newGroupByType);
@@ -240,7 +234,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  private addNewGroupByType(recievedNotification: Notification) {
+  private addNewGroupByType(recievedNotification: Notification): void {
     const newGroupByType = new NotificationsGroupedByType(recievedNotification.type, 1, []);
     this.addNewGroupByAdditionalData(newGroupByType, recievedNotification);
     this.groupsByType.push(newGroupByType);

@@ -125,6 +125,6 @@ export class NotificationsState {
 
   @Action(ClearNotificationState)
   clearNotificationState({ patchState }: StateContext<NotificationsStateModel>): void {
-    patchState({ notifications: undefined });
+    patchState({ notifications: null });
   }
 }

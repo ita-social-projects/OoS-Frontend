@@ -14,13 +14,12 @@ export interface Notification {
 
 export class NotificationGroupedByAdditionalData {
   action: string;
-  amount: number;
+  amount = 1;
   groupedData: string;
   type: string;
 
   constructor(action: string, groupedData: string, type: string) {
     this.action = action;
-    this.amount = 1;
     this.groupedData = groupedData;
     this.type = type;
   }
@@ -39,13 +38,12 @@ export interface NotificationsDate {
 export class NotificationsGroupedByType {
   type: string;
   amount: number;
-  isRead: boolean;
+  isRead = false;
   groupsByAdditionalData: NotificationGroupedByAdditionalData[];
 
   constructor(type: string, amount: number, groupsByAction: NotificationGroupedByAdditionalData[]) {
     this.type = type;
     this.amount = amount;
-    this.isRead = false;
     this.groupsByAdditionalData = groupsByAction;
   }
 }
