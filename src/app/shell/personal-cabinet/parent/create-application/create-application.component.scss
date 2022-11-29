@@ -3,14 +3,15 @@
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/dropdown.scss';
 @import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/navigation-tabs.scss';
+
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
 .wrapper-check-box,
 .info-wrapper {
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+  margin: 1rem 0;
   .step-label {
     margin-bottom: 1rem;
   }
@@ -23,9 +24,6 @@
   padding-right: 3rem;
   padding-left: 3rem;
 }
-.wrapper-check-box {
-  padding: 0;
-}
 
 @media (max-width: 750px) {
   .application-wrapper {
@@ -35,9 +33,6 @@
     .step {
       max-width: none;
     }
-  }
-  .wrapper-check-box {
-    padding: 0;
   }
 }
 
@@ -55,6 +50,8 @@
   font-size: 13px;
   line-height: 18px;
   color: #333333;
+  text-align: center;
+  margin-bottom: 1rem !important;
 }
 
 small.warning {
@@ -65,4 +62,8 @@ small.warning {
 .redBorder {
   outline: none;
   border: 1px solid #c72a21;
+}
+
+.checkbox-label {
+  margin-left: 1rem;
 }

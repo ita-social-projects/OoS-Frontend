@@ -7,8 +7,7 @@
       class="application-workshop"
       [workshop]="workshop"
       [isHorizontalView]="true"
-      [isCreateFormView]="true"
-    ></app-workshop-card>
+      [isCreateFormView]="true"></app-workshop-card>
     <div class="card-border">
       <mat-tab-group mat-align-tabs="center" #tabGroup (selectedTabChange)="onTabChange($event)">
         <hr class="line" />
@@ -24,24 +23,26 @@
                 [ngClass]="!isAllowChildToApply && selectedChild?.id ? 'redBorder step-input' : 'step-input'"
                 [formControl]="ChildFormControl"
                 [(ngModel)]="selectedChild"
-                (selectionChange)="onSelectChild($event)"
-              >
+                (selectionChange)="onSelectChild($event)">
                 <mat-option *ngFor="let child of children" [value]="child" class="dropdown-option">
                   {{ child.lastName }} {{ child.firstName }} {{ child.middleName }}
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">Дитина не може бути прийнята в гурток</small>
-            <app-validation-hint [validationFormControl]="ChildFormControl" [isTouched]="ChildFormControl.touched"> </app-validation-hint>
+            <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id"
+              >Дитина не може бути прийнята в гурток</small
+            >
+            <app-validation-hint [validationFormControl]="ChildFormControl" [isTouched]="ChildFormControl.touched">
+            </app-validation-hint>
 
-            <div fxLayout="column" fxLayoutAlign="center center">
-              <p class="background-text">
-                Немає дитини у списку?
-                <a [routerLink]="['/create-child', ModeConstants.NEW]" [queryParams]="{ workshopId: workshop?.id }">
-                  <button class="btn-add" mat-button><mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину</button>
-                </a>
-              </p>
-            </div>
+            <p class="background-text">
+              Немає дитини у списку?
+              <a [routerLink]="['/create-child', ModeConstants.NEW]" [queryParams]="{ workshopId: workshop?.id }">
+                <button class="btn-add" mat-button>
+                  <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одну дитину
+                </button>
+              </a>
+            </p>
 
             <div *ngIf="selectedChild" class="info-wrapper">
               <p class="step-label">Дані про дитину</p>
@@ -52,27 +53,50 @@
               </div>
             </div>
 
-            <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box">
-              <mat-checkbox class="step-check-box" color="primary" [formControl]="AttendAgreementFormControl">
-                Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас
-              </mat-checkbox>
-              <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControl">
-                Моя дитина не має противопоказів щодо відвідування гуртка/секції/класу
-              </mat-checkbox>
-              <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
-                Я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
-                та надаю згоду на обробку персональних даних
-              </mat-checkbox>
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="1rem">
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-checkbox
+                  class="step-check-box"
+                  color="primary"
+                  [formControl]="AttendAgreementFormControl"></mat-checkbox>
+                <label class="checkbox-label"> Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас </label>
+              </div>
+
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-checkbox
+                  class="step-check-box"
+                  color="primary"
+                  [formControl]="ContraindicationAgreementFormControl"></mat-checkbox>
+                <label class="checkbox-label">
+                  Моя дитина не має противопоказів щодо відвідування гуртка/секції/класу
+                </label>
+              </div>
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-checkbox class="step-check-box" color="primary" [formControl]="ParentAgreementFormControl">
+                </mat-checkbox>
+                <label class="checkbox-label"
+                  >Я погоджуюсь з
+                  <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a> та надаю
+                  згоду на обробку персональних даних</label
+                >
+              </div>
             </div>
             <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-              <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
+              <a [routerLink]="['/details/workshop', workshopId]"
+                ><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a
+              >
               <button
                 class="btn"
                 mat-button
                 type="submit"
-                [disabled]="!isAttendAgreed || !isContraindicationAgreed || !isParentAgreed || !selectedChild || !isAllowChildToApply"
-                (click)="onSubmit()"
-              >
+                [disabled]="
+                  !isAttendAgreed ||
+                  !isContraindicationAgreed ||
+                  !isParentAgreed ||
+                  !selectedChild ||
+                  !isAllowChildToApply
+                "
+                (click)="onSubmit()">
                 ВІДПРАВИТИ
               </button>
             </div>
@@ -87,22 +111,38 @@
               <p class="step-label">Персональні дані</p>
               <app-person-card *ngIf="parentCard" [child]="parentCard"> </app-person-card>
             </div>
-            <mat-checkbox class="step-check-box" color="primary" [formControl]="ContraindicationAgreementFormControlYourself">
-              Я не маю противопоказів щодо відвідування гуртка/секції/класу
-            </mat-checkbox>
-            <mat-checkbox class="step-check-box" color="primary" [formControl]="AttendAgreementFormControlYourself">
-              Я погоджуюсь з <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
-              та надаю згоду на обробку персональних даних
-            </mat-checkbox>
+
+            <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="1rem">
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-checkbox
+                  class="step-check-box"
+                  color="primary"
+                  [formControl]="ContraindicationAgreementFormControlYourself">
+                </mat-checkbox>
+                <label class="checkbox-label"> Я не маю противопоказів щодо відвідування гуртка/секції/класу </label>
+              </div>
+
+              <div fxLayout="row" fxLayoutAlign="start start">
+                <mat-checkbox class="step-check-box" color="primary" [formControl]="AttendAgreementFormControlYourself">
+                </mat-checkbox>
+                <label class="checkbox-label">
+                  Я погоджуюсь з
+                  <a class="link" [routerLink]="'/info/rules'" target="_blank"> Правилами користування</a>
+                  та надаю згоду на обробку персональних даних
+                </label>
+              </div>
+            </div>
+
             <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-              <a [routerLink]="['/details/workshop', workshopId]"><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a>
+              <a [routerLink]="['/details/workshop', workshopId]"
+                ><button class="btn btn-cancel" mat-raised-button>СКАСУВАТИ</button></a
+              >
               <button
                 class="btn"
                 mat-button
                 type="submit"
                 [disabled]="!isContraindicationAgreementYourself || !isAttendAgreementYourself || !isAllowChildToApply"
-                (click)="onSubmit()"
-              >
+                (click)="onSubmit()">
                 ВІДПРАВИТИ
               </button>
             </div>

@@ -1,7 +1,9 @@
 <div class="card-person">
   <div class="card-edit">
     <label class="card-label">ПІБ</label>
-    <a class="edit" [routerLink]="[editLink, !child.isParent && child.id]"> <mat-icon>create</mat-icon>Редагувати </a>
+    <a [routerLink]="[editLink, !child.isParent && child.id]" class="edit">
+      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Редагувати</button>
+    </a>
   </div>
   <p>{{ child.lastName }} {{ child.firstName }} {{ child.middleName }}</p>
   <label class="card-label">Дата народження</label>

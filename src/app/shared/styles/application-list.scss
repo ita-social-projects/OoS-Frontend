@@ -1,11 +1,16 @@
-.tab-wrapper {
-  bottom: 3rem;
-  position: relative;
-}
 .dropdown {
   display: flex;
   justify-content: flex-end;
   z-index: 1000;
+  position: absolute;
+  right: 18px;
+}
+
+.wrapper {
+  position: relative;
+}
+.tab-wrapper {
+  margin-bottom: 4rem;
 }
 @media (max-width: 1070px) {
   .tab-wrapper {
