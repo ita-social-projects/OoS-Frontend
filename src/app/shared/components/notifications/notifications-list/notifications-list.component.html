@@ -38,7 +38,9 @@
               </div>
               <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
               <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
-                <button mat-menu-item (click)="onReadGroup(groupByType); stopPropagation($event)">Прочитати групу</button>
+                <button mat-menu-item [disabled]="!!groupByType.isRead" (click)="onReadGroup(groupByType); stopPropagation($event)">
+                  Прочитати групу
+                </button>
               </mat-menu>
             </div>
             <div
@@ -78,7 +80,13 @@
               </div>
               <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
               <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
-                <button mat-menu-item (click)="onReadSingle(notification); stopPropagation($event)">Позначити як прочитане</button>
+                <button
+                  mat-menu-item
+                  [disabled]="!!notification.readDateTime"
+                  (click)="onReadSingle(notification); stopPropagation($event)"
+                >
+                  Позначити як прочитане
+                </button>
                 <button mat-menu-item (click)="onDeleteSingle(notification); stopPropagation($event)">Видалити сповіщення</button>
               </mat-menu>
             </div>
