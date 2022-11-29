@@ -61,13 +61,13 @@
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
     <div class="chip-color-close">
-      {{ RecruitmentStatusEnum.RecruitmentStoped | translate }}
+      {{ recruitmentStatusEnum.RecruitmentStoped | translate }}
     </div>
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
       (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
-      <span class="card_link">{{ RecruitmentStatusEnum.Open | translate }}</span>
+      <span class="card_link">{{ recruitmentStatusEnum.Open | translate }}</span>
     </a>
   </div>
 </ng-template>
@@ -105,13 +105,13 @@
   <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
     <div fxLayoutAlign="space-between">
       <div class="chip-color-open">
-        {{ recruitmentStatusUkr.RecruitmentOngoing | translate }}
+        {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
       </div>
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
         (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
-        <span class="card_link">{{ recruitmentStatusUkr.Stop | translate }}</span>
+        <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
       </a>
     </div>
   </ng-container>

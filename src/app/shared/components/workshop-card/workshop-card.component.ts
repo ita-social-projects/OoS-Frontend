@@ -32,7 +32,7 @@ import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warnin
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly OwnershipTypeEnum = OwnershipTypeEnum;
-  readonly RecruitmentStatusEnum = RecruitmentStatusEnum;
+  readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   readonly Role = Role;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   readonly categoryIcons = CategoryIcons;
