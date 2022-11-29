@@ -127,6 +127,10 @@
 
   &__link {
     transition: color 0.1s ease;
+
+    &:active {
+      color: #3849f9;
+    }
   }
 }
 
@@ -141,4 +145,16 @@
 
 .no-message {
   padding: 0.75rem 1rem;
+}
+
+@media (max-width: 750px) {
+  .notifications-list {
+    width: auto;
+  }
+
+  .header-notification {
+    >.icon {
+      opacity: 1;
+    }
+  }
 }
