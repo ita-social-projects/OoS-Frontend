@@ -54,8 +54,8 @@
                 class="header-notification header-notification__group-details info"
                 (click)="onGroupByStatusClick(group)"
               >
+                <span class="info__description info__link">{{ group.amount | declination: defineDeclination(group.groupedData) }}</span>
                 <mat-icon class="icon">navigate_next</mat-icon>
-                <span class="info__description">{{ group.amount | declination: defineDeclination(group.groupedData) }}</span>
               </div>
             </div>
           </div>

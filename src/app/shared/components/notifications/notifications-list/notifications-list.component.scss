@@ -80,6 +80,10 @@
       opacity: 1;
       transition: opacity 0.1s;
     }
+
+    >.info__link {
+      color: #3849f9;
+    }
   }
 
   &__group-info {
@@ -87,9 +91,10 @@
   }
 
   &__group-details {
-    justify-content: start;
     align-items: center;
     gap: 0.25rem;
+
+    padding-left: 2rem;
   }
 
   &__single-info {
@@ -118,6 +123,10 @@
     font-weight: 400;
     line-height: 1.125rem;
     color: #aaaaaa;
+  }
+
+  &__link {
+    transition: color 0.1s ease;
   }
 }
 
