@@ -81,7 +81,7 @@
       transition: opacity 0.1s;
     }
 
-    >.info__link {
+    >.info__link, >.icon__link {
       color: #3849f9;
     }
   }
@@ -139,7 +139,7 @@
   transition: max-height 0.5s;
 
   &__single {
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem 0.75rem 2rem;
   }
 }
 
