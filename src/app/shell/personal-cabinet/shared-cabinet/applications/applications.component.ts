@@ -56,7 +56,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
-  tabIndex: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   isMobileView: boolean;
 
@@ -66,9 +65,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(StatusTitles).indexOf(params['status']);
-    });
     this.onResize(window);
   }
 
@@ -81,7 +77,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.tabGroup.selectedIndex = this.tabIndex;
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+      this.tabGroup.selectedIndex = Object.keys(StatusTitles).indexOf(params['status']);
+    });
   }
 
   ngOnInit(): void {
