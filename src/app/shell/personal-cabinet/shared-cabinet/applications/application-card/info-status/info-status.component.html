@@ -15,12 +15,14 @@
       >info_outline</i
     ></span
   >
-  <mat-menu class="status-menu" #menu="matMenu" disabled [overlapTrigger]="false" xPosition="after" class="mat-application-menu">
-    <div class="application-popup-status {{ status }}">
-      <span> <i class="{{ applicationIcons[status] }}"></i></span>
-      <span> {{ statusTitles[status] }}</span>
+  <mat-menu #menu="matMenu" disabled [overlapTrigger]="false" xPosition="after" class="mat-application-menu">
+    <div class="menu-wrapper">
+      <div class="application-popup-status {{ status }}">
+        <span> <i class="{{ applicationIcons[status] }}"></i></span>
+        <span> {{ statusTitles[status] }}</span>
+      </div>
+      <div class="application-info-menu application-info-description-card">({{ applicationStatusDescription[status] }})</div>
+      <p *ngIf="reason" class="application-info-menu">{{ reason | textSliceTransform }}</p>
     </div>
-    <div class="application-info-menu application-info-description-card">({{ applicationStatusDescription[status] }})</div>
-    <p *ngIf="reason" class="application-info-menu">{{ reason | textSliceTransform }}</p>
   </mat-menu>
 </div>

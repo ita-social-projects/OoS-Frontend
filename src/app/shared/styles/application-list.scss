@@ -9,18 +9,7 @@
 .wrapper {
   position: relative;
 }
-.tab-wrapper {
-  margin-bottom: 4rem;
-}
-@media (max-width: 1070px) {
-  .tab-wrapper {
-    bottom: 0;
-  }
-  .dropdown {
-    display: flex;
-    justify-content: flex-start;
-  }
-}
+
 .activeInfoBtn {
   color: #3849f9;
   font-size: 30px;
@@ -38,4 +27,14 @@
   font-family: 'Innerspace';
   font-weight: 700;
   font-size: 18px;
+}
+
+@media (max-width: 1200px) {
+  .dropdown {
+    position: static;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    display: flex;
+    justify-content: flex-start;
+  }
 }
