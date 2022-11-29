@@ -198,6 +198,10 @@ $config: mat.define-typography-config(
       line-height: 18px;
 
       color: #272425;
+
+      &[disabled] {
+        color: lighten($color: #272425, $amount: 50);
+      }
     }
   }
 }
