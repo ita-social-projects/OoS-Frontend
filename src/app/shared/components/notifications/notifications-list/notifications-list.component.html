@@ -4,8 +4,8 @@
       <h3 class="notifications-list__title">СПОВІЩЕННЯ</h3>
       <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
-        <button mat-menu-item [disabled]="!!notificationsAmount" (click)="onReadAll()">Позначити всі як прочитані</button>
-        <button mat-menu-item [disabled]="!!notifications.length || groupsByType.length">Видалити всі</button>
+        <button mat-menu-item [disabled]="!notificationsAmount.amount" (click)="onReadAll()">Позначити всі як прочитані</button>
+        <button mat-menu-item [disabled]="!(notifications.length || groupsByType.length)">Видалити всі</button>
       </mat-menu>
     </div>
 
