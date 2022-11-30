@@ -13,6 +13,7 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -29,7 +30,8 @@ describe('HeaderComponent', () => {
         RouterTestingModule,
         MatMenuModule,
         MatSelectModule,
-        MatProgressBarModule
+        MatProgressBarModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         HeaderComponent,
@@ -38,11 +40,8 @@ describe('HeaderComponent', () => {
         MockNotificationsComponent,
         ProgressBarComponent
       ],
-      providers: [
-        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
-      ]
-    })
-      .compileComponents();
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -60,17 +59,16 @@ describe('HeaderComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockSearchBarComponent {
-}
+class MockSearchBarComponent {}
 
 @Component({
   selector: 'app-navigation-mobile-bar',
   template: ''
 })
-class MockNavigationMobileBarComponent { }
+class MockNavigationMobileBarComponent {}
 
 @Component({
   selector: 'app-notifications',
   template: ''
 })
-class MockNotificationsComponent { }
+class MockNotificationsComponent {}

@@ -4,6 +4,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { User } from '../../shared/models/user.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('PersonalCabinetComponent', () => {
   let component: PersonalCabinetComponent;
@@ -12,13 +13,9 @@ describe('PersonalCabinetComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        RouterTestingModule
-      ],
-      declarations: [PersonalCabinetComponent],
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot()],
+      declarations: [PersonalCabinetComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

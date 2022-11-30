@@ -17,7 +17,8 @@ import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 import { MetaDataState } from '../shared/store/meta-data.state';
 import { MainPageState } from '../shared/store/main-page.state';
 import { CompanyInformation } from '../shared/models/сompanyInformation.model';
-import { GetMainPageInfo } from '../shared/store/main-page.actions';;
+import { GetMainPageInfo } from '../shared/store/main-page.actions';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-header',
@@ -34,24 +35,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userShortName = '';
 
   @Select(RegistrationState.isAutorizationLoading)
-    isAutorizationLoading$: Observable<boolean>;
+  isAutorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
-    isRegistered$: Observable<boolean>;
+  isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
-    navigationPaths$: Observable<Navigation[]>;
+  navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
-    isAuthorized$: Observable<string>;
+  isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
-    isMobileScreen$: Observable<boolean>;
+  isMobileScreen$: Observable<boolean>;
+  isMobileScreen: boolean;
   @Select(RegistrationState.user)
-    user$: Observable<User>;
+  user$: Observable<User>;
   user: User;
   @Select(MetaDataState.featuresList)
-    featuresList$: Observable<FeaturesList>;
+  featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
-    subrole$: Observable<string>;
+  subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
-    headerInfo$: Observable<CompanyInformation>;
+  headerInfo$: Observable<CompanyInformation>;
   headerTitle: string;
   headerSubtitle: string;
   navigationPaths: Navigation[];
@@ -60,21 +62,25 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(private store: Store, private router: Router, private translate: TranslateService) {}
 
-  changeView(): void {
+  onViewChange(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
   ngOnInit(): void {
     this.store.dispatch(new GetMainPageInfo());
-    
+
     combineLatest([this.subrole$, this.navigationPaths$])
       .pipe(takeUntil(this.destroy$), delay(0))
       .subscribe(([subrole, navigationPaths]: [Role, Navigation[]]) => {
         this.subrole = subrole;
         this.navigationPaths = navigationPaths;
       });
+
+    this.isMobileScreen$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isMobileScreen: boolean) => (this.isMobileScreen = isMobileScreen));
 
     this.user$
       .pipe(
@@ -85,7 +91,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.userShortName = this.getFullName(user);
         this.user = user;
       });
-    
+
     this.headerInfo$
       .pipe(
         filter((info: CompanyInformation) => !!info),
@@ -98,14 +104,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${
+      user.middleName ? user.middleName.slice(0, 1) + '.' : ' '
+    }`;
   }
 
-  logout(): void {
+  onLogout(): void {
     this.store.dispatch(new Logout());
   }
 
-  login(): void {
+  onLogin(): void {
     this.store.dispatch(new Login(false));
   }
 
@@ -114,6 +122,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   setLanguage(): void {
+    this.translate.use(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 

@@ -4,19 +4,32 @@
     <button class="btn" mat-raised-button>Додати досягнення</button>
   </a>
 </div>
-
-<div class="card-wrapper" *ngIf="achievements?.length; else isEmptyList">
-  <ng-container *ngIf="achievementsTypes">
-    <app-achievement-card
-      *ngFor="let achievement of achievements"
-      [achievement]="achievement"
-      [workshop]="workshop"
-      [achievementsTypes]="achievementsTypes"
-      (deleteAchievement)="onDelete($event)"
-      [isAllowedEdit]="isAllowedEdit">
-    </app-achievement-card>
+<ng-container *ngIf="!(isLoading$ | async) && !!achievements">
+  <div class="card-wrapper" *ngIf="achievements?.totalAmount; else isEmptyList">
+    <ng-container *ngIf="achievementsTypes">
+      <app-achievement-card
+        *ngFor="let achievement of achievements?.entities"
+        [achievement]="achievement"
+        [workshop]="workshop"
+        [achievementsTypes]="achievementsTypes"
+        (deleteAchievement)="onDelete($event)"
+        [isAllowedEdit]="isAllowedEdit"
+      >
+      </app-achievement-card>
+    </ng-container>
+  </div>
+  <ng-container *ngIf="achievements.totalAmount">
+    <app-paginator
+      [totalEntities]="achievements.totalAmount"
+      [currentPage]="currentPage"
+      [itemsPerPage]="achievementPerPage"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)"
+    >
+    </app-paginator>
   </ng-container>
-</div>
+</ng-container>
+
 
 <ng-template #isEmptyList>
   <ng-container *ngIf="!isAllowedEdit">

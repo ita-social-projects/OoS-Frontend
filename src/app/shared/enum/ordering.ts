@@ -4,5 +4,5 @@ export enum Ordering {
   priceDesc = 'PriceDesc',
   priceAsc = 'PriceAsc',
   alphabet = 'Alphabet',
-  nearest = 'Nearest',
+  nearest = 'Nearest'
 }

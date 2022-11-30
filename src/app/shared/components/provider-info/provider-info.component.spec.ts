@@ -14,6 +14,7 @@ import { Provider } from '../../models/provider.model';
 import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
 
 import { ProviderInfoComponent } from './provider-info.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderInfoComponent', () => {
   let component: ProviderInfoComponent;
@@ -31,8 +32,9 @@ describe('ProviderInfoComponent', () => {
         HttpClientTestingModule,
         MatTabsModule,
         BrowserAnimationsModule,
+        TranslateModule.forRoot(),
       ],
-      declarations: [ProviderInfoComponent, PhoneTransformPipe],
+      declarations: [ProviderInfoComponent, PhoneTransformPipe]
     }).compileComponents();
   });
 

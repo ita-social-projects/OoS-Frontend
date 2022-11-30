@@ -22,7 +22,7 @@ export class PaginatorComponent implements OnChanges {
   totalPageAmount: number;
   listOfValues: Array<number> = [8, 12, 16, 20];
 
-  constructor() { }
+  constructor() {}
 
   init(): void {
     this.totalPageAmount = this.getTotalPageAmount();
@@ -46,7 +46,7 @@ export class PaginatorComponent implements OnChanges {
   onArroveClick(isForward: boolean): void {
     const page: PaginationElement = {
       element: '',
-      isActive: true,
+      isActive: true
     };
     if (isForward) {
       page.element = +this.currentPage.element + 1;
@@ -74,7 +74,7 @@ export class PaginatorComponent implements OnChanges {
 
     const carouselLength = this.constants.MAX_PAGE_PAGINATOR_DISPLAY + startPage - 1;
 
-    const endPage = (carouselLength <= this.totalPageAmount) ? carouselLength : this.totalPageAmount;
+    const endPage = carouselLength <= this.totalPageAmount ? carouselLength : this.totalPageAmount;
 
     const pageList: PaginationElement[] = [];
 

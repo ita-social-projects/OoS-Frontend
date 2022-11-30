@@ -8,7 +8,7 @@ import { takeUntil, filter } from 'rxjs/operators';
 import { MatSelectChange } from '@angular/material/select';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Application } from '../../../../shared/models/application.model';
@@ -27,20 +27,22 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-create-application',
   templateUrl: './create-application.component.html',
-  styleUrls: ['./create-application.component.scss'],
+  styleUrls: ['./create-application.component.scss']
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
+  readonly ModeConstants = ModeConstants;
+
   @Select(ParentState.children)
-    children$: Observable<SearchResponse<Child[]>>;
+  children$: Observable<SearchResponse<Child[]>>;
   children: Child[];
   parentCard: Child;
   @Select(ParentState.isAllowChildToApply)
-    isAllowChildToApply$: Observable<boolean>;
+  isAllowChildToApply$: Observable<boolean>;
   @Select(RegistrationState.parent)
-    parent$: Observable<ParentWithContactInfo>;
+  parent$: Observable<ParentWithContactInfo>;
   parent: ParentWithContactInfo;
   @Select(SharedUserState.selectedWorkshop)
-    workshop$: Observable<Workshop>;
+  workshop$: Observable<Workshop>;
   workshop: Workshop;
 
   ContraindicationAgreementFormControl = new FormControl(false);
@@ -75,12 +77,8 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshopById(this.workshopId));
-    this.ParentAgreementFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => (this.isParentAgreed = val));
-    this.AttendAgreementFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => (this.isAttendAgreed = val));
+    this.ParentAgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isParentAgreed = val));
+    this.AttendAgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAttendAgreed = val));
     this.ContraindicationAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isContraindicationAgreed = val));
@@ -90,9 +88,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.AttendAgreementFormControlYourself.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isAttendAgreementYourself = val));
-    this.isAllowChildToApply$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((status: boolean) => (this.isAllowChildToApply = status));
+    this.isAllowChildToApply$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isAllowChildToApply = status));
 
     this.children$
       .pipe(
@@ -120,11 +116,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
                 name: `Гурток "${this.workshop.title}"`,
                 path: `/details/workshop/${this.workshop.id}`,
                 isActive: false,
-                disable: false,
+                disable: false
               },
               { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
             )
-          ),
+          )
         ]);
       });
   }
@@ -143,17 +139,13 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.createApplication,
-        property: this.workshop.title,
-      },
+        property: this.workshop.title
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const application = new Application(
-          this.tabIndex ? this.parentCard : this.selectedChild,
-          this.workshop,
-          this.parent
-        );
+        const application = new Application(this.tabIndex ? this.parentCard : this.selectedChild, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));
       }
     });

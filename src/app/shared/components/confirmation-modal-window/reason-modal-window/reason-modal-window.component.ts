@@ -1,9 +1,13 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import {
+  ModalConfirmationDescription,
+  ModalConfirmationText,
+  ModalConfirmationTitle,
+  ModalConfirmationType
+} from './../../../enum/modal-confirmation';
+import { ValidationConstants } from './../../../constants/validation';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { ModalConfirmationDescription, ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType} from '../../../../../shared/enum/modal-confirmation';
-import { Application } from '../../../../../shared/models/application.model';
 
 @Component({
   selector: 'app-reason-modal-window',
@@ -11,10 +15,8 @@ import { Application } from '../../../../../shared/models/application.model';
   styleUrls: ['./reason-modal-window.component.scss']
 })
 export class ReasonModalWindowComponent implements OnInit {
-
   readonly validationConstants = ValidationConstants;
 
-  @Input() application: Application;
   modalTitle: string;
   modalConfirmationText: string;
   modalConfirmationDescription: string;
@@ -27,11 +29,12 @@ export class ReasonModalWindowComponent implements OnInit {
   ]);
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      type: string,
-      property: string
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      type: string;
+      property: string;
     },
-    private dialogRef: MatDialogRef<ReasonModalWindowComponent>,
+    private dialogRef: MatDialogRef<ReasonModalWindowComponent>
   ) {}
 
   ngOnInit(): void {
@@ -44,5 +47,3 @@ export class ReasonModalWindowComponent implements OnInit {
     this.dialogRef.close();
   }
 }
-
-

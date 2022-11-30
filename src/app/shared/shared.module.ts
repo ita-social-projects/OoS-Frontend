@@ -5,7 +5,7 @@ import { AgeFilterComponent } from './components/filters-list/age-filter/age-fil
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { CityFilterComponent } from './components/filters-list/city-filter/city-filter.component';
-import { WorkshopCardComponent, WorkshopCardDialog } from './components/workshop-card/workshop-card.component';
+import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
@@ -62,8 +62,16 @@ import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/star
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
+import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
 import { StretchTableDirective } from './directives/stretch-table/stretch-table.directive';
+import { ReasonModalWindowComponent } from './components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
+import { TranslateModule } from '@ngx-translate/core';
+import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
+import { GetAddressPipe } from './pipes/get-address.pipe';
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +91,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     ApplicationChildFilterPipe,
     MapComponent,
     ConfirmationModalWindowComponent,
+    ReasonModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStylingDirective,
     NavigationBarComponent,
@@ -97,7 +106,6 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
-    WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
     NotificationsComponent,
@@ -122,8 +130,13 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    TextSliceTransformPipe,
     StretchCellComponent,
     StretchTableDirective,
+    UserRadiusSetComponent,
+    UnregisteredUserWarningModalComponent,
+    EmptyValueTransformPipe,
+    GetAddressPipe
   ],
 
   imports: [
@@ -136,7 +149,9 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     NgxSliderModule,
     NgxMatTimepickerModule,
     IvyCarouselModule,
-    ImageCropperModule
+    ImageCropperModule,
+    TranslateModule,
+    CdkAccordionModule
   ],
 
   exports: [
@@ -156,6 +171,7 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     MapComponent,
     ApplicationChildFilterPipe,
     ConfirmationModalWindowComponent,
+    ReasonModalWindowComponent,
     PlaceholderFormDirective,
     ValidationMessageStylingDirective,
     NavigationBarComponent,
@@ -171,7 +187,6 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     StatusInfoCardComponent,
     NoResultCardComponent,
     WorkingHoursFormComponent,
-    WorkshopCardDialog,
     SidenavFiltersComponent,
     ImageCarouselComponent,
     NotificationsComponent,
@@ -192,8 +207,13 @@ import { StretchTableDirective } from './directives/stretch-table/stretch-table.
     StarsComponent,
     JoinPipe,
     GetFullNamePipe,
+    TextSliceTransformPipe,
     StretchCellComponent,
     StretchTableDirective,
+    UserRadiusSetComponent,
+    UnregisteredUserWarningModalComponent,
+    EmptyValueTransformPipe,
+    GetAddressPipe
   ]
 })
-export class SharedModule { }
+export class SharedModule {}

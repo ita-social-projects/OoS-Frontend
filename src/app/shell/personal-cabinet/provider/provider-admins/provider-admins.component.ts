@@ -23,7 +23,7 @@ import { ProviderState } from './../../../../shared/store/provider.state';
 @Component({
   selector: 'app-provider-admins',
   templateUrl: './provider-admins.component.html',
-  styleUrls: ['./provider-admins.component.scss'],
+  styleUrls: ['./provider-admins.component.scss']
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
@@ -32,21 +32,16 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   readonly constants = Constants;
 
   @Select(ProviderState.isLoading)
-    isLoadingCabinet$: Observable<boolean>;
+  isLoadingCabinet$: Observable<boolean>;
   @Select(ProviderState.providerAdmins)
-    providerAdmins$: Observable<ProviderAdmin[]>;
+  providerAdmins$: Observable<ProviderAdmin[]>;
 
   providerAdmins: ProviderAdminTable[] = [];
   filterFormControl: FormControl = new FormControl('');
   filterValue: string;
   tabIndex: number;
 
-  constructor(
-    protected store: Store,
-    protected matDialog: MatDialog,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {
+  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router, private route: ActivatedRoute) {
     super(store, matDialog);
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
@@ -61,7 +56,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] },
+      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] }
     });
   }
 
@@ -73,8 +68,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       width: Constants.MODAL_SMALL,
       data: {
         type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
-        property: user.pib,
-      },
+        property: user.pib
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -82,7 +77,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         this.store.dispatch(
           new DeleteProviderAdminById({
             userId: user.id,
-            providerId: this.provider.id,
+            providerId: this.provider.id
           })
         );
     });
@@ -93,8 +88,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    */
   onBlock(admin: BlockData): void {
     let messageType: string;
- 
-    if(admin.user.isDeputy) {
+
+    if (admin.user.isDeputy) {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
@@ -104,8 +99,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       width: Constants.MODAL_SMALL,
       data: {
         type: messageType,
-        property: admin.user.pib,
-      },
+        property: admin.user.pib
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -122,7 +117,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   /**
    * This method update provider Admin By Id
-  */
+   */
   onUpdate(user: ProviderAdminTable): void {
     this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`]);
   }
@@ -132,7 +127,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       new PushNavPath({
         name: NavBarName.Administration,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -172,9 +167,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   private addProviderAdminsSubscribtions(): void {
     this.filterFormControl.valueChanges
       .pipe(
-        takeUntil(this.destroy$),
         debounceTime(200),
         distinctUntilChanged(),
+        takeUntil(this.destroy$),
         filter((val: string) => !!val)
       )
       .subscribe((val: string) => (this.filterValue = val));
@@ -184,8 +179,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
         takeUntil(this.destroy$)
       )
-      .subscribe(
-        (providerAdmins: ProviderAdmin[]) => (this.providerAdmins = this.updateStructureForTheTable(providerAdmins))
-      );
+      .subscribe((providerAdmins: ProviderAdmin[]) => (this.providerAdmins = this.updateStructureForTheTable(providerAdmins)));
   }
 }

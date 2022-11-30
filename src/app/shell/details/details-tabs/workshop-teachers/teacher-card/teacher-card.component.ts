@@ -4,7 +4,6 @@ import { Constants } from '../../../../../shared/constants/constants';
 import { Teacher } from '../../../../../shared/models/teacher.model';
 import { Util } from '../../../../../shared/utils/utils';
 
-
 @Component({
   selector: 'app-teacher-card',
   templateUrl: './teacher-card.component.html',
@@ -18,8 +17,7 @@ export class TeacherCardComponent implements OnInit {
   teacherFullName: string;
   coverImageUrl: string;
 
-  constructor() {
-  }
+  constructor() {}
 
   ngOnInit(): void {
     this.teacherFullName = Util.getFullName(this.teacher);
@@ -27,9 +25,6 @@ export class TeacherCardComponent implements OnInit {
   }
 
   private getCoverImageUrl(): void {
-    this.coverImageUrl = this.teacher.coverImageId ?
-      environment.storageUrl + this.teacher.coverImageId :
-      'assets/icons/teacher.png';
+    this.coverImageUrl = this.teacher.coverImageId ? environment.storageUrl + this.teacher.coverImageId : 'assets/icons/teacher.png';
   }
-
 }

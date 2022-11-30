@@ -18,7 +18,6 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
   workingDays: string[] = [];
-
   workdaysFormControl = new FormControl(['']);
   startTimeFormControl = new FormControl('');
   endTimeFormControl = new FormControl('');
@@ -29,17 +28,19 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   @Output() deleteWorkingHour = new EventEmitter();
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
     this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
     this.startTimeFormControl = this.workingHoursForm.get('startTime') as FormControl;
     this.endTimeFormControl = this.workingHoursForm.get('endTime') as FormControl;
 
-    this.workingHoursForm.valueChanges.pipe(
-      filter(() => !this.workdaysFormControl.touched),
-      takeUntil(this.destroy$)
-    ).subscribe(() => this.workdaysFormControl.markAsTouched());
+    this.workingHoursForm.valueChanges
+      .pipe(
+        filter(() => !this.workdaysFormControl.touched),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => this.workdaysFormControl.markAsTouched());
 
     this.workdaysFormControl.value.length && this.activateEditMode();
   }
@@ -78,7 +79,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workdaysFormControl.value.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
           day.selected = true;
-          this.workingDays.push(day.value);
+          this.workingDays.push(workDay.toLowerCase());
         }
       });
     });

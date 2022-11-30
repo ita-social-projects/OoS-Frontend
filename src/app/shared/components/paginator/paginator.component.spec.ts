@@ -4,6 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatOptionModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { PaginationConstants } from '../../constants/constants';
 
@@ -15,17 +16,10 @@ describe('PaginatorComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatButtonModule,
-        MatIconModule,
-        MatSelectModule,
-        MatOptionModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [MatButtonModule, MatIconModule, MatSelectModule, MatOptionModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PaginatorComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

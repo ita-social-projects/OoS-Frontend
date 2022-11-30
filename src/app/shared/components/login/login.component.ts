@@ -4,11 +4,10 @@ import { Login } from '../../store/registration.actions';
 
 @Component({
   selector: 'app-login',
-  template: '',
+  template: ''
 })
 export class LoginComponent implements OnInit {
-
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
     this.store.dispatch(new Login(false));

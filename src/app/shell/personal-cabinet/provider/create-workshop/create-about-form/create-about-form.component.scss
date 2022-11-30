@@ -1,13 +1,13 @@
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/toggle-button.scss";
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/toggle-button.scss';
 
-.pay-type{
+.pay-type {
   flex-grow: 1;
 }
 
-.price-text{
+.price-text {
   width: 65px;
 }
 
@@ -16,27 +16,28 @@
   text-align: center;
 }
 
-::ng-deep .dropdown-panel{
-  max-height:150px !important;
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
 }
 
 @media (max-width: 750px) {
-  .conteiner{
+  .conteiner {
     flex-direction: column !important;
-    align-items:initial !important;
-    }
+    align-items: initial !important;
+  }
 
-  .price::after{
-    content: "грн";
+  .price::after {
+    content: 'грн';
     font-weight: 700;
-    color:#AAAAAA;
-    padding:5px;
-    line-height:initial;
+    color: #aaaaaa;
+    padding: 5px;
+    line-height: initial;
     width: 65px;
-    }
+  }
 
-  .price, .radio-button-wrap {
-    place-content:flex-start !important;
+  .price,
+  .radio-button-wrap {
+    place-content: flex-start !important;
   }
   .step-input-age {
     max-width: 100%;
@@ -44,10 +45,28 @@
   }
 }
 
-::ng-deep .mat-form-field {
-  .mat-form-field-wrapper  {
-    padding:0;
+::ng-deep  {
+  .mat-form-field {
+    .mat-form-field-wrapper {
+      padding: 0;
+    }
+  }
+  .hint-menu {
+    width: 600px;
+    max-width: max-content;
+    background: #ffffff;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 5px !important;
+    padding: 1rem;
+    .hint-menu.isMobile {
+      width: 90vw;
+    }
+    .mat-menu-content {
+      color: grey;
+      font-family: 'Open Sans';
+      font-style: normal;
+      font-weight: 400;
+      font-size: 12px;
+    }
   }
 }
-
-

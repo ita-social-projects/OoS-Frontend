@@ -26,6 +26,7 @@ import { CreateWorkshopAddressComponent } from './create-workshop/create-worksho
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { GeolocationService } from '../../../shared/services/geolocation/geolocation.service';
 import { SharedModule } from '../../../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -57,13 +58,9 @@ import { SharedModule } from '../../../shared/shared.module';
     SharedCabinetModule,
     RouterModule,
     FormsModule,
+    TranslateModule
   ],
 
-  providers: [
-    DatePipe,
-    GeolocationService
-  ],
-
+  providers: [DatePipe, GeolocationService]
 })
-export class ProviderModule {
-}
+export class ProviderModule {}

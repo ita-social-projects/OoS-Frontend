@@ -28,10 +28,10 @@ describe('CreateDirectionComponent', () => {
         RouterTestingModule,
         MatStepperModule,
         MatDialogModule,
-        NoopAnimationsModule,
+        NoopAnimationsModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [CreateDirectionComponent],
+      declarations: [CreateDirectionComponent]
     }).compileComponents();
   });
 

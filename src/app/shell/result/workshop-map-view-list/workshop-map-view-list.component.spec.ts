@@ -17,21 +17,14 @@ describe('WorkshopMapViewListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        FlexLayoutModule,
-        CommonModule,
-        RouterTestingModule,
-        MatCardModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [FlexLayoutModule, CommonModule, RouterTestingModule, MatCardModule, NgxsModule.forRoot([])],
       declarations: [
         WorkshopMapViewListComponent,
         MockMapListWorkshopCardComponent,
         MockResultMapComponent,
         MockMapWorkshopCardPaginatorComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

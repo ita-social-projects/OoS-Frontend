@@ -121,22 +121,22 @@ export class GetApplicationHistory {
 
 export class GetMinistryAdminProfile {
   static readonly type = '[admin] Get Ministry Admin Profile';
-  constructor() { }
+  constructor() {}
 }
 
 export class CreateMinistryAdmin {
   static readonly type = '[admin] create Ministry Admin';
-  constructor(public payload: MinistryAdmin) { }
+  constructor(public payload: MinistryAdmin) {}
 }
 
 export class OnCreateMinistryAdminFail {
   static readonly type = '[admin] create Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnCreateMinistryAdminSuccess {
   static readonly type = '[admin] create Ministry Admin success';
-  constructor() { }
+  constructor() {}
 }
 
 export class GetAllMinistryAdmins {
@@ -151,46 +151,45 @@ export class GetMinistryAdminById {
 
 export class DeleteMinistryAdminById {
   static readonly type = '[admin] delete Ministry Admin';
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class OnDeleteMinistryAdminSuccess {
   static readonly type = '[admin] delete Ministry Admin success';
-  constructor() { }
+  constructor() {}
 }
 
 export class OnDeleteMinistryAdminFail {
   static readonly type = '[admin] delete Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class BlockMinistryAdminById {
   static readonly type = '[admin] block Ministry Admin';
-  constructor(public payload: MinistryAdminBlockData) { }
+  constructor(public payload: MinistryAdminBlockData) {}
 }
 
 export class OnBlockMinistryAdminSuccess {
   static readonly type = '[admin] block Ministry Admin success';
-  constructor(public payload: MinistryAdminBlockData ) { }
+  constructor(public payload: MinistryAdminBlockData) {}
 }
 
 export class OnBlockMinistryAdminFail {
   static readonly type = '[admin] block Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class UpdateMinistryAdmin {
   static readonly type = '[admin] update Ministry Admin';
-  constructor(public payload: MinistryAdmin) { }
+  constructor(public payload: MinistryAdmin) {}
 }
 
 export class OnUpdateMinistryAdminFail {
   static readonly type = '[admin] update Ministry Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnUpdateMinistryAdminSuccess {
   static readonly type = '[admin] update Ministry Admin success';
-  constructor(public payload: MinistryAdmin) { }
+  constructor(public payload: MinistryAdmin) {}
 }
-

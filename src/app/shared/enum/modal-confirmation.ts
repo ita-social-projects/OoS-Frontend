@@ -2,10 +2,12 @@ export enum ModalConfirmationType {
   delete = 'delete',
   deleteDirection = 'deleteDirection',
   deleteTeacher = 'deleteTeacher',
+  deleteProvider = 'deleteProvider',
   deleteProviderAdmin = 'deleteProviderAdmin',
   deleteProviderAdminDeputy = 'deleteProviderAdminDeputy',
   blockProviderAdmin = 'blockProviderAdmin',
   blockProviderAdminDeputy = 'blockProviderAdminDeputy',
+  editingProvider = 'editingProvider',
   unBlockProviderAdmin = 'unBlockProviderAdmin',
   unBlockProviderAdminDeputy = 'unBlockProviderAdminDeputy',
   leaveWorkshop = 'leaveWorkshop',
@@ -33,7 +35,7 @@ export enum ModalConfirmationType {
   blockMinistryAdmin = 'blockMinistryAdmin',
   unBlockMinistryAdmin = 'unBlockMinistryAdmin',
   createMinistryAdmin = 'createMinistryAdmin',
-  updateMinistryAdmin = 'updateMinistryAdmin',
+  updateMinistryAdmin = 'updateMinistryAdmin'
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -43,16 +45,18 @@ export enum ModalConfirmationTitle {
   editDirection = 'РЕДАГУВАТИ НАПРЯМОК?',
   deleteChild = 'ВИЛУЧИТИ ДАНІ ПРО ДИТИНУ?',
   deleteTeacher = 'ВИЛУЧИТИ ДАНІ ПРО ВЧИТЕЛЯ',
+  deleteProvider = 'ВИДАЛИТИ ЗАКЛАД',
   deleteProviderAdmin = 'ВИДАЛИТИ АДМІНІСТРАТОРА ГУРТКА',
   deleteProviderAdminDeputy = 'ВИДАЛИТИ ЗАСТУПНИКА ДИРЕКТОРА',
   blockProviderAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА',
   blockProviderAdminDeputy = 'БЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА',
+  editingProvider = 'ВІДПРАВИТИ НА РЕДАГУВАННЯ',
   unBlockProviderAdmin = 'РОЗБЛОКУВАТИ АДМІНІСТРАТОРА ГУРТКА',
-  unBlockProviderAdminDeputy = "РОЗБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
+  unBlockProviderAdminDeputy = 'РОЗБЛОКУВАТИ ЗАСТУПНИКА ДИРЕКТОРА',
   leaveWorkshop = 'ЗАЛИШИТИ ГУРТОК?',
   leavePage = 'ЗАЛИШИТИ СТОРІНКУ?',
   deleteAchievement = 'ВИДАЛИТИ ДОСЯГНЕННЯ?',
-  leaveRegistration= 'ПЕРЕРВАТИ РЕЄСТРАЦІЮ?',
+  leaveRegistration = 'ПЕРЕРВАТИ РЕЄСТРАЦІЮ?',
   createApplication = 'ПОДАТИ ЗАЯВКУ?',
   approveApplication = 'ЗАРАХУВАТИ',
   rejectApplication = 'ВІДМОВИТИ',
@@ -81,10 +85,12 @@ export enum ModalConfirmationText {
   deleteChild = 'Ви впевнені, що хочете вилучити дані про дитину',
   deleteAchievement = 'Ви впевнені, що хочете вилучити досягнення?',
   deleteTeacher = 'Ви впевнені, що хочете вилучити дані про вчителя ?',
+  deleteProvider = 'Ви впевнені, що хочете видалити заклад',
   deleteProviderAdmin = 'Ви впевнені, що хочете видалити адміністратора гуртка',
   deleteProviderAdminDeputy = 'Ви впевнені, що хочете видалити заступника директора',
   blockProviderAdmin = 'Ви впевнені, що хочете блокувати адміністратора гуртка',
   blockProviderAdminDeputy = 'Ви впевнені, що хочете блокувати заступника директора',
+  editingProvider = 'Ви впевнені, що хочете відправити заклад на редагування?',
   unBlockProviderAdmin = 'Ви впевнені, що хочете розблокувати адміністратора гуртка',
   unBlockProviderAdminDeputy = 'Ви впевнені, що хочете розблокувати заступника директора',
   leaveWorkshop = 'Ви впевнені, що хочете залишити гурток',
@@ -108,10 +114,11 @@ export enum ModalConfirmationText {
   blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства',
   unBlockMinistryAdmin = 'Ви впевнені, що хочете розблокувати адміністратора міністерства',
   createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
-  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства',
+  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства'
 }
 
 export enum ModalConfirmationDescription {
   blockParent = 'Вкажіть причину блокування',
   reject = 'Вкажіть причину відмови',
+  editingProvider = 'Вкажіть причину редагування'
 }

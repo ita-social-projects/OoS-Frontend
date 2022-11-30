@@ -28,16 +28,11 @@ describe('DirectionsComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         MatStepperModule,
-        MatDialogModule,
+        MatDialogModule
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        DirectionsComponent,
-        MockDirectionsPaginatorComponent,
-        MockAllCategoriesCardComponent,
-      ]
-    })
-      .compileComponents();
+      declarations: [DirectionsComponent, MockDirectionsPaginatorComponent, MockAllCategoriesCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -9,11 +9,11 @@ import { RegistrationState } from '../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-parent',
-  template: '',
+  template: ''
 })
 export abstract class ParentComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
-    parent$: Observable<Parent>;
+  parent$: Observable<Parent>;
   parent: Parent;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {

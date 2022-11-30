@@ -12,14 +12,9 @@ describe('NavigationMobileBarComponent', () => {
   let store: Store;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        MatIconModule,
-        NgxsModule.forRoot([]),
-      ],
+      imports: [RouterTestingModule, MatIconModule, NgxsModule.forRoot([])],
       declarations: [NavigationMobileBarComponent]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

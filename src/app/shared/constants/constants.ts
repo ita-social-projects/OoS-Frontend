@@ -23,6 +23,7 @@ export class Constants {
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, HH:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
+  static readonly SHORT_TIME_24_HOUR_SYSTEM = 'HH:mm';
   static readonly DATE_FORMAT_PLACEHOLDER = 'ДД/ММ/РРРР';
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
 
@@ -56,7 +57,7 @@ export class PaginationConstants {
   static readonly PAGINATION_DOTS = '...';
   static readonly PAGINATION_SHIFT_DELTA = 3;
   static readonly ITEMS_PER_PAGE_TEN = 10;
-  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / (332));
+  static readonly ITEMS_PER_PAGE_DEFAULT = 2 * Math.floor(window.innerWidth / 332);
   static readonly firstPage = {
     element: 1,
     isActive: true
@@ -78,31 +79,31 @@ export const MOMENT_DATE_FORMATS: MatDateFormats = {
 export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   {
     value: WorkingDays.monday,
-    selected: false,
+    selected: false
   },
   {
     value: WorkingDays.tuesday,
-    selected: false,
+    selected: false
   },
   {
     value: WorkingDays.wednesday,
-    selected: false,
+    selected: false
   },
   {
     value: WorkingDays.thursday,
-    selected: false,
+    selected: false
   },
   {
     value: WorkingDays.friday,
-    selected: false,
+    selected: false
   },
   {
     value: WorkingDays.saturday,
-    selected: false,
+    selected: false
   },
   {
     value: WorkingDays.sunday,
-    selected: false,
+    selected: false
   }
 ];
 
@@ -126,6 +127,13 @@ export class CropperConfigurationConstants {
   static readonly croppedCoverImage = {
     height: 250
   };
+}
+
+export class ModeConstants {
+  static readonly NEW = 'new';
+  static readonly WORKSHOP = 'workshop';
+  static readonly SHORT = 'short';
+  static readonly FULL = 'full';
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };

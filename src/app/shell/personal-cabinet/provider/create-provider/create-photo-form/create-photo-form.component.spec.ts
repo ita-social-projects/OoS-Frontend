@@ -32,14 +32,8 @@ describe('CreatePhotoFormComponent', () => {
         MatGridListModule,
         MatDialogModule
       ],
-      declarations: [
-        CreatePhotoFormComponent,
-        ImageFormControlComponent,
-        MockValidationHintForInputComponent,
-        MockInfoFormComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [CreatePhotoFormComponent, ImageFormControlComponent, MockValidationHintForInputComponent, MockInfoFormComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -52,7 +46,7 @@ describe('CreatePhotoFormComponent', () => {
       institutionStatusId: new FormControl(''),
       institutionType: new FormControl(''),
       institution: new FormControl(''),
-      founder: new FormControl(''),
+      founder: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -66,7 +60,6 @@ describe('CreatePhotoFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

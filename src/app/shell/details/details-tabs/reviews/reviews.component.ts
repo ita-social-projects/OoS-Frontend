@@ -1,4 +1,4 @@
-import { ParentState } from './../../../../shared/store/parent.state.';
+import { ParentState } from '../../../../shared/store/parent.state.';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
@@ -18,13 +18,19 @@ import { GetRateByEntityId, ClearRatings } from '../../../../shared/store/meta-d
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 import { SetRatingPerPage, OnPageChangeRating } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
-import { OnCreateRatingSuccess, GetReviewedApplications, GetStatusAllowedToReview, CreateRating } from '../../../../shared/store/parent.actions';
+import {
+  OnCreateRatingSuccess,
+  GetReviewedApplications,
+  GetStatusAllowedToReview,
+  CreateRating
+} from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
+import {TranslateService} from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.component.html',
-  styleUrls: ['./reviews.component.scss'],
+  styleUrls: ['./reviews.component.scss']
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
   readonly noResultReviews = NoResultsTitle.noReviews;
@@ -35,17 +41,17 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Input() role: string;
 
   @Select(RegistrationState.parent)
-    parent$: Observable<Parent>;
+  parent$: Observable<Parent>;
   @Select(ParentState.isAllowedToReview)
-    isAllowedToReview$: Observable<boolean>;
+  isAllowedToReview$: Observable<boolean>;
   @Select(ParentState.isReviewed)
-    isReviewed$: Observable<boolean>;
+  isReviewed$: Observable<boolean>;
 
   @Select(MetaDataState.rating)
-    rating$: Observable<Rate[]>;
+  rating$: Observable<Rate[]>;
   rating: Rate[];
   @Select(PaginatorState.ratingPerPage)
-    ratingPerPage$: Observable<number>;
+  ratingPerPage$: Observable<number>;
   ratingPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -54,8 +60,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   isAllowedToReview: boolean;
   isReviewed: boolean;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  alreadyRated: string = this.translateService.instant(' YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
+  mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
 
-  constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions) {}
+  constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions, private translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.getParentData();
@@ -63,23 +71,19 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
     this.actions$
       .pipe(ofActionCompleted(OnCreateRatingSuccess))
-      .pipe(takeUntil(this.destroy$), distinctUntilChanged())
+      .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() =>
         this.store.dispatch([
           new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-          new GetReviewedApplications(this.parent.id, this.workshop.id),
+          new GetReviewedApplications(this.parent.id, this.workshop.id)
         ])
       );
 
-    this.isAllowedToReview$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((status: boolean) => (this.isAllowedToReview = status));
+    this.isAllowedToReview$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isAllowedToReview = status));
 
     this.isReviewed$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isReviewed = status));
 
-    this.ratingPerPage$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
+    this.ratingPerPage$.pipe(takeUntil(this.destroy$)).subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
   }
 
   private getParentData(): void {
@@ -92,7 +96,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         this.parent = parent;
         this.store.dispatch([
           new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
-          new GetReviewedApplications(this.parent.id, this.workshop.id),
+          new GetReviewedApplications(this.parent.id, this.workshop.id)
         ]);
       });
   }
@@ -112,8 +116,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.rate,
-      },
+        type: ModalConfirmationType.rate
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: number) => {
@@ -123,7 +127,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
             rate: result,
             type: Constants.WORKSHOP_ENTITY_TYPE,
             entityId: `${this.workshop.id}`,
-            parentId: this.parent.id,
+            parentId: this.parent.id
           })
         );
       }
@@ -132,10 +136,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   itemsPerPageChange(itemsPerPage: number): void {
     this.ratingPerPage = itemsPerPage;
-    this.store.dispatch([
-      new SetRatingPerPage(itemsPerPage),
-      new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-    ]);
+    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
   }
 
   pageChange(page: PaginationElement): void {

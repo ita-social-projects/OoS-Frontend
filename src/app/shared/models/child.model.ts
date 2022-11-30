@@ -35,7 +35,7 @@ export interface ChildrenParameters {
   from?: number;
   size?: number;
 }
-export interface RequestParams{
+export interface RequestParams {
   id: string;
   isParent: boolean;
 }

@@ -1,4 +1,4 @@
-import { ApplicationStatus } from './../../enum/applications';
+import { Statuses } from './../../enum/statuses';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatorState } from '../../store/paginator.state';
@@ -9,7 +9,7 @@ import { Application, ApplicationParameters, ApplicationUpdate } from '../../mod
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApplicationService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -19,7 +19,7 @@ export class ApplicationService {
 
     if (parameters) {
       if (parameters.statuses.length) {
-        parameters.statuses.forEach((status: ApplicationStatus) => (params = params.append('Statuses', status)));
+        parameters.statuses.forEach((status: Statuses) => (params = params.append('Statuses', status)));
       }
 
       if (parameters.workshops?.length) {
@@ -32,18 +32,13 @@ export class ApplicationService {
 
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
-    params = params.set('OrderByDateAscending', 'true');
-    params = params.set('OrderByAlphabetically', 'true');
-    params = params.set('OrderByStatus', 'true');
+    params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = parameters.size
-      ? parameters.size
-      : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const size: number = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
 
     const from: number = size * (+currentPage.element - 1);
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }
@@ -100,8 +95,8 @@ export class ApplicationService {
     const options = {
       params: {
         childId: childId,
-        workshopId: workshopId,
-      },
+        workshopId: workshopId
+      }
     };
     return this.http.get<boolean>('/api/v1/Application/AllowedNewApplicationByChildStatus', options);
   }
@@ -114,8 +109,8 @@ export class ApplicationService {
     return this.http.get<boolean>('/api/v1/Application/AllowedToReview', {
       params: {
         parentId,
-        workshopId,
-      },
+        workshopId
+      }
     });
   }
 
@@ -127,8 +122,8 @@ export class ApplicationService {
     return this.http.get<boolean>('/api/v1/Rating/IsReviewed', {
       params: {
         parentId,
-        workshopId,
-      },
+        workshopId
+      }
     });
   }
 }

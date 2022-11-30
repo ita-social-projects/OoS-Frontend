@@ -11,4 +11,5 @@ export enum NoResultsTitle {
   noAdmins = 'Тут ви можете додати Адміністраторів',
   noHistory = 'Історії змін поки немає',
   noInfo = 'Інформації поки немає',
+  noMessages = 'Повідомлень поки немає'
 }

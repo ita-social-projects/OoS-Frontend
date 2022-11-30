@@ -13,19 +13,9 @@ describe('InfoFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatIconModule,
-        NoopAnimationsModule
-      ],
-      declarations: [
-        InfoFormComponent,
-        MockValidationHintForInputComponent
-      ]
-    })
-      .compileComponents();
+      imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, NoopAnimationsModule],
+      declarations: [InfoFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -47,7 +37,6 @@ describe('InfoFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() minCharachters: number;
   @Input() maxCharachters: number;

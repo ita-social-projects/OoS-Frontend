@@ -14,6 +14,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -34,16 +35,11 @@ describe('CreateInfoFormComponent', () => {
         MatIconModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
         MatDialogModule
       ],
-      declarations: [
-        CreateInfoFormComponent,
-        MockValidationHintForInputComponent,
-        ImageFormControlComponent,
-        KeyFilterDirective
-      ]
-    })
-      .compileComponents();
+      declarations: [CreateInfoFormComponent, MockValidationHintForInputComponent, ImageFormControlComponent, KeyFilterDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -64,7 +60,7 @@ describe('CreateInfoFormComponent', () => {
       ownership: new FormControl(null),
       institution: new FormControl(''),
       coverImage: new FormControl(''),
-      coverImageId: new FormControl(''),
+      coverImageId: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -78,7 +74,6 @@ describe('CreateInfoFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;

@@ -12,29 +12,29 @@ import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { UpdateApplication, GetApplicationsByParentId } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { ApplicationStatus } from '../../../../shared/enum/applications';
+import { Statuses } from '../../../../shared/enum/statuses';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 
 @Component({
   selector: 'app-parent-applications',
-  templateUrl: './parent-applications.component.html',
+  templateUrl: './parent-applications.component.html'
 })
 export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly ChildDeclination = ChildDeclination;
 
   @Select(RegistrationState.parent)
-    parent$: Observable<Parent>;
+  parent$: Observable<Parent>;
   parent: Parent;
   @Select(ParentState.truncatedItems)
-    truncatedItems$: Observable<TruncatedItem[]>;
+  truncatedItems$: Observable<TruncatedItem[]>;
 
   applicationParams: ApplicationParameters = {
     property: null,
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false,
+    showBlocked: false
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -59,7 +59,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -69,7 +69,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
    * @param Application event
    */
   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, ApplicationStatus.Left);
+    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Left);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 

@@ -1,10 +1,6 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {
-  CreateProviderSteps,
-  OwnershipType,
-  ProviderType,
-} from '../../enum/provider';
+import { CreateProviderSteps, OwnershipType, ProviderType } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
 import { MetaDataState } from '../../store/meta-data.state';
@@ -12,20 +8,20 @@ import { Observable, Subject } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypes, OwnershipTypeUkr, ProviderTypeUkr } from '../../enum/enumUA/provider';
+import { InstitutionTypes, OwnershipTypeEnum, ProviderTypeUkr } from '../../enum/enumUA/provider';
 import { Constants } from '../../constants/constants';
 import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
-  styleUrls: ['./provider-info.component.scss'],
+  styleUrls: ['./provider-info.component.scss']
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
   readonly providerType: typeof ProviderType = ProviderType;
   readonly ownershipType: typeof OwnershipType = OwnershipType;
-  readonly ownershipTypeUkr = OwnershipTypeUkr;
+  readonly OwnershipTypeEnum = OwnershipTypeEnum;
   readonly providerTypeUkr = ProviderTypeUkr;
   readonly institutionTypes = InstitutionTypes;
 
@@ -38,7 +34,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-    institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses$: Observable<InstitutionStatus[]>;
   institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -49,7 +45,8 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
     this.institutionStatuses$
       .pipe(
         takeUntil(this.destroy$),
-        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses))
+        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses)
+      )
       .subscribe((institutionStatuses: InstitutionStatus[]) => {
         this.institutionStatusName = institutionStatuses.find(
           (item: InstitutionStatus) => item.id === this.provider.institutionStatusId

@@ -10,6 +10,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { WorkingHoursFormComponent } from './working-hours-form.component';
 import { MaterialModule } from '../../../../../../../shared/modules/material.module';
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('WorkingHoursFormComponent', () => {
   let component: WorkingHoursFormComponent;
@@ -27,13 +28,11 @@ describe('WorkingHoursFormComponent', () => {
         ReactiveFormsModule,
         MatButtonModule,
         MatIconModule,
+        TranslateModule.forRoot(),
         MaterialModule
       ],
-      declarations: [
-        WorkingHoursFormComponent,
-        MockValidationHintForInputComponent]
-    })
-      .compileComponents();
+      declarations: [WorkingHoursFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -42,7 +41,7 @@ describe('WorkingHoursFormComponent', () => {
     component.workingHoursForm = new FormGroup({
       workdays: new FormControl([]),
       endTime: new FormControl(''),
-      startTime: new FormControl(''),
+      startTime: new FormControl('')
     });
     fixture.detectChanges();
   });

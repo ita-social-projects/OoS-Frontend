@@ -1,29 +1,28 @@
-@import "src/app/shared/styles/create-form-wrapper.scss";
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/create-form-wrapper.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/navigation-tabs.scss';
+
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
-.wrapper-check-box, .info-wrapper{
-  margin-top: 1rem;
-  margin-bottom: 0.5rem;
+.wrapper-check-box,
+.info-wrapper {
+  margin: 1rem 0;
   .step-label {
     margin-bottom: 1rem;
   }
 }
-.application-workshop{
+.application-workshop {
   margin: 0 1rem;
 }
 
 .application-wrapper {
   padding-right: 3rem;
   padding-left: 3rem;
-}
-.wrapper-check-box {
-  padding: 0;
 }
 
 @media (max-width: 750px) {
@@ -35,25 +34,24 @@
       max-width: none;
     }
   }
-  .wrapper-check-box {
-    padding: 0;
-  }
 }
 
-.line{
-border: 1px solid #E3E3E3;
+.line {
+  border: 1px solid #e3e3e3;
 }
-.warning{
+.warning {
   margin-bottom: 1rem;
 }
 
-.background-text{
+.background-text {
   font-family: 'Open Sans';
   font-style: normal;
   font-weight: 400;
   font-size: 13px;
   line-height: 18px;
   color: #333333;
+  text-align: center;
+  margin-bottom: 1rem !important;
 }
 
 small.warning {
@@ -63,5 +61,9 @@ small.warning {
 }
 .redBorder {
   outline: none;
-  border: 1px solid #C72A21;
+  border: 1px solid #c72a21;
+}
+
+.checkbox-label {
+  margin-left: 1rem;
 }

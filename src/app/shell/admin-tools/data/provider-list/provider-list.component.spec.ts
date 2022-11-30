@@ -1,3 +1,4 @@
+import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -10,6 +11,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderListComponent } from './provider-list.component';
+import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 describe('ProviderListComponent', () => {
   let component: ProviderListComponent;
@@ -26,12 +28,9 @@ describe('ProviderListComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
+        MatDialogModule
       ],
-      declarations: [
-        ProviderListComponent,
-        MockproviderInfoComponent,
-        MockListAdminProviderPaginatorComponent,
-      ],
+      declarations: [ProviderListComponent, MockproviderInfoComponent, MockListAdminProviderPaginatorComponent, ReasonModalWindowComponent]
     }).compileComponents();
   });
 
@@ -47,7 +46,7 @@ describe('ProviderListComponent', () => {
 });
 @Component({
   selector: 'app-provider-info',
-  template: '',
+  template: ''
 })
 class MockproviderInfoComponent {
   @Input() provider: Provider;
@@ -58,7 +57,6 @@ class MockproviderInfoComponent {
   selector: 'app-paginator',
   template: ''
 })
-
 class MockListAdminProviderPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;

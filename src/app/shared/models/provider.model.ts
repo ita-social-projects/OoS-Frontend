@@ -93,7 +93,6 @@ export class Provider {
 
     return formData;
   }
-
 }
 
 export class ProviderSectionItem extends SectionItem {
@@ -104,6 +103,20 @@ export class ProviderSectionItem extends SectionItem {
 
     if (info.providerId) {
       this.providerId = info.providerId;
+    }
+  }
+}
+
+export class ProviderStatusUpdateData {
+  providerId: string;
+  status: string;
+  statusReason?: string;
+
+  constructor(providerId: string, status: string, statusReason?: string) {
+    this.providerId = providerId;
+    this.status = status;
+    if (statusReason) {
+      this.statusReason = statusReason;
     }
   }
 }

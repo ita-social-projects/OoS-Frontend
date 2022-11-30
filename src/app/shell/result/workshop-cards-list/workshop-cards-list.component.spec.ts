@@ -25,13 +25,8 @@ describe('WorkshopCardsListComponentt', () => {
         NoResultCardComponent,
         MockListWorkshopCardPaginatorComponent
       ],
-      imports: [
-        FlexLayoutModule,
-        CommonModule,
-        NgxsModule.forRoot([]),
-      ],
-    })
-      .compileComponents();
+      imports: [FlexLayoutModule, CommonModule, NgxsModule.forRoot([])]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -52,8 +47,7 @@ describe('WorkshopCardsListComponentt', () => {
   selector: 'app-ordering-menu',
   template: ''
 })
-class MockOrderingComponent {
-}
+class MockOrderingComponent {}
 
 @Component({
   selector: 'app-workshop-card',

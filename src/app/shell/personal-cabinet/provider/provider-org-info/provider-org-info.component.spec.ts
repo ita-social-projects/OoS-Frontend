@@ -16,20 +16,8 @@ describe('ProviderOrgInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        MatTabsModule,
-        RouterTestingModule,
-        MatDialogModule
-      ],
-      declarations: [
-        ProviderOrgInfoComponent,
-        PhoneTransformPipe,
-        MockproviderInfoComponent,
-        ProviderComponent,
-        CabinetDataComponent
-      ],
+      imports: [NgxsModule.forRoot([]), MatIconModule, MatTabsModule, RouterTestingModule, MatDialogModule],
+      declarations: [ProviderOrgInfoComponent, PhoneTransformPipe, MockproviderInfoComponent, ProviderComponent, CabinetDataComponent]
     }).compileComponents();
   });
 
@@ -44,7 +32,7 @@ describe('ProviderOrgInfoComponent', () => {
 });
 @Component({
   selector: 'app-provider-info',
-  template: '',
+  template: ''
 })
 class MockproviderInfoComponent {
   @Input() provider: Provider;

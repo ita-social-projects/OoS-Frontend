@@ -3,6 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { MockOidcSecurityService } from '../../mocks/mock-services';
 import { NotificationsComponent } from './notifications.component';
 
 describe('NotificationsComponent', () => {
@@ -11,18 +13,11 @@ describe('NotificationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatMenuModule,
-        MatIconModule,
-      ],
-      declarations: [
-        NotificationsComponent,
-        MockNotificationsListComponent
-      ],
+      imports: [NgxsModule.forRoot([]), MatMenuModule, MatIconModule],
+      declarations: [NotificationsComponent, MockNotificationsListComponent],
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -39,4 +34,4 @@ describe('NotificationsComponent', () => {
   selector: 'app-notifications-list',
   template: ''
 })
-class MockNotificationsListComponent { }
+class MockNotificationsListComponent {}

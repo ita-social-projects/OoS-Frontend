@@ -1,4 +1,4 @@
-import { PaginationConstants } from './../constants/constants';
+import { PaginationConstants } from '../constants/constants';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { PaginationElement } from '../models/paginationElement.model';
@@ -18,9 +18,11 @@ import {
   SetWorkshopsPerPage,
   SetItemsPerPage,
   OnPageChangeHistoryLog,
+  SetAchievementsPerPage
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
+  achievementPerPage: number;
   workshopsPerPage: number;
   directionsPerPage: number;
   applicationsPerPage: number;
@@ -32,34 +34,51 @@ export interface PaginatorStateModel {
 @State<PaginatorStateModel>({
   name: 'paginator',
   defaults: {
+    achievementPerPage: 12,
     workshopsPerPage: 12,
     directionsPerPage: 12,
     applicationsPerPage: 8,
     childrensPerPage: 8,
     ratingPerPage: 12,
     itemsPerPage: 12,
-    currentPage: PaginationConstants.firstPage,
+    currentPage: PaginationConstants.firstPage
   }
 })
-
 @Injectable()
 export class PaginatorState {
+  @Selector() static workshopsPerPage(state: PaginatorStateModel): number {
+    return state.workshopsPerPage;
+  }
 
-  @Selector() static workshopsPerPage(state: PaginatorStateModel): number { return state.workshopsPerPage; }
+  @Selector() static achievementPerPage(state: PaginatorStateModel): number {
+    return state.achievementPerPage;
+  }
 
-  @Selector() static directionsPerPage(state: PaginatorStateModel): number { return state.directionsPerPage; }
+  @Selector() static directionsPerPage(state: PaginatorStateModel): number {
+    return state.directionsPerPage;
+  }
 
-  @Selector() static itemsPerPage(state: PaginatorStateModel): number { return state.itemsPerPage; }
+  @Selector() static itemsPerPage(state: PaginatorStateModel): number {
+    return state.itemsPerPage;
+  }
 
-  @Selector() static applicationsPerPage(state: PaginatorStateModel): number { return state.applicationsPerPage; }
+  @Selector() static applicationsPerPage(state: PaginatorStateModel): number {
+    return state.applicationsPerPage;
+  }
 
-  @Selector() static ratingPerPage(state: PaginatorStateModel): number { return state.ratingPerPage; }
+  @Selector() static ratingPerPage(state: PaginatorStateModel): number {
+    return state.ratingPerPage;
+  }
 
-  @Selector() static currentPage(state: PaginatorStateModel): {} { return state.currentPage; }
-  
-  @Selector() static childrensPerPage(state: PaginatorStateModel): number { return state.childrensPerPage; }
+  @Selector() static currentPage(state: PaginatorStateModel): {} {
+    return state.currentPage;
+  }
 
-  constructor() { }
+  @Selector() static childrensPerPage(state: PaginatorStateModel): number {
+    return state.childrensPerPage;
+  }
+
+  constructor() {}
 
   @Action(SetWorkshopsPerPage)
   setWorkshopsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetWorkshopsPerPage): void {
@@ -81,6 +100,11 @@ export class PaginatorState {
     patchState({ itemsPerPage: payload });
   }
 
+  @Action(SetAchievementsPerPage)
+  setAchievementsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAchievementsPerPage): void {
+    patchState({ achievementPerPage: payload });
+  }
+  
   @Action(SetChildrensPerPage)
   setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
     patchState({ childrensPerPage: payload });
@@ -92,7 +116,7 @@ export class PaginatorState {
   }
 
   @Action(OnPageChangeDirections)
-  onPageChangeDirections({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeDirections): void {
+  onPageChangeDirections({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeDirections): void {
     patchState({ currentPage: payload });
   }
 
@@ -112,7 +136,7 @@ export class PaginatorState {
   }
 
   @Action(OnPageChangeChildrens)
-  onPageChange({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
+  onPageChange({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
     patchState({ currentPage: payload });
   }
 
@@ -132,7 +156,7 @@ export class PaginatorState {
   }
 
   @Action(OnPageChangeHistoryLog)
-  OnPageChangeHistoryLog({ patchState}: StateContext<PaginatorStateModel>, { payload }: OnPageChangeHistoryLog): void {
+  OnPageChangeHistoryLog({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeHistoryLog): void {
     patchState({ currentPage: payload });
   }
 }

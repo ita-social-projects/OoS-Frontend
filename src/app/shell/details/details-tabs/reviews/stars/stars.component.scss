@@ -1,31 +1,33 @@
-.star-icon-modal, .grey-star-list, .star-icon-list{
-  color: #AAAAAA;
+.star-icon-modal,
+.grey-star-list,
+.star-icon-list {
+  color: #aaaaaa;
 }
-.yellow-star-list{
-  color: #FFBD00 ;
+.yellow-star-list {
+  color: #ffbd00;
 }
 
-.mat-button-toggle-standalone.mat-button-toggle-appearance-standard, .mat-button-toggle-group-appearance-standard{
+.mat-button-toggle-standalone.mat-button-toggle-appearance-standard,
+.mat-button-toggle-group-appearance-standard {
   border: none;
   background-color: transparent;
-
 }
- .mat-button-toggle-group-appearance-standard .mat-button-toggle+.mat-button-toggle {
+.mat-button-toggle-group-appearance-standard .mat-button-toggle + .mat-button-toggle {
   border: none;
   background-color: white;
 }
-.selected-star{
-  color: #3849F9;
+.selected-star {
+  color: #3849f9;
 }
 ::ng-deep .mat-button-toggle-checked {
-  .star-icon{
-    color: #3849F9;
+  .star-icon {
+    color: #3849f9;
   }
 }
-::ng-deep .stars-toggle-group .mat-button-toggle-focus-overlay, .mat-button-toggle-checked {
+::ng-deep .stars-toggle-group .mat-button-toggle-focus-overlay,
+.mat-button-toggle-checked {
   display: none;
-  }
-  ::ng-deep .stars-toggle-group .mat-ripple:not(:empty){
-    z-index: -1;
-  }
-
+}
+::ng-deep .stars-toggle-group .mat-ripple:not(:empty) {
+  z-index: -1;
+}

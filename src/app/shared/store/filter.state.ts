@@ -3,10 +3,9 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { EMPTY_RESULT } from '../constants/constants';
-import { ValidationConstants } from '../constants/validation';
-import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
-import { FilterStateModel } from '../models/filter-state.model';
+import { DefaultFilterState } from '../models/defaultFilterState.model';
+import { FilterStateModel } from '../models/filterState.model';
 import { FilterList } from '../models/filterList.model';
 import { SearchResponse } from '../models/search.model';
 import { WorkshopCard } from '../models/workshop.model';
@@ -14,6 +13,7 @@ import { AppWorkshopsService } from '../services/workshops/app-workshop/app-work
 import {
   CleanCity,
   ClearCoordsByMap,
+  ClearRadiusSize,
   ConfirmCity,
   FilterChange,
   FilterClear,
@@ -24,60 +24,55 @@ import {
   SetCoordsByMap,
   SetDirections,
   SetEndTime,
+  SetFilterFromURL,
   SetIsAppropriateAge,
   SetIsAppropriateHours,
   SetIsFree,
   SetIsPaid,
   SetIsStrictWorkdays,
+  SetMapView,
   SetMaxAge,
   SetMaxPrice,
   SetMinAge,
   SetMinPrice,
   SetOpenRecruitment,
   SetOrder,
+  SetRadiusSize,
   SetSearchQueryValue,
   SetStartTime,
   SetWithDisabilityOption,
   SetWorkingDays,
 } from './filter.actions';
+import { SetFirstPage } from './paginator.actions';
 
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    directions: [],
-    maxAge: null,
-    minAge: null,
-    isAppropriateAge: false,
-    startTime: null,
-    endTime: null,
-    workingDays: [],
-    isFree: false,
-    isPaid: false,
-    maxPrice: ValidationConstants.MAX_PRICE,
-    minPrice: ValidationConstants.MIN_PRICE,
-    statuses: [],
+    ...new DefaultFilterState(),
     settlement: null,
-    searchQuery: '',
-    order: 'Rating',
     filteredWorkshops: null,
-    withDisabilityOption: false,
-    isStrictWorkdays: false,
-    isAppropriateHours: false,
     isLoading: false,
     isConfirmCity: true,
-    mapViewCoords: null
+    mapViewCoords: null,
+    userRadiusSize: null,
+    isMapView: false,
   },
 })
 @Injectable()
 export class FilterState {
+  @Selector()
+  static FilterState(state: FilterStateModel): FilterStateModel {
+    return state;
+  }
+
   @Selector()
   static filteredWorkshops(state: FilterStateModel): SearchResponse<WorkshopCard[]> {
     return state.filteredWorkshops;
   }
 
   @Selector()
-  static directions(state: FilterStateModel): Direction[] {
-    return state.directions;
+  static directions(state: FilterStateModel): number[] {
+    return state.directionIds;
   }
 
   @Selector()
@@ -106,6 +101,17 @@ export class FilterState {
   }
 
   @Selector()
+  static userRadiusSize(state: FilterStateModel) {
+    const meterInKilometer = 1000;
+    return state.userRadiusSize * meterInKilometer;
+  }
+
+  @Selector()
+  static isMapView(state: FilterStateModel) {
+    return state.isMapView;
+  }
+
+  @Selector()
   static filterList(state: FilterStateModel): FilterList {
     const {
       withDisabilityOption,
@@ -114,7 +120,7 @@ export class FilterState {
       isAppropriateAge,
       minAge,
       maxAge,
-      directions,
+      directionIds,
       minPrice,
       maxPrice,
       isFree,
@@ -128,7 +134,7 @@ export class FilterState {
     return {
       withDisabilityOption,
       statuses,
-      categoryCheckBox: directions,
+      directionIds,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
         minPrice,
@@ -150,12 +156,12 @@ export class FilterState {
   constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
-  setCity({ patchState, dispatch, getState }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
+  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
     patchState({ settlement: payload });
     if (isConfirmedCity) {
       localStorage.setItem('cityConfirmation', JSON.stringify(payload));
     }
-    
+
     dispatch(new FilterChange());
   }
 
@@ -177,7 +183,7 @@ export class FilterState {
 
   @Action(SetDirections)
   setDirections({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
-    patchState({ directions: payload });
+    patchState({ directionIds: payload });
     dispatch(new FilterChange());
   }
 
@@ -222,7 +228,10 @@ export class FilterState {
   }
 
   @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
+  setSearchQueryValue(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetSearchQueryValue
+  ): void {
     patchState({ searchQuery: payload });
     dispatch(new FilterChange());
   }
@@ -234,13 +243,19 @@ export class FilterState {
   }
 
   @Action(SetClosedRecruitment)
-  setClosedRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
+  setClosedRecruitment(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetClosedRecruitment
+  ): void {
     patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops): Observable<SearchResponse<WorkshopCard[]>> {
+  getFilteredWorkshops(
+    { patchState, getState }: StateContext<FilterStateModel>,
+    { payload }: GetFilteredWorkshops
+  ): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
@@ -265,13 +280,19 @@ export class FilterState {
   }
 
   @Action(SetIsStrictWorkdays)
-  setIsStrictWorkdays({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsStrictWorkdays): void {
+  setIsStrictWorkdays(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetIsStrictWorkdays
+  ): void {
     patchState({ isStrictWorkdays: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetIsAppropriateHours)
-  setIsAppropriateHours({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateHours): void {
+  setIsAppropriateHours(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetIsAppropriateHours
+  ): void {
     patchState({ isAppropriateHours: payload });
     dispatch(new FilterChange());
   }
@@ -289,7 +310,10 @@ export class FilterState {
   }
 
   @Action(SetIsAppropriateAge)
-  setIsAppropriateAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
+  setIsAppropriateAge(
+    { patchState, dispatch }: StateContext<FilterStateModel>,
+    { payload }: SetIsAppropriateAge
+  ): void {
     patchState({ isAppropriateAge: payload });
     dispatch(new FilterChange());
   }
@@ -300,43 +324,47 @@ export class FilterState {
   }
 
   @Action(FilterChange)
-  filterChange({}: StateContext<FilterStateModel>, {}: FilterChange): void {}
+  filterChange({ getState, dispatch }: StateContext<FilterStateModel>): void {
+    const isMapView = getState().isMapView;
+    dispatch([new SetFirstPage(), new GetFilteredWorkshops(isMapView)]);
+  }
 
   @Action(FilterClear)
-  FilterClear({ patchState }: StateContext<FilterStateModel>, {}: FilterChange): void {
-    patchState({
-      directions: [],
-      maxAge: null,
-      minAge: null,
-      isAppropriateAge: false,
-      startTime: null,
-      endTime: null,
-      workingDays: [],
-      isFree: false,
-      isPaid: false,
-      maxPrice: ValidationConstants.MAX_PRICE,
-      minPrice: ValidationConstants.MIN_PRICE,
-      statuses: [],
-      searchQuery: '',
-      order: 'Rating',
-      withDisabilityOption: false,
-      isStrictWorkdays: false,
-      isAppropriateHours: false,
-    });
+  FilterClear({ patchState, dispatch }: StateContext<FilterStateModel>, {}: FilterChange): void {
+    patchState(new DefaultFilterState());
+    dispatch(new FilterChange());
   }
 
   @Action(SetCoordsByMap)
-  SetCoordsByMap(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetCoordsByMap
-  ): void {
+  SetCoordsByMap({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCoordsByMap): void {
     patchState({ mapViewCoords: payload });
-
-    dispatch(new GetFilteredWorkshops(true));
+    dispatch(new FilterChange());
   }
 
   @Action(ClearCoordsByMap)
   ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
     patchState({ mapViewCoords: null });
+  }
+
+  @Action(SetRadiusSize)
+  SetRadiusSize({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetRadiusSize): void {
+    patchState({ userRadiusSize: payload });
+    dispatch(new FilterChange());
+  }
+
+  @Action(ClearRadiusSize)
+  ClearRadiusSize({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ userRadiusSize: null });
+  }
+
+  @Action(SetMapView)
+  SetMapView({ patchState }: StateContext<FilterStateModel>, { payload }: SetMapView): void {
+    patchState({ isMapView: payload });
+  }
+
+  @Action(SetFilterFromURL)
+  setFilterFromURL({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetFilterFromURL): void {
+    patchState( payload );
+    dispatch(new FilterChange());
   }
 }

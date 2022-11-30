@@ -11,18 +11,15 @@ describe('AllCategoriesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-      ],
+      imports: [NgxsModule.forRoot([])],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         AllCategoriesComponent,
         MockAllCategoriesSearchbarComponent,
         MockAllCategoriesCardComponent,
-        MockDirectionsPaginatorComponent,
+        MockDirectionsPaginatorComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -40,8 +37,7 @@ describe('AllCategoriesComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockAllCategoriesSearchbarComponent {
-}
+class MockAllCategoriesSearchbarComponent {}
 @Component({
   selector: 'app-category-card',
   template: ''

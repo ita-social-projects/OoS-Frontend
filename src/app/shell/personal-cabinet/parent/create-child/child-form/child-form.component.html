@@ -3,35 +3,39 @@
   fxLayout="column"
   fxLayoutAlign="center space-between"
   class="step form"
-  [ngClass]="childrenAmount > 1 ? 'step-border' : ''">
+  [ngClass]="{ 'step-border': !!childrenAmount }"
+>
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue >
+    <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('lastName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <label class="step-label">Ім'я<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue >
+    <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('firstName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <label class="step-label">По-батькові<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue >
+    <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('middleName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
+  >
   </app-validation-hint>
 
   <label class="step-label">Дата народження<span class="step-required">*</span></label>
@@ -43,14 +47,16 @@
       [matDatepicker]="picker"
       formControlName="dateOfBirth"
       [appKeyFilter]="dateFilter"
-      [placeholder]="dateFormPlaceholder" />
+      [placeholder]="dateFormPlaceholder"
+    />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('dateOfBirth')"
     [isTouched]="ChildFormGroup.get('dateOfBirth').touched"
-    minMaxDate="true">
+    minMaxDate="true"
+  >
   </app-validation-hint>
 
   <label class="step-label">Стать<span class="step-required">*</span></label>
@@ -70,62 +76,34 @@
       class="step-input"
       placeholder="Виберіть соціальні групи"
       [compareWith]="compareSocialGroups"
-      [formControl]="socialGroupControl">
+      [formControl]="socialGroupControl"
+    >
       <mat-select-trigger>
         <mat-chip-list #chipList>
           <mat-chip *ngFor="let group of socialGroupControl.value" (removed)="onRemoveItem(group)">
-            {{ group.name }}
+            <span>{{ group.name }}</span>
             <mat-icon matChipRemove>cancel</mat-icon>
           </mat-chip>
         </mat-chip-list>
       </mat-select-trigger>
-      <mat-option
-        class="dropdown-option"
-        *ngFor="let group of socialGroups"
-        [value]="group"
-        [disabled]="checkDisabled(group)">
+      <mat-option class="dropdown-option" *ngFor="let group of socialGroups" [value]="group" [disabled]="checkDisabled(group)">
         {{ group.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <label class="step-label">Місце проживання</label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfLiving" autocomplete="none" appTrimValue >
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="ChildFormGroup.get('placeOfLiving')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
-  </app-validation-hint>
-
   <label class="step-label">Місце навчання (заклад)</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue >
+    <input matInput class="step-input" type="text" formControlName="placeOfStudy" autocomplete="none" appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="ChildFormGroup.get('placeOfStudy')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
+  >
   </app-validation-hint>
 
-  <label class="step-label">Серія та номер свідоцтва про народження</label>
-  <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      formControlName="certificateOfBirth"
-      autocomplete="none"
-      appTrimValue >
-  </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="ChildFormGroup.get('certificateOfBirth')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_10"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_30">
-  </app-validation-hint>
-
-  <div fxLayout="row" fxLayoutAlign="center" *ngIf="childrenAmount > 1" class="addChild">
+  <div fxLayout="row" fxLayoutAlign="center" *ngIf="!!childrenAmount" class="addChild">
     <button class="btn-reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>Вилучити дані про дитину
     </button>

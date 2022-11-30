@@ -13,17 +13,9 @@ describe('UsersListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatTableModule,
-        RouterTestingModule,
-        MatMenuModule,
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        MatTooltipModule,
-      ],
-      declarations: [ UsersListComponent ]
-    })
-      .compileComponents();
+      imports: [MatTableModule, RouterTestingModule, MatMenuModule, NgxsModule.forRoot([]), MatIconModule, MatTooltipModule],
+      declarations: [UsersListComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

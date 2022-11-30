@@ -21,19 +21,19 @@ export class DetailsComponent implements OnInit, OnDestroy {
   readonly entityType = EntityType;
 
   @Select(AppState.isMobileScreen)
-    isMobileScreen$: Observable<boolean>;
+  isMobileScreen$: Observable<boolean>;
   isMobileScreen: boolean;
 
   @Select(SharedUserState.selectedWorkshop)
-    workshop$: Observable<Workshop>;
+  workshop$: Observable<Workshop>;
   workshop: Workshop;
 
   @Select(SharedUserState.selectedProvider)
-    provider$: Observable<Provider>;
+  provider$: Observable<Provider>;
   provider: Provider;
 
   @Select(RegistrationState.role)
-    role$: Observable<Role>;
+  role$: Observable<Role>;
   role: Role;
 
   entity: EntityType;
@@ -44,25 +44,21 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private store: Store,
     private route: ActivatedRoute,
     private router: Router,
-    public navigationBarService: NavigationBarService,
-  ) { }
+    public navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {
-    this.route.params.pipe(
-      takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.store.dispatch(new ResetProviderWorkshopDetails());
-        this.entity = this.router.url.includes(EntityType.workshop) ?
-          EntityType.workshop :
-          EntityType.provider;
+    this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+      this.store.dispatch(new ResetProviderWorkshopDetails());
+      this.entity = params.entity;
 
-        this.getEntity(params.id);
+      this.getEntity(params.id);
 
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
       });
+    });
 
     this.setDataSubscribtion();
   }
@@ -76,7 +72,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.workshop = workshop;
         this.provider = provider;
 
-        this.displayActionCard = (this.role === Role.parent || this.role ===  Role.unauthorized);
+        this.displayActionCard = this.role === Role.parent || this.role === Role.unauthorized;
       });
   }
 
@@ -84,9 +80,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    this.entity === EntityType.workshop ?
-      this.store.dispatch(new GetWorkshopById(id)) :
-      this.store.dispatch(new GetProviderById(id));
+    this.entity === EntityType.workshop ? this.store.dispatch(new GetWorkshopById(id)) : this.store.dispatch(new GetProviderById(id));
   }
 
   ngOnDestroy(): void {

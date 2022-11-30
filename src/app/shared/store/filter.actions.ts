@@ -1,5 +1,5 @@
+import { DefaultFilterState } from '../models/defaultFilterState.model';
 import { Codeficator } from './../models/codeficator.model';
-import { Direction } from '../models/category.model';
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Coords } from '../models/coords.model';
 
@@ -21,7 +21,7 @@ export class SetOrder {
 }
 export class SetDirections {
   static readonly type = '[filter] Set Direction';
-  constructor(public payload: Direction[]) {}
+  constructor(public payload: number[]) {}
 }
 export class SetWorkingDays {
   static readonly type = '[filter] Set Working Days';
@@ -73,12 +73,12 @@ export class SetWithDisabilityOption {
 }
 export class SetIsStrictWorkdays {
   static readonly type = '[filter] Set with Strict workdays';
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean) {}
 }
 
 export class SetIsAppropriateHours {
   static readonly type = '[filter] Set with Strict hours';
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean) {}
 }
 export class FilterChange {
   static readonly type = '[app] Filter Change';
@@ -111,15 +111,33 @@ export class SetMaxAge {
 
 export class SetIsAppropriateAge {
   static readonly type = '[filter] Set with Strict age';
-  constructor(public payload: boolean) { }
+  constructor(public payload: boolean) {}
 }
 
 export class SetCoordsByMap {
   static readonly type = '[filter] Set coords by map';
-  constructor(public payload: Coords) {
-  }
+  constructor(public payload: Coords) {}
 }
 
 export class ClearCoordsByMap {
   static readonly type = '[filter] Clear coords by map';
+}
+
+export class SetRadiusSize {
+  static readonly type = '[filter] Set Radius Size';
+  constructor(public payload: number) {}
+}
+
+export class ClearRadiusSize {
+  static readonly type = '[filter] Clear Radius Size';
+}
+
+export class SetMapView {
+  static readonly type = '[filter] Set Map View';
+  constructor(public payload: boolean) {}
+}
+
+export class SetFilterFromURL {
+  static readonly type = '[filter] Set Filter from URL';
+  constructor(public payload: Partial<DefaultFilterState>) {}
 }

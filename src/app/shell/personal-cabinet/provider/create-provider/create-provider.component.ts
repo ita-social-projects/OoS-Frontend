@@ -1,6 +1,4 @@
-import {
-  ConfirmationModalWindowComponent
-} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { CreateProviderSteps } from '../../../../shared/enum/provider';
@@ -16,30 +14,16 @@ import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Util } from '../../../../shared/utils/utils';
 import { Logout } from './../../../../shared/store/registration.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import {
-  AfterViewInit,
-  Component,
-  OnInit,
-  ViewChild,
-  OnDestroy,
-  AfterViewChecked,
-  ChangeDetectorRef,
-} from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild, OnDestroy, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatStepper } from '@angular/material/stepper';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-
-
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-
-
 import { MatDialog } from '@angular/material/dialog';
-
 import { CreateProvider, UpdateProvider } from '../../../../shared/store/provider.actions';
-
 
 @Component({
   selector: 'app-create-provider',
@@ -48,14 +32,11 @@ import { CreateProvider, UpdateProvider } from '../../../../shared/store/provide
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false },
-    },
-  ],
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
-export class CreateProviderComponent
-  extends CreateFormComponent
-  implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked
-{
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   provider: Provider;
   isAgreed: boolean;
   isNotRobot: boolean;
@@ -74,6 +55,7 @@ export class CreateProviderComponent
   constructor(
     store: Store,
     route: ActivatedRoute,
+    private router: Router,
     navigationBarService: NavigationBarService,
     private changeDetector: ChangeDetectorRef,
     private matDialog: MatDialog
@@ -84,13 +66,9 @@ export class CreateProviderComponent
   ngOnInit(): void {
     this.determineEditMode();
 
-    this.RobotFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => (this.isNotRobot = val));
+    this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
 
-    this.AgreementFormControl.valueChanges
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((val: boolean) => (this.isAgreed = val));
+    this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
 
   ngAfterViewInit(): void {
@@ -100,6 +78,7 @@ export class CreateProviderComponent
       });
     }
   }
+  
   ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
   }
@@ -107,6 +86,8 @@ export class CreateProviderComponent
   setEditMode(): void {
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.addNavPath();
+    this.isAgreed = true;
+    this.isNotRobot = true;
   }
 
   addNavPath(): void {
@@ -142,14 +123,7 @@ export class CreateProviderComponent
         actulaAdress = this.ActualAddressFormGroup.disabled
           ? null
           : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
-        provider = new Provider(
-          this.InfoFormGroup.value,
-          legalAddress,
-          actulaAdress,
-          this.PhotoFormGroup.value,
-          user,
-          this.provider
-        );
+        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
         this.store.dispatch(new UpdateProvider(provider, isRelease3));
       } else {
         legalAddress = new Address(this.LegalAddressFormGroup.value);
@@ -199,7 +173,7 @@ export class CreateProviderComponent
    * @param FormGroup form
    */
   checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
+    Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
     });
   }
@@ -208,7 +182,7 @@ export class CreateProviderComponent
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
   checkValidationContacts(): void {
-    Object.keys(this.ContactsFormGroup.controls).forEach(key => {
+    Object.keys(this.ContactsFormGroup.controls).forEach((key) => {
       if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
         this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
       }
@@ -223,8 +197,8 @@ export class CreateProviderComponent
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.leaveRegistration,
-          property: '',
-        },
+          property: ''
+        }
       });
 
       dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -232,6 +206,8 @@ export class CreateProviderComponent
           this.store.dispatch(new Logout());
         }
       });
+    } else {
+      this.router.navigate(['/personal-cabinet/provider/info']);
     }
   }
 }

@@ -2,6 +2,7 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
+import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { Role } from '../../../../shared/enum/role';
 import { ApplicationParameters } from '../../../../shared/models/application.model';
@@ -17,15 +18,15 @@ describe('ProviderApplciationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ NgxsModule.forRoot([]), MatDialogModule],
+      imports: [NgxsModule.forRoot([]), MatDialogModule],
       declarations: [
         ProviderApplciationsComponent,
         ApplicationsMockComponent,
         ProviderComponent,
-        CabinetDataComponent
+        CabinetDataComponent,
+        ReasonModalWindowComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -42,7 +43,6 @@ describe('ProviderApplciationsComponent', () => {
   selector: 'app-applications',
   template: ''
 })
-
 class ApplicationsMockComponent {
   @Input() applicationParams: ApplicationParameters;
   @Input() dropdownEntities: Child[] | Workshop[];

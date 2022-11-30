@@ -1,116 +1,80 @@
 <div class="wrapper">
   <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
-    <table
-      mat-table
-      [dataSource]="dataSource"
-      matSort
-      (matSortChange)="announceSortChange($event)"
-      appStretchTable
-    >
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
       <!-- Name Column -->
       <ng-container matColumnDef="pib" sticky>
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by name"
-        >
-          ПІБ
-        </th>
-        <td mat-cell *matCellDef="let element" class="tab"> 
-          <div [matTooltip]="element.pib"
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">ПІБ</th>
+        <td mat-cell *matCellDef="let element" class="tab">
+          <div
+            [matTooltip]="element.pib"
             showTooltipIfTruncated
             matTooltipClass="tooltip"
             [matTooltipPosition]="tooltipPosition"
-            class="tab-text"> {{ element.pib }}
+            class="tab-text"
+          >
+            {{ element.pib }}
           </div>
         </td>
       </ng-container>
-  
+
       <!-- Email Column -->
       <ng-container matColumnDef="email">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by email"
-        >
-          Електронна пошта
-        </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">Електронна пошта</th>
         <td mat-cell *matCellDef="let element" class="tab">
-          <div [matTooltip]="element.email"
+          <div
+            [matTooltip]="element.email"
             showTooltipIfTruncated
             matTooltipClass="tooltip"
             [matTooltipPosition]="tooltipPosition"
-            class="tab-text"> {{ element.email }}
+            class="tab-text"
+          >
+            {{ element.email }}
           </div>
-      </td>
+        </td>
       </ng-container>
-  
+
       <!-- Phone Column -->
       <ng-container matColumnDef="phone">
-        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
-          Телефон
-        </th>
-        <td mat-cell *matCellDef="let element">{{element.phoneNumber}} </td>
+        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">Телефон</th>
+        <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="place">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by place"
-        >
-          Населений пункт
-        </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by place">Населений пункт</th>
         <td mat-cell *matCellDef="let element" class="tab">
-          <div [matTooltip]="element.place"
+          <div
+            [matTooltip]="element.place"
             showTooltipIfTruncated
             matTooltipClass="tooltip"
             [matTooltipPosition]="tooltipPosition"
-            class="tab-text">{{ element.place || "" }}
+            class="tab-text"
+          >
+            {{ element.place | emptyValueTransform }}
           </div>
         </td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="role">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
-          Роль
-        </th>
-        <td mat-cell *matCellDef="let element"> {{element.role}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">Роль</th>
+        <td mat-cell *matCellDef="let element">{{ element.role }}</td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="status">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          sortActionDescription="Sort by status"
-        >
-          Статус
-        </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">Статус</th>
         <td mat-cell *matCellDef="let element">
           <div class="provider-admin-status {{ element.status }}">
-            <span>
-              <i class="status-icon {{ providerAdminIcons[element.status] }}"></i
-            ></span>
-            <span> {{ providerAdminTitles[element.status] }}</span>
+            <span> <i class="status-icon {{ providerAdminIcons[element.status] }}"></i></span>
+            <span> {{ statusTitles[element.status] }}</span>
           </div>
         </td>
       </ng-container>
-  
+
       <!-- Name Column -->
       <ng-container matColumnDef="actions" stickyEnd>
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          sortActionDescription="Sort by actions"
-          style="width: 7%;"
-        ></th>
+        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions" style="width: 7%"></th>
         <td mat-cell *matCellDef="let user">
           <div class="icons">
             <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
@@ -120,34 +84,24 @@
               <mat-icon class="action-icon">email</mat-icon>
             </button>
           </div>
-  
+
           <mat-menu #actions="matMenu" class="header_menu">
-            <div *ngIf="user.status === providerAdminStatus.Blocked; then unBlock; else Block"></div>
+            <div *ngIf="user.status === statuses.Blocked; then unBlock; else Block"></div>
             <ng-template #Block>
-              <button mat-menu-item (click)="onBlock({user, isBlocked: true})">
-                Заблокувати користувача
-              </button>
+              <button mat-menu-item (click)="onBlock({user, isBlocked: true})">Заблокувати користувача</button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="onBlock({user, isBlocked: false})">
-                Розблокувати користувача
-              </button>
+              <button mat-menu-item (click)="onBlock({user, isBlocked: false})">Розблокувати користувача</button>
             </ng-template>
-            <button mat-menu-item (click)="onDelete(user)">
-              Видалити користувача
-            </button>
-            <button *ngIf="isEdit" mat-menu-item (click)="onUpdate(user)">
-              Редагувати користувача
-            </button>
+            <button mat-menu-item (click)="onDelete(user)">Видалити користувача</button>
+            <button *ngIf="isEdit" mat-menu-item (click)="onUpdate(user)">Редагувати користувача</button>
           </mat-menu>
           <mat-menu #email="matMenu" class="header_menu">
-            <button mat-menu-item (click)="sendInvitation()">
-              Надіслати запрошення
-            </button>
+            <button mat-menu-item (click)="sendInvitation()">Надіслати запрошення</button>
           </mat-menu>
         </td>
       </ng-container>
-  
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>

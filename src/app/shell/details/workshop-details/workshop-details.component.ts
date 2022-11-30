@@ -5,7 +5,7 @@ import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { RecruitmentStatusUkr, DetailsTabTitles, DetailsTabTitlesReverse } from '../../../shared/enum/enumUA/workshop';
+import { DetailsTabTitles, DetailsTabTitlesReverse, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
 import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
@@ -22,16 +22,16 @@ import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
-  styleUrls: ['./workshop-details.component.scss'],
+  styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
-  readonly recruitmentStatusUkr = RecruitmentStatusUkr;
+  readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   readonly workshopStatus = WorkshopOpenStatus;
   readonly workshopTitles = DetailsTabTitles;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
-  
+
   @Input() role: Role;
   @Input() workshop: Workshop;
   @Input() provider: Provider;
@@ -57,12 +57,10 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
-    this.route.queryParams
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((params: Params) => {
-        this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
-        this.selectedIndex = this.tabIndex;
-      });
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+      this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
+      this.selectedIndex = this.tabIndex;
+    });
   }
 
   private getWorkshopData(): void {
@@ -77,11 +75,11 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
             name: NavBarName.WorkshopResult,
             path: '/result',
             isActive: false,
-            disable: false,
+            disable: false
           },
           { name: this.workshop.title, isActive: false, disable: true }
         )
-      ),
+      )
     ]);
   }
 

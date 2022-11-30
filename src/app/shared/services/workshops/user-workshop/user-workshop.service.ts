@@ -9,7 +9,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
 import { TruncatedItem } from '../../../models/truncated.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserWorkshopService {
   isRelease3: boolean;
@@ -27,7 +27,7 @@ export class UserWorkshopService {
    * This method get related workshops for provider
    */
   getProviderWorkshops(id: string): Observable<ProviderWorkshopCard[]> {
-    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/Workshop/GetWorkshopProviderViewCardByproviderId/${id}`);
+    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`);
   }
 
   /**

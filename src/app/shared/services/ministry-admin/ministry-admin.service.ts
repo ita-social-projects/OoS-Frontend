@@ -11,13 +11,9 @@ import { SearchResponse } from '../../models/search.model';
   providedIn: 'root'
 })
 export class MinistryAdminService {
+  constructor(private http: HttpClient, private store: Store) {}
 
-  constructor(
-    private http: HttpClient,
-    private store: Store,
-  ) {}
-
-  private setParams( parameters: MinistryAdminParameters = {searchString: '',}): HttpParams {
+  private setParams(parameters: MinistryAdminParameters = { searchString: '' }): HttpParams {
     let params = new HttpParams();
 
     if (parameters.searchString) {
@@ -27,8 +23,7 @@ export class MinistryAdminService {
     const size: number = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     const from: number = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString());
-    params = params.set('From', from.toString());
+    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }
@@ -45,8 +40,7 @@ export class MinistryAdminService {
    * * @param ministryAdminId: string
    */
   getMinistryAdminById(ministryAdminId: string): Observable<MinistryAdmin> {
-    let params = new HttpParams();
-    params = params.set('id', `${ministryAdminId}`);
+    let params = new HttpParams().set('id', `${ministryAdminId}`);
 
     return this.http.get<MinistryAdmin>('/api/v1/MinistryAdmin/GetById', { params });
   }
@@ -73,8 +67,7 @@ export class MinistryAdminService {
    * @param ministryAdminId: string
    */
   deleteMinistryAdmin(ministryAdminId: string): Observable<void> {
-    let params = new HttpParams();
-    params = params.set('ministryAdminId', `${ministryAdminId}`);
+    let params = new HttpParams().set('ministryAdminId', `${ministryAdminId}`);
 
     return this.http.delete<void>('/api/v1/MinistryAdmin/Delete', { params });
   }
@@ -84,9 +77,7 @@ export class MinistryAdminService {
    * @param ministryAdminId: string
    */
   blockMinistryAdmin(ministryAdminId: string, isBlocked: boolean): Observable<void> {
-    let params = new HttpParams();
-    params = params.set('ministryAdminId', `${ministryAdminId}`);
-    params = params.set('isBlocked', `${isBlocked}`);
+    let params = new HttpParams().set('ministryAdminId', `${ministryAdminId}`).set('isBlocked', `${isBlocked}`);
 
     return this.http.put<void>('/api/v1/MinistryAdmin/Block', {}, { params });
   }

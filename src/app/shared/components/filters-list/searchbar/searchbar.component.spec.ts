@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SearchbarComponent', () => {
   let component: SearchbarComponent;
@@ -25,10 +26,10 @@ describe('SearchbarComponent', () => {
         NgxsModule.forRoot([]),
         RouterTestingModule,
         MatAutocompleteModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [SearchbarComponent],
-    })
-      .compileComponents();
+      declarations: [SearchbarComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

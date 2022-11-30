@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class InstitutionsService {
   constructor(private http: HttpClient) {}
@@ -13,20 +13,20 @@ export class InstitutionsService {
     return this.http.get<Institution[]>('/api/v1/Institution/GetAll');
   }
 
+  getAllInstitutionHierarchies(): Observable<InstituitionHierarchy[]> {
+    return this.http.get<InstituitionHierarchy[]>('/api/v1/InstitutionHierarchy/GetAll');
+  }
+
   getAllByInstitutionAndLevel(institutionsId: string, hierarchyLevel: number): Observable<InstituitionHierarchy[]> {
-    let params = new HttpParams();
-    params = params.set('institutionId', institutionsId);
-    params = params.set('hierarchyLevel', hierarchyLevel.toString());
+    let params = new HttpParams().set('institutionId', institutionsId).set('hierarchyLevel', hierarchyLevel.toString());
 
     return this.http.get<InstituitionHierarchy[]>('/api/v1/InstitutionHierarchy/GetAllByInstitutionAndLevel', {
-      params,
+      params
     });
   }
 
   getFieldDescriptionByInstitutionId(institutionsId: string): Observable<InstitutionFieldDescription[]> {
-    return this.http.get<InstitutionFieldDescription[]>(
-      `/api/v1/InstitutionFieldDescription/GetByInstitutionId/${institutionsId}`
-    );
+    return this.http.get<InstitutionFieldDescription[]>(`/api/v1/InstitutionFieldDescription/GetByInstitutionId/${institutionsId}`);
   }
 
   getInstitutionHierarchyChildrenById(id: string): Observable<InstituitionHierarchy[]> {
@@ -34,8 +34,8 @@ export class InstitutionsService {
   }
 
   getInstitutionHierarchyParentsId(id: string): Observable<InstituitionHierarchy[]> {
-    let params = new HttpParams();
-    params = params.set('includeCurrentLevel', 'true');
+    let params = new HttpParams().set('includeCurrentLevel', 'true');
+
     return this.http.get<InstituitionHierarchy[]>(`/api/v1/InstitutionHierarchy/GetParents/${id}`, { params });
   }
 }

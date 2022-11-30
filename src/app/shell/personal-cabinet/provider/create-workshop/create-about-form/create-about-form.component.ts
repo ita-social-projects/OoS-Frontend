@@ -6,7 +6,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { WorkshopTypeUkr } from '../../../../../shared/enum/enumUA/provider';
-import { PayRateTypeUkr } from '../../../../../shared/enum/enumUA/workshop';
+import { PayRateTypeEnum } from '../../../../../shared/enum/enumUA/workshop';
 import { WorkshopType, OwnershipTypeName, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
 import { PayRateType } from '../../../../../shared/enum/workshop';
 import { Provider } from '../../../../../shared/models/provider.model';
@@ -16,7 +16,7 @@ import { Workshop } from '../../../../../shared/models/workshop.model';
   selector: 'app-create-about-form',
   templateUrl: './create-about-form.component.html',
   styleUrls: ['./create-about-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -27,7 +27,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly PayRateType = PayRateType;
-  readonly PayRateTypeUkr = PayRateTypeUkr;
+  readonly PayRateTypeUkr = PayRateType;
   readonly ownershipTypeName = OwnershipTypeName;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -37,7 +37,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Input() workshop: Workshop;
@@ -94,7 +94,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
@@ -109,7 +109,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required])
       // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
     });
   }
@@ -153,11 +153,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   /**
    * This method sets null as value for available setas when there is no limit, otherwise it sests either workshop value, or null for selecting new value
    */
-  private setAvailableSeatsControlValue = (
-    availableSeats: number = null,
-    action: string = 'disable',
-    emitEvent: boolean = true
-  ) => {
+  private setAvailableSeatsControlValue = (availableSeats: number = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.availableSeatsControl[action]({ emitEvent });
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
   };
@@ -179,8 +175,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    const setValue = value => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = value => this.AboutFormGroup.get(value).reset();
+    const setValue = (value) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = (value) => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
       // eslint-disable-next-line guard-for-in

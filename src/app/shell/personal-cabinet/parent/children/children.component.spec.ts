@@ -14,19 +14,10 @@ describe('ParentInfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        RouterTestingModule,
-        MatDialogModule
-      ],
+      imports: [NgxsModule.forRoot([]), RouterTestingModule, MatDialogModule],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        ChildrenComponent,
-        MockParentChildCardComponent,
-        MockListChildCardPaginatorComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [ChildrenComponent, MockParentChildCardComponent, MockListChildCardPaginatorComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -48,7 +39,6 @@ class MockParentChildCardComponent {
   @Input() child: Child;
   @Input() applications: Application;
 }
-
 
 @Component({
   selector: 'app-paginator',

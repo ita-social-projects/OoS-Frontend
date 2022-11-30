@@ -12,9 +12,9 @@ import {
   OnUpdateUserSuccess,
   UpdateUser,
   OnUpdateUserFail,
-  GetUserPersonalInfo,
+  GetUserPersonalInfo
 } from './registration.actions';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { User } from '../models/user.model';
@@ -27,13 +27,13 @@ import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
 import { Observable, of, throwError } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
-import { SignalRService } from '../services/signalR/signal-r.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TechAdmin } from '../models/techAdmin.model';
 import { Provider } from '../models/provider.model';
 import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
+import { ModeConstants } from '../constants/constants';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -60,8 +60,8 @@ export interface RegistrationStateModel {
     techAdmin: undefined,
     ministryAdmin: undefined,
     role: Role.unauthorized,
-    subrole: null,
-  },
+    subrole: null
+  }
 })
 @Injectable()
 export class RegistrationState {
@@ -114,7 +114,6 @@ export class RegistrationState {
     private parentService: ParentService,
     private techAdminService: TechAdminService,
     private router: Router,
-    private signalRservice: SignalRService,
     private ministryAdminService: MinistryAdminService
   ) {}
 
@@ -125,20 +124,19 @@ export class RegistrationState {
       customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
-        ProviderRegistration: payload,
-      },
+        ProviderRegistration: payload
+      }
     });
   }
 
   @Action(Logout)
-  Logout({ dispatch }: StateContext<RegistrationStateModel>): void {
+  Logout({}: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
-    dispatch(new CheckAuth());
   }
 
   @Action(CheckAuth)
   CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe(auth => {
+    this.oidcSecurityService.checkAuth().subscribe((auth: LoginResponse) => {
       patchState({ isAuthorized: auth.isAuthenticated });
       if (auth.isAuthenticated) {
         this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
@@ -158,40 +156,32 @@ export class RegistrationState {
   onAuthFail(): void {
     this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
-      panelClass: ['red-snackbar'],
+      panelClass: ['red-snackbar']
     });
   }
 
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-    this.signalRservice.startConnection();
 
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
       patchState({ isAutorizationLoading: false });
     } else {
-      this.router.navigate(['/create-provider', '']).finally(() => patchState({ isAutorizationLoading: false }));
+      this.router.navigate(['/create-provider', ModeConstants.NEW]).finally(() => patchState({ isAutorizationLoading: false }));
     }
   }
 
   @Action(GetProfile)
-  getProfile(
-    { patchState, getState }: StateContext<RegistrationStateModel>,
-    {}: GetProfile
-  ): Observable<Parent> | Observable<Provider> {
+  getProfile({ patchState, getState }: StateContext<RegistrationStateModel>, {}: GetProfile): Observable<Parent> | Observable<Provider> {
     const state = getState();
     patchState({ role: state.user.role as Role });
 
     switch (state.user.role) {
       case Role.parent:
-        return this.parentService
-          .getProfile()
-          .pipe(tap((parent: Parent) => patchState({ parent: parent })));
+        return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
       case Role.techAdmin:
-        return this.techAdminService
-          .getProfile()
-          .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
+        return this.techAdminService.getProfile().pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       case Role.ministryAdmin:
         return this.ministryAdminService
           .getMinistryAdminProfile()
@@ -202,14 +192,9 @@ export class RegistrationState {
   }
 
   @Action(GetUserPersonalInfo)
-  getUserPersonalInfo(
-    { patchState }: StateContext<RegistrationStateModel>,
-    { userRole }: GetUserPersonalInfo
-  ): Observable<User> {
+  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>, { userRole }: GetUserPersonalInfo): Observable<User> {
     patchState({ isLoading: true });
-    return this.userService
-      .getPersonalInfo(userRole)
-      .pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
+    return this.userService.getPersonalInfo(userRole).pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
   }
 
   @Action(UpdateUser)
@@ -233,8 +218,8 @@ export class RegistrationState {
       new GetUserPersonalInfo(payload),
       new ShowMessageBar({
         message: SnackbarText.updateUser,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
     this.router.navigate(['/personal-cabinet/config']);
   }

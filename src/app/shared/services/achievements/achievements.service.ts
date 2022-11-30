@@ -1,18 +1,28 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Achievement, AchievementType } from '../../models/achievement.model';
 import { Child } from '../../models/child.model';
 import { SearchResponse } from '../../models/search.model';
+import { PaginatorState } from '../../store/paginator.state';
+import { PaginationElement } from '../../models/paginationElement.model';
+import { Store } from '@ngxs/store';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AchievementsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
-  getAchievementsByWorkshopId(id: string): Observable<Achievement[]> {
-    return this.http.get<Achievement[]>(`/api/v1/Achievement/GetByWorkshopId/${id}`);
+  getAchievementsByWorkshopId(id: string): Observable<SearchResponse<Achievement[]>> {
+    let params = new HttpParams();
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.achievementPerPage);
+    const from: number = size * (+currentPage.element - 1);
+
+    params = new HttpParams().set('WorkshopId', id).set('From', from.toString()).set('Size', size.toString());
+
+    return this.http.get<SearchResponse<Achievement[]>>(`/api/v1/Achievement/GetByWorkshopId`, { params });
   }
 
   getChildrenByWorkshopId(id: string): Observable<SearchResponse<Child[]>> {

@@ -1,32 +1,57 @@
-<div [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'" fxLayout="column" fxLayoutAlign="center center" fxLayoutGap='1.5rem'>
-  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center"> {{ workshop.price }} грн/{{ PayRateTypeUkr[workshop.payRate] }} </h4>
-  <h4 class="card-title" *ngIf="!workshop.price"> Безкоштовний гурток </h4>
-    <button mat-raised-button class="button button-application" fxLayout="row" fxLayoutAlign="center center" [disabled]="hideApplicationSubmission">
-      <a 
-      [ngClass]="{'disable': hideApplicationSubmission}"
-      [routerLink]="['/create-application', workshop.id]" (click)="login()">ПОДАТИ ЗАЯВУ</a>
+<div
+  [ngClass]="(isMobileScreen$ | async) ? 'container container-mobile' : 'container'"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  fxLayoutGap="1.5rem">
+  <h4 class="card-title" *ngIf="workshop.price" fxFlexAlign="center">
+    {{ workshop.price }} {{ 'UAH' | translate }}/{{ PayRateTypeEnum[workshop.payRate] | translate }}
+  </h4>
+  <h4 class="card-title" *ngIf="!workshop.price">{{ 'FREE_WORKSHOP' | translate }}</h4>
+  <a
+    [ngClass]="{ disable: hideApplicationSubmission }"
+    [routerLink]="['/create-application', workshop.id]"
+    (click)="onOpenDialog()">
+    <button
+      mat-raised-button
+      class="button button-application"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      [disabled]="hideApplicationSubmission">
+      {{ 'APPLY_AN_APPLICATION' | translate }}
     </button>
+  </a>
 
-  <!-- <button mat-raised-button class="button button-msg" (click)="login()">
-    <img class="button-msg-icon" src="assets/icons/message.png" alt="email">
-    Надіслати повідомлення
-  </button> TODO: second release-->
+  <button
+    mat-raised-button
+    class="button button-msg"
+    [routerLink]="['/personal-cabinet/messages/', workshop.id]"
+    [queryParams]="{ mode: ModeConstants.WORKSHOP }">
+    <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
+  </button>
 
-  <ng-container *ngIf="isFavorite then disLike; else like"></ng-container>
+  <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
 
   <ng-template #disLike>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center"
+    <button
+      mat-button
+      class="button button-msg"
+      fxLayout="row"
+      fxLayoutAlign="center center"
       (click)="role === Role.parent && onDisLike()">
       <mat-icon>favorite</mat-icon>
-      Додано в улюблені
+      {{ 'ADDED_TO_FAVORITES' | translate }}
     </button>
   </ng-template>
 
   <ng-template #like>
-    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center"
-      (click)="(role === Role.parent) ? onLike() : onOpenDialog()">
+    <button
+      mat-button
+      class="button button-msg"
+      fxLayout="row"
+      fxLayoutAlign="center center"
+      (click)="role === Role.parent ? onLike() : onOpenDialog(true)">
       <mat-icon>favorite_border</mat-icon>
-      Додати в улюблені
+      {{ 'ADD_TO_FAVORITES' | translate }}
     </button>
   </ng-template>
 </div>

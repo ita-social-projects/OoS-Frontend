@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop, WorkshopFilterCard } from '../../shared/models/workshop.model';
 import { DeclinationPipe } from '../../shared/pipes/declination.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -23,7 +24,8 @@ describe('ResultComponent', () => {
         MatSidenavModule,
         BrowserAnimationsModule,
         MatIconModule,
-        RouterTestingModule
+        RouterTestingModule,
+        TranslateModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
@@ -34,10 +36,9 @@ describe('ResultComponent', () => {
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent,
-        DeclinationPipe,
+        DeclinationPipe
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,8 +56,7 @@ describe('ResultComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockSearchbarComponent {
-}
+class MockSearchbarComponent {}
 
 @Component({
   selector: 'app-ordering',
@@ -95,4 +95,4 @@ class MockWorkshopMapViewListComponent {
   selector: 'app-scroll-to-top',
   template: ''
 })
-class MockScrollToTopComponent { }
+class MockScrollToTopComponent {}

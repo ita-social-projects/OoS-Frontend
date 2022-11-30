@@ -1,7 +1,9 @@
 <div class="wrapper">
   <div *ngIf="isProviderView" fxLayout="row" fxLayoutAlign="end">
     <a [routerLink]="['/create-provider', editLink]" class="edit-icon">
-      <button mat-button (click)="onActivateEditMode()"><mat-icon>edit</mat-icon>Редагувати</button>
+      <button mat-button (click)="onActivateEditMode()">
+        <mat-icon>edit</mat-icon>Редагувати
+      </button>
     </a>
   </div>
   <div *ngIf="!isProviderView" fxLayoutAlign="end">
@@ -13,7 +15,7 @@
   <mat-tab-group (selectedTabChange)="onTabChanged($event)">
     <mat-tab label="Інформація про заклад">
       <h5>Форма власності</h5>
-      <p>{{ ownershipTypeUkr[provider.ownership] }}</p>
+      <p>{{ OwnershipTypeEnum[provider.ownership] | translate }}</p>
       <h5>Тип організації</h5>
       <p>{{ providerTypeUkr[provider.type] }}</p>
       <ng-container *ngIf="provider.institution">

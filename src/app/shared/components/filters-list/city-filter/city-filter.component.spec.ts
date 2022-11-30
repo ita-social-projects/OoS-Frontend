@@ -9,6 +9,7 @@ import { NgxsModule } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CityFilterComponent } from './city-filter.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;
@@ -28,9 +29,10 @@ describe('CityFilterComponent', () => {
         MatOptionModule,
         MatInputModule,
         MatIconModule,
-        HttpClientTestingModule
+        HttpClientTestingModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [CityFilterComponent],
+      declarations: [CityFilterComponent]
     }).compileComponents();
   });
 

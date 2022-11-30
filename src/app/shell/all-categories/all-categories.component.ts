@@ -19,25 +19,19 @@ import { PaginatorState } from '../../shared/store/paginator.state';
   styleUrls: ['./all-categories.component.scss']
 })
 export class AllCategoriesComponent implements OnInit, OnDestroy {
-
   @Select(PaginatorState.directionsPerPage)
-    directionsPerPage$: Observable<number>;
+  directionsPerPage$: Observable<number>;
   @Select(AdminState.filteredDirections)
-    filteredDirections$: Observable<SearchResponse<Direction[]>>;
+  filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
-  constructor(
-    private store: Store,
-    public navigationBarService: NavigationBarService,
-  ) { }
+  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.store.dispatch([
-      new AddNavPath(this.navigationBarService.createOneNavPath(
-        { name: NavBarName.TopDestination, isActive: false, disable: true }
-      )),
-      new GetFilteredDirections(),
+      new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.TopDestination, isActive: false, disable: true })),
+      new GetFilteredDirections()
     ]);
   }
 
@@ -53,5 +47,4 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
-
 }

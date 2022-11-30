@@ -1,18 +1,18 @@
-@import "src/app/shared/styles/navigation-tabs.scss";
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/list-wrappers.scss";
-@import "src/app/shared/styles/search.scss";
+@import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/search.scss';
 
 .table-wrapper {
   padding: 1rem;
 }
 .users-wrapper {
-position: relative;
+  position: relative;
 }
 .tab-wrapper {
   margin-bottom: 4rem;
 }
-.search-bar{
+.search-bar {
   margin-right: 1rem;
 }
 .btn {
@@ -45,7 +45,7 @@ position: relative;
       background-color: #fff;
     }
     .mat-menu-item {
-      color: rgba(0,0,0,.87);
+      color: rgba(0, 0, 0, 0.87);
     }
   }
 }

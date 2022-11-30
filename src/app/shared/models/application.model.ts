@@ -1,4 +1,4 @@
-import { ApplicationStatus } from '../enum/applications';
+import { Statuses } from '../enum/statuses';
 import { EntityType } from '../enum/role';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
@@ -38,7 +38,7 @@ export class ApplicationUpdate {
 
 export interface ApplicationParameters {
   property?: EntityType;
-  statuses: ApplicationStatus[];
+  statuses: Statuses[];
   showBlocked: boolean;
   orderByDateAscending?: boolean;
   orderByAlphabetically?: boolean;
@@ -48,4 +48,3 @@ export interface ApplicationParameters {
   from?: number;
   size?: number;
 }
-

@@ -20,7 +20,7 @@
           class="card-title">
           <a
             *ngIf="isCabinetView"
-            matTooltip="Детальніше"
+            matTooltip="{{ 'MORE_DETAILS' | translate }}"
             matTooltipPosition="above"
             [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
@@ -39,14 +39,18 @@
       <mat-card-footer *ngIf="!isCreateFormView" class="card-footer">
         <ng-container *ngIf="!isCabinetView">
           <a class="more-details" [routerLink]="['/details/workshop', workshopData.workshopId]">
-            <span class="card_link">Детальніше</span>
+            <span class="card_link">
+              {{ 'MORE_DETAILS' | translate }}
+            </span>
             <mat-icon>arrow_forward</mat-icon>
           </a>
         </ng-container>
         <ng-container *ngIf="isCabinetView">
           <a class="more-details" [routerLink]="['/create-achievement', workshopData.workshopId]">
             <mat-icon>add</mat-icon>
-            <span class="card_link">Додати досягнення</span>
+            <span class="card_link">
+              {{ 'ADD_ACHIEVEMENTS' | translate }}
+            </span>
           </a>
         </ng-container>
       </mat-card-footer>
@@ -56,12 +60,14 @@
 
 <ng-template #WorkshopStatusClosed>
   <div fxLayoutAlign="space-between">
-    <div class="chip-color-close">{{ recruitmentStatusUkr.RecruitmentStoped }}</div>
+    <div class="chip-color-close">
+      {{ recruitmentStatusEnum.RecruitmentStoped | translate }}
+    </div>
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
       (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
-      <span class="card_link">{{ recruitmentStatusUkr.Open }}</span>
+      <span class="card_link">{{ recruitmentStatusEnum.Open | translate }}</span>
     </a>
   </div>
 </ng-template>
@@ -84,9 +90,7 @@
 </ng-template>
 
 <ng-template #favorite>
-  <div
-    class="actions_btn action-icon favorite-icon"
-    (click)="role === Role.parent && onDisLike()">
+  <div class="actions_btn action-icon favorite-icon" (click)="role === Role.parent && onDisLike()">
     <mat-icon>favorite</mat-icon>
   </div>
 </ng-template>
@@ -100,17 +104,19 @@
 <ng-template #ProviderWorkshopView>
   <ng-container *ngIf="workshopData.status === workhopStatus.Open; else WorkshopStatusClosed">
     <div fxLayoutAlign="space-between">
-      <div class="chip-color-open">{{ recruitmentStatusUkr.RecruitmentOngoing }}</div>
+      <div class="chip-color-open">
+        {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
+      </div>
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
         (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
-        <span class="card_link">{{ recruitmentStatusUkr.Stop }}</span>
+        <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
       </a>
     </div>
   </ng-container>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> Всього учасників:</p>
+    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
     <span class="card_text card_text_blue">
       {{ workshopData.takenSeats }}
       <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS">
@@ -119,21 +125,16 @@
     </span>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> Очікує підтвердження:</p>
+    <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
     <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
   </div>
 </ng-template>
 
 <ng-template #UserWorkshopView>
   <div *ngIf="userRoleView === Role.parent" fxLayout="row" fxLayoutAlign="space-between center" class="parent-status">
-    <p class="{{ application.status }} icon">
-      <mat-icon>how_to_reg</mat-icon>{{ applicationTitles[application.status] }}
-    </p>
-    <p
-      class="card_link status_action"
-      *ngIf="application.status === applicationStatus.Approved"
-      (click)="onWorkshopLeave()">
-      Залишити гурток
+    <p class="{{ application.status }} icon"><mat-icon>how_to_reg</mat-icon>{{ statusTitles[application.status] }}</p>
+    <p class="card_link status_action" *ngIf="application.status === statuses.Approved" (click)="onWorkshopLeave()">
+      {{ 'LEAVE_WORKSHOP' | translate }}
     </p>
   </div>
 
@@ -158,22 +159,23 @@
     </p>
   </a>
 
-  <p class="card_text" *ngIf="ownershipTypeUkr[workshopData.providerOwnership] && !isHorizontalView">
+  <p class="card_text" *ngIf="OwnershipTypeEnum[workshopData.providerOwnership] && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon>
-    Форма власності: {{ ownershipTypeUkr[workshopData.providerOwnership] }}
+    {{ 'OWNERSHIP' | translate }}: {{ OwnershipTypeEnum[workshopData.providerOwnership] | translate }}
   </p>
   <p class="card_text" [ngClass]="isHorizontalView ? 'hide' : ''">
     <mat-icon class="card_icon">person</mat-icon>
-    {{ workshopData.minAge }} - {{ workshopData.maxAge }} років
+    {{ workshopData.minAge }} - {{ workshopData.maxAge }}
+    {{ 'YEARS' | translate }}
   </p>
   <p class="card_text" *ngIf="!workshopData.price">
     <mat-icon class="card_icon"> attach_money</mat-icon>
-    Безкоштовно
+    {{ 'FOR_FREE' | translate }}
   </p>
   <p class="card_text" *ngIf="workshopData.price">
     <mat-icon class="card_icon"> attach_money</mat-icon>
-    {{ workshopData.price }} грн/
-    {{ PayRateTypeUkr[workshopData.payRate] }}
+    {{ workshopData.price }} {{ 'UAH' | translate }}/
+    {{ PayRateTypeEnum[workshopData.payRate] | translate }}
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>

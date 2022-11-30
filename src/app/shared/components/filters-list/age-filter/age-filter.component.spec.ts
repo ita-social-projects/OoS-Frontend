@@ -11,6 +11,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserModule } from '@angular/platform-browser';
 import { MaterialModule } from '../../../modules/material.module';
 import { MinMaxDirective } from '../../../directives/min-max.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;
@@ -30,13 +31,10 @@ describe('AgeFilterComponent', () => {
         NgxMatTimepickerModule,
         MatButtonModule,
         MaterialModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        AgeFilterComponent,
-        MinMaxDirective
-      ],
-    })
-      .compileComponents();
+      declarations: [AgeFilterComponent, MinMaxDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {

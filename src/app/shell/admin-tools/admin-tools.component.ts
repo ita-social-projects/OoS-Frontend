@@ -10,19 +10,17 @@ import { RegistrationState } from '../../shared/store/registration.state';
 })
 export class AdminToolsComponent implements OnInit, OnDestroy {
   readonly Role = Role;
-  
+
   @Select(RegistrationState.role)
   role$: Observable<string>;
   role: Role;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  
-  constructor() { }
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.role$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((role: Role) => (this.role = role));
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
   }
 
   ngOnDestroy(): void {

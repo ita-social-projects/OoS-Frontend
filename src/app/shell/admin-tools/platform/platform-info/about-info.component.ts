@@ -6,13 +6,13 @@ import { AdminTabsTitle } from '../../../../shared/enum/enumUA/tech-admin/admin-
 import { AdminState } from '../../../../shared/store/admin.state';
 @Component({
   selector: 'app-about-info',
-  template: '<app-info-card [type]="aboutPortal" [platformInfo]="AboutPortal$ | async"></app-info-card>',
+  template: '<app-info-card [type]="aboutPortal" [platformInfo]="AboutPortal$ | async"></app-info-card>'
 })
 export class AboutInfoComponent {
   readonly aboutPortal = AdminTabsTitle.AboutPortal;
 
   @Select(AdminState.AboutPortal)
-    AboutPortal$: Observable<CompanyInformation>;
+  AboutPortal$: Observable<CompanyInformation>;
 
-  constructor() { }
+  constructor() {}
 }

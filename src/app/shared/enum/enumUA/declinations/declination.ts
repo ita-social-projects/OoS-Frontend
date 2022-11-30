@@ -1,44 +1,53 @@
 export enum ReviewDeclination {
   'відгук',
   'відгуки',
-  'відгуків',
+  'відгуків'
 }
 
 export enum ApplicationDeclination {
   'заява',
   'заяви',
-  'заяв',
+  'заяв'
 }
 
 export enum WorkshopDeclination {
   'гурток',
   'гуртки',
   'гуртків',
-  'Гуртки відсутні',
+  'Гуртки відсутні'
 }
+
+// TODO [Localization] – modify the pipe declination #1825
+
+// export enum WorkshopDeclination {
+//   'ENUM.WORKSHOP_DECLINATION.WORKSHOP',
+//   'ENUM.WORKSHOP_DECLINATION.WORKSHOPS',
+//   'ENUM.WORKSHOP_DECLINATION.WORKSHOPS_ABLATIVE',
+//   'ENUM.WORKSHOP_DECLINATION.NO_WORKSHOPS',
+// }
 
 export enum HourDeclination {
   'година',
   'години',
-  'годин',
+  'годин'
 }
 
 export enum DayDeclination {
   'день',
   'дні',
-  'днів',
+  'днів'
 }
 
 export enum MonthDeclination {
   'місяць',
   'місяці',
-  'місяців',
+  'місяців'
 }
 
 export enum YearDeclination {
   'рік',
   'роки',
-  'років',
+  'років'
 }
 
 export enum ChildDeclination {

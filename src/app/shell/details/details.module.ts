@@ -17,6 +17,7 @@ import { AchievementsComponent } from './details-tabs/achievements/achievements.
 import { TeacherCardComponent } from './details-tabs/workshop-teachers/teacher-card/teacher-card.component';
 import { MaterialModule } from '../../shared/modules/material.module';
 import { SharedModule } from '../../shared/shared.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -34,14 +35,8 @@ import { SharedModule } from '../../shared/shared.module';
     AchievementsComponent,
     TeacherCardComponent
   ],
-  imports: [
-    CommonModule,
-    FlexLayoutModule,
-    SharedModule,
-    MaterialModule,
-    RouterModule
-  ],
+  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, TranslateModule, RouterModule],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
   providers: []
 })
-export class DetailsModule { }
+export class DetailsModule {}

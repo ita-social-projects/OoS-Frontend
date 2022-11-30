@@ -11,14 +11,9 @@ describe('StatusInfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatMenuModule,
-        MatDialogModule]
-      ,
-      declarations: [StatusInfoCardComponent],
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), MatMenuModule, MatDialogModule],
+      declarations: [StatusInfoCardComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

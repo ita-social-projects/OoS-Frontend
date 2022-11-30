@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MinMaxDirective } from '../../../directives/min-max.directive';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('PriceFilterComponent', () => {
   let component: PriceFilterComponent;
@@ -26,14 +26,11 @@ describe('PriceFilterComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
-        MatIconModule
+        MatIconModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        PriceFilterComponent,
-        MinMaxDirective
-      ],
-    })
-      .compileComponents();
+      declarations: [PriceFilterComponent, MinMaxDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -20,5 +20,5 @@ export enum CategoryIcons {
   'assets/icons/icon_rehabilitation.svg' = 19,
   'assets/icons/icon_health.svg' = 20,
   'assets/icons/icon_language.svg' = 21,
-  'assets/icons/icon_development.svg' = 0,
+  'assets/icons/icon_development.svg' = 0
 }

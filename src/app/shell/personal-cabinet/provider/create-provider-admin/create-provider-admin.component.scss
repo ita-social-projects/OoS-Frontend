@@ -1,9 +1,9 @@
-@import "src/app/shared/styles/create-form-wrapper.scss";
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/buttons.scss";
-@import "src/app/shared/styles/validation-form.scss";
+@import 'src/app/shared/styles/create-form-wrapper.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/validation-form.scss';
 
-::ng-deep .dropdown-panel.create-admin{
+::ng-deep .dropdown-panel.create-admin {
   max-height: 216px;
 }
 
@@ -18,7 +18,7 @@
 }
 
 ::ng-deep .mat-form-field {
-  .mat-form-field-wrapper  {
-    padding:0;
-  } 
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
 }

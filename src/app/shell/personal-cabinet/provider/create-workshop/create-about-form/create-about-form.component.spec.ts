@@ -11,6 +11,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
@@ -18,6 +19,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from '../../../../../shared/directives/min-max.directive';
 import { Workshop } from '../../../../../shared/models/workshop.model';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -38,9 +40,11 @@ describe('CreateAboutFormComponent', () => {
         MatRadioModule,
         MatButtonToggleModule,
         MatIconModule,
+        MatMenuModule,
         MatSelectModule,
         MatGridListModule,
-        NgxMatTimepickerModule
+        NgxMatTimepickerModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         CreateAboutFormComponent,
@@ -49,8 +53,7 @@ describe('CreateAboutFormComponent', () => {
         MinMaxDirective,
         MockWorkingHoursComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -71,7 +74,7 @@ describe('CreateAboutFormComponent', () => {
       price: new FormControl(''),
       workingHours: new FormControl(''),
       payRate: new FormControl(''),
-      availableSeats: new FormControl(''),
+      availableSeats: new FormControl('')
     });
     fixture.detectChanges();
   });

@@ -1,7 +1,7 @@
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
-import { Provider } from '../models/provider.model';
+import { Provider, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { EntityType } from '../enum/role';
@@ -83,7 +83,7 @@ export class GetAllProviderAdmins {
 
 export class GetWorkshopListByProviderId {
   static readonly type = '[user] get Workshop List By Provider Id';
-  constructor(public payload: string) { }
+  constructor(public payload: string) {}
 }
 
 export class CreateWorkshop {
@@ -148,17 +148,32 @@ export class OnCreateProviderSuccess {
 
 export class UpdateProvider {
   static readonly type = '[provider] update Provider';
-  constructor(public payload: Provider, public isRelease3: boolean) { }
+  constructor(public payload: Provider, public isRelease3: boolean) {}
 }
 
 export class OnUpdateProviderFail {
   static readonly type = '[provider] update Provider fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnUpdateProviderSuccess {
   static readonly type = '[provider] update Provider success';
-  constructor() { }
+  constructor() {}
+}
+
+export class UpdateProviderStatus {
+  static readonly type = '[provider] update Provider status';
+  constructor(public payload: ProviderStatusUpdateData) {}
+}
+
+export class OnUpdateProviderStatusFail {
+  static readonly type = '[provider] update Provider status fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUpdateProviderStatusSuccess {
+  static readonly type = '[provider] update Provider status success';
+  constructor(public payload: ProviderStatusUpdateData) {}
 }
 
 export class CreateProviderAdmin {
@@ -208,17 +223,17 @@ export class OnDeleteProviderAdminFail {
 
 export class UpdateProviderAdmin {
   static readonly type = '[provider] update Provider Admin';
-  constructor(public providerId: string, public providerAdmin: ProviderAdmin) { }
+  constructor(public providerId: string, public providerAdmin: ProviderAdmin) {}
 }
 
 export class OnUpdateProviderAdminFail {
   static readonly type = '[provider] update Provider Admin fail';
-  constructor(public payload: HttpErrorResponse) { }
+  constructor(public payload: HttpErrorResponse) {}
 }
 
 export class OnUpdateProviderAdminSuccess {
   static readonly type = '[provider] update Provider Admin success';
-  constructor(public payload: ProviderAdmin) { }
+  constructor(public payload: ProviderAdmin) {}
 }
 
 export class UpdateWorkshopStatus {
@@ -238,44 +253,59 @@ export class OnUpdateWorkshopStatusFail {
 
 export class BlockParent {
   static readonly type = '[provider] block parent';
-  constructor(public payload: BlockedParent, public entityType: EntityType) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) {}
 }
 
 export class BlockParentFail {
   static readonly type = '[provider] block parent fail';
-  constructor(public payload: Error) { }
+  constructor(public payload: Error) {}
 }
 export class BlockParentSuccess {
   static readonly type = '[provider] block parent success';
-  constructor(public payload: BlockedParent, public entityType: EntityType) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) {}
 }
 
 export class UnBlockParent {
   static readonly type = '[provider] unblock parent';
-  constructor(public payload: BlockedParent, public entityType: EntityType) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) {}
 }
 
 export class UnBlockParentFail {
   static readonly type = '[provider] unblock parent fail';
-  constructor(public payload: Error) { }
+  constructor(public payload: Error) {}
 }
 
 export class UnBlockParentSuccess {
   static readonly type = '[provider] unblock parent success';
-  constructor(public payload: BlockedParent, public entityType: EntityType) { }
+  constructor(public payload: BlockedParent, public entityType: EntityType) {}
 }
 
 export class GetBlockedParents {
   static readonly type = '[provider] get block parent';
-  constructor(public providerId: string, public parentId: string) { }
+  constructor(public providerId: string, public parentId: string) {}
 }
 
 export class OnClearBlockedParents {
   static readonly type = '[provider] clear blockedParents state';
-  constructor( ) { }
+  constructor() {}
 }
 
 export class ResetAchievements {
   static readonly type = '[provider] reset achievements';
   constructor() {}
+}
+
+export class DeleteProviderById {
+  static readonly type = '[provider] delete Provider By Id';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteProviderByIdSuccess {
+  static readonly type = '[provider] delete Provider By Id success';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteProviderByIdFail {
+  static readonly type = '[provider] delete Provider By Id fail';
+  constructor(public payload: HttpErrorResponse) {}
 }

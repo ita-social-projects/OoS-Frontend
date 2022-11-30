@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Codeficator, CodeficatorCityDistrict } from '../../models/codeficator.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class CodeficatorService {
   constructor(private http: HttpClient) {}
@@ -39,9 +39,7 @@ export class CodeficatorService {
    * @param lon number
    */
   getNearestByCoordinates(lat: number, lon: number): Observable<Codeficator> {
-    let params = new HttpParams();
-    params = params.set('Lat', lat.toString());
-    params = params.set('Lon', lon.toString());
+    let params = new HttpParams().set('Lat', lat.toString()).set('Lon', lon.toString());
 
     return this.http.get<Codeficator>('/api/v1/Codeficator/NearestByCoordinates', { params });
   }
