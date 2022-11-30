@@ -12,9 +12,10 @@
 
           <a class="info-link" [routerLink]="'./info/support'">{{ 'SUPPORT' | translate }}</a>
 
-          <button mat-flat-button class="lang">
+          <button mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
             <mat-select
+              #lngSelect
               (selectionChange)="setLanguage()"
               [(value)]="selectedLanguage"
               class="lang-option"
