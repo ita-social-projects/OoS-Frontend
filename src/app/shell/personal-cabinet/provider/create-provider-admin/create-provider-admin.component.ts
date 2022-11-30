@@ -59,6 +59,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   managedWorkshopIds: string[];
   providerAdminId: string;
   isDebuty: boolean;
+  isWorkshopSelect: boolean;
 
   constructor(
     store: Store,
@@ -155,6 +156,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   onWorkshopsSelect(workshopsId: string[]): void {
+    this.isWorkshopSelect = !!workshopsId.length;
     this.managedWorkshopIds = workshopsId;
   }
 
