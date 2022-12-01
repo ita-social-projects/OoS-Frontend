@@ -3,7 +3,6 @@
 </div>
 
 <ng-container *ngIf="filteredDirections$ | async as filteredDirections">
-  {{filteredDirections | json}}
   <div class="card-wrapper">
     <app-category-card
       class="card"
