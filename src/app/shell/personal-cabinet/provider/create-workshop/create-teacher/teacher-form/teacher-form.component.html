@@ -63,7 +63,7 @@
       matInput
       [matDatepicker]="picker"
       formControlName="dateOfBirth"
-      [placeholder]="dateFormPlaceholder"
+      placeholder="{{ dateFormPlaceholder | translate }}"
     />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>

@@ -125,7 +125,7 @@
       "BUILDING": "Building",
       "EMAIL": "Email",
       "KEYWORDS": "Keywords",
-      "MIDDLENAME": "Middlename",
+      "MIDDLENAME": "Middle name",
       "NAME": "Name",
       "OR_MARK_ON_MAP": "Or mark on the map",
       "PHONE": "Phone",
@@ -146,7 +146,8 @@
       "MAXIMUM": "Maximum",
       "PAYMENT_TYPE": "Choose the type of payment for the workshop",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
-      "SYMBOLS": "symbols"
+      "SYMBOLS": "symbols",
+      "DATE_FORMAT": "DD/MM/YYYY"
     },
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",

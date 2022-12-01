@@ -147,7 +147,8 @@
       "MAXIMUM": "Максимум",
       "PAYMENT_TYPE": "Оберіть тип оплати за гурток",
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
-      "SYMBOLS": "символів"
+      "SYMBOLS": "символів",
+      "DATE_FORMAT": "ДД/ММ/РРРР"
     },    
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Дата народження виходить за межі допустимих.",
