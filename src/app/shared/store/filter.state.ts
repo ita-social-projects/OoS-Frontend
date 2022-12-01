@@ -307,9 +307,8 @@ export class FilterState {
   }
 
   @Action(SetRadiusSize)
-  SetRadiusSize({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetRadiusSize): void {
+  SetRadiusSize({ patchState }: StateContext<FilterStateModel>, { payload }: SetRadiusSize): void {
     patchState({ userRadiusSize: payload });
-    dispatch(new FilterChange());
   }
 
   @Action(ClearRadiusSize)
