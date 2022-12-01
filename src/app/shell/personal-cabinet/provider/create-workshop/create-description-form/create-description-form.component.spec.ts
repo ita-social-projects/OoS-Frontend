@@ -14,6 +14,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Provider } from '../../../../../shared/models/provider.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -32,7 +33,8 @@ describe('CreateDescriptionFormComponent', () => {
         MatIconModule,
         MatRadioModule,
         MatGridListModule,
-        MatTooltipModule
+        MatTooltipModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         CreateDescriptionFormComponent,

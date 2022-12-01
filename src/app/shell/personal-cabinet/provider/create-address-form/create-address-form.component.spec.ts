@@ -8,6 +8,7 @@ import { CreateAddressFormComponent } from './create-address-form.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateAddressFormComponent', () => {
   let component: CreateAddressFormComponent;
@@ -22,7 +23,8 @@ describe('CreateAddressFormComponent', () => {
         MatAutocompleteModule,
         ReactiveFormsModule,
         NgxsModule.forRoot([]),
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
       declarations: [CreateAddressFormComponent, MockValidationHintForInputComponent, MockCityAutocompleteComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
