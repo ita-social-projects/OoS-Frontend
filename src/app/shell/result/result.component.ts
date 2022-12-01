@@ -67,20 +67,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     private navigationBarService: NavigationBarService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-    this.route.queryParamMap.pipe(
-      takeUntil(this.destroy$)
-    ).subscribe((params: ParamMap) => {
-      const filterParams = params.get('filter');
-      if (filterParams) {
-        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
-      }
-    });
-  }
+  ) {}
 
   ngOnInit(): void {
     this.addNavPath();
-    this.store.dispatch(new GetFilteredWorkshops(this.isMapView));
     this.setInitialSubscriptions();
   }
 
@@ -102,6 +92,13 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         if (!this.isMobileView) {
           this.store.dispatch(new FiltersSidenavToggle(true));
         }
+      });
+
+    combineLatest([this.route.queryParamMap, this.isMapView$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([queryParamMap]) => {
+        const filterParams = queryParamMap.get('filter');
+        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
 
     this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
@@ -141,10 +138,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   viewHandler(value: ViewType): void {
-    this.store
-      .dispatch(new GetFilteredWorkshops(this.isMapView))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.router.navigate([`result/${value}`]));
+    this.router.navigate([`result/${value}`]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {

@@ -100,13 +100,15 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 
+        this.store.dispatch(new SetMapView(true));
+
         // checking if there are filtered workshops on the map for teh result page view
         if (!!this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
           this.showWarningMessage();
-          this.store.dispatch(new SetMapView(true));
         }
+
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
           this.setAddress();
