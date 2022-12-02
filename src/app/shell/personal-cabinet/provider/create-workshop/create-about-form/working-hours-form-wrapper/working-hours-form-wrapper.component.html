@@ -9,6 +9,6 @@
 </ng-container>
 <div fxLayout="row" fxLayoutAlign="start center" class="add-hour">
   <button class="btn-add" mat-button (click)="addWorkingHours()" [disabled]="workingHoursFormArray.invalid">
-    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще одні Дні/Години
+    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'FORMS.ACTIONS.ADD_MORE_DAYS_HOURS' | translate }}
   </button>
 </div>

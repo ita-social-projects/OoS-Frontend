@@ -71,7 +71,7 @@ export class GetProviderAdminWorkshops {
   constructor() {}
 }
 
-export class GetProviderWorkshops {
+export class GetProviderViewWorkshops {
   static readonly type = '[provider] get Workshops for provider cabinet';
   constructor(public payload: string) {}
 }

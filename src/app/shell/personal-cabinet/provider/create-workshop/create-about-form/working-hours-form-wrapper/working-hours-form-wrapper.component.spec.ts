@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { WorkingHoursFormWrapperComponent } from './working-hours-form-wrapper.component';
 
@@ -14,7 +15,15 @@ describe('WorkingHoursFormWrapperComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, ReactiveFormsModule, FormsModule, MatButtonModule, BrowserModule, BrowserAnimationsModule],
+      imports: [
+        MatIconModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatButtonModule,
+        BrowserModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
+      ],
       declarations: [WorkingHoursFormWrapperComponent, MockWorkingHoursComponent]
     }).compileComponents();
   });

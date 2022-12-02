@@ -1,6 +1,6 @@
 <form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl"
-    >Використати контактні дані надавача освітніх послуг
+    >{{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
   </mat-checkbox>
 
   <app-image-form-control
@@ -12,7 +12,7 @@
     [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"
   ></app-image-form-control>
 
-  <label class="step-label">Назва<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.TITLE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue />
   </mat-form-field>
@@ -23,7 +23,7 @@
   >
   </app-validation-hint>
 
-  <label class="step-label">Телефон<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start center">
       <span class="step-text">{{ phonePrefix }}</span>
@@ -47,13 +47,13 @@
   >
   </app-validation-hint>
 
-  <label class="step-label">Електронна пошта<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
     <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
   <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"> </app-validation-hint>
 
-  <label class="step-label">Веб сайт</label>
+  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
   </mat-form-field>
@@ -88,11 +88,11 @@
 
   <div class="border-bottom"></div>
 
-  <label class="step-label">Вік дітей<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
     <div fxLayout="column" fxLayoutAlign="start start">
       <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="step-text">Від</p>
+        <p class="step-text">{{ 'FROM' | translate }}</p>
         <mat-form-field>
           <input
             matInput
@@ -114,7 +114,7 @@
 
     <div fxLayout="column" fxLayoutAlign="start start">
       <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="step-text">До</p>
+        <p class="step-text">{{ 'TO' | translate }}</p>
         <mat-form-field>
           <input
             matInput
@@ -134,12 +134,12 @@
     </div>
   </div>
 
-  <label class="step-label">Розклад занять<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
   <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"></app-working-hours-form-wrapper>
 
-  <label class="step-label">Вартість<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false"> Безкоштовно</mat-radio-button>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="conteiner">
       <div fxLayout="row" fxLayoutAlign="center center" class="price">
         <mat-radio-button #radio2 name="radioBtn2" [value]="true"
@@ -157,18 +157,18 @@
         </mat-radio-button>
       </div>
       <div fxLayoutAlign="center center" class="pay-type">
-        <p class="step-text price-text">грн за</p>
+        <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
         <mat-select
           disableOptionCentering
           panelClass="dropdown-panel"
           class="step-input"
           formControlName="payRate"
           name="payRate"
-          placeholder="Оберіть тип олати за гурток"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}"
         >
           <ng-container *ngFor="let type of PayRateType | keyvalue">
-            <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-              {{ PayRateTypeUkr[type.key] | translate}}
+            <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+              {{ PayRateTypeEnum[type.key] | translate }}
             </mat-option>
           </ng-container>
         </mat-select>
@@ -179,18 +179,21 @@
 
   <div *ngIf="provider.ownership !== ownershipTypeName.State" fxLayout="column" fxLayoutAlign="center space-between">
     <div fxLayout="row" fxLayoutAlign="left space-between">
-      <label class="step-label"> Кількість доступних місць<span class="step-required">*</span></label>
-      <i [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
-        [matMenuTriggerFor]="childInfo" #childTrigger="matMenuTrigger"
-        (menuOpened)="opened = childTrigger.menuOpen" (menuClosed)="opened = childTrigger.menuOpen">info_outline</i>
+      <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label>
+      <i
+        [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
+        [matMenuTriggerFor]="childInfo"
+        #childTrigger="matMenuTrigger"
+        (menuOpened)="opened = childTrigger.menuOpen"
+        (menuClosed)="opened = childTrigger.menuOpen"
+        >info_outline</i
+      >
       <mat-menu class="hint-menu" #childInfo="matMenu" [overlapTrigger]="false">
-        Обравши опцію "Без обмежень" - гурток не має обмежень на кількість користувачів. 
-        Якщо ввести кількість доступних місць для користувачів - по досягненню ліміта набір 
-        буде автоматично закрито і подачу заявок зупинено автоматично.
+        {{ 'INFO_MENU.UNLIMITED' | translate }}
       </mat-menu>
     </div>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
-      <mat-radio-button [value]="true">Без обмежень</mat-radio-button>
+      <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>
       <div class="conteiner" fxLayout="row" fxLayoutAlign="space-between center">
         <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
           <mat-radio-button [value]="false">

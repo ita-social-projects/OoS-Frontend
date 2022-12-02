@@ -67,7 +67,6 @@ import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../mo
 import { OnPageChangeDirections } from './paginator.actions';
 import { PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
-import { GetProfile } from './registration.actions';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetMainPageInfo } from './main-page.actions';
@@ -99,7 +98,7 @@ export interface AdminStateModel {
     lawsAndRegulations: null,
     direction: null,
     isLoading: false,
-    filteredDirections: undefined,
+    filteredDirections: null,
     selectedDirection: null,
     children: null,
     providers: null,

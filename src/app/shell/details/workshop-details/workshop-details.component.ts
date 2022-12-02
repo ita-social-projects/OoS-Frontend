@@ -22,7 +22,7 @@ import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
-  styleUrls: ['./workshop-details.component.scss']
+  styleUrls: ['./workshop-details.component.scss'],
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
@@ -63,29 +63,37 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  
+  getWorkshops(): void {
+    this.store.dispatch(new GetWorkshopsByProviderId(this.workshop.providerId, this.workshop.id));
+  }
+
   private getWorkshopData(): void {
     this.images = this.imagesService.setCarouselImages(this.workshop);
+    this.getWorkshops();
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-      new GetWorkshopsByProviderId(this.workshop.providerId, this.workshop.id),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
             name: NavBarName.WorkshopResult,
             path: '/result',
             isActive: false,
-            disable: false
+            disable: false,
           },
           { name: this.workshop.title, isActive: false, disable: true }
         )
-      )
+      ),
     ]);
   }
-
+  
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = event.tab.textLabel;
-    this.router.navigate(['./'], { relativeTo: this.route, queryParams: { status: DetailsTabTitlesReverse[tabLabel] } });
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { status: DetailsTabTitlesReverse[tabLabel] },
+    });
   }
 
   ngOnDestroy(): void {
