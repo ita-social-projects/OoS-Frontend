@@ -7,6 +7,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
 import { NgxsModule } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('InstitutionHierarchyComponent', () => {
   let component: InstitutionHierarchyComponent;
@@ -21,6 +22,7 @@ describe('InstitutionHierarchyComponent', () => {
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
+        TranslateModule.forRoot(),
         NgxsModule.forRoot([])
       ],
       declarations: [InstitutionHierarchyComponent, MockValidationHintHierarchyComponent]
