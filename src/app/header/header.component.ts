@@ -82,25 +82,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((isMobileScreen: boolean) => (this.isMobileScreen = isMobileScreen));
 
-    this.user$
-      .pipe(
-        filter((user: User) => !!user),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((user: User) => {
-        this.userShortName = this.getFullName(user);
-        this.user = user;
-      });
+    this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
+      this.userShortName = this.getFullName(user);
+      this.user = user;
+    });
 
-    this.headerInfo$
-      .pipe(
-        filter((info: CompanyInformation) => !!info),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((headerInfo: CompanyInformation) => {
-        this.headerTitle = headerInfo.title;
-        this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
-      });
+    this.headerInfo$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((headerInfo: CompanyInformation) => {
+      this.headerTitle = headerInfo.title;
+      this.headerSubtitle = headerInfo.companyInformationItems[0].sectionName;
+    });
   }
 
   private getFullName(user: User): string {
