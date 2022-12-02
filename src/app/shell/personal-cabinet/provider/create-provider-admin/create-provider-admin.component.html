@@ -131,7 +131,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-          <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="!isWorkshopSelect">Зберегти</button>
+          <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="!managedWorkshopIds">Зберегти</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>
