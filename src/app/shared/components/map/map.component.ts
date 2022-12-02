@@ -87,6 +87,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
+    this.store.dispatch(new SetMapView(true));
     this.settlement$
       .pipe(
         takeUntil(this.destroy$),
@@ -99,8 +100,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
         };
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
-
-        this.store.dispatch(new SetMapView(true));
 
         // checking if there are filtered workshops on the map for teh result page view
         if (!!this.filteredWorkshops$) {

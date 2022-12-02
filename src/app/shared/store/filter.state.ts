@@ -52,7 +52,7 @@ import { SetFirstPage } from './paginator.actions';
     settlement: null,
     filteredWorkshops: null,
     isLoading: false,
-    isConfirmCity: true,
+    isConfirmCity: false,
     mapViewCoords: null,
     userRadiusSize: null,
     isMapView: false

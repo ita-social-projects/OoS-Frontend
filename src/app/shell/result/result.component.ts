@@ -1,14 +1,21 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Actions, Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
 import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../shared/enum/navigation-bar';
 import { FilterStateModel } from '../../shared/models/filterState.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
-import { GetFilteredWorkshops, ResetFilteredWorkshops, SetMapView, SetFilterFromURL, FilterClear } from '../../shared/store/filter.actions';
+import {
+  GetFilteredWorkshops,
+  ResetFilteredWorkshops,
+  SetMapView,
+  SetFilterFromURL,
+  FilterClear,
+  FilterChange
+} from '../../shared/store/filter.actions';
 import { FilterState } from '../../shared/store/filter.state';
 import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { NavigationState } from '../../shared/store/navigation.state';
@@ -76,23 +83,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.setFilterStateURLParams();
-  }
-
-  private setInitialSubscriptions(): void {
-    combineLatest([this.isMobileView$, this.role$, this.route.params, this.currentPage$, this.workshopsPerPage$, this.isMapView$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([isMobileView, role, params, currentPage, workshopsPerPage, isMapView]) => {
-        this.isMobileView = isMobileView;
-        this.role = role;
-        this.currentView = params.param;
-        this.store.dispatch(new SetMapView(this.currentView === this.viewType.map));
-        this.currentPage = currentPage;
-        this.workshopsPerPage = workshopsPerPage;
-        this.isMapView = isMapView;
-        if (!this.isMobileView) {
-          this.store.dispatch(new FiltersSidenavToggle(true));
-        }
-      });
 
     combineLatest([this.route.queryParamMap, this.isMapView$])
       .pipe(takeUntil(this.destroy$))
@@ -100,6 +90,27 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         const filterParams = queryParamMap.get('filter');
         this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
+  }
+
+  private setInitialSubscriptions(): void {
+    combineLatest([this.currentPage$, this.workshopsPerPage$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([currentPage, workshopsPerPage]) => {
+        this.currentPage = currentPage;
+        this.workshopsPerPage = workshopsPerPage;
+      });
+
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => (this.role = role));
+
+    this.isMobileView$.pipe(takeUntil(this.destroy$)).subscribe((isMobileView: boolean) => {
+      this.isMobileView = isMobileView;
+
+      if (!this.isMobileView) {
+        this.store.dispatch(new FiltersSidenavToggle(true));
+      }
+    });
+
+    this.isMapView$.pipe(takeUntil(this.destroy$)).subscribe((isMapView: boolean) => (this.isMapView = isMapView));
 
     this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
   }
@@ -133,12 +144,13 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState) => {
       // Set Filter param as null to remove it from URL query string
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
-      this.router.navigate([], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+      this.router.navigate([`result/${this.currentView}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
     });
   }
 
   viewHandler(value: ViewType): void {
-    this.router.navigate([`result/${value}`]);
+    this.currentView = value;
+    this.store.dispatch(new SetMapView(this.currentView === this.viewType.map));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
