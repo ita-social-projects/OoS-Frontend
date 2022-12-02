@@ -9,6 +9,7 @@
   "ADMINISTRATION": "Адміністрування",
   "ALL": "Всі",
   "AVAILABLE": "Наявні",
+  "NOT_AVAILABLE": "Відсутні",
   "AWAITING_CONFIRMATION": "Очікує підтвердження",
   "BY_ALPHABET": "За алфавітом",
   "BY_PRICE_DECREASE": "За спаданням ціни",
@@ -109,7 +110,7 @@
     "CONTROL_VALUES": {
       "FEMALE": "Жіноча",
       "MALE": "Чоловіча",
-      "USE_AVAILABLE_CONTACT_DETAILS": "Використати контактні дані надавача освітніх послуг"
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Використати контактні дані надавача освітніх послуг"
     },
     "HEADERS": {
       "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання",
@@ -120,7 +121,6 @@
     },
     "LABELS": {
       "AGE_OF_CHILDREN": "Вік дітей",
-      "AVAILABLE_RESOURSES_FOR_PERSON_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
       "AVAILABLE_SEATS": "Кількість доступних місць",
       "BIRTHDAY":  "Дата народження",
       "BUILDING": "Будинок",
@@ -131,13 +131,13 @@
       "OR_MARK_ON_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
       "PRICE": "Вартість",
-      "SCHEDULE": "Розклад занять",
+      "WORKING_HOURS": "Розклад занять",
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
       "SEX": "Стать",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
-      "SURNAME": "Прізвище",
+      "LAST_NAME": "Прізвище",
       "TITLE": "Назва",
       "WEBSITE": "Веб сайт"
     },

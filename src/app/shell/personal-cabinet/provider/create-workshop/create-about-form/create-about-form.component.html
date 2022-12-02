@@ -1,6 +1,6 @@
 <form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl"
-    >{{ 'FORMS.CONTROL_VALUES.USE_AVAILABLE_CONTACT_DETAILS' | translate }}
+    >{{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
   </mat-checkbox>
 
   <app-image-form-control
@@ -134,7 +134,7 @@
     </div>
   </div>
 
-  <label class="step-label">{{ 'FORMS.LABELS.SCHEDULE' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
   <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"></app-working-hours-form-wrapper>
 
   <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>

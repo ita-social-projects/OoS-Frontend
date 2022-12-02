@@ -9,6 +9,7 @@
   "ADMINISTRATION": "Administration",
   "ALL": "All",
   "AVAILABLE": "Available",
+  "NOT_AVAILABLE": "Not available",
   "AWAITING_CONFIRMATION": "Awaiting confirmation",
   "BY_ALPHABET": "By Alphabet",
   "BY_PRICE_DECREASE": "By price decrease",
@@ -90,7 +91,7 @@
   "FAVORITE": "Favorite",
   "FOR_FREE": "For free",
   "FORMS": {
-    "ABOUT_WORKSHOP": "About workshop",
+    "ABOUT_WORKSHOP": "About",
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "CONTACTS": "Contacts",
     "DESCRIPTION": "Description",
@@ -108,18 +109,17 @@
     "CONTROL_VALUES": {
       "FEMALE": "Female",
       "MALE": "Male",
-      "USE_AVAILABLE_CONTACT_DETAILS": "Use the contact details of the educational services provider"
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider"      
     },
     "HEADERS": {
       "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
-      "EDIT_WORKSHOP": "WORKSHOP EDITING",
+      "EDIT_WORKSHOP": "EDIT WORKSHOP",
       "EDIT_WORKSHOP_DESCRIPTION_PATH": "Edit a",
       "NEW_WORKSHOP": "NEW WORKSHOP",
       "NEW_WORKSHOP_DESCRIPTION_PATH": "Add a new"
     },
     "LABELS": {
       "AGE_OF_CHILDREN": "Age of children",
-      "AVAILABLE_RESOURSES_FOR_PERSON_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
       "AVAILABLE_SEATS": "Number of available seats",
       "BIRTHDAY":  "Birthday",
       "BUILDING": "Building",
@@ -130,13 +130,13 @@
       "OR_MARK_ON_MAP": "Or mark on the map",
       "PHONE": "Phone",
       "PRICE": "Price",
-      "SCHEDULE": "Lessons schedule",
+      "WORKING_HOURS": "Working hours",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "SEX": "Sex",
       "STREET": "Street",
       "SUBORDINATION": "Subordination",
-      "SURNAME": "Surname",
+      "LAST_NAME": "Last name",
       "TITLE": "Title",
       "WEBSITE": "Website"
     },
