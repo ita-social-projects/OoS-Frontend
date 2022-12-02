@@ -167,8 +167,8 @@
           placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}"
         >
           <ng-container *ngFor="let type of PayRateType | keyvalue">
-            <mat-option *ngIf="PayRateTypeUkr[type.key]" [value]="type.key" class="dropdown-option">
-              {{ PayRateTypeUkr[type.key] | translate }}
+            <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
+              {{ PayRateTypeEnum[type.key] | translate }}
             </mat-option>
           </ng-container>
         </mat-select>

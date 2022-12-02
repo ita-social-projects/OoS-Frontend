@@ -49,7 +49,7 @@
   <app-full-search-bar></app-full-search-bar>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
-    <app-ordering *ngIf="!isMapView"></app-ordering>
+    <app-ordering *ngIf="currentView === viewType.list"></app-ordering>
 
     <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
       (change)="viewHandler(group.value)">
