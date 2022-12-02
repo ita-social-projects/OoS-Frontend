@@ -18,6 +18,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
 
   @Input() entities: TruncatedItem[];
   @Input() declination;
+  @Input() labelByDefault;
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
 
@@ -39,7 +40,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
     }
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.declinationPipe.transform(quantity, this.Declination);
-    return quantity < 1 ? selectedEntities : `Усі ${allEntities}`;
+    return quantity < 1 ? selectedEntities : this.labelByDefault || `Усі ${allEntities}`;
   }
 
   ngOnDestroy(): void {
