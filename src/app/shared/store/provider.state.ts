@@ -35,7 +35,7 @@ import {
   GetBlockedParents,
   GetChildrenByWorkshopId,
   GetProviderAdminWorkshops,
-  GetProviderWorkshops,
+  GetProviderViewWorkshops,
   GetWorkshopListByProviderId,
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
@@ -94,7 +94,7 @@ export interface ProviderStateModel {
   achievements: SearchResponse<Achievement[]>;
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
-  providerWorkshops: ProviderWorkshopCard[];
+  providerWorkshops: SearchResponse<ProviderWorkshopCard[]>;
   providerAdmins: ProviderAdmin[];
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
@@ -136,7 +136,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerWorkshops(state: ProviderStateModel): ProviderWorkshopCard[] {
+  static providerWorkshops(state: ProviderStateModel): SearchResponse<ProviderWorkshopCard[]> {
     return state.providerWorkshops;
   }
 
@@ -317,26 +317,38 @@ export class ProviderState {
   getProviderAdminWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
     {}: GetProviderAdminWorkshops
-  ): Observable<ProviderWorkshopCard[]> {
+  ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getProviderAdminsWorkshops().pipe(
-      tap((providerWorkshops: ProviderWorkshopCard[]) => {
-        return patchState({ providerWorkshops, isLoading: false });
-      })
-    );
+    return this.userWorkshopService
+      .getProviderAdminsWorkshops()
+      .pipe(
+        tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
+          patchState(
+            providerWorkshops
+              ? { providerWorkshops: providerWorkshops, isLoading: false }
+              : { providerWorkshops: EMPTY_RESULT, isLoading: false }
+          )
+        )
+      );
   }
 
-  @Action(GetProviderWorkshops)
+  @Action(GetProviderViewWorkshops)
   getProviderWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
-    { payload }: GetProviderWorkshops
-  ): Observable<ProviderWorkshopCard[]> {
+    { payload }: GetProviderViewWorkshops
+  ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getProviderWorkshops(payload).pipe(
-      tap((providerWorkshops: ProviderWorkshopCard[]) => {
-        return patchState({ providerWorkshops, isLoading: false });
-      })
-    );
+    return this.userWorkshopService
+      .getProviderViewWorkshops(payload)
+      .pipe(
+        tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
+          patchState(
+            providerWorkshops
+              ? { providerWorkshops: providerWorkshops, isLoading: false }
+              : { providerWorkshops: EMPTY_RESULT, isLoading: false }
+          )
+        )
+      );
   }
 
   @Action(GetAllProviderAdmins)
@@ -431,7 +443,7 @@ export class ProviderState {
         message: SnackbarText.deleteWorkshop,
         type: 'success',
       }),
-      new GetProviderWorkshops(payload.providerId),
+      new GetProviderViewWorkshops(payload.providerId),
     ]);
   }
 
