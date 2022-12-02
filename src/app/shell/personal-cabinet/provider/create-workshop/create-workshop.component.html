@@ -12,7 +12,7 @@
       <mat-horizontal-stepper linear>
         <mat-step [stepControl]="AboutFormGroup">
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'FORMS.ABOUT_WORKSHOP' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
           </ng-template>
           <app-create-about-form
             fxLayout="row"
@@ -35,7 +35,7 @@
 
         <mat-step [stepControl]="DescriptionFormGroup" [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'FORMS.DESCRIPTION' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
           <app-create-description-form
             fxLayout="row"
@@ -47,7 +47,7 @@
           >
           </app-create-description-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <button class="btn" mat-raised-button matStepperPrevious>{{ 'FORMS.ACTIONS.BACK' | translate }}</button>
+            <button class="btn" mat-raised-button matStepperPrevious>{{ 'TITLES.ACTIONS.BACK' | translate }}</button>
             <a [routerLink]="'/personal-cabinet/provider/workshops'"
               ><button mat-raised-button class="btn btn-cancel">{{ 'CANCEL' | translate }}</button></a
             >
@@ -62,7 +62,7 @@
           [completed]="!DescriptionFormGroup.invalid && !AboutFormGroup.invalid && !AddressFormGroup.invalid"
         >
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'FORMS.CONTACTS' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
           <app-create-workshop-address [address]="workshop?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-workshop-address>
@@ -82,7 +82,7 @@
           [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid"
         >
           <ng-template matStepLabel>
-            <p class="step-name">{{ 'FORMS.TEACHERS' | translate }}</p>
+            <p class="step-name">{{ 'TITLES.TEACHERS' | translate }}</p>
           </ng-template>
           <app-create-teacher
             [teachers]="workshop?.teachers"

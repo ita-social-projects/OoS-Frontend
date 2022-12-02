@@ -1,7 +1,5 @@
 {
-  "ABOUT_THE_PROVIDER": "About the provider",
   "ABOUT_THE_PORTAL": "ABOUT THE PORTAL",
-  "ABOUT_THE_WORKSHOP": "About the workshop",
   "ADD": "Add",
   "ADD_TO_FAVORITES": "Add to favorites",
   "ADDED_TO_FAVORITES": "Added to favorites",
@@ -30,7 +28,6 @@
     "SATURDAY": "Sat",
     "SUNDAY": "Sun"
   },
-  "DAYS_HOURS": "Days/Hours",
   "DIRECTIONS": "Categories",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
@@ -42,14 +39,6 @@
       "CHILDREN_ABLATIVE": "children",
       "NO_CHILDREN": "No children",
       "CHILDREN": "children"
-    },
-    "DETAILS_TAB_TITLES": {
-      "ABOUT_THE_WORKSHOP": "ABOUT THE WORKSHOP",
-      "ABOUT_THE_PROVIDER": "ABOUT THE PROVIDER",
-      "ACHIEVEMENTS": "ACHIEVEMENTS",
-      "REVIEWS": "REVIEWS",
-      "OTHER_WORKSHOPS_OF_THE_PROVIDER": "MORE WORKSHOPS",
-      "TEACHERS": "TEACHERS"
     },
     "OWNERSHIP_TYPE": {
       "COMMON": "Common",
@@ -91,11 +80,7 @@
   "FAVORITE": "Favorite",
   "FOR_FREE": "For free",
   "FORMS": {
-    "ABOUT_WORKSHOP": "About",
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
-    "CONTACTS": "Contacts",
-    "DESCRIPTION": "Description",
-    "TEACHERS": "Teachers",
     "UAH_FOR": "UAH for",
     "ACTIONS": {
       "ADD_ANOTHER_SECTION": "Add another section",
@@ -123,6 +108,7 @@
       "AVAILABLE_SEATS": "Number of available seats",
       "BIRTHDAY":  "Birthday",
       "BUILDING": "Building",
+      "DAYS_HOURS": "Days/Hours",
       "EMAIL": "Email",
       "KEYWORDS": "Keywords",
       "MIDDLENAME": "Middle name",
@@ -136,6 +122,7 @@
       "SEX": "Sex",
       "STREET": "Street",
       "SUBORDINATION": "Subordination",
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
       "LAST_NAME": "Last name",
       "TITLE": "Title",
       "WEBSITE": "Website"
@@ -188,8 +175,17 @@
   "OWNERSHIP": "Ownership",
   "PAID": "Paid",
   "PERSONAL_INFORMATION": "Personal information",
-  "PRICE": "Price",
-  "THERE_ARE_NO": "There are none",
+  "TITLES": {
+    "CONTACTS": "Contacts",
+    "DESCRIPTION": "Description",
+    "TEACHERS": "Teachers",
+    "ABOUT_THE_WORKSHOP": "About the workshop",
+    "ABOUT_THE_WORKSHOP_SHORT": "About",
+    "ABOUT_THE_PROVIDER": "About the provider",
+    "ACHIEVEMENTS": "Achievements",
+    "REVIEWS": "Reviews",
+    "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops"
+  },
   "TO": "To",
   "TOP_DIRECTIONS": "Top Categories",
   "TOP_WORKSHOPS": "Top Workshops",
@@ -205,7 +201,6 @@
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Sign up - we will help you attract new students!",
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
   "SUPPORT": "SUPPORT",
-  "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
   "UAH": "UAH",
   "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",

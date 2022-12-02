@@ -29,7 +29,7 @@
     <mat-icon class="mat-icon-add">add</mat-icon>{{ 'FORMS.ACTIONS.ADD_ANOTHER_SECTION' | translate }}
   </button>
 
-  <label class="step-label"> {{ 'SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
+  <label class="step-label"> {{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
   <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>

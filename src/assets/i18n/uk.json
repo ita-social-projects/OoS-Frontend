@@ -1,7 +1,5 @@
 {
-  "ABOUT_THE_PROVIDER": "ПРО ЗАКЛАД",
   "ABOUT_THE_PORTAL": "ПРО ПОРТАЛ",
-  "ABOUT_THE_WORKSHOP": "ПРО ГУРТОК",
   "ADD": "Додати",
   "ADD_TO_FAVORITES": "Додати в улюблені",
   "ADDED_TO_FAVORITES": "Додано в улюблені",
@@ -21,7 +19,6 @@
   "CLOSE_RECRUITMENT": "Закритий набір",
   "CONFIRM": "Підтвердити",
   "CONTACTS": "КОНТАКТИ",
-  "PRICE": "Вартість",
   "DAYS": {
     "MONDAY": "ПН",
     "TUESDAY": "ВТ",
@@ -31,7 +28,6 @@
     "SATURDAY": "СБ",
     "SUNDAY": "НД"
   },
-  "DAYS_HOURS": "Дні/Години",
   "DIRECTIONS": "Напрямки",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
@@ -43,14 +39,6 @@
       "CHILDREN_ABLATIVE": "дітей",
       "NO_CHILDREN": "Діти відсутні",
       "CHILDREN": "діти"
-    },
-    "DETAILS_TAB_TITLES": {
-      "ABOUT_THE_WORKSHOP": "ПРО ГУРТОК",
-      "ABOUT_THE_PROVIDER": "ПРО ЗАКЛАД",
-      "ACHIEVEMENTS": "ДОСЯГНЕННЯ",
-      "REVIEWS": "ВІДГУКИ",
-      "OTHER_WORKSHOPS_OF_THE_PROVIDER": "ІНШІ ГУРТКИ ЗАКЛАДУ",
-      "TEACHERS": "ВИКЛАДАЧІ"
     },
     "OWNERSHIP_TYPE": {
       "COMMON": "Комунальна",
@@ -92,11 +80,7 @@
   "FAVORITE": "Улюблене",
   "FOR_FREE": "Безкоштовно",
   "FORMS": {
-    "ABOUT_WORKSHOP": "Про гурток",
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
-    "CONTACTS": "Контакти",
-    "DESCRIPTION": "Опис",
-    "TEACHERS": "Викладачі",
     "UAH_FOR": "грн за",
     "ACTIONS": {
       "ADD_ANOTHER_SECTION": "Додати ще один розділ",
@@ -124,6 +108,7 @@
       "AVAILABLE_SEATS": "Кількість доступних місць",
       "BIRTHDAY":  "Дата народження",
       "BUILDING": "Будинок",
+      "DAYS_HOURS": "Дні/Години",
       "EMAIL": "Електронна пошта",
       "KEYWORDS": "Ключові слова",
       "MIDDLENAME": "По-батькові",
@@ -137,6 +122,7 @@
       "SEX": "Стать",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
       "LAST_NAME": "Прізвище",
       "TITLE": "Назва",
       "WEBSITE": "Веб сайт"
@@ -190,6 +176,17 @@
   "PAID": "Платні",
   "PERSONAL_INFORMATION": "Особиста інформація",
   "THERE_ARE_NO": "Відсутні",
+  "TITLES": {
+    "CONTACTS": "Контакти",
+    "DESCRIPTION": "Опис",
+    "TEACHERS": "Викладачі",
+    "ABOUT_THE_WORKSHOP": "Про гурток",
+    "ABOUT_THE_WORKSHOP_SHORT": "Про гурток",
+    "ABOUT_THE_PROVIDER": "Про заклад",
+    "ACHIEVEMENTS": "Досягнення",
+    "REVIEWS": "Відгуки",
+    "OTHER_WORKSHOPS_OF_THE_PROVIDER": "Інші гуртки закладу"
+  },
   "TO": "До",
   "TOP_DIRECTIONS": "Найпопулярніші напрямки",
   "TOP_WORKSHOPS": "Найпопулярніші гуртки",
@@ -205,7 +202,6 @@
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Зареєструйся - допоможемо залучити нових учнів!",
   "APPLY_AN_APPLICATION": "ПОДАТИ ЗАЯВУ",
   "SUPPORT": "ПІДТРИМКА",
-  "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
   "UAH": "грн",
   "UNLIMITED": "Без обмежень",
   "VIEW_ALL": "Переглянути всі",
