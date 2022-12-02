@@ -21,8 +21,8 @@ export class ProviderService {
     }
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.directionsPerPage);
-    const from: number = size * (+currentPage.element - 1);
+    const size = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    const from = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString()).set('From', from.toString());
 

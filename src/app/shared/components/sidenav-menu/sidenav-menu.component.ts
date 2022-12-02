@@ -17,7 +17,7 @@ import { RegistrationState } from '../../store/registration.state';
 @Component({
   selector: 'app-sidenav-menu',
   templateUrl: './sidenav-menu.component.html',
-  styleUrls: ['./sidenav-menu.component.scss']
+  styleUrls: ['./sidenav-menu.component.scss'],
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
   readonly defaultAdminTabs = AdminTabs[0];
@@ -54,15 +54,10 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
-    this.sidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe((visible) => (this.visibleSidenav = visible));
-    this.user$
-      .pipe(
-        filter((user) => !!user),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((user: User) => {
-        this.user = user;
-      });
+    this.sidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe(visible => (this.visibleSidenav = visible));
+    this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
+      this.user = user;
+    });
   }
 
   login(): void {

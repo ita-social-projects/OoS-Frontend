@@ -20,8 +20,8 @@ export class RatingService {
   setParams(): HttpParams {
     let params = new HttpParams();
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.ratingPerPage);
-    const from: number = size * (+currentPage.element - 1);
+    const size = this.store.selectSnapshot(PaginatorState.ratingPerPage);
+    const from = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString()).set('From', from.toString());
     return params;
