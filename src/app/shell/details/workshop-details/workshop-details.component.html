@@ -27,22 +27,22 @@
     </div>
 
     <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate }}">
+      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate | uppercase }}">
         <app-workshop-about [workshop]="workshop"></app-workshop-about>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate}}">
+      <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate | uppercase }}">
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Teachers | translate }}">
+      <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate }}">
+      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
         <app-all-provider-workshops [workshop]="workshop" (onGetWorkshops)="getWorkshops()"> </app-all-provider-workshops>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate }}">
+      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate}}">
+      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
         <app-achievements [workshop]="workshop"></app-achievements>
       </mat-tab>
     </mat-tab-group>
