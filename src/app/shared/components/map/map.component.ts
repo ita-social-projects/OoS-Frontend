@@ -328,7 +328,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new SetMapView(false)]);
+    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
