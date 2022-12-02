@@ -16,12 +16,12 @@ export enum RecruitmentStatusEnum {
 }
 
 export enum DetailsTabTitles {
-  AboutWorkshop = 'ENUM.DETAILS_TAB_TITLES.ABOUT_THE_WORKSHOP',
-  AboutProvider = 'ENUM.DETAILS_TAB_TITLES.ABOUT_THE_PROVIDER',
-  Teachers = 'ENUM.DETAILS_TAB_TITLES.TEACHERS',
-  OtherWorkshops = 'ENUM.DETAILS_TAB_TITLES.OTHER_WORKSHOPS_OF_THE_PROVIDER',
-  Reviews = 'ENUM.DETAILS_TAB_TITLES.REVIEWS',
-  Achievements = 'ENUM.DETAILS_TAB_TITLES.ACHIEVEMENTS'
+  AboutWorkshop = 'TITLES.ABOUT_THE_WORKSHOP',
+  AboutProvider = 'TITLES.ABOUT_THE_PROVIDER',
+  Teachers = 'TITLES.TEACHERS',
+  OtherWorkshops = 'TITLES.OTHER_WORKSHOPS_OF_THE_PROVIDER',
+  Reviews = 'TITLES.REVIEWS',
+  Achievements = 'TITLES.ACHIEVEMENTS'
 }
 
 export enum DetailsTabTitlesReverse {

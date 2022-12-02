@@ -11,6 +11,7 @@ import { ImageFormControlComponent } from '../../../../../../shared/components/i
 import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
 import { MatRadioModule } from '@angular/material/radio';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -29,7 +30,8 @@ describe('TeacherFormComponent', () => {
         BrowserAnimationsModule,
         MatIconModule,
         MatGridListModule,
-        MatRadioModule
+        MatRadioModule,
+        TranslateModule.forRoot()
       ],
       declarations: [ImageFormControlComponent, TeacherFormComponent, MockValidationHintForInputComponent]
     }).compileComponents();
