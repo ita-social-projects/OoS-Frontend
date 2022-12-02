@@ -104,8 +104,8 @@
       "NEW_WORKSHOP_DESCRIPTION_PATH": "Add a new"
     },
     "LABELS": {
-      "AGE_OF_CHILDREN": "Age of children",
-      "AVAILABLE_SEATS": "Number of available seats",
+      "AGE_OF_PARTICIPANTS": "Age of participants",
+      "AVAILABLE_PLACES": "Number of available places",
       "BIRTHDAY":  "Birthday",
       "BUILDING": "Building",
       "DAYS_HOURS": "Days/Hours",
@@ -113,7 +113,7 @@
       "KEYWORDS": "Keywords",
       "MIDDLENAME": "Middle name",
       "NAME": "Name",
-      "OR_MARK_ON_MAP": "Or mark on the map",
+      "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
       "PRICE": "Price",
       "WORKING_HOURS": "Working hours",

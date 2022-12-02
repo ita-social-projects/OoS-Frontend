@@ -104,8 +104,8 @@
       "NEW_WORKSHOP_DESCRIPTION_PATH": "Додайте новий"
     },
     "LABELS": {
-      "AGE_OF_CHILDREN": "Вік дітей",
-      "AVAILABLE_SEATS": "Кількість доступних місць",
+      "AGE_OF_PARTICIPANTS": "Вік учасників",
+      "AVAILABLE_PLACES": "Кількість доступних місць",
       "BIRTHDAY":  "Дата народження",
       "BUILDING": "Будинок",
       "DAYS_HOURS": "Дні/Години",
@@ -113,7 +113,7 @@
       "KEYWORDS": "Ключові слова",
       "MIDDLENAME": "По-батькові",
       "NAME": "Ім'я",
-      "OR_MARK_ON_MAP": "Або позначте на карті",
+      "OR_SELECT_ON_THE_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
       "PRICE": "Вартість",
       "WORKING_HOURS": "Розклад занять",

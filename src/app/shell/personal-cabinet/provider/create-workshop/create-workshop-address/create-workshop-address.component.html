@@ -4,7 +4,7 @@
     </app-create-address-form>
   </div>
 
-  <p class="text">{{ 'FORMS.LABELS.OR_MARK_ON_MAP' | translate }}</p>
+  <p class="text">{{ 'FORMS.LABELS.OR_SELECT_ON_THE_MAP' | translate }}</p>
   <div class="map">
     <app-map [settelmentFormGroup]="settlementFormControl" [addressFormGroup]="addressFormGroup" (addressSelect)="onAddressSelect($event)">
     </app-map>
