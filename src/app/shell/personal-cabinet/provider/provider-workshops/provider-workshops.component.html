@@ -1,16 +1,27 @@
 <div class="add-wrapper">
   <p class="text">Тут ви можете створити гурток, секцію або групу для навчання</p>
-  <a [routerLink]="['/create-workshop', ModeConstants.NEW]"><button class="btn" mat-raised-button>Додати гурток</button></a>
+  <a [routerLink]="['/create-workshop', ModeConstants.NEW]"
+    ><button class="btn" mat-raised-button>Додати гурток</button></a
+  >
 </div>
-<ng-container *ngIf="!(isLoadingCabinet$ | async)">
-  <div class="card-wrapper">
+
+<ng-container *ngIf="!(isLoadingCabinet$ | async) && !!workshops">
+  <div class="card-wrapper" *ngIf="workshops?.totalAmount; else isEmptyList">
     <app-workshop-card
       class="card"
-      *ngFor="let workshop of workshops$ | async"
+      *ngFor="let workshop of workshops.entities"
       [workshop]="workshop"
       [isCabinetView]="true"
-      (deleteWorkshop)="onDelete($event)"
-    >
+      (deleteWorkshop)="onDelete($event)">
     </app-workshop-card>
   </div>
+  <ng-container *ngIf="workshops.totalAmount">
+    <app-paginator
+      [totalEntities]="workshops.totalAmount"
+      [currentPage]="currentPage$ | async"
+      [itemsPerPage]="workshopsPerPage$ | async"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
+    </app-paginator>
+  </ng-container>
 </ng-container>

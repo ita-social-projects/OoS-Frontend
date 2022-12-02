@@ -37,7 +37,7 @@
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [workshop]="workshop"> </app-all-provider-workshops>
+        <app-all-provider-workshops [workshop]="workshop" (onGetWorkshops)="getWorkshops()"> </app-all-provider-workshops>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>

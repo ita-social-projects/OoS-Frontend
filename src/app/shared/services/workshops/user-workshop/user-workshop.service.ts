@@ -7,9 +7,12 @@ import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
 import { FeaturesList } from '../../../models/featuresList.model';
 import { MetaDataState } from '../../../store/meta-data.state';
 import { TruncatedItem } from '../../../models/truncated.model';
+import { SearchResponse } from '../../../models/search.model';
+import { PaginatorState } from '../../../store/paginator.state';
+import { PaginationElement } from '../../../models/paginationElement.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserWorkshopService {
   isRelease3: boolean;
@@ -17,30 +20,41 @@ export class UserWorkshopService {
   constructor(private http: HttpClient, private store: Store) {}
 
   /**
-   * This method get related workshops for provider admins
+   * This method get related workshops for provider admins personal cabinet
    */
-  getProviderAdminsWorkshops(): Observable<ProviderWorkshopCard[]> {
-    return this.http.get<ProviderWorkshopCard[]>('/api/v1/ProviderAdmin/ManagedWorkshops');
-  }
-
-  /**
-   * This method get related workshops for provider
-   */
-  getProviderWorkshops(id: string): Observable<ProviderWorkshopCard[]> {
-    return this.http.get<ProviderWorkshopCard[]>(`/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`);
-  }
-
-  /**
-   * This method get workshops by Provider id
-   * @param id: string
-   */
-  getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<WorkshopCard[]> {
+  getProviderAdminsWorkshops(): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     let params = new HttpParams();
+    params = this.setPaginationWorkshopParams(params);
+    
+    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
+  }
+
+  /**
+   * This method get related workshops for provider personal cabinet
+   */
+  getProviderViewWorkshops(id: string): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+    let params = new HttpParams();
+    params = this.setPaginationWorkshopParams(params);
+    params.set('WorkshopId', id);
+
+    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(
+      `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`,
+      { params }
+    );
+  }
+
+  /**
+   * This method get workshops by Provider id for details page
+   */
+  getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<SearchResponse<WorkshopCard[]>> {
+    let params = new HttpParams();
+    params = this.setPaginationWorkshopParams(params);
+
     if (excludedWorkshopId) {
-      params = params.set('excludedWorkshopId', excludedWorkshopId);
+      params.set('excludedWorkshopId', excludedWorkshopId);
     }
 
-    return this.http.get<WorkshopCard[]>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
+    return this.http.get<SearchResponse<WorkshopCard[]>>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
   }
 
   /**
@@ -126,5 +140,13 @@ export class UserWorkshopService {
     });
 
     return formData;
+  }
+
+  private setPaginationWorkshopParams(params: HttpParams): HttpParams {
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const from: number = size * (+currentPage.element - 1);
+
+    return params.set('From', from.toString()).set('Size', size.toString());
   }
 }
