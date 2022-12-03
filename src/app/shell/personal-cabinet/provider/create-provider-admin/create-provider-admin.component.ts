@@ -1,8 +1,4 @@
-import {
-  GetAllProviderAdmins,
-  GetWorkshopListByProviderId,
-  UpdateProviderAdmin,
-} from './../../../../shared/store/provider.actions';
+import { GetWorkshopListByProviderId, UpdateProviderAdmin } from './../../../../shared/store/provider.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { Select, Store } from '@ngxs/store';
@@ -19,7 +15,7 @@ import { ValidationConstants } from '../../../../shared/constants/validation';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { CreateProviderAdminTitle, providerAdminRole } from '../../../../shared/enum/provider-admin';
+import { CreateProviderAdminTitle, ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { Role } from '../../../../shared/enum/role';
 import { ProviderAdmin } from '../../../../shared/models/providerAdmin.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
@@ -30,6 +26,7 @@ import { Util } from '../../../../shared/utils/utils';
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
@@ -47,7 +44,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly WorkshopDeclination = WorkshopDeclination;
-  readonly providerAdminRole = providerAdminRole;
+  readonly providerAdminRole = ProviderAdminRole;
   readonly title = CreateProviderAdminTitle;
 
   @Select(RegistrationState.provider)
@@ -55,14 +52,14 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   @Select(ProviderState.truncated)
   truncatedItems$: Observable<TruncatedItem[]>;
   @Select(ProviderState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdmin[]>;
+  providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
 
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
-  providerRole: providerAdminRole;
+  providerRole: ProviderAdminRole;
   managedWorkshopIds: string[];
   providerAdminId: string;
-  isDebuty: boolean;
+  isDeputy: boolean;
 
   constructor(
     store: Store,
@@ -82,8 +79,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       email: new FormControl('', [Validators.required, Validators.email]),
     });
 
-    this.providerRole = providerAdminRole[this.route.snapshot.paramMap.get('param')];
-    this.isDebuty = this.providerRole === providerAdminRole.deputy;
+    this.providerRole = ProviderAdminRole[this.route.snapshot.paramMap.get('param')];
+    this.isDeputy = this.providerRole === ProviderAdminRole.deputy;
     this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
@@ -91,15 +88,15 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.determineEditMode();
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
-
-      if (!this.isDebuty) {
+      if (!this.isDeputy) {
         this.store.dispatch(new GetWorkshopListByProviderId(this.provider.id));
       }
     });
   }
 
   determineEditMode(): void {
-    this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
+    this.providerAdminId = this.route.snapshot.paramMap.get('id');
+    this.editMode = !!this.providerAdminId;
     this.addNavPath();
 
     if (this.editMode) {
@@ -108,14 +105,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   setEditMode(): void {
-    this.providerAdminId = this.route.snapshot.paramMap.get('id');
-    this.store.dispatch(new GetAllProviderAdmins());
-
     this.providerAdmins$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((providerAdmins: ProviderAdmin[]) => {
-        const providerAdmin = providerAdmins.filter(providerAdmin => providerAdmin.id === this.providerAdminId);
-        this.ProviderAdminFormGroup.patchValue(providerAdmin[0], { emitEvent: false });
+      .subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
+        const providerAdmin = providerAdmins.entities.find((providerAdmin: ProviderAdmin) => providerAdmin.id === this.providerAdminId);
+        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
       });
   }
 
@@ -126,9 +120,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     let navBarTitle: string;
 
     if (this.editMode) {
-      this.isDebuty ? (navBarTitle = NavBarName.UpdateProviderDeputy) : (navBarTitle = NavBarName.UpdateProviderAdmin);
+      this.isDeputy ? (navBarTitle = NavBarName.UpdateProviderDeputy) : (navBarTitle = NavBarName.UpdateProviderAdmin);
     } else {
-      this.isDebuty ? (navBarTitle = NavBarName.CreateProviderDeputy) : (navBarTitle = NavBarName.CreateProviderAdmin);
+      this.isDeputy ? (navBarTitle = NavBarName.CreateProviderDeputy) : (navBarTitle = NavBarName.CreateProviderAdmin);
     }
 
     this.store.dispatch(
@@ -168,11 +162,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     let confirmationType: string;
 
     if (this.editMode) {
-      this.isDebuty
+      this.isDeputy
         ? (confirmationType = ModalConfirmationType.updateProviderAdminDeputy)
         : (confirmationType = ModalConfirmationType.updateProviderAdmin);
     } else {
-      this.isDebuty
+      this.isDeputy
         ? (confirmationType = ModalConfirmationType.createProviderAdminDeputy)
         : (confirmationType = ModalConfirmationType.createProviderAdmin);
     }
@@ -188,7 +182,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       if (result) {
         const providerAdmin = new ProviderAdmin(
           this.ProviderAdminFormGroup.value,
-          this.isDebuty,
+          this.isDeputy,
           this.providerAdminId,
           this.managedWorkshopIds,
           this.provider.id

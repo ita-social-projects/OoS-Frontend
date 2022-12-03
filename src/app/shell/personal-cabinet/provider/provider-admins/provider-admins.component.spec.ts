@@ -56,7 +56,6 @@ describe('ProviderAdminsComponent', () => {
 class MockUsersListComponent {
   @Input() providerAdmins: ProviderAdminTable[];
   @Input() users: ProviderAdminTable[];
-  @Input() filterValue: string;
   @Input() userType: string;
   @Input() isEdit: boolean;
 }

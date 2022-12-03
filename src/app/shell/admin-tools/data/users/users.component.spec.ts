@@ -49,7 +49,6 @@ describe('UsersComponent', () => {
 })
 class MockUsersListComponent {
   @Input() users: object[];
-  @Input() filterValue: string;
   @Input() displayedColumns: string[];
 }
 
