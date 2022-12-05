@@ -31,7 +31,7 @@ import {
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
-  GetAllProviderAdmins,
+  GetFilteredProviderAdmins,
   GetBlockedParents,
   GetChildrenByWorkshopId,
   GetProviderAdminWorkshops,
@@ -95,7 +95,7 @@ export interface ProviderStateModel {
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<ProviderWorkshopCard[]>;
-  providerAdmins: ProviderAdmin[];
+  providerAdmins: SearchResponse<ProviderAdmin[]>;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
 }
@@ -141,7 +141,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerAdmins(state: ProviderStateModel): ProviderAdmin[] {
+  static providerAdmins(state: ProviderStateModel): SearchResponse<ProviderAdmin[]> {
     return state.providerAdmins;
   }
 
@@ -351,15 +351,21 @@ export class ProviderState {
       );
   }
 
-  @Action(GetAllProviderAdmins)
-  getAllProviderAdmins(
+  @Action(GetFilteredProviderAdmins)
+  getFilteredProviderAdmins(
     { patchState }: StateContext<ProviderStateModel>,
-    {}: GetAllProviderAdmins
-  ): Observable<ProviderAdmin[]> {
+    { payload }: GetFilteredProviderAdmins
+  ): Observable<SearchResponse<ProviderAdmin[]>> {
     patchState({ isLoading: true });
     return this.providerAdminService
-      .getAllProviderAdmins()
-      .pipe(tap((providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins, isLoading: false })));
+      .getFilteredProviderAdmins(payload)
+      .pipe(
+        tap((providerAdmins: SearchResponse<ProviderAdmin[]>) =>
+          patchState(
+            providerAdmins ? { providerAdmins, isLoading: false } : { providerAdmins: EMPTY_RESULT, isLoading: false }
+          )
+        )
+      );
   }
 
   @Action(CreateWorkshop)
@@ -589,10 +595,10 @@ export class ProviderState {
   @Action(BlockProviderAdminById)
   blockProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: BlockProviderAdminById
+    { payload, filterParams }: BlockProviderAdminById
   ): Observable<void | Observable<void>> {
     return this.providerAdminService.blockProviderAdmin(payload).pipe(
-      tap(() => dispatch(new OnBlockProviderAdminSuccess(payload))),
+      tap(() => dispatch(new OnBlockProviderAdminSuccess(payload, filterParams))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
     );
   }
@@ -609,10 +615,10 @@ export class ProviderState {
   @Action(OnBlockProviderAdminSuccess)
   onBlockProviderAdminSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnBlockProviderAdminSuccess
+    { payload, filterParams }: OnBlockProviderAdminSuccess
   ): void {
     dispatch([
-      new GetAllProviderAdmins(),
+      new GetFilteredProviderAdmins(filterParams),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success',
@@ -623,10 +629,10 @@ export class ProviderState {
   @Action(DeleteProviderAdminById)
   deleteProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: DeleteProviderAdminById
+    { payload, filterParams }: DeleteProviderAdminById
   ): Observable<void | Observable<void>> {
     return this.providerAdminService.deleteProviderAdmin(payload.userId, payload.providerId).pipe(
-      tap(() => dispatch(new OnDeleteProviderAdminSuccess())),
+      tap(() => dispatch(new OnDeleteProviderAdminSuccess(filterParams))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderAdminFail(error))))
     );
   }
@@ -641,9 +647,12 @@ export class ProviderState {
   }
 
   @Action(OnDeleteProviderAdminSuccess)
-  onDeleteProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnDeleteProviderAdminSuccess): void {
+  onDeleteProviderAdminSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { filterParams }: OnDeleteProviderAdminSuccess
+  ): void {
     dispatch([
-      new GetAllProviderAdmins(),
+      new GetFilteredProviderAdmins(filterParams),
       new ShowMessageBar({
         message: SnackbarText.deleteProviderAdmin,
         type: 'success',

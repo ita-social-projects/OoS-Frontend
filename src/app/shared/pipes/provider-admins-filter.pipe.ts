@@ -1,6 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../enum/enumUA/provider-admin';
-import { providerAdminRole } from '../enum/provider-admin';
+import { ProviderAdminRole } from '../enum/provider-admin';
 import { ProviderAdminTable } from '../models/providerAdmin.model';
 
 @Pipe({

@@ -5,7 +5,7 @@
   >
 </div>
 
-<ng-container *ngIf="!(isLoadingCabinet$ | async) && !!workshops">
+<ng-container *ngIf="!(isLoading$ | async) && !!workshops">
   <div class="card-wrapper" *ngIf="workshops?.totalAmount; else isEmptyList">
     <app-workshop-card
       class="card"
