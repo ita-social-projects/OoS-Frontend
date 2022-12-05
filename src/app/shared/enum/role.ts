@@ -24,7 +24,6 @@ export enum RoleLinks {
 }
 
 export enum EntityType {
-  parent = 'parent',
   provider = 'provider',
   workshop = 'workshop',
   ProviderAdmin = 'provideradmin',
