@@ -113,7 +113,8 @@
             <app-entity-checkbox-dropdown
               [entities]="truncatedItems$ | async"
               [declination]="WorkshopDeclination"
-              [dropdownContainerClass]="'create-admin'"
+              labelByDefault="Обрати гуртки"
+              dropdownContainerClass="create-admin"
               (entityCheck)="onWorkshopsSelect($event)"
             >
             </app-entity-checkbox-dropdown>
@@ -130,7 +131,7 @@
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-          <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
+          <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="!managedWorkshopIds">Зберегти</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

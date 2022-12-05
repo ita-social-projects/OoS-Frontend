@@ -11,24 +11,35 @@
   </ng-container>
 </small>
 
-<ng-template #requiredInputTmpl> Це поле є обов'язковим. <br /> </ng-template>
+<ng-template #requiredInputTmpl> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }} <br /> </ng-template>
 
-<ng-template #invalidCharactersTmpl> Перевірте введені дані, використовуйте будь-ласка тільки кирилицю <br /> </ng-template>
+<ng-template #invalidCharactersTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_CHARACHTERS' | translate }}<br />
+</ng-template>
 
-<ng-template #invalidSymbolsTmpl> Перевірте введені дані, використовуйте будь-ласка тільки кирилицю та символи ( ' - ) <br /> </ng-template>
+<ng-template #invalidSymbolsTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_SYMBOLS' | translate }} <br />
+</ng-template>
 
-<ng-template #invalidLengthTmpl> Це поле має містити від {{ minCharachters }} до {{ maxCharachters }} символів. <br /> </ng-template>
+<ng-template #invalidLengthTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ 'FROM' | translate | lowercase }} {{ minCharachters }}
+  {{ 'TO' | translate | lowercase }} {{ maxCharachters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }} <br />
+</ng-template>
 
 <ng-template #incorrectDateFieldTmpl>
-  Перевірте введені данні. <br />
-  Використовуйте "{{ dateFormPlaceholder }}" формат. Наприклад "20/10/2010". <br />
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} <br />
+  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ dateFormPlaceholder }}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}
+  <br />
 </ng-template>
 
 <ng-template #invalidDateRangeTmpl>
-  Перевірте введені данні. <br />
-  Дата народження виходить за межі допустимих. <br />
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} <br />
+  {{ 'FORMS.VALIDATIONS.INVALID_BIRTHDAY' | translate }}<br />
 </ng-template>
 
-<ng-template #invalidEmailTmpl> Введіть коректний імейл. <br /> </ng-template>
+<ng-template #invalidEmailTmpl> {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }} <br /> </ng-template>
 
-<ng-template #invalidPhoneTmpl> Це поле має містити {{ minCharachters }} символів. <br /> </ng-template>
+<ng-template #invalidPhoneTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharachters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}
+  <br />
+</ng-template>

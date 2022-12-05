@@ -18,7 +18,7 @@ import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.a
 
 @Component({
   selector: 'app-parent-applications',
-  templateUrl: './parent-applications.component.html'
+  templateUrl: './parent-applications.component.html',
 })
 export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly ChildDeclination = ChildDeclination;
@@ -34,7 +34,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false
+    showBlocked: false,
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -42,16 +42,11 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   }
 
   init(): void {
-    this.parent$
-      .pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.onGetApplications();
-        this.getParentChildren();
-      });
+    this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
+      this.parent = parent;
+      this.onGetApplications();
+      this.getParentChildren();
+    });
   }
 
   protected addNavPath(): void {
@@ -59,7 +54,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }

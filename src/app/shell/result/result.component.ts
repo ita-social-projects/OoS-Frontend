@@ -115,15 +115,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
   }
 
-  // TODO: Get rid of getWorkshops method, if we won't need it in nearest future.
-  private getWorkshops(): void {
-    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: NavigationStart) => {
-      if (event.navigationTrigger === 'popstate') {
-        this.store.dispatch(new GetFilteredWorkshops(this.isMapView));
-      }
-    });
-  }
-
   private addNavPath(): void {
     this.store.dispatch(
       new AddNavPath(

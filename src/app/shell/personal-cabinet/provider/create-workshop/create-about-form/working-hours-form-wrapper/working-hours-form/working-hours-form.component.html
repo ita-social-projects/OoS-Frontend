@@ -23,7 +23,7 @@
     <div fxLayout="row" fxLayoutAlign="start center">
       <div fxLayout="column" fxLayoutAlign="start start">
         <div fxLayout="row " fxLayoutAlign="start center">
-          <p class="text">Від</p>
+          <p class="text">{{ 'FROM' | translate }}</p>
           <input
             class="input step-input start-time-input"
             type="text"
@@ -41,7 +41,7 @@
 
       <div fxLayout="column" fxLayoutAlign="start start">
         <div fxLayout="row" fxLayoutAlign="start center">
-          <p class="text">До</p>
+          <p class="text">{{ 'TO' | translate }}</p>
           <input
             class="input step-input finish-time-input"
             type="text"
@@ -65,15 +65,15 @@
 </div>
 
 <ng-template #ValidationHintTmpl>
-  <small appValidationMessageStyling> Це поле є обов'язковим. <br /> </small>
+  <small appValidationMessageStyling> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }} <br /> </small>
 </ng-template>
 
 <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass=""> </ngx-mat-timepicker>
 <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
 
 <ng-template #btnCancel>
-  <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
+  <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'CANCEL' | translate }}</button>
 </ng-template>
 <ng-template #btnConfirm>
-  <button class="btn" mat-raised-button>Зберегти</button>
+  <button class="btn" mat-raised-button>{{ 'FORMS.ACTIONS.SAVE' | translate }}</button>
 </ng-template>

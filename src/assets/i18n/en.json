@@ -1,7 +1,5 @@
 {
-  "ABOUT_THE_PROVIDER": "About the provider",
   "ABOUT_THE_PORTAL": "ABOUT THE PORTAL",
-  "ABOUT_THE_WORKSHOP": "About the workshop",
   "ADD": "Add",
   "ADD_TO_FAVORITES": "Add to favorites",
   "ADDED_TO_FAVORITES": "Added to favorites",
@@ -9,6 +7,7 @@
   "ADMINISTRATION": "Administration",
   "ALL": "All",
   "AVAILABLE": "Available",
+  "NOT_AVAILABLE": "Not available",
   "AWAITING_CONFIRMATION": "Awaiting confirmation",
   "BY_ALPHABET": "By Alphabet",
   "BY_PRICE_DECREASE": "By price decrease",
@@ -29,7 +28,6 @@
     "SATURDAY": "Sat",
     "SUNDAY": "Sun"
   },
-  "DAYS_HOURS": "Days/Hours",
   "DIRECTIONS": "Categories",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
@@ -41,14 +39,6 @@
       "CHILDREN_ABLATIVE": "children",
       "NO_CHILDREN": "No children",
       "CHILDREN": "children"
-    },
-    "DETAILS_TAB_TITLES": {
-      "ABOUT_THE_WORKSHOP": "ABOUT THE WORKSHOP",
-      "ABOUT_THE_PROVIDER": "ABOUT THE PROVIDER",
-      "ACHIEVEMENTS": "ACHIEVEMENTS",
-      "REVIEWS": "REVIEWS",
-      "OTHER_WORKSHOPS_OF_THE_PROVIDER": "MORE WORKSHOPS",
-      "TEACHERS": "TEACHERS"
     },
     "OWNERSHIP_TYPE": {
       "COMMON": "Common",
@@ -89,10 +79,84 @@
   "EXACT_MATCH": "Exact match",
   "FAVORITE": "Favorite",
   "FOR_FREE": "For free",
+  "FORMS": {
+    "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
+    "UAH_FOR": "UAH for",
+    "ACTIONS": {
+      "ADD_ANOTHER_SECTION": "Add another section",
+      "ADD_ANOTHER_TEACHER": "Add another teacher",
+      "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
+      "BACK": "Back",
+      "NEXT": "Next",
+      "REMOVE_TEACHER_DATA": "Remove data about the teacher",
+      "SAVE": "Save"
+    },
+    "CONTROL_VALUES": {
+      "FEMALE": "Female",
+      "MALE": "Male",
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider"      
+    },
+    "HEADERS": {
+      "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
+      "EDIT_WORKSHOP": "EDIT WORKSHOP",
+      "EDIT_WORKSHOP_DESCRIPTION_PATH": "Edit a",
+      "NEW_WORKSHOP": "NEW WORKSHOP",
+      "NEW_WORKSHOP_DESCRIPTION_PATH": "Add a new"
+    },
+    "LABELS": {
+      "AGE_OF_PARTICIPANTS": "Age of participants",
+      "AVAILABLE_PLACES": "Number of available places",
+      "BIRTHDAY":  "Birthday",
+      "BUILDING": "Building",
+      "DAYS_HOURS": "Days/Hours",
+      "EMAIL": "Email",
+      "KEYWORDS": "Keywords",
+      "MIDDLENAME": "Middle name",
+      "NAME": "Name",
+      "OR_SELECT_ON_THE_MAP": "Or select on the map",
+      "PHONE": "Phone",
+      "PRICE": "Price",
+      "WORKING_HOURS": "Working hours",
+      "SECTION_TITLE": "Section title",
+      "SETTLEMENT": "Settlement",
+      "SEX": "Sex",
+      "STREET": "Street",
+      "SUBORDINATION": "Subordination",
+      "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
+      "LAST_NAME": "Last name",
+      "TITLE": "Title",
+      "WEBSITE": "Website"
+    },
+    "PLACEHOLDERS": {
+      "KEYWORDS_START": "Enter keywords by which users can search for your workshop and press Enter to add a tag (max",
+      "KEYWORDS_END": "words)",
+      "MAXIMUM": "Maximum",
+      "PAYMENT_TYPE": "Choose the type of payment for the workshop",
+      "SPECIAL_EQUIPMENT": "Ramp/special equipment",
+      "SYMBOLS": "symbols",
+      "DATE_FORMAT": "DD/MM/YYYY"
+    },
+    "VALIDATIONS": {
+      "INVALID_BIRTHDAY": "Date of birth is out of range.",
+      "INVALID_CHARACHTERS": ", please use only Cyrillic",
+      "INVALID_DATA_START": "Use \"",
+      "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
+      "INVALID_EMAIL": "Enter a valid email.",
+      "INVALID_INPUT": "Check your data",
+      "INVALID_MAP": "No such address was found on the map",
+      "INVALID_SYMBOLS": ", please use only Cyrillic and symbols ( ' - )",
+      "INVALID_LENGTH_START": "This field must contain",
+      "INVALID_LENGTH_END": "symbols.",
+      "REQUIRED_INPUT": "This field is required."
+    }
+  },
   "FOUND": "Found",
   "FOUNDER": "Founder",
   "FREE_WORKSHOP": "FREE WORKSHOP",
   "FROM": "From",
+  "INFO_MENU": {
+    "UNLIMITED": "By selecting the \"Unlimited\" option, the group has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically."
+  },
   "RATE": "RATE",
   "LEAVE_WORKSHOP": "Leave workshop",
   "LIST": "List",
@@ -111,8 +175,17 @@
   "OWNERSHIP": "Ownership",
   "PAID": "Paid",
   "PERSONAL_INFORMATION": "Personal information",
-  "PRICE": "Price",
-  "THERE_ARE_NO": "There are none",
+  "TITLES": {
+    "CONTACTS": "Contacts",
+    "DESCRIPTION": "Description",
+    "TEACHERS": "Teachers",
+    "ABOUT_THE_WORKSHOP": "About the workshop",
+    "ABOUT_THE_WORKSHOP_SHORT": "About",
+    "ABOUT_THE_PROVIDER": "About the provider",
+    "ACHIEVEMENTS": "Achievements",
+    "REVIEWS": "Reviews",
+    "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops"
+  },
   "TO": "To",
   "TOP_DIRECTIONS": "Top Categories",
   "TOP_WORKSHOPS": "Top Workshops",
@@ -128,8 +201,8 @@
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Sign up - we will help you attract new students!",
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
   "SUPPORT": "SUPPORT",
-  "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
   "UAH": "UAH",
+  "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",
   "WORKING_DAYS": "Working days",
   "WORKING_HOURS": "Working hours",

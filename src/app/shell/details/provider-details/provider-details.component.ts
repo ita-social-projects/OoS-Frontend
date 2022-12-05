@@ -11,12 +11,12 @@ import { NavigationBarService } from '../../../shared/services/navigation-bar/na
 import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
 import { AddNavPath } from '../../../shared/store/navigation.actions';
 import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
-import {DetailsTabTitles} from '../../../shared/enum/enumUA/workshop';
+import { DetailsTabTitles } from '../../../shared/enum/enumUA/workshop';
 
 @Component({
   selector: 'app-provider-details',
   templateUrl: './provider-details.component.html',
-  styleUrls: ['./provider-details.component.scss']
+  styleUrls: ['./provider-details.component.scss'],
 })
 export class ProviderDetailsComponent implements OnInit, OnDestroy {
   readonly tabTitles = DetailsTabTitles;
@@ -39,17 +39,21 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe(() => (this.selectedIndex = 0));
   }
 
+  getWorkshops(): void {
+    this.store.dispatch(new GetWorkshopsByProviderId(this.provider.id));
+  }
+
   private getProviderData(): void {
     this.images = this.imagesService.setCarouselImages(this.provider);
+    this.getWorkshops();
     this.store.dispatch([
       new GetRateByEntityId(EntityType.provider, this.provider.id),
-      new GetWorkshopsByProviderId(this.provider.id),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           { name: NavBarName.WorkshopResult, path: '/result', isActive: false, disable: false },
           { name: this.provider.fullTitle, isActive: false, disable: true }
         )
-      )
+      ),
     ]);
   }
 
