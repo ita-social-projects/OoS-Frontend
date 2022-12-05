@@ -38,10 +38,7 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.workshops$
-      .pipe(
-        filter((workshops: SearchResponse<WorkshopCard[]>) => !!workshops),
-        takeUntil(this.destroy$)
-      )
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
   }
 
