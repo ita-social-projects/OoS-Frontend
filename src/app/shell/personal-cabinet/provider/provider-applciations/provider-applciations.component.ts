@@ -17,7 +17,7 @@ import {
   BlockParent,
   UnBlockParent,
   GetProviderAdminWorkshops,
-  GetWorkshopListByProviderId
+  GetWorkshopListByProviderId,
 } from '../../../../shared/store/provider.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { GetApplicationsByProviderId, UpdateApplication } from '../../../../shared/store/shared-user.actions';
@@ -29,7 +29,7 @@ import { ReasonModalWindowComponent } from './../../../../shared/components/conf
 
 @Component({
   selector: 'app-provider-applciations',
-  templateUrl: './provider-applciations.component.html'
+  templateUrl: './provider-applciations.component.html',
 })
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
@@ -45,7 +45,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false
+    showBlocked: false,
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -57,23 +57,19 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }
 
   init(): void {
-    this.provider$
-      .pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((provider: Provider) => {
-        this.applicationParams.property = EntityType[this.subRole];
-        this.providerId = this.subRole === Role.ProviderAdmin ? this.store.selectSnapshot(RegistrationState.user).id : provider.id;
-        this.getProviderWorkshops();
-        this.onGetApplications();
-      });
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.applicationParams.property = EntityType[this.subRole];
+      this.providerId =
+        this.subRole === Role.ProviderAdmin ? this.store.selectSnapshot(RegistrationState.user).id : provider.id;
+      this.getProviderWorkshops();
+      this.onGetApplications();
+    });
   }
 
   onGetApplications(): void {
@@ -104,7 +100,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    */
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent }
+      data: { type: ModalConfirmationType.blockParent },
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -123,8 +119,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.unBlockParent
-      }
+        type: ModalConfirmationType.unBlockParent,
+      },
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {

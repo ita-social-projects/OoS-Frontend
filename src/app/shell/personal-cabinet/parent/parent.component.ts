@@ -9,7 +9,7 @@ import { RegistrationState } from '../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-parent',
-  template: ''
+  template: '',
 })
 export abstract class ParentComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
@@ -26,14 +26,9 @@ export abstract class ParentComponent extends CabinetDataComponent implements On
    * This method subscribe on provider and get it's workshops
    */
   init(): void {
-    this.parent$
-      .pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.initParentData();
-      });
+    this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
+      this.parent = parent;
+      this.initParentData();
+    });
   }
 }

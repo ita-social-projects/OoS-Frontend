@@ -37,7 +37,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   itemsPerPage$: Observable<number>;
 
   filterFormControl = new FormControl('');
-  filterValue: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
   allUsers: UsersTable[] = [];
