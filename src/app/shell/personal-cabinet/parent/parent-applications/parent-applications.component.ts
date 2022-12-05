@@ -6,15 +6,16 @@ import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { ApplicationParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
+import { ApplicationFilterParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import { UpdateApplication, GetApplicationsByParentId } from '../../../../shared/store/shared-user.actions';
+import { UpdateApplication, GetApplicationsByPropertyId } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { Statuses } from '../../../../shared/enum/statuses';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
+import { ApplicationEntityType } from '../../../../shared/enum/applications';
 
 @Component({
   selector: 'app-parent-applications',
@@ -29,8 +30,8 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   @Select(ParentState.truncatedItems)
   truncatedItems$: Observable<TruncatedItem[]>;
 
-  applicationParams: ApplicationParameters = {
-    property: null,
+  applicationParams: ApplicationFilterParameters = {
+    property: ApplicationEntityType.parent,
     statuses: [],
     workshops: [],
     children: [],
@@ -69,7 +70,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   }
 
   onGetApplications(): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, this.applicationParams));
+    this.store.dispatch(new GetApplicationsByPropertyId(this.parent.id, this.applicationParams));
   }
 
   /**

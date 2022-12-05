@@ -20,7 +20,7 @@ import { SetRatingPerPage, OnPageChangeRating } from '../../../../shared/store/p
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import {
   OnCreateRatingSuccess,
-  GetReviewedApplications,
+  GetReviewedStatus,
   GetStatusAllowedToReview,
   CreateRating,
 } from '../../../../shared/store/parent.actions';
@@ -80,7 +80,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       .subscribe(() =>
         this.store.dispatch([
           new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-          new GetReviewedApplications(this.parent.id, this.workshop.id),
+          new GetReviewedStatus(this.parent.id, this.workshop.id),
         ])
       );
 
@@ -100,7 +100,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       this.parent = parent;
       this.store.dispatch([
         new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
-        new GetReviewedApplications(this.parent.id, this.workshop.id),
+        new GetReviewedStatus(this.parent.id, this.workshop.id),
       ]);
     });
   }

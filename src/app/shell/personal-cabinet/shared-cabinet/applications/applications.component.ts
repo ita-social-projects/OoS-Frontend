@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
-import { Application, ApplicationParameters } from '../../../../shared/models/application.model';
+import { Application, ApplicationFilterParameters } from '../../../../shared/models/application.model';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
@@ -51,7 +51,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
-  @Input() applicationParams: ApplicationParameters;
+  @Input() applicationParams: ApplicationFilterParameters;
   @Input() dropdownEntities: Child[] | Workshop[];
   @Input() declination: ChildDeclination | WorkshopDeclination;
   @Input() role: Role;

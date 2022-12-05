@@ -15,8 +15,8 @@ export class GetStatusAllowedToReview {
   constructor(public parentId: string, public workshopId: string) {}
 }
 
-export class GetReviewedApplications {
-  static readonly type = '[parent] get reviewed applications By parent id';
+export class GetReviewedStatus {
+  static readonly type = '[parent] get reviewed status for workshop by parent id';
   constructor(public parentId: string, public workshopId: string) {}
 }
 

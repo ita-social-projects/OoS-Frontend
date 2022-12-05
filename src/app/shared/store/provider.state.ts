@@ -1,3 +1,4 @@
+import { GetApplicationsByPropertyId } from './shared-user.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -82,7 +83,6 @@ import {
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
-import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
@@ -187,7 +187,7 @@ export class ProviderState {
         tap((achievements: SearchResponse<Achievement[]>) =>
           patchState(
             achievements
-              ? { achievements: achievements, isLoading: false }
+              ? { achievements, isLoading: false }
               : { achievements: EMPTY_RESULT, isLoading: false }
           )
         )
@@ -204,7 +204,7 @@ export class ProviderState {
       tap((approvedChildren: SearchResponse<Child[]>) => {
         return patchState(
           approvedChildren
-            ? { approvedChildren: approvedChildren, isLoading: false }
+            ? { approvedChildren, isLoading: false }
             : { approvedChildren: EMPTY_RESULT, isLoading: false }
         );
       })
@@ -325,7 +325,7 @@ export class ProviderState {
         tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
           patchState(
             providerWorkshops
-              ? { providerWorkshops: providerWorkshops, isLoading: false }
+              ? { providerWorkshops, isLoading: false }
               : { providerWorkshops: EMPTY_RESULT, isLoading: false }
           )
         )
@@ -344,7 +344,7 @@ export class ProviderState {
         tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
           patchState(
             providerWorkshops
-              ? { providerWorkshops: providerWorkshops, isLoading: false }
+              ? { providerWorkshops, isLoading: false }
               : { providerWorkshops: EMPTY_RESULT, isLoading: false }
           )
         )
@@ -747,7 +747,7 @@ export class ProviderState {
     { payload, entityType }: BlockParentSuccess
   ): void {
     dispatch([
-      new GetApplicationsByProviderId(payload.providerId, {
+      new GetApplicationsByPropertyId(payload.providerId, {
         property: entityType,
         statuses: [],
         showBlocked: false,
@@ -781,17 +781,14 @@ export class ProviderState {
     { payload, entityType }: UnBlockParentSuccess
   ): void {
     dispatch([
-      new GetApplicationsByProviderId(payload.providerId, {
+      new GetApplicationsByPropertyId(payload.providerId, {
         property: entityType,
         statuses: [],
-        showBlocked: true,
+        showBlocked: false,
         workshops: [],
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({
-        message: SnackbarText.unblockPerson,
-        type: 'success',
-      }),
+      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' }),
     ]);
   }
 

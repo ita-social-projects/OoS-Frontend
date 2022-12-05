@@ -9,3 +9,12 @@ export enum ApplicationIcons {
   Blocked = 'fas fa-user-lock',
   Editing = 'fas fa-user-clock'
 }
+
+export enum ApplicationEntityType {
+  parent = 'parents',
+  provider = 'providers',
+  workshop = 'workshops',
+  ProviderAdmin = 'provideradmins',
+  ProviderDeputy = 'providers',
+  None = 'providers'
+}
