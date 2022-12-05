@@ -99,8 +99,15 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    * @param Application event
    */
   onReject(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application, Statuses.Rejected, application?.rejectionMessage);
-    this.store.dispatch(new UpdateApplication(applicationUpdate));
+    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+      data: { type: ModalConfirmationType.rejectApplication },
+    });
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        const applicationUpdate = new ApplicationUpdate(application, Statuses.Rejected, application?.rejectionMessage);
+        this.store.dispatch(new UpdateApplication(applicationUpdate));
+      }
+    });
   }
 
   /**

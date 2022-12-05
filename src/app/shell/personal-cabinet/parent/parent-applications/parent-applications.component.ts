@@ -20,6 +20,9 @@ import { Statuses } from '../../../../shared/enum/statuses';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-parent-applications',
@@ -69,8 +72,18 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
    * @param Application event
    */
   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application, Statuses.Left);
-    this.store.dispatch(new UpdateApplication(applicationUpdate));
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.leaveWorkshop,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        const applicationUpdate = new ApplicationUpdate(application, Statuses.Left);
+        this.store.dispatch(new UpdateApplication(applicationUpdate));
+      }
+    });
   }
 
   onGetApplications(): void {
