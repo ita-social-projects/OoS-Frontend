@@ -64,15 +64,7 @@ export class ApplicationService {
    * @param application Application
    */
   createApplication(application: Application): Observable<HttpResponse<Application>> {
-    return this.http.post<Application>('/api/v1/Application/Create', application, { observe: 'response' });
-  }
-
-  /**
-   * This method delete Application by Application id
-   * @param id string
-   */
-  deleteApplication(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Application/Delete/${id}`);
+    return this.http.post<Application>('/api/v1/applications', application, { observe: 'response' });
   }
 
   /**
@@ -80,7 +72,7 @@ export class ApplicationService {
    * @param application: ApplicationUpdate
    */
   updateApplication(application: ApplicationUpdate): Observable<Application> {
-    return this.http.put<Application>('/api/v1/Application/Update', application);
+    return this.http.put<Application>('/api/v1/applications', application);
   }
 
   /**
@@ -98,6 +90,6 @@ export class ApplicationService {
    * @param workshopId string
    */
   getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
-    return this.http.get<boolean>(`/api/v1/applications/reviewable/parents/${parentId}/workshops${workshopId}`);
+    return this.http.get<boolean>(`/api/v1/applications/reviewable/parents/${parentId}/workshops/${workshopId}`);
   }
 }

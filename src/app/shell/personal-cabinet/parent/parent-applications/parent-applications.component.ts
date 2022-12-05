@@ -6,7 +6,11 @@ import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { ApplicationFilterParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
+import {
+  ApplicationFilterParameters,
+  Application,
+  ApplicationUpdate,
+} from '../../../../shared/models/application.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
@@ -65,7 +69,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
    * @param Application event
    */
   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Left);
+    const applicationUpdate = new ApplicationUpdate(application, Statuses.Left);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 

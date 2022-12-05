@@ -90,7 +90,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    * @param Application event
    */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Approved);
+    const applicationUpdate = new ApplicationUpdate(application, Statuses.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -99,7 +99,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    * @param Application event
    */
   onReject(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Rejected, application?.rejectionMessage);
+    const applicationUpdate = new ApplicationUpdate(application, Statuses.Rejected, application?.rejectionMessage);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
