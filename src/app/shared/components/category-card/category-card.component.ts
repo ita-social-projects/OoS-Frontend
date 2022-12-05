@@ -32,7 +32,7 @@ export class CategoryCardComponent {
 
   selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction.id]));
-    let filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
+    const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
     this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
   }
 }
