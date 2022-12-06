@@ -34,9 +34,9 @@ export class ApplicationUpdate {
 
   constructor(application: Application, status: string, rejectionMessage?: string) {
     this.id = application.id;
-    this.status = status;
     this.workshopId = application.workshopId;
     this.parentId = application.parentId;
+    this.status = status;
     this.rejectionMessage = rejectionMessage;
   }
 }
