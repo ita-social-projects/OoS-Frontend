@@ -22,7 +22,7 @@ import {
   GetAllUsersChildrenByParentId,
   GetFavoriteWorkshops,
   GetFavoriteWorkshopsByUserId,
-  GetReviewedApplications,
+  GetReviewedStatus,
   GetStatusAllowedToReview,
   GetStatusIsAllowToApply,
   GetUsersChildById,
@@ -154,14 +154,14 @@ export class ParentState {
       .pipe(tap((status: boolean) => patchState({ isAllowedToReview: status, isLoading: false })));
   }
 
-  @Action(GetReviewedApplications)
-  getReviewedApplications(
+  @Action(GetReviewedStatus)
+  getReviewedStatus(
     { patchState }: StateContext<ParentStateModel>,
-    { parentId, workshopId }: GetReviewedApplications
+    { parentId, workshopId }: GetReviewedStatus
   ): Observable<boolean> {
     patchState({ isLoading: true });
-    return this.applicationService
-      .getReviewedApplications(parentId, workshopId)
+    return this.ratingService
+      .getReviewedStatus(parentId, workshopId)
       .pipe(tap((status: boolean) => patchState({ isReviewed: status, isLoading: false })));
   }
 

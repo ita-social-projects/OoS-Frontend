@@ -4,7 +4,7 @@ import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil } fro
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
-import { EntityType, Role } from '../../../../shared/enum/role';
+import { Role } from '../../../../shared/enum/role';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import {
   BlockParent,
@@ -27,6 +27,7 @@ import { FormControl } from '@angular/forms';
 import { ChatState } from '../../../../shared/store/chat.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { ApplicationEntityType } from '../../../../shared/enum/applications';
 
 @Component({
   selector: 'app-messages',
@@ -116,7 +117,7 @@ export class MessagesComponent extends CabinetDataComponent {
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         const blockedParent = new BlockedParent(parentId, this.providerId, result);
-        this.store.dispatch(new BlockParent(blockedParent, EntityType[this.subRole]));
+        this.store.dispatch(new BlockParent(blockedParent, ApplicationEntityType[this.subRole]));
       }
     });
   }
@@ -131,7 +132,7 @@ export class MessagesComponent extends CabinetDataComponent {
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         const blockedParent = new BlockedParent(parentId, this.providerId);
-        this.store.dispatch(new UnBlockParent(blockedParent, EntityType[this.subRole]));
+        this.store.dispatch(new UnBlockParent(blockedParent, ApplicationEntityType[this.subRole]));
       }
     });
   }
