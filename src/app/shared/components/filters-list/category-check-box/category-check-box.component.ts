@@ -40,15 +40,10 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
-    this.directions$
-      .pipe(
-        filter(direction => !!direction),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(directions => {
-        this.allDirections = directions;
-        this.filteredDirections = directions;
-      });
+    this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe(directions => {
+      this.allDirections = directions;
+      this.filteredDirections = directions;
+    });
     this.directionSearchFormControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
       .subscribe((val: string) => this.filterDirections(val));
@@ -63,9 +58,9 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     event.checked
       ? this.slectedDirectionIds.push(direction.id)
       : this.slectedDirectionIds.splice(
-        this.slectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-        1
-      );
+          this.slectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+          1
+        );
     this.store.dispatch(new SetDirections(this.slectedDirectionIds));
   }
 

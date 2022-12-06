@@ -1,5 +1,15 @@
 import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Application, ApplicationParameters } from '../../../../shared/models/application.model';
@@ -23,7 +33,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss']
+  styleUrls: ['./applications.component.scss'],
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly statusTitles = StatusTitles;
@@ -64,7 +74,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobileView = event.outerWidth < 530;
   }
 
-  constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected actions$: Actions
+  ) {
     this.onResize(window);
   }
 
@@ -84,11 +99,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.applicationCards$
-      .pipe(
-        filter((applicationCards: SearchResponse<Application[]>) => !!applicationCards),
-        takeUntil(this.destroy$)
-      )
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((applicationCards: SearchResponse<Application[]>) => (this.applicationCards = applicationCards));
+      
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))
@@ -101,13 +114,14 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabLabel = event.tab.textLabel;
-    const statuses = tabLabel !== StatusTitles.Blocked && tabLabel !== StatusTitles.All ? [StatusTitlesReverse[tabLabel]] : [];
+    const statuses =
+      tabLabel !== StatusTitles.Blocked && tabLabel !== StatusTitles.All ? [StatusTitlesReverse[tabLabel]] : [];
     this.applicationParams.statuses = statuses;
     this.applicationParams.showBlocked = tabLabel === StatusTitles.Blocked;
     this.onGetApplications();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: StatusTitlesReverse[tabLabel] }
+      queryParams: { status: StatusTitlesReverse[tabLabel] },
     });
   }
 

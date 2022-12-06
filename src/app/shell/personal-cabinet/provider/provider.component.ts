@@ -9,7 +9,7 @@ import { Provider } from '../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-provider',
-  template: ''
+  template: '',
 })
 export abstract class ProviderComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
@@ -26,14 +26,9 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
    * This method subscribe on provider and get its workshops
    */
   init(): void {
-    this.provider$
-      .pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((provider: Provider) => {
-        this.provider = provider;
-        this.initProviderData();
-      });
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.provider = provider;
+      this.initProviderData();
+    });
   }
 }

@@ -1,4 +1,8 @@
-import { GetAllProviderAdmins, GetWorkshopListByProviderId, UpdateProviderAdmin } from './../../../../shared/store/provider.actions';
+import {
+  GetAllProviderAdmins,
+  GetWorkshopListByProviderId,
+  UpdateProviderAdmin,
+} from './../../../../shared/store/provider.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { Select, Store } from '@ngxs/store';
@@ -31,12 +35,12 @@ const defaultValidators: ValidatorFn[] = [
   Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
 ];
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
-  styleUrls: ['./create-provider-admin.component.scss']
+  styleUrls: ['./create-provider-admin.component.scss'],
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -75,7 +79,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       firstName: new FormControl('', defaultValidators),
       middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, Validators.email])
+      email: new FormControl('', [Validators.required, Validators.email]),
     });
 
     this.providerRole = providerAdminRole[this.route.snapshot.paramMap.get('param')];
@@ -85,18 +89,13 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   ngOnInit(): void {
     this.determineEditMode();
-    this.provider$
-      .pipe(
-        filter((provider: Provider) => !!provider),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((provider: Provider) => {
-        this.provider = provider;
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.provider = provider;
 
-        if (!this.isDebuty) {
-          this.store.dispatch(new GetWorkshopListByProviderId(this.provider.id));
-        }
-      });
+      if (!this.isDebuty) {
+        this.store.dispatch(new GetWorkshopListByProviderId(this.provider.id));
+      }
+    });
   }
 
   determineEditMode(): void {
@@ -113,12 +112,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.store.dispatch(new GetAllProviderAdmins());
 
     this.providerAdmins$
-      .pipe(
-        filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
-        takeUntil(this.destroy$)
-      )
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((providerAdmins: ProviderAdmin[]) => {
-        const providerAdmin = providerAdmins.filter((providerAdmin) => providerAdmin.id === this.providerAdminId);
+        const providerAdmin = providerAdmins.filter(providerAdmin => providerAdmin.id === this.providerAdminId);
         this.ProviderAdminFormGroup.patchValue(providerAdmin[0], { emitEvent: false });
       });
   }
@@ -142,12 +138,12 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
             name: personalCabinetTitle,
             path: '/personal-cabinet/provider/administration',
             isActive: false,
-            disable: false
+            disable: false,
           },
           {
             name: navBarTitle,
             isActive: false,
-            disable: true
+            disable: true,
           }
         )
       )
@@ -159,7 +155,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach((key) => {
+    Object.keys(form.controls).forEach(key => {
       form.get(key).markAsTouched();
     });
   }
@@ -184,8 +180,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: confirmationType
-      }
+        type: confirmationType,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -198,7 +194,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
           this.provider.id
         );
         this.store.dispatch(
-          this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin)
+          this.editMode
+            ? new UpdateProviderAdmin(this.provider.id, providerAdmin)
+            : new CreateProviderAdmin(providerAdmin)
         );
       }
     });
