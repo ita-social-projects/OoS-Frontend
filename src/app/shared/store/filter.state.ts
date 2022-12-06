@@ -41,7 +41,7 @@ import {
   SetSearchQueryValue,
   SetStartTime,
   SetWithDisabilityOption,
-  SetWorkingDays,
+  SetWorkingDays
 } from './filter.actions';
 import { SetFirstPage } from './paginator.actions';
 
@@ -55,8 +55,8 @@ import { SetFirstPage } from './paginator.actions';
     isConfirmCity: true,
     mapViewCoords: null,
     userRadiusSize: null,
-    isMapView: false,
-  },
+    isMapView: false
+  }
 })
 @Injectable()
 export class FilterState {
@@ -129,7 +129,7 @@ export class FilterState {
       startTime,
       endTime,
       statuses,
-      order,
+      order
     } = state;
     return {
       withDisabilityOption,
@@ -140,16 +140,16 @@ export class FilterState {
         minPrice,
         maxPrice,
         isFree,
-        isPaid,
+        isPaid
       },
       workingHours: {
         workingDays,
         startTime,
         endTime,
         isStrictWorkdays,
-        isAppropriateHours,
+        isAppropriateHours
       },
-      order,
+      order
     };
   }
 
@@ -167,7 +167,7 @@ export class FilterState {
 
   @Action(CleanCity)
   cleanCity({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ settlement: undefined });
+    patchState({ settlement: null });
   }
 
   @Action(ConfirmCity)
@@ -228,10 +228,7 @@ export class FilterState {
   }
 
   @Action(SetSearchQueryValue)
-  setSearchQueryValue(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetSearchQueryValue
-  ): void {
+  setSearchQueryValue({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
     patchState({ searchQuery: payload });
     dispatch(new FilterChange());
   }
@@ -243,10 +240,7 @@ export class FilterState {
   }
 
   @Action(SetClosedRecruitment)
-  setClosedRecruitment(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetClosedRecruitment
-  ): void {
+  setClosedRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
     patchState({ statuses: payload });
     dispatch(new FilterChange());
   }
@@ -262,37 +256,26 @@ export class FilterState {
     return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
       tap((filterResult: SearchResponse<WorkshopCard[]>) => {
         patchState(
-          filterResult
-            ? { filteredWorkshops: filterResult, isLoading: false }
-            : { filteredWorkshops: EMPTY_RESULT, isLoading: false }
+          filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: EMPTY_RESULT, isLoading: false }
         );
       })
     );
   }
 
   @Action(SetWithDisabilityOption)
-  setWithDisabilityOption(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetWithDisabilityOption
-  ): void {
+  setWithDisabilityOption({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption): void {
     patchState({ withDisabilityOption: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetIsStrictWorkdays)
-  setIsStrictWorkdays(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetIsStrictWorkdays
-  ): void {
+  setIsStrictWorkdays({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsStrictWorkdays): void {
     patchState({ isStrictWorkdays: payload });
     dispatch(new FilterChange());
   }
 
   @Action(SetIsAppropriateHours)
-  setIsAppropriateHours(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetIsAppropriateHours
-  ): void {
+  setIsAppropriateHours({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateHours): void {
     patchState({ isAppropriateHours: payload });
     dispatch(new FilterChange());
   }
@@ -310,10 +293,7 @@ export class FilterState {
   }
 
   @Action(SetIsAppropriateAge)
-  setIsAppropriateAge(
-    { patchState, dispatch }: StateContext<FilterStateModel>,
-    { payload }: SetIsAppropriateAge
-  ): void {
+  setIsAppropriateAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
     patchState({ isAppropriateAge: payload });
     dispatch(new FilterChange());
   }
@@ -364,7 +344,7 @@ export class FilterState {
 
   @Action(SetFilterFromURL)
   setFilterFromURL({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetFilterFromURL): void {
-    patchState( payload );
+    patchState(payload);
     dispatch(new FilterChange());
   }
 }
