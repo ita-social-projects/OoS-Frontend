@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
@@ -18,7 +18,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
   templateUrl: './city-filter.component.html',
   styleUrls: ['./city-filter.component.scss']
 })
-export class CityFilterComponent implements OnInit, OnDestroy {
+export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly Constants = Constants;
   readonly sliceLength = 25;
 
@@ -39,8 +39,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
-
-  ngOnInit(): void {
+  ngAfterViewInit(): void {
     if (this.geolocationService.isCityInStorage()) {
       this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
     } else {
@@ -51,10 +50,13 @@ export class CityFilterComponent implements OnInit, OnDestroy {
           });
         } else {
           this.store.dispatch(new GetCodeficatorSearch(''));
+          this.setInputFocus();
         }
       });
     }
+  }
 
+  ngOnInit(): void {
     this.settlementListener();
     this.settlement$
       .pipe(
@@ -68,10 +70,10 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
     this.codeficatorSearch$.pipe(takeUntil(this.destroy$)).subscribe((searchResult: Codeficator[]) => {
       let controlValue = this.settlementSearchControl.value;
-      if (controlValue) {
+      if (controlValue && this.isTopCities) {
         this.codeficatorSearch = this.store
           .selectSnapshot(MetaDataState.codeficatorSearch)
-          .filter((codeficator) => codeficator.fullName.toLowerCase().includes(controlValue.toLowerCase()));
+          .filter((codeficator) => codeficator.settlement.toLowerCase().startsWith(controlValue.toLowerCase()));
       } else {
         this.codeficatorSearch = searchResult;
       }
@@ -94,7 +96,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
         } else {
           this.codeficatorSearch = this.store
             .selectSnapshot(MetaDataState.codeficatorSearch)
-            .filter((codeficator) => codeficator.fullName.toLowerCase().includes(value.toLowerCase()));
+            .filter((codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
         }
       });
   }
