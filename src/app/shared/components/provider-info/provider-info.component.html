@@ -1,9 +1,7 @@
 <div class="wrapper">
   <div *ngIf="isProviderView" fxLayout="row" fxLayoutAlign="end">
     <a [routerLink]="['/create-provider', editLink]" class="edit-icon">
-      <button mat-button (click)="onActivateEditMode()">
-        <mat-icon>edit</mat-icon>Редагувати
-      </button>
+      <button mat-button (click)="onActivateEditMode()"><mat-icon>edit</mat-icon>{{ 'EDIT' | translate }}</button>
     </a>
   </div>
   <div *ngIf="!isProviderView" fxLayoutAlign="end">
@@ -13,34 +11,34 @@
   </div>
 
   <mat-tab-group (selectedTabChange)="onTabChanged($event)">
-    <mat-tab label="Інформація про заклад">
-      <h5>Форма власності</h5>
+    <mat-tab label="{{ 'INFORMATION_ABOUT' | translate }} {{ 'ENUM.ROLE_LINKS.PROVIDER' | translate }}">
+      <h5>{{ 'OWNERSHIP' | translate }}</h5>
       <p>{{ OwnershipTypeEnum[provider.ownership] | translate }}</p>
-      <h5>Тип організації</h5>
+      <h5>{{ 'TYPE_OF_ORGANIZATION' | translate }}</h5>
       <p>{{ providerTypeUkr[provider.type] }}</p>
       <ng-container *ngIf="provider.institution">
-        <h5>Підпорядкування</h5>
+        <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
         <p class="description">{{ provider.institution.title }}</p>
       </ng-container>
-      <h5>Повна назва організації</h5>
+      <h5>{{ 'FULL_ORGANIZATION_NAME' | translate }}</h5>
       <p>{{ provider.fullTitle }}</p>
-      <h5>Скорочена назва організації</h5>
+      <h5>{{ 'ABBREVIATED_NAME_OF_THE_ORGANIZATION' | translate }}</h5>
       <p>{{ provider.shortTitle }}</p>
-      <h5>ПІБ керівника</h5>
+      <h5>{{ 'DIRECTOR_NAME' | translate }}</h5>
       <p>{{ provider.director }}</p>
-      <h5>Дата народження керівника</h5>
+      <h5>{{ 'DATE_OF_BIRTH_OF_THE_MANAGER' | translate }}</h5>
       <p>
         {{ provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
       </p>
-      <h5>{{ provider.type === 0 ? 'ІПН' : 'ЄДРПОУ' }}</h5>
+      <h5>{{ provider.type === 0 ? 'ITN' : ('EDPNOU' | translate) }}</h5>
       <p>{{ provider.edrpouIpn }}</p>
-      <h5>Телефон</h5>
+      <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
       <p>
         {{ constants.PHONE_PREFIX + provider.phoneNumber | phoneTransform }}
       </p>
-      <h5>Електронна пошта</h5>
+      <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
       <p>{{ provider.email }}</p>
-      <h5 *ngIf="provider.website">Веб сайт</h5>
+      <h5 *ngIf="provider.website">{{ 'FORMS.LABELS.WEBSITE' | translate }}</h5>
       <p>{{ provider.website }}</p>
       <h5 *ngIf="provider.facebook">Facebook</h5>
       <p>{{ provider.facebook }}</p>
@@ -48,33 +46,33 @@
       <p>{{ provider.instagram }}</p>
     </mat-tab>
 
-    <mat-tab label="Контакти">
+    <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
       <div class="legal-address-wrapper">
-        <h3>Юридична адреса</h3>
+        <h3>{{ 'LEGAL_ADDRESS' | translate }}</h3>
         <ng-container *ngIf="provider?.legalAddress; then LegalAddress"></ng-container>
       </div>
-      <h3>Фактична адреса</h3>
+      <h3>{{ 'ACTUAL_ADDRESS' | translate }}</h3>
       <ng-container *ngIf="provider?.actualAddress; else LegalAddress">
-        <h5>Населенйи пункт</h5>
+        <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
         <p>{{ provider.actualAddress.codeficatorAddressDto.fullAddress }}</p>
-        <h5 *ngIf="provider.actualAddress.codeficatorAddressDto.cityDistrict">Район міста</h5>
+        <h5 *ngIf="provider.actualAddress.codeficatorAddressDto.cityDistrict">{{ 'DISTRICT_OF_THE_CITY' | translate }}</h5>
         <p>{{ provider.actualAddress.codeficatorAddressDto.cityDistrict }}</p>
-        <h5>Вулиця</h5>
+        <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
         <p>{{ provider.actualAddress.street }}</p>
-        <h5>Будинок</h5>
+        <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
         <p>{{ provider.actualAddress.buildingNumber }}</p>
       </ng-container>
     </mat-tab>
 
-    <mat-tab label="Опис">
-      <h5>Статус</h5>
+    <mat-tab label="{{ 'TITLES.DESCRIPTION' | translate }}">
+      <h5>{{ 'STATUS' | translate }}</h5>
       <p class="description">{{ institutionStatusName }}</p>
-      <h5>Тип закладу</h5>
+      <h5>{{ 'TYPE_OF_INSTITUTION' | translate }}</h5>
       <p class="description">{{ institutionTypes[provider.institutionType] }}</p>
-      <h5>Засновник</h5>
+      <h5>{{ 'FOUNDER' | translate }}</h5>
       <p>{{ provider.founder }}</p>
       <ng-container *ngIf="provider.providerSectionItems?.length">
-        <h5>Про заклад</h5>
+        <h5>{{ 'TITLES.ABOUT_THE_PROVIDER' | translate }}</h5>
         <div *ngFor="let item of provider.providerSectionItems">
           <h5 class="section-title">{{ item.sectionName }}</h5>
           <p>{{ item.description }}</p>
@@ -85,12 +83,12 @@
 </div>
 
 <ng-template #LegalAddress>
-  <h5>Населенйи пункт</h5>
+  <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
   <p>{{ provider.legalAddress.codeficatorAddressDto.fullAddress }}</p>
-  <h5 *ngIf="provider.legalAddress.codeficatorAddressDto.cityDistrict">Район міста</h5>
+  <h5 *ngIf="provider.legalAddress.codeficatorAddressDto.cityDistrict">{{ 'DISTRICT_OF_THE_CITY' | translate }}</h5>
   <p>{{ provider.legalAddress.codeficatorAddressDto.cityDistrict }}</p>
-  <h5>Вулиця</h5>
+  <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
   <p>{{ provider.legalAddress.street }}</p>
-  <h5>Будинок</h5>
+  <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
   <p>{{ provider.legalAddress.buildingNumber }}</p>
 </ng-template>

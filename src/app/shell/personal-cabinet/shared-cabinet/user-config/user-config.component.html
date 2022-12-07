@@ -1,28 +1,28 @@
 <div class="wrapper" *ngIf="user$ | async as user" fxLayout="row wrap" fxLayoutAlign="start">
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
-      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Редагувати</button>
+      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>{{ 'EDIT' | translate }}</button>
     </a>
-    <h4>Прізвище</h4>
+    <h4>{{ 'FORMS.LABELS.LAST_NAME' | translate }}</h4>
     <p>{{ user.lastName }}</p>
-    <h4>Ім'я</h4>
+    <h4>{{ 'FORMS.LABELS.NAME' | translate }}</h4>
     <p>{{ user.firstName }}</p>
-    <h4>По-батькові</h4>
+    <h4>{{ 'FORMS.LABELS.MIDDLENAME' | translate }}</h4>
     <p>{{ user.middleName }}</p>
-    <h4>Телефон</h4>
+    <h4>{{ 'FORMS.LABELS.PHONE' | translate }}</h4>
     <p>{{ phonePrefix + user.phoneNumber | phoneTransform }}</p>
     <ng-container *ngIf="(role$ | async) === role.parent">
-      <h4>Дата народження</h4>
+      <h4>{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>
-      <h4>Стать</h4>
+      <h4>{{ 'FORMS.LABELS.SEX' | translate }}</h4>
       <p>{{ gender[user.gender] }}</p>
     </ng-container>
   </div>
   <div class="config">
-    <h4>Електронна пошта</h4>
+    <h4>{{ 'FORMS.LABELS.EMAIL' | translate }}</h4>
     <p style="margin-bottom: 0">{{ user.email }}</p>
-    <p class="link" (click)="onRedirect('/Account/ChangeEmail')">Змінити електронну пошту</p>
-    <h4>Пароль</h4>
-    <p class="link" (click)="onRedirect('/Account/ChangePassword')">Змінити Пароль</p>
+    <p class="link" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
+    <h4>{{ 'PASSWORD' | translate }}</h4>
+    <p class="link" (click)="onRedirect('/Account/ChangePassword')">{{ 'CHANGE_PASSWORD' | translate }}</p>
   </div>
 </div>
