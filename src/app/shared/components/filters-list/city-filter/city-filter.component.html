@@ -38,7 +38,7 @@
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <p fxFlex="93%">
         {{ 'YOU_ARE_IN_A_SETTLEMENT' | translate }}
-        <span>{{ settlement.settlement }}</span
+        <span>{{ settlement?.settlement }}</span
         >?
       </p>
       <mat-icon (click)="isDispalyed = false" fxFlex="7%">clear</mat-icon>
