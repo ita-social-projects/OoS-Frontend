@@ -7,7 +7,7 @@
     appTrimValue
     [formControl]="settlementSearchControl"
     [matAutocomplete]="auto"
-    (focusout)="onFocusOut(auto)"
+    (focusout)="onFocusOut()"
   />
   <mat-autocomplete
     #auto="matAutocomplete"
@@ -26,7 +26,7 @@
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
   </mat-autocomplete>
-  <p *ngIf="settlement?.fullName" class="additional-text">
+  <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">
     {{ settlement.fullName | slice: 0:sliceLength }}
     <span *ngIf="settlement.fullName.length > sliceLength">...</span>
   </p>

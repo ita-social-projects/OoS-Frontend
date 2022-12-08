@@ -49,8 +49,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
             this.geolocationService.confirmCity(result, false);
           });
         } else {
-          this.store.dispatch(new GetCodeficatorSearch(''));
-          this.setInputFocus();
+          this.geolocationService.confirmCity(Constants.KYIV, false);
         }
       });
     }
@@ -69,7 +68,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.codeficatorSearch$.pipe(takeUntil(this.destroy$)).subscribe((searchResult: Codeficator[]) => {
-      let controlValue = this.settlementSearchControl.value;
+      const controlValue = this.settlementSearchControl.value;
       if (controlValue && this.isTopCities) {
         this.codeficatorSearch = this.store
           .selectSnapshot(MetaDataState.codeficatorSearch)
@@ -96,7 +95,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
         } else {
           this.codeficatorSearch = this.store
             .selectSnapshot(MetaDataState.codeficatorSearch)
-            .filter((codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
+            .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
         }
       });
   }
@@ -109,10 +108,12 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
    * This method listen input FocusOut event and update search and settlement controls value
    * @param auto MatAutocomplete
    */
-  onFocusOut(auto: MatAutocomplete): void {
-    const codeficator: Codeficator = auto.options.first?.value;
-    if (codeficator?.settlement === Constants.NO_SETTLEMENT) {
-      this.settlementSearchControl.setValue(null, { emitEvent: false, onlySelf: true });
+  onFocusOut(): void {
+    if (!this.settlementSearchControl.value) {
+      const settlement = this.store.selectSnapshot(FilterState.settlement);
+      this.settlement = settlement;
+      this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false });
+      this.codeficatorSearch = null;
     }
   }
 
@@ -130,7 +131,8 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   changeCity(): void {
     this.isDispalyed = false;
-    this.store.dispatch(new CleanCity());
+    this.settlementSearchControl.setValue(null);
+    this.settlement = null;
     this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch), takeUntil(this.destroy$)).subscribe(() => this.setInputFocus());
   }
 
