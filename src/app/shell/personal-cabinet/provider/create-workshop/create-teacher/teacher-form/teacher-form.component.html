@@ -3,7 +3,7 @@
   fxLayout="column"
   fxLayoutAlign="center space-between"
   class="step"
-  [ngClass]="teacherAmount > 1 ? 'step-border' : ''"
+  [class.step-border]="(teacherAmount > 1) && (index !== teacherAmount - 1)"
 >
   <app-image-form-control
     *ngIf="isRelease3"

@@ -3,7 +3,7 @@
   fxLayout="column"
   fxLayoutAlign="center space-between"
   class="step form"
-  [ngClass]="{ 'step-border': !!childrenAmount }"
+  [class.step-border]="(childrenAmount > 1) && (index !== childrenAmount - 1)"
 >
   <label class="step-label">Прізвище<span class="step-required">*</span></label>
   <mat-form-field>
