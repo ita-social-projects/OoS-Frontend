@@ -72,7 +72,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
       if (controlValue && this.isTopCities) {
         this.codeficatorSearch = this.store
           .selectSnapshot(MetaDataState.codeficatorSearch)
-          .filter((codeficator) => codeficator.settlement.toLowerCase().startsWith(controlValue.toLowerCase()));
+          .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(controlValue.toLowerCase()));
       } else {
         this.codeficatorSearch = searchResult;
       }
