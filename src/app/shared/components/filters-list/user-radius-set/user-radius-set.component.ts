@@ -3,7 +3,7 @@ import { ChangeContext } from '@angular-slider/ngx-slider';
 import { FormControl } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { FilterChange, SetRadiusSize } from '../../../store/filter.actions';
-import { debounceTime, distinctUntilChanged, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-user-radius-set',
@@ -25,7 +25,7 @@ export class UserRadiusSetComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setValue(this.defaultRadiusInKm);
     this.currentRadius.valueChanges
-      .pipe(debounceTime(400), distinctUntilChanged())
+      .pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() => this.store.dispatch(new FilterChange()));
   }
 

@@ -86,8 +86,9 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
     combineLatest([this.route.queryParamMap, this.isMapView$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([queryParamMap]) => {
+      .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
         const filterParams = queryParamMap.get('filter');
+        this.isMapView = isMapView;
         this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
   }
@@ -110,8 +111,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       }
     });
 
-    this.isMapView$.pipe(takeUntil(this.destroy$)).subscribe((isMapView: boolean) => (this.isMapView = isMapView));
-
     this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
   }
 
@@ -132,7 +131,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
    * @private
    */
   private setFilterStateURLParams(): void {
-    this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState) => {
+    this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
       // Set Filter param as null to remove it from URL query string
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
       this.router.navigate([`result/${this.currentView}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
