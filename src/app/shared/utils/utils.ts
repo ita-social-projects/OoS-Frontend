@@ -263,6 +263,11 @@ export class Util {
    */
   public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
     let filterState: Partial<DefaultFilterState> = {};
+
+    if (!params) {
+      return filterState;
+    }
+
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
       const arrayKeys = ['directionIds', 'workingDays', 'statuses'];
