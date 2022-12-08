@@ -84,3 +84,8 @@ export class SetFirstPage {
   static readonly type = '[paginator] Set First Page';
   constructor() {}
 }
+
+export class OnPageChange {
+  static readonly type = '[paginator] change current page';
+  constructor(public payload: PaginationElement) {}
+}

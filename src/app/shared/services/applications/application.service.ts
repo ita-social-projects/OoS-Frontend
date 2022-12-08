@@ -5,16 +5,16 @@ import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Application, ApplicationParameters, ApplicationUpdate } from '../../models/application.model';
+import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../../models/application.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ApplicationService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(parameters: ApplicationParameters): HttpParams {
+  private setParams(parameters: ApplicationFilterParameters): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
@@ -32,7 +32,10 @@ export class ApplicationService {
 
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
-    params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
+    params = params
+      .set('OrderByDateAscending', 'true')
+      .set('OrderByAlphabetically', 'true')
+      .set('OrderByStatus', 'true');
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
@@ -44,22 +47,16 @@ export class ApplicationService {
   }
 
   /**
-   * This method get applications by Parent id
-   * @param id string
-   */
-  getApplicationsByParentId(id: string, parameters: ApplicationParameters): Observable<SearchResponse<Application[]>> {
-    const options = { params: this.setParams(parameters) };
-    return this.http.get<SearchResponse<Application[]>>(`/api/v1/Application/GetByParentId/${id}`, options);
-  }
-
-  /**
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByProviderId(id: string, parameters: ApplicationParameters): Observable<SearchResponse<Application[]>> {
+  getApplicationsByPropertyId(
+    id: string,
+    parameters: ApplicationFilterParameters
+  ): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<SearchResponse<Application[]>>(`/api/v1/Application/GetByPropertyId/${parameters.property}/${id}`, options);
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/${parameters.property}/${id}/applications`, options);
   }
 
   /**
@@ -67,15 +64,7 @@ export class ApplicationService {
    * @param application Application
    */
   createApplication(application: Application): Observable<HttpResponse<Application>> {
-    return this.http.post<Application>('/api/v1/Application/Create', application, { observe: 'response' });
-  }
-
-  /**
-   * This method delete Application by Application id
-   * @param id string
-   */
-  deleteApplication(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Application/Delete/${id}`);
+    return this.http.post<Application>('/api/v1/applications', application, { observe: 'response' });
   }
 
   /**
@@ -83,7 +72,7 @@ export class ApplicationService {
    * @param application: ApplicationUpdate
    */
   updateApplication(application: ApplicationUpdate): Observable<Application> {
-    return this.http.put<Application>('/api/v1/Application/Update', application);
+    return this.http.put<Application>('/api/v1/applications', application);
   }
 
   /**
@@ -92,38 +81,15 @@ export class ApplicationService {
    * @param workshopId string
    */
   getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
-    const options = {
-      params: {
-        childId: childId,
-        workshopId: workshopId
-      }
-    };
-    return this.http.get<boolean>('/api/v1/Application/AllowedNewApplicationByChildStatus', options);
+    return this.http.get<boolean>(`/api/v1/applications/allowed/workshops/${workshopId}/children/${childId}`);
   }
 
   /**
    * This method Check if exists an any application with approve status in workshop for parent
-   * @param id string
+   * @param parentId string
+   * @param workshopId string
    */
   getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
-    return this.http.get<boolean>('/api/v1/Application/AllowedToReview', {
-      params: {
-        parentId,
-        workshopId
-      }
-    });
-  }
-
-  /**
-   * This method Check if exists an any rewiewed application in workshop for parent.
-   * @param id string
-   */
-  getReviewedApplications(parentId: string, workshopId: string): Observable<boolean> {
-    return this.http.get<boolean>('/api/v1/Rating/IsReviewed', {
-      params: {
-        parentId,
-        workshopId
-      }
-    });
+    return this.http.get<boolean>(`/api/v1/applications/reviewable/parents/${parentId}/workshops/${workshopId}`);
   }
 }

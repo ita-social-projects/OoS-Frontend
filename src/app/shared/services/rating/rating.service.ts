@@ -7,7 +7,7 @@ import { Rate } from '../../models/rating';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RatingService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -46,5 +46,19 @@ export class RatingService {
    */
   updateRate(rate: Rate): Observable<object> {
     return this.http.put('/api/v1/Rating/Update', rate);
+  }
+
+  /**
+   * This method Check if the workshop is reviewed by parent.
+   * @param parentId string
+   * @param workshopId string
+   */
+  getReviewedStatus(parentId: string, workshopId: string): Observable<boolean> {
+    return this.http.get<boolean>('/api/v1/Rating/IsReviewed', {
+      params: {
+        parentId,
+        workshopId,
+      },
+    });
   }
 }

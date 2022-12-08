@@ -2,9 +2,9 @@ import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/work
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
 import { Provider, ProviderStatusUpdateData } from '../models/provider.model';
-import { ProviderAdmin } from '../models/providerAdmin.model';
+import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
-import { EntityType } from '../enum/role';
+import { ApplicationEntityType } from '../enum/applications';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -76,9 +76,9 @@ export class GetProviderViewWorkshops {
   constructor(public payload: string) {}
 }
 
-export class GetAllProviderAdmins {
-  static readonly type = '[provider] get all users ProviderAdmins';
-  constructor() {}
+export class GetFilteredProviderAdmins {
+  static readonly type = '[provider] get filtered provider admin users';
+  constructor( public payload: ProviderAdminParameters) {}
 }
 
 export class GetWorkshopListByProviderId {
@@ -193,12 +193,12 @@ export class OnCreateProviderAdminSuccess {
 
 export class BlockProviderAdminById {
   static readonly type = '[provider] block Provider Admin';
-  constructor(public payload: ProviderAdminBlockData) {}
+  constructor(public payload: ProviderAdminBlockData, public filterParams: ProviderAdminParameters) {}
 }
 
 export class OnBlockProviderAdminSuccess {
   static readonly type = '[provider] block Provider Admin success';
-  constructor(public payload: ProviderAdminBlockData) {}
+  constructor(public payload: ProviderAdminBlockData, public filterParams: ProviderAdminParameters) {}
 }
 
 export class OnBlockProviderAdminFail {
@@ -208,12 +208,12 @@ export class OnBlockProviderAdminFail {
 
 export class DeleteProviderAdminById {
   static readonly type = '[provider] delete Provider Admin';
-  constructor(public payload: ProviderAdminBlockData) {}
+  constructor(public payload: ProviderAdminBlockData, public filterParams: ProviderAdminParameters) {}
 }
 
 export class OnDeleteProviderAdminSuccess {
   static readonly type = '[provider] delete Provider Admin success';
-  constructor() {}
+  constructor(public filterParams: ProviderAdminParameters) {}
 }
 
 export class OnDeleteProviderAdminFail {
@@ -253,7 +253,7 @@ export class OnUpdateWorkshopStatusFail {
 
 export class BlockParent {
   static readonly type = '[provider] block parent';
-  constructor(public payload: BlockedParent, public entityType: EntityType) {}
+  constructor(public payload: BlockedParent, public entityType: ApplicationEntityType) {}
 }
 
 export class BlockParentFail {
@@ -262,12 +262,12 @@ export class BlockParentFail {
 }
 export class BlockParentSuccess {
   static readonly type = '[provider] block parent success';
-  constructor(public payload: BlockedParent, public entityType: EntityType) {}
+  constructor(public payload: BlockedParent, public entityType: ApplicationEntityType) {}
 }
 
 export class UnBlockParent {
   static readonly type = '[provider] unblock parent';
-  constructor(public payload: BlockedParent, public entityType: EntityType) {}
+  constructor(public payload: BlockedParent, public entityType: ApplicationEntityType) {}
 }
 
 export class UnBlockParentFail {
@@ -277,7 +277,7 @@ export class UnBlockParentFail {
 
 export class UnBlockParentSuccess {
   static readonly type = '[provider] unblock parent success';
-  constructor(public payload: BlockedParent, public entityType: EntityType) {}
+  constructor(public payload: BlockedParent, public entityType: ApplicationEntityType) {}
 }
 
 export class GetBlockedParents {

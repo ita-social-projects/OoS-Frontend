@@ -13,8 +13,7 @@ import {
   GetWorkshopsByProviderId,
   GetWorkshopById,
   OnGetWorkshopByIdFail,
-  GetApplicationsByProviderId,
-  GetApplicationsByParentId,
+  GetApplicationsByPropertyId,
   OnUpdateApplicationSuccess,
   UpdateApplication,
   OnUpdateApplicationFail,
@@ -25,7 +24,6 @@ import {
 import { Statuses } from '../enum/statuses';
 import { messageStatus, SnackbarText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Router } from '@angular/router';
 import { SearchResponse } from '../models/search.model';
 import { EMPTY_RESULT } from '../constants/constants';
 
@@ -77,7 +75,6 @@ export class SharedUserState {
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private providerService: ProviderService,
-    private router: Router
   ) {}
 
   @Action(GetWorkshopById)
@@ -140,45 +137,26 @@ export class SharedUserState {
       .pipe(
         tap((workshops: SearchResponse<WorkshopCard[]>) =>
           patchState(
-            workshops ? { workshops: workshops, isLoading: false } : { workshops: EMPTY_RESULT, isLoading: false }
+            workshops ? { workshops, isLoading: false } : { workshops: EMPTY_RESULT, isLoading: false }
           )
         )
       );
   }
 
-  @Action(GetApplicationsByParentId)
-  getApplicationsByParentId(
+  @Action(GetApplicationsByPropertyId)
+  getApplicationsByPropertyId(
     { patchState }: StateContext<SharedUserStateModel>,
-    { id, parameters }: GetApplicationsByParentId
-  ): Observable<SearchResponse<Application[]>> {
-    patchState({ isLoading: true });
-    return this.applicationService
-      .getApplicationsByParentId(id, parameters)
-      .pipe(
-        tap((applicationCards: SearchResponse<Application[]>) =>
-          patchState(
-            applicationCards
-              ? { applicationCards: applicationCards, isLoading: false }
-              : { applicationCards: EMPTY_RESULT, isLoading: false }
-          )
-        )
-      );
-  }
-
-  @Action(GetApplicationsByProviderId)
-  getApplicationsByProviderId(
-    { patchState }: StateContext<SharedUserStateModel>,
-    { id, parameters }: GetApplicationsByProviderId
+    { id, parameters }: GetApplicationsByPropertyId
   ): Observable<SearchResponse<Application[]>> {
     patchState({ isLoading: true });
 
     return this.applicationService
-      .getApplicationsByProviderId(id, parameters)
+      .getApplicationsByPropertyId(id, parameters)
       .pipe(
         tap((applicationCards: SearchResponse<Application[]>) =>
           patchState(
             applicationCards
-              ? { applicationCards: applicationCards, isLoading: false }
+              ? { applicationCards, isLoading: false }
               : { applicationCards: EMPTY_RESULT, isLoading: false }
           )
         )

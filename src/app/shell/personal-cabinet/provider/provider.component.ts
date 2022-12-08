@@ -1,3 +1,4 @@
+import { ProviderState } from './../../../shared/store/provider.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
@@ -15,6 +16,8 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   provider: Provider;
+  @Select(ProviderState.isLoading)
+  isLoading$: Observable<boolean>;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);

@@ -54,13 +54,6 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.filterValue && changes.filterValue.currentValue) {
-      const filter = changes.filterValue.currentValue;
-      this.dataSource.filter = filter.trim().toLowerCase();
-    } else {
-      this.dataSource.filter = '';
-    }
-
     if (changes.users && changes.users.currentValue) {
       const users = changes.users.currentValue;
       this.dataSource = new MatTableDataSource(users);
