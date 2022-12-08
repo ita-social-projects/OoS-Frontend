@@ -6,7 +6,7 @@ import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from '../../../shared/enum/no-results';
 import { Role } from '../../../shared/enum/role';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
+import { GetFilteredWorkshops, SetMapView } from '../../../shared/store/filter.actions';
 import { FilterState } from '../../../shared/store/filter.state';
 import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../shared/models/search.model';
@@ -38,6 +38,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   constructor(public store: Store) {}
 
   ngOnInit(): void {
+    this.store.dispatch(new SetMapView(false));
     this.workshops$
       .pipe(
         takeUntil(this.destroy$),

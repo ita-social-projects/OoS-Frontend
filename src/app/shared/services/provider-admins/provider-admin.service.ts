@@ -1,31 +1,38 @@
+import { ProviderAdminParameters } from './../../models/providerAdmin.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ProviderAdminBlockData } from '../../models/block.model';
 import { ProviderAdmin } from '../../models/providerAdmin.model';
+import { Store } from '@ngxs/store';
+import { PaginatorState } from '../../store/paginator.state';
+import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProviderAdminService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   /**
-   * This method get all provider Admins
+   * This method get provider admisn with filter parameters
    */
-  getAllProviderAdmins(): Observable<ProviderAdmin[]> {
-    return this.http.get<ProviderAdmin[]>('/api/v1/ProviderAdmin/GetRelatedProviderAdmins');
-  }
+  getFilteredProviderAdmins(filterParams: ProviderAdminParameters): Observable<SearchResponse<ProviderAdmin[]>> {
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size = this.store.selectSnapshot(PaginatorState.itemsPerPage);
+    const from = size * (+currentPage.element - 1);
 
-  /**
-   * This method get children by Parent Child id
-   * @param deputyOnly: boolean
-   * @param assistantsOnly: boolean
-   */
-  getFilteredProviderAdmins(deputyOnly: boolean, assistantsOnly: boolean): Observable<ProviderAdmin> {
-    let params = new HttpParams().set('deputyOnly', `${deputyOnly}`).set('assistantsOnly', `${assistantsOnly}`);
+    let params = new HttpParams()
+      .set('deputyOnly', `${filterParams.deputyOnly}`)
+      .set('assistantsOnly', `${filterParams.assistantsOnly}`)
+      .set('searchString', `${filterParams.searchString}`)
+      .set('from', `${from}`)
+      .set('size', `${size}`);
 
-    return this.http.get<ProviderAdmin>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', { params });
+    return this.http.get<SearchResponse<ProviderAdmin[]>>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', {
+      params,
+    });
   }
 
   /**

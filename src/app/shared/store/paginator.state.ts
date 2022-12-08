@@ -18,7 +18,8 @@ import {
   SetWorkshopsPerPage,
   SetItemsPerPage,
   OnPageChangeHistoryLog,
-  SetAchievementsPerPage
+  SetAchievementsPerPage,
+  OnPageChange
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
@@ -157,6 +158,11 @@ export class PaginatorState {
 
   @Action(OnPageChangeHistoryLog)
   OnPageChangeHistoryLog({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeHistoryLog): void {
+    patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChange)
+  OnPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeHistoryLog): void {
     patchState({ currentPage: payload });
   }
 }

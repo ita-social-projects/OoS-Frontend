@@ -104,7 +104,7 @@
           <p class="step-name">Керування доступами</p>
         </ng-template>
         <form fxLayout="column" fxLayoutAlign="center space-between" class="step form">
-          <ng-container *ngIf="isDebuty; then Deputy; else WorkshopAdmin"> </ng-container>
+          <ng-container *ngIf="isDeputy; then Deputy; else WorkshopAdmin"> </ng-container>
           <ng-template #Deputy>
             <label class="step-label">Буде надано доступ до всіх гуртків</label>
           </ng-template>

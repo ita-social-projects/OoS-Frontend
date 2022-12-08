@@ -4,7 +4,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { Role } from '../../../../shared/enum/role';
-import { ApplicationParameters } from '../../../../shared/models/application.model';
+import { ApplicationFilterParameters } from '../../../../shared/models/application.model';
 import { Child } from '../../../../shared/models/child.model';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { ParentComponent } from '../parent.component';
@@ -36,7 +36,7 @@ describe('ParentApplicationsComponent', () => {
   template: ''
 })
 class ApplicationsMockComponent {
-  @Input() applicationParams: ApplicationParameters;
+  @Input() applicationParams: ApplicationFilterParameters;
   @Input() dropdownEntities: Child[];
   @Input() declination: ChildDeclination;
   @Input() role: Role;

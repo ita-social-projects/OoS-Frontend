@@ -53,7 +53,6 @@ describe('AdminsComponent', () => {
 })
 class MockUsersListComponent {
   @Input() users: object[];
-  @Input() filterValue: string;
   @Input() isEdit: boolean;
 }
 
