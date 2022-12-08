@@ -66,6 +66,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     private route: ActivatedRoute
   ) {
     super(store, matDialog);
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
       this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;

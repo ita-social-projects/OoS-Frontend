@@ -87,6 +87,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
+    this.store.dispatch(new SetMapView(true));
     this.settlement$
       .pipe(
         takeUntil(this.destroy$),
@@ -105,8 +106,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           this.createUserRadius();
           this.setFilteredWorkshops();
           this.showWarningMessage();
-          this.store.dispatch(new SetMapView(true));
         }
+
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
           this.setAddress();
@@ -327,7 +328,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new SetMapView(false)]);
+    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

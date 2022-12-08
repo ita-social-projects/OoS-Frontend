@@ -4,7 +4,7 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
-import { CleanCity } from '../../../../shared/store/filter.actions';
+import { FilterChange } from '../../../../shared/store/filter.actions';
 import { Coords } from '../../../../shared/models/coords.model';
 import { GeolocationService } from '../../../../shared/services/geolocation/geolocation.service';
 import { Constants } from '../../../constants/constants';
@@ -102,6 +102,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSelectedCity(event: MatAutocompleteSelectedEvent): void {
     this.geolocationService.confirmCity(event.option.value, true);
+    this.store.dispatch(new FilterChange());
   }
 
   /**
