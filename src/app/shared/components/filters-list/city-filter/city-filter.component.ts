@@ -84,7 +84,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
    */
   private settlementListener(): void {
     this.settlementSearchControl.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged(), startWith(''), takeUntil(this.destroy$))
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: string) => {
         if (value?.length > 3) {
           this.store.dispatch(new GetCodeficatorSearch(value));
