@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
 import { Actions, Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
+import { takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
 import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../shared/enum/navigation-bar';
@@ -25,6 +25,7 @@ import { RegistrationState } from '../../shared/store/registration.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { SearchResponse } from '../../shared/models/search.model';
 import { Util } from '../../shared/utils/utils';
+import { DefaultFilterFormState } from 'src/app/shared/models/defaultFilterFormState.model';
 
 enum ViewType {
   map = 'map',
@@ -61,8 +62,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState.isMapView)
   isMapView$: Observable<boolean>;
   isMapView: boolean;
-  @Select(FilterState)
-  filterState$: Observable<FilterStateModel>;
+  @Select(FilterState.filterForm)
+  filterForm$: Observable<DefaultFilterFormState>;
 
   currentView: ViewType = ViewType.list;
   viewType = ViewType;
@@ -82,8 +83,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.setFilterStateURLParams();
-
     combineLatest([this.route.queryParamMap, this.isMapView$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
@@ -91,6 +90,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isMapView = isMapView;
         this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
+    this.setFilterStateURLParams();
   }
 
   private setInitialSubscriptions(): void {
@@ -131,7 +131,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
    * @private
    */
   private setFilterStateURLParams(): void {
-    this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
+    this.filterForm$.pipe(takeUntil(this.destroy$)).subscribe((filterState: DefaultFilterFormState) => {
       // Set Filter param as null to remove it from URL query string
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
       this.router.navigate([`result/${this.currentView}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });

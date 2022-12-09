@@ -37,73 +37,73 @@ export class AppWorkshopsService {
       params = params.set('Latitude', lat.toFixed(5).toString()).set('Longitude', lng.toFixed(5).toString());
     }
 
-    if (filters.isFree) {
+    if (filters.filterForm.isFree) {
       params = params.set('IsFree', 'true');
     }
 
-    if (filters.isPaid) {
+    if (filters.filterForm.isPaid) {
       params = this.setIsPaid(filters, params);
     }
 
-    if ((filters.isFree && filters.isPaid) || (!filters.isFree && !filters.isPaid)) {
+    if ((filters.filterForm.isFree && filters.filterForm.isPaid) || (!filters.filterForm.isFree && !filters.filterForm.isPaid)) {
       params = params.set('IsFree', 'true');
       params = this.setIsPaid(filters, params);
     }
 
-    if (filters.searchQuery) {
-      params = params.set('SearchText', filters.searchQuery);
+    if (filters.filterForm.searchQuery) {
+      params = params.set('SearchText', filters.filterForm.searchQuery);
     }
 
-    if (filters.minAge) {
-      params = params.set('MinAge', filters.minAge.toString());
+    if (filters.filterForm.minAge) {
+      params = params.set('MinAge', filters.filterForm.minAge.toString());
     }
 
-    if (filters.maxAge) {
-      params = params.set('MaxAge', filters.maxAge.toString());
+    if (filters.filterForm.maxAge) {
+      params = params.set('MaxAge', filters.filterForm.maxAge.toString());
     }
 
-    if (filters.isAppropriateAge) {
+    if (filters.filterForm.isAppropriateAge) {
       params = params.set('IsAppropriateAge', 'true');
     }
 
-    if (filters.startTime) {
-      params = params.set('StartHour', filters.startTime);
+    if (filters.filterForm.startTime) {
+      params = params.set('StartHour', filters.filterForm.startTime);
     }
 
-    if (filters.endTime) {
-      params = params.set('EndHour', filters.endTime);
+    if (filters.filterForm.endTime) {
+      params = params.set('EndHour', filters.filterForm.endTime);
     }
 
-    if (filters.workingDays.length > 0) {
-      filters.workingDays.forEach((day: string) => (params = params.append('Workdays', day)));
+    if (filters.filterForm.workingDays.length > 0) {
+      filters.filterForm.workingDays.forEach((day: string) => (params = params.append('Workdays', day)));
     }
 
-    if (filters.isFree || !filters.minPrice) {
+    if (filters.filterForm.isFree || !filters.filterForm.minPrice) {
       params = params.set('IsFree', 'true');
     }
 
-    if (filters.withDisabilityOption) {
+    if (filters.filterForm.withDisabilityOption) {
       params = params.set('WithDisabilityOptions', 'true');
     }
 
-    if (filters.isAppropriateHours) {
+    if (filters.filterForm.isAppropriateHours) {
       params = params.set('IsAppropriateHours', 'true');
     }
 
-    if (filters.isStrictWorkdays) {
+    if (filters.filterForm.isStrictWorkdays) {
       params = params.set('IsStrictWorkdays', 'true');
     }
 
-    if (filters.order && !filters.mapViewCoords) {
-      params = params.set('OrderByField', filters.order);
+    if (filters.filterForm.order && !filters.mapViewCoords) {
+      params = params.set('OrderByField', filters.filterForm.order);
     }
 
-    if (!!filters.statuses.length) {
-      filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
+    if (!!filters.filterForm.statuses.length) {
+      filters.filterForm.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
 
-    if (!!filters.directionIds.length) {
-      filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
+    if (!!filters.filterForm.directionIds.length) {
+      filters.filterForm.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
     }
 
     if (isMapView) {
@@ -126,12 +126,12 @@ export class AppWorkshopsService {
    * This method applied min and max price filter options
    */
   private setIsPaid(filters: FilterStateModel, params: HttpParams): HttpParams {
-    if (filters.maxPrice) {
-      params = params.set('MaxPrice', filters.maxPrice.toString());
+    if (filters.filterForm.maxPrice) {
+      params = params.set('MaxPrice', filters.filterForm.maxPrice.toString());
     }
 
-    if (filters.minPrice) {
-      params = params.set('MinPrice', filters.minPrice.toString());
+    if (filters.filterForm.minPrice) {
+      params = params.set('MinPrice', filters.filterForm.minPrice.toString());
     }
     return params;
   }

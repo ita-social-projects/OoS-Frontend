@@ -1,4 +1,4 @@
-import { DefaultFilterState } from '../models/defaultFilterState.model';
+import { DefaultFilterFormState } from '../models/defaultFilterFormState.model';
 import { FilterStateModel } from '../models/filterState.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { Constants } from '../constants/constants';
@@ -225,10 +225,10 @@ export class Util {
    * @param filterState
    * @return Query string
    */
-  public static getFilterStateQuery(filterState: FilterStateModel): string {
-    let filterStateDiff: Partial<DefaultFilterState> = {};
+  public static getFilterStateQuery(filterState: DefaultFilterFormState): string {
+    let filterStateDiff: Partial<DefaultFilterFormState> = {};
     let serializedFilters = '';
-    const defaultFilterState = new DefaultFilterState();
+    const defaultFilterState = new DefaultFilterFormState();
 
     // Compare current filter state and default
     for (let [key, value] of Object.entries(defaultFilterState)) {
@@ -261,8 +261,8 @@ export class Util {
    * @param params - filter parameter in url query string
    * @returns parsed string into Filter state object or empty object
    */
-  public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
-    let filterState: Partial<DefaultFilterState> = {};
+  public static parseFilterStateQuery(params: string): DefaultFilterFormState {
+    let filterState = new DefaultFilterFormState();
 
     if (!params) {
       return filterState;

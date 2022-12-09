@@ -1,4 +1,4 @@
-import { DefaultFilterState } from '../models/defaultFilterState.model';
+import { DefaultFilterFormState } from '../models/defaultFilterFormState.model';
 import { Codeficator } from './../models/codeficator.model';
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Coords } from '../models/coords.model';
@@ -139,5 +139,5 @@ export class SetMapView {
 
 export class SetFilterFromURL {
   static readonly type = '[filter] Set Filter from URL';
-  constructor(public payload: Partial<DefaultFilterState>) {}
+  constructor(public payload: DefaultFilterFormState) {}
 }

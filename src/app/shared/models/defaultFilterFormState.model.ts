@@ -4,7 +4,7 @@ import { WorkshopOpenStatus } from '../enum/workshop';
 /**
  * Default filter state model
  */
-export class DefaultFilterState {
+export class DefaultFilterFormState {
   directionIds: number[] = [];
   maxAge: number = null;
   minAge: number = null;

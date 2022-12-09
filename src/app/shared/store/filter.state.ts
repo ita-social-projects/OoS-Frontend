@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { EMPTY_RESULT } from '../constants/constants';
 import { Codeficator } from '../models/codeficator.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
+import { DefaultFilterFormState } from '../models/defaultFilterFormState.model';
 import { FilterStateModel } from '../models/filterState.model';
 import { FilterList } from '../models/filterList.model';
 import { SearchResponse } from '../models/search.model';
@@ -44,11 +44,12 @@ import {
   SetWorkingDays
 } from './filter.actions';
 import { SetFirstPage } from './paginator.actions';
+import { WorkshopOpenStatus } from '../enum/workshop';
 
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    ...new DefaultFilterState(),
+    filterForm: new DefaultFilterFormState(),
     settlement: null,
     filteredWorkshops: null,
     isLoading: false,
@@ -61,8 +62,8 @@ import { SetFirstPage } from './paginator.actions';
 @Injectable()
 export class FilterState {
   @Selector()
-  static FilterState(state: FilterStateModel): FilterStateModel {
-    return state;
+  static filterForm(state: FilterStateModel): DefaultFilterFormState {
+    return state.filterForm;
   }
 
   @Selector()
@@ -71,8 +72,8 @@ export class FilterState {
   }
 
   @Selector()
-  static directions(state: FilterStateModel): number[] {
-    return state.directionIds;
+  static searchQuery(state: FilterStateModel): string {
+    return state.filterForm.searchQuery;
   }
 
   @Selector()
@@ -91,16 +92,6 @@ export class FilterState {
   }
 
   @Selector()
-  static searchQuery(state: FilterStateModel): string {
-    return state.searchQuery;
-  }
-
-  @Selector()
-  static order(state: FilterStateModel): {} {
-    return state.order;
-  }
-
-  @Selector()
   static userRadiusSize(state: FilterStateModel) {
     const meterInKilometer = 1000;
     return state.userRadiusSize * meterInKilometer;
@@ -112,7 +103,7 @@ export class FilterState {
   }
 
   @Selector()
-  static filterList(state: FilterStateModel): FilterList {
+  static filterList(state: FilterStateModel): any {
     const {
       withDisabilityOption,
       isStrictWorkdays,
@@ -130,7 +121,7 @@ export class FilterState {
       endTime,
       statuses,
       order
-    } = state;
+    } = state.filterForm;
     return {
       withDisabilityOption,
       statuses,
@@ -174,61 +165,85 @@ export class FilterState {
   }
 
   @Action(SetOrder)
-  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder): void {
-    patchState({ order: payload });
+  setOrder({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetOrder): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.order = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetDirections)
-  setDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
-    patchState({ directionIds: payload });
+  setDirections({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.directionIds = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetWorkingDays)
-  setWorkingDays({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingDays): void {
-    patchState({ workingDays: payload });
+  setWorkingDays({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetWorkingDays): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.workingDays = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetStartTime)
-  setStartTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
-    patchState({ startTime: payload });
+  setStartTime({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.startTime = payload;
+    patchState({ filterForm });
   }
   @Action(SetEndTime)
-  setEndTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
-    patchState({ endTime: payload });
+  setEndTime({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.endTime = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetIsFree)
-  setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
-    patchState({ isFree: payload });
+  setIsFree({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.isFree = payload;
+    patchState({ filterForm });
   }
   @Action(SetIsPaid)
-  setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
-    patchState({ isPaid: payload });
+  setIsPaid({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.isPaid = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetMinPrice)
-  setMinPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMinPrice): void {
-    patchState({ minPrice: payload });
+  setMinPrice({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetMinPrice): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.minPrice = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetMaxPrice)
-  setMaxPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMaxPrice): void {
-    patchState({ maxPrice: payload });
+  setMaxPrice({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetMaxPrice): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.maxPrice = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
-    patchState({ searchQuery: payload });
+  setSearchQueryValue({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.searchQuery = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetOpenRecruitment)
-  setOpenRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
-    patchState({ statuses: payload });
+  setOpenRecruitment({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.statuses = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetClosedRecruitment)
-  setClosedRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
-    patchState({ statuses: payload });
+  setClosedRecruitment({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.statuses = payload;
+    patchState({ filterForm });
   }
 
   @Action(GetFilteredWorkshops)
@@ -249,33 +264,45 @@ export class FilterState {
   }
 
   @Action(SetWithDisabilityOption)
-  setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption): void {
-    patchState({ withDisabilityOption: payload });
+  setWithDisabilityOption({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.withDisabilityOption = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetIsStrictWorkdays)
-  setIsStrictWorkdays({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsStrictWorkdays): void {
-    patchState({ isStrictWorkdays: payload });
+  setIsStrictWorkdays({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetIsStrictWorkdays): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.isStrictWorkdays = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetIsAppropriateHours)
-  setIsAppropriateHours({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateHours): void {
-    patchState({ isAppropriateHours: payload });
+  setIsAppropriateHours({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateHours): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.isAppropriateHours = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetMinAge)
-  setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetMinAge): void {
-    patchState({ minAge: payload });
+  setMinAge({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetMinAge): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.minAge = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetMaxAge)
-  setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetMaxAge): void {
-    patchState({ maxAge: payload });
+  setMaxAge({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetMaxAge): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.maxAge = payload;
+    patchState({ filterForm });
   }
 
   @Action(SetIsAppropriateAge)
-  setIsAppropriateAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
-    patchState({ isAppropriateAge: payload });
+  setIsAppropriateAge({ patchState, getState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
+    const filterForm = JSON.parse(JSON.stringify(getState().filterForm));
+    filterForm.isAppropriateAge = payload;
+    patchState({ filterForm });
   }
 
   @Action(ResetFilteredWorkshops)
@@ -291,8 +318,7 @@ export class FilterState {
 
   @Action(FilterClear)
   FilterClear({ patchState, dispatch }: StateContext<FilterStateModel>, {}: FilterChange): void {
-    patchState(new DefaultFilterState());
-    dispatch(new FilterChange());
+    patchState({ filterForm: new DefaultFilterFormState() });
   }
 
   @Action(SetCoordsByMap)
@@ -323,7 +349,7 @@ export class FilterState {
 
   @Action(SetFilterFromURL)
   setFilterFromURL({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetFilterFromURL): void {
-    patchState(payload);
+    patchState({ filterForm: payload });
     dispatch(new FilterChange());
   }
 }
