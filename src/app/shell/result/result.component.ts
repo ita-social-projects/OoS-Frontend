@@ -64,7 +64,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState)
   filterState$: Observable<FilterStateModel>;
 
-  currentView: ViewType = ViewType.list;
+  currentView: ViewType;
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -78,6 +78,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
 
   ngOnInit(): void {
     this.addNavPath();
+    this.setViewType();
     this.setInitialSubscriptions();
   }
 
@@ -91,6 +92,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         this.isMapView = isMapView;
         this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
+  }
+
+  private setViewType(): void {
+    this.currentView = this.route.snapshot.paramMap.get('param') as ViewType;
+    this.currentView === ViewType.map && this.store.dispatch(new SetMapView(true));
   }
 
   private setInitialSubscriptions(): void {
