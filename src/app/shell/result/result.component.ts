@@ -57,7 +57,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(FilterState.filterForm)
   filterForm$: Observable<DefaultFilterFormState>;
 
-  currentView: ViewType = ViewType.list;
+  currentView: ViewType;
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -72,6 +72,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMapView = this.store.selectSnapshot(FilterState.isMapView);
 
     this.addNavPath();
+    this.setViewType();
     this.setInitialSubscriptions();
   }
 
@@ -127,6 +128,11 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
         })
       )
     );
+  }
+
+  private setViewType(): void {
+    this.currentView = this.route.snapshot.paramMap.get('param') as ViewType;
+    this.currentView === ViewType.map && this.store.dispatch(new SetMapView(true));
   }
 
   private getWorkshopsFromURL(queryParamMap: ParamMap): void {
