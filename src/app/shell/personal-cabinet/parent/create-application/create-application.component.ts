@@ -27,7 +27,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 @Component({
   selector: 'app-create-application',
   templateUrl: './create-application.component.html',
-  styleUrls: ['./create-application.component.scss']
+  styleUrls: ['./create-application.component.scss'],
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
   readonly ModeConstants = ModeConstants;
@@ -77,8 +77,12 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetWorkshopById(this.workshopId));
-    this.ParentAgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isParentAgreed = val));
-    this.AttendAgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAttendAgreed = val));
+    this.ParentAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isParentAgreed = val));
+    this.AttendAgreementFormControl.valueChanges
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => (this.isAttendAgreed = val));
     this.ContraindicationAgreementFormControl.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isContraindicationAgreed = val));
@@ -88,17 +92,14 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.AttendAgreementFormControlYourself.valueChanges
       .pipe(takeUntil(this.destroy$))
       .subscribe((val: boolean) => (this.isAttendAgreementYourself = val));
-    this.isAllowChildToApply$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isAllowChildToApply = status));
+    this.isAllowChildToApply$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((status: boolean) => (this.isAllowChildToApply = status));
 
-    this.children$
-      .pipe(
-        filter((children: SearchResponse<Child[]>) => !!children),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((children: SearchResponse<Child[]>) => {
-        this.parentCard = children.entities.find((child: Child) => child.isParent);
-        this.children = children.entities.filter((child: Child) => !child.isParent);
-      });
+    this.children$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((children: SearchResponse<Child[]>) => {
+      this.parentCard = children.entities.find((child: Child) => child.isParent);
+      this.children = children.entities.filter((child: Child) => !child.isParent);
+    });
 
     combineLatest([this.parent$, this.workshop$])
       .pipe(
@@ -116,11 +117,11 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
                 name: `Гурток "${this.workshop.title}"`,
                 path: `/details/workshop/${this.workshop.id}`,
                 isActive: false,
-                disable: false
+                disable: false,
               },
               { name: NavBarName.RequestOnWorkshop, isActive: false, disable: true }
             )
-          )
+          ),
         ]);
       });
   }
@@ -139,13 +140,17 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.createApplication,
-        property: this.workshop.title
-      }
+        property: this.workshop.title,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const application = new Application(this.tabIndex ? this.parentCard : this.selectedChild, this.workshop, this.parent);
+        const application = new Application(
+          this.tabIndex ? this.parentCard : this.selectedChild,
+          this.workshop,
+          this.parent
+        );
         this.store.dispatch(new CreateApplication(application));
       }
     });

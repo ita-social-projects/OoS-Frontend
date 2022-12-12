@@ -6,6 +6,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { InfoFormComponent } from './info-form.component';
 import { Component, Input } from '@angular/core';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('InfoFormComponent', () => {
   let component: InfoFormComponent;
@@ -13,7 +14,7 @@ describe('InfoFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, NoopAnimationsModule],
+      imports: [ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatIconModule, NoopAnimationsModule, TranslateModule.forRoot()],
       declarations: [InfoFormComponent, MockValidationHintForInputComponent]
     }).compileComponents();
   });

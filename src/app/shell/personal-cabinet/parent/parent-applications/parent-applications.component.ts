@@ -6,19 +6,27 @@ import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { ApplicationParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
+import {
+  ApplicationFilterParameters,
+  Application,
+  ApplicationUpdate,
+} from '../../../../shared/models/application.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import { UpdateApplication, GetApplicationsByParentId } from '../../../../shared/store/shared-user.actions';
+import { UpdateApplication, GetApplicationsByPropertyId } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { Statuses } from '../../../../shared/enum/statuses';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
+import { ApplicationEntityType } from '../../../../shared/enum/applications';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-parent-applications',
-  templateUrl: './parent-applications.component.html'
+  templateUrl: './parent-applications.component.html',
 })
 export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly ChildDeclination = ChildDeclination;
@@ -29,12 +37,12 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   @Select(ParentState.truncatedItems)
   truncatedItems$: Observable<TruncatedItem[]>;
 
-  applicationParams: ApplicationParameters = {
-    property: null,
+  applicationParams: ApplicationFilterParameters = {
+    property: ApplicationEntityType.parent,
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false
+    showBlocked: false,
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -42,16 +50,11 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   }
 
   init(): void {
-    this.parent$
-      .pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.onGetApplications();
-        this.getParentChildren();
-      });
+    this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
+      this.parent = parent;
+      this.onGetApplications();
+      this.getParentChildren();
+    });
   }
 
   protected addNavPath(): void {
@@ -59,7 +62,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }
@@ -69,12 +72,22 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
    * @param Application event
    */
   onLeave(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application.id, Statuses.Left);
-    this.store.dispatch(new UpdateApplication(applicationUpdate));
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.leaveWorkshop,
+      },
+    });
+    dialogRef.afterClosed().subscribe((result: string) => {
+      if (result) {
+        const applicationUpdate = new ApplicationUpdate(application, Statuses.Left);
+        this.store.dispatch(new UpdateApplication(applicationUpdate));
+      }
+    });
   }
 
   onGetApplications(): void {
-    this.store.dispatch(new GetApplicationsByParentId(this.parent.id, this.applicationParams));
+    this.store.dispatch(new GetApplicationsByPropertyId(this.parent.id, this.applicationParams));
   }
 
   /**

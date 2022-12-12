@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { Address } from '../../../../../shared/models/address.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateWorkshopAddressComponent', () => {
   let component: CreateWorkshopAddressComponent;
@@ -22,7 +23,8 @@ describe('CreateWorkshopAddressComponent', () => {
         MatFormFieldModule,
         NgxsModule.forRoot([]),
         MatInputModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
       declarations: [CreateWorkshopAddressComponent, MockMapComponent, MockAddressFormComponent]
     }).compileComponents();

@@ -26,18 +26,18 @@
     mat-button
     (click)="onAddForm()"
   >
-    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'FORMS.ACTIONS.ADD_ANOTHER_SECTION' | translate }}
   </button>
 
-  <label class="step-label"> Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю </label>
+  <label class="step-label"> {{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
   <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
-    <mat-radio-button #radio1 name="radioBtn1" [value]="false">Відсутні</mat-radio-button>
-    <mat-radio-button #radio2 name="radioBtn2" [value]="true">Наявні</mat-radio-button>
+    <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
+    <mat-radio-button #radio2 name="radioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
     <input
       matInput
       class="step-input"
       [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
-      placeholder="Пандус/спец. обладнання"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}"
       formControlName="disabilityOptionsDesc"
       autocomplete="none"
       appTrimValue
@@ -58,13 +58,13 @@
   </app-institution-hierarchy>
 
   <div class="step-label-combined">
-    <label class="step-label">Ключові слова</label>
+    <label class="step-label">{{ 'FORMS.LABELS.KEYWORDS' | translate }}</label>
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()">
     <span *ngIf="!keyWord && keyWords.length < 1" class="keywordsPlaceholder"
-      >Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум
-      {{ validationConstants.MAX_KEYWORDS_LENGTH }} слів)</span
+      >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
+      {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
     >
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">

@@ -1,15 +1,32 @@
 <mat-form-field class="input-wrapper" fxLayoutAlign="start space-between" fxLayout="column" appearance="none">
-  <input #searchInput class="input-filter" matInput type="text" appTrimValue [formControl]="settlementSearchControl"
-    [matAutocomplete]="auto" (focusout)="onFocusOut(auto)" />
-  <mat-autocomplete #auto="matAutocomplete" disableOptionCentering panelClass="dropdown-panel"
-    [displayWith]="displaySettlementNameFn" (optionSelected)="onSelectedCity($event)">
-    <mat-option class="dropdown-option" *ngFor="let codeficator of codeficatorSearch$ | async" [value]="codeficator"
-      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
+  <input
+    #searchInput
+    class="input-filter"
+    matInput
+    type="text"
+    appTrimValue
+    [formControl]="settlementSearchControl"
+    [matAutocomplete]="auto"
+    (focusout)="onFocusOut()"
+  />
+  <mat-autocomplete
+    #auto="matAutocomplete"
+    disableOptionCentering
+    panelClass="dropdown-panel"
+    [displayWith]="displaySettlementNameFn"
+    (optionSelected)="onSelectedCity($event)"
+  >
+    <mat-option
+      class="dropdown-option"
+      *ngFor="let codeficator of codeficatorSearch"
+      [value]="codeficator"
+      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT"
+    >
       {{ codeficator.settlement }} <br />
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
   </mat-autocomplete>
-  <p *ngIf="settlement?.fullName" class="additional-text">
+  <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">
     {{ settlement.fullName | slice: 0:sliceLength }}
     <span *ngIf="settlement.fullName.length > sliceLength">...</span>
   </p>
@@ -20,17 +37,17 @@
   <div class="city-confirmation" *ngIf="isDispalyed && !(isConfirmCity$ | async)">
     <div fxLayout="row" fxLayoutAlign="space-between start">
       <p fxFlex="93%">
-        {{"YOU_ARE_IN_A_SETTLEMENT"| translate}}
-        <span>{{ settlement.settlement }}</span>?
+        {{ 'YOU_ARE_IN_A_SETTLEMENT' | translate }}
+        <span>{{ settlement?.settlement }}</span
+        >?
       </p>
       <mat-icon (click)="isDispalyed = false" fxFlex="7%">clear</mat-icon>
     </div>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="city-confirmation_button">
       <button mat-button class="button" (click)="confirmCity()">
-        {{"CONFIRM"| translate}}
+        {{ 'CONFIRM' | translate }}
       </button>
-      <button mat-button class="button button-change" (click)="changeCity()">{{"CHANGE"| translate}}
-      </button>
+      <button mat-button class="button button-change" (click)="changeCity()">{{ 'CHANGE' | translate }}</button>
     </div>
   </div>
 </div>

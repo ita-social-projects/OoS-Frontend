@@ -86,6 +86,7 @@
           </div>
 
           <mat-menu #actions="matMenu" class="header_menu">
+            <button *ngIf="isEdit" mat-menu-item (click)="onUpdate(user)">Редагувати користувача</button>
             <div *ngIf="user.status === statuses.Blocked; then unBlock; else Block"></div>
             <ng-template #Block>
               <button mat-menu-item (click)="onBlock({user, isBlocked: true})">Заблокувати користувача</button>
@@ -94,7 +95,6 @@
               <button mat-menu-item (click)="onBlock({user, isBlocked: false})">Розблокувати користувача</button>
             </ng-template>
             <button mat-menu-item (click)="onDelete(user)">Видалити користувача</button>
-            <button *ngIf="isEdit" mat-menu-item (click)="onUpdate(user)">Редагувати користувача</button>
           </mat-menu>
           <mat-menu #email="matMenu" class="header_menu">
             <button mat-menu-item (click)="sendInvitation()">Надіслати запрошення</button>

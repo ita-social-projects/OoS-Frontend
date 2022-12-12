@@ -20,17 +20,17 @@ import { SetRatingPerPage, OnPageChangeRating } from '../../../../shared/store/p
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import {
   OnCreateRatingSuccess,
-  GetReviewedApplications,
+  GetReviewedStatus,
   GetStatusAllowedToReview,
-  CreateRating
+  CreateRating,
 } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import {TranslateService} from '@ngx-translate/core';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-reviews',
   templateUrl: './reviews.component.html',
-  styleUrls: ['./reviews.component.scss']
+  styleUrls: ['./reviews.component.scss'],
 })
 export class ReviewsComponent implements OnInit, OnDestroy {
   readonly noResultReviews = NoResultsTitle.noReviews;
@@ -63,7 +63,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   alreadyRated: string = this.translateService.instant(' YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
   mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
 
-  constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions, private translateService: TranslateService) {}
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog,
+    private actions$: Actions,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.getParentData();
@@ -75,30 +80,29 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       .subscribe(() =>
         this.store.dispatch([
           new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-          new GetReviewedApplications(this.parent.id, this.workshop.id)
+          new GetReviewedStatus(this.parent.id, this.workshop.id),
         ])
       );
 
-    this.isAllowedToReview$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isAllowedToReview = status));
+    this.isAllowedToReview$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((status: boolean) => (this.isAllowedToReview = status));
 
     this.isReviewed$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isReviewed = status));
 
-    this.ratingPerPage$.pipe(takeUntil(this.destroy$)).subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
+    this.ratingPerPage$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
   }
 
   private getParentData(): void {
-    this.parent$
-      .pipe(
-        filter((parent: Parent) => !!parent),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((parent: Parent) => {
-        this.parent = parent;
-        this.store.dispatch([
-          new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
-          new GetReviewedApplications(this.parent.id, this.workshop.id)
-        ]);
-      });
+    this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
+      this.parent = parent;
+      this.store.dispatch([
+        new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
+        new GetReviewedStatus(this.parent.id, this.workshop.id),
+      ]);
+    });
   }
 
   private getWorkshopRatingList(): void {
@@ -107,17 +111,15 @@ export class ReviewsComponent implements OnInit, OnDestroy {
         filter((rating: Rate[]) => !!rating?.length),
         takeUntil(this.destroy$)
       )
-      .subscribe((rating: Rate[]) => {
-        this.rating = rating;
-      });
+      .subscribe((rating: Rate[]) => (this.rating = rating));
   }
 
   onRate(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.rate
-      }
+        type: ModalConfirmationType.rate,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: number) => {
@@ -127,7 +129,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
             rate: result,
             type: Constants.WORKSHOP_ENTITY_TYPE,
             entityId: `${this.workshop.id}`,
-            parentId: this.parent.id
+            parentId: this.parent.id,
           })
         );
       }
@@ -136,7 +138,10 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   itemsPerPageChange(itemsPerPage: number): void {
     this.ratingPerPage = itemsPerPage;
-    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
+    this.store.dispatch([
+      new SetRatingPerPage(itemsPerPage),
+      new GetRateByEntityId(EntityType.workshop, this.workshop.id),
+    ]);
   }
 
   pageChange(page: PaginationElement): void {

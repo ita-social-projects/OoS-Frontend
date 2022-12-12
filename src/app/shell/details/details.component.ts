@@ -1,6 +1,6 @@
 import { takeUntil } from 'rxjs/operators';
 import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { EntityType, Role } from '../../shared/enum/role';
@@ -11,11 +11,13 @@ import { DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { ResetProviderWorkshopDetails, GetWorkshopById, GetProviderById } from '../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../shared/store/shared-user.state';
+import { OnPageChangeWorkshops } from '../../shared/store/paginator.actions';
+import { PaginationConstants } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss']
+  styleUrls: ['./details.component.scss'],
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   readonly entityType = EntityType;
@@ -43,7 +45,6 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     private route: ActivatedRoute,
-    private router: Router,
     public navigationBarService: NavigationBarService
   ) {}
 
@@ -56,7 +57,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
       window.scrollTo({
         top: 0,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     });
 
@@ -80,11 +81,13 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    this.entity === EntityType.workshop ? this.store.dispatch(new GetWorkshopById(id)) : this.store.dispatch(new GetProviderById(id));
+    this.entity === EntityType.workshop
+      ? this.store.dispatch(new GetWorkshopById(id))
+      : this.store.dispatch(new GetProviderById(id));
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch([new DeleteNavPath(), new OnPageChangeWorkshops(PaginationConstants.firstPage)]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

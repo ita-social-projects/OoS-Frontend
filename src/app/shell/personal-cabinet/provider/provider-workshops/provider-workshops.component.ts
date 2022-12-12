@@ -1,3 +1,5 @@
+import { SetWorkshopsPerPage } from './../../../../shared/store/paginator.actions';
+import { PaginatorState } from './../../../../shared/store/paginator.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -12,24 +14,32 @@ import { ProviderWorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import {
   OnUpdateWorkshopStatusSuccess,
-  GetProviderWorkshops,
+  GetProviderViewWorkshops,
   GetProviderAdminWorkshops,
-  DeleteWorkshopById
+  DeleteWorkshopById,
 } from '../../../../shared/store/provider.actions';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { ProviderComponent } from '../provider.component';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { OnPageChangeWorkshops } from '../../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-provider-workshops',
   templateUrl: './provider-workshops.component.html',
-  styleUrls: ['./provider-workshops.component.scss']
+  styleUrls: ['./provider-workshops.component.scss'],
 })
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
   readonly ModeConstants = ModeConstants;
 
   @Select(ProviderState.providerWorkshops)
-  workshops$: Observable<ProviderWorkshopCard[]>;
+  workshops$: Observable<SearchResponse<ProviderWorkshopCard[]>>;
+  workshops: SearchResponse<ProviderWorkshopCard[]>;
+  @Select(PaginatorState.workshopsPerPage)
+  workshopsPerPage$: Observable<number>;
+  @Select(PaginatorState.currentPage)
+  currentPage$: Observable<PaginationElement>;
 
   constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
     super(store, matDialog);
@@ -43,7 +53,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       new PushNavPath({
         name: NavBarName.Workshops,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }
@@ -53,6 +63,9 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
    */
   initProviderData(): void {
     this.getProviderWorkshops();
+    this.workshops$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((workshops: SearchResponse<ProviderWorkshopCard[]>) => (this.workshops = workshops));
     this.actions$
       .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
       .pipe(takeUntil(this.destroy$))
@@ -61,7 +74,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
-      this.store.dispatch(new GetProviderWorkshops(this.provider.id));
+      this.store.dispatch(new GetProviderViewWorkshops(this.provider.id));
     } else {
       this.store.dispatch(new GetProviderAdminWorkshops());
     }
@@ -76,12 +89,26 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.delete,
-        property: workshop.title
-      }
+        property: workshop.title,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result && this.store.dispatch(new DeleteWorkshopById(workshop));
     });
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.store
+      .dispatch(new OnPageChangeWorkshops(page))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.getProviderWorkshops());
+  }
+
+  onItemsPerPageChange(itemPerPage: number) {
+    this.store
+      .dispatch(new SetWorkshopsPerPage(itemPerPage))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.getProviderWorkshops());
   }
 }

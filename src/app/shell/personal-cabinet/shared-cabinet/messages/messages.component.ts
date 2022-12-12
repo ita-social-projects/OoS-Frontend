@@ -4,13 +4,13 @@ import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil } fro
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
-import { EntityType, Role } from '../../../../shared/enum/role';
+import { Role } from '../../../../shared/enum/role';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import {
   BlockParent,
   GetProviderAdminWorkshops,
   GetWorkshopListByProviderId,
-  UnBlockParent
+  UnBlockParent,
 } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ChatRoom } from '../../../../shared/models/chat.model';
@@ -27,11 +27,12 @@ import { FormControl } from '@angular/forms';
 import { ChatState } from '../../../../shared/store/chat.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { ApplicationEntityType } from '../../../../shared/enum/applications';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss']
+  styleUrls: ['./messages.component.scss'],
 })
 export class MessagesComponent extends CabinetDataComponent {
   readonly Role = Role;
@@ -75,7 +76,7 @@ export class MessagesComponent extends CabinetDataComponent {
       new PushNavPath({
         name: NavBarName.Messages,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }
@@ -94,10 +95,7 @@ export class MessagesComponent extends CabinetDataComponent {
 
   setListeners(): void {
     this.chatRooms$
-      .pipe(
-        filter((chatRooms: ChatRoom[]) => !!chatRooms),
-        takeUntil(this.destroy$)
-      )
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
@@ -114,12 +112,12 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent }
+      data: { type: ModalConfirmationType.blockParent },
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         const blockedParent = new BlockedParent(parentId, this.providerId, result);
-        this.store.dispatch(new BlockParent(blockedParent, EntityType[this.subRole]));
+        this.store.dispatch(new BlockParent(blockedParent, ApplicationEntityType[this.subRole]));
       }
     });
   }
@@ -128,13 +126,13 @@ export class MessagesComponent extends CabinetDataComponent {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.unBlockParent
-      }
+        type: ModalConfirmationType.unBlockParent,
+      },
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         const blockedParent = new BlockedParent(parentId, this.providerId);
-        this.store.dispatch(new UnBlockParent(blockedParent, EntityType[this.subRole]));
+        this.store.dispatch(new UnBlockParent(blockedParent, ApplicationEntityType[this.subRole]));
       }
     });
   }

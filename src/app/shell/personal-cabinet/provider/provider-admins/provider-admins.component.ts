@@ -1,4 +1,3 @@
-import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
@@ -8,44 +7,84 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../../../../shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { providerAdminRole } from '../../../../shared/enum/provider-admin';
-import { ProviderAdmin, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
+import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
+import {
+  ProviderAdmin,
+  ProviderAdminParameters,
+  ProviderAdminTable,
+} from '../../../../shared/models/providerAdmin.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { DeleteProviderAdminById, BlockProviderAdminById, GetAllProviderAdmins } from '../../../../shared/store/provider.actions';
+import { DeleteProviderAdminById, BlockProviderAdminById } from '../../../../shared/store/provider.actions';
 import { ProviderComponent } from '../provider.component';
 import { ProviderState } from './../../../../shared/store/provider.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { OnPageChange, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
+import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
 
 @Component({
   selector: 'app-provider-admins',
   templateUrl: './provider-admins.component.html',
-  styleUrls: ['./provider-admins.component.scss']
+  styleUrls: ['./provider-admins.component.scss'],
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly providerAdminRoleUkr = providerAdminRoleUkr;
-  readonly providerAdminRole = providerAdminRole;
+  readonly providerAdminRole = ProviderAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
   readonly constants = Constants;
 
   @Select(ProviderState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(ProviderState.providerAdmins)
-  providerAdmins$: Observable<ProviderAdmin[]>;
+  providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
+  providerAdmins: SearchResponse<ProviderAdmin[]>;
+  providerAdminsData: ProviderAdminTable[] = [];
+  @Select(PaginatorState.itemsPerPage)
+  itemsPerPage$: Observable<number>;
 
-  providerAdmins: ProviderAdminTable[] = [];
   filterFormControl: FormControl = new FormControl('');
-  filterValue: string;
+  currentPage: PaginationElement = PaginationConstants.firstPage;
   tabIndex: number;
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router, private route: ActivatedRoute) {
+  private filterParams: ProviderAdminParameters = {
+    assistantsOnly: false,
+    deputyOnly: false,
+    searchString: '',
+  };
+
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     super(store, matDialog);
+  }
+
+  ngOnInit(): void {
+    super.ngOnInit();
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
+      this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
+      this.filterParams.deputyOnly = params['role'] === ProviderAdminRole.deputy;
+      this.getFilteredProviderAdmins();
     });
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChange(page), new GetFilteredProviderAdmins(this.filterParams)]);
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviderAdmins(this.filterParams)]);
   }
 
   /**
@@ -53,10 +92,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    this.filterFormControl.reset();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] }
+      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] },
     });
   }
 
@@ -67,18 +105,23 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
-        property: user.pib
-      }
+        type: user.isDeputy
+          ? ModalConfirmationType.deleteProviderAdminDeputy
+          : ModalConfirmationType.deleteProviderAdmin,
+        property: user.pib,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
-          new DeleteProviderAdminById({
-            userId: user.id,
-            providerId: this.provider.id
-          })
+          new DeleteProviderAdminById(
+            {
+              userId: user.id,
+              providerId: this.provider.id,
+            },
+            this.filterParams
+          )
         );
     });
   }
@@ -90,27 +133,34 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     let messageType: string;
 
     if (admin.user.isDeputy) {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
+      messageType = admin.isBlocked
+        ? ModalConfirmationType.blockProviderAdminDeputy
+        : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
+      messageType = admin.isBlocked
+        ? ModalConfirmationType.blockProviderAdmin
+        : ModalConfirmationType.unBlockProviderAdmin;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
         type: messageType,
-        property: admin.user.pib
-      }
+        property: admin.user.pib,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result &&
         this.store.dispatch(
-          new BlockProviderAdminById({
-            userId: admin.user.id,
-            providerId: this.provider.id,
-            isBlocked: admin.isBlocked
-          })
+          new BlockProviderAdminById(
+            {
+              userId: admin.user.id,
+              providerId: this.provider.id,
+              isBlocked: admin.isBlocked,
+            },
+            this.filterParams
+          )
         );
     });
   }
@@ -127,18 +177,17 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       new PushNavPath({
         name: NavBarName.Administration,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }
 
   protected initProviderData(): void {
-    this.getAllProviderAdmins();
     this.addProviderAdminsSubscribtions();
   }
 
-  private getAllProviderAdmins(): void {
-    this.store.dispatch(new GetAllProviderAdmins());
+  private getFilteredProviderAdmins(): void {
+    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 
   /**
@@ -155,7 +204,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
         role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
         status: admin.accountStatus,
-        isDeputy: admin.isDeputy
+        isDeputy: admin.isDeputy,
       });
     });
     return updatedAdmins;
@@ -166,19 +215,17 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    */
   private addProviderAdminsSubscribtions(): void {
     this.filterFormControl.valueChanges
-      .pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$),
-        filter((val: string) => !!val)
-      )
-      .subscribe((val: string) => (this.filterValue = val));
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((val: string) => {
+        this.filterParams.searchString = val;
+        this.getFilteredProviderAdmins();
+      });
 
     this.providerAdmins$
-      .pipe(
-        filter((providerAdmins: ProviderAdmin[]) => !!providerAdmins),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((providerAdmins: ProviderAdmin[]) => (this.providerAdmins = this.updateStructureForTheTable(providerAdmins)));
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
+        this.providerAdmins = providerAdmins;
+        this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
+      });
   }
 }

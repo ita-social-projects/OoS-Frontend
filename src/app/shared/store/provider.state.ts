@@ -1,3 +1,4 @@
+import { GetApplicationsByPropertyId } from './shared-user.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
@@ -31,11 +32,11 @@ import {
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
-  GetAllProviderAdmins,
+  GetFilteredProviderAdmins,
   GetBlockedParents,
   GetChildrenByWorkshopId,
   GetProviderAdminWorkshops,
-  GetProviderWorkshops,
+  GetProviderViewWorkshops,
   GetWorkshopListByProviderId,
   OnBlockProviderAdminFail,
   OnBlockProviderAdminSuccess,
@@ -82,7 +83,6 @@ import {
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
-import { GetApplicationsByProviderId } from './shared-user.actions';
 import { TruncatedItem } from '../models/truncated.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
@@ -94,8 +94,8 @@ export interface ProviderStateModel {
   achievements: SearchResponse<Achievement[]>;
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
-  providerWorkshops: ProviderWorkshopCard[];
-  providerAdmins: ProviderAdmin[];
+  providerWorkshops: SearchResponse<ProviderWorkshopCard[]>;
+  providerAdmins: SearchResponse<ProviderAdmin[]>;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
 }
@@ -136,12 +136,12 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerWorkshops(state: ProviderStateModel): ProviderWorkshopCard[] {
+  static providerWorkshops(state: ProviderStateModel): SearchResponse<ProviderWorkshopCard[]> {
     return state.providerWorkshops;
   }
 
   @Selector()
-  static providerAdmins(state: ProviderStateModel): ProviderAdmin[] {
+  static providerAdmins(state: ProviderStateModel): SearchResponse<ProviderAdmin[]> {
     return state.providerAdmins;
   }
 
@@ -187,7 +187,7 @@ export class ProviderState {
         tap((achievements: SearchResponse<Achievement[]>) =>
           patchState(
             achievements
-              ? { achievements: achievements, isLoading: false }
+              ? { achievements, isLoading: false }
               : { achievements: EMPTY_RESULT, isLoading: false }
           )
         )
@@ -204,7 +204,7 @@ export class ProviderState {
       tap((approvedChildren: SearchResponse<Child[]>) => {
         return patchState(
           approvedChildren
-            ? { approvedChildren: approvedChildren, isLoading: false }
+            ? { approvedChildren, isLoading: false }
             : { approvedChildren: EMPTY_RESULT, isLoading: false }
         );
       })
@@ -317,37 +317,55 @@ export class ProviderState {
   getProviderAdminWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
     {}: GetProviderAdminWorkshops
-  ): Observable<ProviderWorkshopCard[]> {
+  ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getProviderAdminsWorkshops().pipe(
-      tap((providerWorkshops: ProviderWorkshopCard[]) => {
-        return patchState({ providerWorkshops, isLoading: false });
-      })
-    );
+    return this.userWorkshopService
+      .getProviderAdminsWorkshops()
+      .pipe(
+        tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
+          patchState(
+            providerWorkshops
+              ? { providerWorkshops, isLoading: false }
+              : { providerWorkshops: EMPTY_RESULT, isLoading: false }
+          )
+        )
+      );
   }
 
-  @Action(GetProviderWorkshops)
+  @Action(GetProviderViewWorkshops)
   getProviderWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
-    { payload }: GetProviderWorkshops
-  ): Observable<ProviderWorkshopCard[]> {
+    { payload }: GetProviderViewWorkshops
+  ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     patchState({ isLoading: true });
-    return this.userWorkshopService.getProviderWorkshops(payload).pipe(
-      tap((providerWorkshops: ProviderWorkshopCard[]) => {
-        return patchState({ providerWorkshops, isLoading: false });
-      })
-    );
+    return this.userWorkshopService
+      .getProviderViewWorkshops(payload)
+      .pipe(
+        tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
+          patchState(
+            providerWorkshops
+              ? { providerWorkshops, isLoading: false }
+              : { providerWorkshops: EMPTY_RESULT, isLoading: false }
+          )
+        )
+      );
   }
 
-  @Action(GetAllProviderAdmins)
-  getAllProviderAdmins(
+  @Action(GetFilteredProviderAdmins)
+  getFilteredProviderAdmins(
     { patchState }: StateContext<ProviderStateModel>,
-    {}: GetAllProviderAdmins
-  ): Observable<ProviderAdmin[]> {
+    { payload }: GetFilteredProviderAdmins
+  ): Observable<SearchResponse<ProviderAdmin[]>> {
     patchState({ isLoading: true });
     return this.providerAdminService
-      .getAllProviderAdmins()
-      .pipe(tap((providerAdmins: ProviderAdmin[]) => patchState({ providerAdmins, isLoading: false })));
+      .getFilteredProviderAdmins(payload)
+      .pipe(
+        tap((providerAdmins: SearchResponse<ProviderAdmin[]>) =>
+          patchState(
+            providerAdmins ? { providerAdmins, isLoading: false } : { providerAdmins: EMPTY_RESULT, isLoading: false }
+          )
+        )
+      );
   }
 
   @Action(CreateWorkshop)
@@ -431,7 +449,7 @@ export class ProviderState {
         message: SnackbarText.deleteWorkshop,
         type: 'success',
       }),
-      new GetProviderWorkshops(payload.providerId),
+      new GetProviderViewWorkshops(payload.providerId),
     ]);
   }
 
@@ -577,10 +595,10 @@ export class ProviderState {
   @Action(BlockProviderAdminById)
   blockProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: BlockProviderAdminById
+    { payload, filterParams }: BlockProviderAdminById
   ): Observable<void | Observable<void>> {
     return this.providerAdminService.blockProviderAdmin(payload).pipe(
-      tap(() => dispatch(new OnBlockProviderAdminSuccess(payload))),
+      tap(() => dispatch(new OnBlockProviderAdminSuccess(payload, filterParams))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
     );
   }
@@ -597,10 +615,10 @@ export class ProviderState {
   @Action(OnBlockProviderAdminSuccess)
   onBlockProviderAdminSuccess(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: OnBlockProviderAdminSuccess
+    { payload, filterParams }: OnBlockProviderAdminSuccess
   ): void {
     dispatch([
-      new GetAllProviderAdmins(),
+      new GetFilteredProviderAdmins(filterParams),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success',
@@ -611,10 +629,10 @@ export class ProviderState {
   @Action(DeleteProviderAdminById)
   deleteProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: DeleteProviderAdminById
+    { payload, filterParams }: DeleteProviderAdminById
   ): Observable<void | Observable<void>> {
     return this.providerAdminService.deleteProviderAdmin(payload.userId, payload.providerId).pipe(
-      tap(() => dispatch(new OnDeleteProviderAdminSuccess())),
+      tap(() => dispatch(new OnDeleteProviderAdminSuccess(filterParams))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderAdminFail(error))))
     );
   }
@@ -629,9 +647,12 @@ export class ProviderState {
   }
 
   @Action(OnDeleteProviderAdminSuccess)
-  onDeleteProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnDeleteProviderAdminSuccess): void {
+  onDeleteProviderAdminSuccess(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { filterParams }: OnDeleteProviderAdminSuccess
+  ): void {
     dispatch([
-      new GetAllProviderAdmins(),
+      new GetFilteredProviderAdmins(filterParams),
       new ShowMessageBar({
         message: SnackbarText.deleteProviderAdmin,
         type: 'success',
@@ -726,7 +747,7 @@ export class ProviderState {
     { payload, entityType }: BlockParentSuccess
   ): void {
     dispatch([
-      new GetApplicationsByProviderId(payload.providerId, {
+      new GetApplicationsByPropertyId(payload.providerId, {
         property: entityType,
         statuses: [],
         showBlocked: false,
@@ -760,17 +781,14 @@ export class ProviderState {
     { payload, entityType }: UnBlockParentSuccess
   ): void {
     dispatch([
-      new GetApplicationsByProviderId(payload.providerId, {
+      new GetApplicationsByPropertyId(payload.providerId, {
         property: entityType,
         statuses: [],
-        showBlocked: true,
+        showBlocked: false,
         workshops: [],
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({
-        message: SnackbarText.unblockPerson,
-        type: 'success',
-      }),
+      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' }),
     ]);
   }
 

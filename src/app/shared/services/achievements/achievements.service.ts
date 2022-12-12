@@ -17,8 +17,8 @@ export class AchievementsService {
   getAchievementsByWorkshopId(id: string): Observable<SearchResponse<Achievement[]>> {
     let params = new HttpParams();
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size: number = this.store.selectSnapshot(PaginatorState.achievementPerPage);
-    const from: number = size * (+currentPage.element - 1);
+    const size = this.store.selectSnapshot(PaginatorState.achievementPerPage);
+    const from = size * (+currentPage.element - 1);
 
     params = new HttpParams().set('WorkshopId', id).set('From', from.toString()).set('Size', size.toString());
 
