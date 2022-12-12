@@ -72,6 +72,7 @@ import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
 import { GetAddressPipe } from './pipes/get-address.pipe';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import {TranslateCasesPipe} from './pipes/translate-cases.pipe';
 
 @NgModule({
   declarations: [
@@ -136,7 +137,8 @@ import { UnregisteredUserWarningModalComponent } from './components/unregistered
     UserRadiusSetComponent,
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
-    GetAddressPipe
+    GetAddressPipe,
+    TranslateCasesPipe
   ],
 
   imports: [
@@ -213,7 +215,8 @@ import { UnregisteredUserWarningModalComponent } from './components/unregistered
     UserRadiusSetComponent,
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
-    GetAddressPipe
+    GetAddressPipe,
+    TranslateCasesPipe
   ]
 })
 export class SharedModule {}

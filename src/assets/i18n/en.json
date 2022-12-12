@@ -35,6 +35,36 @@
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
   "ENUM": {
+    "APPLICATION": {
+      "APPLICATION": "application",
+      "APPLICATIONS": "applications",
+      "APPLICATION_ABLATIVE": "application"
+    },
+    "APPLICATION_APPROVED": {
+      "APPLICATION_ACCEPTED": "application accepted",
+      "APPLICATIONS_ACCEPTED": "applications accepted",
+      "APPLICATION_ACCEPTED_ABLATIVE": "applications accepted"
+    },
+    "APPLICATION_CHANGES": {
+      "CHANGE_IN_STATEMENTS": "change in statements",
+      "CHANGES_IN_STATEMENTS": "changes in statements",
+      "CHANGE_IN_STATEMENTS_ABLATIVE": "changes in statements"
+    },
+    "APPLICATION_PENDING": {
+      "APPLICATION_PENDING_CONFIRMATION": "application pending confirmation",
+      "APPLICATIONS_PENDING_CONFIRMATION": "applications pending confirmation",
+      "APPLICATION_PENDING_CONFIRMATION_ABLATIVE": "applications pending confirmation"
+    },
+    "APPLICATION_LEFT": {
+      "WORKSHOP_LEFT": "workshop left",
+      "WORKSHOPS_LEFT": "workshops left",
+      "WORKSHOP_LEFT_ABLATIVE": "workshops left"
+    },
+    "APPLICATION_REJECTED": {
+      "APPLICATION_REJECTED": "application rejected",
+      "APPLICATIONS_REJECTED": "applications rejected",
+      "APPLICATION_REJECTED_ABLATIVE": "applications rejected"
+    },
     "CHILD_DECLINATION": {
       "CHILD": "child",
       "CHILD_GENITIVE": "children",
@@ -84,6 +114,26 @@
       "WORKSHOPS": "workshops",
       "WORKSHOPS_ABLATIVE": "workshops",
       "NO_WORKSHOPS": "No workshops"
+    },
+    "YEAR_DECLINATION": {
+      "YEAR": "year",
+      "YEARS": "years",
+      "YEARS_ABLATIVE": "years"
+    },
+    "MONTH_DECLINATION": {
+      "MONTH": "month",
+      "MONTHS": "months",
+      "MONTHS_ABLATIVE": "months"
+    },
+    "DAY_DECLINATION": {
+      "DAY": "day",
+      "DAYS": "days",
+      "DAYS_ABLATIVE": "days"
+    },
+    "HOUR_DECLINATION": {
+      "HOUR": "hour",
+      "HOURS": "hours",
+      "HOURS_ABLATIVE": "hours"
     }
   },
   "EXACT_MATCH": "Exact match",

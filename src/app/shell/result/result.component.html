@@ -1,8 +1,8 @@
 <div class="view-control-panel" [class.mobile-map-view]="isMapView">
   <div class="workshops-count" fxFlex="1 1" fxLayout="row" fxLayoutAlign="space-between center">
     <h3 [class.mobile-map-view]="isMapView">
-      {{'FOUND' | translate}}
-      {{ (filteredWorkshops$ | async)?.totalAmount || 0 | declination: WorkshopDeclination }}
+      {{(filteredWorkshops$ | async)?.totalAmount !== 0 ? ('FOUND' | translate) : ''}}
+      {{ (filteredWorkshops$ | async)?.totalAmount | translateCases: WorkshopDeclination }}
     </h3>
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>

@@ -36,6 +36,36 @@
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "ENUM": {
+    "APPLICATION": {
+      "APPLICATION": "заява",
+      "APPLICATIONS": "заяви",
+      "APPLICATION_ABLATIVE": "заявк"
+    },
+    "APPLICATION_APPROVED": {
+      "APPLICATION_ACCEPTED": "заявка зарахована",
+      "APPLICATIONS_ACCEPTED": "заявки зараховано",
+      "APPLICATION_ACCEPTED_ABLATIVE": "заявок зараховано"
+    },
+    "APPLICATION_CHANGES": {
+      "CHANGE_IN_STATEMENTS": "зміна в заявах",
+      "CHANGES_IN_STATEMENTS": "зміни в заявах",
+      "CHANGE_IN_STATEMENTS_ABLATIVE": "змін в заявах"
+    },
+    "APPLICATION_PENDING": {
+      "APPLICATION_PENDING_CONFIRMATION": "заявка очікує підтвердження",
+      "APPLICATIONS_PENDING_CONFIRMATION": "заявки очікують підтвердження",
+      "APPLICATION_PENDING_CONFIRMATION_ABLATIVE": "заявок очікують підтвердження"
+    },
+    "APPLICATION_LEFT": {
+      "WORKSHOP_LEFT": "гурток залишено",
+      "WORKSHOPS_LEFT": "гуртки залишено",
+      "WORKSHOP_LEFT_ABLATIVE": "гуртків залишено"
+    },
+    "APPLICATION_REJECTED": {
+      "APPLICATION_REJECTED": "заявка відхилена",
+      "APPLICATIONS_REJECTED": "заявки відхилено",
+      "APPLICATION_REJECTED_ABLATIVE": "заявок відхилено"
+    },
     "CHILD_DECLINATION": {
       "CHILD": "дитина",
       "CHILD_GENITIVE": "дитини",
@@ -85,8 +115,29 @@
       "WORKSHOPS": "гуртки",
       "WORKSHOPS_ABLATIVE": "гуртків",
       "NO_WORKSHOPS": "Гуртки відсутні"
+    },
+    "YEAR_DECLINATION": {
+      "YEAR": "рік",
+      "YEARS": "роки",
+      "YEARS_ABLATIVE": "років"
+    },
+    "MONTH_DECLINATION": {
+      "MONTH": "місяць",
+      "MONTHS": "місяці",
+      "MONTHS_ABLATIVE": "місяців"
+    },
+    "DAY_DECLINATION": {
+      "DAY": "день",
+      "DAYS": "дні",
+      "DAYS_ABLATIVE": "днів"
+    },
+    "HOUR_DECLINATION": {
+      "HOUR": "година",
+      "HOURS": "години",
+      "HOURS_ABLATIVE": "годин"
     }
   },
+
   "EXACT_MATCH": "Повне співпадіння",
   "FAVORITE": "Улюблене",
   "FOR_FREE": "Безкоштовно",
@@ -136,5 +187,6 @@
   "YEARS": "років",
   "YOU_ARE_IN_A_SETTLEMENT": "Ви знаходитесь в населеному пункті",
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "Ви вже оцінили цей гурток",
-  "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "Ви повинні бути прийнятим до даного гуртка"
+  "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "Ви повинні бути прийнятим до даного гуртка",
+  "FOUND_WORKSHOP": "Знайдено {count|#1 }"
 }
