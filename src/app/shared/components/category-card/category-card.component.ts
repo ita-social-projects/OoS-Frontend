@@ -6,6 +6,7 @@ import { Direction } from '../../../shared/models/category.model';
 import { SetDirections } from '../../../shared/store/filter.actions';
 import { WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
 import { DefaultFilterFormState } from '../../models/defaultFilterFormState.model';
+import { Util } from '../../utils/utils';
 
 @Component({
   selector: 'app-category-card',
@@ -32,7 +33,7 @@ export class CategoryCardComponent {
 
   selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction.id]));
-    const filterQueryParams: Partial<DefaultFilterFormState> = { directionIds: [direction.id] };
+    const filterQueryParams = Util.getFilterStateQuery({ directionIds: [direction.id] } as DefaultFilterFormState) || null;
     this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
   }
 }

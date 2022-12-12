@@ -1,21 +1,13 @@
 import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
+import { skip, takeUntil } from 'rxjs/operators';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../shared/enum/navigation-bar';
-import { FilterStateModel } from '../../shared/models/filterState.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
-import {
-  GetFilteredWorkshops,
-  ResetFilteredWorkshops,
-  SetMapView,
-  SetFilterFromURL,
-  FilterClear,
-  FilterChange
-} from '../../shared/store/filter.actions';
+import { GetFilteredWorkshops, ResetFilteredWorkshops, SetMapView, SetFilterFromURL, FilterClear } from '../../shared/store/filter.actions';
 import { FilterState } from '../../shared/store/filter.state';
 import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { NavigationState } from '../../shared/store/navigation.state';
@@ -70,7 +62,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private actions$: Actions,
     private store: Store,
     private navigationBarService: NavigationBarService,
     private route: ActivatedRoute,
@@ -78,19 +69,20 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    this.isMapView = this.store.selectSnapshot(FilterState.isMapView);
+
     this.addNavPath();
     this.setInitialSubscriptions();
   }
 
   ngAfterViewInit(): void {
-    combineLatest([this.route.queryParamMap, this.isMapView$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
-        const filterParams = queryParamMap.get('filter');
-        this.isMapView = isMapView;
-        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
-      });
-    this.setFilterStateURLParams();
+    this.route.queryParamMap.pipe(takeUntil(this.destroy$)).subscribe((queryParamMap: ParamMap) => {
+      this.getWorkshopsFromURL(queryParamMap);
+    });
+
+    this.filterForm$.pipe(skip(1), takeUntil(this.destroy$)).subscribe((filterForm: DefaultFilterFormState) => {
+      this.setURLFromFilterForm(filterForm);
+    });
   }
 
   private setInitialSubscriptions(): void {
@@ -102,6 +94,17 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       });
 
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => (this.role = role));
+
+    this.isMapView$.pipe(skip(1), takeUntil(this.destroy$)).subscribe((isMapView: boolean) => {
+      const filterForm = this.store.selectSnapshot(FilterState.filterForm);
+      let queryParamMap: ParamMap;
+
+      this.isMapView = isMapView;
+      this.setURLFromFilterForm(filterForm);
+
+      queryParamMap = this.route.snapshot.queryParamMap;
+      this.getWorkshopsFromURL(queryParamMap);
+    });
 
     this.isMobileView$.pipe(takeUntil(this.destroy$)).subscribe((isMobileView: boolean) => {
       this.isMobileView = isMobileView;
@@ -126,16 +129,19 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     );
   }
 
+  private getWorkshopsFromURL(queryParamMap: ParamMap): void {
+    const filterParams = queryParamMap.get('filter');
+    this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
+  }
+
   /**
    * Updates / Appends workshop filter to the URL query string
    * @private
    */
-  private setFilterStateURLParams(): void {
-    this.filterForm$.pipe(takeUntil(this.destroy$)).subscribe((filterState: DefaultFilterFormState) => {
-      // Set Filter param as null to remove it from URL query string
-      const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
-      this.router.navigate([`result/${this.currentView}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
-    });
+  private setURLFromFilterForm(filterForm: Partial<DefaultFilterFormState>): void {
+    // Set Filter param as null to remove it from URL query string
+    const filterQueryParams = Util.getFilterStateQuery(filterForm) || null;
+    this.router.navigate([`result/${this.currentView}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
   }
 
   viewHandler(value: ViewType): void {
@@ -152,8 +158,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops(), new FilterClear()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops(), new FilterClear()]);
   }
 }

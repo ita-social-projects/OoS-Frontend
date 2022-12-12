@@ -11,6 +11,7 @@ import { PaginationElement } from '../../../models/paginationElement.model';
 import { WorkshopCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
 import { PaginatorState } from '../../../store/paginator.state';
+import { DefaultFilterFormState } from '../../../../shared/models/defaultFilterFormState.model';
 
 @Injectable({
   providedIn: 'root'
@@ -159,5 +160,11 @@ export class AppWorkshopsService {
     return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', {
       params
     });
+  }
+
+  checkFilterForChanges(filterForm: DefaultFilterFormState): boolean {
+    const currentFilterFormJSON = JSON.stringify(this.store.selectSnapshot(FilterState.filterForm));
+    const newFilterFormJSON = JSON.stringify(filterForm);
+    return currentFilterFormJSON === newFilterFormJSON;
   }
 }

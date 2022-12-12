@@ -225,7 +225,7 @@ export class Util {
    * @param filterState
    * @return Query string
    */
-  public static getFilterStateQuery(filterState: DefaultFilterFormState): string {
+  public static getFilterStateQuery(filterState: Partial<DefaultFilterFormState>): string {
     let filterStateDiff: Partial<DefaultFilterFormState> = {};
     let serializedFilters = '';
     const defaultFilterState = new DefaultFilterFormState();
@@ -238,7 +238,7 @@ export class Util {
         }
         continue;
       }
-      if (value !== filterState[key]) {
+      if (Object.keys(filterState).includes(key) && value !== filterState[key]) {
         filterStateDiff[key] = filterState[key];
       }
     }

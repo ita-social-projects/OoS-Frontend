@@ -349,7 +349,9 @@ export class FilterState {
 
   @Action(SetFilterFromURL)
   setFilterFromURL({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetFilterFromURL): void {
-    patchState({ filterForm: payload });
+    if (!this.appWorkshopsService.checkFilterForChanges(payload)) {
+      patchState({ filterForm: payload });
+    }
     dispatch(new FilterChange());
   }
 }
