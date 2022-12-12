@@ -165,7 +165,7 @@ export class FilterState {
 
   @Action(CleanCity)
   cleanCity({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ settlement: undefined });
+    patchState({ settlement: null });
   }
 
   @Action(ConfirmCity)
