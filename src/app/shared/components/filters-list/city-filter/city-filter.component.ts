@@ -39,28 +39,13 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
-  ngAfterViewInit(): void {
-    if (this.geolocationService.isCityInStorage()) {
-      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
-    } else {
-      this.geolocationService.handleUserLocation((coords: Coords) => {
-        if (coords) {
-          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-            this.geolocationService.confirmCity(result, false);
-          });
-        } else {
-          this.geolocationService.confirmCity(Constants.KYIV, false);
-        }
-      });
-    }
-  }
 
   ngOnInit(): void {
     this.settlementListener();
     this.settlement$
       .pipe(
-        takeUntil(this.destroy$),
-        filter((settlement: Codeficator) => settlement !== undefined)
+        filter((settlement: Codeficator) => settlement !== undefined),
+        takeUntil(this.destroy$)
       )
       .subscribe((settlement: Codeficator) => {
         this.settlement = settlement;
@@ -77,6 +62,22 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.codeficatorSearch = searchResult;
       }
     });
+  }
+
+  ngAfterViewInit(): void {
+    if (this.geolocationService.isCityInStorage()) {
+      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
+    } else {
+      this.geolocationService.handleUserLocation((coords: Coords) => {
+        if (coords) {
+          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+            this.geolocationService.confirmCity(result, false);
+          });
+        } else {
+          this.geolocationService.confirmCity(Constants.KYIV, false);
+        }
+      });
+    }
   }
 
   /**
