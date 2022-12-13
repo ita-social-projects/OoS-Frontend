@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Injectable, Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { TranslateService as NgxTranslateService } from '@ngx-translate/core';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class TranslateCasesPipe implements PipeTransform  {
 
   transform(count: number, enumTranslate): string {
     const countLastStr = count?.toString().slice(-1);
-    let countNum = count.toString();
+    let countNum = count?.toString();
     if (count === 0) {
       countNum = '';
       this.translateKey = enumTranslate[3];
