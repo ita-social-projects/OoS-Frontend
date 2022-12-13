@@ -25,7 +25,7 @@ export class ReasonModalWindowComponent implements OnInit {
   ReasonFormControl = new FormControl('', [
     Validators.required,
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-    Validators.minLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+    Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
   ]);
 
   constructor(
