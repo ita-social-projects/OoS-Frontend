@@ -38,7 +38,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   constructor(public store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new SetMapView(false));
     this.workshops$
       .pipe(
         takeUntil(this.destroy$),
