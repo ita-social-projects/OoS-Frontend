@@ -51,7 +51,7 @@
       "COURSE": "Course",
       "DAY": "Day",
       "HOUR": "Hour",
-      "MONTH" : "Month",
+      "MONTH": "Month",
       "YEAR": "Year"
     },
     "RECRUITMENT_STATUS": {
@@ -83,30 +83,38 @@
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "UAH_FOR": "UAH for",
     "ACTIONS": {
+      "ADD_ANOTHER_CHILD": "Add another child",
       "ADD_ANOTHER_SECTION": "Add another section",
       "ADD_ANOTHER_TEACHER": "Add another teacher",
       "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
       "BACK": "Back",
       "NEXT": "Next",
+      "REMOVE_CHILD_DATA": "Remove data about the child",
       "REMOVE_TEACHER_DATA": "Remove data about the teacher",
       "SAVE": "Save"
     },
     "CONTROL_VALUES": {
       "FEMALE": "Female",
       "MALE": "Male",
-      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider"      
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider",
+      "CHILD_AGREEMENT_WITH_TERMS_OF_USE_START": "By adding data about the child, I accept the",
+      "TERMS_OF_USE": "Terms of Use",
+      "AGREEMENT_WITH_TERMS_OF_USE_END": "and consent to the processing of personal data"
     },
     "HEADERS": {
       "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
       "EDIT_WORKSHOP": "EDIT WORKSHOP",
       "EDIT_WORKSHOP_DESCRIPTION_PATH": "Edit a",
       "NEW_WORKSHOP": "NEW WORKSHOP",
-      "NEW_WORKSHOP_DESCRIPTION_PATH": "Add a new"
+      "NEW_WORKSHOP_DESCRIPTION_PATH": "Add a new",
+      "NEW_CHILD": "Add child information",
+      "EDIT_CHILD": "Edit child information",
+      "CREATE_CHILD_SUBTITLE": "To track your child's applications and activities. You can always add this information in your personal cabinet."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
       "AVAILABLE_PLACES": "Number of available places",
-      "BIRTHDAY":  "Birthday",
+      "BIRTHDAY": "Birthday",
       "BUILDING": "Building",
       "DAYS_HOURS": "Days/Hours",
       "EMAIL": "Email",
@@ -115,11 +123,13 @@
       "NAME": "Name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
+      "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
       "WORKING_HOURS": "Working hours",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "SEX": "Sex",
+      "SOCIAL_GROUP": "Social group",
       "STREET": "Street",
       "SUBORDINATION": "Subordination",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
@@ -128,6 +138,7 @@
       "WEBSITE": "Website"
     },
     "PLACEHOLDERS": {
+      "SELECTION_SOCIAL_GROUPS": "Select social groups",
       "KEYWORDS_START": "Enter keywords by which users can search for your workshop and press Enter to add a tag (max",
       "KEYWORDS_END": "words)",
       "MAXIMUM": "Maximum",
@@ -147,7 +158,8 @@
       "INVALID_SYMBOLS": ", please use only Cyrillic and symbols ( ' - )",
       "INVALID_LENGTH_START": "This field must contain",
       "INVALID_LENGTH_END": "symbols.",
-      "REQUIRED_INPUT": "This field is required."
+      "REQUIRED_INPUT": "This field is required.",
+      "NO_MORE_CHILDREN": "It is possible to add no more than"
     }
   },
   "FOUND": "Found",
@@ -190,9 +202,9 @@
   "TOP_DIRECTIONS": "Top Categories",
   "TOP_WORKSHOPS": "Top Workshops",
   "TOTAL_PARTICIPANTS": "Total participants",
-  "TYPE_OF_ORGANIZATION" : "Organization type",
+  "TYPE_OF_ORGANIZATION": "Organization type",
   "LAWS_AND_REGULATIONS": "LAWS AND REGULATIONS",
-  "SEND_A_MESSAGE" : "Send a message",
+  "SEND_A_MESSAGE": "Send a message",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
   "SELECT_AGE": "Select age",
@@ -210,5 +222,4 @@
   "YOU_ARE_IN_A_SETTLEMENT": "Is your location",
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "You have already rated this workshop",
   "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop"
-
 }

@@ -51,7 +51,7 @@
       "COURSE": "Курс",
       "DAY": "День",
       "HOUR": "Година",
-      "MONTH" : "Місяць",
+      "MONTH": "Місяць",
       "YEAR": "Рік"
     },
     "RECRUITMENT_STATUS": {
@@ -83,30 +83,38 @@
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
     "UAH_FOR": "грн за",
     "ACTIONS": {
+      "ADD_ANOTHER_CHILD": "Додати ще одну дитину",
       "ADD_ANOTHER_SECTION": "Додати ще один розділ",
       "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
       "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
       "BACK": "Назад",
       "NEXT": "Далі",
+      "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
       "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
       "SAVE": "Зберегти"
     },
     "CONTROL_VALUES": {
       "FEMALE": "Жіноча",
       "MALE": "Чоловіча",
-      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Використати контактні дані надавача освітніх послуг"
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Використати контактні дані надавача освітніх послуг",
+      "CHILD_AGREEMENT_WITH_TERMS_OF_USE_START": "Додаючи дані про дитину я погоджуюсь з",
+      "TERMS_OF_USE": "Правилами користування",
+      "AGREEMENT_WITH_TERMS_OF_USE_END": "та надаю згоду на обробку персональних даних"
     },
     "HEADERS": {
       "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання",
       "EDIT_WORKSHOP": "РЕДАГУВАННЯ ГУРТКА",
       "EDIT_WORKSHOP_DESCRIPTION_PATH": "Відредагуйте",
       "NEW_WORKSHOP": "НОВИЙ ГУРТОК",
-      "NEW_WORKSHOP_DESCRIPTION_PATH": "Додайте новий"
+      "NEW_WORKSHOP_DESCRIPTION_PATH": "Додайте новий",
+      "NEW_CHILD": "Додати дані про дитину",
+      "EDIT_CHILD": "Редагувати дані про дитину",
+      "CREATE_CHILD_SUBTITLE": "Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
       "AVAILABLE_PLACES": "Кількість доступних місць",
-      "BIRTHDAY":  "Дата народження",
+      "BIRTHDAY": "Дата народження",
       "BUILDING": "Будинок",
       "DAYS_HOURS": "Дні/Години",
       "EMAIL": "Електронна пошта",
@@ -115,11 +123,13 @@
       "NAME": "Ім'я",
       "OR_SELECT_ON_THE_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
+      "PLACE_OF_STUDY": "Місце навчання (заклад)",
       "PRICE": "Вартість",
       "WORKING_HOURS": "Розклад занять",
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
       "SEX": "Стать",
+      "SOCIAL_GROUP": "Соціальна група",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
@@ -128,6 +138,7 @@
       "WEBSITE": "Веб сайт"
     },
     "PLACEHOLDERS": {
+      "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
       "KEYWORDS_START": "Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум",
       "KEYWORDS_END": "слів)",
       "MAXIMUM": "Максимум",
@@ -135,7 +146,7 @@
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
       "SYMBOLS": "символів",
       "DATE_FORMAT": "ДД/ММ/РРРР"
-    },    
+    },
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Дата народження виходить за межі допустимих.",
       "INVALID_CHARACHTERS": ", використовуйте будь-ласка тільки кирилицю",
@@ -147,7 +158,8 @@
       "INVALID_SYMBOLS": ", використовуйте будь-ласка тільки кирилицю та символи ( ' - )",
       "INVALID_LENGTH_START": "Це поле має містити",
       "INVALID_LENGTH_END": "символів.",
-      "REQUIRED_INPUT": "Це поле є обов'язковим."
+      "REQUIRED_INPUT": "Це поле є обов'язковим.",
+      "NO_MORE_CHILDREN": "Можливо додати не більш, ніж"
     }
   },
   "FOUND": "Знайдено",
@@ -190,9 +202,9 @@
   "TOP_DIRECTIONS": "Найпопулярніші напрямки",
   "TOP_WORKSHOPS": "Найпопулярніші гуртки",
   "TOTAL_PARTICIPANTS": "Всього учасників",
-  "TYPE_OF_ORGANIZATION" : "Тип організації",
+  "TYPE_OF_ORGANIZATION": "Тип організації",
   "LAWS_AND_REGULATIONS": "НОРМАТИВНО-ПРАВОВІ АКТИ",
-  "SEND_A_MESSAGE" : "Надіслати повідомлення",
+  "SEND_A_MESSAGE": "Надіслати повідомлення",
   "RECRUITMENT": "Набір",
   "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
   "SELECT_AGE": "Обрати вік",

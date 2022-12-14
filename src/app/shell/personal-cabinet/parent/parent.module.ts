@@ -15,6 +15,7 @@ import { ChildCardComponent } from './children/child-card/child-card.component';
 import { PersonCardComponent } from './create-application/person-card/person-card.component';
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { MaterialModule } from '../../../shared/modules/material.module';
     MaterialModule,
     SharedCabinetModule,
     RouterModule,
-    FormsModule
+    FormsModule,
+    TranslateModule
   ],
   providers: []
 })
