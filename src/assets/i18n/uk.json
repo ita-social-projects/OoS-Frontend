@@ -24,7 +24,7 @@
   "CLOSE_RECRUITMENT": "Закритий набір",
   "CONFIRM": "Підтвердити",
   "CONTACTS": "КОНТАКТИ",
-  "DATE_OF_BIRTH_OF_THE_MANAGER": "Дата народження керівника",
+  "DIRECTOR_BIRTHDAY": "Дата народження керівника",
   "DAYS": {
     "FRIDAY": "ПТ",
     "MONDAY": "ПН",
@@ -171,7 +171,7 @@
       "KEYWORDS": "Ключові слова",
       "LAST_NAME": "Прізвище",
       "MIDDLENAME": "По-батькові",
-      "NAME": "Ім'я",
+      "FIRST_NAME": "Ім'я",
       "OR_SELECT_ON_THE_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
       "PRICE": "Вартість",

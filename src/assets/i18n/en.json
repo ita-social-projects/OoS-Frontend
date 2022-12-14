@@ -24,7 +24,7 @@
   "CLOSE_RECRUITMENT": "Closed Recruitment",
   "CONFIRM": "Confirm",
   "CONTACTS": "CONTACTS",
-  "DATE_OF_BIRTH_OF_THE_MANAGER": "Date of birth of the manager",
+  "DIRECTOR_BIRTHDAY": "Date of birth of the director",
   "DAYS": {
     "FRIDAY": "Fri",
     "MONDAY": "Mon",
@@ -171,7 +171,7 @@
       "KEYWORDS": "Keywords",
       "LAST_NAME": "Last name",
       "MIDDLENAME": "Middle name",
-      "NAME": "Name",
+      "FIRST_NAME": "First name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
       "PRICE": "Price",
