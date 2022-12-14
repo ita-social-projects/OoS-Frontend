@@ -105,8 +105,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           this.createUserRadius();
           this.setFilteredWorkshops();
           this.showWarningMessage();
-          this.store.dispatch(new SetMapView(true));
         }
+
         // checking if user edit workshop information to create adress for workshop
         if (this.addressFormGroup) {
           this.setAddress();
@@ -327,7 +327,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new SetMapView(false)]);
+    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

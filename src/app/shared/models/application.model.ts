@@ -1,8 +1,9 @@
+import { ApplicationEntityType } from '../enum/applications';
 import { Statuses } from '../enum/statuses';
-import { EntityType } from '../enum/role';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
 import { Workshop, WorkshopCard } from './workshop.model';
+
 export class Application {
   id: string;
   status: string;
@@ -26,18 +27,22 @@ export class Application {
 
 export class ApplicationUpdate {
   id: string;
+  workshopId?: string;
+  parentId?: string;
   status: string;
   rejectionMessage: string;
 
-  constructor(id: string, status: string, rejectionMessage?: string) {
-    this.id = id;
+  constructor(application: Application, status: string, rejectionMessage?: string) {
+    this.id = application.id;
+    this.workshopId = application.workshopId;
+    this.parentId = application.parentId;
     this.status = status;
     this.rejectionMessage = rejectionMessage;
   }
 }
 
-export interface ApplicationParameters {
-  property?: EntityType;
+export interface ApplicationFilterParameters {
+  property?: ApplicationEntityType;
   statuses: Statuses[];
   showBlocked: boolean;
   orderByDateAscending?: boolean;
