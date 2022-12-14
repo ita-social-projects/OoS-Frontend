@@ -104,13 +104,12 @@
       "YEAR": "Year"
     },
     "PERSONAL_CABINET_TITLE": {
-      "ACCOUNT_DEPUTY_DIRECTOR": "Deputy director personal cabinet",
+      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
       "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
       "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
       "PROVIDER_PERSONAL_CABINET": "Provider personal cabinet",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Technical administrator personal cabinet",
       "UNKNOWN_ACCOUNT": "Provider personal cabinet",
-      "USER_ACCOUNT": "User personal cabinet",
       "USER_PERSONAL_CABINET": "User personal cabinet"
     },
     "RECRUITMENT_STATUS": {
