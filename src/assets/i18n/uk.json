@@ -105,13 +105,12 @@
     },
     "PERSONAL_CABINET_TITLE": {
       "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Кабінет заступника директора",
-      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміна міністерства",
-      "PROVIDER_ADMIN_ACCOUNT": "Кабінет адміністратора гуртка",
-      "PROVIDER_PERSONAL_CABINET": "Кабінет надавача",
-      "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет тех.адміна",
-      "UNKNOWN_ACCOUNT": "Кабінет надавача",
-      "USER_ACCOUNT": "Кабінет користувача",
-      "USER_PERSONAL_CABINET ": "Кабінет користувача"
+      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора міністерства",
+      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора гуртка",
+      "PROVIDER_PERSONAL_CABINET": "Кабінет надавача послуг",
+      "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет тех.адімінстратора",
+      "UNKNOWN_ACCOUNT": "Кабінет надавача послуг",
+      "USER_PERSONAL_CABINET": "Кабінет користувача"
     },
     "RECRUITMENT_STATUS": {
       "OPEN": "Відкрити набір",
