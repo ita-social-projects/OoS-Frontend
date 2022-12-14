@@ -1,14 +1,12 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
   <div [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <div
-        class="logo-wrapper"
-        *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
+      <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
           <a class="info-link" [routerLink]="'./info/about'"> {{ 'ABOUT_THE_PORTAL' | translate }}</a>
 
-          <a class="info-link" [routerLink]="'./info/rules'">{{ 'LAWS_AND_REGULATIONS' | translate }}</a>
+          <a class="info-link" [routerLink]="'./info/rules'">{{ 'LAWS_AND_REGULATIONS' | translate | uppercase }}</a>
 
           <a class="info-link" [routerLink]="'./info/support'">{{ 'SUPPORT' | translate }}</a>
 
@@ -20,15 +18,15 @@
               [(value)]="selectedLanguage"
               class="lang-option"
               disableOptionCentering
-              panelClass="dropdown-panel">
+              panelClass="dropdown-panel"
+            >
               <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
               <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
             </mat-select>
           </button>
         </div>
 
-        <ng-conatiner
-          *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
+        <ng-conatiner *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
       </div>
     </div>
     <div *ngIf="isRouter('/')" fxLayout="column" fxLayoutAlign="center center">
@@ -73,8 +71,7 @@
   </ng-container>
 
   <mat-menu #log="matMenu" class="menu">
-    <ng-conatiner
-      *ngIf="user.role !== (Role.techAdmin || Role.ministryAdmin); then UserView; else AdminView"></ng-conatiner>
+    <ng-conatiner *ngIf="user.role !== (Role.techAdmin || Role.ministryAdmin); then UserView; else AdminView"></ng-conatiner>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
@@ -108,9 +105,7 @@
         {{ 'MY_MESSAGES' | translate }}
       </button>
     </a>
-    <a
-      *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
-      [routerLink]="'./personal-cabinet/provider/administration'">
+    <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ADMINISTRATION' | translate }}
       </button>
@@ -129,10 +124,7 @@
       {{ 'PERSONAL_INFORMATION' | translate }}
     </button>
   </a>
-  <a
-    *ngIf="user.role === Role.techAdmin"
-    [routerLink]="'./admin-tools/platform'"
-    [queryParams]="{ page: defaultAdminTabs }">
+  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
     <button mat-menu-item>
       {{ 'ADMINISTRATION' | translate }}
     </button>
