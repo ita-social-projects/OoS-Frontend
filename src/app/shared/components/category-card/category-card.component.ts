@@ -5,11 +5,12 @@ import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { Direction } from '../../../shared/models/category.model';
 import { SetDirections } from '../../../shared/store/filter.actions';
 import { WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
+import { DefaultFilterState } from '../../models/defaultFilterState.model';
 
 @Component({
   selector: 'app-category-card',
   templateUrl: './category-card.component.html',
-  styleUrls: ['./category-card.component.scss'],
+  styleUrls: ['./category-card.component.scss']
 })
 export class CategoryCardComponent {
   @Input() workshopsCount: number;
@@ -31,6 +32,7 @@ export class CategoryCardComponent {
 
   selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction.id]));
-    this.router.navigate(['/result']);
+    const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
+    this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
   }
 }

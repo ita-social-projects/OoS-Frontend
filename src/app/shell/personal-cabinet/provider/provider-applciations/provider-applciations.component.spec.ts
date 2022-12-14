@@ -5,7 +5,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { Role } from '../../../../shared/enum/role';
-import { ApplicationParameters } from '../../../../shared/models/application.model';
+import { ApplicationFilterParameters } from '../../../../shared/models/application.model';
 import { Child } from '../../../../shared/models/child.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
@@ -44,7 +44,7 @@ describe('ProviderApplciationsComponent', () => {
   template: ''
 })
 class ApplicationsMockComponent {
-  @Input() applicationParams: ApplicationParameters;
+  @Input() applicationParams: ApplicationFilterParameters;
   @Input() dropdownEntities: Child[] | Workshop[];
   @Input() declination: ChildDeclination | WorkshopDeclination;
   @Input() role: Role;

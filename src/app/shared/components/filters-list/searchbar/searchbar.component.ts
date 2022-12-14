@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs';
+import { DefaultFilterState } from 'src/app/shared/models/defaultFilterState.model';
 import { NavBarName } from '../../../enum/navigation-bar';
 import { Navigation } from '../../../models/navigation.model';
 import { SetSearchQueryValue } from '../../../store/filter.actions';
@@ -70,7 +71,8 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   }
 
   private performSearch(): void {
-    !this.isResultPage && this.router.navigate(['/result']);
+    const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
+    !this.isResultPage && this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
   /**

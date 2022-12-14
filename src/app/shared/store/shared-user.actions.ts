@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { Application, ApplicationParameters, ApplicationUpdate } from '../models/application.model';
+import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
@@ -26,14 +26,9 @@ export class OnGetProviderByIdFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class GetApplicationsByParentId {
-  static readonly type = '[user] get Applications By Parent Id';
-  constructor(public id: string, public parameters: ApplicationParameters) {}
-}
-
-export class GetApplicationsByProviderId {
+export class GetApplicationsByPropertyId {
   static readonly type = '[user] get Applications By Provider Id';
-  constructor(public id: string, public parameters: ApplicationParameters) {}
+  constructor(public id: string, public parameters: ApplicationFilterParameters) {}
 }
 
 export class GetApplicationsByStatus {

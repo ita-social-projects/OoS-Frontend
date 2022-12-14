@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
+import { FilterChange } from '../../../../shared/store/filter.actions';
 import { Coords } from '../../../../shared/models/coords.model';
 import { GeolocationService } from '../../../../shared/services/geolocation/geolocation.service';
 import { Constants } from '../../../constants/constants';
@@ -17,7 +18,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
   templateUrl: './city-filter.component.html',
   styleUrls: ['./city-filter.component.scss']
 })
-export class CityFilterComponent implements OnInit, OnDestroy {
+export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   readonly Constants = Constants;
   readonly sliceLength = 25;
 
@@ -28,16 +29,42 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
   codeficatorSearch$: Observable<Codeficator[]>;
+  codeficatorSearch: Codeficator[];
 
   @ViewChild('searchInput') searchInput: ElementRef;
 
   settlementSearchControl: FormControl = new FormControl('');
   isDispalyed = true;
+  isTopCities = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
 
   ngOnInit(): void {
+    this.settlementListener();
+    this.settlement$
+      .pipe(
+        filter((settlement: Codeficator) => settlement !== undefined),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((settlement: Codeficator) => {
+        this.settlement = settlement;
+        this.settlementSearchControl.setValue(settlement?.settlement, { emitEvent: true });
+      });
+
+    this.codeficatorSearch$.pipe(takeUntil(this.destroy$)).subscribe((searchResult: Codeficator[]) => {
+      const controlValue = this.settlementSearchControl.value;
+      if (controlValue && this.isTopCities) {
+        this.codeficatorSearch = this.store
+          .selectSnapshot(MetaDataState.codeficatorSearch)
+          .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(controlValue.toLowerCase()));
+      } else {
+        this.codeficatorSearch = searchResult;
+      }
+    });
+  }
+
+  ngAfterViewInit(): void {
     if (this.geolocationService.isCityInStorage()) {
       this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
     } else {
@@ -51,17 +78,6 @@ export class CityFilterComponent implements OnInit, OnDestroy {
         }
       });
     }
-
-    this.settlementListener();
-    this.settlement$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((settlement: Codeficator) => !!settlement)
-      )
-      .subscribe((settlement: Codeficator) => {
-        this.settlement = settlement;
-        this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: true });
-      });
   }
 
   /**
@@ -69,33 +85,37 @@ export class CityFilterComponent implements OnInit, OnDestroy {
    */
   private settlementListener(): void {
     this.settlementSearchControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith(''),
-        takeUntil(this.destroy$),
-        tap((value: string) => {
-          if (!value?.length) {
-            this.store.dispatch(new ClearCodeficatorSearch());
-          }
-        }),
-        filter((value: string) => value?.length > 2)
-      )
-      .subscribe((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)));
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe((value: string) => {
+        if (value?.length > 3) {
+          this.store.dispatch(new GetCodeficatorSearch(value));
+          this.isTopCities = false;
+        } else if (!this.isTopCities) {
+          this.store.dispatch(new GetCodeficatorSearch(''));
+          this.isTopCities = true;
+        } else {
+          this.codeficatorSearch = this.store
+            .selectSnapshot(MetaDataState.codeficatorSearch)
+            .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
+        }
+      });
   }
 
   onSelectedCity(event: MatAutocompleteSelectedEvent): void {
     this.geolocationService.confirmCity(event.option.value, true);
+    this.store.dispatch(new FilterChange());
   }
 
   /**
    * This method listen input FocusOut event and update search and settlement controls value
    * @param auto MatAutocomplete
    */
-  onFocusOut(auto: MatAutocomplete): void {
-    const codeficator: Codeficator = auto.options.first?.value;
-    if (codeficator?.settlement === Constants.NO_SETTLEMENT) {
-      this.settlementSearchControl.setValue(null, { emitEvent: false, onlySelf: true });
+  onFocusOut(): void {
+    if (!this.settlementSearchControl.value) {
+      const settlement = this.store.selectSnapshot(FilterState.settlement);
+      this.settlement = settlement;
+      this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false });
+      this.codeficatorSearch = null;
     }
   }
 
@@ -113,13 +133,9 @@ export class CityFilterComponent implements OnInit, OnDestroy {
 
   changeCity(): void {
     this.isDispalyed = false;
-    if (this.settlement != Constants.KYIV) {
-      this.geolocationService.confirmCity(Constants.KYIV, false);
-      this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch)).subscribe(() => this.setInputFocus());
-      return;
-    }
-
-    this.setInputFocus();
+    this.settlementSearchControl.setValue(null);
+    this.settlement = null;
+    this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch), takeUntil(this.destroy$)).subscribe(() => this.setInputFocus());
   }
 
   setInputFocus(): void {
