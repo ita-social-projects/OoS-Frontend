@@ -7,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip, tap } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
@@ -89,10 +89,10 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.providers$
       .pipe(
         takeUntil(this.destroy$),
-        filter((providers) => !!providers)
+        filter((providers: SearchResponse<Provider[]>) => !!providers),
       )
       .subscribe((providers: SearchResponse<Provider[]>) => {
-        this.dataSource = new MatTableDataSource(providers?.entities);
+        this.dataSource = new MatTableDataSource(providers.entities);
         this.dataSource.sort = this.sort;
         this.totalEntities = providers.totalAmount;
       });

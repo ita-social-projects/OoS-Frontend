@@ -12,5 +12,5 @@ export enum NoResultsTitle {
   noHistory = 'Історії змін поки немає',
   noInfo = 'Інформації поки немає',
   noMessages = 'Повідомлень поки немає',
-  noProviders = 'Закладів поки немає'
+  noProviders = 'За результатами нічого не знайдено'
 }
