@@ -17,6 +17,11 @@ export class ShowMessageBar {
   constructor(public payload: MessageBar) {}
 }
 
+export class ClearMessageBar {
+  static readonly type = '[app] clear message bar';
+  constructor() {}
+}
+
 export class ToggleMobileScreen {
   static readonly type = '[app] isMobileScreen';
   constructor(public payload: boolean) {}
