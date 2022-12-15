@@ -3,7 +3,7 @@
     <li *ngFor="let nav of navigationPaths$ | async" [ngClass]="{ is_active: nav.disable }">
       <div class="pathLink">
         <mat-icon [class.hide]="nav.isActive">arrow_forward</mat-icon
-        ><a routerLink="{{ nav.path }}" [queryParams]="nav.queryParams">{{ nav.name }}</a>
+        ><a routerLink="{{ nav.path }}" [queryParams]="nav.queryParams">{{ nav.name | translate }}</a>
       </div>
     </li>
   </ul>
