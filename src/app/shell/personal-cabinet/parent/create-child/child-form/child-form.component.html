@@ -103,8 +103,8 @@
   >
   </app-validation-hint>
 
-  <div fxLayout="row" fxLayoutAlign="center" *ngIf="!!childrenAmount" class="removeChild">
-    <button class="btn-reset" mat-button [disabled]="childrenAmount === 1" (click)="onDelete()">
+  <div fxLayout="row" fxLayoutAlign="center" *ngIf="childrenAmount > 1" class="removeChild">
+    <button class="btn-reset" mat-button (click)="onDelete()">
       <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'FORMS.ACTIONS.REMOVE_CHILD_DATA' | translate }}
     </button>
   </div>
