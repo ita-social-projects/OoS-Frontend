@@ -7,6 +7,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { ConfirmationModalWindowComponent } from './confirmation-modal-window.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ConfirmationModalWindowComponent', () => {
   let component: ConfirmationModalWindowComponent;
@@ -14,7 +15,7 @@ describe('ConfirmationModalWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatButtonToggleModule, MatIconModule],
+      imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatButtonToggleModule, MatIconModule, TranslateModule.forRoot()],
       declarations: [ConfirmationModalWindowComponent, StarsComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
