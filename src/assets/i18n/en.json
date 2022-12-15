@@ -6,6 +6,8 @@
   "ADD_ACHIEVEMENTS": "Add Achievements",
   "ADMINISTRATION": "Administration",
   "ALL": "All",
+  "ALL_CHILDREN": "All children",
+  "ALL_WORKSHOPS": "All workshops",
   "AVAILABLE": "Available",
   "NOT_AVAILABLE": "Not available",
   "AWAITING_CONFIRMATION": "Awaiting confirmation",
@@ -67,8 +69,7 @@
       "CHILD": "child",
       "CHILD_GENITIVE": "children",
       "CHILDREN_ABLATIVE": "children",
-      "NO_CHILDREN": "No children",
-      "CHILDREN": "children"
+      "NO_CHILDREN": "No children"
     },
     "OWNERSHIP_TYPE": {
       "COMMON": "Common",
@@ -144,7 +145,7 @@
     "CONTROL_VALUES": {
       "FEMALE": "Female",
       "MALE": "Male",
-      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider"      
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider"
     },
     "HEADERS": {
       "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
@@ -245,6 +246,7 @@
   "SEND_A_MESSAGE" : "Send a message",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
+  "SELECTED": "selected",
   "SELECT_AGE": "Select age",
   "SHOW_ON_THE_MAP": "Show on the map",
   "SIGN_UP": "SIGN UP",
@@ -254,6 +256,7 @@
   "UAH": "UAH",
   "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",
+  "WORKSHOPS": "workshops",
   "WORKING_DAYS": "Working days",
   "WORKING_HOURS": "Working hours",
   "YEARS": "years",

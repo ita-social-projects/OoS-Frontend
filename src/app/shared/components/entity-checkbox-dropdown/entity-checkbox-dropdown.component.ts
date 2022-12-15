@@ -3,13 +3,14 @@ import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { TruncatedItem } from '../../models/truncated.model';
-import { DeclinationPipe } from '../../pipes/declination.pipe';
+import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-entity-checkbox-dropdown',
   templateUrl: './entity-checkbox-dropdown.component.html',
   styleUrls: ['./entity-checkbox-dropdown.component.scss'],
-  providers: [DeclinationPipe]
+  providers: [TranslateCasesPipe]
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   entityControl = new FormControl();
@@ -22,7 +23,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
 
-  constructor(private declinationPipe: DeclinationPipe) {}
+  constructor(private translateCases: TranslateCasesPipe, private translateService: TranslateService) {}
 
   ngOnInit(): void {
     this.entityControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((entities) => {
@@ -32,15 +33,12 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
     this.Declination = this.declination;
   }
 
-  getlabelTitle(quantity: number): string {
-    let allChildrenDeclination, allApplicationsDeclination;
-    if (this.Declination) {
-      allChildrenDeclination = this.Declination[4];
-      allApplicationsDeclination = this.Declination[1];
-    }
+  getLabelTitle(quantity: number): string {
+    let allChildrenDeclination = this.translateService.instant('ALL_CHILDREN');
+    let allApplicationsDeclination = this.translateService.instant('ALL_WORKSHOPS');
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
-    const selectedEntities = this.declinationPipe.transform(quantity, this.Declination);
-    return quantity < 1 ? selectedEntities : this.labelByDefault || `Усі ${allEntities}`;
+    const selectedEntities = this.translateCases.transform(quantity, this.Declination);
+    return quantity < 1 ? selectedEntities : this.labelByDefault || allEntities;
   }
 
   ngOnDestroy(): void {

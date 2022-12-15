@@ -6,6 +6,8 @@
   "ADD_ACHIEVEMENTS": "Додати досягнення",
   "ADMINISTRATION": "Адміністрування",
   "ALL": "Всі",
+  "ALL_CHILDREN": "Всі діти",
+  "ALL_WORKSHOPS": "Всі гуртки",
   "AVAILABLE": "Наявні",
   "NOT_AVAILABLE": "Відсутні",
   "AWAITING_CONFIRMATION": "Очікує підтвердження",
@@ -15,6 +17,7 @@
   "BY_RATING": "За рейтингом",
   "CANCEL": "Скасувати",
   "CHANGE": "Змінити",
+  "CHILDREN": "діти",
   "CLEAR_FILTERS": "Очистити фільтри",
   "CLOSE_RECRUITMENT": "Закритий набір",
   "CONFIRM": "Підтвердити",
@@ -67,8 +70,7 @@
       "CHILD": "дитина",
       "CHILD_GENITIVE": "дитини",
       "CHILDREN_ABLATIVE": "дітей",
-      "NO_CHILDREN": "Діти відсутні",
-      "CHILDREN": "діти"
+      "NO_CHILDREN": "Діти відсутні"
     },
     "OWNERSHIP_TYPE": {
       "COMMON": "Комунальна",
@@ -186,7 +188,7 @@
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
       "SYMBOLS": "символів",
       "DATE_FORMAT": "ДД/ММ/РРРР"
-    },    
+    },
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Дата народження виходить за межі допустимих.",
       "INVALID_CHARACHTERS": ", використовуйте будь-ласка тільки кирилицю",
@@ -246,6 +248,7 @@
   "SEND_A_MESSAGE" : "Надіслати повідомлення",
   "RECRUITMENT": "Набір",
   "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
+  "SELECTED" : "вибрано",
   "SELECT_AGE": "Обрати вік",
   "SHOW_ON_THE_MAP": "Показати на карті",
   "SIGN_UP": "ЗАРЕЄСТРУВАТИСЯ",
@@ -255,6 +258,7 @@
   "UAH": "грн",
   "UNLIMITED": "Без обмежень",
   "VIEW_ALL": "Переглянути всі",
+  "WORKSHOPS": "гуртки",
   "WORKING_DAYS": "Дні роботи",
   "WORKING_HOURS": "Години роботи",
   "YEARS": "років",
