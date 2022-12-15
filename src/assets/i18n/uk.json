@@ -139,11 +139,14 @@
   "FOR_FREE": "Безкоштовно",
   "FORMS": {
     "ACTIONS": {
+      "ADD_ANOTHER_CHILD": "Додати ще одну дитину",
       "ADD_ANOTHER_SECTION": "Додати ще один розділ",
       "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
       "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
       "BACK": "Назад",
+      "DELETE": "Видалити",
       "NEXT": "Далі",
+      "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
       "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
       "SAVE": "Зберегти"
     },
@@ -151,13 +154,19 @@
     "CONTROL_VALUES": {
       "FEMALE": "Жіноча",
       "MALE": "Чоловіча",
-      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Використати контактні дані надавача освітніх послуг"
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Використати контактні дані надавача освітніх послуг",
+      "CHILD_AGREEMENT_WITH_TERMS_OF_USE_START": "Додаючи дані про дитину я погоджуюсь з",
+      "TERMS_OF_USE": "Правилами користування",
+      "AGREEMENT_WITH_TERMS_OF_USE_END": "та надаю згоду на обробку персональних даних"
     },
     "HEADERS": {
       "EDIT_WORKSHOP": "РЕДАГУВАННЯ ГУРТКА",
       "EDIT_WORKSHOP_DESCRIPTION_PATH": "Відредагуйте",
       "NEW_WORKSHOP": "НОВИЙ ГУРТОК",
       "NEW_WORKSHOP_DESCRIPTION_PATH": "Додайте новий",
+      "NEW_CHILD": "Додати дані про дитину",
+      "EDIT_CHILD": "Редагувати дані про дитину",
+      "CREATE_CHILD_SUBTITLE": "Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті.",
       "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання"
     },
     "LABELS": {
@@ -173,10 +182,12 @@
       "FIRST_NAME": "Ім'я",
       "OR_SELECT_ON_THE_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
+      "PLACE_OF_STUDY": "Місце навчання (заклад)",
       "PRICE": "Вартість",
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
       "SEX": "Стать",
+      "SOCIAL_GROUP": "Соціальна група",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
@@ -185,6 +196,7 @@
       "WORKING_HOURS": "Розклад занять"
     },
     "PLACEHOLDERS": {
+      "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
       "KEYWORDS_END": "слів)",
       "KEYWORDS_START": "Введіть ключові слова за якими користувачі зможуть шукати ваш гурток і натисніть Enter щоб додати тегу (максимум",
       "MAXIMUM": "Максимум",
@@ -205,7 +217,8 @@
       "INVALID_LENGTH_START": "Це поле має містити",
       "INVALID_MAP": "Такої адреси не було знайдено на карті",
       "INVALID_SYMBOLS": ", використовуйте будь-ласка тільки кирилицю та символи ( ' - )",
-      "REQUIRED_INPUT": "Це поле є обов'язковим."
+      "REQUIRED_INPUT": "Це поле є обов'язковим.",
+      "NO_MORE_CHILDREN": "Можливо додати не більш, ніж"
     }
   },
   "FOUND": "Знайдено",

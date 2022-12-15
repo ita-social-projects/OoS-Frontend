@@ -6,6 +6,7 @@ import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { Provider, ProviderStatusUpdateData } from '../../models/provider.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +31,6 @@ export class ProviderService {
   }
 
   /**
-   * This method get Providers from the database
-   * @param
-   */
-  getAllProviders(): Observable<Provider[]> {
-    return this.http.get<Provider[]>('/api/v1/Provider/Get');
-  }
-
-  /**
    * This method get Provider by id
    * @param id string
    */
@@ -49,10 +42,10 @@ export class ProviderService {
    * This method get filtered Providers from the database
    * @param
    */
-  getFilteredProviders(searchString: string): Observable<Provider[]> {
+  getFilteredProviders(searchString: string): Observable<SearchResponse<Provider[]>> {
     const options = { params: this.setParams(searchString) };
 
-    return this.http.get<Provider[]>('/api/v1/Provider/GetByFilter', options);
+    return this.http.get<SearchResponse<Provider[]>>('/api/v1/Provider/GetByFilter', options);
   }
 
   /**
