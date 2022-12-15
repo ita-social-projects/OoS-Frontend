@@ -1,13 +1,10 @@
-import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
-import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip, tap } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
 import { FormControl } from '@angular/forms';
 import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../shared/enum/applications';
@@ -25,6 +22,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
+import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
 
 @Component({
   selector: 'app-provider-list',
