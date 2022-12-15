@@ -36,7 +36,7 @@
       </ng-template>
     </div>
 
-    <div [ngClass]="{ hidden: editMode }" class="step" fxLayout="row" fxLayoutAlign="start center">
+    <div [ngClass]="{ hidden: editMode }" class="step" fxLayout="row">
       <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"> </mat-checkbox>
       <p class="agreement">
         {{ 'FORMS.CONTROL_VALUES.CHILD_AGREEMENT_WITH_TERMS_OF_USE_START' | translate }}

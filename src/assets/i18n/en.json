@@ -144,6 +144,7 @@
       "ADD_ANOTHER_TEACHER": "Add another teacher",
       "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
       "BACK": "Back",
+      "DELETE": "Remove",
       "NEXT": "Next",
       "REMOVE_CHILD_DATA": "Remove data about the child",
       "REMOVE_TEACHER_DATA": "Remove data about the teacher",
@@ -166,7 +167,7 @@
       "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
       "NEW_CHILD": "Add child information",
       "EDIT_CHILD": "Edit child information",
-      "CREATE_CHILD_SUBTITLE": "To track your child's applications and activities. You can always add this information in your personal cabinet."
+      "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
