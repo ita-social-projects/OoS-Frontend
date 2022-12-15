@@ -24,6 +24,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
 
 @Component({
   selector: 'app-provider-list',
@@ -33,6 +34,7 @@ import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
 export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
+  readonly noProviders = NoResultsTitle.noProviders;
   readonly constants: typeof Constants = Constants;
   readonly ModeConstants = ModeConstants;
   readonly OwnershipTypeEnum = OwnershipTypeEnum;
@@ -44,6 +46,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   providers$: Observable<SearchResponse<Provider[]>>;
   @Select(PaginatorState.itemsPerPage)
   itemsPerPage$: Observable<number>;
+  @Select(AdminState.isLoading)
+  isLoadingCabinet$: Observable<boolean>;
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
