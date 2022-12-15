@@ -12,6 +12,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSelectModule } from '@angular/material/select';
 import { Component, Input } from '@angular/core';
 import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
@@ -31,7 +32,8 @@ describe('ChildFormComponent', () => {
         BrowserAnimationsModule,
         MatSelectModule,
         MatIconModule,
-        MatChipsModule
+        MatChipsModule,
+        TranslateModule.forRoot()
       ],
       declarations: [ChildFormComponent, MockValidationHintForInputComponent, KeyFilterDirective]
     }).compileComponents();
