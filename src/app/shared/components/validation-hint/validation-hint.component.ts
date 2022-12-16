@@ -1,5 +1,15 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  OnChanges,
+  SimpleChanges,
+  EventEmitter,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef
+} from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
@@ -39,7 +49,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
@@ -58,6 +68,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
       // Check errors for invalid text field
       this.checkInvalidText(errors);
+      this.cdr.detectChanges();
     });
   }
 
