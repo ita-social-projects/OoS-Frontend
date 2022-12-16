@@ -9,15 +9,14 @@ import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime } from 'rxjs/operators';
 import { SharedUserState } from '../../store/shared-user.state';
-import { PreviousUrlService } from '../../services/previousUrl/previous-url.service';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
 import { GeocoderService } from './../../services/geolocation/geocoder.service';
 import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
-import { ClearCoordsByMap, ClearRadiusSize, SetCoordsByMap, SetMapView } from '../../store/filter.actions';
-import { ShowMessageBar } from '../../store/app.actions';
+import { ClearCoordsByMap, ClearRadiusSize, SetCoordsByMap } from '../../store/filter.actions';
+import { ClearMessageBar, ShowMessageBar } from '../../store/app.actions';
 import { SnackbarText } from '../../enum/messageBar';
 
 @Component({
@@ -78,7 +77,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/user_dot.svg'
   });
 
-  constructor(private geocoderService: GeocoderService, private previousUrlService: PreviousUrlService, private store: Store) {}
+  constructor(private geocoderService: GeocoderService, private store: Store) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -224,7 +223,9 @@ export class MapComponent implements AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-      const targetMarker = this.workshopMarkers.find((workshopMarker) => workshopMarker.marker === event.target);
+      const targetMarker = this.workshopMarkers.find(
+        (workshopMarker: WorkshopMarker) => workshopMarker.marker === event.target
+      );
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedWorkshopAddress.emit(address);
@@ -306,7 +307,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private subscribeOnUserRadiusSize(): void {
-    this.userRadiusSize$.pipe(takeUntil(this.destroy$)).subscribe((value) => {
+    this.userRadiusSize$.pipe(takeUntil(this.destroy$)).subscribe((value: number) => {
       this.radiusSize && this.updateUserRadius(value);
       this.radiusSize = value;
     });
@@ -327,7 +328,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize()]);
+    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new ClearMessageBar()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

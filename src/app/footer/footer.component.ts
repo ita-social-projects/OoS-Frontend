@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MessageBarComponent } from '../shared/components/message-bar/message-bar.component';
 import { MessageBar } from '../shared/models/messageBar.model';
-import { ShowMessageBar } from '../shared/store/app.actions';
+import { ClearMessageBar, ShowMessageBar } from '../shared/store/app.actions';
 
 @Component({
   selector: 'app-footer',
@@ -22,6 +22,11 @@ export class FooterComponent implements OnInit, OnDestroy {
       .pipe(ofAction(ShowMessageBar))
       .pipe(takeUntil(this.destroy$))
       .subscribe((payload) => this.showSnackBar(payload.payload));
+
+    this.actions$
+      .pipe(ofAction(ClearMessageBar))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.snackBar.dismiss());
   }
 
   showSnackBar(message: MessageBar): void {

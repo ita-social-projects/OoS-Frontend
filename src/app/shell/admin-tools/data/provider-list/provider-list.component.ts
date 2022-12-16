@@ -1,6 +1,3 @@
-import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
-import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
 import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -24,6 +21,10 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
+import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
 
 @Component({
   selector: 'app-provider-list',
@@ -33,6 +34,7 @@ import { Statuses, StatusTitles } from '../../../../shared/enum/statuses';
 export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
+  readonly noProviders = NoResultsTitle.noProviders;
   readonly constants: typeof Constants = Constants;
   readonly ModeConstants = ModeConstants;
   readonly OwnershipTypeEnum = OwnershipTypeEnum;
@@ -44,6 +46,8 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
   providers$: Observable<SearchResponse<Provider[]>>;
   @Select(PaginatorState.itemsPerPage)
   itemsPerPage$: Observable<number>;
+  @Select(AdminState.isLoading)
+  isLoadingCabinet$: Observable<boolean>;
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -85,10 +89,10 @@ export class ProviderListComponent implements OnInit, AfterViewInit, OnDestroy {
     this.providers$
       .pipe(
         takeUntil(this.destroy$),
-        filter((providers) => !!providers)
+        filter((providers: SearchResponse<Provider[]>) => !!providers),
       )
       .subscribe((providers: SearchResponse<Provider[]>) => {
-        this.dataSource = new MatTableDataSource(providers?.entities);
+        this.dataSource = new MatTableDataSource(providers.entities);
         this.dataSource.sort = this.sort;
         this.totalEntities = providers.totalAmount;
       });

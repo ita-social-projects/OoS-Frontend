@@ -11,6 +11,12 @@
   }
 }
 
+p,
+h3 {
+  margin: 0;
+  padding: 0;
+}
+
 .wrapper {
   max-width: 654px;
   border-radius: 5px;
@@ -21,18 +27,11 @@
   margin: 1rem 0;
   box-sizing: border-box;
 
-  p,
-  h3 {
-    margin: 0;
-    padding: 0;
-  }
-
   &-title {
     text-align: center;
     font-family: Open Sans;
     font-weight: 700;
     color: #444444;
-    margin: 1rem 0;
   }
   &-text {
     text-align: center;
@@ -94,7 +93,7 @@
   }
   .create-form {
     display: block;
-    &-header{
+    &-header {
       margin: 0 0 1rem;
     }
   }
