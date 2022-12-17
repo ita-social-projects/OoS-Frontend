@@ -34,6 +34,8 @@ import { Provider } from '../models/provider.model';
 import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { ModeConstants } from '../constants/constants';
+import { Statuses } from '../enum/statuses';
+import { ProviderStatus } from '../models/providerStatus.model';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -89,6 +91,11 @@ export class RegistrationState {
   @Selector()
   static provider(state: RegistrationStateModel): Provider {
     return state.provider;
+  }
+
+  @Selector()
+  static providerStatus(state: RegistrationStateModel): ProviderStatus {
+    return { status: state.provider.status, statusReason: state.provider.statusReason };
   }
 
   @Selector()

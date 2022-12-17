@@ -1,9 +1,9 @@
-<div class="banner__header header-banner">
-  <div class="header-banner__status">
-    <i class="fas fa-user-clock"></i>
-    Очікують підтвердження
+<div class="banner__header">
+  <div class="status">
+    <i [classList]="iconClasses"></i>
+    <h4 class="status__title">{{ statusTitle }}</h4>
   </div>
-  <mat-icon>close</mat-icon>
+  <mat-icon class="close-icon">close</mat-icon>
 </div>
-<p>Тут буде повідомлення від адміна про неточності, які потрібно виправити</p>
-<a>Редагувати</a>
+<p *ngIf="providerStatus.statusReason" class="banner__details">{{ providerStatus.statusReason }}</p>
+<a *ngIf="isNeedEdit" class="banner__link">Редагувати</a>

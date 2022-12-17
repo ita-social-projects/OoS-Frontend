@@ -1,0 +1,77 @@
+@import 'src/app/shared/styles/status-themes.scss';
+
+p {
+  margin: 0;
+  padding: 0;
+}
+
+:host {
+  padding: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+
+  border-radius: 5px;
+}
+
+.banner {
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: 0.625rem;
+    }
+  }
+  &__details {
+    font-size: 1rem;
+
+    color: #272425;
+
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+  }
+  &__link {
+    align-self: start;
+
+    font-weight: 700;
+    line-height: 0.9375rem;
+
+    color: #3849f9;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+}
+
+.status {
+  display: flex;
+  gap: 0.5rem;
+
+  &__icon {
+    line-height: 0.75rem;
+  }
+
+  &__title {
+    font-size: 0.8125rem;
+    line-height: 0.8125rem;
+  }
+}
+
+.close-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+
+  color: #aaaaaa;
+
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.5;
+  }
+}

@@ -1,0 +1,37 @@
+:host {
+  display: block;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+
+  &.editing {
+    background: linear-gradient(0deg, rgba(255, 189, 0, 0.1), rgba(255, 189, 0, 0.1)), #ffffff;
+
+    .status {
+      &__icon,
+      &__title {
+        color: #ffbd00;
+      }
+    }
+  }
+
+  &.approved {
+    background: linear-gradient(0deg, rgba(25, 153, 83, 0.1), rgba(25, 153, 83, 0.1)), #ffffff;
+
+    .status {
+      &__icon,
+      &__title {
+        color: #199953;
+      }
+    }
+  }
+
+  &.pending {
+    background: #e1f1f9;
+
+    .status {
+      &__icon,
+      &__title {
+        color: #007bda;
+      }
+    }
+  }
+}

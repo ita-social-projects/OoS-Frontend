@@ -27,6 +27,12 @@ export enum StatusTitles {
   Editing = 'Відправлено на редагування'
 }
 
+export enum ProviderStatusTitles {
+  Approved = 'Заклад підтверджено',
+  Pending = 'Очікує підтвердження',
+  Editing = 'Потребує редагування'
+}
+
 export enum StatusTitlesReverse {
   'Усі' = 'All',
   'Очікує підтвердження' = 'Pending',
@@ -39,4 +45,10 @@ export enum StatusTitlesReverse {
   'Заблоковано' = 'Blocked',
   'Очікує логування' = 'NeverLogged',
   'Підтвердженно' = 'Accepted'
+}
+
+export enum StatusThemes {
+  Pending = 'pending',
+  Approved = 'approved',
+  Editing = 'editing'
 }
