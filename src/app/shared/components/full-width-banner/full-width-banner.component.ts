@@ -16,6 +16,8 @@ export class FullWidthBannerComponent implements OnInit {
     return this.elementRef.nativeElement;
   }
 
+  @Input() editLink: string;
+
   @Select(RegistrationState.providerStatus)
   providerStatus$: Observable<ProviderStatus>;
   providerStatus: ProviderStatus;
@@ -45,7 +47,7 @@ export class FullWidthBannerComponent implements OnInit {
     this.statusDetails = this.providerStatus.statusReason
       ? this.providerStatus.statusReason
       : ProviderStatusDetails[this.providerStatus.status];
-    this.isNeedEdit = this.providerStatus.status !== Statuses.Approved;
+    this.isNeedEdit = this.providerStatus.status === Statuses.Editing;
     this.HostElement.classList.value = StatusThemes[this.providerStatus.status];
   }
 }
