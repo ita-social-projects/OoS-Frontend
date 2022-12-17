@@ -200,7 +200,7 @@ export class AdminState {
       .getFilteredProviders(payload)
       .pipe(
         tap((providers: SearchResponse<Provider[]>) =>
-          patchState({ providers: providers ? providers : EMPTY_RESULT, isLoading: false })
+          patchState({ providers: providers ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -385,7 +385,7 @@ export class AdminState {
     return this.categoriesService.getFilteredDirections(payload).pipe(
       tap((filteredDirections: SearchResponse<Direction[]>) =>
         patchState({
-          filteredDirections: filteredDirections ? filteredDirections : EMPTY_RESULT,
+          filteredDirections: filteredDirections ?? EMPTY_RESULT,
           isLoading: false,
           direction: null,
         })
@@ -403,7 +403,7 @@ export class AdminState {
       .getChildrenForAdmin(parameters)
       .pipe(
         tap((children: SearchResponse<Child[]>) =>
-          patchState({ children: children ? children : EMPTY_RESULT, isLoading: false })
+          patchState({ children: children ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -417,7 +417,7 @@ export class AdminState {
     return this.historyLogService.getProviderHistory(payload, searchSting).pipe(
       tap((providerHistory: SearchResponse<ProviderHistory[]>) =>
         patchState({
-          providerHistory: providerHistory ? providerHistory : EMPTY_RESULT,
+          providerHistory: providerHistory ?? EMPTY_RESULT,
           isLoading: false,
         })
       )
@@ -433,7 +433,7 @@ export class AdminState {
     return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
       tap((providerAdminHistory: SearchResponse<ProviderAdminHistory[]>) =>
         patchState({
-          providerAdminHistory: providerAdminHistory ? providerAdminHistory : EMPTY_RESULT,
+          providerAdminHistory: providerAdminHistory ?? EMPTY_RESULT,
           isLoading: false,
         })
       )
@@ -449,7 +449,7 @@ export class AdminState {
     return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
       tap((applicationHistory: SearchResponse<ApplicationHistory[]>) =>
         patchState({
-          applicationHistory: applicationHistory ? applicationHistory : EMPTY_RESULT,
+          applicationHistory: applicationHistory ?? EMPTY_RESULT,
           isLoading: false,
         })
       )
@@ -514,7 +514,7 @@ export class AdminState {
       .getAllMinistryAdmin(parameters)
       .pipe(
         tap((ministryAdmins: SearchResponse<MinistryAdmin[]>) =>
-          patchState({ ministryAdmins: ministryAdmins ? ministryAdmins : EMPTY_RESULT, isLoading: false })
+          patchState({ ministryAdmins: ministryAdmins ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
