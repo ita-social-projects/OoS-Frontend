@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
@@ -11,7 +11,7 @@ import { RegistrationState } from '../../store/registration.state';
   templateUrl: './status-banner.component.html',
   styleUrls: ['./status-banner.component.scss']
 })
-export class StatusBannerComponent implements OnInit {
+export class StatusBannerComponent implements OnInit, OnDestroy {
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
@@ -39,6 +39,11 @@ export class StatusBannerComponent implements OnInit {
 
   onClose(): void {
     this.HostElement.classList.add('hide');
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private setBannerOptions(): void {
