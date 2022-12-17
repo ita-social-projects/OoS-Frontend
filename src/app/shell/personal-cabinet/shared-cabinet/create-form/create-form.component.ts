@@ -15,7 +15,7 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
-  template: ''
+  template: '',
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
@@ -30,7 +30,11 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   isPristine = true;
   editMode: boolean;
 
-  constructor(public store: Store, public route: ActivatedRoute, public navigationBarService: NavigationBarService) {}
+  constructor(
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {}
 

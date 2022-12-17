@@ -55,9 +55,9 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   adminId: string;
 
   constructor(
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService,
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location
