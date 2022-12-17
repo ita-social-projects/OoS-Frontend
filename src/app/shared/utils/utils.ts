@@ -132,7 +132,6 @@ export class Util {
         id: user.id,
         pib: this.getFullName(user),
         email: user.parent.email,
-        place: user.place,
         phoneNumber: user.parent.phoneNumber,
         role: user.isParent ? 'Батьки' : 'Діти',
         status: user.parent.emailConfirmed ? Statuses.Accepted : Statuses.NeverLogged
@@ -153,7 +152,6 @@ export class Util {
         id: admin.id,
         pib: this.getFullName(admin),
         email: admin.email,
-        place: '',
         phoneNumber: admin.phoneNumber,
         role: admin.id,
         status: admin.accountStatus || Statuses.Accepted
