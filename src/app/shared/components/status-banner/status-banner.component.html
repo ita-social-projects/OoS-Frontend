@@ -6,4 +6,4 @@
   <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
 </div>
 <p *ngIf="statusDetails" class="banner__details">{{ statusDetails }}</p>
-<a *ngIf="isNeedEdit" [routerLink]="['/create-provider/info']" class="banner__link">Редагувати</a>
+<a *ngIf="editLinkDisplayed" [routerLink]="editLink" class="banner__link">Редагувати</a>

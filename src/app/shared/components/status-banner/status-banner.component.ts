@@ -7,11 +7,11 @@ import { ProviderStatus } from '../../models/providerStatus.model';
 import { RegistrationState } from '../../store/registration.state';
 
 @Component({
-  selector: 'app-full-width-banner',
-  templateUrl: './full-width-banner.component.html',
-  styleUrls: ['./full-width-banner.component.scss']
+  selector: 'app-status-banner',
+  templateUrl: './status-banner.component.html',
+  styleUrls: ['./status-banner.component.scss']
 })
-export class FullWidthBannerComponent implements OnInit {
+export class StatusBannerComponent implements OnInit {
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
@@ -25,7 +25,7 @@ export class FullWidthBannerComponent implements OnInit {
   iconClasses: string;
   statusTitle: string;
   statusDetails: string;
-  isNeedEdit: boolean;
+  editLinkDisplayed: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private elementRef: ElementRef<HTMLElement>) {}
@@ -47,7 +47,7 @@ export class FullWidthBannerComponent implements OnInit {
     this.statusDetails = this.providerStatus.statusReason
       ? this.providerStatus.statusReason
       : ProviderStatusDetails[this.providerStatus.status];
-    this.isNeedEdit = this.providerStatus.status === Statuses.Editing;
+    this.editLinkDisplayed = this.providerStatus.status === Statuses.Editing;
     this.HostElement.classList.value = StatusThemes[this.providerStatus.status];
   }
 }
