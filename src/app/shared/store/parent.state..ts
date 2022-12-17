@@ -294,7 +294,6 @@ export class ParentState {
 
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateChildrenFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -307,7 +306,7 @@ export class ParentState {
       }),
       new MarkFormDirty(false)
     ]);
-    this.router.navigate(['/personal-cabinet/parent/info']);
+    this.location.back();
   }
 
   @Action(ResetSelectedChild)
