@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 
 import { StatusBannerComponent } from './status-banner.component';
 
@@ -8,6 +9,7 @@ describe('FullWidthBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [NgxsModule.forRoot([])],
       declarations: [StatusBannerComponent]
     }).compileComponents();
 
