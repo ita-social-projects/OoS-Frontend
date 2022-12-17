@@ -5,5 +5,5 @@
   </div>
   <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
 </div>
-<p *ngIf="providerStatus.statusReason" class="banner__details">{{ providerStatus.statusReason }}</p>
+<p *ngIf="statusDetails" class="banner__details">{{ statusDetails }}</p>
 <a *ngIf="isNeedEdit" class="banner__link">Редагувати</a>

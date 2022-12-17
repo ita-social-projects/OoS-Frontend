@@ -2,7 +2,7 @@ import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output
 import { Select } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
-import { ProviderStatusTitles, Statuses, StatusThemes } from '../../enum/statuses';
+import { ProviderStatusDetails, ProviderStatusTitles, Statuses, StatusThemes } from '../../enum/statuses';
 import { ProviderStatus } from '../../models/providerStatus.model';
 import { RegistrationState } from '../../store/registration.state';
 
@@ -22,6 +22,7 @@ export class FullWidthBannerComponent implements OnInit {
 
   iconClasses: string;
   statusTitle: string;
+  statusDetails: string;
   isNeedEdit: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -41,6 +42,9 @@ export class FullWidthBannerComponent implements OnInit {
   private setBannerOptions(): void {
     this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status__icon`;
     this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
+    this.statusDetails = this.providerStatus.statusReason
+      ? this.providerStatus.statusReason
+      : ProviderStatusDetails[this.providerStatus.status];
     this.isNeedEdit = this.providerStatus.status !== Statuses.Approved;
     this.HostElement.classList.value = StatusThemes[this.providerStatus.status];
   }
