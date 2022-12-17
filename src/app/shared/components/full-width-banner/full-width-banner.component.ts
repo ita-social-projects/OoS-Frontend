@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostBinding, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
@@ -32,6 +32,10 @@ export class FullWidthBannerComponent implements OnInit {
       this.providerStatus = providerStatus;
       this.setBannerOptions();
     });
+  }
+
+  onClose(): void {
+    this.HostElement.classList.add('hide');
   }
 
   private setBannerOptions(): void {

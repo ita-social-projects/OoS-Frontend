@@ -3,7 +3,7 @@
     <i [classList]="iconClasses"></i>
     <h4 class="status__title">{{ statusTitle }}</h4>
   </div>
-  <mat-icon class="close-icon">close</mat-icon>
+  <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
 </div>
 <p *ngIf="providerStatus.statusReason" class="banner__details">{{ providerStatus.statusReason }}</p>
 <a *ngIf="isNeedEdit" class="banner__link">Редагувати</a>
