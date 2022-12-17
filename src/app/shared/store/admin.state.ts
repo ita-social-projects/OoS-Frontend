@@ -1,7 +1,7 @@
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
@@ -482,7 +482,6 @@ export class AdminState {
 
   @Action(OnCreateMinistryAdminFail)
   onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
-    throwError(() => new Error(payload.message));
     const message = payload.message === 'Internal Server Error' ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
@@ -543,7 +542,6 @@ export class AdminState {
 
   @Action(OnDeleteMinistryAdminFail)
   onDeleteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -571,7 +569,6 @@ export class AdminState {
 
   @Action(OnBlockMinistryAdminFail)
   onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 

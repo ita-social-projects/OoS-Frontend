@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { SnackbarText } from '../enum/messageBar';
 import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
@@ -113,7 +113,6 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     { error }: OnDeleteUsersNotificationByIdFail
   ): void {
-    throwError(() => error);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -122,7 +121,6 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     { payload }: OnReadUsersNotificationsFail
   ): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 

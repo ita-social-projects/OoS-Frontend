@@ -2,7 +2,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
 import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
@@ -268,7 +268,6 @@ export class ParentState {
 
   @Action(OnDeleteChildFail)
   onDeleteChildFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -290,7 +289,6 @@ export class ParentState {
 
   @Action(OnUpdateChildFail)
   onUpdateChildfail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUpdateChildFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -319,7 +317,6 @@ export class ParentState {
 
   @Action(OnCreateChildrenFail)
   onCreateChildrenFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateChildrenFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -353,7 +350,6 @@ export class ParentState {
 
   @Action(OnCreateRatingFail)
   onCreateRatingFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateRatingFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -380,7 +376,6 @@ export class ParentState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateApplicationFail): void {
-    throwError(payload);
     dispatch(
       new ShowMessageBar({
         message: payload.error.status === 429 ? SnackbarText.applicationLimit : SnackbarText.error,
