@@ -15,11 +15,4 @@ export class ParentService {
   getProfile(): Observable<Parent> {
     return this.http.get<Parent>('/api/v1/Parent/GetProfile');
   }
-
-  /**
-   * This method get Parents
-   */
-  getParents(): Observable<Parent[]> {
-    return this.http.get<Parent[]>('/api/v1/Parent/Get');
-  }
 }

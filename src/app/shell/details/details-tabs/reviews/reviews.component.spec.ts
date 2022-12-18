@@ -15,6 +15,8 @@ import { Parent } from '../../../../shared/models/parent.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
 import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { Rate } from '../../../../shared/models/rating';
 
 @Component({
   selector: 'app-paginator',
@@ -55,6 +57,7 @@ describe('ReviewsComponent', () => {
     component = fixture.componentInstance;
     component.workshop = {} as Workshop;
     component.parent = {} as Parent;
+    component.rating = {} as SearchResponse<Rate[]>;
     fixture.detectChanges();
   });
 
