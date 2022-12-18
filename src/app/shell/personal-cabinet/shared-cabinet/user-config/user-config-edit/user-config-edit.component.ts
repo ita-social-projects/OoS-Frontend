@@ -41,7 +41,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
     protected store: Store,
     protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
-    private lcoation: Location
+    private location: Location
   ) {
     super(store, route, navigationBarService);
 
@@ -116,6 +116,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   onCancel(): void {
-    this.lcoation.back();
+    this.location.back();
   }
 }
