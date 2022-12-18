@@ -90,11 +90,6 @@ export class GetFilteredDirections {
   constructor(public payload?: string) {}
 }
 
-export class GetParents {
-  static readonly type = '[admin] Get Parents';
-  constructor() {}
-}
-
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
   constructor(public parameters: ChildrenParameters) {}
