@@ -38,12 +38,12 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   directionFormGroup: FormGroup;
 
   constructor(
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
     private matDialog: MatDialog,
     private location: Location,
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService
   ) {
     super(store, route, navigationBarService);
     this.directionFormGroup = this.fb.group({

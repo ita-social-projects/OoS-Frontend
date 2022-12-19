@@ -20,7 +20,11 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
   }
 
   private activateEditMode(): void {
-    this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
+    if (this.workshop.dateTimeRanges.length) {
+      this.workshop.dateTimeRanges.forEach((range: DateTimeRanges) => this.addWorkingHours(range));
+    } else {
+      this.addWorkingHours();
+    }
   }
 
   /**

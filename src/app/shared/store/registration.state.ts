@@ -25,7 +25,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
 import { Role } from '../enum/role';
 import { UserService } from '../services/user/user.service';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { TechAdminService } from '../services/tech-admin/tech-admin.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
@@ -34,8 +34,7 @@ import { Provider } from '../models/provider.model';
 import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { ModeConstants } from '../constants/constants';
-import { Statuses } from '../enum/statuses';
-import { ProviderStatus } from '../models/providerStatus.model';
+import { Location } from '@angular/common';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -116,7 +115,8 @@ export class RegistrationState {
     private parentService: ParentService,
     private techAdminService: TechAdminService,
     private router: Router,
-    private ministryAdminService: MinistryAdminService
+    private ministryAdminService: MinistryAdminService,
+    private location: Location
   ) {}
 
   @Action(Login)
@@ -209,7 +209,6 @@ export class RegistrationState {
 
   @Action(OnUpdateUserFail)
   onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>, { payload }: OnUpdateUserFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -223,6 +222,6 @@ export class RegistrationState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/personal-cabinet/config']);
+    this.location.back();
   }
 }

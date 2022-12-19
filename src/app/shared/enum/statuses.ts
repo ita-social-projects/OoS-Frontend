@@ -9,7 +9,7 @@ export enum Statuses {
   NeverLogged = 'NeverLogged',
   Accepted = 'Accepted',
   Blocked = 'Blocked',
-  Editing = 'Editing'
+  Editing = 'Editing',
 }
 
 export enum StatusTitles {
@@ -24,7 +24,7 @@ export enum StatusTitles {
   NeverLogged = 'Очікує логування',
   Accepted = 'Підтвердженно',
   Blocked = 'Заблоковано',
-  Editing = 'Відправлено на редагування'
+  Editing = 'Відправлено на редагування',
 }
 
 export enum ProviderStatusTitles {
