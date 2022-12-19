@@ -26,4 +26,9 @@ export class HistoryLogFiltersComponent implements OnInit {
   applyFilters(): void {
     this.filterData.emit(this.filtersForm.value);
   }
+
+  onResetFilters(): void {
+    this.filtersForm.reset();
+    this.filtersForm.controls.options.setValue('');
+  }
 }

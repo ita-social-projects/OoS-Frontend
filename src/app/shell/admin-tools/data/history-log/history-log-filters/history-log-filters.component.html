@@ -24,7 +24,9 @@
     </mat-form-field>
   </div>
   <div class="filters-actions">
-    <div class="reset"><mat-icon class="reset__icon">refresh</mat-icon><span class="reset__title">Скинути фільтри</span></div>
+    <div class="reset" (click)="onResetFilters()">
+      <mat-icon class="reset__icon">refresh</mat-icon><span class="reset__title">Скинути фільтри</span>
+    </div>
     <button class="btn" mat-raised-button (click)="applyFilters()">Показати</button>
   </div>
 </div>
