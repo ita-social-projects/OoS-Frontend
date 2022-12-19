@@ -215,7 +215,8 @@ import { StatusBannerComponent } from './components/status-banner/status-banner.
     UserRadiusSetComponent,
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
-    GetAddressPipe
+    GetAddressPipe,
+    StatusBannerComponent
   ]
 })
 export class SharedModule {}

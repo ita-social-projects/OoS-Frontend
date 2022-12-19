@@ -42,7 +42,6 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatus());
-    this.store.dispatch(new ActivateEditMode(true));
     this.institutionStatuses$
       .pipe(
         takeUntil(this.destroy$),
@@ -62,6 +61,10 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   onCloseInfo(): void {
     this.closeInfo.emit();
+  }
+
+  onActivateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
   }
 
   ngOnDestroy(): void {

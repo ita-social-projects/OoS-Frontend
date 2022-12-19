@@ -1,26 +1,23 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
-import { Select } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Store } from '@ngxs/store';
+import { Subject } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
 import { ProviderStatusDetails, ProviderStatusTitles, Statuses, StatusThemes } from '../../enum/statuses';
 import { ProviderStatus } from '../../models/providerStatus.model';
-import { RegistrationState } from '../../store/registration.state';
+import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
   selector: 'app-status-banner',
   templateUrl: './status-banner.component.html',
   styleUrls: ['./status-banner.component.scss']
 })
-export class StatusBannerComponent implements OnInit, OnDestroy {
+export class StatusBannerComponent implements OnInit {
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
 
   @Input() editLink: string;
-
-  @Select(RegistrationState.providerStatus)
-  providerStatus$: Observable<ProviderStatus>;
-  providerStatus: ProviderStatus;
+  @Input() providerStatus: ProviderStatus;
 
   iconClasses: string;
   statusTitle: string;
@@ -28,22 +25,18 @@ export class StatusBannerComponent implements OnInit, OnDestroy {
   editLinkDisplayed: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private elementRef: ElementRef<HTMLElement>) {}
+  constructor(private elementRef: ElementRef<HTMLElement>, private store: Store) {}
 
   ngOnInit(): void {
-    this.providerStatus$.pipe(takeUntil(this.destroy$)).subscribe((providerStatus: ProviderStatus) => {
-      this.providerStatus = providerStatus;
-      this.setBannerOptions();
-    });
+    this.setBannerOptions();
+  }
+
+  onActivateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
   }
 
   onClose(): void {
     this.HostElement.classList.add('hide');
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 
   private setBannerOptions(): void {

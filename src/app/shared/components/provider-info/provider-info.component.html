@@ -1,7 +1,6 @@
-<app-status-banner [editLink]="['/create-provider', editLink]"></app-status-banner>
 <div class="wrapper">
   <div *ngIf="isProviderView" fxLayout="row" fxLayoutAlign="end">
-    <a [routerLink]="['/create-provider', editLink]" class="edit-icon">
+    <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
       <button mat-button><mat-icon>edit</mat-icon>{{ 'EDIT' | translate }}</button>
     </a>
   </div>

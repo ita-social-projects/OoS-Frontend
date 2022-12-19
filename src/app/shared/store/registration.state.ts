@@ -94,11 +94,6 @@ export class RegistrationState {
   }
 
   @Selector()
-  static providerStatus(state: RegistrationStateModel): ProviderStatus {
-    return { status: state.provider.status, statusReason: state.provider.statusReason };
-  }
-
-  @Selector()
   static parent(state: RegistrationStateModel): Parent {
     return state.parent;
   }
