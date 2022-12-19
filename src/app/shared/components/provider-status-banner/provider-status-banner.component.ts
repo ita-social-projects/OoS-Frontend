@@ -40,7 +40,7 @@ export class ProviderStatusBannerComponent implements OnInit {
   }
 
   private setBannerOptions(): void {
-    this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status__icon`;
+    this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status-icon`;
     this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
     this.statusDetails = this.providerStatus.statusReason
       ? this.providerStatus.statusReason

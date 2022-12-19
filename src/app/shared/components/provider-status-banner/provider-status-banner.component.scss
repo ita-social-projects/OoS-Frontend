@@ -53,11 +53,11 @@ p {
   display: flex;
   gap: 0.5rem;
 
-  &__icon {
+  &-icon {
     line-height: 0.75rem;
   }
 
-  &__title {
+  &-title {
     font-size: 0.8125rem;
     line-height: 0.8125rem;
   }

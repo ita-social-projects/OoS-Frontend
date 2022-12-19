@@ -6,8 +6,8 @@
     background: linear-gradient(0deg, rgba(255, 189, 0, 0.1), rgba(255, 189, 0, 0.1)), #ffffff;
 
     .status {
-      &__icon,
-      &__title {
+      &-icon,
+      &-title {
         color: #ffbd00;
       }
     }
@@ -17,8 +17,8 @@
     background: linear-gradient(0deg, rgba(25, 153, 83, 0.1), rgba(25, 153, 83, 0.1)), #ffffff;
 
     .status {
-      &__icon,
-      &__title {
+      &-icon,
+      &-title {
         color: #199953;
       }
     }
@@ -28,8 +28,8 @@
     background: #e1f1f9;
 
     .status {
-      &__icon,
-      &__title {
+      &-icon,
+      &-title {
         color: #007bda;
       }
     }
