@@ -16,6 +16,7 @@ export class ParentWithContactInfo implements Person {
   lastName: string;
   middleName?: string;
   firstName: string;
+  emailConfirmed?: boolean;
 
   constructor(info) {
     this.id = info.id;

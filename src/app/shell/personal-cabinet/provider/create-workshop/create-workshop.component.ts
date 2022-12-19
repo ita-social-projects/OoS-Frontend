@@ -27,9 +27,9 @@ import { Provider } from '../../../../shared/models/provider.model';
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false }
-    }
-  ]
+      useValue: { displayDefaultIndicatorType: false },
+    },
+  ],
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
@@ -45,7 +45,11 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   AddressFormGroup: FormGroup;
   TeacherFormArray: FormArray;
 
-  constructor(store: Store, route: ActivatedRoute, navigationBarService: NavigationBarService) {
+  constructor(
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService
+  ) {
     super(store, route, navigationBarService);
   }
 
@@ -73,12 +77,12 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             name: personalCabinetTitle,
             path: '/personal-cabinet/provider/administration',
             isActive: false,
-            disable: false
+            disable: false,
           },
           {
             name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop,
             isActive: false,
-            disable: true
+            disable: true,
           }
         )
       )

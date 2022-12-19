@@ -48,13 +48,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   isAgreed = false;
 
   constructor(
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
     private routeParams: ActivatedRoute,
     private matDialog: MatDialog,
     private location: Location,
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService
   ) {
     super(store, route, navigationBarService);
 
