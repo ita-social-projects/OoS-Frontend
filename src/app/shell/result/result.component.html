@@ -46,7 +46,7 @@
 </ng-template>
 
 <ng-template #searchBlock>
-  <app-full-search-bar></app-full-search-bar>
+  <app-full-search-bar [styleClass]="'min-height'"></app-full-search-bar>
   <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="currentView === viewType.list"></app-ordering>

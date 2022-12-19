@@ -34,6 +34,7 @@ import { Provider } from '../models/provider.model';
 import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { ModeConstants } from '../constants/constants';
+import { Location } from '@angular/common';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -114,7 +115,8 @@ export class RegistrationState {
     private parentService: ParentService,
     private techAdminService: TechAdminService,
     private router: Router,
-    private ministryAdminService: MinistryAdminService
+    private ministryAdminService: MinistryAdminService,
+    private location: Location
   ) {}
 
   @Action(Login)
@@ -220,6 +222,6 @@ export class RegistrationState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/personal-cabinet/config']);
+    this.location.back();
   }
 }

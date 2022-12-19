@@ -42,9 +42,9 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   isMainPage: boolean = false;
 
   constructor(
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService,
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
     private location: Location
   ) {

@@ -80,7 +80,7 @@
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <a [routerLink]="'/personal-cabinet/config'"><button mat-raised-button class="btn btn-cancel">Скасувати</button></a>
+      <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
       <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
     </div>
   </div>
