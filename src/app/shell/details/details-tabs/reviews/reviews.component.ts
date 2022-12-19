@@ -26,6 +26,7 @@ import {
 } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { TranslateService } from '@ngx-translate/core';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-reviews',
@@ -47,9 +48,11 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Select(ParentState.isReviewed)
   isReviewed$: Observable<boolean>;
 
+  @Select(MetaDataState.isLoading)
+  isLoading$: Observable<boolean>;
   @Select(MetaDataState.rating)
-  rating$: Observable<Rate[]>;
-  rating: Rate[];
+  rating$: Observable<SearchResponse<Rate[]>>;
+  rating: SearchResponse<Rate[]>;
   @Select(PaginatorState.ratingPerPage)
   ratingPerPage$: Observable<number>;
   ratingPerPage: number;
@@ -107,11 +110,8 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   private getWorkshopRatingList(): void {
     this.rating$
-      .pipe(
-        filter((rating: Rate[]) => !!rating?.length),
-        takeUntil(this.destroy$)
-      )
-      .subscribe((rating: Rate[]) => (this.rating = rating));
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((rating: SearchResponse<Rate[]>) => (this.rating = rating));
   }
 
   onRate(): void {

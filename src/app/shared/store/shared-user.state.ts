@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Application } from '../models/application.model';
 import { Provider } from '../models/provider.model';
@@ -94,7 +94,6 @@ export class SharedUserState {
     { dispatch, patchState }: StateContext<SharedUserStateModel>,
     { payload }: OnGetWorkshopByIdFail
   ): void {
-    throwError(payload);
     patchState({ selectedWorkshop: null, isLoading: false });
     dispatch(
       new ShowMessageBar({
@@ -121,7 +120,6 @@ export class SharedUserState {
     { dispatch, patchState }: StateContext<SharedUserStateModel>,
     { payload }: OnGetProviderByIdFail
   ): void {
-    throwError(payload);
     patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
@@ -179,7 +177,6 @@ export class SharedUserState {
     { dispatch }: StateContext<SharedUserStateModel>,
     { payload }: OnUpdateApplicationFail
   ): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 

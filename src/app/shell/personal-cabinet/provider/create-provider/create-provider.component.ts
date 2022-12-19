@@ -53,10 +53,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   @ViewChild('stepper') stepper: MatStepper;
 
   constructor(
-    store: Store,
-    route: ActivatedRoute,
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private router: Router,
-    navigationBarService: NavigationBarService,
     private changeDetector: ChangeDetectorRef,
     private matDialog: MatDialog
   ) {
