@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { Achievement } from '../models/achievement.model';
@@ -172,7 +172,7 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.achievementsService
       .getAchievementById(payload)
-      .pipe(tap((achievement: Achievement) => patchState({ selectedAchievement: achievement, isLoading: false })));
+      .pipe(tap((selectedAchievement: Achievement) => patchState({ selectedAchievement, isLoading: false })));
   }
 
   @Action(GetAchievementsByWorkshopId)
@@ -185,11 +185,7 @@ export class ProviderState {
       .getAchievementsByWorkshopId(payload)
       .pipe(
         tap((achievements: SearchResponse<Achievement[]>) =>
-          patchState(
-            achievements
-              ? { achievements, isLoading: false }
-              : { achievements: EMPTY_RESULT, isLoading: false }
-          )
+          patchState({ achievements: achievements ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -202,11 +198,7 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
       tap((approvedChildren: SearchResponse<Child[]>) => {
-        return patchState(
-          approvedChildren
-            ? { approvedChildren, isLoading: false }
-            : { approvedChildren: EMPTY_RESULT, isLoading: false }
-        );
+        return patchState({ approvedChildren: approvedChildren ?? EMPTY_RESULT, isLoading: false });
       })
     );
   }
@@ -219,7 +211,7 @@ export class ProviderState {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getWorkshopListByProviderId(payload)
-      .pipe(tap((truncated: TruncatedItem[]) => patchState({ truncatedItems: truncated, isLoading: false })));
+      .pipe(tap((truncatedItems: TruncatedItem[]) => patchState({ truncatedItems, isLoading: false })));
   }
 
   @Action(CreateAchievement)
@@ -252,7 +244,6 @@ export class ProviderState {
 
   @Action(OnCreateAchievementFail)
   onCreateAchievementFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateAchievementFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -284,7 +275,6 @@ export class ProviderState {
 
   @Action(OnUpdateAchievementFail)
   onUpdateAchievementFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateAchievementFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -323,11 +313,7 @@ export class ProviderState {
       .getProviderAdminsWorkshops()
       .pipe(
         tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
-          patchState(
-            providerWorkshops
-              ? { providerWorkshops, isLoading: false }
-              : { providerWorkshops: EMPTY_RESULT, isLoading: false }
-          )
+          patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -342,11 +328,7 @@ export class ProviderState {
       .getProviderViewWorkshops(payload)
       .pipe(
         tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
-          patchState(
-            providerWorkshops
-              ? { providerWorkshops, isLoading: false }
-              : { providerWorkshops: EMPTY_RESULT, isLoading: false }
-          )
+          patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -361,9 +343,7 @@ export class ProviderState {
       .getFilteredProviderAdmins(payload)
       .pipe(
         tap((providerAdmins: SearchResponse<ProviderAdmin[]>) =>
-          patchState(
-            providerAdmins ? { providerAdmins, isLoading: false } : { providerAdmins: EMPTY_RESULT, isLoading: false }
-          )
+          patchState({ providerAdmins: providerAdmins ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }
@@ -385,7 +365,6 @@ export class ProviderState {
     { dispatch, patchState }: StateContext<ProviderStateModel>,
     { payload }: OnCreateWorkshopFail
   ): void {
-    throwError(payload);
     patchState({ isLoading: false });
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
@@ -421,7 +400,6 @@ export class ProviderState {
 
   @Action(OnUpdateWorkshopFail)
   onUpdateWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -438,7 +416,6 @@ export class ProviderState {
 
   @Action(OnDeleteWorkshopFail)
   onDeleteWorkshopFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -466,7 +443,6 @@ export class ProviderState {
 
   @Action(OnCreateProviderFail)
   onCreateProviderFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderFail): void {
-    throwError(payload);
     const message =
       payload.error === Constants.UNABLE_CREATE_PROVIDER ||
       Constants.UNABLE_CREATE_PROVIDER + Constants.THERE_IS_SUCH_DATA
@@ -500,8 +476,6 @@ export class ProviderState {
 
   @Action(OnUpdateProviderFail)
   onUpdateProviderfail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderFail): void {
-    throwError(payload);
-
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -533,7 +507,6 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnUpdateProviderStatusFail
   ): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -568,7 +541,6 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnCreateProviderAdminFail
   ): void {
-    throwError(payload);
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
@@ -608,7 +580,6 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnBlockProviderAdminFail
   ): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -642,7 +613,6 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnDeleteProviderAdminFail
   ): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -676,8 +646,6 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnUpdateProviderAdminFail
   ): void {
-    throwError(payload);
-
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
@@ -714,7 +682,6 @@ export class ProviderState {
 
   @Action(OnUpdateWorkshopStatusFail)
   onUpdateStatusFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopStatusFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -737,7 +704,6 @@ export class ProviderState {
 
   @Action(BlockParentFail)
   blockParentFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParentFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -771,7 +737,6 @@ export class ProviderState {
 
   @Action(UnBlockParentFail)
   unBlockParentFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParentFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -799,7 +764,7 @@ export class ProviderState {
   ): Observable<BlockedParent> {
     return this.blockService
       .getBlockedParents(providerId, parentId)
-      .pipe(tap((blockedParent: BlockedParent) => patchState({ blockedParent: blockedParent })));
+      .pipe(tap((blockedParent: BlockedParent) => patchState({ blockedParent })));
   }
 
   @Action(OnClearBlockedParents)
@@ -828,7 +793,6 @@ export class ProviderState {
     { dispatch }: StateContext<ProviderStateModel>,
     { payload }: OnDeleteProviderByIdFail
   ): void {
-    throwError(payload);
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,

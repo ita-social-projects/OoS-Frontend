@@ -62,9 +62,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   isDeputy: boolean;
 
   constructor(
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService,
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location

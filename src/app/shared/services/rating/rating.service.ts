@@ -1,3 +1,4 @@
+import { SearchResponse } from './../../models/search.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
@@ -27,9 +28,9 @@ export class RatingService {
     return params;
   }
 
-  getRateByEntityId(entityType: string, entityId: string): Observable<Rate[]> {
+  getRateByEntityId(entityType: string, entityId: string): Observable<SearchResponse<Rate[]>> {
     const body = { params: this.setParams() };
-    return this.http.get<Rate[]>(`/api/v1/Rating/GetByEntityId/${entityType}/${entityId}`, body);
+    return this.http.get<SearchResponse<Rate[]>>(`/api/v1/Rating/GetByEntityId/${entityType}/${entityId}`, body);
   }
 
   /**
