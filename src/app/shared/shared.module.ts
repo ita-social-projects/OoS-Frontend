@@ -72,7 +72,7 @@ import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
 import { GetAddressPipe } from './pipes/get-address.pipe';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-import { StatusBannerComponent } from './components/status-banner/status-banner.component';
+import { ProviderStatusBannerComponent } from './components/provider-status-banner/provider-status-banner.component';
 
 @NgModule({
   declarations: [
@@ -138,7 +138,7 @@ import { StatusBannerComponent } from './components/status-banner/status-banner.
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
     GetAddressPipe,
-    StatusBannerComponent
+    ProviderStatusBannerComponent
   ],
 
   imports: [
@@ -216,7 +216,7 @@ import { StatusBannerComponent } from './components/status-banner/status-banner.
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
     GetAddressPipe,
-    StatusBannerComponent
+    ProviderStatusBannerComponent
   ]
 })
 export class SharedModule {}

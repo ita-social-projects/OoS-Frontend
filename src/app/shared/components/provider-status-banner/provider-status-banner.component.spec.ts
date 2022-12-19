@@ -2,19 +2,19 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 import { Statuses } from '../../enum/statuses';
 
-import { StatusBannerComponent } from './status-banner.component';
+import { ProviderStatusBannerComponent } from './provider-status-banner.component';
 
 describe('FullWidthBannerComponent', () => {
-  let component: StatusBannerComponent;
-  let fixture: ComponentFixture<StatusBannerComponent>;
+  let component: ProviderStatusBannerComponent;
+  let fixture: ComponentFixture<ProviderStatusBannerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([])],
-      declarations: [StatusBannerComponent]
+      declarations: [ProviderStatusBannerComponent]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(StatusBannerComponent);
+    fixture = TestBed.createComponent(ProviderStatusBannerComponent);
     component = fixture.componentInstance;
     component.providerStatus = { status: Statuses.Accepted, statusReason: '' };
     fixture.detectChanges();

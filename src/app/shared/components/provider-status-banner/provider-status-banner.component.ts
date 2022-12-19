@@ -8,10 +8,10 @@ import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
   selector: 'app-status-banner',
-  templateUrl: './status-banner.component.html',
-  styleUrls: ['./status-banner.component.scss']
+  templateUrl: './provider-status-banner.component.html',
+  styleUrls: ['./provider-status-banner.component.scss']
 })
-export class StatusBannerComponent implements OnInit {
+export class ProviderStatusBannerComponent implements OnInit {
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
