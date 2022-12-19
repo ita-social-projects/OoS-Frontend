@@ -1,17 +1,17 @@
 <div class="wrapper">
-  <div class="search-area">
-    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
-      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input
-        [formControl]="searchFormControl"
-        matInput
-        type="text"
-        class="search"
-        placeholder="Пошук за ПІБ, емейлом, містом, типом чи зміною"
-      />
-    </div>
-  </div>
   <div class="filters-wrapper">
+    <div class="search-area">
+      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+        <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+        <input
+          [formControl]="searchFormControl"
+          matInput
+          type="text"
+          class="search"
+          placeholder="Пошук за ПІБ, емейлом, містом, типом чи зміною"
+        />
+      </div>
+    </div>
     <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
   </div>
 
