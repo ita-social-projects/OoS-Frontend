@@ -1,4 +1,4 @@
-<ng-container *ngIf="provider$ | async as provider">
+<ng-container *ngIf="provider">
   <app-status-banner [editLink]="'/create-provider/info'" [providerStatus]="providerStatus"></app-status-banner>
   <div class="container">
     <app-provider-info
