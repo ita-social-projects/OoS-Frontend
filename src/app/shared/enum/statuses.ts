@@ -46,9 +46,3 @@ export enum StatusTitlesReverse {
   'Очікує логування' = 'NeverLogged',
   'Підтвердженно' = 'Accepted'
 }
-
-export enum StatusThemes {
-  Pending = 'pending',
-  Approved = 'approved',
-  Editing = 'editing'
-}

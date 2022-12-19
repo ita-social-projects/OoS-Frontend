@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
-import { ProviderStatusTitles, Statuses, StatusThemes } from '../../enum/statuses';
+import { ProviderStatusTitles, Statuses } from '../../enum/statuses';
 import { ProviderStatus } from '../../models/providerStatus.model';
 import { ActivateEditMode } from '../../store/app.actions';
 
@@ -46,6 +46,6 @@ export class ProviderStatusBannerComponent implements OnInit {
       ? this.providerStatus.statusReason
       : 'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
     this.editLinkDisplayed = this.providerStatus.status === Statuses.Editing;
-    this.HostElement.classList.value = StatusThemes[this.providerStatus.status];
+    this.HostElement.classList.value = Statuses[this.providerStatus.status];
   }
 }

@@ -2,7 +2,7 @@
   display: block;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
 
-  &.editing {
+  &.Editing {
     background: linear-gradient(0deg, rgba(255, 189, 0, 0.1), rgba(255, 189, 0, 0.1)), #ffffff;
 
     .status {
@@ -13,7 +13,7 @@
     }
   }
 
-  &.approved {
+  &.Approved {
     background: linear-gradient(0deg, rgba(25, 153, 83, 0.1), rgba(25, 153, 83, 0.1)), #ffffff;
 
     .status {
@@ -24,7 +24,7 @@
     }
   }
 
-  &.pending {
+  &.Pending {
     background: #e1f1f9;
 
     .status {
