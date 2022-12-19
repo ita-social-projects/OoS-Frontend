@@ -24,8 +24,8 @@ export interface MainPageStateModel {
     isLoadingData: false,
     headerInfo: null,
     topWorkshops: null,
-    topDirections: null
-  }
+    topDirections: null,
+  },
 })
 @Injectable()
 export class MainPageState {
@@ -68,7 +68,7 @@ export class MainPageState {
     patchState({ isLoadingData: true });
     return this.categoriesService
       .getTopDirections()
-      .pipe(tap((topDirections: Direction[]) => patchState({ topDirections: topDirections, isLoadingData: false })));
+      .pipe(tap((topDirections: Direction[]) => patchState({ topDirections, isLoadingData: false })));
   }
 
   @Action(GetTopWorkshops)
@@ -76,6 +76,6 @@ export class MainPageState {
     patchState({ isLoadingData: true });
     return this.appWorkshopsService
       .getTopWorkshops()
-      .pipe(tap((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult ? filterResult : [], isLoadingData: false })));
+      .pipe(tap((topWorkshops: WorkshopCard[]) => patchState({ topWorkshops, isLoadingData: false })));
   }
 }

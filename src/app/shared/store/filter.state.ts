@@ -41,7 +41,7 @@ import {
   SetSearchQueryValue,
   SetStartTime,
   SetWithDisabilityOption,
-  SetWorkingDays
+  SetWorkingDays,
 } from './filter.actions';
 import { SetFirstPage } from './paginator.actions';
 
@@ -55,8 +55,8 @@ import { SetFirstPage } from './paginator.actions';
     isConfirmCity: false,
     mapViewCoords: null,
     userRadiusSize: null,
-    isMapView: false
-  }
+    isMapView: false,
+  },
 })
 @Injectable()
 export class FilterState {
@@ -129,7 +129,7 @@ export class FilterState {
       startTime,
       endTime,
       statuses,
-      order
+      order,
     } = state;
     return {
       withDisabilityOption,
@@ -140,16 +140,16 @@ export class FilterState {
         minPrice,
         maxPrice,
         isFree,
-        isPaid
+        isPaid,
       },
       workingHours: {
         workingDays,
         startTime,
         endTime,
         isStrictWorkdays,
-        isAppropriateHours
+        isAppropriateHours,
       },
-      order
+      order,
     };
   }
 
@@ -240,10 +240,8 @@ export class FilterState {
     const state: FilterStateModel = getState();
 
     return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
-      tap((filterResult: SearchResponse<WorkshopCard[]>) => {
-        patchState(
-          filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: EMPTY_RESULT, isLoading: false }
-        );
+      tap((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
+        patchState({ filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT, isLoading: false });
       })
     );
   }
