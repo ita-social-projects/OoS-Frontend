@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
-import { ProviderStatusTitles, Statuses } from '../../enum/statuses';
+import { ProviderStatusDetails, ProviderStatusTitles, Statuses } from '../../enum/statuses';
 import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
@@ -12,9 +12,6 @@ import { ActivateEditMode } from '../../store/app.actions';
 })
 export class ProviderStatusBannerComponent implements OnInit {
   readonly Statuses = Statuses;
-
-  private approvedStatusDetails =
-    'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
 
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
@@ -45,7 +42,9 @@ export class ProviderStatusBannerComponent implements OnInit {
   private setBannerOptions(): void {
     this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status-icon`;
     this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
-    this.statusDetails = this.providerStatus.statusReason ? this.providerStatus.statusReason : this.approvedStatusDetails;
+    this.statusDetails = this.providerStatus.statusReason
+      ? this.providerStatus.statusReason
+      : ProviderStatusDetails[this.providerStatus.status];
     this.HostElement.classList.value = Statuses[this.providerStatus.status];
   }
 }
