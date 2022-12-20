@@ -23,10 +23,6 @@ export class GetSupportInformation {
   static readonly type = '[admin] Get SupportInformation';
   constructor() {}
 }
-export class GetAllProviders {
-  static readonly type = '[admin] Get all providers';
-  constructor() {}
-}
 export class GetFilteredProviders {
   static readonly type = '[admin] Get filtered Providers';
   constructor(public payload?: string) {}
@@ -92,11 +88,6 @@ export class GetDirectionById {
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
   constructor(public payload?: string) {}
-}
-
-export class GetParents {
-  static readonly type = '[admin] Get Parents';
-  constructor() {}
 }
 
 export class GetChildrenForAdmin {

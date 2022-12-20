@@ -1,14 +1,12 @@
 <div [formGroup]="filtersForm" class="form-wrapper">
   <div class="filters-wrapper">
     <div class="filters-period">
-      <div>
-        <span>Період</span>
-        <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
-          <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
-          <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
-          <mat-datepicker #dateFrom></mat-datepicker>
-        </mat-form-field>
-      </div>
+      <span>Період</span>
+      <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
+        <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
+        <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
+        <mat-datepicker #dateFrom></mat-datepicker>
+      </mat-form-field>
 
       <div class="separate-line"></div>
       <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
@@ -24,6 +22,11 @@
         <mat-option *ngFor="let option of dropdownOptions" [value]="option.value" class="dropdown-option">{{ option.label }}</mat-option>
       </mat-select>
     </mat-form-field>
+  </div>
+  <div class="filters-actions">
+    <div class="reset" (click)="onResetFilters()">
+      <mat-icon class="reset__icon">refresh</mat-icon><span class="reset__title">Скинути фільтри</span>
+    </div>
     <button class="btn" mat-raised-button (click)="applyFilters()">Показати</button>
   </div>
 </div>

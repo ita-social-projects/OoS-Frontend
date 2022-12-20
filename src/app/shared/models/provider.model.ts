@@ -3,6 +3,7 @@ import { Address } from './address.model';
 import { User } from './user.model';
 import { Workshop } from './workshop.model';
 import { SectionItem } from './sectionItem.model';
+import { Statuses } from '../enum/statuses';
 
 export class Provider {
   id: string;
@@ -21,7 +22,8 @@ export class Provider {
   founder?: string;
   ownership?: string;
   type?: number;
-  status?: boolean;
+  status?: Statuses;
+  statusReason: string;
   legalAddress?: Address;
   actualAddress?: Address;
   workshop?: Workshop;

@@ -1,8 +1,7 @@
-import { MinistryAdminParameters } from './../models/ministryAdmin.model';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
@@ -11,7 +10,6 @@ import { ChildrenService } from '../services/children/children.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { Injectable } from '@angular/core';
 import { Parent } from '../models/parent.model';
-import { ParentService } from '../services/parent/parent.service';
 import { PlatformService } from '../services/platform/platform.service';
 import { Provider } from '../models/provider.model';
 import { ProviderService } from '../services/provider/provider.service';
@@ -25,7 +23,6 @@ import {
   DeleteMinistryAdminById,
   GetAboutPortal,
   GetAllMinistryAdmins,
-  GetAllProviders,
   GetApplicationHistory,
   GetChildrenForAdmin,
   GetDirectionById,
@@ -35,7 +32,6 @@ import {
   GetMainPageInformation,
   GetMinistryAdminById,
   GetMinistryAdminProfile,
-  GetParents,
   GetPlatformInfo,
   GetProviderAdminHistory,
   GetProviderHistory,
@@ -58,14 +54,14 @@ import {
   OnUpdatePlatformInfoSuccess,
   UpdateDirection,
   UpdateMinistryAdmin,
-  UpdatePlatformInfo
+  UpdatePlatformInfo,
 } from './admin.actions';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { OnPageChangeDirections } from './paginator.actions';
-import { PaginationConstants } from '../constants/constants';
+import { EMPTY_RESULT, PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
@@ -82,12 +78,12 @@ export interface AdminStateModel {
   filteredDirections: SearchResponse<Direction[]>;
   parents: Parent[];
   children: SearchResponse<Child[]>;
-  providers: Provider[];
+  providers: SearchResponse<Provider[]>;
   selectedMinistryAdmin: MinistryAdmin;
   ministryAdmins: SearchResponse<MinistryAdmin[]>;
-  providerHistory: SearchResponse<ProviderHistory[]> | [];
-  providerAdminHistory: SearchResponse<ProviderAdminHistory[]> | [];
-  applicationHistory: SearchResponse<ApplicationHistory[]> | [];
+  providerHistory: SearchResponse<ProviderHistory[]>;
+  providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
+  applicationHistory: SearchResponse<ApplicationHistory[]>;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -107,8 +103,8 @@ export interface AdminStateModel {
     ministryAdmins: null,
     providerHistory: null,
     providerAdminHistory: null,
-    applicationHistory: null
-  }
+    applicationHistory: null,
+  },
 })
 @Injectable()
 export class AdminState {
@@ -120,7 +116,7 @@ export class AdminState {
     return state.mainPageInformation;
   }
 
-  @Selector() static providers(state: AdminStateModel): Provider[] {
+  @Selector() static providers(state: AdminStateModel): SearchResponse<Provider[]> {
     return state.providers;
   }
 
@@ -175,7 +171,6 @@ export class AdminState {
   constructor(
     private platformService: PlatformService,
     private categoriesService: DirectionsService,
-    private parentService: ParentService,
     private childrenService: ChildrenService,
     private router: Router,
     private providerService: ProviderService,
@@ -187,25 +182,27 @@ export class AdminState {
 
   @Action(GetPlatformInfo)
   getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {}: GetPlatformInfo): void {
-    dispatch([new GetAboutPortal(), new GetMainPageInformation(), new GetSupportInformation(), new GetLawsAndRegulations()]);
-  }
-
-  @Action(GetAllProviders)
-  getAllProviders({ patchState }: StateContext<AdminStateModel>): Observable<Provider[]> {
-    patchState({ isLoading: true });
-    return this.providerService.getAllProviders().pipe(
-      tap((providers: Provider[]) => {
-        return patchState({ providers: providers, isLoading: false });
-      })
-    );
+    dispatch([
+      new GetAboutPortal(),
+      new GetMainPageInformation(),
+      new GetSupportInformation(),
+      new GetLawsAndRegulations(),
+    ]);
   }
 
   @Action(GetFilteredProviders)
-  getFilteredProvider({ patchState }: StateContext<AdminStateModel>, { payload }: GetFilteredProviders): Observable<Provider[]> {
+  getFilteredProvider(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetFilteredProviders
+  ): Observable<SearchResponse<Provider[]>> {
     patchState({ isLoading: true });
     return this.providerService
       .getFilteredProviders(payload)
-      .pipe(tap((filteredProviders: Provider[]) => patchState({ providers: filteredProviders, isLoading: false })));
+      .pipe(
+        tap((providers: SearchResponse<Provider[]>) =>
+          patchState({ providers: providers ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
   }
 
   @Action(GetAboutPortal)
@@ -213,7 +210,7 @@ export class AdminState {
     patchState({ isLoading: true });
     return this.platformService
       .getPlatformInfo(AdminTabsTitle.AboutPortal)
-      .pipe(tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal: aboutPortal, isLoading: false })));
+      .pipe(tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal, isLoading: false })));
   }
 
   @Action(GetMainPageInformation)
@@ -227,27 +224,17 @@ export class AdminState {
   @Action(GetSupportInformation)
   getSupportInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
-    return this.platformService.getPlatformInfo(AdminTabsTitle.SupportInformation).pipe(
-      tap((supportInformation: CompanyInformation) =>
-        patchState({
-          supportInformation: supportInformation,
-          isLoading: false
-        })
-      )
-    );
+    return this.platformService
+      .getPlatformInfo(AdminTabsTitle.SupportInformation)
+      .pipe(tap((supportInformation: CompanyInformation) => patchState({ supportInformation, isLoading: false })));
   }
 
   @Action(GetLawsAndRegulations)
   getLawsAndRegulations({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
-    return this.platformService.getPlatformInfo(AdminTabsTitle.LawsAndRegulations).pipe(
-      tap((lawsAndRegulations: CompanyInformation) =>
-        patchState({
-          lawsAndRegulations: lawsAndRegulations,
-          isLoading: false
-        })
-      )
-    );
+    return this.platformService
+      .getPlatformInfo(AdminTabsTitle.LawsAndRegulations)
+      .pipe(tap((lawsAndRegulations: CompanyInformation) => patchState({ lawsAndRegulations, isLoading: false })));
   }
 
   @Action(UpdatePlatformInfo)
@@ -263,18 +250,20 @@ export class AdminState {
 
   @Action(OnUpdatePlatformInfoFail)
   onUpdatePlatformInfoFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdatePlatformInfoFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdatePlatformInfoSuccess)
-  onUpdatePlatformInfoSuccess({ dispatch }: StateContext<AdminStateModel>, { type }: OnUpdatePlatformInfoSuccess): void {
+  onUpdatePlatformInfoSuccess(
+    { dispatch }: StateContext<AdminStateModel>,
+    { type }: OnUpdatePlatformInfoSuccess
+  ): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
         message: SnackbarText.updatePortal,
-        type: 'success'
-      })
+        type: 'success',
+      }),
     ]);
     if (type == AdminTabsTitle.MainPage) {
       this.store.dispatch(new GetMainPageInfo());
@@ -282,12 +271,15 @@ export class AdminState {
       return;
     }
     this.router.navigate(['/admin-tools/platform'], {
-      queryParams: { page: type }
+      queryParams: { page: type },
     });
   }
 
   @Action(DeleteDirectionById)
-  deleteDirectionById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDirectionById): Observable<void | Observable<void>> {
+  deleteDirectionById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: DeleteDirectionById
+  ): Observable<void | Observable<void>> {
     return this.categoriesService.deleteDirection(payload).pipe(
       tap(() => dispatch(new OnDeleteDirectionSuccess())),
       catchError((error: Error) => of(dispatch(new OnDeleteDirectionFail(error))))
@@ -296,7 +288,6 @@ export class AdminState {
 
   @Action(OnDeleteDirectionFail)
   onDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -305,14 +296,17 @@ export class AdminState {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteDirection,
-        type: 'success'
+        type: 'success',
       }),
-      new GetFilteredDirections()
+      new GetFilteredDirections(),
     ]);
   }
 
   @Action(CreateDirection)
-  createDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<Observable<void> | Direction> {
+  createDirection(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: CreateDirection
+  ): Observable<Observable<void> | Direction> {
     return this.categoriesService.createDirection(payload).pipe(
       tap((res: Direction) => dispatch(new OnCreateDirectionSuccess(res))),
       catchError((error: Error) => of(dispatch(new OnCreateDirectionFail(error))))
@@ -321,25 +315,30 @@ export class AdminState {
 
   @Action(OnCreateDirectionFail)
   onCreateDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnCreateDirectionSuccess)
-  onCreateDirectionSuccess({ dispatch, patchState }: StateContext<AdminStateModel>, { payload }: OnCreateDirectionSuccess): void {
+  onCreateDirectionSuccess(
+    { dispatch, patchState }: StateContext<AdminStateModel>,
+    { payload }: OnCreateDirectionSuccess
+  ): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
         message: SnackbarText.createDirection,
-        type: 'success'
-      })
+        type: 'success',
+      }),
     ]);
     patchState({ direction: payload });
     this.location.back();
   }
 
   @Action(UpdateDirection)
-  updateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<Direction | Observable<void>> {
+  updateDirection(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: UpdateDirection
+  ): Observable<Direction | Observable<void>> {
     return this.categoriesService.updateDirection(payload).pipe(
       tap((res: Direction) => dispatch(new OnUpdateDirectionSuccess(res))),
       catchError((error: Error) => of(dispatch(new OnUpdateDirectionFail(error))))
@@ -348,7 +347,6 @@ export class AdminState {
 
   @Action(OnUpdateDirectionFail)
   onUpdateDirectionfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -359,20 +357,23 @@ export class AdminState {
       new GetDirectionById(payload.id),
       new ShowMessageBar({
         message: SnackbarText.updateDirection,
-        type: 'success'
+        type: 'success',
       }),
       new OnPageChangeDirections(PaginationConstants.firstPage),
-      new GetFilteredDirections()
+      new GetFilteredDirections(),
     ]);
     this.location.back();
   }
 
   @Action(GetDirectionById)
-  getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
+  getDirectionById(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetDirectionById
+  ): Observable<Direction> {
     patchState({ isLoading: true });
     return this.categoriesService
       .getDirectionById(payload)
-      .pipe(tap((direction: Direction) => patchState({ direction: direction, isLoading: false })));
+      .pipe(tap((direction: Direction) => patchState({ direction, isLoading: false })));
   }
 
   @Action(GetFilteredDirections)
@@ -382,23 +383,13 @@ export class AdminState {
   ): Observable<SearchResponse<Direction[]>> {
     patchState({ isLoading: true });
     return this.categoriesService.getFilteredDirections(payload).pipe(
-      tap(
-        (filterResult: SearchResponse<Direction[]>) =>
-          patchState(
-            filterResult ? { filteredDirections: filterResult, isLoading: false } : { filteredDirections: undefined, isLoading: false }
-          ),
-        () => patchState({ isLoading: false, direction: null })
+      tap((filteredDirections: SearchResponse<Direction[]>) =>
+        patchState({
+          filteredDirections: filteredDirections ?? EMPTY_RESULT,
+          isLoading: false,
+          direction: null,
+        })
       )
-    );
-  }
-
-  @Action(GetParents)
-  getParents({ patchState }: StateContext<AdminStateModel>): Observable<Parent[]> {
-    patchState({ isLoading: true });
-    return this.parentService.getParents().pipe(
-      tap((parents: Parent[]) => {
-        return patchState({ parents: parents, isLoading: false });
-      })
     );
   }
 
@@ -408,11 +399,13 @@ export class AdminState {
     { parameters }: GetChildrenForAdmin
   ): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
-    return this.childrenService.getChildrenForAdmin(parameters).pipe(
-      tap((children: SearchResponse<Child[]>) => {
-        return patchState({ children: children, isLoading: false });
-      })
-    );
+    return this.childrenService
+      .getChildrenForAdmin(parameters)
+      .pipe(
+        tap((children: SearchResponse<Child[]>) =>
+          patchState({ children: children ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
   }
 
   @Action(GetProviderHistory)
@@ -422,12 +415,12 @@ export class AdminState {
   ): Observable<SearchResponse<ProviderHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderHistory(payload, searchSting).pipe(
-      tap((providers: SearchResponse<ProviderHistory[]>) => {
-        return patchState({
-          providerHistory: providers ? providers : [],
-          isLoading: false
-        });
-      })
+      tap((providerHistory: SearchResponse<ProviderHistory[]>) =>
+        patchState({
+          providerHistory: providerHistory ?? EMPTY_RESULT,
+          isLoading: false,
+        })
+      )
     );
   }
 
@@ -438,12 +431,12 @@ export class AdminState {
   ): Observable<SearchResponse<ProviderAdminHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getProviderAdminHistory(payload, searchSting).pipe(
-      tap((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => {
-        return patchState({
-          providerAdminHistory: providerAdmin ? providerAdmin : [],
-          isLoading: false
-        });
-      })
+      tap((providerAdminHistory: SearchResponse<ProviderAdminHistory[]>) =>
+        patchState({
+          providerAdminHistory: providerAdminHistory ?? EMPTY_RESULT,
+          isLoading: false,
+        })
+      )
     );
   }
 
@@ -454,12 +447,12 @@ export class AdminState {
   ): Observable<SearchResponse<ApplicationHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
-      tap((application: SearchResponse<ApplicationHistory[]>) => {
-        return patchState({
-          applicationHistory: application ? application : [],
-          isLoading: false
-        });
-      })
+      tap((applicationHistory: SearchResponse<ApplicationHistory[]>) =>
+        patchState({
+          applicationHistory: applicationHistory ?? EMPTY_RESULT,
+          isLoading: false,
+        })
+      )
     );
   }
 
@@ -470,7 +463,7 @@ export class AdminState {
       tap((selectedMinistryAdmin: MinistryAdmin) =>
         patchState({
           selectedMinistryAdmin: selectedMinistryAdmin,
-          isLoading: false
+          isLoading: false,
         })
       )
     );
@@ -489,12 +482,11 @@ export class AdminState {
 
   @Action(OnCreateMinistryAdminFail)
   onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
-    throwError(() => new Error(payload.message));
     const message = payload.message === 'Internal Server Error' ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
         message: message,
-        type: 'error'
+        type: 'error',
       })
     );
   }
@@ -504,9 +496,9 @@ export class AdminState {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.createMinistryAdminSuccess,
-        type: 'success'
+        type: 'success',
       }),
-      new MarkFormDirty(false)
+      new MarkFormDirty(false),
     ]);
     this.router.navigate(['/admin-tools/data/admins']);
   }
@@ -519,20 +511,22 @@ export class AdminState {
     patchState({ isLoading: true });
     return this.ministryAdminService
       .getAllMinistryAdmin(parameters)
-      .pipe(tap((ministryAdmins: SearchResponse<MinistryAdmin[]>) => patchState({ ministryAdmins: ministryAdmins, isLoading: false })));
+      .pipe(
+        tap((ministryAdmins: SearchResponse<MinistryAdmin[]>) =>
+          patchState({ ministryAdmins: ministryAdmins ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
   }
 
   @Action(GetMinistryAdminById)
-  getMinistryAdminById({ patchState }: StateContext<AdminStateModel>, { payload }: GetMinistryAdminById): Observable<MinistryAdmin> {
+  getMinistryAdminById(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetMinistryAdminById
+  ): Observable<MinistryAdmin> {
     patchState({ isLoading: true });
-    return this.ministryAdminService.getMinistryAdminById(payload).pipe(
-      tap((selectedMinistryAdmin: MinistryAdmin) =>
-        patchState({
-          selectedMinistryAdmin: selectedMinistryAdmin,
-          isLoading: false
-        })
-      )
-    );
+    return this.ministryAdminService
+      .getMinistryAdminById(payload)
+      .pipe(tap((selectedMinistryAdmin: MinistryAdmin) => patchState({ selectedMinistryAdmin, isLoading: false })));
   }
 
   @Action(DeleteMinistryAdminById)
@@ -548,7 +542,6 @@ export class AdminState {
 
   @Action(OnDeleteMinistryAdminFail)
   onDeleteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteMinistryAdminFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -557,9 +550,9 @@ export class AdminState {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteMinistryAdmin,
-        type: 'success'
+        type: 'success',
       }),
-      new GetAllMinistryAdmins()
+      new GetAllMinistryAdmins(),
     ]);
   }
 
@@ -576,7 +569,6 @@ export class AdminState {
 
   @Action(OnBlockMinistryAdminFail)
   onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
-    throwError(payload);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -586,8 +578,8 @@ export class AdminState {
       new GetAllMinistryAdmins(),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
-        type: 'success'
-      })
+        type: 'success',
+      }),
     ]);
   }
 
@@ -603,12 +595,14 @@ export class AdminState {
   }
 
   @Action(OnUpdateMinistryAdminFail)
-  onUpdateMinistryAdminrfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateMinistryAdminFail): void {
-    throwError(payload);
+  onUpdateMinistryAdminrfail(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: OnUpdateMinistryAdminFail
+  ): void {
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
-        type: 'error'
+        type: 'error',
       })
     );
   }
@@ -619,8 +613,8 @@ export class AdminState {
       new MarkFormDirty(false),
       new ShowMessageBar({
         message: SnackbarText.updateMinistryAdmin,
-        type: 'success'
-      })
+        type: 'success',
+      }),
     ]);
     this.router.navigate(['/admin-tools/data/admins']);
   }

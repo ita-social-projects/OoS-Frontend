@@ -13,7 +13,7 @@
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
   "AVAILABLE": "Available",
   "AWAITING_CONFIRMATION": "Awaiting confirmation",
-  "BY_ALPHABET": "By Alphabet",
+  "BY_ALPHABET": "By alphabet",
   "BY_PRICE_DECREASE": "By price decrease",
   "BY_PRICE_INCREASE": "By price increase",
   "BY_RATING": "By rating",
@@ -191,11 +191,14 @@
   "FOR_FREE": "For free",
   "FORMS": {
     "ACTIONS": {
+      "ADD_ANOTHER_CHILD": "Add another child",
       "ADD_ANOTHER_SECTION": "Add another section",
       "ADD_ANOTHER_TEACHER": "Add another teacher",
       "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
       "BACK": "Back",
+      "DELETE": "Remove",
       "NEXT": "Next",
+      "REMOVE_CHILD_DATA": "Remove data about the child",
       "REMOVE_TEACHER_DATA": "Remove data about the teacher",
       "SAVE": "Save"
     },
@@ -203,14 +206,20 @@
     "CONTROL_VALUES": {
       "FEMALE": "Female",
       "MALE": "Male",
-      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider"
+      "USE_SERVICE_PROVIDER_CONTACT_DETAILS": "Use the contact details of the educational services provider",
+      "CHILD_AGREEMENT_WITH_TERMS_OF_USE_START": "By adding data about the child, I accept the",
+      "TERMS_OF_USE": "Terms of Use",
+      "AGREEMENT_WITH_TERMS_OF_USE_END": "and consent to the processing of personal data"
     },
     "HEADERS": {
       "EDIT_WORKSHOP": "EDIT WORKSHOP",
       "EDIT_WORKSHOP_DESCRIPTION_PATH": "Edit a",
       "NEW_WORKSHOP": "NEW WORKSHOP",
       "NEW_WORKSHOP_DESCRIPTION_PATH": "Add a new",
-      "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group"
+      "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
+      "NEW_CHILD": "Add child information",
+      "EDIT_CHILD": "Edit child information",
+      "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -225,10 +234,12 @@
       "FIRST_NAME": "First name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
+      "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "SEX": "Sex",
+      "SOCIAL_GROUP": "Social group",
       "STREET": "Street",
       "SUBORDINATION": "Subordination",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
@@ -237,6 +248,7 @@
       "WORKING_HOURS": "Working hours"
     },
     "PLACEHOLDERS": {
+      "SELECTION_SOCIAL_GROUPS": "Select social groups",
       "KEYWORDS_END": "words)",
       "KEYWORDS_START": "Enter keywords by which users can search for your workshop and press Enter to add a tag (max",
       "MAXIMUM": "Maximum",
@@ -257,7 +269,8 @@
       "INVALID_LENGTH_START": "This field must contain",
       "INVALID_MAP": "No such address was found on the map",
       "INVALID_SYMBOLS": ", please use only Cyrillic and symbols ( ' - )",
-      "REQUIRED_INPUT": "This field is required."
+      "REQUIRED_INPUT": "This field is required.",
+      "NO_MORE_CHILDREN": "It is possible to add no more than"
     }
   },
   "FOUND": "Found",
@@ -271,7 +284,7 @@
   "INFORMATION_ABOUT": "Information about",
   "INSTITUTION_TYPE": "Institution type",
   "IPN": "Individual tax number",
-  "LAWS_AND_REGULATIONS": "LAWS AND REGULATIONS",
+  "LAWS_AND_REGULATIONS": "Laws and regulations",
   "LEAVE_WORKSHOP": "Leave workshop",
   "LEGAL_ADDRESS": "Legal address",
   "LIST": "List",
@@ -315,8 +328,9 @@
     "TEACHERS": "Teachers"
   },
   "TO": "To",
-  "TOP_DIRECTIONS": "Top Categories",
-  "TOP_WORKSHOPS": "Top Workshops",
+  "TOP_DIRECTIONS": "Top categories",
+  "TOP_WORKSHOPS": "Top workshops",
+  "ALL_DIRECTIONS": "All categories",
   "TOTAL_PARTICIPANTS": "Total participants",
   "TYPE_OF_ORGANIZATION" : "Organization type",
   "UAH": "UAH",

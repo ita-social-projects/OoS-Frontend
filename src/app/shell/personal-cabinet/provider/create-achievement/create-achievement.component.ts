@@ -72,9 +72,9 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   private achievementId: string;
 
   constructor(
-    store: Store,
-    route: ActivatedRoute,
-    navigationBarService: NavigationBarService,
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
     private location: Location,

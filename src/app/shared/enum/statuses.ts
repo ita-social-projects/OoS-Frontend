@@ -27,6 +27,12 @@ export enum StatusTitles {
   Editing = 'Відправлено на редагування'
 }
 
+export enum ProviderStatusTitles {
+  Approved = 'Заклад підтверджено',
+  Pending = 'Очікує підтвердження',
+  Editing = 'Потребує редагування'
+}
+
 export enum StatusTitlesReverse {
   'Усі' = 'All',
   'Очікує підтвердження' = 'Pending',

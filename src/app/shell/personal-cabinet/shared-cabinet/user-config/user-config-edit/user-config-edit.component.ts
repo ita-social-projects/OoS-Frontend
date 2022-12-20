@@ -16,11 +16,12 @@ import { UpdateUser } from '../../../../../shared/store/registration.actions';
 import { RegistrationState } from '../../../../../shared/store/registration.state';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 import { Util } from '../../../../../shared/utils/utils';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-user-config-edit',
   templateUrl: './user-config-edit.component.html',
-  styleUrls: ['./user-config-edit.component.scss']
+  styleUrls: ['./user-config-edit.component.scss'],
 })
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly role = Role;
@@ -35,7 +36,13 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   userRole: Role;
   subRole: Role;
 
-  constructor(private fb: FormBuilder, store: Store, navigationBarService: NavigationBarService, route: ActivatedRoute) {
+  constructor(
+    protected route: ActivatedRoute,
+    protected store: Store,
+    protected navigationBarService: NavigationBarService,
+    private fb: FormBuilder,
+    private location: Location
+  ) {
     super(store, route, navigationBarService);
 
     this.userEditFormGroup = this.fb.group({
@@ -43,23 +50,22 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       firstName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
       middleName: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
       ]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
     });
-    this.subscribeOnDirtyForm(this.userEditFormGroup);
   }
 
   ngOnInit(): void {
@@ -72,6 +78,8 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
         this.userEditFormGroup.addControl('dateOfBirth', new FormControl('', Validators.required));
         this.userEditFormGroup.addControl('gender', new FormControl('', Validators.required));
       }
+
+      this.subscribeOnDirtyForm(this.userEditFormGroup);
       this.setEditMode();
     });
   }
@@ -90,7 +98,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
             name: personalCabinetTitle,
             path: '/personal-cabinet/config',
             isActive: false,
-            disable: false
+            disable: false,
           },
           { name: NavBarName.EditInformationAbout, isActive: false, disable: true }
         )
@@ -105,5 +113,9 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   onSubmit(): void {
     const user = new User(this.userEditFormGroup.value, this.user.id);
     this.store.dispatch(new UpdateUser(PersonalInfoRole[this.userRole], user));
+  }
+
+  onCancel(): void {
+    this.location.back();
   }
 }
