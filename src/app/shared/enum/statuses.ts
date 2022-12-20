@@ -33,6 +33,11 @@ export enum ProviderStatusTitles {
   Editing = 'Потребує редагування'
 }
 
+export enum ProviderStatusDetails {
+  Approved = 'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.',
+  Pending = 'Ваш заклад очікує підтвердження адміністратором.'
+}
+
 export enum StatusTitlesReverse {
   'Усі' = 'All',
   'Очікує підтвердження' = 'Pending',

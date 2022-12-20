@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { ApplicationIcons } from '../../enum/applications';
-import { ProviderStatusTitles, Statuses } from '../../enum/statuses';
+import { ProviderStatusDetails, ProviderStatusTitles, Statuses } from '../../enum/statuses';
 import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
@@ -12,10 +12,6 @@ import { ActivateEditMode } from '../../store/app.actions';
 })
 export class ProviderStatusBannerComponent implements OnInit {
   readonly Statuses = Statuses;
-
-  private approvedStatusDetails =
-    'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
-  private pendingStatusDetails = 'Ваш заклад очікує підтвердження адміністратором.';
 
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
@@ -46,13 +42,9 @@ export class ProviderStatusBannerComponent implements OnInit {
   private setBannerOptions(): void {
     this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status-icon`;
     this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
-    if (this.providerStatus.statusReason) {
-      this.statusDetails = this.providerStatus.statusReason;
-    } else if (this.providerStatus.status === Statuses.Approved) {
-      this.statusDetails = this.approvedStatusDetails;
-    } else if (this.providerStatus.status === Statuses.Pending) {
-      this.statusDetails = this.pendingStatusDetails;
-    }
+    this.statusDetails = this.providerStatus.statusReason
+      ? this.providerStatus.statusReason
+      : ProviderStatusDetails[this.providerStatus.status];
     this.HostElement.classList.value = Statuses[this.providerStatus.status];
   }
 }
