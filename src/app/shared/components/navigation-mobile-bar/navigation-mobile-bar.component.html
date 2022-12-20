@@ -7,7 +7,7 @@
     </li>
     <li *ngFor="let nav of navigationPathsMobile">
       <div class="link">
-        <a>{{ nav?.name }}</a>
+        <a>{{ nav.name | translate }}</a>
       </div>
     </li>
   </ul>
