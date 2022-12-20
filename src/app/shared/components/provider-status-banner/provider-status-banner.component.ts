@@ -11,6 +11,8 @@ import { ActivateEditMode } from '../../store/app.actions';
   styleUrls: ['./provider-status-banner.component.scss']
 })
 export class ProviderStatusBannerComponent implements OnInit {
+  readonly Statuses = Statuses;
+
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
@@ -21,7 +23,6 @@ export class ProviderStatusBannerComponent implements OnInit {
   iconClasses: string;
   statusTitle: string;
   statusDetails: string;
-  editLinkDisplayed: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private elementRef: ElementRef<HTMLElement>, private store: Store) {}
@@ -44,7 +45,6 @@ export class ProviderStatusBannerComponent implements OnInit {
     this.statusDetails = this.providerStatus.statusReason
       ? this.providerStatus.statusReason
       : 'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
-    this.editLinkDisplayed = this.providerStatus.status === Statuses.Editing;
     this.HostElement.classList.value = Statuses[this.providerStatus.status];
   }
 }

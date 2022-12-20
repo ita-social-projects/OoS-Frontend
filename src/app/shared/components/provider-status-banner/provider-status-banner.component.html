@@ -5,5 +5,7 @@
   </div>
   <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
 </div>
-<p *ngIf="statusDetails" class="banner__details">{{ statusDetails }}</p>
-<a *ngIf="editLinkDisplayed" [routerLink]="editLink" (click)="onActivateEditMode()" class="banner__link">Редагувати</a>
+<p class="banner__details">{{ statusDetails }}</p>
+<a *ngIf="providerStatus.status === Statuses.Editing" [routerLink]="editLink" (click)="onActivateEditMode()" class="banner__link"
+  >Редагувати</a
+>
