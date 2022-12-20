@@ -22,7 +22,8 @@ enum ValidatorsTypes {
 }
 @Component({
   selector: 'app-validation-hint',
-  templateUrl: './validation-hint.component.html'
+  templateUrl: './validation-hint.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
