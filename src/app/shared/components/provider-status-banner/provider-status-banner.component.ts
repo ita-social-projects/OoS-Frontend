@@ -15,6 +15,7 @@ export class ProviderStatusBannerComponent implements OnInit {
 
   private approvedStatusDetails =
     'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
+  private pendingStatusDetails = 'Ваш заклад очікує підтвердження адміністратором.';
 
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
@@ -45,7 +46,13 @@ export class ProviderStatusBannerComponent implements OnInit {
   private setBannerOptions(): void {
     this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status-icon`;
     this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
-    this.statusDetails = this.providerStatus.statusReason ? this.providerStatus.statusReason : this.approvedStatusDetails;
+    if (this.providerStatus.statusReason) {
+      this.statusDetails = this.providerStatus.statusReason;
+    } else if (this.providerStatus.status === Statuses.Approved) {
+      this.statusDetails = this.approvedStatusDetails;
+    } else if (this.providerStatus.status === Statuses.Pending) {
+      this.statusDetails = this.pendingStatusDetails;
+    }
     this.HostElement.classList.value = Statuses[this.providerStatus.status];
   }
 }
