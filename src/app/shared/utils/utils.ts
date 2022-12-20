@@ -8,6 +8,7 @@ import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
+import { Statuses } from '../enum/statuses';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -130,11 +131,10 @@ export class Util {
       updatedUsers.push({
         id: user.id,
         pib: this.getFullName(user),
-        email: user.parent?.email,
-        place: user.place,
+        email: user.parent.email,
         phoneNumber: user.parent.phoneNumber,
         role: user.isParent ? 'Батьки' : 'Діти',
-        status: user.accountStatus || 'Accepted'
+        status: user.parent.emailConfirmed ? Statuses.Accepted : Statuses.NeverLogged
       });
     });
     return updatedUsers;
@@ -152,10 +152,9 @@ export class Util {
         id: admin.id,
         pib: this.getFullName(admin),
         email: admin.email,
-        place: '',
         phoneNumber: admin.phoneNumber,
         role: admin.id,
-        status: admin.accountStatus || 'Accepted'
+        status: admin.accountStatus || Statuses.Accepted
       });
     });
     return updatedAdmins;

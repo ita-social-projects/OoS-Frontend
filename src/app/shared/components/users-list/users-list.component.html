@@ -40,22 +40,6 @@
       </ng-container>
 
       <!-- Name Column -->
-      <ng-container matColumnDef="place">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by place">Населений пункт</th>
-        <td mat-cell *matCellDef="let element" class="tab">
-          <div
-            [matTooltip]="element.place"
-            showTooltipIfTruncated
-            matTooltipClass="tooltip"
-            [matTooltipPosition]="tooltipPosition"
-            class="tab-text"
-          >
-            {{ element.place | emptyValueTransform }}
-          </div>
-        </td>
-      </ng-container>
-
-      <!-- Name Column -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">Роль</th>
         <td mat-cell *matCellDef="let element">{{ element.role }}</td>

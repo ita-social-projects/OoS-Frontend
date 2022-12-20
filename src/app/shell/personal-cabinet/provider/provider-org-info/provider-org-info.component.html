@@ -1,8 +1,11 @@
-<div *ngIf="provider$ | async as provider" class="container">
-  <app-provider-info
-    [provider]="provider"
-    [currentStatus]="currentStatus"
-    (selectedTabChange)="onTabChanged($event)"
-    [isProviderView]="true"
-  ></app-provider-info>
-</div>
+<ng-container *ngIf="provider">
+  <app-status-banner [editLink]="'/create-provider/info'" [providerStatus]="providerStatus"></app-status-banner>
+  <div class="container">
+    <app-provider-info
+      [provider]="provider"
+      [currentStatus]="currentStatus"
+      [isProviderView]="true"
+      (selectedTabChange)="onTabChanged($event)"
+    ></app-provider-info>
+  </div>
+</ng-container>

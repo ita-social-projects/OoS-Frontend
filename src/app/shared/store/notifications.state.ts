@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { SnackbarText } from '../enum/messageBar';
 import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
@@ -17,7 +17,7 @@ import {
   DeleteUsersNotificationById,
   OnDeleteUsersNotificationByIdSuccess,
   OnDeleteUsersNotificationByIdFail,
-  ClearNotificationState
+  ClearNotificationState,
 } from './notifications.actions';
 
 export interface NotificationsStateModel {
@@ -28,8 +28,8 @@ export interface NotificationsStateModel {
   name: 'notifications',
   defaults: {
     notificationsAmount: undefined,
-    notifications: undefined
-  }
+    notifications: undefined,
+  },
 })
 @Injectable()
 export class NotificationsState {
@@ -51,7 +51,7 @@ export class NotificationsState {
   ): Observable<NotificationsAmount> {
     return this.notificationsService
       .getAmountOfNewUsersNotifications()
-      .pipe(tap((notificationsAmount: NotificationsAmount) => patchState({ notificationsAmount: notificationsAmount })));
+      .pipe(tap((notificationsAmount: NotificationsAmount) => patchState({ notificationsAmount })));
   }
 
   @Action(GetAllUsersNotificationsGrouped)
@@ -61,7 +61,7 @@ export class NotificationsState {
   ): Observable<Notifications> {
     return this.notificationsService
       .getAllUsersNotificationsGrouped()
-      .pipe(tap((notifications: Notifications) => patchState({ notifications: notifications })));
+      .pipe(tap((notifications: Notifications) => patchState({ notifications })));
   }
 
   @Action(ReadUsersNotificationsByType)
@@ -113,13 +113,14 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     { error }: OnDeleteUsersNotificationByIdFail
   ): void {
-    throwError(() => error);
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnReadUsersNotificationsFail)
-  onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
-    throwError(payload);
+  onReadUsersNotificationsFail(
+    { dispatch }: StateContext<NotificationsStateModel>,
+    { payload }: OnReadUsersNotificationsFail
+  ): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
