@@ -13,6 +13,9 @@ import { ActivateEditMode } from '../../store/app.actions';
 export class ProviderStatusBannerComponent implements OnInit {
   readonly Statuses = Statuses;
 
+  private approvedStatusDetails =
+    'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
+
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
@@ -42,9 +45,7 @@ export class ProviderStatusBannerComponent implements OnInit {
   private setBannerOptions(): void {
     this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status-icon`;
     this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
-    this.statusDetails = this.providerStatus.statusReason
-      ? this.providerStatus.statusReason
-      : 'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.';
+    this.statusDetails = this.providerStatus.statusReason ? this.providerStatus.statusReason : this.approvedStatusDetails;
     this.HostElement.classList.value = Statuses[this.providerStatus.status];
   }
 }
