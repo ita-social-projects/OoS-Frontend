@@ -26,8 +26,10 @@ export class TranslateCasesPipe implements PipeTransform  {
       this.translateKey = enumTranslate[0];
     } else if (countLastStr === '2' || countLastStr === '3' || countLastStr ==='4') {
       this.translateKey = enumTranslate[1];
-    } else {
+    } else if(enumTranslate){
       this.translateKey = enumTranslate[2];
+    } else {
+       return '';
     }
 
     this.translation = this._translateService.instant(this.translateKey)
