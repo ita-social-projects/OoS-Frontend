@@ -34,8 +34,14 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   }
 
   getLabelTitle(quantity: number): string {
-    let allChildrenDeclination = this.translateService.instant('ALL_CHILDREN');
-    let allApplicationsDeclination = this.translateService.instant('ALL_WORKSHOPS');
+    let allChildrenDeclination
+    let allApplicationsDeclination;
+
+    if (this.Declination) {
+      allChildrenDeclination = this.Declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? this.translateService.instant('ALL_CHILDREN') : '';
+      allApplicationsDeclination = this.Declination[0] ===  'ENUM.WORKSHOP_DECLINATION.WORKSHOP' ? this.translateService.instant('ALL_WORKSHOPS') : '';
+    }
+
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.translateCases.transform(quantity, this.Declination);
     return quantity < 1 ? selectedEntities : this.labelByDefault || allEntities;
