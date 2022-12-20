@@ -6,7 +6,7 @@ import { Direction } from '../../../shared/models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { DeclinationPipe } from '../../pipes/declination.pipe';
+import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
 
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
@@ -15,7 +15,7 @@ describe('CategoryCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatCardModule, MatButtonModule, NgxsModule.forRoot([]), RouterTestingModule, MatIconModule],
-      declarations: [CategoryCardComponent, DeclinationPipe]
+      declarations: [CategoryCardComponent, TranslateCasesPipe]
     }).compileComponents();
   });
 

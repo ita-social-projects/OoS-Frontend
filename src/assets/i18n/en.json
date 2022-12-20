@@ -7,6 +7,8 @@
   "ADDED_TO_FAVORITES": "Added to favorites",
   "ADMINISTRATION": "Administration",
   "ALL": "All",
+  "ALL_CHILDREN": "All children",
+  "ALL_WORKSHOPS": "All workshops",
   "APPLICATIONS": "Applications",
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
   "AVAILABLE": "Available",
@@ -42,6 +44,36 @@
   "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
   "ENUM": {
+    "APPLICATION": {
+      "APPLICATION": "application",
+      "APPLICATIONS": "applications",
+      "APPLICATION_ABLATIVE": "application"
+    },
+    "APPLICATION_APPROVED": {
+      "APPLICATION_ACCEPTED": "application accepted",
+      "APPLICATIONS_ACCEPTED": "applications accepted",
+      "APPLICATION_ACCEPTED_ABLATIVE": "applications accepted"
+    },
+    "APPLICATION_CHANGES": {
+      "CHANGE_IN_STATEMENTS": "change in statements",
+      "CHANGES_IN_STATEMENTS": "changes in statements",
+      "CHANGE_IN_STATEMENTS_ABLATIVE": "changes in statements"
+    },
+    "APPLICATION_PENDING": {
+      "APPLICATION_PENDING_CONFIRMATION": "application pending confirmation",
+      "APPLICATIONS_PENDING_CONFIRMATION": "applications pending confirmation",
+      "APPLICATION_PENDING_CONFIRMATION_ABLATIVE": "applications pending confirmation"
+    },
+    "APPLICATION_LEFT": {
+      "WORKSHOP_LEFT": "workshop left",
+      "WORKSHOPS_LEFT": "workshops left",
+      "WORKSHOP_LEFT_ABLATIVE": "workshops left"
+    },
+    "APPLICATION_REJECTED": {
+      "APPLICATION_REJECTED": "application rejected",
+      "APPLICATIONS_REJECTED": "applications rejected",
+      "APPLICATION_REJECTED_ABLATIVE": "applications rejected"
+    },
     "CHILD_DECLINATION": {
       "CHILD": "child",
       "CHILD_GENITIVE": "children",
@@ -128,10 +160,30 @@
       "PROVIDER": "the provider"
     },
     "WORKSHOP_DECLINATION": {
-      "NO_WORKSHOPS": "No workshops",
       "WORKSHOP": "workshop",
       "WORKSHOPS": "workshops",
-      "WORKSHOPS_ABLATIVE": "workshops"
+      "WORKSHOPS_ABLATIVE": "workshops",
+      "NO_WORKSHOPS": "No workshops"
+    },
+    "YEAR_DECLINATION": {
+      "YEAR": "year",
+      "YEARS": "years",
+      "YEARS_ABLATIVE": "years"
+    },
+    "MONTH_DECLINATION": {
+      "MONTH": "month",
+      "MONTHS": "months",
+      "MONTHS_ABLATIVE": "months"
+    },
+    "DAY_DECLINATION": {
+      "DAY": "day",
+      "DAYS": "days",
+      "DAYS_ABLATIVE": "days"
+    },
+    "HOUR_DECLINATION": {
+      "HOUR": "hour",
+      "HOURS": "hours",
+      "HOURS_ABLATIVE": "hours"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -255,6 +307,7 @@
   "RATE": "RATE",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
+  "SELECTED": "selected",
   "SELECT_AGE": "Select age",
   "SEND_A_MESSAGE": "Send a message",
   "SHORT_ORGANIZATION_NAME": "Short organization name",
@@ -279,9 +332,11 @@
   "TOP_WORKSHOPS": "Top workshops",
   "ALL_DIRECTIONS": "All categories",
   "TOTAL_PARTICIPANTS": "Total participants",
+  "TYPE_OF_ORGANIZATION" : "Organization type",
   "UAH": "UAH",
   "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",
+  "WORKSHOPS": "workshops",
   "WORKING_DAYS": "Working days",
   "WORKING_HOURS": "Working hours",
   "YEARS": "years",
