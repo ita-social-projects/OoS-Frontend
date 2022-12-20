@@ -1,0 +1,11 @@
+<div class="banner__header">
+  <div class="status">
+    <i [classList]="iconClasses"></i>
+    <h4 class="status-title">{{ statusTitle }}</h4>
+  </div>
+  <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
+</div>
+<p class="banner__details">{{ statusDetails }}</p>
+<a *ngIf="providerStatus.status === Statuses.Editing" [routerLink]="editLink" (click)="onActivateEditMode()" class="banner__link"
+  >Редагувати</a
+>
