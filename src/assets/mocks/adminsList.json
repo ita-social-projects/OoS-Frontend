@@ -1,0 +1,93 @@
+{
+  "totalAmount": 11,
+  "entities": [
+    {
+      "accountStatus": "Accepted",
+      "institutionId": "b929a4cd-ee3d-4bad-b2f0-d40aedf656c4",
+      "institutionTitle": "МОН",
+      "id": "551a378d-9ab5-4fe4-922e-a6d6cc4a66ae",
+      "email": "vaned50191@paxven.com",
+      "phoneNumber": "671234567",
+      "lastName": "Test",
+      "middleName": "Ministry",
+      "firstName": "Roles"
+    },
+    {
+      "accountStatus": "NeverLogged",
+      "institutionId": "b67a4f29-728e-4bb0-bb42-4a9d7e0bd90a",
+      "institutionTitle": "Мінспорт",
+      "id": "62a8d528-2a19-4e1d-aa1a-bd94167eeaa4",
+      "email": "mejumeho@forexnews.bg",
+      "phoneNumber": "123123123",
+      "lastName": "валерій",
+      "middleName": "",
+      "firstName": "фів"
+    },
+    {
+      "accountStatus": "NeverLogged",
+      "institutionId": "b67a4f29-728e-4bb0-bb42-4a9d7e0bd90a",
+      "institutionTitle": "Мінспорт",
+      "id": "dfc5c79d-f0f0-488f-a0e1-09350826721d",
+      "email": "mejumeho@forexnews.xn--bg-ymc",
+      "phoneNumber": "155234412",
+      "lastName": "іафіа",
+      "middleName": "афіа",
+      "firstName": "фіафіа"
+    },
+    {
+      "accountStatus": "Blocked",
+      "institutionId": "b929a4cd-ee3d-4bad-b2f0-d40aedf656c4",
+      "institutionTitle": "МОН",
+      "id": "bf01dbd3-7e18-4bbe-9fd1-579847cdedb1",
+      "email": "gtvdtgs970@uranomail.es",
+      "phoneNumber": "435353454",
+      "lastName": "Новий",
+      "middleName": "віамкав",
+      "firstName": "Адімн"
+    },
+    {
+      "accountStatus": "Accepted",
+      "institutionId": "b67a4f29-728e-4bb0-bb42-4a9d7e0bd90a",
+      "institutionTitle": "Мінспорт",
+      "id": "6c8d34be-a92f-4a3b-937d-bce30dee89d6",
+      "email": "wacysi@mailo.icu",
+      "phoneNumber": "124124124",
+      "lastName": "Привіт",
+      "middleName": "цуацуа",
+      "firstName": "Привіт"
+    },
+    {
+      "accountStatus": "NeverLogged",
+      "institutionId": "55bef501-0838-493c-b5f2-7fead48fd8de",
+      "institutionTitle": "МКІП",
+      "id": "219ae7b8-18bc-4090-a1cd-94efb1f3f86b",
+      "email": "hapibejasaj@vintomaper.com",
+      "phoneNumber": "454553645",
+      "lastName": "редаг",
+      "middleName": "авыкмвук",
+      "firstName": "епекпр"
+    },
+    {
+      "accountStatus": "Accepted",
+      "institutionId": "b67a4f29-728e-4bb0-bb42-4a9d7e0bd90a",
+      "institutionTitle": "Мінспорт",
+      "id": "962e9d93-5e15-488c-ad17-1dfa87a294b8",
+      "email": "lovef89928@orlydns.com",
+      "phoneNumber": "978823120",
+      "lastName": "Тест",
+      "middleName": "аыввыаыв",
+      "firstName": "выфв"
+    },
+    {
+      "accountStatus": "NeverLogged",
+      "institutionId": "b67a4f29-728e-4bb0-bb42-4a9d7e0bd90a",
+      "institutionTitle": "Мінспорт",
+      "id": "7e44fb3e-22a2-48f1-a213-116eb625b6a6",
+      "email": "byvypy@teleg.eu",
+      "phoneNumber": "334234235",
+      "lastName": "фыафыафыафыа",
+      "middleName": "",
+      "firstName": "івпівпіп"
+    }
+  ]
+}

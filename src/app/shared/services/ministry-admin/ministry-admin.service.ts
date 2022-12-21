@@ -50,7 +50,7 @@ export class MinistryAdminService {
    */
   getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<SearchResponse<MinistryAdmin[]>> {
     const options = { params: this.setParams(parameters) };
-
+    return this.http.get<SearchResponse<MinistryAdmin[]>>('assets/mocks/adminsList.json');
     return this.http.get<SearchResponse<MinistryAdmin[]>>('/api/v1/MinistryAdmin/GetByFilter', options);
   }
 
