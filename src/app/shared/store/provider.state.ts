@@ -79,6 +79,7 @@ import {
   UpdateProviderStatus,
   UpdateWorkshop,
   UpdateWorkshopStatus,
+  GetProviderAdminById,
 } from './provider.actions';
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
@@ -96,6 +97,7 @@ export interface ProviderStateModel {
   approvedChildren: SearchResponse<Child[]>;
   providerWorkshops: SearchResponse<ProviderWorkshopCard[]>;
   providerAdmins: SearchResponse<ProviderAdmin[]>;
+  selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
 }
@@ -109,6 +111,7 @@ export interface ProviderStateModel {
     selectedAchievement: null,
     providerWorkshops: null,
     providerAdmins: null,
+    selectedProviderAdmin: null,
     blockedParent: null,
     truncatedItems: null,
   },
@@ -153,6 +156,11 @@ export class ProviderState {
   @Selector()
   static truncated(state: ProviderStateModel): TruncatedItem[] {
     return state.truncatedItems;
+  }
+
+  @Selector()
+  static selectedProviderAdmin(state: ProviderStateModel): ProviderAdmin {
+    return state.selectedProviderAdmin;
   }
 
   constructor(
@@ -813,5 +821,16 @@ export class ProviderState {
       }),
       new GetFilteredProviders(),
     ]);
+  }
+
+  @Action(GetProviderAdminById)
+  getProviderAdminById(
+    { patchState }: StateContext<ProviderStateModel>,
+    { payload }: GetProviderAdminById
+  ): Observable<ProviderAdmin> {
+    patchState({ isLoading: true });
+    return this.providerAdminService
+      .getProviderAdminById(payload)
+      .pipe(tap((selectedProviderAdmin: ProviderAdmin) => patchState({ selectedProviderAdmin, isLoading: false })));
   }
 }

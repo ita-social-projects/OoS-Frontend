@@ -1,4 +1,8 @@
-import { GetWorkshopListByProviderId, UpdateProviderAdmin } from './../../../../shared/store/provider.actions';
+import {
+  GetWorkshopListByProviderId,
+  UpdateProviderAdmin,
+  GetProviderAdminById,
+} from './../../../../shared/store/provider.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { Select, Store } from '@ngxs/store';
@@ -26,7 +30,6 @@ import { Util } from '../../../../shared/utils/utils';
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/truncated.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
-import { SearchResponse } from '../../../../shared/models/search.model';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
@@ -51,8 +54,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   provider$: Observable<Provider>;
   @Select(ProviderState.truncated)
   truncatedItems$: Observable<TruncatedItem[]>;
-  @Select(ProviderState.providerAdmins)
-  providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
+  @Select(ProviderState.selectedProviderAdmin)
+  providerAdmin$: Observable<ProviderAdmin>;
 
   provider: Provider;
   ProviderAdminFormGroup: FormGroup;
@@ -105,12 +108,12 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   setEditMode(): void {
-    this.providerAdmins$
+    this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
+    this.providerAdmin$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
-        const providerAdmin = providerAdmins.entities.find((providerAdmin: ProviderAdmin) => providerAdmin.id === this.providerAdminId);
-        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
-      });
+      .subscribe((providerAdmin: ProviderAdmin) =>
+        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false })
+      );
   }
 
   addNavPath(): void {
