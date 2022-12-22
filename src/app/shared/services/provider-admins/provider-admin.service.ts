@@ -16,6 +16,14 @@ export class ProviderAdminService {
   constructor(private http: HttpClient, private store: Store) {}
 
   /**
+   * This method get provider admin by id
+   * @param id string
+   */
+  getProviderAdminById(id: string): Observable<ProviderAdmin> {
+    return this.http.get<ProviderAdmin>(`/api/v1/ProviderAdmin/GetProviderAdminById/${id}`);
+  }
+
+  /**
    * This method get provider admisn with filter parameters
    */
   getFilteredProviderAdmins(filterParams: ProviderAdminParameters): Observable<SearchResponse<ProviderAdmin[]>> {

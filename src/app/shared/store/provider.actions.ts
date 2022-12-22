@@ -78,7 +78,7 @@ export class GetProviderViewWorkshops {
 
 export class GetFilteredProviderAdmins {
   static readonly type = '[provider] get filtered provider admin users';
-  constructor( public payload: ProviderAdminParameters) {}
+  constructor(public payload: ProviderAdminParameters) {}
 }
 
 export class GetWorkshopListByProviderId {
@@ -308,4 +308,9 @@ export class OnDeleteProviderByIdSuccess {
 export class OnDeleteProviderByIdFail {
   static readonly type = '[provider] delete Provider By Id fail';
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetProviderAdminById {
+  static readonly type = '[provider] get provider admin by id';
+  constructor(public payload: string) {}
 }
