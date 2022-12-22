@@ -1,4 +1,4 @@
-import { PersonalInfoRole, Role } from './../../../../../shared/enum/role';
+import { Role } from './../../../../../shared/enum/role';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
@@ -112,7 +112,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   onSubmit(): void {
     const user = new User(this.userEditFormGroup.value, this.user.id);
-    this.store.dispatch(new UpdateUser(PersonalInfoRole[this.userRole], user));
+    this.store.dispatch(new UpdateUser(user));
   }
 
   onCancel(): void {
