@@ -11,13 +11,6 @@ export enum Role {
   None = 'None'
 }
 
-export enum PersonalInfoRole {
-  provider = 'Provider',
-  parent = 'Parent',
-  techadmin = 'TechAdmin',
-  ministryadmin = 'MinistryAdmin'
-}
-
 export enum RoleLinks {
   provider = 'ENUM.ROLE_LINKS.PROVIDER',
   parent = 'ENUM.ROLE_LINKS.PARENT'
