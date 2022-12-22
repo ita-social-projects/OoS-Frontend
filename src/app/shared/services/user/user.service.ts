@@ -2,28 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
-import { PersonalInfoRole } from '../../enum/role';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  
+  private readonly url = '/api/v1/users/personalinfo';
+
   constructor(private http: HttpClient) {}
 
   /**
-   * This method get Personal Info according to teh user role
-   * @param userRole: PersonalInfoRole
-   * @return user: User
+   * This method get user personal information
    */
-  getPersonalInfo(userRole: PersonalInfoRole): Observable<User> {
-    return this.http.get<User>(`/api/v1/${userRole}/GetPersonalInfo`);
+  getPersonalInfo(): Observable<User> {
+    return this.http.get<User>(this.url);
   }
 
   /**
-   * This method update Personal Info according to teh user role
-   * @param userRole: PersonalInfoRole
-   * @param user: User
-   * @return user: User
+   * This method update user personal information
    */
-  updatePersonalInfo(userRole: PersonalInfoRole, user: User): Observable<User> {
-    return this.http.put<User>(`/api/v1/${userRole}/UpdatePersonalInfo`, user);
+  updatePersonalInfo(user: User): Observable<User> {
+    return this.http.put<User>(this.url, user);
   }
 }
