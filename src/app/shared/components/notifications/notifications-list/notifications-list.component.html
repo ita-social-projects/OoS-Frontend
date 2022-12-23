@@ -34,7 +34,7 @@
           <div [class]="groupByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification header-notification__group-info" (click)="accordionGroupItem.toggle()">
               <div class="info">
-                <span class="info__description">У вас {{ groupByType.amount | declination: ApplicationHeaderDeclinations }}</span>
+                <span class="info__description">У вас {{ groupByType.amount | translateCases: ApplicationHeaderDeclinations }}</span>
               </div>
               <mat-icon [matMenuTriggerFor]="actions" class="icon" (click)="stopPropagation($event)">more_vert</mat-icon>
               <mat-menu #actions="matMenu" xPosition="before" class="notifications-list-menu">
@@ -54,7 +54,7 @@
                 class="header-notification header-notification__group-details info"
                 (click)="onGroupByStatusClick(group)"
               >
-                <span class="info__description info__link">{{ group.amount | declination: defineDeclination(group.groupedData) }}</span>
+                <span class="info__description info__link">{{ group.amount | translateCases: defineDeclination(group.groupedData) }}</span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
             </div>

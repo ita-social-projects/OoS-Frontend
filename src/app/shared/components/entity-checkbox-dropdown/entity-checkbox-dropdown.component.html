@@ -1,5 +1,5 @@
 <mat-form-field class="dropdown-wrapper">
-  <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">{{ getlabelTitle(entities?.length) }}</mat-label>
+  <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">{{ getLabelTitle(entities?.length) }}</mat-label>
   <mat-select
     [disabled]="entities?.length < 1"
     [formControl]="entityControl"
@@ -10,7 +10,7 @@
   >
     <mat-select-trigger>
       <div *ngIf="entityControl.value?.length">
-        <span *ngIf="entityControl.value?.length > 1"> {{ entityControl.value?.length | declination: Declination }} вибрано </span>
+        <span *ngIf="entityControl.value?.length > 1"> {{ entityControl.value?.length | translateCases: Declination }} {{'SELECTED' | translate}} </span>
         <span *ngIf="entityControl.value?.length === 1"> {{ entityControl.value[0].title }} </span>
       </div>
     </mat-select-trigger>

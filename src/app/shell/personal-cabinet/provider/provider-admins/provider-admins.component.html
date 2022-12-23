@@ -11,45 +11,11 @@
         class="search"
         placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом" />
     </div>
-    <ng-template [ngIf]="tabIndex == 0 && subRole === Role.None">
-      <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-        Додати <mat-icon>arrow_drop_down</mat-icon>
-      </button>
-      <mat-menu #add="matMenu" class="header_menu">
-        <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
-          ><button mat-menu-item>Заступника директора</button></a
-        >
-        <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-          ><button mat-menu-item>Адміністратора гуртка</button></a
-        >
-      </mat-menu>
-    </ng-template>
-
-    <ng-template [ngIf]="tabIndex == 1 && subRole === Role.None">
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
-        ><button class="btn" mat-raised-button>Додати</button></a
-      >
-    </ng-template>
-
-    <ng-template [ngIf]="tabIndex == 2 || (tabIndex == 0 && subRole === Role.ProviderDeputy)">
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-        ><button class="btn" mat-raised-button>Додати</button></a
-      >
-    </ng-template>
+    <ng-container *ngIf="subRole === Role.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
 
   <div class="tab-wrapper">
-    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab label="{{ providerAdminRoleUkr.all }}">
-        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
-      </mat-tab>
-      <mat-tab label="{{ providerAdminRoleUkr.deputy }}">
-        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
-      </mat-tab>
-      <mat-tab label="{{ providerAdminRoleUkr.admin }}">
-        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
-      </mat-tab>
-    </mat-tab-group>
+    <ng-container *ngIf="subRole === Role.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
   </div>
 </div>
 
@@ -78,4 +44,58 @@
 
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noProviderAdmins"></app-no-result-card>
+</ng-template>
+
+<ng-template #DeputyBtnViewTmpl>
+  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+    ><button class="btn" mat-raised-button>Додати</button></a
+  >
+</ng-template>
+
+<ng-template #ProviderTableViewTmpl>
+  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab label="{{ providerAdminRoleUkr.all }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+    <mat-tab label="{{ providerAdminRoleUkr.deputy }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+    <mat-tab label="{{ providerAdminRoleUkr.admin }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #DeputyTableViewTmpl>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="{{ providerAdminRoleUkr.admin }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #ProviderViewBtnTmpl>
+  <ng-container *ngIf="tabIndex == 0">
+    <button class="btn" mat-raised-button [matMenuTriggerFor]="add">Додати <mat-icon>arrow_drop_down</mat-icon></button>
+    <mat-menu #add="matMenu" class="header_menu">
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
+        ><button mat-menu-item>Заступника директора</button></a
+      >
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+        ><button mat-menu-item>Адміністратора гуртка</button></a
+      >
+    </mat-menu>
+  </ng-container>
+
+  <ng-container *ngIf="tabIndex == 1">
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
+      ><button class="btn" mat-raised-button>Додати</button></a
+    >
+  </ng-container>
+
+  <ng-container *ngIf="tabIndex == 2">
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+      ><button class="btn" mat-raised-button>Додати</button></a
+    >
+  </ng-container>
 </ng-template>

@@ -73,6 +73,7 @@ import { GetAddressPipe } from './pipes/get-address.pipe';
 import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ProviderStatusBannerComponent } from './components/provider-status-banner/provider-status-banner.component';
+import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 
 @NgModule({
   declarations: [
@@ -138,6 +139,7 @@ import { ProviderStatusBannerComponent } from './components/provider-status-bann
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
     GetAddressPipe,
+    TranslateCasesPipe,
     ProviderStatusBannerComponent
   ],
 
@@ -216,6 +218,7 @@ import { ProviderStatusBannerComponent } from './components/provider-status-bann
     UnregisteredUserWarningModalComponent,
     EmptyValueTransformPipe,
     GetAddressPipe,
+    TranslateCasesPipe,
     ProviderStatusBannerComponent
   ]
 })

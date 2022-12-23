@@ -25,3 +25,7 @@
 .tab {
   max-width: 50px;
 }
+
+:host ::ng-deep .mat-icon-button{
+  width: auto !important;
+}

@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop, WorkshopFilterCard } from '../../shared/models/workshop.model';
-import { DeclinationPipe } from '../../shared/pipes/declination.pipe';
+import { TranslateCasesPipe } from '../../shared/pipes/translate-cases.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('ResultComponent', () => {
@@ -36,7 +36,7 @@ describe('ResultComponent', () => {
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent,
-        DeclinationPipe
+        TranslateCasesPipe
       ]
     }).compileComponents();
   });
