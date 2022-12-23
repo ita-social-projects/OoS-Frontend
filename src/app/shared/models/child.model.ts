@@ -1,6 +1,6 @@
 import { ParentWithContactInfo } from './parent.model';
+import { DataItem } from './item.model';
 import { Person } from './user.model';
-import { SocialGroup } from './socialGroup.model';
 
 export class Child implements Person {
   id: string;
@@ -11,7 +11,7 @@ export class Child implements Person {
   gender: number;
   parentId?: number;
   isParent: boolean;
-  socialGroups: SocialGroup[];
+  socialGroups: DataItem[];
   placeOfLiving: string;
   parent: ParentWithContactInfo;
 

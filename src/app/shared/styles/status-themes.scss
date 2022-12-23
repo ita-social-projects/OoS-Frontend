@@ -34,4 +34,17 @@
       }
     }
   }
+
+  &.Blocked {
+    background: #f9ebe1;
+
+    .status {
+      &-icon,
+      &-title {
+        color: #c72a21;
+      }
+    }
+  }
+  
+
 }

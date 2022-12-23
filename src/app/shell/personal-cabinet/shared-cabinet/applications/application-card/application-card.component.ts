@@ -1,5 +1,5 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import { Statuses } from '../../../../../shared/enum/statuses';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ApplicationStatuses } from '../../../../../shared/enum/statuses';
 import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationIcons } from '../../../../../shared/enum/applications';
 import { ApplicationStatusDescription } from '../../../../../shared/enum/enumUA/applications';
@@ -14,7 +14,7 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./application-card.component.scss']
 })
 export class ApplicationCardComponent implements OnInit {
-  readonly statuses = Statuses;
+  readonly statuses = ApplicationStatuses;
   readonly applicationIcons = ApplicationIcons;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly constants: typeof Constants = Constants;
@@ -40,8 +40,6 @@ export class ApplicationCardComponent implements OnInit {
   @Output() reject = new EventEmitter();
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
-
-  constructor() {}
 
   ngOnInit(): void {
     this.childAge = Util.getChildAge(this.application.child);

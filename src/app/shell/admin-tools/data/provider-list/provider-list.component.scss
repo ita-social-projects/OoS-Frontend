@@ -1,6 +1,5 @@
 @import 'src/app/shared/styles/tables.scss';
 @import 'src/app/shared/styles/search.scss';
-//todo: unite with users statuses
 .provider-list-status {
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
@@ -10,16 +9,14 @@
 .Approved {
   color: #199953;
 }
-.Editing,
-.NeverLogged,
 .Pending {
   color: #ffbd00;
 }
+.Editing {
+  color: #ff8000;
+}
 .Blocked {
   color: #c72a21;
-}
-.Cancel {
-  color: #3849f9;
 }
 .search-bar {
   margin-top: 10px;

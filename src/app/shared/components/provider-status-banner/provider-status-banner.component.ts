@@ -1,24 +1,29 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { ApplicationIcons } from '../../enum/applications';
-import { ProviderStatusDetails, ProviderStatusTitles, Statuses } from '../../enum/statuses';
+import {
+  ProviderStatuses,
+  ProviderStatusDetails,
+  ProviderStatusTitles,
+  UserStatusIcons,
+  UserStatuses,
+} from '../../enum/statuses';
 import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
   selector: 'app-status-banner',
   templateUrl: './provider-status-banner.component.html',
-  styleUrls: ['./provider-status-banner.component.scss']
+  styleUrls: ['./provider-status-banner.component.scss'],
 })
 export class ProviderStatusBannerComponent implements OnInit {
-  readonly Statuses = Statuses;
+  readonly Statuses = ProviderStatuses;
 
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
 
   @Input() editLink: string;
-  @Input() providerStatus: { status: Statuses; statusReason: string };
+  @Input() providerStatus: { status: ProviderStatuses; statusReason: string; isBlocked: boolean };
 
   iconClasses: string;
   statusTitle: string;
@@ -40,11 +45,16 @@ export class ProviderStatusBannerComponent implements OnInit {
   }
 
   private setBannerOptions(): void {
-    this.iconClasses = `${ApplicationIcons[this.providerStatus.status]} status-icon`;
-    this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
+    if (this.providerStatus.isBlocked) {
+      this.iconClasses = `${UserStatusIcons.Blocked} status-icon`;
+      this.statusTitle = UserStatuses.Blocked;
+    } else {
+      this.iconClasses = `${UserStatusIcons[this.providerStatus.status]} status-icon`;
+      this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
+    }
     this.statusDetails = this.providerStatus.statusReason
       ? this.providerStatus.statusReason
       : ProviderStatusDetails[this.providerStatus.status];
-    this.HostElement.classList.value = Statuses[this.providerStatus.status];
+    this.HostElement.classList.value = ProviderStatuses[this.providerStatus.status];
   }
 }

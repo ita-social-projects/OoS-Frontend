@@ -28,7 +28,7 @@ import { CreateProviderAdmin } from '../../../../shared/store/provider.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Util } from '../../../../shared/utils/utils';
 import { Provider } from '../../../../shared/models/provider.model';
-import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { TruncatedItem } from '../../../../shared/models/item.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
 
 const defaultValidators: ValidatorFn[] = [

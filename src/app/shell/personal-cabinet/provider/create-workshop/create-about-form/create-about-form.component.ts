@@ -5,9 +5,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { WorkshopTypeUkr } from '../../../../../shared/enum/enumUA/provider';
 import { PayRateTypeEnum } from '../../../../../shared/enum/enumUA/workshop';
-import { WorkshopType, OwnershipTypeName, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
+import { OwnershipTypes, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
 import { PayRateType } from '../../../../../shared/enum/workshop';
 import { Provider } from '../../../../../shared/models/provider.model';
 import { Workshop } from '../../../../../shared/models/workshop.model';
@@ -20,15 +19,13 @@ import { Workshop } from '../../../../../shared/models/workshop.model';
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  readonly workshopType = WorkshopType;
-  readonly workshopTypeUkr = WorkshopTypeUkr;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly PayRateType = PayRateType;
   readonly PayRateTypeEnum = PayRateTypeEnum;
-  readonly ownershipTypeName = OwnershipTypeName;
+  readonly ownershipType = OwnershipTypes;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,

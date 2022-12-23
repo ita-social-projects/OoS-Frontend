@@ -8,8 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ChildCards } from '../../../../shared/models/child.model';
-import { SocialGroup } from '../../../../shared/models/socialGroup.model';
+import { DataItem } from '../../../../shared/models/item.model';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;
@@ -49,6 +48,5 @@ class MockChildFormComponent {
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
-  @Input() socialGroups: SocialGroup[];
-  @Input() childrenCards: ChildCards[];
+  @Input() socialGroups: DataItem[];
 }

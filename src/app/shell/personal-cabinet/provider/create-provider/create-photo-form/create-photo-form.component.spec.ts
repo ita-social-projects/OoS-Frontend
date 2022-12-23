@@ -44,7 +44,6 @@ describe('CreatePhotoFormComponent', () => {
       imageIds: new FormControl(''),
       description: new FormControl('', Validators.required),
       institutionStatusId: new FormControl(''),
-      institutionType: new FormControl(''),
       institution: new FormControl(''),
       founder: new FormControl('')
     });

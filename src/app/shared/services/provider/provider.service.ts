@@ -4,12 +4,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { InstitutionStatus } from '../../models/institutionStatus.model';
 import { Provider, ProviderStatusUpdateData } from '../../models/provider.model';
 import { SearchResponse } from '../../models/search.model';
+import { DataItem } from '../../models/item.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProviderService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -99,8 +99,15 @@ export class ProviderService {
   /**
    * This method get all institution statuses
    */
-  getInstitutionStatus(): Observable<InstitutionStatus[]> {
-    return this.http.get<InstitutionStatus[]>('/api/v1/InstitutionStatus/Get');
+  getInstitutionStatuses(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/InstitutionStatus/Get');
+  }
+
+  /**
+   * This method get all provider types
+   */
+  getProviderTypes(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/ProviderType/Get');
   }
 
   /**
