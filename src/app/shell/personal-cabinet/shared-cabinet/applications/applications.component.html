@@ -7,8 +7,8 @@
       [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'"
       >info_outline</i
     >
-  
-    <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="mat-application-menu">
+
+    <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="application-menu">
       <app-status-info-card></app-status-info-card>
     </mat-menu>
     <app-entity-checkbox-dropdown
@@ -19,7 +19,7 @@
     >
     </app-entity-checkbox-dropdown>
   </div>
-  
+
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
       <mat-tab label="Усі">
@@ -47,7 +47,6 @@
     </mat-tab-group>
   </div>
 </div>
-
 
 <app-paginator
   *ngIf="!(isLoadingCabinet$ | async) && applicationCards"

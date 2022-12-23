@@ -1,7 +1,7 @@
 @import 'src/app/shared/styles/application-statuses.scss';
 
 .application-popup-status,
-.mat-application-menu,
+.application-menu,
 .application-info-menu {
   i {
     padding-right: 5px;
@@ -20,8 +20,7 @@
 .application-info-description-card {
   color: #aaaaaa;
 }
-.application-info-menu,
-::ng-deep .mat-application-menu {
+.application-info-menu {
   width: 90vw;
   max-width: fit-content;
   display: flex;
