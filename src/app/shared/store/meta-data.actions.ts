@@ -30,7 +30,7 @@ export class GetFeaturesList {
 
 export class GetAllInstitutions {
   static readonly type = '[meta-data] Get All Institutions';
-  constructor() {}
+  constructor(public filterNonGovernment: boolean) {}
 }
 
 export class GetAllInstitutionsHierarchy {

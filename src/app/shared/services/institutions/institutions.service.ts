@@ -9,8 +9,8 @@ import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 
 export class InstitutionsService {
   constructor(private http: HttpClient) {}
 
-  getAllInstitutions(): Observable<Institution[]> {
-    return this.http.get<Institution[]>('/api/v1/Institution/GetAll');
+  getAllInstitutions(filterNonGovernment: boolean): Observable<Institution[]> {
+    return this.http.get<Institution[]>('/api/v1/Institution/GetAll', { params: { filterNonGovernment } });
   }
 
   getAllInstitutionHierarchies(): Observable<InstituitionHierarchy[]> {
