@@ -234,11 +234,6 @@ button:focus {
 }
 
 ::ng-deep  {
-  .mat-form-field {
-    .mat-form-field-wrapper {
-      padding: 0;
-    }
-  }
   .hint-menu {
     width: 600px;
     max-width: max-content;
