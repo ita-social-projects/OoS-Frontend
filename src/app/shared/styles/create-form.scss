@@ -251,5 +251,11 @@ button:focus {
       font-weight: 400;
       font-size: 12px;
     }
+
+    .mat-form-field {
+      .mat-form-field-wrapper {
+        padding: 0;
+      }
+    }
   }
 }
