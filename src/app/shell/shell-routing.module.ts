@@ -30,6 +30,7 @@ import { CreateAchievementComponent } from './personal-cabinet/provider/create-a
 import { ErrorPageComponent } from '../shared/components/error-page/error-page.component';
 import { CreateAdminComponent } from './admin-tools/data/admins/create-admin/create-admin.component';
 import { CreateDirectionComponent } from './admin-tools/data/directions-wrapper/directions/create-direction/create-direction.component';
+import { CreateAdminGuard } from './admin-tools/data/admins/create-admin/create-admin.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -125,6 +126,7 @@ const routes: Routes = [
     path: 'create-admin/:param',
     component: CreateAdminComponent,
     loadChildren: () => import('./admin-tools/admin-tools.module').then((m) => m.AdminToolsModule),
+    canActivate: [CreateAdminGuard],
     canLoad: [AdminToolsGuard],
     canDeactivate: [CreateGuard]
   },
@@ -132,6 +134,7 @@ const routes: Routes = [
     path: 'update-admin/:param/:id',
     component: CreateAdminComponent,
     loadChildren: () => import('./admin-tools/admin-tools.module').then((m) => m.AdminToolsModule),
+    canActivate: [CreateAdminGuard],
     canLoad: [AdminToolsGuard],
     canDeactivate: [CreateGuard]
   },
