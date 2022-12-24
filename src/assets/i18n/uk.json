@@ -70,9 +70,9 @@
       "WORKSHOP_LEFT_ABLATIVE": "гуртків залишено"
     },
     "APPLICATION_REJECTED": {
-      "APPLICATION_REJECTED": "заявка відхилена",
-      "APPLICATIONS_REJECTED": "заявки відхилено",
-      "APPLICATION_REJECTED_ABLATIVE": "заявок відхилено"
+      "APPLICATION_REJECTED": "заявка відмовлена",
+      "APPLICATIONS_REJECTED": "заявки відмовлено",
+      "APPLICATION_REJECTED_ABLATIVE": "заявок відмовлено"
     },
     "CHILD_DECLINATION": {
       "CHILD": "дитина",
