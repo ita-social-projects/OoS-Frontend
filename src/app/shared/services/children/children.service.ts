@@ -5,8 +5,7 @@ import { Observable } from 'rxjs';
 import { Child, ChildrenParameters, RequestParams } from '../../models/child.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
-import { SocialGroup } from '../../models/socialGroup.model';
-import { TruncatedItem } from '../../models/truncated.model';
+import { DataItem, TruncatedItem } from '../../models/item.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
@@ -112,14 +111,7 @@ export class ChildrenService {
   /**
    * This method get all social groups
    */
-  getSocialGroup(): Observable<SocialGroup[]> {
-    return this.http.get<SocialGroup[]>('/api/v1/SocialGroup/Get');
-  }
-
-  /**
-   * This method get all social groups by Id
-   */
-  getSocialGroupById(id: number): Observable<SocialGroup> {
-    return this.http.get<SocialGroup>(`/api/v1/SocialGroup/GetById/${id}`);
+  getSocialGroup(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/SocialGroup/Get');
   }
 }

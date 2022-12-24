@@ -5,13 +5,11 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 import { providerAdminRoleUkr } from '../../enum/enumUA/provider-admin';
-
 import { Role } from '../../enum/role';
-import { ProviderAdminIcons } from '../../enum/provider-admin';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
-import { Statuses, StatusTitles } from '../../enum/statuses';
+import { EmailConfirmationStatuses, UserStatuses, UserStatusesTitles, UserStatusIcons } from '../../enum/statuses';
 
 /**
  * @title Table with sorting
@@ -25,15 +23,14 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
   @Input() isEdit: boolean;
+  @Input() statusesTitles: UserStatuses | EmailConfirmationStatuses;
 
   @Output() delete = new EventEmitter<UsersTable>();
   @Output() block = new EventEmitter<BlockData>();
   @Output() update = new EventEmitter<UsersTable>();
 
-  readonly providerAdminRoleUkr = providerAdminRoleUkr;
-  readonly statusTitles = StatusTitles;
-  readonly statuses = Statuses;
-  readonly providerAdminIcons = ProviderAdminIcons;
+  readonly statuses = UserStatusesTitles;
+  readonly statusIcons = UserStatusIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
   subrole: string;

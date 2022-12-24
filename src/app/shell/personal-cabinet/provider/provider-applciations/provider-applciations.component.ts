@@ -7,7 +7,7 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
-import { Statuses } from '../../../../shared/enum/statuses';
+import { ApplicationStatuses } from '../../../../shared/enum/statuses';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { Role } from '../../../../shared/enum/role';
@@ -26,7 +26,7 @@ import {
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { GetApplicationsByPropertyId, UpdateApplication } from '../../../../shared/store/shared-user.actions';
 import { Observable } from 'rxjs';
-import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { TruncatedItem } from '../../../../shared/models/item.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
@@ -90,7 +90,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    * @param Application event
    */
   onApprove(application: Application): void {
-    const applicationUpdate = new ApplicationUpdate(application, Statuses.Approved);
+    const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
@@ -104,7 +104,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
-        const applicationUpdate = new ApplicationUpdate(application, Statuses.Rejected, application?.rejectionMessage);
+        const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Rejected, application?.rejectionMessage);
         this.store.dispatch(new UpdateApplication(applicationUpdate));
       }
     });

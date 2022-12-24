@@ -7,9 +7,7 @@ import { AchievementType } from '../models/achievement.model';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FeaturesList } from '../models/featuresList.model';
-import { InstitutionStatus } from '../models/institutionStatus.model';
 import { Rate } from '../models/rating';
-import { SocialGroup } from '../models/socialGroup.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CodeficatorService } from '../services/codeficator/codeficator.service';
@@ -23,7 +21,7 @@ import { InstitutionsService } from '../services/institutions/institutions.servi
 import {
   GetSocialGroup,
   GetDirections,
-  GetInstitutionStatus,
+  GetInstitutionStatuses,
   ClearCodeficatorSearch,
   ClearRatings,
   GetAchievementsType,
@@ -38,13 +36,16 @@ import {
   GetInstitutionHierarchyParentsById,
   GetRateByEntityId,
   ResetInstitutionHierarchy,
+  GetProviderTypes,
 } from './meta-data.actions';
 import { SearchResponse } from '../models/search.model';
+import { DataItem } from '../models/item.model';
 
 export interface MetaDataStateModel {
   directions: Direction[];
-  socialGroups: SocialGroup[];
-  institutionStatuses: InstitutionStatus[];
+  socialGroups: DataItem[];
+  institutionStatuses: DataItem[];
+  providerTypes: DataItem[];
   achievementsTypes: AchievementType[];
   rating: SearchResponse<Rate[]>;
   isLoading: boolean;
@@ -63,6 +64,7 @@ export interface MetaDataStateModel {
     directions: null,
     socialGroups: [],
     institutionStatuses: null,
+    providerTypes: null,
     achievementsTypes: null,
     rating: null,
     isLoading: false,
@@ -84,13 +86,18 @@ export class MetaDataState {
   }
 
   @Selector()
-  static socialGroups(state: MetaDataStateModel): SocialGroup[] {
+  static socialGroups(state: MetaDataStateModel): DataItem[] {
     return state.socialGroups;
   }
 
   @Selector()
-  static institutionStatuses(state: MetaDataStateModel): InstitutionStatus[] {
+  static institutionStatuses(state: MetaDataStateModel): DataItem[] {
     return state.institutionStatuses;
+  }
+
+  @Selector()
+  static providerTypes(state: MetaDataStateModel): DataItem[] {
+    return state.providerTypes;
   }
 
   @Selector()
@@ -168,22 +175,30 @@ export class MetaDataState {
   }
 
   @Action(GetSocialGroup)
-  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, {}: GetSocialGroup): Observable<SocialGroup[]> {
+  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, {}: GetSocialGroup): Observable<DataItem[]> {
     patchState({ isLoading: true });
     return this.childrenService
       .getSocialGroup()
-      .pipe(tap((socialGroups: SocialGroup[]) => patchState({ socialGroups, isLoading: false })));
+      .pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
   }
 
-  @Action(GetInstitutionStatus)
-  getInstitutionStatus(
+  @Action(GetInstitutionStatuses)
+  getInstitutionStatuses(
     { patchState }: StateContext<MetaDataStateModel>,
-    {}: GetInstitutionStatus
-  ): Observable<InstitutionStatus[]> {
+    {}: GetInstitutionStatuses
+  ): Observable<DataItem[]> {
     patchState({ isLoading: true });
     return this.providerService
-      .getInstitutionStatus()
-      .pipe(tap((institutionStatuses: InstitutionStatus[]) => patchState({ institutionStatuses, isLoading: false })));
+      .getInstitutionStatuses()
+      .pipe(tap((institutionStatuses: DataItem[]) => patchState({ institutionStatuses, isLoading: false })));
+  }
+
+  @Action(GetProviderTypes)
+  getProviderTypes({ patchState }: StateContext<MetaDataStateModel>, {}: GetProviderTypes): Observable<DataItem[]> {
+    patchState({ isLoading: true });
+    return this.providerService
+      .getProviderTypes()
+      .pipe(tap((providerTypes: DataItem[]) => patchState({ providerTypes, isLoading: false })));
   }
 
   @Action(ClearRatings)
@@ -199,11 +214,7 @@ export class MetaDataState {
     patchState({ isLoading: true });
     return this.ratingService
       .getRateByEntityId(enitityType, entitytId)
-      .pipe(
-        tap((rating: SearchResponse<Rate[]>) =>
-          patchState({ rating: rating ?? EMPTY_RESULT, isLoading: false })
-        )
-      );
+      .pipe(tap((rating: SearchResponse<Rate[]>) => patchState({ rating: rating ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(GetFeaturesList)

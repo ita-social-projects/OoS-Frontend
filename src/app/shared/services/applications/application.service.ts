@@ -1,4 +1,4 @@
-import { Statuses } from './../../enum/statuses';
+import { ApplicationStatuses } from './../../enum/statuses';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PaginatorState } from '../../store/paginator.state';
@@ -19,7 +19,7 @@ export class ApplicationService {
 
     if (parameters) {
       if (parameters.statuses.length) {
-        parameters.statuses.forEach((status: Statuses) => (params = params.append('Statuses', status)));
+        parameters.statuses.forEach((status: ApplicationStatuses) => (params = params.append('Statuses', status)));
       }
 
       if (parameters.workshops?.length) {

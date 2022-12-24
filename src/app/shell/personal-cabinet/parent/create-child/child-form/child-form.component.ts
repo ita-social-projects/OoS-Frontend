@@ -5,8 +5,8 @@ import { MatOption } from '@angular/material/core';
 import { Constants } from '../../../../../shared/constants/constants';
 import { DATE_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { SocialGroup } from '../../../../../shared/models/socialGroup.model';
 import { Util } from '../../../../../shared/utils/utils';
+import { DataItem } from '../../../../../shared/models/item.model';
 
 @Component({
   selector: 'app-child-form',
@@ -22,7 +22,7 @@ export class ChildFormComponent implements OnInit {
   @Input() ChildFormGroup: FormGroup;
   @Input() index: number;
   @Input() childrenAmount: number;
-  @Input() socialGroups: SocialGroup[];
+  @Input() socialGroups: DataItem[];
 
   @Output() deleteForm = new EventEmitter();
 
@@ -41,7 +41,7 @@ export class ChildFormComponent implements OnInit {
    * This method remove selected option from formControl
    * @param group SocialGroup
    */
-  onRemoveItem(group: SocialGroup): void {
+  onRemoveItem(group: DataItem): void {
     this.socialGroupControl.value.splice(this.socialGroupControl.value.indexOf(group), 1);
     this.select.options.find((option: MatOption) => option.value.id === group.id).deselect();
   }
@@ -50,16 +50,16 @@ export class ChildFormComponent implements OnInit {
    * This method disabled option if there is selected value in social group form control and this value is None
    * @param option SocialGroup
    */
-  checkDisabled(option: SocialGroup): boolean {
+  checkDisabled(option: DataItem): boolean {
     if (!this.socialGroupControl.value.length) {
       return false;
     } else {
-      const isNoneValueSelected = this.socialGroupControl.value.some((group: SocialGroup) => group.id === this.NONE_SOCIAL_GROUP_ID);
+      const isNoneValueSelected = this.socialGroupControl.value.some((group: DataItem) => group.id === this.NONE_SOCIAL_GROUP_ID);
       return option.id === this.NONE_SOCIAL_GROUP_ID ? !isNoneValueSelected : isNoneValueSelected;
     }
   }
 
-  compareSocialGroups(group: SocialGroup, group2: SocialGroup): boolean {
+  compareSocialGroups(group: DataItem, group2: DataItem): boolean {
     return group.id === group2.id;
   }
 

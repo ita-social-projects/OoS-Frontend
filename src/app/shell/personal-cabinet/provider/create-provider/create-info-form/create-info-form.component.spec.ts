@@ -53,14 +53,13 @@ describe('CreateInfoFormComponent', () => {
       directorDateOfBirth: new FormControl(''),
       phoneNumber: new FormControl(''),
       email: new FormControl(''),
-      website: new FormControl(''),
-      facebook: new FormControl(''),
-      instagram: new FormControl(''),
-      type: new FormControl(null),
+      typeId: new FormControl(null),
       ownership: new FormControl(null),
       institution: new FormControl(''),
-      coverImage: new FormControl(''),
-      coverImageId: new FormControl('')
+      institutionType: new FormControl(''),
+      license: new FormControl(''),
+      founder: new FormControl(''),
+      institutionStatusId: new FormControl(''),
     });
     fixture.detectChanges();
   });

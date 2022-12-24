@@ -1,29 +1,29 @@
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { CreateProviderSteps, OwnershipType, ProviderType } from '../../enum/provider';
+import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
 import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
-import { InstitutionStatus } from '../../models/institutionStatus.model';
-import { GetInstitutionStatus } from '../../store/meta-data.actions';
+import { GetInstitutionStatuses } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypes, OwnershipTypeEnum, ProviderTypeUkr } from '../../enum/enumUA/provider';
+import { InstitutionTypesEnum, OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { Constants } from '../../constants/constants';
 import { ActivateEditMode } from '../../store/app.actions';
+import { DataItem } from '../../models/item.model';
 
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
-  styleUrls: ['./provider-info.component.scss']
+  styleUrls: ['./provider-info.component.scss'],
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
-  readonly providerType: typeof ProviderType = ProviderType;
-  readonly ownershipType: typeof OwnershipType = OwnershipType;
-  readonly OwnershipTypeEnum = OwnershipTypeEnum;
-  readonly providerTypeUkr = ProviderTypeUkr;
+  
+  readonly ownershipTypes = OwnershipTypes;
+  readonly ownershipTypesEnum = OwnershipTypesEnum;
   readonly institutionTypes = InstitutionTypes;
+  readonly institutionTypesEnum = InstitutionTypesEnum;
 
   editLink: string = CreateProviderSteps[0];
 
@@ -34,24 +34,22 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses$: Observable<DataItem[]>;
   institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new GetInstitutionStatus());
+    this.store.dispatch(new GetInstitutionStatuses());
     this.institutionStatuses$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((institutionStatuses: InstitutionStatus[]) => !!institutionStatuses)
-      )
-      .subscribe((institutionStatuses: InstitutionStatus[]) => {
-        this.institutionStatusName = institutionStatuses.find(
-          (item: InstitutionStatus) => item.id === this.provider.institutionStatusId
-        ).name;
-      });
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(
+        (institutionStatuses: DataItem[]) =>
+          (this.institutionStatusName = institutionStatuses.find(
+            (item: DataItem) => item.id === this.provider.institutionStatusId
+          ).name)
+      );
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {

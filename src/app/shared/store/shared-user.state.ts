@@ -1,3 +1,4 @@
+import { ApplicationStatuses } from './../enum/statuses';
 import { Injectable } from '@angular/core';
 import { State, Action, StateContext, Selector } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
@@ -21,7 +22,6 @@ import {
   OnGetProviderByIdFail,
   ResetProviderWorkshopDetails,
 } from './shared-user.actions';
-import { Statuses } from '../enum/statuses';
 import { messageStatus, SnackbarText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchResponse } from '../models/search.model';
@@ -187,7 +187,7 @@ export class SharedUserState {
   ): void {
     dispatch(
       new ShowMessageBar({
-        message: payload.status === Statuses.Left ? messageStatus.left : messageStatus.approved,
+        message: payload.status === ApplicationStatuses.Left ? messageStatus.left : messageStatus.approved,
         type: 'success',
       })
     );

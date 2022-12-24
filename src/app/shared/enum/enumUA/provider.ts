@@ -1,26 +1,13 @@
-export enum OwnershipTypeEnum {
+export enum OwnershipTypesEnum {
   State = 'ENUM.OWNERSHIP_TYPE.STATE',
   Common = 'ENUM.OWNERSHIP_TYPE.COMMON',
   Private = 'ENUM.OWNERSHIP_TYPE.PRIVATE'
 }
 
-export enum InstitutionTypes {
-  Complex = 'Комплексний',
-  Profile = 'Профільний',
-  Specialized = 'Спеціалізований'
+export enum InstitutionTypesEnum {
+  Complex = 'ENUM.INSTITUTION_TYPE.COMPLEX',
+  Profile = 'ENUM.INSTITUTION_TYPE.PROFILE',
+  Specialized = 'ENUM.INSTITUTION_TYPE.SPECIALIZED',
+  Other = 'ENUM.INSTITUTION_TYPE.OTHER',
 }
 
-export enum WorkshopTypeUkr {
-  'Гурток',
-  'Секція',
-  'Клас'
-}
-
-export enum ProviderTypeUkr {
-  'ФОП',
-  'Громадська організація',
-  'ТОВ',
-  'ПП',
-  'Заклад освіти',
-  'Інше'
-}

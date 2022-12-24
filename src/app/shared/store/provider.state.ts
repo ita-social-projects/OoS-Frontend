@@ -1,3 +1,4 @@
+import { ProviderStatuses } from './../enum/statuses';
 import { GetApplicationsByPropertyId } from './shared-user.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -84,11 +85,10 @@ import {
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
-import { TruncatedItem } from '../models/truncated.model';
+import { TruncatedItem } from '../models/item.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetFilteredProviders } from './admin.actions';
-import { Statuses } from '../enum/statuses';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -525,7 +525,7 @@ export class ProviderState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.status == Statuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
+        message: payload.status == ProviderStatuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
         type: 'success',
       }),
       new MarkFormDirty(false),

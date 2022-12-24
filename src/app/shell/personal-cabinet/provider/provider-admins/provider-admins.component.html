@@ -24,6 +24,7 @@
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
+          [statusesTitles]="statusesTitles"
           [users]="users"
           [isEdit]="true"
           (delete)="onDelete($event)"

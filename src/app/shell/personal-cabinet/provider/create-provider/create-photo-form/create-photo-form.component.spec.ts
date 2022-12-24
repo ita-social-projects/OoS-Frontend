@@ -43,10 +43,9 @@ describe('CreatePhotoFormComponent', () => {
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
       description: new FormControl('', Validators.required),
-      institutionStatusId: new FormControl(''),
-      institutionType: new FormControl(''),
-      institution: new FormControl(''),
-      founder: new FormControl('')
+      facebook: new FormControl(''),
+      instagram: new FormControl(''),
+      website: new FormControl('')
     });
     fixture.detectChanges();
   });

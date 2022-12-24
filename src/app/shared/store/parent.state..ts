@@ -42,7 +42,7 @@ import {
 } from './parent.actions';
 import { Location } from '@angular/common';
 import { RatingService } from '../services/rating/rating.service';
-import { TruncatedItem } from '../models/truncated.model';
+import { TruncatedItem } from '../models/item.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
 import { SnackbarText } from '../enum/messageBar';

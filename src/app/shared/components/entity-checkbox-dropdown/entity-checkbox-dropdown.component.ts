@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { TruncatedItem } from '../../models/truncated.model';
+import { TruncatedItem } from '../../models/item.model';
 import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
 import { TranslateService } from '@ngx-translate/core';
 
