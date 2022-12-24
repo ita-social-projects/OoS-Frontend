@@ -1,65 +1,72 @@
 import { Institution } from './institution.model';
 import { Address } from './address.model';
 import { User } from './user.model';
-import { Workshop } from './workshop.model';
 import { SectionItem } from './sectionItem.model';
-import { Statuses } from '../enum/statuses';
+import { LicenseStatuses, ProviderStatuses } from '../enum/statuses';
+import { DataItem } from './item.model';
+import { InstitutionTypes, OwnershipTypes } from '../enum/provider';
 
 export class Provider {
   id: string;
-  userId: string;
-  fullTitle?: string;
+  fullTitle: string;
   shortTitle: string;
   website?: string;
-  email: string;
   facebook?: string;
   instagram?: string;
-  description?: string;
-  edrpouIpn?: string;
-  director?: string;
-  directorDateOfBirth?: string | Date;
-  phoneNumber?: string;
-  founder?: string;
-  ownership?: string;
-  type?: number;
-  status?: Statuses;
-  statusReason: string;
-  legalAddress?: Address;
-  actualAddress?: Address;
-  workshop?: Workshop;
+  email: string;
+  edrpouIpn: string;
+  director: string;
+  directorDateOfBirth: string | Date;
+  phoneNumber: string;
+  founder: string;
+  ownership: OwnershipTypes;
+  typeId?: number;
+  type?: DataItem;
+  status: ProviderStatuses;
+  statusReason?: string;
+  license?: string;
+  licenseStatus?: LicenseStatuses;
+  isBlocked?: boolean;
+  blockReason?: string;
   imageFiles?: File[];
   imageIds?: string[];
-  coverImage?: File[];
-  coverImageId?: string[];
-  institutionStatusId?: number | null;
-  providerSectionItems: ProviderSectionItem[];
-  institutionType: string;
+  rating?: number;
+  numberOfRatings?: number;
+  userId: string;
+  legalAddress: Address;
+  actualAddress?: Address;
+  institutionStatusId?: number;
+  institutionId?: string;
   institution: Institution;
-  institutionId: string;
+  institutionType: InstitutionTypes;
+  providerSectionItems: ProviderSectionItem[];
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
     this.shortTitle = info.shortTitle;
     this.ownership = info.ownership;
-    this.type = info.type;
+    this.typeId = info.typeId;
     this.fullTitle = info.fullTitle;
-    this.website = info.website;
-    this.instagram = info.instagram;
-    this.facebook = info.facebook;
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.edrpouIpn = info.edrpouIpn;
     this.director = info.director;
     this.directorDateOfBirth = new Date(info.directorDateOfBirth).toISOString();
-    this.founder = description.founder;
+    if (info.institutionStatusId) {
+      this.institutionStatusId = info.institutionStatusId;
+    }
+    if (info.license) {
+      this.license = info.license;
+    }
+    this.founder = info.founder;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
-    if (description?.institutionStatusId) {
-      this.institutionStatusId = description.institutionStatusId;
-    }
-    this.institutionType = description.institutionType;
+    this.institutionType = info.institutionType;
     this.userId = user.id;
-    this.institution = description.institution;
+    this.institution = info.institution;
     this.institutionId = info.institution.id;
+    this.website = description.website;
+    this.instagram = description.instagram;
+    this.facebook = description.facebook;
     if (provider?.id) {
       this.id = provider.id;
     }
@@ -69,12 +76,6 @@ export class Provider {
     }
     if (description.imageIds?.length) {
       this.imageIds = description.imageIds;
-    }
-    if (info.coverImage?.length) {
-      this.coverImage = info.coverImage;
-    }
-    if (info.coverImageId?.length) {
-      this.coverImageId = info.coverImageId[0];
     }
   }
 
@@ -102,7 +103,6 @@ export class ProviderSectionItem extends SectionItem {
 
   constructor(info) {
     super(info);
-
     if (info.providerId) {
       this.providerId = info.providerId;
     }
@@ -111,10 +111,10 @@ export class ProviderSectionItem extends SectionItem {
 
 export class ProviderStatusUpdateData {
   providerId: string;
-  status: string;
+  status: ProviderStatuses;
   statusReason?: string;
 
-  constructor(providerId: string, status: string, statusReason?: string) {
+  constructor(providerId: string, status: ProviderStatuses, statusReason?: string) {
     this.providerId = providerId;
     this.status = status;
     if (statusReason) {

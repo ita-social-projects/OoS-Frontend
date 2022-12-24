@@ -1,5 +1,5 @@
+import { ApplicationStatuses } from './../../enum/statuses';
 import { ProviderWorkshopCard } from '../../models/workshop.model';
-import { OwnershipTypeName } from '../../enum/provider';
 import { Favorite } from '../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
@@ -17,13 +17,14 @@ import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/worksh
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkshopOpenStatus } from '../../enum/workshop';
-import { OwnershipTypeEnum } from '../../enum/enumUA/provider';
+import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
-import { Statuses, StatusTitles } from '../../enum/statuses';
+import { ApplicationStatusTitles } from '../../enum/statuses';
 import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { OwnershipTypes } from '../../enum/provider';
 
 @Component({
   selector: 'app-workshop-card',
@@ -31,7 +32,7 @@ import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warnin
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-  readonly OwnershipTypeEnum = OwnershipTypeEnum;
+  readonly OwnershipTypeEnum = OwnershipTypesEnum;
   readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   readonly Role = Role;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
@@ -40,8 +41,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly workhopStatus = WorkshopOpenStatus;
   readonly modalConfirmationType = ModalConfirmationType;
-  readonly statuses = Statuses;
-  readonly statusTitles = StatusTitles;
+  readonly statuses = ApplicationStatuses;
+  readonly statusTitles = ApplicationStatusTitles;
 
   openDialog = false;
   isFavorite = false;
@@ -72,7 +73,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     if (this.isCabinetView) {
       this.canChangeWorkshopStatus = !(
-        this.workshopData.providerOwnership === OwnershipTypeName.State ||
+        this.workshopData.providerOwnership === OwnershipTypes.State ||
         (this.workshopData as ProviderWorkshopCard).availableSeats === this.UNLIMITED_SEATS
       );
     }

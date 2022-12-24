@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil } from 'rxjs';
 import { Provider } from '../../../../shared/models/provider.model';
-import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { TruncatedItem } from '../../../../shared/models/item.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { Role } from '../../../../shared/enum/role';
 import { RegistrationState } from '../../../../shared/store/registration.state';

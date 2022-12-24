@@ -1,25 +1,18 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter, first } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngxs/store';
 import { CropperConfigurationConstants, Constants } from '../../../../../shared/constants/constants';
-import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { InstitutionTypes } from '../../../../../shared/enum/enumUA/provider';
-import { InstitutionStatus } from '../../../../../shared/models/institutionStatus.model';
 import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
-import { GetInstitutionStatus } from '../../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-photo-form',
   templateUrl: './create-photo-form.component.html',
   styleUrls: ['./create-photo-form.component.scss'],
 })
-export class CreatePhotoFormComponent implements OnInit, OnDestroy {
+export class CreatePhotoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  readonly institutionTypes = InstitutionTypes;
+
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -36,46 +29,28 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
 
   @Output() passPhotoFormGroup = new EventEmitter();
 
-  @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
-  institutionStatuses: InstitutionStatus[];
-
   PhotoFormGroup: FormGroup;
   SectionItemsFormArray = new FormArray([]);
   editFormGroup: FormGroup;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  get providerSectionItemsControl(): AbstractControl {
+    return this.PhotoFormGroup.get('providerSectionItems');
+  }
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
     this.PhotoFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
       providerSectionItems: this.SectionItemsFormArray,
-      institutionStatusId: new FormControl('', Validators.required),
-      institutionType: new FormControl('', Validators.required),
-      founder: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-      ]),
+      website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
     });
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetInstitutionStatus());
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-
-    this.institutionStatuses$
-      .pipe(filter(Boolean), first(), takeUntil(this.destroy$))
-      .subscribe((institutionStatuses: InstitutionStatus[]) => {
-        this.institutionStatuses = institutionStatuses;
-        if (this.provider) {
-          this.activateEditMode();
-        } else {
-          this.onAddForm();
-          this.PhotoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
-        }
-      });
+    this.provider && this.activateEditMode();
   }
 
   private activateEditMode(): void {
@@ -121,8 +96,8 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   onAddForm(): void {
-    if (this.PhotoFormGroup.get('providerSectionItems')) {
-      (this.PhotoFormGroup.get('providerSectionItems') as FormArray).push(this.newForm());
+    if (this.providerSectionItemsControl) {
+      (this.providerSectionItemsControl as FormArray).push(this.newForm());
     }
   }
 
@@ -132,10 +107,5 @@ export class CreatePhotoFormComponent implements OnInit, OnDestroy {
    */
   onDeleteForm(index: number): void {
     this.SectionItemsFormArray.removeAt(index);
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

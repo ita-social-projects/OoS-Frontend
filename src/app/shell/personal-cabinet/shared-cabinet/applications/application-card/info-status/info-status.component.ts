@@ -10,7 +10,7 @@ import { Provider } from '../../../../../../shared/models/provider.model';
 import { RegistrationState } from '../../../../../../shared/store/registration.state';
 import { ProviderState } from '../../../../../../shared/store/provider.state';
 import { GetBlockedParents, OnClearBlockedParents } from '../../../../../../shared/store/provider.actions';
-import { Statuses, StatusTitles } from '../../../../../../shared/enum/statuses';
+import { ApplicationStatuses, ApplicationStatusTitles } from '../../../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-info-status',
@@ -18,7 +18,7 @@ import { Statuses, StatusTitles } from '../../../../../../shared/enum/statuses';
   styleUrls: ['./info-status.component.scss']
 })
 export class InfoStatusComponent implements OnInit, OnDestroy {
-  readonly statusTitles = StatusTitles;
+  readonly statusTitles = ApplicationStatusTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
 
@@ -27,13 +27,13 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() application: Application = null;
-  status: Statuses;
+  status: ApplicationStatuses;
   reason: string;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.status = this.application.isBlocked ? Statuses.Blocked : Statuses[this.application.status];
+    this.status = this.application.isBlocked ? ApplicationStatuses.Blocked : ApplicationStatuses[this.application.status];
     this.reason = !this.application.isBlocked && this.application.rejectionMessage;
   }
 

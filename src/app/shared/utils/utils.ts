@@ -1,14 +1,14 @@
+import { EmailConfirmationStatuses } from './../enum/statuses';
 import { DefaultFilterState } from '../models/defaultFilterState.model';
 import { FilterStateModel } from '../models/filterState.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { Constants } from '../constants/constants';
 import { CodeMessageErrors } from '../enum/enumUA/errors';
 import { PersonalCabinetTitle } from '../enum/navigation-bar';
 import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
-import { Statuses } from '../enum/statuses';
+import { UserStatuses } from '../enum/statuses';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -134,7 +134,7 @@ export class Util {
         email: user.parent.email,
         phoneNumber: user.parent.phoneNumber,
         role: user.isParent ? 'Батьки' : 'Діти',
-        status: user.parent.emailConfirmed ? Statuses.Accepted : Statuses.NeverLogged
+        status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending
       });
     });
     return updatedUsers;
@@ -154,7 +154,7 @@ export class Util {
         email: admin.email,
         phoneNumber: admin.phoneNumber,
         role: admin.id,
-        status: admin.accountStatus || Statuses.Accepted
+        status: admin.accountStatus || UserStatuses.Accepted
       });
     });
     return updatedAdmins;

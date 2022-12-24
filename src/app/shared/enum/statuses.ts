@@ -1,4 +1,26 @@
-export enum Statuses {
+// Statuses for Provider Lisence Review
+export enum LicenseStatuses {
+  NotProvided = 'NotProvided',
+  Pending = 'Pending',
+  Approved = 'Approved',
+}
+
+// Statuses for Provider Data Review 
+export enum ProviderStatuses {
+  Approved = 'Approved',
+  Pending = 'Pending',
+  Editing = 'Editing',
+}
+
+// Statuses for Ministry Admin Logging
+export enum UserStatuses {
+  NeverLogged = 'NeverLogged',
+  Accepted = 'Accepted',
+  Blocked = 'Blocked',
+}
+
+// Statuses for Applications
+export enum ApplicationStatuses {
   Pending = 'Pending',
   AcceptedForSelection = 'AcceptedForSelection',
   Approved = 'Approved',
@@ -6,13 +28,19 @@ export enum Statuses {
   Completed = 'Completed',
   Rejected = 'Rejected',
   Left = 'Left',
-  NeverLogged = 'NeverLogged',
-  Accepted = 'Accepted',
   Blocked = 'Blocked',
-  Editing = 'Editing'
 }
 
-export enum StatusTitles {
+// Statuses for user Email Confirmation
+export enum EmailConfirmationStatuses {
+  Pending = 'Pending',
+  Confirmed = 'Confirmed',
+}
+
+//UKRAINIAN TRANSLATION
+//TODO: should be localized
+
+export enum ApplicationStatusTitles {
   All = 'Усі',
   Pending = 'Очікує підтвердження',
   Approved = 'Зараховано',
@@ -21,10 +49,20 @@ export enum StatusTitles {
   AcceptedForSelection = 'Прийнято до конкурсного відбору',
   StudyingForYears = 'Навчається 1-11 років',
   Completed = 'Навчання завершено',
+  Blocked = 'Заблоковано'
+}
+
+// Statuses for user Email Confirmation
+export enum EmailConfirmationStatusesTitles {
+  Pending = 'Очікує підтвердження ел. пошти',
+  Confirmed = 'Ел. пошта підтверджена',
+}
+
+// Statuses for user Email Confirmation
+export enum UserStatusesTitles {
   NeverLogged = 'Очікує логування',
-  Accepted = 'Підтвердженно',
-  Blocked = 'Заблоковано',
-  Editing = 'Відправлено на редагування'
+  Accepted = 'Підтверджений',
+  Blocked = 'Заблокований',
 }
 
 export enum ProviderStatusTitles {
@@ -50,4 +88,14 @@ export enum StatusTitlesReverse {
   'Заблоковано' = 'Blocked',
   'Очікує логування' = 'NeverLogged',
   'Підтвердженно' = 'Accepted'
+}
+
+export enum UserStatusIcons {
+  NeverLogged = 'fas fa-user-clock',
+  Pending = 'fas fa-user-clock',
+  Accepted = 'fas fa-user-check',
+  Approved = 'fas fa-user-check',
+  Confrimed = 'fas fa-user-check',
+  Blocked = 'fas fa-user-times',
+  Editing = 'fas fa-user-edit'
 }

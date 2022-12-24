@@ -1,3 +1,4 @@
+import { EmailConfirmationStatuses, EmailConfirmationStatusesTitles } from './../../../../shared/enum/statuses';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -28,6 +29,7 @@ import { Util } from '../../../../shared/utils/utils';
 export class UsersComponent implements OnInit, OnDestroy {
   readonly userRoleUkr = UserTabsUkr;
   readonly noUsers = NoResultsTitle.noUsers;
+  readonly statusesTitles = EmailConfirmationStatusesTitles;
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
