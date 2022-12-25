@@ -12,7 +12,6 @@ import { NgxsModule } from '@ngxs/store';
 import { Address } from '../../models/address.model';
 import { Provider } from '../../models/provider.model';
 import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
-
 import { ProviderInfoComponent } from './provider-info.component';
 import { TranslateModule } from '@ngx-translate/core';
 

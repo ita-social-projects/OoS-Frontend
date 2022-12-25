@@ -1,3 +1,5 @@
+import { LicenseStatusTitles } from './../../../../shared/enum/statuses';
+import { LicenseStatusData } from './../../../../shared/models/provider.model';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -20,11 +22,21 @@ import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { ProviderStatuses, ProviderStatusTitles, UserStatusesTitles, UserStatusIcons } from '../../../../shared/enum/statuses';
+import {
+  LicenseStatuses,
+  ProviderStatuses,
+  ProviderStatusTitles,
+  UserStatusIcons,
+} from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderStatus } from './../../../../shared/store/provider.actions';
+import {
+  DeleteProviderById,
+  UpdateProviderStatus,
+  UpdateProviderLicenseStatuse,
+} from './../../../../shared/store/provider.actions';
+import { OwnershipTypes } from '../../../../shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
@@ -37,9 +49,13 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   readonly noProviders = NoResultsTitle.noProviders;
   readonly ModeConstants = ModeConstants;
   readonly OwnershipTypeEnum = OwnershipTypesEnum;
+  readonly ownershipTypes = OwnershipTypes;
   readonly statusIcons = UserStatusIcons;
   readonly statuses = ProviderStatuses;
-  readonly statusTitles = ProviderStatusTitles;
+  readonly providerStatusTitles = ProviderStatusTitles;
+
+  readonly licenseStatuses = LicenseStatuses;
+  readonly licenseStatusTitles = LicenseStatusTitles;
 
   @Select(AdminState.providers)
   providers$: Observable<SearchResponse<Provider[]>>;
@@ -89,6 +105,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe((providers: SearchResponse<Provider[]>) => {
         this.dataSource = new MatTableDataSource(providers.entities);
+        console.log(this.dataSource)
         this.dataSource.sort = this.sort;
         this.totalEntities = providers.totalAmount;
       });
@@ -127,12 +144,28 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.editingProvider },
       });
-      dialogRef.afterClosed().subscribe((statusReason: string) => {
-        statusReason && this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }));
-      });
+      dialogRef
+        .afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe((statusReason: string) =>
+          this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }))
+        );
     } else {
       this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
     }
+  }
+
+  onLicenseApprove(providerId: string): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      data: { type: ModalConfirmationType.licenseApproved },
+    });
+
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe((result: boolean) =>
+        this.store.dispatch(new UpdateProviderLicenseStatuse({ providerId, licenseStatus: LicenseStatuses.Approved }))
+      );
   }
 
   onDelete(provider: Provider): void {
@@ -144,9 +177,10 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       },
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteProviderById(provider.id));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe((result: boolean) => this.store.dispatch(new DeleteProviderById(provider.id)));
   }
 
   onPageChange(page: PaginationElement): void {

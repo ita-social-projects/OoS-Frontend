@@ -132,6 +132,11 @@
       "PRIVATE": "Private",
       "STATE": "State"
     },
+    "LICENSE_STATUS": {
+      "NOT_PROVIDED": "Not provided",
+      "APPROVED": "Approved",
+      "PENDING": "Pending"
+    },
     "PAY_RATE_TYPE": {
       "ALL_PERIOD": "All period",
       "CLASS": "Class",
@@ -308,6 +313,7 @@
   "OPEN_RECRUITMENT_ONLY": "Only with open recruitment",
   "ORGANIZATION_TYPE": "Organization type",
   "OWNERSHIP": "Ownership",
+  "LICENSE": "License",
   "INSTITUTION_CATEGORY":"Provider category",
   "PAID": "Paid",
   "PASSWORD": "Password",

@@ -122,3 +122,8 @@ export class ProviderStatusUpdateData {
     }
   }
 }
+
+export interface LicenseStatusData {
+  providerId: string;
+  licenseStatus: LicenseStatuses;
+}
