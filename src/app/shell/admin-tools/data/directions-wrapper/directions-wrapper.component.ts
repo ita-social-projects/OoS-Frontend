@@ -15,11 +15,12 @@ import { GetAllInstitutions } from '../../../../shared/store/meta-data.actions';
 export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
-  
+
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch([new GetAllInstitutions(),
+    this.store.dispatch([
+      new GetAllInstitutions(true),
       new PushNavPath({
         name: NavBarName.Directions,
         isActive: false,

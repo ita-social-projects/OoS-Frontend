@@ -59,6 +59,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
   adminParams: MinistryAdminParameters = {
     searchString: '',
     tabTitle: undefined,
@@ -72,6 +73,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.setTabOptions();
+
     this.filterFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
@@ -86,7 +89,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.totalEntities = ministryAdmins.totalAmount;
       });
 
-    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => {
+      this.role = role;
+      this.setDisplayedColumns();
+    });
 
     this.addNavPath();
   }
@@ -104,6 +110,52 @@ export class AdminsComponent implements OnInit, OnDestroy {
       relativeTo: this.route,
       queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] },
     });
+    this.setDisplayedColumns();
+  }
+
+  private setTabOptions(): void {
+    const queryRole = this.route.snapshot.queryParamMap.get('role');
+    this.adminParams.tabTitle = queryRole ? AdminRoleUkr[queryRole] : AdminRoleUkr.ministryAdmin;
+
+    switch (queryRole) {
+      case undefined:
+      case AdminRole.ministryAdmin:
+        this.tabIndex = 0;
+        break;
+      case AdminRole.regionAdmin:
+        this.tabIndex = 1;
+        break;
+      case AdminRole.territorialCommunityAdmin:
+        this.tabIndex = 2;
+        break;
+    }
+  }
+
+  /**
+   * This method determines whether the user needs to display actions column depending on his role.
+   */
+  private setDisplayedColumns(): void {
+    const isActionsInList = this.displayedColumns.includes('actions');
+
+    // If the user is a technical administrator and he already has the actions column in the list, exit
+    if (this.role === Role.techAdmin && isActionsInList) {
+      return;
+    }
+
+    // If the user is the ministryAdmin, we check whether he needs to display action column on this table.
+    if (this.role === Role.ministryAdmin) {
+      //If a table is selected that the user cannot edit and the actions column is added - delete column
+      //If a table is selected that the user can edit and the actions column is added, exit.
+      if (this.adminParams.tabTitle === AdminRoleUkr.ministryAdmin && isActionsInList) {
+        this.displayedColumns = this.displayedColumns.filter((value: string) => value !== 'actions');
+        return;
+      } else if (isActionsInList) {
+        return;
+      }
+    }
+
+    //In all other cases, add an actions column
+    this.displayedColumns.push('actions');
   }
 
   /**

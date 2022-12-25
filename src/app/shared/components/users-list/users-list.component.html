@@ -40,6 +40,12 @@
       </ng-container>
 
       <!-- Name Column -->
+      <ng-container matColumnDef="institution">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by institution">Підпорядкування</th>
+        <td mat-cell *matCellDef="let element">{{ element.institutionTitle }}</td>
+      </ng-container>
+
+      <!-- Name Column -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">Роль</th>
         <td mat-cell *matCellDef="let element">{{ element.role }}</td>

@@ -82,7 +82,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   ngOnInit(): void {
-    this.store.dispatch(new GetAllInstitutions());
+    this.store.dispatch(new GetAllInstitutions(true));
     this.determineEditMode();
   }
 

@@ -1,5 +1,5 @@
 export enum AdminRole {
   ministryAdmin = 'ministryAdmin',
-  regionAdmiin = 'regionAdmin',
+  regionAdmin = 'regionAdmin',
   territorialCommunityAdmin = 'territorialCommunityAdmin'
 }

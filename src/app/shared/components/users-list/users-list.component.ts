@@ -21,7 +21,7 @@ import { EmailConfirmationStatuses, UserStatuses, UserStatusesTitles, UserStatus
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
-  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
+  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'role', 'status', 'actions'];
   @Input() isEdit: boolean;
   @Input() statusesTitles: UserStatuses | EmailConfirmationStatuses;
 

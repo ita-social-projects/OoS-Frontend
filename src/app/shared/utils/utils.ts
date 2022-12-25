@@ -153,7 +153,7 @@ export class Util {
         pib: this.getFullName(admin),
         email: admin.email,
         phoneNumber: admin.phoneNumber,
-        role: admin.id,
+        institutionTitle: admin.institutionTitle,
         status: admin.accountStatus || UserStatuses.Accepted
       });
     });

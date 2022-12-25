@@ -5,7 +5,7 @@
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/admins']">АДМІНІСТРАТОРИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/directions']">НАПРЯМКИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/provider-list'">ЗАКЛАДИ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">КОРИСТУВАЧІ</a>
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">КОРИСТУВАЧІ</a>
     <a mat-tab-link [routerLinkActive]="['active']">ЗАЯВИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/history-log']">ІСТОРІЯ ЗМІН</a>
     <a mat-tab-link [routerLinkActive]="['active']">СТАТИСТИЧНІ ДАНІ</a>

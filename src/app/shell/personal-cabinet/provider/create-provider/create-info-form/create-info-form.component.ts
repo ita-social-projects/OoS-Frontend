@@ -117,7 +117,7 @@ export class CreateInfoFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.store.dispatch([new GetAllInstitutions(), new GetProviderTypes(), new GetInstitutionStatuses()]);
+    this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
     this.initData();
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
