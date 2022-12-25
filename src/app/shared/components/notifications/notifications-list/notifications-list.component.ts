@@ -10,13 +10,13 @@ import {
   ApplicationPending,
   ApplicationRejected,
   ApplicationLeft,
-  ApplicationChanges,
+  ApplicationChanges
 } from '../../../enum/enumUA/declinations/notification-declination';
 import {
   NotificationsProviderFullDescriptions,
   NotificationsProviderShortDescriptions,
   NotificationWorkshopShortDescription,
-  NotificationWorkshopFullDescriptions,
+  NotificationWorkshopFullDescriptions
 } from '../../../enum/enumUA/notifications';
 import { NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
@@ -25,14 +25,14 @@ import {
   NotificationGroupedByAdditionalData,
   Notifications,
   NotificationsAmount,
-  Notification,
+  Notification
 } from '../../../models/notifications.model';
 import {
   ClearNotificationState,
   DeleteUsersNotificationById,
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
-  ReadUsersNotificationsByType,
+  ReadUsersNotificationsByType
 } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
@@ -41,7 +41,7 @@ import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-l
 @Component({
   selector: 'app-notifications-list',
   templateUrl: './notifications-list.component.html',
-  styleUrls: ['./notifications-list.component.scss'],
+  styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
   readonly NotificationsConstants = NotificationsConstants;
@@ -82,6 +82,10 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   onReadSingle(notification: Notification): void {
+    if (notification.readDateTime) {
+      return;
+    }
+
     this.store.dispatch(new ReadUsersNotificationById(notification));
 
     notification.readDateTime = new Date(Date.now()).toISOString();
@@ -90,6 +94,10 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   //TODO: Implement read group by status(Pending, Edit, etc..)
   onReadGroup(groupByType: NotificationsGroupedByType): void {
+    if (groupByType.isRead) {
+      return;
+    }
+
     this.store.dispatch(new ReadUsersNotificationsByType(groupByType));
 
     this.notificationsAmount.amount -= groupByType.amount;
@@ -106,9 +114,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.store.dispatch(new DeleteUsersNotificationById(notification.id));
 
     this.notificationsAmount.amount--;
-    this.notifications = this.notifications.filter(
-      (recievedNotification: Notification) => recievedNotification.id != notification.id
-    );
+    this.notifications = this.notifications.filter((recievedNotification: Notification) => recievedNotification.id != notification.id);
   }
 
   onGroupByStatusClick(group: NotificationGroupedByAdditionalData): void {
@@ -117,7 +123,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
         const status: string = ApplicationStatuses[group.groupedData];
         this.router.navigate([`/personal-cabinet/${userRole}/${PersonalCabinetLinks.Application}`], {
-          queryParams: { status: status },
+          queryParams: { status: status }
         });
         break;
       case NotificationType.Chat:
@@ -132,12 +138,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   defineDeclination(
     status: string
-  ):
-    | typeof ApplicationApproved
-    | typeof ApplicationPending
-    | typeof ApplicationRejected
-    | typeof ApplicationLeft
-    | typeof ApplicationLeft {
+  ): typeof ApplicationApproved | typeof ApplicationPending | typeof ApplicationRejected | typeof ApplicationLeft | typeof ApplicationLeft {
     switch (status) {
       case ApplicationStatuses.Approved:
         return ApplicationApproved;
@@ -208,10 +209,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   private addRecievedNotification(recievedNotification: Notification): void {
     this.notificationsAmount.amount++;
 
-    if (
-      recievedNotification.type !== NotificationType.Application &&
-      recievedNotification.type !== NotificationType.Chat
-    ) {
+    if (recievedNotification.type !== NotificationType.Application && recievedNotification.type !== NotificationType.Chat) {
       this.notifications.push(recievedNotification);
       return;
     }
@@ -235,18 +233,11 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.addNewGroupByType(recievedNotification);
   }
 
-  private addNewGroupByAdditionalData(
-    groupByType: NotificationsGroupedByType,
-    recievedNotification: Notification
-  ): void {
+  private addNewGroupByAdditionalData(groupByType: NotificationsGroupedByType, recievedNotification: Notification): void {
     switch (recievedNotification.type) {
       case NotificationType.Application:
         groupByType.groupsByAdditionalData.push(
-          new NotificationGroupedByAdditionalData(
-            recievedNotification.action,
-            recievedNotification.data.Status,
-            recievedNotification.type
-          )
+          new NotificationGroupedByAdditionalData(recievedNotification.action, recievedNotification.data.Status, recievedNotification.type)
         );
         break;
       case NotificationType.Chat:
