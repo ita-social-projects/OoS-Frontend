@@ -227,11 +227,11 @@ export class MetaDataState {
   @Action(GetAllInstitutions)
   getAllInstitutions(
     { patchState }: StateContext<MetaDataStateModel>,
-    {}: GetAllInstitutions
+    { filterNonGovernment }: GetAllInstitutions
   ): Observable<Institution[]> {
     patchState({ isLoading: true });
     return this.institutionsService
-      .getAllInstitutions()
+      .getAllInstitutions(filterNonGovernment)
       .pipe(tap((institutions: Institution[]) => patchState({ institutions, isLoading: false })));
   }
 
