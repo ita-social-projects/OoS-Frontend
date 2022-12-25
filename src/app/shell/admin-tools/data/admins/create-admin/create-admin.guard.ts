@@ -16,12 +16,7 @@ export class CreateAdminGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     return this.role$.pipe(
       filter(Boolean),
-      map((role: Role) => {
-        if (route.paramMap.get('param') === AdminRole.ministryAdmin && role !== Role.techAdmin) {
-          return false;
-        }
-        return true;
-      })
+      map((role: Role) => route.paramMap.get('param') === AdminRole.ministryAdmin && role === Role.techAdmin)
     );
   }
 }

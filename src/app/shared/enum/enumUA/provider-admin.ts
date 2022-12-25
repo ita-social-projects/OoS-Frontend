@@ -1,11 +1,11 @@
 export enum providerAdminRoleUkr {
-  deputy = 'Заступники директора',
-  admin = 'Адміністратори гуртків',
+  deputy = 'Заступник директора',
+  admin = 'Адміністратор гуртка',
   all = 'Усі'
 }
 
 export enum providerAdminRoleUkrReverse {
-  'Заступники директора' = 'deputy',
-  'Адміністратори гуртків' = 'admin',
+  'Заступник директора' = 'deputy',
+  'Адміністратор гуртка' = 'admin',
   'Усі' = 'all'
 }
