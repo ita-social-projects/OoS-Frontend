@@ -1,5 +1,5 @@
+import { ApplicationStatuses } from './../enum/statuses';
 import { ApplicationEntityType } from '../enum/applications';
-import { Statuses } from '../enum/statuses';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
 import { Workshop, WorkshopCard } from './workshop.model';
@@ -43,7 +43,7 @@ export class ApplicationUpdate {
 
 export interface ApplicationFilterParameters {
   property?: ApplicationEntityType;
-  statuses: Statuses[];
+  statuses: ApplicationStatuses[];
   showBlocked: boolean;
   orderByDateAscending?: boolean;
   orderByAlphabetically?: boolean;

@@ -16,8 +16,8 @@ import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { UpdateApplication, GetApplicationsByPropertyId } from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { Statuses } from '../../../../shared/enum/statuses';
-import { TruncatedItem } from '../../../../shared/models/truncated.model';
+import { ApplicationStatuses } from '../../../../shared/enum/statuses';
+import { TruncatedItem } from '../../../../shared/models/item.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -80,7 +80,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
-        const applicationUpdate = new ApplicationUpdate(application, Statuses.Left);
+        const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Left);
         this.store.dispatch(new UpdateApplication(applicationUpdate));
       }
     });

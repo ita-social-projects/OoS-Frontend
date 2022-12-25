@@ -44,13 +44,13 @@
     <ng-container *ngIf="admins?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
+          [statusesTitles]="statusesTitles" 
           [users]="admins"
           [isEdit]="true"
           [displayedColumns]="displayedColumns"
           (delete)="onDelete($event)"
           (block)="onBlock($event)"
-          (update)="onUpdate($event)"
-        >
+          (update)="onUpdate($event)">
         </app-users-list>
       </div>
       <app-paginator

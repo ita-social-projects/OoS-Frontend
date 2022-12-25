@@ -13,6 +13,6 @@ export class ParentService {
    * This method get Parent by User id
    */
   getProfile(): Observable<Parent> {
-    return this.http.get<Parent>('/api/v1/Parent/GetProfile');
+    return this.http.get<Parent>('/api/v1/parents/profile');
   }
 }

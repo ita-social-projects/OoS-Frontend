@@ -121,6 +121,12 @@
       "USERS": "Users",
       "WORKSHOPS": "Workshops"
     },
+    "INSTITUTION_TYPE":{
+      "COMPLEX" : "Complex",
+      "PROFILE" : "Profile",
+      "SPECIALIZED" : "Specialized",
+      "OTHER": "Other"
+    },
     "OWNERSHIP_TYPE": {
       "COMMON": "Common",
       "PRIVATE": "Private",
@@ -279,7 +285,8 @@
   "FROM": "From",
   "FULL_ORGANIZATION_NAME": "Full organization name",
   "INFO_MENU": {
-    "UNLIMITED": "By selecting the \"Unlimited\" option, the group has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically."
+    "UNLIMITED": "By selecting the \"Unlimited\" option, the group has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
+    "LICENSE": "Add licenses to gain more interest and increase user trust in your organization. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
   },
   "INFORMATION_ABOUT": "Information about",
   "INSTITUTION_TYPE": "Institution type",
@@ -301,6 +308,7 @@
   "OPEN_RECRUITMENT_ONLY": "Only with open recruitment",
   "ORGANIZATION_TYPE": "Organization type",
   "OWNERSHIP": "Ownership",
+  "INSTITUTION_CATEGORY":"Provider category",
   "PAID": "Paid",
   "PASSWORD": "Password",
   "PERSONAL_INFORMATION": "Personal information",

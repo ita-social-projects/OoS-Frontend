@@ -1,16 +1,19 @@
-import { Direction } from '../models/category.model';
-
 export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
 }
 
 export class GetSocialGroup {
-  static readonly type = '[meta-data] Get GetSocialGroup';
+  static readonly type = '[meta-data] Get get social groups';
   constructor() {}
 }
 
-export class GetInstitutionStatus {
-  static readonly type = '[meta-data] Get GetInstitutionStatus';
+export class GetInstitutionStatuses {
+  static readonly type = '[meta-data] get institution statuses';
+  constructor() {}
+}
+
+export class GetProviderTypes {
+  static readonly type = '[meta-data] get provider types';
   constructor() {}
 }
 
@@ -19,7 +22,7 @@ export class ClearRatings {
 }
 
 export class GetRateByEntityId {
-  static readonly type = '[meta-data] Get Rate';
+  static readonly type = '[meta-data] get rate';
   constructor(public enitityType: string, public entitytId: string) {}
 }
 

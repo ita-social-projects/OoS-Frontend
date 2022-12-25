@@ -28,6 +28,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { OnPageChange, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
 import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
+import { UserStatusesTitles } from '../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-provider-admins',
@@ -39,6 +40,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   readonly providerAdminRole = ProviderAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
   readonly constants = Constants;
+  readonly statusesTitles = UserStatusesTitles;
 
   @Select(ProviderState.isLoading)
   isLoadingCabinet$: Observable<boolean>;

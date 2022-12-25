@@ -1,7 +1,6 @@
+import { ProviderStatuses } from './../../enum/statuses';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { Statuses } from '../../enum/statuses';
-
 import { ProviderStatusBannerComponent } from './provider-status-banner.component';
 
 describe('FullWidthBannerComponent', () => {
@@ -16,7 +15,7 @@ describe('FullWidthBannerComponent', () => {
 
     fixture = TestBed.createComponent(ProviderStatusBannerComponent);
     component = fixture.componentInstance;
-    component.providerStatus = { status: Statuses.Accepted, statusReason: '' };
+    component.providerStatus = { status: ProviderStatuses.Approved, statusReason: '', isBlocked: false };
     fixture.detectChanges();
   });
 

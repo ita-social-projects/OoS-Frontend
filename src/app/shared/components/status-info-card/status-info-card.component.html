@@ -1,11 +1,13 @@
 <div class="application-info-menu-title">Статуси заявок</div>
 <div class="application-info-menu">
   <div class="application-info-title">
-    <span *ngFor="let status of getValuesFromEnum()" class="{{ status }}">
-      <i class="{{ applicationIcons[status] }}"></i>{{ statusTitles[status] }}</span
+    <span *ngFor="let status of statuses | keyvalue" class="{{ status.key }}">
+      <i class="{{ applicationIcons[status.key] }}"></i>{{ statusTitles[status.key] }}</span
     >
   </div>
   <div class="application-info-description">
-    <span *ngFor="let status of getValuesFromEnum()" class=" {{ status }}">{{ applicationStatusDescription[status] }}</span>
+    <span *ngFor="let status of statuses | keyvalue" class=" {{ status }}">{{
+      applicationStatusDescription[status.key]
+    }}</span>
   </div>
 </div>

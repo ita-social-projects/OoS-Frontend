@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
 import { FeaturesList } from '../../../models/featuresList.model';
 import { MetaDataState } from '../../../store/meta-data.state';
-import { TruncatedItem } from '../../../models/truncated.model';
+import { TruncatedItem } from '../../../models/item.model';
 import { SearchResponse } from '../../../models/search.model';
 import { PaginatorState } from '../../../store/paginator.state';
 import { PaginationElement } from '../../../models/paginationElement.model';
