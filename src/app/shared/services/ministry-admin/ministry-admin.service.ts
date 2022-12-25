@@ -8,7 +8,7 @@ import { Store } from '@ngxs/store';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class MinistryAdminService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -49,9 +49,9 @@ export class MinistryAdminService {
    * This method get All Ministry Admins
    */
   getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<SearchResponse<MinistryAdmin[]>> {
+    const mockUrl = 'assets/mocks/adminsList.json'; //Todo: Remove after fixing permissions for ministry admin on the server
     const options = { params: this.setParams(parameters) };
-    //Todo: Remove after fixing permissions for ministry admin on the server
-    return this.http.get<SearchResponse<MinistryAdmin[]>>('assets/mocks/adminsList.json');
+
     return this.http.get<SearchResponse<MinistryAdmin[]>>('/api/v1/MinistryAdmin/GetByFilter', options);
   }
 
