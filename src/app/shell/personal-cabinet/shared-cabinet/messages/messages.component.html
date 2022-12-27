@@ -29,6 +29,14 @@
         (block)="onBlock($event)"
         (unblock)="onUnBlock($event)"
       ></app-message-card>
+      <app-paginator
+        [totalEntities]="chatRooms.length"
+        [currentPage]="currentPage"
+        [itemsPerPage]="chatRoomsPerPage$ | async"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)"
+      >
+      </app-paginator>
     </ng-container>
   </ng-container>
 </ng-container>

@@ -25,6 +25,11 @@ export class SetChildrensPerPage {
   constructor(public payload: number) {}
 }
 
+export class SetChatRoomsPerPage {
+  static readonly type = '[paginator] Chat Rooms Per Page';
+  constructor(public amount: number) {}
+}
+
 export class SetApplicationsPerPage {
   static readonly type = '[paginator] Applications Per Page';
   constructor(public payload: number) {}
@@ -58,6 +63,11 @@ export class OnPageChangeDirections {
 export class OnPageChangeChildrens {
   static readonly type = '[paginator] Change Page';
   constructor(public payload: PaginationElement) {}
+}
+
+export class OnPageChangeChatRooms {
+  static readonly type = '[paginator] Change Page';
+  constructor(public page: PaginationElement) {}
 }
 
 export class OnPageChangeApplications {

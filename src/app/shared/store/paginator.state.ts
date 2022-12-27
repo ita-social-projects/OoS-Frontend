@@ -19,7 +19,9 @@ import {
   SetItemsPerPage,
   OnPageChangeHistoryLog,
   SetAchievementsPerPage,
-  OnPageChange
+  OnPageChange,
+  SetChatRoomsPerPage,
+  OnPageChangeChatRooms
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
@@ -29,6 +31,7 @@ export interface PaginatorStateModel {
   applicationsPerPage: number;
   ratingPerPage: number;
   childrensPerPage: number;
+  chatRoomsPerPage: number;
   currentPage: PaginationElement;
   itemsPerPage: number;
 }
@@ -40,6 +43,7 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     applicationsPerPage: 8,
     childrensPerPage: 8,
+    chatRoomsPerPage: 8,
     ratingPerPage: 12,
     itemsPerPage: 12,
     currentPage: PaginationConstants.firstPage
@@ -79,6 +83,10 @@ export class PaginatorState {
     return state.childrensPerPage;
   }
 
+  @Selector() static chatRoomsPerPage(state: PaginatorStateModel): number {
+    return state.chatRoomsPerPage;
+  }
+
   constructor() {}
 
   @Action(SetWorkshopsPerPage)
@@ -105,10 +113,15 @@ export class PaginatorState {
   setAchievementsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAchievementsPerPage): void {
     patchState({ achievementPerPage: payload });
   }
-  
+
   @Action(SetChildrensPerPage)
   setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
     patchState({ childrensPerPage: payload });
+  }
+
+  @Action(SetChatRoomsPerPage)
+  setChatRoomsPerPage({ patchState }: StateContext<PaginatorStateModel>, { amount }: SetChatRoomsPerPage): void {
+    patchState({ chatRoomsPerPage: amount });
   }
 
   @Action(SetRatingPerPage)
@@ -139,6 +152,11 @@ export class PaginatorState {
   @Action(OnPageChangeChildrens)
   onPageChange({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
     patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeChatRooms)
+  onPageChangeChatRooms({ patchState }: StateContext<PaginatorStateModel>, { page }: OnPageChangeChatRooms): void {
+    patchState({ currentPage: page });
   }
 
   @Action(OnPageChangeApplications)

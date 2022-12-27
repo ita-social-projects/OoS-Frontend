@@ -10,12 +10,12 @@ import {
   BlockParent,
   GetProviderAdminWorkshops,
   GetWorkshopListByProviderId,
-  UnBlockParent,
+  UnBlockParent
 } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ChatRoom } from '../../../../shared/models/chat.model';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { BlockedParent } from '../../../../shared/models/block.model';
 import { CabinetDataComponent } from '../cabinet-data.component';
@@ -28,11 +28,14 @@ import { ChatState } from '../../../../shared/store/chat.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { OnPageChangeChatRooms, SetChatRoomsPerPage } from '../../../../shared/store/paginator.actions';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss'],
+  styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent extends CabinetDataComponent {
   readonly Role = Role;
@@ -41,12 +44,17 @@ export class MessagesComponent extends CabinetDataComponent {
 
   providerId: string;
   filterFormControl: FormControl = new FormControl('');
+  //TODO: After fixing the data model on Search Response, change the type to SearchResponse<ChatRoom[]>
   chatRooms: ChatRoom[];
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
+  @Select(PaginatorState.chatRoomsPerPage)
+  chatRoomsPerPage$: Observable<number>;
   @Select(ProviderState.truncated)
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
+  //TODO: After fixing the data model on Search Response, change the type to Observable<SearchResponse<ChatRoom[]>>
   @Select(ChatState.chatRooms)
   chatRooms$: Observable<ChatRoom[]>;
 
@@ -76,7 +84,7 @@ export class MessagesComponent extends CabinetDataComponent {
       new PushNavPath({
         name: NavBarName.Messages,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -94,9 +102,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   setListeners(): void {
-    this.chatRooms$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
+    this.chatRooms$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -112,7 +118,7 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent },
+      data: { type: ModalConfirmationType.blockParent }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -126,8 +132,8 @@ export class MessagesComponent extends CabinetDataComponent {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.unBlockParent,
-      },
+        type: ModalConfirmationType.unBlockParent
+      }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -139,5 +145,14 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onEntitiesSelect(IDs: string[]): void {
     //TODO: Need to be implemented when requests with parameters are made
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(Role[this.role])]);
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(Role[this.role])]);
   }
 }
