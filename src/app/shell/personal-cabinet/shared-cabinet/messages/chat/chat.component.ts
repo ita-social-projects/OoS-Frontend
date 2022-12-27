@@ -4,12 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 import { ClearSelectedChatRoom, GetChatRoomById, GetChatRoomMessages } from '../../../../../shared/store/chat.actions';
 import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
-import {
-  ChatRoom,
-  IncomingMessage,
-  MessagesParameters,
-  OutgoingMessage,
-} from '../../../../../shared/models/chat.model';
+import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
 import { NavBarName } from '../../../../../shared/enum/navigation-bar';
 import { Location } from '@angular/common';
@@ -30,7 +25,7 @@ import { ModeConstants } from '../../../../../shared/constants/constants';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
-  styleUrls: ['./chat.component.scss'],
+  styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('chat') chatEl: ElementRef;
@@ -56,7 +51,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private messagesParameters: MessagesParameters = {
     from: 0,
-    size: 20,
+    size: 20
   };
   private chatRoom: ChatRoom;
   private userRole: Role;
@@ -64,12 +59,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private hubConnection: signalR.HubConnection;
   private isHistoryLoading = false;
 
-  constructor(
-    private store: Store,
-    private route: ActivatedRoute,
-    private location: Location,
-    private signalRService: SignalRService
-  ) {}
+  constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
   ngOnInit(): void {
     this.addNavPath();
@@ -87,9 +77,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (!this.isHistoryLoading) {
           this.isHistoryLoading = true;
-          this.store.dispatch(
-            new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: this.messages.length, size: 20 })
-          );
+          this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: this.messages.length, size: 20 }));
         }
       }
     };
@@ -97,21 +85,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onSendMessage(): void {
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
-      const sendMessage = new OutgoingMessage(
-        this.chatRoom.workshopId,
-        this.chatRoom.parentId,
-        this.messageControl.value
-      );
-      //TODO: Add the sender to the mailing list (backend)
-      //TODO: Remove .then() after adding sender to mailing list
-      this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage)).then(() => {
-        if (this.chatRoom.id) {
-          this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: 0, size: 1 }));
-        }
-        this.messageControl.setValue('');
-      });
-      //TODO: Uncomment after deleting then
-      //this.messageControl.setValue('');
+      const sendMessage = new OutgoingMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.messageControl.value);
+      this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
+      this.messageControl.setValue('');
     }
   }
 
@@ -182,7 +158,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         text: parsedMessage.Text,
         createdDateTime: parsedMessage.CreatedDateTime,
         senderRoleIsProvider: parsedMessage.SenderRoleIsProvider,
-        readDateTime: parsedMessage.ReadDateTime,
+        readDateTime: parsedMessage.ReadDateTime
       };
 
       this.messages.push(message);
@@ -195,7 +171,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Chat,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -218,8 +194,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private addMessages(messages: IncomingMessage[]): void {
     const isUserDown =
-      this.chatEl.nativeElement.scrollTop ===
-      this.chatEl.nativeElement.scrollHeight - this.chatEl.nativeElement.clientHeight;
+      this.chatEl.nativeElement.scrollTop === this.chatEl.nativeElement.scrollHeight - this.chatEl.nativeElement.clientHeight;
 
     if (this.isHistoryLoading) {
       this.messages = [...messages, ...this.messages];
