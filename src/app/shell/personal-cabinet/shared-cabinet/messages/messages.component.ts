@@ -146,7 +146,8 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   onEntitiesSelect(IDs: string[]): void {
-    //TODO: Need to be implemented when requests with parameters are made
+    this.chatRoomsParameters.workshopIds = IDs;
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {

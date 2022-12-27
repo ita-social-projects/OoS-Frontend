@@ -45,6 +45,10 @@ export class ChatService {
       params = params.set('SearchText', parameters.searchText);
     }
 
+    if (parameters.workshopIds) {
+      parameters.workshopIds.forEach((Id: string) => (params = params.append('WorkshopIds', Id)));
+    }
+
     return params;
   }
 }
