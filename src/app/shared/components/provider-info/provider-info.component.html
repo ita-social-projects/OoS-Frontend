@@ -15,8 +15,11 @@
       <h5>{{ 'OWNERSHIP' | translate }}</h5>
       <p>{{ ownershipTypesEnum[provider.ownership] | translate }}</p>
 
-      <ng-container *ngIf="provider.ownership === ownershipTypes.Private">
-        <ng-container *ngTemplateOutlet="LicenseInfoTmpl"></ng-container>
+      <ng-container *ngIf="provider.license">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="license-status">
+          <h5>{{ 'LICENSE' | translate }}</h5>
+          <h5 [ngClass]="provider.licenseStatus">{{ licenseStatusEnum[provider.licenseStatus] | translate }}</h5>
+        </div>      
       </ng-container>
 
       <p>{{ provider.license }}</p>
@@ -100,30 +103,4 @@
   <p>{{ provider.legalAddress.street }}</p>
   <h5>{{ 'FORMS.LABELS.BUILDING' | translate }}</h5>
   <p>{{ provider.legalAddress.buildingNumber }}</p>
-</ng-template>
-
-<ng-template #LicenseInfoTmpl>
-  <div fxLayout="row" fxLayoutAlign="space-between center" class="license-status">
-    <h5>{{ 'LICENSE' | translate }}</h5>
-
-    <div fxLayout="row" fxLayoutAlign="space-between center">
-      <h5 [ngClass]="provider.licenseStatus">{{ licenseStatusEnum[provider.licenseStatus] | translate }}</h5>
-      <i *ngIf="provider.licenseStatus === licenseStatuses.Approved" class="fas fa-check-circle license-approved"></i>
-      <div class="info-hint" *ngIf="provider.licenseStatus === licenseStatuses.NotProvided">
-        <i
-          [ngClass]="
-            opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'
-          "
-          [matMenuTriggerFor]="licenseInfo"
-          #childTrigger="matMenuTrigger"
-          (menuOpened)="opened = childTrigger.menuOpen"
-          (menuClosed)="opened = childTrigger.menuOpen"
-          >info_outline</i
-        >
-        <mat-menu class="hint-menu" #licenseInfo="matMenu" [overlapTrigger]="false">
-          {{ 'INFO_MENU.LICENSE' | translate }}
-        </mat-menu>
-      </div>
-    </div>
-  </div>
 </ng-template>

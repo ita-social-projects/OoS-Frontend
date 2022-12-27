@@ -105,7 +105,6 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe((providers: SearchResponse<Provider[]>) => {
         this.dataSource = new MatTableDataSource(providers.entities);
-        console.log(this.dataSource)
         this.dataSource.sort = this.sort;
         this.totalEntities = providers.totalAmount;
       });
