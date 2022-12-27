@@ -18,8 +18,8 @@ export interface ChatStateModel {
     isLoadingData: false,
     chatRooms: null,
     selectedChatRoom: null,
-    selectedChatRoomMessages: null,
-  },
+    selectedChatRoomMessages: null
+  }
 })
 @Injectable()
 export class ChatState {
@@ -46,14 +46,13 @@ export class ChatState {
   constructor(private chatService: ChatService) {}
 
   @Action(GetUserChatRooms)
-  getUserChatRooms(
-    { patchState }: StateContext<ChatStateModel>,
-    { userRole }: GetUserChatRooms
-  ): Observable<ChatRoom[]> {
+  getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { parameters }: GetUserChatRooms): Observable<ChatRoom[]> {
     patchState({ isLoadingData: true });
-    return this.chatService
-      .getChatRooms(userRole)
-      .pipe(tap((chatRooms: ChatRoom[]) => patchState({ chatRooms, isLoadingData: false })));
+    return this.chatService.getChatRooms(parameters).pipe(
+      tap((chatRooms: ChatRoom[]) => {
+        patchState({ chatRooms, isLoadingData: false });
+      })
+    );
   }
 
   @Action(GetChatRoomMessages)
@@ -64,18 +63,11 @@ export class ChatState {
     patchState({ isLoadingData: true });
     return this.chatService
       .getChatRoomsMessages(chatRoomId, role, parameters)
-      .pipe(
-        tap((selectedChatRoomMessages: IncomingMessage[]) =>
-          patchState({ selectedChatRoomMessages, isLoadingData: false })
-        )
-      );
+      .pipe(tap((selectedChatRoomMessages: IncomingMessage[]) => patchState({ selectedChatRoomMessages, isLoadingData: false })));
   }
 
   @Action(GetChatRoomById)
-  getChatRoom(
-    { patchState }: StateContext<ChatStateModel>,
-    { chatRoomId, role }: GetChatRoomById
-  ): Observable<ChatRoom> {
+  getChatRoom({ patchState }: StateContext<ChatStateModel>, { chatRoomId, role }: GetChatRoomById): Observable<ChatRoom> {
     patchState({ isLoadingData: true });
     return this.chatService
       .getChatRoomById(chatRoomId, role)

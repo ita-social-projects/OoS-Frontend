@@ -44,3 +44,8 @@ export interface MessagesParameters {
   from: number;
   size: number;
 }
+
+export interface ChatRoomsParameters extends MessagesParameters {
+  searchText: string;
+  workshopIds: string[];
+}

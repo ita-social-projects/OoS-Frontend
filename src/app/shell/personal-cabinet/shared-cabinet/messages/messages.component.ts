@@ -13,7 +13,7 @@ import {
   UnBlockParent
 } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { ChatRoom } from '../../../../shared/models/chat.model';
+import { ChatRoom, ChatRoomsParameters } from '../../../../shared/models/chat.model';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
@@ -47,6 +47,12 @@ export class MessagesComponent extends CabinetDataComponent {
   //TODO: After fixing the data model on Search Response, change the type to SearchResponse<ChatRoom[]>
   chatRooms: ChatRoom[];
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  chatRoomsParameters: ChatRoomsParameters = {
+    workshopIds: null,
+    searchText: null,
+    from: 0,
+    size: 8
+  };
 
   @Select(PaginatorState.chatRoomsPerPage)
   chatRoomsPerPage$: Observable<number>;
@@ -98,21 +104,17 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(Role[this.role]));
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   setListeners(): void {
-    this.chatRooms$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
+    this.chatRooms$.pipe(takeUntil(this.destroy$)).subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(200),
-        distinctUntilChanged(),
-        filter((val: string) => !!val)
-      )
+      .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
       .subscribe((val: string) => {
-        //TODO: Implement search logic
+        this.chatRoomsParameters.searchText = val;
+        this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
       });
   }
 
@@ -148,11 +150,11 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(Role[this.role])]);
+    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.chatRoomsParameters)]);
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(Role[this.role])]);
+    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.chatRoomsParameters)]);
   }
 }
