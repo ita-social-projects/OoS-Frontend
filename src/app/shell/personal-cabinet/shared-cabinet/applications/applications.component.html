@@ -1,5 +1,11 @@
 <div class="wrapper">
   <div class="dropdown">
+    <div *ngIf="role === Role.techAdmin" class="search-area">
+      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+        <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+        <input matInput type="text" class="search" placeholder="Пошук за закладом, ЄДРПО, містом чи статусом" />
+      </div>
+    </div>
     <i
       class="material-icons status-info-icon"
       [matMenuTriggerFor]="menu"
