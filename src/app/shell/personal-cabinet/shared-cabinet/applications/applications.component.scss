@@ -2,6 +2,22 @@
 @import 'src/app/shared/styles/application-list.scss';
 @import 'src/app/shared/styles/search.scss';
 
+.dropdown {
+  width: 30%;
+}
 .search-area {
+  flex: 1;
   position: relative;
+}
+.search-bar {
+  width: 100%;
+}
+
+@media (max-width: 1200px) {
+  .dropdown {
+    width: auto;
+  }
+  .search-bar {
+    max-width: 24rem;
+  }
 }
