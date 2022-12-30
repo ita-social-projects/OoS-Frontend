@@ -30,6 +30,10 @@ export class ApplicationService {
         parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
       }
 
+      if (parameters.searchString) {
+        params = params.set('SearchString', parameters.searchString);
+      }
+
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
     params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
