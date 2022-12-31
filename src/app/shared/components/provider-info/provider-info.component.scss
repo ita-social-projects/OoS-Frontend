@@ -1,4 +1,7 @@
 @import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/info-hint.scss';
+@import 'src/app/shared/styles/buttons.scss';
+
 $basen-blue-color: #3849f9;
 .wrapper {
   background: #ffffff;
@@ -53,4 +56,16 @@ h3 {
 .section-title {
   font-weight: 400;
   margin-top: 1rem;
+}
+
+.license-status {
+  .Approved {
+    color: #199953;
+  }
+  .Pending {
+    color: #ffbd00;
+  }
+  .NotProvided {
+    color: #888888;
+  }
 }

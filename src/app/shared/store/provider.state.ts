@@ -1,4 +1,3 @@
-import { ProviderStatuses } from './../enum/statuses';
 import { GetApplicationsByPropertyId } from './shared-user.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -9,7 +8,7 @@ import { catchError, tap } from 'rxjs/operators';
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { Achievement } from '../models/achievement.model';
 import { Child } from '../models/child.model';
-import { Provider, ProviderStatusUpdateData } from '../models/provider.model';
+import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from '../models/workshop.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
@@ -81,6 +80,7 @@ import {
   UpdateWorkshop,
   UpdateWorkshopStatus,
   GetProviderAdminById,
+  UpdateProviderLicenseStatuse,
 } from './provider.actions';
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
@@ -89,6 +89,7 @@ import { TruncatedItem } from '../models/item.model';
 import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetFilteredProviders } from './admin.actions';
+import { ProviderStatuses } from './../enum/statuses';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -510,6 +511,26 @@ export class ProviderState {
     );
   }
 
+  @Action(UpdateProviderLicenseStatuse)
+  updateProviderLicenseStatuse(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload }: UpdateProviderLicenseStatuse
+  ): Observable<LicenseStatusData | void> {
+    return this.providerService.updateProviderLicenseStatus(payload).pipe(
+      tap(() =>
+        dispatch([
+          new ShowMessageBar({
+            message: SnackbarText.licenseApproved,
+            type: 'success',
+          }),
+          new MarkFormDirty(false),
+          new GetFilteredProviders(),
+        ])
+      ),
+      catchError(() => dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' })))
+    );
+  }
+
   @Action(OnUpdateProviderStatusFail)
   onUpdateProviderStatusFail(
     { dispatch }: StateContext<ProviderStateModel>,
@@ -525,7 +546,8 @@ export class ProviderState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.status == ProviderStatuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
+        message:
+          payload.status == ProviderStatuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
         type: 'success',
       }),
       new MarkFormDirty(false),

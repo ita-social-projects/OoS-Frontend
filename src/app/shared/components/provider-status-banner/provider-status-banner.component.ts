@@ -8,23 +8,24 @@ import {
   UserStatusIcons,
   UserStatuses,
 } from '../../enum/statuses';
+import { Provider } from '../../models/provider.model';
 import { ActivateEditMode } from '../../store/app.actions';
 
 @Component({
-  selector: 'app-status-banner',
+  selector: 'app-provider-status-banner',
   templateUrl: './provider-status-banner.component.html',
   styleUrls: ['./provider-status-banner.component.scss'],
 })
 export class ProviderStatusBannerComponent implements OnInit {
-  readonly Statuses = ProviderStatuses;
+  readonly statuses = ProviderStatuses;
+
+  @Input() provider: Provider;
 
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
 
-  @Input() editLink: string;
-  @Input() providerStatus: { status: ProviderStatuses; statusReason: string; isBlocked: boolean };
-
+  editLink = '/create-provider/info';
   iconClasses: string;
   statusTitle: string;
   statusDetails: string;
@@ -45,16 +46,16 @@ export class ProviderStatusBannerComponent implements OnInit {
   }
 
   private setBannerOptions(): void {
-    if (this.providerStatus.isBlocked) {
+    if (this.provider.isBlocked) {
       this.iconClasses = `${UserStatusIcons.Blocked} status-icon`;
       this.statusTitle = UserStatuses.Blocked;
     } else {
-      this.iconClasses = `${UserStatusIcons[this.providerStatus.status]} status-icon`;
-      this.statusTitle = ProviderStatusTitles[this.providerStatus.status];
+      this.iconClasses = `${UserStatusIcons[this.provider.status]} status-icon`;
+      this.statusTitle = ProviderStatusTitles[this.provider.status];
     }
-    this.statusDetails = this.providerStatus.statusReason
-      ? this.providerStatus.statusReason
-      : ProviderStatusDetails[this.providerStatus.status];
-    this.HostElement.classList.value = ProviderStatuses[this.providerStatus.status];
+    this.statusDetails = this.provider.statusReason
+      ? this.provider.statusReason
+      : ProviderStatusDetails[this.provider.status];
+    this.HostElement.classList.value = ProviderStatuses[this.provider.status];
   }
 }

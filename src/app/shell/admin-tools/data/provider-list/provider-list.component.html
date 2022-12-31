@@ -7,8 +7,7 @@
         matInput
         type="text"
         class="search"
-        placeholder="Пошук за закладом, ЄДРПО, містом чи статусом"
-      />
+        placeholder="Пошук за закладом, ЄДРПО, містом чи статусом" />
     </div>
   </div>
 </div>
@@ -19,14 +18,23 @@
     <div class="wrapper-provider-list">
       <div class="wrapper-provider-list-container">
         <div class="table-container mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
+          <table
+            mat-table
+            [dataSource]="dataSource"
+            matSort
+            (matSortChange)="announceSortChange($event)"
+            appStretchTable>
             <ng-container matColumnDef="fullTitle">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">Назва закладу</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
+                Назва закладу
+              </th>
               <td mat-cell *matCellDef="let element">{{ element.fullTitle | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="ownership">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ownership">Форма власності</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ownership">
+                Форма власності
+              </th>
               <td mat-cell *matCellDef="let element">
                 <span>
                   {{ OwnershipTypeEnum[element.ownership] | translate | emptyValueTransform }}
@@ -41,11 +49,13 @@
 
             <ng-container matColumnDef="licence">
               <th mat-header-cell *matHeaderCellDef>Ліцензія №</th>
-              <td mat-cell *matCellDef="let element">{{ '' | emptyValueTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="city">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">Населений пункт</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">
+                Населений пункт
+              </th>
               <td mat-cell *matCellDef="let element">
                 {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform }}
               </td>
@@ -54,17 +64,21 @@
             <ng-container matColumnDef="street">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">Адреса</th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress | getAddress: ModeConstants.SHORT | emptyValueTransform }}
+                {{ element.legalAddress | getAddress : ModeConstants.SHORT | emptyValueTransform }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="director">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by director">Директор</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by director">
+                Директор
+              </th>
               <td mat-cell *matCellDef="let element">{{ element.director | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="email">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">Електронна пошта</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
+                Електронна пошта
+              </th>
               <td mat-cell *matCellDef="let element">{{ element.email }}</td>
             </ng-container>
 
@@ -81,7 +95,9 @@
             </ng-container>
 
             <ng-container matColumnDef="phoneNumber">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">Телефон</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
+                Телефон
+              </th>
               <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
             </ng-container>
 
@@ -95,24 +111,45 @@
             </ng-container>
 
             <ng-container matColumnDef="founder">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by founder">Засновник</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by founder">
+                Засновник
+              </th>
               <td mat-cell *matCellDef="let element">{{ element.founder | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="actualAddress">
               <th mat-header-cell *matHeaderCellDef>Актуальна адреса</th>
               <td mat-cell *matCellDef="let element">
-                {{ element.actualAddress | getAddress: ModeConstants.FULL | emptyValueTransform }}
+                {{ element.actualAddress | getAddress : ModeConstants.FULL | emptyValueTransform }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>
-              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">Статус</th>
+              <th
+                class="status-title"
+                mat-header-cell
+                *matHeaderCellDef
+                mat-sort-header
+                sortActionDescription="Sort by status">
+                Статус
+              </th>
               <td mat-cell *matCellDef="let element">
-                <div class="provider-list-status {{ element.status }}">
-                  <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
-                  <span>{{ statusTitles[element.status] | emptyValueTransform }}</span>
-                </div>
+                <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
+                  <ng-container
+                    *ngTemplateOutlet="
+                      ProviderStatusTmpl;
+                      context: { $implicit: element.status, titles: providerStatusTitles }
+                    "></ng-container>
+                </ng-container>
+
+                <ng-container *ngIf="element.ownership === ownershipTypes.Private">
+                  <ng-container
+                    *ngTemplateOutlet="
+                      ProviderStatusTmpl;
+                      context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
+                    "></ng-container>
+                </ng-container>
+
               </td>
             </ng-container>
 
@@ -132,12 +169,30 @@
                 </div>
 
                 <mat-menu #actions="matMenu" class="header_menu">
-                  <button *ngIf="element.status !== statuses.Approved" mat-menu-item (click)="onChangeStatus(element, statuses.Approved)">
-                    Підтвердити
-                  </button>
-                  <button *ngIf="element.status !== statuses.Editing" mat-menu-item (click)="onChangeStatus(element, statuses.Editing)">
-                    Відправити на редагування
-                  </button>
+                  <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
+                    <button
+                      *ngIf="element.status !== statuses.Approved"
+                      mat-menu-item
+                      (click)="onChangeStatus(element, statuses.Approved)">
+                      Підтвердити
+                    </button>
+                    <button
+                      *ngIf="element.status !== statuses.Editing"
+                      mat-menu-item
+                      (click)="onChangeStatus(element, statuses.Editing)">
+                      Відправити на редагування
+                    </button>
+                  </ng-container>
+
+                  <ng-container *ngIf="element.ownership === ownershipTypes.Private">
+                    <button
+                      *ngIf="element.licenseStatus === licenseStatuses.Pending"
+                      mat-menu-item
+                      (click)="onLicenseApprove(element.id)">
+                      Підтвердити ліцензію закладу
+                    </button>
+                  </ng-container>
+
                   <button mat-menu-item>Заблокувати</button>
                   <button mat-menu-item (click)="onDelete(element)">Видалити</button>
                 </mat-menu>
@@ -152,8 +207,7 @@
           <app-provider-info
             [provider]="provider"
             [isProviderView]="false"
-            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"
-          ></app-provider-info>
+            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"></app-provider-info>
         </div>
       </div>
     </div>
@@ -163,8 +217,7 @@
         [currentPage]="currentPage"
         [itemsPerPage]="itemsPerPage$ | async"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </div>
   </ng-container>
@@ -172,4 +225,11 @@
 
 <ng-template #isEmptyList>
   <app-no-result-card [title]="noProviders"></app-no-result-card>
+</ng-template>
+
+<ng-template #ProviderStatusTmpl let-status let-titles="titles">
+  <div class="provider-list-status {{ status }}">
+    <span> <i class="status-icon {{ statusIcons[status] }}"></i></span>
+    <span>{{ titles[status] | emptyValueTransform }}</span>
+  </div>
 </ng-template>

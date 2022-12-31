@@ -1,10 +1,11 @@
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
-import { Provider, ProviderStatusUpdateData } from '../models/provider.model';
+import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { ApplicationEntityType } from '../enum/applications';
+import { LicenseStatuses } from '../enum/statuses';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -164,6 +165,11 @@ export class OnUpdateProviderSuccess {
 export class UpdateProviderStatus {
   static readonly type = '[provider] update Provider status';
   constructor(public payload: ProviderStatusUpdateData) {}
+}
+
+export class UpdateProviderLicenseStatuse {
+  static readonly type = '[provider] update provider license status';
+  constructor(public payload: LicenseStatusData) {}
 }
 
 export class OnUpdateProviderStatusFail {

@@ -1,3 +1,4 @@
+import { LicenseStatuses } from './../../enum/statuses';
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
@@ -7,7 +8,7 @@ import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
 import { GetInstitutionStatuses } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypesEnum, OwnershipTypesEnum } from '../../enum/enumUA/provider';
+import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { Constants } from '../../constants/constants';
 import { ActivateEditMode } from '../../store/app.actions';
 import { DataItem } from '../../models/item.model';
@@ -24,6 +25,8 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly ownershipTypesEnum = OwnershipTypesEnum;
   readonly institutionTypes = InstitutionTypes;
   readonly institutionTypesEnum = InstitutionTypesEnum;
+  readonly licenseStatusEnum = LicenseStatusEnum;
+  readonly licenseStatuses = LicenseStatuses;
 
   editLink: string = CreateProviderSteps[0];
 
