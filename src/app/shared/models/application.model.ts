@@ -42,6 +42,7 @@ export class ApplicationUpdate {
 }
 
 export interface ApplicationFilterParameters {
+  searchString?: string;
   property?: ApplicationEntityType;
   statuses: ApplicationStatuses[];
   showBlocked: boolean;

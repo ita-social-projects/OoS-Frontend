@@ -28,16 +28,22 @@
           showTooltipIfTruncated
           matTooltipClass="tooltip"
           matTooltipPosition="below"
-          class="title text-link"
+          [classList]="userIsAdmin ? 'text text-link' : 'title text-link'"
         >
           {{ application?.workshop.title }}
         </h4>
-        <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
-          <mat-icon class="text_icon">home</mat-icon>
-          <p class="text text-link" [routerLink]="['/details/provider', application?.workshop.providerId]">
+        <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent || userIsAdmin">
+          <mat-icon class="text_icon" *ngIf="!userIsAdmin">home</mat-icon>
+          <p
+            [classList]="userIsAdmin ? 'text title text-link' : 'text text-link'"
+            [routerLink]="['/details/provider', application?.workshop.providerId]"
+          >
             {{ application?.workshop.providerTitle }}
           </p>
         </div>
+        <p *ngIf="userIsAdmin" class="text title">
+          {{ application.workshop.address.codeficatorAddressDto.settlement }}
+        </p>
         <div class="workshop-age" *ngIf="userRole === role.parent">
           <mat-icon class="text_icon">person</mat-icon>
           <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} років</p>

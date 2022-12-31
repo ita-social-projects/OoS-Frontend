@@ -17,6 +17,8 @@ import { CreateDirectionComponent } from './directions-wrapper/directions/create
 import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrapper.component';
 import { DirectionsInstitutionHierarchiesListComponent } from './directions-wrapper/directions-institution-hierarchies-list/directions-institution-hierarchies-list.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { AdminApplicationsComponent } from './admin-applications/admin-applications.component';
+import { SharedCabinetModule } from '../../personal-cabinet/shared-cabinet/shared-cabinet.module';
 
 @NgModule({
   declarations: [
@@ -31,9 +33,10 @@ import { TranslateModule } from '@ngx-translate/core';
     DirectionsComponent,
     CreateDirectionComponent,
     DirectionsWrapperComponent,
-    DirectionsInstitutionHierarchiesListComponent
+    DirectionsInstitutionHierarchiesListComponent,
+    AdminApplicationsComponent
   ],
-  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule, TranslateModule],
+  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule, TranslateModule, SharedCabinetModule],
   exports: [DataComponent]
 })
 export class DataModule {}

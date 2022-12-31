@@ -11,6 +11,11 @@ export class GetWorkshopById {
   constructor(public payload: string) {}
 }
 
+export class GetAllApplications {
+  static readonly type = '[admin] Get All Applications';
+  constructor(public params: ApplicationFilterParameters) {}
+}
+
 export class OnGetWorkshopByIdFail {
   static readonly type = '[user] get Workshop By Workshop Id fail';
   constructor(public payload: HttpErrorResponse) {}
