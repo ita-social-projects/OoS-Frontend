@@ -148,7 +148,14 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private createHubConnection(): void {
     this.hubConnection = this.signalRService.startConnection(CHAT_HUB_URL);
-    //TODO: Add listener for read messages (backend)
+
+    this.hubConnection.on('ReadChatMessagesByUser', (readMessageIds: string) => {
+      const parsedReadMessageIds = JSON.parse(readMessageIds);
+      parsedReadMessageIds.forEach((readMessageId: string) => {
+        this.messages.find((message: IncomingMessage) => message.id === readMessageId).readDateTime = Date.now().toString();
+      });
+    });
+
     this.hubConnection.on('ReceiveMessageInChatGroup', (jsonMessage: string) => {
       //TODO: Resolve issue with capital letters in incoming object (backend)
       let parsedMessage = JSON.parse(jsonMessage);
