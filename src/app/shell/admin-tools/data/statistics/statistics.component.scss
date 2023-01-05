@@ -1,0 +1,112 @@
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/calendar.scss';
+@import 'src/app/shared/styles/buttons.scss';
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0;
+}
+
+.statistics {
+  &-filters {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 25px;
+
+    padding: 25px;
+
+    background: #ffffff;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+    border-radius: 5px;
+
+    .btn {
+      align-self: flex-end;
+      text-transform: uppercase;
+
+      height: 40px;
+    }
+  }
+  &-result {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 64px;
+
+    font-size: 13px;
+    font-family: 'Open Sans', sans-serif;
+
+    span {
+      font-weight: 700;
+      line-height: 18px;
+      text-align: center;
+      color: #aaaaaa;
+    }
+
+    .btn {
+      font-size: inherit;
+      font-family: inherit;
+      text-transform: uppercase;
+
+      height: 40px;
+    }
+  }
+}
+
+.filter-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+
+  &-date {
+    display: flex;
+  }
+}
+
+.control {
+  padding: 0.5rem 1rem;
+
+  box-sizing: border-box;
+  border: 1px solid #e3e3e3;
+  border-radius: 24px;
+
+  height: 40px;
+
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 22px;
+
+  &-date {
+    width: 100%;
+    max-width: 125px;
+  }
+
+  &-select {
+    width: 100%;
+    max-width: 170px;
+  }
+}
+
+.title {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 18px;
+}
+
+.separate-line {
+  display: inline-block;
+  width: 14px;
+  margin: 0 5px;
+  align-self: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.54);
+}
+
+@media (max-width: 1100px) {
+  .statistics-result {
+    padding: 40px;
+  }
+}
