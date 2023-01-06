@@ -1,9 +1,9 @@
-<div class="statistics-filters">
+<div [formGroup]="filtersForm" class="statistics-filters">
   <div class="filter-wrapper">
     <span class="title">Період</span>
     <div class="filter-wrapper-date">
       <mat-form-field class="control control-date" floatLabel="never">
-        <input matInput [matDatepicker]="dateFrom" />
+        <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
         <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
         <mat-datepicker #dateFrom></mat-datepicker>
       </mat-form-field>
@@ -11,7 +11,7 @@
       <div class="separate-line"></div>
 
       <mat-form-field appPlaceholderStyling class="control control-date" floatLabel="never">
-        <input matInput [matDatepicker]="dateTo" />
+        <input matInput [matDatepicker]="dateTo" formControlName="dateTo" />
         <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
         <mat-datepicker #dateTo></mat-datepicker>
       </mat-form-field>
@@ -20,25 +20,37 @@
   <div class="filter-wrapper">
     <span class="title">Міністерство</span>
     <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" class="control control-select"> </mat-select>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="institutions" class="control control-select select">
+        <mat-option value="" class="dropdown-option">Усі міністерства</mat-option>
+        <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">{{
+          institution.title
+        }}</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
   <div class="filter-wrapper">
     <span class="title">Область</span>
     <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" class="control control-select"> </mat-select>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="regions" class="control control-select">
+        <mat-option value="" class="dropdown-option">Усі області</mat-option>
+        <mat-option *ngFor="let codeficatorSearch of codeficatorSearch$ | async" [value]="codeficatorSearch.id" class="dropdown-option">{{
+          codeficatorSearch.region
+        }}</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
   <div class="filter-wrapper">
     <span class="title">ОТГ</span>
     <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" class="control control-select"> </mat-select>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="otgs" class="control control-select">
+        <mat-option value="" class="dropdown-option">Усі ОТГ</mat-option>
+      </mat-select>
     </mat-form-field>
   </div>
   <button class="btn" mat-raised-button>Згенерувати звіт</button>
 </div>
 <div class="statistics-result">
-  <ng-container *ngIf="true; then report; else noReport"></ng-container>
+  <ng-container *ngIf="isReport; then report; else noReport"></ng-container>
 </div>
 
 <ng-template #noReport>
@@ -49,5 +61,7 @@
 </ng-template>
 
 <ng-template #report>
-  <button class="btn btn-transparent" mat-strocked-button><mat-icon class="download-icon">get_app</mat-icon> Завантажити</button>
+  <button class="btn btn-transparent" mat-strocked-button (click)="onGenerateReport()">
+    <mat-icon class="download-icon">get_app</mat-icon> Завантажити
+  </button>
 </ng-template>
