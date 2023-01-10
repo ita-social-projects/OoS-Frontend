@@ -1,4 +1,4 @@
-<small *ngIf="invalid" appValidationMessageStyling>
+<small *ngIf="validationFormControl.touched && onTouchChange() && validationFormControl.invalid" appValidationMessageStyling>
   <ng-container *ngIf="required && !invalidDateFormat; then requiredInputTmpl"></ng-container>
   <ng-container *ngIf="required && invalidDateFormat; then incorrectDateFieldTmpl"></ng-container>
   <ng-container *ngIf="!required">
