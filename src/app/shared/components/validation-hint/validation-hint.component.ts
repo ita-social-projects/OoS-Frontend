@@ -1,15 +1,5 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  OnChanges,
-  SimpleChanges,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
@@ -74,15 +64,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     if (changes?.isTouched) {
       (this.validationFormControl.statusChanges as EventEmitter<any>).emit();
     }
-  }
-
-  onTouchChange(): boolean {
-    if (!this.takeOnce) {
-      (this.validationFormControl.statusChanges as EventEmitter<any>).emit();
-      this.takeOnce = true;
-    }
-
-    return true;
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
