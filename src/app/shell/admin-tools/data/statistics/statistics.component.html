@@ -1,49 +1,20 @@
 <div [formGroup]="filtersForm" class="statistics-filters">
   <div class="filter-wrapper">
-    <span class="title">Період</span>
-    <div class="filter-wrapper-date">
-      <mat-form-field class="control control-date" floatLabel="never">
-        <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
-        <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
-        <mat-datepicker #dateFrom></mat-datepicker>
-      </mat-form-field>
-
-      <div class="separate-line"></div>
-
-      <mat-form-field appPlaceholderStyling class="control control-date" floatLabel="never">
-        <input matInput [matDatepicker]="dateTo" formControlName="dateTo" />
-        <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
-        <mat-datepicker #dateTo></mat-datepicker>
-      </mat-form-field>
-    </div>
-  </div>
-  <div class="filter-wrapper">
-    <span class="title">Міністерство</span>
+    <span class="title">Часовий проміжок</span>
     <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="institutions" class="control control-select select">
-        <mat-option value="" class="dropdown-option">Усі міністерства</mat-option>
-        <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">{{
-          institution.title
-        }}</mat-option>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period" class="control control-select select">
+        <mat-option value="WorkshopsDaily" class="dropdown-option">За останні 24 години</mat-option>
+        <mat-option value="WorkshopsYear" class="dropdown-option">За рік</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="filter-wrapper">
-    <span class="title">Область</span>
+    <span class="title">Формат</span>
     <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="regions" class="control control-select">
-        <mat-option value="" class="dropdown-option">Усі області</mat-option>
-        <mat-option *ngFor="let codeficatorSearch of codeficatorSearch$ | async" [value]="codeficatorSearch.id" class="dropdown-option">{{
-          codeficatorSearch.region
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
-  </div>
-  <div class="filter-wrapper">
-    <span class="title">ОТГ</span>
-    <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="otgs" class="control control-select">
-        <mat-option value="" class="dropdown-option">Усі ОТГ</mat-option>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="format" class="control control-select">
+        <mat-option value="CSV" class="dropdown-option">CSV</mat-option>
+        <mat-option value="XLSX" class="dropdown-option">XLSX</mat-option>
+        <mat-option value="HTML" class="dropdown-option">HTML</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
