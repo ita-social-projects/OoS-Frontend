@@ -74,13 +74,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'licence',
     'city',
     'street',
-    'director',
     'email',
-    'website',
-    'shortTitle',
     'phoneNumber',
-    'founder',
-    'actualAddress',
     'status',
     'star',
   ];
