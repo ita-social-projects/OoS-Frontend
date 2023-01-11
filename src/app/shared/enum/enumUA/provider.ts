@@ -11,3 +11,8 @@ export enum InstitutionTypesEnum {
   Other = 'ENUM.INSTITUTION_TYPE.OTHER',
 }
 
+export enum LicenseStatusEnum {
+  NotProvided = 'ENUM.LICENSE_STATUS.NOT_PROVIDED',
+  Approved = 'ENUM.LICENSE_STATUS.APPROVED',
+  Pending = 'ENUM.LICENSE_STATUS.PENDING'
+}

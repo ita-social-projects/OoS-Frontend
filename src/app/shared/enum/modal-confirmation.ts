@@ -35,7 +35,8 @@ export enum ModalConfirmationType {
   blockMinistryAdmin = 'blockMinistryAdmin',
   unBlockMinistryAdmin = 'unBlockMinistryAdmin',
   createMinistryAdmin = 'createMinistryAdmin',
-  updateMinistryAdmin = 'updateMinistryAdmin'
+  updateMinistryAdmin = 'updateMinistryAdmin',
+  licenseApproved = 'licenseApproved',
 }
 export enum ModalConfirmationTitle {
   delete = 'ВИДАЛИТИ ГУРТОК?',
@@ -73,7 +74,8 @@ export enum ModalConfirmationTitle {
   blockMinistryAdmin = 'БЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА?',
   unBlockMinistryAdmin = 'РОЗБЛОКУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА?',
   createMinistryAdmin = 'ДОДАТИ АДМІНА МІНІСТЕРСТВА?',
-  updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА?'
+  updateMinistryAdmin = 'РЕДАГУВАТИ АДМІНІСТРАТОРА МІНІСТЕРСТВА?',
+  licenseApproved = 'ПІДТВЕРДИТИ ЛІЦЕНЗІЮ ЗАКЛАДУ?',
 }
 
 export enum ModalConfirmationText {
@@ -113,11 +115,12 @@ export enum ModalConfirmationText {
   blockMinistryAdmin = 'Ви впевнені, що хочете заблокувати адміністратора міністерства?',
   unBlockMinistryAdmin = 'Ви впевнені, що хочете розблокувати адміністратора міністерства?',
   createMinistryAdmin = 'Ви впевнені, що хочете додати адміна міністерства?',
-  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства?'
+  updateMinistryAdmin = 'Ви впевнені, що хочете редагувати адміністратора міністерства?',
+  licenseApproved = "Ви впевнені, що хочете підтвердити ліцензію закладу?",
 }
 
 export enum ModalConfirmationDescription {
   blockParent = 'Вкажіть причину блокування',
   reject = 'Вкажіть причину відмови',
-  editingProvider = 'Вкажіть причину редагування'
+  editingProvider = 'Вкажіть причину редагування',
 }

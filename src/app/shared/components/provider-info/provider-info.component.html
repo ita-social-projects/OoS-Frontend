@@ -14,6 +14,15 @@
     <mat-tab label="{{ 'INFORMATION_ABOUT' | translate }} {{ 'ENUM.ROLE_LINKS.PROVIDER' | translate }}">
       <h5>{{ 'OWNERSHIP' | translate }}</h5>
       <p>{{ ownershipTypesEnum[provider.ownership] | translate }}</p>
+
+      <ng-container *ngIf="provider.license">
+        <div fxLayout="row" fxLayoutAlign="space-between center" class="license-status">
+          <h5>{{ 'LICENSE' | translate }}</h5>
+          <h5 [ngClass]="provider.licenseStatus">{{ licenseStatusEnum[provider.licenseStatus] | translate }}</h5>
+        </div>      
+      </ng-container>
+
+      <p>{{ provider.license }}</p>
       <h5>{{ 'INSTITUTION_CATEGORY' | translate }}</h5>
       <p>{{ institutionTypesEnum[provider.institutionType] | translate }}</p>
       <ng-container *ngIf="provider.type">

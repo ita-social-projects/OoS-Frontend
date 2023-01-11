@@ -71,6 +71,12 @@ export enum ProviderStatusTitles {
   Editing = 'Потребує редагування'
 }
 
+export enum LicenseStatusTitles {
+  Approved = 'Ліцензію підтверджено',
+  Pending = 'Очікує підтвердження ліцензії',
+  NotProvided = 'Ліцензію не надано'
+}
+
 export enum ProviderStatusDetails {
   Approved = 'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.',
   Pending = 'Ваш заклад очікує підтвердження адміністратором.'

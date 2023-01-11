@@ -9,7 +9,7 @@ import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ApplicationService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -30,12 +30,13 @@ export class ApplicationService {
         parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
       }
 
+      if (parameters.searchString) {
+        params = params.set('SearchString', parameters.searchString);
+      }
+
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
-    params = params
-      .set('OrderByDateAscending', 'true')
-      .set('OrderByAlphabetically', 'true')
-      .set('OrderByStatus', 'true');
+    params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
     const size = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
@@ -50,13 +51,15 @@ export class ApplicationService {
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByPropertyId(
-    id: string,
-    parameters: ApplicationFilterParameters
-  ): Observable<SearchResponse<Application[]>> {
+  getApplicationsByPropertyId(id: string, parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
 
     return this.http.get<SearchResponse<Application[]>>(`/api/v1/${parameters.property}/${id}/applications`, options);
+  }
+
+  getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
+    const options = { params: this.setParams(parameters) };
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/applications`, options);
   }
 
   /**

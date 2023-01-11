@@ -4,9 +4,10 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Provider, ProviderStatusUpdateData } from '../../models/provider.model';
+import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../../models/provider.model';
 import { SearchResponse } from '../../models/search.model';
 import { DataItem } from '../../models/item.model';
+import { LicenseStatuses } from '../../enum/statuses';
 
 @Injectable({
   providedIn: 'root',
@@ -94,6 +95,13 @@ export class ProviderService {
    */
   updateProviderStatus(updateStatus: ProviderStatusUpdateData): Observable<ProviderStatusUpdateData> {
     return this.http.put<ProviderStatusUpdateData>('/api/v1/Provider/StatusUpdate', updateStatus);
+  }
+
+  /**
+   * This method update Provider status
+   */
+  updateProviderLicenseStatus(licenseStatusData: LicenseStatusData): Observable<LicenseStatusData> {
+    return this.http.put<LicenseStatusData>('/api/v1/Provider/LicenseStatusUpdate', licenseStatusData);
   }
 
   /**
