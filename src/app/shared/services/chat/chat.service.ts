@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Role } from '../../enum/role';
 import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from '../../models/chat.model';
 import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/search.model';
 import { PaginatorState } from '../../store/paginator.state';
 import { RegistrationState } from '../../store/registration.state';
 
@@ -14,12 +15,11 @@ import { RegistrationState } from '../../store/registration.state';
 export class ChatService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  //TODO: After fixing the data model on Search Response, change the return type to Observable<SearchResponse<ChatRoom[]>>
-  getChatRooms(parameters: ChatRoomsParameters): Observable<ChatRoom[]> {
+  getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
     const role = this.store.selectSnapshot(RegistrationState.role);
     let params = this.setFilterParams(parameters);
 
-    return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/${role}/chatrooms`, { params });
+    return this.http.get<SearchResponse<ChatRoom[]>>(`/api/v1/ChatWorkshop/${role}/chatrooms`, { params });
   }
 
   //TODO: reduce the number of arguments
@@ -34,12 +34,10 @@ export class ChatService {
   }
 
   private setFilterParams(parameters: ChatRoomsParameters): HttpParams {
-    //TODO: Uncomment after fixing the search query with the size parameter.
-    // const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    // const size = this.store.selectSnapshot(PaginatorState.chatRoomsPerPage);
-    // const from = size * (+currentPage.element - 1);
-    // let params = new HttpParams().set('Size', size.toString()).set('From', from.toString());
-    let params = new HttpParams();
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size = this.store.selectSnapshot(PaginatorState.chatRoomsPerPage);
+    const from = size * (+currentPage.element - 1);
+    let params = new HttpParams().set('Size', size.toString()).set('From', from.toString());
 
     if (parameters.searchText) {
       params = params.set('SearchText', parameters.searchText);

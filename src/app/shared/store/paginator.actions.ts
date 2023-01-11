@@ -41,37 +41,37 @@ export class SetRatingPerPage {
 }
 
 export class OnPageChangeWorkshops {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Workshops Page';
   constructor(public payload: PaginationElement) {}
 }
 
 export class OnPageChangeAchievement {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Achievments Page';
   constructor(public payload: PaginationElement) {}
 }
 
 export class OnPageChangeProviders {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Providers Page';
   constructor(public payload: PaginationElement) {}
 }
 
 export class OnPageChangeDirections {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Directions Page';
   constructor(public payload: PaginationElement) {}
 }
 
 export class OnPageChangeChildrens {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Childrens Page';
   constructor(public payload: PaginationElement) {}
 }
 
 export class OnPageChangeChatRooms {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Chat Rooms Page';
   constructor(public page: PaginationElement) {}
 }
 
 export class OnPageChangeApplications {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Applications Page';
   constructor(public payload: PaginationElement) {}
 }
 
@@ -81,7 +81,7 @@ export class OnPageChangeAdminTable {
 }
 
 export class OnPageChangeRating {
-  static readonly type = '[paginator] Change Page';
+  static readonly type = '[paginator] Change Rate Page';
   constructor(public payload: PaginationElement) {}
 }
 

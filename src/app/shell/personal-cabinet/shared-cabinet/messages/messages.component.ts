@@ -31,6 +31,7 @@ import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { OnPageChangeChatRooms, SetChatRoomsPerPage } from '../../../../shared/store/paginator.actions';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-messages',
@@ -44,14 +45,11 @@ export class MessagesComponent extends CabinetDataComponent {
 
   providerId: string;
   filterFormControl: FormControl = new FormControl('');
-  //TODO: After fixing the data model on Search Response, change the type to SearchResponse<ChatRoom[]>
-  chatRooms: ChatRoom[];
+  chatRooms: SearchResponse<ChatRoom[]>;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   chatRoomsParameters: ChatRoomsParameters = {
     workshopIds: null,
-    searchText: null,
-    from: 0,
-    size: 8
+    searchText: null
   };
 
   @Select(PaginatorState.chatRoomsPerPage)
@@ -60,9 +58,8 @@ export class MessagesComponent extends CabinetDataComponent {
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
-  //TODO: After fixing the data model on Search Response, change the type to Observable<SearchResponse<ChatRoom[]>>
   @Select(ChatState.chatRooms)
-  chatRooms$: Observable<ChatRoom[]>;
+  chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
@@ -108,7 +105,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   setListeners(): void {
-    this.chatRooms$.pipe(takeUntil(this.destroy$)).subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
+    this.chatRooms$.pipe(takeUntil(this.destroy$)).subscribe((chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
