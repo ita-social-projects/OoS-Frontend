@@ -3,6 +3,7 @@ import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
+import { StatisticParameters } from '../models/queryParameters.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
 
@@ -32,6 +33,12 @@ export class GetLawsAndRegulations {
   static readonly type = '[admin] Get LawsAndRegulations';
   constructor() {}
 }
+
+export class GetStatisticReports {
+  static readonly type = '[admin] Get Statistic Reports';
+  constructor(public parameters: StatisticParameters) {}
+}
+
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
   constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+import { StatisticPeriod, StatisticFileFormat } from '../../../../shared/enum/statistics';
 
 @Component({
   selector: 'app-statistics',
@@ -9,6 +10,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit {
+  readonly StatisticsPeriod = StatisticPeriod;
+  readonly StatisticsFileFormat = StatisticFileFormat;
+
   filtersForm: FormGroup;
   isReport = false;
 
@@ -16,8 +20,8 @@ export class StatisticsComponent implements OnInit {
 
   ngOnInit(): void {
     this.filtersForm = this.fb.group({
-      period: new FormControl('WorkshopsDaily'),
-      format: new FormControl('CSV')
+      period: new FormControl(StatisticPeriod.WorkshopsDaily),
+      format: new FormControl(StatisticFileFormat.CSV)
     });
   }
 

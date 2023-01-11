@@ -1,10 +1,14 @@
+<div *ngFor="let format of StatisticsFileFormat">
+  {{ format }}
+</div>
+
 <div [formGroup]="filtersForm" class="statistics-filters">
   <div class="filter-wrapper">
     <span class="title">Часовий проміжок</span>
     <mat-form-field>
       <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period" class="control control-select select">
-        <mat-option value="WorkshopsDaily" class="dropdown-option">За останні 24 години</mat-option>
-        <mat-option value="WorkshopsYear" class="dropdown-option">За рік</mat-option>
+        <mat-option [value]="StatisticsPeriod.WorkshopsDaily" class="dropdown-option">За останні 24 години</mat-option>
+        <mat-option [value]="StatisticsPeriod.WorkshopsYear" class="dropdown-option">За рік</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
@@ -12,9 +16,9 @@
     <span class="title">Формат</span>
     <mat-form-field>
       <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="format" class="control control-select">
-        <mat-option value="CSV" class="dropdown-option">CSV</mat-option>
-        <mat-option value="XLSX" class="dropdown-option">XLSX</mat-option>
-        <mat-option value="HTML" class="dropdown-option">HTML</mat-option>
+        <mat-option [value]="StatisticsFileFormat.CSV" class="dropdown-option">CSV</mat-option>
+        <mat-option [value]="StatisticsFileFormat.XLSX" class="dropdown-option">XLSX</mat-option>
+        <mat-option [value]="StatisticsFileFormat.HTML" class="dropdown-option">HTML</mat-option>
       </mat-select>
     </mat-form-field>
   </div>
