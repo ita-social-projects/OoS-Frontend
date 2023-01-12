@@ -2,12 +2,12 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { SearchResponse } from 'src/app/shared/models/search.model';
-import { StatisticReport } from 'src/app/shared/models/statistic.model';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { GetStatisticReports } from 'src/app/shared/store/admin.actions';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { StatisticReport } from '../../../../shared/models/statistic.model';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
-import { StatisticParameters } from 'src/app/shared/models/queryParameters.model';
+import { StatisticParameters } from '../../../../shared/models/queryParameters.model';
 
 @Component({
   selector: 'app-statistics',
