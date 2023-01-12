@@ -1,4 +1,5 @@
 <app-applications
+  *ngIf="parent"
   [applicationParams]="applicationParams"
   [declination]="ChildDeclination"
   [dropdownEntities]="truncatedItems$ | async"

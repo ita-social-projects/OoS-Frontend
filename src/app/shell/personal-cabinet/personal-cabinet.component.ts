@@ -6,6 +6,7 @@ import { RoleLinks, Role } from '../../shared/enum/role';
 import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Util } from '../../shared/utils/utils';
+import { ApplicationStatuses } from '../../shared/enum/statuses';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -13,8 +14,10 @@ import { Util } from '../../shared/utils/utils';
   styleUrls: ['./personal-cabinet.component.scss']
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  roles = RoleLinks;
-  Role = Role;
+  readonly ApplicationStatuses = ApplicationStatuses;
+  readonly roles = RoleLinks;
+  readonly Role = Role;
+  
   personalCabinetTitle: PersonalCabinetTitle;
   userRole: Role;
   subRole: Role;

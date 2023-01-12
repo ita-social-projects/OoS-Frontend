@@ -52,7 +52,6 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   init(): void {
     this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
       this.parent = parent;
-      this.onGetApplications();
       this.getParentChildren();
     });
   }
