@@ -25,7 +25,7 @@
   <button class="btn" mat-raised-button (click)="onGenerateReport()">Згенерувати звіти</button>
 </div>
 <div class="statistics-result">
-  <ng-container *ngIf="statisticReports; then report; else noReport"></ng-container>
+  <ng-container *ngIf="statisticReports$ | async; then report; else noReport"></ng-container>
 </div>
 
 <ng-template #noReport>

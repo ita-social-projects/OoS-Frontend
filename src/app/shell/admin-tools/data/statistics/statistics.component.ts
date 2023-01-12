@@ -22,48 +22,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
 
-  statisticReports: StatisticReport[] = [
-    {
-      id: 'sad',
-      date: Date.now().toString(),
-      externalStorageId: 'as',
-      reportDataType: StatisticFileFormat.CSV,
-      reportType: StatisticPeriodType.WorkshopsYear,
-      title: 'звіт'
-    },
-    {
-      id: 'sad',
-      date: Date.now().toString(),
-      externalStorageId: 'as',
-      reportDataType: StatisticFileFormat.CSV,
-      reportType: StatisticPeriodType.WorkshopsYear,
-      title: 'звіт'
-    },
-    {
-      id: 'sad',
-      date: Date.now().toString(),
-      externalStorageId: 'as',
-      reportDataType: StatisticFileFormat.CSV,
-      reportType: StatisticPeriodType.WorkshopsYear,
-      title: 'звіт'
-    },
-    {
-      id: 'sad',
-      date: Date.now().toString(),
-      externalStorageId: 'as',
-      reportDataType: StatisticFileFormat.CSV,
-      reportType: StatisticPeriodType.WorkshopsYear,
-      title: 'звіт'
-    },
-    {
-      id: 'sad',
-      date: Date.now().toString(),
-      externalStorageId: 'as',
-      reportDataType: StatisticFileFormat.CSV,
-      reportType: StatisticPeriodType.WorkshopsYear,
-      title: 'звіт'
-    }
-  ];
   statisticParameters: StatisticParameters;
   filtersForm: FormGroup;
   displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
