@@ -1,9 +1,9 @@
-import { StatisticFileFormat, StatisticPeriod } from '../enum/statistics';
+import { StatisticFileFormat, StatisticPeriodType } from '../enum/statistics';
 
 export interface StatisticReport {
   id: string;
-  date: Date;
-  reportType: StatisticPeriod;
+  date: string;
+  reportType: StatisticPeriodType;
   reportDataType: StatisticFileFormat;
   title: string;
   externalStorageId: string;

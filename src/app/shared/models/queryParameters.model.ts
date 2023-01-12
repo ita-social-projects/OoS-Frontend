@@ -1,4 +1,4 @@
-import { StatisticFileFormat, StatisticPeriod } from '../enum/statistics';
+import { StatisticFileFormat, StatisticPeriodTitle } from '../enum/statistics';
 
 export interface PaginationParameters {
   from?: number;
@@ -6,6 +6,6 @@ export interface PaginationParameters {
 }
 
 export interface StatisticParameters extends PaginationParameters {
-  ReportType: StatisticPeriod;
+  ReportType: StatisticPeriodTitle;
   ReportDataType: StatisticFileFormat;
 }

@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/dropdown.scss';
 @import 'src/app/shared/styles/calendar.scss';
 @import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/tables';
 
 :host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
   padding: 0;
@@ -45,8 +46,8 @@
     }
 
     .btn {
-      font-size: inherit;
-      font-family: inherit;
+      font-size: 13px;
+      font-family: 'Open Sans', sans-serif;
       text-transform: uppercase;
 
       height: 40px;
@@ -90,6 +91,15 @@
   font-weight: 700;
   font-size: 13px;
   line-height: 18px;
+}
+
+.table-wrapper {
+  max-width: 100%;
+  overflow: auto;
+}
+
+table {
+  min-width: 1000px;
 }
 
 @media (max-width: 1100px) {
