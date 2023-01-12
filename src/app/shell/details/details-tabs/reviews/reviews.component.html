@@ -2,7 +2,7 @@
   <div fxLayout="row wrap" fxLayoutAlign="space-between center">
     <div fxLayout="row wrap" fxLayoutAlign="space-between center">
       <mat-icon class="star-icon">star</mat-icon> {{ workshop.rating }}
-      <p class="rate-amount">({{ rating.totalAmount | translateCases : ReviewDeclination }})</p>
+      <p class="rate-amount">({{ rating.totalAmount | translateCases: ReviewDeclination }})</p>
     </div>
     <div
       [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated"
