@@ -5,7 +5,13 @@ import { EMPTY_RESULT } from '../constants/constants';
 import { ChatRoom, IncomingMessage } from '../models/chat.model';
 import { SearchResponse } from '../models/search.model';
 import { ChatService } from '../services/chat/chat.service';
-import { ClearSelectedChatRoom, GetChatRoomById, GetChatRoomMessages, GetUserChatRooms } from './chat.actions';
+import {
+  ClearSelectedChatRoom,
+  GetChatRoomById,
+  GetChatRoomMessages,
+  GetChatRoomMessagesByWorkshopId,
+  GetUserChatRooms
+} from './chat.actions';
 import { RegistrationState } from './registration.state';
 
 export interface ChatStateModel {
@@ -65,6 +71,17 @@ export class ChatState {
     patchState({ isLoadingData: true });
     return this.chatService
       .getChatRoomsMessages(chatRoomId, role, parameters)
+      .pipe(tap((selectedChatRoomMessages: IncomingMessage[]) => patchState({ selectedChatRoomMessages, isLoadingData: false })));
+  }
+
+  @Action(GetChatRoomMessagesByWorkshopId)
+  getChatRoomMessagesByWorkshopId(
+    { patchState }: StateContext<ChatStateModel>,
+    { workshopId, parameters }: GetChatRoomMessagesByWorkshopId
+  ): Observable<IncomingMessage[]> {
+    patchState({ isLoadingData: true });
+    return this.chatService
+      .getChatRoomMessagesByWorkshopId(workshopId, parameters)
       .pipe(tap((selectedChatRoomMessages: IncomingMessage[]) => patchState({ selectedChatRoomMessages, isLoadingData: false })));
   }
 
