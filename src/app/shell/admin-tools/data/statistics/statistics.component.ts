@@ -9,8 +9,8 @@ import { GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeReports, SetReportsPerPage } from 'src/app/shared/store/paginator.actions';
-import { PaginatorState } from 'src/app/shared/store/paginator.state';
+import { OnPageChangeReports, SetReportsPerPage } from '../../../../shared/store/paginator.actions';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
 
 @Component({
   selector: 'app-statistics',
