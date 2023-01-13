@@ -1,4 +1,5 @@
 import { StatisticFileFormat, StatisticPeriodType } from '../enum/statistics';
+import { PaginationParameters } from './queryParameters.model';
 
 export interface StatisticReport {
   id: string;
@@ -7,4 +8,9 @@ export interface StatisticReport {
   reportDataType: StatisticFileFormat;
   title: string;
   externalStorageId: string;
+}
+
+export interface StatisticParameters extends PaginationParameters {
+  ReportType: StatisticPeriodType;
+  ReportDataType: StatisticFileFormat;
 }

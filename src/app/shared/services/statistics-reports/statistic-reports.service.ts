@@ -3,9 +3,8 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { PaginationElement } from '../../models/paginationElement.model';
-import { StatisticParameters } from '../../models/queryParameters.model';
 import { SearchResponse } from '../../models/search.model';
-import { StatisticReport } from '../../models/statistic.model';
+import { StatisticParameters, StatisticReport } from '../../models/statistic.model';
 import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({

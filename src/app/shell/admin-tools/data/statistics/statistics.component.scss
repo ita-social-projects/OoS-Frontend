@@ -33,7 +33,7 @@
     align-items: center;
     justify-content: center;
 
-    padding: 64px;
+    padding: 64px 0;
 
     font-size: 13px;
     font-family: 'Open Sans', sans-serif;
@@ -104,6 +104,6 @@ table {
 
 @media (max-width: 1100px) {
   .statistics-result {
-    padding: 40px;
+    padding: 40px 0;
   }
 }

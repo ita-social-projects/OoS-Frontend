@@ -246,7 +246,11 @@ export class AdminState {
     patchState({ isLoading: true });
     return this.statisticService
       .getReportsByFilter(parameters)
-      .pipe(tap((statisticsReports: SearchResponse<StatisticReport[]>) => patchState({ statisticsReports, isLoading: false })));
+      .pipe(
+        tap((statisticsReports: SearchResponse<StatisticReport[]>) =>
+          patchState({ statisticsReports: statisticsReports ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
   }
 
   @Action(UpdatePlatformInfo)

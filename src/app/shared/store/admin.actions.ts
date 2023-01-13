@@ -3,7 +3,7 @@ import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
-import { StatisticParameters } from '../models/queryParameters.model';
+import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
 
