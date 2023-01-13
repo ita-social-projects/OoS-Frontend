@@ -1,15 +1,5 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  OnChanges,
-  SimpleChanges,
-  EventEmitter,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef
-} from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
@@ -22,8 +12,7 @@ enum ValidatorsTypes {
 }
 @Component({
   selector: 'app-validation-hint',
-  templateUrl: './validation-hint.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: './validation-hint.component.html'
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
@@ -38,8 +27,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // for Date Format Validation
   @Input() minMaxDate: boolean;
 
+  takeOnce = false;
   required: boolean;
-  invalid: boolean;
   invalidSymbols: boolean;
   invalidCharacters: boolean;
   invalidFieldLength: boolean;
@@ -50,13 +39,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private cdr: ChangeDetectorRef) {}
+  constructor() {}
 
   ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       const errors = this.validationFormControl.errors;
-      // Check is the field valid
-      this.invalid = this.validationFormControl.invalid && this.validationFormControl.touched;
 
       // Check is the field required and empty
       this.required = !!(errors?.required && !this.validationFormControl.value);
@@ -69,7 +56,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
       // Check errors for invalid text field
       this.checkInvalidText(errors);
-      this.cdr.detectChanges();
     });
   }
 
