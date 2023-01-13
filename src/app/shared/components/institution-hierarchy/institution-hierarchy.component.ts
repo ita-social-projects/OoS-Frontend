@@ -78,7 +78,9 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
           this.hierarchyArray[nextLevel].shouldDisplay = true;
 
           if (this.editInstituitionsHierarchy && this.editInstituitionsHierarchy[nextLevel]) {
+            const nextEditInstitution = this.editInstituitionsHierarchy[nextLevel + 1];
             this.hierarchyArray[nextLevel].formControl.setValue(this.editInstituitionsHierarchy[nextLevel].id, { emitEvent: false });
+            nextEditInstitution && this.store.dispatch(new GetInstitutionHierarchyChildrenById(nextEditInstitution.id));
           }
         } else {
           let finalInstitutionId = this.hierarchyArray[this.hierarchyArray.length - 1].formControl.value;
@@ -144,9 +146,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
       )
       .subscribe((instituitionsHierarchy: InstituitionHierarchy[]) => {
         this.editInstituitionsHierarchy = instituitionsHierarchy;
-        instituitionsHierarchy.forEach((institutionsHierarchy: InstituitionHierarchy) => {
-          this.store.dispatch(new GetInstitutionHierarchyChildrenById(institutionsHierarchy.id));
-        });
+        this.store.dispatch(new GetInstitutionHierarchyChildrenById(instituitionsHierarchy[0].id));
       });
   }
 

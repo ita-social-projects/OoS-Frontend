@@ -2,7 +2,12 @@ import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } fr
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
-import { ClearSelectedChatRoom, GetChatRoomById, GetChatRoomMessages } from '../../../../../shared/store/chat.actions';
+import {
+  ClearSelectedChatRoom,
+  GetChatRoomById,
+  GetChatRoomMessages,
+  GetChatRoomMessagesByWorkshopId
+} from '../../../../../shared/store/chat.actions';
 import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
@@ -58,6 +63,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private hubConnection: signalR.HubConnection;
   private isHistoryLoading = false;
+  private mode: string;
 
   constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
@@ -77,7 +83,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
         if (!this.isHistoryLoading) {
           this.isHistoryLoading = true;
-          this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, { from: this.messages.length, size: 20 }));
+          this.messagesParameters.from = this.messages.length;
+          if (this.mode === ModeConstants.WORKSHOP) {
+            this.store.dispatch(new GetChatRoomMessagesByWorkshopId(this.chatRoom.workshopId, this.messagesParameters));
+          } else {
+            this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, this.messagesParameters));
+          }
         }
       }
     };
@@ -103,9 +114,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getChatRoom(): void {
-    const mode = this.route.snapshot.queryParamMap.get('mode');
+    this.mode = this.route.snapshot.queryParamMap.get('mode');
 
-    switch (mode) {
+    switch (this.mode) {
       case ModeConstants.WORKSHOP:
         this.createChatRoom();
         break;
@@ -127,6 +138,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       )
       .subscribe(([workshop, user, parent]) => {
         this.chatRoom = new ChatRoom(workshop, user, parent);
+        this.messagesParameters.from = this.messages.length;
+        this.store.dispatch(new GetChatRoomMessagesByWorkshopId(this.chatRoom.workshopId, this.messagesParameters));
         this.getChatMembersNames();
       });
   }
