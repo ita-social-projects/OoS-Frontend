@@ -12,7 +12,6 @@ import {
   GetChatRoomMessagesByWorkshopId,
   GetUserChatRooms
 } from './chat.actions';
-import { RegistrationState } from './registration.state';
 
 export interface ChatStateModel {
   isLoadingData: boolean;
@@ -52,11 +51,13 @@ export class ChatState {
     return state.selectedChatRoomMessages;
   }
 
-  constructor(private chatService: ChatService, private store: Store) {}
+  constructor(private chatService: ChatService) {}
 
   @Action(GetUserChatRooms)
-  getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { parameters }: GetUserChatRooms): Observable<SearchResponse<ChatRoom[]>> {
-    const role = this.store.selectSnapshot(RegistrationState.role);
+  getUserChatRooms(
+    { patchState }: StateContext<ChatStateModel>,
+    { role, parameters }: GetUserChatRooms
+  ): Observable<SearchResponse<ChatRoom[]>> {
     patchState({ isLoadingData: true });
     return this.chatService
       .getChatRooms(role, parameters)

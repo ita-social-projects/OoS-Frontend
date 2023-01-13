@@ -101,17 +101,19 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+    this.store.dispatch(new GetUserChatRooms(this.role, this.chatRoomsParameters));
   }
 
   setListeners(): void {
-    this.chatRooms$.pipe(takeUntil(this.destroy$)).subscribe((chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms));
+    this.chatRooms$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
       .subscribe((val: string) => {
         this.chatRoomsParameters.searchText = val;
-        this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+        this.store.dispatch(new GetUserChatRooms(this.role, this.chatRoomsParameters));
       });
   }
 
@@ -142,17 +144,17 @@ export class MessagesComponent extends CabinetDataComponent {
     });
   }
 
-  onEntitiesSelect(IDs: string[]): void {
-    this.chatRoomsParameters.workshopIds = IDs;
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+  onEntitiesSelect(workshopIds: string[]): void {
+    this.chatRoomsParameters.workshopIds = workshopIds;
+    this.store.dispatch(new GetUserChatRooms(this.role, this.chatRoomsParameters));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.chatRoomsParameters)]);
+    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.role, this.chatRoomsParameters)]);
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.chatRoomsParameters)]);
+    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.role, this.chatRoomsParameters)]);
   }
 }
