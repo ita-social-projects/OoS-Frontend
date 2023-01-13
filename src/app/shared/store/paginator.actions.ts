@@ -30,6 +30,11 @@ export class SetApplicationsPerPage {
   constructor(public payload: number) {}
 }
 
+export class SetReportsPerPage {
+  static readonly type = '[paginator] Reports Per Page';
+  constructor(public payload: number) {}
+}
+
 export class SetRatingPerPage {
   static readonly type = '[paginator] Rating Per Page';
   constructor(public payload: number) {}
@@ -43,6 +48,11 @@ export class OnPageChangeWorkshops {
 export class OnPageChangeAchievement {
   static readonly type = '[paginator] Change Page';
   constructor(public payload: PaginationElement) {}
+}
+
+export class OnPageChangeReports {
+  static readonly type = '[paginator] Change Page Reports';
+  constructor(public page: PaginationElement) {}
 }
 
 export class OnPageChangeProviders {

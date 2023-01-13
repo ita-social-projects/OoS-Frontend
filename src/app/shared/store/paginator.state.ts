@@ -19,7 +19,9 @@ import {
   SetItemsPerPage,
   OnPageChangeHistoryLog,
   SetAchievementsPerPage,
-  OnPageChange
+  OnPageChange,
+  SetReportsPerPage,
+  OnPageChangeReports
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
@@ -27,6 +29,7 @@ export interface PaginatorStateModel {
   workshopsPerPage: number;
   directionsPerPage: number;
   applicationsPerPage: number;
+  reportsPerPage: number;
   ratingPerPage: number;
   childrensPerPage: number;
   currentPage: PaginationElement;
@@ -39,6 +42,7 @@ export interface PaginatorStateModel {
     workshopsPerPage: 12,
     directionsPerPage: 12,
     applicationsPerPage: 8,
+    reportsPerPage: 8,
     childrensPerPage: 8,
     ratingPerPage: 12,
     itemsPerPage: 12,
@@ -65,6 +69,10 @@ export class PaginatorState {
 
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number {
     return state.applicationsPerPage;
+  }
+
+  @Selector() static reportsPerPage(state: PaginatorStateModel): number {
+    return state.reportsPerPage;
   }
 
   @Selector() static ratingPerPage(state: PaginatorStateModel): number {
@@ -105,7 +113,12 @@ export class PaginatorState {
   setAchievementsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAchievementsPerPage): void {
     patchState({ achievementPerPage: payload });
   }
-  
+
+  @Action(SetReportsPerPage)
+  setReportsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetReportsPerPage): void {
+    patchState({ reportsPerPage: payload });
+  }
+
   @Action(SetChildrensPerPage)
   setChildrensPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetChildrensPerPage): void {
     patchState({ childrensPerPage: payload });
@@ -144,6 +157,11 @@ export class PaginatorState {
   @Action(OnPageChangeApplications)
   onPageChangeApplications({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeApplications): void {
     patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeReports)
+  onPageChangeReports({ patchState }: StateContext<PaginatorStateModel>, { page }: OnPageChangeReports): void {
+    patchState({ currentPage: page });
   }
 
   @Action(OnPageChangeAdminTable)
