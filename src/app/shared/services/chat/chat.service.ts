@@ -7,7 +7,6 @@ import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } fr
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 import { PaginatorState } from '../../store/paginator.state';
-import { RegistrationState } from '../../store/registration.state';
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +14,12 @@ import { RegistrationState } from '../../store/registration.state';
 export class ChatService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
-    const role = this.store.selectSnapshot(RegistrationState.role);
+  getChatRooms(role: Role, parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
     let params = this.setFilterParams(parameters);
 
     return this.http.get<SearchResponse<ChatRoom[]>>(`/api/v1/ChatWorkshop/${role}/chatrooms`, { params });
   }
 
-  //TODO: reduce the number of arguments
   getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
