@@ -16,11 +16,10 @@ import {
   SetFirstPage,
   SetRatingPerPage,
   SetWorkshopsPerPage,
-  SetItemsPerPage,
+  SetTableItemsPerPage,
   OnPageChangeHistoryLog,
   SetAchievementsPerPage,
   OnPageChange,
-  SetReportsPerPage,
   OnPageChangeReports
 } from './paginator.actions';
 
@@ -29,11 +28,10 @@ export interface PaginatorStateModel {
   workshopsPerPage: number;
   directionsPerPage: number;
   applicationsPerPage: number;
-  reportsPerPage: number;
   ratingPerPage: number;
   childrensPerPage: number;
   currentPage: PaginationElement;
-  itemsPerPage: number;
+  tableItemsPerPage: number;
 }
 @State<PaginatorStateModel>({
   name: 'paginator',
@@ -42,10 +40,9 @@ export interface PaginatorStateModel {
     workshopsPerPage: 12,
     directionsPerPage: 12,
     applicationsPerPage: 8,
-    reportsPerPage: 8,
     childrensPerPage: 8,
     ratingPerPage: 12,
-    itemsPerPage: 12,
+    tableItemsPerPage: 12,
     currentPage: PaginationConstants.firstPage
   }
 })
@@ -63,16 +60,12 @@ export class PaginatorState {
     return state.directionsPerPage;
   }
 
-  @Selector() static itemsPerPage(state: PaginatorStateModel): number {
-    return state.itemsPerPage;
+  @Selector() static tableItemsPerPage(state: PaginatorStateModel): number {
+    return state.tableItemsPerPage;
   }
 
   @Selector() static applicationsPerPage(state: PaginatorStateModel): number {
     return state.applicationsPerPage;
-  }
-
-  @Selector() static reportsPerPage(state: PaginatorStateModel): number {
-    return state.reportsPerPage;
   }
 
   @Selector() static ratingPerPage(state: PaginatorStateModel): number {
@@ -104,19 +97,14 @@ export class PaginatorState {
     patchState({ applicationsPerPage: payload });
   }
 
-  @Action(SetItemsPerPage)
-  setItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetItemsPerPage): void {
-    patchState({ itemsPerPage: payload });
+  @Action(SetTableItemsPerPage)
+  setItemsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetTableItemsPerPage): void {
+    patchState({ tableItemsPerPage: payload });
   }
 
   @Action(SetAchievementsPerPage)
   setAchievementsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetAchievementsPerPage): void {
     patchState({ achievementPerPage: payload });
-  }
-
-  @Action(SetReportsPerPage)
-  setReportsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetReportsPerPage): void {
-    patchState({ reportsPerPage: payload });
   }
 
   @Action(SetChildrensPerPage)
