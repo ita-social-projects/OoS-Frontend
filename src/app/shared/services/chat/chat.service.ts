@@ -14,10 +14,10 @@ import { PaginatorState } from '../../store/paginator.state';
 export class ChatService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  getChatRooms(role: Role, parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
+  getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
     let params = this.setFilterParams(parameters);
 
-    return this.http.get<SearchResponse<ChatRoom[]>>(`/api/v1/ChatWorkshop/${role}/chatrooms`, { params });
+    return this.http.get<SearchResponse<ChatRoom[]>>(`/api/v1/ChatWorkshop/${parameters.role}/chatrooms`, { params });
   }
 
   getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<IncomingMessage[]> {

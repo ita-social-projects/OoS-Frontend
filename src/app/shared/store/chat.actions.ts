@@ -3,7 +3,7 @@ import { ChatRoomsParameters, MessagesParameters } from '../models/chat.model';
 
 export class GetUserChatRooms {
   static readonly type = '[chat] Get User Chat Rooms';
-  constructor(public role: Role, public parameters: ChatRoomsParameters) {}
+  constructor(public parameters: ChatRoomsParameters) {}
 }
 
 export class GetChatRoomMessages {

@@ -48,6 +48,7 @@ export class MessagesComponent extends CabinetDataComponent {
   chatRooms: SearchResponse<ChatRoom[]>;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   chatRoomsParameters: ChatRoomsParameters = {
+    role: null,
     workshopIds: null,
     searchText: null
   };
@@ -66,6 +67,8 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   protected init(): void {
+    this.chatRoomsParameters.role = this.role;
+
     if (this.role === Role.provider) {
       this.provider$
         .pipe(
@@ -101,7 +104,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(this.role, this.chatRoomsParameters));
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   setListeners(): void {
@@ -113,7 +116,7 @@ export class MessagesComponent extends CabinetDataComponent {
       .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
       .subscribe((val: string) => {
         this.chatRoomsParameters.searchText = val;
-        this.store.dispatch(new GetUserChatRooms(this.role, this.chatRoomsParameters));
+        this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
       });
   }
 
@@ -146,15 +149,15 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onEntitiesSelect(workshopIds: string[]): void {
     this.chatRoomsParameters.workshopIds = workshopIds;
-    this.store.dispatch(new GetUserChatRooms(this.role, this.chatRoomsParameters));
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.role, this.chatRoomsParameters)]);
+    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.chatRoomsParameters)]);
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.role, this.chatRoomsParameters)]);
+    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.chatRoomsParameters)]);
   }
 }

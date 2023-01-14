@@ -54,13 +54,10 @@ export class ChatState {
   constructor(private chatService: ChatService) {}
 
   @Action(GetUserChatRooms)
-  getUserChatRooms(
-    { patchState }: StateContext<ChatStateModel>,
-    { role, parameters }: GetUserChatRooms
-  ): Observable<SearchResponse<ChatRoom[]>> {
+  getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { parameters }: GetUserChatRooms): Observable<SearchResponse<ChatRoom[]>> {
     patchState({ isLoadingData: true });
     return this.chatService
-      .getChatRooms(role, parameters)
+      .getChatRooms(parameters)
       .pipe(tap((chatRooms: SearchResponse<ChatRoom[]>) => patchState({ chatRooms: chatRooms ?? EMPTY_RESULT, isLoadingData: false })));
   }
 
