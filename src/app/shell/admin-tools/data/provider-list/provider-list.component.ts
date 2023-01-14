@@ -17,31 +17,22 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import {
-  LicenseStatuses,
-  ProviderStatuses,
-  ProviderStatusTitles,
-  UserStatusIcons,
-} from '../../../../shared/enum/statuses';
+import { LicenseStatuses, ProviderStatuses, ProviderStatusTitles, UserStatusIcons } from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import {
-  DeleteProviderById,
-  UpdateProviderStatus,
-  UpdateProviderLicenseStatuse,
-} from './../../../../shared/store/provider.actions';
+import { DeleteProviderById, UpdateProviderStatus, UpdateProviderLicenseStatuse } from './../../../../shared/store/provider.actions';
 import { OwnershipTypes } from '../../../../shared/enum/provider';
 
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
-  styleUrls: ['./provider-list.component.scss'],
+  styleUrls: ['./provider-list.component.scss']
 })
 export class ProviderListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
@@ -59,8 +50,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.providers)
   providers$: Observable<SearchResponse<Provider[]>>;
-  @Select(PaginatorState.itemsPerPage)
-  itemsPerPage$: Observable<number>;
+  @Select(PaginatorState.tableItemsPerPage)
+  tableItemsPerPage$: Observable<number>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
 
@@ -82,7 +73,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'founder',
     'actualAddress',
     'status',
-    'star',
+    'star'
   ];
   filterFormControl: FormControl = new FormControl('');
   dataSource = new MatTableDataSource([{}]);
@@ -98,16 +89,14 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Providers,
         isActive: false,
-        disable: true,
-      }),
+        disable: true
+      })
     ]);
-    this.providers$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((providers: SearchResponse<Provider[]>) => {
-        this.dataSource = new MatTableDataSource(providers.entities);
-        this.dataSource.sort = this.sort;
-        this.totalEntities = providers.totalAmount;
-      });
+    this.providers$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((providers: SearchResponse<Provider[]>) => {
+      this.dataSource = new MatTableDataSource(providers.entities);
+      this.dataSource.sort = this.sort;
+      this.totalEntities = providers.totalAmount;
+    });
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -141,14 +130,12 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
     if (status === ProviderStatuses.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-        data: { type: ModalConfirmationType.editingProvider },
+        data: { type: ModalConfirmationType.editingProvider }
       });
       dialogRef
         .afterClosed()
         .pipe(filter(Boolean))
-        .subscribe((statusReason: string) =>
-          this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }))
-        );
+        .subscribe((statusReason: string) => this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason })));
     } else {
       this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
     }
@@ -156,7 +143,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   onLicenseApprove(providerId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      data: { type: ModalConfirmationType.licenseApproved },
+      data: { type: ModalConfirmationType.licenseApproved }
     });
 
     dialogRef
@@ -172,8 +159,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteProvider,
-        property: provider.fullTitle,
-      },
+        property: provider.fullTitle
+      }
     });
 
     dialogRef
@@ -188,7 +175,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
+    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
   }
 
   ngOnDestroy(): void {

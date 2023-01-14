@@ -9,7 +9,7 @@ import { GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeReports, SetReportsPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 
 @Component({
@@ -24,8 +24,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
-  @Select(PaginatorState.reportsPerPage)
-  reportsPerPage$: Observable<number>;
+  @Select(PaginatorState.tableItemsPerPage)
+  tableItemsPerPage$: Observable<number>;
 
   statisticReports: SearchResponse<StatisticReport[]>;
   statisticParameters: StatisticParameters;
@@ -50,7 +50,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetReportsPerPage(itemsPerPage), new GetStatisticReports(this.statisticParameters)]);
+    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetStatisticReports(this.statisticParameters)]);
   }
 
   onPageChange(page: PaginationElement): void {

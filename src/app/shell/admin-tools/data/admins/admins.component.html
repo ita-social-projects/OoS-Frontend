@@ -44,20 +44,21 @@
     <ng-container *ngIf="admins?.length; else isEmptyList">
       <div class="table-wrapper">
         <app-users-list
-          [statusesTitles]="statusesTitles" 
+          [statusesTitles]="statusesTitles"
           [users]="admins"
           [isEdit]="true"
           [displayedColumns]="displayedColumns"
           (delete)="onDelete($event)"
           (block)="onBlock($event)"
-          (update)="onUpdate($event)">
+          (update)="onUpdate($event)"
+        >
         </app-users-list>
       </div>
       <app-paginator
         *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="itemsPerPage$ | async"
+        [itemsPerPage]="tableItemsPerPage$ | async"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)"
       >

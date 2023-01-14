@@ -33,7 +33,7 @@ export class HistoryLogService {
     }
 
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.itemsPerPage);
+    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
     const from = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString()).set('From', from.toString());

@@ -10,8 +10,8 @@ export class SetAchievementsPerPage {
   constructor(public payload: number) {}
 }
 
-export class SetItemsPerPage {
-  static readonly type = '[paginator] Items Per Page';
+export class SetTableItemsPerPage {
+  static readonly type = '[paginator] Table Items Per Page';
   constructor(public payload: number) {}
 }
 
@@ -27,11 +27,6 @@ export class SetChildrensPerPage {
 
 export class SetApplicationsPerPage {
   static readonly type = '[paginator] Applications Per Page';
-  constructor(public payload: number) {}
-}
-
-export class SetReportsPerPage {
-  static readonly type = '[paginator] Reports Per Page';
   constructor(public payload: number) {}
 }
 
