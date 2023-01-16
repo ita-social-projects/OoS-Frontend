@@ -6,7 +6,7 @@
   app-notifications {
     width: max-content;
   }
-  
+
   &-secondary {
     background: #3849f9;
     max-height: 92px;
@@ -20,7 +20,7 @@
   button {
     padding: 0;
   }
-  
+
   .logo-wrapper {
     position: relative;
     display: block;
@@ -32,7 +32,7 @@
     }
   }
 
-  .link-wrapper{
+  .link-wrapper {
     display: inline-flex;
     flex-wrap: nowrap;
     flex-direction: row;
@@ -46,9 +46,10 @@
     color: white;
     justify-content: flex-end;
     font-size: 0.7rem;
+    font-family: 'Innerspace';
     font-weight: bold;
     white-space: nowrap;
-    line-height: 40px;
+    line-height: 24px;
     cursor: pointer;
   }
 
@@ -58,7 +59,7 @@
     border-radius: 20px;
     border-color: white;
     color: white;
-    
+
     &.mat-stroked-button {
       font-size: 0.7rem;
     }
@@ -97,6 +98,11 @@
   font-size: 0.7rem !important;
 }
 
+.lang mat-icon {
+  position: relative;
+  top: -1px;
+}
+
 .account-button {
   font-weight: bold !important;
   display: block;
@@ -127,11 +133,16 @@
   }
 }
 
+::ng-deep .lang-option {
+  width: auto !important;
+}
+
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
   width: 25px !important;
   overflow: visible;
   padding-right: 0px !important;
+  font-family: 'Innerspace';
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
