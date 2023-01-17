@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
 import { EMPTY_RESULT } from '../constants/constants';
 import { ChatRoom, IncomingMessage } from '../models/chat.model';
