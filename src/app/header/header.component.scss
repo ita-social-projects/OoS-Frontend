@@ -6,7 +6,7 @@
   app-notifications {
     width: max-content;
   }
-  
+
   &-secondary {
     background: #3849f9;
     max-height: 92px;
@@ -20,7 +20,7 @@
   button {
     padding: 0;
   }
-  
+
   .logo-wrapper {
     position: relative;
     display: block;
@@ -32,7 +32,7 @@
     }
   }
 
-  .link-wrapper{
+  .link-wrapper {
     display: inline-flex;
     flex-wrap: nowrap;
     flex-direction: row;
@@ -46,9 +46,10 @@
     color: white;
     justify-content: flex-end;
     font-size: 0.7rem;
+    font-family: 'Innerspace';
     font-weight: bold;
     white-space: nowrap;
-    line-height: 40px;
+    line-height: 24px;
     cursor: pointer;
   }
 
@@ -58,7 +59,7 @@
     border-radius: 20px;
     border-color: white;
     color: white;
-    
+
     &.mat-stroked-button {
       font-size: 0.7rem;
     }
@@ -80,6 +81,8 @@
     max-width: 846px;
     width: 100%;
 
+    margin-top: 30px;
+
     .search {
       .search-bar-wrap {
         .search-bar {
@@ -95,6 +98,11 @@
   background: none;
   color: white;
   font-size: 0.7rem !important;
+}
+
+.lang mat-icon {
+  position: relative;
+  top: -1px;
 }
 
 .account-button {
@@ -127,11 +135,16 @@
   }
 }
 
+::ng-deep .lang-option {
+  width: auto !important;
+}
+
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
   width: 25px !important;
   overflow: visible;
   padding-right: 0px !important;
+  font-family: 'Innerspace';
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
@@ -153,10 +166,12 @@
 }
 
 ::ng-deep .mat-menu-item {
-  font-weight: 600;
-  padding: 0.2rem;
-  height: 36px !important;
-  line-height: 36px;
+  font-size: 13px;
+  font-family: 'Innerspace';
+  font-weight: 700;
+  padding: 0.75rem 1rem 0.5rem !important;
+  height: auto !important;
+  line-height: 16px !important;
 }
 
 ::ng-deep .mat-menu-content {
