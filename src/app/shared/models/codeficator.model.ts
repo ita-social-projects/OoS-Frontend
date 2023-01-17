@@ -2,6 +2,7 @@ import { CodeficatorCategories } from '../enum/codeficator-categories';
 
 export interface Codeficator {
   id: number;
+  region: string;
   category: CodeficatorCategories;
   territorialCommunity: string;
   settlement: string;

@@ -8,7 +8,7 @@ import { Store } from '@ngxs/store';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class MinistryAdminService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -20,7 +20,7 @@ export class MinistryAdminService {
       params = params.set('SearchString', parameters.searchString);
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.itemsPerPage);
+    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
     const from = size * (+currentPage.element - 1);
 
     params = params.set('Size', size.toString()).set('From', from.toString());

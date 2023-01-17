@@ -14,10 +14,10 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 @Component({
   selector: 'app-all-provider-workshops',
   templateUrl: './all-provider-workshops.component.html',
-  styleUrls: ['./all-provider-workshops.component.scss'],
+  styleUrls: ['./all-provider-workshops.component.scss']
 })
 export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
-  readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
+  readonly noResultWorkshops = NoResultsTitle.noResult;
   readonly Role = Role;
 
   @Input() workshop: Workshop;

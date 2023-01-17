@@ -17,7 +17,7 @@ import { SearchResponse } from '../../../shared/models/search.model';
   styleUrls: ['./workshop-cards-list.component.scss']
 })
 export class WorkshopCardsListComponent implements OnInit, OnDestroy {
-  readonly noResultWorkshops = NoResultsTitle.noResultWorkshops;
+  readonly noResultWorkshops = NoResultsTitle.noResult;
   readonly Role = Role;
 
   @Input() workshops$: Observable<SearchResponse<WorkshopCard[]>>;

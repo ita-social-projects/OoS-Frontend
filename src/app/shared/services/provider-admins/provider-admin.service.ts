@@ -10,7 +10,7 @@ import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProviderAdminService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -28,7 +28,7 @@ export class ProviderAdminService {
    */
   getFilteredProviderAdmins(filterParams: ProviderAdminParameters): Observable<SearchResponse<ProviderAdmin[]>> {
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.itemsPerPage);
+    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
     const from = size * (+currentPage.element - 1);
 
     let params = new HttpParams()
@@ -39,7 +39,7 @@ export class ProviderAdminService {
       .set('size', `${size}`);
 
     return this.http.get<SearchResponse<ProviderAdmin[]>>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', {
-      params,
+      params
     });
   }
 
