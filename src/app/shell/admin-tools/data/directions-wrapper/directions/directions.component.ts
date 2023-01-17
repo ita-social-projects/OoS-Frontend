@@ -23,7 +23,7 @@ import { PaginatorState } from '../../../../../shared/store/paginator.state';
   styleUrls: ['./directions.component.scss']
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
-  readonly noDirections = NoResultsTitle.noDirections;
+  readonly noDirections = NoResultsTitle.noResult;
 
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<SearchResponse<Direction[]>>;

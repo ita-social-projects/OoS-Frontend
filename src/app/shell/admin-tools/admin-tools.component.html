@@ -8,7 +8,7 @@
     <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">КОРИСТУВАЧІ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/applications'">ЗАЯВИ</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/history-log']">ІСТОРІЯ ЗМІН</a>
-    <a mat-tab-link [routerLinkActive]="['active']">СТАТИСТИЧНІ ДАНІ</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/statistics']">СТАТИСТИЧНІ ДАНІ</a>
   </nav>
 </div>
 <router-outlet></router-outlet>
