@@ -21,7 +21,7 @@ export class StatisticReportsService {
 
   private setParams(parameters: StatisticParameters): HttpParams {
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const size = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
     const from = size * (+currentPage.element - 1);
 
     const params = new HttpParams()
