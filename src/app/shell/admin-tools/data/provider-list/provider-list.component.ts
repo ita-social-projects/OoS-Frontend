@@ -37,7 +37,7 @@ import { OwnershipTypes } from '../../../../shared/enum/provider';
 export class ProviderListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
 
-  readonly noProviders = NoResultsTitle.noProviders;
+  readonly noProviders = NoResultsTitle.noResult;
   readonly ModeConstants = ModeConstants;
   readonly OwnershipTypeEnum = OwnershipTypesEnum;
   readonly ownershipTypes = OwnershipTypes;

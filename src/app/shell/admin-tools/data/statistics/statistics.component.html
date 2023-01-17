@@ -24,59 +24,69 @@
   </div>
   <button class="btn" mat-raised-button (click)="onGenerateReport()">Згенерувати звіти</button>
 </div>
-<div class="statistics-result">
-  <ng-container *ngIf="statisticReports?.totalAmount; then report; else noReport"></ng-container>
-</div>
+<ng-container [ngSwitch]="statisticReports?.totalAmount">
+  <ng-container *ngSwitchCase="undefined" [ngTemplateOutlet]="noData"></ng-container>
+  <ng-container *ngSwitchCase="0" [ngTemplateOutlet]="noReport"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="report"></ng-container>
+</ng-container>
+
+<ng-template #noData>
+  <div class="statistics-result">
+    <span
+      >У вас ще немає згенерованих звітів. <br />
+      Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут</span
+    >
+  </div>
+</ng-template>
 
 <ng-template #noReport>
-  <span
-    >У вас ще немає згенерованих звітів. <br />
-    Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут</span
-  >
+  <app-no-result-card [title]="noReports"></app-no-result-card>
 </ng-template>
 
 <ng-template #report>
-  <div class="table-wrapper mat-elevation-z8">
-    <table mat-table [dataSource]="statisticReports.entities">
-      <ng-container matColumnDef="title">
-        <th mat-header-cell *matHeaderCellDef>Назва</th>
-        <td mat-cell *matCellDef="let element">{{ element.title }}</td>
-      </ng-container>
+  <div class="statistics-result">
+    <div class="table-wrapper mat-elevation-z8">
+      <table mat-table [dataSource]="statisticReports.entities">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>Назва</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="fileFormat">
-        <th mat-header-cell *matHeaderCellDef>Формат</th>
-        <td mat-cell *matCellDef="let element">{{ element.reportDataType }}</td>
-      </ng-container>
+        <ng-container matColumnDef="fileFormat">
+          <th mat-header-cell *matHeaderCellDef>Формат</th>
+          <td mat-cell *matCellDef="let element">{{ element.reportDataType }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef>Період</th>
-        <td mat-cell *matCellDef="let element">{{ StatisticPeriodTitle[element.reportType] }}</td>
-      </ng-container>
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Період</th>
+          <td mat-cell *matCellDef="let element">{{ StatisticPeriodTitle[element.reportType] }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="createDate">
-        <th mat-header-cell *matHeaderCellDef>Дата створення</th>
-        <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
-      </ng-container>
+        <ng-container matColumnDef="createDate">
+          <th mat-header-cell *matHeaderCellDef>Дата створення</th>
+          <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+        </ng-container>
 
-      <ng-container matColumnDef="actions">
-        <th mat-header-cell *matHeaderCellDef></th>
-        <td mat-cell *matCellDef="let element">
-          <button class="btn btn-transparent" mat-strocked-button [routerLink]="'/api/v1/StatisticReport/GetDataById/' + element.id">
-            <mat-icon class="download-icon">get_app</mat-icon> Завантажити
-          </button>
-        </td>
-      </ng-container>
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn btn-transparent" mat-strocked-button [routerLink]="'/api/v1/StatisticReport/GetDataById/' + element.id">
+              <mat-icon class="download-icon">get_app</mat-icon> Завантажити
+            </button>
+          </td>
+        </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <app-paginator
+      [totalEntities]="statisticReports$ | async"
+      [currentPage]="currentPage"
+      [itemsPerPage]="tableItemsPerPage$ | async"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)"
+    >
+    </app-paginator>
   </div>
-  <app-paginator
-    [totalEntities]="statisticReports$ | async"
-    [currentPage]="currentPage"
-    [itemsPerPage]="tableItemsPerPage$ | async"
-    (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)"
-  >
-  </app-paginator>
 </ng-template>

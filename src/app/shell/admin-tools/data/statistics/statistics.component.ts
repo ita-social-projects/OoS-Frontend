@@ -11,6 +11,7 @@ import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { NoResultsTitle } from '../../../../shared/enum/no-results';
 
 @Component({
   selector: 'app-statistics',
@@ -21,6 +22,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   readonly StatisticPeriodTitle = StatisticPeriodTitle;
   readonly StatisticPeriodType = StatisticPeriodType;
   readonly StatisticFileFormat = StatisticFileFormat;
+  readonly noReports = NoResultsTitle.noResult;
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
