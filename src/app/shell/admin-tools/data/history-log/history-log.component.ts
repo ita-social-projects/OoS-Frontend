@@ -20,7 +20,7 @@ import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
-import { OnPageChangeHistoryLog, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeHistoryLog, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
@@ -46,9 +46,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   @Select(AdminState.applicationHistory)
   applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
 
-  @Select(PaginatorState.itemsPerPage)
-  itemsPerPage$: Observable<number>;
-  itemsPerPage: number;
+  @Select(PaginatorState.tableItemsPerPage)
+  tableItemsPerPage$: Observable<number>;
+  tableItemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   provider: ProviderHistory[];
@@ -99,7 +99,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.application = this.tableData;
       });
 
-    this.itemsPerPage$.pipe(takeUntil(this.destroy$)).subscribe((itemsPerPage: number) => (this.itemsPerPage = itemsPerPage));
+    this.tableItemsPerPage$.pipe(takeUntil(this.destroy$)).subscribe((itemsPerPage: number) => (this.tableItemsPerPage = itemsPerPage));
 
     this.searchFormControl.valueChanges
       .pipe(
@@ -128,8 +128,8 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.itemsPerPage = itemsPerPage;
-    this.store.dispatch([new SetItemsPerPage(itemsPerPage)]);
+    this.tableItemsPerPage = itemsPerPage;
+    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage)]);
     this.dispatchProperValue(this.tabIndex);
   }
 

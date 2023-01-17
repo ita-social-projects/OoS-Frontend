@@ -37,6 +37,7 @@ export class Constants {
   static readonly NO_SETTLEMENT = 'Такого населенного пункту немає';
   static readonly KYIV: Codeficator = {
     id: 31737,
+    region: null,
     category: CodeficatorCategories.SpecialStatusCity,
     territorialCommunity: null,
     settlement: 'Київ',

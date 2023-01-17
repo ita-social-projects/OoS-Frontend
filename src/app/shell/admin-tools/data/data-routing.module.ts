@@ -8,6 +8,7 @@ import { DirectionsComponent } from './directions-wrapper/directions/directions.
 import { CreateDirectionComponent } from './directions-wrapper/directions/create-direction/create-direction.component';
 import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrapper.component';
 import { AdminApplicationsComponent } from './admin-applications/admin-applications.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
   { path: 'provider-list', component: ProviderListComponent },
@@ -16,7 +17,8 @@ const routes: Routes = [
   { path: 'history-log', component: HistoryLogComponent },
   { path: 'directions', component: DirectionsWrapperComponent },
   { path: 'directions/create/:param', component: CreateDirectionComponent },
-  { path: 'applications', component: AdminApplicationsComponent }
+  { path: 'applications', component: AdminApplicationsComponent },
+  { path: 'statistics', component: StatisticsComponent }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],

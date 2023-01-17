@@ -17,7 +17,7 @@ import { UsersTable } from '../../../../shared/models/usersTable';
 import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 
@@ -35,8 +35,8 @@ export class UsersComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   children$: Observable<SearchResponse<Child[]>>;
-  @Select(PaginatorState.itemsPerPage)
-  itemsPerPage$: Observable<number>;
+  @Select(PaginatorState.tableItemsPerPage)
+  tableItemsPerPage$: Observable<number>;
 
   filterFormControl = new FormControl('');
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -100,8 +100,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetItemsPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
+  onTableItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   ngOnDestroy(): void {
