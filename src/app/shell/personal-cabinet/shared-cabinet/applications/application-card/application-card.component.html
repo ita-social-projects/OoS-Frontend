@@ -87,14 +87,9 @@
 <ng-template #actionsBlock>
   <mat-card-content class="card-block card-block__actions">
     <mat-icon class="material-icons material-icons__actions" [matMenuTriggerFor]="actions">more_vert</mat-icon>
-    <mat-icon class="material-icons material-icons__actions" [matMenuTriggerFor]="email">email</mat-icon>
-
     <mat-menu #actions="matMenu" class="header_menu">
       <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK' | translate }}</button>
       <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">{{ 'BUTTONS.UNBLOCK' | translate }}</button>
-    </mat-menu>
-    <mat-menu #email="matMenu" class="header_menu">
-      <button mat-menu-item (click)="sendInvitation()">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
     </mat-menu>
   </mat-card-content>
 </ng-template>
