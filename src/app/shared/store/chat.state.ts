@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
+import { EMPTY_RESULT } from '../constants/constants';
 import { ChatRoom, IncomingMessage } from '../models/chat.model';
+import { SearchResponse } from '../models/search.model';
 import { ChatService } from '../services/chat/chat.service';
 import {
   ClearSelectedChatRoom,
@@ -13,7 +15,7 @@ import {
 
 export interface ChatStateModel {
   isLoadingData: boolean;
-  chatRooms: ChatRoom[];
+  chatRooms: SearchResponse<ChatRoom[]>;
   selectedChatRoom: ChatRoom;
   selectedChatRoomMessages: IncomingMessage[];
 }
@@ -35,7 +37,7 @@ export class ChatState {
   }
 
   @Selector()
-  static chatRooms(state: ChatStateModel): ChatRoom[] {
+  static chatRooms(state: ChatStateModel): SearchResponse<ChatRoom[]> {
     return state.chatRooms;
   }
 
@@ -52,9 +54,11 @@ export class ChatState {
   constructor(private chatService: ChatService) {}
 
   @Action(GetUserChatRooms)
-  getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { userRole }: GetUserChatRooms): Observable<ChatRoom[]> {
+  getUserChatRooms({ patchState }: StateContext<ChatStateModel>, { parameters }: GetUserChatRooms): Observable<SearchResponse<ChatRoom[]>> {
     patchState({ isLoadingData: true });
-    return this.chatService.getChatRooms(userRole).pipe(tap((chatRooms: ChatRoom[]) => patchState({ chatRooms, isLoadingData: false })));
+    return this.chatService
+      .getChatRooms(parameters)
+      .pipe(tap((chatRooms: SearchResponse<ChatRoom[]>) => patchState({ chatRooms: chatRooms ?? EMPTY_RESULT, isLoadingData: false })));
   }
 
   @Action(GetChatRoomMessages)

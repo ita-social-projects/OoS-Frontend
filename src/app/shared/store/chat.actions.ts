@@ -1,9 +1,9 @@
 import { Role } from '../enum/role';
-import { MessagesParameters } from '../models/chat.model';
+import { ChatRoomsParameters, MessagesParameters } from '../models/chat.model';
 
 export class GetUserChatRooms {
   static readonly type = '[chat] Get User Chat Rooms';
-  constructor(public userRole: Role) {}
+  constructor(public parameters: ChatRoomsParameters) {}
 }
 
 export class GetChatRoomMessages {

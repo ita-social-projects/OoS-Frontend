@@ -10,12 +10,12 @@ import {
   BlockParent,
   GetProviderAdminWorkshops,
   GetWorkshopListByProviderId,
-  UnBlockParent,
+  UnBlockParent
 } from '../../../../shared/store/provider.actions';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { ChatRoom } from '../../../../shared/models/chat.model';
+import { ChatRoom, ChatRoomsParameters } from '../../../../shared/models/chat.model';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { BlockedParent } from '../../../../shared/models/block.model';
 import { CabinetDataComponent } from '../cabinet-data.component';
@@ -28,11 +28,15 @@ import { ChatState } from '../../../../shared/store/chat.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { OnPageChangeChatRooms, SetChatRoomsPerPage } from '../../../../shared/store/paginator.actions';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.scss'],
+  styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent extends CabinetDataComponent {
   readonly Role = Role;
@@ -41,20 +45,30 @@ export class MessagesComponent extends CabinetDataComponent {
 
   providerId: string;
   filterFormControl: FormControl = new FormControl('');
-  chatRooms: ChatRoom[];
+  chatRooms: SearchResponse<ChatRoom[]>;
+  currentPage: PaginationElement = PaginationConstants.firstPage;
+  chatRoomsParameters: ChatRoomsParameters = {
+    role: null,
+    workshopIds: null,
+    searchText: null
+  };
 
+  @Select(PaginatorState.chatRoomsPerPage)
+  chatRoomsPerPage$: Observable<number>;
   @Select(ProviderState.truncated)
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
   @Select(ChatState.chatRooms)
-  chatRooms$: Observable<ChatRoom[]>;
+  chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
   }
 
   protected init(): void {
+    this.chatRoomsParameters.role = this.role;
+
     if (this.role === Role.provider) {
       this.provider$
         .pipe(
@@ -76,7 +90,7 @@ export class MessagesComponent extends CabinetDataComponent {
       new PushNavPath({
         name: NavBarName.Messages,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -90,29 +104,25 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(Role[this.role]));
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   setListeners(): void {
     this.chatRooms$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((chatRooms: ChatRoom[]) => (this.chatRooms = chatRooms));
+      .subscribe((chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms));
 
     this.filterFormControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(200),
-        distinctUntilChanged(),
-        filter((val: string) => !!val)
-      )
+      .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
       .subscribe((val: string) => {
-        //TODO: Implement search logic
+        this.chatRoomsParameters.searchText = val;
+        this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
       });
   }
 
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent },
+      data: { type: ModalConfirmationType.blockParent }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -126,8 +136,8 @@ export class MessagesComponent extends CabinetDataComponent {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.unBlockParent,
-      },
+        type: ModalConfirmationType.unBlockParent
+      }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -137,7 +147,17 @@ export class MessagesComponent extends CabinetDataComponent {
     });
   }
 
-  onEntitiesSelect(IDs: string[]): void {
-    //TODO: Need to be implemented when requests with parameters are made
+  onEntitiesSelect(workshopIds: string[]): void {
+    this.chatRoomsParameters.workshopIds = workshopIds;
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.chatRoomsParameters)]);
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.chatRoomsParameters)]);
   }
 }

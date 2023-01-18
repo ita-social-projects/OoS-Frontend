@@ -1,3 +1,4 @@
+import { Role } from '../enum/role';
 import { Parent, ParentWithContactInfo } from './parent.model';
 import { User } from './user.model';
 import { WorkshopTruncated } from './workshop.model';
@@ -43,4 +44,10 @@ export class ChatRoom {
 export interface MessagesParameters {
   from: number;
   size: number;
+}
+
+export interface ChatRoomsParameters {
+  role: Role;
+  searchText: string;
+  workshopIds: string[];
 }
