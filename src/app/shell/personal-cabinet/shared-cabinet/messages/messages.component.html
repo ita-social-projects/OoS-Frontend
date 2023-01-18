@@ -22,13 +22,21 @@
 
 <ng-container>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="chatRooms; else isEmptyList">
+    <ng-container *ngIf="chatRooms?.totalAmount; else isEmptyList">
       <app-message-card
-        *ngFor="let chatRoom of chatRooms"
+        *ngFor="let chatRoom of chatRooms.entities"
         [chatRoom]="chatRoom"
         (block)="onBlock($event)"
         (unblock)="onUnBlock($event)"
       ></app-message-card>
+      <app-paginator
+        [totalEntities]="chatRooms.totalAmount"
+        [currentPage]="currentPage"
+        [itemsPerPage]="chatRoomsPerPage$ | async"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)"
+      >
+      </app-paginator>
     </ng-container>
   </ng-container>
 </ng-container>

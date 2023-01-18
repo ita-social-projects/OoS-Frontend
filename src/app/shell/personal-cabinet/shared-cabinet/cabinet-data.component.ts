@@ -19,7 +19,7 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   @Select(RegistrationState.role)
   role$: Observable<Role>;
-  role: string;
+  role: Role;
   @Select(RegistrationState.subrole)
   subRole$: Observable<Role>;
   subRole: Role;
