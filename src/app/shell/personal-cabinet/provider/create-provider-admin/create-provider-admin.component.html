@@ -2,7 +2,9 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАННЯ' : 'ДОДАТИ' }} {{ title[providerRole] }}</h3>
-      <p class="wrapper-text">Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.</p>
+      <p class="wrapper-text">
+        Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.
+      </p>
     </div>
 
     <mat-horizontal-stepper #stepper linear>
@@ -11,38 +13,57 @@
           <p class="step-name">Особиста інформація</p>
         </ng-template>
 
-        <form [formGroup]="ProviderAdminFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+        <form
+          [formGroup]="ProviderAdminFormGroup"
+          fxLayout="column"
+          fxLayoutAlign="center space-between"
+          class="step form">
           <label class="step-label">Прізвище<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
+            <input
+              matInput
+              class="step-input"
+              type="text"
+              formControlName="lastName"
+              autocomplete="none"
+              appTrimValue />
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="ProviderAdminFormGroup.get('lastName')"
             [minCharachters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-          >
+            [maxCharachters]="validationConstants.INPUT_LENGTH_60">
           </app-validation-hint>
 
           <label class="step-label">Ім'я<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue />
+            <input
+              matInput
+              class="step-input"
+              type="text"
+              formControlName="firstName"
+              autocomplete="none"
+              appTrimValue />
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="ProviderAdminFormGroup.get('firstName')"
             [minCharachters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-          >
+            [maxCharachters]="validationConstants.INPUT_LENGTH_60">
           </app-validation-hint>
 
           <label class="step-label">По-батькові<span class="step-required">*</span></label>
           <mat-form-field>
-            <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
+            <input
+              matInput
+              class="step-input"
+              type="text"
+              formControlName="middleName"
+              autocomplete="none"
+              appTrimValue />
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="ProviderAdminFormGroup.get('middleName')"
             [minCharachters]="validationConstants.INPUT_LENGTH_1"
-            [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-          >
+            [maxCharachters]="validationConstants.INPUT_LENGTH_60">
           </app-validation-hint>
 
           <label class="step-label"> Телефон <span class="step-required">*</span></label>
@@ -58,28 +79,33 @@
                 appTrimValue
                 ui-number-mask
                 ui-hide-group-sep
-                maxlength="{{ validationConstants.PHONE_LENGTH }}"
-              />
+                maxlength="{{ validationConstants.PHONE_LENGTH }}" />
             </div>
           </mat-form-field>
           <app-validation-hint
             [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')"
             [minCharachters]="validationConstants.PHONE_LENGTH"
-            [isPhoneNumber]="true"
-          >
+            [isPhoneNumber]="true">
           </app-validation-hint>
 
           <label class="step-label"> Електронна пошта <span class="step-required">*</span></label>
           <mat-form-field appearance="none">
-            <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
+            <input
+              matInput
+              class="step-input"
+              type="email"
+              formControlName="email"
+              appTrimValue
+              [placeholder]="mailFormPlaceholder" />
           </mat-form-field>
           <app-validation-hint [validationFormControl]="ProviderAdminFormGroup.get('email')"> </app-validation-hint>
         </form>
 
         <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
           <p class="personal-info">
-            Додаючи користувача я погоджуюсь з <a href="/info/about" class="about-link"><strong>Правилами користування</strong></a> та надаю
-            Згоду на обробку персональних даних
+            Додаючи користувача я погоджуюсь з
+            <a href="/info/about" class="about-link"><strong>Правилами користування</strong></a> та надаю Згоду на
+            обробку персональних даних
           </p>
         </div>
 
@@ -92,8 +118,7 @@
             mat-raised-button
             matStepperNext
             (click)="checkValidation(ProviderAdminFormGroup)"
-            [disabled]="ProviderAdminFormGroup.invalid"
-          >
+            [disabled]="ProviderAdminFormGroup.invalid">
             Далі
           </button>
         </div>
@@ -109,14 +134,15 @@
             <label class="step-label">Буде надано доступ до всіх гуртків</label>
           </ng-template>
           <ng-template #WorkshopAdmin>
-            <label class="step-label">Позначте гуртки до яких адміністратор матиме доступ <span class="step-required">*</span> </label>
+            <label class="step-label"
+              >Позначте гуртки до яких адміністратор матиме доступ <span class="step-required">*</span>
+            </label>
             <app-entity-checkbox-dropdown
               [entities]="truncatedItems$ | async"
               [declination]="WorkshopDeclination"
               labelByDefault="Обрати гуртки"
               dropdownContainerClass="create-admin"
-              (entityCheck)="onWorkshopsSelect($event)"
-            >
+              (entityCheck)="onWorkshopsSelect($event)">
             </app-entity-checkbox-dropdown>
           </ng-template>
         </form>
@@ -124,14 +150,23 @@
         <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
           <p class="personal-info">
             Додаючи користувача я погоджуюсь з
-            <a [routerLink]="'/info/rules'" target="_blank" class="about-link"><strong>Правилами користування</strong></a> та надаю Згоду на
-            обробку персональних даних
+            <a [routerLink]="'/info/rules'" target="_blank" class="about-link"
+              ><strong>Правилами користування</strong></a
+            >
+            та надаю Згоду на обробку персональних даних
           </p>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
           <button class="btn" mat-raised-button matStepperPrevious>Назад</button>
           <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
-          <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="!managedWorkshopIds">Зберегти</button>
+          <button
+            class="btn"
+            mat-button
+            type="submit"
+            [disabled]="!isDeputy && !managedWorkshopIds"
+            (click)="onSubmit()">
+            Зберегти
+          </button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>

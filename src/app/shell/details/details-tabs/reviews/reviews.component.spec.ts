@@ -14,13 +14,14 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { Parent } from '../../../../shared/models/parent.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
-import {TranslateModule, TranslateService} from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { Rate } from '../../../../shared/models/rating';
+import { TranslateCasesPipe } from '../../../../shared/pipes/translate-cases.pipe';
 
 @Component({
   selector: 'app-paginator',
-  template: ''
+  template: '',
 })
 class MockReviewsPaginatorComponent {
   @Input() totalEntities: number;
@@ -43,10 +44,17 @@ describe('ReviewsComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatButtonToggleModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
       ],
       providers: [TranslateService],
-      declarations: [ReviewsComponent, StarsComponent, DeclinationPipe, NoResultCardComponent, MockReviewsPaginatorComponent]
+      declarations: [
+        ReviewsComponent,
+        StarsComponent,
+        DeclinationPipe,
+        NoResultCardComponent,
+        MockReviewsPaginatorComponent,
+        TranslateCasesPipe,
+      ],
     }).compileComponents();
   });
 

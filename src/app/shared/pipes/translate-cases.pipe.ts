@@ -20,8 +20,8 @@ export class TranslateCasesPipe implements PipeTransform  {
     const countLastStr = count?.toString().slice(-1);
     let countNum = count?.toString();
     if (count === 0) {
-      countNum = '';
-      this.translateKey = enumTranslate[3];
+      countNum = '0';
+      this.translateKey = enumTranslate[2];
     } else if (countLastStr === '1') {
       this.translateKey = enumTranslate[0];
     } else if (countLastStr === '2' || countLastStr === '3' || countLastStr ==='4') {

@@ -215,3 +215,12 @@ $config: mat.define-typography-config(
     flex-direction: column;
   }
 }
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  line-height: initial;
+  font-family: 'Open Sans', sans-serif;
+}

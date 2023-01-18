@@ -1,4 +1,4 @@
-import { ApplicationStatuses, ProviderStatuses } from './../../../enum/statuses';
+import { ApplicationStatuses, ProviderStatuses, LicenseStatuses } from './../../../enum/statuses';
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -10,29 +10,31 @@ import {
   ApplicationPending,
   ApplicationRejected,
   ApplicationLeft,
-  ApplicationChanges
+  ApplicationChanges,
 } from '../../../enum/enumUA/declinations/notification-declination';
 import {
   NotificationsProviderFullDescriptions,
   NotificationsProviderShortDescriptions,
   NotificationWorkshopShortDescription,
-  NotificationWorkshopFullDescriptions
+  NotificationWorkshopFullDescriptions,
+  NotificationProviderLicenseShortDescription,
+  NotificationProviderLicenseFullDescription,
 } from '../../../enum/enumUA/notifications';
-import { NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
+import { DataTypes, NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import {
   NotificationsGroupedByType,
   NotificationGroupedByAdditionalData,
   Notifications,
   NotificationsAmount,
-  Notification
+  Notification,
 } from '../../../models/notifications.model';
 import {
   ClearNotificationState,
   DeleteUsersNotificationById,
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
-  ReadUsersNotificationsByType
+  ReadUsersNotificationsByType,
 } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
@@ -41,7 +43,7 @@ import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-l
 @Component({
   selector: 'app-notifications-list',
   templateUrl: './notifications-list.component.html',
-  styleUrls: ['./notifications-list.component.scss']
+  styleUrls: ['./notifications-list.component.scss'],
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
   readonly NotificationsConstants = NotificationsConstants;
@@ -114,7 +116,9 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.store.dispatch(new DeleteUsersNotificationById(notification.id));
 
     this.notificationsAmount.amount--;
-    this.notifications = this.notifications.filter((recievedNotification: Notification) => recievedNotification.id != notification.id);
+    this.notifications = this.notifications.filter(
+      (recievedNotification: Notification) => recievedNotification.id !== notification.id
+    );
   }
 
   onGroupByStatusClick(group: NotificationGroupedByAdditionalData): void {
@@ -156,6 +160,24 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   getNotificationDescription(
     descriptionType: NotificationDescriptionType,
     notificationType: NotificationType,
+    data: DataTypes
+  ): string | void {
+    if (data[DataTypes.LicenseStatus]) {
+      return this.getDataLicenseNotification(descriptionType, data[DataTypes.LicenseStatus]);
+    } else if (data[DataTypes.Status]) {
+      return this.getDataStatusNotification(descriptionType, notificationType, data[DataTypes.Status]);
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.store.dispatch(new ClearNotificationState());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  private getDataStatusNotification(
+    descriptionType: NotificationDescriptionType,
+    notificationType: NotificationType,
     status: ApplicationStatuses | ProviderStatuses
   ): string {
     switch (descriptionType) {
@@ -180,10 +202,18 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch(new ClearNotificationState());
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+  private getDataLicenseNotification(
+    descriptionType: NotificationDescriptionType,
+    status: ApplicationStatuses | ProviderStatuses
+  ): string {
+    switch (descriptionType) {
+      case NotificationDescriptionType.Full:
+        return NotificationProviderLicenseFullDescription[status];
+      case NotificationDescriptionType.Short:
+        return NotificationProviderLicenseShortDescription[status];
+      default:
+        return Constants.NO_INFORMATION;
+    }
   }
 
   private createGroupsByType(recievedNotifications: Notifications): void {

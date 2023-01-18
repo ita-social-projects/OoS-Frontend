@@ -43,6 +43,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
+  provider: Provider;
   providerId: string;
 
   applicationParams: ApplicationFilterParameters = {
@@ -69,6 +70,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   init(): void {
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.provider = provider;
       if (this.subRole === Role.None) {
         this.applicationParams.property = ApplicationEntityType.provider;
         this.providerId = provider.id;
@@ -77,7 +79,6 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
         this.providerId = this.store.selectSnapshot(RegistrationState.user).id;
       }
       this.getProviderWorkshops();
-      this.onGetApplications();
     });
   }
 
