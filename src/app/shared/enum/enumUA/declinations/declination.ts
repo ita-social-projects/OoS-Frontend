@@ -10,9 +10,6 @@ export enum ApplicationDeclination {
   'ENUM.APPLICATION.APPLICATIONS_ABLATIVE'
 }
 
-
-// TODO [Localization] – modify the pipe declination #1825
-
 export enum WorkshopDeclination {
   'ENUM.WORKSHOP_DECLINATION.WORKSHOP',
   'ENUM.WORKSHOP_DECLINATION.WORKSHOPS',
@@ -49,11 +46,4 @@ export enum ChildDeclination {
   'ENUM.CHILD_DECLINATION.CHILD_GENITIVE',
   'ENUM.CHILD_DECLINATION.CHILDREN_ABLATIVE',
   'ENUM.CHILD_DECLINATION.NO_CHILDREN'
-}
-
-export enum Words {
-  'review' = 'відгук',
-  'application' = 'заява',
-  'workshop' = 'гурток',
-  'child' = 'дитина'
 }

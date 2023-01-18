@@ -1,4 +1,4 @@
-<mat-card [ngClass]="application.status === statuses.Pending ? 'card card-new' : 'card'">
+<mat-card [ngClass]="application.status === applicationStatuses.Pending ? 'card card-new' : 'card'">
   <mat-card-content [ngClass]="userRole === role.parent ? 'card-block card-block__parent' : 'card-block'">
     <div class="card-block__info">
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
@@ -57,15 +57,15 @@
     <ng-container *ngIf="userRole === role.provider && isMobileView; then actionsBlock"> </ng-container>
   </mat-card-content>
   <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider">
-    <button class="btn btn-blue" (click)="onApprove(application)" [ngClass]="application.status === statuses.Approved && 'hidden'">
-      <p>ПРИЙНЯТИ</p>
+    <button class="btn btn-blue" (click)="onApprove(application)" [ngClass]="application.status === applicationStatuses.Approved && 'hidden'">
+      <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
     </button>
     <button
       class="btn btn-gray"
       (click)="onReject(application)"
-      [ngClass]="(application.status === statuses.Rejected || application.status === statuses.Left) && 'hidden'"
+      [ngClass]="(application.status === applicationStatuses.Rejected || application.status === applicationStatuses.Left) && 'hidden'"
     >
-      <p>ВІДМОВИТИ</p>
+      <p>{{ 'BUTTONS.REJECT' | translate }}</p>
     </button>
   </mat-card-content>
 
@@ -75,10 +75,10 @@
     <div
       fxLayout="column"
       fxLayoutAlign="start start"
-      [ngClass]="(application.status === statuses.Left || application.status === statuses.Rejected) && 'hidden'"
+      [ngClass]="(application.status === applicationStatuses.Left || application.status === applicationStatuses.Rejected) && 'hidden'"
     >
       <button class="btn btn-gray" (click)="onLeave(application)">
-        <p>ЗАЛИШИТИ ГУРТОК</p>
+        <p>{{ 'BUTTONS.LEAVE' | translate }}</p>
       </button>
     </div>
   </mat-card-content>
@@ -90,11 +90,11 @@
     <mat-icon class="material-icons material-icons__actions" [matMenuTriggerFor]="email">email</mat-icon>
 
     <mat-menu #actions="matMenu" class="header_menu">
-      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">Заблокувати користувача</button>
-      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">Розблокувати користувача</button>
+      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK' | translate }}</button>
+      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">{{ 'BUTTONS.UNBLOCK' | translate }}</button>
     </mat-menu>
     <mat-menu #email="matMenu" class="header_menu">
-      <button mat-menu-item (click)="sendInvitation()">Надіслати запрошення</button>
+      <button mat-menu-item (click)="sendInvitation()">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
     </mat-menu>
   </mat-card-content>
 </ng-template>

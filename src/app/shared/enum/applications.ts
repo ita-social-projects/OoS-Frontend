@@ -18,3 +18,15 @@ export enum ApplicationEntityType {
   ProviderDeputy = 'providers',
   None = 'providers'
 }
+
+export enum ApplicationStatusTabParams {
+  All,
+  Pending,
+  Approved,
+  Rejected,
+  Left,
+  AcceptedForSelection,
+  StudyingForYears,
+  Completed,
+  Blocked,
+}

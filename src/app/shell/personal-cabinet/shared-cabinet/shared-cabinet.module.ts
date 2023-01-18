@@ -12,6 +12,7 @@ import { MessagesComponent } from './messages/messages.component';
 import { MessageCardComponent } from './messages/message-card/message-card.component';
 import { ChatComponent } from './messages/chat/chat.component';
 import { MessageComponent } from './messages/chat/message/message.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,9 +23,9 @@ import { MessageComponent } from './messages/chat/message/message.component';
     MessagesComponent,
     MessageCardComponent,
     ChatComponent,
-    MessageComponent
+    MessageComponent,
   ],
-  imports: [MaterialModule, SharedModule, CommonModule, FlexLayoutModule, RouterModule],
-  exports: [ApplicationsComponent]
+  imports: [MaterialModule, SharedModule, CommonModule, FlexLayoutModule, RouterModule, TranslateModule],
+  exports: [ApplicationsComponent],
 })
 export class SharedCabinetModule {}

@@ -18,6 +18,12 @@
     margin-bottom: 1rem;
   }
 
+  .application-wrapper {
+    .mat-tab-header {
+      width: 80%;
+    }
+  }
+
   .mat-ink-bar {
     display: none;
   }
