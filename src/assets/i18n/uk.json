@@ -55,9 +55,9 @@
       "APPLICATION_ACCEPTED_ABLATIVE": "заявок зараховано"
     },
     "APPLICATION_CHANGES": {
-      "CHANGE_IN_STATEMENTS": "зміна в заявах",
-      "CHANGES_IN_STATEMENTS": "зміни в заявах",
-      "CHANGE_IN_STATEMENTS_ABLATIVE": "змін в заявах"
+      "CHANGE_IN_APPLICATIONS": "зміна в заявах",
+      "CHANGES_IN_APPLICATIONS": "зміни в заявах",
+      "CHANGE_IN_APPLICATIONS_ABLATIVE": "змін в заявах"
     },
     "APPLICATION_PENDING": {
       "APPLICATION_PENDING_CONFIRMATION": "заявка очікує підтвердження",

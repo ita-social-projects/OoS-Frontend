@@ -50,7 +50,11 @@ export class CreatePhotoFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-    this.provider && this.activateEditMode();
+    if(this.provider) {
+      this.activateEditMode();
+    } else {
+      this.onAddForm();
+    }
   }
 
   private activateEditMode(): void {

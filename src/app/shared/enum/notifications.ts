@@ -16,3 +16,8 @@ export enum NotificationDescriptionType {
   Short,
   Full
 }
+
+export enum DataTypes {
+  LicenseStatus = 'LicenseStatus',
+  Status = 'Status'
+}

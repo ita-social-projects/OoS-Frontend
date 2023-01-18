@@ -15,8 +15,8 @@ import { Geocoder } from './../../models/geolocation';
 import { Codeficator } from './../../models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
-import { ClearCoordsByMap, ClearRadiusSize, SetCoordsByMap } from '../../store/filter.actions';
-import { ClearMessageBar, ShowMessageBar } from '../../store/app.actions';
+import { SetCoordsByMap } from '../../store/filter.actions';
+import { ShowMessageBar } from '../../store/app.actions';
 import { SnackbarText } from '../../enum/messageBar';
 
 @Component({
@@ -328,7 +328,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new ClearMessageBar()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

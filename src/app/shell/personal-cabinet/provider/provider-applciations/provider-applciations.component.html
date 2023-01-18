@@ -1,4 +1,5 @@
 <app-applications
+  *ngIf="provider"
   [applicationParams]="applicationParams"
   [declination]="WorkshopDeclination"
   [dropdownEntities]="workshops$ | async"

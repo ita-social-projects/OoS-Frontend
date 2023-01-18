@@ -55,9 +55,9 @@
       "APPLICATION_ACCEPTED_ABLATIVE": "applications accepted"
     },
     "APPLICATION_CHANGES": {
-      "CHANGE_IN_STATEMENTS": "change in statements",
-      "CHANGES_IN_STATEMENTS": "changes in statements",
-      "CHANGE_IN_STATEMENTS_ABLATIVE": "changes in statements"
+      "CHANGE_IN_APPLICATIONS": "change in applications",
+      "CHANGES_IN_APPLICATIONS": "changes in applications",
+      "CHANGE_IN_APPLICATIONS_ABLATIVE": "changes in applications"
     },
     "APPLICATION_PENDING": {
       "APPLICATION_PENDING_CONFIRMATION": "application pending confirmation",

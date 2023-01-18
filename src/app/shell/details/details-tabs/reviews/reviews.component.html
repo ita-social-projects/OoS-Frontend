@@ -1,17 +1,18 @@
-<div class="wrapper" fxLayout="column" fxLayoutAlign="start space-between">
+<div *ngIf="rating" class="wrapper" fxLayout="column" fxLayoutAlign="start space-between">
   <div fxLayout="row wrap" fxLayoutAlign="space-between center">
     <div fxLayout="row wrap" fxLayoutAlign="space-between center">
       <mat-icon class="star-icon">star</mat-icon> {{ workshop.rating }}
-      <p class="rate-amount">({{ rating.totalAmount | declination: ReviewDeclination }})</p>
+      <p class="rate-amount">({{ rating.totalAmount | translateCases: ReviewDeclination }})</p>
     </div>
-    <div [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated" [matTooltipDisabled]="!(isReviewed || !isAllowedToReview)">
+    <div
+      [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated"
+      [matTooltipDisabled]="!(isReviewed || !isAllowedToReview)">
       <button
         mat-raised-button
         class="button"
         (click)="onRate()"
         *ngIf="role !== Role.provider"
-        [disabled]="isReviewed || !isAllowedToReview"
-      >
+        [disabled]="isReviewed || !isAllowedToReview">
         <mat-icon class="button-icon">edit</mat-icon>
         {{ 'RATE' | translate }}
       </button>
@@ -24,7 +25,7 @@
         <p class="rate-author">{{ rate.firstName }} {{ rate.lastName }}</p>
         <p class="rate-date" fxLayout="row" fxLayoutAlign="start center">
           <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
-          {{ rate.creationTime | date: 'shortDate' }}
+          {{ rate.creationTime | date : 'shortDate' }}
         </p>
       </div>
       <app-paginator
@@ -32,8 +33,7 @@
         [currentPage]="currentPage"
         [itemsPerPage]="ratingPerPage"
         (itemsPerPageChange)="itemsPerPageChange($event)"
-        (pageChange)="pageChange($event)"
-      >
+        (pageChange)="pageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>

@@ -91,7 +91,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private setFinalHierarchyLevel(optionId: string): void {
-    this.instituitionHierarchyIdFormControl.setValue(optionId);
+    this.instituitionHierarchyIdFormControl.setValue(optionId, { emitEvent: false });
     this.store.dispatch(new ResetInstitutionHierarchy());
   }
 

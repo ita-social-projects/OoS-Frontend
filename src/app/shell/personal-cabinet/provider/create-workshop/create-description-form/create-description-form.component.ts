@@ -131,7 +131,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.workshop.workshopDescriptionItems?.length) {
-      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => this.SectionItemsFormArray.push(this.newForm(item)));
+      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => {
+        const itemFrom = this.newForm(item);
+        this.SectionItemsFormArray.controls.push(itemFrom);
+        this.SectionItemsFormArray['_registerControl'](itemFrom);
+      });
     } else {
       this.onAddForm();
     }
