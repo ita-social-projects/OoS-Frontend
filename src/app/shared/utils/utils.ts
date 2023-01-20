@@ -9,6 +9,8 @@ import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
 import { UserStatuses } from '../enum/statuses';
+import { PaginationParameters } from '../models/queryParameters.model';
+import { PaginationElement } from '../models/paginationElement.model';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -278,6 +280,17 @@ export class Util {
       }
     });
     return filterState;
+  }
+
+  public static setPaginationParams(
+    params: PaginationParameters,
+    currentPage: PaginationElement,
+    itemsPerPage: number
+  ): PaginationParameters {
+    params.size = itemsPerPage;
+    params.from = (+currentPage.element - 1) * params.size;
+
+    return params;
   }
 
   /**

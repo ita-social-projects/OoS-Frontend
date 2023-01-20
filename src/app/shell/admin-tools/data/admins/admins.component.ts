@@ -64,6 +64,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
+    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    Util.setPaginationParams(this.adminParams, this.currentPage, tableItemsPerPage);
+
     this.setTabOptions();
 
     this.filterFormControl.valueChanges
@@ -91,6 +94,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    this.currentPage = PaginationConstants.firstPage;
+    Util.setPaginationParams(this.adminParams, this.currentPage, this.adminParams.size);
+
     this.filterFormControl.reset();
     this.adminParams.searchString = '';
     this.adminParams.tabTitle = event.tab.textLabel;
@@ -204,11 +210,13 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins()]);
+    Util.setPaginationParams(this.adminParams, page, this.adminParams.size);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins(this.adminParams)]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
+    Util.setPaginationParams(this.adminParams, this.currentPage, itemsPerPage);
+    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetAllMinistryAdmins(this.adminParams)]);
   }
 
   ngOnDestroy(): void {
