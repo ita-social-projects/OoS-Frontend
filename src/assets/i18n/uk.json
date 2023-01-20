@@ -39,7 +39,6 @@
   "DIRECTOR_NAME": "ПІБ керівника",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
-  "EDIT": "Редагувати",
   "EDRPO": "ЄДРПОУ",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "ENUM": {
@@ -270,7 +269,7 @@
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
       "SEX": "Стать",
-      "SOCIAL_GROUP": "Соціальна група",
+      "SOCIAL_GROUPS": "Соціальна група",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
@@ -279,7 +278,8 @@
       "WORKING_HOURS": "Розклад занять",
       "APPLY_CHILDREN": "Подати дані про дитину",
       "APPLY_USER": "Подати дані про себе",
-      "SELECT_CHILD": "Виберіть дитину"
+      "SELECT_CHILD": "Виберіть дитину",
+      "FULL_NAME": "ПІБ"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -398,7 +398,8 @@
     "UNBLOCK": "Розблокувати користувача",
     "SEND_INVITATION": "Надіслати запрошення",
     "CANCEL": "Скасувати",
-    "SEND": "Відправити"
+    "SEND": "Відправити",
+    "EDIT": "Редагувати"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",

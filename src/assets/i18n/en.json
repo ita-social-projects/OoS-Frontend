@@ -39,7 +39,6 @@
   "DIRECTOR_NAME": "Director's full name",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
-  "EDIT": "Edit",
   "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
   "ENUM": {
@@ -271,7 +270,7 @@
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "SEX": "Sex",
-      "SOCIAL_GROUP": "Social group",
+      "SOCIAL_GROUPS": "Social groups",
       "STREET": "Street",
       "SUBORDINATION": "Subordination",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
@@ -280,7 +279,8 @@
       "WORKING_HOURS": "Working hours",
       "APPLY_CHILDREN": "Apply children data",
       "APPLY_USER": "Apply your data",
-      "SELECT_CHILD": "Select child from the list"
+      "SELECT_CHILD": "Select child from the list",
+      "FULL_NAME": "Full name"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -398,7 +398,8 @@
     "UNBLOCK": "Unblock the user",
     "SEND_INVITATION": "Send an invitation",
     "CANCEL": "Cancel",
-    "SEND": "Send"
+    "SEND": "Send",
+    "EDIT": "Edit"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
