@@ -46,7 +46,7 @@
         </p>
         <div class="workshop-age" *ngIf="userRole === role.parent">
           <mat-icon class="text_icon">person</mat-icon>
-          <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} років</p>
+          <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} {{"YEARS" | translate}}</p>
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="start center">
