@@ -116,7 +116,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       const status = params['status'];
       const tabIndex = Number(ApplicationStatusTabParams[status]);
       this.setFilterParams(status, tabIndex);
