@@ -21,7 +21,7 @@ export enum NavBarName {
   EditWorkshop = 'ENUM.NAV_BAR_NAME.EDIT_WORKSHOP',
   CreateProviderDeputy = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_DEPUTY',
   CreateProviderAdmin = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_ADMIN',
-  UpdateProviderDeputy = 'ENUM.NAV_BAR_NAME.UPDATE_DEPUTY_DIRECTOR',
+  UpdateProviderDeputy = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_DEPUTY',
   UpdateProviderAdmin = 'ENUM.NAV_BAR_NAME.EDIT_ADMINISTRATOR',
   Applications = 'ENUM.NAV_BAR_NAME.APPLICATIONS',
   Workshops = 'ENUM.NAV_BAR_NAME.WORKSHOPS',

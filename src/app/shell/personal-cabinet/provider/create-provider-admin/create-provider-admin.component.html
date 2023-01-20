@@ -124,7 +124,10 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="ProviderAdminFormGroup">
+      <mat-step 
+        [stepControl]="ProviderAdminFormGroup" 
+        [editable]="false" 
+        [completed]="!ProviderAdminFormGroup.invalid">
         <ng-template matStepLabel>
           <p class="step-name">Керування доступами</p>
         </ng-template>
