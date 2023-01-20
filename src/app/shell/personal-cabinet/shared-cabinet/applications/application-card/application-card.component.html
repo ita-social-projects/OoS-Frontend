@@ -63,7 +63,7 @@
     <button
       class="btn btn-blue"
       (click)="approve.emit(application)"
-      [ngClass]="application.status === applicationStatuses.Approved   && 'hidden'">
+      [ngClass]="isApproveBtnHidden && 'hidden'">
       <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
     </button>
     <button
