@@ -16,13 +16,22 @@ import { Application } from '../../../../shared/models/application.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { ApplicationChildFilterPipe } from '../../../../shared/pipes/application-child-filter.pipe';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { TranslateModule } from '@ngx-translate/core';
 describe('ApplicationsComponent', () => {
   let component: ApplicationsComponent;
   let fixture: ComponentFixture<ApplicationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatTabsModule, MatDialogModule, MatMenuModule, RouterTestingModule, BrowserAnimationsModule],
+      imports: [
+        NgxsModule.forRoot([]),
+        MatTabsModule,
+        MatDialogModule,
+        MatMenuModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [
         ApplicationsComponent,
         MockApplicationCardComponent,
@@ -32,8 +41,8 @@ describe('ApplicationsComponent', () => {
         StatusInfoCardComponent,
         NoResultCardComponent,
         MockApplicationCardPaginatorComponent,
-        TextSliceTransformPipe
-      ]
+        TextSliceTransformPipe,
+      ],
     }).compileComponents();
   });
 
@@ -49,7 +58,7 @@ describe('ApplicationsComponent', () => {
 });
 @Component({
   selector: 'app-application-card',
-  template: ''
+  template: '',
 })
 class MockApplicationCardComponent {
   @Input() application: Application;
@@ -58,7 +67,7 @@ class MockApplicationCardComponent {
 
 @Component({
   selector: 'app-entity-checkbox-dropdown',
-  template: ''
+  template: '',
 })
 class MockWorkshopChekcboxDropdownComponent {
   @Input() entities: Workshop[];
@@ -66,7 +75,7 @@ class MockWorkshopChekcboxDropdownComponent {
 }
 @Component({
   selector: 'app-paginator',
-  template: ''
+  template: '',
 })
 class MockApplicationCardPaginatorComponent {
   @Input() totalEntities: number;

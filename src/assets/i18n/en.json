@@ -195,6 +195,27 @@
       "HOUR": "hour",
       "HOURS": "hours",
       "HOURS_ABLATIVE": "hours"
+    },
+    "APPLICATION_STATUSES":{
+      "ALL": "All",
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "LEFT": "Left",
+      "ACCEPTED_FOR_SELECTION": "Accepted for selection",
+      "STUDYING_FOR_YEARS": "Studying for 1-11 years",
+      "COMPLETED": "Completed",
+      "BLOCKED": "Blocked"
+    },
+    "APPLICATION_DESCRIPTION":{
+      "PENDING": "A new application created, awaiting confirmation from the service provider",
+      "APPROVED": "The application is approved/the user is accepted to the workshop",
+      "REJECTED": "The user was refused to be accepted to the workshop with reason",
+      "LEFT": "The user left the workshop on their own",
+      "ACCEPTED_FOR_SELECTION": "User accepted for competitive selection (with additional information about selection)",
+      "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
+      "COMPLETED": "User completed studying",
+      "BLOCKED": "The user has violated the Terms of Use of the Platform"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -356,5 +377,20 @@
   "YEARS": "years",
   "YOU_ARE_IN_A_SETTLEMENT": "Is your location",
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "You have already rated this workshop",
-  "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop"
+  "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop",
+  "BANNERS": {
+    "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
+    "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
+    "ADD_WORKSHOP" : "You can add unfromation about the new workshop"
+  },
+  "BUTTONS": {
+    "ADD_CHILDREN": "Add child",
+    "ADD_WORKSHOP" : "Add workshop",
+    "APPROVE_APPLICATION": "Approve",
+    "LEAVE" : "Leave workshop",
+    "REJECT" : "Reject",
+    "BLOCK": "Block the user",
+    "UNBLOCK": "Unblock the user",
+    "SEND_INVITATION": "Send an invitation"
+  }
 }

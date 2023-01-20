@@ -82,4 +82,8 @@ p {
   &__actions {
     margin: 0 8px;
   }
+  &:hover {
+    cursor: pointer;
+    opacity: 0.5;
+  }
 }

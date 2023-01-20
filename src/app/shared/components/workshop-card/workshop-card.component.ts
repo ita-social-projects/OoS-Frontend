@@ -1,4 +1,3 @@
-import { ApplicationStatuses } from './../../enum/statuses';
 import { ProviderWorkshopCard } from '../../models/workshop.model';
 import { Favorite } from '../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
@@ -22,7 +21,6 @@ import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
 import { SnackbarText } from '../../enum/messageBar';
-import { ApplicationStatusTitles } from '../../enum/statuses';
 import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { OwnershipTypes } from '../../enum/provider';
 
@@ -41,8 +39,6 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   readonly workhopStatus = WorkshopOpenStatus;
   readonly modalConfirmationType = ModalConfirmationType;
-  readonly statuses = ApplicationStatuses;
-  readonly statusTitles = ApplicationStatusTitles;
 
   openDialog = false;
   isFavorite = false;

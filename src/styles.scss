@@ -224,3 +224,7 @@ input:-webkit-autofill:active{
   line-height: initial;
   font-family: 'Open Sans', sans-serif;
 }
+
+.mat-menu-panel {
+  min-height: auto !important;
+}

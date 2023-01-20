@@ -1,12 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ApplicationStatuses } from '../../../../../shared/enum/statuses';
 import { Constants } from '../../../../../shared/constants/constants';
-import { ApplicationIcons } from '../../../../../shared/enum/applications';
-import { ApplicationStatusDescription } from '../../../../../shared/enum/enumUA/applications';
 import { Role } from '../../../../../shared/enum/role';
 import { Application } from '../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../shared/models/block.model';
 import { Util } from '../../../../../shared/utils/utils';
+import { ApplicationStatuses } from './../../../../../shared/enum/statuses';
 
 @Component({
   selector: 'app-application-card',
@@ -14,9 +12,7 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./application-card.component.scss']
 })
 export class ApplicationCardComponent implements OnInit {
-  readonly statuses = ApplicationStatuses;
-  readonly applicationIcons = ApplicationIcons;
-  readonly applicationStatusDescription = ApplicationStatusDescription;
+  readonly applicationStatuses = ApplicationStatuses;
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
 

@@ -52,7 +52,7 @@
           [ngClass]="{ 'application-status': tableTitle === 'Application' }"
           class="{{ element.oldValue }}"
         >
-          {{ (tableTitle === 'Application' ? statusTitles[element?.oldValue] : element?.oldValue) | emptyValueTransform }}
+          {{ (tableTitle === 'Application' ? statusTitles[element?.oldValue] : element?.oldValue)| trasnlate | emptyValueTransform }}
         </td>
       </ng-container>
 

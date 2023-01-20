@@ -3,14 +3,14 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ApplicationIcons } from '../../../../../../shared/enum/applications';
-import { ApplicationStatusDescription } from '../../../../../../shared/enum/enumUA/applications';
 import { Application } from '../../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../../shared/models/block.model';
 import { Provider } from '../../../../../../shared/models/provider.model';
 import { RegistrationState } from '../../../../../../shared/store/registration.state';
 import { ProviderState } from '../../../../../../shared/store/provider.state';
 import { GetBlockedParents, OnClearBlockedParents } from '../../../../../../shared/store/provider.actions';
-import { ApplicationStatuses, ApplicationStatusTitles } from '../../../../../../shared/enum/statuses';
+import { ApplicationStatuses } from '../../../../../../shared/enum/statuses';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../../../../../shared/enum/enumUA/applications';
 
 @Component({
   selector: 'app-info-status',
@@ -18,22 +18,25 @@ import { ApplicationStatuses, ApplicationStatusTitles } from '../../../../../../
   styleUrls: ['./info-status.component.scss']
 })
 export class InfoStatusComponent implements OnInit, OnDestroy {
-  readonly statusTitles = ApplicationStatusTitles;
+  readonly applicationTitles = ApplicationTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
+
+  @Input() application: Application = null;
 
   @Select(ProviderState.blockedParent)
   blockedParent$: Observable<BlockedParent>;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() application: Application = null;
   status: ApplicationStatuses;
   reason: string;
+
+  private readonly blockedStatus = 'Blocked';
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.status = this.application.isBlocked ? ApplicationStatuses.Blocked : ApplicationStatuses[this.application.status];
+    this.status = this.application.isBlocked ? this.blockedStatus : ApplicationStatuses[this.application.status];
     this.reason = !this.application.isBlocked && this.application.rejectionMessage;
   }
 

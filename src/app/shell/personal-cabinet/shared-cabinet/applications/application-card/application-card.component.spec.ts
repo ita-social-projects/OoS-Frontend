@@ -15,6 +15,7 @@ import { StatusInfoCardComponent } from '../../../../../shared/components/status
 import { InfoStatusComponent } from './info-status/info-status.component';
 import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -30,7 +31,8 @@ describe('ApplicationCardComponent', () => {
         MatIconModule,
         MatMenuModule,
         MatDialogModule,
-        MatTooltipModule
+        MatTooltipModule,
+        TranslateModule.forRoot()
       ],
       providers: [
         { provide: LOCALE_ID, useValue: 'uk' },

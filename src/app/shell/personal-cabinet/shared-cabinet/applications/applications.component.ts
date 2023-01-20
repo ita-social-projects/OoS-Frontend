@@ -1,4 +1,3 @@
-import { RegistrationState } from './../../../../shared/store/registration.state';
 import { ApplicationStatuses } from './../../../../shared/enum/statuses';
 import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import {
@@ -21,7 +20,6 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { ApplicationStatusTitles, StatusTitlesReverse } from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { Child } from '../../../../shared/models/child.model';
@@ -32,6 +30,8 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { FormControl } from '@angular/forms';
+import { ApplicationStatusTabParams } from '../../../../shared/enum/applications';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
 
 @Component({
   selector: 'app-applications',
@@ -39,7 +39,8 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./applications.component.scss'],
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly statusTitles = ApplicationStatusTitles;
+  readonly applicationTabTitles = ApplicationTitles;
+  readonly statusTitles = ApplicationStatusTabParams;
   readonly statuses = ApplicationStatuses;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly Role = Role;
@@ -51,7 +52,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  
+
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   @Input() applicationParams: ApplicationFilterParameters;
@@ -116,10 +117,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       const status = params['status'];
-      if (ApplicationStatuses[status]) {
-        this.applicationParams.statuses = [status];
-      }
-      this.tabGroup.selectedIndex = Object.keys(ApplicationStatusTitles).indexOf(status);
+      const tabIndex = Number(ApplicationStatusTabParams[status]);
+
+      this.setFilterParams(status, tabIndex);
+      this.tabGroup.selectedIndex = tabIndex;
       this.onGetApplications();
     });
   }
@@ -129,16 +130,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param workshopsId: number[]
    */
   onTabChange(event: MatTabChangeEvent): void {
-    const tabLabel = event.tab.textLabel;
-    const statuses =
-      tabLabel !== ApplicationStatusTitles.Blocked && tabLabel !== ApplicationStatusTitles.All
-        ? [StatusTitlesReverse[tabLabel]]
-        : [];
-    this.applicationParams.statuses = statuses;
-    this.applicationParams.showBlocked = tabLabel === ApplicationStatusTitles.Blocked;
+    const tabIndex = event.index;
+
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: StatusTitlesReverse[tabLabel] },
+      queryParams: { status: ApplicationStatusTabParams[tabIndex] },
     });
   }
 
@@ -156,5 +152,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private setFilterParams(applicationStatus: string, tabIndex?: number): void {
+    const statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
+    this.applicationParams.statuses = statuses;
+    this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
   }
 }
