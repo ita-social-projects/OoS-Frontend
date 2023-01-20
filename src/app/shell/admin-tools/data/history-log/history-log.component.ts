@@ -46,19 +46,12 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-
   @Select(AdminState.providerHistory)
   providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
-  providersHistory: SearchResponse<ProviderHistory[]>;
-
   @Select(AdminState.providerAdminHistory)
   providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
-  providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
-
   @Select(AdminState.applicationHistory)
   applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
-  applicationHistory: SearchResponse<ApplicationHistory[]>;
-
   @Select(PaginatorState.tableItemsPerPage)
   tableItemsPerPage$: Observable<number>;
   tableItemsPerPage: number;
@@ -76,23 +69,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dispatchProperValue(this.tabIndex);
     this.addNavPath();
-
-    this.providersHistory$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((providersHistory: SearchResponse<ProviderHistory[]>) => (this.providersHistory = providersHistory));
-
-    this.providerAdminHistory$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(
-        (providerAdminHistory: SearchResponse<ProviderAdminHistory[]>) =>
-          (this.providerAdminHistory = providerAdminHistory)
-      );
-
-    this.applicationHistory$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(
-        (applicationHistory: SearchResponse<ApplicationHistory[]>) => (this.applicationHistory = applicationHistory)
-      );
 
     this.tableItemsPerPage$
       .pipe(takeUntil(this.destroy$))

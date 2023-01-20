@@ -17,17 +17,17 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab [label]="historyLogTabsUkr.Provider">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory, tableTitle: 'Provider' }">
+        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: 'Provider' }">
         </ng-container>
       </mat-tab>
       <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory, tableTitle: 'ProviderAdmin' }">
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: 'ProviderAdmin' }">
         </ng-container>
       </mat-tab>
       <mat-tab [label]="historyLogTabsUkr.Application">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory, tableTitle: 'Application' }">
+          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: 'Application' }">
         </ng-container>
       </mat-tab>
     </mat-tab-group>
