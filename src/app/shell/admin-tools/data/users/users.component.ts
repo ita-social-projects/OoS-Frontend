@@ -53,10 +53,17 @@ export class UsersComponent implements OnInit, OnDestroy {
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    Util.setPaginationParams(this.childrenParams, this.currentPage, tableItemsPerPage);
+
     this.filterFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
+
+        this.currentPage = PaginationConstants.firstPage;
+        Util.setPaginationParams(this.childrenParams, this.currentPage, this.childrenParams.size);
+
         this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
       });
 
@@ -85,6 +92,9 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    this.currentPage = PaginationConstants.firstPage;
+    Util.setPaginationParams(this.childrenParams, this.currentPage, this.childrenParams.size);
+
     this.filterFormControl.reset();
     this.childrenParams.searchString = '';
     this.childrenParams.tabTitle = event.tab.textLabel;
@@ -97,10 +107,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
+    Util.setPaginationParams(this.childrenParams, this.currentPage, this.childrenParams.size);
     this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin(this.childrenParams)]);
   }
 
   onTableItemsPerPageChange(itemsPerPage: number): void {
+    Util.setPaginationParams(this.childrenParams, this.currentPage, itemsPerPage);
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
   }
 

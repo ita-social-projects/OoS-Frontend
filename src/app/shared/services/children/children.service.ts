@@ -14,7 +14,7 @@ import { PaginatorState } from '../../store/paginator.state';
 export class ChildrenService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(parameters?: ChildrenParameters, isParent?: boolean): HttpParams {
+  private setParams(parameters: ChildrenParameters, isParent?: boolean): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
@@ -34,11 +34,8 @@ export class ChildrenService {
         params = params.set('isParent', isParent.toString());
       }
     }
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
-    const from = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString()).set('From', from.toString());
+    params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     return params;
   }
@@ -47,8 +44,8 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(): Observable<SearchResponse<Child[]>> {
-    const options = { params: this.setParams() };
+  getUsersChildren(params: ChildrenParameters): Observable<SearchResponse<Child[]>> {
+    const options = { params: this.setParams(params) };
 
     return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', options);
   }

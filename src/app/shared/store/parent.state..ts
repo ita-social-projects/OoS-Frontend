@@ -38,7 +38,7 @@ import {
   OnUpdateChildFail,
   OnUpdateChildSuccess,
   ResetSelectedChild,
-  UpdateChild,
+  UpdateChild
 } from './parent.actions';
 import { Location } from '@angular/common';
 import { RatingService } from '../services/rating/rating.service';
@@ -72,8 +72,8 @@ export interface ParentStateModel {
     favoriteWorkshopsCard: null,
     children: null,
     truncatedItems: null,
-    selectedChild: null,
-  },
+    selectedChild: null
+  }
 })
 @Injectable()
 export class ParentState {
@@ -154,10 +154,7 @@ export class ParentState {
   }
 
   @Action(GetReviewedStatus)
-  getReviewedStatus(
-    { patchState }: StateContext<ParentStateModel>,
-    { parentId, workshopId }: GetReviewedStatus
-  ): Observable<boolean> {
+  getReviewedStatus({ patchState }: StateContext<ParentStateModel>, { parentId, workshopId }: GetReviewedStatus): Observable<boolean> {
     patchState({ isLoading: true });
     return this.ratingService
       .getReviewedStatus(parentId, workshopId)
@@ -165,10 +162,7 @@ export class ParentState {
   }
 
   @Action(GetFavoriteWorkshops)
-  getFavoriteWorkshops(
-    { patchState }: StateContext<ParentStateModel>,
-    {}: GetFavoriteWorkshops
-  ): Observable<Favorite[]> {
+  getFavoriteWorkshops({ patchState }: StateContext<ParentStateModel>, {}: GetFavoriteWorkshops): Observable<Favorite[]> {
     return this.favoriteWorkshopsService
       .getFavoriteWorkshops()
       .pipe(tap((favoriteWorkshops: Favorite[]) => patchState({ favoriteWorkshops })));
@@ -181,17 +175,12 @@ export class ParentState {
   ): Observable<SearchResponse<WorkshopCard[]>> {
     return this.favoriteWorkshopsService.getFavoriteWorkshopsByUserId().pipe(
       //TODO: refactor to teh correct pagination flow
-      tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) =>
-        patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities })
-      )
+      tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities }))
     );
   }
 
   @Action(CreateFavoriteWorkshop)
-  createFavoriteWorkshop(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: CreateFavoriteWorkshop
-  ): Observable<Favorite> {
+  createFavoriteWorkshop({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateFavoriteWorkshop): Observable<Favorite> {
     return this.favoriteWorkshopsService.createFavoriteWorkshop(payload).pipe(
       debounceTime(2000),
       tap(() => dispatch(new GetFavoriteWorkshops()))
@@ -199,10 +188,7 @@ export class ParentState {
   }
 
   @Action(DeleteFavoriteWorkshop)
-  deleteFavoriteWorkshop(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: DeleteFavoriteWorkshop
-  ): Observable<void> {
+  deleteFavoriteWorkshop({ dispatch }: StateContext<ParentStateModel>, { payload }: DeleteFavoriteWorkshop): Observable<void> {
     return this.favoriteWorkshopsService.deleteFavoriteWorkshop(payload).pipe(
       debounceTime(2000),
       tap(() => dispatch(new GetFavoriteWorkshops()))
@@ -210,16 +196,11 @@ export class ParentState {
   }
 
   @Action(GetUsersChildren)
-  getUsersChildren(
-    { patchState }: StateContext<ParentStateModel>,
-    {}: GetUsersChildren
-  ): Observable<SearchResponse<Child[]>> {
+  getUsersChildren({ patchState }: StateContext<ParentStateModel>, { parameters }: GetUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService
-      .getUsersChildren()
-      .pipe(
-        tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false }))
-      );
+      .getUsersChildren(parameters)
+      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(GetUsersChildById)
@@ -231,16 +212,11 @@ export class ParentState {
   }
 
   @Action(GetAllUsersChildren)
-  getAllUsersChildren(
-    { patchState }: StateContext<ParentStateModel>,
-    {}: GetAllUsersChildren
-  ): Observable<SearchResponse<Child[]>> {
+  getAllUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetAllUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
     return this.childrenService
       .getAllUsersChildren()
-      .pipe(
-        tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false }))
-      );
+      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(GetAllUsersChildrenByParentId)
@@ -257,10 +233,10 @@ export class ParentState {
   @Action(DeleteChildById)
   deleteChildById(
     { dispatch }: StateContext<ParentStateModel>,
-    { payload }: DeleteChildById
+    { payload, parameters }: DeleteChildById
   ): Observable<void | Observable<void>> {
     return this.childrenService.deleteChild(payload).pipe(
-      tap(() => dispatch(new OnDeleteChildSuccess())),
+      tap(() => dispatch(new OnDeleteChildSuccess(parameters))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteChildFail(error))))
     );
   }
@@ -271,15 +247,12 @@ export class ParentState {
   }
 
   @Action(OnDeleteChildSuccess)
-  onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren()]);
+  onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>, { parameters }: OnDeleteChildSuccess): void {
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren(parameters)]);
   }
 
   @Action(UpdateChild)
-  updateChild(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: UpdateChild
-  ): Observable<Child | Observable<void>> {
+  updateChild({ dispatch }: StateContext<ParentStateModel>, { payload }: UpdateChild): Observable<Child | Observable<void>> {
     return this.childrenService.updateChild(payload).pipe(
       tap(() => dispatch(new OnUpdateChildSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateChildFail(error))))
@@ -297,17 +270,14 @@ export class ParentState {
       new MarkFormDirty(false),
       new ShowMessageBar({
         message: SnackbarText.updateChild,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
     this.location.back();
   }
 
   @Action(CreateChildren)
-  createChildren(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: CreateChildren
-  ): Observable<Observable<void> | Child> {
+  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Observable<void> | Child> {
     return this.childrenService.createChild(payload).pipe(
       tap(() => dispatch(new OnCreateChildrenSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
@@ -324,9 +294,9 @@ export class ParentState {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.createChild,
-        type: 'success',
+        type: 'success'
       }),
-      new MarkFormDirty(false),
+      new MarkFormDirty(false)
     ]);
     this.location.back();
   }
@@ -337,10 +307,7 @@ export class ParentState {
   }
 
   @Action(CreateRating)
-  createRating(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: CreateRating
-  ): Observable<Observable<void> | Rate> {
+  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<Observable<void> | Rate> {
     return this.ratingService.createRate(payload).pipe(
       tap(() => dispatch(new OnCreateRatingSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
@@ -357,7 +324,7 @@ export class ParentState {
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.createRating,
-        type: 'success',
+        type: 'success'
       })
     );
   }
@@ -379,17 +346,14 @@ export class ParentState {
       new ShowMessageBar({
         message: payload.error.status === 429 ? SnackbarText.applicationLimit : SnackbarText.error,
         type: 'error',
-        info: payload.error.status === 429 ? SnackbarText.applicationLimitPerPerson : '',
+        info: payload.error.status === 429 ? SnackbarText.applicationLimitPerPerson : ''
       })
     );
   }
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateApplicationSuccess): void {
-    dispatch([
-      new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }),
-      new MarkFormDirty(false),
-    ]);
+    dispatch([new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);
   }
 }
