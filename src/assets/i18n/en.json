@@ -17,7 +17,6 @@
   "BY_PRICE_DECREASE": "By price decrease",
   "BY_PRICE_INCREASE": "By price increase",
   "BY_RATING": "By rating",
-  "CANCEL": "Cancel",
   "CHANGE": "Change",
   "CHANGE_EMAIL": "Change email",
   "CHANGE_PASSWORD": "Change password",
@@ -251,7 +250,8 @@
       "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
       "NEW_CHILD": "Add child information",
       "EDIT_CHILD": "Edit child information",
-      "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet."
+      "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet.",
+      "NEW_APPLICATION": "NEW WORKSHOP APPLICATION"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -277,7 +277,10 @@
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
       "TITLE": "Title",
       "WEBSITE": "Website",
-      "WORKING_HOURS": "Working hours"
+      "WORKING_HOURS": "Working hours",
+      "APPLY_CHILDREN": "Apply children data",
+      "APPLY_USER": "Apply your data",
+      "SELECT_CHILD": "Select child from the list"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -287,7 +290,8 @@
       "PAYMENT_TYPE": "Choose the type of payment for the workshop",
       "SHORT_DATE_FORMAT": "DD/MM/YYYY",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
-      "SYMBOLS": "symbols"
+      "SYMBOLS": "symbols",
+      "CHILDREN": "Children"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -302,7 +306,8 @@
       "INVALID_MAP": "No such address was found on the map",
       "INVALID_SYMBOLS": ", please use only Cyrillic and symbols ( ' - )",
       "REQUIRED_INPUT": "This field is required.",
-      "NO_MORE_CHILDREN": "It is possible to add no more than"
+      "NO_MORE_CHILDREN": "It is possible to add no more than",
+      "APPLICATION_ALREADY_APPLIED": "The application is already created"
     }
   },
   "FOUND": "Found",
@@ -391,6 +396,20 @@
     "REJECT" : "Reject",
     "BLOCK": "Block the user",
     "UNBLOCK": "Unblock the user",
-    "SEND_INVITATION": "Send an invitation"
+    "SEND_INVITATION": "Send an invitation",
+    "CANCEL": "Cancel",
+    "SEND": "Send"
+  },
+  "PERSONAL_DATA": "Personal data",
+  "CHILD_DATA": "Child data",
+  "PARENT_DATA": "Parent data",
+  "NO_CHILD_FOUND": "Is there a child missing from the list?",
+  "AGREEMENTS": {
+    "USER_CONTRAINDICATIONS": "I have no contraindications to attending a workshop",
+    "CHILD_CONTRAINDICATIONS": "My child has no contraindications to attending a workshop",
+    "I_AGREE_FOR_CHILD": "I agree for my child to attend the workshop",
+    "I_AGREE": "I agree with",
+    "PLATFORM_RULES": "Rules of Use",
+    "PERSONAL_DATA_USE": "and I consent to the processing of personal data"
   }
 }
