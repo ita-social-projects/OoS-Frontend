@@ -1,11 +1,15 @@
 <mat-card class="card" #childInfoBox id="child-box" [class.isMobile]="isMobile">
   <div fxLayout="column" fxLayoutAlign="center start">
-    <h3 class="title">{{ child.isParent ? 'PERSONAL_DATA' : 'CHILD_DATA' | translate}}</h3>
+    <h3 class="title">{{ child.isParent ? 'PERSONAL_DATA' : ('CHILD_DATA' | translate) }}</h3>
 
     <div class="info-group" *ngIf="!child.isParent">
       <h4 class="textChildrenName">{{ childFullName }}</h4>
       <h5 class="text">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}:</h5>
-      <p>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }} ({{ childAge }})</p>
+      <p>
+        {{ child.dateOfBirth | date : constants.SHORT_DATE_FORMAT }} ({{
+          childAge ? (childAge | translateCases : YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate)
+        }})
+      </p>
     </div>
 
     <div class="info-group">
@@ -15,7 +19,7 @@
     <ng-container *ngIf="!child.isParent">
       <div class="info-group">
         <h5 class="text">{{ 'FORMS.LABELS.SOCIAL_GROUPS' | translate }}:</h5>
-        <p>{{ child.socialGroups | join: 'name' }}</p>
+        <p>{{ child.socialGroups | join : 'name' }}</p>
       </div>
 
       <div class="info-group">

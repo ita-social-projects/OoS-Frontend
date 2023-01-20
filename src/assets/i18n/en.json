@@ -412,5 +412,6 @@
     "I_AGREE": "I agree with",
     "PLATFORM_RULES": "Rules of Use",
     "PERSONAL_DATA_USE": "and I consent to the processing of personal data"
-  }
+  },
+  "LESS_THAN_ONE_YEAR": "< 1 year"
 }
