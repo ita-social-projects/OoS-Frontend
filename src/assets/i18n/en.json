@@ -391,6 +391,7 @@
     "REJECT" : "Reject",
     "BLOCK": "Block the user",
     "UNBLOCK": "Unblock the user",
-    "SEND_INVITATION": "Send an invitation"
+    "SEND_INVITATION": "Send an invitation",
+    "SEND_MESSAGE": "Надіслати повідомлення"
   }
 }

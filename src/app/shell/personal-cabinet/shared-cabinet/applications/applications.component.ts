@@ -67,6 +67,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() reject = new EventEmitter();
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
+  @Output() sendMessage = new EventEmitter();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
@@ -115,10 +116,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
       const status = params['status'];
       const tabIndex = Number(ApplicationStatusTabParams[status]);
-
       this.setFilterParams(status, tabIndex);
       this.tabGroup.selectedIndex = tabIndex;
       this.onGetApplications();
