@@ -9,7 +9,7 @@ import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, 
 import { FormControl } from '@angular/forms';
 import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
+import { Provider, ProviderParameters, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
@@ -20,26 +20,18 @@ import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import {
-  LicenseStatuses,
-  ProviderStatuses,
-  ProviderStatusTitles,
-  UserStatusIcons,
-} from '../../../../shared/enum/statuses';
+import { LicenseStatuses, ProviderStatuses, ProviderStatusTitles, UserStatusIcons } from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import {
-  DeleteProviderById,
-  UpdateProviderStatus,
-  UpdateProviderLicenseStatuse,
-} from './../../../../shared/store/provider.actions';
+import { DeleteProviderById, UpdateProviderStatus, UpdateProviderLicenseStatuse } from './../../../../shared/store/provider.actions';
 import { OwnershipTypes } from '../../../../shared/enum/provider';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-provider-list',
   templateUrl: './provider-list.component.html',
-  styleUrls: ['./provider-list.component.scss'],
+  styleUrls: ['./provider-list.component.scss']
 })
 export class ProviderListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) sort: MatSort;
@@ -75,32 +67,35 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'email',
     'phoneNumber',
     'status',
-    'star',
+    'star'
   ];
   filterFormControl: FormControl = new FormControl('');
   dataSource = new MatTableDataSource([{}]);
   currentPage: PaginationElement = PaginationConstants.firstPage;
   totalEntities: number;
-  searchString: string;
+  providerParameters: ProviderParameters = {
+    searchString: ''
+  };
 
   constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
+    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    Util.setPaginationParams(this.providerParameters, this.currentPage, tableItemsPerPage);
+
     this.store.dispatch([
-      new GetFilteredProviders(),
+      new GetFilteredProviders(this.providerParameters),
       new PushNavPath({
         name: NavBarName.Providers,
         isActive: false,
-        disable: true,
-      }),
+        disable: true
+      })
     ]);
-    this.providers$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((providers: SearchResponse<Provider[]>) => {
-        this.dataSource = new MatTableDataSource(providers.entities);
-        this.dataSource.sort = this.sort;
-        this.totalEntities = providers.totalAmount;
-      });
+    this.providers$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((providers: SearchResponse<Provider[]>) => {
+      this.dataSource = new MatTableDataSource(providers.entities);
+      this.dataSource.sort = this.sort;
+      this.totalEntities = providers.totalAmount;
+    });
 
     this.filterFormControl.valueChanges
       .pipe(
@@ -112,8 +107,12 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         map((value: string) => value.trim())
       )
       .subscribe((searchString: string) => {
-        this.searchString = searchString;
-        this.store.dispatch(new GetFilteredProviders(searchString));
+        this.providerParameters.searchString = searchString;
+
+        this.currentPage = PaginationConstants.firstPage;
+        Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
+
+        this.store.dispatch(new GetFilteredProviders(this.providerParameters));
       });
   }
 
@@ -134,29 +133,31 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
     if (status === ProviderStatuses.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-        data: { type: ModalConfirmationType.editingProvider },
+        data: { type: ModalConfirmationType.editingProvider }
       });
       dialogRef
         .afterClosed()
         .pipe(filter(Boolean))
         .subscribe((statusReason: string) =>
-          this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }))
+          this.store.dispatch(new UpdateProviderStatus({ ...statusUpdateData, statusReason }, this.providerParameters))
         );
     } else {
-      this.store.dispatch(new UpdateProviderStatus(statusUpdateData));
+      this.store.dispatch(new UpdateProviderStatus(statusUpdateData, this.providerParameters));
     }
   }
 
   onLicenseApprove(providerId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      data: { type: ModalConfirmationType.licenseApproved },
+      data: { type: ModalConfirmationType.licenseApproved }
     });
 
     dialogRef
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() =>
-        this.store.dispatch(new UpdateProviderLicenseStatuse({ providerId, licenseStatus: LicenseStatuses.Approved }))
+        this.store.dispatch([
+          new UpdateProviderLicenseStatuse({ providerId, licenseStatus: LicenseStatuses.Approved }, this.providerParameters)
+        ])
       );
   }
 
@@ -165,23 +166,25 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteProvider,
-        property: provider.fullTitle,
-      },
+        property: provider.fullTitle
+      }
     });
 
     dialogRef
       .afterClosed()
       .pipe(filter(Boolean))
-      .subscribe(() => this.store.dispatch(new DeleteProviderById(provider.id)));
+      .subscribe(() => this.store.dispatch(new DeleteProviderById(provider.id, this.providerParameters)));
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders()]);
+    Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
+    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders(this.providerParameters)]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
+    Util.setPaginationParams(this.providerParameters, this.currentPage, itemsPerPage);
+    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviders(this.providerParameters)]);
   }
 
   ngOnDestroy(): void {

@@ -198,11 +198,11 @@ export class AdminState {
   @Action(GetFilteredProviders)
   getFilteredProvider(
     { patchState }: StateContext<AdminStateModel>,
-    { payload }: GetFilteredProviders
+    { providerParameters }: GetFilteredProviders
   ): Observable<SearchResponse<Provider[]>> {
     patchState({ isLoading: true });
     return this.providerService
-      .getFilteredProviders(payload)
+      .getFilteredProviders(providerParameters)
       .pipe(tap((providers: SearchResponse<Provider[]>) => patchState({ providers: providers ?? EMPTY_RESULT, isLoading: false })));
   }
 

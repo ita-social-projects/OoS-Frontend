@@ -3,6 +3,7 @@ import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
+import { ProviderParameters } from '../models/provider.model';
 import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
@@ -26,7 +27,7 @@ export class GetSupportInformation {
 }
 export class GetFilteredProviders {
   static readonly type = '[admin] Get filtered Providers';
-  constructor(public payload?: string) {}
+  constructor(public providerParameters: ProviderParameters) {}
 }
 
 export class GetLawsAndRegulations {

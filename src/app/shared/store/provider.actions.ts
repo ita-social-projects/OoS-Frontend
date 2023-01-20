@@ -1,7 +1,7 @@
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement } from '../models/achievement.model';
-import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
+import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { ApplicationEntityType } from '../enum/applications';
@@ -164,12 +164,12 @@ export class OnUpdateProviderSuccess {
 
 export class UpdateProviderStatus {
   static readonly type = '[provider] update Provider status';
-  constructor(public payload: ProviderStatusUpdateData) {}
+  constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
 }
 
 export class UpdateProviderLicenseStatuse {
   static readonly type = '[provider] update provider license status';
-  constructor(public payload: LicenseStatusData) {}
+  constructor(public payload: LicenseStatusData, public providerParameters: ProviderParameters) {}
 }
 
 export class OnUpdateProviderStatusFail {
@@ -179,7 +179,7 @@ export class OnUpdateProviderStatusFail {
 
 export class OnUpdateProviderStatusSuccess {
   static readonly type = '[provider] update Provider status success';
-  constructor(public payload: ProviderStatusUpdateData) {}
+  constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
 }
 
 export class CreateProviderAdmin {
@@ -303,12 +303,12 @@ export class ResetAchievements {
 
 export class DeleteProviderById {
   static readonly type = '[provider] delete Provider By Id';
-  constructor(public payload: string) {}
+  constructor(public payload: string, public providerParameters: ProviderParameters) {}
 }
 
 export class OnDeleteProviderByIdSuccess {
   static readonly type = '[provider] delete Provider By Id success';
-  constructor(public payload: string) {}
+  constructor(public payload: string, public providerParameters: ProviderParameters) {}
 }
 
 export class OnDeleteProviderByIdFail {
