@@ -12,8 +12,8 @@ describe('PersonCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, RouterTestingModule],
-      declarations: [PersonCardComponent, PhoneTransformPipe, JoinPipe, TranslateModule.forRoot()]
+      imports: [MatIconModule, RouterTestingModule, TranslateModule.forRoot()],
+      declarations: [PersonCardComponent, PhoneTransformPipe, JoinPipe]
     }).compileComponents();
   });
 
