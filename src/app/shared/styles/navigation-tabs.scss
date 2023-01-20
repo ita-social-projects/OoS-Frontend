@@ -32,3 +32,13 @@
     min-width: min-content;
   }
 }
+
+@media (max-width: 1200px) { 
+  :host ::ng-deep {
+    .application-wrapper {
+      .mat-tab-header {
+        width: 100%;
+      }
+    }
+  }
+}
