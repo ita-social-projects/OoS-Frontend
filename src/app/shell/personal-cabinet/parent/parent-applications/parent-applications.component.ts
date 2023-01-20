@@ -104,6 +104,6 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   }
 
   onSendMessage(application: Application): void {
-    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], { queryParams: { mode: ModeConstants.WORKSHOP }, replaceUrl: true });
+    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], { queryParams: { mode: ModeConstants.WORKSHOP }, replaceUrl: false });
   }
 }
