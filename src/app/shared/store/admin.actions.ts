@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
-import { Direction } from '../models/category.model';
+import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { StatisticParameters } from '../models/statistic.model';
@@ -53,7 +53,7 @@ export class OnUpdatePlatformInfoSuccess {
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
-  constructor(public payload: number) {}
+  constructor(public payload: number, public directionParameters: DirectionParameters) {}
 }
 export class OnDeleteDirectionFail {
   static readonly type = '[admin] delete Direction fail';
@@ -61,7 +61,7 @@ export class OnDeleteDirectionFail {
 }
 export class OnDeleteDirectionSuccess {
   static readonly type = '[admin] delete Direction success';
-  constructor() {}
+  constructor(public directionParameters: DirectionParameters) {}
 }
 export class CreateDirection {
   static readonly type = '[admin] create Direction';
@@ -94,7 +94,7 @@ export class GetDirectionById {
 
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
-  constructor(public payload?: string) {}
+  constructor(public parameters: DirectionParameters) {}
 }
 
 export class GetChildrenForAdmin {

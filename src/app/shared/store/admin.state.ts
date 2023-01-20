@@ -289,9 +289,12 @@ export class AdminState {
   }
 
   @Action(DeleteDirectionById)
-  deleteDirectionById({ dispatch }: StateContext<AdminStateModel>, { payload }: DeleteDirectionById): Observable<void | Observable<void>> {
+  deleteDirectionById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, directionParameters }: DeleteDirectionById
+  ): Observable<void | Observable<void>> {
     return this.categoriesService.deleteDirection(payload).pipe(
-      tap(() => dispatch(new OnDeleteDirectionSuccess())),
+      tap(() => dispatch(new OnDeleteDirectionSuccess(directionParameters))),
       catchError((error: Error) => of(dispatch(new OnDeleteDirectionFail(error))))
     );
   }
@@ -302,13 +305,13 @@ export class AdminState {
   }
 
   @Action(OnDeleteDirectionSuccess)
-  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { directionParameters }: OnDeleteDirectionSuccess): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteDirection,
         type: 'success'
       }),
-      new GetFilteredDirections()
+      new GetFilteredDirections(directionParameters)
     ]);
   }
 
@@ -359,9 +362,7 @@ export class AdminState {
       new ShowMessageBar({
         message: SnackbarText.updateDirection,
         type: 'success'
-      }),
-      new OnPageChangeDirections(PaginationConstants.firstPage),
-      new GetFilteredDirections()
+      })
     ]);
     this.location.back();
   }
@@ -377,10 +378,10 @@ export class AdminState {
   @Action(GetFilteredDirections)
   getFilteredDirections(
     { patchState }: StateContext<AdminStateModel>,
-    { payload }: GetFilteredDirections
+    { parameters }: GetFilteredDirections
   ): Observable<SearchResponse<Direction[]>> {
     patchState({ isLoading: true });
-    return this.categoriesService.getFilteredDirections(payload).pipe(
+    return this.categoriesService.getFilteredDirections(parameters).pipe(
       tap((filteredDirections: SearchResponse<Direction[]>) =>
         patchState({
           filteredDirections: filteredDirections ?? EMPTY_RESULT,

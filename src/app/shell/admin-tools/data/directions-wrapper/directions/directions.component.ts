@@ -9,13 +9,14 @@ import { ConfirmationModalWindowComponent } from '../../../../../shared/componen
 import { PaginationConstants, Constants } from '../../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
 import { NoResultsTitle } from '../../../../../shared/enum/no-results';
-import { Direction } from '../../../../../shared/models/category.model';
+import { Direction, DirectionParameters } from '../../../../../shared/models/category.model';
 import { PaginationElement } from '../../../../../shared/models/paginationElement.model';
 import { GetFilteredDirections, DeleteDirectionById } from '../../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../../shared/store/admin.state';
 import { PopNavPath } from '../../../../../shared/store/navigation.actions';
 import { OnPageChangeDirections, SetDirectionsPerPage } from '../../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../../shared/store/paginator.state';
+import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-directions',
@@ -34,11 +35,17 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);
   isEditMode: true;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  directionsParameters: DirectionParameters = {
+    searchString: ''
+  };
 
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.store.dispatch([new OnPageChangeDirections(PaginationConstants.firstPage), new GetFilteredDirections()]);
+    const directionItemsPerPage = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    Util.setPaginationParams(this.directionsParameters, this.currentPage, directionItemsPerPage);
+
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
     this.filterFormControl.valueChanges
       .pipe(
         distinctUntilChanged(),
@@ -49,17 +56,24 @@ export class DirectionsComponent implements OnInit, OnDestroy {
         map((searchedText: string) => searchedText.trim())
       )
       .subscribe((searchedText: string) => {
-        this.store.dispatch(new GetFilteredDirections(searchedText));
+        this.directionsParameters.searchString = searchedText;
+
+        this.currentPage = PaginationConstants.firstPage;
+        Util.setPaginationParams(this.directionsParameters, this.currentPage, this.directionsParameters.size);
+
+        this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
       });
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeDirections(page), new GetFilteredDirections()]);
+    Util.setPaginationParams(this.directionsParameters, this.currentPage, this.directionsParameters.size);
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new GetFilteredDirections()]);
+    Util.setPaginationParams(this.directionsParameters, this.currentPage, itemsPerPage);
+    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new GetFilteredDirections(this.directionsParameters)]);
   }
 
   onDelete(direction: Direction): void {
@@ -72,7 +86,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteDirectionById(direction.id));
+      result && this.store.dispatch(new DeleteDirectionById(direction.id, this.directionsParameters));
     });
   }
 
