@@ -386,7 +386,7 @@
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
     "ADD_WORKSHOP" : "Add workshop",
-    "APPROVE": "Approve",
+    "APPROVE_APPLICATION": "Approve",
     "LEAVE" : "Leave workshop",
     "REJECT" : "Reject",
     "BLOCK": "Block the user",
