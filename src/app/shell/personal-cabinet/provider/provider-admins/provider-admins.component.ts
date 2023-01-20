@@ -63,7 +63,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
       this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
       this.filterParams.deputyOnly = params['role'] === ProviderAdminRole.deputy;

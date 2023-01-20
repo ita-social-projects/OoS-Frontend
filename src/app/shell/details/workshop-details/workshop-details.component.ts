@@ -3,7 +3,7 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { DetailsTabTitlesEnum, DetailsTabTitlesParams, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
@@ -57,7 +57,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params['status']);
       this.selectedIndex = this.tabIndex;
     });

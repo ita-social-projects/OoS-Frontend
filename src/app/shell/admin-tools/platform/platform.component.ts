@@ -3,7 +3,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { AdminTabs, AdminTabsUkr, AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
@@ -33,7 +33,7 @@ export class PlatformComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(new GetPlatformInfo());
     this.addNavPath();
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = params.page && +AdminTabs[params.page];
     });
   }
