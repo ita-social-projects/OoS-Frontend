@@ -280,7 +280,8 @@
       "APPLY_CHILDREN": "Apply children data",
       "APPLY_USER": "Apply your data",
       "SELECT_CHILD": "Select child from the list",
-      "FULL_NAME": "Full name"
+      "FULL_NAME": "Full name",
+      "PARENTS": "Parents"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",

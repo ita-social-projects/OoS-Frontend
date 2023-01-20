@@ -279,7 +279,8 @@
       "APPLY_CHILDREN": "Подати дані про дитину",
       "APPLY_USER": "Подати дані про себе",
       "SELECT_CHILD": "Виберіть дитину",
-      "FULL_NAME": "ПІБ"
+      "FULL_NAME": "ПІБ",
+      "PARENTS": "Батьки"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
