@@ -54,7 +54,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
   @Select(PaginatorState.tableItemsPerPage)
   tableItemsPerPage$: Observable<number>;
-  tableItemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex = 0;
@@ -69,10 +68,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.dispatchProperValue(this.tabIndex);
     this.addNavPath();
-
-    this.tableItemsPerPage$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((itemsPerPage: number) => (this.tableItemsPerPage = itemsPerPage));
 
     this.searchFormControl.valueChanges
       .pipe(
@@ -101,7 +96,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.tableItemsPerPage = itemsPerPage;
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage)]);
     this.dispatchProperValue(this.tabIndex);
   }

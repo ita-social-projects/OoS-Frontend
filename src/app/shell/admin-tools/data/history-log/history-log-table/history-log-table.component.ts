@@ -41,7 +41,6 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.table);
-
     this.dataSource.sortingDataAccessor = (item: ProviderHistory, property) => {
       switch (property) {
         case 'pib': {
