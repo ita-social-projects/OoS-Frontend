@@ -4,8 +4,6 @@ import { AdminsComponent } from './admins/admins.component';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 import { UsersComponent } from './users/users.component';
 import { HistoryLogComponent } from './history-log/history-log.component';
-import { DirectionsComponent } from './directions-wrapper/directions/directions.component';
-import { CreateDirectionComponent } from './directions-wrapper/directions/create-direction/create-direction.component';
 import { DirectionsWrapperComponent } from './directions-wrapper/directions-wrapper.component';
 import { AdminApplicationsComponent } from './admin-applications/admin-applications.component';
 import { StatisticsComponent } from './statistics/statistics.component';
@@ -16,7 +14,6 @@ const routes: Routes = [
   { path: 'admins', component: AdminsComponent },
   { path: 'history-log', component: HistoryLogComponent },
   { path: 'directions', component: DirectionsWrapperComponent },
-  { path: 'directions/create/:param', component: CreateDirectionComponent },
   { path: 'applications', component: AdminApplicationsComponent },
   { path: 'statistics', component: StatisticsComponent }
 ];
