@@ -11,6 +11,7 @@ export enum NotificationWorkshopShortDescription {
 export enum NotificationProviderLicenseShortDescription {
   Approved = 'Ліцензія закладу успішно підтвердженна адміністратором',
   Pending = 'Новий заклад очікує погодження ліцензії',
+  NotProvided = 'Новий заклад був зареєстрований без ліцензії',
 }
 
 export enum NotificationsProviderFullDescriptions {
@@ -26,4 +27,5 @@ export enum NotificationWorkshopFullDescriptions {
 export enum NotificationProviderLicenseFullDescription {
   Approved = 'Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з\'\явиться значок підтвердження.',
   Pending = 'Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з\'\явиться значок підтвердження.',
+  NotProvided = 'Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з\'\явиться значок підтвердження.',
 }
