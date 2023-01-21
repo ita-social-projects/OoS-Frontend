@@ -16,6 +16,7 @@ import { InfoStatusComponent } from './info-status/info-status.component';
 import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from '../../../../../shared/pipes/text-slice-transform.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { TranslateCasesPipe } from '../../../../../shared/pipes/translate-cases.pipe';
 
 describe('ApplicationCardComponent', () => {
   let component: ApplicationCardComponent;
@@ -45,7 +46,8 @@ describe('ApplicationCardComponent', () => {
         MockChildInfoComponent,
         PhoneTransformPipe,
         JoinPipe,
-        TextSliceTransformPipe
+        TextSliceTransformPipe,
+        TranslateCasesPipe
       ]
     }).compileComponents();
   });
