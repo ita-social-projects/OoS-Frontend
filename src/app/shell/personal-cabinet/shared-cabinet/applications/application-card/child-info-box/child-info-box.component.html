@@ -1,36 +1,40 @@
 <mat-card class="card" #childInfoBox id="child-box" [class.isMobile]="isMobile">
   <div fxLayout="column" fxLayoutAlign="center start">
-    <h3 class="title">{{ child.isParent ? 'ДАНІ КОРИСТУВАЧА' : 'ДАНІ ДИТИНИ' }}</h3>
+    <h3 class="title">{{ child.isParent ? 'PERSONAL_DATA' : ('CHILD_DATA' | translate) }}</h3>
 
     <div class="info-group" *ngIf="!child.isParent">
       <h4 class="textChildrenName">{{ childFullName }}</h4>
-      <h5 class="text">Дата народження:</h5>
-      <p>{{ child.dateOfBirth | date: constants.SHORT_DATE_FORMAT }} ({{ childAge }})</p>
+      <h5 class="text">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}:</h5>
+      <p>
+        {{ child.dateOfBirth | date : constants.SHORT_DATE_FORMAT }} ({{
+          childAge ? (childAge | translateCases : YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate)
+        }})
+      </p>
     </div>
 
     <div class="info-group">
-      <h5 class="text">Стать:</h5>
+      <h5 class="text">{{ 'FORMS.LABELS.SEX' | translate }}:</h5>
       <p>{{ gender[child.gender] }}</p>
     </div>
     <ng-container *ngIf="!child.isParent">
       <div class="info-group">
-        <h5 class="text">Соціальні групи:</h5>
-        <p>{{ child.socialGroups | join: 'name' }}</p>
+        <h5 class="text">{{ 'FORMS.LABELS.SOCIAL_GROUPS' | translate }}:</h5>
+        <p>{{ child.socialGroups | join : 'name' }}</p>
       </div>
 
       <div class="info-group">
-        <h5 class="text">Батьки:</h5>
+        <h5 class="text">{{ 'FORMS.LABELS.PARENTS' | translate }}:</h5>
         <p>{{ parentFullName }}</p>
       </div>
     </ng-container>
 
     <div class="info-group">
-      <h5 class="text">Телефон:</h5>
+      <h5 class="text">{{ 'FORMS.LABELS.PHONE' | translate }}:</h5>
       <p>{{ phonePrefix + parentPhoneNumber | phoneTransform }}</p>
     </div>
 
     <div class="info-group">
-      <h5 class="text">Електронна пошта:</h5>
+      <h5 class="text">{{ 'FORMS.LABELS.EMAIL' | translate }}:</h5>
       <p>{{ parentEmail }}</p>
     </div>
   </div>

@@ -48,7 +48,7 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'CANCEL' | translate | uppercase }}</button>
+      <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
       <button
         [disabled]="!AgreementFormControl.value || ChildrenFormArray.invalid"
         class="btn"

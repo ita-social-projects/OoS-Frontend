@@ -1,7 +1,7 @@
 <div class="wrapper" *ngIf="user$ | async as user" fxLayout="row wrap" fxLayoutAlign="start">
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
-      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>{{ 'EDIT' | translate }}</button>
+      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
     </a>
     <h4>{{ 'FORMS.LABELS.LAST_NAME' | translate }}</h4>
     <p>{{ user.lastName }}</p>

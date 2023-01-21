@@ -1,6 +1,7 @@
 <div class="wrapper">
-  <div class="table-container mat-elevation-z8">
+  <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort appStretchTable>
+
       <!-- Name Column -->
       <ng-container matColumnDef="pib">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>ПІБ що внесла зміни</th>
@@ -52,7 +53,7 @@
           [ngClass]="{ 'application-status': tableTitle === 'Application' }"
           class="{{ element.oldValue }}"
         >
-          {{ (tableTitle === 'Application' ? statusTitles[element?.oldValue] : element?.oldValue)| trasnlate | emptyValueTransform }}
+          {{ (tableTitle === 'Application' ? statusTitles[element?.oldValue] : element?.oldValue) | translate | emptyValueTransform }}
         </td>
       </ng-container>
 
@@ -64,7 +65,7 @@
           [ngClass]="{ 'application-status': tableTitle === 'Application' }"
           class="{{ element.newValue }}"
         >
-          {{ (tableTitle === 'Application' ? statusTitles[element?.newValue] : element?.newValue) | emptyValueTransform }}
+          {{ (tableTitle === 'Application' ? statusTitles[element?.newValue] : element?.newValue) | translate | emptyValueTransform }}
         </td>
       </ng-container>
 

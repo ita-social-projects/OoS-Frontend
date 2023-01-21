@@ -5,16 +5,25 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, map } from 'rxjs/operators';
-import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+import {
+  HistoryLogTabsUkr,
+  HistoryLogTabsUkrReverse,
+  TypeChange,
+  Tabs,
+} from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import {
   ApplicationHistory,
   DropdownData,
   FilterData,
   ProviderAdminHistory,
-  ProviderHistory
+  ProviderHistory,
 } from '../../../../shared/models/history-log.model';
-import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
+import {
+  GetApplicationHistory,
+  GetProviderAdminHistory,
+  GetProviderHistory,
+} from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
@@ -28,78 +37,37 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 @Component({
   selector: 'app-history-log',
   templateUrl: './history-log.component.html',
-  styleUrls: ['./history-log.component.scss']
+  styleUrls: ['./history-log.component.scss'],
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
   readonly historyLogTabsUkr = HistoryLogTabsUkr;
   readonly noHistory = NoResultsTitle.noHistory;
+  readonly typeChange = TypeChange;
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-
   @Select(AdminState.providerHistory)
   providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
-
   @Select(AdminState.providerAdminHistory)
   providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
-
   @Select(AdminState.applicationHistory)
   applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
-
   @Select(PaginatorState.tableItemsPerPage)
   tableItemsPerPage$: Observable<number>;
-  tableItemsPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
-  provider: ProviderHistory[];
-  providerAdmin: ProviderAdminHistory[];
-  application: ApplicationHistory[];
-  tableData: any = [];
   tabIndex = 0;
   searchString: string;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   searchFormControl = new FormControl('');
   dropdownData: DropdownData[];
   filters: FilterData;
-  readonly typeChange = TypeChange;
 
   constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
 
   ngOnInit(): void {
     this.dispatchProperValue(this.tabIndex);
     this.addNavPath();
-
-    this.providersHistory$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((provider: SearchResponse<ProviderHistory[]>) => !!provider)
-      )
-      .subscribe((provider: SearchResponse<ProviderHistory[]>) => {
-        this.tableData = provider.entities;
-        this.provider = this.tableData;
-      });
-
-    this.providerAdminHistory$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => !!providerAdmin)
-      )
-      .subscribe((providerAdmin: SearchResponse<ProviderAdminHistory[]>) => {
-        this.tableData = providerAdmin.entities;
-        this.providerAdmin = this.tableData;
-      });
-
-    this.applicationHistory$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((application: SearchResponse<ApplicationHistory[]>) => !!application)
-      )
-      .subscribe((application: SearchResponse<ApplicationHistory[]>) => {
-        this.tableData = application.entities;
-        this.application = this.tableData;
-      });
-
-    this.tableItemsPerPage$.pipe(takeUntil(this.destroy$)).subscribe((itemsPerPage: number) => (this.tableItemsPerPage = itemsPerPage));
 
     this.searchFormControl.valueChanges
       .pipe(
@@ -123,12 +91,11 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] }
+      queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] },
     });
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.tableItemsPerPage = itemsPerPage;
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage)]);
     this.dispatchProperValue(this.tabIndex);
   }
@@ -166,7 +133,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.HistoryLog,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }

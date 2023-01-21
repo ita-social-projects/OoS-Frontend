@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Constants, ModeConstants } from '../../../../../shared/constants/constants';
 import { Role } from '../../../../../shared/enum/role';
 import { Application } from '../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../shared/models/block.model';
 import { Util } from '../../../../../shared/utils/utils';
 import { ApplicationStatuses } from './../../../../../shared/enum/statuses';
+import { Constants, ModeConstants } from '../../../../../shared/constants/constants';
+import { YearDeclination } from '../../../../../shared/enum/enumUA/declinations/declination';
 
 @Component({
   selector: 'app-application-card',
@@ -15,9 +16,9 @@ export class ApplicationCardComponent implements OnInit {
   readonly applicationStatuses = ApplicationStatuses;
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
+  readonly YearDeclination = YearDeclination;
   readonly ModeConstants = ModeConstants;
-  
-  childAge: string;
+
   blockedParent: BlockedParent;
   childFullName: string;
   userIsAdmin: boolean;
@@ -48,8 +49,11 @@ export class ApplicationCardComponent implements OnInit {
     );
   }
 
+  get childAge(): number {
+    return Util.getChildAge(this.application.child);
+  }
+
   ngOnInit(): void {
-    this.childAge = Util.getChildAge(this.application.child);
     this.childFullName = Util.getFullName(this.application.child);
 
     this.setUserIsAdmin();

@@ -18,7 +18,9 @@
             <app-child-info-box [child]="application.child" (click)="$event.stopPropagation()"></app-child-info-box>
           </mat-menu>
         </div>
-        <p class="text text-bold">{{ childAge }}</p>
+        <p class="text text-bold">
+          {{ childAge ? (childAge | translateCases : YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate) }}
+        </p>
         <p class="text">
           {{ application.creationTime | date : constants.FULL_DATE_FORMAT }}
         </p>
@@ -50,7 +52,9 @@
         </p>
         <div class="workshop-age" *ngIf="userRole === role.parent">
           <mat-icon class="text_icon">person</mat-icon>
-          <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} років</p>
+          <p class="text">
+            {{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} {{ 'YEARS' | translate }}
+          </p>
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="start center">
@@ -59,11 +63,8 @@
     </div>
     <ng-container *ngIf="isMobileView; then actionsBlock"> </ng-container>
   </mat-card-content>
-  <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider">
-    <button
-      class="btn btn-blue"
-      (click)="approve.emit(application)"
-      [ngClass]="isApproveBtnHidden && 'hidden'">
+  <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider && !application.isBlocked">
+    <button class="btn btn-blue" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
       <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
     </button>
     <button
@@ -90,7 +91,7 @@
         'hidden'
       ">
       <button class="btn btn-gray" (click)="leave.emit(application)">
-        <p>{{ 'BUTTONS.LEAVE' | translate }}</p>
+        <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
       </button>
     </div>
   </mat-card-content>
@@ -100,8 +101,18 @@
 
 <ng-template #actionsBlock>
   <mat-card-content class="card-block card-block__actions">
-    <mat-icon *ngIf="userRole === role.provider" class="material-icons material-icons__actions" [matMenuTriggerFor]="actions">more_vert</mat-icon>
-    <mat-icon *ngIf="userRole === role.parent" class="material-icons material-icons__actions" [matMenuTriggerFor]="email">email</mat-icon>
+    <mat-icon
+      *ngIf="userRole === role.provider"
+      class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="actions"
+      >more_vert</mat-icon
+    >
+    <mat-icon
+      *ngIf="userRole === role.parent"
+      class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="email"
+      >email</mat-icon
+    >
     <mat-menu #actions="matMenu" class="header_menu">
       <button *ngIf="!application.isBlocked" mat-menu-item (click)="block.emit(application.parentId)">
         {{ 'BUTTONS.BLOCK' | translate }}
