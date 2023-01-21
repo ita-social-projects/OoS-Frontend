@@ -88,9 +88,14 @@
       </app-validation-hint>
 
       <label class="step-label"> Електронна пошта <span class="step-required">*</span></label>
-      <mat-form-field>
-        <mat-label></mat-label>
-        <input matInput class="step-input" type="email" formControlName="email" appTrimValue />
+      <mat-form-field appearance="none">
+        <input
+        matInput
+        class="step-input"
+        type="email"
+        formControlName="email"
+        appTrimValue
+        [placeholder]="mailFormPlaceholder"/>
       </mat-form-field>
     </form>
 
