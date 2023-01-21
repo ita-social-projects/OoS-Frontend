@@ -17,7 +17,6 @@
   "BY_PRICE_DECREASE": "За спаданням ціни",
   "BY_PRICE_INCREASE": "За зростанням ціни",
   "BY_RATING": "За рейтингом",
-  "CANCEL": "Скасувати",
   "CHANGE": "Змінити",
   "CHANGE_EMAIL": "Змінити електронну пошту",
   "CHANGE_PASSWORD": "Змінити пароль",
@@ -40,7 +39,6 @@
   "DIRECTOR_NAME": "ПІБ керівника",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
-  "EDIT": "Редагувати",
   "EDRPO": "ЄДРПОУ",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "ENUM": {
@@ -250,7 +248,8 @@
       "NEW_CHILD": "Додати дані про дитину",
       "EDIT_CHILD": "Редагувати дані про дитину",
       "CREATE_CHILD_SUBTITLE": "Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті.",
-      "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання"
+      "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання",
+      "NEW_APPLICATION": "ЗАЯВА НА ГУРТОК"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -270,13 +269,18 @@
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
       "SEX": "Стать",
-      "SOCIAL_GROUP": "Соціальна група",
+      "SOCIAL_GROUPS": "Соціальна група",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
       "TITLE": "Назва",
       "WEBSITE": "Веб сайт",
-      "WORKING_HOURS": "Розклад занять"
+      "WORKING_HOURS": "Розклад занять",
+      "APPLY_CHILDREN": "Подати дані про дитину",
+      "APPLY_USER": "Подати дані про себе",
+      "SELECT_CHILD": "Виберіть дитину",
+      "FULL_NAME": "ПІБ",
+      "PARENTS": "Батьки"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -286,7 +290,8 @@
       "PAYMENT_TYPE": "Оберіть тип оплати за гурток",
       "SHORT_DATE_FORMAT": "ДД/ММ/РРРР",
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
-      "SYMBOLS": "символів"
+      "SYMBOLS": "символів",
+      "CHILDREN": "Діти"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -301,7 +306,8 @@
       "INVALID_MAP": "Такої адреси не було знайдено на карті",
       "INVALID_SYMBOLS": ", використовуйте будь-ласка тільки кирилицю та символи ( ' - )",
       "REQUIRED_INPUT": "Це поле є обов'язковим.",
-      "NO_MORE_CHILDREN": "Можливо додати не більш, ніж"
+      "NO_MORE_CHILDREN": "Можливо додати не більш, ніж",
+      "APPLICATION_ALREADY_APPLIED": "Заявка вже подана"
     }
   },
   "FOUND": "Знайдено",
@@ -317,7 +323,6 @@
   "INSTITUTION_TYPE": "Тип закладу",
   "IPN": "ІПН",
   "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
-  "LEAVE_WORKSHOP": "Залишити гурток",
   "LEGAL_ADDRESS": "Юридична адреса",
   "LIST": "Список",
   "LOGIN": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ",
@@ -387,10 +392,26 @@
     "ADD_CHILDREN": "Додати дитину",
     "ADD_WORKSHOP": "Додати гурток",
     "APPROVE_APPLICATION": "Прийняти",
-    "LEAVE" : "Залишити гурток",
+    "LEAVE_WORKSHOP": "Залишити гурток",
     "REJECT" : "Відмовити",
     "BLOCK": "Заблокувати користувача",
     "UNBLOCK": "Розблокувати користувача",
-    "SEND_INVITATION": "Надіслати запрошення"
-  }
+    "SEND_INVITATION": "Надіслати запрошення",
+    "CANCEL": "Скасувати",
+    "SEND": "Відправити",
+    "EDIT": "Редагувати"
+  },
+  "PERSONAL_DATA": "Персональні дані",
+  "CHILD_DATA": "Дані про дитину",
+  "PARENT_DATA": "Дані про батьків",
+  "NO_CHILD_FOUND": "Немає дитини у списку?",
+  "AGREEMENTS": {
+    "USER_CONTRAINDICATIONS": "Я не маю противопоказів щодо відвідування гуртка/секції/класу",
+    "CHILD_CONTRAINDICATIONS": "Моя дитина не має противопоказів щодо відвідування гуртка/секції/класу",
+    "I_AGREE_FOR_CHILD": "Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас",
+    "I_AGREE": "Я погоджуюсь з",
+    "PLATFORM_RULES": "Правилами користування",
+    "PERSONAL_DATA_USE": "та надаю згоду на обробку персональних даних"
+  },
+  "LESS_THAN_ONE_YEAR": "< 1 року"
 }

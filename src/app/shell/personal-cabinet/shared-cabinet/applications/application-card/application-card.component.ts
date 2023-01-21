@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Constants } from '../../../../../shared/constants/constants';
+import { ChildDeclination, YearDeclination } from '../../../../../shared/enum/enumUA/declinations/declination';
 import { Role } from '../../../../../shared/enum/role';
 import { Application } from '../../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../../shared/models/block.model';
@@ -9,14 +10,14 @@ import { ApplicationStatuses } from './../../../../../shared/enum/statuses';
 @Component({
   selector: 'app-application-card',
   templateUrl: './application-card.component.html',
-  styleUrls: ['./application-card.component.scss']
+  styleUrls: ['./application-card.component.scss'],
 })
 export class ApplicationCardComponent implements OnInit {
   readonly applicationStatuses = ApplicationStatuses;
   readonly constants: typeof Constants = Constants;
   readonly role = Role;
+  readonly YearDeclination = YearDeclination;
 
-  childAge: string;
   blockedParent: BlockedParent;
   childFullName: string;
   userIsAdmin: boolean;
@@ -25,7 +26,7 @@ export class ApplicationCardComponent implements OnInit {
     showBlocked: boolean;
   } = {
     status: undefined,
-    showBlocked: false
+    showBlocked: false,
   };
 
   @Input() isMobileView: boolean;
@@ -38,8 +39,11 @@ export class ApplicationCardComponent implements OnInit {
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
 
+  get childAge(): number {
+    return Util.getChildAge(this.application.child);
+  }
+
   ngOnInit(): void {
-    this.childAge = Util.getChildAge(this.application.child);
     this.childFullName = Util.getFullName(this.application.child);
 
     this.setUserIsAdmin();
