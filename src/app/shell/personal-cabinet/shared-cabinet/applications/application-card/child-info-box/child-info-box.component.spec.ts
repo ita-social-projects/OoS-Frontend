@@ -7,6 +7,7 @@ import { ChildrenService } from '../../../../../../shared/services/children/chil
 import { PhoneTransformPipe } from '../../../../../../shared/pipes/phone-transform.pipe';
 import { JoinPipe } from '../../../../../../shared/pipes/join.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { TranslateCasesPipe } from '../../../../../../shared/pipes/translate-cases.pipe';
 
 describe('ChildInfoBoxComponent', () => {
   let component: ChildInfoBoxComponent;
@@ -15,7 +16,7 @@ describe('ChildInfoBoxComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatCardModule, HttpClientModule, TranslateModule.forRoot()],
-      declarations: [ChildInfoBoxComponent, PhoneTransformPipe, JoinPipe],
+      declarations: [ChildInfoBoxComponent, PhoneTransformPipe, JoinPipe, TranslateCasesPipe],
       providers: [{ provide: ChildrenService, useValue: ChildrenService }]
     }).compileComponents();
   });

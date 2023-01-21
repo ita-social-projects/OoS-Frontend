@@ -8,6 +8,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgxsModule } from '@ngxs/store';
+import { TranslateCasesPipe } from '../../../../../shared/pipes/translate-cases.pipe';
 
 describe('ChildCardComponent', () => {
   let component: ChildCardComponent;
@@ -16,7 +17,7 @@ describe('ChildCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatIconModule, MatCardModule, MatTooltipModule, RouterTestingModule, NgxsModule.forRoot([])],
-      declarations: [ChildCardComponent]
+      declarations: [ChildCardComponent, TranslateCasesPipe],
     }).compileComponents();
   });
 
