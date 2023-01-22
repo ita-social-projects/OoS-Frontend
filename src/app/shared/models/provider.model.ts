@@ -130,5 +130,7 @@ export interface LicenseStatusData {
 }
 
 export interface ProviderParameters extends PaginationParameters {
-  searchString: string;
+  searchString?: string;
+  providerId?: string;
+  excludedWorkshopId?: string;
 }

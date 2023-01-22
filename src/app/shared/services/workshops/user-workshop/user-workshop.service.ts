@@ -10,9 +10,10 @@ import { TruncatedItem } from '../../../models/item.model';
 import { SearchResponse } from '../../../models/search.model';
 import { PaginatorState } from '../../../store/paginator.state';
 import { PaginationElement } from '../../../models/paginationElement.model';
+import { ProviderParameters } from 'src/app/shared/models/provider.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserWorkshopService {
   isRelease3: boolean;
@@ -25,7 +26,7 @@ export class UserWorkshopService {
   getProviderAdminsWorkshops(): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     let params = new HttpParams();
     params = this.setPaginationWorkshopParams(params);
-    
+
     return this.http.get<SearchResponse<ProviderWorkshopCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
   }
 
@@ -37,24 +38,22 @@ export class UserWorkshopService {
     params = this.setPaginationWorkshopParams(params);
     params.set('WorkshopId', id);
 
-    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(
-      `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`,
-      { params }
-    );
+    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(`/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`, {
+      params
+    });
   }
 
   /**
    * This method get workshops by Provider id for details page
    */
-  getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<SearchResponse<WorkshopCard[]>> {
-    let params = new HttpParams();
-    params = this.setPaginationWorkshopParams(params);
+  getWorkshopsByProviderId(providerParameters: ProviderParameters): Observable<SearchResponse<WorkshopCard[]>> {
+    let params = new HttpParams().set('From', providerParameters.from.toString()).set('Size', providerParameters.size.toString());
 
-    if (excludedWorkshopId) {
-      params.set('excludedWorkshopId', excludedWorkshopId);
+    if (providerParameters.excludedWorkshopId) {
+      params = params.set('excludedWorkshopId', providerParameters.excludedWorkshopId);
     }
 
-    return this.http.get<SearchResponse<WorkshopCard[]>>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
+    return this.http.get<SearchResponse<WorkshopCard[]>>(`/api/v1/Workshop/GetByProviderId/${providerParameters.providerId}`, { params });
   }
 
   /**

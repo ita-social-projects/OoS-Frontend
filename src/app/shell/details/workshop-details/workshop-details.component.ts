@@ -10,7 +10,7 @@ import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
 import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
 import { ImgPath } from '../../../shared/models/carousel.model';
-import { Provider } from '../../../shared/models/provider.model';
+import { Provider, ProviderParameters } from '../../../shared/models/provider.model';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { ImagesService } from '../../../shared/services/images/images.service';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
@@ -22,7 +22,7 @@ import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store
 @Component({
   selector: 'app-workshop-details',
   templateUrl: './workshop-details.component.html',
-  styleUrls: ['./workshop-details.component.scss'],
+  styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
@@ -43,6 +43,10 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   tabIndex: number;
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: ImgPath[] = [];
+  providerParameters: ProviderParameters = {
+    providerId: '',
+    excludedWorkshopId: ''
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -53,6 +57,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    this.providerParameters.excludedWorkshopId = this.workshop.id;
+    this.providerParameters.providerId = this.workshop.providerId;
     this.getWorkshopData();
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
@@ -63,14 +69,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
-  
-  getWorkshops(): void {
-    this.store.dispatch(new GetWorkshopsByProviderId(this.workshop.providerId, this.workshop.id));
-  }
-
   private getWorkshopData(): void {
     this.images = this.imagesService.setCarouselImages(this.workshop);
-    this.getWorkshops();
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new GetRateByEntityId(EntityType.workshop, this.workshop.id),
@@ -80,18 +80,18 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
             name: NavBarName.WorkshopResult,
             path: '/result',
             isActive: false,
-            disable: false,
+            disable: false
           },
           { name: this.workshop.title, isActive: false, disable: true }
         )
-      ),
+      )
     ]);
   }
-  
+
   onTabChange(event: MatTabChangeEvent): void {
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: DetailsTabTitlesParams[event.index] },
+      queryParams: { status: DetailsTabTitlesParams[event.index] }
     });
   }
 

@@ -2,6 +2,10 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { PaginationConstants } from 'src/app/shared/constants/constants';
+import { ProviderParameters } from 'src/app/shared/models/provider.model';
+import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
+import { Util } from 'src/app/shared/utils/utils';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -20,16 +24,15 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   readonly noResultWorkshops = NoResultsTitle.noResult;
   readonly Role = Role;
 
-  @Input() workshop: Workshop;
+  @Input() providerParameters: ProviderParameters;
 
   @Select(SharedUserState.workshops)
   workshops$: Observable<SearchResponse<WorkshopCard[]>>;
   workshops: SearchResponse<WorkshopCard[]>;
   @Select(PaginatorState.workshopsPerPage)
   workshopsPerPage$: Observable<number>;
-  @Select(PaginatorState.currentPage)
-  currentPage$: Observable<PaginationElement>;
 
+  currentPage: PaginationElement = PaginationConstants.firstPage;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Output() onGetWorkshops = new EventEmitter<void>();
@@ -37,6 +40,11 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
+    const workshopsPerPage = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    Util.setPaginationParams(this.providerParameters, this.currentPage, workshopsPerPage);
+
+    this.getWorkshops();
+
     this.workshops$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
@@ -47,17 +55,19 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
+  getWorkshops(): void {
+    this.store.dispatch(new GetWorkshopsByProviderId(this.providerParameters));
+  }
+
   onPageChange(page: PaginationElement): void {
-    this.store
-      .dispatch(new OnPageChangeWorkshops(page))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onGetWorkshops.emit());
+    this.currentPage = page;
+    Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
+    this.getWorkshops();
   }
 
   onItemsPerPageChange(itemPerPage: number) {
-    this.store
-      .dispatch(new SetWorkshopsPerPage(itemPerPage))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onGetWorkshops.emit());
+    Util.setPaginationParams(this.providerParameters, this.currentPage, itemPerPage);
+    this.store.dispatch(new SetWorkshopsPerPage(itemPerPage));
+    this.getWorkshops();
   }
 }

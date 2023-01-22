@@ -1,18 +1,15 @@
 <ng-container *ngIf="!!workshops">
   <div class="card-wrapper" *ngIf="workshops?.totalAmount; else isEmptyList">
-    <app-workshop-card
-      class="card"
-      *ngFor="let workshop of workshops.entities"
-      [workshop]="workshop">
-    </app-workshop-card>
+    <app-workshop-card class="card" *ngFor="let workshop of workshops.entities" [workshop]="workshop"> </app-workshop-card>
   </div>
   <ng-container *ngIf="workshops.totalAmount">
     <app-paginator
       [totalEntities]="workshops.totalAmount"
-      [currentPage]="currentPage$ | async"
+      [currentPage]="currentPage"
       [itemsPerPage]="workshopsPerPage$ | async"
       (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)">
+      (itemsPerPageChange)="onItemsPerPageChange($event)"
+    >
     </app-paginator>
   </ng-container>
 </ng-container>
