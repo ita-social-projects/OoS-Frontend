@@ -23,7 +23,7 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="ownershipTypeControl" [isTouched]="ownershipTypeControl.touched">
+  <app-validation-hint [validationFormControl]="ownershipTypeControl">
   </app-validation-hint>
 
   <ng-container *ngIf="ownershipTypeControl.value === ownershipTypes.Private">
@@ -70,8 +70,7 @@
     </mat-select>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('institutionType')"
-    [isTouched]="InfoFormGroup.get('institutionType').touched">
+    [validationFormControl]="InfoFormGroup.get('institutionType')">
   </app-validation-hint>
 
   <label class="step-label">Тип закладу<span class="step-required">*</span></label>
@@ -88,8 +87,7 @@
     </mat-select>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('typeId')"
-    [isTouched]="InfoFormGroup.get('typeId').touched">
+    [validationFormControl]="InfoFormGroup.get('typeId')">
   </app-validation-hint>
 
   <label class="step-label">Підпорядкування<span class="step-required">*</span></label>
@@ -107,8 +105,7 @@
     </mat-select>
   </mat-form-field>
   <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('institution')"
-    [isTouched]="InfoFormGroup.get('institution').touched">
+    [validationFormControl]="InfoFormGroup.get('institution')">
   </app-validation-hint>
 
   <label class="step-label">Статус організації<span class="step-required">*</span></label>
@@ -231,7 +228,6 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('directorDateOfBirth')"
-    [isTouched]="InfoFormGroup.get('directorDateOfBirth').touched"
     minMaxDate="true">
   </app-validation-hint>
 </form>

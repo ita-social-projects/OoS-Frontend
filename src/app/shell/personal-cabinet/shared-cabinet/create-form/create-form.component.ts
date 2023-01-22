@@ -1,5 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -41,23 +41,36 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   abstract setEditMode(): void;
   abstract addNavPath(): void;
 
-  determineRelease(): void {
+  protected determineRelease(): void {
     this.featuresList$
       .pipe(takeWhile(() => this.isPristine))
       .subscribe((featuresList: FeaturesList) => (this.isRelease3 = featuresList.release3));
   }
 
-  determineEditMode(): void {
+  protected determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('param') !== ModeConstants.NEW);
     if (this.editMode) {
       this.setEditMode();
     }
   }
 
-  public subscribeOnDirtyForm(form: FormGroup | FormArray): void {
+  protected subscribeOnDirtyForm(form: FormGroup | FormArray): void {
     form.valueChanges.pipe(takeWhile(() => this.isPristine)).subscribe(() => {
       this.isPristine = false;
       this.store.dispatch(new MarkFormDirty(true));
+    });
+    this.subscribeOnTouchEvent(form);
+  }
+
+  protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
+    let originalMethod = form.markAsTouched;
+
+    Object.keys(form.controls).forEach((key: string) => {
+      const control = form.get(key);
+      control.markAsTouched = function () {
+        originalMethod.apply(this, arguments);
+        (control.statusChanges as EventEmitter<any>).emit();
+      };
     });
   }
 
