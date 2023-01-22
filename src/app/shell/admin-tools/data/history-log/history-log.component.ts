@@ -5,25 +5,16 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, map } from 'rxjs/operators';
-import {
-  HistoryLogTabsUkr,
-  HistoryLogTabsUkrReverse,
-  TypeChange,
-  Tabs,
-} from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import {
   ApplicationHistory,
   DropdownData,
   FilterData,
   ProviderAdminHistory,
-  ProviderHistory,
+  ProviderHistory
 } from '../../../../shared/models/history-log.model';
-import {
-  GetApplicationHistory,
-  GetProviderAdminHistory,
-  GetProviderHistory,
-} from '../../../../shared/store/admin.actions';
+import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
@@ -33,11 +24,12 @@ import { OnPageChangeHistoryLog, SetTableItemsPerPage } from '../../../../shared
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-history-log',
   templateUrl: './history-log.component.html',
-  styleUrls: ['./history-log.component.scss'],
+  styleUrls: ['./history-log.component.scss']
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
   readonly historyLogTabsUkr = HistoryLogTabsUkr;
@@ -61,12 +53,19 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   searchFormControl = new FormControl('');
   dropdownData: DropdownData[];
-  filters: FilterData;
+  filters: FilterData = {
+    dateFrom: null,
+    dateTo: null,
+    options: null
+  };
 
   constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
 
   ngOnInit(): void {
-    this.dispatchProperValue(this.tabIndex);
+    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    Util.setPaginationParams(this.filters, this.currentPage, tableItemsPerPage);
+
+    this.dispatchProperValue(this.tabIndex, this.filters);
     this.addNavPath();
 
     this.searchFormControl.valueChanges
@@ -80,33 +79,41 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       .subscribe((searchString: string) => {
         if (this.searchFormControl.dirty) {
           this.searchString = searchString;
+
+          this.currentPage = PaginationConstants.firstPage;
+          Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
+
           this.dispatchProperValue(this.tabIndex, this.filters, searchString);
         }
       });
   }
 
   onTabChange(event: MatTabChangeEvent): void {
+    this.currentPage = PaginationConstants.firstPage;
+    Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
+
     this.tabIndex = event.index;
-    this.dispatchProperValue(event.index);
+    this.dispatchProperValue(event.index, this.filters);
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] },
+      queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] }
     });
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage)]);
-    this.dispatchProperValue(this.tabIndex);
+    Util.setPaginationParams(this.filters, this.currentPage, itemsPerPage);
+    this.dispatchProperValue(this.tabIndex, this.filters);
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeHistoryLog(page)]);
+    Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
     this.dispatchProperValue(this.tabIndex, this.filters, this.searchString);
   }
 
-  private dispatchProperValue(tabIndex: number, filters?: FilterData, searchString?: string): void {
+  private dispatchProperValue(tabIndex: number, filters: FilterData, searchString?: string): void {
     switch (tabIndex) {
       case Tabs.Provider:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
@@ -124,7 +131,11 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onFilter(event: FilterData): void {
+    event.from = this.filters.from;
+    event.size = this.filters.size;
     this.filters = event;
+    this.currentPage = PaginationConstants.firstPage;
+    Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
     this.dispatchProperValue(this.tabIndex, event, this.searchString);
   }
 
@@ -133,7 +144,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.HistoryLog,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }

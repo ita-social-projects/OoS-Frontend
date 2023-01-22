@@ -1,3 +1,4 @@
+import { PaginationParameters } from './queryParameters.model';
 import { User } from './user.model';
 
 export interface ProviderHistory {
@@ -37,7 +38,7 @@ export interface ApplicationHistory {
   providerTitle: string;
 }
 
-export interface FilterData {
+export interface FilterData extends PaginationParameters {
   dateFrom: string;
   dateTo: string;
   options: string;
