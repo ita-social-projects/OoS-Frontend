@@ -12,6 +12,7 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-statistics',
@@ -39,6 +40,9 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
+    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    Util.setPaginationParams(this.statisticParameters, this.currentPage, tableItemsPerPage);
+
     this.statisticReports$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((statisticReports: SearchResponse<StatisticReport[]>) => (this.statisticReports = statisticReports));
@@ -52,12 +56,14 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
+    Util.setPaginationParams(this.statisticParameters, this.currentPage, itemsPerPage);
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetStatisticReports(this.statisticParameters)]);
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeReports(page), new GetStatisticReports(this.statisticParameters)]);
+    Util.setPaginationParams(this.statisticParameters, this.currentPage, this.statisticParameters.size);
+    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 
   onGenerateReport(): void {
@@ -71,9 +77,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   private setParams(): void {
-    this.statisticParameters = {
-      ReportDataType: this.filtersForm.get('format').value,
-      ReportType: this.filtersForm.get('period').value
-    };
+    this.statisticParameters.ReportDataType = this.filtersForm.get('format').value;
+    this.statisticParameters.ReportType = this.filtersForm.get('period').value;
   }
 }
