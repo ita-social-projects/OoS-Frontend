@@ -397,6 +397,7 @@
     "BLOCK": "Block the user",
     "UNBLOCK": "Unblock the user",
     "SEND_INVITATION": "Send an invitation",
+    "SEND_MESSAGE": "Send a message",
     "CANCEL": "Cancel",
     "SEND": "Send",
     "EDIT": "Edit"
