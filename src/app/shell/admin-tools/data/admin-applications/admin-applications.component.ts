@@ -26,9 +26,7 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
     super(store, matDialog);
   }
 
-  init(): void {
-    this.onGetApplications();
-  }
+  init(): void {}
 
   onGetApplications(): void {
     this.store.dispatch(new GetAllApplications(this.applicationParams));

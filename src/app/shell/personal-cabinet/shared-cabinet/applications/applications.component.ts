@@ -1,17 +1,7 @@
 import { RegistrationState } from './../../../../shared/store/registration.state';
 import { ApplicationStatuses } from './../../../../shared/enum/statuses';
 import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  HostListener,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { takeUntil, filter, debounceTime, take } from 'rxjs/operators';
 import { Application, ApplicationFilterParameters } from '../../../../shared/models/application.model';
@@ -32,11 +22,12 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { FormControl } from '@angular/forms';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss'],
+  styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   readonly statusTitles = ApplicationStatusTitles;
@@ -51,7 +42,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  
+
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   @Input() applicationParams: ApplicationFilterParameters;
@@ -78,12 +69,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobileView = event.outerWidth < 530;
   }
 
-  constructor(
-    protected store: Store,
-    protected router: Router,
-    protected route: ActivatedRoute,
-    protected actions$: Actions
-  ) {
+  constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
     this.onResize(window);
   }
 
@@ -96,12 +82,15 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.searchFormControl.valueChanges
-      .pipe(debounceTime(500), takeUntil(this.destroy$))
-      .subscribe((searchString: string) => {
-        this.applicationParams.searchString = searchString;
-        this.onGetApplications();
-      });
+    const applicationsPerPage = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    Util.setPaginationParams(this.applicationParams, this.currentPage, applicationsPerPage);
+
+    this.searchFormControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((searchString: string) => {
+      this.applicationParams.searchString = searchString;
+      this.currentPage = PaginationConstants.firstPage;
+      Util.setPaginationParams(this.applicationParams, this.currentPage, this.applicationParams.size);
+      this.onGetApplications();
+    });
 
     this.applicationCards$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
@@ -129,26 +118,27 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param workshopsId: number[]
    */
   onTabChange(event: MatTabChangeEvent): void {
+    this.currentPage = PaginationConstants.firstPage;
+    Util.setPaginationParams(this.applicationParams, this.currentPage, this.applicationParams.size);
     const tabLabel = event.tab.textLabel;
     const statuses =
-      tabLabel !== ApplicationStatusTitles.Blocked && tabLabel !== ApplicationStatusTitles.All
-        ? [StatusTitlesReverse[tabLabel]]
-        : [];
+      tabLabel !== ApplicationStatusTitles.Blocked && tabLabel !== ApplicationStatusTitles.All ? [StatusTitlesReverse[tabLabel]] : [];
     this.applicationParams.statuses = statuses;
     this.applicationParams.showBlocked = tabLabel === ApplicationStatusTitles.Blocked;
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: StatusTitlesReverse[tabLabel] },
+      queryParams: { status: StatusTitlesReverse[tabLabel] }
     });
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new OnPageChangeApplications(page));
+    Util.setPaginationParams(this.applicationParams, this.currentPage, this.applicationParams.size);
     this.onGetApplications();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
+    Util.setPaginationParams(this.applicationParams, this.currentPage, itemsPerPage);
     this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
     this.onGetApplications();
   }
