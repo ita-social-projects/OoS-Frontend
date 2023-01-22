@@ -105,7 +105,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
-        const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Rejected, application?.rejectionMessage);
+        const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Rejected, result);
         this.store.dispatch(new UpdateApplication(applicationUpdate));
       }
     });

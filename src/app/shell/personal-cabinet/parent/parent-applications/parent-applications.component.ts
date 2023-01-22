@@ -21,8 +21,9 @@ import { TruncatedItem } from '../../../../shared/models/item.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-parent-applications',
@@ -45,7 +46,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     showBlocked: false,
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router) {
     super(store, matDialog);
   }
 
@@ -100,5 +101,9 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
 
   private getParentChildren(isParent: boolean = false): void {
     this.store.dispatch(new GetAllUsersChildrenByParentId({ id: this.parent.id, isParent }));
+  }
+
+  onSendMessage(application: Application): void {
+    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], { queryParams: { mode: ModeConstants.WORKSHOP }, replaceUrl: false });
   }
 }

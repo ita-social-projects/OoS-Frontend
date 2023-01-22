@@ -18,7 +18,9 @@
             <app-child-info-box [child]="application.child" (click)="$event.stopPropagation()"></app-child-info-box>
           </mat-menu>
         </div>
-        <p class="text text-bold">{{ childAge ? (childAge | translateCases : YearDeclination) : 'LESS_THAN_ONE_YEAR' | translate }}</p>
+        <p class="text text-bold">
+          {{ childAge ? (childAge | translateCases : YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate) }}
+        </p>
         <p class="text">
           {{ application.creationTime | date : constants.FULL_DATE_FORMAT }}
         </p>
@@ -59,19 +61,15 @@
         <app-info-status [application]="application"></app-info-status>
       </div>
     </div>
-
-    <ng-container *ngIf="userRole === role.provider && isMobileView; then actionsBlock"> </ng-container>
+    <ng-container *ngIf="isMobileView; then actionsBlock"> </ng-container>
   </mat-card-content>
-  <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider">
-    <button
-      class="btn btn-blue"
-      (click)="onApprove(application)"
-      [ngClass]="application.status === applicationStatuses.Approved && 'hidden'">
+  <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider && !application.isBlocked">
+    <button class="btn btn-blue" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
       <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
     </button>
     <button
       class="btn btn-gray"
-      (click)="onReject(application)"
+      (click)="reject.emit(application)"
       [ngClass]="
         (application.status === applicationStatuses.Rejected || application.status === applicationStatuses.Left) &&
         'hidden'
@@ -79,8 +77,6 @@
       <p>{{ 'BUTTONS.REJECT' | translate }}</p>
     </button>
   </mat-card-content>
-
-  <ng-container *ngIf="userRole === role.provider && !isMobileView; then actionsBlock"> </ng-container>
 
   <mat-card-content
     class="card-block card-block__buttons"
@@ -94,23 +90,39 @@
         (application.status === applicationStatuses.Left || application.status === applicationStatuses.Rejected) &&
         'hidden'
       ">
-      <button class="btn btn-gray" (click)="onLeave(application)">
+      <button class="btn btn-gray" (click)="leave.emit(application)">
         <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
       </button>
     </div>
   </mat-card-content>
+
+  <ng-container *ngIf="!isMobileView; then actionsBlock"> </ng-container>
 </mat-card>
 
 <ng-template #actionsBlock>
   <mat-card-content class="card-block card-block__actions">
-    <mat-icon class="material-icons material-icons__actions" [matMenuTriggerFor]="actions">more_vert</mat-icon>
+    <mat-icon
+      *ngIf="userRole === role.provider"
+      class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="actions"
+      >more_vert</mat-icon
+    >
+    <mat-icon
+      *ngIf="userRole === role.parent"
+      class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="email"
+      >email</mat-icon
+    >
     <mat-menu #actions="matMenu" class="header_menu">
-      <button *ngIf="!application.isBlocked" mat-menu-item (click)="onBlock()">
+      <button *ngIf="!application.isBlocked" mat-menu-item (click)="block.emit(application.parentId)">
         {{ 'BUTTONS.BLOCK' | translate }}
       </button>
-      <button *ngIf="application.isBlocked" mat-menu-item (click)="onUnBlock()">
+      <button *ngIf="application.isBlocked" mat-menu-item (click)="unblock.emit(application.parentId)">
         {{ 'BUTTONS.UNBLOCK' | translate }}
       </button>
+    </mat-menu>
+    <mat-menu #email="matMenu" class="header_menu">
+      <button mat-menu-item (click)="sendMessage.emit(application)">{{ 'BUTTONS.SEND_MESSAGE' | translate }}</button>
     </mat-menu>
   </mat-card-content>
 </ng-template>
