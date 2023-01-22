@@ -85,7 +85,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkMatDatePciker(): void {
-    debugger;
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
       this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')
