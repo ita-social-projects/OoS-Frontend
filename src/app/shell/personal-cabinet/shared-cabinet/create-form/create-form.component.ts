@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormArray, FormGroup } from '@angular/forms';
+import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -62,6 +62,10 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
     this.subscribeOnTouchEvent(form);
   }
 
+  /** This method add status change emit of touch event.
+   * Validation hint captures touch event and displays validation error.
+   * @param form: FormGroup | FormArray
+   */
   protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
     let originalMethod = form.markAsTouched;
 
