@@ -17,7 +17,6 @@
   "BY_PRICE_DECREASE": "By price decrease",
   "BY_PRICE_INCREASE": "By price increase",
   "BY_RATING": "By rating",
-  "CANCEL": "Cancel",
   "CHANGE": "Change",
   "CHANGE_EMAIL": "Change email",
   "CHANGE_PASSWORD": "Change password",
@@ -40,7 +39,6 @@
   "DIRECTOR_NAME": "Director's full name",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
-  "EDIT": "Edit",
   "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
   "ENUM": {
@@ -195,6 +193,27 @@
       "HOUR": "hour",
       "HOURS": "hours",
       "HOURS_ABLATIVE": "hours"
+    },
+    "APPLICATION_STATUSES":{
+      "ALL": "All",
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "LEFT": "Left",
+      "ACCEPTED_FOR_SELECTION": "Accepted for selection",
+      "STUDYING_FOR_YEARS": "Studying for 1-11 years",
+      "COMPLETED": "Completed",
+      "BLOCKED": "Blocked"
+    },
+    "APPLICATION_DESCRIPTION":{
+      "PENDING": "A new application created, awaiting confirmation from the service provider",
+      "APPROVED": "The application is approved/the user is accepted to the workshop",
+      "REJECTED": "The user was refused to be accepted to the workshop with reason",
+      "LEFT": "The user left the workshop on their own",
+      "ACCEPTED_FOR_SELECTION": "User accepted for competitive selection (with additional information about selection)",
+      "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
+      "COMPLETED": "User completed studying",
+      "BLOCKED": "The user has violated the Terms of Use of the Platform"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -230,7 +249,8 @@
       "WORKSHOP_FORM_DESCRIPTION": "workshop, section or study group",
       "NEW_CHILD": "Add child information",
       "EDIT_CHILD": "Edit child information",
-      "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet."
+      "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet.",
+      "NEW_APPLICATION": "NEW WORKSHOP APPLICATION"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -250,13 +270,18 @@
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "SEX": "Sex",
-      "SOCIAL_GROUP": "Social group",
+      "SOCIAL_GROUPS": "Social groups",
       "STREET": "Street",
       "SUBORDINATION": "Subordination",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Availability of a resource for providing education for persons with disabilities",
       "TITLE": "Title",
       "WEBSITE": "Website",
-      "WORKING_HOURS": "Working hours"
+      "WORKING_HOURS": "Working hours",
+      "APPLY_CHILDREN": "Apply children data",
+      "APPLY_USER": "Apply your data",
+      "SELECT_CHILD": "Select child from the list",
+      "FULL_NAME": "Full name",
+      "PARENTS": "Parents"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -266,7 +291,8 @@
       "PAYMENT_TYPE": "Choose the type of payment for the workshop",
       "SHORT_DATE_FORMAT": "DD/MM/YYYY",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
-      "SYMBOLS": "symbols"
+      "SYMBOLS": "symbols",
+      "CHILDREN": "Children"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -281,7 +307,8 @@
       "INVALID_MAP": "No such address was found on the map",
       "INVALID_SYMBOLS": ", please use only Cyrillic and symbols ( ' - )",
       "REQUIRED_INPUT": "This field is required.",
-      "NO_MORE_CHILDREN": "It is possible to add no more than"
+      "NO_MORE_CHILDREN": "It is possible to add no more than",
+      "APPLICATION_ALREADY_APPLIED": "The application is already created"
     }
   },
   "FOUND": "Found",
@@ -297,7 +324,6 @@
   "INSTITUTION_TYPE": "Institution type",
   "IPN": "Individual tax number",
   "LAWS_AND_REGULATIONS": "Laws and regulations",
-  "LEAVE_WORKSHOP": "Leave workshop",
   "LEGAL_ADDRESS": "Legal address",
   "LIST": "List",
   "LOGIN": "LOG IN/REGISTER",
@@ -356,5 +382,37 @@
   "YEARS": "years",
   "YOU_ARE_IN_A_SETTLEMENT": "Is your location",
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "You have already rated this workshop",
-  "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop"
+  "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop",
+  "BANNERS": {
+    "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
+    "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
+    "ADD_WORKSHOP" : "You can add unfromation about the new workshop"
+  },
+  "BUTTONS": {
+    "ADD_CHILDREN": "Add child",
+    "ADD_WORKSHOP" : "Add workshop",
+    "APPROVE_APPLICATION": "Approve",
+    "LEAVE_WORKSHOP" : "Leave workshop",
+    "REJECT" : "Reject",
+    "BLOCK": "Block the user",
+    "UNBLOCK": "Unblock the user",
+    "SEND_INVITATION": "Send an invitation",
+    "SEND_MESSAGE": "Send a message",
+    "CANCEL": "Cancel",
+    "SEND": "Send",
+    "EDIT": "Edit"
+  },
+  "PERSONAL_DATA": "Personal data",
+  "CHILD_DATA": "Child data",
+  "PARENT_DATA": "Parent data",
+  "NO_CHILD_FOUND": "Is there a child missing from the list?",
+  "AGREEMENTS": {
+    "USER_CONTRAINDICATIONS": "I have no contraindications to attending a workshop",
+    "CHILD_CONTRAINDICATIONS": "My child has no contraindications to attending a workshop",
+    "I_AGREE_FOR_CHILD": "I agree for my child to attend the workshop",
+    "I_AGREE": "I agree with",
+    "PLATFORM_RULES": "Rules of Use",
+    "PERSONAL_DATA_USE": "and I consent to the processing of personal data"
+  },
+  "LESS_THAN_ONE_YEAR": "< 1 year"
 }

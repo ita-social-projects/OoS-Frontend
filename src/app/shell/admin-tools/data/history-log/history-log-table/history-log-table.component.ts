@@ -3,22 +3,26 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { Util } from '../../../../../shared/utils/utils';
-import { ProviderHistory } from '../../../../../shared/models/history-log.model';
+import {
+  ApplicationHistory,
+  ProviderAdminHistory,
+  ProviderHistory,
+} from '../../../../../shared/models/history-log.model';
 import { Constants } from '../../../../../shared/constants/constants';
-import { ApplicationStatusTitles } from '../../../../../shared/enum/statuses';
+import { ApplicationTitles } from '../../../../../shared/enum/enumUA/applications';
 
 @Component({
   selector: 'app-history-log-table',
   templateUrl: './history-log-table.component.html',
-  styleUrls: ['./history-log-table.component.scss']
+  styleUrls: ['./history-log-table.component.scss'],
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   readonly typeChange = TypeChange;
-  readonly statusTitles = ApplicationStatusTitles;
+  readonly statusTitles = ApplicationTitles;
   readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
   public util = Util;
 
-  @Input() table: Array<object>;
+  @Input() table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
   @Input() tableTitle: string;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -31,13 +35,12 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     'fieldName',
     'updatedDate',
     'oldValue',
-    'newValue'
+    'newValue',
   ];
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  dataSource: MatTableDataSource<object>;
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.table);
-
     this.dataSource.sortingDataAccessor = (item: ProviderHistory, property) => {
       switch (property) {
         case 'pib': {

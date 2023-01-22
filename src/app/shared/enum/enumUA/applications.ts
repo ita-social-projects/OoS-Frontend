@@ -1,10 +1,22 @@
+export enum ApplicationTitles {
+  All = 'ENUM.APPLICATION_STATUSES.ALL',
+  Pending = 'ENUM.APPLICATION_STATUSES.PENDING',
+  Approved = 'ENUM.APPLICATION_STATUSES.APPROVED',
+  Rejected = 'ENUM.APPLICATION_STATUSES.REJECTED',
+  Left = 'ENUM.APPLICATION_STATUSES.LEFT',
+  AcceptedForSelection = 'ENUM.APPLICATION_STATUSES.ACCEPTED_FOR_SELECTION',
+  StudyingForYears = 'ENUM.APPLICATION_STATUSES.STUDYING_FOR_YEARS',
+  Completed = 'ENUM.APPLICATION_STATUSES.COMPLETED',
+  Blocked = 'ENUM.APPLICATION_STATUSES.BLOCKED'
+}
+
 export enum ApplicationStatusDescription {
-  Pending = 'Нова створена заява, яка очікує підтвердження від надавача послуг',
-  AcceptedForSelection = 'Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір)',
-  Approved = 'Заява підтверджена/користувача зараховано до гуртка/секції/школи',
-  StudyingForYears = 'Користувач навчається в школі/гуртку 1 рік, 2 роки і т.д. і продовжує начатися',
-  Rejected = 'Користувачеві відмовлено у зарахуванні з причиною',
-  Left = 'Користувач покинув гурток самостійно',
-  Completed = 'Користувач завершив навчання',
-  Blocked = 'Ви порушили Правила користування платформою'
+  Pending = 'ENUM.APPLICATION_DESCRIPTION.PENDING',
+  AcceptedForSelection = 'ENUM.APPLICATION_DESCRIPTION.ACCEPTED_FOR_SELECTION',
+  Approved = 'ENUM.APPLICATION_DESCRIPTION.APPROVED',
+  StudyingForYears = 'ENUM.APPLICATION_DESCRIPTION.STUDYING_FOR_YEARS',
+  Rejected = 'ENUM.APPLICATION_DESCRIPTION.REJECTED',
+  Left = 'ENUM.APPLICATION_DESCRIPTION.LEFT',
+  Completed = 'ENUM.APPLICATION_DESCRIPTION.COMPLETED',
+  Blocked = 'ENUM.APPLICATION_DESCRIPTION.BLOCKED',
 }

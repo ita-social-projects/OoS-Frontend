@@ -9,6 +9,7 @@ import { Workshop } from '../../../../shared/models/workshop.model';
 import { ApplicationChildFilterPipe } from '../../../../shared/pipes/application-child-filter.pipe';
 import { ApplicationFilterPipe } from '../../../../shared/pipes/application-filter.pipe';
 import { ProviderWorkshopsComponent } from './provider-workshops.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderAdminWorkshopsComponent', () => {
   let component: ProviderWorkshopsComponent;
@@ -16,7 +17,7 @@ describe('ProviderAdminWorkshopsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgxsModule.forRoot([]), MatDialogModule, MatTabsModule],
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), MatDialogModule, MatTabsModule, TranslateModule.forRoot()],
       declarations: [
         ProviderWorkshopsComponent,
         MockWorkshopCardComponent,

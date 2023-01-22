@@ -3,9 +3,9 @@ import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { DetailsTabTitles, DetailsTabTitlesReverse, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
+import { DetailsTabTitlesEnum, DetailsTabTitlesParams, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
 import { WorkshopOpenStatus } from '../../../shared/enum/workshop';
@@ -28,7 +28,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly categoryIcons = CategoryIcons;
   readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   readonly workshopStatus = WorkshopOpenStatus;
-  readonly workshopTitles = DetailsTabTitles;
+  readonly workshopTitles = DetailsTabTitlesEnum;
 
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
@@ -57,8 +57,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
 
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitles).indexOf(params['status']);
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
+      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params['status']);
       this.selectedIndex = this.tabIndex;
     });
   }
@@ -89,10 +89,9 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
   
   onTabChange(event: MatTabChangeEvent): void {
-    const tabLabel = event.tab.textLabel;
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: DetailsTabTitlesReverse[tabLabel] },
+      queryParams: { status: DetailsTabTitlesParams[event.index] },
     });
   }
 
