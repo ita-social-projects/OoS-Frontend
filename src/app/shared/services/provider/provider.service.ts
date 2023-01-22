@@ -7,7 +7,6 @@ import { Observable } from 'rxjs';
 import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../../models/provider.model';
 import { SearchResponse } from '../../models/search.model';
 import { DataItem } from '../../models/item.model';
-import { LicenseStatuses } from '../../enum/statuses';
 
 @Injectable({
   providedIn: 'root',
