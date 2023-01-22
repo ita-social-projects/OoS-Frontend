@@ -4,10 +4,10 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { Achievement, AchievementType } from '../../../../shared/models/achievement.model';
+import { Achievement, AchievementParameters, AchievementType } from '../../../../shared/models/achievement.model';
 import { Provider } from '../../../../shared/models/provider.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { GetAchievementsType } from '../../../../shared/store/meta-data.actions';
@@ -15,10 +15,11 @@ import { MetaDataState } from '../../../../shared/store/meta-data.state';
 import { GetAchievementsByWorkshopId, DeleteAchievementById } from '../../../../shared/store/provider.actions';
 import { ProviderState } from '../../../../shared/store/provider.state';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import {SearchResponse} from '../../../../shared/models/search.model';
-import {PaginatorState} from '../../../../shared/store/paginator.state';
-import {PaginationElement} from '../../../../shared/models/paginationElement.model';
-import {OnPageChangeAchievement, SetAchievementsPerPage,} from '../../../../shared/store/paginator.actions';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { SetAchievementsPerPage } from '../../../../shared/store/paginator.actions';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-achievements',
@@ -39,38 +40,42 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   @Select(PaginatorState.achievementPerPage)
   achievementPerPage$: Observable<number>;
   achievementPerPage: number;
-  @Select(PaginatorState.currentPage)
-  currentPage$: Observable<PaginationElement>;
-  currentPage: PaginationElement;
   @Select(ProviderState.isLoading)
   isLoading$: Observable<boolean>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   provider: Provider;
+  currentPage: PaginationElement = PaginationConstants.firstPage;
   isAllowedEdit: boolean;
+  achievementParameters: AchievementParameters = {
+    workshopId: ''
+  };
 
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
+    const achievementPerPage = this.store.selectSnapshot(PaginatorState.achievementPerPage);
+    this.achievementParameters.workshopId = this.workshop.id;
+    Util.setPaginationParams(this.achievementParameters, this.currentPage, achievementPerPage);
+
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.isAllowedEdit = this.workshop.providerId === provider?.id;
 
     this.getAchievements();
-    combineLatest([this.achievements$, this.achievementsTypes$, this.currentPage$, this.achievementPerPage$])
+    combineLatest([this.achievements$, this.achievementsTypes$, this.achievementPerPage$])
       .pipe(
         takeUntil(this.destroy$),
-        filter(([achievements]: [SearchResponse<Achievement[]>, AchievementType[], PaginationElement, number]) => !!achievements)
+        filter(([achievements]: [SearchResponse<Achievement[]>, AchievementType[], number]) => !!achievements)
       )
-      .subscribe(([achievements, achievementsTypes, currentPage, achievementPerPage ]: [SearchResponse<Achievement[]>, AchievementType[], PaginationElement, number]) => {
+      .subscribe(([achievements, achievementsTypes, achievementPerPage]: [SearchResponse<Achievement[]>, AchievementType[], number]) => {
         this.achievementsTypes = achievementsTypes;
         this.achievements = achievements;
-        this.currentPage = currentPage;
         this.achievementPerPage = achievementPerPage;
       });
   }
 
   private getAchievements(): void {
-    this.store.dispatch([new GetAchievementsType(), new GetAchievementsByWorkshopId(this.workshop.id)]);
+    this.store.dispatch([new GetAchievementsType(), new GetAchievementsByWorkshopId(this.achievementParameters)]);
   }
 
   onDelete(achievement: Achievement): void {
@@ -94,10 +99,12 @@ export class AchievementsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAchievement(page), new GetAchievementsByWorkshopId(this.workshop.id)]);
+    Util.setPaginationParams(this.achievementParameters, this.currentPage, this.achievementParameters.size);
+    this.store.dispatch(new GetAchievementsByWorkshopId(this.achievementParameters));
   }
 
   onItemsPerPageChange(itemPerPage: number) {
-    this.store.dispatch([new SetAchievementsPerPage(itemPerPage), new GetAchievementsByWorkshopId(this.workshop.id)]);
+    Util.setPaginationParams(this.achievementParameters, this.currentPage, itemPerPage);
+    this.store.dispatch([new SetAchievementsPerPage(itemPerPage), new GetAchievementsByWorkshopId(this.achievementParameters)]);
   }
 }

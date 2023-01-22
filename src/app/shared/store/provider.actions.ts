@@ -1,11 +1,10 @@
 import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Achievement } from '../models/achievement.model';
+import { Achievement, AchievementParameters } from '../models/achievement.model';
 import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { ApplicationEntityType } from '../enum/applications';
-import { LicenseStatuses } from '../enum/statuses';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -19,7 +18,7 @@ export class GetChildrenByWorkshopId {
 
 export class GetAchievementsByWorkshopId {
   static readonly type = '[provider] get Achievements By Wokrshop Id';
-  constructor(public payload: string) {}
+  constructor(public payload: AchievementParameters) {}
 }
 
 export class UpdateAchievement {
