@@ -27,16 +27,12 @@ export class ProviderAdminService {
    * This method get provider admisn with filter parameters
    */
   getFilteredProviderAdmins(filterParams: ProviderAdminParameters): Observable<SearchResponse<ProviderAdmin[]>> {
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('deputyOnly', `${filterParams.deputyOnly}`)
       .set('assistantsOnly', `${filterParams.assistantsOnly}`)
       .set('searchString', `${filterParams.searchString}`)
-      .set('from', `${from}`)
-      .set('size', `${size}`);
+      .set('from', `${filterParams.from}`)
+      .set('size', `${filterParams.size}`);
 
     return this.http.get<SearchResponse<ProviderAdmin[]>>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', {
       params

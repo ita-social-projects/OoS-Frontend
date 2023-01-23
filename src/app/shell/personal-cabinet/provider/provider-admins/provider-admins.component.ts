@@ -25,6 +25,7 @@ import { OnPageChange, SetTableItemsPerPage } from '../../../../shared/store/pag
 import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
 import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
 import { UserStatusesTitles } from '../../../../shared/enum/statuses';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-provider-admins',
@@ -63,6 +64,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   ngOnInit(): void {
     super.ngOnInit();
+
+    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    Util.setPaginationParams(this.filterParams, this.currentPage, tableItemsPerPage);
+
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
       this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
@@ -73,10 +78,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChange(page), new GetFilteredProviderAdmins(this.filterParams)]);
+    Util.setPaginationParams(this.filterParams, this.currentPage, this.filterParams.size);
+    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
+    Util.setPaginationParams(this.filterParams, this.currentPage, itemsPerPage);
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviderAdmins(this.filterParams)]);
   }
 
