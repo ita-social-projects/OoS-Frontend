@@ -46,7 +46,6 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   private getProviderData(): void {
     this.images = this.imagesService.setCarouselImages(this.provider);
     this.store.dispatch([
-      new GetRateByEntityId(EntityType.provider, this.provider.id),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           { name: NavBarName.WorkshopResult, path: '/result', isActive: false, disable: false },

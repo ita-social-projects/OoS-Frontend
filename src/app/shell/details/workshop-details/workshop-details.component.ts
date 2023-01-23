@@ -73,7 +73,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.images = this.imagesService.setCarouselImages(this.workshop);
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
-      new GetRateByEntityId(EntityType.workshop, this.workshop.id),
       new AddNavPath(
         this.navigationBarService.createNavPaths(
           {
