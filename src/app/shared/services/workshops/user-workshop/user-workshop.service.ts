@@ -1,4 +1,4 @@
-import { ProviderWorkshopCard, WorkshopCard } from './../../../models/workshop.model';
+import { ProviderWorkshopCard, WorkshopCard, WorkshopCardParameters } from './../../../models/workshop.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
@@ -10,7 +10,8 @@ import { TruncatedItem } from '../../../models/item.model';
 import { SearchResponse } from '../../../models/search.model';
 import { PaginatorState } from '../../../store/paginator.state';
 import { PaginationElement } from '../../../models/paginationElement.model';
-import { ProviderParameters } from 'src/app/shared/models/provider.model';
+import { ProviderParameters } from '../../../../shared/models/provider.model';
+import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,9 +24,8 @@ export class UserWorkshopService {
   /**
    * This method get related workshops for provider admins personal cabinet
    */
-  getProviderAdminsWorkshops(): Observable<SearchResponse<ProviderWorkshopCard[]>> {
-    let params = new HttpParams();
-    params = this.setPaginationWorkshopParams(params);
+  getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+    let params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
 
     return this.http.get<SearchResponse<ProviderWorkshopCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
   }
@@ -33,14 +33,15 @@ export class UserWorkshopService {
   /**
    * This method get related workshops for provider personal cabinet
    */
-  getProviderViewWorkshops(id: string): Observable<SearchResponse<ProviderWorkshopCard[]>> {
-    let params = new HttpParams();
-    params = this.setPaginationWorkshopParams(params);
-    params.set('WorkshopId', id);
+  getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
 
-    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(`/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`, {
-      params
-    });
+    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(
+      `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${workshopCardParameters.providerId}`,
+      {
+        params
+      }
+    );
   }
 
   /**
@@ -139,13 +140,5 @@ export class UserWorkshopService {
     });
 
     return formData;
-  }
-
-  private setPaginationWorkshopParams(params: HttpParams): HttpParams {
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    return params.set('From', from.toString()).set('Size', size.toString());
   }
 }

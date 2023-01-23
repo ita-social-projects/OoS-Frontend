@@ -295,11 +295,11 @@ export class ProviderState {
   @Action(GetProviderAdminWorkshops)
   getProviderAdminWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
-    {}: GetProviderAdminWorkshops
+    { parameters }: GetProviderAdminWorkshops
   ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService
-      .getProviderAdminsWorkshops()
+      .getProviderAdminsWorkshops(parameters)
       .pipe(
         tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
@@ -310,11 +310,11 @@ export class ProviderState {
   @Action(GetProviderViewWorkshops)
   getProviderWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
-    { payload }: GetProviderViewWorkshops
+    { workshopCardParameters }: GetProviderViewWorkshops
   ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService
-      .getProviderViewWorkshops(payload)
+      .getProviderViewWorkshops(workshopCardParameters)
       .pipe(
         tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
@@ -384,9 +384,12 @@ export class ProviderState {
   }
 
   @Action(DeleteWorkshopById)
-  deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteWorkshopById): Observable<void | Observable<void>> {
+  deleteWorkshop(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { payload, parameters }: DeleteWorkshopById
+  ): Observable<void | Observable<void>> {
     return this.userWorkshopService.deleteWorkshop(payload.workshopId).pipe(
-      tap(() => dispatch(new OnDeleteWorkshopSuccess(payload))),
+      tap(() => dispatch(new OnDeleteWorkshopSuccess(parameters))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteWorkshopFail(error))))
     );
   }
@@ -397,13 +400,13 @@ export class ProviderState {
   }
 
   @Action(OnDeleteWorkshopSuccess)
-  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnDeleteWorkshopSuccess): void {
+  onDeleteWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { parameters }: OnDeleteWorkshopSuccess): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteWorkshop,
         type: 'success'
       }),
-      new GetProviderViewWorkshops(payload.providerId)
+      new GetProviderViewWorkshops(parameters)
     ]);
   }
 

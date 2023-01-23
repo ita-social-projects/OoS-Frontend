@@ -1,10 +1,11 @@
-import { ProviderWorkshopCard, Workshop, WorkshopStatus } from './../models/workshop.model';
+import { ProviderWorkshopCard, Workshop, WorkshopCardParameters, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Achievement, AchievementParameters } from '../models/achievement.model';
 import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
 import { ApplicationEntityType } from '../enum/applications';
+import { PaginationParameters } from '../models/queryParameters.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -68,12 +69,12 @@ export class OnDeleteAchievementFail {
 
 export class GetProviderAdminWorkshops {
   static readonly type = '[provider] get Workshops for provider admin';
-  constructor() {}
+  constructor(public parameters: PaginationParameters) {}
 }
 
 export class GetProviderViewWorkshops {
   static readonly type = '[provider] get Workshops for provider cabinet';
-  constructor(public payload: string) {}
+  constructor(public workshopCardParameters: WorkshopCardParameters) {}
 }
 
 export class GetFilteredProviderAdmins {
@@ -118,12 +119,12 @@ export class OnUpdateWorkshopSuccess {
 
 export class DeleteWorkshopById {
   static readonly type = '[provider] delete Workshop';
-  constructor(public payload: ProviderWorkshopCard) {}
+  constructor(public payload: ProviderWorkshopCard, public parameters: WorkshopCardParameters) {}
 }
 
 export class OnDeleteWorkshopSuccess {
   static readonly type = '[provider] delete Workshop success';
-  constructor(public payload: ProviderWorkshopCard) {}
+  constructor(public parameters: WorkshopCardParameters) {}
 }
 
 export class OnDeleteWorkshopFail {
