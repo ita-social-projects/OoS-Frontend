@@ -59,7 +59,6 @@
     [validationFormControl]="context.searchControl"
     [minCharachters]="ValidationConstants.INPUT_LENGTH_3"
     [maxCharachters]="ValidationConstants.INPUT_LENGTH_60"
-    [isTouched]="context.searchControl.touched"
   >
   </app-validation-hint>
   <p *ngIf="context.settlementControl.value" class="additional-text">

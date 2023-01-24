@@ -34,7 +34,7 @@
             <small class="warning" *ngIf="!isAllowChildToApply && selectedChild?.id">{{
               'FORMS.VALIDATIONS.APPLICATION_ALREADY_APPLIED' | translate
             }}</small>
-            <app-validation-hint [validationFormControl]="ChildFormControl" [isTouched]="ChildFormControl.touched">
+            <app-validation-hint [validationFormControl]="ChildFormControl">
             </app-validation-hint>
 
             <p class="background-text">
