@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
 import { DropdownData } from '../../../../shared/models/history-log.model';
@@ -30,7 +31,8 @@ describe('HistoryLogComponent', () => {
         MatIconModule,
         MatInputModule,
         BrowserAnimationsModule,
-        HttpClientModule
+        HttpClientModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         HistoryLogComponent,
