@@ -58,7 +58,7 @@
         *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="tableItemsPerPage"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)"
       >

@@ -22,7 +22,8 @@ import {
   OnPageChange,
   OnPageChangeReports,
   OnPageChangeChatRooms,
-  SetChatRoomsPerPage
+  SetChatRoomsPerPage,
+  SetPaginationParameters
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
@@ -33,6 +34,7 @@ export interface PaginatorStateModel {
   ratingPerPage: number;
   childrensPerPage: number;
   chatRoomsPerPage: number;
+  itemsPerPage: number;
   currentPage: PaginationElement;
   tableItemsPerPage: number;
 }
@@ -47,6 +49,7 @@ export interface PaginatorStateModel {
     chatRoomsPerPage: 8,
     ratingPerPage: 12,
     tableItemsPerPage: 12,
+    itemsPerPage: 8,
     currentPage: PaginationConstants.firstPage
   }
 })
@@ -88,11 +91,20 @@ export class PaginatorState {
     return state.chatRoomsPerPage;
   }
 
+  @Selector() static itemsPerPage(state: PaginatorStateModel): number {
+    return state.itemsPerPage;
+  }
+
   constructor() {}
 
   @Action(SetWorkshopsPerPage)
   setWorkshopsPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetWorkshopsPerPage): void {
     patchState({ workshopsPerPage: payload });
+  }
+
+  @Action(SetPaginationParameters)
+  setPaginationParameters({ patchState }: StateContext<PaginatorStateModel>, { element, itemsPerPage }: SetPaginationParameters): void {
+    patchState({ currentPage: element, itemsPerPage: itemsPerPage });
   }
 
   @Action(SetDirectionsPerPage)

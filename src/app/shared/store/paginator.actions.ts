@@ -90,6 +90,11 @@ export class OnPageChangeRating {
   constructor(public payload: PaginationElement) {}
 }
 
+export class SetPaginationParameters {
+  static readonly type = '[paginator] Set Pagination Parameters';
+  constructor(public element: PaginationElement, public itemsPerPage: number) {}
+}
+
 export class OnPageChangeHistoryLog {
   static readonly type = '[paginator] Change History Log Page';
   constructor(public payload: PaginationElement) {}

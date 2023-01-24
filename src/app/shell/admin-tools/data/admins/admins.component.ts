@@ -21,7 +21,7 @@ import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
+import { OnPageChangeAdminTable, SetPaginationParameters, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
@@ -43,8 +43,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
 
@@ -55,6 +53,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  tableItemsPerPage: number;
   displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
   adminParams: MinistryAdminParameters = {
     searchString: '',
@@ -64,6 +63,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
+    this.tableItemsPerPage = this.store.selectSnapshot(PaginatorState.itemsPerPage);
     this.setTabOptions();
 
     this.filterFormControl.valueChanges
@@ -91,6 +91,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    this.currentPage = PaginationConstants.firstPage;
+    this.store.dispatch(new SetPaginationParameters(this.currentPage, this.tableItemsPerPage));
+
     this.filterFormControl.reset();
     this.adminParams.searchString = '';
     this.adminParams.tabTitle = event.tab.textLabel;
@@ -204,11 +207,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins()]);
+    this.store.dispatch([new SetPaginationParameters(this.currentPage, this.tableItemsPerPage), new GetAllMinistryAdmins()]);
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetAllMinistryAdmins()]);
+    this.tableItemsPerPage = itemsPerPage;
+    this.store.dispatch([new SetPaginationParameters(this.currentPage, itemsPerPage), new GetAllMinistryAdmins()]);
   }
 
   ngOnDestroy(): void {
