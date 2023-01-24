@@ -11,7 +11,7 @@ import { Constants, PaginationConstants } from '../../../../shared/constants/con
 import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../../../../shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';

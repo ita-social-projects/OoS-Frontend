@@ -421,5 +421,18 @@
     "PLATFORM_RULES": "Rules of Use",
     "PERSONAL_DATA_USE": "and I consent to the processing of personal data"
   },
-  "LESS_THAN_ONE_YEAR": "< 1 year"
+  "LESS_THAN_ONE_YEAR": "< 1 year",
+  "EMPTY_BANNERS": {
+    "NO_APPLICATION": "No applications yet",
+    "NO_RESULT": "No results found",
+    "NO_FAVORITE_WORKSHOPS": "There are no favorite workshops yet",
+    "NO_USERS": "No users yet",
+    "NO_TEACHERS": "There are no teachers yet",
+    "NO_ACHIEVEMENTS": "No achievements yet",
+    "NO_REVIEWS": "No reviews yet",
+    "NO_ADMINS": "You can add administrators here",
+    "NO_HISTORY": "No change history yet",
+    "NO_INFO": "No information yet",
+    "NO_MESSAGES": "No messages yet"
+  }
 }

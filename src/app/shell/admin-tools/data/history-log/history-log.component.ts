@@ -11,7 +11,7 @@ import {
   TypeChange,
   Tabs,
 } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
   ApplicationHistory,
   DropdownData,
