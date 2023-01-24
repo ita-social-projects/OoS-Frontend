@@ -8,7 +8,7 @@
           matInput
           type="text"
           class="search"
-          placeholder="Пошук за ПІБ, емейлом, містом, типом чи зміною" />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}" />
       </div>
     </div>
     <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
@@ -17,17 +17,24 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab [label]="historyLogTabsUkr.Provider">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: 'Provider' }">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: 'Provider' }">
         </ng-container>
       </mat-tab>
       <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: 'ProviderAdmin' }">
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: providerAdminHistory$ | async, tableTitle: 'ProviderAdmin' }
+          ">
         </ng-container>
       </mat-tab>
       <mat-tab [label]="historyLogTabsUkr.Application">
         <ng-container
-          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: 'Application' }">
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: applicationHistory$ | async, tableTitle: 'Application' }
+          ">
         </ng-container>
       </mat-tab>
     </mat-tab-group>

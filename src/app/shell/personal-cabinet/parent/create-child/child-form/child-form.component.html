@@ -47,7 +47,7 @@
       [matDatepicker]="picker"
       formControlName="dateOfBirth"
       [appKeyFilter]="dateFilter"
-      placeholder="{{ dateFormPlaceholder | translate }}"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
     />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>

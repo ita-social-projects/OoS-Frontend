@@ -291,7 +291,12 @@
       "SHORT_DATE_FORMAT": "ДД/ММ/РРРР",
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
       "SYMBOLS": "символів",
-      "CHILDREN": "Діти"
+      "CHILDREN": "Діти",
+      "SEARCH_NAME_PHONE_EMAIL": "Пошук за ПІБ, електронною поштою, телефоном",
+      "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
+      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
+      "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {

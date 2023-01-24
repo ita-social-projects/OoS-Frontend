@@ -14,6 +14,7 @@ export class MessageCardComponent implements AfterViewInit {
   readonly constants = Constants;
 
   @Input() chatRoom: ChatRoom;
+  @Input() role: Role;
 
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
