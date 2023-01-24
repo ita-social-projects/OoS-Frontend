@@ -6,14 +6,13 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, skip, startWith, takeUntil } from 'rxjs/operators';
 import { SearchResponse } from '../../../../../shared/models/search.model';
 import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from '../../../../../shared/constants/constants';
+import { PaginationConstants, Constants, ModeConstants } from '../../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
 import { NoResultsTitle } from '../../../../../shared/enum/no-results';
 import { Direction, DirectionParameters } from '../../../../../shared/models/category.model';
 import { PaginationElement } from '../../../../../shared/models/paginationElement.model';
 import { GetFilteredDirections, DeleteDirectionById } from '../../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../../shared/store/admin.state';
-import { PopNavPath } from '../../../../../shared/store/navigation.actions';
 import { OnPageChangeDirections, SetDirectionsPerPage } from '../../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../../shared/store/paginator.state';
 import { Util } from '../../../../../shared/utils/utils';
@@ -25,6 +24,7 @@ import { Util } from '../../../../../shared/utils/utils';
 })
 export class DirectionsComponent implements OnInit, OnDestroy {
   readonly noDirections = NoResultsTitle.noResult;
+  readonly ModeConstants = ModeConstants;
 
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<SearchResponse<Direction[]>>;

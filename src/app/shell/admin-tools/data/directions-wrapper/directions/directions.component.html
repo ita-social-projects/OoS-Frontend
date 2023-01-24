@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <a [routerLink]="['./create', '']"><button class="btn" mat-raised-button>Додати напрямок</button></a>
+  <a [routerLink]="['./create', ModeConstants.NEW]"><button class="btn" mat-raised-button>Додати напрямок</button></a>
 </div>
 <ng-container *ngIf="filteredDirections$ | async; else isEmptyList">
   <div class="card-wrapper">
