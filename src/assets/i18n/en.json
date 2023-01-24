@@ -250,7 +250,8 @@
       "NEW_CHILD": "Add child information",
       "EDIT_CHILD": "Edit child information",
       "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet.",
-      "NEW_APPLICATION": "NEW WORKSHOP APPLICATION"
+      "NEW_APPLICATION": "NEW WORKSHOP APPLICATION",
+      "EDIT_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -261,7 +262,7 @@
       "EMAIL": "Email",
       "KEYWORDS": "Keywords",
       "LAST_NAME": "Last name",
-      "MIDDLENAME": "Middle name",
+      "MIDDLE_NAME": "Middle name",
       "FIRST_NAME": "First name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
@@ -405,7 +406,8 @@
     "SEND_MESSAGE": "Send a message",
     "CANCEL": "Cancel",
     "SEND": "Send",
-    "EDIT": "Edit"
+    "EDIT": "Edit",
+    "SAVE": "Save"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
