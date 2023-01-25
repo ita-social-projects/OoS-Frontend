@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { CreateProviderAdminComponent } from './create-provider-admin.component';
@@ -27,7 +28,8 @@ describe('CreateProviderAdminComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         MatDialogModule,
-        NgxsModule.forRoot([])
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot()
       ],
       declarations: [CreateProviderAdminComponent, MockValidationHintForInputComponent, MockWorkshopChekcboxDropdownComponent]
     }).compileComponents();
