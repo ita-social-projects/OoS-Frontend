@@ -10,7 +10,7 @@ import { TranslateService } from '@ngx-translate/core';
   selector: 'app-entity-checkbox-dropdown',
   templateUrl: './entity-checkbox-dropdown.component.html',
   styleUrls: ['./entity-checkbox-dropdown.component.scss'],
-  providers: [TranslateCasesPipe]
+  providers: [TranslateCasesPipe],
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   entityControl = new FormControl();
@@ -26,25 +26,31 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   constructor(private translateCases: TranslateCasesPipe, private translateService: TranslateService) {}
 
   ngOnInit(): void {
-    this.entityControl.valueChanges.pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((entities) => {
-      this.ids = entities.map((entity) => entity.id);
-      this.entityCheck.emit(this.ids);
-    });
+    this.entityControl.valueChanges
+      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .subscribe(entities => {
+        this.ids = entities.map(entity => entity.id);
+        this.entityCheck.emit(this.ids);
+      });
     this.Declination = this.declination;
   }
 
   getLabelTitle(quantity: number): string {
-    let allChildrenDeclination
+    let allChildrenDeclination;
     let allApplicationsDeclination;
 
     if (this.Declination) {
-      allChildrenDeclination = this.Declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? this.translateService.instant('ALL_CHILDREN') : '';
-      allApplicationsDeclination = this.Declination[0] ===  'ENUM.WORKSHOP_DECLINATION.WORKSHOP' ? this.translateService.instant('ALL_WORKSHOPS') : '';
+      allChildrenDeclination =
+        this.Declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? this.translateService.instant('ALL_CHILDREN') : '';
+      allApplicationsDeclination =
+        this.Declination[0] === 'ENUM.WORKSHOP_DECLINATION.WORKSHOP'
+          ? this.translateService.instant('ALL_WORKSHOPS')
+          : '';
     }
 
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.translateCases.transform(quantity, this.Declination);
-    return quantity < 1 ? selectedEntities : this.labelByDefault || allEntities;
+    return quantity < 1 ? selectedEntities : this.translateService.instant(this.labelByDefault) || allEntities;
   }
 
   ngOnDestroy(): void {

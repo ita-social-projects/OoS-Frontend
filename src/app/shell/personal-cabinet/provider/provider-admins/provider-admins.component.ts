@@ -39,7 +39,6 @@ import { UserStatusesTitles } from '../../../../shared/enum/statuses';
   styleUrls: ['./provider-admins.component.scss'],
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
-  // readonly providerAdminRoleUkr = providerAdminRoleUkr;
   readonly ProviderAdminTitles = ProviderAdminTitles;
   readonly providerAdminRole = ProviderAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
@@ -177,7 +176,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    */
   onUpdate(user: ProviderAdminTable): void {
     const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
-    this.router.navigate([`update-provider-admin/${userRole}}/${user.id}`]);
+    this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
   }
 
   protected addNavPath(): void {
