@@ -1,6 +1,5 @@
 {
   "ABOUT_THE_PORTAL": "ПРО ПОРТАЛ",
-  "ADD": "Додати",
   "ADD_ACHIEVEMENT": "Додати досягнення",
   "ADD_TO_FAVORITES": "Додати в улюблені",
   "ADDED_TO_FAVORITES": "Додано в улюблені",
@@ -209,6 +208,15 @@
       "STUDYING_FOR_YEARS": "Користувач навчається в школі/гуртку 1 рік, 2 роки і т.д. і продовжує навчатися",
       "COMPLETED": "Користувач завершив навчання",
       "BLOCKED": "Користувач порушили Правила користування платформою"
+    },
+    "PROVIDER_ADMINS" : {
+      "PROVIDER_DEPUTY": "Заступник директора",
+      "PROVIDER_ADMIN": "Адміністратор гуртка",
+      "ALL": "Усі"
+    },
+    "PROVIDER_ADMINS_DECLINATION": {
+      "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
+      "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
     }
   },
   "EXACT_MATCH": "Повне співпадіння",
@@ -412,7 +420,8 @@
     "DELETE": "Видалити",
     "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
     "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
-    "REMOVE_DATA": "Вилучити дані"
+    "REMOVE_DATA": "Вилучити дані",
+    "ADD": "Додати"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",

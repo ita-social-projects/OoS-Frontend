@@ -13,7 +13,6 @@ import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
-import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 import { MetaDataState } from '../shared/store/meta-data.state';
 import { MainPageState } from '../shared/store/main-page.state';
 import { CompanyInformation } from '../shared/models/сompanyInformation.model';
@@ -58,7 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerSubtitle: string;
   navigationPaths: Navigation[];
   subrole: string;
-  btnView: string = providerAdminRoleUkr.all;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 

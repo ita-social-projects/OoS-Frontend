@@ -1,6 +1,5 @@
 {
   "ABOUT_THE_PORTAL": "ABOUT THE PORTAL",
-  "ADD": "Add",
   "ADD_ACHIEVEMENT": "Add Achievement",
   "ADD_TO_FAVORITES": "Add to favorites",
   "ADDED_TO_FAVORITES": "Added to favorites",
@@ -210,6 +209,15 @@
       "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
       "COMPLETED": "User completed studying",
       "BLOCKED": "The user has violated the Terms of Use of the Platform"
+    },
+    "PROVIDER_ADMINS" : {
+      "PROVIDER_DEPUTY": "Provider deputy",
+      "PROVIDER_ADMIN": "Workshop administrator",
+      "ALL": "All"
+    },
+    "PROVIDER_ADMINS_DECLINATION": {
+      "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
+      "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -414,7 +422,8 @@
     "DELETE": "Remove",
     "REMOVE_CHILD_DATA": "Remove data about the child",
     "REMOVE_TEACHER_DATA": "Remove data about the teacher",
-    "REMOVE_DATA": "Remove data"
+    "REMOVE_DATA": "Remove data",
+    "ADD": "Add"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
