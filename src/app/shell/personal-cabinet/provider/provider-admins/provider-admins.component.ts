@@ -31,7 +31,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { OnPageChange, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
 import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
-import { UserStatusesTitles } from '../../../../shared/enum/statuses';
+import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-provider-admins',

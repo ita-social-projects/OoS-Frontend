@@ -31,7 +31,7 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { FormControl } from '@angular/forms';
 import { ApplicationStatusTabParams } from '../../../../shared/enum/applications';
-import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-applications',

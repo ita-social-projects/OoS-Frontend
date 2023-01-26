@@ -10,7 +10,7 @@ import { RegistrationState } from '../../../../../../shared/store/registration.s
 import { ProviderState } from '../../../../../../shared/store/provider.state';
 import { GetBlockedParents, OnClearBlockedParents } from '../../../../../../shared/store/provider.actions';
 import { ApplicationStatuses } from '../../../../../../shared/enum/statuses';
-import { ApplicationStatusDescription, ApplicationTitles } from '../../../../../../shared/enum/enumUA/applications';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-info-status',

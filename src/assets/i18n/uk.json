@@ -208,6 +208,11 @@
       "COMPLETED": "Користувач завершив навчання",
       "BLOCKED": "Користувач порушили Правила користування платформою"
     },
+    "USER_STATUSES":{
+      "NEVER_LOGGED": "Очікує логування",
+      "ACCEPTED": "Підтверджений",
+      "BLOCKED": "Заблокований"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Заступник директора",
       "PROVIDER_ADMIN": "Адміністратор гуртка",
@@ -299,7 +304,9 @@
       "DIRECTOR_NAME": "ПІБ керівника",
       "DIRECTOR_BIRTHDAY": "Дата народження керівника",
       "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
-      "CHECK_WORKSHOPS": "Обрати гуртки" 
+      "CHECK_WORKSHOPS": "Обрати гуртки",
+      "ROLE": "Роль",
+      "STATUS": "Статус" 
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -429,7 +436,9 @@
     "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
     "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
     "REMOVE_DATA": "Вилучити дані",
-    "ADD": "Додати"
+    "ADD": "Додати",
+    "EDIT_USER": "Редагувати користувача",
+    "DELETE_USER": "Видалити користувача"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",

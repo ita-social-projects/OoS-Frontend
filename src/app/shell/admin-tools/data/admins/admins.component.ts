@@ -1,4 +1,3 @@
-import { UserStatuses, UserStatusesTitles } from './../../../../shared/enum/statuses';
 import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
@@ -26,6 +25,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { RegistrationState } from './../../../../shared/store/registration.state';
+import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-admins',

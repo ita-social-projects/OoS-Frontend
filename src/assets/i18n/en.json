@@ -209,6 +209,11 @@
       "COMPLETED": "User completed studying",
       "BLOCKED": "The user has violated the Terms of Use of the Platform"
     },
+    "USER_STATUSES":{
+      "NEVER_LOGGED": "Never logged",
+      "ACCEPTED": "Accapted",
+      "BLOCKED": "Blocked"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Provider deputy",
       "PROVIDER_ADMIN": "Workshop administrator",
@@ -300,7 +305,9 @@
       "DIRECTOR_NAME": "Director's full name",
       "DIRECTOR_BIRTHDAY": "Date of birth of the director",
       "SELECT_WORKSHOPS": "Check the workshops to which the administrator will have access",
-      "CHECK_WORKSHOPS": "Check workshops" 
+      "CHECK_WORKSHOPS": "Check workshops",
+      "ROLE": "Role",
+      "STATUS": "Status" 
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -429,7 +436,9 @@
     "REMOVE_CHILD_DATA": "Remove data about the child",
     "REMOVE_TEACHER_DATA": "Remove data about the teacher",
     "REMOVE_DATA": "Remove data",
-    "ADD": "Add"
+    "ADD": "Add",
+    "EDIT_USER": "Edit the user",
+    "DELETE_USER": "Delete the user"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
