@@ -8,23 +8,18 @@ import { NavBarName } from '../../shared/enum/navigation-bar';
 import { FilterStateModel } from '../../shared/models/filterState.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
-import {
-  GetFilteredWorkshops,
-  ResetFilteredWorkshops,
-  SetMapView,
-  SetFilterFromURL,
-  FilterClear,
-  FilterChange
-} from '../../shared/store/filter.actions';
+import { ResetFilteredWorkshops, SetMapView, SetFilterFromURL, FilterClear, SetFilterPagination } from '../../shared/store/filter.actions';
 import { FilterState } from '../../shared/store/filter.state';
 import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { NavigationState } from '../../shared/store/navigation.state';
-import { SetWorkshopsPerPage } from '../../shared/store/paginator.actions';
 import { PaginatorState } from '../../shared/store/paginator.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { SearchResponse } from '../../shared/models/search.model';
 import { Util } from '../../shared/utils/utils';
+import { PaginationConstants } from '../../shared/constants/constants';
+import { PaginationParameters } from '../../shared/models/queryParameters.model';
+import { PaginationElement } from '../../shared/models/paginationElement.model';
 
 enum ViewType {
   map = 'map',
@@ -49,12 +44,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(RegistrationState.role)
   role$: Observable<string>;
   role: string;
-  @Select(PaginatorState.workshopsPerPage)
-  workshopsPerPage$: Observable<number>;
-  workshopsPerPage: number;
-  @Select(PaginatorState.currentPage)
-  currentPage$: Observable<number>;
-  currentPage: number;
   @Select(NavigationState.filtersSidenavOpenTrue)
   isFiltersSidenavOpen$: Observable<boolean>;
   isFiltersSidenavOpen: boolean;
@@ -67,6 +56,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   currentView: ViewType;
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  paginationParameters: PaginationParameters = {};
+  currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(
     private actions$: Actions,
@@ -77,6 +68,10 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
+    const workshopsPerPage = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    Util.setPaginationParams(this.paginationParameters, PaginationConstants.firstPage, workshopsPerPage);
+    this.store.dispatch(new SetFilterPagination(this.paginationParameters));
+
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
@@ -89,6 +84,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
       .pipe(takeUntil(this.destroy$))
       .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
         const filterParams = queryParamMap.get('filter');
+        this.currentPage = { element: 1, isActive: true };
         this.isMapView = isMapView;
         this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
       });
@@ -100,13 +96,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setInitialSubscriptions(): void {
-    combineLatest([this.currentPage$, this.workshopsPerPage$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([currentPage, workshopsPerPage]) => {
-        this.currentPage = currentPage;
-        this.workshopsPerPage = workshopsPerPage;
-      });
-
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => (this.role = role));
 
     this.isMobileView$.pipe(takeUntil(this.destroy$)).subscribe((isMobileView: boolean) => {
@@ -147,10 +136,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   viewHandler(value: ViewType): void {
     this.currentView = value;
     this.store.dispatch(new SetMapView(this.currentView === this.viewType.map));
-  }
-
-  onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetWorkshopsPerPage(itemsPerPage), new GetFilteredWorkshops()]);
   }
 
   filterHandler(): void {

@@ -8,9 +8,10 @@ import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { ClearCoordsByMap, ClearRadiusSize, GetFilteredWorkshops } from '../../../shared/store/filter.actions';
-import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
+import { ClearCoordsByMap, ClearRadiusSize, GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
 import { ClearMessageBar } from '../../../shared/store/app.actions';
+import { PaginationParameters } from 'src/app/shared/models/queryParameters.model';
+import { Util } from 'src/app/shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -31,14 +32,13 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
 
   @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Input() paginationParameters: PaginationParameters;
   @Input() role: string;
   @Input() currentPage: PaginationElement;
-  @Input() itemsPerPage: number;
-
-  @Output() itemsPerPageChange = new EventEmitter<number>();
 
   workshops: WorkshopCard[];
   selectedWorkshops: WorkshopCard[] = [];
+  workshopsOnPage: WorkshopCard[] = [];
   isSelectedMarker = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
   workshopDetailsAnimationState = false;
@@ -108,6 +108,10 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       this.selectedWorkshops = this.workshops.filter(
         (workshop: WorkshopCard) => address.latitude === workshop.address.latitude && address.longitude === workshop.address.longitude
       );
+      this.workshopsOnPage = this.selectedWorkshops.slice(
+        this.paginationParameters.from,
+        this.paginationParameters.size + this.paginationParameters.from
+      );
       this.workshopDetailsAnimationState = true;
     } else {
       this.selectedWorkshops = [];
@@ -120,7 +124,20 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeWorkshops(page), new GetFilteredWorkshops()]);
+
+    Util.setPaginationParams(this.paginationParameters, this.currentPage, this.paginationParameters.size);
+    this.workshopsOnPage = this.selectedWorkshops.slice(
+      this.paginationParameters.from,
+      this.paginationParameters.size + this.paginationParameters.from
+    );
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    Util.setPaginationParams(this.paginationParameters, this.currentPage, itemsPerPage);
+    this.workshopsOnPage = this.selectedWorkshops.slice(
+      this.paginationParameters.from,
+      this.paginationParameters.size + this.paginationParameters.from
+    );
   }
 
   ngOnDestroy(): void {
