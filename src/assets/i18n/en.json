@@ -7,7 +7,6 @@
   "ALL": "All",
   "ALL_CHILDREN": "All children",
   "ALL_WORKSHOPS": "All workshops",
-  "APPLICATIONS": "Applications",
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
   "AVAILABLE": "Available",
   "AWAITING_CONFIRMATION": "Awaiting confirmation",
@@ -15,13 +14,11 @@
   "BY_PRICE_DECREASE": "By price decrease",
   "BY_PRICE_INCREASE": "By price increase",
   "BY_RATING": "By rating",
-  "CHANGE": "Change",
   "CHANGE_EMAIL": "Change email",
   "CHANGE_PASSWORD": "Change password",
   "CITY_DISTRICT": "City district",
   "CLEAR_FILTERS": "Clear Filters",
   "CLOSE_RECRUITMENT": "Closed Recruitment",
-  "CONFIRM": "Confirm",
   "CONTACTS": "CONTACTS",
   "DAYS": {
     "FRIDAY": "Fri",
@@ -96,8 +93,8 @@
       "EDIT_PROVIDER_DEPUTY": "Edit provider deputy",
       "EDIT_PROVIDER_INFORMATION": "Edit provider information",
       "EDIT_WORKSHOP": "Edit workshop",
-      "FAVORITE": "Favorite",
       "HISTORY_OF_CHANGES": "History of changes",
+      "STATISTICS": "Statistic data",
       "INFORMATION_ABOUT_CHILDREN": "Information about children",
       "INFORMATION_ABOUT_PROVIDER": "Information about the provider",
       "MAIN_PAGE": "Main page",
@@ -111,7 +108,9 @@
       "SEARCH_RESULT": "Search result",
       "SUPPORT": "Support",
       "USERS": "Users",
-      "WORKSHOPS": "Workshops"
+      "MY_WORKSHOPS": "My workshops",
+      "INFORMATION_ABOUT": "Information about",
+      "FAVORITE": "Favorite"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Complex",
@@ -225,7 +224,6 @@
     }
   },
   "EXACT_MATCH": "Exact match",
-  "FAVORITE": "Favorite",
   "FOR_FREE": "For free",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
@@ -350,7 +348,6 @@
     "LICENSE": "Add licenses to gain more interest and increase user trust in your organization. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
-  "INFORMATION_ABOUT": "Information about",
   "INSTITUTION_TYPE": "Institution type",
   "LAWS_AND_REGULATIONS": "Laws and regulations",
   "LIST": "List",
@@ -358,16 +355,12 @@
   "LOGOUT": "Logout",
   "MAP": "Map",
   "MORE_DETAILS": "More details",
-  "MY_APPLICATIONS": "My applications",
-  "MY_MESSAGES": "My messages",
-  "MY_WORKSHOPS": "My workshops",
   "NEAREST": "Nearest",
   "NO_RESULTS_FOUND": "No results found",
   "NOT_AVAILABLE": "Not available",
   "OPEN_RECRUITMENT_ONLY": "Only with open recruitment",
   "PAID": "Paid",
   "PASSWORD": "Password",
-  "PERSONAL_INFORMATION": "Personal information",
   "RATE": "RATE",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
@@ -438,7 +431,9 @@
     "REMOVE_DATA": "Remove data",
     "ADD": "Add",
     "EDIT_USER": "Edit the user",
-    "DELETE_USER": "Delete the user"
+    "DELETE_USER": "Delete the user",
+    "CONFIRM": "Confirm",
+    "CHANGE": "Change"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",

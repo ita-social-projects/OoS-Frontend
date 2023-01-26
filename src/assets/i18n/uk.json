@@ -15,13 +15,11 @@
   "BY_PRICE_DECREASE": "За спаданням ціни",
   "BY_PRICE_INCREASE": "За зростанням ціни",
   "BY_RATING": "За рейтингом",
-  "CHANGE": "Змінити",
   "CHANGE_EMAIL": "Змінити електронну пошту",
   "CHANGE_PASSWORD": "Змінити пароль",
   "CITY_DISTRICT": "Район міста",
   "CLEAR_FILTERS": "Очистити фільтри",
   "CLOSE_RECRUITMENT": "Закритий набір",
-  "CONFIRM": "Підтвердити",
   "CONTACTS": "КОНТАКТИ",
   "DAYS": {
     "FRIDAY": "ПТ",
@@ -95,8 +93,6 @@
       "EDIT_PROVIDER_DEPUTY": "Редагування заступника директора",
       "EDIT_PROVIDER_INFORMATION": "Редагувати заклад",
       "EDIT_WORKSHOP": "Редагування гуртка",
-      "FAVORITE": "Улюблені",
-      "HISTORY_OF_CHANGES": "Історія змін",
       "INFORMATION_ABOUT_CHILDREN": "Інформація про дітей",
       "INFORMATION_ABOUT_PROVIDER": "Інформація про заклад",
       "MAIN_PAGE": "Головна сторінка",
@@ -110,7 +106,9 @@
       "SEARCH_RESULT": "Результати пошуку",
       "SUPPORT": "Підтримка",
       "USERS": "Користувачі",
-      "WORKSHOPS": "Мої гуртки"
+      "MY_WORKSHOPS": "Мої гуртки",
+      "INFORMATION_ABOUT": "Інформація про",
+      "FAVORITE": "Улюблене"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Комплексний",
@@ -224,7 +222,6 @@
     }
   },
   "EXACT_MATCH": "Повне співпадіння",
-  "FAVORITE": "Улюблене",
   "FOR_FREE": "Безкоштовно",
   "FORMS": {
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
@@ -349,7 +346,6 @@
     "LICENSE": "Додайте ліцензію, щоб отримати більше інтересу та підвищити рівень довіри учасників до гуртків вашого закладу. Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з'явиться значок підтвердження"
   },
   "ALL_WORKSHOPS_ACCESS": "Буде надано доступ до всіх гуртків",
-  "INFORMATION_ABOUT": "Інформація про",
   "INSTITUTION_TYPE": "Тип закладу",
   "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
   "LIST": "Список",
@@ -358,15 +354,12 @@
   "MAP": "Карта",
   "MORE_DETAILS": "Детальніше",
   "MY_APPLICATIONS": "Мої заяви",
-  "MY_MESSAGES": "Мої повідомлення",
-  "MY_WORKSHOPS": "Мої гуртки",
   "NEAREST": "Найближчі",
   "NO_RESULTS_FOUND": "За результатами нічого не знайдено",
   "NOT_AVAILABLE": "Відсутні",
   "OPEN_RECRUITMENT_ONLY": "Лише з відкритим відбором",
   "PAID": "Платні",
   "PASSWORD": "Пароль",
-  "PERSONAL_INFORMATION": "Особиста інформація",
   "RATE": "ЗАЛИШИТИ ОЦІНКУ",
   "RECRUITMENT": "Набір",
   "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
@@ -438,7 +431,9 @@
     "REMOVE_DATA": "Вилучити дані",
     "ADD": "Додати",
     "EDIT_USER": "Редагувати користувача",
-    "DELETE_USER": "Видалити користувача"
+    "DELETE_USER": "Видалити користувача",
+    "CONFIRM": "Підтвердити",
+    "CHANGE": "Змінити"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",

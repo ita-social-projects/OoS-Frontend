@@ -1,7 +1,9 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
   <div [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
+      <div
+        class="logo-wrapper"
+        *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
           <a class="info-link" [routerLink]="'./info/about'"> {{ 'ABOUT_THE_PORTAL' | translate }}</a>
@@ -18,15 +20,15 @@
               [(value)]="selectedLanguage"
               class="lang-option"
               disableOptionCentering
-              panelClass="dropdown-panel"
-            >
+              panelClass="dropdown-panel">
               <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
               <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
             </mat-select>
           </button>
         </div>
 
-        <ng-conatiner *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
+        <ng-conatiner
+          *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
       </div>
     </div>
     <div *ngIf="isRouter('/')" fxLayout="column" fxLayoutAlign="center center">
@@ -71,7 +73,8 @@
   </ng-container>
 
   <mat-menu #log="matMenu" class="menu">
-    <ng-conatiner *ngIf="user.role !== Role.parent && user.role !== Role.provider; then AdminView; else UserView"></ng-conatiner>
+    <ng-conatiner
+      *ngIf="user.role !== Role.parent && user.role !== Role.provider; then AdminView; else UserView"></ng-conatiner>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
@@ -82,37 +85,38 @@
 <ng-template #UserView>
   <ng-container *ngIf="isRegistered$ | async">
     <a [routerLink]="'./personal-cabinet/config'">
-      <button mat-menu-item>{{ 'PERSONAL_INFORMATION' | translate }}</button>
+      <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</button>
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
       <button mat-menu-item>
-        {{ 'INFORMATION_ABOUT' | translate }}
-        {{ roles[user.role] | translate }}
+        {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}
       </button>
     </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'">
       <button mat-menu-item>
-        {{ 'MY_WORKSHOPS' | translate }}
+        {{ 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate }}
       </button>
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'">
       <button mat-menu-item>
-        {{ 'MY_APPLICATIONS' | translate }}
+        {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate }}
       </button>
     </a>
     <a [routerLink]="'./personal-cabinet/messages'">
       <button mat-menu-item>
-        {{ 'MY_MESSAGES' | translate }}
+        {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
     </a>
-    <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
+    <a
+      *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
+      [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
-        {{ 'ADMINISTRATION' | translate }}
+        {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>
     </a>
     <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'">
       <button mat-menu-item>
-        {{ 'FAVORITE' | translate }}
+        {{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate }}
       </button>
     </a>
   </ng-container>
@@ -121,17 +125,20 @@
 <ng-template #AdminView>
   <a [routerLink]="'./personal-cabinet/config'">
     <button mat-menu-item>
-      {{ 'PERSONAL_INFORMATION' | translate }}
+      {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}
     </button>
   </a>
-  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
+  <a
+    *ngIf="user.role === Role.techAdmin"
+    [routerLink]="'./admin-tools/platform'"
+    [queryParams]="{ page: defaultAdminTabs }">
     <button mat-menu-item>
-      {{ 'ADMINISTRATION' | translate }}
+      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
   </a>
   <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'">
     <button mat-menu-item>
-      {{ 'ADMINISTRATION' | translate }}
+      {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
   </a>
 </ng-template>
