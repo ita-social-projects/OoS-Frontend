@@ -1,5 +1,5 @@
 <mat-form-field class="dropdown-wrapper">
-  <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">{{ getLabelTitle(entities?.length) }}</mat-label>
+  <mat-label class="label" [ngClass]="{ 'disabled-field': entities?.length < 1 }">{{ getLabelTitle(entities?.length) | translate}}</mat-label>
   <mat-select
     [disabled]="entities?.length < 1"
     [formControl]="entityControl"

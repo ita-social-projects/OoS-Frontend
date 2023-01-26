@@ -23,7 +23,7 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Output() entityCheck = new EventEmitter<string[]>();
   Declination;
 
-  constructor(private translateCases: TranslateCasesPipe, private translateService: TranslateService) {}
+  constructor(private translateCases: TranslateCasesPipe) {}
 
   ngOnInit(): void {
     this.entityControl.valueChanges
@@ -41,16 +41,16 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
 
     if (this.Declination) {
       allChildrenDeclination =
-        this.Declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? this.translateService.instant('ALL_CHILDREN') : '';
+        this.Declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? 'ALL_CHILDREN' : '';
       allApplicationsDeclination =
         this.Declination[0] === 'ENUM.WORKSHOP_DECLINATION.WORKSHOP'
-          ? this.translateService.instant('ALL_WORKSHOPS')
+          ? 'ALL_WORKSHOPS'
           : '';
     }
 
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.translateCases.transform(quantity, this.Declination);
-    return quantity < 1 ? selectedEntities : this.translateService.instant(this.labelByDefault) || allEntities;
+    return quantity < 1 ? selectedEntities : this.labelByDefault || allEntities;
   }
 
   ngOnDestroy(): void {
