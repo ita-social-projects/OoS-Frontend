@@ -109,7 +109,9 @@
       "MY_WORKSHOPS": "Мої гуртки",
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
-      "LAWS_AND_REGULATIONS": "Нормативно-правові акти"
+      "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
+      "HISTORY_OF_CHANGES": "Історія змін",
+      "STATISTICS": "Статистичні дані"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Комплексний",
