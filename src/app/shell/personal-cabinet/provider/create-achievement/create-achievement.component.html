@@ -15,7 +15,7 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="achievementTypeIdFormControl" [isTouched]="achievementTypeIdFormControl.touched">
+        <app-validation-hint [validationFormControl]="achievementTypeIdFormControl">
         </app-validation-hint>
         <label class="step-label">Учасники<span class="step-required">*</span></label>
         <ng-container *ngIf="approvedChildren">
@@ -46,7 +46,7 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-            <app-validation-hint [validationFormControl]="childrenFormControl" [isTouched]="childrenFormControl.touched">
+            <app-validation-hint [validationFormControl]="childrenFormControl">
             </app-validation-hint>
           </ng-container>
         </ng-container>
@@ -95,7 +95,7 @@
         <ng-template #noTeachers>
           <span class="warning-message"> Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку. </span>
         </ng-template>
-        <app-validation-hint [validationFormControl]="teachersFormControl" [isTouched]="teachersFormControl"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="teachersFormControl"> </app-validation-hint>
         <label class="step-label">Дата<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
           <input matInput [matDatepicker]="picker" formControlName="achievementDate" />
@@ -104,7 +104,6 @@
         </mat-form-field>
         <app-validation-hint
           [validationFormControl]="AchievementFormGroup.get('achievementDate')"
-          [isTouched]="AchievementFormGroup.get('achievementDate').touched"
         >
         </app-validation-hint>
         <div class="step-label-combined">
@@ -118,7 +117,6 @@
         </mat-form-field>
         <app-validation-hint
           [validationFormControl]="AchievementFormGroup.get('title')"
-          [isTouched]="AchievementFormGroup.get('title').touched"
           [minCharachters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
           [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
         >
