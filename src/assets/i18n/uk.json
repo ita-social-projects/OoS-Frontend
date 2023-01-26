@@ -108,7 +108,8 @@
       "USERS": "Користувачі",
       "MY_WORKSHOPS": "Мої гуртки",
       "INFORMATION_ABOUT": "Інформація про",
-      "FAVORITE": "Улюблене"
+      "FAVORITE": "Улюблене",
+      "LAWS_AND_REGULATIONS": "Нормативно-правові акти"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Комплексний",
@@ -347,7 +348,6 @@
   },
   "ALL_WORKSHOPS_ACCESS": "Буде надано доступ до всіх гуртків",
   "INSTITUTION_TYPE": "Тип закладу",
-  "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
   "LIST": "Список",
   "LOGIN": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ",
   "LOGOUT": "Вийти",
@@ -369,7 +369,6 @@
   "SHOW_ON_THE_MAP": "Показати на карті",
   "SIGN_UP": "ЗАРЕЄСТРУВАТИСЯ",
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Зареєструйся - допоможемо залучити нових учнів!",
-  "SUPPORT": "ПІДТРИМКА",
   "TITLES": {
     "ABOUT_THE_PROVIDER": "Про заклад",
     "ABOUT_THE_WORKSHOP": "Про гурток",
@@ -463,5 +462,6 @@
     "NO_HISTORY": "Історії змін поки немає",
     "NO_INFO": "Інформації поки немає",
     "NO_MESSAGES": "Повідомлень поки немає"
-  }
+  },
+  "NOTIFICATIONS": "Сповіщення"
 }

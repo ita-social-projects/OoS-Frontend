@@ -110,7 +110,8 @@
       "USERS": "Users",
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
-      "FAVORITE": "Favorite"
+      "FAVORITE": "Favorite",
+      "LAWS_AND_REGULATIONS": "Laws and regulations"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Complex",
@@ -349,7 +350,6 @@
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
-  "LAWS_AND_REGULATIONS": "Laws and regulations",
   "LIST": "List",
   "LOGIN": "LOG IN/REGISTER",
   "LOGOUT": "Logout",
@@ -370,7 +370,6 @@
   "SHOW_ON_THE_MAP": "Show on the map",
   "SIGN_UP": "SIGN UP",
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Sign up - we will help you attract new students!",
-  "SUPPORT": "SUPPORT",
   "TITLES": {
     "ABOUT_THE_PROVIDER": "About the provider",
     "ABOUT_THE_WORKSHOP": "About the workshop",
@@ -463,5 +462,6 @@
     "NO_HISTORY": "No change history yet",
     "NO_INFO": "No information yet",
     "NO_MESSAGES": "No messages yet"
-  }
+  },
+  "NOTIFICATIONS": "Notifications"
 }

@@ -6,7 +6,7 @@ export enum NavBarName {
   Portal = 'ENUM.NAV_BAR_NAME.PORTAL',
   AboutPortal = 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL',
   SupportInformation = 'ENUM.NAV_BAR_NAME.SUPPORT',
-  LawsAndRegulations = 'LAWS_AND_REGULATIONS',
+  LawsAndRegulations = 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS',
   RequestOnWorkshop = 'ENUM.NAV_BAR_NAME.NEW_WORKSHOP_APPLICATION',
   PersonalInformation = 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION',
   InformationAboutChild = 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_CHILDREN',
