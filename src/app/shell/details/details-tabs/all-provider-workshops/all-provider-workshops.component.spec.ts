@@ -19,6 +19,7 @@ describe('AllProviderWorkshopsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AllProviderWorkshopsComponent);
     component = fixture.componentInstance;
+    component.providerParameters = {} as any;
     fixture.detectChanges();
   });
 

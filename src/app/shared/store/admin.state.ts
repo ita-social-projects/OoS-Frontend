@@ -61,7 +61,6 @@ import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
-import { OnPageChangeDirections } from './paginator.actions';
 import { EMPTY_RESULT, PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { SnackbarText } from '../enum/messageBar';

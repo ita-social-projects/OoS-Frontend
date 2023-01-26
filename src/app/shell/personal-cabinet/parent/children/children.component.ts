@@ -11,8 +11,6 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { SetFirstPage, SetChildrensPerPage, OnPageChangeChildrens } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { GetUsersChildren, DeleteChildById } from '../../../../shared/store/parent.actions';
 import { ParentState } from './../../../../shared/store/parent.state.';
 import { SearchResponse } from '../../../../shared/models/search.model';
@@ -26,8 +24,6 @@ import { Util } from '../../../../shared/utils/utils';
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
   readonly ModeConstants = ModeConstants;
 
-  @Select(PaginatorState.childrensPerPage)
-  childrensPerPage$: Observable<number>;
   @Select(ParentState.children)
   childrenCards$: Observable<SearchResponse<Child[]>>;
   childrenCards: SearchResponse<Child[]>;
@@ -53,7 +49,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   initParentData(): void {
-    const childrensPerPage = this.store.selectSnapshot(PaginatorState.childrensPerPage);
+    const childrensPerPage = PaginationConstants.CHILDREN_PER_PAGE;
     Util.setPaginationParams(this.childrenParameters, this.currentPage, childrensPerPage);
 
     this.store.dispatch(new GetUsersChildren(this.childrenParameters));
@@ -79,12 +75,12 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.childrenParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetChildrensPerPage(itemsPerPage), new GetUsersChildren(this.childrenParameters)]);
+    this.store.dispatch(new GetUsersChildren(this.childrenParameters));
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     Util.setPaginationParams(this.childrenParameters, this.currentPage, this.childrenParameters.size);
-    this.store.dispatch([new OnPageChangeChildrens(page), new GetUsersChildren(this.childrenParameters)]);
+    this.store.dispatch(new GetUsersChildren(this.childrenParameters));
   }
 }

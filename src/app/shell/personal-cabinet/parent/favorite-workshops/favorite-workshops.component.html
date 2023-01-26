@@ -5,7 +5,7 @@
   <app-paginator
     [totalEntities]="(favoriteWorkshopsCard$ | async).length"
     [currentPage]="currentPage"
-    [itemsPerPage]="favoriteWorkshopsPerPage$ | async"
+    [itemsPerPage]="favoriteWorkshopsPerPage"
     (pageChange)="onPageChange($event)"
     (itemsPerPageChange)="onItemsPerPageChange($event)"
   >

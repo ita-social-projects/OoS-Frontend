@@ -20,7 +20,7 @@
     <app-paginator
       [totalEntities]="workshops.totalAmount"
       [currentPage]="currentPage"
-      [itemsPerPage]="workshopsPerPage$ | async"
+      [itemsPerPage]="workshopCardParameters.size"
       (pageChange)="onPageChange($event)"
       (itemsPerPageChange)="onItemsPerPageChange($event)"
     >

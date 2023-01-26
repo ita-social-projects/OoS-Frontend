@@ -13,8 +13,6 @@ import { Direction, DirectionParameters } from '../../../../../shared/models/cat
 import { PaginationElement } from '../../../../../shared/models/paginationElement.model';
 import { GetFilteredDirections, DeleteDirectionById } from '../../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../../shared/store/admin.state';
-import { OnPageChangeDirections, SetDirectionsPerPage } from '../../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../../shared/store/paginator.state';
 import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
@@ -28,8 +26,6 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<SearchResponse<Direction[]>>;
-  @Select(PaginatorState.directionsPerPage)
-  directionsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);
@@ -42,7 +38,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const directionItemsPerPage = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    const directionItemsPerPage = PaginationConstants.DIRECTIONS_PER_PAGE;
     Util.setPaginationParams(this.directionsParameters, this.currentPage, directionItemsPerPage);
 
     this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
@@ -73,7 +69,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.directionsParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new GetFilteredDirections(this.directionsParameters)]);
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 
   onDelete(direction: Direction): void {

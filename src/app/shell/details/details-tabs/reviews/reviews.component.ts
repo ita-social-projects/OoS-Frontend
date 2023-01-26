@@ -16,13 +16,11 @@ import { Rate, RateParameters } from '../../../../shared/models/rating';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { GetRateByEntityId, ClearRatings } from '../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { SetRatingPerPage, OnPageChangeRating } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, CreateRating } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchResponse } from '../../../../shared/models/search.model';
-import { Util } from 'src/app/shared/utils/utils';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-reviews',
@@ -49,9 +47,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.rating)
   rating$: Observable<SearchResponse<Rate[]>>;
   rating: SearchResponse<Rate[]>;
-  @Select(PaginatorState.ratingPerPage)
-  ratingPerPage$: Observable<number>;
-  ratingPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -69,7 +64,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions, private translateService: TranslateService) {}
 
   ngOnInit(): void {
-    const ratingPerPage = this.store.selectSnapshot(PaginatorState.ratingPerPage);
+    const ratingPerPage = PaginationConstants.RATING_PER_PAGE;
     Util.setPaginationParams(this.rateParameters, this.currentPage, ratingPerPage);
     this.rateParameters.entityId = this.workshop.id;
     this.rateParameters.entityType = EntityType.workshop;
@@ -89,8 +84,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.isAllowedToReview$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isAllowedToReview = status));
 
     this.isReviewed$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isReviewed = status));
-
-    this.ratingPerPage$.pipe(takeUntil(this.destroy$)).subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
   }
 
   private getParentData(): void {
@@ -130,15 +123,14 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   itemsPerPageChange(itemsPerPage: number): void {
-    this.ratingPerPage = itemsPerPage;
     Util.setPaginationParams(this.rateParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(this.rateParameters)]);
+    this.store.dispatch(new GetRateByEntityId(this.rateParameters));
   }
 
   pageChange(page: PaginationElement): void {
     this.currentPage = page;
     Util.setPaginationParams(this.rateParameters, this.currentPage, this.rateParameters.size);
-    this.store.dispatch([new OnPageChangeRating(page), new GetRateByEntityId(this.rateParameters)]);
+    this.store.dispatch(new GetRateByEntityId(this.rateParameters));
   }
 
   ngOnDestroy(): void {

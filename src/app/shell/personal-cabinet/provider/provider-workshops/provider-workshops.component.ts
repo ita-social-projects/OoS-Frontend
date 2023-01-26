@@ -1,5 +1,3 @@
-import { SetWorkshopsPerPage } from './../../../../shared/store/paginator.actions';
-import { PaginatorState } from './../../../../shared/store/paginator.state';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -22,8 +20,7 @@ import { ProviderState } from '../../../../shared/store/provider.state';
 import { ProviderComponent } from '../provider.component';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeWorkshops } from '../../../../shared/store/paginator.actions';
-import { Util } from 'src/app/shared/utils/utils';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-provider-workshops',
@@ -37,8 +34,6 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   @Select(ProviderState.providerWorkshops)
   workshops$: Observable<SearchResponse<ProviderWorkshopCard[]>>;
   workshops: SearchResponse<ProviderWorkshopCard[]>;
-  @Select(PaginatorState.workshopsPerPage)
-  workshopsPerPage$: Observable<number>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
   workshopCardParameters: WorkshopCardParameters = {
@@ -67,7 +62,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
    */
   initProviderData(): void {
     this.workshopCardParameters.providerId = this.provider.id;
-    const workshopsPerPage = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const workshopsPerPage = PaginationConstants.WORKSHOPS_PER_PAGE;
     Util.setPaginationParams(this.workshopCardParameters, this.currentPage, workshopsPerPage);
 
     this.getProviderWorkshops();
@@ -114,7 +109,6 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   onItemsPerPageChange(itemPerPage: number) {
     Util.setPaginationParams(this.workshopCardParameters, this.currentPage, itemPerPage);
-    this.store.dispatch(new SetWorkshopsPerPage(itemPerPage));
     this.getProviderWorkshops();
   }
 }

@@ -8,7 +8,6 @@ import { FeaturesList } from '../../../models/featuresList.model';
 import { MetaDataState } from '../../../store/meta-data.state';
 import { TruncatedItem } from '../../../models/item.model';
 import { SearchResponse } from '../../../models/search.model';
-import { PaginatorState } from '../../../store/paginator.state';
 import { PaginationElement } from '../../../models/paginationElement.model';
 import { ProviderParameters } from '../../../../shared/models/provider.model';
 import { PaginationParameters } from '../../../../shared/models/queryParameters.model';

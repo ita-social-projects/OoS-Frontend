@@ -44,7 +44,6 @@ import {
   SetWithDisabilityOption,
   SetWorkingDays
 } from './filter.actions';
-import { SetFirstPage } from './paginator.actions';
 
 @State<FilterStateModel>({
   name: 'filter',
@@ -297,7 +296,7 @@ export class FilterState {
   @Action(FilterChange)
   filterChange({ getState, dispatch }: StateContext<FilterStateModel>): void {
     const isMapView = getState().isMapView;
-    dispatch([new SetFirstPage(), new GetFilteredWorkshops(isMapView)]);
+    dispatch(new GetFilteredWorkshops(isMapView));
   }
 
   @Action(FilterClear)

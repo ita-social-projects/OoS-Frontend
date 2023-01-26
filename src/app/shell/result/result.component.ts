@@ -12,7 +12,6 @@ import { ResetFilteredWorkshops, SetMapView, SetFilterFromURL, FilterClear, SetF
 import { FilterState } from '../../shared/store/filter.state';
 import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { NavigationState } from '../../shared/store/navigation.state';
-import { PaginatorState } from '../../shared/store/paginator.state';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
 import { SearchResponse } from '../../shared/models/search.model';
@@ -68,7 +67,7 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    const workshopsPerPage = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const workshopsPerPage = PaginationConstants.WORKSHOPS_PER_PAGE;
     Util.setPaginationParams(this.paginationParameters, PaginationConstants.firstPage, workshopsPerPage);
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
 

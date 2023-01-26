@@ -10,8 +10,6 @@ import { NavigationBarService } from '../../shared/services/navigation-bar/navig
 import { GetFilteredDirections } from '../../shared/store/admin.actions';
 import { AdminState } from '../../shared/store/admin.state';
 import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
-import { OnPageChangeDirections, SetDirectionsPerPage } from '../../shared/store/paginator.actions';
-import { PaginatorState } from '../../shared/store/paginator.state';
 import { Util } from '../../shared/utils/utils';
 
 @Component({
@@ -20,8 +18,6 @@ import { Util } from '../../shared/utils/utils';
   styleUrls: ['./all-categories.component.scss']
 })
 export class AllCategoriesComponent implements OnInit, OnDestroy {
-  @Select(PaginatorState.directionsPerPage)
-  directionsPerPage$: Observable<number>;
   @Select(AdminState.filteredDirections)
   filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
@@ -33,7 +29,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   constructor(private store: Store, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
-    const directionItemsPerPage = this.store.selectSnapshot(PaginatorState.directionsPerPage);
+    const directionItemsPerPage = PaginationConstants.DIRECTIONS_PER_PAGE;
     Util.setPaginationParams(this.directionsParameters, this.currentPage, directionItemsPerPage);
 
     this.store.dispatch([
@@ -45,12 +41,12 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     Util.setPaginationParams(this.directionsParameters, this.currentPage, this.directionsParameters.size);
-    this.store.dispatch([new OnPageChangeDirections(page), new GetFilteredDirections(this.directionsParameters)]);
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.directionsParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetDirectionsPerPage(itemsPerPage), new GetFilteredDirections(this.directionsParameters)]);
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 
   ngOnDestroy(): void {

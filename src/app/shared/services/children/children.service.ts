@@ -6,7 +6,6 @@ import { Child, ChildrenParameters, RequestParams } from '../../models/child.mod
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 import { DataItem, TruncatedItem } from '../../models/item.model';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'

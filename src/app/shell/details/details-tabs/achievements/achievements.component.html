@@ -22,14 +22,13 @@
     <app-paginator
       [totalEntities]="achievements.totalAmount"
       [currentPage]="currentPage"
-      [itemsPerPage]="achievementPerPage"
+      [itemsPerPage]="achievementParameters.size"
       (pageChange)="onPageChange($event)"
       (itemsPerPageChange)="onItemsPerPageChange($event)"
     >
     </app-paginator>
   </ng-container>
 </ng-container>
-
 
 <ng-template #isEmptyList>
   <ng-container *ngIf="!isAllowedEdit">

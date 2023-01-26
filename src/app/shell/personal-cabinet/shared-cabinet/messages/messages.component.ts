@@ -28,11 +28,9 @@ import { ChatState } from '../../../../shared/store/chat.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeChatRooms, SetChatRoomsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
-import { Util } from 'src/app/shared/utils/utils';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-messages',
@@ -54,8 +52,6 @@ export class MessagesComponent extends CabinetDataComponent {
     searchText: null
   };
 
-  @Select(PaginatorState.chatRoomsPerPage)
-  chatRoomsPerPage$: Observable<number>;
   @Select(ProviderState.truncated)
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
@@ -68,7 +64,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   protected init(): void {
-    const chatRoomsPerPage = this.store.selectSnapshot(PaginatorState.chatRoomsPerPage);
+    const chatRoomsPerPage = PaginationConstants.CHATROOMS_PER_PAGE;
     Util.setPaginationParams(this.chatRoomsParameters, this.currentPage, chatRoomsPerPage);
     this.chatRoomsParameters.role = this.role;
 
@@ -164,7 +160,7 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.chatRoomsParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.chatRoomsParameters)]);
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   onPageChange(page: PaginationElement): void {

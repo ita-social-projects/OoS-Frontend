@@ -10,12 +10,10 @@ import { FormControl } from '@angular/forms';
 import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider, ProviderParameters, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -49,8 +47,6 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.providers)
   providers$: Observable<SearchResponse<Provider[]>>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
 
@@ -80,7 +76,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
     Util.setPaginationParams(this.providerParameters, this.currentPage, tableItemsPerPage);
 
     this.store.dispatch([
@@ -179,12 +175,12 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetFilteredProviders(this.providerParameters)]);
+    this.store.dispatch(new GetFilteredProviders(this.providerParameters));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.providerParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviders(this.providerParameters)]);
+    this.store.dispatch(new GetFilteredProviders(this.providerParameters));
   }
 
   ngOnDestroy(): void {

@@ -6,7 +6,6 @@ import { Role } from '../../enum/role';
 import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from '../../models/chat.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'

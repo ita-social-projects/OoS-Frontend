@@ -2,13 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants } from '../../constants/constants';
+import { Constants, PaginationConstants } from '../../constants/constants';
 import { Direction, DirectionParameters } from '../../models/category.model';
 import { Codeficator } from '../../models/codeficator.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 import { FilterState } from '../../store/filter.state';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -40,7 +39,7 @@ export class DirectionsService {
   getTopDirections(): Observable<Direction[]> {
     let params = new HttpParams();
 
-    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const size: number = PaginationConstants.DIRECTIONS_PER_PAGE;
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString()).set('limit', size.toString());

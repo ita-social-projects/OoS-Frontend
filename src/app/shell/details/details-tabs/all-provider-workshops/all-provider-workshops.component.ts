@@ -2,17 +2,15 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from 'src/app/shared/constants/constants';
-import { ProviderParameters } from 'src/app/shared/models/provider.model';
-import { GetWorkshopsByProviderId } from 'src/app/shared/store/shared-user.actions';
-import { Util } from 'src/app/shared/utils/utils';
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { ProviderParameters } from '../../../../shared/models/provider.model';
+import { GetWorkshopsByProviderId } from '../../../../shared/store/shared-user.actions';
+import { Util } from '../../../../shared/utils/utils';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { Workshop, WorkshopCard } from '../../../../shared/models/workshop.model';
-import { OnPageChangeWorkshops, SetWorkshopsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
@@ -29,8 +27,6 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   @Select(SharedUserState.workshops)
   workshops$: Observable<SearchResponse<WorkshopCard[]>>;
   workshops: SearchResponse<WorkshopCard[]>;
-  @Select(PaginatorState.workshopsPerPage)
-  workshopsPerPage$: Observable<number>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -40,7 +36,7 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    const workshopsPerPage = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const workshopsPerPage = PaginationConstants.WORKSHOPS_PER_PAGE;
     Util.setPaginationParams(this.providerParameters, this.currentPage, workshopsPerPage);
 
     this.getWorkshops();
@@ -67,7 +63,6 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemPerPage: number) {
     Util.setPaginationParams(this.providerParameters, this.currentPage, itemPerPage);
-    this.store.dispatch(new SetWorkshopsPerPage(itemPerPage));
     this.getWorkshops();
   }
 }

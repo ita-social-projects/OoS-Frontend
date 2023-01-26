@@ -83,7 +83,7 @@
     <app-paginator
       [totalEntities]="statisticReports$ | async"
       [currentPage]="currentPage"
-      [itemsPerPage]="tableItemsPerPage$ | async"
+      [itemsPerPage]="statisticParameters.size"
       (pageChange)="onPageChange($event)"
       (itemsPerPageChange)="onItemsPerPageChange($event)"
     >

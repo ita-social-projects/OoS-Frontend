@@ -15,8 +15,6 @@ import { Role } from '../../../../shared/enum/role';
 import { Child } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
-import { OnPageChangeApplications, SetApplicationsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { FormControl } from '@angular/forms';
@@ -38,8 +36,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Select(SharedUserState.applications)
   applicationCards$: Observable<SearchResponse<Application[]>>;
-  @Select(PaginatorState.applicationsPerPage)
-  applicationsPerPage$: Observable<number>;
   applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
@@ -84,7 +80,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    const applicationsPerPage = this.store.selectSnapshot(PaginatorState.applicationsPerPage);
+    const applicationsPerPage = PaginationConstants.APPLICATIONS_PER_PAGE;
     Util.setPaginationParams(this.applicationParams, this.currentPage, applicationsPerPage);
 
     this.searchFormControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((searchString: string) => {
@@ -138,7 +134,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.applicationParams, this.currentPage, itemsPerPage);
-    this.store.dispatch(new SetApplicationsPerPage(itemsPerPage));
     this.onGetApplications();
   }
 

@@ -1,5 +1,4 @@
 import { PaginationElement } from './../../models/paginationElement.model';
-import { PaginatorState } from './../../store/paginator.state';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';

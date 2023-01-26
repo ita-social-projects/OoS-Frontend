@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { ProviderAdminBlockData } from '../../models/block.model';
 import { ProviderAdmin } from '../../models/providerAdmin.model';
 import { Store } from '@ngxs/store';
-import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 

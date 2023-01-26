@@ -20,12 +20,10 @@ import { ProviderComponent } from '../provider.component';
 import { ProviderState } from './../../../../shared/store/provider.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { SearchResponse } from '../../../../shared/models/search.model';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
-import { OnPageChange, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
 import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
 import { UserStatusesTitles } from '../../../../shared/enum/statuses';
-import { Util } from 'src/app/shared/utils/utils';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-provider-admins',
@@ -45,14 +43,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
   providerAdmins: SearchResponse<ProviderAdmin[]>;
   providerAdminsData: ProviderAdminTable[] = [];
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
 
   filterFormControl: FormControl = new FormControl('');
   currentPage: PaginationElement = PaginationConstants.firstPage;
   tabIndex: number;
 
-  private filterParams: ProviderAdminParameters = {
+  filterParams: ProviderAdminParameters = {
     assistantsOnly: false,
     deputyOnly: false,
     searchString: ''
@@ -65,7 +61,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   ngOnInit(): void {
     super.ngOnInit();
 
-    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
     Util.setPaginationParams(this.filterParams, this.currentPage, tableItemsPerPage);
 
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
@@ -84,7 +80,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.filterParams, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviderAdmins(this.filterParams)]);
+    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 
   /**

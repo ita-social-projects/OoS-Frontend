@@ -7,7 +7,8 @@
         matInput
         type="text"
         class="search"
-        placeholder="Пошук за закладом, ЄДРПО, електронною поштою, телефоном" />
+        placeholder="Пошук за закладом, ЄДРПО, електронною поштою, телефоном"
+      />
     </div>
   </div>
 </div>
@@ -138,7 +139,7 @@
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="providerParameters.size"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)"
       >

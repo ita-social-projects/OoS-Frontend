@@ -10,8 +10,8 @@ import { PaginationElement } from '../../../shared/models/paginationElement.mode
 import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { ClearCoordsByMap, ClearRadiusSize, GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
 import { ClearMessageBar } from '../../../shared/store/app.actions';
-import { PaginationParameters } from 'src/app/shared/models/queryParameters.model';
-import { Util } from 'src/app/shared/utils/utils';
+import { PaginationParameters } from '../../../shared/models/queryParameters.model';
+import { Util } from '../../../shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-map-view-list',

@@ -9,10 +9,8 @@ import { GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
-import { Util } from 'src/app/shared/utils/utils';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-statistics',
@@ -27,8 +25,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
 
   statisticReports: SearchResponse<StatisticReport[]>;
   statisticParameters: StatisticParameters;
@@ -40,7 +36,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
     Util.setPaginationParams(this.statisticParameters, this.currentPage, tableItemsPerPage);
 
     this.statisticReports$
@@ -57,7 +53,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.statisticParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetStatisticReports(this.statisticParameters)]);
+    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 
   onPageChange(page: PaginationElement): void {

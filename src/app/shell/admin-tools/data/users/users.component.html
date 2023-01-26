@@ -36,9 +36,9 @@
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="childrenParams.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
+        (itemsPerPageChange)="onTableItemsPerPageChange($event)"
       >
       </app-paginator>
     </ng-container>

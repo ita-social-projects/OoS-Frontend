@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 import { StatisticParameters, StatisticReport } from '../../models/statistic.model';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'

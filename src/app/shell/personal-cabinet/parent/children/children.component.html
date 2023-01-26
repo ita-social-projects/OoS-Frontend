@@ -17,18 +17,15 @@
 
 <ng-template #ChildList>
   <div class="card-wrapper">
-    <app-child-card
-      class="card"
-      *ngFor="let child of childrenCards.entities"
-      [child]="child"
-      (deleteChild)="onDelete($event)">
+    <app-child-card class="card" *ngFor="let child of childrenCards.entities" [child]="child" (deleteChild)="onDelete($event)">
     </app-child-card>
   </div>
   <app-paginator
     [totalEntities]="childrenCards.totalAmount"
     [currentPage]="currentPage"
-    [itemsPerPage]="childrensPerPage$ | async"
+    [itemsPerPage]="childrenParameters.size"
     (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)">
+    (itemsPerPageChange)="onItemsPerPageChange($event)"
+  >
   </app-paginator>
 </ng-template>

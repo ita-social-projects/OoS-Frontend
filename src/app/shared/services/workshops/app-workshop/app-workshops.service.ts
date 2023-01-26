@@ -3,13 +3,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { SearchResponse } from '../../../models/search.model';
-import { Constants } from '../../../constants/constants';
+import { Constants, PaginationConstants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filterState.model';
 import { WorkshopCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
-import { PaginatorState } from '../../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -145,7 +144,7 @@ export class AppWorkshopsService {
   getTopWorkshops(): Observable<WorkshopCard[]> {
     let params = new HttpParams();
 
-    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const size: number = PaginationConstants.WORKSHOPS_PER_PAGE;
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
     params = params.set('Limit', size.toString());

@@ -37,7 +37,7 @@
       <app-paginator
         [totalEntities]="providerAdmins.totalAmount"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="filterParams.size"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)"
       >

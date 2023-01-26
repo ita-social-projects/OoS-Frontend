@@ -219,15 +219,9 @@ export class Util {
     return filterState;
   }
 
-  public static setPaginationParams(
-    params: PaginationParameters,
-    currentPage: PaginationElement,
-    itemsPerPage: number
-  ): PaginationParameters {
+  public static setPaginationParams(params: PaginationParameters, currentPage: PaginationElement, itemsPerPage: number): void {
     params.size = itemsPerPage;
     params.from = (+currentPage.element - 1) * params.size;
-
-    return params;
   }
 
   /**

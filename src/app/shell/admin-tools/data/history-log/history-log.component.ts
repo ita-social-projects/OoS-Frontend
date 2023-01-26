@@ -17,10 +17,8 @@ import {
 import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
-import { OnPageChangeHistoryLog, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
@@ -44,8 +42,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
   @Select(AdminState.applicationHistory)
   applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex = 0;
@@ -62,7 +58,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
     Util.setPaginationParams(this.filters, this.currentPage, tableItemsPerPage);
 
     this.dispatchProperValue(this.tabIndex, this.filters);
@@ -102,7 +98,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage)]);
     Util.setPaginationParams(this.filters, this.currentPage, itemsPerPage);
     this.dispatchProperValue(this.tabIndex, this.filters);
   }

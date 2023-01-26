@@ -21,8 +21,6 @@ import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { RegistrationState } from './../../../../shared/store/registration.state';
@@ -43,8 +41,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
   @Select(RegistrationState.role)
   role$: Observable<string>;
 
@@ -64,7 +60,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
+    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
     Util.setPaginationParams(this.adminParams, this.currentPage, tableItemsPerPage);
 
     this.setTabOptions();
@@ -211,12 +207,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     Util.setPaginationParams(this.adminParams, page, this.adminParams.size);
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetAllMinistryAdmins(this.adminParams)]);
+    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     Util.setPaginationParams(this.adminParams, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetAllMinistryAdmins(this.adminParams)]);
+    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
   }
 
   ngOnDestroy(): void {
