@@ -250,7 +250,8 @@
       "NEW_CHILD": "Add child information",
       "EDIT_CHILD": "Edit child information",
       "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet.",
-      "NEW_APPLICATION": "NEW WORKSHOP APPLICATION"
+      "NEW_APPLICATION": "NEW WORKSHOP APPLICATION",
+      "EDIT_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -261,7 +262,7 @@
       "EMAIL": "Email",
       "KEYWORDS": "Keywords",
       "LAST_NAME": "Last name",
-      "MIDDLENAME": "Middle name",
+      "MIDDLE_NAME": "Middle name",
       "FIRST_NAME": "First name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
@@ -292,7 +293,12 @@
       "SHORT_DATE_FORMAT": "DD/MM/YYYY",
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
       "SYMBOLS": "symbols",
-      "CHILDREN": "Children"
+      "CHILDREN": "Children",
+      "SEARCH_NAME_PHONE_EMAIL": "Search by name, e-mail, phone",
+      "SEARCH_PROVIDER_CHILD_WORKSHOP": "Search by provider title, child name or workshop title",
+      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
+      "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -400,7 +406,8 @@
     "SEND_MESSAGE": "Send a message",
     "CANCEL": "Cancel",
     "SEND": "Send",
-    "EDIT": "Edit"
+    "EDIT": "Edit",
+    "SAVE": "Save"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -414,5 +421,19 @@
     "PLATFORM_RULES": "Rules of Use",
     "PERSONAL_DATA_USE": "and I consent to the processing of personal data"
   },
-  "LESS_THAN_ONE_YEAR": "< 1 year"
+  "LESS_THAN_ONE_YEAR": "< 1 year",
+  "EMPTY_BANNERS": {
+    "NO_APPLICATION": "No applications yet",
+    "NO_RESULT": "No results found",
+    "NO_FAVORITE_WORKSHOPS": "There are no favorite workshops yet",
+    "NO_USERS": "No users yet",
+    "NO_TEACHERS": "There are no teachers yet",
+    "NO_ACHIEVEMENTS": "No achievements yet",
+    "NO_REVIEWS": "No reviews yet",
+    "NO_ADMINS": "You can add administrators here",
+    "NO_HISTORY": "No change history yet",
+    "NO_INFO": "No information yet",
+    "NO_MESSAGES": "No messages yet"
+  },
+  "APPLICATION_STATUSES": "Application statuses"
 }

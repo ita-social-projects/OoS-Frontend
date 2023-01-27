@@ -3,6 +3,7 @@ import { WorkshopTeachersComponent } from './workshop-teachers.component';
 import { Component, Input } from '@angular/core';
 import { Teacher } from '../../../../shared/models/teacher.model';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('WorkshopTeachersComponent', () => {
   let component: WorkshopTeachersComponent;
@@ -10,6 +11,7 @@ describe('WorkshopTeachersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
+      imports: [TranslateModule.forRoot()],
       declarations: [WorkshopTeachersComponent, MockTeacherCardComponent, NoResultCardComponent]
     }).compileComponents();
   });

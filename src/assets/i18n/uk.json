@@ -249,7 +249,8 @@
       "EDIT_CHILD": "Редагувати дані про дитину",
       "CREATE_CHILD_SUBTITLE": "Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті.",
       "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання",
-      "NEW_APPLICATION": "ЗАЯВА НА ГУРТОК"
+      "NEW_APPLICATION": "ЗАЯВА НА ГУРТОК",
+      "EDIT_PERSONAL_INFORMATION": "РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -260,7 +261,7 @@
       "EMAIL": "Електронна пошта",
       "KEYWORDS": "Ключові слова",
       "LAST_NAME": "Прізвище",
-      "MIDDLENAME": "По-батькові",
+      "MIDDLE_NAME": "По-батькові",
       "FIRST_NAME": "Ім'я",
       "OR_SELECT_ON_THE_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
@@ -291,7 +292,12 @@
       "SHORT_DATE_FORMAT": "ДД/ММ/РРРР",
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
       "SYMBOLS": "символів",
-      "CHILDREN": "Діти"
+      "CHILDREN": "Діти",
+      "SEARCH_NAME_PHONE_EMAIL": "Пошук за ПІБ, електронною поштою, телефоном",
+      "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
+      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
+      "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -400,7 +406,8 @@
     "SEND_MESSAGE": "Надіслати повідомлення",
     "CANCEL": "Скасувати",
     "SEND": "Відправити",
-    "EDIT": "Редагувати"
+    "EDIT": "Редагувати",
+    "SAVE": "Зберегти"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
@@ -414,5 +421,19 @@
     "PLATFORM_RULES": "Правилами користування",
     "PERSONAL_DATA_USE": "та надаю згоду на обробку персональних даних"
   },
-  "LESS_THAN_ONE_YEAR": "< 1 року"
+  "LESS_THAN_ONE_YEAR": "< 1 року",
+  "EMPTY_BANNERS": {
+    "NO_APPLICATION": "Заявок поки немає",
+    "NO_RESULT": "За результатами нічого не знайдено",
+    "NO_FAVORITE_WORKSHOPS": "Улюблених гуртків поки немає",
+    "NO_USERS": "Користувачів поки немає",
+    "NO_TEACHERS": "Викладачів поки немає",
+    "NO_ACHIEVEMENTS": "Досягнень поки немає",
+    "NO_REVIEWS": "Відгуків поки немає",
+    "NO_ADMINS": "Тут ви можете додати aдміністраторів",
+    "NO_HISTORY": "Історії змін поки немає",
+    "NO_INFO": "Інформації поки немає",
+    "NO_MESSAGES": "Повідомлень поки немає"
+  },
+  "APPLICATION_STATUSES": "Статуси заявок"
 }

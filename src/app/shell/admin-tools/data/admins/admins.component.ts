@@ -16,7 +16,7 @@ import { AdminRole } from '../../../../shared/enum/admins';
 import { AdminRoleUkr, AdminRoleUkrReverse } from '../../../../shared/enum/enumUA/admins';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { BlockData, UsersTable } from '../../../../shared/models/usersTable';

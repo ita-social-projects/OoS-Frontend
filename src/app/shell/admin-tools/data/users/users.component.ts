@@ -10,7 +10,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { UsersTable } from '../../../../shared/models/usersTable';

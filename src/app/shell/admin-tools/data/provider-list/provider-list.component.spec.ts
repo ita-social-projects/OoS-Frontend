@@ -12,6 +12,7 @@ import { NgxsModule } from '@ngxs/store';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { ProviderListComponent } from './provider-list.component';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderListComponent', () => {
   let component: ProviderListComponent;
@@ -28,7 +29,8 @@ describe('ProviderListComponent', () => {
         NgxsModule.forRoot([]),
         HttpClientTestingModule,
         ReactiveFormsModule,
-        MatDialogModule
+        MatDialogModule,
+        TranslateModule.forRoot()
       ],
       declarations: [ProviderListComponent, MockproviderInfoComponent, MockListAdminProviderPaginatorComponent, ReasonModalWindowComponent]
     }).compileComponents();

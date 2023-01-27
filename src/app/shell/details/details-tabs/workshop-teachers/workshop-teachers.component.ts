@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Teacher } from '../../../../shared/models/teacher.model';
 
 @Component({

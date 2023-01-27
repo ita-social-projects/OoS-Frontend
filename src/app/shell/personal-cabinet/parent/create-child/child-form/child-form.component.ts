@@ -2,7 +2,6 @@ import { Component, EventEmitter, Input, Output, OnInit, ViewChild } from '@angu
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { Constants } from '../../../../../shared/constants/constants';
 import { DATE_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { Util } from '../../../../../shared/utils/utils';
@@ -15,7 +14,6 @@ import { DataItem } from '../../../../../shared/models/item.model';
 })
 export class ChildFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
 
   private readonly NONE_SOCIAL_GROUP_ID = 6;
 

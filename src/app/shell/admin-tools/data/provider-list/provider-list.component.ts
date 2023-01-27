@@ -26,7 +26,7 @@ import {
   ProviderStatusTitles,
   UserStatusIcons,
 } from '../../../../shared/enum/statuses';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import {

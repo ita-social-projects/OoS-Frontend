@@ -1,9 +1,11 @@
-<mat-card [ngClass]="chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'" [routerLink]="['./', chatRoom.id]">
+<mat-card
+  [ngClass]="chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'"
+  [routerLink]="['./', chatRoom.id]">
   <mat-card-content class="card-block card-block__message">
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
       <p class="text">
-        {{ chatRoom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT }}
+        {{ chatRoom.lastMessage.createdDateTime | date : constants.FULL_DATE_FORMAT }}
       </p>
     </div>
     <h4 class="title">{{ chatRoom.workshop.title }}</h4>
@@ -11,11 +13,12 @@
       {{ chatRoom.lastMessage.text }}
     </div>
   </mat-card-content>
-  <mat-card-content class="card-block card-block__actions">
-    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions">more_vert</mat-icon>
-    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="email">email</mat-icon>
+  <mat-card-content *ngIf="role === Role.provider" class="card-block card-block__actions">
+    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions"
+      >more_vert</mat-icon
+    >
     <mat-menu #actions="matMenu" class="header_menu">
-      <button mat-menu-item (click)="onBlock()">Заблокувати користувача</button>
+      <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK' | translate }}</button>
       <!--
         TODO: uncomment when value for condition is available
 
@@ -23,9 +26,6 @@
           Розблокувати користувача
         </button>
       -->
-    </mat-menu>
-    <mat-menu #email="matMenu" class="header_menu">
-      <button mat-menu-item>Надіслати запрошення</button>
     </mat-menu>
   </mat-card-content>
 </mat-card>

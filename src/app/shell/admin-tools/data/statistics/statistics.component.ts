@@ -11,7 +11,7 @@ import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 
 @Component({
   selector: 'app-statistics',

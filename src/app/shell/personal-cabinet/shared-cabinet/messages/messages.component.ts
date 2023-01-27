@@ -25,7 +25,7 @@ import { PushNavPath } from '../../../..//shared/store/navigation.actions';
 import { GetUserChatRooms } from '../../../..//shared/store/chat.actions';
 import { FormControl } from '@angular/forms';
 import { ChatState } from '../../../../shared/store/chat.state';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { PaginatorState } from '../../../../shared/store/paginator.state';

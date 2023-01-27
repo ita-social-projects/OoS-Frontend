@@ -25,7 +25,6 @@ import { Util } from '../../../../../shared/utils/utils';
 })
 export class CreateInfoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly phonePrefix = Constants.PHONE_PREFIX;
 
