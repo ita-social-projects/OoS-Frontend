@@ -403,7 +403,7 @@
   "BANNERS": {
     "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
     "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
-    "ADD_WORKSHOP" : "You can add unfromation about the new workshop"
+    "ADD_WORKSHOP" : "You can add infromation about the new workshop"
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
