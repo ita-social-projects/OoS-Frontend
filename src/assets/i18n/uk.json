@@ -1,7 +1,5 @@
 {
   "ABOUT_THE_PORTAL": "ПРО ПОРТАЛ",
-  "ACTUAL_ADDRESS": "Фактична адреса",
-  "ADD": "Додати",
   "ADD_ACHIEVEMENT": "Додати досягнення",
   "ADD_TO_FAVORITES": "Додати в улюблені",
   "ADDED_TO_FAVORITES": "Додано в улюблені",
@@ -25,7 +23,6 @@
   "CLOSE_RECRUITMENT": "Закритий набір",
   "CONFIRM": "Підтвердити",
   "CONTACTS": "КОНТАКТИ",
-  "DIRECTOR_BIRTHDAY": "Дата народження керівника",
   "DAYS": {
     "FRIDAY": "ПТ",
     "MONDAY": "ПН",
@@ -36,10 +33,8 @@
     "WEDNESDAY": "СР"
   },
   "DIRECTIONS": "Напрямки",
-  "DIRECTOR_NAME": "ПІБ керівника",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
-  "EDRPO": "ЄДРПОУ",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "ENUM": {
     "APPLICATION": {
@@ -114,7 +109,6 @@
       "PROVIDERS": "Заклади",
       "SEARCH_RESULT": "Результати пошуку",
       "SUPPORT": "Підтримка",
-      "USER_INFO": "Особиста інформація",
       "USERS": "Користувачі",
       "WORKSHOPS": "Мої гуртки"
     },
@@ -213,25 +207,23 @@
       "STUDYING_FOR_YEARS": "Користувач навчається в школі/гуртку 1 рік, 2 роки і т.д. і продовжує навчатися",
       "COMPLETED": "Користувач завершив навчання",
       "BLOCKED": "Користувач порушили Правила користування платформою"
+    },
+    "PROVIDER_ADMINS" : {
+      "PROVIDER_DEPUTY": "Заступник директора",
+      "PROVIDER_ADMIN": "Адміністратор гуртка",
+      "ALL": "Усі"
+    },
+    "PROVIDER_ADMINS_DECLINATION": {
+      "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
+      "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
     }
   },
   "EXACT_MATCH": "Повне співпадіння",
   "FAVORITE": "Улюблене",
   "FOR_FREE": "Безкоштовно",
   "FORMS": {
-    "ACTIONS": {
-      "ADD_ANOTHER_CHILD": "Додати ще одну дитину",
-      "ADD_ANOTHER_SECTION": "Додати ще один розділ",
-      "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
-      "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
-      "BACK": "Назад",
-      "DELETE": "Видалити",
-      "NEXT": "Далі",
-      "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
-      "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
-      "SAVE": "Зберегти"
-    },
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
+    "MATCH_ACTUAL_ADDRESS": "Співпадає з юридичною адресою",
     "CONTROL_VALUES": {
       "FEMALE": "Жіноча",
       "MALE": "Чоловіча",
@@ -250,7 +242,19 @@
       "CREATE_CHILD_SUBTITLE": "Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті.",
       "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання",
       "NEW_APPLICATION": "ЗАЯВА НА ГУРТОК",
-      "EDIT_PERSONAL_INFORMATION": "РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ"
+      "EDIT_PERSONAL_INFORMATION": "РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ",
+      "NEW_PROVIDER": "РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ",
+      "EDIT_PROVIDER": "РЕДАГУВАННЯ ЗАКЛАДУ",
+      "NEW_PROVIDER_SUBHEADER": "Додайте свій заклад всього у 3 кроки",
+      "LEGAL_ADDRESS": "Юридична адреса",
+      "ACTUAL_ADDRESS": "Фактична адреса",
+      "EDIT" : "РЕДАГУВАННЯ",
+      "SUBHEADER_TITLE" : "Заголовок",
+      "ADD_PROVIDER_DEPUTY": "ДОДАТИ АДМІНІСТРАТОРА ГУРТКА",
+      "ADD_PROVIDER_ADMIN": "ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА",
+      "EDIT_PROVIDER_DEPUTY": "РЕДАГУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
+      "EDIT_PROVIDER_ADMIN": "РЕДАГУВАТИ АДМІНІСТРАТОРА ГУРТКА",
+      "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -281,7 +285,21 @@
       "APPLY_USER": "Подати дані про себе",
       "SELECT_CHILD": "Виберіть дитину",
       "FULL_NAME": "ПІБ",
-      "PARENTS": "Батьки"
+      "PARENTS": "Батьки",
+      "OWNERSHIP": "Форма власності",
+      "LICENSE": "Ліцензія",
+      "INSTITUTION_CATEGORY":" Категорія закладу",
+      "ORGANIZATION_TYPE": "Тип організації",
+      "ORGANIZATION_STATUS": "Статус організації",
+      "FULL_ORGANIZATION_NAME": "Повна назва організації",
+      "SHORT_ORGANIZATION_NAME": "Скорочена назва організації",
+      "EDRPO": "ЄДРПОУ",
+      "IPN": "ІПН",
+      "FOUNDER": "Засновник",
+      "DIRECTOR_NAME": "ПІБ керівника",
+      "DIRECTOR_BIRTHDAY": "Дата народження керівника",
+      "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
+      "CHECK_WORKSHOPS": "Обрати гуртки" 
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -317,19 +335,16 @@
     }
   },
   "FOUND": "Знайдено",
-  "FOUNDER": "Засновник",
   "FREE_WORKSHOP": "Безкоштовний гурток",
   "FROM": "Від",
-  "FULL_ORGANIZATION_NAME": "Повна назва організації",
   "INFO_MENU": {
     "UNLIMITED": "Обравши опцію \"Без обмежень\" - гурток не має обмежень на кількість користувачів. Якщо ввести кількість доступних місць для користувачів - по досягненню ліміта набір буде автоматично закрито і подачу заявок зупинено автоматично.",
     "LICENSE": "Додайте ліцензію, щоб отримати більше інтересу та підвищити рівень довіри учасників до гуртків вашого закладу. Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з'явиться значок підтвердження"
   },
+  "ALL_WORKSHOPS_ACCESS": "Буде надано доступ до всіх гуртків",
   "INFORMATION_ABOUT": "Інформація про",
   "INSTITUTION_TYPE": "Тип закладу",
-  "IPN": "ІПН",
   "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
-  "LEGAL_ADDRESS": "Юридична адреса",
   "LIST": "Список",
   "LOGIN": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ",
   "LOGOUT": "Вийти",
@@ -342,10 +357,6 @@
   "NO_RESULTS_FOUND": "За результатами нічого не знайдено",
   "NOT_AVAILABLE": "Відсутні",
   "OPEN_RECRUITMENT_ONLY": "Лише з відкритим відбором",
-  "ORGANIZATION_TYPE": "Тип організації",
-  "OWNERSHIP": "Форма власності",
-  "LICENSE": "Ліцензія",
-  "INSTITUTION_CATEGORY":" Категорія закладу",
   "PAID": "Платні",
   "PASSWORD": "Пароль",
   "PERSONAL_INFORMATION": "Особиста інформація",
@@ -355,11 +366,9 @@
   "SELECTED" : "вибрано",
   "SELECT_AGE": "Обрати вік",
   "SEND_A_MESSAGE": "Надіслати повідомлення",
-  "SHORT_ORGANIZATION_NAME": "Скорочена назва організації",
   "SHOW_ON_THE_MAP": "Показати на карті",
   "SIGN_UP": "ЗАРЕЄСТРУВАТИСЯ",
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Зареєструйся - допоможемо залучити нових учнів!",
-  "STATUS": "Статус",
   "SUPPORT": "ПІДТРИМКА",
   "TITLES": {
     "ABOUT_THE_PROVIDER": "Про заклад",
@@ -370,7 +379,9 @@
     "DESCRIPTION": "Опис",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "Інші гуртки закладу",
     "REVIEWS": "Відгуки",
-    "TEACHERS": "Викладачі"
+    "TEACHERS": "Викладачі",
+    "ABOUT_THE_PROVIDER_INFO": "Інформація про заклад",
+    "ACCESS_MANAGMENT": "Керування доступами"
   },
   "TO": "До",
   "TOP_DIRECTIONS": "Найпопулярніші напрямки",
@@ -407,7 +418,18 @@
     "CANCEL": "Скасувати",
     "SEND": "Відправити",
     "EDIT": "Редагувати",
-    "SAVE": "Зберегти"
+    "SAVE": "Зберегти",
+    "BACK": "Назад",
+    "NEXT": "Далі",
+    "ADD_ANOTHER_CHILD": "Додати ще одну дитину",
+    "ADD_ANOTHER_SECTION": "Додати ще один розділ",
+    "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
+    "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
+    "DELETE": "Видалити",
+    "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
+    "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
+    "REMOVE_DATA": "Вилучити дані",
+    "ADD": "Додати"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
@@ -417,9 +439,12 @@
     "USER_CONTRAINDICATIONS": "Я не маю противопоказів щодо відвідування гуртка/секції/класу",
     "CHILD_CONTRAINDICATIONS": "Моя дитина не має противопоказів щодо відвідування гуртка/секції/класу",
     "I_AGREE_FOR_CHILD": "Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас",
+    "I_AGREE_FOR_USER": "Додаючи користувача я погоджуюсь з",
     "I_AGREE": "Я погоджуюсь з",
     "PLATFORM_RULES": "Правилами користування",
-    "PERSONAL_DATA_USE": "та надаю згоду на обробку персональних даних"
+    "PERSONAL_DATA_USE": "та надаю згоду на обробку персональних даних",
+    "I_AGREE_FOR_DATA_USE": "Я надаю згоду на обробку персональних даних",
+    "I_AM_NOT_ROBOT": "Я не робот"
   },
   "LESS_THAN_ONE_YEAR": "< 1 року",
   "EMPTY_BANNERS": {
@@ -434,6 +459,5 @@
     "NO_HISTORY": "Історії змін поки немає",
     "NO_INFO": "Інформації поки немає",
     "NO_MESSAGES": "Повідомлень поки немає"
-  },
-  "APPLICATION_STATUSES": "Статуси заявок"
+  }
 }

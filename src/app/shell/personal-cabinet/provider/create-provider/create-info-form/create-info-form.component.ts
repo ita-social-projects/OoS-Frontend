@@ -64,7 +64,9 @@ export class CreateInfoFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   get EdrpouIpnLabel(): string {
-    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State ? 'ЄДРПОУ' : 'ІПН';
+    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State
+      ? 'FORMS.LABELS.EDRPO'
+      : 'FORMS.LABELS.IPN';
   }
 
   get ownershipTypeControl(): AbstractControl {

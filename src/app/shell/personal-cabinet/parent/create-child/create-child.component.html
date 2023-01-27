@@ -26,7 +26,7 @@
         (click)="addChild()"
         [disabled]="ChildrenFormArray.invalid"
       >
-        <mat-icon class="mat-icon-add">add</mat-icon>{{ 'FORMS.ACTIONS.ADD_ANOTHER_CHILD' | translate }}
+        <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
       </button>
       <ng-template #noMoreChildren>
         <p>
@@ -56,7 +56,7 @@
         type="submit"
         (click)="onSubmit()"
       >
-        {{ 'FORMS.ACTIONS.SAVE' | translate | uppercase }}
+        {{ 'BUTTONS.SAVE' | translate | uppercase }}
       </button>
     </div>
   </div>

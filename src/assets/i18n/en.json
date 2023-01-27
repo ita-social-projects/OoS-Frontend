@@ -1,7 +1,5 @@
 {
   "ABOUT_THE_PORTAL": "ABOUT THE PORTAL",
-  "ACTUAL_ADDRESS": "Actual address",
-  "ADD": "Add",
   "ADD_ACHIEVEMENT": "Add Achievement",
   "ADD_TO_FAVORITES": "Add to favorites",
   "ADDED_TO_FAVORITES": "Added to favorites",
@@ -25,7 +23,6 @@
   "CLOSE_RECRUITMENT": "Closed Recruitment",
   "CONFIRM": "Confirm",
   "CONTACTS": "CONTACTS",
-  "DIRECTOR_BIRTHDAY": "Date of birth of the director",
   "DAYS": {
     "FRIDAY": "Fri",
     "MONDAY": "Mon",
@@ -36,10 +33,8 @@
     "WEDNESDAY": "Wed"
   },
   "DIRECTIONS": "Categories",
-  "DIRECTOR_NAME": "Director's full name",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
-  "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
   "ENUM": {
     "APPLICATION": {
@@ -115,7 +110,6 @@
       "PROVIDERS": "Providers",
       "SEARCH_RESULT": "Search result",
       "SUPPORT": "Support",
-      "USER_INFO": "User information",
       "USERS": "Users",
       "WORKSHOPS": "Workshops"
     },
@@ -214,25 +208,23 @@
       "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
       "COMPLETED": "User completed studying",
       "BLOCKED": "The user has violated the Terms of Use of the Platform"
+    },
+    "PROVIDER_ADMINS" : {
+      "PROVIDER_DEPUTY": "Provider deputy",
+      "PROVIDER_ADMIN": "Workshop administrator",
+      "ALL": "All"
+    },
+    "PROVIDER_ADMINS_DECLINATION": {
+      "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
+      "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
     }
   },
   "EXACT_MATCH": "Exact match",
   "FAVORITE": "Favorite",
   "FOR_FREE": "For free",
   "FORMS": {
-    "ACTIONS": {
-      "ADD_ANOTHER_CHILD": "Add another child",
-      "ADD_ANOTHER_SECTION": "Add another section",
-      "ADD_ANOTHER_TEACHER": "Add another teacher",
-      "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
-      "BACK": "Back",
-      "DELETE": "Remove",
-      "NEXT": "Next",
-      "REMOVE_CHILD_DATA": "Remove data about the child",
-      "REMOVE_TEACHER_DATA": "Remove data about the teacher",
-      "SAVE": "Save"
-    },
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
+    "MATCH_ACTUAL_ADDRESS": "Actual address matches the legal address",
     "CONTROL_VALUES": {
       "FEMALE": "Female",
       "MALE": "Male",
@@ -251,7 +243,19 @@
       "EDIT_CHILD": "Edit child information",
       "CREATE_CHILD_SUBTITLE": "By adding this information, you can track your child's applications and activities. You can always edit this information in your personal cabinet.",
       "NEW_APPLICATION": "NEW WORKSHOP APPLICATION",
-      "EDIT_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION"
+      "EDIT_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION",
+      "NEW_PROVIDER": "NEW PROVIDER REGISTRATION",
+      "EDIT_PROVIDER": "EDIT PROVIDER",
+      "NEW_PROVIDER_SUBHEADER": "Register you provider institution in just 3 steps",
+      "LEGAL_ADDRESS": "Legal address",
+      "ACTUAL_ADDRESS": "Actual address",
+      "EDIT" : "EDIT",
+      "SUBHEADER_TITLE" : "Title",
+      "ADD_PROVIDER_DEPUTY": "ADD WORKSHOP ADMINISTRATOR",
+      "ADD_PROVIDER_ADMIN": "ADD PROVIDER DEPUTY",
+      "EDIT_PROVIDER_DEPUTY": "EDIT PROVIDER DEPUTY",
+      "EDIT_PROVIDER_ADMIN": "EDIT WORKSHOP ADMINISTRATOR",
+      "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -282,7 +286,21 @@
       "APPLY_USER": "Apply your data",
       "SELECT_CHILD": "Select child from the list",
       "FULL_NAME": "Full name",
-      "PARENTS": "Parents"
+      "PARENTS": "Parents",
+      "OWNERSHIP": "Ownership",
+      "LICENSE": "License",
+      "INSTITUTION_CATEGORY":"Provider category",
+      "ORGANIZATION_TYPE": "Organization type",
+      "ORGANIZATION_STATUS": "Organization status",
+      "FULL_ORGANIZATION_NAME": "Full organization name",
+      "SHORT_ORGANIZATION_NAME": "Short organization name",
+      "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
+      "IPN": "Individual tax number",
+      "FOUNDER": "Founder",
+      "DIRECTOR_NAME": "Director's full name",
+      "DIRECTOR_BIRTHDAY": "Date of birth of the director",
+      "SELECT_WORKSHOPS": "Check the workshops to which the administrator will have access",
+      "CHECK_WORKSHOPS": "Check workshops" 
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -318,19 +336,16 @@
     }
   },
   "FOUND": "Found",
-  "FOUNDER": "Founder",
   "FREE_WORKSHOP": "FREE WORKSHOP",
   "FROM": "From",
-  "FULL_ORGANIZATION_NAME": "Full organization name",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the group has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
     "LICENSE": "Add licenses to gain more interest and increase user trust in your organization. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
   },
+  "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INFORMATION_ABOUT": "Information about",
   "INSTITUTION_TYPE": "Institution type",
-  "IPN": "Individual tax number",
   "LAWS_AND_REGULATIONS": "Laws and regulations",
-  "LEGAL_ADDRESS": "Legal address",
   "LIST": "List",
   "LOGIN": "LOG IN/REGISTER",
   "LOGOUT": "Logout",
@@ -343,10 +358,6 @@
   "NO_RESULTS_FOUND": "No results found",
   "NOT_AVAILABLE": "Not available",
   "OPEN_RECRUITMENT_ONLY": "Only with open recruitment",
-  "ORGANIZATION_TYPE": "Organization type",
-  "OWNERSHIP": "Ownership",
-  "LICENSE": "License",
-  "INSTITUTION_CATEGORY":"Provider category",
   "PAID": "Paid",
   "PASSWORD": "Password",
   "PERSONAL_INFORMATION": "Personal information",
@@ -356,11 +367,9 @@
   "SELECTED": "selected",
   "SELECT_AGE": "Select age",
   "SEND_A_MESSAGE": "Send a message",
-  "SHORT_ORGANIZATION_NAME": "Short organization name",
   "SHOW_ON_THE_MAP": "Show on the map",
   "SIGN_UP": "SIGN UP",
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Sign up - we will help you attract new students!",
-  "STATUS": "Status",
   "SUPPORT": "SUPPORT",
   "TITLES": {
     "ABOUT_THE_PROVIDER": "About the provider",
@@ -371,7 +380,9 @@
     "DESCRIPTION": "Description",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops",
     "REVIEWS": "Reviews",
-    "TEACHERS": "Teachers"
+    "TEACHERS": "Teachers",
+    "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
+    "ACCESS_MANAGMENT": "Access managment"
   },
   "TO": "To",
   "TOP_DIRECTIONS": "Top categories",
@@ -392,7 +403,7 @@
   "BANNERS": {
     "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
     "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
-    "ADD_WORKSHOP" : "You can add unfromation about the new workshop"
+    "ADD_WORKSHOP" : "You can add infromation about the new workshop"
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
@@ -407,7 +418,18 @@
     "CANCEL": "Cancel",
     "SEND": "Send",
     "EDIT": "Edit",
-    "SAVE": "Save"
+    "SAVE": "Save",
+    "BACK": "Back",
+    "NEXT": "Next",
+    "ADD_ANOTHER_CHILD": "Add another child",
+    "ADD_ANOTHER_SECTION": "Add another section",
+    "ADD_ANOTHER_TEACHER": "Add another teacher",
+    "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
+    "DELETE": "Remove",
+    "REMOVE_CHILD_DATA": "Remove data about the child",
+    "REMOVE_TEACHER_DATA": "Remove data about the teacher",
+    "REMOVE_DATA": "Remove data",
+    "ADD": "Add"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -417,9 +439,12 @@
     "USER_CONTRAINDICATIONS": "I have no contraindications to attending a workshop",
     "CHILD_CONTRAINDICATIONS": "My child has no contraindications to attending a workshop",
     "I_AGREE_FOR_CHILD": "I agree for my child to attend the workshop",
+    "I_AGREE_FOR_USER": "By adding a user I agree with",
     "I_AGREE": "I agree with",
     "PLATFORM_RULES": "Rules of Use",
-    "PERSONAL_DATA_USE": "and I consent to the processing of personal data"
+    "PERSONAL_DATA_USE": "and I consent to the processing of personal data",
+    "I_AGREE_FOR_DATA_USE": "I agree to the processing of personal data",
+    "I_AM_NOT_ROBOT": "I am not a robot"
   },
   "LESS_THAN_ONE_YEAR": "< 1 year",
   "EMPTY_BANNERS": {
@@ -434,6 +459,5 @@
     "NO_HISTORY": "No change history yet",
     "NO_INFO": "No information yet",
     "NO_MESSAGES": "No messages yet"
-  },
-  "APPLICATION_STATUSES": "Application statuses"
+  }
 }

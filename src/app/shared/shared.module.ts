@@ -45,7 +45,6 @@ import { UsersListComponent } from './components/users-list/users-list.component
 import { KeyFilterDirective } from './directives/key-filter.directive';
 import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
-import { ProviderAdminsFilterPipe } from './pipes/provider-admins-filter.pipe';
 import { DeclinationPipe } from './pipes/declination.pipe';
 import { ProviderInfoComponent } from './components/provider-info/provider-info.component';
 import { ApplicationChildSortingPipe } from './pipes/application-child-sorting.pipe';
@@ -116,7 +115,6 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     KeyFilterDirective,
     CustomCarouselDirective,
     PhoneTransformPipe,
-    ProviderAdminsFilterPipe,
     DeclinationPipe,
     ProviderInfoComponent,
     ApplicationChildSortingPipe,
@@ -199,7 +197,6 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     KeyFilterDirective,
     CustomCarouselDirective,
     PhoneTransformPipe,
-    ProviderAdminsFilterPipe,
     DeclinationPipe,
     ApplicationChildSortingPipe,
     ValidationHintComponent,
