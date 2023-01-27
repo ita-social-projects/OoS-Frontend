@@ -463,5 +463,6 @@
     "NO_INFO": "No information yet",
     "NO_MESSAGES": "No messages yet"
   },
-  "NOTIFICATIONS": "Notifications"
+  "NOTIFICATIONS": "Notifications",
+  "APPLICATION_STATUSES": "Application statuses"
 }

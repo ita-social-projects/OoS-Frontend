@@ -465,5 +465,6 @@
     "NO_INFO": "Інформації поки немає",
     "NO_MESSAGES": "Повідомлень поки немає"
   },
-  "NOTIFICATIONS": "Сповіщення"
+  "NOTIFICATIONS": "Сповіщення",
+  "APPLICATION_STATUSES": "Статуси заявок"
 }
