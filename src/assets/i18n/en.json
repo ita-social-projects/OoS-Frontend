@@ -434,5 +434,6 @@
     "NO_HISTORY": "No change history yet",
     "NO_INFO": "No information yet",
     "NO_MESSAGES": "No messages yet"
-  }
+  },
+  "APPLICATION_STATUSES": "Application statuses"
 }
