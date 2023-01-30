@@ -43,7 +43,8 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   readonly statuses = UserStatusesTitles;
   readonly statusIcons = UserStatusIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-
+  readonly blockedStatus = 'Blocked';
+  
   subrole: string;
   Role = Role;
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
