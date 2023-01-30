@@ -6,6 +6,7 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { CreateContactsFormComponent } from './create-contacts-form.component';
 import { NgxsModule } from '@ngxs/store';
 import { Address } from '../../../../../shared/models/address.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateContactsFormComponent', () => {
   let component: CreateContactsFormComponent;
@@ -13,8 +14,15 @@ describe('CreateContactsFormComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, FormsModule, MatCheckboxModule, NgxsModule.forRoot([]), ReactiveFormsModule],
-      declarations: [CreateContactsFormComponent, MockAddressFormComponent]
+      imports: [
+        BrowserAnimationsModule,
+        FormsModule,
+        MatCheckboxModule,
+        NgxsModule.forRoot([]),
+        ReactiveFormsModule,
+        TranslateModule.forRoot(),
+      ],
+      declarations: [CreateContactsFormComponent, MockAddressFormComponent],
     }).compileComponents();
   });
 
@@ -31,7 +39,7 @@ describe('CreateContactsFormComponent', () => {
 
 @Component({
   selector: 'app-create-address-form',
-  template: ''
+  template: '',
 })
 class MockAddressFormComponent {
   @Input() addressFormGroup: FormGroup;

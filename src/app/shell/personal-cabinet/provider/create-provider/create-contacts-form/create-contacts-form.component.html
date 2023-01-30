@@ -1,30 +1,34 @@
 <!-- LEGAL ADDRESS BLOCK -->
 <div class="step" fxLayout="column" fxLayoutAlign="center space-between">
-  <h4 class="step-title">Юридична адреса</h4>
+  <h4 class="step-title">{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h4>
   <div class="address-wrapper address-wrapper-border">
     <app-create-address-form
       [addressFormGroup]="legalAddressFormGroup"
       [searchFormGroup]="searchLegalFormGroup"
-      [address]="provider?.legalAddress"
-    >
+      [address]="provider?.legalAddress">
     </app-create-address-form>
   </div>
 </div>
 
 <!-- ACTUAL ADDRESS CHECKBOX BLOCK -->
 <div fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <h4>Фактична адреса</h4>
-  <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl"> Співпадає з юридичною адресою </mat-checkbox>
+  <h4>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h4>
+  <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">
+    {{ 'FORMS.MATCH_ACTUAL_ADDRESS' | translate }}</mat-checkbox
+  >
 </div>
 
 <!-- ACTUAL ADDRESS BLOCK -->
-<div class="step" fxLayout="column" fxLayoutAlign="center space-between" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+<div
+  class="step"
+  fxLayout="column"
+  fxLayoutAlign="center space-between"
+  [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
   <div class="address-wrapper">
     <app-create-address-form
       [addressFormGroup]="actualAddressFormGroup"
       [searchFormGroup]="searchActualFormGroup"
-      [address]="provider?.actualAddress"
-    >
+      [address]="provider?.actualAddress">
     </app-create-address-form>
   </div>
 </div>

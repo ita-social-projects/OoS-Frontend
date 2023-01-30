@@ -36,9 +36,17 @@ import { StatisticsComponent } from './statistics/statistics.component';
     DirectionsWrapperComponent,
     DirectionsInstitutionHierarchiesListComponent,
     AdminApplicationsComponent,
-    StatisticsComponent
+    StatisticsComponent,
   ],
-  imports: [CommonModule, DataRoutingModule, SharedModule, MaterialModule, FlexLayoutModule, TranslateModule, SharedCabinetModule],
-  exports: [DataComponent]
+  imports: [
+    CommonModule,
+    DataRoutingModule,
+    SharedModule,
+    MaterialModule,
+    FlexLayoutModule,
+    TranslateModule,
+    SharedCabinetModule,
+  ],
+  exports: [DataComponent],
 })
 export class DataModule {}

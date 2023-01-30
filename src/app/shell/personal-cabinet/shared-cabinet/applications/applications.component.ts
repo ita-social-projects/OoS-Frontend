@@ -10,7 +10,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { Child } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -19,7 +19,7 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { FormControl } from '@angular/forms';
 import { ApplicationStatusTabParams } from '../../../../shared/enum/applications';
-import { ApplicationTitles } from '../../../../shared/enum/enumUA/applications';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/statuses';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({

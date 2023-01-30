@@ -8,7 +8,7 @@ import { ConfirmationModalWindowComponent } from '../../../../shared/components/
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { ReviewDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role, EntityType } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { Parent } from '../../../../shared/models/parent.model';

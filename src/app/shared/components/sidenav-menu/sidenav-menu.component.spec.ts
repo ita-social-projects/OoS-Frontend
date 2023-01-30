@@ -12,6 +12,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SidenavComponent', () => {
   let component: SidenavMenuComponent;
@@ -30,7 +31,8 @@ describe('SidenavComponent', () => {
         MatProgressBarModule,
         MatSelectModule,
         MatSidenavModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
       declarations: [SidenavMenuComponent, MockSideNavNotificationsComponent]
     }).compileComponents();

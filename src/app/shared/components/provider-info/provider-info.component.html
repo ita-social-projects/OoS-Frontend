@@ -11,35 +11,37 @@
   </div>
 
   <mat-tab-group (selectedTabChange)="onTabChanged($event)">
-    <mat-tab label="{{ 'INFORMATION_ABOUT' | translate }} {{ 'ENUM.ROLE_LINKS.PROVIDER' | translate }}">
-      <h5>{{ 'OWNERSHIP' | translate }}</h5>
+    <mat-tab label="{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_PROVIDER' | translate }}">
+      <h5>{{ 'FORMS.LABELS.OWNERSHIP' | translate }}</h5>
       <p>{{ ownershipTypesEnum[provider.ownership] | translate }}</p>
 
       <ng-container *ngIf="provider.license">
         <div fxLayout="row" fxLayoutAlign="space-between center" class="license-status">
-          <h5>{{ 'LICENSE' | translate }}</h5>
+          <h5>{{ 'FORMS.LABELS.LICENSE' | translate }}</h5>
           <h5 [ngClass]="provider.licenseStatus">{{ licenseStatusEnum[provider.licenseStatus] | translate }}</h5>
-        </div>      
+        </div>
       </ng-container>
 
       <p>{{ provider.license }}</p>
-      <h5>{{ 'INSTITUTION_CATEGORY' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.INSTITUTION_CATEGORY' | translate }}</h5>
       <p>{{ institutionTypesEnum[provider.institutionType] | translate }}</p>
       <ng-container *ngIf="provider.type">
-        <h5>{{ 'ORGANIZATION_TYPE' | translate }}</h5>
+        <h5>{{ 'FORMS.LABELS.ORGANIZATION_TYPE' | translate }}</h5>
         <p>{{ provider.type.name }}</p>
       </ng-container>
       <ng-container *ngIf="provider.institution">
         <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
         <p class="description">{{ provider.institution.title }}</p>
       </ng-container>
-      <h5>{{ 'STATUS' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.ORGANIZATION_STATUS' | translate }}</h5>
       <p class="description">{{ institutionStatusName }}</p>
-      <h5>{{ 'FULL_ORGANIZATION_NAME' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.FULL_ORGANIZATION_NAME' | translate }}</h5>
       <p>{{ provider.fullTitle }}</p>
-      <h5>{{ 'SHORT_ORGANIZATION_NAME' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.SHORT_ORGANIZATION_NAME' | translate }}</h5>
       <p>{{ provider.shortTitle }}</p>
-      <h5>{{ provider.ownership === ownershipTypes.State ? ('EDRPO' | translate) : ('IPN' | translate) }}</h5>
+      <h5>
+        {{ (provider.ownership === ownershipTypes.State ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN') | translate }}
+      </h5>
       <p>{{ provider.edrpouIpn }}</p>
       <h5>{{ 'FORMS.LABELS.PHONE' | translate }}</h5>
       <p>
@@ -47,11 +49,11 @@
       </p>
       <h5>{{ 'FORMS.LABELS.EMAIL' | translate }}</h5>
       <p>{{ provider.email }}</p>
-      <h5>{{ 'FOUNDER' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.FOUNDER' | translate }}</h5>
       <p>{{ provider.founder }}</p>
-      <h5>{{ 'DIRECTOR_NAME' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}</h5>
       <p>{{ provider.director }}</p>
-      <h5>{{ 'DIRECTOR_BIRTHDAY' | translate }}</h5>
+      <h5>{{ 'FORMS.LABELS.DIRECTOR_BIRTHDAY' | translate }}</h5>
       <p>
         {{ provider.directorDateOfBirth | date : constants.SHORT_DATE_FORMAT }}
       </p>
@@ -59,10 +61,10 @@
 
     <mat-tab label="{{ 'TITLES.CONTACTS' | translate }}">
       <div class="legal-address-wrapper">
-        <h3>{{ 'LEGAL_ADDRESS' | translate }}</h3>
+        <h3>{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h3>
         <ng-container *ngIf="provider?.legalAddress; then LegalAddress"></ng-container>
       </div>
-      <h3>{{ 'ACTUAL_ADDRESS' | translate }}</h3>
+      <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
       <ng-container *ngIf="provider?.actualAddress; else LegalAddress">
         <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
         <p>{{ provider.actualAddress.codeficatorAddressDto.fullAddress }}</p>

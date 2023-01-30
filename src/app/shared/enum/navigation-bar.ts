@@ -6,7 +6,7 @@ export enum NavBarName {
   Portal = 'ENUM.NAV_BAR_NAME.PORTAL',
   AboutPortal = 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL',
   SupportInformation = 'ENUM.NAV_BAR_NAME.SUPPORT',
-  LawsAndRegulations = 'LAWS_AND_REGULATIONS',
+  LawsAndRegulations = 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS',
   RequestOnWorkshop = 'ENUM.NAV_BAR_NAME.NEW_WORKSHOP_APPLICATION',
   PersonalInformation = 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION',
   InformationAboutChild = 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_CHILDREN',
@@ -24,9 +24,8 @@ export enum NavBarName {
   UpdateProviderDeputy = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_DEPUTY',
   UpdateProviderAdmin = 'ENUM.NAV_BAR_NAME.EDIT_ADMINISTRATOR',
   Applications = 'ENUM.NAV_BAR_NAME.APPLICATIONS',
-  Workshops = 'ENUM.NAV_BAR_NAME.WORKSHOPS',
+  Workshops = 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS',
   Favorite = 'ENUM.NAV_BAR_NAME.FAVORITE',
-  UserInfo = 'ENUM.NAV_BAR_NAME.USER_INFO',
   Administration = 'ENUM.NAV_BAR_NAME.ADMINISTRATION',
   Children = 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_CHILDREN',
   ProviderInfo = 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT_PROVIDER',
@@ -40,7 +39,8 @@ export enum NavBarName {
   UpdateAdmin = 'ENUM.NAV_BAR_NAME.EDIT_ADMIN',
   Messages = 'ENUM.NAV_BAR_NAME.MESSAGES',
   Chat = 'ENUM.NAV_BAR_NAME.CHAT',
-  HistoryLog = 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES'
+  HistoryLog = 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES',
+  Statistics = 'ENUM.NAV_BAR_NAME.STATISTICS'
 }
 
 export enum PersonalCabinetTitle {

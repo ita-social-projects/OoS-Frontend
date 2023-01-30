@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Output, EventEmitter } from '@angular/core';
-import { Constants, CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
+import { CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../../shared/constants/validation';
 import { Util } from '../../../../../../shared/utils/utils';
 
@@ -12,7 +12,6 @@ import { Util } from '../../../../../../shared/utils/utils';
 })
 export class TeacherFormComponent {
   readonly validationConstants = ValidationConstants;
-  readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,

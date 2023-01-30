@@ -27,7 +27,7 @@
   >
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.MIDDLENAME' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
   </mat-form-field>
@@ -47,7 +47,7 @@
       [matDatepicker]="picker"
       formControlName="dateOfBirth"
       [appKeyFilter]="dateFilter"
-      placeholder="{{ dateFormPlaceholder | translate }}"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
     />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
@@ -104,7 +104,7 @@
 
   <div fxLayout="row" fxLayoutAlign="center" *ngIf="childrenAmount > 1" class="removeChild">
     <button class="btn-reset" mat-button (click)="onDelete()">
-      <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'FORMS.ACTIONS.REMOVE_CHILD_DATA' | translate }}
+      <mat-icon class="mat-icon-delete">delete</mat-icon>{{ 'BUTTONS.REMOVE_CHILD_DATA' | translate }}
     </button>
   </div>
 </form>

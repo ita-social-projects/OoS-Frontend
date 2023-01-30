@@ -4,12 +4,12 @@ import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Outpu
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { providerAdminRoleUkr } from '../../enum/enumUA/provider-admin';
 import { Role } from '../../enum/role';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
-import { EmailConfirmationStatuses, UserStatuses, UserStatusesTitles, UserStatusIcons } from '../../enum/statuses';
+import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
+import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 
 /**
  * @title Table with sorting

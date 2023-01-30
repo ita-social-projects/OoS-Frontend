@@ -14,7 +14,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
 import { Role } from '../../../../shared/enum/role';
 import { ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
-import { ProviderAdminsFilterPipe } from '../../../../shared/pipes/provider-admins-filter.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderAdminsComponent', () => {
   let component: ProviderAdminsComponent;
@@ -32,9 +32,10 @@ describe('ProviderAdminsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        MatDialogModule
+        MatDialogModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [ProviderAdminsComponent, MockUsersListComponent, NoResultCardComponent, ProviderAdminsFilterPipe]
+      declarations: [ProviderAdminsComponent, MockUsersListComponent, NoResultCardComponent]
     }).compileComponents();
   });
 

@@ -3,8 +3,3 @@ export enum ProviderAdminRole {
   deputy = 'deputy',
   admin = 'admin'
 }
-
-export enum CreateProviderAdminTitle {
-  deputy = 'ЗАСТУПНИКА ДИРЕКТОРА',
-  admin = 'АДМІНІСТРАТОРА ГУРТКА'
-}

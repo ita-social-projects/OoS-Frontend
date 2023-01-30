@@ -35,7 +35,7 @@ export class UserConfigComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.store.dispatch(
       new PushNavPath({
-        name: NavBarName.UserInfo,
+        name: NavBarName.PersonalInformation,
         isActive: false,
         disable: true
       })

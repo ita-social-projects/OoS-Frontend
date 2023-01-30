@@ -8,10 +8,10 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../../../../shared/enum/enumUA/provider-admin';
+import { ProviderAdminParams, ProviderAdminTitles } from '../../../../shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
@@ -22,7 +22,7 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
 import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
-import { UserStatusesTitles } from '../../../../shared/enum/statuses';
+import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -31,7 +31,7 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./provider-admins.component.scss']
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
-  readonly providerAdminRoleUkr = providerAdminRoleUkr;
+  readonly ProviderAdminTitles = ProviderAdminTitles;
   readonly providerAdminRole = ProviderAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
   readonly constants = Constants;
@@ -86,9 +86,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    const tabIndex = event.index;
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] }
+      queryParams: { role: ProviderAdminParams[tabIndex] }
     });
   }
 
@@ -157,7 +158,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * This method update provider Admin By Id
    */
   onUpdate(user: ProviderAdminTable): void {
-    this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`]);
+    const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
+    this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
   }
 
   protected addNavPath(): void {
@@ -186,7 +188,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
         phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
-        role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
+        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
         status: admin.accountStatus,
         isDeputy: admin.isDeputy
       });

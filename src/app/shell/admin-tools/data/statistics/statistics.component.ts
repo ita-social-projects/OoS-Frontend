@@ -9,8 +9,10 @@ import { GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Util } from '../../../../shared/utils/utils';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-statistics',
@@ -52,6 +54,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     });
 
     this.setParams();
+    this.addNavPath();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
@@ -72,6 +75,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 
   private setParams(): void {
@@ -82,5 +86,15 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   private getReports(): void {
     Util.setFromPaginationParam(this.statisticParameters, this.currentPage);
     this.store.dispatch(new GetStatisticReports(this.statisticParameters));
+  }
+
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Statistics,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 }

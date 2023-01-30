@@ -20,3 +20,10 @@ export enum ApplicationStatusDescription {
   Completed = 'ENUM.APPLICATION_DESCRIPTION.COMPLETED',
   Blocked = 'ENUM.APPLICATION_DESCRIPTION.BLOCKED',
 }
+
+// Statuses for user Email Confirmation
+export enum UserStatusesTitles {
+  NeverLogged = 'ENUM.USER_STATUSES.NEVER_LOGGED',
+  Accepted = 'ENUM.USER_STATUSES.ACCEPTED',
+  Blocked = 'ENUM.USER_STATUSES.BLOCKED',
+}

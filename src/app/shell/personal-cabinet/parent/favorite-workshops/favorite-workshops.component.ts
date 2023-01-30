@@ -7,7 +7,7 @@ import { takeUntil } from 'rxjs/operators';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { WorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';

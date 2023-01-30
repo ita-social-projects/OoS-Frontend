@@ -3,7 +3,7 @@ import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { NoResultsTitle } from '../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../shared/enum/role';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
 import { GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';

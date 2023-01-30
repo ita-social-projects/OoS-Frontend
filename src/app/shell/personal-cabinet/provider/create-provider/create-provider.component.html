@@ -1,80 +1,94 @@
 <div class="create-form" *ngIf="(editMode && provider) || !editMode">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАННЯ ЗАКЛАДУ' : 'РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ' }}</h3>
-      <p *ngIf="!editMode" class="wrapper-text">Додайте свій заклад всього у 3 кроки</p>
+      <h3 class="wrapper-title">
+        {{ (editMode ? 'FORMS.HEADERS.EDIT_PROVIDER' : 'FORMS.HEADERS.NEW_PROVIDER') | translate }}
+      </h3>
+      <p *ngIf="!editMode" class="wrapper-text">{{ 'FORMS.HEADERS.NEW_PROVIDER_SUBHEADER' | translate }}</p>
     </div>
 
     <mat-horizontal-stepper #stepper linear>
       <mat-step [stepControl]="InfoFormGroup">
         <ng-template matStepLabel>
-          <p class="step-name">Інформація про заклад</p>
+          <p class="step-name">{{ 'TITLES.ABOUT_THE_PROVIDER_INFO' | translate }}</p>
         </ng-template>
-        <app-create-info-form [isRelease3]="isRelease3" [provider]="provider" (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
+        <app-create-info-form
+          [isRelease3]="isRelease3"
+          [provider]="provider"
+          (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
         </app-create-info-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button>
-          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)" [disabled]="InfoFormGroup.invalid">
-            ДАЛІ
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
+          <button
+            class="btn"
+            mat-raised-button
+            matStepperNext
+            (click)="checkValidation(InfoFormGroup)"
+            [disabled]="InfoFormGroup.invalid">
+            {{ 'BUTTONS.NEXT' | translate }}
           </button>
         </div>
       </mat-step>
 
-      <mat-step 
-        [stepControl]="ContactsFormGroup" 
-        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid"
-      >
+      <mat-step [stepControl]="ContactsFormGroup" [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid">
         <ng-template matStepLabel>
-          <p class="step-name">Контакти</p>
+          <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
         </ng-template>
         <app-create-contacts-form
           (passActualAddressFormGroup)="onReceiveActualAddressFormGroup($event)"
           (passLegalAddressFormGroup)="onReceiveLegalAddressFormGroup($event)"
-          [provider]="provider"
-        >
+          [provider]="provider">
         </app-create-contacts-form>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button>
+          <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
           <button
             class="btn"
             mat-raised-button
             matStepperNext
             (click)="checkValidationContacts(ContactsFormGroup)"
-            [disabled]="ContactsFormGroup.invalid"
-          >
-            ДАЛІ
+            [disabled]="ContactsFormGroup.invalid">
+            {{ 'BUTTONS.NEXT' | translate }}
           </button>
         </div>
       </mat-step>
 
-      <mat-step 
-        [stepControl]="PhotoFormGroup" 
-        [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid"
-      >
+      <mat-step [stepControl]="PhotoFormGroup" [completed]="!ContactsFormGroup.invalid && !InfoFormGroup.invalid">
         <ng-template matStepLabel>
-          <p class="step-name">Опис</p>
+          <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
         </ng-template>
-        <app-create-photo-form [isRelease3]="isRelease3" [provider]="provider" (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
+        <app-create-photo-form
+          [isRelease3]="isRelease3"
+          [provider]="provider"
+          (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
         </app-create-photo-form>
 
         <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl"
-            >Я надаю згоду на обробку персональних даних
+            >{{ 'AGREEMENTS.I_AGREE_FOR_DATA_USE' | translate }}
           </mat-checkbox>
-          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl">Я не робот </mat-checkbox>
+          <mat-checkbox class="step-check-box" color="primary" [formControl]="RobotFormControl"
+            >{{ 'AGREEMENTS.I_AM_NOT_ROBOT' | translate }}
+          </mat-checkbox>
         </div>
         <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-          <button class="btn" mat-raised-button matStepperPrevious>НАЗАД</button>
-          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">СКАСУВАТИ</button>
+          <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
+          <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
+            {{ 'BUTTONS.CANCEL' | translate }}
+          </button>
           <button
             class="btn"
             mat-button
             type="submit"
             (click)="onSubmit()"
-            [disabled]="!isAgreed || !isNotRobot || PhotoFormGroup.invalid || ContactsFormGroup.invalid || InfoFormGroup.invalid"
-          >
-            ЗБЕРЕГТИ
+            [disabled]="
+              !isAgreed || !isNotRobot || PhotoFormGroup.invalid || ContactsFormGroup.invalid || InfoFormGroup.invalid
+            ">
+            {{ 'BUTTONS.SAVE' | translate }}
           </button>
         </div>
       </mat-step>

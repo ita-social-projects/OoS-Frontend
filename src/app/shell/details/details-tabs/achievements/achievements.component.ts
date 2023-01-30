@@ -6,7 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Achievement, AchievementParameters, AchievementType } from '../../../../shared/models/achievement.model';
 import { Provider } from '../../../../shared/models/provider.model';
 import { Workshop } from '../../../../shared/models/workshop.model';

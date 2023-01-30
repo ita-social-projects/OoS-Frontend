@@ -9,8 +9,7 @@
         matInput
         type="text"
         class="search"
-        placeholder="Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом"
-      />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
     </div>
     <ng-container *ngIf="subRole === Role.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
@@ -30,8 +29,7 @@
           [isEdit]="true"
           (delete)="onDelete($event)"
           (block)="onBlock($event)"
-          (update)="onUpdate($event)"
-        >
+          (update)="onUpdate($event)">
         </app-users-list>
       </div>
       <app-paginator
@@ -39,8 +37,7 @@
         [currentPage]="currentPage"
         [itemsPerPage]="filterParams.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>
@@ -51,18 +48,20 @@
 </ng-template>
 
 <ng-template #DeputyBtnViewTmpl>
-  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
+  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+    ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
+  >
 </ng-template>
 
 <ng-template #ProviderTableViewTmpl>
   <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-    <mat-tab label="{{ providerAdminRoleUkr.all }}">
+    <mat-tab label="{{ ProviderAdminTitles.All | translate }}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
     </mat-tab>
-    <mat-tab label="{{ providerAdminRoleUkr.deputy }}">
+    <mat-tab label="{{ ProviderAdminTitles.Deputy | translate }}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
     </mat-tab>
-    <mat-tab label="{{ providerAdminRoleUkr.admin }}">
+    <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
     </mat-tab>
   </mat-tab-group>
@@ -70,7 +69,7 @@
 
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="{{ providerAdminRoleUkr.admin }}">
+    <mat-tab label="{{ ProviderAdminTitles.Admin | translate}}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
     </mat-tab>
   </mat-tab-group>
@@ -78,18 +77,28 @@
 
 <ng-template #ProviderViewBtnTmpl>
   <ng-container *ngIf="tabIndex == 0">
-    <button class="btn" mat-raised-button [matMenuTriggerFor]="add">Додати <mat-icon>arrow_drop_down</mat-icon></button>
+    <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
+      {{ 'BUTTONS.ADD' | translate }} <mat-icon>arrow_drop_down</mat-icon>
+    </button>
     <mat-menu #add="matMenu" class="header_menu">
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button mat-menu-item>Заступника директора</button></a>
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button mat-menu-item>Адміністратора гуртка</button></a>
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
+        ><button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button></a
+      >
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+        ><button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button></a
+      >
     </mat-menu>
   </ng-container>
 
   <ng-container *ngIf="tabIndex == 1">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"><button class="btn" mat-raised-button>Додати</button></a>
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
+      ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
+    >
   </ng-container>
 
   <ng-container *ngIf="tabIndex == 2">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"><button class="btn" mat-raised-button>Додати</button></a>
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+      ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
+    >
   </ng-container>
 </ng-template>

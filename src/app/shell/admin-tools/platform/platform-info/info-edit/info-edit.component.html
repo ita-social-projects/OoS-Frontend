@@ -1,12 +1,14 @@
 <div class="create-form">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">РЕДАГУВАННЯ {{ editTitle | uppercase }}</h3>
+      <h3 class="wrapper-title"> {{ 'FORMS.HEADERS.EDIT' | translate }} {{ editTitle | uppercase }}</h3>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="center center">
       <div fxLayout="column" fxLayoutAlign="start space-between" class="step">
-        <label class="step-label"> Заголовок <span class="step-required">*</span></label>
+        <label class="step-label">
+          {{ 'HEADERS.SUBHEADER_TITLE' | translate }} <span class="step-required">*</span></label
+        >
         <mat-form-field>
           <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue />
         </mat-form-field>
@@ -19,25 +21,27 @@
         [index]="PlatformInfoItemArray.controls.indexOf(form)"
         [formAmount]="PlatformInfoItemArray.controls.length"
         [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
-        (deleteForm)="onDeleteForm($event)"
-      >
+        (deleteForm)="onDeleteForm($event)">
       </app-info-form>
 
-      <button *ngIf="PlatformInfoItemArray.controls.length < 10 && !isMainPage" class="btn-add" mat-button (click)="onAddForm()">
-        <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+      <button
+        *ngIf="PlatformInfoItemArray.controls.length < 10 && !isMainPage"
+        class="btn-add"
+        mat-button
+        (click)="onAddForm()">
+        <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
       </button>
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
+      <button mat-raised-button class="btn btn-cancel" (click)="onBack()">{{ 'BUTTONS.CANCEL' | translate }}</button>
       <button
         class="btn"
         mat-button
         type="submit"
         [disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid"
-        (click)="onSubmit()"
-      >
-        Зберегти
+        (click)="onSubmit()">
+        {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>
   </div>

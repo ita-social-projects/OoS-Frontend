@@ -11,6 +11,7 @@ import { InfoEditComponent } from './platform-info/info-edit/info-edit.component
 import { SharedModule } from '../../../shared/shared.module';
 import { MaterialModule } from '../../../shared/modules/material.module';
 import { MainInfoComponent } from './platform-info/main-info.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,7 @@ import { MainInfoComponent } from './platform-info/main-info.component';
     PlatformComponent,
     MainInfoComponent
   ],
-  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule],
+  imports: [CommonModule, FlexLayoutModule, SharedModule, MaterialModule, RouterModule, TranslateModule],
   exports: [PlatformComponent]
 })
 export class PlatformModule {}

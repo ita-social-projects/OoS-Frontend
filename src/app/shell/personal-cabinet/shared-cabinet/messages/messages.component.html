@@ -7,7 +7,7 @@
       matInput
       type="text"
       class="search"
-      placeholder="Пошук за ПІБ, електронною поштою, телефоном чи статусом"
+      placeholder="{{'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate}}"
     />
   </div>
 
@@ -26,6 +26,7 @@
       <app-message-card
         *ngFor="let chatRoom of chatRooms.entities"
         [chatRoom]="chatRoom"
+        [role]="role"
         (block)="onBlock($event)"
         (unblock)="onUnBlock($event)"
       ></app-message-card>

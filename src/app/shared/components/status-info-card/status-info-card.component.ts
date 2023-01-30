@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ApplicationIcons } from '../../enum/applications';
-import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/applications';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/statuses';
 import { ApplicationStatuses } from '../../enum/statuses';
 import { Application } from '../../models/application.model';
 @Component({

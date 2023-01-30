@@ -12,6 +12,7 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatRadioModule } from '@angular/material/radio';
 import { User } from '../../../../../shared/models/user.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -29,7 +30,8 @@ describe('UserConfigEditComponent', () => {
         MatDialogModule,
         RouterTestingModule,
         MatRadioModule,
-        MatDatepickerModule
+        MatDatepickerModule,
+        TranslateModule.forRoot()
       ],
       declarations: [UserConfigEditComponent, MockValidationHintForInputComponent]
     }).compileComponents();
