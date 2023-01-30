@@ -4,7 +4,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil, map } from 'rxjs/operators';
 import {
   HistoryLogTabsUkr,
   HistoryLogTabsUkrReverse,

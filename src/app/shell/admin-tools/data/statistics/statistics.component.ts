@@ -12,6 +12,8 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { NavBarName } from '../../../../shared/enum/navigation-bar';
 
 @Component({
   selector: 'app-statistics',
@@ -49,6 +51,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     });
 
     this.setParams();
+    this.addNavPath();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
@@ -68,6 +71,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 
   private setParams(): void {
@@ -75,5 +79,15 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       ReportDataType: this.filtersForm.get('format').value,
       ReportType: this.filtersForm.get('period').value
     };
+  }
+
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Statistics,
+        isActive: false,
+        disable: true,
+      })
+    );
   }
 }

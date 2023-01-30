@@ -15,13 +15,11 @@
   "BY_PRICE_DECREASE": "За спаданням ціни",
   "BY_PRICE_INCREASE": "За зростанням ціни",
   "BY_RATING": "За рейтингом",
-  "CHANGE": "Змінити",
   "CHANGE_EMAIL": "Змінити електронну пошту",
   "CHANGE_PASSWORD": "Змінити пароль",
   "CITY_DISTRICT": "Район міста",
   "CLEAR_FILTERS": "Очистити фільтри",
   "CLOSE_RECRUITMENT": "Закритий набір",
-  "CONFIRM": "Підтвердити",
   "CONTACTS": "КОНТАКТИ",
   "DAYS": {
     "FRIDAY": "ПТ",
@@ -95,8 +93,6 @@
       "EDIT_PROVIDER_DEPUTY": "Редагування заступника директора",
       "EDIT_PROVIDER_INFORMATION": "Редагувати заклад",
       "EDIT_WORKSHOP": "Редагування гуртка",
-      "FAVORITE": "Улюблені",
-      "HISTORY_OF_CHANGES": "Історія змін",
       "INFORMATION_ABOUT_CHILDREN": "Інформація про дітей",
       "INFORMATION_ABOUT_PROVIDER": "Інформація про заклад",
       "MAIN_PAGE": "Головна сторінка",
@@ -110,7 +106,12 @@
       "SEARCH_RESULT": "Результати пошуку",
       "SUPPORT": "Підтримка",
       "USERS": "Користувачі",
-      "WORKSHOPS": "Мої гуртки"
+      "MY_WORKSHOPS": "Мої гуртки",
+      "INFORMATION_ABOUT": "Інформація про",
+      "FAVORITE": "Улюблене",
+      "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
+      "HISTORY_OF_CHANGES": "Історія змін",
+      "STATISTICS": "Статистичні дані"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Комплексний",
@@ -208,6 +209,11 @@
       "COMPLETED": "Користувач завершив навчання",
       "BLOCKED": "Користувач порушили Правила користування платформою"
     },
+    "USER_STATUSES":{
+      "NEVER_LOGGED": "Очікує логування",
+      "ACCEPTED": "Підтверджений",
+      "BLOCKED": "Заблокований"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Заступник директора",
       "PROVIDER_ADMIN": "Адміністратор гуртка",
@@ -219,7 +225,6 @@
     }
   },
   "EXACT_MATCH": "Повне співпадіння",
-  "FAVORITE": "Улюблене",
   "FOR_FREE": "Безкоштовно",
   "FORMS": {
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
@@ -299,7 +304,9 @@
       "DIRECTOR_NAME": "ПІБ керівника",
       "DIRECTOR_BIRTHDAY": "Дата народження керівника",
       "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
-      "CHECK_WORKSHOPS": "Обрати гуртки" 
+      "CHECK_WORKSHOPS": "Обрати гуртки",
+      "ROLE": "Роль",
+      "STATUS": "Статус" 
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -342,24 +349,19 @@
     "LICENSE": "Додайте ліцензію, щоб отримати більше інтересу та підвищити рівень довіри учасників до гуртків вашого закладу. Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з'явиться значок підтвердження"
   },
   "ALL_WORKSHOPS_ACCESS": "Буде надано доступ до всіх гуртків",
-  "INFORMATION_ABOUT": "Інформація про",
   "INSTITUTION_TYPE": "Тип закладу",
-  "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
   "LIST": "Список",
   "LOGIN": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ",
   "LOGOUT": "Вийти",
   "MAP": "Карта",
   "MORE_DETAILS": "Детальніше",
   "MY_APPLICATIONS": "Мої заяви",
-  "MY_MESSAGES": "Мої повідомлення",
-  "MY_WORKSHOPS": "Мої гуртки",
   "NEAREST": "Найближчі",
   "NO_RESULTS_FOUND": "За результатами нічого не знайдено",
   "NOT_AVAILABLE": "Відсутні",
   "OPEN_RECRUITMENT_ONLY": "Лише з відкритим відбором",
   "PAID": "Платні",
   "PASSWORD": "Пароль",
-  "PERSONAL_INFORMATION": "Особиста інформація",
   "RATE": "ЗАЛИШИТИ ОЦІНКУ",
   "RECRUITMENT": "Набір",
   "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
@@ -369,7 +371,6 @@
   "SHOW_ON_THE_MAP": "Показати на карті",
   "SIGN_UP": "ЗАРЕЄСТРУВАТИСЯ",
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Зареєструйся - допоможемо залучити нових учнів!",
-  "SUPPORT": "ПІДТРИМКА",
   "TITLES": {
     "ABOUT_THE_PROVIDER": "Про заклад",
     "ABOUT_THE_WORKSHOP": "Про гурток",
@@ -429,7 +430,11 @@
     "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
     "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
     "REMOVE_DATA": "Вилучити дані",
-    "ADD": "Додати"
+    "ADD": "Додати",
+    "EDIT_USER": "Редагувати користувача",
+    "DELETE_USER": "Видалити користувача",
+    "CONFIRM": "Підтвердити",
+    "CHANGE": "Змінити"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
@@ -459,5 +464,7 @@
     "NO_HISTORY": "Історії змін поки немає",
     "NO_INFO": "Інформації поки немає",
     "NO_MESSAGES": "Повідомлень поки немає"
-  }
+  },
+  "NOTIFICATIONS": "Сповіщення",
+  "APPLICATION_STATUSES": "Статуси заявок"
 }
