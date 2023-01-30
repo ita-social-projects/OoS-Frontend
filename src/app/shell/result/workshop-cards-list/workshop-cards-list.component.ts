@@ -47,17 +47,21 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.paginationParameters, this.currentPage, this.paginationParameters.size);
-    this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
+    this.getWorkshops();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.paginationParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
+    this.paginationParameters.size = itemsPerPage;
+    this.getWorkshops();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private getWorkshops(): void {
+    Util.setFromPaginationParam(this.paginationParameters, this.currentPage);
+    this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
   }
 }

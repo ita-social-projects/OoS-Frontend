@@ -37,7 +37,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
   workshopCardParameters: WorkshopCardParameters = {
-    providerId: ''
+    providerId: '',
+    size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
@@ -62,10 +63,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
    */
   initProviderData(): void {
     this.workshopCardParameters.providerId = this.provider.id;
-    const workshopsPerPage = PaginationConstants.WORKSHOPS_PER_PAGE;
-    Util.setPaginationParams(this.workshopCardParameters, this.currentPage, workshopsPerPage);
-
     this.getProviderWorkshops();
+
     this.workshops$
       .pipe(takeUntil(this.destroy$))
       .subscribe((workshops: SearchResponse<ProviderWorkshopCard[]>) => (this.workshops = workshops));
@@ -73,14 +72,6 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.getProviderWorkshops());
-  }
-
-  getProviderWorkshops(): void {
-    if (this.subRole === Role.None) {
-      this.store.dispatch(new GetProviderViewWorkshops(this.workshopCardParameters));
-    } else {
-      this.store.dispatch(new GetProviderAdminWorkshops(this.workshopCardParameters));
-    }
   }
 
   /**
@@ -103,12 +94,20 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.workshopCardParameters, this.currentPage, this.workshopCardParameters.size);
     this.getProviderWorkshops();
   }
 
-  onItemsPerPageChange(itemPerPage: number) {
-    Util.setPaginationParams(this.workshopCardParameters, this.currentPage, itemPerPage);
+  onItemsPerPageChange(itemsPerPage: number) {
+    this.workshopCardParameters.size = itemsPerPage;
     this.getProviderWorkshops();
+  }
+
+  private getProviderWorkshops(): void {
+    Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage);
+    if (this.subRole === Role.None) {
+      this.store.dispatch(new GetProviderViewWorkshops(this.workshopCardParameters));
+    } else {
+      this.store.dispatch(new GetProviderAdminWorkshops(this.workshopCardParameters));
+    }
   }
 }

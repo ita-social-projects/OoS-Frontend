@@ -32,16 +32,15 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   isEditMode: true;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   directionsParameters: DirectionParameters = {
-    searchString: ''
+    searchString: '',
+    size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
 
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const directionItemsPerPage = PaginationConstants.DIRECTIONS_PER_PAGE;
-    Util.setPaginationParams(this.directionsParameters, this.currentPage, directionItemsPerPage);
+    this.getDirections();
 
-    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
     this.filterFormControl.valueChanges
       .pipe(
         distinctUntilChanged(),
@@ -55,21 +54,18 @@ export class DirectionsComponent implements OnInit, OnDestroy {
         this.directionsParameters.searchString = searchedText;
 
         this.currentPage = PaginationConstants.firstPage;
-        Util.setPaginationParams(this.directionsParameters, this.currentPage, this.directionsParameters.size);
-
-        this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
+        this.getDirections();
       });
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.directionsParameters, this.currentPage, this.directionsParameters.size);
-    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
+    this.getDirections();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.directionsParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
+    this.directionsParameters.size = itemsPerPage;
+    this.getDirections();
   }
 
   onDelete(direction: Direction): void {
@@ -89,5 +85,10 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private getDirections(): void {
+    Util.setFromPaginationParam(this.directionsParameters, this.currentPage);
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 }

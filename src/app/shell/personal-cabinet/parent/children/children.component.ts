@@ -31,7 +31,8 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParameters: ChildrenParameters = {
     searchString: '',
-    tabTitle: undefined
+    tabTitle: null,
+    size: PaginationConstants.CHILDREN_PER_PAGE
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -49,8 +50,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   initParentData(): void {
-    const childrensPerPage = PaginationConstants.CHILDREN_PER_PAGE;
-    Util.setPaginationParams(this.childrenParameters, this.currentPage, childrensPerPage);
+    this.getChildrens();
 
     this.store.dispatch(new GetUsersChildren(this.childrenParameters));
     this.childrenCards$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((childrenCards: SearchResponse<Child[]>) => {
@@ -74,13 +74,17 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.childrenParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetUsersChildren(this.childrenParameters));
+    this.childrenParameters.size = itemsPerPage;
+    this.getChildrens();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.childrenParameters, this.currentPage, this.childrenParameters.size);
+    this.getChildrens();
+  }
+
+  private getChildrens(): void {
+    Util.setFromPaginationParam(this.childrenParameters, this.currentPage);
     this.store.dispatch(new GetUsersChildren(this.childrenParameters));
   }
 }

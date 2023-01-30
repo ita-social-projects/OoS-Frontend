@@ -124,25 +124,25 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-
-    Util.setPaginationParams(this.paginationParameters, this.currentPage, this.paginationParameters.size);
-    this.workshopsOnPage = this.selectedWorkshops.slice(
-      this.paginationParameters.from,
-      this.paginationParameters.size + this.paginationParameters.from
-    );
+    this.getWorkshopsOnPage();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.paginationParameters, this.currentPage, itemsPerPage);
-    this.workshopsOnPage = this.selectedWorkshops.slice(
-      this.paginationParameters.from,
-      this.paginationParameters.size + this.paginationParameters.from
-    );
+    this.paginationParameters.size = itemsPerPage;
+    this.getWorkshopsOnPage();
   }
 
   ngOnDestroy(): void {
     this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new ClearMessageBar()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private getWorkshopsOnPage(): void {
+    Util.setFromPaginationParam(this.paginationParameters, this.currentPage);
+    this.workshopsOnPage = this.selectedWorkshops.slice(
+      this.paginationParameters.from,
+      this.paginationParameters.size + this.paginationParameters.from
+    );
   }
 }

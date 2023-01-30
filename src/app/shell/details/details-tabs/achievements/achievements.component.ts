@@ -43,20 +43,19 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   isAllowedEdit: boolean;
   achievementParameters: AchievementParameters = {
-    workshopId: ''
+    workshopId: '',
+    size: PaginationConstants.ACHIEVEMENTS_PER_PAGE
   };
 
   constructor(private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const achievementPerPage = PaginationConstants.ACHIEVEMENT_PER_PAGE;
-    this.achievementParameters.workshopId = this.workshop.id;
-    Util.setPaginationParams(this.achievementParameters, this.currentPage, achievementPerPage);
-
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.isAllowedEdit = this.workshop.providerId === provider?.id;
-
+    this.achievementParameters.workshopId = this.workshop.id;
+    this.store.dispatch(new GetAchievementsType());
     this.getAchievements();
+
     combineLatest([this.achievements$, this.achievementsTypes$])
       .pipe(
         takeUntil(this.destroy$),
@@ -66,10 +65,6 @@ export class AchievementsComponent implements OnInit, OnDestroy {
         this.achievementsTypes = achievementsTypes;
         this.achievements = achievements;
       });
-  }
-
-  private getAchievements(): void {
-    this.store.dispatch([new GetAchievementsType(), new GetAchievementsByWorkshopId(this.achievementParameters)]);
   }
 
   onDelete(achievement: Achievement): void {
@@ -93,12 +88,16 @@ export class AchievementsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.achievementParameters, this.currentPage, this.achievementParameters.size);
-    this.store.dispatch(new GetAchievementsByWorkshopId(this.achievementParameters));
+    this.getAchievements();
   }
 
-  onItemsPerPageChange(itemPerPage: number) {
-    Util.setPaginationParams(this.achievementParameters, this.currentPage, itemPerPage);
+  onItemsPerPageChange(itemsPerPage: number) {
+    this.achievementParameters.size = itemsPerPage;
+    this.getAchievements();
+  }
+
+  private getAchievements(): void {
+    Util.setFromPaginationParam(this.achievementParameters, this.currentPage);
     this.store.dispatch(new GetAchievementsByWorkshopId(this.achievementParameters));
   }
 }

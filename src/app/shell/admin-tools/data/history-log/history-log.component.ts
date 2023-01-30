@@ -52,16 +52,14 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   filters: FilterData = {
     dateFrom: null,
     dateTo: null,
-    options: null
+    options: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
   constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
-    Util.setPaginationParams(this.filters, this.currentPage, tableItemsPerPage);
-
-    this.dispatchProperValue(this.tabIndex, this.filters);
+    this.getTableData();
     this.addNavPath();
 
     this.searchFormControl.valueChanges
@@ -77,19 +75,15 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
           this.searchString = searchString;
 
           this.currentPage = PaginationConstants.firstPage;
-          Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
-
-          this.dispatchProperValue(this.tabIndex, this.filters, searchString);
+          this.getTableData(searchString);
         }
       });
   }
 
   onTabChange(event: MatTabChangeEvent): void {
     this.currentPage = PaginationConstants.firstPage;
-    Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
-
     this.tabIndex = event.index;
-    this.dispatchProperValue(event.index, this.filters);
+    this.getTableData();
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
@@ -98,14 +92,27 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.filters, this.currentPage, itemsPerPage);
-    this.dispatchProperValue(this.tabIndex, this.filters);
+    this.filters.size = itemsPerPage;
+    this.getTableData();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
-    this.dispatchProperValue(this.tabIndex, this.filters, this.searchString);
+    this.getTableData(this.searchString);
+  }
+
+  onFilter(event: FilterData): void {
+    event.from = this.filters.from;
+    event.size = this.filters.size;
+    this.filters = event;
+    this.currentPage = PaginationConstants.firstPage;
+    this.getTableData(this.searchString);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
   }
 
   private dispatchProperValue(tabIndex: number, filters: FilterData, searchString?: string): void {
@@ -125,15 +132,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFilter(event: FilterData): void {
-    event.from = this.filters.from;
-    event.size = this.filters.size;
-    this.filters = event;
-    this.currentPage = PaginationConstants.firstPage;
-    Util.setPaginationParams(this.filters, this.currentPage, this.filters.size);
-    this.dispatchProperValue(this.tabIndex, event, this.searchString);
-  }
-
   private addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
@@ -144,9 +142,8 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new PopNavPath());
+  private getTableData(searchString?: string): void {
+    Util.setFromPaginationParam(this.filters, this.currentPage);
+    this.dispatchProperValue(this.tabIndex, this.filters, searchString);
   }
 }

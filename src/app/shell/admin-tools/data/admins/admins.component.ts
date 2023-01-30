@@ -54,15 +54,14 @@ export class AdminsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
   adminParams: MinistryAdminParameters = {
     searchString: '',
-    tabTitle: undefined
+    tabTitle: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
-    Util.setPaginationParams(this.adminParams, this.currentPage, tableItemsPerPage);
-
+    this.getAdmins();
     this.setTabOptions();
 
     this.filterFormControl.valueChanges
@@ -91,12 +90,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
    */
   onTabChange(event: MatTabChangeEvent): void {
     this.currentPage = PaginationConstants.firstPage;
-    Util.setPaginationParams(this.adminParams, this.currentPage, this.adminParams.size);
-
     this.filterFormControl.reset();
     this.adminParams.searchString = '';
     this.adminParams.tabTitle = event.tab.textLabel;
-    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+    this.getAdmins();
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] }
@@ -206,18 +203,22 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.adminParams, page, this.adminParams.size);
-    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+    this.getAdmins();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.adminParams, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+    this.adminParams.size = itemsPerPage;
+    this.getAdmins();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
+  }
+
+  private getAdmins(): void {
+    Util.setFromPaginationParam(this.adminParams, this.currentPage);
+    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
   }
 }

@@ -23,33 +23,35 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
   directionsParameters: DirectionParameters = {
-    searchString: ''
+    searchString: '',
+    size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
 
   constructor(private store: Store, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
-    const directionItemsPerPage = PaginationConstants.DIRECTIONS_PER_PAGE;
-    Util.setPaginationParams(this.directionsParameters, this.currentPage, directionItemsPerPage);
-
-    this.store.dispatch([
-      new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.TopDestination, isActive: false, disable: true })),
-      new GetFilteredDirections(this.directionsParameters)
-    ]);
+    this.getDirections();
+    this.store.dispatch(
+      new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.TopDestination, isActive: false, disable: true }))
+    );
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.directionsParameters, this.currentPage, this.directionsParameters.size);
-    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
+    this.getDirections();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.directionsParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
+    this.directionsParameters.size = itemsPerPage;
+    this.getDirections();
   }
 
   ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
+  }
+
+  private getDirections(): void {
+    Util.setFromPaginationParam(this.directionsParameters, this.currentPage);
+    this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 }

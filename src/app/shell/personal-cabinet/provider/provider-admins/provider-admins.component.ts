@@ -51,7 +51,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   filterParams: ProviderAdminParameters = {
     assistantsOnly: false,
     deputyOnly: false,
-    searchString: ''
+    searchString: '',
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog, private router: Router, private route: ActivatedRoute) {
@@ -60,27 +61,24 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   ngOnInit(): void {
     super.ngOnInit();
-
-    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
-    Util.setPaginationParams(this.filterParams, this.currentPage, tableItemsPerPage);
+    Util.setFromPaginationParam(this.filterParams, this.currentPage);
 
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
       this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
       this.filterParams.deputyOnly = params['role'] === ProviderAdminRole.deputy;
-      this.getFilteredProviderAdmins();
+      this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
     });
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.filterParams, this.currentPage, this.filterParams.size);
-    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
+    this.getFilteredProviderAdmins();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.filterParams, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
+    this.filterParams.size = itemsPerPage;
+    this.getFilteredProviderAdmins();
   }
 
   /**
@@ -176,10 +174,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     this.addProviderAdminsSubscribtions();
   }
 
-  private getFilteredProviderAdmins(): void {
-    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
-  }
-
   /**
    * This method updates table according to teh received data
    * @param admins: ProviderAdmin[]
@@ -208,12 +202,17 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: string) => {
         this.filterParams.searchString = val;
-        this.getFilteredProviderAdmins();
+        this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
       });
 
     this.providerAdmins$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
       this.providerAdmins = providerAdmins;
       this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
     });
+  }
+
+  private getFilteredProviderAdmins(): void {
+    Util.setFromPaginationParam(this.filterParams, this.currentPage);
+    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 }

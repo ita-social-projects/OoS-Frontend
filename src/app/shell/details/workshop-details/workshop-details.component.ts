@@ -4,6 +4,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import { PaginationConstants } from '../../../shared/constants/constants';
 import { CategoryIcons } from '../../../shared/enum/category-icons';
 import { DetailsTabTitlesEnum, DetailsTabTitlesParams, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
@@ -45,7 +46,8 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   images: ImgPath[] = [];
   providerParameters: ProviderParameters = {
     providerId: '',
-    excludedWorkshopId: ''
+    excludedWorkshopId: '',
+    size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
   constructor(

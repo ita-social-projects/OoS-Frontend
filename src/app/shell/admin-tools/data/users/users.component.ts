@@ -43,24 +43,21 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    tabTitle: undefined
+    tabTitle: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
-    Util.setPaginationParams(this.childrenParams, this.currentPage, tableItemsPerPage);
+    this.getChildren();
 
     this.filterFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
-
         this.currentPage = PaginationConstants.firstPage;
-        Util.setPaginationParams(this.childrenParams, this.currentPage, this.childrenParams.size);
-
-        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+        this.getChildren();
       });
 
     this.children$
@@ -73,14 +70,13 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.totalEntities = children.totalAmount;
       });
 
-    this.store.dispatch([
-      new GetChildrenForAdmin(this.childrenParams),
+    this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Users,
         isActive: false,
         disable: true
       })
-    ]);
+    );
   }
 
   /**
@@ -88,13 +84,11 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    this.currentPage = PaginationConstants.firstPage;
-    Util.setPaginationParams(this.childrenParams, this.currentPage, this.childrenParams.size);
-
     this.filterFormControl.reset();
     this.childrenParams.searchString = '';
     this.childrenParams.tabTitle = event.tab.textLabel;
-    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+    this.currentPage = PaginationConstants.firstPage;
+    this.getChildren();
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] }
@@ -103,18 +97,22 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.childrenParams, this.currentPage, this.childrenParams.size);
-    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+    this.getChildren();
   }
 
   onTableItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.childrenParams, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+    this.childrenParams.size = itemsPerPage;
+    this.getChildren();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
+  }
+
+  private getChildren(): void {
+    Util.setFromPaginationParam(this.childrenParams, this.currentPage);
+    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
   }
 }

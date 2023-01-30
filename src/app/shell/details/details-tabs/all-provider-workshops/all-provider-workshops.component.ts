@@ -36,9 +36,6 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    const workshopsPerPage = PaginationConstants.WORKSHOPS_PER_PAGE;
-    Util.setPaginationParams(this.providerParameters, this.currentPage, workshopsPerPage);
-
     this.getWorkshops();
 
     this.workshops$
@@ -51,18 +48,18 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  getWorkshops(): void {
-    this.store.dispatch(new GetWorkshopsByProviderId(this.providerParameters));
-  }
-
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
     this.getWorkshops();
   }
 
-  onItemsPerPageChange(itemPerPage: number) {
-    Util.setPaginationParams(this.providerParameters, this.currentPage, itemPerPage);
+  onItemsPerPageChange(itemsPerPage: number) {
+    this.providerParameters.size = itemsPerPage;
     this.getWorkshops();
+  }
+
+  private getWorkshops(): void {
+    Util.setFromPaginationParam(this.providerParameters, this.currentPage);
+    this.store.dispatch(new GetWorkshopsByProviderId(this.providerParameters));
   }
 }

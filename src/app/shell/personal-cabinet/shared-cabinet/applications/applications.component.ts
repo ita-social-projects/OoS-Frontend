@@ -71,22 +71,16 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onResize(window);
   }
 
-  onGetApplications(): void {
-    this.getApplications.emit();
-  }
-
   onEntitiesSelect(IDs: string[]): void {
     this.enititiesSelect.emit(IDs);
   }
 
   ngOnInit(): void {
-    const applicationsPerPage = PaginationConstants.APPLICATIONS_PER_PAGE;
-    Util.setPaginationParams(this.applicationParams, this.currentPage, applicationsPerPage);
+    Util.setFromPaginationParam(this.applicationParams, this.currentPage);
 
     this.searchFormControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((searchString: string) => {
       this.applicationParams.searchString = searchString;
       this.currentPage = PaginationConstants.firstPage;
-      Util.setPaginationParams(this.applicationParams, this.currentPage, this.applicationParams.size);
       this.onGetApplications();
     });
 
@@ -97,7 +91,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.actions$
       .pipe(ofActionCompleted(OnUpdateApplicationSuccess))
       .pipe(takeUntil(this.destroy$))
-      .subscribe(() => this.onGetApplications());
+      .subscribe(() => this.getApplications.emit());
   }
 
   ngAfterViewInit(): void {
@@ -106,7 +100,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
       const tabIndex = Number(ApplicationStatusTabParams[status]);
       this.setFilterParams(status, tabIndex);
       this.tabGroup.selectedIndex = tabIndex;
-      this.onGetApplications();
+      this.getApplications.emit();
     });
   }
 
@@ -118,7 +112,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     const tabIndex = event.index;
 
     this.currentPage = PaginationConstants.firstPage;
-    Util.setPaginationParams(this.applicationParams, this.currentPage, this.applicationParams.size);
+    this.onGetApplications();
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
@@ -128,12 +122,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.applicationParams, this.currentPage, this.applicationParams.size);
     this.onGetApplications();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.applicationParams, this.currentPage, itemsPerPage);
+    this.applicationParams.size = itemsPerPage;
     this.onGetApplications();
   }
 
@@ -146,5 +139,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     const statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
     this.applicationParams.statuses = statuses;
     this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
+  }
+
+  private onGetApplications(): void {
+    Util.setFromPaginationParam(this.applicationParams, this.currentPage);
+    this.getApplications.emit();
   }
 }

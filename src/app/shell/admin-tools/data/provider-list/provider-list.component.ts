@@ -70,23 +70,22 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   totalEntities: number;
   providerParameters: ProviderParameters = {
-    searchString: ''
+    searchString: '',
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
   constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
-    Util.setPaginationParams(this.providerParameters, this.currentPage, tableItemsPerPage);
+    this.getProviders();
 
-    this.store.dispatch([
-      new GetFilteredProviders(this.providerParameters),
+    this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Providers,
         isActive: false,
         disable: true
       })
-    ]);
+    );
     this.providers$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((providers: SearchResponse<Provider[]>) => {
       this.dataSource = new MatTableDataSource(providers.entities);
       this.dataSource.sort = this.sort;
@@ -106,9 +105,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         this.providerParameters.searchString = searchString;
 
         this.currentPage = PaginationConstants.firstPage;
-        Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
-
-        this.store.dispatch(new GetFilteredProviders(this.providerParameters));
+        this.getProviders();
       });
   }
 
@@ -151,9 +148,9 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() =>
-        this.store.dispatch([
+        this.store.dispatch(
           new UpdateProviderLicenseStatuse({ providerId, licenseStatus: LicenseStatuses.Approved }, this.providerParameters)
-        ])
+        )
       );
   }
 
@@ -174,18 +171,22 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.providerParameters, this.currentPage, this.providerParameters.size);
-    this.store.dispatch(new GetFilteredProviders(this.providerParameters));
+    this.getProviders();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.providerParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetFilteredProviders(this.providerParameters));
+    this.providerParameters.size = itemsPerPage;
+    this.getProviders();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
+  }
+
+  private getProviders(): void {
+    Util.setFromPaginationParam(this.providerParameters, this.currentPage);
+    this.store.dispatch(new GetFilteredProviders(this.providerParameters));
   }
 }

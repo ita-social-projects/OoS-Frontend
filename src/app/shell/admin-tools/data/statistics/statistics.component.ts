@@ -27,7 +27,11 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
 
   statisticReports: SearchResponse<StatisticReport[]>;
-  statisticParameters: StatisticParameters;
+  statisticParameters: StatisticParameters = {
+    ReportDataType: null,
+    ReportType: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
+  };
   filtersForm: FormGroup;
   displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -36,8 +40,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    const tableItemsPerPage = PaginationConstants.TABLE_ITEM_PER_PAGE;
-    Util.setPaginationParams(this.statisticParameters, this.currentPage, tableItemsPerPage);
+    Util.setFromPaginationParam(this.statisticParameters, this.currentPage);
 
     this.statisticReports$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
@@ -52,14 +55,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.statisticParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
+    this.statisticParameters.size = itemsPerPage;
+    this.getReports();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.statisticParameters, this.currentPage, this.statisticParameters.size);
-    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
+    this.getReports();
   }
 
   onGenerateReport(): void {
@@ -75,5 +77,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   private setParams(): void {
     this.statisticParameters.ReportDataType = this.filtersForm.get('format').value;
     this.statisticParameters.ReportType = this.filtersForm.get('period').value;
+  }
+
+  private getReports(): void {
+    Util.setFromPaginationParam(this.statisticParameters, this.currentPage);
+    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 }

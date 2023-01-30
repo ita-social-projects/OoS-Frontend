@@ -12,6 +12,7 @@ import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
 import { AddNavPath } from '../../../shared/store/navigation.actions';
 import { GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
 import { DetailsTabTitlesEnum } from '../../../shared/enum/enumUA/workshop';
+import { PaginationConstants } from '../../../shared/constants/constants';
 
 @Component({
   selector: 'app-provider-details',
@@ -27,7 +28,8 @@ export class ProviderDetailsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   images: ImgPath[] = [];
   providerParameters: ProviderParameters = {
-    providerId: ''
+    providerId: '',
+    size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
   constructor(

@@ -63,14 +63,14 @@ export class PaginationConstants {
     element: 1,
     isActive: true
   };
-  static readonly ACHIEVEMENT_PER_PAGE = 12;
+  static readonly ACHIEVEMENTS_PER_PAGE = 12;
   static readonly WORKSHOPS_PER_PAGE = 12;
   static readonly DIRECTIONS_PER_PAGE = 12;
   static readonly APPLICATIONS_PER_PAGE = 8;
   static readonly CHILDREN_PER_PAGE = 8;
   static readonly CHATROOMS_PER_PAGE = 8;
-  static readonly RATING_PER_PAGE = 12;
-  static readonly TABLE_ITEM_PER_PAGE = 12;
+  static readonly RATINGS_PER_PAGE = 12;
+  static readonly TABLE_ITEMS_PER_PAGE = 12;
 }
 
 export const MOMENT_DATE_FORMATS: MatDateFormats = {

@@ -49,7 +49,8 @@ export class MessagesComponent extends CabinetDataComponent {
   chatRoomsParameters: ChatRoomsParameters = {
     role: null,
     workshopIds: null,
-    searchText: null
+    searchText: null,
+    size: PaginationConstants.CHATROOMS_PER_PAGE
   };
 
   @Select(ProviderState.truncated)
@@ -64,8 +65,6 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   protected init(): void {
-    const chatRoomsPerPage = PaginationConstants.CHATROOMS_PER_PAGE;
-    Util.setPaginationParams(this.chatRoomsParameters, this.currentPage, chatRoomsPerPage);
     this.chatRoomsParameters.role = this.role;
 
     if (this.role === Role.provider) {
@@ -80,7 +79,7 @@ export class MessagesComponent extends CabinetDataComponent {
         });
     }
 
-    this.getChats();
+    this.getChatRooms();
     this.setListeners();
   }
 
@@ -98,16 +97,6 @@ export class MessagesComponent extends CabinetDataComponent {
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     }
-    // TODO: Check this
-    /* 
-      else {
-      this.store.dispatch(new GetProviderAdminWorkshops());
-    }
-    */
-  }
-
-  getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   setListeners(): void {
@@ -152,20 +141,22 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onEntitiesSelect(workshopIds: string[]): void {
     this.currentPage = PaginationConstants.firstPage;
-    Util.setPaginationParams(this.chatRoomsParameters, this.currentPage, this.chatRoomsParameters.size);
-
     this.chatRoomsParameters.workshopIds = workshopIds;
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+    this.getChatRooms();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    Util.setPaginationParams(this.chatRoomsParameters, this.currentPage, itemsPerPage);
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+    this.chatRoomsParameters.size = itemsPerPage;
+    this.getChatRooms();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setPaginationParams(this.chatRoomsParameters, this.currentPage, this.chatRoomsParameters.size);
+    this.getChatRooms();
+  }
+
+  private getChatRooms(): void {
+    Util.setFromPaginationParam(this.chatRoomsParameters, this.currentPage);
     this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 }

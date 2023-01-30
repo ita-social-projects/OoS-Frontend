@@ -6,7 +6,7 @@ import { Provider } from '../../../../shared/models/provider.model';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationStatuses } from '../../../../shared/enum/statuses';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
@@ -47,7 +47,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false
+    showBlocked: false,
+    size: PaginationConstants.APPLICATIONS_PER_PAGE
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -148,12 +149,6 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     }
-    // TODO: Check this
-    /* 
-      else {
-      this.store.dispatch(new GetProviderAdminWorkshops());
-    }
-    */
   }
 
   /**
