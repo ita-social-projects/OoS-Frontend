@@ -87,7 +87,7 @@
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <div *ngIf="user.status === blockedStatus then unBlock; else Block"></div>
+            <ng-container *ngIf="user.status === blockedStatus then unBlock; else Block"></ng-container >
             <ng-template #Block>
               <button mat-menu-item (click)="block.emit({user, isBlocked: true})">
                 {{ 'BUTTONS.BLOCK' | translate }}

@@ -12,7 +12,7 @@ import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
+import { BlockProviderById, GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
@@ -51,6 +51,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   readonly statusIcons = UserStatusIcons;
   readonly statuses = ProviderStatuses;
   readonly providerStatusTitles = ProviderStatusTitles;
+  
+  readonly blockedStatus = 'Blocked'; //TODO: should be localized
 
   readonly licenseStatuses = LicenseStatuses;
   readonly licenseStatusTitles = LicenseStatusTitles;
@@ -182,6 +184,37 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetFilteredProviders()]);
+  }
+
+  onBlock(provider: Provider): void {
+    if (provider.isBlocked) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockProvider,
+          property: provider.fullTitle,
+        },
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result &&
+          this.store.dispatch(
+            new BlockProviderById({
+              id: provider.id,
+              isBlocked: false,
+            })
+          );
+      });
+    } else {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.blockProvider },
+      });
+      dialogRef.afterClosed().subscribe((result: string) => {
+        if (result) {
+          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }));
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {
