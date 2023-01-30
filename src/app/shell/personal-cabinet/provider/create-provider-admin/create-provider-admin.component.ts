@@ -36,11 +36,11 @@ import {
 } from '../../../../shared/enum/enumUA/provider-admin';
 
 const defaultValidators: ValidatorFn[] = [
-  Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
 ];
+
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
@@ -82,7 +82,11 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.ProviderAdminFormGroup = this.formBuilder.group({
       lastName: new FormControl('', defaultValidators),
       firstName: new FormControl('', defaultValidators),
-      middleName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', [
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+      ]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
     });
