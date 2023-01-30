@@ -4,12 +4,26 @@
   box-sizing: border-box;
 }
 
-.lang-option-text {
+::ng-deep .lang-option .mat-select-value {
+  color: white !important;
+  width: 25px !important;
+  overflow: visible;
+  padding-right: 0px !important;
+  font-family: 'Innerspace';
+}
+
+::ng-deep .lang-option-text .mat-option-text {
+  width: 0;
   padding: 0;
+  font-size: 0.7rem;
   font-weight: bold;
   font-family: 'Open Sans', sans-serif;
   text-align: center;
   background-color: white !important;
+
+  &:hover {
+    background-color: transparent !important;
+  }
 }
 
 @media (max-width: 750px) {

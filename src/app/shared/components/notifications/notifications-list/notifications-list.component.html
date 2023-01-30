@@ -1,7 +1,7 @@
 <div class="notifications-list" (click)="stopPropagation($event)">
   <ng-container *ngIf="notificationsData$ | async as notificationsData">
     <div class="notifications-list__header">
-      <h3 class="notifications-list__title">СПОВІЩЕННЯ</h3>
+      <h3 class="notifications-list__title">{{'NOTIFICATIONS' | translate | uppercase}}</h3>
       <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
         <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">

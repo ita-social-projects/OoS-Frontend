@@ -9,7 +9,7 @@ import {
   ProviderHistory,
 } from '../../../../../shared/models/history-log.model';
 import { Constants } from '../../../../../shared/constants/constants';
-import { ApplicationTitles } from '../../../../../shared/enum/enumUA/applications';
+import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-history-log-table',

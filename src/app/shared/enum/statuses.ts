@@ -42,13 +42,6 @@ export enum EmailConfirmationStatusesTitles {
   Confirmed = 'Ел. пошта підтверджена',
 }
 
-// Statuses for user Email Confirmation
-export enum UserStatusesTitles {
-  NeverLogged = 'Очікує логування',
-  Accepted = 'Підтверджений',
-  Blocked = 'Заблокований',
-}
-
 export enum ProviderStatusTitles {
   Approved = 'Заклад підтверджено',
   Pending = 'Очікує підтвердження',

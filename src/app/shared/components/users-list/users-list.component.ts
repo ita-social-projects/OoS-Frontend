@@ -8,7 +8,8 @@ import { Role } from '../../enum/role';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
-import { EmailConfirmationStatuses, UserStatuses, UserStatusesTitles, UserStatusIcons } from '../../enum/statuses';
+import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
+import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 
 /**
  * @title Table with sorting

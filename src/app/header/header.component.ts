@@ -27,7 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
-  readonly roles: typeof RoleLinks = RoleLinks;
+  readonly RoleLinks: typeof RoleLinks = RoleLinks;
 
   selectedLanguage = 'uk';
   showModalReg = false;

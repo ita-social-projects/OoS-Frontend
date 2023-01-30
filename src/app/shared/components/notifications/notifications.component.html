@@ -16,7 +16,7 @@
 <ng-template #isMobileScreen>
   <div *ngIf="notificationsAmount$ | async as notificationsAmount" fxLayout="row" fxLayoutAlign="space-between center" class="full-width">
     <button mat-icon-button fxLayout="row" fxLayoutAlign="space-between" class="btn-notifications">
-      <mat-icon>notifications_none</mat-icon> Сповіщення
+      <mat-icon>notifications_none</mat-icon> {{'NOTIFICATIONS' | translate}}
     </button>
     <mat-icon *ngIf="notificationsAmount.amount" [matBadge]="notificationsAmount.amount" class="icon-mobile"></mat-icon>
   </div>
