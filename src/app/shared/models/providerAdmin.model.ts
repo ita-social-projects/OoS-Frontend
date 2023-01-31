@@ -20,7 +20,7 @@ export class ProviderAdmin implements Person {
   id?: string;
   userId?: string;
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
   email: string;
   phoneNumber: string;
