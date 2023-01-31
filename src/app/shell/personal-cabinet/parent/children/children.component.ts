@@ -51,8 +51,6 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
 
   initParentData(): void {
     this.getChildrens();
-
-    this.store.dispatch(new GetUsersChildren(this.childrenParameters));
     this.childrenCards$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((childrenCards: SearchResponse<Child[]>) => {
       childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
       this.childrenCards = childrenCards;

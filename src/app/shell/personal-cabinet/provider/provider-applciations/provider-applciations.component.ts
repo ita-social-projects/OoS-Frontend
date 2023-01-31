@@ -48,7 +48,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     workshops: [],
     children: [],
     showBlocked: false,
-    size: PaginationConstants.APPLICATIONS_PER_PAGE
+    size: PaginationConstants.APPLICATIONS_PER_PAGE,
+    from: 0
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {

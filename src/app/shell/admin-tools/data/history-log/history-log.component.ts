@@ -102,9 +102,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   onFilter(event: FilterData): void {
-    event.from = this.filters.from;
-    event.size = this.filters.size;
-    this.filters = event;
+    this.filters = { ...this.filters, ...event };
     this.currentPage = PaginationConstants.firstPage;
     this.getTableData(this.searchString);
   }

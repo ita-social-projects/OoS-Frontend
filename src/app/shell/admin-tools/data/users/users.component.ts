@@ -84,7 +84,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    this.filterFormControl.reset();
+    this.filterFormControl.reset('', { emitEvent: false });
     this.childrenParams.searchString = '';
     this.childrenParams.tabTitle = event.tab.textLabel;
     this.currentPage = PaginationConstants.firstPage;

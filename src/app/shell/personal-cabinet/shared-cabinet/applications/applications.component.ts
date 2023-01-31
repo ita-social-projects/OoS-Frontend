@@ -76,12 +76,10 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    Util.setFromPaginationParam(this.applicationParams, this.currentPage);
-
     this.searchFormControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((searchString: string) => {
       this.applicationParams.searchString = searchString;
       this.currentPage = PaginationConstants.firstPage;
-      this.onGetApplications();
+      this.getApplicationData();
     });
 
     this.applicationCards$
@@ -112,7 +110,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     const tabIndex = event.index;
 
     this.currentPage = PaginationConstants.firstPage;
-    this.onGetApplications();
+    this.getApplicationData();
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
@@ -122,12 +120,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.onGetApplications();
+    this.getApplicationData();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.applicationParams.size = itemsPerPage;
-    this.onGetApplications();
+    this.getApplicationData();
   }
 
   ngOnDestroy(): void {
@@ -141,7 +139,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
   }
 
-  private onGetApplications(): void {
+  private getApplicationData(): void {
     Util.setFromPaginationParam(this.applicationParams, this.currentPage);
     this.getApplications.emit();
   }

@@ -32,7 +32,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   statisticParameters: StatisticParameters = {
     ReportDataType: null,
     ReportType: null,
-    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+    from: 0
   };
   filtersForm: FormGroup;
   displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
@@ -42,8 +43,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   constructor(private fb: FormBuilder, private store: Store) {}
 
   ngOnInit(): void {
-    Util.setFromPaginationParam(this.statisticParameters, this.currentPage);
-
     this.statisticReports$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((statisticReports: SearchResponse<StatisticReport[]>) => (this.statisticReports = statisticReports));
