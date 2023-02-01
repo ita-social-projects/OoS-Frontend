@@ -241,6 +241,11 @@
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
       "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
+    },
+    "HISTORY_LOG": {
+      "PROVIDERS" : "Providers",
+      "ADMINS":"Adminstrators",
+      "APPLICATIONS": "Applications"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -329,7 +334,10 @@
       "SELECT_WORKSHOPS": "Check the workshops to which the administrator will have access",
       "CHECK_WORKSHOPS": "Check workshops",
       "ROLE": "Role",
-      "STATUS": "Status" 
+      "STATUS": "Status",
+      "USER_THAT_CHANGE": "User that applied changes",
+      "TYPE": "Type",
+      "DATE_TIME": "Date/Time"  
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -345,7 +353,9 @@
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Search by provider title, child name or workshop title",
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
-      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change"
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "ALL_FILTERS": "All filters",
+      "SELECT_SUBORDINATION" : "Select subordination"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -493,5 +503,14 @@
     "NO_MESSAGES": "No messages yet"
   },
   "NOTIFICATIONS": "Notifications",
-  "APPLICATION_STATUSES": "Application statuses"
+  "APPLICATION_STATUSES": "Application statuses",
+  "HISTORY_LOG": {
+    "WAS": "Was",
+    "BECAME": "Became",
+    "SHOW" : "Show",
+    "RESET_FILTERS": "Reset filters",
+    "PERIOD": "Period",
+    "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
+    "ADD_ADMIN_OPTION": "Administrator was added to teh workshop"
+  }
 }

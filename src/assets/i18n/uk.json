@@ -241,6 +241,11 @@
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
       "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
+    },
+    "HISTORY_LOG": {
+      "PROVIDERS" : "Заклади",
+      "ADMINS":"Адміністратори",
+      "APPLICATIONS": "Заявки"
     }
   },
   "EXACT_MATCH": "Повне співпадіння",
@@ -329,7 +334,10 @@
       "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
       "CHECK_WORKSHOPS": "Обрати гуртки",
       "ROLE": "Роль",
-      "STATUS": "Статус" 
+      "STATUS": "Статус",
+      "USER_THAT_CHANGE": "ПІБ що внесла зміни",
+      "TYPE": "Тип",
+      "DATE_TIME": "Дата/час"  
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -345,7 +353,9 @@
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
-      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною"
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
+      "ALL_FILTERS": "Усі фільтри",
+      "SELECT_SUBORDINATION" : "Оберіть підпорядкування"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -495,5 +505,14 @@
     "NO_MESSAGES": "Повідомлень поки немає"
   },
   "NOTIFICATIONS": "Сповіщення",
-  "APPLICATION_STATUSES": "Статуси заявок"
+  "APPLICATION_STATUSES": "Статуси заявок",
+  "HISTORY_LOG": {
+    "WAS": "Було",
+    "BECAME": "Стало",
+    "SHOW" : "Показати",
+    "RESET_FILTERS": "Скинути фільтри",
+    "PERIOD": "Період",
+    "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
+    "ADD_ADMIN_OPTION": "Створення адміністратора"
+  }
 }

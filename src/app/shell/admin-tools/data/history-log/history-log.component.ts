@@ -6,11 +6,9 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, map } from 'rxjs/operators';
 import {
-  HistoryLogTabsUkr,
-  HistoryLogTabsUkrReverse,
+  HistoryLogTabTitles,
   TypeChange,
-  Tabs,
-} from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+} from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
   ApplicationHistory,
@@ -33,6 +31,7 @@ import { OnPageChangeHistoryLog, SetTableItemsPerPage } from '../../../../shared
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 
 @Component({
   selector: 'app-history-log',
@@ -40,9 +39,10 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
   styleUrls: ['./history-log.component.scss'],
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
-  readonly historyLogTabsUkr = HistoryLogTabsUkr;
-  readonly noHistory = NoResultsTitle.noHistory;
+  readonly HistoryLogTabTitles = HistoryLogTabTitles;
+  readonly HistoryLogTypes = HistoryLogTypes;
   readonly typeChange = TypeChange;
+  readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
@@ -91,7 +91,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] },
+      queryParams: { tab: HistoryLogTypes[this.tabIndex] },
     });
   }
 
@@ -108,15 +108,15 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   private dispatchProperValue(tabIndex: number, filters?: FilterData, searchString?: string): void {
     switch (tabIndex) {
-      case Tabs.Provider:
+      case HistoryLogTypes.Providers:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
         this.dropdownData = ProviderOptions;
         break;
-      case Tabs.ProviderAdmin:
+      case HistoryLogTypes.ProviderAdmins:
         this.store.dispatch([new GetProviderAdminHistory(filters, searchString)]);
         this.dropdownData = ProviderAdminOptions;
         break;
-      case Tabs.Application:
+      case HistoryLogTypes.Applications:
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
         this.dropdownData = ApplicationOptions;
         break;
