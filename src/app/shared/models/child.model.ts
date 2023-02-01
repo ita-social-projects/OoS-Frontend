@@ -30,7 +30,7 @@ export class Child implements Person {
 }
 
 export interface ChildrenParameters {
-  tabTitle?: string;
+  isParent?: boolean;
   searchString?: string;
   from?: number;
   size?: number;

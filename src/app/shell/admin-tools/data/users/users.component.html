@@ -7,20 +7,19 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate}}"
-      />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
     </div>
   </div>
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab label="{{ userRoleUkr.all }}">
+      <mat-tab label="{{ UserTabsTitles.all | translate }}">
         <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ userRoleUkr.parent }}">
+      <mat-tab label="{{ UserTabsTitles.parent | translate }}">
         <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ userRoleUkr.child }}">
+      <mat-tab label="{{ UserTabsTitles.child | translate }}">
         <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -31,15 +30,15 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns"> </app-users-list>
+        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns">
+        </app-users-list>
       </div>
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
         [itemsPerPage]="tableItemsPerPage$ | async"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      >
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>
