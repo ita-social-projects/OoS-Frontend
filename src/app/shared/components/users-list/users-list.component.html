@@ -90,12 +90,12 @@
             <div *ngIf="user.status === statuses.Blocked; then unBlock; else Block"></div>
             <ng-template #Block>
               <button mat-menu-item (click)="onBlock({user, isBlocked: true})">
-                {{ 'BUTTONS.BLOCK' | translate }}
+                {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
               <button mat-menu-item (click)="onBlock({user, isBlocked: false})">
-                {{ 'BUTTONS.UNBLOCK' | translate }}
+                {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
             <button mat-menu-item (click)="onDelete(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>

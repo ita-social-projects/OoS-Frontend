@@ -219,6 +219,20 @@
       "PENDING": "Pending email confirmation",
       "CONFIRMED": "Confirmed email"
     },
+    "PROVIDER_STATUSES":{
+      "APPROVED": "Approved",
+      "PENDING": "Pending",
+      "EDITING": "Needs editing"
+    },
+    "PROVIDER_STATUS_DETAILS": {
+      "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
+      "PENDING": "Your organization is awaiting confirmation by an administrator."
+    },
+    "LICENSE_STATUSES":{
+      "APPROVED": "Approved license",
+      "PENDING": "Awaiting license confirmation",
+      "NOT_PROVIDED": "License is not provided"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Provider deputy",
       "PROVIDER_ADMIN": "Workshop administrator",
@@ -419,8 +433,8 @@
     "APPROVE_APPLICATION": "Approve",
     "LEAVE_WORKSHOP" : "Leave workshop",
     "REJECT" : "Reject",
-    "BLOCK": "Block the user",
-    "UNBLOCK": "Unblock the user",
+    "BLOCK_USER": "Block the user",
+    "UNBLOCK_USER": "Unblock the user",
     "SEND_INVITATION": "Send an invitation",
     "SEND_MESSAGE": "Send a message",
     "CANCEL": "Cancel",
@@ -433,7 +447,7 @@
     "ADD_ANOTHER_SECTION": "Add another section",
     "ADD_ANOTHER_TEACHER": "Add another teacher",
     "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
-    "DELETE": "Remove",
+    "REMOVE": "Remove",
     "REMOVE_CHILD_DATA": "Remove data about the child",
     "REMOVE_TEACHER_DATA": "Remove data about the teacher",
     "REMOVE_DATA": "Remove data",
@@ -442,7 +456,12 @@
     "DELETE_USER": "Delete the user",
     "CONFIRM": "Confirm",
     "CHANGE": "Change",
-    "ADD_INFO": "Add information"
+    "ADD_INFO": "Add information",
+    "BLOCK": "BLock",
+    "UNBLOCK": "Unblock",
+    "CONFIRM_LICENSE": "Confirm provider license",
+    "CONFIRM_EDITING": "Send for editing",
+    "DELETE": "Delete"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",

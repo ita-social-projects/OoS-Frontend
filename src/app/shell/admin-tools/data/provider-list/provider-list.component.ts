@@ -1,4 +1,3 @@
-import { LicenseStatusTitles } from './../../../../shared/enum/statuses';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -23,7 +22,6 @@ import { ReasonModalWindowComponent } from './../../../../shared/components/conf
 import {
   LicenseStatuses,
   ProviderStatuses,
-  ProviderStatusTitles,
   UserStatusIcons,
 } from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
@@ -35,6 +33,7 @@ import {
   UpdateProviderLicenseStatuse,
 } from './../../../../shared/store/provider.actions';
 import { OwnershipTypes } from '../../../../shared/enum/provider';
+import { LicenseStatusTitles, ProviderStatusTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-provider-list',
@@ -49,7 +48,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   readonly OwnershipTypeEnum = OwnershipTypesEnum;
   readonly ownershipTypes = OwnershipTypes;
   readonly statusIcons = UserStatusIcons;
-  readonly statuses = ProviderStatuses;
+
+  readonly providerStatuses = ProviderStatuses;
   readonly providerStatusTitles = ProviderStatusTitles;
 
   readonly licenseStatuses = LicenseStatuses;
