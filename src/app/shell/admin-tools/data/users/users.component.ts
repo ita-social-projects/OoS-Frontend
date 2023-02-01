@@ -1,4 +1,3 @@
-import { EmailConfirmationStatusesTitles } from './../../../../shared/enum/statuses';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -20,6 +19,7 @@ import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.act
 import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
+import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-users',

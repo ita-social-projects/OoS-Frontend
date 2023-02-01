@@ -215,6 +215,10 @@
       "ACCEPTED": "Accapted",
       "BLOCKED": "Blocked"
     },
+    "EMAIL_CONFIRMATION_STATUSES" : {
+      "PENDING": "Pending email confirmation",
+      "CONFIRMED": "Confirmed email"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Provider deputy",
       "PROVIDER_ADMIN": "Workshop administrator",

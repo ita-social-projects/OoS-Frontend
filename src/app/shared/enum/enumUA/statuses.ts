@@ -27,3 +27,9 @@ export enum UserStatusesTitles {
   Accepted = 'ENUM.USER_STATUSES.ACCEPTED',
   Blocked = 'ENUM.USER_STATUSES.BLOCKED',
 }
+
+// Statuses for user Email Confirmation
+export enum EmailConfirmationStatusesTitles {
+  Pending = 'ENUM.EMAIL_CONFIRMATION_STATUSES.PENDING',
+  Confirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.CONFIRMED',
+}

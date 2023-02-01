@@ -215,6 +215,10 @@
       "ACCEPTED": "Підтверджений",
       "BLOCKED": "Заблокований"
     },
+    "EMAIL_CONFIRMATION_STATUSES" : {
+      "PENDING": "Очікує підтвердження ел. пошти",
+      "CONFIRMED": "Ел. пошта підтверджена"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Заступник директора",
       "PROVIDER_ADMIN": "Адміністратор гуртка",
