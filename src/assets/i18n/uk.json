@@ -355,8 +355,7 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
       "ALL_FILTERS": "Усі фільтри",
-      "SELECT_SUBORDINATION" : "Оберіть підпорядкування",
-      "SELECT_TIME_RANGE": "Оберіть проміжок"
+      "SELECT_SUBORDINATION" : "Оберіть підпорядкування"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {

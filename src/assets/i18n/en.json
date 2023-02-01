@@ -355,8 +355,7 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "ALL_FILTERS": "All filters",
-      "SELECT_SUBORDINATION" : "Select subordination",
-      "SELECT_TIME_RANGE": "Select time range"
+      "SELECT_SUBORDINATION" : "Select subordination"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
