@@ -8,10 +8,7 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import {
-  ProviderAdminParams,
-  ProviderAdminTitles,
-} from '../../../../shared/enum/enumUA/provider-admin';
+import { ProviderAdminParams, ProviderAdminTitles } from '../../../../shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
@@ -22,7 +19,11 @@ import {
   ProviderAdminTable,
 } from '../../../../shared/models/providerAdmin.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { DeleteProviderAdminById, BlockProviderAdminById } from '../../../../shared/store/provider.actions';
+import {
+  DeleteProviderAdminById,
+  BlockProviderAdminById,
+  ReinviteProviderAdmin,
+} from '../../../../shared/store/provider.actions';
 import { ProviderComponent } from '../provider.component';
 import { ProviderState } from './../../../../shared/store/provider.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -169,6 +170,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           )
         );
     });
+  }
+
+  onSendInvitation(providerAdmin: ProviderAdmin): void {
+    this.store.dispatch(new ReinviteProviderAdmin(providerAdmin));
   }
 
   /**

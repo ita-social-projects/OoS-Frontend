@@ -6,7 +6,13 @@ import { LicenseStatuses, ProviderStatuses } from '../enum/statuses';
 import { DataItem } from './item.model';
 import { InstitutionTypes, OwnershipTypes } from '../enum/provider';
 
-export class Provider {
+export interface BlockProviderData {
+  id: string;
+  isBlocked?: boolean;
+  blockReason?: string;
+}
+
+export class Provider implements BlockProviderData {
   id: string;
   fullTitle: string;
   shortTitle: string;

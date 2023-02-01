@@ -81,6 +81,7 @@ import {
   UpdateWorkshopStatus,
   GetProviderAdminById,
   UpdateProviderLicenseStatuse,
+  ReinviteProviderAdmin,
 } from './provider.actions';
 import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
@@ -854,5 +855,22 @@ export class ProviderState {
     return this.providerAdminService
       .getProviderAdminById(payload)
       .pipe(tap((selectedProviderAdmin: ProviderAdmin) => patchState({ selectedProviderAdmin, isLoading: false })));
+  }
+
+  @Action(ReinviteProviderAdmin)
+  reinviteProviderAdmin(
+    { dispatch }: StateContext<ProviderStateModel>,
+    { providerAdmin }: ReinviteProviderAdmin
+  ): Observable<void> {
+    return this.providerAdminService.reinvateProviderAdmin(providerAdmin).pipe(
+      tap(() =>
+        dispatch(
+          new ShowMessageBar({
+            message: SnackbarText.sendInvitation,
+            type: 'success',
+          })
+        )
+      )
+    );
   }
 }

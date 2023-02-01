@@ -3,6 +3,7 @@ import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
+import { BlockProviderData } from '../models/provider.model';
 import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
@@ -167,12 +168,17 @@ export class BlockMinistryAdminById {
   constructor(public payload: MinistryAdminBlockData) {}
 }
 
-export class OnBlockMinistryAdminSuccess {
-  static readonly type = '[admin] block Ministry Admin success';
-  constructor(public payload: MinistryAdminBlockData) {}
+export class BlockProviderById {
+  static readonly type = '[admin] block Provider';
+  constructor(public payload: BlockProviderData) {}
 }
 
-export class OnBlockMinistryAdminFail {
+export class OnBlockSuccess {
+  static readonly type = '[admin] block success';
+  constructor(public payload: MinistryAdminBlockData | BlockProviderData) {}
+}
+
+export class OnBlockFail {
   static readonly type = '[admin] block Ministry Admin fail';
   constructor(public payload: HttpErrorResponse) {}
 }

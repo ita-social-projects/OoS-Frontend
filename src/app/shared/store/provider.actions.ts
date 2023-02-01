@@ -320,3 +320,8 @@ export class GetProviderAdminById {
   static readonly type = '[provider] get provider admin by id';
   constructor(public payload: string) {}
 }
+
+export class ReinviteProviderAdmin {
+  static readonly type = '[provider] reinvates provider admin';
+  constructor(public providerAdmin: ProviderAdmin) {}
+}
