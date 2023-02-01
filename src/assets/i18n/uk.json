@@ -355,7 +355,8 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
       "ALL_FILTERS": "Усі фільтри",
-      "SELECT_SUBORDINATION" : "Оберіть підпорядкування"
+      "SELECT_SUBORDINATION" : "Оберіть підпорядкування",
+      "SELECT_TIME_RANGE": "Оберіть проміжок"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -514,5 +515,18 @@
     "PERIOD": "Період",
     "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
     "ADD_ADMIN_OPTION": "Створення адміністратора"
+  },
+  "STATISTICS": {
+    "DATE_RANGE": "Часовий проміжок",
+    "FORMAT": "Формат",
+    "GENERATE_REPORT": "Згенерувати звіти",
+    "NO_DATA": "У вас ще немає згенерованих звітів.",
+    "NO_DATA_SUBHEADER":"Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут",
+    "TITLE": "Назва",
+    "PERIOD": "Період",
+    "CREATE_DATE": "Дата створення",
+    "DOWNLOAD": "Завантажити",
+    "WORKSHOPS_DAILY": "За останні 24 години",
+    "WORKSHOPS_YEAR": "За рік"
   }
 }

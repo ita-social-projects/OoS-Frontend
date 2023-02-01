@@ -355,7 +355,8 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "ALL_FILTERS": "All filters",
-      "SELECT_SUBORDINATION" : "Select subordination"
+      "SELECT_SUBORDINATION" : "Select subordination",
+      "SELECT_TIME_RANGE": "Select time range"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -512,5 +513,16 @@
     "PERIOD": "Period",
     "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
     "ADD_ADMIN_OPTION": "Administrator was added to teh workshop"
+  },
+  "STATISTICS": {
+    "DATE_RANGE": "Time Range",
+    "FORMAT": "Format",
+    "GENERATE_REPORT": "Generate reports",
+    "NO_DATA": "You have no generated reports yet.",
+    "NO_DATA_SUBHEADER":"Enter your criteria and click the Generate Reports button to see them here.",
+    "TITLE": "Title",
+    "PERIOD": "Period",
+    "CREATE_DATE": "Creation date",
+    "DOWNLOAD": "Download"
   }
 }

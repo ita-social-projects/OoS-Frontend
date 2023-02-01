@@ -6,7 +6,7 @@ import { SearchResponse } from '../../../../shared/models/search.model';
 import { StatisticParameters, StatisticReport } from '../../../../shared/models/statistic.model';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { GetStatisticReports } from '../../../../shared/store/admin.actions';
-import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
+import { StatisticFileFormats, StatisticPeriodTypes } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
@@ -14,6 +14,7 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { StatisticPeriodTitles } from '../../../../shared/enum/enumUA/statistics';
 
 @Component({
   selector: 'app-statistics',
@@ -21,9 +22,8 @@ import { NavBarName } from '../../../../shared/enum/navigation-bar';
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit, OnDestroy {
-  readonly StatisticPeriodTitle = StatisticPeriodTitle;
-  readonly StatisticPeriodType = StatisticPeriodType;
-  readonly StatisticFileFormat = StatisticFileFormat;
+  readonly StatisticPeriodTitles = StatisticPeriodTitles;
+  readonly StatisticFileFormats = StatisticFileFormats;
   readonly noReports = NoResultsTitle.noResult;
 
   @Select(AdminState.statisticsReports)
@@ -46,8 +46,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       .subscribe((statisticReports: SearchResponse<StatisticReport[]>) => (this.statisticReports = statisticReports));
 
     this.filtersForm = this.fb.group({
-      period: new FormControl(StatisticPeriodType.WorkshopsDaily),
-      format: new FormControl(StatisticFileFormat.CSV)
+      period: new FormControl(StatisticPeriodTypes.WorkshopsDaily),
+      format: new FormControl(StatisticFileFormats.CSV)
     });
 
     this.setParams();
