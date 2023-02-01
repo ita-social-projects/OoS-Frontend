@@ -67,7 +67,7 @@
         <td mat-cell *matCellDef="let element">
           <div class="statuses {{ element.status }}">
             <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
-            <span> {{ statusesTitles[element.status] | translate}}</span>
+            <span> {{ statusesTitles[element.status] | translate }}</span>
           </div>
         </td>
       </ng-container>
@@ -86,22 +86,22 @@
           </div>
 
           <mat-menu #actions="matMenu" class="header_menu">
-            <button *ngIf="isEdit" mat-menu-item (click)="onUpdate(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <div *ngIf="user.status === statuses.Blocked; then unBlock; else Block"></div>
+            <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
+            <ng-container *ngIf="user.status === blockedStatus then unBlock; else Block"></ng-container >
             <ng-template #Block>
-              <button mat-menu-item (click)="onBlock({user, isBlocked: true})">
+              <button mat-menu-item (click)="block.emit({user, isBlocked: true})">
                 {{ 'BUTTONS.BLOCK' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="onBlock({user, isBlocked: false})">
+              <button mat-menu-item (click)="block.emit({user, isBlocked: false})">
                 {{ 'BUTTONS.UNBLOCK' | translate }}
               </button>
             </ng-template>
-            <button mat-menu-item (click)="onDelete(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
+            <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
           </mat-menu>
           <mat-menu #email="matMenu" class="header_menu">
-            <button mat-menu-item (click)="sendInvitation()">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+            <button mat-menu-item (click)="sendInvitation.emit(user)">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>

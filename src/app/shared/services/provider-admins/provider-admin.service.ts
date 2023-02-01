@@ -10,7 +10,7 @@ import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProviderAdminService {
   constructor(private http: HttpClient, private store: Store) {}
@@ -39,7 +39,7 @@ export class ProviderAdminService {
       .set('size', `${size}`);
 
     return this.http.get<SearchResponse<ProviderAdmin[]>>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', {
-      params
+      params,
     });
   }
 
@@ -84,5 +84,13 @@ export class ProviderAdminService {
     let params = new HttpParams().set('providerId', `${providerId}`);
 
     return this.http.put<ProviderAdmin>('/api/v1/ProviderAdmin/Update', providerAdmin, { params });
+  }
+
+  /**
+   * This method reinvates provider admin
+   * @param providerAdmin: ProviderAdmin
+   */
+  reinvateProviderAdmin(providerAdmin: ProviderAdmin): Observable<void> {
+    return this.http.put<void>(`/api/v1/ProviderAdmin/Reinvite/${providerAdmin.id}`, providerAdmin);
   }
 }
