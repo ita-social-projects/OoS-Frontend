@@ -284,7 +284,8 @@
       "ADD_PROVIDER_ADMIN": "ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА",
       "EDIT_PROVIDER_DEPUTY": "РЕДАГУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
       "EDIT_PROVIDER_ADMIN": "РЕДАГУВАТИ АДМІНІСТРАТОРА ГУРТКА",
-      "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему."
+      "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.",
+      "ADD_ACHIEVEMENT":"ДОДАТИ ДОСЯГНЕННЯ"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -337,7 +338,12 @@
       "STATUS": "Статус",
       "USER_THAT_CHANGE": "ПІБ що внесла зміни",
       "TYPE": "Тип",
-      "DATE_TIME": "Дата/час"  
+      "DATE_TIME": "Дата/час",
+      "ACHIEVEMENT_TITLE": "Назва досягнення",
+      "PARTICIPANTS": "Учасники",
+      "TEACHERS": "Тренер/Викладач",
+      "DATE": "Дата",
+      "ACHIEVEMENT_DESCRIPTION": "Опис досягнення"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -355,7 +361,9 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
       "ALL_FILTERS": "Усі фільтри",
-      "SELECT_SUBORDINATION" : "Оберіть підпорядкування"
+      "SELECT_SUBORDINATION" : "Оберіть підпорядкування",
+      "SELECT_TEACHER": "Обрати тренера/викладача",
+      "SELECT_ACHIEVEMENT": "Оберіть тип досягнення"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -435,9 +443,12 @@
   "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "Ви повинні бути прийнятим до даного гуртка",
   "FOUND_WORKSHOP": "Знайдено {count|#1 }",
   "BANNERS": {
-    "ADD_CHILDREN" : "Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу",
-    "MAX_CHILDREN_AMOUNT" : "Можливо додати не більш, ніж 20 дітей",
-    "ADD_WORKSHOP" : "Тут ви можете створити гурток, секцію або групу для навчання"
+    "ADD_CHILDREN": "Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу",
+    "MAX_CHILDREN_AMOUNT": "Можливо додати не більш, ніж 20 дітей",
+    "ADD_WORKSHOP": "Тут ви можете створити гурток, секцію або групу для навчання",
+    "ADD_ACHIEVEMENT_PARTICIPANTS": "Додавання досягнень можливе лише за наявності учасників у гуртку.",
+    "PREVIOUSLY_SELECTED_TEACHERS": "Попередньо вибрані теренера/викладачі:",
+    "ADD_ACHIEVEMENT_TEACHERS": "Додавання досягнень можливе лише при наявності викладачів/тренерів у гуртку."
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Додати дитину",

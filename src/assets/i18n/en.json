@@ -284,7 +284,8 @@
       "ADD_PROVIDER_ADMIN": "ADD PROVIDER DEPUTY",
       "EDIT_PROVIDER_DEPUTY": "EDIT PROVIDER DEPUTY",
       "EDIT_PROVIDER_ADMIN": "EDIT WORKSHOP ADMINISTRATOR",
-      "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system."
+      "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
+      "ADD_ACHIEVEMENT":"ADD ACHIEVEMENT"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Age of participants",
@@ -337,7 +338,12 @@
       "STATUS": "Status",
       "USER_THAT_CHANGE": "User that applied changes",
       "TYPE": "Type",
-      "DATE_TIME": "Date/Time"  
+      "DATE_TIME": "Date/Time",
+      "ACHIEVEMENT_TITLE": "Achievement title",
+      "PARTICIPANTS": "Participants",
+      "TEACHERS": "Teacher/Coach",
+      "DATE": "Date",
+      "ACHIEVEMENT_DESCRIPTION": "Achievement description"  
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -355,7 +361,9 @@
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "ALL_FILTERS": "All filters",
-      "SELECT_SUBORDINATION" : "Select subordination"
+      "SELECT_SUBORDINATION" : "Select subordination",
+      "SELECT_TEACHER": "Select teachers/coaches",
+      "SELECT_ACHIEVEMENT": "Select achievement type"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -435,7 +443,10 @@
   "BANNERS": {
     "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
     "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
-    "ADD_WORKSHOP" : "You can add unfromation about the new workshop"
+    "ADD_WORKSHOP" : "You can add unfromation about the new workshop",
+    "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
+    "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
+    "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop."
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
