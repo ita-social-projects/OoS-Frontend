@@ -522,6 +522,8 @@
     "TITLE": "Title",
     "PERIOD": "Period",
     "CREATE_DATE": "Creation date",
-    "DOWNLOAD": "Download"
+    "DOWNLOAD": "Download",
+    "WORKSHOPS_DAILY": "For the last 24 hours",
+    "WORKSHOPS_YEAR": "For the year"
   }
 }
