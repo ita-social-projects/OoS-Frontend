@@ -5,6 +5,7 @@ import { InfoCardComponent } from './info-card.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('InfoCardComponent', () => {
   let component: InfoCardComponent;
@@ -12,8 +13,15 @@ describe('InfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, RouterTestingModule, BrowserAnimationsModule, MatButtonModule, NgxsModule.forRoot([])],
-      declarations: [InfoCardComponent]
+      imports: [
+        MatIconModule,
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        MatButtonModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
+      ],
+      declarations: [InfoCardComponent],
     }).compileComponents();
   });
 
