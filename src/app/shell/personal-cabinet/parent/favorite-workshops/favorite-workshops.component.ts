@@ -13,6 +13,7 @@ import { WorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { GetFavoriteWorkshopsByUserId, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { ParentState } from '../../../../shared/store/parent.state.';
+import { SearchResponse } from '../../../../shared/models/search.model';
 
 @Component({
   selector: 'app-favorite-workshops',
@@ -24,7 +25,9 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   @Select(ParentState.favoriteWorkshopsCard)
-  favoriteWorkshopsCard$: Observable<WorkshopCard[]>;
+  favoriteWorkshopsCard$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Select(PaginatorState.workshopsPerPage)
+  favoriteWorkshopsPerPage$: Observable<number>;
 
   favoriteWorkshopsPerPage = PaginationConstants.WORKSHOPS_PER_PAGE;
   currentPage: PaginationElement = PaginationConstants.firstPage;
