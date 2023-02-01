@@ -212,7 +212,7 @@
     },
     "USER_STATUSES":{
       "NEVER_LOGGED": "Never logged",
-      "ACCEPTED": "Accapted",
+      "ACCEPTED": "Accepted",
       "BLOCKED": "Blocked"
     },
     "EMAIL_CONFIRMATION_STATUSES" : {
