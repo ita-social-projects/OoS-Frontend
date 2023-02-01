@@ -139,7 +139,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshopsOnPage(): void {
-    Util.setFromPaginationParam(this.paginationParameters, this.currentPage);
+    Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.selectedWorkshops.length);
     this.workshopsOnPage = this.selectedWorkshops.slice(
       this.paginationParameters.from,
       this.paginationParameters.size + this.paginationParameters.from

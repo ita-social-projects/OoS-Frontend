@@ -59,7 +59,7 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshops(): void {
-    Util.setFromPaginationParam(this.providerParameters, this.currentPage);
+    Util.setFromPaginationParam(this.providerParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch(new GetWorkshopsByProviderId(this.providerParameters));
   }
 }

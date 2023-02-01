@@ -56,7 +56,8 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   viewType = ViewType;
   destroy$: Subject<boolean> = new Subject<boolean>();
   paginationParameters: PaginationParameters = {
-    size: PaginationConstants.WORKSHOPS_PER_PAGE
+    size: PaginationConstants.WORKSHOPS_PER_PAGE,
+    from: 0
   };
   currentPage: PaginationElement = PaginationConstants.firstPage;
 
@@ -69,7 +70,6 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    Util.setFromPaginationParam(this.paginationParameters, PaginationConstants.firstPage);
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
 
     this.addNavPath();

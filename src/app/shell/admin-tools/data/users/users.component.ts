@@ -112,7 +112,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   }
 
   private getChildren(): void {
-    Util.setFromPaginationParam(this.childrenParams, this.currentPage);
+    Util.setFromPaginationParam(this.childrenParams, this.currentPage, this.totalEntities);
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
   }
 }

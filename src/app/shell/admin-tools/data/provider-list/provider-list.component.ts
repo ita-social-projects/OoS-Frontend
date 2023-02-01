@@ -186,7 +186,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   }
 
   private getProviders(): void {
-    Util.setFromPaginationParam(this.providerParameters, this.currentPage);
+    Util.setFromPaginationParam(this.providerParameters, this.currentPage, this.totalEntities);
     this.store.dispatch(new GetFilteredProviders(this.providerParameters));
   }
 }

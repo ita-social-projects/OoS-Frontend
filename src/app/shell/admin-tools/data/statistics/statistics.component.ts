@@ -83,7 +83,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   private getReports(): void {
-    Util.setFromPaginationParam(this.statisticParameters, this.currentPage);
+    Util.setFromPaginationParam(this.statisticParameters, this.currentPage, this.statisticReports?.totalAmount);
     this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 

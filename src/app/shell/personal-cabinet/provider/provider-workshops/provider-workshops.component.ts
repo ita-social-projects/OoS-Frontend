@@ -103,7 +103,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   }
 
   private getProviderWorkshops(): void {
-    Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage);
+    Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshops?.totalAmount);
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetProviderViewWorkshops(this.workshopCardParameters));
     } else {

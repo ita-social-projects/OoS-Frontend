@@ -61,7 +61,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   ngOnInit(): void {
     super.ngOnInit();
-    Util.setFromPaginationParam(this.filterParams, this.currentPage);
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
 
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
@@ -216,7 +216,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   private getFilteredProviderAdmins(): void {
-    Util.setFromPaginationParam(this.filterParams, this.currentPage);
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
     this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 }

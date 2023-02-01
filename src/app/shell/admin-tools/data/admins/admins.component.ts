@@ -219,7 +219,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   private getAdmins(): void {
-    Util.setFromPaginationParam(this.adminParams, this.currentPage);
+    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
     this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
   }
 }

@@ -31,6 +31,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   filterFormControl = new FormControl('', [Validators.maxLength(200)]);
   isEditMode: true;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  totalAmount: number;
   directionsParameters: DirectionParameters = {
     searchString: '',
     size: PaginationConstants.DIRECTIONS_PER_PAGE
@@ -56,6 +57,10 @@ export class DirectionsComponent implements OnInit, OnDestroy {
         this.currentPage = PaginationConstants.firstPage;
         this.getDirections();
       });
+
+    this.filteredDirections$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((directions: SearchResponse<Direction[]>) => (this.totalAmount = directions.totalAmount));
   }
 
   onPageChange(page: PaginationElement): void {
@@ -88,7 +93,7 @@ export class DirectionsComponent implements OnInit, OnDestroy {
   }
 
   private getDirections(): void {
-    Util.setFromPaginationParam(this.directionsParameters, this.currentPage);
+    Util.setFromPaginationParam(this.directionsParameters, this.currentPage, this.totalAmount);
     this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 }

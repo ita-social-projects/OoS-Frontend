@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, takeUntil } from 'rxjs';
 import { SearchResponse } from '../../shared/models/search.model';
 import { PaginationConstants } from '../../shared/constants/constants';
 import { NavBarName } from '../../shared/enum/navigation-bar';
@@ -22,6 +22,8 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   filteredDirections$: Observable<SearchResponse<Direction[]>>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  totalAmount: number;
+  destroy$: Subject<boolean> = new Subject<boolean>();
   directionsParameters: DirectionParameters = {
     searchString: '',
     size: PaginationConstants.DIRECTIONS_PER_PAGE
@@ -31,6 +33,9 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getDirections();
+    this.filteredDirections$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((directions: SearchResponse<Direction[]>) => (this.totalAmount = directions.totalAmount));
     this.store.dispatch(
       new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.TopDestination, isActive: false, disable: true }))
     );
@@ -47,11 +52,13 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
     this.store.dispatch(new DeleteNavPath());
   }
 
   private getDirections(): void {
-    Util.setFromPaginationParam(this.directionsParameters, this.currentPage);
+    Util.setFromPaginationParam(this.directionsParameters, this.currentPage, this.totalAmount);
     this.store.dispatch(new GetFilteredDirections(this.directionsParameters));
   }
 }

@@ -157,7 +157,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   private getChatRooms(): void {
-    Util.setFromPaginationParam(this.chatRoomsParameters, this.currentPage);
+    Util.setFromPaginationParam(this.chatRoomsParameters, this.currentPage, this.chatRooms?.totalAmount);
     this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 }

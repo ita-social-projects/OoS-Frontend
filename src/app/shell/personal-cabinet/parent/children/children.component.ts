@@ -82,7 +82,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   }
 
   private getChildrens(): void {
-    Util.setFromPaginationParam(this.childrenParameters, this.currentPage);
+    Util.setFromPaginationParam(this.childrenParameters, this.currentPage, this.childrenCards?.totalAmount);
     this.store.dispatch(new GetUsersChildren(this.childrenParameters));
   }
 }

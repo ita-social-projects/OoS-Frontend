@@ -73,7 +73,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   onEntitiesSelect(IDs: string[]): void {
     this.currentPage = PaginationConstants.firstPage;
-    Util.setFromPaginationParam(this.applicationParams, this.currentPage);
+    Util.setFromPaginationParam(this.applicationParams, this.currentPage, this.applicationCards?.totalAmount);
     this.enititiesSelect.emit(IDs);
   }
 
@@ -138,7 +138,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private getApplicationData(): void {
-    Util.setFromPaginationParam(this.applicationParams, this.currentPage);
+    Util.setFromPaginationParam(this.applicationParams, this.currentPage, this.applicationCards?.totalAmount);
     this.getApplications.emit();
   }
 }

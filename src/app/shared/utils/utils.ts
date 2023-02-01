@@ -219,8 +219,18 @@ export class Util {
     return filterState;
   }
 
-  public static setFromPaginationParam(params: PaginationParameters, currentPage: PaginationElement): void {
-    params.from = (+currentPage.element - 1) * params.size;
+  public static setFromPaginationParam(params: PaginationParameters, currentPage: PaginationElement, totalAmount: number): void {
+    let from = this.calculateFromParameter(currentPage, params.size);
+    if (!totalAmount || totalAmount >= from) {
+      params.from = from;
+    } else {
+      currentPage.element = Math.ceil(totalAmount / params.size);
+      params.from = this.calculateFromParameter(currentPage, params.size);
+    }
+  }
+
+  private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
+    return (+currentPage.element - 1) * size;
   }
 
   /**

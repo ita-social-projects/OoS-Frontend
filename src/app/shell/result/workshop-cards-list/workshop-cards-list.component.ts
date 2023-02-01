@@ -61,7 +61,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshops(): void {
-    Util.setFromPaginationParam(this.paginationParameters, this.currentPage);
+    Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
     this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
   }
 }

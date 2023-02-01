@@ -136,7 +136,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   private getRates(): void {
-    Util.setFromPaginationParam(this.rateParameters, this.currentPage);
+    Util.setFromPaginationParam(this.rateParameters, this.currentPage, this.rating?.totalAmount);
     this.store.dispatch(new GetRateByEntityId(this.rateParameters));
   }
 }

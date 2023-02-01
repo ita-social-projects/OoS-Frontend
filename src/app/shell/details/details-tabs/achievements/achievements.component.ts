@@ -97,7 +97,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
   }
 
   private getAchievements(): void {
-    Util.setFromPaginationParam(this.achievementParameters, this.currentPage);
+    Util.setFromPaginationParam(this.achievementParameters, this.currentPage, this.achievements?.totalAmount);
     this.store.dispatch(new GetAchievementsByWorkshopId(this.achievementParameters));
   }
 }

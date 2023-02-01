@@ -4,7 +4,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil, map } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, startWith, takeUntil, map, take } from 'rxjs/operators';
 import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
@@ -48,6 +48,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   searchString: string;
   currentPage: PaginationElement = PaginationConstants.firstPage;
   searchFormControl = new FormControl('');
+  totalAmount: number;
   dropdownData: DropdownData[];
   filters: FilterData = {
     dateFrom: null,
@@ -118,14 +119,25 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       case Tabs.Provider:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
         this.dropdownData = ProviderOptions;
+        this.providersHistory$
+          .pipe(take(1))
+          .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
         break;
       case Tabs.ProviderAdmin:
         this.store.dispatch([new GetProviderAdminHistory(filters, searchString)]);
         this.dropdownData = ProviderAdminOptions;
+        this.providerAdminHistory$
+          .pipe(take(1))
+          .subscribe(
+            (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
+          );
         break;
       case Tabs.Application:
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
         this.dropdownData = ApplicationOptions;
+        this.applicationHistory$
+          .pipe(take(1))
+          .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
         break;
     }
   }
@@ -141,7 +153,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   private getTableData(searchString?: string): void {
-    Util.setFromPaginationParam(this.filters, this.currentPage);
+    Util.setFromPaginationParam(this.filters, this.currentPage, this.totalAmount);
     this.dispatchProperValue(this.tabIndex, this.filters, searchString);
   }
 }
