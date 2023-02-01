@@ -154,8 +154,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
       width: Constants.MODAL_SMALL,
       data: {
         type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
-        property: admin.user.pib,
-      },
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {

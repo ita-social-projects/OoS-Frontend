@@ -219,7 +219,7 @@
     },
     "USER_STATUSES":{
       "NEVER_LOGGED": "Never logged",
-      "ACCEPTED": "Accapted",
+      "ACCEPTED": "Accepted",
       "BLOCKED": "Blocked"
     },
     "EMAIL_CONFIRMATION_STATUSES" : {
@@ -488,7 +488,7 @@
     "CONFIRM": "Confirm",
     "CHANGE": "Change",
     "ADD_INFO": "Add information",
-    "BLOCK": "BLock",
+    "BLOCK": "Block",
     "UNBLOCK": "Unblock",
     "CONFIRM_LICENSE": "Confirm provider license",
     "CONFIRM_EDITING": "Send for editing",
@@ -545,7 +545,9 @@
     "TITLE": "Title",
     "PERIOD": "Period",
     "CREATE_DATE": "Creation date",
-    "DOWNLOAD": "Download"
+    "DOWNLOAD": "Download",
+    "WORKSHOPS_DAILY": "For the last 24 hours",
+    "WORKSHOPS_YEAR": "For the year"
   },
   "NOTIFICATION_DETAILS": {
     "READ_ALL": "Mark all as read",
@@ -577,5 +579,4 @@
       "PENDING": "Once the license status is approved, a confirmation icon will appear on the institution's or workshop's preview page",
       "NOT_PROVIDED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
     }
-  }
 }
