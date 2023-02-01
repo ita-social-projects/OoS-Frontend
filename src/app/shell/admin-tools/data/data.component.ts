@@ -3,7 +3,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
-import { AdminTabsTitle } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
 
 @Component({
   selector: 'app-data',
@@ -22,7 +22,7 @@ export class DataComponent implements OnInit, OnDestroy {
         this.navigationBarService.createOneNavPath({
           name: NavBarName.Administration,
           path: '/admin-tools/platform',
-          queryParams: { page: AdminTabsTitle.AboutPortal },
+          queryParams: { page: AdminTabTypes.AboutPortal },
           isActive: false,
           disable: false
         })

@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
@@ -41,7 +41,7 @@ export class GetStatisticReports {
 
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
+  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';
@@ -49,7 +49,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
+  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
