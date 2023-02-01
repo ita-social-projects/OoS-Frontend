@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Constants, NotificationsConstants } from '../../../constants/constants';
+import { Constants } from '../../../constants/constants';
 import {
   ApplicationApproved,
   ApplicationPending,
@@ -39,6 +39,7 @@ import {
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
 import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-links';
+import { NoResultsTitle } from '../../../enum/enumUA/no-results';
 
 @Component({
   selector: 'app-notifications-list',
@@ -46,10 +47,10 @@ import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-l
   styleUrls: ['./notifications-list.component.scss'],
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
-  readonly NotificationsConstants = NotificationsConstants;
   readonly ApplicationHeaderDeclinations = ApplicationChanges;
   readonly NotificationDescriptionType = NotificationDescriptionType;
   readonly Constants = Constants;
+  readonly NoResults = NoResultsTitle.noNotifications;
 
   @Input() notificationsAmount: NotificationsAmount;
   @Input() recievedNotification: Notification;

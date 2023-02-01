@@ -107,10 +107,6 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
   }
 ];
 
-export class NotificationsConstants {
-  static readonly NO_MESSAGE = 'У вас немає нових сповіщень';
-}
-
 export class CropperConfigurationConstants {
   static readonly defaultCropperAspectRatio = 1 / 1;
   static readonly coverImageCropperAspectRatio = 5 / 3;

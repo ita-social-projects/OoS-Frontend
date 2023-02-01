@@ -511,7 +511,8 @@
     "NO_ADMINS": "You can add administrators here",
     "NO_HISTORY": "No change history yet",
     "NO_INFO": "No information yet",
-    "NO_MESSAGES": "No messages yet"
+    "NO_MESSAGES": "No messages yet",
+    "NO_NOTIFICATIONS": "You don't have any new notifications"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -534,5 +535,36 @@
     "PERIOD": "Period",
     "CREATE_DATE": "Creation date",
     "DOWNLOAD": "Download"
+  },
+  "NOTIFICATION_DETAILS": {
+    "READ_ALL": "Mark all as read",
+    "DELETE_ALL": "Delete all",
+    "YOU_HAVE": "You have",
+    "PROVIDER_SHORT_DESCRIPTION": {
+      "EDITING": "Your organization needs editing",
+      "APPROVED": "Congratulations! Your organization has been successfully approved"
+    },
+    "WORKSHOP_SHORT_DESCRIPTION": {
+      "OPEN": "Workshop recruitment is open",
+      "CLOSED": "Workshop recruitment successfully is closed"
+    },
+    "LICENSE_SHORT_DESCRIPTION": {
+      "APPROVED": "The organization's license has been successfully confirmed by the administrator",
+      "PENDING": "New organization is awaiting license approval",
+      "NOT_PROVIDED": "A new organization was registered without a license"
+    },
+    "PROVIDER_FULL_DESCRIPTION": {
+      "EDITING": "View the reason for editing and correct the information about the organization",
+      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform."
+    },
+    "WORKSHOP_FULL_DESCRIPTION": {
+      "OPEN": "Workshop recruitment is open, now you can apply for this workshop.",
+      "CLOSED": "Workshop recruitment is closed, now you can not apply for this workshop."
+    },
+    "LICENSE_FULL_DESCRIPTION": {
+      "APPROVED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
+      "PENDING": "Once the license status is approved, a confirmation icon will appear on the institution's or workshop's preview page",
+      "NOT_PROVIDED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
+    }
   }
 }
