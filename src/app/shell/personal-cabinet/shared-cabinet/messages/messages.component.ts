@@ -108,7 +108,8 @@ export class MessagesComponent extends CabinetDataComponent {
       .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
       .subscribe((val: string) => {
         this.chatRoomsParameters.searchText = val;
-        this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+        this.currentPage = PaginationConstants.firstPage;
+        this.getChatRooms();
       });
   }
 

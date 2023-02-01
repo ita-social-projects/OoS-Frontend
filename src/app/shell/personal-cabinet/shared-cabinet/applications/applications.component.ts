@@ -72,6 +72,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   onEntitiesSelect(IDs: string[]): void {
+    this.currentPage = PaginationConstants.firstPage;
+    Util.setFromPaginationParam(this.applicationParams, this.currentPage);
     this.enititiesSelect.emit(IDs);
   }
 
@@ -93,12 +95,13 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
       const status = params['status'];
       const tabIndex = Number(ApplicationStatusTabParams[status]);
       this.setFilterParams(status, tabIndex);
       this.tabGroup.selectedIndex = tabIndex;
-      this.getApplications.emit();
+      this.currentPage = PaginationConstants.firstPage;
+      this.getApplicationData();
     });
   }
 
@@ -107,14 +110,9 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param workshopsId: number[]
    */
   onTabChange(event: MatTabChangeEvent): void {
-    const tabIndex = event.index;
-
-    this.currentPage = PaginationConstants.firstPage;
-    this.getApplicationData();
-
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: ApplicationStatusTabParams[tabIndex] }
+      queryParams: { status: ApplicationStatusTabParams[event.index] }
     });
   }
 

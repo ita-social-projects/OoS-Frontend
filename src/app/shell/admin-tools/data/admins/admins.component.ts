@@ -68,7 +68,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.adminParams.searchString = searchString;
-        this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+        this.currentPage = PaginationConstants.firstPage;
+        this.getAdmins();
       });
 
     this.ministryAdmins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {

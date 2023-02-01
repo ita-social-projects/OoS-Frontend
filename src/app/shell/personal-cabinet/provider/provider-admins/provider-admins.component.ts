@@ -67,7 +67,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
       this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
       this.filterParams.deputyOnly = params['role'] === ProviderAdminRole.deputy;
-      this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
+      this.currentPage = PaginationConstants.firstPage;
+      this.getFilteredProviderAdmins();
     });
   }
 
@@ -204,7 +205,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: string) => {
         this.filterParams.searchString = val;
-        this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
+        this.currentPage = PaginationConstants.firstPage;
+        this.getFilteredProviderAdmins();
       });
 
     this.providerAdmins$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
