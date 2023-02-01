@@ -48,7 +48,6 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   readonly OwnershipTypeEnum = OwnershipTypesEnum;
   readonly ownershipTypes = OwnershipTypes;
   readonly statusIcons = UserStatusIcons;
-
   readonly providerStatuses = ProviderStatuses;
   readonly providerStatusTitles = ProviderStatusTitles;
   
