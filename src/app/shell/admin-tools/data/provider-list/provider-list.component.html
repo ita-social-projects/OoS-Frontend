@@ -26,14 +26,14 @@
             appStretchTable>
             <ng-container matColumnDef="fullTitle">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
-                Назва закладу
+                {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">{{ element.fullTitle | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="ownership">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ownership">
-                Форма власності
+                {{ 'FORMS.LABELS.OWNERSHIP' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <span>
@@ -43,18 +43,20 @@
             </ng-container>
 
             <ng-container matColumnDef="edrpouIpn">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">ЄДРПО</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
+                {{ 'FORMS.LABELS.EDRPO_IPN' | translate }}
+              </th>
               <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="licence">
-              <th mat-header-cell *matHeaderCellDef>Ліцензія №</th>
+              <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
               <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="city">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">
-                Населений пункт
+                {{ 'FORMS.LABELS.SETTELMENT' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform }}
@@ -62,7 +64,9 @@
             </ng-container>
 
             <ng-container matColumnDef="street">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">Адреса</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">
+                {{ 'FORMS.LABELS.ADDRESS' | translate }}
+              </th>
               <td mat-cell *matCellDef="let element">
                 {{ element.legalAddress | getAddress : ModeConstants.SHORT | emptyValueTransform }}
               </td>
@@ -70,14 +74,14 @@
 
             <ng-container matColumnDef="email">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
-                Електронна пошта
+                {{ 'FORMS.LABELS.EMAIL' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">{{ element.email }}</td>
             </ng-container>
 
             <ng-container matColumnDef="phoneNumber">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
-                Телефон
+                {{ 'FORMS.LABELS.PHONE' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
             </ng-container>
@@ -89,7 +93,7 @@
                 *matHeaderCellDef
                 mat-sort-header
                 sortActionDescription="Sort by status">
-                Статус
+                {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
