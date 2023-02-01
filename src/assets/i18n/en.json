@@ -432,7 +432,8 @@
     "EDIT_USER": "Edit the user",
     "DELETE_USER": "Delete the user",
     "CONFIRM": "Confirm",
-    "CHANGE": "Change"
+    "CHANGE": "Change",
+    "ADD_INFO": "Add information"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
