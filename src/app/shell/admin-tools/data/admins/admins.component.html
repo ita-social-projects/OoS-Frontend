@@ -13,7 +13,7 @@
 
     <div>
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-        Додати <mat-icon>arrow_drop_down</mat-icon>
+        {{ 'BUTTONS.ADD' | translate }} <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #add="matMenu" class="header_menu">
         <a *ngIf="role === Role.techAdmin" [routerLink]="['/create-admin', AdminRoles.ministryAdmin]"
