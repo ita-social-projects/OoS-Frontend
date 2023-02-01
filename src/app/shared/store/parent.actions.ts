@@ -4,6 +4,7 @@ import { Child, ChildrenParameters } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
 import { RequestParams } from '../models/child.model';
 import { Rate } from '../models/rating';
+import { PaginationParameters } from '../models/queryParameters.model';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
@@ -27,7 +28,7 @@ export class GetFavoriteWorkshops {
 
 export class GetFavoriteWorkshopsByUserId {
   static readonly type = '[parent] get favorite workshops by UserId';
-  constructor() {}
+  constructor(public paginationParameters: PaginationParameters) {}
 }
 
 export class CreateFavoriteWorkshop {

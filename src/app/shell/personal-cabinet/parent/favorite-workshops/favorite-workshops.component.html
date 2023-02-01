@@ -6,7 +6,7 @@
     <app-paginator
       [totalEntities]="favoriteWorkshopsCard.totalAmount"
       [currentPage]="currentPage"
-      [itemsPerPage]="favoriteWorkshopsPerPage"
+      [itemsPerPage]="paginationParameters.size"
       (pageChange)="onPageChange($event)"
       (itemsPerPageChange)="onItemsPerPageChange($event)"
     >

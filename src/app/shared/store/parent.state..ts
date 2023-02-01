@@ -171,14 +171,11 @@ export class ParentState {
   @Action(GetFavoriteWorkshopsByUserId)
   getFavoriteWorkshopsByUserId(
     { patchState }: StateContext<ParentStateModel>,
-    {}: GetFavoriteWorkshopsByUserId
+    { paginationParameters }: GetFavoriteWorkshopsByUserId
   ): Observable<SearchResponse<WorkshopCard[]>> {
-    //TODO: refactor to teh correct pagination flow
     return this.favoriteWorkshopsService
-      .getFavoriteWorkshopsByUserId()
-      .pipe(
-        tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities }))
-      );
+      .getFavoriteWorkshopsByUserId(paginationParameters)
+      .pipe(tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) => patchState({ favoriteWorkshopsCard: favoriteWorkshopCard })));
   }
 
   @Action(CreateFavoriteWorkshop)
