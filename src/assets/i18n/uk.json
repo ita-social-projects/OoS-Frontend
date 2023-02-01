@@ -78,22 +78,29 @@
       "ADD_ADMIN": "Додати адміністратора",
       "ADD_CHILD_INFORMATION": "Додати дані про дитину",
       "ADD_DIRECTION": "Додати напрямок",
-      "ADD_PROVIDER_ADMIN": "Додати адміністратора гуртка",
       "ADD_PROVIDER_DEPUTY": "Додати заступника директора",
+      "ADD_PROVIDER_ADMIN": "Додати адміністратора гуртка",
+      "EDIT_PROVIDER_DEPUTY": "Редагувати заступника директора",
+      "EDIT_PROVIDER_ADMIN": "Редагувати адміністратора гуртка",
+      "ADD_PROVIDER_MINISTRY_ADMIN": "Додати адміністратора міністерства",
+      "ADD_PROVIDER_REGION_ADMIN": "Додати адміністратора області",
+      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Додати адімінстратора ОТГ",
+      "EDIT_PROVIDER_MINISTRY_ADMIN": "Редагувати адміністратора міністерства",
+      "EDIT_PROVIDER_REGION_ADMIN": "Редагувати адміністратора області",
+      "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Редагувати адміністратора ОТГ",
       "ADMINISTRATION": "Адміністрування",
       "ADMINS": "Адміністратори",
       "APPLICATIONS": "Заявки",
       "CHAT": "Чат",
       "DIRECTIONS": "Напрямки",
       "EDIT_ACHIEVEMENT": "Редагувтаи досягнення",
-      "EDIT_ADMIN": "Редагування адміністратора",
-      "EDIT_ADMINISTRATOR": "Редагування адміністратора гуртка",
       "EDIT_DIRECTION": "Редагувати напрямок",
       "EDIT_INFORMATION_ABOUT_CHILD": "Редагувати дані про дитину",
       "EDIT_PERSONAL_INFORMATION": "Редагування особистої інформації",
-      "EDIT_PROVIDER_DEPUTY": "Редагування заступника директора",
       "EDIT_PROVIDER_INFORMATION": "Редагувати заклад",
       "EDIT_WORKSHOP": "Редагування гуртка",
+      "ADD_NEW_ADMIN": "Додати адміністратора",
+      "EDIT_ADMIN": "Редагування адміністратора",
       "INFORMATION_ABOUT_CHILDREN": "Інформація про дітей",
       "INFORMATION_ABOUT_PROVIDER": "Інформація про заклад",
       "MAIN_PAGE": "Головна сторінка",
@@ -238,6 +245,11 @@
       "PROVIDER_ADMIN": "Адміністратор гуртка",
       "ALL": "Усі"
     },
+    "ADMISTRATORS": {
+      "MINISTRY_ADMIN" : "Адміністратор міністерства",
+      "REGION_ADMIN" : "Адміністратор області",
+      "TERRITORIAL_ADMIN" : "Адміністратор ОТГ"
+    },
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
       "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
@@ -280,12 +292,9 @@
       "EDIT" : "РЕДАГУВАННЯ",
       "EDIT_INFO" : "Редагування інформації",
       "SUBHEADER_TITLE" : "Заголовок",
-      "ADD_PROVIDER_DEPUTY": "ДОДАТИ АДМІНІСТРАТОРА ГУРТКА",
-      "ADD_PROVIDER_ADMIN": "ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА",
-      "EDIT_PROVIDER_DEPUTY": "РЕДАГУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
-      "EDIT_PROVIDER_ADMIN": "РЕДАГУВАТИ АДМІНІСТРАТОРА ГУРТКА",
       "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.",
-      "ADD_ACHIEVEMENT":"ДОДАТИ ДОСЯГНЕННЯ"
+      "ADD_ACHIEVEMENT":"ДОДАТИ ДОСЯГНЕННЯ",
+      "ADD_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. Пароль є тимчасовим і повинен бути заміненим при першому вході"
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -499,7 +508,8 @@
     "PLATFORM_RULES": "Правилами користування",
     "PERSONAL_DATA_USE": "та надаю згоду на обробку персональних даних",
     "I_AGREE_FOR_DATA_USE": "Я надаю згоду на обробку персональних даних",
-    "I_AM_NOT_ROBOT": "Я не робот"
+    "I_AM_NOT_ROBOT": "Я не робот",
+    "I_AGREE_FOR_ADMIN": "Додаючи адміна я погоджуюсь з"
   },
   "LESS_THAN_ONE_YEAR": "< 1 року",
   "EMPTY_BANNERS": {

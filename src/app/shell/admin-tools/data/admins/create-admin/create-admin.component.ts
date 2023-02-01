@@ -10,7 +10,7 @@ import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { AdminRole } from '../../../../../shared/enum/admins';
+import { AdminRoles } from '../../../../../shared/enum/admins';
 import { CreateAdminTitle } from '../../../../../shared/enum/enumUA/tech-admin/create-admin';
 import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../../shared/enum/navigation-bar';
@@ -26,6 +26,7 @@ import { RegistrationState } from '../../../../../shared/store/registration.stat
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Util } from '../../../../../shared/utils/utils';
 import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin } from '../../../../../shared/store/admin.actions';
+import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from '../../../../../shared/enum/enumUA/admins';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
@@ -42,7 +43,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   readonly validationConstants = ValidationConstants;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  readonly adminsRole = AdminRole;
+  readonly adminsRole = AdminRoles;
   readonly title = CreateAdminTitle;
 
   @Select(MetaDataState.institutions)
@@ -51,8 +52,9 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   selectedMinistryAdmin$: Observable<MinistryAdmin>;
 
   AdminFormGroup: FormGroup;
-  adminRole: AdminRole;
+  adminRole: AdminRoles;
   adminId: string;
+  formTitle: string;
 
   constructor(
     protected store: Store,
@@ -77,11 +79,15 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       email: new FormControl('', [Validators.required, Validators.email])
     });
 
-    this.adminRole = AdminRole[this.route.snapshot.paramMap.get('param')];
+    this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
     this.subscribeOnDirtyForm(this.AdminFormGroup);
   }
 
   ngOnInit(): void {
+    this.formTitle = this.editMode
+    ? AdminsFormTitlesEdit[this.adminRole]
+    : AdminsFormTitlesNew[this.adminRole];
+
     this.store.dispatch(new GetAllInstitutions(true));
     this.determineEditMode();
   }

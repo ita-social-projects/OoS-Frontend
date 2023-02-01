@@ -1,11 +1,17 @@
-export enum AdminRoleUkr {
-  ministryAdmin = 'Адміністратор міністерства',
-  regionAdmin = 'Адміністратор регіона',
-  territorialCommunityAdmin = 'Адміністратор ОТГ'
+export enum AdminsFormTitlesNew {
+  ministryAdmin = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_MINISTRY_ADMIN',
+  regionAdmin = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_REGION_ADMIN',
+  territorialCommunityAdmin = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_TERRITORIAL_ADMIN',
 }
 
-export enum AdminRoleUkrReverse {
-  'Адміністратор міністерства' = 'ministryAdmin',
-  'Адміністратор регіона' = 'regionAdmin',
-  'Адміністратор ОТГ' = 'territorialCommunityAdmin'
+export enum AdminsFormTitlesEdit {
+  deputy = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_MINISTRY_ADMIN',
+  admin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_REGION_ADMIN',
+  territorialCommunityAdmin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_TERRITORIAL_ADMIN',
+}
+
+export enum AdminRolesTitles {
+  ministryAdmin = 'ENUM.ADMISTRATORS.MINISTRY_ADMIN',
+  regionAdmin = 'ENUM.ADMISTRATORS.REGION_ADMIN',
+  territorialCommunityAdmin = 'ENUM.ADMISTRATORS.TERRITORIAL_ADMIN',
 }
