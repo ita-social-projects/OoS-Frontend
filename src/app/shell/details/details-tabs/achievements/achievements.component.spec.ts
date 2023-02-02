@@ -4,6 +4,7 @@ import { MatCardModule } from '@angular/material/card';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
 import { Achievement } from '../../../../shared/models/achievement.model';
@@ -16,7 +17,7 @@ describe('AchievementsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatIconModule, MatCardModule, RouterTestingModule, MatDialogModule],
+      imports: [NgxsModule.forRoot([]), MatIconModule, MatCardModule, RouterTestingModule, MatDialogModule, TranslateModule.forRoot()],
       declarations: [AchievementsComponent, NoResultCardComponent, MockAchievementCardComponent]
     }).compileComponents();
   });
