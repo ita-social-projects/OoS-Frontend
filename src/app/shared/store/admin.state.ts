@@ -3,7 +3,6 @@ import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
 import { Child } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
@@ -65,11 +64,12 @@ import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../mo
 import { OnPageChangeDirections } from './paginator.actions';
 import { EMPTY_RESULT, PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
-import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetMainPageInfo } from './main-page.actions';
 import { StatisticReport } from '../models/statistic.model';
 import { StatisticReportsService } from '../services/statistics-reports/statistic-reports.service';
+import { AdminTabTypes } from '../enum/admins';
+import { SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -519,7 +519,7 @@ export class AdminState {
   onCreateMinistryAdminSuccess({ dispatch }: StateContext<AdminState>): void {
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.createMinistryAdminSuccess,
+        message: SnackbarText.createAdminSuccess,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -573,7 +573,7 @@ export class AdminState {
   onDeleteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.deleteMinistryAdmin,
+        message: SnackbarText.deleteAdmin,
         type: 'success',
       }),
       new GetAllMinistryAdmins(),
@@ -646,7 +646,7 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: SnackbarText.updateMinistryAdmin,
+        message: SnackbarText.updateAdmin,
         type: 'success',
       }),
     ]);

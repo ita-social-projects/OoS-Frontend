@@ -9,5 +9,6 @@ export enum NoResultsTitle {
   noAdmins = 'EMPTY_BANNERS.NO_ADMINS',
   noHistory = 'EMPTY_BANNERS.NO_HISTORY',
   noInfo = 'EMPTY_BANNERS.NO_INFO',
-  noMessages = 'EMPTY_BANNERS.NO_MESSAGES'
+  noMessages = 'EMPTY_BANNERS.NO_MESSAGES',
+  noNotifications = 'EMPTY_BANNERS.NO_NOTIFICATIONS'
 }

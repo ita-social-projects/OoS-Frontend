@@ -7,7 +7,6 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, map } from 'rxjs/operators';
 import {
   HistoryLogTabTitles,
-  TypeChange,
 } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
@@ -30,7 +29,7 @@ import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../..
 import { OnPageChangeHistoryLog, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 
 @Component({
@@ -41,7 +40,6 @@ import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 export class HistoryLogComponent implements OnInit, OnDestroy {
   readonly HistoryLogTabTitles = HistoryLogTabTitles;
   readonly HistoryLogTypes = HistoryLogTypes;
-  readonly typeChange = TypeChange;
   readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)

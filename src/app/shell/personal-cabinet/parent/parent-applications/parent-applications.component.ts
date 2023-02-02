@@ -5,7 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import {
   ApplicationFilterParameters,
   Application,

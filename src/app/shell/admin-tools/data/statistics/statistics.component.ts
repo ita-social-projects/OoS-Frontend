@@ -13,7 +13,7 @@ import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/st
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { StatisticPeriodTitles } from '../../../../shared/enum/enumUA/statistics';
 
 @Component({

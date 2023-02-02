@@ -8,7 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { Role } from '../../../../shared/enum/role';
 import { ProviderWorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';

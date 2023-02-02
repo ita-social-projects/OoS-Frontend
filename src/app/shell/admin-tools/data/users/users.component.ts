@@ -7,8 +7,8 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { UserTabParams, UserTabsTitles } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { UserTabsTitles } from '../../../../shared/enum/enumUA/user';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -20,6 +20,7 @@ import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
 import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
+import { UserTabParams } from '../../../../shared/enum/role';
 
 @Component({
   selector: 'app-users',

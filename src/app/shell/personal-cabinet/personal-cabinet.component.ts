@@ -1,12 +1,13 @@
 import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { PersonalCabinetTitle } from '../../shared/enum/navigation-bar';
-import { RoleLinks, Role } from '../../shared/enum/role';
+import { PersonalCabinetTitle } from '../../shared/enum/enumUA/navigation-bar';
+import { Role } from '../../shared/enum/role';
 import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { Util } from '../../shared/utils/utils';
 import { ApplicationStatuses } from '../../shared/enum/statuses';
+import { RoleLinks } from '../../shared/enum/enumUA/user';
 
 @Component({
   selector: 'app-personal-cabinet',

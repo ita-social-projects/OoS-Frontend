@@ -18,7 +18,7 @@ import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { Role } from '../../../../shared/enum/role';
 import { ProviderAdmin } from '../../../../shared/models/providerAdmin.model';

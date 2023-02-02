@@ -8,7 +8,7 @@ import { filter } from 'rxjs/operators';
 import { Constants } from '../../../../../shared/constants/constants';
 import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
 import { User } from '../../../../../shared/models/user.model';
 import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from '../../../../../shared/store/navigation.actions';

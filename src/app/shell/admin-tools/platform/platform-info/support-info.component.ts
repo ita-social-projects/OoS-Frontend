@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { AdminTabTypes } from '../../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../../../shared/enum/admins';
 
 @Component({
   selector: 'app-support-info',
@@ -14,6 +14,4 @@ export class SupportInfoComponent {
 
   @Select(AdminState.SupportInformation)
   SupportInformation$: Observable<CompanyInformation>;
-
-  constructor() {}
 }

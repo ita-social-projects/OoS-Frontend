@@ -4,7 +4,7 @@ import { combineLatest, Observable, Subject } from 'rxjs';
 import { take, takeUntil } from 'rxjs/operators';
 import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
 import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
-import { NavBarName } from '../../shared/enum/navigation-bar';
+import { NavBarName } from '../../shared/enum/enumUA/navigation-bar';
 import { FilterStateModel } from '../../shared/models/filterState.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';

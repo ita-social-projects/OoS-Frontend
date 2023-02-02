@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Constants } from '../../../../../../shared/constants/constants';
 import { YearDeclination } from '../../../../../../shared/enum/enumUA/declinations/declination';
-import { Gender } from '../../../../../../shared/enum/gender';
+import { Gender } from '../../../../../../shared/enum/enumUA/gender';
 import { Child } from '../../../../../../shared/models/child.model';
 import { DetectedDeviceService } from '../../../../../../shared/services/detected-device/detected-device.service';
 import { Util } from '../../../../../../shared/utils/utils';

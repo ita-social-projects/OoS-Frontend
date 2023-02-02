@@ -6,18 +6,12 @@ export enum ProviderAdminTitles {
 }
 
 export enum ProviderAdminsFormTitlesNew {
-  deputy = 'FORMS.HEADERS.ADD_PROVIDER_DEPUTY',
+  deputy = 'NAV_BAR_NAME.ADD_PROVIDER_DEPUTY',
   admin = 'FORMS.HEADERS.ADD_PROVIDER_ADMIN',
 }
 
 export enum ProviderAdminsFormTitlesEdit {
-  deputy = 'FORMS.HEADERS.EDIT_PROVIDER_DEPUTY',
-  admin = 'FORMS.HEADERS.EDIT_PROVIDER_ADMIN',
-}
-
-export enum ProviderAdminParams{
-  all,
-  deputy,
-  admin
+  deputy = 'NAV_BAR_NAME.EDIT_PROVIDER_DEPUTY',
+  admin = 'NAV_BAR_NAME.EDIT_PROVIDER_ADMIN',
 }
 

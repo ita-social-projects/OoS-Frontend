@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBarModule, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { MessageBarComponent } from './message-bar.component';
 
@@ -10,7 +11,7 @@ describe('SnackBarComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatIconModule, MatSnackBarModule],
+      imports: [MatIconModule, MatSnackBarModule, TranslateModule.forRoot()],
       declarations: [MessageBarComponent],
       providers: [{ provide: MAT_SNACK_BAR_DATA, useValue: {} }]
     }).compileComponents();

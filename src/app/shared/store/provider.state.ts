@@ -87,10 +87,10 @@ import { GetProfile, CheckAuth } from './registration.actions';
 import { BlockedParent } from '../models/block.model';
 import { BlockService } from '../services/block/block.service';
 import { TruncatedItem } from '../models/item.model';
-import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetFilteredProviders } from './admin.actions';
 import { ProviderStatuses } from './../enum/statuses';
+import { SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface ProviderStateModel {
   isLoading: boolean;
