@@ -1,17 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { StatisticParameters, StatisticReport } from '../../../../shared/models/statistic.model';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { GetStatisticReports } from '../../../../shared/store/admin.actions';
+import { DownloadStatisticReport, GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticPeriodType, StatisticPeriodTitle, StatisticFileFormat } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-statistics',
@@ -26,6 +27,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
+  @Select(AdminState.downloadedReport)
+  uploadedReport$: Observable<HttpResponse<Blob>>;
   @Select(PaginatorState.tableItemsPerPage)
   tableItemsPerPage$: Observable<number>;
 
@@ -48,6 +51,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       format: new FormControl(StatisticFileFormat.CSV)
     });
 
+    this.uploadedReport$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((response: HttpResponse<Blob>) => {
+      const a = document.createElement('a');
+      a.download = new Date(Date.now()).toDateString();
+      a.href = window.URL.createObjectURL(response.body);
+      a.click();
+    });
+
     this.setParams();
   }
 
@@ -63,6 +73,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   onGenerateReport(): void {
     this.setParams();
     this.store.dispatch(new GetStatisticReports(this.statisticParameters));
+  }
+
+  onLoadReport(id: string): void {
+    this.store.dispatch(new DownloadStatisticReport(id));
   }
 
   ngOnDestroy(): void {

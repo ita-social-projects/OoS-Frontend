@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -17,6 +17,10 @@ export class StatisticReportsService {
     const params = this.setParams(parameters);
 
     return this.http.get<SearchResponse<StatisticReport[]>>(`/api/v1/StatisticReport/GetByFilter`, { params });
+  }
+
+  getReportById(id: string): Observable<HttpResponse<Blob>> {
+    return this.http.get(`/api/v1/StatisticReport/GetDataById/${id}`, { observe: 'response', responseType: 'blob' });
   }
 
   private setParams(parameters: StatisticParameters): HttpParams {

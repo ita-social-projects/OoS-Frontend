@@ -70,7 +70,7 @@
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button class="btn btn-transparent" mat-strocked-button [routerLink]="'/api/v1/StatisticReport/GetDataById/' + element.id">
+            <button class="btn btn-transparent" mat-strocked-button (click)="onLoadReport(element.externalStorageId)">
               <mat-icon class="download-icon">get_app</mat-icon> Завантажити
             </button>
           </td>

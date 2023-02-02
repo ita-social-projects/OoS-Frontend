@@ -39,6 +39,11 @@ export class GetStatisticReports {
   constructor(public parameters: StatisticParameters) {}
 }
 
+export class DownloadStatisticReport {
+  static readonly type = '[admin] Download Statistic Report';
+  constructor(public externalStorageId: string) {}
+}
+
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
   constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
