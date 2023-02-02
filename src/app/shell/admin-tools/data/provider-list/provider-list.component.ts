@@ -194,10 +194,13 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe((result: boolean) => {
         result &&
           this.store.dispatch(
-            new BlockProviderById({
-              id: provider.id,
-              isBlocked: false
-            })
+            new BlockProviderById(
+              {
+                id: provider.id,
+                isBlocked: false
+              },
+              this.providerParameters
+            )
           );
       });
     } else {
@@ -206,38 +209,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       });
       dialogRef.afterClosed().subscribe((result: string) => {
         if (result) {
-          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }));
-        }
-      });
-    }
-  }
-
-  onBlock(provider: Provider): void {
-    if (provider.isBlocked) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.unBlockProvider,
-          property: provider.fullTitle
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        result &&
-          this.store.dispatch(
-            new BlockProviderById({
-              id: provider.id,
-              isBlocked: false
-            })
-          );
-      });
-    } else {
-      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-        data: { type: ModalConfirmationType.blockProvider }
-      });
-      dialogRef.afterClosed().subscribe((result: string) => {
-        if (result) {
-          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }));
+          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }, this.providerParameters));
         }
       });
     }

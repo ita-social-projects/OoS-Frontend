@@ -171,7 +171,7 @@ export class BlockMinistryAdminById {
 
 export class BlockProviderById {
   static readonly type = '[admin] block Provider';
-  constructor(public payload: BlockProviderData) {}
+  constructor(public payload: BlockProviderData, public parameters: MinistryAdminParameters) {}
 }
 
 export class OnBlockSuccess {

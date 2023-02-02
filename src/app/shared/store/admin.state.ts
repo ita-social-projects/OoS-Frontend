@@ -560,9 +560,12 @@ export class AdminState {
   }
 
   @Action(BlockProviderById)
-  blockProviderById({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockProviderById): Observable<void | Observable<void>> {
+  blockProviderById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, parameters }: BlockProviderById
+  ): Observable<void | Observable<void>> {
     return this.providerService.blockProvider(payload).pipe(
-      tap(() => dispatch([new OnBlockSuccess(payload), new GetFilteredProviders()])),
+      tap(() => dispatch([new OnBlockSuccess(payload), new GetFilteredProviders(parameters)])),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
     );
   }

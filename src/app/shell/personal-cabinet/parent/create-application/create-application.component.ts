@@ -62,7 +62,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   tabIndex = 0;
   childrenParameters: ChildrenParameters = {
     searchString: '',
-    tabTitle: null,
+    isParent: null,
     from: 0,
     size: 0
   };

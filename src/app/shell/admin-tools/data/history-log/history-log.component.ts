@@ -90,8 +90,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] }
-      queryParams: { tab: HistoryLogTypes[this.tabIndex] },
+      queryParams: { tab: HistoryLogTypes[this.tabIndex] }
     });
   }
 
