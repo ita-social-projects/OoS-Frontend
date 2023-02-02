@@ -374,7 +374,10 @@
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION" : "Оберіть підпорядкування",
       "SELECT_TEACHER": "Обрати тренера/викладача",
-      "SELECT_ACHIEVEMENT": "Оберіть тип досягнення"
+      "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
+      "SELECT_OWNERSHIP": "Оберіть форму власності",
+      "SELECT_INSTITUTION_CATEGORY": "Оберіть категорія закладу",
+      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
