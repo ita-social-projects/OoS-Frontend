@@ -14,7 +14,7 @@ import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
 import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from '../../enum/modal-confirmation';
+import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
@@ -132,8 +132,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       autoFocus: false,
       restoreFocus: false,
       data: {
-        message: 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо',
-        buttonLabel: 'Зареєструватися'
+        message: ModalConfirmationDescription.unregisteredFavoriteWarning,
       },
     });
   }

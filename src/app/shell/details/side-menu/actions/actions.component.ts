@@ -17,17 +17,19 @@ import { RegistrationState } from '../../../../shared/store/registration.state';
 import { UnregisteredUserWarningModalComponent } from '../../../../shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModeConstants } from '../../../../shared/constants/constants';
 import { SnackbarText } from '../../../../shared/enum/enumUA/messageBer';
+import { ModalConfirmationDescription } from '../../../../shared/enum/modal-confirmation';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, OnDestroy {
-  readonly Role: typeof Role = Role;
+  readonly Role = Role;
   readonly PayRateTypeEnum = PayRateTypeEnum;
   readonly workhopStatus = WorkshopOpenStatus;
   readonly ModeConstants = ModeConstants;
-
+  readonly ModalTypeAction = ModalConfirmationDescription;
+  
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
   public hideApplicationSubmission: boolean;
@@ -63,16 +65,13 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  onOpenDialog(forFavorite?: boolean): void {
+  onOpenDialog(type: ModalConfirmationDescription): void {
     !(this.role !== Role.unauthorized) &&
       this.dialog.open(UnregisteredUserWarningModalComponent, {
         autoFocus: false,
         restoreFocus: false,
         data: {
-          message: forFavorite
-            ? 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо'
-            : 'Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо',
-          buttonLabel: 'Зареєструватися'
+          message: ModalConfirmationDescription[type],
         }
       });
   }

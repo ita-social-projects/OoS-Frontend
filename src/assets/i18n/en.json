@@ -455,10 +455,11 @@
   "BANNERS": {
     "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
     "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
-    "ADD_WORKSHOP" : "You can add unfromation about the new workshop",
+    "ADD_WORKSHOP" : "You can add information about the new workshop",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
-    "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop."
+    "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
+    "ADD_ACHIEVEMENT_SUBHEADER": "You can add information about the new achievement"
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
@@ -494,7 +495,9 @@
     "UNBLOCK": "Unblock",
     "CONFIRM_LICENSE": "Confirm provider license",
     "CONFIRM_EDITING": "Send for editing",
-    "DELETE": "Delete"
+    "DELETE": "Delete",
+    "GO_BACK": "Go back",
+    "REGISTER": "Register"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -586,6 +589,9 @@
   },
   "SERVICE_MESSAGES": {
     "NO_INFO" : "no data",
+    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you",
+    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you",
+    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you",
     "MESSAGE_STATUS": {
       "LEFT":"Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",
@@ -729,7 +735,6 @@
   },
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Oops! Page is not found.",
-    "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404",
-    "BACK": "Go back"
+    "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
   }
 }
