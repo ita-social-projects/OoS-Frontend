@@ -88,7 +88,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.filterFormControl.reset('', { emitEvent: false });
     this.childrenParams.searchString = '';
     if (tabIndex !== UserTabParams.all) {
-      this.childrenParams.isParent = UserTabParams.child === tabIndex;
+      this.childrenParams.isParent = UserTabParams.child !== tabIndex;
     } else {
       this.childrenParams.isParent = undefined;
     }
