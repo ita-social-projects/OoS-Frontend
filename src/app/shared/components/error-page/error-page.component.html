@@ -2,7 +2,7 @@
   <a>
     <img class="error-img" src="../../../../assets/images/Error.png" alt="error" />
   </a>
-  <h1 class="error-title">Ой! сторінку не знайдено.</h1>
-  <p class="error-description">Схоже, ми не можемо знайти сторінку, яку Ви шукаєте. Код помилки: 404</p>
-  <button class="btn" (click)="OnBack()" mat-raised-button>Повернутись</button>
+  <h1 class="error-title">{{ 'ERROR_PAGE.ERROR_HAPPEND' | translate }}</h1>
+  <p class="error-description">{{ 'ERROR_PAGE.ERROR_404' | translate }}</p>
+  <button class="btn" (click)="OnBack()" mat-raised-button>{{ 'ERROR_PAGE.BACK' | translate }}</button>
 </div>

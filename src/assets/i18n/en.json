@@ -726,5 +726,10 @@
         "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?"
       }
     }
+  },
+  "ERROR_PAGE": {
+    "ERROR_HAPPEND": "Oops! Page is not found.",
+    "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404",
+    "BACK": "Go back"
   }
 }
