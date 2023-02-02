@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { PlatformComponent } from './platform.component';
 
@@ -26,7 +27,8 @@ describe('PlatformComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         NoopAnimationsModule,
-        MatDialogModule
+        MatDialogModule,
+        TranslateModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [PlatformComponent, MockRegulationsComponent, MockSupportComponent, MockAboutComponent, MockDirectionsComponent]

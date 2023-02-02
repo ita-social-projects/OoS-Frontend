@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AdminTabsTitle } from '../../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
 import { AdminState } from '../../../../shared/store/admin.state';
 
@@ -10,7 +10,7 @@ import { AdminState } from '../../../../shared/store/admin.state';
   template: '<app-info-card [type]="mainInformation" [platformInfo]="MainInformation$ | async"></app-info-card>'
 })
 export class MainInfoComponent {
-  readonly mainInformation = AdminTabsTitle.MainPage;
+  readonly mainInformation = AdminTabTypes.MainPage;
 
   @Select(AdminState.MainInformation)
   MainInformation$: Observable<CompanyInformation>;

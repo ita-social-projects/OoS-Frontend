@@ -3,7 +3,7 @@ import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
 import { Child } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
@@ -220,7 +220,7 @@ export class AdminState {
   getAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.AboutPortal)
+      .getPlatformInfo(AdminTabTypes.AboutPortal)
       .pipe(tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal, isLoading: false })));
   }
 
@@ -228,7 +228,7 @@ export class AdminState {
   getMainPageInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.MainPage)
+      .getPlatformInfo(AdminTabTypes.MainPage)
       .pipe(tap((mainPageInformation: CompanyInformation) => patchState({ mainPageInformation, isLoading: false })));
   }
 
@@ -236,7 +236,7 @@ export class AdminState {
   getSupportInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.SupportInformation)
+      .getPlatformInfo(AdminTabTypes.SupportInformation)
       .pipe(tap((supportInformation: CompanyInformation) => patchState({ supportInformation, isLoading: false })));
   }
 
@@ -244,7 +244,7 @@ export class AdminState {
   getLawsAndRegulations({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.LawsAndRegulations)
+      .getPlatformInfo(AdminTabTypes.LawsAndRegulations)
       .pipe(tap((lawsAndRegulations: CompanyInformation) => patchState({ lawsAndRegulations, isLoading: false })));
   }
 
@@ -291,7 +291,7 @@ export class AdminState {
         type: 'success',
       }),
     ]);
-    if (type == AdminTabsTitle.MainPage) {
+    if (type == AdminTabTypes.MainPage) {
       this.store.dispatch(new GetMainPageInfo());
       this.router.navigate(['/']);
       return;

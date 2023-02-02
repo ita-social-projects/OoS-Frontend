@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AdminTabs } from '../../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../enum/enumUA/tech-admin/admin-tabs';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { FeaturesList } from '../../models/featuresList.model';
@@ -21,7 +21,7 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./sidenav-menu.component.scss'],
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
-  readonly defaultAdminTabs = AdminTabs[0];
+  readonly defaultAdminTabs = AdminTabTypes[0];
   readonly Languages: typeof Languages = Languages;
   readonly Role = Role;
   readonly RoleLinks = RoleLinks;

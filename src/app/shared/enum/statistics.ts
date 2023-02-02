@@ -1,14 +1,9 @@
-export enum StatisticPeriodType {
+export enum StatisticPeriodTypes {
   WorkshopsDaily = 'WorkshopsDaily',
   WorkshopsYear = 'WorkshopsYear'
 }
 
-export enum StatisticPeriodTitle {
-  WorkshopsDaily = 'За останні 24 години',
-  WorkshopsYear = 'За рік'
-}
-
-export enum StatisticFileFormat {
+export enum StatisticFileFormats {
   CSV = 'CSV',
   XLSX = 'XLSX',
   HTML = 'HTML'

@@ -3,8 +3,9 @@
   "ADD_ACHIEVEMENT": "Add Achievement",
   "ADD_TO_FAVORITES": "Add to favorites",
   "ADDED_TO_FAVORITES": "Added to favorites",
-  "ADMINISTRATION": "Administration",
   "ALL": "All",
+  "PARENTS": "Parents",
+  "CHILDREN":"Children",
   "ALL_CHILDREN": "All children",
   "ALL_WORKSHOPS": "All workshops",
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
@@ -211,8 +212,27 @@
     },
     "USER_STATUSES":{
       "NEVER_LOGGED": "Never logged",
-      "ACCEPTED": "Accapted",
+      "ACCEPTED": "Accepted",
       "BLOCKED": "Blocked"
+    },
+    "EMAIL_CONFIRMATION_STATUSES" : {
+      "PENDING": "Pending email confirmation",
+      "CONFIRMED": "Confirmed email"
+    },
+    "PROVIDER_STATUSES":{
+      "APPROVED": "Approved",
+      "PENDING": "Pending",
+      "EDITING": "Needs editing",
+      "BLOCK": "Blocked"
+    },
+    "PROVIDER_STATUS_DETAILS": {
+      "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
+      "PENDING": "Your organization is awaiting confirmation by an administrator."
+    },
+    "LICENSE_STATUSES":{
+      "APPROVED": "Approved license",
+      "PENDING": "Awaiting license confirmation",
+      "NOT_PROVIDED": "License is not provided"
     },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Provider deputy",
@@ -222,6 +242,11 @@
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
       "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
+    },
+    "HISTORY_LOG": {
+      "PROVIDERS" : "Providers",
+      "ADMINS":"Adminstrators",
+      "APPLICATIONS": "Applications"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -254,6 +279,7 @@
       "LEGAL_ADDRESS": "Legal address",
       "ACTUAL_ADDRESS": "Actual address",
       "EDIT" : "EDIT",
+      "EDIT_INFO" : "EDIT INFORMATION",
       "SUBHEADER_TITLE" : "Title",
       "ADD_PROVIDER_DEPUTY": "ADD WORKSHOP ADMINISTRATOR",
       "ADD_PROVIDER_ADMIN": "ADD PROVIDER DEPUTY",
@@ -278,6 +304,7 @@
       "PRICE": "Price",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
+      "ADDRESS": "Address",
       "SEX": "Sex",
       "SOCIAL_GROUPS": "Social groups",
       "STREET": "Street",
@@ -298,7 +325,9 @@
       "ORGANIZATION_STATUS": "Organization status",
       "FULL_ORGANIZATION_NAME": "Full organization name",
       "SHORT_ORGANIZATION_NAME": "Short organization name",
+      "PROVIDER_TITLE": "Provider title",
       "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
+      "EDRPO_IPN": "Registration code",
       "IPN": "Individual tax number",
       "FOUNDER": "Founder",
       "DIRECTOR_NAME": "Director's full name",
@@ -306,7 +335,10 @@
       "SELECT_WORKSHOPS": "Check the workshops to which the administrator will have access",
       "CHECK_WORKSHOPS": "Check workshops",
       "ROLE": "Role",
-      "STATUS": "Status" 
+      "STATUS": "Status",
+      "USER_THAT_CHANGE": "User that applied changes",
+      "TYPE": "Type",
+      "DATE_TIME": "Date/Time"  
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -322,7 +354,9 @@
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Search by provider title, child name or workshop title",
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
-      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change"
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "ALL_FILTERS": "All filters",
+      "SELECT_SUBORDINATION" : "Select subordination"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -410,8 +444,8 @@
     "APPROVE_APPLICATION": "Approve",
     "LEAVE_WORKSHOP" : "Leave workshop",
     "REJECT" : "Reject",
-    "BLOCK": "Block the user",
-    "UNBLOCK": "Unblock the user",
+    "BLOCK_USER": "Block the user",
+    "UNBLOCK_USER": "Unblock the user",
     "SEND_INVITATION": "Send an invitation",
     "SEND_MESSAGE": "Send a message",
     "CANCEL": "Cancel",
@@ -424,7 +458,7 @@
     "ADD_ANOTHER_SECTION": "Add another section",
     "ADD_ANOTHER_TEACHER": "Add another teacher",
     "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
-    "DELETE": "Remove",
+    "REMOVE": "Remove",
     "REMOVE_CHILD_DATA": "Remove data about the child",
     "REMOVE_TEACHER_DATA": "Remove data about the teacher",
     "REMOVE_DATA": "Remove data",
@@ -432,7 +466,13 @@
     "EDIT_USER": "Edit the user",
     "DELETE_USER": "Delete the user",
     "CONFIRM": "Confirm",
-    "CHANGE": "Change"
+    "CHANGE": "Change",
+    "ADD_INFO": "Add information",
+    "BLOCK": "Block",
+    "UNBLOCK": "Unblock",
+    "CONFIRM_LICENSE": "Confirm provider license",
+    "CONFIRM_EDITING": "Send for editing",
+    "DELETE": "Delete"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -464,5 +504,27 @@
     "NO_MESSAGES": "No messages yet"
   },
   "NOTIFICATIONS": "Notifications",
-  "APPLICATION_STATUSES": "Application statuses"
+  "APPLICATION_STATUSES": "Application statuses",
+  "HISTORY_LOG": {
+    "WAS": "Was",
+    "BECAME": "Became",
+    "SHOW" : "Show",
+    "RESET_FILTERS": "Reset filters",
+    "PERIOD": "Period",
+    "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
+    "ADD_ADMIN_OPTION": "Administrator was added to teh workshop"
+  },
+  "STATISTICS": {
+    "DATE_RANGE": "Time Range",
+    "FORMAT": "Format",
+    "GENERATE_REPORT": "Generate reports",
+    "NO_DATA": "You have no generated reports yet.",
+    "NO_DATA_SUBHEADER":"Enter your criteria and click the Generate Reports button to see them here.",
+    "TITLE": "Title",
+    "PERIOD": "Period",
+    "CREATE_DATE": "Creation date",
+    "DOWNLOAD": "Download",
+    "WORKSHOPS_DAILY": "For the last 24 hours",
+    "WORKSHOPS_YEAR": "For the year"
+  }
 }

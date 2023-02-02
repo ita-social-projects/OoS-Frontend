@@ -21,17 +21,9 @@ export class ChildrenService {
       if (parameters.searchString) {
         params = params.set('SearchString', parameters.searchString);
       }
-      if (parameters.tabTitle) {
-        if (parameters.tabTitle == 'Батьки') {
-          isParent = true;
-        }
-        if (parameters.tabTitle == 'Діти') {
-          isParent = false;
-        }
-      }
 
-      if (isParent !== undefined) {
-        params = params.set('isParent', isParent.toString());
+      if (parameters.isParent !== undefined) {
+        params = params.set('isParent', parameters.isParent.toString());
       }
     }
     const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;

@@ -1,4 +1,3 @@
-import { EmailConfirmationStatuses, EmailConfirmationStatusesTitles } from './../../../../shared/enum/statuses';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -8,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
+import { UserTabParams, UserTabsTitles } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
@@ -20,14 +19,15 @@ import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.act
 import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { Util } from '../../../../shared/utils/utils';
+import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss']
+  styleUrls: ['./users.component.scss'],
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  readonly userRoleUkr = UserTabsUkr;
+  readonly UserTabsTitles = UserTabsTitles;
   readonly noUsers = NoResultsTitle.noUsers;
   readonly statusesTitles = EmailConfirmationStatusesTitles;
 
@@ -47,7 +47,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    tabTitle: undefined
+    isParent: undefined,
   };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
@@ -75,8 +75,8 @@ export class UsersComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Users,
         isActive: false,
-        disable: true
-      })
+        disable: true,
+      }),
     ]);
   }
 
@@ -85,13 +85,19 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    const tabIndex = event.index;
     this.filterFormControl.reset();
     this.childrenParams.searchString = '';
-    this.childrenParams.tabTitle = event.tab.textLabel;
+    if (tabIndex !== UserTabParams.all) {
+      this.childrenParams.isParent = UserTabParams.child === tabIndex;
+    } else {
+      this.childrenParams.isParent = undefined;
+    }
+
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] }
+      queryParams: { role: UserTabParams[tabIndex] },
     });
   }
 

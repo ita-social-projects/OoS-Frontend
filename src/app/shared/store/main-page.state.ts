@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { PlatformService } from '../services/platform/platform.service';
-import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 
 export interface MainPageStateModel {
   isLoadingData: boolean;
@@ -59,7 +59,7 @@ export class MainPageState {
   getMainPageInfo({ patchState }: StateContext<MainPageStateModel>): Observable<CompanyInformation> {
     patchState({ isLoadingData: true });
     return this.platformSercice
-      .getPlatformInfo(AdminTabsTitle.MainPage)
+      .getPlatformInfo(AdminTabTypes.MainPage)
       .pipe(tap((headerInfo: CompanyInformation) => patchState({ headerInfo, isLoadingData: false })));
   }
 

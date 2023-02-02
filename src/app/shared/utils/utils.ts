@@ -9,6 +9,7 @@ import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
 import { UserStatuses } from '../enum/statuses';
+import { UserTabsTitles } from '../enum/enumUA/tech-admin/users-tabs';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -70,7 +71,7 @@ export class Util {
         pib: this.getFullName(user),
         email: user.parent.email,
         phoneNumber: user.parent.phoneNumber,
-        role: user.isParent ? 'Батьки' : 'Діти',
+        role: user.isParent ? UserTabsTitles.parent : UserTabsTitles.child,
         status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending
       });
     });
