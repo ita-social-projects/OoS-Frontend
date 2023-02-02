@@ -17,7 +17,7 @@ import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
 import { SetCoordsByMap } from '../../store/filter.actions';
 import { ShowMessageBar } from '../../store/app.actions';
-import { SnackbarText } from '../../enum/messageBar';
+import { SnackbarText } from '../../enum/enumUA/messageBer';
 
 @Component({
   selector: 'app-map',

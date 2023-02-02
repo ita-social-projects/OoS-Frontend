@@ -20,9 +20,9 @@ import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
-import { SnackbarText } from '../../enum/messageBar';
 import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { OwnershipTypes } from '../../enum/provider';
+import { SnackbarText } from '../../enum/enumUA/messageBer';
 
 @Component({
   selector: 'app-workshop-card',

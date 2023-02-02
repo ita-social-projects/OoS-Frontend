@@ -30,10 +30,10 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { HttpErrorResponse } from '@angular/common/http';
 import { TechAdmin } from '../models/techAdmin.model';
 import { Provider } from '../models/provider.model';
-import { SnackbarText } from '../enum/messageBar';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { ModeConstants } from '../constants/constants';
 import { Location } from '@angular/common';
+import { SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;

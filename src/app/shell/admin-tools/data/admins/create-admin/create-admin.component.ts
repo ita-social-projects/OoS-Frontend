@@ -157,7 +157,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: this.editMode ? ModalConfirmationType.updateMinistryAdmin : ModalConfirmationType.createMinistryAdmin
+        type: this.editMode ? ModalConfirmationType.updateAdmin : ModalConfirmationType.createAdmin
       }
     });
 

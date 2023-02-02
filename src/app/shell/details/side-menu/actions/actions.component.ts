@@ -14,9 +14,9 @@ import { ShowMessageBar } from '../../../../shared/store/app.actions';
 import { AppState } from '../../../../shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import { SnackbarText } from '../../../../shared/enum/messageBar';
 import { UnregisteredUserWarningModalComponent } from '../../../../shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModeConstants } from '../../../../shared/constants/constants';
+import { SnackbarText } from '../../../../shared/enum/enumUA/messageBer';
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',

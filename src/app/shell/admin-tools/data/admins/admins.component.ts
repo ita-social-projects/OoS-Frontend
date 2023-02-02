@@ -153,7 +153,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
+        type: admin.isBlocked ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin,
       }
     });
 
@@ -175,7 +175,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.deleteMinistryAdmin,
+        type: ModalConfirmationType.deleteAdmin,
         property: admin.pib,
       },
     });

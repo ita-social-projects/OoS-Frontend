@@ -64,12 +64,12 @@ import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../mo
 import { OnPageChangeDirections } from './paginator.actions';
 import { EMPTY_RESULT, PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
-import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { GetMainPageInfo } from './main-page.actions';
 import { StatisticReport } from '../models/statistic.model';
 import { StatisticReportsService } from '../services/statistics-reports/statistic-reports.service';
 import { AdminTabTypes } from '../enum/admins';
+import { SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
