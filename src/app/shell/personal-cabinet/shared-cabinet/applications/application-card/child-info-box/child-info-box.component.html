@@ -14,7 +14,7 @@
 
     <div class="info-group">
       <h5 class="text">{{ 'FORMS.LABELS.SEX' | translate }}:</h5>
-      <p>{{ gender[child.gender] }}</p>
+      <p>{{ gender[child.gender] | translate }}</p>
     </div>
     <ng-container *ngIf="!child.isParent">
       <div class="info-group">

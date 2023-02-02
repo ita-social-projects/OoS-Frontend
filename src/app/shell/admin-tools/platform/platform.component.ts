@@ -7,7 +7,7 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import {
   AdminTabsTitles,
 } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
-import { NavBarName } from '../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
 import { GetPlatformInfo } from '../../../shared/store/admin.actions';
 import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.actions';

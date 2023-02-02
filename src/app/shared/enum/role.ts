@@ -11,15 +11,16 @@ export enum Role {
   None = 'None'
 }
 
-export enum RoleLinks {
-  provider = 'ENUM.ROLE_LINKS.PROVIDER',
-  parent = 'ENUM.ROLE_LINKS.PARENT'
-}
-
 export enum EntityType {
   provider = 'provider',
   workshop = 'workshop',
   ProviderAdmin = 'provideradmin',
   ProviderDeputy = 'provider',
   None = 'provider'
+}
+
+export enum UserTabParams {
+  all,
+  parent,
+  child
 }

@@ -12,7 +12,7 @@ import { Constants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { AdminRoles } from '../../../../../shared/enum/admins';
 import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
 import { Role } from '../../../../../shared/enum/role';
 import { Institution } from '../../../../../shared/models/institution.model';
 import { MinistryAdmin } from '../../../../../shared/models/ministryAdmin.model';
@@ -25,7 +25,7 @@ import { RegistrationState } from '../../../../../shared/store/registration.stat
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Util } from '../../../../../shared/utils/utils';
 import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin } from '../../../../../shared/store/admin.actions';
-import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from '../../../../../shared/enum/enumUA/admins';
+import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from '../../../../../shared/enum/enumUA/tech-admin/admins';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,

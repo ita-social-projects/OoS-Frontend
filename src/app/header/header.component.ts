@@ -8,7 +8,7 @@ import { User } from '../shared/models/user.model';
 import { Router } from '@angular/router';
 import { NavigationState } from '../shared/store/navigation.state';
 import { Navigation } from '../shared/models/navigation.model';
-import { Role, RoleLinks } from '../shared/enum/role';
+import { Role } from '../shared/enum/role';
 import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
@@ -18,6 +18,7 @@ import { MainPageState } from '../shared/store/main-page.state';
 import { CompanyInformation } from '../shared/models/сompanyInformation.model';
 import { GetMainPageInfo } from '../shared/store/main-page.actions';
 import { TranslateService } from '@ngx-translate/core';
+import { RoleLinks } from '../shared/enum/enumUA/user';
 
 @Component({
   selector: 'app-header',
@@ -27,7 +28,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
-  readonly RoleLinks: typeof RoleLinks = RoleLinks;
+  readonly RoleLinks = RoleLinks;
 
   selectedLanguage = 'uk';
   showModalReg = false;

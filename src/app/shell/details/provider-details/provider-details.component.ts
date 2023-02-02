@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject, takeUntil } from 'rxjs';
-import { NavBarName } from '../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
 import { Role, EntityType } from '../../../shared/enum/role';
 import { ImgPath } from '../../../shared/models/carousel.model';
 import { Provider } from '../../../shared/models/provider.model';

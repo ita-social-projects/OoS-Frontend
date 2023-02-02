@@ -6,76 +6,77 @@ export enum messageType {
 }
 
 export enum messageStatus {
-  left = 'Гурток успішно залишено',
-  approved = 'Статус заявки успішно змінено',
-  rejected = 'Заявку успішно відхилено'
+  left = 'SERVICE_MESSAGES.MESSAGE_STATUS.LEFT',
+  approved = 'SERVICE_MESSAGES.MESSAGE_STATUS.APPROVED',
+  rejected = 'SERVICE_MESSAGES.MESSAGE_STATUS.REJECTED',
 }
 
 export enum SnackbarText {
-  createWorkshop = 'Дякуємо! Новий гурток успішно доданий.',
-  updateWorkshop = 'Гурток оновлено!',
-  deleteWorkshop = 'Дякуємо! Гурток видалено!',
-  deletedWorkshop = 'Даний гурток видалено!',
+  createWorkshop = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_WORKSHOP',
+  updateWorkshop = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_WORKSHOP',
+  deleteWorkshop = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_WORKSHOP',
+  deletedWorkshop = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETED_WORKSHOP',
 
-  addedWorkshopFavorite = 'Гурток додано до Улюблених',
-  deleteWorkshopFavorite = 'Гурток видалено з Улюблених',
+  addedWorkshopFavorite = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ADDED_FAV_WORKSHOP',
+  deleteWorkshopFavorite = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETED_FAV_WORKSHOP',
+  
+  deleteNotification = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETED_NOTIFICATION',
 
-  deleteNotification = 'Сповіщення успішно видалено!',
+  createDirection = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_DIRECTION',
+  updateDirection = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_DIRECTION',
+  deleteDirection = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_DIRECTION',
 
-  createDirection = 'Напрямок успішно створений',
-  updateDirection = 'Напрямок успішно відредагований',
-  deleteDirection = 'Напрямок видалено!',
+  createAdminSuccess = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_ADMIN_SUCCESS',
+  createAdminFail = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_ADMIN_FAIL',
+  updateAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_ADMIN',
+  deleteAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_ADMIN',
+  blockAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.BLOCK_ADMIN',
 
-  createMinistryAdminSuccess = 'Адміністратор міністерства успішно створено',
-  createMinistryAdminFail = 'На жаль виникла помилка при створенні адміністратора міністерства',
-  updateMinistryAdmin = 'Адміністратор міністерства успішно відредагований',
-  deleteMinistryAdmin = 'Адміна міністерства видалено!',
-  blockMinistryAdmin = 'Дякуємо! Адміністратора міністерства заблоковано!',
+  createChild = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_CHILD',
+  updateChild = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_CHILD',
+  deleteChild = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_CHILD',
 
-  createChild = 'Дякуємо! Дитина була успішно додана.',
-  updateChild = 'Дитина успішно відредагована',
-  deleteChild = 'Дитину видалено!',
+  createAchievement = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_ACHIEVEMENT',
+  updateAchievement = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_ACHIEVEMENT',
+  deleteAchievement = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_ACHIEVEMENT',
 
-  createAchievement = 'Нове досягнення додано!',
-  updateAchievement = 'Досягнення успішно відредаговано!',
-  deleteAchievement = 'Досягнення видалено!',
+  createProviderAdminSuccess = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_PROVIDER_ADMIN_SUCCESS',
+  createProviderAdminFail = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_PROVIDER_ADMIN_FAIL',
+  updateProviderAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_PROVIDER_ADMIN',
+  deleteProviderAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_PROVIDER_ADMIN',
 
-  createProviderAdminSuccess = 'Адміністратора гуртка успішно створено!',
-  createProviderAdminFail = 'На жаль виникла помилка при створенні адміністратора гуртка!',
-  updateProviderAdmin = 'Адміністратора гуртка успішно відредаговано!',
-  deleteProviderAdmin = 'Дякуємо! Користувача видалено!',
+  //todo: check this flow
+  createApplication = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_APPLICATION',
+  applicationLimit = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.APPLICATION_LIMIT',
+  applicationLimitPerPerson = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.APPLICATION_LIMIT_PER_PERSON',
 
-  createApplication = 'Заявку створено!',
-  applicationLimit = 'Перевищено ліміт заявок. Спробуйте ще раз пізніше.',
-  applicationLimitPerPerson = 'Користувач може подати не більше 2-х заяв в тиждень на людину',
+  createProvider = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_PROVIDER',
+  updateProvider = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_PROVIDER',
+  deleteProvider = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_PROVIDER',
+  changeProviderStatus = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_PROVIDER_STATUS',
+  statusEditing = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_PROVIDER_STATUS_EDITING',
+  licenseApproved = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CHANGE_PROVIDER_LICENSE_APPROVED',
 
-  createProvider = 'Організацію успішно створено',
-  updateProvider = 'Організація успішно відредагована',
-  deleteProvider = 'Організація успішно видалена',
-  changeProviderStatus = 'Статус успішно змінений',
-  statusEditing = 'Організацію відправлено на редагування',
-  licenseApproved = 'Ліцензія успішно підтвердженна',
+  createDeputy = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_PROVIDER_DEPUTY',
+  updateDeputy = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_PROVIDER_DEPUTY',
 
-  createDeputy = 'Заступника директора успішно створено!',
-  updateDeputy = 'Заступника директора успішно відредаговано!',
+  createRating = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_RATING',
 
-  createRating = 'Оцінка успішно поставлена!',
+  updatePortal = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_PORTAL',
 
-  updatePortal = 'Інформація про портал успішно відредагована',
+  updateUser = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_USER',
 
-  updateUser = 'Особиста інформація успішно відредагована!',
+  blockPerson = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.BLOCK_USER',
+  unblockPerson = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UNBLOCK_USER',
 
-  blockPerson = 'Користувач успішно заблокований!',
-  unblockPerson = 'Користувач успішно розблокований!',
+  sendInvitation = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.SEND_INVITATION',
 
-  sendInvitation = 'Запрошення успішно надіслано!',
-
-  error = 'На жаль, виникла помилка',
-  error404 = 'Надіслано неправильний запит',
-  error403 = 'Доступ заборонено',
-  error401 = 'Користувач не зареєстрований',
-  error500 = 'Помилка сервера',
-  errorEmail = 'Перевірте введені дані. Користувач з такою електронною поштою вже існує',
-  notUniqueData = 'Перевірте введені дані. Електрона пошта, номер телефону та ІПН/ЄДПРО мають бути унікальними',
-  mapWarning = 'Важливо! Тільки 100 найближчих гуртків будуть відображені на карті.'
+  error = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR',
+  error404 = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_404',
+  error403 = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_403',
+  error401 = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_401',
+  error500 = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_500',
+  errorEmail = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_MAIL',
+  notUniqueData = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.NOT_UNIQUE_DATA',
+  mapWarning = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.MAP_WARNING',
 }

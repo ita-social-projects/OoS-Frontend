@@ -3,13 +3,13 @@ import { DefaultFilterState } from '../models/defaultFilterState.model';
 import { FilterStateModel } from '../models/filterState.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/navigation-bar';
+import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
 import { Role } from '../enum/role';
 import { Child } from '../models/child.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
 import { UserStatuses } from '../enum/statuses';
-import { UserTabsTitles } from '../enum/enumUA/tech-admin/users-tabs';
+import { UserTabsTitles } from '../enum/enumUA/user';
 
 /**
  * Utility class that providers methods for shared data manipulations

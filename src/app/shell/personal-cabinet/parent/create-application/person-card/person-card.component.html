@@ -9,7 +9,7 @@
   <label class="card-label">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</label>
   <p>{{ child.dateOfBirth | date: dateFormat }}</p>
   <label class="card-label">{{ 'FORMS.LABELS.SEX' | translate }}</label>
-  <p>{{ gender[child.gender] }}</p>
+  <p>{{ gender[child.gender] | translate }}</p>
 
   <ng-container *ngIf="!child.isParent">
     <div class="info-group">

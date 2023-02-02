@@ -6,7 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { takeUntil } from 'rxjs/operators';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { WorkshopCard } from '../../../../shared/models/workshop.model';

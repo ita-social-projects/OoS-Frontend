@@ -29,7 +29,7 @@ import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../..
 import { OnPageChangeHistoryLog, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 
 @Component({

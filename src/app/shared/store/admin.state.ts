@@ -519,7 +519,7 @@ export class AdminState {
   onCreateMinistryAdminSuccess({ dispatch }: StateContext<AdminState>): void {
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.createMinistryAdminSuccess,
+        message: SnackbarText.createAdminSuccess,
         type: 'success',
       }),
       new MarkFormDirty(false),
@@ -573,7 +573,7 @@ export class AdminState {
   onDeleteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.deleteMinistryAdmin,
+        message: SnackbarText.deleteAdmin,
         type: 'success',
       }),
       new GetAllMinistryAdmins(),
@@ -646,7 +646,7 @@ export class AdminState {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
-        message: SnackbarText.updateMinistryAdmin,
+        message: SnackbarText.updateAdmin,
         type: 'success',
       }),
     ]);

@@ -33,7 +33,7 @@
   "DIRECTIONS": "Categories",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
-  "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the group, school",
+  "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
   "ENUM": {
     "APPLICATION": {
       "APPLICATION": "application",
@@ -397,7 +397,7 @@
   "FREE_WORKSHOP": "FREE WORKSHOP",
   "FROM": "From",
   "INFO_MENU": {
-    "UNLIMITED": "By selecting the \"Unlimited\" option, the group has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
+    "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
     "LICENSE": "Add licenses to gain more interest and increase user trust in your organization. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
@@ -584,6 +584,63 @@
     }
   },
   "SERVICE_MESSAGES": {
-    "NO_INFO" : "no data"
+    "NO_INFO" : "no data",
+    "MESSAGE_STATUS": {
+      "LEFT":"Leaved workshop successfully",
+      "APPROVED": "Application status successfully changed",
+      "REJECTED": "The application was successfully rejected"
+    },
+    "SNACK_BAR_TEXT": {
+      "CREATE_WORKSHOP": "Thank you! New workshop successfully added.",
+      "UPDATE_WORKSHOP": "The workshop has been updated successfully!",
+      "DELETE_WORKSHOP": "Thank you! Workshop deleted!",
+      "DELETED_WORKSHOP": "This workshop has been deleted!",
+      "ADDED_FAV_WORKSHOP": "Workshop added to 'Favorites'",
+      "DELETED_FAV_WORKSHOP": "Work has been deleted from 'Favorites'",
+      "DELETED_NOTIFICATION": "Notification deleted successfully!",
+      "CREATE_DIRECTION": "Direction successfully created!",
+      "UPDATE_DIRECTION": "Direction edited successfully!",
+      "DELETE_DIRECTION": "Direction deleted!",
+      "CREATE_ADMIN_SUCCESS": "Administrator successfully created",
+      "CREATE_ADMIN_FAIL": "Unfortunately, an error occurred while creating the administrator",
+      "UPDATE_ADMIN": "Administrator edited successfully",
+      "DELETE_ADMIN": "Administrator deleted!",
+      "BLOCK_ADMIN": "The administrator is blocked!",
+      "CREATE_CHILD": "Thank you! Child has been successfully added.",
+      "UPDATE_CHILD": "Child edited successfully",
+      "DELETE_CHILD": "Child's data has been successfully deleted!",
+      "CREATE_ACHIEVEMENT": "New achievement added!",
+      "UPDATE_ACHIEVEMENT": "Achievement edited successfully!",
+      "DELETE_ACHIEVEMENT": "Achievement deleted!",
+      "CREATE_PROVIDER_ADMIN_SUCCESS": "Workshop administrator successfully created!",
+      "CREATE_PROVIDER_ADMIN_FAIL": "Unfortunately, an error occurred while creating the Workshop administrator!",
+      "UPDATE_PROVIDER_ADMIN": "Workshop administrator successfully edited!",
+      "DELETE_PROVIDER_ADMIN": "Workshop administrator deleted!",
+      "CREATE_APPLICATION": "Application created!",
+      "APPLICATION_LIMIT": "Application limit exceeded. Please try again later.",
+      "APPLICATION_LIMIT_PER_PERSON": "The user can submit no more than 2 applications per week per person",
+      "CREATE_PROVIDER": "Provider successfully created",
+      "UPDATE_PROVIDER": "Provider edited successfully",
+      "DELETE_PROVIDER": "Provider deleted successfully!",
+      "CHANGE_PROVIDER_STATUS": "Provider status successfully changed",
+      "CHANGE_PROVIDER_STATUS_EDITING": "Provider sent for editing",
+      "CHANGE_PROVIDER_LICENSE_APPROVED": "License successfully approved",
+      "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
+      "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
+      "CREATE_RATING": "Successfully rated!",
+      "UPDATE_PORTAL": "Portal information successfully edited",
+      "UPDATE_USER": "Personal information successfully edited!",
+      "BLOCK_USER": "User blocked successfully!",
+      "UNBLOCK_USER": "User unblocked successfully!",
+      "SEND_INVITATION": "Invitation successfully sent!",
+      "ERROR": "Unfortunately, an error has occurred",
+      "ERROR_404": "Invalid request sent",
+      "ERROR_403": "Access Denied",
+      "ERROR_401": "User not registered",
+      "ERROR_500": "Server error",
+      "ERROR_MAIL": "Check the data entered. A user with this email already exists",
+      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and TIN/IDPRO must be unique",
+      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map."
+    }
   }
 }

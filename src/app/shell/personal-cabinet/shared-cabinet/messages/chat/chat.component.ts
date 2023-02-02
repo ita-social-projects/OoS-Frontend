@@ -11,7 +11,7 @@ import {
 import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
 import { Location } from '@angular/common';
 import { Role } from '../../../../../shared/enum/role';
 import { RegistrationState } from '../../../../../shared/store/registration.state';

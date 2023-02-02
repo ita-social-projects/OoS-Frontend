@@ -7,7 +7,7 @@ import { AdminTabsTitles } from './../../../../../shared/enum/enumUA/tech-admin/
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
 import { CompanyInformation, CompanyInformationSectionItem } from '../../../../../shared/models/сompanyInformation.model';
 import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
 import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';

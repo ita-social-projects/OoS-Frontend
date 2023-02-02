@@ -15,9 +15,3 @@ export enum ProviderAdminsFormTitlesEdit {
   admin = 'NAV_BAR_NAME.EDIT_PROVIDER_ADMIN',
 }
 
-export enum ProviderAdminParams{
-  all,
-  deputy,
-  admin
-}
-

@@ -17,7 +17,7 @@ import { ConfirmationModalWindowComponent } from '../../../../shared/components/
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { AdminRoles, AdminRoleTypes } from '../../../../shared/enum/admins';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -29,7 +29,7 @@ import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { RegistrationState } from './../../../../shared/store/registration.state';
 import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
-import { AdminRolesTitles } from '../../../../shared/enum/enumUA/admins';
+import { AdminRolesTitles } from '../../../../shared/enum/enumUA/tech-admin/admins';
 
 @Component({
   selector: 'app-admins',
