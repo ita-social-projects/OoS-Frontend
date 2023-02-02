@@ -47,23 +47,25 @@
 
 <ng-template #searchBlock>
   <app-full-search-bar [styleClass]="'min-height'"></app-full-search-bar>
-  <div fxLayout="row" fxLayoutAlign="center center" fxLayoutGap="1rem">
+  <div fxLayout="row" fxLayoutAlign="center center">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="currentView === viewType.list"></app-ordering>
 
-    <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
-      (change)="viewHandler(group.value)">
-      <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row"
-        fxLayoutAlign="center center">
-        <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
-        <span class="view-toggle_icon">{{'LIST' | translate}}</span>
-      </mat-button-toggle>
+    <div class="toggle-wrapper">
+      <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView"
+        (change)="viewHandler(group.value)">
+        <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row"
+          fxLayoutAlign="center center">
+          <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
+          <span class="view-toggle_icon">{{'LIST' | translate}}</span>
+        </mat-button-toggle>
 
-      <mat-button-toggle value="{{ viewType.map }}" aria-label="{{ viewType.map }}" fxLayout="row"
-        fxLayoutAlign="center center">
-        <mat-icon class="view-toggle_icon_small">map</mat-icon>
-        <span class="view-toggle_icon">{{'MAP' | translate}}</span>
-      </mat-button-toggle>
-    </mat-button-toggle-group>
+        <mat-button-toggle value="{{ viewType.map }}" aria-label="{{ viewType.map }}" fxLayout="row"
+          fxLayoutAlign="center center">
+          <mat-icon class="view-toggle_icon_small">map</mat-icon>
+          <span class="view-toggle_icon">{{'MAP' | translate}}</span>
+        </mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
   </div>
 </ng-template>
