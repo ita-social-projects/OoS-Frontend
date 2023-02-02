@@ -72,8 +72,8 @@
 <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
 
 <ng-template #btnCancel>
-  <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'CANCEL' | translate }}</button>
+  <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
 </ng-template>
 <ng-template #btnConfirm>
-  <button class="btn" mat-raised-button>{{ 'FORMS.ACTIONS.SAVE' | translate }}</button>
+  <button class="btn" mat-raised-button>{{ 'BUTTONS.SAVE' | translate }}</button>
 </ng-template>

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
 
 import { NoResultCardComponent } from './no-result-card.component';
 
@@ -8,7 +9,8 @@ describe('NoResultCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NoResultCardComponent]
+      declarations: [NoResultCardComponent],
+      imports: [TranslateModule.forRoot()]
     }).compileComponents();
   });
 

@@ -1,8 +1,18 @@
 import { ApplicationStatuses } from './../../../../shared/enum/statuses';
 import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { takeUntil, filter, debounceTime } from 'rxjs/operators';
+import { takeUntil, filter, debounceTime, take } from 'rxjs/operators';
 import { Application, ApplicationFilterParameters } from '../../../../shared/models/application.model';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatTabGroup } from '@angular/material/tabs';
@@ -10,8 +20,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { ApplicationStatusTitles, StatusTitlesReverse } from '../../../../shared/enum/statuses';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { Child } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -21,14 +30,17 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { FormControl } from '@angular/forms';
+import { ApplicationStatusTabParams } from '../../../../shared/enum/applications';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-applications',
   templateUrl: './applications.component.html',
-  styleUrls: ['./applications.component.scss']
+  styleUrls: ['./applications.component.scss'],
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly statusTitles = ApplicationStatusTitles;
+  readonly applicationTabTitles = ApplicationTitles;
+  readonly statusTitles = ApplicationStatusTabParams;
   readonly statuses = ApplicationStatuses;
   readonly noApplicationTitle = NoResultsTitle.noApplication;
   readonly Role = Role;
@@ -55,6 +67,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() reject = new EventEmitter();
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
+  @Output() sendMessage = new EventEmitter();
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   isActiveInfoButton = false;
@@ -67,7 +80,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobileView = event.outerWidth < 530;
   }
 
-  constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected actions$: Actions
+  ) {
     this.onResize(window);
   }
 
@@ -80,10 +98,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.searchFormControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((searchString: string) => {
-      this.applicationParams.searchString = searchString;
-      this.onGetApplications();
-    });
+    this.searchFormControl.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe((searchString: string) => {
+        this.applicationParams.searchString = searchString;
+        this.onGetApplications();
+      });
 
     this.applicationCards$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
@@ -96,8 +116,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
-      this.tabGroup.selectedIndex = Object.keys(ApplicationStatusTitles).indexOf(params['status']);
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
+      const status = params['status'];
+      const tabIndex = Number(ApplicationStatusTabParams[status]);
+      this.setFilterParams(status, tabIndex);
+      this.tabGroup.selectedIndex = tabIndex;
+      this.onGetApplications();
     });
   }
 
@@ -106,15 +130,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    * @param workshopsId: number[]
    */
   onTabChange(event: MatTabChangeEvent): void {
-    const tabLabel = event.tab.textLabel;
-    const statuses =
-      tabLabel !== ApplicationStatusTitles.Blocked && tabLabel !== ApplicationStatusTitles.All ? [StatusTitlesReverse[tabLabel]] : [];
-    this.applicationParams.statuses = statuses;
-    this.applicationParams.showBlocked = tabLabel === ApplicationStatusTitles.Blocked;
-    this.onGetApplications();
+    const tabIndex = event.index;
+
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { status: StatusTitlesReverse[tabLabel] }
+      queryParams: { status: ApplicationStatusTabParams[tabIndex] },
     });
   }
 
@@ -132,5 +152,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private setFilterParams(applicationStatus: string, tabIndex?: number): void {
+    const statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
+    this.applicationParams.statuses = statuses;
+    this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
   }
 }

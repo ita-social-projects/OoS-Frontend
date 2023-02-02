@@ -4,7 +4,7 @@ export class Teacher implements Person {
   workshopId?: string;
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName?: string;
   gender: number;
   dateOfBirth?: Date | string;
   description?: string;

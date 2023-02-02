@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { RegistrationState } from '../shared/store/registration.state';
-import { combineLatest, Observable, of, Subject } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
 import { Logout, Login } from '../shared/store/registration.actions';
 import { User } from '../shared/models/user.model';
@@ -13,7 +13,6 @@ import { Languages } from '../shared/enum/languages';
 import { SidenavToggle } from '../shared/store/navigation.actions';
 import { AppState } from '../shared/store/app.state';
 import { FeaturesList } from '../shared/models/featuresList.model';
-import { providerAdminRoleUkr } from '../shared/enum/enumUA/provider-admin';
 import { MetaDataState } from '../shared/store/meta-data.state';
 import { MainPageState } from '../shared/store/main-page.state';
 import { CompanyInformation } from '../shared/models/сompanyInformation.model';
@@ -28,7 +27,7 @@ import { TranslateService } from '@ngx-translate/core';
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
-  readonly roles: typeof RoleLinks = RoleLinks;
+  readonly RoleLinks: typeof RoleLinks = RoleLinks;
 
   selectedLanguage = 'uk';
   showModalReg = false;
@@ -58,7 +57,6 @@ export class HeaderComponent implements OnInit, OnDestroy {
   headerSubtitle: string;
   navigationPaths: Navigation[];
   subrole: string;
-  btnView: string = providerAdminRoleUkr.all;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 

@@ -9,6 +9,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -30,7 +31,8 @@ describe('AdminsComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MatDialogModule,
-        RouterTestingModule
+        RouterTestingModule,
+        TranslateModule.forRoot()
       ],
       declarations: [AdminsComponent, NoResultCardComponent, MockListAdminsPaginatorComponent, MockUsersListComponent]
     }).compileComponents();

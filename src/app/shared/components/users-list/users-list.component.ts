@@ -1,15 +1,25 @@
 import { BlockData } from './../../models/usersTable';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+  ViewChild,
+} from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { providerAdminRoleUkr } from '../../enum/enumUA/provider-admin';
 import { Role } from '../../enum/role';
 import { RegistrationState } from '../../store/registration.state';
 import { Constants } from '../../constants/constants';
 import { UsersTable } from '../../models/usersTable';
-import { EmailConfirmationStatuses, UserStatuses, UserStatusesTitles, UserStatusIcons } from '../../enum/statuses';
+import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
+import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 
 /**
  * @title Table with sorting
@@ -17,22 +27,24 @@ import { EmailConfirmationStatuses, UserStatuses, UserStatusesTitles, UserStatus
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss']
+  styleUrls: ['./users-list.component.scss'],
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
-  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'role', 'status', 'actions'];
+  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
   @Input() isEdit: boolean;
   @Input() statusesTitles: UserStatuses | EmailConfirmationStatuses;
 
   @Output() delete = new EventEmitter<UsersTable>();
   @Output() block = new EventEmitter<BlockData>();
   @Output() update = new EventEmitter<UsersTable>();
+  @Output() sendInvitation = new EventEmitter<UsersTable>();
 
   readonly statuses = UserStatusesTitles;
   readonly statusIcons = UserStatusIcons;
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-
+  readonly blockedStatus = 'Blocked';
+  
   subrole: string;
   Role = Role;
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
@@ -64,17 +76,5 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
     } else {
       this.liveAnnouncer.announce('Sorting cleared');
     }
-  }
-
-  onDelete(user: UsersTable): void {
-    this.delete.emit(user);
-  }
-
-  onBlock(user: BlockData): void {
-    this.block.emit(user);
-  }
-
-  onUpdate(user: UsersTable): void {
-    this.update.emit(user);
   }
 }

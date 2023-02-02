@@ -1,4 +1,5 @@
 <app-applications
+  *ngIf="parent"
   [applicationParams]="applicationParams"
   [declination]="ChildDeclination"
   [dropdownEntities]="truncatedItems$ | async"
@@ -6,5 +7,6 @@
   (enititiesSelect)="onEntitiesSelect($event)"
   (getApplications)="onGetApplications()"
   (leave)="onLeave($event)"
+  (sendMessage)="onSendMessage($event)"
 >
 </app-applications>

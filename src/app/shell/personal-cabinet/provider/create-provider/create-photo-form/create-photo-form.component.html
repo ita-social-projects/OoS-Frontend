@@ -8,7 +8,7 @@
     [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <label class="step-label">Веб сайт</label>
+  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
   </mat-form-field>
@@ -43,7 +43,7 @@
     [InfoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
-    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
     (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
@@ -53,6 +53,6 @@
     mat-button
     (click)="onAddForm()"
     [disabled]="SectionItemsFormArray.invalid">
-    <mat-icon class="mat-icon-add">add</mat-icon>Додати ще один розділ
+    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
   </button>
 </form>

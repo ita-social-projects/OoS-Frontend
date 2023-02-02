@@ -55,7 +55,7 @@ export interface ParentStateModel {
   isAllowedToReview: boolean;
   isReviewed: boolean;
   favoriteWorkshops: Favorite[];
-  favoriteWorkshopsCard: WorkshopCard[];
+  favoriteWorkshopsCard: SearchResponse<WorkshopCard[]>;
   children: SearchResponse<Child[]>;
   truncatedItems: TruncatedItem[];
   selectedChild: Child;
@@ -103,7 +103,7 @@ export class ParentState {
   }
 
   @Selector()
-  static favoriteWorkshopsCard(state: ParentStateModel): WorkshopCard[] {
+  static favoriteWorkshopsCard(state: ParentStateModel): SearchResponse<WorkshopCard[]> {
     return state.favoriteWorkshopsCard;
   }
 
@@ -180,9 +180,8 @@ export class ParentState {
     {}: GetFavoriteWorkshopsByUserId
   ): Observable<SearchResponse<WorkshopCard[]>> {
     return this.favoriteWorkshopsService.getFavoriteWorkshopsByUserId().pipe(
-      //TODO: refactor to teh correct pagination flow
       tap((favoriteWorkshopCard: SearchResponse<WorkshopCard[]>) =>
-        patchState({ favoriteWorkshopsCard: favoriteWorkshopCard?.entities })
+        patchState({ favoriteWorkshopsCard: favoriteWorkshopCard })
       )
     );
   }

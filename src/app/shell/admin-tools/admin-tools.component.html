@@ -1,14 +1,30 @@
 <div class="container">
-  <h1 class="title">АДМІНІСТРУВАННЯ</h1>
+  <h1 class="title">{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}</h1>
   <nav class="nav" mat-tab-nav-bar>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'">ПОРТАЛ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/admins']">АДМІНІСТРАТОРИ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/directions']">НАПРЯМКИ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/provider-list'">ЗАКЛАДИ</a>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">КОРИСТУВАЧІ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/applications'">ЗАЯВИ</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/history-log']">ІСТОРІЯ ЗМІН</a>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/statistics']">СТАТИСТИЧНІ ДАНІ</a>
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'">{{
+      'ENUM.NAV_BAR_NAME.PORTAL' | translate | uppercase
+    }}</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/admins']">{{
+      'ENUM.NAV_BAR_NAME.ADMINS' | translate | uppercase
+    }}</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/directions']">{{
+      'ENUM.NAV_BAR_NAME.DIRECTIONS' | translate | uppercase
+    }}</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/provider-list'">{{
+      'ENUM.NAV_BAR_NAME.PROVIDERS' | translate | uppercase
+    }}</a>
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">{{
+      'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase
+    }}</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/applications'">{{
+      'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase
+    }}</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/history-log']">{{
+      'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES' | translate | uppercase
+    }}</a>
+    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/statistics']">{{
+      'ENUM.NAV_BAR_NAME.STATISTICS' | translate | uppercase
+    }}</a>
   </nav>
 </div>
 <router-outlet></router-outlet>

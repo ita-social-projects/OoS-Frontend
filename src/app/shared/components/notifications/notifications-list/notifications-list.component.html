@@ -1,7 +1,7 @@
 <div class="notifications-list" (click)="stopPropagation($event)">
   <ng-container *ngIf="notificationsData$ | async as notificationsData">
     <div class="notifications-list__header">
-      <h3 class="notifications-list__title">СПОВІЩЕННЯ</h3>
+      <h3 class="notifications-list__title">{{'NOTIFICATIONS' | translate | uppercase}}</h3>
       <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
         <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
@@ -73,7 +73,7 @@
               <div class="header-notification__single-info info">
                 <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
                 <span class="info__description">{{
-                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data.Status)
+                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data)
                 }}</span>
                 <h4 class="info__time">{{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}</h4>
               </div>
@@ -85,7 +85,7 @@
               class="body-notification info info__description"
             >
               <div class="body-notification__single">
-                {{ getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data.Status) }}
+                {{ getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data) }}
               </div>
             </div>
           </div>

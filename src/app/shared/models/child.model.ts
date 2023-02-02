@@ -6,7 +6,7 @@ export class Child implements Person {
   id: string;
   firstName: string;
   lastName: string;
-  middleName: string;
+  middleName?: string;
   dateOfBirth: string;
   gender: number;
   parentId?: number;
@@ -30,7 +30,7 @@ export class Child implements Person {
 }
 
 export interface ChildrenParameters {
-  tabTitle?: string;
+  isParent?: boolean;
   searchString?: string;
   from?: number;
   size?: number;

@@ -18,11 +18,27 @@
     margin-bottom: 1rem;
   }
 
+  .application-wrapper {
+    .mat-tab-header {
+      width: 80%;
+    }
+  }
+
   .mat-ink-bar {
     display: none;
   }
 
   .mat-tab-label {
     min-width: min-content;
+  }
+}
+
+@media (max-width: 1200px) { 
+  :host ::ng-deep {
+    .application-wrapper {
+      .mat-tab-header {
+        width: 100%;
+      }
+    }
   }
 }

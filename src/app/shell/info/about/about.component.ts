@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable, Subject, takeUntil } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
 import { NavBarName } from '../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
 import { CompanyInformation } from '../../../shared/models/сompanyInformation.model';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
 import { GetAboutPortal } from '../../../shared/store/admin.actions';

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 import { HistoryLogFiltersComponent } from './history-log-filters.component';
 
 describe('HistoryLogFiltersComponent', () => {
@@ -25,7 +26,8 @@ describe('HistoryLogFiltersComponent', () => {
         MatIconModule,
         ReactiveFormsModule,
         FormsModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
       declarations: [HistoryLogFiltersComponent]
     }).compileComponents();

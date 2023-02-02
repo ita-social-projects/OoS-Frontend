@@ -1,7 +1,7 @@
 <div class="application-status" fxLayout="row">
   <div class="application-popup-status {{ status }}">
     <span> <i class="status-icon {{ applicationIcons[status] }}"></i></span>
-    <span> {{ statusTitles[status] }}</span>
+    <span> {{ applicationTitles[status] | translate }}</span>
   </div>
   <span
     ><i
@@ -19,9 +19,9 @@
     <div class="menu-wrapper">
       <div class="application-popup-status {{ status }}">
         <span> <i class="{{ applicationIcons[status] }}"></i></span>
-        <span> {{ statusTitles[status] }}</span>
+        <span> {{ applicationTitles[status] | translate }}</span>
       </div>
-      <div class="application-info-menu application-info-description-card">({{ applicationStatusDescription[status] }})</div>
+      <div class="application-info-menu application-info-description-card">({{ applicationStatusDescription[status] | translate }})</div>
       <p *ngIf="reason" class="application-info-menu">{{ reason | textSliceTransform }}</p>
     </div>
   </mat-menu>

@@ -1,12 +1,11 @@
 {
   "ABOUT_THE_PORTAL": "ПРО ПОРТАЛ",
-  "ACTUAL_ADDRESS": "Фактична адреса",
-  "ADD": "Додати",
   "ADD_ACHIEVEMENT": "Додати досягнення",
   "ADD_TO_FAVORITES": "Додати в улюблені",
   "ADDED_TO_FAVORITES": "Додано в улюблені",
-  "ADMINISTRATION": "Адміністрування",
   "ALL": "Всі",
+  "PARENTS": "Батьки",
+  "CHILDREN":"Діти",
   "ALL_CHILDREN": "Всі діти",
   "ALL_WORKSHOPS": "Всі гуртки",
   "APPLICATIONS": "Заяви",
@@ -17,16 +16,12 @@
   "BY_PRICE_DECREASE": "За спаданням ціни",
   "BY_PRICE_INCREASE": "За зростанням ціни",
   "BY_RATING": "За рейтингом",
-  "CANCEL": "Скасувати",
-  "CHANGE": "Змінити",
   "CHANGE_EMAIL": "Змінити електронну пошту",
   "CHANGE_PASSWORD": "Змінити пароль",
   "CITY_DISTRICT": "Район міста",
   "CLEAR_FILTERS": "Очистити фільтри",
   "CLOSE_RECRUITMENT": "Закритий набір",
-  "CONFIRM": "Підтвердити",
   "CONTACTS": "КОНТАКТИ",
-  "DIRECTOR_BIRTHDAY": "Дата народження керівника",
   "DAYS": {
     "FRIDAY": "ПТ",
     "MONDAY": "ПН",
@@ -37,11 +32,8 @@
     "WEDNESDAY": "СР"
   },
   "DIRECTIONS": "Напрямки",
-  "DIRECTOR_NAME": "ПІБ керівника",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
-  "EDIT": "Редагувати",
-  "EDRPO": "ЄДРПОУ",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "ENUM": {
     "APPLICATION": {
@@ -55,9 +47,9 @@
       "APPLICATION_ACCEPTED_ABLATIVE": "заявок зараховано"
     },
     "APPLICATION_CHANGES": {
-      "CHANGE_IN_STATEMENTS": "зміна в заявах",
-      "CHANGES_IN_STATEMENTS": "зміни в заявах",
-      "CHANGE_IN_STATEMENTS_ABLATIVE": "змін в заявах"
+      "CHANGE_IN_APPLICATIONS": "зміна в заявах",
+      "CHANGES_IN_APPLICATIONS": "зміни в заявах",
+      "CHANGE_IN_APPLICATIONS_ABLATIVE": "змін в заявах"
     },
     "APPLICATION_PENDING": {
       "APPLICATION_PENDING_CONFIRMATION": "заявка очікує підтвердження",
@@ -102,8 +94,6 @@
       "EDIT_PROVIDER_DEPUTY": "Редагування заступника директора",
       "EDIT_PROVIDER_INFORMATION": "Редагувати заклад",
       "EDIT_WORKSHOP": "Редагування гуртка",
-      "FAVORITE": "Улюблені",
-      "HISTORY_OF_CHANGES": "Історія змін",
       "INFORMATION_ABOUT_CHILDREN": "Інформація про дітей",
       "INFORMATION_ABOUT_PROVIDER": "Інформація про заклад",
       "MAIN_PAGE": "Головна сторінка",
@@ -116,9 +106,13 @@
       "PROVIDERS": "Заклади",
       "SEARCH_RESULT": "Результати пошуку",
       "SUPPORT": "Підтримка",
-      "USER_INFO": "Особиста інформація",
       "USERS": "Користувачі",
-      "WORKSHOPS": "Мої гуртки"
+      "MY_WORKSHOPS": "Мої гуртки",
+      "INFORMATION_ABOUT": "Інформація про",
+      "FAVORITE": "Улюблене",
+      "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
+      "HISTORY_OF_CHANGES": "Історія змін",
+      "STATISTICS": "Статистичні дані"
     },
     "INSTITUTION_TYPE":{
       "COMPLEX" : "Комплексний",
@@ -194,26 +188,72 @@
       "HOUR": "година",
       "HOURS": "години",
       "HOURS_ABLATIVE": "годин"
+    },
+    "APPLICATION_STATUSES":{
+      "ALL": "Усі",
+      "PENDING": "Очікує підтвердження",
+      "APPROVED": "Зараховано",
+      "REJECTED": "Відмовлено",
+      "LEFT": "Гурток залишено",
+      "ACCEPTED_FOR_SELECTION": "Прийнято до конкурсного відбору",
+      "STUDYING_FOR_YEARS": "Навчається 1-11 років",
+      "COMPLETED": "Завершено",
+      "BLOCKED": "Заблоковано"
+    },
+    "APPLICATION_DESCRIPTION":{
+      "PENDING": "Нова створена заява, яка очікує підтвердження від надавача послуг",
+      "APPROVED": "Заява підтверджена/користувача зараховано до гуртка/секції/школи",
+      "REJECTED": "Користувачеві відмовлено у зарахуванні з причиною",
+      "LEFT": "Користувач покинув гурток самостійно",
+      "ACCEPTED_FOR_SELECTION": "Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір)",
+      "STUDYING_FOR_YEARS": "Користувач навчається в школі/гуртку 1 рік, 2 роки і т.д. і продовжує навчатися",
+      "COMPLETED": "Користувач завершив навчання",
+      "BLOCKED": "Користувач порушили Правила користування платформою"
+    },
+    "USER_STATUSES":{
+      "NEVER_LOGGED": "Очікує логування",
+      "ACCEPTED": "Підтверджений",
+      "BLOCKED": "Заблокований"
+    },
+    "EMAIL_CONFIRMATION_STATUSES" : {
+      "PENDING": "Очікує підтвердження ел. пошти",
+      "CONFIRMED": "Ел. пошта підтверджена"
+    },
+    "PROVIDER_STATUSES":{
+      "APPROVED": "Заклад підтверджено",
+      "PENDING": "Очікує підтвердження",
+      "EDITING": "Потребує редагування",
+      "BLOCK": "Заклад заблокований"
+    },
+    "PROVIDER_STATUS_DETAILS": {
+      "APPROVED": "Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.",
+      "PENDING": "Ваш заклад очікує підтвердження адміністратором."
+    },
+    "LICENSE_STATUSES":{
+      "APPROVED": "Ліцензію підтверджено",
+      "PENDING": "Очікує підтвердження ліцензії",
+      "NOT_PROVIDED": "Ліцензію не надано"
+    },
+    "PROVIDER_ADMINS" : {
+      "PROVIDER_DEPUTY": "Заступник директора",
+      "PROVIDER_ADMIN": "Адміністратор гуртка",
+      "ALL": "Усі"
+    },
+    "PROVIDER_ADMINS_DECLINATION": {
+      "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
+      "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
+    },
+    "HISTORY_LOG": {
+      "PROVIDERS" : "Заклади",
+      "ADMINS":"Адміністратори",
+      "APPLICATIONS": "Заявки"
     }
   },
-
   "EXACT_MATCH": "Повне співпадіння",
-  "FAVORITE": "Улюблене",
   "FOR_FREE": "Безкоштовно",
   "FORMS": {
-    "ACTIONS": {
-      "ADD_ANOTHER_CHILD": "Додати ще одну дитину",
-      "ADD_ANOTHER_SECTION": "Додати ще один розділ",
-      "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
-      "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
-      "BACK": "Назад",
-      "DELETE": "Видалити",
-      "NEXT": "Далі",
-      "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
-      "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
-      "SAVE": "Зберегти"
-    },
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
+    "MATCH_ACTUAL_ADDRESS": "Співпадає з юридичною адресою",
     "CONTROL_VALUES": {
       "FEMALE": "Жіноча",
       "MALE": "Чоловіча",
@@ -230,7 +270,22 @@
       "NEW_CHILD": "Додати дані про дитину",
       "EDIT_CHILD": "Редагувати дані про дитину",
       "CREATE_CHILD_SUBTITLE": "Щоб відслідковувати заявки і активності вашої дитини. Ви завжди можете додати цю інформацію у вашому особистому кабінеті.",
-      "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання"
+      "WORKSHOP_FORM_DESCRIPTION": "гурток, секцію або групу для навчання",
+      "NEW_APPLICATION": "ЗАЯВА НА ГУРТОК",
+      "EDIT_PERSONAL_INFORMATION": "РЕДАГУВАННЯ ОСОБИСТОЇ ІНФОРМАЦІЇ",
+      "NEW_PROVIDER": "РЕЄСТРАЦІЯ НОВОГО ЗАКЛАДУ",
+      "EDIT_PROVIDER": "РЕДАГУВАННЯ ЗАКЛАДУ",
+      "NEW_PROVIDER_SUBHEADER": "Додайте свій заклад всього у 3 кроки",
+      "LEGAL_ADDRESS": "Юридична адреса",
+      "ACTUAL_ADDRESS": "Фактична адреса",
+      "EDIT" : "РЕДАГУВАННЯ",
+      "EDIT_INFO" : "Редагування інформації",
+      "SUBHEADER_TITLE" : "Заголовок",
+      "ADD_PROVIDER_DEPUTY": "ДОДАТИ АДМІНІСТРАТОРА ГУРТКА",
+      "ADD_PROVIDER_ADMIN": "ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА",
+      "EDIT_PROVIDER_DEPUTY": "РЕДАГУВАТИ ЗАСТУПНИКА ДИРЕКТОРА",
+      "EDIT_PROVIDER_ADMIN": "РЕДАГУВАТИ АДМІНІСТРАТОРА ГУРТКА",
+      "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему."
     },
     "LABELS": {
       "AGE_OF_PARTICIPANTS": "Вік учасників",
@@ -241,7 +296,7 @@
       "EMAIL": "Електронна пошта",
       "KEYWORDS": "Ключові слова",
       "LAST_NAME": "Прізвище",
-      "MIDDLENAME": "По-батькові",
+      "MIDDLE_NAME": "По-батькові",
       "FIRST_NAME": "Ім'я",
       "OR_SELECT_ON_THE_MAP": "Або позначте на карті",
       "PHONE": "Телефон",
@@ -249,14 +304,41 @@
       "PRICE": "Вартість",
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
+      "ADDRESS": "Адреса",
       "SEX": "Стать",
-      "SOCIAL_GROUP": "Соціальна група",
+      "SOCIAL_GROUPS": "Соціальна група",
       "STREET": "Вулиця",
       "SUBORDINATION": "Підпорядкування",
       "SUPPORT_PERSONS_WITH_DISABILITIES": "Наявність ресурсу для надання освіти для осіб з ООП та осіб з інвалідністю",
       "TITLE": "Назва",
       "WEBSITE": "Веб сайт",
-      "WORKING_HOURS": "Розклад занять"
+      "WORKING_HOURS": "Розклад занять",
+      "APPLY_CHILDREN": "Подати дані про дитину",
+      "APPLY_USER": "Подати дані про себе",
+      "SELECT_CHILD": "Виберіть дитину",
+      "FULL_NAME": "ПІБ",
+      "PARENTS": "Батьки",
+      "OWNERSHIP": "Форма власності",
+      "LICENSE": "Ліцензія",
+      "INSTITUTION_CATEGORY":" Категорія закладу",
+      "ORGANIZATION_TYPE": "Тип організації",
+      "ORGANIZATION_STATUS": "Статус організації",
+      "FULL_ORGANIZATION_NAME": "Повна назва організації",
+      "SHORT_ORGANIZATION_NAME": "Скорочена назва організації",
+      "PROVIDER_TITLE": "Назва закладу",
+      "EDRPO": "ЄДРПОУ",
+      "EDRPO_IPN": "ЄДРПОУ / ІПН",
+      "IPN": "ІПН",
+      "FOUNDER": "Засновник",
+      "DIRECTOR_NAME": "ПІБ керівника",
+      "DIRECTOR_BIRTHDAY": "Дата народження керівника",
+      "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
+      "CHECK_WORKSHOPS": "Обрати гуртки",
+      "ROLE": "Роль",
+      "STATUS": "Статус",
+      "USER_THAT_CHANGE": "ПІБ що внесла зміни",
+      "TYPE": "Тип",
+      "DATE_TIME": "Дата/час"  
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -266,7 +348,15 @@
       "PAYMENT_TYPE": "Оберіть тип оплати за гурток",
       "SHORT_DATE_FORMAT": "ДД/ММ/РРРР",
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
-      "SYMBOLS": "символів"
+      "SYMBOLS": "символів",
+      "CHILDREN": "Діти",
+      "SEARCH_NAME_PHONE_EMAIL": "Пошук за ПІБ, електронною поштою, телефоном",
+      "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
+      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
+      "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
+      "ALL_FILTERS": "Усі фільтри",
+      "SELECT_SUBORDINATION" : "Оберіть підпорядкування"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -281,55 +371,40 @@
       "INVALID_MAP": "Такої адреси не було знайдено на карті",
       "INVALID_SYMBOLS": ", використовуйте будь-ласка тільки кирилицю та символи ( ' - )",
       "REQUIRED_INPUT": "Це поле є обов'язковим.",
-      "NO_MORE_CHILDREN": "Можливо додати не більш, ніж"
+      "NO_MORE_CHILDREN": "Можливо додати не більш, ніж",
+      "APPLICATION_ALREADY_APPLIED": "Заявка вже подана"
     }
   },
   "FOUND": "Знайдено",
-  "FOUNDER": "Засновник",
   "FREE_WORKSHOP": "Безкоштовний гурток",
   "FROM": "Від",
-  "FULL_ORGANIZATION_NAME": "Повна назва організації",
   "INFO_MENU": {
     "UNLIMITED": "Обравши опцію \"Без обмежень\" - гурток не має обмежень на кількість користувачів. Якщо ввести кількість доступних місць для користувачів - по досягненню ліміта набір буде автоматично закрито і подачу заявок зупинено автоматично.",
     "LICENSE": "Додайте ліцензію, щоб отримати більше інтересу та підвищити рівень довіри учасників до гуртків вашого закладу. Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з'явиться значок підтвердження"
   },
-  "INFORMATION_ABOUT": "Інформація про",
+  "ALL_WORKSHOPS_ACCESS": "Буде надано доступ до всіх гуртків",
   "INSTITUTION_TYPE": "Тип закладу",
-  "IPN": "ІПН",
-  "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
-  "LEAVE_WORKSHOP": "Залишити гурток",
-  "LEGAL_ADDRESS": "Юридична адреса",
   "LIST": "Список",
   "LOGIN": "УВІЙТИ/ЗАРЕЄСТРУВАТИСЯ",
   "LOGOUT": "Вийти",
   "MAP": "Карта",
   "MORE_DETAILS": "Детальніше",
   "MY_APPLICATIONS": "Мої заяви",
-  "MY_MESSAGES": "Мої повідомлення",
-  "MY_WORKSHOPS": "Мої гуртки",
   "NEAREST": "Найближчі",
   "NO_RESULTS_FOUND": "За результатами нічого не знайдено",
   "NOT_AVAILABLE": "Відсутні",
   "OPEN_RECRUITMENT_ONLY": "Лише з відкритим відбором",
-  "ORGANIZATION_TYPE": "Тип організації",
-  "OWNERSHIP": "Форма власності",
-  "LICENSE": "Ліцензія",
-  "INSTITUTION_CATEGORY":" Категорія закладу",
   "PAID": "Платні",
   "PASSWORD": "Пароль",
-  "PERSONAL_INFORMATION": "Особиста інформація",
   "RATE": "ЗАЛИШИТИ ОЦІНКУ",
   "RECRUITMENT": "Набір",
   "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
   "SELECTED" : "вибрано",
   "SELECT_AGE": "Обрати вік",
   "SEND_A_MESSAGE": "Надіслати повідомлення",
-  "SHORT_ORGANIZATION_NAME": "Скорочена назва організації",
   "SHOW_ON_THE_MAP": "Показати на карті",
   "SIGN_UP": "ЗАРЕЄСТРУВАТИСЯ",
   "SIGN_UP_WE_WILL_HELP_YOU_ATTRACT_NEW_STUDENTS": "Зареєструйся - допоможемо залучити нових учнів!",
-  "STATUS": "Статус",
-  "SUPPORT": "ПІДТРИМКА",
   "TITLES": {
     "ABOUT_THE_PROVIDER": "Про заклад",
     "ABOUT_THE_WORKSHOP": "Про гурток",
@@ -339,7 +414,9 @@
     "DESCRIPTION": "Опис",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "Інші гуртки закладу",
     "REVIEWS": "Відгуки",
-    "TEACHERS": "Викладачі"
+    "TEACHERS": "Викладачі",
+    "ABOUT_THE_PROVIDER_INFO": "Інформація про заклад",
+    "ACCESS_MANAGMENT": "Керування доступами"
   },
   "TO": "До",
   "TOP_DIRECTIONS": "Найпопулярніші напрямки",
@@ -357,5 +434,99 @@
   "YOU_ARE_IN_A_SETTLEMENT": "Ви знаходитесь в населеному пункті",
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "Ви вже оцінили цей гурток",
   "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "Ви повинні бути прийнятим до даного гуртка",
-  "FOUND_WORKSHOP": "Знайдено {count|#1 }"
+  "FOUND_WORKSHOP": "Знайдено {count|#1 }",
+  "BANNERS": {
+    "ADD_CHILDREN" : "Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу",
+    "MAX_CHILDREN_AMOUNT" : "Можливо додати не більш, ніж 20 дітей",
+    "ADD_WORKSHOP" : "Тут ви можете створити гурток, секцію або групу для навчання"
+  },
+  "BUTTONS": {
+    "ADD_CHILDREN": "Додати дитину",
+    "ADD_WORKSHOP": "Додати гурток",
+    "APPROVE_APPLICATION": "Прийняти",
+    "LEAVE_WORKSHOP": "Залишити гурток",
+    "REJECT" : "Відмовити",
+    "BLOCK_USER": "Заблокувати користувача",
+    "UNBLOCK_USER": "Розблокувати користувача",
+    "SEND_INVITATION": "Надіслати запрошення",
+    "SEND_MESSAGE": "Надіслати повідомлення",
+    "CANCEL": "Скасувати",
+    "SEND": "Відправити",
+    "EDIT": "Редагувати",
+    "SAVE": "Зберегти",
+    "BACK": "Назад",
+    "NEXT": "Далі",
+    "ADD_ANOTHER_CHILD": "Додати ще одну дитину",
+    "ADD_ANOTHER_SECTION": "Додати ще один розділ",
+    "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
+    "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
+    "Remove": "Видалити",
+    "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
+    "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
+    "REMOVE_DATA": "Вилучити дані",
+    "ADD": "Додати",
+    "EDIT_USER": "Редагувати користувача",
+    "DELETE_USER": "Видалити користувача",
+    "CONFIRM": "Підтвердити",
+    "CHANGE": "Змінити",
+    "ADD_INFO": "Додати інформацію",
+    "BLOCK": "Заблокувати",
+    "UNBLOCK": "Розблокувати",
+    "CONFIRM_LICENSE": "Підтвердити ліцензію закладу",
+    "CONFIRM_EDITING": "Відправити на редагування",
+    "DELETE": "Видалити"
+  },
+  "PERSONAL_DATA": "Персональні дані",
+  "CHILD_DATA": "Дані про дитину",
+  "PARENT_DATA": "Дані про батьків",
+  "NO_CHILD_FOUND": "Немає дитини у списку?",
+  "AGREEMENTS": {
+    "USER_CONTRAINDICATIONS": "Я не маю противопоказів щодо відвідування гуртка/секції/класу",
+    "CHILD_CONTRAINDICATIONS": "Моя дитина не має противопоказів щодо відвідування гуртка/секції/класу",
+    "I_AGREE_FOR_CHILD": "Я надаю згоду, щоб моя дитина відвідувала гурток/секцію/клас",
+    "I_AGREE_FOR_USER": "Додаючи користувача я погоджуюсь з",
+    "I_AGREE": "Я погоджуюсь з",
+    "PLATFORM_RULES": "Правилами користування",
+    "PERSONAL_DATA_USE": "та надаю згоду на обробку персональних даних",
+    "I_AGREE_FOR_DATA_USE": "Я надаю згоду на обробку персональних даних",
+    "I_AM_NOT_ROBOT": "Я не робот"
+  },
+  "LESS_THAN_ONE_YEAR": "< 1 року",
+  "EMPTY_BANNERS": {
+    "NO_APPLICATION": "Заявок поки немає",
+    "NO_RESULT": "За результатами нічого не знайдено",
+    "NO_FAVORITE_WORKSHOPS": "Улюблених гуртків поки немає",
+    "NO_USERS": "Користувачів поки немає",
+    "NO_TEACHERS": "Викладачів поки немає",
+    "NO_ACHIEVEMENTS": "Досягнень поки немає",
+    "NO_REVIEWS": "Відгуків поки немає",
+    "NO_ADMINS": "Тут ви можете додати aдміністраторів",
+    "NO_HISTORY": "Історії змін поки немає",
+    "NO_INFO": "Інформації поки немає",
+    "NO_MESSAGES": "Повідомлень поки немає"
+  },
+  "NOTIFICATIONS": "Сповіщення",
+  "APPLICATION_STATUSES": "Статуси заявок",
+  "HISTORY_LOG": {
+    "WAS": "Було",
+    "BECAME": "Стало",
+    "SHOW" : "Показати",
+    "RESET_FILTERS": "Скинути фільтри",
+    "PERIOD": "Період",
+    "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
+    "ADD_ADMIN_OPTION": "Створення адміністратора"
+  },
+  "STATISTICS": {
+    "DATE_RANGE": "Часовий проміжок",
+    "FORMAT": "Формат",
+    "GENERATE_REPORT": "Згенерувати звіти",
+    "NO_DATA": "У вас ще немає згенерованих звітів.",
+    "NO_DATA_SUBHEADER":"Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут",
+    "TITLE": "Назва",
+    "PERIOD": "Період",
+    "CREATE_DATE": "Дата створення",
+    "DOWNLOAD": "Завантажити",
+    "WORKSHOPS_DAILY": "За останні 24 години",
+    "WORKSHOPS_YEAR": "За рік"
+  }
 }

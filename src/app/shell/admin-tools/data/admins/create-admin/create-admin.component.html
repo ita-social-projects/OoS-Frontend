@@ -74,8 +74,7 @@
           panelClass="dropdown-panel"
           class="step-input"
           formControlName="institution"
-          placeholder="Оберіть підпорядкування"
-        >
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}">
           <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
             {{ institution.title }}
           </mat-option>
@@ -83,14 +82,18 @@
       </mat-form-field>
       <app-validation-hint
         [validationFormControl]="AdminFormGroup.get('institution')"
-        [isTouched]="AdminFormGroup.get('institution').touched"
       >
       </app-validation-hint>
 
       <label class="step-label"> Електронна пошта <span class="step-required">*</span></label>
-      <mat-form-field>
-        <mat-label></mat-label>
-        <input matInput class="step-input" type="email" formControlName="email" appTrimValue />
+      <mat-form-field appearance="none">
+        <input
+        matInput
+        class="step-input"
+        type="email"
+        formControlName="email"
+        appTrimValue
+        [placeholder]="mailFormPlaceholder"/>
       </mat-form-field>
     </form>
 

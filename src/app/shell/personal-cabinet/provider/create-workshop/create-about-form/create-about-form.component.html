@@ -174,7 +174,7 @@
         </mat-select>
       </div>
     </div>
-    <app-validation-hint [validationFormControl]="payRateControl" [isTouched]="payRateControl.touched"> </app-validation-hint>
+    <app-validation-hint [validationFormControl]="payRateControl"> </app-validation-hint>
   </mat-radio-group>
 
   <div *ngIf="provider.ownership !== ownershipType.State" fxLayout="column" fxLayoutAlign="center space-between">
@@ -211,7 +211,7 @@
           </mat-radio-button>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl" [isTouched]="availableSeatsControl.touched">
+      <app-validation-hint [validationFormControl]="availableSeatsControl">
       </app-validation-hint>
     </mat-radio-group>
   </div>

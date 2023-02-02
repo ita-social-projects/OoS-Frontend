@@ -12,8 +12,8 @@
       [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true"
       cdkFocusInitial
     >
-      {{ (data.type === modalConfirmationType.delete ? 'FORMS.ACTIONS.DELETE' : 'CONFIRM') | translate | uppercase }}
+      {{ (data.type === modalConfirmationType.delete ? 'BUTTONS.REMOVE' : 'BUTTONS.CONFIRM') | translate | uppercase }}
     </button>
-    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">{{ 'CANCEL' | translate | uppercase }}</button>
+    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
   </mat-dialog-actions>
 </div>

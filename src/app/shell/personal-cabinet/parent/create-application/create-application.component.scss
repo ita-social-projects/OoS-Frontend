@@ -23,6 +23,10 @@
 .application-wrapper {
   padding-right: 3rem;
   padding-left: 3rem;
+
+  .mat-tab-group{
+    align-items: center !important;
+  }
 }
 
 @media (max-width: 750px) {

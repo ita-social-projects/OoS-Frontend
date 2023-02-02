@@ -8,8 +8,7 @@
           matInput
           type="text"
           class="search"
-          placeholder="Пошук за ПІБ, емейлом, містом, типом чи зміною"
-        />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}" />
       </div>
     </div>
     <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
@@ -17,31 +16,45 @@
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab [label]="historyLogTabsUkr.Provider">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: provider, tableTitle: 'Provider' }"> </ng-container>
+      <mat-tab [label]="HistoryLogTabTitles.Providers | translate">
+        <ng-container
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }
+          ">
+        </ng-container>
       </mat-tab>
-      <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdmin, tableTitle: 'ProviderAdmin' }"> </ng-container>
+      <mat-tab [label]="HistoryLogTabTitles.ProviderAdmins | translate">
+        <ng-container
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }
+          ">
+        </ng-container>
       </mat-tab>
-      <mat-tab [label]="historyLogTabsUkr.Application">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: application, tableTitle: 'Application' }"> </ng-container>
+      <mat-tab [label]="HistoryLogTabTitles.Applications | translate">
+        <ng-container
+          *ngTemplateOutlet="
+            HistoryLogTable;
+            context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }
+          ">
+        </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
 
   <ng-template #HistoryLogTable let-table="table" let-tableTitle="tableTitle">
     <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-      <ng-container *ngIf="table?.length; else isEmptyList">
+      <ng-container *ngIf="table?.totalAmount; else isEmptyList">
         <div class="table-wrapper">
-          <app-history-log-table [table]="table" [tableTitle]="tableTitle"></app-history-log-table>
+          <app-history-log-table [table]="table.entities" [tableTitle]="tableTitle"></app-history-log-table>
         </div>
         <app-paginator
-          [totalEntities]="table.length"
+          [totalEntities]="table.totalAmount"
           [currentPage]="currentPage"
-          [itemsPerPage]="tableItemsPerPage"
+          [itemsPerPage]="tableItemsPerPage$ | async"
           (pageChange)="onPageChange($event)"
-          (itemsPerPageChange)="onItemsPerPageChange($event)"
-        >
+          (itemsPerPageChange)="onItemsPerPageChange($event)">
         </app-paginator>
       </ng-container>
     </ng-container>

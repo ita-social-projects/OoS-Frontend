@@ -1,11 +1,13 @@
 <div *ngIf="childrenCards" class="add-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
-  <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>
+  <p class="text">{{ 'BANNERS.ADD_CHILDREN' | translate }}</p>
   <ng-container *ngIf="childrenCards.totalAmount >= 20">
-    <span class="text">Можливо додати не більш, ніж 20 дітей</span>
+    <span class="text">{{ 'BANNERS.MAX_CHILDREN_AMOUNT' | translate }}</span>
   </ng-container>
 
   <a [routerLink]="['/create-child', ModeConstants.NEW]">
-    <button class="btn" mat-raised-button [disabled]="childrenCards.totalAmount >= 20">Додати дитину</button>
+    <button class="btn" mat-raised-button [disabled]="childrenCards.totalAmount >= 20">
+      {{ 'BUTTONS.ADD_CHILDREN' | translate }}
+    </button>
   </a>
 </div>
 
@@ -15,7 +17,11 @@
 
 <ng-template #ChildList>
   <div class="card-wrapper">
-    <app-child-card class="card" *ngFor="let child of childrenCards.entities" [child]="child" (deleteChild)="onDelete($event)">
+    <app-child-card
+      class="card"
+      *ngFor="let child of childrenCards.entities"
+      [child]="child"
+      (deleteChild)="onDelete($event)">
     </app-child-card>
   </div>
   <app-paginator
@@ -23,7 +29,6 @@
     [currentPage]="currentPage"
     [itemsPerPage]="childrensPerPage$ | async"
     (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)"
-  >
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
 </ng-template>

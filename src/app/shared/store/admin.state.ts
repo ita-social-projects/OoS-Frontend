@@ -3,7 +3,7 @@ import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
 import { Child } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
@@ -17,6 +17,7 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import {
   BlockMinistryAdminById,
+  BlockProviderById,
   CreateDirection,
   CreateMinistryAdmin,
   DeleteDirectionById,
@@ -38,8 +39,8 @@ import {
   GetProviderHistory,
   GetStatisticReports,
   GetSupportInformation,
-  OnBlockMinistryAdminFail,
-  OnBlockMinistryAdminSuccess,
+  OnBlockFail,
+  OnBlockSuccess,
   OnCreateDirectionFail,
   OnCreateDirectionSuccess,
   OnCreateMinistryAdminFail,
@@ -217,7 +218,7 @@ export class AdminState {
   getAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.AboutPortal)
+      .getPlatformInfo(AdminTabTypes.AboutPortal)
       .pipe(tap((aboutPortal: CompanyInformation) => patchState({ aboutPortal, isLoading: false })));
   }
 
@@ -225,7 +226,7 @@ export class AdminState {
   getMainPageInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.MainPage)
+      .getPlatformInfo(AdminTabTypes.MainPage)
       .pipe(tap((mainPageInformation: CompanyInformation) => patchState({ mainPageInformation, isLoading: false })));
   }
 
@@ -233,7 +234,7 @@ export class AdminState {
   getSupportInformation({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.SupportInformation)
+      .getPlatformInfo(AdminTabTypes.SupportInformation)
       .pipe(tap((supportInformation: CompanyInformation) => patchState({ supportInformation, isLoading: false })));
   }
 
@@ -241,7 +242,7 @@ export class AdminState {
   getLawsAndRegulations({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
     patchState({ isLoading: true });
     return this.platformService
-      .getPlatformInfo(AdminTabsTitle.LawsAndRegulations)
+      .getPlatformInfo(AdminTabTypes.LawsAndRegulations)
       .pipe(tap((lawsAndRegulations: CompanyInformation) => patchState({ lawsAndRegulations, isLoading: false })));
   }
 
@@ -296,7 +297,7 @@ export class AdminState {
         type: 'success'
       })
     ]);
-    if (type == AdminTabsTitle.MainPage) {
+    if (type == AdminTabTypes.MainPage) {
       this.store.dispatch(new GetMainPageInfo());
       this.router.navigate(['/']);
       return;
@@ -571,20 +572,27 @@ export class AdminState {
     { payload }: BlockMinistryAdminById
   ): Observable<void | Observable<void>> {
     return this.ministryAdminService.blockMinistryAdmin(payload.ministryAdminId, payload.isBlocked).pipe(
-      tap(() => dispatch(new OnBlockMinistryAdminSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockMinistryAdminFail(error))))
+      tap(() => dispatch([new OnBlockSuccess(payload), new GetAllMinistryAdmins()])),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
     );
   }
 
-  @Action(OnBlockMinistryAdminFail)
-  onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockMinistryAdminFail): void {
+  @Action(BlockProviderById)
+  blockProviderById({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockProviderById): Observable<void | Observable<void>> {
+    return this.providerService.blockProvider(payload).pipe(
+      tap(() => dispatch([new OnBlockSuccess(payload), new GetFilteredProviders()])),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
+    );
+  }
+
+  @Action(OnBlockFail)
+  onBlockMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(OnBlockMinistryAdminSuccess)
+  @Action(OnBlockSuccess)
   onBlockMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockMinistryAdminById): void {
     dispatch([
-      new GetAllMinistryAdmins(),
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
         type: 'success'

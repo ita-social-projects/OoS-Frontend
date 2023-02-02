@@ -8,8 +8,7 @@
           [formControl]="searchFormControl"
           type="text"
           class="search"
-          placeholder="Пошук за закладом, дитиною чи назвою гуртка"
-        />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}" />
       </div>
     </div>
     <i
@@ -27,33 +26,37 @@
       *ngIf="dropdownEntities"
       [entities]="dropdownEntities"
       [declination]="declination"
-      (entityCheck)="onEntitiesSelect($event)"
-    >
+      (entityCheck)="onEntitiesSelect($event)">
     </app-entity-checkbox-dropdown>
   </div>
 
-  <div class="tab-wrapper">
+  <div class="tab-wrapper application-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)">
-      <mat-tab label="Усі">
+      <mat-tab label="{{ applicationTabTitles.All | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ statusTitles[statuses.Pending] }}">
+      <mat-tab label="{{ applicationTabTitles[statuses.Pending] | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
-      <!-- <mat-tab label="{{statusTitles[statuses.AcceptedForSelection]}}">
-      <ng-container *ngTemplateOutlet="ProviderApplication; context:{$implicit: applications$| async }">
-      </ng-container>
-      </mat-tab> TODO: display when functionality is ready -->
-      <mat-tab label="{{ statusTitles[statuses.Approved] }}">
+      <mat-tab label="{{ applicationTabTitles[statuses.Approved] | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ statusTitles[statuses.Rejected] }}">
+      <mat-tab label="{{ applicationTabTitles[statuses.Rejected] | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ statusTitles[statuses.Left] }}">
+      <mat-tab label="{{ applicationTabTitles[statuses.Left] | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
-      <mat-tab *ngIf="role === Role.provider" label="{{ statusTitles.Blocked }}">
+      <mat-tab label="{{ applicationTabTitles[statuses.AcceptedForSelection] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTabTitles[statuses.StudyingForYears] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab label="{{ applicationTabTitles[statuses.Completed] | translate }}">
+        <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
+      </mat-tab>
+      <mat-tab *ngIf="role === Role.provider" label="{{ applicationTabTitles.Blocked | translate }}">
         <ng-container *ngTemplateOutlet="Applications; context: { $implicit: applicationCards }"> </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -66,8 +69,7 @@
   [currentPage]="currentPage"
   [itemsPerPage]="applicationsPerPage$ | async"
   (pageChange)="onPageChange($event)"
-  (itemsPerPageChange)="onItemsPerPageChange($event)"
->
+  (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
 
 <ng-template #Applications let-applicationCards>
@@ -83,7 +85,7 @@
         (unblock)="unblock.emit($event)"
         (block)="block.emit($event)"
         (leave)="leave.emit($event)"
-      >
+        (sendMessage)="sendMessage.emit($event)">
       </app-application-card>
     </ng-container>
   </ng-container>

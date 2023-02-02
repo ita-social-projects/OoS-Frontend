@@ -4,6 +4,7 @@ import { StatusInfoCardComponent } from './status-info-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
 import { Application } from '../../models/application.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('StatusInfoCardComponent', () => {
   let component: StatusInfoCardComponent;
@@ -11,7 +12,7 @@ describe('StatusInfoCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatMenuModule, MatDialogModule],
+      imports: [NgxsModule.forRoot([]), MatMenuModule, MatDialogModule, TranslateModule.forRoot()],
       declarations: [StatusInfoCardComponent]
     }).compileComponents();
   });

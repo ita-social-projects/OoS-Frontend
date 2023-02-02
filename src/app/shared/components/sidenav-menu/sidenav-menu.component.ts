@@ -1,9 +1,10 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AdminTabs } from '../../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../enum/enumUA/tech-admin/admin-tabs';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { FeaturesList } from '../../models/featuresList.model';
@@ -20,18 +21,18 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./sidenav-menu.component.scss'],
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
-  readonly defaultAdminTabs = AdminTabs[0];
+  readonly defaultAdminTabs = AdminTabTypes[0];
   readonly Languages: typeof Languages = Languages;
-  selectedLanguage: string;
+  readonly Role = Role;
+  readonly RoleLinks = RoleLinks;
+  readonly title = 'out-of-school';
 
   @Input() isMobileView: boolean;
 
-  Role = Role;
-  roles = RoleLinks;
   showModalReg = false;
-  title = 'out-of-school';
   visibleSidenav: boolean;
   user: User;
+  selectedLanguage: string;
 
   @Select(NavigationState.sidenavOpenTrue)
   sidenavOpenTrue$: Observable<boolean>;
@@ -46,7 +47,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store, private router: Router) {}
+  constructor(public store: Store, private router: Router, private translate: TranslateService) {}
 
   changeView(): void {
     this.store.dispatch(new SidenavToggle());
@@ -69,6 +70,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
   }
 
   setLanguage(): void {
+    this.translate.use(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 

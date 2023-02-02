@@ -25,7 +25,6 @@ import { Util } from '../../../../../shared/utils/utils';
 })
 export class CreateInfoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
-  readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly phonePrefix = Constants.PHONE_PREFIX;
 
@@ -65,7 +64,9 @@ export class CreateInfoFormComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   get EdrpouIpnLabel(): string {
-    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State ? 'ЄДРПОУ' : 'ІПН';
+    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State
+      ? 'FORMS.LABELS.EDRPO'
+      : 'FORMS.LABELS.IPN';
   }
 
   get ownershipTypeControl(): AbstractControl {

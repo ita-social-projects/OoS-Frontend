@@ -17,6 +17,7 @@ import { of } from 'rxjs';
 import { Child } from '../../../../shared/models/child.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;
@@ -39,7 +40,8 @@ describe('CreateApplicationComponent', () => {
         MatTabsModule,
         RouterTestingModule,
         MatDialogModule,
-        MatCheckboxModule
+        MatCheckboxModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         CreateApplicationComponent,

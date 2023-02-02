@@ -8,14 +8,22 @@ import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { providerAdminRoleUkr, providerAdminRoleUkrReverse } from '../../../../shared/enum/enumUA/provider-admin';
+import { ProviderAdminParams, ProviderAdminTitles } from '../../../../shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/no-results';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
-import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
+import {
+  ProviderAdmin,
+  ProviderAdminParameters,
+  ProviderAdminTable,
+} from '../../../../shared/models/providerAdmin.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { DeleteProviderAdminById, BlockProviderAdminById } from '../../../../shared/store/provider.actions';
+import {
+  DeleteProviderAdminById,
+  BlockProviderAdminById,
+  ReinviteProviderAdmin,
+} from '../../../../shared/store/provider.actions';
 import { ProviderComponent } from '../provider.component';
 import { ProviderState } from './../../../../shared/store/provider.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -24,15 +32,15 @@ import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { OnPageChange, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
 import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
 import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
-import { UserStatusesTitles } from '../../../../shared/enum/statuses';
+import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-provider-admins',
   templateUrl: './provider-admins.component.html',
-  styleUrls: ['./provider-admins.component.scss']
+  styleUrls: ['./provider-admins.component.scss'],
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
-  readonly providerAdminRoleUkr = providerAdminRoleUkr;
+  readonly ProviderAdminTitles = ProviderAdminTitles;
   readonly providerAdminRole = ProviderAdminRole;
   readonly noProviderAdmins = NoResultsTitle.noUsers;
   readonly constants = Constants;
@@ -54,16 +62,21 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   private filterParams: ProviderAdminParameters = {
     assistantsOnly: false,
     deputyOnly: false,
-    searchString: ''
+    searchString: '',
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     super(store, matDialog);
   }
 
   ngOnInit(): void {
     super.ngOnInit();
-    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
       this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
       this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
       this.filterParams.deputyOnly = params['role'] === ProviderAdminRole.deputy;
@@ -85,9 +98,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    const tabIndex = event.index;
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: providerAdminRoleUkrReverse[event.tab.textLabel] }
+      queryParams: { role: ProviderAdminParams[tabIndex] },
     });
   }
 
@@ -98,9 +112,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
-        property: user.pib
-      }
+        type: user.isDeputy
+          ? ModalConfirmationType.deleteProviderAdminDeputy
+          : ModalConfirmationType.deleteProviderAdmin,
+        property: user.pib,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -109,7 +125,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           new DeleteProviderAdminById(
             {
               userId: user.id,
-              providerId: this.provider.id
+              providerId: this.provider.id,
             },
             this.filterParams
           )
@@ -124,17 +140,21 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     let messageType: string;
 
     if (admin.user.isDeputy) {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
+      messageType = admin.isBlocked
+        ? ModalConfirmationType.blockProviderAdminDeputy
+        : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
+      messageType = admin.isBlocked
+        ? ModalConfirmationType.blockProviderAdmin
+        : ModalConfirmationType.unBlockProviderAdmin;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
         type: messageType,
-        property: admin.user.pib
-      }
+        property: admin.user.pib,
+      },
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -144,7 +164,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
             {
               userId: admin.user.id,
               providerId: this.provider.id,
-              isBlocked: admin.isBlocked
+              isBlocked: admin.isBlocked,
             },
             this.filterParams
           )
@@ -152,11 +172,16 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
   }
 
+  onSendInvitation(providerAdmin: ProviderAdmin): void {
+    this.store.dispatch(new ReinviteProviderAdmin(providerAdmin));
+  }
+
   /**
    * This method update provider Admin By Id
    */
   onUpdate(user: ProviderAdminTable): void {
-    this.router.navigate([`update-provider-admin/${providerAdminRoleUkrReverse[user.role]}/${user.id}`]);
+    const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
+    this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
   }
 
   protected addNavPath(): void {
@@ -164,7 +189,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       new PushNavPath({
         name: NavBarName.Administration,
         isActive: false,
-        disable: true
+        disable: true,
       })
     );
   }
@@ -189,9 +214,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
         phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
-        role: admin.isDeputy ? providerAdminRoleUkr.deputy : providerAdminRoleUkr.admin,
+        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
         status: admin.accountStatus,
-        isDeputy: admin.isDeputy
+        isDeputy: admin.isDeputy,
       });
     });
     return updatedAdmins;
@@ -208,9 +233,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         this.getFilteredProviderAdmins();
       });
 
-    this.providerAdmins$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
-      this.providerAdmins = providerAdmins;
-      this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
-    });
+    this.providerAdmins$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
+        this.providerAdmins = providerAdmins;
+        this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
+      });
   }
 }

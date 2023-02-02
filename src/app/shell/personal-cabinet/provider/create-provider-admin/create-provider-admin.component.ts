@@ -19,7 +19,7 @@ import { ValidationConstants } from '../../../../shared/constants/validation';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
-import { CreateProviderAdminTitle, ProviderAdminRole } from '../../../../shared/enum/provider-admin';
+import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { Role } from '../../../../shared/enum/role';
 import { ProviderAdmin } from '../../../../shared/models/providerAdmin.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
@@ -30,13 +30,17 @@ import { Util } from '../../../../shared/utils/utils';
 import { Provider } from '../../../../shared/models/provider.model';
 import { TruncatedItem } from '../../../../shared/models/item.model';
 import { ProviderState } from '../../../../shared/store/provider.state';
+import {
+  ProviderAdminsFormTitlesEdit,
+  ProviderAdminsFormTitlesNew,
+} from '../../../../shared/enum/enumUA/provider-admin';
 
 const defaultValidators: ValidatorFn[] = [
-  Validators.required,
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
 ];
+
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
@@ -48,7 +52,6 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly providerAdminRole = ProviderAdminRole;
-  readonly title = CreateProviderAdminTitle;
 
   @Select(RegistrationState.provider)
   provider$: Observable<Provider>;
@@ -64,6 +67,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   providerAdminId: string;
   isDeputy: boolean;
 
+  formTitle: string;
+
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
@@ -77,13 +82,18 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.ProviderAdminFormGroup = this.formBuilder.group({
       lastName: new FormControl('', defaultValidators),
       firstName: new FormControl('', defaultValidators),
-      middleName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', [
+        Validators.pattern(NAME_REGEX),
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+      ]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email]),
     });
 
     this.providerRole = ProviderAdminRole[this.route.snapshot.paramMap.get('param')];
     this.isDeputy = this.providerRole === ProviderAdminRole.deputy;
+
     this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
@@ -100,6 +110,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   determineEditMode(): void {
     this.providerAdminId = this.route.snapshot.paramMap.get('id');
     this.editMode = !!this.providerAdminId;
+    this.formTitle = this.editMode
+      ? ProviderAdminsFormTitlesEdit[this.providerRole]
+      : ProviderAdminsFormTitlesNew[this.providerRole];
     this.addNavPath();
 
     if (this.editMode) {

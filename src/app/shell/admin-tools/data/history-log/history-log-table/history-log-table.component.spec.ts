@@ -5,6 +5,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('HistoryLogTableComponent', () => {
   let component: HistoryLogTableComponent;
@@ -12,8 +13,15 @@ describe('HistoryLogTableComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatTableModule, RouterTestingModule, MatMenuModule, NgxsModule.forRoot([]), MatIconModule],
-      declarations: [HistoryLogTableComponent]
+      imports: [
+        MatTableModule,
+        RouterTestingModule,
+        MatMenuModule,
+        NgxsModule.forRoot([]),
+        MatIconModule,
+        TranslateModule.forRoot(),
+      ],
+      declarations: [HistoryLogTableComponent],
     }).compileComponents();
   });
 

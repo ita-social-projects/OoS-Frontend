@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ApplicationIcons } from '../../enum/applications';
-import { ApplicationStatusDescription } from '../../enum/enumUA/applications';
-import { ApplicationStatusTitles, ApplicationStatuses } from '../../enum/statuses';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/statuses';
+import { ApplicationStatuses } from '../../enum/statuses';
 import { Application } from '../../models/application.model';
 @Component({
   selector: 'app-status-info-card',
@@ -9,7 +9,7 @@ import { Application } from '../../models/application.model';
   styleUrls: ['./status-info-card.component.scss'],
 })
 export class StatusInfoCardComponent {
-  readonly statusTitles = ApplicationStatusTitles;
+  readonly statusTitles = ApplicationTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
   readonly statuses = ApplicationStatuses;

@@ -8,8 +8,9 @@ import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
 import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
+import { ClearCoordsByMap, ClearRadiusSize, GetFilteredWorkshops } from '../../../shared/store/filter.actions';
 import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
+import { ClearMessageBar } from '../../../shared/store/app.actions';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -123,6 +124,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new ClearMessageBar()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

@@ -20,7 +20,9 @@ import {
   OnPageChangeHistoryLog,
   SetAchievementsPerPage,
   OnPageChange,
-  OnPageChangeReports
+  OnPageChangeReports,
+  OnPageChangeChatRooms,
+  SetChatRoomsPerPage
 } from './paginator.actions';
 
 export interface PaginatorStateModel {
@@ -30,6 +32,7 @@ export interface PaginatorStateModel {
   applicationsPerPage: number;
   ratingPerPage: number;
   childrensPerPage: number;
+  chatRoomsPerPage: number;
   currentPage: PaginationElement;
   tableItemsPerPage: number;
 }
@@ -41,6 +44,7 @@ export interface PaginatorStateModel {
     directionsPerPage: 12,
     applicationsPerPage: 8,
     childrensPerPage: 8,
+    chatRoomsPerPage: 8,
     ratingPerPage: 12,
     tableItemsPerPage: 12,
     currentPage: PaginationConstants.firstPage
@@ -80,6 +84,10 @@ export class PaginatorState {
     return state.childrensPerPage;
   }
 
+  @Selector() static chatRoomsPerPage(state: PaginatorStateModel): number {
+    return state.chatRoomsPerPage;
+  }
+
   constructor() {}
 
   @Action(SetWorkshopsPerPage)
@@ -112,6 +120,11 @@ export class PaginatorState {
     patchState({ childrensPerPage: payload });
   }
 
+  @Action(SetChatRoomsPerPage)
+  setChatRoomsPerPage({ patchState }: StateContext<PaginatorStateModel>, { amount }: SetChatRoomsPerPage): void {
+    patchState({ chatRoomsPerPage: amount });
+  }
+
   @Action(SetRatingPerPage)
   SetRatingPerPage({ patchState }: StateContext<PaginatorStateModel>, { payload }: SetRatingPerPage): void {
     patchState({ ratingPerPage: payload });
@@ -140,6 +153,11 @@ export class PaginatorState {
   @Action(OnPageChangeChildrens)
   onPageChange({ patchState }: StateContext<PaginatorStateModel>, { payload }: OnPageChangeChildrens): void {
     patchState({ currentPage: payload });
+  }
+
+  @Action(OnPageChangeChatRooms)
+  onPageChangeChatRooms({ patchState }: StateContext<PaginatorStateModel>, { page }: OnPageChangeChatRooms): void {
+    patchState({ currentPage: page });
   }
 
   @Action(OnPageChangeApplications)

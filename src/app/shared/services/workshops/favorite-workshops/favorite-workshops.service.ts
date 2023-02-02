@@ -1,15 +1,18 @@
 import { Favorite } from './../../../models/favorite.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { SearchResponse } from '../../../models/search.model';
 import { WorkshopCard } from '../../../../shared/models/workshop.model';
+import { Store } from '@ngxs/store';
+import { PaginatorState } from '../../../store/paginator.state';
+import { PaginationElement } from '../../../models/paginationElement.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FavoriteWorkshopsService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private store: Store) {}
 
   /**
    * This method get favorite workshops
@@ -22,7 +25,15 @@ export class FavoriteWorkshopsService {
    * This method get favorite workshops by Userid
    */
   getFavoriteWorkshopsByUserId(): Observable<SearchResponse<WorkshopCard[]>> {
-    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Favorite/workshops');
+    let params = new HttpParams();
+
+    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
+    const size = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const from = size * (+currentPage.element - 1);
+
+    params = params.set('Size', size.toString()).set('From', from.toString());
+
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Favorite/workshops', { params });
   }
 
   /**
