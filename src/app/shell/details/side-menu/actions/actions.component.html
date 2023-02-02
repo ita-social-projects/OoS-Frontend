@@ -21,13 +21,15 @@
     </button>
   </a>
 
-  <button
-    mat-raised-button
-    class="button button-msg"
+  <a
+    [ngClass]="{ disable: hideApplicationSubmission }"
     [routerLink]="['/personal-cabinet/messages/', workshop.id]"
-    [queryParams]="{ mode: ModeConstants.WORKSHOP }">
-    <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
-  </button>
+    [queryParams]="{ mode: ModeConstants.WORKSHOP }"
+    (click)="onOpenDialog()">
+    <button mat-raised-button class="button button-msg">
+      <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
+    </button>
+  </a>
 
   <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
 
