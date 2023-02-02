@@ -229,7 +229,8 @@
     "PROVIDER_STATUSES":{
       "APPROVED": "Approved",
       "PENDING": "Pending",
-      "EDITING": "Needs editing"
+      "EDITING": "Needs editing",
+      "BLOCK": "Blocked"
     },
     "PROVIDER_STATUS_DETAILS": {
       "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
@@ -253,7 +254,7 @@
       "MINISTRY_ADMIN" : "Ministry administrator",
       "REGION_ADMIN" : "Region administrator",
       "TERRITORIAL_ADMIN" : "Territorial community administrator"
-    },
+    }, 
     "HISTORY_LOG": {
       "PROVIDERS" : "Providers",
       "ADMINS":"Adminstrators",
@@ -354,7 +355,7 @@
       "PARTICIPANTS": "Participants",
       "TEACHERS": "Teacher/Coach",
       "DATE": "Date",
-      "ACHIEVEMENT_DESCRIPTION": "Achievement description"  
+      "ACHIEVEMENT_DESCRIPTION": "Achievement description"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
