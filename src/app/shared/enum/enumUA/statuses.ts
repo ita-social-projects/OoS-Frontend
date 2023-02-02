@@ -27,3 +27,26 @@ export enum UserStatusesTitles {
   Accepted = 'ENUM.USER_STATUSES.ACCEPTED',
   Blocked = 'ENUM.USER_STATUSES.BLOCKED',
 }
+
+// Statuses for user Email Confirmation
+export enum EmailConfirmationStatusesTitles {
+  Pending = 'ENUM.EMAIL_CONFIRMATION_STATUSES.PENDING',
+  Confirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.CONFIRMED',
+}
+
+export enum ProviderStatusTitles {
+  Approved = 'ENUM.PROVIDER_STATUSES.APPROVED',
+  Pending = 'ENUM.PROVIDER_STATUSES.PENDING',
+  Editing = 'ENUM.PROVIDER_STATUSES.EDITING',
+}
+
+export enum LicenseStatusTitles {
+  Approved = 'ENUM.LICENSE_STATUSES.APPROVED',
+  Pending = 'ENUM.LICENSE_STATUSES.PENDING',
+  NotProvided = 'ENUM.LICENSE_STATUSES.NOT_PROVIDED',
+}
+
+export enum ProviderStatusDetails {
+  Approved = 'ENUM.PROVIDER_STATUS_DETAILS.APPROVED',
+  Pending = 'ENUM.PROVIDER_STATUS_DETAILS.PENDING',
+}

@@ -7,7 +7,13 @@ import { DataItem } from './item.model';
 import { InstitutionTypes, OwnershipTypes } from '../enum/provider';
 import { PaginationParameters } from './queryParameters.model';
 
-export class Provider {
+export interface BlockProviderData {
+  id: string;
+  isBlocked?: boolean;
+  blockReason?: string;
+}
+
+export class Provider implements BlockProviderData {
   id: string;
   fullTitle: string;
   shortTitle: string;

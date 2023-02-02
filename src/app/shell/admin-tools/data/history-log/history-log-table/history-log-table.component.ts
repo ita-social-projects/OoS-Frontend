@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
 import { Util } from '../../../../../shared/utils/utils';
 import {
   ApplicationHistory,
@@ -10,6 +10,8 @@ import {
 } from '../../../../../shared/models/history-log.model';
 import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
+import { HistoryLogTypes } from '../../../../../shared/enum/history.log';
+import { Person } from '../../../../../shared/models/user.model';
 
 @Component({
   selector: 'app-history-log-table',
@@ -17,14 +19,21 @@ import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
   styleUrls: ['./history-log-table.component.scss'],
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatSort) sort: MatSort;
+
   readonly typeChange = TypeChange;
+  readonly HistoryLogTypes = HistoryLogTypes;
   readonly statusTitles = ApplicationTitles;
   readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
-  public util = Util;
 
   @Input() table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
-  @Input() tableTitle: string;
-  @ViewChild(MatSort) sort: MatSort;
+  @Input() tableType: HistoryLogTypes;
+
+  getFullName = Util.getFullName;
+
+  get isApplicationHistoryType(): boolean {
+    return this.tableType === HistoryLogTypes.Applications;
+  }
 
   displayedColumns = [
     'pib',

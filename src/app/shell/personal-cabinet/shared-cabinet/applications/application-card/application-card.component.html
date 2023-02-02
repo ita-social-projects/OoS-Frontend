@@ -115,10 +115,10 @@
     >
     <mat-menu #actions="matMenu" class="header_menu">
       <button *ngIf="!application.isBlocked" mat-menu-item (click)="block.emit(application.parentId)">
-        {{ 'BUTTONS.BLOCK' | translate }}
+        {{ 'BUTTONS.BLOCK_USER' | translate }}
       </button>
       <button *ngIf="application.isBlocked" mat-menu-item (click)="unblock.emit(application.parentId)">
-        {{ 'BUTTONS.UNBLOCK' | translate }}
+        {{ 'BUTTONS.UNBLOCK_USER' | translate }}
       </button>
     </mat-menu>
     <mat-menu #email="matMenu" class="header_menu">

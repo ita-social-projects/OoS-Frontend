@@ -1,16 +1,10 @@
-export enum UserTabsUkr {
-  all = 'Усі',
-  parent = 'Батьки',
-  child = 'Діти'
+export enum UserTabsTitles {
+  all = 'ALL',
+  parent = 'PARENTS',
+  child = 'CHILDREN',
 }
 
-export enum UserTabsUkrReverse {
-  'Усі' = 'all',
-  'Батьки' = 'parent',
-  'Діти' = 'child'
-}
-
-export enum UserTabs {
+export enum UserTabParams {
   all,
   parent,
   child

@@ -74,8 +74,7 @@
           panelClass="dropdown-panel"
           class="step-input"
           formControlName="institution"
-          placeholder="Оберіть підпорядкування"
-        >
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}">
           <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
             {{ institution.title }}
           </mat-option>

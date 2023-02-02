@@ -3,8 +3,9 @@
   "ADD_ACHIEVEMENT": "Додати досягнення",
   "ADD_TO_FAVORITES": "Додати в улюблені",
   "ADDED_TO_FAVORITES": "Додано в улюблені",
-  "ADMINISTRATION": "Адміністрування",
   "ALL": "Всі",
+  "PARENTS": "Батьки",
+  "CHILDREN":"Діти",
   "ALL_CHILDREN": "Всі діти",
   "ALL_WORKSHOPS": "Всі гуртки",
   "APPLICATIONS": "Заяви",
@@ -214,6 +215,25 @@
       "ACCEPTED": "Підтверджений",
       "BLOCKED": "Заблокований"
     },
+    "EMAIL_CONFIRMATION_STATUSES" : {
+      "PENDING": "Очікує підтвердження ел. пошти",
+      "CONFIRMED": "Ел. пошта підтверджена"
+    },
+    "PROVIDER_STATUSES":{
+      "APPROVED": "Заклад підтверджено",
+      "PENDING": "Очікує підтвердження",
+      "EDITING": "Потребує редагування",
+      "BLOCK": "Заклад заблокований"
+    },
+    "PROVIDER_STATUS_DETAILS": {
+      "APPROVED": "Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.",
+      "PENDING": "Ваш заклад очікує підтвердження адміністратором."
+    },
+    "LICENSE_STATUSES":{
+      "APPROVED": "Ліцензію підтверджено",
+      "PENDING": "Очікує підтвердження ліцензії",
+      "NOT_PROVIDED": "Ліцензію не надано"
+    },
     "PROVIDER_ADMINS" : {
       "PROVIDER_DEPUTY": "Заступник директора",
       "PROVIDER_ADMIN": "Адміністратор гуртка",
@@ -222,6 +242,11 @@
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
       "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
+    },
+    "HISTORY_LOG": {
+      "PROVIDERS" : "Заклади",
+      "ADMINS":"Адміністратори",
+      "APPLICATIONS": "Заявки"
     }
   },
   "EXACT_MATCH": "Повне співпадіння",
@@ -254,6 +279,7 @@
       "LEGAL_ADDRESS": "Юридична адреса",
       "ACTUAL_ADDRESS": "Фактична адреса",
       "EDIT" : "РЕДАГУВАННЯ",
+      "EDIT_INFO" : "Редагування інформації",
       "SUBHEADER_TITLE" : "Заголовок",
       "ADD_PROVIDER_DEPUTY": "ДОДАТИ АДМІНІСТРАТОРА ГУРТКА",
       "ADD_PROVIDER_ADMIN": "ДОДАТИ ЗАСТУПНИКА ДИРЕКТОРА",
@@ -278,6 +304,7 @@
       "PRICE": "Вартість",
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
+      "ADDRESS": "Адреса",
       "SEX": "Стать",
       "SOCIAL_GROUPS": "Соціальна група",
       "STREET": "Вулиця",
@@ -298,7 +325,9 @@
       "ORGANIZATION_STATUS": "Статус організації",
       "FULL_ORGANIZATION_NAME": "Повна назва організації",
       "SHORT_ORGANIZATION_NAME": "Скорочена назва організації",
+      "PROVIDER_TITLE": "Назва закладу",
       "EDRPO": "ЄДРПОУ",
+      "EDRPO_IPN": "ЄДРПОУ / ІПН",
       "IPN": "ІПН",
       "FOUNDER": "Засновник",
       "DIRECTOR_NAME": "ПІБ керівника",
@@ -306,7 +335,10 @@
       "SELECT_WORKSHOPS": "Позначте гуртки до яких адміністратор матиме доступ",
       "CHECK_WORKSHOPS": "Обрати гуртки",
       "ROLE": "Роль",
-      "STATUS": "Статус" 
+      "STATUS": "Статус",
+      "USER_THAT_CHANGE": "ПІБ що внесла зміни",
+      "TYPE": "Тип",
+      "DATE_TIME": "Дата/час"  
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -322,7 +354,9 @@
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
-      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною"
+      "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
+      "ALL_FILTERS": "Усі фільтри",
+      "SELECT_SUBORDINATION" : "Оберіть підпорядкування"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -412,8 +446,8 @@
     "APPROVE_APPLICATION": "Прийняти",
     "LEAVE_WORKSHOP": "Залишити гурток",
     "REJECT" : "Відмовити",
-    "BLOCK": "Заблокувати користувача",
-    "UNBLOCK": "Розблокувати користувача",
+    "BLOCK_USER": "Заблокувати користувача",
+    "UNBLOCK_USER": "Розблокувати користувача",
     "SEND_INVITATION": "Надіслати запрошення",
     "SEND_MESSAGE": "Надіслати повідомлення",
     "CANCEL": "Скасувати",
@@ -426,7 +460,7 @@
     "ADD_ANOTHER_SECTION": "Додати ще один розділ",
     "ADD_ANOTHER_TEACHER": "Додати ще одного викладача",
     "ADD_MORE_DAYS_HOURS": "Додати ще одні Дні/Години",
-    "DELETE": "Видалити",
+    "Remove": "Видалити",
     "REMOVE_CHILD_DATA": "Вилучити дані про дитину",
     "REMOVE_TEACHER_DATA": "Видалити дані про викладача",
     "REMOVE_DATA": "Вилучити дані",
@@ -434,7 +468,13 @@
     "EDIT_USER": "Редагувати користувача",
     "DELETE_USER": "Видалити користувача",
     "CONFIRM": "Підтвердити",
-    "CHANGE": "Змінити"
+    "CHANGE": "Змінити",
+    "ADD_INFO": "Додати інформацію",
+    "BLOCK": "Заблокувати",
+    "UNBLOCK": "Розблокувати",
+    "CONFIRM_LICENSE": "Підтвердити ліцензію закладу",
+    "CONFIRM_EDITING": "Відправити на редагування",
+    "DELETE": "Видалити"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
@@ -466,5 +506,27 @@
     "NO_MESSAGES": "Повідомлень поки немає"
   },
   "NOTIFICATIONS": "Сповіщення",
-  "APPLICATION_STATUSES": "Статуси заявок"
+  "APPLICATION_STATUSES": "Статуси заявок",
+  "HISTORY_LOG": {
+    "WAS": "Було",
+    "BECAME": "Стало",
+    "SHOW" : "Показати",
+    "RESET_FILTERS": "Скинути фільтри",
+    "PERIOD": "Період",
+    "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
+    "ADD_ADMIN_OPTION": "Створення адміністратора"
+  },
+  "STATISTICS": {
+    "DATE_RANGE": "Часовий проміжок",
+    "FORMAT": "Формат",
+    "GENERATE_REPORT": "Згенерувати звіти",
+    "NO_DATA": "У вас ще немає згенерованих звітів.",
+    "NO_DATA_SUBHEADER":"Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут",
+    "TITLE": "Назва",
+    "PERIOD": "Період",
+    "CREATE_DATE": "Дата створення",
+    "DOWNLOAD": "Завантажити",
+    "WORKSHOPS_DAILY": "За останні 24 години",
+    "WORKSHOPS_YEAR": "За рік"
+  }
 }

@@ -10,6 +10,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { CreateAdminComponent } from './create-admin.component';
 
@@ -31,7 +32,8 @@ describe('CreateAdminComponent', () => {
         MatDialogModule,
         CommonModule,
         FormsModule,
-        MatSelectModule
+        MatSelectModule,
+        TranslateModule.forRoot()
       ],
       declarations: [MockValidationHintForInputComponent, CreateAdminComponent]
     }).compileComponents();

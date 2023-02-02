@@ -1,8 +1,9 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdminTabsTitle } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
+import { BlockProviderData } from '../models/provider.model';
 import { ProviderParameters } from '../models/provider.model';
 import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
@@ -42,7 +43,7 @@ export class GetStatisticReports {
 
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
-  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
+  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
 }
 export class OnUpdatePlatformInfoFail {
   static readonly type = '[admin] update Information Platform Info Fail';
@@ -50,7 +51,7 @@ export class OnUpdatePlatformInfoFail {
 }
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] update Information Platform Info Success';
-  constructor(public payload: CompanyInformation, public type: AdminTabsTitle) {}
+  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
@@ -168,12 +169,17 @@ export class BlockMinistryAdminById {
   constructor(public payload: MinistryAdminBlockData) {}
 }
 
-export class OnBlockMinistryAdminSuccess {
-  static readonly type = '[admin] block Ministry Admin success';
-  constructor(public payload: MinistryAdminBlockData) {}
+export class BlockProviderById {
+  static readonly type = '[admin] block Provider';
+  constructor(public payload: BlockProviderData) {}
 }
 
-export class OnBlockMinistryAdminFail {
+export class OnBlockSuccess {
+  static readonly type = '[admin] block success';
+  constructor(public payload: MinistryAdminBlockData | BlockProviderData) {}
+}
+
+export class OnBlockFail {
   static readonly type = '[admin] block Ministry Admin fail';
   constructor(public payload: HttpErrorResponse) {}
 }

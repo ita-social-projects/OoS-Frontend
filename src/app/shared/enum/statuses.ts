@@ -36,29 +36,6 @@ export enum EmailConfirmationStatuses {
   Confirmed = 'Confirmed',
 }
 
-// Statuses for user Email Confirmation
-export enum EmailConfirmationStatusesTitles {
-  Pending = 'Очікує підтвердження ел. пошти',
-  Confirmed = 'Ел. пошта підтверджена',
-}
-
-export enum ProviderStatusTitles {
-  Approved = 'Заклад підтверджено',
-  Pending = 'Очікує підтвердження',
-  Editing = 'Потребує редагування'
-}
-
-export enum LicenseStatusTitles {
-  Approved = 'Ліцензію підтверджено',
-  Pending = 'Очікує підтвердження ліцензії',
-  NotProvided = 'Ліцензію не надано'
-}
-
-export enum ProviderStatusDetails {
-  Approved = 'Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.',
-  Pending = 'Ваш заклад очікує підтвердження адміністратором.'
-}
-
 export enum UserStatusIcons {
   NeverLogged = 'fas fa-user-clock',
   Pending = 'fas fa-user-clock',

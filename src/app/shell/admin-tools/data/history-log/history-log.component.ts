@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, map, take } from 'rxjs/operators';
-import { HistoryLogTabsUkr, HistoryLogTabsUkrReverse, TypeChange, Tabs } from '../../../../shared/enum/enumUA/tech-admin/history-log-tabs';
+import { HistoryLogTabTitles, TypeChange } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
   ApplicationHistory,
@@ -22,6 +22,7 @@ import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../..
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -30,9 +31,10 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./history-log.component.scss']
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
-  readonly historyLogTabsUkr = HistoryLogTabsUkr;
-  readonly noHistory = NoResultsTitle.noHistory;
+  readonly HistoryLogTabTitles = HistoryLogTabTitles;
+  readonly HistoryLogTypes = HistoryLogTypes;
   readonly typeChange = TypeChange;
+  readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
@@ -89,6 +91,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { tab: HistoryLogTabsUkrReverse[event.tab.textLabel] }
+      queryParams: { tab: HistoryLogTypes[this.tabIndex] },
     });
   }
 
@@ -116,14 +119,14 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   private dispatchProperValue(tabIndex: number, filters: FilterData, searchString?: string): void {
     switch (tabIndex) {
-      case Tabs.Provider:
+      case HistoryLogTypes.Providers:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
         this.dropdownData = ProviderOptions;
         this.providersHistory$
           .pipe(take(1))
           .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
         break;
-      case Tabs.ProviderAdmin:
+      case HistoryLogTypes.ProviderAdmins:
         this.store.dispatch([new GetProviderAdminHistory(filters, searchString)]);
         this.dropdownData = ProviderAdminOptions;
         this.providerAdminHistory$
@@ -132,7 +135,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
             (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
           );
         break;
-      case Tabs.Application:
+      case HistoryLogTypes.Applications:
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
         this.dropdownData = ApplicationOptions;
         this.applicationHistory$

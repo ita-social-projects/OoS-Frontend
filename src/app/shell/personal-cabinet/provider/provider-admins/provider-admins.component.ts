@@ -15,7 +15,11 @@ import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { DeleteProviderAdminById, BlockProviderAdminById } from '../../../../shared/store/provider.actions';
+import {
+  DeleteProviderAdminById,
+  BlockProviderAdminById,
+  ReinviteProviderAdmin,
+} from '../../../../shared/store/provider.actions';
 import { ProviderComponent } from '../provider.component';
 import { ProviderState } from './../../../../shared/store/provider.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -153,6 +157,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
           )
         );
     });
+  }
+
+  onSendInvitation(providerAdmin: ProviderAdmin): void {
+    this.store.dispatch(new ReinviteProviderAdmin(providerAdmin));
   }
 
   /**

@@ -1,11 +1,9 @@
 <div class="container">
-  <h1 class="title">АДМІНІСТРУВАННЯ</h1>
+  <h1 class="title">{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}</h1>
   <nav class="nav" mat-tab-nav-bar>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'"
-      >{{
-        'ENUM.NAV_BAR_NAME.PORTAL' | translate | uppercase
-      }}</a
-    >
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./platform/'">{{
+      'ENUM.NAV_BAR_NAME.PORTAL' | translate | uppercase
+    }}</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/admins']">{{
       'ENUM.NAV_BAR_NAME.ADMINS' | translate | uppercase
     }}</a>
@@ -15,11 +13,9 @@
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/provider-list'">{{
       'ENUM.NAV_BAR_NAME.PROVIDERS' | translate | uppercase
     }}</a>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']"
-      >{{
-        'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase
-      }}</a
-    >
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="['active']" [routerLink]="['./data/users']">{{
+      'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase
+    }}</a>
     <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./data/applications'">{{
       'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase
     }}</a>

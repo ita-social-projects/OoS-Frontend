@@ -29,7 +29,9 @@
           [isEdit]="true"
           (delete)="onDelete($event)"
           (block)="onBlock($event)"
-          (update)="onUpdate($event)">
+          (update)="onUpdate($event)"
+          (sendInvitation)="onSendInvitation($event)"
+          >
         </app-users-list>
       </div>
       <app-paginator

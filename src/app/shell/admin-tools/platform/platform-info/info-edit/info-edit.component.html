@@ -1,13 +1,15 @@
 <div class="create-form">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title"> {{ 'FORMS.HEADERS.EDIT' | translate }} {{ editTitle | uppercase }}</h3>
+      <h3 class="wrapper-title">
+        {{ 'FORMS.HEADERS.EDIT_INFO' | translate | uppercase }} "{{ editTitle | translate | uppercase }}"
+      </h3>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="center center">
       <div fxLayout="column" fxLayoutAlign="start space-between" class="step">
         <label class="step-label">
-          {{ 'HEADERS.SUBHEADER_TITLE' | translate }} <span class="step-required">*</span></label
+          {{ 'FORMS.HEADERS.SUBHEADER_TITLE' | translate }} <span class="step-required">*</span></label
         >
         <mat-form-field>
           <input matInput class="step-input" type="text" [formControl]="titleFormControl" appTrimValue />

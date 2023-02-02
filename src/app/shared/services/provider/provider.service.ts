@@ -3,7 +3,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../../models/provider.model';
+import { BlockProviderData, LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../../models/provider.model';
 import { SearchResponse } from '../../models/search.model';
 import { DataItem } from '../../models/item.model';
 
@@ -117,5 +117,12 @@ export class ProviderService {
    */
   deleteProviderById(id: string): Observable<void> {
     return this.http.delete<void>(`/api/v1/Provider/Delete/${id}`);
+  }
+
+  /**
+   * This method block a specific Provider from the database
+   */
+  blockProvider(provider: BlockProviderData): Observable<void> {
+    return this.http.put<void>(`/api/v1/Provider/Block`, provider);
   }
 }

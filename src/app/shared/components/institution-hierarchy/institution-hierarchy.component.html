@@ -5,7 +5,7 @@
       [formControl]="instituitionIdFormControl"
       disableOptionCentering
       panelClass="dropdown-panel"
-      placeholder="Оберіть підпорядкування"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
       class="step-input"
     >
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution.id" class="dropdown-option">

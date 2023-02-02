@@ -17,16 +17,22 @@
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab [label]="historyLogTabsUkr.Provider">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: 'Provider' }">
+      <mat-tab [label]="HistoryLogTabTitles.Providers | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }"
+        >
         </ng-container>
       </mat-tab>
-      <mat-tab [label]="historyLogTabsUkr.ProviderAdmin">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: 'ProviderAdmin' }">
+      <mat-tab [label]="HistoryLogTabTitles.ProviderAdmins | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }"
+        >
         </ng-container>
       </mat-tab>
-      <mat-tab [label]="historyLogTabsUkr.Application">
-        <ng-container *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: 'Application' }">
+      <mat-tab [label]="HistoryLogTabTitles.Applications | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }"
+        >
         </ng-container>
       </mat-tab>
     </mat-tab-group>

@@ -1,4 +1,3 @@
-import { EmailConfirmationStatuses, EmailConfirmationStatusesTitles } from './../../../../shared/enum/statuses';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -8,7 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
+import { UserTabParams, UserTabsTitles } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
@@ -18,6 +17,7 @@ import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
 import { Util } from '../../../../shared/utils/utils';
+import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 
 @Component({
   selector: 'app-users',
@@ -25,7 +25,7 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  readonly userRoleUkr = UserTabsUkr;
+  readonly UserTabsTitles = UserTabsTitles;
   readonly noUsers = NoResultsTitle.noUsers;
   readonly statusesTitles = EmailConfirmationStatusesTitles;
 
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    tabTitle: null,
+    isParent: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
@@ -84,14 +84,20 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
+    const tabIndex = event.index;
     this.filterFormControl.reset('', { emitEvent: false });
     this.childrenParams.searchString = '';
-    this.childrenParams.tabTitle = event.tab.textLabel;
+    if (tabIndex !== UserTabParams.all) {
+      this.childrenParams.isParent = UserTabParams.child === tabIndex;
+    } else {
+      this.childrenParams.isParent = undefined;
+    }
+
     this.currentPage = PaginationConstants.firstPage;
     this.getChildren();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] }
+      queryParams: { role: UserTabParams[tabIndex] }
     });
   }
 

@@ -31,7 +31,7 @@ export class Child implements Person {
 }
 
 export interface ChildrenParameters extends PaginationParameters {
-  tabTitle?: string;
+  isParent?: boolean;
   searchString?: string;
 }
 export interface RequestParams {

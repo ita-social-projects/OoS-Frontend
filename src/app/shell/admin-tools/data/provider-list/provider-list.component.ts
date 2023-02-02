@@ -1,4 +1,3 @@
-import { LicenseStatusTitles } from './../../../../shared/enum/statuses';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -11,19 +10,20 @@ import { Constants, ModeConstants, PaginationConstants } from '../../../../share
 import { AdminState } from '../../../../shared/store/admin.state';
 import { Provider, ProviderParameters, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { GetFilteredProviders } from '../../../../shared/store/admin.actions';
+import { BlockProviderById, GetFilteredProviders } from '../../../../shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/navigation-bar';
 import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
 import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { LicenseStatuses, ProviderStatuses, ProviderStatusTitles, UserStatusIcons } from '../../../../shared/enum/statuses';
+import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from '../../../../shared/enum/statuses';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { DeleteProviderById, UpdateProviderStatus, UpdateProviderLicenseStatuse } from './../../../../shared/store/provider.actions';
 import { OwnershipTypes } from '../../../../shared/enum/provider';
+import { LicenseStatusTitles, ProviderStatusTitles } from '../../../../shared/enum/enumUA/statuses';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -39,8 +39,10 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   readonly OwnershipTypeEnum = OwnershipTypesEnum;
   readonly ownershipTypes = OwnershipTypes;
   readonly statusIcons = UserStatusIcons;
-  readonly statuses = ProviderStatuses;
+  readonly providerStatuses = ProviderStatuses;
   readonly providerStatusTitles = ProviderStatusTitles;
+
+  readonly blockedStatus = 'Blocked'; //TODO: should be localized
 
   readonly licenseStatuses = LicenseStatuses;
   readonly licenseStatusTitles = LicenseStatusTitles;
@@ -177,6 +179,68 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   onItemsPerPageChange(itemsPerPage: number): void {
     this.providerParameters.size = itemsPerPage;
     this.getProviders();
+  }
+
+  onBlock(provider: Provider): void {
+    if (provider.isBlocked) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockProvider,
+          property: provider.fullTitle
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result &&
+          this.store.dispatch(
+            new BlockProviderById({
+              id: provider.id,
+              isBlocked: false
+            })
+          );
+      });
+    } else {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.blockProvider }
+      });
+      dialogRef.afterClosed().subscribe((result: string) => {
+        if (result) {
+          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }));
+        }
+      });
+    }
+  }
+
+  onBlock(provider: Provider): void {
+    if (provider.isBlocked) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockProvider,
+          property: provider.fullTitle
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => {
+        result &&
+          this.store.dispatch(
+            new BlockProviderById({
+              id: provider.id,
+              isBlocked: false
+            })
+          );
+      });
+    } else {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.blockProvider }
+      });
+      dialogRef.afterClosed().subscribe((result: string) => {
+        if (result) {
+          this.store.dispatch(new BlockProviderById({ id: provider.id, isBlocked: true, blockReason: result }));
+        }
+      });
+    }
   }
 
   ngOnDestroy(): void {
