@@ -6,10 +6,10 @@ export enum HistoryLogTabTitles {
 
 
 export enum TypeChange {
-  FullTitle = 'Назва',
-  EdrpouIpn = 'ЄРДПО',
-  Director = 'ПІБ Директора',
-  Institution = 'Підпрядкування',
-  LegalAddress = 'Юридична адреса',
-  Status = 'Зміна статусів заявок'
+  FullTitle = 'FORMS.LABELS.PROVIDER_TITLE',
+  EdrpouIpn = 'FORMS.LABELS.EDRPO_IPN',
+  Director = 'FORMS.LABELS.DIRECTOR_NAME',
+  Institution = 'FORMS.LABELS.SUBORDINATION',
+  LegalAddress = 'FORMS.HEADERS.LEGAL_ADDRESS',
+  Status = 'HISTORY_LOG.STATUS_CHANGE_TYPE'
 }

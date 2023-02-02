@@ -11,7 +11,6 @@ import { ConfirmationModalWindowComponent } from '../../../../../shared/componen
 import { Constants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { AdminRoles } from '../../../../../shared/enum/admins';
-import { CreateAdminTitle } from '../../../../../shared/enum/enumUA/tech-admin/create-admin';
 import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../../shared/enum/navigation-bar';
 import { Role } from '../../../../../shared/enum/role';
@@ -44,7 +43,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly adminsRole = AdminRoles;
-  readonly title = CreateAdminTitle;
 
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;

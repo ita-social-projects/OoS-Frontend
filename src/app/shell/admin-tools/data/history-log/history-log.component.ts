@@ -7,7 +7,6 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, map } from 'rxjs/operators';
 import {
   HistoryLogTabTitles,
-  TypeChange,
 } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
@@ -41,7 +40,6 @@ import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 export class HistoryLogComponent implements OnInit, OnDestroy {
   readonly HistoryLogTabTitles = HistoryLogTabTitles;
   readonly HistoryLogTypes = HistoryLogTypes;
-  readonly typeChange = TypeChange;
   readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)

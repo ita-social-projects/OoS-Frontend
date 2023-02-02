@@ -9,3 +9,17 @@ export enum AdminRoleTypes {
   regionAdmin,
   territorialCommunityAdmin
 }
+
+export enum AdminTabTypes {
+  AboutPortal = 'AboutPortal',
+  MainPage = 'MainInformation',
+  LawsAndRegulations = 'LawsAndRegulations',
+  SupportInformation = 'SupportInformation'
+}
+
+export enum AdminTabsTitlesParams {
+  AboutPortal,
+  MainPage,
+  LawsAndRegulations,
+  SupportInformation
+}

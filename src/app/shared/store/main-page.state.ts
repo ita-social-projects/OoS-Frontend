@@ -9,7 +9,7 @@ import { tap } from 'rxjs/operators';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { PlatformService } from '../services/platform/platform.service';
-import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/admins';
 
 export interface MainPageStateModel {
   isLoadingData: boolean;

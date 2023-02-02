@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { AdminTabTypes } from '../../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../../../shared/enum/admins';
 import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
 import { AdminState } from '../../../../shared/store/admin.state';
 
@@ -14,6 +14,4 @@ export class MainInfoComponent {
 
   @Select(AdminState.MainInformation)
   MainInformation$: Observable<CompanyInformation>;
-
-  constructor() {}
 }

@@ -524,7 +524,8 @@
     "NO_HISTORY": "No change history yet",
     "NO_INFO": "No information yet",
     "NO_MESSAGES": "No messages yet",
-    "NO_NOTIFICATIONS": "You don't have any new notifications"
+    "NO_NOTIFICATIONS": "You don't have any new notifications",
+    "NO_SETTLEMENT": "There is no such settlement"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -535,7 +536,8 @@
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
     "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-    "ADD_ADMIN_OPTION": "Administrator was added to teh workshop"
+    "ADD_ADMIN_OPTION": "Administrator was added to teh workshop",
+    "STATUS_CHANGE_TYPE": "Application status change"
   },
   "STATISTICS": {
     "DATE_RANGE": "Time Range",
@@ -580,4 +582,8 @@
       "PENDING": "Once the license status is approved, a confirmation icon will appear on the institution's or workshop's preview page",
       "NOT_PROVIDED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
     }
+  },
+  "SERVICE_MESSAGES": {
+    "NO_INFO" : "no data"
+  }
 }

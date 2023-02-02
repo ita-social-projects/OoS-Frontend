@@ -3,7 +3,6 @@ import { Direction } from '../models/category.model';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
 import { DirectionsService } from '../services/directions/directions.service';
 import { Child } from '../models/child.model';
 import { ChildrenService } from '../services/children/children.service';
@@ -70,6 +69,7 @@ import { SearchResponse } from '../models/search.model';
 import { GetMainPageInfo } from './main-page.actions';
 import { StatisticReport } from '../models/statistic.model';
 import { StatisticReportsService } from '../services/statistics-reports/statistic-reports.service';
+import { AdminTabTypes } from '../enum/admins';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;

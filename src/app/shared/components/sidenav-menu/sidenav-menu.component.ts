@@ -4,7 +4,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AdminTabTypes } from '../../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../enum/admins';
 import { Languages } from '../../enum/languages';
 import { Role, RoleLinks } from '../../enum/role';
 import { FeaturesList } from '../../models/featuresList.model';
