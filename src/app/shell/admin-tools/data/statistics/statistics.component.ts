@@ -60,13 +60,6 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       a.click();
     });
 
-    this.uploadedReport$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((response: HttpResponse<Blob>) => {
-      const a = document.createElement('a');
-      a.download = new Date(Date.now()).toDateString();
-      a.href = window.URL.createObjectURL(response.body);
-      a.click();
-    });
-
     this.setParams();
     this.addNavPath();
   }
