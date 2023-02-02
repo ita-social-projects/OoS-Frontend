@@ -28,7 +28,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
                 {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
               </th>
-              <td mat-cell *matCellDef="let element">{{ element.fullTitle | emptyValueTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.fullTitle | emptyValueTransform | translate }}</td>
             </ng-container>
 
             <ng-container matColumnDef="ownership">
@@ -37,7 +37,7 @@
               </th>
               <td mat-cell *matCellDef="let element">
                 <span>
-                  {{ OwnershipTypeEnum[element.ownership] | translate | emptyValueTransform }}
+                  {{ OwnershipTypeEnum[element.ownership] | emptyValueTransform | translate }}
                 </span>
               </td>
             </ng-container>
@@ -46,12 +46,12 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
                 {{ 'FORMS.LABELS.EDRPO_IPN' | translate }}
               </th>
-              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform  | translate}}</td>
             </ng-container>
 
             <ng-container matColumnDef="licence">
               <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
-              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform  | translate}}</td>
             </ng-container>
 
             <ng-container matColumnDef="city">
@@ -59,7 +59,7 @@
                 {{ 'FORMS.LABELS.SETTLEMENT' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform }}
+                {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform | translate }}
               </td>
             </ng-container>
 
@@ -68,7 +68,7 @@
                 {{ 'FORMS.LABELS.ADDRESS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress | getAddress : ModeConstants.SHORT | emptyValueTransform }}
+                {{ element.legalAddress | getAddress : ModeConstants.SHORT | emptyValueTransform | translate }}
               </td>
             </ng-container>
 

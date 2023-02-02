@@ -5,6 +5,6 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class EmptyValueTransformPipe implements PipeTransform {
   transform(value: string): string {
-    return value ? value : 'Не вказано';
+    return value ? value : 'SERVICCE_MESSAGES.NO_INFO';
   }
 }

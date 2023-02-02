@@ -9,30 +9,29 @@
           [matTooltip]="achievementsTypes[achievement.achievementTypeId - 1].title"
           showTooltipIfTruncated
           matTooltipClass="tooltip"
-          [matTooltipPosition]="tooltipPosition"
-        >
+          [matTooltipPosition]="tooltipPosition">
           {{ achievementsTypes[achievement.achievementTypeId - 1].title }}
         </h3>
-        <h4 class="card_title">Дата</h4>
-        <p class="card_text">{{ achievement.achievementDate | date: 'shortDate' }}</p>
-        <h4 class="card_title">Учасники</h4>
+        <h4 class="card_title">{{ 'FORMS.LABELS.DATE' | translate }}</h4>
+        <p class="card_text">{{ achievement.achievementDate | date : 'shortDate' }}</p>
+        <h4 class="card_title">{{ 'FORMS.LABELS.PARTICIPANTS' | translate }}</h4>
         <div *ngFor="let child of achievement.children">
           <p class="card_text">
             {{ child | getFullName }}
           </p>
         </div>
-        <h4 class="card_title">Тренери/Викладачі</h4>
+        <h4 class="card_title">{{ 'FORMS.LABELS.TEACHERS' | translate }}</h4>
         <div *ngFor="let teacher of achievement.teachers">
           <p class="card_text">
             {{ teacher.title }}
           </p>
         </div>
-        <h4 class="card_title">Опис</h4>
+        <h4 class="card_title">{{ 'FORMS.LABELS.DESCRIPTION' | translate }}</h4>
         <mat-card-content>
           <p class="achievement_descr" [ngClass]="{ 'show-more': showMore }">
-            {{ showMore ? achievement.title : (achievement.title | slice: 0:150) }}
+            {{ showMore ? achievement.title : (achievement.title | slice : 0 : 150) }}
             <a *ngIf="achievement.title?.length > 70" class="more_btn" (click)="showMore = !showMore"
-              >{{ !showMore ? '...Більше' : '...Менше' }}
+              >{{ (!showMore ? 'MORE' : 'LESS') | translate }}
             </a>
           </p>
         </mat-card-content>
@@ -42,8 +41,7 @@
           <div
             class="actions_btn"
             [routerLink]="['/create-achievement', achievement.workshopId]"
-            [queryParams]="{ achievementId: achievement.id }"
-          >
+            [queryParams]="{ achievementId: achievement.id }">
             <mat-icon class="achievement_icon">edit</mat-icon>
           </div>
           <div class="actions_btn" (click)="onDelete()">

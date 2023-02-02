@@ -355,7 +355,8 @@
       "PARTICIPANTS": "Participants",
       "TEACHERS": "Teacher/Coach",
       "DATE": "Date",
-      "ACHIEVEMENT_DESCRIPTION": "Achievement description"
+      "ACHIEVEMENT_DESCRIPTION": "Achievement description",
+      "RADIUS": "Radius (km)"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -529,7 +530,8 @@
     "NO_INFO": "No information yet",
     "NO_MESSAGES": "No messages yet",
     "NO_NOTIFICATIONS": "You don't have any new notifications",
-    "NO_SETTLEMENT": "There is no such settlement"
+    "NO_SETTLEMENT": "There is no such settlement",
+    "NO_CHILD_WORKSHOPS": "There are no workshops yet"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -736,5 +738,7 @@
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Oops! Page is not found.",
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
-  }
+  },
+  "MORE": "...More",
+  "LESS": "...Less"
 }

@@ -16,31 +16,31 @@
 
       <ng-container matColumnDef="providerTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}</th>
-        <td mat-cell *matCellDef="let element">{{ element?.providerTitle | emptyValueTransform }}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.providerTitle | emptyValueTransform | translate}}</td>
       </ng-container>
 
       <ng-container matColumnDef="institutionTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ element?.institutionTitle | emptyValueTransform }}
+          {{ element?.institutionTitle | emptyValueTransform | translate}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="providerCity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</th>
-        <td mat-cell *matCellDef="let element">{{ element?.providerCity | emptyValueTransform }}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.providerCity | emptyValueTransform | translate}}</td>
       </ng-container>
       <ng-container matColumnDef="fieldName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.TYPE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ typeChange[element?.fieldName] | translate | emptyValueTransform }}
+          {{ typeChange[element?.fieldName] | emptyValueTransform | translate}}
         </td>
       </ng-container>
 
       <ng-container matColumnDef="updatedDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.DATE_TIME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ element?.updatedDate | date : SHORT_DATE_FORMAT | emptyValueTransform }}
+          {{ element?.updatedDate | date : SHORT_DATE_FORMAT | emptyValueTransform | translate}}
         </td>
       </ng-container>
 
@@ -53,8 +53,7 @@
           class="{{ element.oldValue }}">
           {{
             (isApplicationHistoryType ? statusTitles[element?.oldValue] : element?.oldValue)
-              | translate
-              | emptyValueTransform
+              | emptyValueTransform | translate
           }}
         </td>
       </ng-container>
@@ -67,9 +66,8 @@
           [ngClass]="{ 'application-status': isApplicationHistoryType }"
           class="{{ element.newValue }}">
           {{
-            (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue)
-              | translate
-              | emptyValueTransform
+            (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue) 
+              | emptyValueTransform | translate
           }}
         </td>
       </ng-container>
