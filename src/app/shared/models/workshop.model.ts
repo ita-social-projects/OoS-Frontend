@@ -1,6 +1,7 @@
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
+import { PaginationParameters } from './queryParameters.model';
 import { SectionItem } from './sectionItem.model';
 import { Teacher } from './teacher.model';
 import { DateTimeRanges } from './workingHours.model';
@@ -157,4 +158,8 @@ export interface WorkshopCard extends WorkshopBaseCard {
 export interface WorkshopStatus {
   workshopId: string;
   status: string;
+}
+
+export interface WorkshopCardParameters extends PaginationParameters {
+  providerId: string;
 }

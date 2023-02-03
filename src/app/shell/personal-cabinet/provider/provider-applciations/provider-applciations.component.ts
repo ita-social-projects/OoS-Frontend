@@ -6,22 +6,18 @@ import { Provider } from '../../../../shared/models/provider.model';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
+import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ApplicationStatuses } from '../../../../shared/enum/statuses';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { Role } from '../../../../shared/enum/role';
-import {
-  ApplicationFilterParameters,
-  Application,
-  ApplicationUpdate,
-} from '../../../../shared/models/application.model';
+import { ApplicationFilterParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
 import { BlockedParent } from '../../../../shared/models/block.model';
 import {
   BlockParent,
   UnBlockParent,
   GetProviderAdminWorkshops,
-  GetWorkshopListByProviderId,
+  GetWorkshopListByProviderId
 } from '../../../../shared/store/provider.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { GetApplicationsByPropertyId, UpdateApplication } from '../../../../shared/store/shared-user.actions';
@@ -34,7 +30,7 @@ import { ApplicationEntityType } from '../../../../shared/enum/applications';
 
 @Component({
   selector: 'app-provider-applciations',
-  templateUrl: './provider-applciations.component.html',
+  templateUrl: './provider-applciations.component.html'
 })
 export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
@@ -52,6 +48,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     workshops: [],
     children: [],
     showBlocked: false,
+    size: PaginationConstants.APPLICATIONS_PER_PAGE,
+    from: 0
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
@@ -63,7 +61,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -101,7 +99,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    */
   onReject(application: Application): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.rejectApplication },
+      data: { type: ModalConfirmationType.rejectApplication }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -117,7 +115,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
    */
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent },
+      data: { type: ModalConfirmationType.blockParent }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -136,8 +134,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.unBlockParent,
-      },
+        type: ModalConfirmationType.unBlockParent
+      }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -151,8 +149,6 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   private getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
-    } else {
-      this.store.dispatch(new GetProviderAdminWorkshops());
     }
   }
 

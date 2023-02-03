@@ -2,16 +2,13 @@ import { MinistryAdmin, MinistryAdminParameters } from './../../models/ministryA
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { PaginatorState } from '../../store/paginator.state';
-import { PaginationElement } from '../../models/paginationElement.model';
-import { Store } from '@ngxs/store';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MinistryAdminService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   private setParams(parameters: MinistryAdminParameters = { searchString: '' }): HttpParams {
     let params = new HttpParams();
@@ -19,11 +16,8 @@ export class MinistryAdminService {
     if (parameters.searchString) {
       params = params.set('SearchString', parameters.searchString);
     }
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
-    const from = size * (+currentPage.element - 1);
 
-    params = params.set('Size', size.toString()).set('From', from.toString());
+    params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     return params;
   }
@@ -49,7 +43,6 @@ export class MinistryAdminService {
    * This method get All Ministry Admins
    */
   getAllMinistryAdmin(parameters: MinistryAdminParameters): Observable<SearchResponse<MinistryAdmin[]>> {
-    const mockUrl = 'assets/mocks/adminsList.json'; //Todo: Remove after fixing permissions for ministry admin on the server
     const options = { params: this.setParams(parameters) };
 
     return this.http.get<SearchResponse<MinistryAdmin[]>>('/api/v1/MinistryAdmin/GetByFilter', options);

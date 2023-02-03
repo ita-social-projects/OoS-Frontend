@@ -9,9 +9,8 @@ import { GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticFileFormats, StatisticPeriodTypes } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { Util } from '../../../../shared/utils/utils';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { StatisticPeriodTitles } from '../../../../shared/enum/enumUA/statistics';
@@ -28,11 +27,14 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
 
   statisticReports: SearchResponse<StatisticReport[]>;
-  statisticParameters: StatisticParameters;
+  statisticParameters: StatisticParameters = {
+    ReportDataType: null,
+    ReportType: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+    from: 0
+  };
   filtersForm: FormGroup;
   displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -55,12 +57,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetStatisticReports(this.statisticParameters)]);
+    this.statisticParameters.size = itemsPerPage;
+    this.getReports();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeReports(page), new GetStatisticReports(this.statisticParameters)]);
+    this.getReports();
   }
 
   onGenerateReport(): void {
@@ -75,10 +78,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   private setParams(): void {
-    this.statisticParameters = {
-      ReportDataType: this.filtersForm.get('format').value,
-      ReportType: this.filtersForm.get('period').value
-    };
+    this.statisticParameters.ReportDataType = this.filtersForm.get('format').value;
+    this.statisticParameters.ReportType = this.filtersForm.get('period').value;
+  }
+
+  private getReports(): void {
+    Util.setFromPaginationParam(this.statisticParameters, this.currentPage, this.statisticReports?.totalAmount);
+    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 
   private addNavPath(): void {
@@ -86,7 +92,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Statistics,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }

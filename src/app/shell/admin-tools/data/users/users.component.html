@@ -7,7 +7,8 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+      />
     </div>
   </div>
 
@@ -30,15 +31,15 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns">
-        </app-users-list>
+        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns"> </app-users-list>
       </div>
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="childrenParams.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
+        (itemsPerPageChange)="onTableItemsPerPageChange($event)"
+      >
       </app-paginator>
     </ng-container>
   </ng-container>

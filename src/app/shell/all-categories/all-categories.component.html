@@ -1,5 +1,5 @@
 <div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="start center">
-  <h3 class="title">{{ 'ALL_DIRECTIONS' | translate}}</h3>
+  <h3 class="title">{{ 'ALL_DIRECTIONS' | translate }}</h3>
 </div>
 
 <ng-container *ngIf="filteredDirections$ | async as filteredDirections">
@@ -15,7 +15,7 @@
   <app-paginator
     [totalEntities]="filteredDirections.totalAmount"
     [currentPage]="currentPage"
-    [itemsPerPage]="directionsPerPage$ | async"
+    [itemsPerPage]="directionsParameters.size"
     (pageChange)="onPageChange($event)"
     (itemsPerPageChange)="onItemsPerPageChange($event)"
   >

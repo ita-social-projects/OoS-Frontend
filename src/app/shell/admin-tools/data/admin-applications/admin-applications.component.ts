@@ -7,6 +7,7 @@ import { CabinetDataComponent } from '../../../../shell/personal-cabinet/shared-
 import { MatDialog } from '@angular/material/dialog';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { PaginationConstants } from '../../../../shared/constants/constants';
 
 @Component({
   selector: 'app-admin-applications',
@@ -19,16 +20,16 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false
+    showBlocked: false,
+    size: PaginationConstants.APPLICATIONS_PER_PAGE,
+    from: 0
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog) {
     super(store, matDialog);
   }
 
-  init(): void {
-    this.onGetApplications();
-  }
+  init(): void {}
 
   onGetApplications(): void {
     this.store.dispatch(new GetAllApplications(this.applicationParams));

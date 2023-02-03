@@ -6,11 +6,7 @@ import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import {
-  ApplicationFilterParameters,
-  Application,
-  ApplicationUpdate,
-} from '../../../../shared/models/application.model';
+import { ApplicationFilterParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
@@ -21,13 +17,13 @@ import { TruncatedItem } from '../../../../shared/models/item.model';
 import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, ModeConstants } from '../../../../shared/constants/constants';
+import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-parent-applications',
-  templateUrl: './parent-applications.component.html',
+  templateUrl: './parent-applications.component.html'
 })
 export class ParentApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly ChildDeclination = ChildDeclination;
@@ -44,6 +40,8 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     workshops: [],
     children: [],
     showBlocked: false,
+    size: PaginationConstants.APPLICATIONS_PER_PAGE,
+    from: 0
   };
 
   constructor(protected store: Store, protected matDialog: MatDialog, private router: Router) {
@@ -62,7 +60,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
       new PushNavPath({
         name: NavBarName.Applications,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }
@@ -75,8 +73,8 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.leaveWorkshop,
-      },
+        type: ModalConfirmationType.leaveWorkshop
+      }
     });
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
@@ -104,6 +102,9 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   }
 
   onSendMessage(application: Application): void {
-    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], { queryParams: { mode: ModeConstants.WORKSHOP }, replaceUrl: false });
+    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], {
+      queryParams: { mode: ModeConstants.WORKSHOP },
+      replaceUrl: false
+    });
   }
 }

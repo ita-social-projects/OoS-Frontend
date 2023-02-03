@@ -1,3 +1,5 @@
+import { PaginationParameters } from './queryParameters.model';
+
 export class Direction {
   id: number;
   title: string;
@@ -12,4 +14,8 @@ export class Direction {
     this.description = info.title;
     this.workshopsCount = info.workshopsCount;
   }
+}
+
+export interface DirectionParameters extends PaginationParameters {
+  searchString: string;
 }

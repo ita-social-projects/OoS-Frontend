@@ -33,7 +33,7 @@
       <app-paginator
         [totalEntities]="chatRooms.totalAmount"
         [currentPage]="currentPage"
-        [itemsPerPage]="chatRoomsPerPage$ | async"
+        [itemsPerPage]="chatRoomsParameters.size"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)"
       >

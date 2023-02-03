@@ -2,6 +2,7 @@ import { DefaultFilterState } from '../models/defaultFilterState.model';
 import { Codeficator } from './../models/codeficator.model';
 import { WorkshopOpenStatus } from '../enum/workshop';
 import { Coords } from '../models/coords.model';
+import { PaginationParameters } from '../models/queryParameters.model';
 
 export class SetCity {
   static readonly type = '[app] Set City';
@@ -80,6 +81,12 @@ export class SetIsAppropriateHours {
   static readonly type = '[filter] Set with Strict hours';
   constructor(public payload: boolean) {}
 }
+
+export class SetFilterPagination {
+  static readonly type = '[filter] Set Filter Pagination';
+  constructor(public paginationParameters: PaginationParameters) {}
+}
+
 export class FilterChange {
   static readonly type = '[app] Filter Change';
   constructor() {}

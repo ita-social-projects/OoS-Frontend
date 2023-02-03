@@ -27,7 +27,6 @@ import localeUk from '@angular/common/locales/uk';
 import { AdminState } from './shared/store/admin.state';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NotificationsState } from './shared/store/notifications.state';
-import { PaginatorState } from './shared/store/paginator.state';
 import { FooterComponent } from './footer/footer.component';
 import { MainPageState } from './shared/store/main-page.state';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
@@ -58,7 +57,6 @@ registerLocaleData(localeUk);
       AdminState,
       NavigationState,
       NotificationsState,
-      PaginatorState,
       MainPageState,
       ProviderState,
       ParentState,
@@ -79,10 +77,10 @@ registerLocaleData(localeUk);
       defaultLanguage: 'uk',
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
+        useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
-    }),
+    })
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },

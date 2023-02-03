@@ -62,7 +62,7 @@
         *ngIf="!(isLoadingCabinet$ | async) && ministryAdminsTable"
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="adminParams.size"
         (pageChange)="onPageChange($event)"
         (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>

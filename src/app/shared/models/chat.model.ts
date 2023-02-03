@@ -1,5 +1,6 @@
 import { Role } from '../enum/role';
 import { Parent, ParentWithContactInfo } from './parent.model';
+import { PaginationParameters } from './queryParameters.model';
 import { User } from './user.model';
 import { WorkshopTruncated } from './workshop.model';
 
@@ -46,7 +47,7 @@ export interface MessagesParameters {
   size: number;
 }
 
-export interface ChatRoomsParameters {
+export interface ChatRoomsParameters extends PaginationParameters {
   role: Role;
   searchText: string;
   workshopIds: string[];

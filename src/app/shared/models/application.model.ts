@@ -3,6 +3,7 @@ import { ApplicationEntityType } from '../enum/applications';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
 import { Workshop, WorkshopCard } from './workshop.model';
+import { PaginationParameters } from './queryParameters.model';
 
 export class Application {
   id: string;
@@ -41,7 +42,7 @@ export class ApplicationUpdate {
   }
 }
 
-export interface ApplicationFilterParameters {
+export interface ApplicationFilterParameters extends PaginationParameters {
   searchString?: string;
   property?: ApplicationEntityType;
   statuses: ApplicationStatuses[];
@@ -51,6 +52,4 @@ export interface ApplicationFilterParameters {
   orderByStatus?: boolean;
   workshops?: string[];
   children?: string[];
-  from?: number;
-  size?: number;
 }

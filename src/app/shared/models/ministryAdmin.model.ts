@@ -1,3 +1,5 @@
+import { PaginationParameters } from './queryParameters.model';
+
 export class MinistryAdmin {
   id?: string;
   email: string;
@@ -26,11 +28,9 @@ export class MinistryAdmin {
   }
 }
 
-export interface MinistryAdminParameters {
+export interface MinistryAdminParameters extends PaginationParameters {
   tabTitle?: string;
   searchString?: string;
-  from?: number;
-  size?: number;
 }
 
 export interface MinistryAdminBlockData {
