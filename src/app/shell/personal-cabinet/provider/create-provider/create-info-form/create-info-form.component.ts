@@ -6,7 +6,7 @@ import { Constants, CropperConfigurationConstants } from '../../../../../shared/
 import { DATE_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { InstitutionTypesEnum, OwnershipTypesEnum } from '../../../../../shared/enum/enumUA/provider';
-import { InstitutionTypes, OwnershipTypes } from '../../../../../shared/enum/provider';
+import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from '../../../../../shared/enum/provider';
 import { Institution } from '../../../../../shared/models/institution.model';
 import { DataItem } from '../../../../../shared/models/item.model';
 import { Provider } from '../../../../../shared/models/provider.model';
@@ -40,6 +40,7 @@ export class CreateInfoFormComponent implements OnInit {
   };
 
   readonly ownershipTypes = OwnershipTypes;
+  readonly selectableOwnerShipTypes = SelectableOwnershipTypes; //TODO: temporary removed for 1st release
   readonly ownershipTypesEnum = OwnershipTypesEnum;
   readonly institutionTypes = InstitutionTypes;
   readonly institutionTypesEnum = InstitutionTypesEnum;

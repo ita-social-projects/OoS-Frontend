@@ -58,7 +58,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   isAllowedToReview: boolean;
   isReviewed: boolean;
   currentPage: PaginationElement = PaginationConstants.firstPage;
-  alreadyRated: string = this.translateService.instant(' YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
+  alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
   mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
 
   constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions, private translateService: TranslateService) {}
