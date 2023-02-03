@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { StatisticParameters, StatisticReport } from '../../../../shared/models/statistic.model';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { GetStatisticReports } from '../../../../shared/store/admin.actions';
+import { DownloadStatisticReport, GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticFileFormats, StatisticPeriodTypes } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -14,6 +14,7 @@ import { Util } from '../../../../shared/utils/utils';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { StatisticPeriodTitles } from '../../../../shared/enum/enumUA/statistics';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-statistics',
@@ -27,6 +28,8 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
+  @Select(AdminState.downloadedReport)
+  uploadedReport$: Observable<HttpResponse<Blob>>;
 
   statisticReports: SearchResponse<StatisticReport[]>;
   statisticParameters: StatisticParameters = {
@@ -52,6 +55,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       format: new FormControl(StatisticFileFormats.CSV)
     });
 
+    this.uploadedReport$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((response: HttpResponse<Blob>) => {
+      const downloadLink = document.createElement('a');
+      downloadLink.download = new Date(Date.now()).toDateString();
+      downloadLink.href = window.URL.createObjectURL(response.body);
+      downloadLink.click();
+    });
+
     this.setParams();
     this.addNavPath();
   }
@@ -69,6 +79,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   onGenerateReport(): void {
     this.setParams();
     this.store.dispatch(new GetStatisticReports(this.statisticParameters));
+  }
+
+  onLoadReport(id: string): void {
+    this.store.dispatch(new DownloadStatisticReport(id));
   }
 
   ngOnDestroy(): void {

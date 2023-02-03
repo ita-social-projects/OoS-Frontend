@@ -21,6 +21,7 @@ import {
   CreateMinistryAdmin,
   DeleteDirectionById,
   DeleteMinistryAdminById,
+  DownloadStatisticReport,
   GetAboutPortal,
   GetAllMinistryAdmins,
   GetApplicationHistory,
@@ -59,7 +60,7 @@ import {
 } from './admin.actions';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { EMPTY_RESULT, PaginationConstants } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
@@ -88,6 +89,7 @@ export interface AdminStateModel {
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   statisticsReports: SearchResponse<StatisticReport[]>;
+  downloadedReport: HttpResponse<Blob>;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -108,7 +110,8 @@ export interface AdminStateModel {
     providerHistory: null,
     providerAdminHistory: null,
     applicationHistory: null,
-    statisticsReports: null
+    statisticsReports: null,
+    downloadedReport: null
   }
 })
 @Injectable()
@@ -175,6 +178,10 @@ export class AdminState {
 
   @Selector() static statisticsReports(state: AdminStateModel): SearchResponse<StatisticReport[]> {
     return state.statisticsReports;
+  }
+
+  @Selector() static downloadedReport(state: AdminStateModel): HttpResponse<Blob> {
+    return state.downloadedReport;
   }
 
   constructor(
@@ -251,6 +258,17 @@ export class AdminState {
           patchState({ statisticsReports: statisticsReports ?? EMPTY_RESULT, isLoading: false })
         )
       );
+  }
+
+  @Action(DownloadStatisticReport)
+  downloadStatisticReport(
+    { patchState }: StateContext<AdminStateModel>,
+    { externalStorageId: id }: DownloadStatisticReport
+  ): Observable<HttpResponse<Blob>> {
+    patchState({ isLoading: true });
+    return this.statisticService
+      .getReportById(id)
+      .pipe(tap((uploadedReport: HttpResponse<Blob>) => patchState({ downloadedReport: uploadedReport, isLoading: false })));
   }
 
   @Action(UpdatePlatformInfo)
