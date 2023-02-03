@@ -20,7 +20,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 import { MatDialog } from '@angular/material/dialog';
 import { CreateProvider, UpdateProvider } from '../../../../shared/store/provider.actions';

@@ -22,7 +22,7 @@
   <app-paginator
     [totalEntities]="(filteredDirections$ | async).totalAmount"
     [currentPage]="currentPage"
-    [itemsPerPage]="directionsPerPage$ | async"
+    [itemsPerPage]="directionsParameters.size"
     (pageChange)="onPageChange($event)"
     (itemsPerPageChange)="onItemsPerPageChange($event)"
   >

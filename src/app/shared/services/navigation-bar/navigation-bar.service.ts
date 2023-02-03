@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Navigation } from '../../models/navigation.model';
-import { NavBarName } from '../../enum/navigation-bar';
+import { NavBarName } from '../../enum/enumUA/navigation-bar';
 
 @Injectable({
   providedIn: 'root'

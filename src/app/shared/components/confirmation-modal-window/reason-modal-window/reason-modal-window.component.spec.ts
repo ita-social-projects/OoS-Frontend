@@ -7,6 +7,7 @@ import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReasonModalWindowComponent } from './reason-modal-window.component';
 import { TextSliceTransformPipe } from '../../../pipes/text-slice-transform.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;
@@ -14,12 +15,20 @@ describe('ReasonModalWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormsModule, ReactiveFormsModule, MatDialogModule, MatFormFieldModule, MatInputModule, BrowserAnimationsModule],
+      imports: [
+        FormsModule,
+        ReactiveFormsModule,
+        MatDialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        BrowserAnimationsModule,
+        TranslateModule.forRoot(),
+      ],
       declarations: [ReasonModalWindowComponent, MockValidationHintForInputComponent, TextSliceTransformPipe],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} }
-      ]
+        { provide: MatDialogRef, useValue: {} },
+      ],
     }).compileComponents();
   });
 
@@ -41,7 +50,7 @@ describe('ReasonModalWindowComponent', () => {
 
 @Component({
   selector: 'app-validation-hint',
-  template: ''
+  template: '',
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;

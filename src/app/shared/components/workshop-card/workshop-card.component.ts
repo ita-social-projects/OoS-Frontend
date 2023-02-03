@@ -14,15 +14,15 @@ import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
 import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from '../../enum/modal-confirmation';
+import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
 import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
 import { ParentState } from '../../store/parent.state.';
-import { SnackbarText } from '../../enum/messageBar';
 import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { OwnershipTypes } from '../../enum/provider';
+import { SnackbarText } from '../../enum/enumUA/messageBer';
 
 @Component({
   selector: 'app-workshop-card',
@@ -132,8 +132,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       autoFocus: false,
       restoreFocus: false,
       data: {
-        message: 'Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо',
-        buttonLabel: 'Зареєструватися'
+        message: ModalConfirmationDescription.unregisteredFavoriteWarning,
       },
     });
   }

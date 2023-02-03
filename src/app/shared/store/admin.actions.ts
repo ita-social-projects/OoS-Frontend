@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
-import { Direction } from '../models/category.model';
+import { AdminTabTypes } from '../enum/admins';
+import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { BlockProviderData } from '../models/provider.model';
+import { ProviderParameters } from '../models/provider.model';
 import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
@@ -27,7 +28,7 @@ export class GetSupportInformation {
 }
 export class GetFilteredProviders {
   static readonly type = '[admin] Get filtered Providers';
-  constructor(public payload?: string) {}
+  constructor(public providerParameters: ProviderParameters) {}
 }
 
 export class GetLawsAndRegulations {
@@ -59,7 +60,7 @@ export class OnUpdatePlatformInfoSuccess {
 }
 export class DeleteDirectionById {
   static readonly type = '[admin] delete Direction';
-  constructor(public payload: number) {}
+  constructor(public payload: number, public directionParameters: DirectionParameters) {}
 }
 export class OnDeleteDirectionFail {
   static readonly type = '[admin] delete Direction fail';
@@ -67,7 +68,7 @@ export class OnDeleteDirectionFail {
 }
 export class OnDeleteDirectionSuccess {
   static readonly type = '[admin] delete Direction success';
-  constructor() {}
+  constructor(public directionParameters: DirectionParameters) {}
 }
 export class CreateDirection {
   static readonly type = '[admin] create Direction';
@@ -100,7 +101,7 @@ export class GetDirectionById {
 
 export class GetFilteredDirections {
   static readonly type = '[admin] Get Filtered Directions';
-  constructor(public payload?: string) {}
+  constructor(public parameters: DirectionParameters) {}
 }
 
 export class GetChildrenForAdmin {
@@ -175,7 +176,7 @@ export class BlockMinistryAdminById {
 
 export class BlockProviderById {
   static readonly type = '[admin] block Provider';
-  constructor(public payload: BlockProviderData) {}
+  constructor(public payload: BlockProviderData, public parameters: MinistryAdminParameters) {}
 }
 
 export class OnBlockSuccess {

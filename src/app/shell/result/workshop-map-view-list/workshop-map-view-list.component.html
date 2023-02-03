@@ -2,17 +2,16 @@
   <div fxLayout="column" fxLayoutAlign="space-between" class="wrapper-workshop-list">
     <ng-container *ngIf="selectedWorkshops?.length">
       <div class="workshop-list card-wrapper">
-        <app-workshop-card class="card" *ngFor="let workshop of selectedWorkshops" [workshop]="workshop" #WorkshopsWrap>
-        </app-workshop-card>
+        <app-workshop-card class="card" *ngFor="let workshop of workshopsOnPage" [workshop]="workshop" #WorkshopsWrap> </app-workshop-card>
       </div>
       <app-paginator
         class="map-view"
         *ngIf="selectedWorkshops?.length"
         [totalEntities]="selectedWorkshops.length"
         [currentPage]="currentPage"
-        [itemsPerPage]="itemsPerPage"
+        [itemsPerPage]="paginationParameters.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="itemsPerPageChange.emit($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)"
       ></app-paginator>
     </ng-container>
   </div>

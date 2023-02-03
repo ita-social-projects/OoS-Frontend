@@ -8,7 +8,7 @@
         <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
           <h1 class="title">{{ workshop.title }}</h1>
           <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-            <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate}}</div>
+            <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
           </ng-container>
         </div>
         <div *ngFor="let direction of workshop.directions">
@@ -37,7 +37,7 @@
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [workshop]="workshop" (onGetWorkshops)="getWorkshops()"> </app-all-provider-workshops>
+        <app-all-provider-workshops [providerParameters]="providerParameters"> </app-all-provider-workshops>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>
@@ -49,5 +49,5 @@
   </div>
 </div>
 <ng-template #ClosedWorkshopStatus>
-  <div class="chip chip-color-close">{{ recruitmentStatusEnum.RecruitmentStoped | translate}}</div>
+  <div class="chip chip-color-close">{{ recruitmentStatusEnum.RecruitmentStoped | translate }}</div>
 </ng-template>

@@ -10,24 +10,29 @@
         ng-focus="updateValue()"
         ng-blur="updateValue()"
         class="step-textarea"
-        placeholder="Максимум {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} символів"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{
+          validationConstants.MAX_DESCRIPTION_LENGTH_500
+        }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
         [formControl]="ReasonFormControl"
-        appTrimValue
-      ></textarea>
+        appTrimValue></textarea>
     </mat-form-field>
 
     <app-validation-hint
       [validationFormControl]="ReasonFormControl"
       [minCharachters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-    >
+      [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
     </app-validation-hint>
   </form>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
-    <button class="btn" mat-button [mat-dialog-close]="ReasonFormControl.value" [disabled]="!ReasonFormControl.valid" cdkFocusInitial>
-      ПІДТВЕРДИТИ
+    <button
+      class="btn"
+      mat-button
+      [mat-dialog-close]="ReasonFormControl.value"
+      [disabled]="!ReasonFormControl.valid"
+      cdkFocusInitial>
+      {{ 'BUTTONS.CONFIRM' | translate }}
     </button>
-    <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
+    <button class="btn btn-cancel" mat-button (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
   </mat-dialog-actions>
 </div>

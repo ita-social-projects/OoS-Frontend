@@ -8,7 +8,8 @@
           [formControl]="searchFormControl"
           type="text"
           class="search"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}" />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}"
+        />
       </div>
     </div>
     <i
@@ -26,7 +27,8 @@
       *ngIf="dropdownEntities"
       [entities]="dropdownEntities"
       [declination]="declination"
-      (entityCheck)="onEntitiesSelect($event)">
+      (entityCheck)="onEntitiesSelect($event)"
+    >
     </app-entity-checkbox-dropdown>
   </div>
 
@@ -67,9 +69,10 @@
   *ngIf="!(isLoadingCabinet$ | async) && applicationCards"
   [totalEntities]="applicationCards.totalAmount"
   [currentPage]="currentPage"
-  [itemsPerPage]="applicationsPerPage$ | async"
+  [itemsPerPage]="applicationParams.size"
   (pageChange)="onPageChange($event)"
-  (itemsPerPageChange)="onItemsPerPageChange($event)">
+  (itemsPerPageChange)="onItemsPerPageChange($event)"
+>
 </app-paginator>
 
 <ng-template #Applications let-applicationCards>
@@ -85,7 +88,8 @@
         (unblock)="unblock.emit($event)"
         (block)="block.emit($event)"
         (leave)="leave.emit($event)"
-        (sendMessage)="sendMessage.emit($event)">
+        (sendMessage)="sendMessage.emit($event)"
+      >
       </app-application-card>
     </ng-container>
   </ng-container>

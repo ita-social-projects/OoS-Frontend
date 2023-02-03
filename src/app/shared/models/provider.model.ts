@@ -5,6 +5,7 @@ import { SectionItem } from './sectionItem.model';
 import { LicenseStatuses, ProviderStatuses } from '../enum/statuses';
 import { DataItem } from './item.model';
 import { InstitutionTypes, OwnershipTypes } from '../enum/provider';
+import { PaginationParameters } from './queryParameters.model';
 
 export interface BlockProviderData {
   id: string;
@@ -132,4 +133,10 @@ export class ProviderStatusUpdateData {
 export interface LicenseStatusData {
   providerId: string;
   licenseStatus: LicenseStatuses;
+}
+
+export interface ProviderParameters extends PaginationParameters {
+  searchString?: string;
+  providerId?: string;
+  excludedWorkshopId?: string;
 }

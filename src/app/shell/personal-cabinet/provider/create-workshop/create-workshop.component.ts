@@ -7,7 +7,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { Role } from '../../../../shared/enum/role';
 import { Address } from '../../../../shared/models/address.model';
 import { Teacher } from '../../../../shared/models/teacher.model';

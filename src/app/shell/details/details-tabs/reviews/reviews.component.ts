@@ -12,16 +12,15 @@ import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role, EntityType } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { Parent } from '../../../../shared/models/parent.model';
-import { Rate } from '../../../../shared/models/rating';
+import { Rate, RateParameters } from '../../../../shared/models/rating';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { GetRateByEntityId, ClearRatings } from '../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { SetRatingPerPage, OnPageChangeRating } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, CreateRating } from '../../../../shared/store/parent.actions';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { TranslateService } from '@ngx-translate/core';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-reviews',
@@ -48,9 +47,6 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.rating)
   rating$: Observable<SearchResponse<Rate[]>>;
   rating: SearchResponse<Rate[]>;
-  @Select(PaginatorState.ratingPerPage)
-  ratingPerPage$: Observable<number>;
-  ratingPerPage: number;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -58,12 +54,20 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   isAllowedToReview: boolean;
   isReviewed: boolean;
   currentPage: PaginationElement = PaginationConstants.firstPage;
+  rateParameters: RateParameters = {
+    entityId: '',
+    entityType: EntityType.workshop,
+    size: PaginationConstants.RATINGS_PER_PAGE
+  };
   alreadyRated: string = this.translateService.instant(' YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
   mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
 
   constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions, private translateService: TranslateService) {}
 
   ngOnInit(): void {
+    this.rateParameters.entityId = this.workshop.id;
+    this.getRates();
+
     this.getParentData();
     this.getWorkshopRatingList();
 
@@ -71,31 +75,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
       .pipe(ofActionCompleted(OnCreateRatingSuccess))
       .pipe(distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe(() =>
-        this.store.dispatch([
-          new GetRateByEntityId(EntityType.workshop, this.workshop.id),
-          new GetReviewedStatus(this.parent.id, this.workshop.id)
-        ])
+        this.store.dispatch([new GetRateByEntityId(this.rateParameters), new GetReviewedStatus(this.parent.id, this.workshop.id)])
       );
 
     this.isAllowedToReview$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isAllowedToReview = status));
 
     this.isReviewed$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isReviewed = status));
-
-    this.ratingPerPage$.pipe(takeUntil(this.destroy$)).subscribe((ratingPerPage: number) => (this.ratingPerPage = ratingPerPage));
-  }
-
-  private getParentData(): void {
-    this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
-      this.parent = parent;
-      this.store.dispatch([
-        new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
-        new GetReviewedStatus(this.parent.id, this.workshop.id)
-      ]);
-    });
-  }
-
-  private getWorkshopRatingList(): void {
-    this.rating$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((rating: SearchResponse<Rate[]>) => (this.rating = rating));
   }
 
   onRate(): void {
@@ -121,18 +106,37 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   }
 
   itemsPerPageChange(itemsPerPage: number): void {
-    this.ratingPerPage = itemsPerPage;
-    this.store.dispatch([new SetRatingPerPage(itemsPerPage), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
+    this.rateParameters.size = itemsPerPage;
+    this.getRates();
   }
 
   pageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeRating(page), new GetRateByEntityId(EntityType.workshop, this.workshop.id)]);
+    this.getRates();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new ClearRatings());
+  }
+
+  private getParentData(): void {
+    this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
+      this.parent = parent;
+      this.store.dispatch([
+        new GetStatusAllowedToReview(this.parent.id, this.workshop.id),
+        new GetReviewedStatus(this.parent.id, this.workshop.id)
+      ]);
+    });
+  }
+
+  private getWorkshopRatingList(): void {
+    this.rating$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((rating: SearchResponse<Rate[]>) => (this.rating = rating));
+  }
+
+  private getRates(): void {
+    Util.setFromPaginationParam(this.rateParameters, this.currentPage, this.rating?.totalAmount);
+    this.store.dispatch(new GetRateByEntityId(this.rateParameters));
   }
 }

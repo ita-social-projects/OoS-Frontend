@@ -6,7 +6,6 @@ import { Role } from '../../enum/role';
 import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from '../../models/chat.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -37,10 +36,7 @@ export class ChatService {
   }
 
   private setFilterParams(parameters: ChatRoomsParameters): HttpParams {
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.chatRoomsPerPage);
-    const from = size * (+currentPage.element - 1);
-    let params = new HttpParams().set('Size', size.toString()).set('From', from.toString());
+    let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     if (parameters.searchText) {
       params = params.set('SearchText', parameters.searchText);

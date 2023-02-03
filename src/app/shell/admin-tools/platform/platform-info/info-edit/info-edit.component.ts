@@ -3,17 +3,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { AdminTabTypes, AdminTabsTitles } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsTitles } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
 import { CompanyInformation, CompanyInformationSectionItem } from '../../../../../shared/models/сompanyInformation.model';
 import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
 import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../../shared/store/admin.state';
 import { AddNavPath } from '../../../../../shared/store/navigation.actions';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
+import { AdminTabTypes } from '../../../../../shared/enum/admins';
 
 @Component({
   selector: 'app-info-edit',

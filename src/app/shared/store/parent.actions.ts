@@ -1,9 +1,10 @@
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Application } from '../models/application.model';
-import { Child } from '../models/child.model';
+import { Child, ChildrenParameters } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
 import { RequestParams } from '../models/child.model';
 import { Rate } from '../models/rating';
+import { PaginationParameters } from '../models/queryParameters.model';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
@@ -27,7 +28,7 @@ export class GetFavoriteWorkshops {
 
 export class GetFavoriteWorkshopsByUserId {
   static readonly type = '[parent] get favorite workshops by UserId';
-  constructor() {}
+  constructor(public paginationParameters: PaginationParameters) {}
 }
 
 export class CreateFavoriteWorkshop {
@@ -42,7 +43,7 @@ export class DeleteFavoriteWorkshop {
 
 export class GetUsersChildren {
   static readonly type = '[parent] get users Children';
-  constructor() {}
+  constructor(public parameters: ChildrenParameters) {}
 }
 
 export class GetUsersChildById {
@@ -77,12 +78,12 @@ export class OnCreateChildrenSuccess {
 
 export class DeleteChildById {
   static readonly type = '[parent] delete Children';
-  constructor(public payload: string) {}
+  constructor(public payload: string, public parameters: ChildrenParameters) {}
 }
 
 export class OnDeleteChildSuccess {
   static readonly type = '[parent] delete Children success';
-  constructor() {}
+  constructor(public parameters: ChildrenParameters) {}
 }
 
 export class OnDeleteChildFail {

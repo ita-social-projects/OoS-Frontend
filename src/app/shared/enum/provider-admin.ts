@@ -3,3 +3,9 @@ export enum ProviderAdminRole {
   deputy = 'deputy',
   admin = 'admin'
 }
+
+export enum ProviderAdminParams{
+  all,
+  deputy,
+  admin
+}

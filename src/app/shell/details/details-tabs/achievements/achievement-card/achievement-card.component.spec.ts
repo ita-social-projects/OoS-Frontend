@@ -8,6 +8,7 @@ import { NgxsModule } from '@ngxs/store';
 import { AchievementCardComponent } from './achievement-card.component';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Achievement } from '../../../../../shared/models/achievement.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AchievementCardComponent', () => {
   let component: AchievementCardComponent;
@@ -15,8 +16,16 @@ describe('AchievementCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatIconModule, MatCardModule, RouterTestingModule, MatDialogModule, MatTooltipModule],
-      declarations: [AchievementCardComponent, GetFullNamePipe]
+      imports: [
+        NgxsModule.forRoot([]),
+        MatIconModule,
+        MatCardModule,
+        RouterTestingModule,
+        MatDialogModule,
+        MatTooltipModule,
+        TranslateModule.forRoot(),
+      ],
+      declarations: [AchievementCardComponent, GetFullNamePipe],
     }).compileComponents();
   });
 
@@ -25,7 +34,7 @@ describe('AchievementCardComponent', () => {
     component = fixture.componentInstance;
     component.achievement = {
       children: [],
-      teachers: []
+      teachers: [],
     } as Achievement;
     component.isAllowedEdit;
     component.workshop;

@@ -11,13 +11,12 @@ import { DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
 import { ResetProviderWorkshopDetails, GetWorkshopById, GetProviderById } from '../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../shared/store/shared-user.state';
-import { OnPageChangeWorkshops } from '../../shared/store/paginator.actions';
 import { PaginationConstants } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-details',
   templateUrl: './details.component.html',
-  styleUrls: ['./details.component.scss'],
+  styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   readonly entityType = EntityType;
@@ -42,11 +41,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   displayActionCard: boolean;
 
-  constructor(
-    private store: Store,
-    private route: ActivatedRoute,
-    public navigationBarService: NavigationBarService
-  ) {}
+  constructor(private store: Store, private route: ActivatedRoute, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
@@ -57,7 +52,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
       window.scrollTo({
         top: 0,
-        behavior: 'smooth',
+        behavior: 'smooth'
       });
     });
 
@@ -81,13 +76,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
    * This method get Workshop or Provider by Id;
    */
   private getEntity(id: string): void {
-    this.entity === EntityType.workshop
-      ? this.store.dispatch(new GetWorkshopById(id))
-      : this.store.dispatch(new GetProviderById(id));
+    this.entity === EntityType.workshop ? this.store.dispatch(new GetWorkshopById(id)) : this.store.dispatch(new GetProviderById(id));
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new OnPageChangeWorkshops(PaginationConstants.firstPage)]);
+    this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

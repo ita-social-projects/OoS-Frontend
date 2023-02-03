@@ -11,7 +11,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from '../../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../../shared/enum/enumUA/navigation-bar';
 import { Direction } from '../../../../../../shared/models/category.model';
 import { NavigationBarService } from '../../../../../../shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from '../../../../../../shared/store/admin.state';

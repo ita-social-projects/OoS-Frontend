@@ -12,7 +12,7 @@ import { Constants } from '../../../../shared/constants/constants';
 import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName, PersonalCabinetTitle } from '../../../../shared/enum/navigation-bar';
+import { NavBarName, PersonalCabinetTitle } from '../../../../shared/enum/enumUA/navigation-bar';
 import { Child } from '../../../../shared/models/child.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
