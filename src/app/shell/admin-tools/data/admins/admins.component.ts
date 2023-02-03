@@ -11,10 +11,9 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
-import { AdminRole } from '../../../../shared/enum/admins';
-import { AdminRoleUkr, AdminRoleUkrReverse } from '../../../../shared/enum/enumUA/admins';
+import { AdminRoles, AdminRoleTypes } from '../../../../shared/enum/admins';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
@@ -24,6 +23,7 @@ import { Util } from '../../../../shared/utils/utils';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { RegistrationState } from './../../../../shared/store/registration.state';
 import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
+import { AdminRolesTitles } from '../../../../shared/enum/enumUA/tech-admin/admins';
 
 @Component({
   selector: 'app-admins',
@@ -32,8 +32,8 @@ import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
 })
 export class AdminsComponent implements OnInit, OnDestroy {
   readonly noAdmins = NoResultsTitle.noAdmins;
-  readonly adminRole = AdminRole;
-  readonly adminRoleUkr = AdminRoleUkr;
+  readonly AdminRolesTitles = AdminRolesTitles;
+  readonly AdminRoles = AdminRoles;
   readonly Role = Role;
   readonly statusesTitles = UserStatusesTitles;
 
@@ -93,31 +93,19 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.currentPage = PaginationConstants.firstPage;
     this.filterFormControl.reset();
     this.adminParams.searchString = '';
-    this.adminParams.tabTitle = event.tab.textLabel;
+    this.adminParams.tabTitle = AdminRoleTypes[event.index];
     this.getAdmins();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: AdminRoleUkrReverse[event.tab.textLabel] }
+      queryParams: { role: AdminRoleTypes[event.index] }
     });
     this.setDisplayedColumns();
   }
 
   private setTabOptions(): void {
     const queryRole = this.route.snapshot.queryParamMap.get('role');
-    this.adminParams.tabTitle = queryRole ? AdminRoleUkr[queryRole] : AdminRoleUkr.ministryAdmin;
-
-    switch (queryRole) {
-      case undefined:
-      case AdminRole.ministryAdmin:
-        this.tabIndex = 0;
-        break;
-      case AdminRole.regionAdmin:
-        this.tabIndex = 1;
-        break;
-      case AdminRole.territorialCommunityAdmin:
-        this.tabIndex = 2;
-        break;
-    }
+    this.adminParams.tabTitle = queryRole ? AdminRoles[queryRole] : AdminRoles.ministryAdmin;
+    this.tabIndex = AdminRoleTypes[queryRole];
   }
 
   /**
@@ -135,7 +123,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     if (this.role === Role.ministryAdmin) {
       //If a table is selected that the user cannot edit and the actions column is added - delete column
       //If a table is selected that the user can edit and the actions column is added, exit.
-      if (this.adminParams.tabTitle === AdminRoleUkr.ministryAdmin && isActionsInList) {
+      if (this.adminParams.tabTitle === AdminRoles.ministryAdmin && isActionsInList) {
         this.displayedColumns = this.displayedColumns.filter((value: string) => value !== 'actions');
         return;
       } else if (isActionsInList) {
@@ -154,7 +142,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: admin.isBlocked ? ModalConfirmationType.blockMinistryAdmin : ModalConfirmationType.unBlockMinistryAdmin,
+        type: admin.isBlocked ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
       }
     });
 
@@ -176,7 +164,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: ModalConfirmationType.deleteMinistryAdmin,
+        type: ModalConfirmationType.deleteAdmin,
         property: admin.pib
       }
     });

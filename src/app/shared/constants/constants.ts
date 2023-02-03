@@ -32,8 +32,7 @@ export class Constants {
   static readonly UNABLE_CREATE_PROVIDER = 'Unable to create a new provider';
   static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
-  static readonly NO_CITY = 'Такого міста немає';
-  static readonly NO_SETTLEMENT = 'Такого населенного пункту немає';
+  static readonly NO_SETTLEMENT = 'EMPTY_BANNERS.NO_SETTLEMENT';
   static readonly KYIV: Codeficator = {
     id: 31737,
     region: null,
@@ -47,7 +46,7 @@ export class Constants {
   };
 
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
-  static readonly NO_INFORMATION = 'не вказано';
+  static readonly NO_INFORMATION = 'SERVICE_MESSAGES.NO_INFO';
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
 }
@@ -114,10 +113,6 @@ export const WorkingDaysValues: WorkingDaysToggleValue[] = [
     selected: false
   }
 ];
-
-export class NotificationsConstants {
-  static readonly NO_MESSAGE = 'У вас немає нових сповіщень';
-}
 
 export class CropperConfigurationConstants {
   static readonly defaultCropperAspectRatio = 1 / 1;

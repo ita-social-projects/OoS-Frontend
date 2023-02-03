@@ -2,7 +2,7 @@ import { CompanyInformation } from '../../models/сompanyInformation.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdminTabTypes } from '../../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../../enum/admins';
 
 @Injectable({
   providedIn: 'root'

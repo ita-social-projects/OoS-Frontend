@@ -1,5 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdminTabTypes } from '../enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabTypes } from '../enum/admins';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';

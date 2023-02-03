@@ -23,12 +23,3 @@ export enum DetailsTabTitlesEnum {
   Reviews = 'TITLES.REVIEWS',
   Achievements = 'TITLES.ACHIEVEMENTS',
 }
-
-export enum DetailsTabTitlesParams{
-  'AboutWorkshop',
-  'AboutProvider',
-  'Teachers',
-  'OtherWorkshops',
-  'Reviews',
-  'Achievements',
-}

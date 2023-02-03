@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs';
 import { DefaultFilterState } from 'src/app/shared/models/defaultFilterState.model';
-import { NavBarName } from '../../../enum/navigation-bar';
+import { NavBarName } from '../../../enum/enumUA/navigation-bar';
 import { Navigation } from '../../../models/navigation.model';
 import { SetSearchQueryValue } from '../../../store/filter.actions';
 import { FilterState } from '../../../store/filter.state';

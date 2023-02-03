@@ -7,7 +7,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { PaginationConstants, Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';

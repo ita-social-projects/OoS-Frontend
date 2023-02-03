@@ -10,7 +10,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants } from '../../../../shared/constants/constants';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { Application } from '../../../../shared/models/application.model';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { ParentWithContactInfo } from '../../../../shared/models/parent.model';

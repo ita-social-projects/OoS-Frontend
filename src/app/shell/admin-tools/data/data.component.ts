@@ -2,8 +2,8 @@ import { Store } from '@ngxs/store';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../shared/enum/navigation-bar';
-import { AdminTabTypes } from '../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
+import { AdminTabTypes } from '../../../shared/enum/admins';
 
 @Component({
   selector: 'app-data',

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Provider } from '../../../../shared/models/provider.model';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';

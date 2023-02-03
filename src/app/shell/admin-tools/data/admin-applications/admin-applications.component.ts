@@ -5,7 +5,7 @@ import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { ApplicationFilterParameters } from '../../../../shared/models/application.model';
 import { CabinetDataComponent } from '../../../../shell/personal-cabinet/shared-cabinet/cabinet-data.component';
 import { MatDialog } from '@angular/material/dialog';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 

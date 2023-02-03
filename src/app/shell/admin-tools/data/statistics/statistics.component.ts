@@ -12,7 +12,7 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { Util } from '../../../../shared/utils/utils';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { StatisticPeriodTitles } from '../../../../shared/enum/enumUA/statistics';
 
 @Component({

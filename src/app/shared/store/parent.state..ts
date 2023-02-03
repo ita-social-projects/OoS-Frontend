@@ -45,9 +45,9 @@ import { RatingService } from '../services/rating/rating.service';
 import { TruncatedItem } from '../models/item.model';
 import { Rate } from '../models/rating';
 import { Application } from '../models/application.model';
-import { SnackbarText } from '../enum/messageBar';
 import { SearchResponse } from '../models/search.model';
 import { EMPTY_RESULT } from '../constants/constants';
+import { SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface ParentStateModel {
   isLoading: boolean;

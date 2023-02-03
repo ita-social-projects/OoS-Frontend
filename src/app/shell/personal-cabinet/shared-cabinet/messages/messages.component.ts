@@ -20,7 +20,7 @@ import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmatio
 import { BlockedParent } from '../../../../shared/models/block.model';
 import { CabinetDataComponent } from '../cabinet-data.component';
 import { MatDialog } from '@angular/material/dialog';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { PushNavPath } from '../../../..//shared/store/navigation.actions';
 import { GetUserChatRooms } from '../../../..//shared/store/chat.actions';
 import { FormControl } from '@angular/forms';

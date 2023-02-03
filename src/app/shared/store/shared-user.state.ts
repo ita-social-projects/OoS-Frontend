@@ -23,10 +23,10 @@ import {
   ResetProviderWorkshopDetails,
   GetAllApplications
 } from './shared-user.actions';
-import { messageStatus, SnackbarText } from '../enum/messageBar';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SearchResponse } from '../models/search.model';
 import { EMPTY_RESULT } from '../constants/constants';
+import { messageStatus, SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface SharedUserStateModel {
   isLoading: boolean;

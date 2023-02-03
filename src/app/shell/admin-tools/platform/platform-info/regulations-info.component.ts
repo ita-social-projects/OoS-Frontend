@@ -1,9 +1,9 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Select } from '@ngxs/store';
-import { AdminTabTypes } from '../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
 import { AdminState } from '../../../../shared/store/admin.state';
+import { AdminTabTypes } from '../../../../shared/enum/admins';
 
 @Component({
   selector: 'app-regulations-info',
@@ -16,6 +16,4 @@ export class RegulationsInfoComponent {
   LawsAndRegulations$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;
-
-  constructor() {}
 }

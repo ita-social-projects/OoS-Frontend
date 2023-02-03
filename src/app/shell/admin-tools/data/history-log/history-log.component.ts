@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, startWith, takeUntil, map, take } from 'rxjs/operators';
-import { HistoryLogTabTitles, TypeChange } from '../../../../shared/enum/enumUA/tech-admin/history-log';
+import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import {
   ApplicationHistory,
@@ -21,7 +21,7 @@ import { PaginationElement } from '../../../../shared/models/paginationElement.m
 import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 import { Util } from '../../../../shared/utils/utils';
 
@@ -33,7 +33,6 @@ import { Util } from '../../../../shared/utils/utils';
 export class HistoryLogComponent implements OnInit, OnDestroy {
   readonly HistoryLogTabTitles = HistoryLogTabTitles;
   readonly HistoryLogTypes = HistoryLogTypes;
-  readonly typeChange = TypeChange;
   readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)
