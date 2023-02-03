@@ -54,10 +54,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     });
 
     this.uploadedReport$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((response: HttpResponse<Blob>) => {
-      const a = document.createElement('a');
-      a.download = new Date(Date.now()).toDateString();
-      a.href = window.URL.createObjectURL(response.body);
-      a.click();
+      const downloadLink = document.createElement('a');
+      downloadLink.download = new Date(Date.now()).toDateString();
+      downloadLink.href = window.URL.createObjectURL(response.body);
+      downloadLink.click();
     });
 
     this.setParams();
