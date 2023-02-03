@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { filter, Observable, Subject, takeUntil, tap } from 'rxjs';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import { StatisticParameters, StatisticReport } from '../../../../shared/models/statistic.model';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { GetStatisticReports } from '../../../../shared/store/admin.actions';
+import { DownloadStatisticReport, GetStatisticReports } from '../../../../shared/store/admin.actions';
 import { StatisticFileFormats, StatisticPeriodTypes } from '../../../../shared/enum/statistics';
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeReports, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { Util } from '../../../../shared/utils/utils';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { StatisticPeriodTitles } from '../../../../shared/enum/enumUA/statistics';
+import { HttpResponse } from '@angular/common/http';
 
 @Component({
   selector: 'app-statistics',
@@ -28,11 +28,16 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.statisticsReports)
   statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
+  @Select(AdminState.downloadedReport)
+  uploadedReport$: Observable<HttpResponse<Blob>>;
 
   statisticReports: SearchResponse<StatisticReport[]>;
-  statisticParameters: StatisticParameters;
+  statisticParameters: StatisticParameters = {
+    ReportDataType: null,
+    ReportType: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+    from: 0
+  };
   filtersForm: FormGroup;
   displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -50,22 +55,34 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       format: new FormControl(StatisticFileFormats.CSV)
     });
 
+    this.uploadedReport$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((response: HttpResponse<Blob>) => {
+      const downloadLink = document.createElement('a');
+      downloadLink.download = new Date(Date.now()).toDateString();
+      downloadLink.href = window.URL.createObjectURL(response.body);
+      downloadLink.click();
+    });
+
     this.setParams();
     this.addNavPath();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetStatisticReports(this.statisticParameters)]);
+    this.statisticParameters.size = itemsPerPage;
+    this.getReports();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeReports(page), new GetStatisticReports(this.statisticParameters)]);
+    this.getReports();
   }
 
   onGenerateReport(): void {
     this.setParams();
     this.store.dispatch(new GetStatisticReports(this.statisticParameters));
+  }
+
+  onLoadReport(id: string): void {
+    this.store.dispatch(new DownloadStatisticReport(id));
   }
 
   ngOnDestroy(): void {
@@ -75,10 +92,13 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   }
 
   private setParams(): void {
-    this.statisticParameters = {
-      ReportDataType: this.filtersForm.get('format').value,
-      ReportType: this.filtersForm.get('period').value
-    };
+    this.statisticParameters.ReportDataType = this.filtersForm.get('format').value;
+    this.statisticParameters.ReportType = this.filtersForm.get('period').value;
+  }
+
+  private getReports(): void {
+    Util.setFromPaginationParam(this.statisticParameters, this.currentPage, this.statisticReports?.totalAmount);
+    this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 
   private addNavPath(): void {
@@ -86,7 +106,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
       new PushNavPath({
         name: NavBarName.Statistics,
         isActive: false,
-        disable: true,
+        disable: true
       })
     );
   }

@@ -7,7 +7,8 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}"
+      />
     </div>
   </div>
 </div>
@@ -18,12 +19,7 @@
     <div class="wrapper-provider-list">
       <div class="wrapper-provider-list-container">
         <div class="table-container mat-elevation-z8">
-          <table
-            mat-table
-            [dataSource]="dataSource"
-            matSort
-            (matSortChange)="announceSortChange($event)"
-            appStretchTable>
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
             <ng-container matColumnDef="fullTitle">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
                 {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
@@ -46,12 +42,12 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
                 {{ 'FORMS.LABELS.EDRPO_IPN' | translate }}
               </th>
-              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform  | translate}}</td>
+              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform | translate }}</td>
             </ng-container>
 
             <ng-container matColumnDef="licence">
               <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
-              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform  | translate}}</td>
+              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform | translate }}</td>
             </ng-container>
 
             <ng-container matColumnDef="city">
@@ -68,7 +64,7 @@
                 {{ 'FORMS.LABELS.ADDRESS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress | getAddress : ModeConstants.SHORT | emptyValueTransform | translate }}
+                {{ element.legalAddress | getAddress: ModeConstants.SHORT | emptyValueTransform | translate }}
               </td>
             </ng-container>
 
@@ -87,39 +83,28 @@
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>
-              <th
-                class="status-title"
-                mat-header-cell
-                *matHeaderCellDef
-                mat-sort-header
-                sortActionDescription="Sort by status">
+              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
                 {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="!element.isBlocked; else BlockStatus">
                   <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
                     <ng-container
-                      *ngTemplateOutlet="
-                        ProviderStatusTmpl;
-                        context: { $implicit: element.status, titles: providerStatusTitles }
-                      "></ng-container>
+                      *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: element.status, titles: providerStatusTitles }"
+                    ></ng-container>
                   </ng-container>
 
                   <ng-container *ngIf="element.ownership === ownershipTypes.Private">
                     <ng-container
-                      *ngTemplateOutlet="
-                        ProviderStatusTmpl;
-                        context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
-                      "></ng-container>
+                      *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }"
+                    ></ng-container>
                   </ng-container>
                 </ng-container>
 
                 <ng-template #BlockStatus>
                   <ng-container
-                    *ngTemplateOutlet="
-                      ProviderStatusTmpl;
-                      context: { $implicit: blockedStatus, titles: blockedStatus }
-                    "></ng-container>
+                    *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: blockedStatus, titles: blockedStatus }"
+                  ></ng-container>
                 </ng-template>
               </td>
             </ng-container>
@@ -145,13 +130,15 @@
                       <button
                         *ngIf="element.status !== providerStatuses.Approved"
                         mat-menu-item
-                        (click)="onChangeStatus(element, providerStatuses.Approved)">
+                        (click)="onChangeStatus(element, providerStatuses.Approved)"
+                      >
                         {{ 'BUTTONS.CONFIRM' | translate }}
                       </button>
                       <button
                         *ngIf="element.status !== providerStatuses.Editing"
                         mat-menu-item
-                        (click)="onChangeStatus(element, statuses.Editing)">
+                        (click)="onChangeStatus(element, statuses.Editing)"
+                      >
                         {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
                       </button>
                     </ng-container>
@@ -160,7 +147,8 @@
                       <button
                         *ngIf="element.licenseStatus === licenseStatuses.Pending"
                         mat-menu-item
-                        (click)="onLicenseApprove(element.id)">
+                        (click)="onLicenseApprove(element.id)"
+                      >
                         {{ 'BUTTONS.CONFIRM_LICENSE' | translate }}
                       </button>
                     </ng-container>
@@ -184,7 +172,8 @@
           <app-provider-info
             [provider]="provider"
             [isProviderView]="false"
-            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"></app-provider-info>
+            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"
+          ></app-provider-info>
         </div>
       </div>
     </div>
@@ -192,9 +181,10 @@
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="providerParameters.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
+        (itemsPerPageChange)="onItemsPerPageChange($event)"
+      >
       </app-paginator>
     </div>
   </ng-container>

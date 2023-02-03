@@ -3,14 +3,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { SearchResponse } from '../../../models/search.model';
-import { Constants } from '../../../constants/constants';
+import { Constants, PaginationConstants } from '../../../constants/constants';
 import { Ordering } from '../../../enum/ordering';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterStateModel } from '../../../models/filterState.model';
-import { PaginationElement } from '../../../models/paginationElement.model';
 import { WorkshopCard } from '../../../models/workshop.model';
 import { FilterState } from '../../../store/filter.state';
-import { PaginatorState } from '../../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -112,11 +110,7 @@ export class AppWorkshopsService {
         params = params.set('RadiusKm', filters.userRadiusSize);
       }
     } else {
-      const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-      const size = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
-      const from = size * (+currentPage.element - 1);
-
-      params = params.set('Size', size.toString()).set('From', from.toString());
+      params = params.set('Size', filters.size.toString()).set('From', filters.from.toString());
     }
 
     return params;
@@ -150,7 +144,7 @@ export class AppWorkshopsService {
   getTopWorkshops(): Observable<WorkshopCard[]> {
     let params = new HttpParams();
 
-    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const size: number = PaginationConstants.WORKSHOPS_PER_PAGE;
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
     params = params.set('Limit', size.toString());

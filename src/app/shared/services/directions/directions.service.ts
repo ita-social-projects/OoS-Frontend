@@ -2,13 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants } from '../../constants/constants';
-import { Direction } from '../../models/category.model';
+import { Constants, PaginationConstants } from '../../constants/constants';
+import { Direction, DirectionParameters } from '../../models/category.model';
 import { Codeficator } from '../../models/codeficator.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 import { FilterState } from '../../store/filter.state';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +15,20 @@ import { PaginatorState } from '../../store/paginator.state';
 export class DirectionsService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(searchString: string): HttpParams {
+  private setParams(directionParameters: DirectionParameters): HttpParams {
     let params = new HttpParams();
 
-    if (searchString) {
-      params = params.set('Name', searchString);
+    if (directionParameters.searchString) {
+      params = params.set('Name', directionParameters.searchString);
     }
 
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.directionsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    params = params.set('Size', size.toString()).set('From', from.toString());
+    params = params.set('Size', directionParameters.size.toString()).set('From', directionParameters.from.toString());
 
     return params;
   }
 
-  getFilteredDirections(searchString: string): Observable<SearchResponse<Direction[]>> {
-    const options = { params: this.setParams(searchString) };
+  getFilteredDirections(directionParameters: DirectionParameters): Observable<SearchResponse<Direction[]>> {
+    const options = { params: this.setParams(directionParameters) };
     return this.http.get<SearchResponse<Direction[]>>('/api/v1/Direction/GetByFilter', options);
   }
 
@@ -44,7 +39,7 @@ export class DirectionsService {
   getTopDirections(): Observable<Direction[]> {
     let params = new HttpParams();
 
-    const size: number = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
+    const size: number = PaginationConstants.DIRECTIONS_PER_PAGE;
     const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
 
     params = params.set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString()).set('limit', size.toString());

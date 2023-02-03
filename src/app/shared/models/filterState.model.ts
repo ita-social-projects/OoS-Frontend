@@ -30,4 +30,6 @@ export interface FilterStateModel {
   mapViewCoords: Coords | null;
   userRadiusSize: number | null;
   isMapView: boolean;
+  from: number;
+  size: number;
 }

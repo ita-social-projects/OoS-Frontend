@@ -28,10 +28,9 @@ import { ChatState } from '../../../../shared/store/chat.state';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { ApplicationEntityType } from '../../../../shared/enum/applications';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { OnPageChangeChatRooms, SetChatRoomsPerPage } from '../../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../../shared/models/search.model';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-messages',
@@ -50,11 +49,10 @@ export class MessagesComponent extends CabinetDataComponent {
   chatRoomsParameters: ChatRoomsParameters = {
     role: null,
     workshopIds: null,
-    searchText: null
+    searchText: null,
+    size: PaginationConstants.CHATROOMS_PER_PAGE
   };
 
-  @Select(PaginatorState.chatRoomsPerPage)
-  chatRoomsPerPage$: Observable<number>;
   @Select(ProviderState.truncated)
   workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
@@ -81,7 +79,7 @@ export class MessagesComponent extends CabinetDataComponent {
         });
     }
 
-    this.getChats();
+    this.getChatRooms();
     this.setListeners();
   }
 
@@ -98,13 +96,7 @@ export class MessagesComponent extends CabinetDataComponent {
   getProviderWorkshops(): void {
     if (this.subRole === Role.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
-    } else {
-      this.store.dispatch(new GetProviderAdminWorkshops());
     }
-  }
-
-  getChats(): void {
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 
   setListeners(): void {
@@ -116,7 +108,8 @@ export class MessagesComponent extends CabinetDataComponent {
       .pipe(takeUntil(this.destroy$), debounceTime(500), distinctUntilChanged())
       .subscribe((val: string) => {
         this.chatRoomsParameters.searchText = val;
-        this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+        this.currentPage = PaginationConstants.firstPage;
+        this.getChatRooms();
       });
   }
 
@@ -148,16 +141,23 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   onEntitiesSelect(workshopIds: string[]): void {
+    this.currentPage = PaginationConstants.firstPage;
     this.chatRoomsParameters.workshopIds = workshopIds;
-    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
+    this.getChatRooms();
   }
 
   onItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetChatRoomsPerPage(itemsPerPage), new GetUserChatRooms(this.chatRoomsParameters)]);
+    this.chatRoomsParameters.size = itemsPerPage;
+    this.getChatRooms();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeChatRooms(page), new GetUserChatRooms(this.chatRoomsParameters)]);
+    this.getChatRooms();
+  }
+
+  private getChatRooms(): void {
+    Util.setFromPaginationParam(this.chatRoomsParameters, this.currentPage, this.chatRooms?.totalAmount);
+    this.store.dispatch(new GetUserChatRooms(this.chatRoomsParameters));
   }
 }

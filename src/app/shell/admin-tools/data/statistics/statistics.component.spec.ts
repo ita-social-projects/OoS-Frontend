@@ -24,6 +24,7 @@ describe('StatisticsComponent', () => {
 
     fixture = TestBed.createComponent(StatisticsComponent);
     component = fixture.componentInstance;
+    component.statisticParameters = {} as any;
     fixture.detectChanges();
   });
 

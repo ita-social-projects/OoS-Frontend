@@ -20,7 +20,7 @@ export class ShellComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: string) => {
-      role == Role.parent && this.store.dispatch([new GetFavoriteWorkshops(), new GetFavoriteWorkshopsByUserId()]);
+      role == Role.parent && this.store.dispatch(new GetFavoriteWorkshops());
     });
   }
 

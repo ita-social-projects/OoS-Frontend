@@ -1,9 +1,10 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
+import { ProviderParameters } from '../models/provider.model';
 
 export class GetWorkshopsByProviderId {
   static readonly type = '[user] get Workshops By Provider Id';
-  constructor(public payload: string, public excludedWorkshopId?: string) {}
+  constructor(public providerParameters: ProviderParameters) {}
 }
 
 export class GetWorkshopById {

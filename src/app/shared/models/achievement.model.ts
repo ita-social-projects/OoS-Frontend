@@ -1,4 +1,5 @@
 import { Child } from './child.model';
+import { PaginationParameters } from './queryParameters.model';
 import { Teacher } from './teacher.model';
 
 export class Achievement {
@@ -37,4 +38,8 @@ export interface AchievmentTeacherValue {
   title: string;
   id: string;
   achievementId: string;
+}
+
+export interface AchievementParameters extends PaginationParameters {
+  workshopId: string;
 }

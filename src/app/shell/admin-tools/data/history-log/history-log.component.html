@@ -8,7 +8,8 @@
           matInput
           type="text"
           class="search"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}" />
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}"
+        />
       </div>
     </div>
     <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
@@ -18,26 +19,20 @@
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab [label]="HistoryLogTabTitles.Providers | translate">
         <ng-container
-          *ngTemplateOutlet="
-            HistoryLogTable;
-            context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }
-          ">
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }"
+        >
         </ng-container>
       </mat-tab>
       <mat-tab [label]="HistoryLogTabTitles.ProviderAdmins | translate">
         <ng-container
-          *ngTemplateOutlet="
-            HistoryLogTable;
-            context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }
-          ">
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }"
+        >
         </ng-container>
       </mat-tab>
       <mat-tab [label]="HistoryLogTabTitles.Applications | translate">
         <ng-container
-          *ngTemplateOutlet="
-            HistoryLogTable;
-            context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }
-          ">
+          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }"
+        >
         </ng-container>
       </mat-tab>
     </mat-tab-group>
@@ -52,9 +47,10 @@
         <app-paginator
           [totalEntities]="table.totalAmount"
           [currentPage]="currentPage"
-          [itemsPerPage]="tableItemsPerPage$ | async"
+          [itemsPerPage]="filters.size"
           (pageChange)="onPageChange($event)"
-          (itemsPerPageChange)="onItemsPerPageChange($event)">
+          (itemsPerPageChange)="onItemsPerPageChange($event)"
+        >
         </app-paginator>
       </ng-container>
     </ng-container>

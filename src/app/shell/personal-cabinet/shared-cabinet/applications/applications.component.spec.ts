@@ -30,7 +30,7 @@ describe('ApplicationsComponent', () => {
         MatMenuModule,
         RouterTestingModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       declarations: [
         ApplicationsComponent,
@@ -41,14 +41,15 @@ describe('ApplicationsComponent', () => {
         StatusInfoCardComponent,
         NoResultCardComponent,
         MockApplicationCardPaginatorComponent,
-        TextSliceTransformPipe,
-      ],
+        TextSliceTransformPipe
+      ]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ApplicationsComponent);
     component = fixture.componentInstance;
+    component.applicationParams = {} as any;
     fixture.detectChanges();
   });
 
@@ -58,7 +59,7 @@ describe('ApplicationsComponent', () => {
 });
 @Component({
   selector: 'app-application-card',
-  template: '',
+  template: ''
 })
 class MockApplicationCardComponent {
   @Input() application: Application;
@@ -67,7 +68,7 @@ class MockApplicationCardComponent {
 
 @Component({
   selector: 'app-entity-checkbox-dropdown',
-  template: '',
+  template: ''
 })
 class MockWorkshopChekcboxDropdownComponent {
   @Input() entities: Workshop[];
@@ -75,7 +76,7 @@ class MockWorkshopChekcboxDropdownComponent {
 }
 @Component({
   selector: 'app-paginator',
-  template: '',
+  template: ''
 })
 class MockApplicationCardPaginatorComponent {
   @Input() totalEntities: number;
