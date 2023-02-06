@@ -293,8 +293,6 @@
       "EDIT" : "EDIT",
       "EDIT_INFO" : "EDIT INFORMATION",
       "SUBHEADER_TITLE" : "Title",
-      "EDIT_PROVIDER_DEPUTY": "EDIT PROVIDER DEPUTY",
-      "EDIT_PROVIDER_ADMIN": "EDIT WORKSHOP ADMINISTRATOR",
       "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
       "ADD_ACHIEVEMENT":"ADD ACHIEVEMENT",
       "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login"
