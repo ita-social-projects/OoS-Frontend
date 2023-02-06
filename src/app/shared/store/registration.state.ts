@@ -179,7 +179,7 @@ export class RegistrationState {
   getProfile(
     { patchState, getState }: StateContext<RegistrationStateModel>,
     {}: GetProfile
-  ): Observable<Parent> | Observable<Provider> {
+  ): Observable<Parent> | Observable<Provider> | Observable<MinistryAdmin> {
     const state = getState();
     patchState({ role: state.user.role as Role });
 

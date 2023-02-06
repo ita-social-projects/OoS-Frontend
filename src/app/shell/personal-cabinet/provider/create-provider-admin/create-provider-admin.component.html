@@ -2,7 +2,7 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">
-        {{ formTitle | translate }}
+        {{ formTitle | translate | uppercase }}
       </h3>
       <p *ngIf="!editMode" class="wrapper-text">
         {{ 'FORMS.HEADERS.PROVIDER_ADMINS_SUBHEADER' | translate }}

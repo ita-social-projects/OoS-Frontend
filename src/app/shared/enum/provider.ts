@@ -4,6 +4,12 @@ export enum OwnershipTypes {
   Private = 'Private',
 }
 
+//TODO: temporary removed for 1st release
+export enum SelectableOwnershipTypes {
+  State = 'State',
+  Common = 'Common',
+}
+
 export enum InstitutionTypes {
   Complex = 'Complex',
   Profile = 'Profile',
