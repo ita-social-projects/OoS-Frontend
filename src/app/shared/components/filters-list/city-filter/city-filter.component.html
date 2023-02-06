@@ -22,7 +22,7 @@
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT"
     >
-      {{ codeficator.settlement }} <br />
+      {{ codeficator.settlement | translate }} <br />
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
   </mat-autocomplete>
