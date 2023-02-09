@@ -19,11 +19,12 @@ import { CompanyInformation } from '../shared/models/сompanyInformation.model';
 import { GetMainPageInfo } from '../shared/store/main-page.actions';
 import { TranslateService } from '@ngx-translate/core';
 import { RoleLinks } from '../shared/enum/enumUA/user';
+import { DateAdapter } from '@angular/material/core';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+  styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
   readonly Languages: typeof Languages = Languages;
@@ -61,7 +62,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router, private translate: TranslateService) {}
+  constructor(private store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
 
   onViewChange(): void {
     this.store.dispatch(new SidenavToggle());
@@ -77,9 +78,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         this.navigationPaths = navigationPaths;
       });
 
-    this.isMobileScreen$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((isMobileScreen: boolean) => (this.isMobileScreen = isMobileScreen));
+    this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobileScreen: boolean) => (this.isMobileScreen = isMobileScreen));
 
     this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
       this.userShortName = this.getFullName(user);
@@ -93,9 +92,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   }
 
   private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${
-      user.middleName ? user.middleName.slice(0, 1) + '.' : ' '
-    }`;
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
   }
 
   onLogout(): void {
@@ -112,6 +109,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   setLanguage(): void {
     this.translate.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
