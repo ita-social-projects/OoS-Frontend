@@ -21,7 +21,7 @@ export class ChildrenService {
         params = params.set('SearchString', parameters.searchString);
       }
 
-      if (parameters.isParent !== undefined) {
+      if (parameters.isParent !== null) {
         params = params.set('isParent', parameters.isParent.toString());
       }
     }

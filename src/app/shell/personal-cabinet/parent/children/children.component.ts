@@ -31,7 +31,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParameters: ChildrenParameters = {
     searchString: '',
-    isParent: undefined,
+    isParent: null,
     size: PaginationConstants.CHILDREN_PER_PAGE
   };
 

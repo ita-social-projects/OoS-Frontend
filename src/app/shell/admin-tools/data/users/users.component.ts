@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    isParent: undefined,
+    isParent: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
