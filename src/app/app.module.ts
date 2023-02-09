@@ -22,8 +22,6 @@ import { SharedModule } from './shared/shared.module';
 import { SharedUserState } from './shared/store/shared-user.state';
 import { NavigationState } from './shared/store/navigation.state';
 import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
 import { AdminState } from './shared/store/admin.state';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { NotificationsState } from './shared/store/notifications.state';
@@ -37,9 +35,9 @@ import { ChatState } from './shared/store/chat.state';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { DateAdapter } from '@angular/material/core';
 
-registerLocaleData(localeUk);
-
+const selectedLanguage = getLanguage();
 @NgModule({
   declarations: [HeaderComponent, AppComponent, ShellComponent, FooterComponent, ProgressBarComponent],
   imports: [
@@ -74,7 +72,7 @@ registerLocaleData(localeUk);
     RegistrationModule,
     HttpClientModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'uk',
+      defaultLanguage: selectedLanguage,
       loader: {
         provide: TranslateLoader,
         useFactory: createTranslateLoader,
@@ -83,7 +81,7 @@ registerLocaleData(localeUk);
     })
   ],
   providers: [
-    { provide: LOCALE_ID, useValue: 'uk' },
+    { provide: LOCALE_ID, useValue: selectedLanguage },
     {
       provide: MAT_SELECT_CONFIG,
       useValue: { overlayPanelClass: 'custom-overlay-panel' }
@@ -97,9 +95,18 @@ registerLocaleData(localeUk);
   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor() {
-    localStorage.setItem('ui-culture', 'uk');
+  constructor(private dateAdapter: DateAdapter<Date>) {
+    dateAdapter.setLocale(selectedLanguage);
   }
+}
+
+function getLanguage(): string {
+  let language = localStorage.getItem('ui-culture');
+  if (!language) {
+    language = 'uk';
+    localStorage.setItem('ui-culture', language);
+  }
+  return language;
 }
 
 export function createTranslateLoader(http: HttpClient) {

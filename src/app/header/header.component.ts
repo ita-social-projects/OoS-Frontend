@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   readonly Role: typeof Role = Role;
   readonly RoleLinks = RoleLinks;
 
-  selectedLanguage = 'uk';
+  selectedLanguage = localStorage.getItem('ui-culture');
   showModalReg = false;
   userShortName = '';
 
