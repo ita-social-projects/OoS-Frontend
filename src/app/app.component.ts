@@ -1,6 +1,10 @@
-import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
+
+import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
+import { TranslateService } from '@ngx-translate/core';
+import { Select, Store } from '@ngxs/store';
+
 import { ToggleMobileScreen } from './shared/store/app.actions';
 import { GetFeaturesList } from './shared/store/meta-data.actions';
 import { CheckAuth } from './shared/store/registration.actions';
@@ -14,15 +18,19 @@ import { RegistrationState } from './shared/store/registration.state';
 export class AppComponent implements OnInit, OnDestroy {
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
+  private selectedLanguage: string;
 
   @Select(RegistrationState.isAutorizationLoading)
   isAutorizationLoading$: Observable<boolean>;
 
   isMobileView: boolean;
 
-  constructor(public store: Store) {}
+  constructor(public store: Store, private translateService: TranslateService, private dateAdapter: DateAdapter<Date>) {}
 
   ngOnInit(): void {
+    this.getLanguage();
+    this.translateService.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
   }
@@ -48,5 +56,13 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private getLanguage(): void {
+    this.selectedLanguage = localStorage.getItem('ui-culture');
+    if (!this.selectedLanguage) {
+      this.selectedLanguage = 'uk';
+      localStorage.setItem('ui-culture', this.selectedLanguage);
+    }
   }
 }
