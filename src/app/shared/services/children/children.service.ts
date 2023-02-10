@@ -1,11 +1,13 @@
+import { Observable } from 'rxjs';
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+
 import { Child, ChildrenParameters, RequestParams } from '../../models/child.model';
+import { DataItem, TruncatedItem } from '../../models/item.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
-import { DataItem, TruncatedItem } from '../../models/item.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +15,7 @@ import { DataItem, TruncatedItem } from '../../models/item.model';
 export class ChildrenService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(parameters: ChildrenParameters, isParent?: boolean): HttpParams {
+  private setParams(parameters: ChildrenParameters): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
@@ -21,8 +23,8 @@ export class ChildrenService {
         params = params.set('SearchString', parameters.searchString);
       }
 
-      if (parameters.isParent !== null) {
-        params = params.set('isParent', parameters.isParent.toString());
+      if (typeof parameters.isParent !== 'boolean') {
+        params = params.set('isParent', parameters.isParent);
       }
     }
 
@@ -58,8 +60,8 @@ export class ChildrenService {
   /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<SearchResponse<Child[]>> {
-    const options = { params: this.setParams(paremeters, isParent) };
+  getChildrenForAdmin(paremeters: ChildrenParameters): Observable<SearchResponse<Child[]>> {
+    const options = { params: this.setParams(paremeters) };
 
     return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
   }
