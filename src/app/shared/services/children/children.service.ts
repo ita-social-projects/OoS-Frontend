@@ -23,7 +23,7 @@ export class ChildrenService {
         params = params.set('SearchString', parameters.searchString);
       }
 
-      if (typeof parameters.isParent !== 'boolean') {
+      if (typeof parameters.isParent === 'boolean') {
         params = params.set('isParent', parameters.isParent);
       }
     }
