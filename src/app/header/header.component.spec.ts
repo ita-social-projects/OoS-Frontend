@@ -14,6 +14,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { TranslateModule } from '@ngx-translate/core';
+import { DateAdapter } from '@angular/material/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -40,7 +41,7 @@ describe('HeaderComponent', () => {
         MockNotificationsComponent,
         ProgressBarComponent
       ],
-      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }, DateAdapter]
     }).compileComponents();
   });
 

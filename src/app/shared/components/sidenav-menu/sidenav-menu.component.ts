@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
@@ -19,7 +20,7 @@ import { RegistrationState } from '../../store/registration.state';
 @Component({
   selector: 'app-sidenav-menu',
   templateUrl: './sidenav-menu.component.html',
-  styleUrls: ['./sidenav-menu.component.scss'],
+  styleUrls: ['./sidenav-menu.component.scss']
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
   readonly defaultAdminTabs = AdminTabTypes[0];
@@ -48,7 +49,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store, private router: Router, private translate: TranslateService) {}
+  constructor(public store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
 
   changeView(): void {
     this.store.dispatch(new SidenavToggle());
@@ -56,7 +57,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
-    this.sidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe(visible => (this.visibleSidenav = visible));
+    this.sidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe((visible) => (this.visibleSidenav = visible));
     this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
       this.user = user;
     });
@@ -72,6 +73,7 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   setLanguage(): void {
     this.translate.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
