@@ -1,24 +1,28 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import {
+    debounceTime, distinctUntilChanged, filter, skip, startWith, takeUntil
+} from 'rxjs/operators';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
-import { SearchResponse } from '../../../../shared/models/search.model';
+
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { UserTabsTitles } from '../../../../shared/enum/enumUA/user';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
+import { UserTabsTitles } from '../../../../shared/enum/enumUA/user';
+import { UserTabParams } from '../../../../shared/enum/role';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { UsersTable } from '../../../../shared/models/usersTable';
 import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { Util } from '../../../../shared/utils/utils';
-import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
-import { UserTabParams } from '../../../../shared/enum/role';
 
 @Component({
   selector: 'app-users',
@@ -44,7 +48,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    isParent: undefined,
+    isParent: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
@@ -91,7 +95,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     if (tabIndex !== UserTabParams.all) {
       this.childrenParams.isParent = UserTabParams.child !== tabIndex;
     } else {
-      this.childrenParams.isParent = undefined;
+      this.childrenParams.isParent = null;
     }
 
     this.currentPage = PaginationConstants.firstPage;
