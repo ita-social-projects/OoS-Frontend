@@ -1,36 +1,33 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-  <h2 mat-dialog-title>{{ modalTitle }}</h2>
-  <p class="confirmation">{{ modalConfirmationText }}</p>
+  <h2 mat-dialog-title>{{ modalTitle | translate }}</h2>
+  <p class="confirmation">{{ modalConfirmationText | translate }}</p>
 
   <form fxLayout="column" class="reject-form">
-    <label class="step-label"> {{ modalConfirmationDescription }} <span class="step-required">*</span></label>
+    <label class="step-label"> {{ modalConfirmationDescription | translate }} <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
       <textarea
         matInput
         ng-focus="updateValue()"
         ng-blur="updateValue()"
         class="step-textarea"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{
-          validationConstants.MAX_DESCRIPTION_LENGTH_500
-        }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
         [formControl]="ReasonFormControl"
-        appTrimValue></textarea>
+        appTrimValue
+      ></textarea>
     </mat-form-field>
 
     <app-validation-hint
       [validationFormControl]="ReasonFormControl"
       [minCharachters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+      [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+    >
     </app-validation-hint>
   </form>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
-    <button
-      class="btn"
-      mat-button
-      [mat-dialog-close]="ReasonFormControl.value"
-      [disabled]="!ReasonFormControl.valid"
-      cdkFocusInitial>
+    <button class="btn" mat-button [mat-dialog-close]="ReasonFormControl.value" [disabled]="!ReasonFormControl.valid" cdkFocusInitial>
       {{ 'BUTTONS.CONFIRM' | translate }}
     </button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
