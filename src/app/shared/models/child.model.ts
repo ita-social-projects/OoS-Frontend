@@ -1,7 +1,7 @@
-import { ParentWithContactInfo } from './parent.model';
 import { DataItem } from './item.model';
-import { Person } from './user.model';
+import { ParentWithContactInfo } from './parent.model';
 import { PaginationParameters } from './queryParameters.model';
+import { Person } from './user.model';
 
 export class Child implements Person {
   id: string;
@@ -32,6 +32,7 @@ export class Child implements Person {
 
 export interface ChildrenParameters extends PaginationParameters {
   isParent?: boolean;
+  isGetParent?: boolean;
   searchString?: string;
 }
 export interface RequestParams {

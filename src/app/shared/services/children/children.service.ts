@@ -26,9 +26,13 @@ export class ChildrenService {
       if (typeof parameters.isParent === 'boolean') {
         params = params.set('isParent', parameters.isParent);
       }
-    }
 
-    params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
+      if (typeof parameters.isGetParent === 'boolean') {
+        params = params.set('isGetParent', parameters.isGetParent);
+      }
+
+      params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
+    }
 
     return params;
   }
