@@ -17,8 +17,8 @@
         <td mat-cell *matCellDef="let element" >
           <a target="_blank" rel="noreferrer" (click)="selectDirection(element.directions[0])">
             <img class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
+            <span>{{element.directions[0].description}}</span>  
           </a>
-          <span>{{element.directions[0].description}}</span>  
         </td>
       </ng-container>
       <ng-container class="actions-column" matColumnDef="actions">

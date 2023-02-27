@@ -11,4 +11,12 @@ table {
     width: 30px;
     height: 30px;
   }
+
+  a {
+    cursor: pointer;
+    span {
+      margin-left: 5px;
+      vertical-align: top;
+    }
+  }
 }
