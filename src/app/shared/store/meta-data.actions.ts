@@ -1,3 +1,5 @@
+import { RateParameters } from '../models/rating';
+
 export class GetDirections {
   static readonly type = '[meta-data] Get Directions';
 }
@@ -23,7 +25,7 @@ export class ClearRatings {
 
 export class GetRateByEntityId {
   static readonly type = '[meta-data] get rate';
-  constructor(public enitityType: string, public entitytId: string) {}
+  constructor(public rateParameters: RateParameters) {}
 }
 
 export class GetFeaturesList {

@@ -3,17 +3,18 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 import { filter, takeUntil, tap } from 'rxjs/operators';
-import { AdminTabsTitle, AdminTabsUkr } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsTitles } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
 import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
 import { CompanyInformation, CompanyInformationSectionItem } from '../../../../../shared/models/сompanyInformation.model';
 import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
 import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../../shared/store/admin.state';
 import { AddNavPath } from '../../../../../shared/store/navigation.actions';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
+import { AdminTabTypes } from '../../../../../shared/enum/admins';
 
 @Component({
   selector: 'app-info-edit',
@@ -35,10 +36,10 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   PlatformInfoItemArray = new FormArray([]);
   platformInfoEditFormGroup: FormGroup;
   titleFormControl = new FormControl('', [Validators.required]);
-  editTitle: AdminTabsUkr;
+  editTitle: AdminTabsTitles;
   platformInfo: CompanyInformation;
 
-  platformInfoType: AdminTabsTitle;
+  platformInfoType: AdminTabTypes;
   isMainPage: boolean = false;
 
   constructor(
@@ -58,7 +59,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   private setInitialData(params: Params): void {
     this.editMode = !!params.mode;
     this.platformInfoType = params.param;
-    this.editTitle = AdminTabsUkr[this.platformInfoType];
+    this.editTitle = AdminTabsTitles[this.platformInfoType];
 
     this.editMode ? this.setEditMode() : this.onAddForm();
     this.addNavPath();
@@ -84,17 +85,17 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   setEditMode(): void {
     switch (this.platformInfoType) {
-      case AdminTabsTitle.AboutPortal:
+      case AdminTabTypes.AboutPortal:
         this.getAboutInfo();
         break;
-      case AdminTabsTitle.MainPage:
+      case AdminTabTypes.MainPage:
         this.getMainInfo();
         this.isMainPage = true;
         break;
-      case AdminTabsTitle.SupportInformation:
+      case AdminTabTypes.SupportInformation:
         this.getSupportInformation();
         break;
-      case AdminTabsTitle.LawsAndRegulations:
+      case AdminTabTypes.LawsAndRegulations:
         this.getLawsAndRegulations();
         break;
     }

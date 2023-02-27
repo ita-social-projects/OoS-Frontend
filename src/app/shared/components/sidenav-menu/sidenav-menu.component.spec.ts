@@ -13,6 +13,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
+import { DateAdapter } from '@angular/material/core';
 
 describe('SidenavComponent', () => {
   let component: SidenavMenuComponent;
@@ -34,7 +35,8 @@ describe('SidenavComponent', () => {
         BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],
-      declarations: [SidenavMenuComponent, MockSideNavNotificationsComponent]
+      declarations: [SidenavMenuComponent, MockSideNavNotificationsComponent],
+      providers: [DateAdapter]
     }).compileComponents();
   });
 

@@ -1,13 +1,15 @@
 <div class="notifications-list" (click)="stopPropagation($event)">
   <ng-container *ngIf="notificationsData$ | async as notificationsData">
     <div class="notifications-list__header">
-      <h3 class="notifications-list__title">{{'NOTIFICATIONS' | translate | uppercase}}</h3>
+      <h3 class="notifications-list__title">{{ 'NOTIFICATIONS' | translate | uppercase }}</h3>
       <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
         <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
-          Позначити всі як прочитані
+          {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
         </button>
-        <button mat-menu-item [disabled]="!(notifications.length || groupsByType.length)">Видалити всі</button>
+        <button mat-menu-item [disabled]="!(notifications.length || groupsByType.length)">
+          {{ 'NOTIFICATION_DETAILS.DELETE_ALL' | translate }}
+        </button>
       </mat-menu>
     </div>
 
@@ -19,7 +21,7 @@
 
 <ng-template #isEmptyList>
   <div class="no-message info info__description">
-    {{ NotificationsConstants.NO_MESSAGE }}
+    {{ NoResults | translate }}
   </div>
 </ng-template>
 
@@ -31,29 +33,30 @@
           *ngFor="let groupByType of groupsByType"
           #accordionGroupItem="cdkAccordionItem"
           role="button"
-          class="notification"
-        >
+          class="notification">
           <div [class]="groupByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
             <div
               class="header-notification header-notification__group-info"
-              (click)="accordionGroupItem.toggle(); onReadGroup(groupByType)"
-            >
+              (click)="accordionGroupItem.toggle(); onReadGroup(groupByType)">
               <div class="info">
-                <span class="info__description">У вас {{ groupByType.amount | translateCases: ApplicationHeaderDeclinations }}</span>
+                <span class="info__description"
+                  >{{ 'NOTIFICATION_DETAILS.YOU_HAVE' | translate }}
+                  {{ groupByType.amount | translateCases : ApplicationHeaderDeclinations }}</span
+                >
               </div>
             </div>
             <div
               [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
               [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
               role="region"
-              class="body-notification"
-            >
+              class="body-notification">
               <div
                 *ngFor="let group of groupByType.groupsByAdditionalData"
                 class="header-notification header-notification__group-details info"
-                (click)="onGroupByStatusClick(group)"
-              >
-                <span class="info__description info__link">{{ group.amount | translateCases: defineDeclination(group.groupedData) }}</span>
+                (click)="onGroupByStatusClick(group)">
+                <span class="info__description info__link">{{
+                  group.amount | translateCases : defineDeclination(group.groupedData)
+                }}</span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
             </div>
@@ -66,8 +69,7 @@
           #accordionItem="cdkAccordionItem"
           role="button"
           class="notification"
-          [disabled]="notification.data ? 'false' : 'true'"
-        >
+          [disabled]="notification.data ? 'false' : 'true'">
           <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
               <div class="header-notification__single-info info">
@@ -75,15 +77,16 @@
                 <span class="info__description">{{
                   getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data)
                 }}</span>
-                <h4 class="info__time">{{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}</h4>
+                <h4 class="info__time">
+                  {{ notification.createdDateTime | date : Constants.SHORT_TIME_24_HOUR_SYSTEM }}
+                </h4>
               </div>
             </div>
             <div
               [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
               [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
               role="region"
-              class="body-notification info info__description"
-            >
+              class="body-notification info info__description">
               <div class="body-notification__single">
                 {{ getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data) }}
               </div>

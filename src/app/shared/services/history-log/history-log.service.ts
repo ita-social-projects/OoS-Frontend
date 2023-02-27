@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { ApplicationHistory, FilterData, ProviderAdminHistory, ProviderHistory } from '../../models/history-log.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -32,11 +31,7 @@ export class HistoryLogService {
       params = params.set('SearchString', searchString);
     }
 
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    params = params.set('Size', size.toString()).set('From', from.toString());
+    params = params.set('Size', filters.size.toString()).set('From', filters.from.toString());
     return params;
   }
 

@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 import { ProviderStatusBannerComponent } from './provider-status-banner.component';
 import { Provider } from '../../models/provider.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('FullWidthBannerComponent', () => {
   let component: ProviderStatusBannerComponent;
@@ -10,7 +11,7 @@ describe('FullWidthBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([])],
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot()],
       declarations: [ProviderStatusBannerComponent]
     }).compileComponents();
 

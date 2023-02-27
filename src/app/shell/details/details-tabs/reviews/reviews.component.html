@@ -4,15 +4,14 @@
       <mat-icon class="star-icon">star</mat-icon> {{ workshop.rating }}
       <p class="rate-amount">({{ rating.totalAmount | translateCases: ReviewDeclination }})</p>
     </div>
-    <div
-      [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated"
-      [matTooltipDisabled]="!(isReviewed || !isAllowedToReview)">
+    <div [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated" [matTooltipDisabled]="!(isReviewed || !isAllowedToReview)">
       <button
         mat-raised-button
         class="button"
         (click)="onRate()"
         *ngIf="role !== Role.provider"
-        [disabled]="isReviewed || !isAllowedToReview">
+        [disabled]="isReviewed || !isAllowedToReview"
+      >
         <mat-icon class="button-icon">edit</mat-icon>
         {{ 'RATE' | translate }}
       </button>
@@ -25,15 +24,16 @@
         <p class="rate-author">{{ rate.firstName }} {{ rate.lastName }}</p>
         <p class="rate-date" fxLayout="row" fxLayoutAlign="start center">
           <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
-          {{ rate.creationTime | date : 'shortDate' }}
+          {{ rate.creationTime | date: 'shortDate' }}
         </p>
       </div>
       <app-paginator
         [totalEntities]="rating.totalAmount"
         [currentPage]="currentPage"
-        [itemsPerPage]="ratingPerPage"
+        [itemsPerPage]="rateParameters.size"
         (itemsPerPageChange)="itemsPerPageChange($event)"
-        (pageChange)="pageChange($event)">
+        (pageChange)="pageChange($event)"
+      >
       </app-paginator>
     </ng-container>
   </ng-container>

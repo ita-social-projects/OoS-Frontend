@@ -7,7 +7,8 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}" />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}"
+      />
     </div>
   </div>
 </div>
@@ -18,104 +19,92 @@
     <div class="wrapper-provider-list">
       <div class="wrapper-provider-list-container">
         <div class="table-container mat-elevation-z8">
-          <table
-            mat-table
-            [dataSource]="dataSource"
-            matSort
-            (matSortChange)="announceSortChange($event)"
-            appStretchTable>
+          <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
             <ng-container matColumnDef="fullTitle">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by fullTitle">
-                Назва закладу
+                {{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}
               </th>
-              <td mat-cell *matCellDef="let element">{{ element.fullTitle | emptyValueTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.fullTitle | emptyValueTransform | translate }}</td>
             </ng-container>
 
             <ng-container matColumnDef="ownership">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by ownership">
-                Форма власності
+                {{ 'FORMS.LABELS.OWNERSHIP' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <span>
-                  {{ OwnershipTypeEnum[element.ownership] | translate | emptyValueTransform }}
+                  {{ OwnershipTypeEnum[element.ownership] | emptyValueTransform | translate }}
                 </span>
               </td>
             </ng-container>
 
             <ng-container matColumnDef="edrpouIpn">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">ЄДРПО</th>
-              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform }}</td>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by edrpouIpn">
+                {{ 'FORMS.LABELS.EDRPO_IPN' | translate }}
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element.edrpouIpn | emptyValueTransform | translate }}</td>
             </ng-container>
 
             <ng-container matColumnDef="licence">
-              <th mat-header-cell *matHeaderCellDef>Ліцензія №</th>
-              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform }}</td>
+              <th mat-header-cell *matHeaderCellDef>{{ 'FORMS.LABELS.LICENSE' | translate }} №</th>
+              <td mat-cell *matCellDef="let element">{{ element.license | emptyValueTransform | translate }}</td>
             </ng-container>
 
             <ng-container matColumnDef="city">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by city">
-                Населений пункт
+                {{ 'FORMS.LABELS.SETTLEMENT' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform }}
+                {{ element.legalAddress?.codeficatorAddressDto?.settlement | emptyValueTransform | translate }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="street">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">Адреса</th>
+              <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by street">
+                {{ 'FORMS.LABELS.ADDRESS' | translate }}
+              </th>
               <td mat-cell *matCellDef="let element">
-                {{ element.legalAddress | getAddress : ModeConstants.SHORT | emptyValueTransform }}
+                {{ element.legalAddress | getAddress: ModeConstants.SHORT | emptyValueTransform | translate }}
               </td>
             </ng-container>
 
             <ng-container matColumnDef="email">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
-                Електронна пошта
+                {{ 'FORMS.LABELS.EMAIL' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">{{ element.email }}</td>
             </ng-container>
 
             <ng-container matColumnDef="phoneNumber">
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
-                Телефон
+                {{ 'FORMS.LABELS.PHONE' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>
-              <th
-                class="status-title"
-                mat-header-cell
-                *matHeaderCellDef
-                mat-sort-header
-                sortActionDescription="Sort by status">
-                Статус
+              <th class="status-title" mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+                {{ 'FORMS.LABELS.STATUS' | translate }}
               </th>
               <td mat-cell *matCellDef="let element">
                 <ng-container *ngIf="!element.isBlocked; else BlockStatus">
                   <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
                     <ng-container
-                      *ngTemplateOutlet="
-                        ProviderStatusTmpl;
-                        context: { $implicit: element.status, titles: providerStatusTitles }
-                      "></ng-container>
+                      *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: element.status, titles: providerStatusTitles }"
+                    ></ng-container>
                   </ng-container>
 
                   <ng-container *ngIf="element.ownership === ownershipTypes.Private">
                     <ng-container
-                      *ngTemplateOutlet="
-                        ProviderStatusTmpl;
-                        context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }
-                      "></ng-container>
+                      *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: element.licenseStatus, titles: licenseStatusTitles }"
+                    ></ng-container>
                   </ng-container>
                 </ng-container>
 
                 <ng-template #BlockStatus>
                   <ng-container
-                    *ngTemplateOutlet="
-                      ProviderStatusTmpl;
-                      context: { $implicit: blockedStatus, titles: blockedStatus }
-                    "></ng-container>
+                    *ngTemplateOutlet="ProviderStatusTmpl; context: { $implicit: blockedStatus, titles: blockedStatus }"
+                  ></ng-container>
                 </ng-template>
               </td>
             </ng-container>
@@ -139,16 +128,18 @@
                   <ng-container *ngIf="!element.isBlocked">
                     <ng-container *ngIf="element.ownership !== ownershipTypes.Private">
                       <button
-                        *ngIf="element.status !== statuses.Approved"
+                        *ngIf="element.status !== providerStatuses.Approved"
                         mat-menu-item
-                        (click)="onChangeStatus(element, statuses.Approved)">
-                        Підтвердити
+                        (click)="onChangeStatus(element, providerStatuses.Approved)"
+                      >
+                        {{ 'BUTTONS.CONFIRM' | translate }}
                       </button>
                       <button
-                        *ngIf="element.status !== statuses.Editing"
+                        *ngIf="element.status !== providerStatuses.Editing"
                         mat-menu-item
-                        (click)="onChangeStatus(element, statuses.Editing)">
-                        Відправити на редагування
+                        (click)="onChangeStatus(element, statuses.Editing)"
+                      >
+                        {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
                       </button>
                     </ng-container>
 
@@ -156,17 +147,19 @@
                       <button
                         *ngIf="element.licenseStatus === licenseStatuses.Pending"
                         mat-menu-item
-                        (click)="onLicenseApprove(element.id)">
-                        Підтвердити ліцензію закладу
+                        (click)="onLicenseApprove(element.id)"
+                      >
+                        {{ 'BUTTONS.CONFIRM_LICENSE' | translate }}
                       </button>
                     </ng-container>
                   </ng-container>
 
                   <button mat-menu-item (click)="onBlock(element)">
-                    {{ element.isBlocked ? 'Розблокувати' : 'Заблокувати' }} заклад
+                    {{ (element.isBlocked ? 'BUTTONS.BLOCK' : 'BUTTONS.UNBLOCK') | translate }}
+                    {{ 'ENUM.ROLE_LINKS.PROVIDER' | translate }}
                   </button>
 
-                  <button mat-menu-item (click)="onDelete(element)">Видалити</button>
+                  <button mat-menu-item (click)="onDelete(element)">{{ 'BUTTONS.DELETE' | translate }}</button>
                 </mat-menu>
               </td>
             </ng-container>
@@ -179,7 +172,8 @@
           <app-provider-info
             [provider]="provider"
             [isProviderView]="false"
-            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"></app-provider-info>
+            (closeInfo)="isInfoDisplayed = !isInfoDisplayed"
+          ></app-provider-info>
         </div>
       </div>
     </div>
@@ -187,9 +181,10 @@
       <app-paginator
         [totalEntities]="totalEntities"
         [currentPage]="currentPage"
-        [itemsPerPage]="tableItemsPerPage$ | async"
+        [itemsPerPage]="providerParameters.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
+        (itemsPerPageChange)="onItemsPerPageChange($event)"
+      >
       </app-paginator>
     </div>
   </ng-container>
@@ -202,6 +197,6 @@
 <ng-template #ProviderStatusTmpl let-status let-titles="titles">
   <div class="provider-list-status {{ status }}">
     <span> <i class="status-icon {{ statusIcons[status] }}"></i></span>
-    <span>{{ titles[status] || 'Заклад заблокований' }}</span>
+    <span>{{ titles[status] || 'ENUM.PROVIDER_STATUSES.BLOCK' | translate }}</span>
   </div>
 </ng-template>

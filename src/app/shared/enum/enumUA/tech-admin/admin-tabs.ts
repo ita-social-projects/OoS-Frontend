@@ -1,22 +1,6 @@
-export enum AdminTabsUkr {
-  AboutPortal = 'Про портал',
-  MainInformation = 'Головна сторінка',
-  Directions = 'Напрямки',
-  LawsAndRegulations = 'Нормативно-правові акти',
-  SupportInformation = 'Підтримка'
-}
-
-export enum AdminTabsTitle {
-  AboutPortal = 'AboutPortal',
-  MainPage = 'MainInformation',
-  Directions = 'Directions',
-  LawsAndRegulations = 'LawsAndRegulations',
-  SupportInformation = 'SupportInformation'
-}
-export enum AdminTabs {
-  AboutPortal,
-  MainPage,
-  Directions,
-  LawsAndRegulations,
-  SupportInformation
+export enum AdminTabsTitles {
+  AboutPortal = 'ENUM.NAV_BAR_NAME.PORTAL',
+  MainInformation = 'ENUM.NAV_BAR_NAME.MAIN_PAGE',
+  LawsAndRegulations = 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS',
+  SupportInformation = 'ENUM.NAV_BAR_NAME.SUPPORT'
 }

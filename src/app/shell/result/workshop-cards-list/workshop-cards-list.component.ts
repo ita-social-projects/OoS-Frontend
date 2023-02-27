@@ -6,10 +6,11 @@ import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../shared/enum/role';
 import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { GetFilteredWorkshops } from '../../../shared/store/filter.actions';
+import { GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
 import { FilterState } from '../../../shared/store/filter.state';
-import { OnPageChangeWorkshops } from '../../../shared/store/paginator.actions';
 import { SearchResponse } from '../../../shared/models/search.model';
+import { PaginationParameters } from '../../../shared/models/queryParameters.model';
+import { Util } from '../../../shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -21,11 +22,9 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   readonly Role = Role;
 
   @Input() workshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Input() currentPage: PaginationElement;
+  @Input() paginationParameters: PaginationParameters;
   @Input() role: string;
-  @Input() itemsPerPage: number;
-
-  @Output() itemsPerPageChange = new EventEmitter<number>();
+  @Input() currentPage: PaginationElement;
 
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
@@ -48,11 +47,21 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeWorkshops(page), new GetFilteredWorkshops()]);
+    this.getWorkshops();
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.paginationParameters.size = itemsPerPage;
+    this.getWorkshops();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private getWorkshops(): void {
+    Util.setFromPaginationParam(this.paginationParameters, this.currentPage, this.workshops?.totalAmount);
+    this.store.dispatch([new SetFilterPagination(this.paginationParameters), new GetFilteredWorkshops()]);
   }
 }

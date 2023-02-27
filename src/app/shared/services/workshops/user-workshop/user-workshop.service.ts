@@ -1,4 +1,4 @@
-import { ProviderWorkshopCard, WorkshopCard } from './../../../models/workshop.model';
+import { ProviderWorkshopCard, WorkshopCard, WorkshopCardParameters } from './../../../models/workshop.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
@@ -8,11 +8,12 @@ import { FeaturesList } from '../../../models/featuresList.model';
 import { MetaDataState } from '../../../store/meta-data.state';
 import { TruncatedItem } from '../../../models/item.model';
 import { SearchResponse } from '../../../models/search.model';
-import { PaginatorState } from '../../../store/paginator.state';
 import { PaginationElement } from '../../../models/paginationElement.model';
+import { ProviderParameters } from '../../../../shared/models/provider.model';
+import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class UserWorkshopService {
   isRelease3: boolean;
@@ -22,39 +23,37 @@ export class UserWorkshopService {
   /**
    * This method get related workshops for provider admins personal cabinet
    */
-  getProviderAdminsWorkshops(): Observable<SearchResponse<ProviderWorkshopCard[]>> {
-    let params = new HttpParams();
-    params = this.setPaginationWorkshopParams(params);
-    
+  getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+    let params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
+
     return this.http.get<SearchResponse<ProviderWorkshopCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
   }
 
   /**
    * This method get related workshops for provider personal cabinet
    */
-  getProviderViewWorkshops(id: string): Observable<SearchResponse<ProviderWorkshopCard[]>> {
-    let params = new HttpParams();
-    params = this.setPaginationWorkshopParams(params);
-    params.set('WorkshopId', id);
+  getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+    const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
 
     return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(
-      `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${id}`,
-      { params }
+      `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${workshopCardParameters.providerId}`,
+      {
+        params
+      }
     );
   }
 
   /**
    * This method get workshops by Provider id for details page
    */
-  getWorkshopsByProviderId(id: string, excludedWorkshopId?: string): Observable<SearchResponse<WorkshopCard[]>> {
-    let params = new HttpParams();
-    params = this.setPaginationWorkshopParams(params);
+  getWorkshopsByProviderId(providerParameters: ProviderParameters): Observable<SearchResponse<WorkshopCard[]>> {
+    let params = new HttpParams().set('From', providerParameters.from.toString()).set('Size', providerParameters.size.toString());
 
-    if (excludedWorkshopId) {
-      params.set('excludedWorkshopId', excludedWorkshopId);
+    if (providerParameters.excludedWorkshopId) {
+      params = params.set('excludedWorkshopId', providerParameters.excludedWorkshopId);
     }
 
-    return this.http.get<SearchResponse<WorkshopCard[]>>(`/api/v1/Workshop/GetByProviderId/${id}`, { params });
+    return this.http.get<SearchResponse<WorkshopCard[]>>(`/api/v1/Workshop/GetByProviderId/${providerParameters.providerId}`, { params });
   }
 
   /**
@@ -140,13 +139,5 @@ export class UserWorkshopService {
     });
 
     return formData;
-  }
-
-  private setPaginationWorkshopParams(params: HttpParams): HttpParams {
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.workshopsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    return params.set('From', from.toString()).set('Size', size.toString());
   }
 }

@@ -8,9 +8,9 @@
     <app-paginator
       [totalEntities]="workshops.totalAmount"
       [currentPage]="currentPage"
-      [itemsPerPage]="itemsPerPage"
+      [itemsPerPage]="paginationParameters.size"
       (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="itemsPerPageChange.emit($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)"
     >
     </app-paginator>
   </ng-container>

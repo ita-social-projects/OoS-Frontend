@@ -1,24 +1,27 @@
-import { EmailConfirmationStatuses, EmailConfirmationStatusesTitles } from './../../../../shared/enum/statuses';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import {
+    debounceTime, distinctUntilChanged, filter, skip, startWith, takeUntil
+} from 'rxjs/operators';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
-import { SearchResponse } from '../../../../shared/models/search.model';
+
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { UserTabsUkr, UserTabsUkrReverse } from '../../../../shared/enum/enumUA/tech-admin/users-tabs';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
+import { UserTabsTitles } from '../../../../shared/enum/enumUA/user';
+import { UserTabParams } from '../../../../shared/enum/role';
 import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { UsersTable } from '../../../../shared/models/usersTable';
 import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
-import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { OnPageChangeAdminTable, SetTableItemsPerPage } from '../../../../shared/store/paginator.actions';
-import { PaginatorState } from '../../../../shared/store/paginator.state';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -27,7 +30,7 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  readonly userRoleUkr = UserTabsUkr;
+  readonly UserTabsTitles = UserTabsTitles;
   readonly noUsers = NoResultsTitle.noUsers;
   readonly statusesTitles = EmailConfirmationStatusesTitles;
 
@@ -35,8 +38,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   children$: Observable<SearchResponse<Child[]>>;
-  @Select(PaginatorState.tableItemsPerPage)
-  tableItemsPerPage$: Observable<number>;
 
   filterFormControl = new FormControl('');
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -47,17 +48,21 @@ export class UsersComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',
-    tabTitle: undefined
+    isParent: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
   constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
+    this.getChildren();
+
     this.filterFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
-        this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+        this.currentPage = PaginationConstants.firstPage;
+        this.getChildren();
       });
 
     this.children$
@@ -70,14 +75,13 @@ export class UsersComponent implements OnInit, OnDestroy {
         this.totalEntities = children.totalAmount;
       });
 
-    this.store.dispatch([
-      new GetChildrenForAdmin(this.childrenParams),
+    this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Users,
         isActive: false,
         disable: true
       })
-    ]);
+    );
   }
 
   /**
@@ -85,28 +89,41 @@ export class UsersComponent implements OnInit, OnDestroy {
    * @param event: MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
-    this.filterFormControl.reset();
+    const tabIndex = event.index;
+    this.filterFormControl.reset('', { emitEvent: false });
     this.childrenParams.searchString = '';
-    this.childrenParams.tabTitle = event.tab.textLabel;
-    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+    if (tabIndex !== UserTabParams.all) {
+      this.childrenParams.isParent = UserTabParams.child !== tabIndex;
+    } else {
+      this.childrenParams.isParent = null;
+    }
+
+    this.currentPage = PaginationConstants.firstPage;
+    this.getChildren();
     this.router.navigate(['./'], {
       relativeTo: this.route,
-      queryParams: { role: UserTabsUkrReverse[event.tab.textLabel] }
+      queryParams: { role: UserTabParams[tabIndex] }
     });
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch([new OnPageChangeAdminTable(page), new GetChildrenForAdmin(this.childrenParams)]);
+    this.getChildren();
   }
 
   onTableItemsPerPageChange(itemsPerPage: number): void {
-    this.store.dispatch([new SetTableItemsPerPage(itemsPerPage), new GetChildrenForAdmin(this.childrenParams)]);
+    this.childrenParams.size = itemsPerPage;
+    this.getChildren();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
+  }
+
+  private getChildren(): void {
+    Util.setFromPaginationParam(this.childrenParams, this.currentPage, this.totalEntities);
+    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
   }
 }

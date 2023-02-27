@@ -15,7 +15,7 @@
       <h4>{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>
       <h4>{{ 'FORMS.LABELS.SEX' | translate }}</h4>
-      <p>{{ gender[user.gender] }}</p>
+      <p>{{ gender[user.gender] | translate}}</p>
     </ng-container>
   </div>
   <div class="config">

@@ -10,7 +10,7 @@
   <a
     [ngClass]="{ disable: hideApplicationSubmission }"
     [routerLink]="['/create-application', workshop.id]"
-    (click)="onOpenDialog()">
+    (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
     <button
       mat-raised-button
       class="button button-application"
@@ -25,7 +25,7 @@
     [ngClass]="{ disable: hideApplicationSubmission }"
     [routerLink]="['/personal-cabinet/messages/', workshop.id]"
     [queryParams]="{ mode: ModeConstants.WORKSHOP }"
-    (click)="onOpenDialog()">
+    (click)="onOpenDialog(ModalTypeAction.unregisteredMessageWarning)">
     <button mat-raised-button class="button button-msg">
       <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
     </button>
@@ -51,7 +51,7 @@
       class="button button-msg"
       fxLayout="row"
       fxLayoutAlign="center center"
-      (click)="role === Role.parent ? onLike() : onOpenDialog(true)">
+      (click)="role === Role.parent ? onLike() : onOpenDialog(ModalTypeAction.unregisteredFavoriteWarning)">
       <mat-icon>favorite_border</mat-icon>
       {{ 'ADD_TO_FAVORITES' | translate }}
     </button>

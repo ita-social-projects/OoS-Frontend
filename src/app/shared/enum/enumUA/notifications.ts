@@ -1,31 +1,31 @@
 export enum NotificationsProviderShortDescriptions {
-  Editing = 'Ваш заклад потребує редагування',
-  Approved = 'Вітаємо ваш заклад успішно погоджено',
+  Editing = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.EDITING',
+  Approved = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.APPROVED',
 }
 
 export enum NotificationWorkshopShortDescription {
-  Open = 'Набір успішно відкрито',
-  Closed = 'Набір успішно закрито',
+  Open = 'NOTIFICATION_DETAILS.WORKSHOP_SHORT_DESCRIPTION.OPEN',
+  Closed = 'NOTIFICATION_DETAILS.WORKSHOP_SHORT_DESCRIPTION.CLOSED',
 }
 
 export enum NotificationProviderLicenseShortDescription {
-  Approved = 'Ліцензія закладу успішно підтвердженна адміністратором',
-  Pending = 'Новий заклад очікує погодження ліцензії',
-  NotProvided = 'Новий заклад був зареєстрований без ліцензії',
+  Approved = 'NOTIFICATION_DETAILS.LICENSE_SHORT_DESCRIPTION.APPROVED',
+  Pending = 'NOTIFICATION_DETAILS.LICENSE_SHORT_DESCRIPTION.PENDING',
+  NotProvided = 'NOTIFICATION_DETAILS.LICENSE_SHORT_DESCRIPTION.NOT_PROVIDED',
 }
 
 export enum NotificationsProviderFullDescriptions {
-  Editing = 'Перегляньте причину редагування і відкорегуйте інформацію про заклад',
-  Approved = 'Ваш заклад успішно погоджений адміністратором. Тепер гуртки вашого закладу будуть відображатися на сайті.',
+  Editing = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.EDITING',
+  Approved = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.APPROVED',
 }
 
 export enum NotificationWorkshopFullDescriptions {
-  Open = 'Набір відкрито, тепер можна подати заявку до даного гуртка.',
-  Closed = 'Набір закрито, тепер не можна подати заявку до даного гуртка.',
+  Open = 'NOTIFICATION_DETAILS.WORKSHOP_FULL_DESCRIPTION.OPEN',
+  Closed = 'NOTIFICATION_DETAILS.WORKSHOP_FULL_DESCRIPTION.CLOSED',
 }
 
 export enum NotificationProviderLicenseFullDescription {
-  Approved = 'Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з\'\явиться значок підтвердження.',
-  Pending = 'Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з\'\явиться значок підтвердження.',
-  NotProvided = 'Отримавши статус затвердженої ліцензії, на сторінці попереднього перегляду закладу або гуртка з\'\явиться значок підтвердження.',
+  Approved = 'NOTIFICATION_DETAILS.LICENSE_FULL_DESCRIPTION.APPROVED',
+  Pending = 'NOTIFICATION_DETAILS.LICENSE_FULL_DESCRIPTION.PENDING',
+  NotProvided = 'NOTIFICATION_DETAILS.LICENSE_FULL_DESCRIPTION.NOT_PROVIDED',
 }

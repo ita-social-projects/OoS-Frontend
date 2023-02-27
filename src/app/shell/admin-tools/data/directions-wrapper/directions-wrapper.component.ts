@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 import { Institution } from '../../../../shared/models/institution.model';

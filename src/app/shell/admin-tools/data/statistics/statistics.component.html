@@ -1,28 +1,31 @@
 <div [formGroup]="filtersForm" class="statistics-filters">
   <div class="filter-wrapper">
-    <span class="title">Часовий проміжок</span>
-    <mat-form-field>
+    <span class="title">{{ 'STATISTICS.DATE_RANGE' | translate }}</span>
+    <mat-form-field floatLabel="never" appearance="none">
       <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period" class="control control-select select">
-        <mat-option [value]="StatisticPeriodType.WorkshopsDaily" class="dropdown-option">{{
-          StatisticPeriodTitle.WorkshopsDaily
-        }}</mat-option>
-        <mat-option [value]="StatisticPeriodType.WorkshopsYear" class="dropdown-option">{{
-          StatisticPeriodTitle.WorkshopsYear
-        }}</mat-option>
+        <ng-container *ngFor="let type of StatisticPeriodTitles | keyvalue">
+          <mat-option [value]="type.key" class="dropdown-option">
+            {{ StatisticPeriodTitles[type.key] | translate }}
+          </mat-option>
+        </ng-container>
       </mat-select>
     </mat-form-field>
   </div>
   <div class="filter-wrapper">
-    <span class="title">Формат</span>
+    <span class="title">{{ 'STATISTICS.FORMAT' | translate }}</span>
     <mat-form-field>
       <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="format" class="control control-select">
-        <mat-option [value]="StatisticFileFormat.CSV" class="dropdown-option">{{ StatisticFileFormat.CSV }}</mat-option>
-        <mat-option [value]="StatisticFileFormat.XLSX" class="dropdown-option">{{ StatisticFileFormat.XLSX }}</mat-option>
-        <mat-option [value]="StatisticFileFormat.HTML" class="dropdown-option">{{ StatisticFileFormat.HTML }}</mat-option>
+        <ng-container *ngFor="let format of StatisticFileFormats | keyvalue">
+          <mat-option [value]="format.key" class="dropdown-option">
+            {{ StatisticFileFormats[format.key] | translate }}
+          </mat-option>
+        </ng-container>
       </mat-select>
     </mat-form-field>
   </div>
-  <button class="btn" mat-raised-button (click)="onGenerateReport()">Згенерувати звіти</button>
+  <button class="btn" mat-raised-button (click)="onGenerateReport()">
+    {{ 'STATISTICS.GENERATE_REPORT' | translate }}
+  </button>
 </div>
 <ng-container [ngSwitch]="statisticReports?.totalAmount">
   <ng-container *ngSwitchCase="undefined" [ngTemplateOutlet]="noData"></ng-container>
@@ -33,8 +36,8 @@
 <ng-template #noData>
   <div class="statistics-result">
     <span
-      >У вас ще немає згенерованих звітів. <br />
-      Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут</span
+      >{{ 'STATISTICS.NO_DATA' | translate }} <br />
+      {{ 'STATISTICS.NO_DATA_SUBHEADER' | translate }}</span
     >
   </div>
 </ng-template>
@@ -48,30 +51,30 @@
     <div class="table-wrapper mat-elevation-z8">
       <table mat-table [dataSource]="statisticReports.entities">
         <ng-container matColumnDef="title">
-          <th mat-header-cell *matHeaderCellDef>Назва</th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.TITLE' | translate }}</th>
           <td mat-cell *matCellDef="let element">{{ element.title }}</td>
         </ng-container>
 
         <ng-container matColumnDef="fileFormat">
-          <th mat-header-cell *matHeaderCellDef>Формат</th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.FORMAT' | translate }}</th>
           <td mat-cell *matCellDef="let element">{{ element.reportDataType }}</td>
         </ng-container>
 
         <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef>Період</th>
-          <td mat-cell *matCellDef="let element">{{ StatisticPeriodTitle[element.reportType] }}</td>
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.PERIOD' | translate }}</th>
+          <td mat-cell *matCellDef="let element">{{ StatisticPeriodTitles[element.reportType] | translate }}</td>
         </ng-container>
 
         <ng-container matColumnDef="createDate">
-          <th mat-header-cell *matHeaderCellDef>Дата створення</th>
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.CREATE_DATE' | translate }}</th>
           <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
         </ng-container>
 
         <ng-container matColumnDef="actions">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let element">
-            <button class="btn btn-transparent" mat-strocked-button [routerLink]="'/api/v1/StatisticReport/GetDataById/' + element.id">
-              <mat-icon class="download-icon">get_app</mat-icon> Завантажити
+            <button class="btn btn-transparent" mat-strocked-button (click)="onLoadReport(element.externalStorageId)">
+              <mat-icon class="download-icon">get_app</mat-icon> {{ 'STATISTICS.DOWNLOAD' | translate }}
             </button>
           </td>
         </ng-container>
@@ -83,7 +86,7 @@
     <app-paginator
       [totalEntities]="statisticReports$ | async"
       [currentPage]="currentPage"
-      [itemsPerPage]="tableItemsPerPage$ | async"
+      [itemsPerPage]="statisticParameters.size"
       (pageChange)="onPageChange($event)"
       (itemsPerPageChange)="onItemsPerPageChange($event)"
     >

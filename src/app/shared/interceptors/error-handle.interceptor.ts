@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { ShowMessageBar } from '../store/app.actions';
-import { SnackbarText } from '../enum/messageBar';
 import { Store } from '@ngxs/store';
+import { SnackbarText } from '../enum/enumUA/messageBer';
 
 @Injectable()
 export class ErrorHandleInterceptor implements HttpInterceptor {

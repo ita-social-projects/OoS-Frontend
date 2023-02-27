@@ -1,7 +1,7 @@
 import { Input, OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { Constants } from '../../../../../shared/constants/constants';
-import { Gender } from '../../../../../shared/enum/gender';
+import { Gender } from '../../../../../shared/enum/enumUA/gender';
 import { Child } from '../../../../../shared/models/child.model';
 
 @Component({

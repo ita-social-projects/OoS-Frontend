@@ -1,31 +1,26 @@
 import { PaginationElement } from './../../models/paginationElement.model';
-import { PaginatorState } from './../../store/paginator.state';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { BlockProviderData, LicenseStatusData, Provider, ProviderStatusUpdateData } from '../../models/provider.model';
+import { BlockProviderData, LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../../models/provider.model';
 import { SearchResponse } from '../../models/search.model';
 import { DataItem } from '../../models/item.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProviderService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(searchString: string): HttpParams {
+  private setParams(providerParameters: ProviderParameters): HttpParams {
     let params = new HttpParams();
 
-    if (searchString) {
-      params = params.set('SearchString', searchString);
+    if (providerParameters.searchString) {
+      params = params.set('SearchString', providerParameters.searchString);
     }
 
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.directionsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    params = params.set('Size', size.toString()).set('From', from.toString());
+    params = params.set('Size', providerParameters.size.toString()).set('From', providerParameters.from.toString());
 
     return params;
   }
@@ -42,8 +37,8 @@ export class ProviderService {
    * This method get filtered Providers from the database
    * @param
    */
-  getFilteredProviders(searchString: string): Observable<SearchResponse<Provider[]>> {
-    const options = { params: this.setParams(searchString) };
+  getFilteredProviders(providerParameters: ProviderParameters): Observable<SearchResponse<Provider[]>> {
+    const options = { params: this.setParams(providerParameters) };
 
     return this.http.get<SearchResponse<Provider[]>>('/api/v1/Provider/GetByFilter', options);
   }

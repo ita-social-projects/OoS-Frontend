@@ -1,6 +1,6 @@
 <mat-card class="card" #childInfoBox id="child-box" [class.isMobile]="isMobile">
   <div fxLayout="column" fxLayoutAlign="center start">
-    <h3 class="title">{{ child.isParent ? 'PERSONAL_DATA' : ('CHILD_DATA' | translate) }}</h3>
+    <h3 class="title">{{ (child.isParent ? 'PERSONAL_DATA' : 'CHILD_DATA') | translate }}</h3>
 
     <div class="info-group" *ngIf="!child.isParent">
       <h4 class="textChildrenName">{{ childFullName }}</h4>
@@ -14,7 +14,7 @@
 
     <div class="info-group">
       <h5 class="text">{{ 'FORMS.LABELS.SEX' | translate }}:</h5>
-      <p>{{ gender[child.gender] }}</p>
+      <p>{{ gender[child.gender] | translate }}</p>
     </div>
     <ng-container *ngIf="!child.isParent">
       <div class="info-group">

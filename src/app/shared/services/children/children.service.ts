@@ -1,12 +1,13 @@
+import { Observable } from 'rxjs';
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+
 import { Child, ChildrenParameters, RequestParams } from '../../models/child.model';
+import { DataItem, TruncatedItem } from '../../models/item.model';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
-import { DataItem, TruncatedItem } from '../../models/item.model';
-import { PaginatorState } from '../../store/paginator.state';
 
 @Injectable({
   providedIn: 'root'
@@ -14,31 +15,24 @@ import { PaginatorState } from '../../store/paginator.state';
 export class ChildrenService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  private setParams(parameters?: ChildrenParameters, isParent?: boolean): HttpParams {
+  private setParams(parameters: ChildrenParameters): HttpParams {
     let params = new HttpParams();
 
     if (parameters) {
       if (parameters.searchString) {
         params = params.set('SearchString', parameters.searchString);
       }
-      if (parameters.tabTitle) {
-        if (parameters.tabTitle == 'Батьки') {
-          isParent = true;
-        }
-        if (parameters.tabTitle == 'Діти') {
-          isParent = false;
-        }
+
+      if (typeof parameters.isParent === 'boolean') {
+        params = params.set('isParent', parameters.isParent);
       }
 
-      if (isParent !== undefined) {
-        params = params.set('isParent', isParent.toString());
+      if (typeof parameters.isGetParent === 'boolean') {
+        params = params.set('isGetParent', parameters.isGetParent);
       }
+
+      params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
     }
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = this.store.selectSnapshot(PaginatorState.tableItemsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    params = params.set('Size', size.toString()).set('From', from.toString());
 
     return params;
   }
@@ -47,8 +41,8 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(): Observable<SearchResponse<Child[]>> {
-    const options = { params: this.setParams() };
+  getUsersChildren(params: ChildrenParameters): Observable<SearchResponse<Child[]>> {
+    const options = { params: this.setParams(params) };
 
     return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', options);
   }
@@ -70,8 +64,8 @@ export class ChildrenService {
   /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(paremeters: ChildrenParameters, isParent?: boolean): Observable<SearchResponse<Child[]>> {
-    const options = { params: this.setParams(paremeters, isParent) };
+  getChildrenForAdmin(paremeters: ChildrenParameters): Observable<SearchResponse<Child[]>> {
+    const options = { params: this.setParams(paremeters) };
 
     return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
   }

@@ -1,43 +1,42 @@
-import { ParentState } from './shared/store/parent.state.';
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './header/header.component';
-import { ShellModule } from './shell/shell.module';
+import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import localeUk from '@angular/common/locales/uk';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AppState } from './shared/store/app.state';
-import { FilterState } from './shared/store/filter.state';
-import { NgxsModule } from '@ngxs/store';
+import { FormsModule } from '@angular/forms';
+import { DateAdapter } from '@angular/material/core';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { environment } from './../environments/environment';
-import { FormsModule } from '@angular/forms';
-import { ShellComponent } from './shell/shell.component';
-import { MetaDataState } from './shared/store/meta-data.state';
-import { RegistrationModule } from './shared/modules/registration.module';
-import { RegistrationState } from './shared/store/registration.state';
-import { SharedModule } from './shared/shared.module';
-import { SharedUserState } from './shared/store/shared-user.state';
-import { NavigationState } from './shared/store/navigation.state';
-import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
-import { AdminState } from './shared/store/admin.state';
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
-import { NotificationsState } from './shared/store/notifications.state';
-import { PaginatorState } from './shared/store/paginator.state';
+import { NgxsModule } from '@ngxs/store';
+
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
 import { FooterComponent } from './footer/footer.component';
-import { MainPageState } from './shared/store/main-page.state';
+import { HeaderComponent } from './header/header.component';
 import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
-import { ProviderState } from './shared/store/provider.state';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorHandleInterceptor } from './shared/interceptors/error-handle.interceptor';
+import { RegistrationModule } from './shared/modules/registration.module';
+import { SharedModule } from './shared/shared.module';
+import { AdminState } from './shared/store/admin.state';
+import { AppState } from './shared/store/app.state';
 import { ChatState } from './shared/store/chat.state';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
-import { TranslateModule, TranslateLoader } from '@ngx-translate/core';
-import { TranslateHttpLoader } from '@ngx-translate/http-loader';
+import { FilterState } from './shared/store/filter.state';
+import { MainPageState } from './shared/store/main-page.state';
+import { MetaDataState } from './shared/store/meta-data.state';
+import { NavigationState } from './shared/store/navigation.state';
+import { NotificationsState } from './shared/store/notifications.state';
+import { ParentState } from './shared/store/parent.state.';
+import { ProviderState } from './shared/store/provider.state';
+import { RegistrationState } from './shared/store/registration.state';
+import { SharedUserState } from './shared/store/shared-user.state';
+import { ShellComponent } from './shell/shell.component';
+import { ShellModule } from './shell/shell.module';
 
 registerLocaleData(localeUk);
 
@@ -58,7 +57,6 @@ registerLocaleData(localeUk);
       AdminState,
       NavigationState,
       NotificationsState,
-      PaginatorState,
       MainPageState,
       ProviderState,
       ParentState,
@@ -76,13 +74,12 @@ registerLocaleData(localeUk);
     RegistrationModule,
     HttpClientModule,
     TranslateModule.forRoot({
-      defaultLanguage: 'uk',
       loader: {
         provide: TranslateLoader,
-        useFactory: (createTranslateLoader),
+        useFactory: createTranslateLoader,
         deps: [HttpClient]
       }
-    }),
+    })
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
@@ -98,11 +95,7 @@ registerLocaleData(localeUk);
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor() {
-    localStorage.setItem('ui-culture', 'uk');
-  }
-}
+export class AppModule {}
 
 export function createTranslateLoader(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');

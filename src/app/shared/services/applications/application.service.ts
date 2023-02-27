@@ -1,7 +1,6 @@
 import { ApplicationStatuses } from './../../enum/statuses';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { PaginatorState } from '../../store/paginator.state';
 import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
@@ -38,11 +37,7 @@ export class ApplicationService {
     }
     params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
 
-    const currentPage = this.store.selectSnapshot(PaginatorState.currentPage) as PaginationElement;
-    const size = parameters.size ? parameters.size : this.store.selectSnapshot(PaginatorState.applicationsPerPage);
-    const from = size * (+currentPage.element - 1);
-
-    params = params.set('Size', size.toString()).set('From', from.toString());
+    params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     return params;
   }

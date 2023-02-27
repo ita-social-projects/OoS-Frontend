@@ -17,7 +17,7 @@
         <app-provider-about [provider]="provider"></app-provider-about>
       </mat-tab>
       <mat-tab class="label" label="{{ tabTitles.OtherWorkshops | translate }}">
-        <app-all-provider-workshops (onGetWorkshops)="getWorkshops()"></app-all-provider-workshops>
+        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
       </mat-tab>
     </mat-tab-group>
   </div>

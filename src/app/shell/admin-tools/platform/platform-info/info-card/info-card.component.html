@@ -2,7 +2,9 @@
   <ng-container *ngIf="platformInfo; else noInfoTmpl">
     <div class="config">
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, 'edit']">
-        <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Редагувати</button>
+        <button mat-button style="color: #3849f9">
+          <mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}
+        </button>
       </a>
       <h3 *ngIf="platformInfo.title.length < 40">{{ platformInfo.title }}</h3>
       <h3 *ngIf="platformInfo.title.length >= 40" style="padding-top: 3rem">{{ platformInfo.title }}</h3>
@@ -16,10 +18,12 @@
   <ng-template #noInfoTmpl>
     <div class="config" fxLayout="column" fxLayoutAlign="center center">
       <a routerLink="edit" class="config_edit-icon" [routerLink]="['./update', type, '']">
-        <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>Додати інформацію</button>
+        <button mat-button style="color: #3849f9">
+          <mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.ADD_INFO' | translate }}
+        </button>
       </a>
       <div class="config-wrapper">
-        <h4>Інформації поки немає</h4>
+        <h4>{{ 'EMPTY_BANNERS.NO_INFO' | translate }}</h4>
       </div>
     </div>
   </ng-template>

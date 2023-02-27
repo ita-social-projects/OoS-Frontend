@@ -1,6 +1,7 @@
+import { PaginationParameters } from './queryParameters.model';
 import { Person } from './user.model';
 
-export interface ProviderAdminParameters {
+export interface ProviderAdminParameters extends PaginationParameters {
   deputyOnly: boolean;
   assistantsOnly: boolean;
   searchString?: string;
@@ -29,14 +30,7 @@ export class ProviderAdmin implements Person {
   returnUrl?: string;
   providerId?: string;
 
-  constructor(
-    info,
-    isDebuty: boolean,
-    userId?: string,
-    workshopIds?: string[],
-    providerId?: string,
-    accountStatus?: string
-  ) {
+  constructor(info, isDebuty: boolean, userId?: string, workshopIds?: string[], providerId?: string, accountStatus?: string) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;

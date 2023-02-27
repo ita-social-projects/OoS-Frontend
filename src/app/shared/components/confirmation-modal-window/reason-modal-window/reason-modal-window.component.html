@@ -1,16 +1,18 @@
 <div fxLayout="column" fxLayoutAlign="center center">
-  <h2 mat-dialog-title>{{ modalTitle }}</h2>
-  <p class="confirmation">{{ modalConfirmationText }}</p>
+  <h2 mat-dialog-title>{{ modalTitle | translate }}</h2>
+  <p class="confirmation">{{ modalConfirmationText | translate }}</p>
 
   <form fxLayout="column" class="reject-form">
-    <label class="step-label"> {{ modalConfirmationDescription }} <span class="step-required">*</span></label>
+    <label class="step-label"> {{ modalConfirmationDescription | translate }} <span class="step-required">*</span></label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
       <textarea
         matInput
         ng-focus="updateValue()"
         ng-blur="updateValue()"
         class="step-textarea"
-        placeholder="Максимум {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} символів"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
         [formControl]="ReasonFormControl"
         appTrimValue
       ></textarea>
@@ -26,8 +28,8 @@
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
     <button class="btn" mat-button [mat-dialog-close]="ReasonFormControl.value" [disabled]="!ReasonFormControl.valid" cdkFocusInitial>
-      ПІДТВЕРДИТИ
+      {{ 'BUTTONS.CONFIRM' | translate }}
     </button>
-    <button class="btn btn-cancel" mat-button (click)="onCancel()">СКАСУВАТИ</button>
+    <button class="btn btn-cancel" mat-button (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
   </mat-dialog-actions>
 </div>

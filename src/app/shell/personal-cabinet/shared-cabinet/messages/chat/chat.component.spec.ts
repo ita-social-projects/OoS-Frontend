@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { MockOidcSecurityService } from '../../../../../shared/mocks/mock-services';
@@ -16,7 +17,7 @@ describe('ChatComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ChatComponent, GetFullNamePipe],
-      imports: [RouterTestingModule, NgxsModule.forRoot([])],
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
       providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
     }).compileComponents();
 

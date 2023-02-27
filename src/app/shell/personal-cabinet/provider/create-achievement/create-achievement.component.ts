@@ -18,7 +18,7 @@ import { ConfirmationModalWindowComponent } from '../../../../shared/components/
 import { Constants } from '../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/navigation-bar';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { Role } from '../../../../shared/enum/role';
 import { Achievement, AchievementType } from '../../../../shared/models/achievement.model';
 import { Person } from '../../../../shared/models/user.model';

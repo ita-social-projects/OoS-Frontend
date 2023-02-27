@@ -1,10 +1,9 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
+import { ProviderStatusDetails, ProviderStatusTitles } from '../../enum/enumUA/statuses';
 import {
   ProviderStatuses,
-  ProviderStatusDetails,
-  ProviderStatusTitles,
   UserStatusIcons,
   UserStatuses,
 } from '../../enum/statuses';
