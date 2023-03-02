@@ -1,6 +1,6 @@
 import { Observable, Subject } from 'rxjs';
 import {
-    debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
+  debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
 } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -11,19 +11,19 @@ import { Select, Store } from '@ngxs/store';
 
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import {
-    ApplicationOptions, ProviderAdminOptions, ProviderOptions
+  ApplicationOptions, ProviderAdminOptions, ProviderOptions
 } from '../../../../shared/constants/drop-down';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 import {
-    ApplicationHistory, DropdownData, FilterData, ProviderAdminHistory, ProviderHistory
+  ApplicationHistory, DropdownData, FilterData, ProviderAdminHistory, ProviderHistory
 } from '../../../../shared/models/history-log.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import {
-    GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory
+  GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory
 } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
@@ -95,10 +95,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       );
     this.applicationHistory$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => {
-        console.log(applicationHistories);
-        this.totalAmount = applicationHistories.totalAmount;
-      });
+      .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
   }
 
   onTabChange(event: MatTabChangeEvent): void {
