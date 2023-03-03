@@ -1,32 +1,40 @@
+import { Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { takeUntil, filter } from 'rxjs/operators';
-import { Provider } from '../../../../shared/models/provider.model';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+
+import {
+  ConfirmationModalWindowComponent
+} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  ReasonModalWindowComponent
+} from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ApplicationStatuses } from '../../../../shared/enum/statuses';
+import { ApplicationEntityType } from '../../../../shared/enum/applications';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { Role } from '../../../../shared/enum/role';
-import { ApplicationFilterParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
-import { BlockedParent } from '../../../../shared/models/block.model';
+import { ApplicationStatuses } from '../../../../shared/enum/statuses';
 import {
-  BlockParent,
-  UnBlockParent,
-  GetProviderAdminWorkshops,
-  GetWorkshopListByProviderId
-} from '../../../../shared/store/provider.actions';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { GetApplicationsByPropertyId, UpdateApplication } from '../../../../shared/store/shared-user.actions';
-import { Observable } from 'rxjs';
+  Application, ApplicationFilterParameters, ApplicationUpdate
+} from '../../../../shared/models/application.model';
+import { BlockedParent } from '../../../../shared/models/block.model';
 import { TruncatedItem } from '../../../../shared/models/item.model';
+import { Provider } from '../../../../shared/models/provider.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import {
+  BlockParent, GetProviderAdminWorkshops, GetWorkshopListByProviderAdminId,
+  GetWorkshopListByProviderId, UnBlockParent
+} from '../../../../shared/store/provider.actions';
 import { ProviderState } from '../../../../shared/store/provider.state';
+import { RegistrationState } from '../../../../shared/store/registration.state';
+import {
+  GetApplicationsByPropertyId, UpdateApplication
+} from '../../../../shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { ApplicationEntityType } from '../../../../shared/enum/applications';
 
 @Component({
   selector: 'app-provider-applciations',
@@ -147,8 +155,14 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   }
 
   private getProviderWorkshops(): void {
-    if (this.subRole === Role.None) {
-      this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
+    switch (this.subRole) {
+      case Role.None:
+        this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
+        break;
+      case Role.ProviderAdmin:
+        this.store.dispatch(new GetWorkshopListByProviderAdminId(this.providerId));
+        break;
+      default:
     }
   }
 
