@@ -77,12 +77,16 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   init(): void {
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
-      if (this.subRole === Role.None) {
-        this.applicationParams.property = ApplicationEntityType.provider;
-        this.providerId = provider.id;
-      } else {
-        this.applicationParams.property = ApplicationEntityType.ProviderAdmin;
-        this.providerId = this.store.selectSnapshot(RegistrationState.user).id;
+      switch (this.subRole) {
+        case Role.None:
+          this.applicationParams.property = ApplicationEntityType.provider;
+          this.providerId = provider.id;
+          break;
+        case Role.ProviderDeputy:
+        case Role.ProviderAdmin:
+          this.applicationParams.property = ApplicationEntityType.ProviderAdmin;
+          this.providerId = this.store.selectSnapshot(RegistrationState.user).id;
+          break;
       }
       this.getProviderWorkshops();
     });
@@ -159,10 +163,10 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
       case Role.None:
         this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
         break;
+      case Role.ProviderDeputy:
       case Role.ProviderAdmin:
         this.store.dispatch(new GetWorkshopListByProviderAdminId(this.providerId));
         break;
-      default:
     }
   }
 
