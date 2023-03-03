@@ -44,9 +44,6 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
     this.loadDirectionInstitutionHierarchiesData();
   }
 
-  ngAfterViewInit(): void {
-  }
-
   private loadDirectionInstitutionHierarchiesData() {
     this.store.dispatch([new GetFieldDescriptionByInstitutionId(this.institution.id),
       new GetAllInstitutionsHierarchy()]);
@@ -56,9 +53,9 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
       distinctUntilChanged(),
       takeUntil(this.destroy$)
     ).subscribe((institutionFieldDesc: InstitutionFieldDescription[]) => {
-        this.columns = institutionFieldDesc.map((ins: InstitutionFieldDescription) => ins.title);
-        this.displayedColumns = [...this.columns, ...this.staticColumns];// = .push(...this.columns);//institutionFieldDesc.map((ins: InstitutionFieldDescription) => ins.title);//.unshift(...this.columns);
-      });
+      this.columns = institutionFieldDesc.map((ins: InstitutionFieldDescription) => ins.title);
+      this.displayedColumns = [...this.columns, ...this.staticColumns];
+    });
     this.institutionsHierarchies$.pipe(
       filter((institutiionHierarchies: InstituitionHierarchy[]) => !!institutiionHierarchies),
       distinctUntilChanged(),
