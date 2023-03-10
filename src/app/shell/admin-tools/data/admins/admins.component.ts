@@ -63,6 +63,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getAdmins();
     this.setTabOptions();
+    this.setDisplayedColumns();
 
     this.filterFormControl.valueChanges
       .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
@@ -81,7 +82,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
       this.role = role;
       this.setDisplayedColumns();
     });
-
+    
     this.addNavPath();
   }
 
@@ -206,7 +207,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   private getAdmins(): void {
-    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
-    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams))
+    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);;
   }
 }
