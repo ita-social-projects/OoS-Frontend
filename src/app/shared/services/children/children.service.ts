@@ -71,11 +71,19 @@ export class ChildrenService {
   }
 
   /**
-   * This method create Child
+   * This method create single Child
    * @param child: Child
    */
   createChild(child: Child): Observable<Child> {
     return this.http.post<Child>('/api/v1/Child/Create', child);
+  }
+
+  /**
+   * This method create array of Child
+   * @param children: Child[]
+   */
+  public createChildren(children: Child[]): Observable<Child[]> {
+    return this.http.post<Child[]>('/api/v1/Child/CreateChildren', children);
   }
 
   /**
