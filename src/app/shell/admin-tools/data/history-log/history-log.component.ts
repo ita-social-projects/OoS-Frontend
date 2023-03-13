@@ -1,28 +1,32 @@
+import { Observable, Subject } from 'rxjs';
+import {
+  debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
+} from 'rxjs/operators';
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, startWith, takeUntil, map, take } from 'rxjs/operators';
-import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import {
-  ApplicationHistory,
-  DropdownData,
-  FilterData,
-  ProviderAdminHistory,
-  ProviderHistory
-} from '../../../../shared/models/history-log.model';
-import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from '../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../shared/store/admin.state';
+
 import { PaginationConstants } from '../../../../shared/constants/constants';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { ProviderOptions, ProviderAdminOptions, ApplicationOptions } from '../../../../shared/constants/drop-down';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import {
+  ApplicationOptions, ProviderAdminOptions, ProviderOptions
+} from '../../../../shared/constants/drop-down';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { HistoryLogTypes } from '../../../../shared/enum/history.log';
+import {
+  ApplicationHistory, DropdownData, FilterData, ProviderAdminHistory, ProviderHistory
+} from '../../../../shared/models/history-log.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import {
+  GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory
+} from '../../../../shared/store/admin.actions';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -80,6 +84,18 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
           this.getTableData(searchString);
         }
       });
+
+    this.providersHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
+    this.providerAdminHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe(
+        (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
+      );
+    this.applicationHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
   }
 
   onTabChange(event: MatTabChangeEvent): void {
@@ -120,25 +136,14 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       case HistoryLogTypes.Providers:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
         this.dropdownData = ProviderOptions;
-        this.providersHistory$
-          .pipe(take(1))
-          .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
         break;
       case HistoryLogTypes.ProviderAdmins:
         this.store.dispatch([new GetProviderAdminHistory(filters, searchString)]);
         this.dropdownData = ProviderAdminOptions;
-        this.providerAdminHistory$
-          .pipe(take(1))
-          .subscribe(
-            (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
-          );
         break;
       case HistoryLogTypes.Applications:
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
         this.dropdownData = ApplicationOptions;
-        this.applicationHistory$
-          .pipe(take(1))
-          .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
         break;
     }
   }
