@@ -137,7 +137,7 @@
                       <button
                         *ngIf="element.status !== providerStatuses.Editing"
                         mat-menu-item
-                        (click)="onChangeStatus(element, statuses.Editing)"
+                        (click)="onChangeStatus(element, providerStatuses.Editing)"
                       >
                         {{ 'BUTTONS.CONFIRM_EDITING' | translate }}
                       </button>

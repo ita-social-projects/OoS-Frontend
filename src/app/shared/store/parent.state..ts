@@ -14,6 +14,7 @@ import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CreateApplication,
   CreateChildren,
+  CreateChild,
   CreateFavoriteWorkshop,
   CreateRating,
   DeleteChildById,
@@ -31,6 +32,8 @@ import {
   OnCreateApplicationSuccess,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
+  OnCreateChildFail,
+  OnCreateChildSuccess,
   OnCreateRatingFail,
   OnCreateRatingSuccess,
   OnDeleteChildFail,
@@ -275,10 +278,19 @@ export class ParentState {
     this.location.back();
   }
 
-  @Action(CreateChildren)
-  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Observable<void> | Child> {
+  @Action(CreateChild)
+  createChild({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChild): Observable<Observable<void> | Child> {
     return this.childrenService.createChild(payload).pipe(
-      tap(() => dispatch(new OnCreateChildrenSuccess())),
+      tap(() => dispatch(new OnCreateChildSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildFail(error))))
+    );
+  }
+
+  @Action(CreateChildren)
+  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Observable<void> | Child[]> {
+    const multipleChildren = payload.length > 1;
+    return this.childrenService.createChildren(payload).pipe(
+      tap(() => dispatch(new OnCreateChildrenSuccess(multipleChildren))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
     );
   }
@@ -289,10 +301,11 @@ export class ParentState {
   }
 
   @Action(OnCreateChildrenSuccess)
-  onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateChildrenSuccess): void {
+  onCreateChildrenSuccess({ dispatch }: StateContext<ParentStateModel>, { multipleChildren }: OnCreateChildrenSuccess): void {
+    const message = multipleChildren ? SnackbarText.createChildren : SnackbarText.createChild;
     dispatch([
       new ShowMessageBar({
-        message: SnackbarText.createChild,
+        message,
         type: 'success'
       }),
       new MarkFormDirty(false)

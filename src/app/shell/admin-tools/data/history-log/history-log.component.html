@@ -1,3 +1,5 @@
+111
+{{ totalAmount }}
 <div class="wrapper">
   <div class="filters-wrapper">
     <div class="search-area">
@@ -42,7 +44,7 @@
     <ng-container *ngIf="!(isLoadingCabinet$ | async)">
       <ng-container *ngIf="table?.totalAmount; else isEmptyList">
         <div class="table-wrapper">
-          <app-history-log-table [table]="table.entities" [tableTitle]="tableTitle"></app-history-log-table>
+          <app-history-log-table [table]="table.entities" [tableType]="tableTitle"></app-history-log-table>
         </div>
         <app-paginator
           [totalEntities]="table.totalAmount"
