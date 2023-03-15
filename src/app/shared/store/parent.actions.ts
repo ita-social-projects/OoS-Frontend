@@ -61,9 +61,24 @@ export class GetAllUsersChildrenByParentId {
   constructor(public payload: RequestParams) {}
 }
 
+export class CreateChild {
+  static readonly type = '[parent] create Child';
+  constructor(public payload: Child) {}
+}
+
+export class OnCreateChildFail {
+  static readonly type = '[parent] create Child fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnCreateChildSuccess {
+  static readonly type = '[parent] create Child success';
+  constructor() {}
+}
+
 export class CreateChildren {
   static readonly type = '[parent] create Children';
-  constructor(public payload: Child) {}
+  constructor(public payload: Child[]) {}
 }
 
 export class OnCreateChildrenFail {
@@ -73,7 +88,7 @@ export class OnCreateChildrenFail {
 
 export class OnCreateChildrenSuccess {
   static readonly type = '[parent] create Children success';
-  constructor() {}
+  constructor(public multipleChildren?: boolean) {}
 }
 
 export class DeleteChildById {

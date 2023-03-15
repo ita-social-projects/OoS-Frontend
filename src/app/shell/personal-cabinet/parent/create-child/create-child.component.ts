@@ -211,10 +211,8 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
         this.store.dispatch(new UpdateChild(child));
       } else {
-        this.ChildrenFormArray.controls.forEach((form: FormGroup) => {
-          const child: Child = new Child(form.value, parent.id);
-          this.store.dispatch(new CreateChildren(child));
-        });
+        const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
+        this.store.dispatch(new CreateChildren(controlsData));
       }
     }
   }
