@@ -1,3 +1,4 @@
+import { TruncatedItem } from './item.model';
 import { PaginationParameters } from './queryParameters.model';
 import { Person } from './user.model';
 
@@ -29,6 +30,7 @@ export class ProviderAdmin implements Person {
   accountStatus?: string;
   returnUrl?: string;
   providerId?: string;
+  workshopTitles?: TruncatedItem[];
 
   constructor(info, isDebuty: boolean, userId?: string, workshopIds?: string[], providerId?: string, accountStatus?: string) {
     this.email = info.email;

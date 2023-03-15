@@ -586,7 +586,7 @@ export class ProviderState {
     { providerId, providerAdmin }: UpdateProviderAdmin
   ): Observable<void | ProviderAdmin> {
     return this.providerAdminService.updateProviderAdmin(providerId, providerAdmin).pipe(
-      tap((res: ProviderAdmin) => dispatch(new OnUpdateProviderAdminSuccess(res))),
+      tap(() => dispatch(new OnUpdateProviderAdminSuccess(providerAdmin))),
       catchError((error: HttpErrorResponse) => dispatch(new OnUpdateProviderAdminFail(error)))
     );
   }
