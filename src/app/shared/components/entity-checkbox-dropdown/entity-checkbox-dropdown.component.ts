@@ -5,6 +5,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
+import { ChildDeclination, WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
 import { TruncatedItem } from '../../models/item.model';
 import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
 
@@ -16,42 +17,40 @@ import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Input() entities: TruncatedItem[];
-  @Input() declination;
-  @Input() labelByDefault;
+  @Input() declination: WorkshopDeclination | ChildDeclination;
+  @Input() labelByDefault: string;
   @Input() entityControl: FormControl = new FormControl();
   @Output() entityCheck = new EventEmitter<string[]>();
 
-  Declination;
-  ids: string[];
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private ids: string[];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private translateCases: TranslateCasesPipe) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.entityControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((entities: TruncatedItem[]) => {
         this.ids = entities.map((entity) => entity.id);
         this.entityCheck.emit(this.ids);
       });
-    this.Declination = this.declination;
   }
 
-  getLabelTitle(quantity: number): string {
-    let allChildrenDeclination;
-    let allApplicationsDeclination;
+  public getLabelTitle(quantity: number): string {
+    let allChildrenDeclination: string;
+    let allApplicationsDeclination: string;
 
-    if (this.Declination) {
-      allChildrenDeclination = this.Declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? 'ALL_CHILDREN' : '';
-      allApplicationsDeclination = this.Declination[0] === 'ENUM.WORKSHOP_DECLINATION.WORKSHOP' ? 'ALL_WORKSHOPS' : '';
+    if (this.declination) {
+      allChildrenDeclination = this.declination[0] === 'ENUM.CHILD_DECLINATION.CHILD' ? 'ALL_CHILDREN' : '';
+      allApplicationsDeclination = this.declination[0] === 'ENUM.WORKSHOP_DECLINATION.WORKSHOP' ? 'ALL_WORKSHOPS' : '';
     }
 
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
-    const selectedEntities = this.translateCases.transform(quantity, this.Declination);
+    const selectedEntities = this.translateCases.transform(quantity, this.declination);
     return quantity < 1 ? selectedEntities : this.labelByDefault || allEntities;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

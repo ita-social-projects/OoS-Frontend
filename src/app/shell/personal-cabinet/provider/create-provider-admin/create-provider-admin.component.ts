@@ -56,21 +56,21 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly providerAdminRole = ProviderAdminRole;
 
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+  public provider$: Observable<Provider>;
   @Select(ProviderState.truncated)
-  truncatedItems$: Observable<TruncatedItem[]>;
+  public truncatedItems$: Observable<TruncatedItem[]>;
   @Select(ProviderState.selectedProviderAdmin)
-  providerAdmin$: Observable<ProviderAdmin>;
+  public providerAdmin$: Observable<ProviderAdmin>;
 
-  provider: Provider;
-  ProviderAdminFormGroup: FormGroup;
-  providerRole: ProviderAdminRole;
-  managedWorkshopIds: string[];
-  providerAdminId: string;
-  isDeputy: boolean;
-  entityControl = new FormControl();
+  private provider: Provider;
+  private providerRole: ProviderAdminRole;
+  private providerAdminId: string;
 
-  formTitle: string;
+  public ProviderAdminFormGroup: FormGroup;
+  public managedWorkshopIds: string[];
+  public isDeputy: boolean;
+  public entityControl = new FormControl();
+  public formTitle: string;
 
   constructor(
     protected store: Store,
@@ -100,7 +100,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.determineEditMode();
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
@@ -110,7 +110,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
   }
 
-  determineEditMode(): void {
+  public determineEditMode(): void {
     this.providerAdminId = this.route.snapshot.paramMap.get('id');
     this.editMode = !!this.providerAdminId;
     this.formTitle = this.editMode ? ProviderAdminsFormTitlesEdit[this.providerRole] : ProviderAdminsFormTitlesNew[this.providerRole];
@@ -121,7 +121,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     }
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     combineLatest([this.providerAdmin$, this.truncatedItems$])
       .pipe(
         filter(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => !!(providerAdmin && allEntities)),
@@ -130,17 +130,16 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       .subscribe(([providerAdmin, allEntities]) => {
         this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
         this.entityControl.setValue(
-          allEntities.filter((entity: TruncatedItem) => {
-            const isChecked = !!providerAdmin.workshopTitles.filter((checkedEntity) => entity.id === checkedEntity.id).length;
-            return isChecked;
-          })
+          allEntities.filter((entity: TruncatedItem) =>
+            providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
+          )
         );
       });
 
     this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -171,21 +170,21 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     );
   }
 
-  onWorkshopsSelect(workshopsId: string[]): void {
+  public onWorkshopsSelect(workshopsId: string[]): void {
     this.managedWorkshopIds = workshopsId;
   }
 
-  checkValidation(form: FormGroup): void {
+  public checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
     });
   }
 
-  onBack(): void {
+  public onBack(): void {
     this.location.back();
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     let confirmationType: string;
 
     if (this.editMode) {
