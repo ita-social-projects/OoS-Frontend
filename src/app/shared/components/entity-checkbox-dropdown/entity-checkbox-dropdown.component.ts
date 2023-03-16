@@ -1,8 +1,6 @@
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
-import {
-  Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ChildDeclination, WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
@@ -16,11 +14,11 @@ import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
   providers: [TranslateCasesPipe]
 })
 export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
-  @Input() entities: TruncatedItem[];
-  @Input() declination: WorkshopDeclination | ChildDeclination;
-  @Input() labelByDefault: string;
-  @Input() entityControl: FormControl = new FormControl();
-  @Output() entityCheck = new EventEmitter<string[]>();
+  @Input() public entities: TruncatedItem[];
+  @Input() public declination: WorkshopDeclination | ChildDeclination;
+  @Input() public labelByDefault: string;
+  @Input() public entityControl: FormControl = new FormControl();
+  @Output() public entityCheck = new EventEmitter<string[]>();
 
   private ids: string[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
