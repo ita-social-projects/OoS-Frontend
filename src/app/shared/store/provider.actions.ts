@@ -1,11 +1,16 @@
-import { ProviderWorkshopCard, Workshop, WorkshopCardParameters, WorkshopStatus } from './../models/workshop.model';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Achievement, AchievementParameters } from '../models/achievement.model';
-import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
-import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
-import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
+
 import { ApplicationEntityType } from '../enum/applications';
+import { Achievement, AchievementParameters } from '../models/achievement.model';
+import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
+import {
+  LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData
+} from '../models/provider.model';
+import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { PaginationParameters } from '../models/queryParameters.model';
+import {
+  ProviderWorkshopCard, Workshop, WorkshopCardParameters, WorkshopStatus
+} from '../models/workshop.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -85,6 +90,11 @@ export class GetFilteredProviderAdmins {
 export class GetWorkshopListByProviderId {
   static readonly type = '[user] get Workshop List By Provider Id';
   constructor(public payload: string) {}
+}
+
+export class GetWorkshopListByProviderAdminId {
+  static readonly type = '[user] get Workshop List By Provider Admin Id';
+  constructor(public id: string) {}
 }
 
 export class CreateWorkshop {

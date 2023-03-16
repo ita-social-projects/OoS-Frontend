@@ -1,50 +1,52 @@
-import {
-  GetWorkshopListByProviderId,
-  UpdateProviderAdmin,
-  GetProviderAdminById,
-} from './../../../../shared/store/provider.actions';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { Select, Store } from '@ngxs/store';
-import { ActivatedRoute } from '@angular/router';
-import { Validators, ValidatorFn, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { filter, takeUntil } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
+import { combineLatest, Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
+
 import { Location } from '@angular/common';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+
+import {
+  ConfirmationModalWindowComponent
+} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../shared/constants/constants';
 import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../shared/constants/validation';
 import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
+import {
+  ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew
+} from '../../../../shared/enum/enumUA/provider-admin';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
 import { Role } from '../../../../shared/enum/role';
+import { TruncatedItem } from '../../../../shared/models/item.model';
+import { Provider } from '../../../../shared/models/provider.model';
 import { ProviderAdmin } from '../../../../shared/models/providerAdmin.model';
-import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import {
+  NavigationBarService
+} from '../../../../shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from '../../../../shared/store/navigation.actions';
-import { CreateProviderAdmin } from '../../../../shared/store/provider.actions';
+import {
+  CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin
+} from '../../../../shared/store/provider.actions';
+import { ProviderState } from '../../../../shared/store/provider.state';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Util } from '../../../../shared/utils/utils';
-import { Provider } from '../../../../shared/models/provider.model';
-import { TruncatedItem } from '../../../../shared/models/item.model';
-import { ProviderState } from '../../../../shared/store/provider.state';
-import {
-  ProviderAdminsFormTitlesEdit,
-  ProviderAdminsFormTitlesNew,
-} from '../../../../shared/enum/enumUA/provider-admin';
+import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.pattern(NAME_REGEX),
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
 ];
 
 @Component({
   selector: 'app-create-provider-admin',
   templateUrl: './create-provider-admin.component.html',
-  styleUrls: ['./create-provider-admin.component.scss'],
+  styleUrls: ['./create-provider-admin.component.scss']
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
@@ -54,20 +56,21 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   readonly providerAdminRole = ProviderAdminRole;
 
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+  public provider$: Observable<Provider>;
   @Select(ProviderState.truncated)
-  truncatedItems$: Observable<TruncatedItem[]>;
+  public truncatedItems$: Observable<TruncatedItem[]>;
   @Select(ProviderState.selectedProviderAdmin)
-  providerAdmin$: Observable<ProviderAdmin>;
+  public providerAdmin$: Observable<ProviderAdmin>;
 
-  provider: Provider;
-  ProviderAdminFormGroup: FormGroup;
-  providerRole: ProviderAdminRole;
-  managedWorkshopIds: string[];
-  providerAdminId: string;
-  isDeputy: boolean;
+  private provider: Provider;
+  private providerRole: ProviderAdminRole;
+  private providerAdminId: string;
 
-  formTitle: string;
+  public ProviderAdminFormGroup: FormGroup;
+  public managedWorkshopIds: string[];
+  public isDeputy: boolean;
+  public entityControl = new FormControl();
+  public formTitle: string;
 
   constructor(
     protected store: Store,
@@ -85,10 +88,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       middleName: new FormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, Validators.email])
     });
 
     this.providerRole = ProviderAdminRole[this.route.snapshot.paramMap.get('param')];
@@ -97,7 +100,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.subscribeOnDirtyForm(this.ProviderAdminFormGroup);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.determineEditMode();
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
@@ -107,12 +110,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
   }
 
-  determineEditMode(): void {
+  public determineEditMode(): void {
     this.providerAdminId = this.route.snapshot.paramMap.get('id');
     this.editMode = !!this.providerAdminId;
-    this.formTitle = this.editMode
-      ? ProviderAdminsFormTitlesEdit[this.providerRole]
-      : ProviderAdminsFormTitlesNew[this.providerRole];
+    this.formTitle = this.editMode ? ProviderAdminsFormTitlesEdit[this.providerRole] : ProviderAdminsFormTitlesNew[this.providerRole];
     this.addNavPath();
 
     if (this.editMode) {
@@ -120,16 +121,25 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     }
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
+    combineLatest([this.providerAdmin$, this.truncatedItems$])
+      .pipe(
+        filter(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => !!(providerAdmin && allEntities)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([providerAdmin, allEntities]) => {
+        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
+        this.entityControl.setValue(
+          allEntities.filter((entity: TruncatedItem) =>
+            providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
+          )
+        );
+      });
+
     this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
-    this.providerAdmin$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((providerAdmin: ProviderAdmin) =>
-        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false })
-      );
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -148,33 +158,33 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
             name: personalCabinetTitle,
             path: '/personal-cabinet/provider/administration',
             isActive: false,
-            disable: false,
+            disable: false
           },
           {
             name: navBarTitle,
             isActive: false,
-            disable: true,
+            disable: true
           }
         )
       )
     );
   }
 
-  onWorkshopsSelect(workshopsId: string[]): void {
+  public onWorkshopsSelect(workshopsId: string[]): void {
     this.managedWorkshopIds = workshopsId;
   }
 
-  checkValidation(form: FormGroup): void {
-    Object.keys(form.controls).forEach(key => {
+  public checkValidation(form: FormGroup): void {
+    Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
     });
   }
 
-  onBack(): void {
+  public onBack(): void {
     this.location.back();
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     let confirmationType: string;
 
     if (this.editMode) {
@@ -190,8 +200,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: confirmationType,
-      },
+        type: confirmationType
+      }
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
@@ -204,9 +214,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
           this.provider.id
         );
         this.store.dispatch(
-          this.editMode
-            ? new UpdateProviderAdmin(this.provider.id, providerAdmin)
-            : new CreateProviderAdmin(providerAdmin)
+          this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin)
         );
       }
     });
