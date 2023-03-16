@@ -617,6 +617,7 @@
       "DELETE_ADMIN": "Administrator deleted!",
       "BLOCK_ADMIN": "The administrator is blocked!",
       "CREATE_CHILD": "Thank you! Child has been successfully added.",
+      "CREATE_CHILDREN": "Thank you! Children have been successfully added.",
       "UPDATE_CHILD": "Child edited successfully",
       "DELETE_CHILD": "Child's data has been successfully deleted!",
       "CREATE_ACHIEVEMENT": "New achievement added!",
