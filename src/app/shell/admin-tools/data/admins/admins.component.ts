@@ -1,7 +1,7 @@
 import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
 import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
+import { BlockMinistryAdminById, BlockRegionAdminById, DeleteMinistryAdminById, DeleteRegionAdminById, GetAllMinistryAdmins, GetAllRegionAdmins } from './../../../../shared/store/admin.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -39,6 +39,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   @Select(AdminState.ministryAdmins)
   ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
+  @Select(AdminState.regionAdmins)
+  regionAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(RegistrationState.role)
@@ -47,6 +49,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   tabIndex: number;
   filterFormControl: FormControl = new FormControl('');
   ministryAdminsTable: UsersTable[];
+  regionAdminsTable: UsersTable[];
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
@@ -61,8 +64,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.getAdmins();
     this.setTabOptions();
+    this.getAdmins();
     this.setDisplayedColumns();
 
     this.filterFormControl.valueChanges
@@ -76,6 +79,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.ministryAdmins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {
       this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
       this.totalEntities = ministryAdmins.totalAmount;
+    });
+    this.regionAdmins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((regionAdmins: SearchResponse<MinistryAdmin[]>) => {
+      this.regionAdminsTable = Util.updateStructureForTheTableAdmins(regionAdmins.entities);
+      this.totalEntities = regionAdmins.totalAmount;
     });
 
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => {
@@ -94,6 +101,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.currentPage = PaginationConstants.firstPage;
     this.filterFormControl.reset();
     this.adminParams.searchString = '';
+    this.adminParams.from = 0;
     this.adminParams.tabTitle = AdminRoleTypes[event.index];
     this.getAdmins();
     this.router.navigate(['./'], {
@@ -148,14 +156,40 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
+      result && this.blockAdmin(admin, this.adminParams.tabTitle as AdminRoles);
+    });
+
+  }
+
+  private blockAdmin(blockData: BlockData, admin: AdminRoles): void{
+    switch(admin){
+      case AdminRoles.regionAdmin: {
         this.store.dispatch(
-          new BlockMinistryAdminById({
-            ministryAdminId: admin.user.id,
-            isBlocked: admin.isBlocked
+          new BlockRegionAdminById({
+            adminId: blockData.user.id,
+            isBlocked: blockData.isBlocked
           })
         );
-    });
+        break;
+      }
+      case AdminRoles.ministryAdmin: {
+        this.store.dispatch(
+          new BlockMinistryAdminById({
+            adminId: blockData.user.id,
+            isBlocked: blockData.isBlocked
+          })
+        );
+        break;
+      }
+      default :{
+        this.store.dispatch(
+          new BlockMinistryAdminById({
+            adminId: blockData.user.id,
+            isBlocked: blockData.isBlocked
+          })
+        );
+      }
+    }
   }
 
   /**
@@ -171,12 +205,28 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteMinistryAdminById(admin.id));
+      result && this.deleteAdmin(admin.id, this.adminParams.tabTitle as AdminRoles)
     });
   }
 
+  private deleteAdmin(id: string, admin: AdminRoles): void {
+    switch(admin){
+      case AdminRoles.regionAdmin: {
+        this.store.dispatch(new DeleteRegionAdminById(id));
+        break;
+      }
+      case AdminRoles.ministryAdmin: {
+        this.store.dispatch(new DeleteMinistryAdminById(id));
+        break;
+      }
+      default :{
+        this.store.dispatch(new DeleteMinistryAdminById(id));
+      }
+    }
+  }
+
   onUpdate(admin: UsersTable): void {
-    this.router.navigate([`update-admin/ministryAdmin/${admin.id}`]);
+    this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
   }
 
   private addNavPath(): void {
@@ -207,7 +257,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   private getAdmins(): void {
-    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
-    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
+    if(this.adminParams.tabTitle === AdminRoles.regionAdmin) {
+      this.store.dispatch(new GetAllRegionAdmins(this.adminParams));
+      Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
+    } else {
+      this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
+      Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
+    }
   }
 }

@@ -354,7 +354,8 @@
       "TEACHERS": "Teacher/Coach",
       "DATE": "Date",
       "ACHIEVEMENT_DESCRIPTION": "Achievement description",
-      "RADIUS": "Radius (km)"
+      "RADIUS": "Radius (km)",
+      "REGION": "Region"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -373,6 +374,7 @@
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION" : "Select subordination",
+      "SELECT_REGION" : "Select region",
       "SELECT_TEACHER": "Select teachers/coaches",
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",

@@ -35,7 +35,7 @@
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: ministryAdminsTable }"> </ng-container>
       </mat-tab>
       <mat-tab label="{{ AdminRolesTitles.regionAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList"> </ng-container>
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: regionAdminsTable }"> </ng-container>
       </mat-tab>
       <mat-tab label="{{ AdminRolesTitles.territorialCommunityAdmin | translate }}">
         <ng-container *ngTemplateOutlet="AdminsList"> </ng-container>

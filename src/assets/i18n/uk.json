@@ -354,7 +354,8 @@
       "TEACHERS": "Тренер/Викладач",
       "DATE": "Дата",
       "ACHIEVEMENT_DESCRIPTION": "Опис досягнення",
-      "RADIUS": "Радіус (км)"
+      "RADIUS": "Радіус (км)",
+      "REGION": "Область"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -373,6 +374,7 @@
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION" : "Оберіть підпорядкування",
+      "SELECT_REGION" : "Оберіть область",
       "SELECT_TEACHER": "Обрати тренера/викладача",
       "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
       "SELECT_OWNERSHIP": "Оберіть форму власності",

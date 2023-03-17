@@ -24,6 +24,12 @@
       ],
       "shared-constants/*": [
         "src/app/shared/constants/*"
+      ],
+      "shared-store/*": [
+        "src/app/shared/store/*"
+      ],
+      "shared-utils/*": [
+        "src/app/shared/utils/*"
       ]
     },
     "baseUrl": "./",

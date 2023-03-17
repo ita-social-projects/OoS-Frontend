@@ -299,9 +299,9 @@ export class MetaDataState {
   }
 
   @Action(GetCodeficatorSearch)
-  getCodeficatorSearch({ patchState }: StateContext<MetaDataStateModel>, { payload }: GetCodeficatorSearch): Observable<Codeficator[]> {
+  getCodeficatorSearch({ patchState }: StateContext<MetaDataStateModel>, { name, categories }: GetCodeficatorSearch): Observable<Codeficator[]> {
     patchState({ isLoading: true });
-    return this.codeficatorService.searchCodeficator(payload).pipe(
+    return this.codeficatorService.searchCodeficator(name, categories).pipe(
       tap((codeficatorSearch: Codeficator[]) => {
         patchState({
           codeficatorSearch: codeficatorSearch ?? [{ settlement: Constants.NO_SETTLEMENT } as Codeficator],

@@ -5,7 +5,9 @@ module.exports = {
     '^shared-components/(.*)$': '<rootDir>/src/app/shared/components/$1',
     '^shared-enum/(.*)$': '<rootDir>/src/app/shared/enum/$1',
     '^shared-models/(.*)$': '<rootDir>/src/app/shared/models/$1',
-    '^shared-constants/(.*)$': '<rootDir>/src/app/shared/constants/$1'
+    '^shared-constants/(.*)$': '<rootDir>/src/app/shared/constants/$1',
+    '^shared-store/(.*)$': '<rootDir>/src/app/shared/store/$1',
+    '^shared-utils/(.*)$': '<rootDir>/src/app/shared/utils/$1'
   },
   "preset": "jest-preset-angular",
   "setupFilesAfterEnv": [

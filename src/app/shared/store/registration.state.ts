@@ -34,6 +34,8 @@ import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.
 import { ModeConstants } from '../constants/constants';
 import { Location } from '@angular/common';
 import { SnackbarText } from '../enum/enumUA/messageBer';
+import { RegionAdminService } from '../services/region-admin/region-admin.service';
+import { RegionAdmin } from '../models/regionAdmin.model';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
@@ -43,6 +45,7 @@ export interface RegistrationStateModel {
   provider: Provider;
   parent: Parent;
   techAdmin: TechAdmin;
+  regionAdmin: RegionAdmin;
   ministryAdmin: MinistryAdmin;
   role: Role;
   subrole: Role;
@@ -58,6 +61,7 @@ export interface RegistrationStateModel {
     provider: undefined,
     parent: undefined,
     techAdmin: undefined,
+    regionAdmin: undefined,
     ministryAdmin: undefined,
     role: Role.unauthorized,
     subrole: null,
@@ -113,6 +117,7 @@ export class RegistrationState {
     private providerService: ProviderService,
     private parentService: ParentService,
     private techAdminService: TechAdminService,
+    private regionAdminService: RegionAdminService,
     private router: Router,
     private ministryAdminService: MinistryAdminService,
     private location: Location
@@ -190,6 +195,10 @@ export class RegistrationState {
         return this.techAdminService
           .getProfile()
           .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
+      case Role.regionAdmin:
+        return this.regionAdminService
+          .getRegionAdminProfile()
+          .pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
       case Role.ministryAdmin:
         return this.ministryAdminService
           .getMinistryAdminProfile()

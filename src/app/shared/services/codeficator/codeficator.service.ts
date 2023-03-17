@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Codeficator, CodeficatorCityDistrict } from '../../models/codeficator.model';
+import { CodeficatorCategories } from '../../enum/codeficator-categories';
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +15,14 @@ export class CodeficatorService {
    * This method to get all Codeficators from the database
    * @param settlement string
    */
-  searchCodeficator(settlement: string): Observable<Codeficator[]> {
-    return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}`);
+  searchCodeficator(settlement: string, categories?: CodeficatorCategories[]): Observable<Codeficator[]> {
+    if(!categories){
+      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}`);
+    } else {
+      const categoriesParam = categories?.join("");
+  
+      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}&Categories=${categoriesParam}`);
+    }
   }
 
   /**
