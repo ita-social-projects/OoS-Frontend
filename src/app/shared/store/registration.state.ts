@@ -197,11 +197,11 @@ export class RegistrationState {
           .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       case Role.regionAdmin:
         return this.regionAdminService
-          .getRegionAdminProfile()
+          .getAdminProfile()
           .pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
       case Role.ministryAdmin:
         return this.ministryAdminService
-          .getMinistryAdminProfile()
+          .getAdminProfile()
           .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
       default:
         return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));

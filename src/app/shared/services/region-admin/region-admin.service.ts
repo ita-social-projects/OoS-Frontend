@@ -1,90 +1,72 @@
 import { Observable } from 'rxjs';
-import { HttpClient, HttpParams } from '@angular/common/http';
+
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { SearchResponse } from '../../models/search.model';
+
+import { AdminRoles } from 'shared/enum/admins';
+import { BaseAdminService } from '../base-admin/base-admin';
 import { RegionAdmin, RegionAdminParameters } from '../../models/regionAdmin.model';
-import { PaginationConstants } from '../../constants/constants';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RegionAdminService {
-  constructor(private http: HttpClient) { }
-
-  private setParams(parameters: RegionAdminParameters = { searchString: '' }): HttpParams {
-    let params = new HttpParams();
-
-    if (parameters.searchString) {
-      params = params.set('SearchString', parameters.searchString);
-    }
-
-    const size = parameters?.size?.toString() || PaginationConstants.TABLE_ITEMS_PER_PAGE;
-    const from = parameters?.from?.toString() || "0";
-
-    params = params.set('Size', size).set('From', from);
-
-    return params;
+export class RegionAdminService extends BaseAdminService {
+  constructor(protected http: HttpClient) {
+    super(http, AdminRoles.regionAdmin);
   }
 
   /**
    * This method get Profile of authorized RegionAdmin
    */
-  getRegionAdminProfile(): Observable<RegionAdmin> {
-    return this.http.get<RegionAdmin>('/api/v1/RegionAdmin/Profile');
+  getAdminProfile(): Observable<RegionAdmin> {
+    return <Observable<RegionAdmin>>super.getAdminProfile();
   }
 
   /**
    * This method get Region Admin by Id
    * * @param regionAdminId: string
    */
-  getRegionAdminById(regionAdminId: string): Observable<RegionAdmin> {
-    let params = new HttpParams().set('id', `${regionAdminId}`);
-
-    return this.http.get<RegionAdmin>('/api/v1/RegionAdmin/GetById', { params });
+  getAdminById(regionAdminId: string): Observable<RegionAdmin> {
+    return <Observable<RegionAdmin>>super.getAdminById(regionAdminId);
   }
 
   /**
    * This method get All Region Admins
    */
-  getAllRegionAdmin(parameters: RegionAdminParameters): Observable<SearchResponse<RegionAdmin[]>> {
-    const options = { params: this.setParams(parameters) };
-
-    return this.http.get<SearchResponse<RegionAdmin[]>>('/api/v1/RegionAdmin/GetByFilter', options);
+  getAllAdmin(parameters: RegionAdminParameters): Observable<SearchResponse<RegionAdmin[]>> {
+    return <Observable<SearchResponse<RegionAdmin[]>>>super.getAllAdmin(parameters);
   }
 
   /**
    * This method create Region Admin
-   * @param RegionAdmin: RegionAdmin
+   * @param regionAdmin: RegionAdmin
    */
-  createRegionAdmin(RegionAdmin: RegionAdmin): Observable<RegionAdmin> {
-    return this.http.post<RegionAdmin>('/api/v1/RegionAdmin/Create', RegionAdmin);
+  createAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
+    return <Observable<RegionAdmin>>super.createAdmin(regionAdmin);
   }
 
   /**
    * This method delete Region Admin by id
-   * @param RegionAdminId: string
+   * @param regionAdminId: string
    */
-  deleteRegionAdmin(RegionAdminId: string): Observable<void> {
-    let params = new HttpParams().set('RegionAdminId', `${RegionAdminId}`);
-
-    return this.http.delete<void>('/api/v1/RegionAdmin/Delete', { params });
+  deleteAdmin(regionAdminId: string): Observable<void> {
+    return super.deleteAdmin(regionAdminId);
   }
 
   /**
    * This method block Region Admin
-   * @param RegionAdminId: string
+   * @param regionAdminId: string
    */
-  blockRegionAdmin(RegionAdminId: string, isBlocked: boolean): Observable<void> {
-    let params = new HttpParams().set('RegionAdminId', `${RegionAdminId}`).set('isBlocked', `${isBlocked}`);
-
-    return this.http.put<void>('/api/v1/RegionAdmin/Block', {}, { params });
+  blockAdmin(regionAdminId: string, isBlocked: boolean): Observable<void> {
+    return super.blockAdmin(regionAdminId, isBlocked);
   }
 
   /**
    * This method update Region Admin
-   * @param RegionAdmin: RegionAdmin
+   * @param regionAdmin: RegionAdmin
    */
-  updateRegionAdmin(RegionAdmin: RegionAdmin): Observable<RegionAdmin> {
-    return this.http.put<RegionAdmin>('/api/v1/RegionAdmin/Update', RegionAdmin);
+  updateAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
+    return <Observable<RegionAdmin>>super.updateAdmin(regionAdmin);
   }
 }
