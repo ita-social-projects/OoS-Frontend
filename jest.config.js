@@ -1,4 +1,12 @@
 module.exports = {
+  "moduleNameMapper": {
+    '^shared/(.*)$': '<rootDir>/src/app/shared/$1',
+    '^shared-services/(.*)$': '<rootDir>/src/app/shared/services/$1',
+    '^shared-components/(.*)$': '<rootDir>/src/app/shared/components/$1',
+    '^shared-enum/(.*)$': '<rootDir>/src/app/shared/enum/$1',
+    '^shared-models/(.*)$': '<rootDir>/src/app/shared/models/$1',
+    '^shared-constants/(.*)$': '<rootDir>/src/app/shared/constants/$1'
+  },
   "preset": "jest-preset-angular",
   "setupFilesAfterEnv": [
     "<rootDir>/setup-jest.ts"

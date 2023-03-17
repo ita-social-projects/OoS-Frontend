@@ -5,7 +5,27 @@
     "emitDecoratorMetadata": true,
     "types": [
       "jest"
-  ],
+    ],
+    "paths": {
+      "shared/*": [
+        "src/app/shared/*"
+      ],
+      "shared-services/*": [
+        "src/app/shared/services/*"
+      ],
+      "shared-components/*": [
+        "src/app/shared/components/*"
+      ],
+      "shared-enum/*": [
+        "src/app/shared/enum/*"
+      ],
+      "shared-models/*": [
+        "src/app/shared/models/*"
+      ],
+      "shared-constants/*": [
+        "src/app/shared/constants/*"
+      ]
+    },
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "sourceMap": true,
