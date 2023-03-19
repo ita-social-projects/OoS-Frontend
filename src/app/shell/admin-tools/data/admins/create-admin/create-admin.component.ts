@@ -84,16 +84,18 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       ]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       institution: new FormControl('', Validators.required),
-      region: new FormControl('', [Validators.required]),
       email: new FormControl('', [Validators.required, Validators.email])
     });
 
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
     this.subscribeOnDirtyForm(this.AdminFormGroup);
-    this.initRegionListener();
+    if(this.isRegionAdmin) {
+      this.AdminFormGroup.addControl('region', new FormControl('', [Validators.required]));
+      this.initRegionListener();
+    }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.formTitle = this.editMode
       ? AdminsFormTitlesEdit[this.adminRole]
       : AdminsFormTitlesNew[this.adminRole];
@@ -102,8 +104,16 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.determineEditMode();
   }
 
+  public get regionFormControl(): FormControl {
+    return <FormControl>this.AdminFormGroup.get('region');
+  }
+
+  public get institutionFormControl(): FormControl {
+    return <FormControl>this.AdminFormGroup.get('institution');
+  }
+
   private initRegionListener(): void {
-    this.AdminFormGroup.get('region').valueChanges
+    this.regionFormControl.valueChanges
       .pipe(
         debounceTime(500),
         distinctUntilChanged(),
@@ -127,7 +137,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     return codeficator.region || codeficator.fullName || codeficator.settlement;
   }
 
-  determineEditMode(): void {
+  public determineEditMode(): void {
     this.editMode = Boolean(this.route.snapshot.paramMap.get('id'));
     this.addNavPath();
 
@@ -137,10 +147,10 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public get isRegionAdmin(): boolean {
-    return this.adminRole === AdminRoles.regionAdmin
+    return this.adminRole === AdminRoles.regionAdmin;
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     this.adminId = this.route.snapshot.paramMap.get('id');
     if(this.isRegionAdmin) {
       this.store.dispatch(new GetRegionAdminById(this.adminId));
@@ -155,32 +165,34 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       )
       .subscribe((admin: BaseAdmin) => {
         this.AdminFormGroup.patchValue(admin, { emitEvent: false });
-        this.AdminFormGroup.get('institution').setValue(
+        this.institutionFormControl.setValue(
           {
             id: admin.institutionId,
             title: admin.institutionTitle
           },
           { emitEvent: false }
         );
-          if(this.adminRole === AdminRoles.regionAdmin) {
-            const regAdmin = admin as RegionAdmin;
-
-            this.AdminFormGroup.get('region').setValue(
-              {
-                id: regAdmin.catottgId,
-                fullName: regAdmin.catottgName
-              },
-              { emitEvent: false }
-            );
-          }
+        if(this.isRegionAdmin) {
+          this.fillRegion(<RegionAdmin>admin)
+        }
       });
   }
 
-  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+  private fillRegion(admin: RegionAdmin): void {
+      this.regionFormControl.setValue(
+        {
+          id: admin.catottgId,
+          fullName: admin.catottgName
+        },
+        { emitEvent: false }
+      );
+  }
+
+  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
     return institution1.id === institution2.id;
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -204,11 +216,11 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     );
   }
 
-  onBack(): void {
+  public onBack(): void {
     this.location.back();
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -216,25 +228,31 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {      
-      if (result) {
-        this.saveAdmin();
-      }
+    dialogRef.afterClosed().pipe(filter((result: boolean)=>result)).subscribe(() => {      
+      this.saveAdmin();
     });
   }
 
   private saveAdmin(): void {
     if (this.isRegionAdmin) {      
+      this.saveRegionAdmin();
+    } else {
+      this.saveMinistryAdmin();
+    }
+  }
+
+  private saveMinistryAdmin(): void {
+    const ministryAdmin = new MinistryAdmin(this.AdminFormGroup.value, this.institutionFormControl.value.id, this.adminId);
+      this.store.dispatch(this.editMode ? new UpdateMinistryAdmin(ministryAdmin) : new CreateMinistryAdmin(ministryAdmin));
+  }
+
+  private saveRegionAdmin(): void {
       const regionAdmin = new RegionAdmin(
         this.AdminFormGroup.value, 
-        this.AdminFormGroup.get('institution').value.id, 
-        this.AdminFormGroup.get('region').value.id,
+        this.institutionFormControl.value.id, 
+        this.regionFormControl.value.id,
         this.adminId
       );
       this.store.dispatch(this.editMode ? new UpdateRegionAdmin(regionAdmin) : new CreateRegionAdmin(regionAdmin));
-    } else {
-      const ministryAdmin = new MinistryAdmin(this.AdminFormGroup.value, this.AdminFormGroup.get('institution').value.id, this.adminId);
-      this.store.dispatch(this.editMode ? new UpdateMinistryAdmin(ministryAdmin) : new CreateMinistryAdmin(ministryAdmin));
-    }
   }
 }
