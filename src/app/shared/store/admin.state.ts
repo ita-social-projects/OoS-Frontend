@@ -19,6 +19,7 @@ import {
   BlockMinistryAdminById,
   BlockProviderById,
   BlockRegionAdminById,
+  CreateAdmin,
   CreateDirection,
   CreateMinistryAdmin,
   CreateRegionAdmin,
@@ -70,6 +71,7 @@ import {
   OnUpdatePlatformInfoSuccess,
   OnUpdateRegionAdminFail,
   OnUpdateRegionAdminSuccess,
+  UpdateAdmin,
   UpdateDirection,
   UpdateMinistryAdmin,
   UpdatePlatformInfo,
@@ -505,6 +507,26 @@ export class AdminState {
     );
   }
 
+  @Action(CreateAdmin)
+  createAdmin(
+    { dispatch }: StateContext<AdminState>,
+    { payload, adminType }: CreateAdmin
+  ): void {
+    switch(adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new CreateMinistryAdmin(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new CreateRegionAdmin(payload as RegionAdmin));
+        break;
+      }
+      default: {
+        dispatch(new CreateMinistryAdmin(payload));
+      }
+    }
+  }
+
   @Action(CreateMinistryAdmin)
   createMinistryAdmin(
     { dispatch }: StateContext<AdminState>,
@@ -703,6 +725,26 @@ export class AdminState {
     ]);
   }
 
+  @Action(UpdateAdmin)
+  updateAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, adminType }: UpdateAdmin
+  ): void {
+    switch(adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new UpdateMinistryAdmin(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new UpdateRegionAdmin(payload as RegionAdmin));
+        break;
+      }
+      default: {
+        dispatch(new UpdateMinistryAdmin(payload));
+      }
+    }
+  }
+ 
   @Action(UpdateMinistryAdmin)
   updateMinistryAdmin(
     { dispatch }: StateContext<AdminStateModel>,

@@ -7,6 +7,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Location } from '@angular/common';
+
 import { NAME_REGEX } from 'shared-constants/regex-constants';
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared-constants/constants';
@@ -16,7 +17,6 @@ import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
 import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
 import { Role } from 'shared-enum/role';
 import { Institution } from 'shared-models/institution.model';
-import { MinistryAdmin } from 'shared-models/ministryAdmin.model';
 import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'shared-store/admin.state';
 import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorSearch } from 'shared-store/meta-data.actions';
@@ -25,12 +25,13 @@ import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Util } from 'shared-utils/utils';
-import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin, UpdateRegionAdmin, CreateRegionAdmin, GetRegionAdminById, GetAdminById } from 'shared-store/admin.actions';
+import { GetAdminById, UpdateAdmin, CreateAdmin } from 'shared-store/admin.actions';
 import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from 'shared-enum/enumUA/tech-admin/admins';
 import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
 import { BaseAdmin } from 'shared-models/admin.model';
 import { Codeficator } from 'shared-models/codeficator.model';
 import { RegionAdmin } from 'shared-models/regionAdmin.model';
+import { AdminFactory } from 'shared/utils/admin.factory';
 
 
 const defaultValidators: ValidatorFn[] = [
@@ -230,25 +231,8 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   private saveAdmin(): void {
-    if (this.isRegionAdmin) {      
-      this.saveRegionAdmin();
-    } else {
-      this.saveMinistryAdmin();
-    }
-  }
-
-  private saveMinistryAdmin(): void {
-    const ministryAdmin = new MinistryAdmin(this.AdminFormGroup.value, this.institutionFormControl.value.id, this.adminId);
-      this.store.dispatch(this.editMode ? new UpdateMinistryAdmin(ministryAdmin) : new CreateMinistryAdmin(ministryAdmin));
-  }
-
-  private saveRegionAdmin(): void {
-      const regionAdmin = new RegionAdmin(
-        this.AdminFormGroup.value, 
-        this.institutionFormControl.value.id, 
-        this.regionFormControl.value.id,
-        this.adminId
-      );
-      this.store.dispatch(this.editMode ? new UpdateRegionAdmin(regionAdmin) : new CreateRegionAdmin(regionAdmin));
+    const regionId = this.regionFormControl?.value?.id || null;
+    const admin = AdminFactory.createAdmin(this.adminRole, this.AdminFormGroup.value, this.institutionFormControl.value.id, regionId, this.adminId)
+    this.store.dispatch(this.editMode ? new UpdateAdmin(admin, this.adminRole) : new CreateAdmin(admin, this.adminRole));
   }
 }

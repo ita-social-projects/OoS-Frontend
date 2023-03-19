@@ -131,6 +131,11 @@ export class GetMinistryAdminProfile {
   constructor() {}
 }
 
+export class CreateAdmin {
+  static readonly type = '[admin] create Admin';
+  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+}
+
 export class CreateMinistryAdmin {
   static readonly type = '[admin] create Ministry Admin';
   constructor(public payload: MinistryAdmin) {}
