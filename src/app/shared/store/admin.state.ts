@@ -15,17 +15,21 @@ import { ProviderService } from '../services/provider/provider.service';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import {
+  BlockAdminById,
   BlockMinistryAdminById,
   BlockProviderById,
   BlockRegionAdminById,
   CreateDirection,
   CreateMinistryAdmin,
   CreateRegionAdmin,
+  DeleteAdminById,
   DeleteDirectionById,
   DeleteMinistryAdminById,
   DeleteRegionAdminById,
   DownloadStatisticReport,
   GetAboutPortal,
+  GetAdminById,
+  GetAllAdmins,
   GetAllMinistryAdmins,
   GetAllRegionAdmins,
   GetApplicationHistory,
@@ -75,7 +79,7 @@ import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
-import { EMPTY_RESULT, PaginationConstants } from '../constants/constants';
+import { EMPTY_RESULT } from '../constants/constants';
 import { HistoryLogService } from '../services/history-log/history-log.service';
 import { SearchResponse } from '../models/search.model';
 import { GetMainPageInfo } from './main-page.actions';
@@ -101,8 +105,7 @@ export interface AdminStateModel {
   providers: SearchResponse<Provider[]>;
   selectedAdmin: BaseAdmin;
   selectedRegionAdmin: RegionAdmin;
-  ministryAdmins: SearchResponse<MinistryAdmin[]>;
-  regionAdmins: SearchResponse<RegionAdmin[]>;
+  admins: SearchResponse<BaseAdmin[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
@@ -125,8 +128,7 @@ export interface AdminStateModel {
     parents: null,
     selectedAdmin: null,
     selectedRegionAdmin: null,
-    ministryAdmins: null,
-    regionAdmins: null,
+    admins: null,
     providerHistory: null,
     providerAdminHistory: null,
     applicationHistory: null,
@@ -148,12 +150,8 @@ export class AdminState {
     return state.providers;
   }
 
-  @Selector() static ministryAdmins(state: AdminStateModel): SearchResponse<MinistryAdmin[]> {
-    return state.ministryAdmins;
-  }
-
-  @Selector() static regionAdmins(state: AdminStateModel): SearchResponse<RegionAdmin[]> {
-    return state.regionAdmins;
+  @Selector() static admins(state: AdminStateModel): SearchResponse<BaseAdmin[]> {
+    return state.admins;
   }
 
   @Selector() static selectedAdmin(state: AdminStateModel): BaseAdmin {
@@ -541,6 +539,26 @@ export class AdminState {
     this.router.navigate(['/admin-tools/data/admins']);
   }
 
+  @Action(GetAllAdmins)
+  getAllAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { adminType, parameters }: GetAllAdmins
+  ): void {
+    switch(adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new GetAllMinistryAdmins(parameters));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new GetAllRegionAdmins(parameters));
+        break;
+      }
+      default: {
+        dispatch(new GetAllMinistryAdmins(parameters));
+      }
+    }
+  }
+
   @Action(GetAllMinistryAdmins)
   getAllMinistryAdmin(
     { patchState }: StateContext<AdminStateModel>,
@@ -550,10 +568,27 @@ export class AdminState {
     return this.ministryAdminService
       .getAllAdmin(parameters)
       .pipe(
-        tap((ministryAdmins: SearchResponse<MinistryAdmin[]>) =>
-          patchState({ ministryAdmins: ministryAdmins ?? EMPTY_RESULT, isLoading: false })
+        tap((admins: SearchResponse<MinistryAdmin[]>) =>
+          patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })
         )
       );
+  }
+
+  @Action(GetAdminById)
+  getAdminById({dispatch}: StateContext<AdminState>, {payload, adminType}: GetAdminById): void {
+    switch(adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new GetMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new GetRegionAdminById(payload));
+        break;
+      }
+      default: {
+        dispatch(new GetMinistryAdminById(payload));
+      }
+    }
   }
 
   @Action(GetMinistryAdminById)
@@ -562,6 +597,26 @@ export class AdminState {
     return this.ministryAdminService
       .getAdminById(payload)
       .pipe(tap((selectedAdmin: MinistryAdmin) => patchState({ selectedAdmin, isLoading: false })));
+  }
+
+  @Action(DeleteAdminById)
+  deleteAdminById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, adminType }: DeleteAdminById
+  ):void {
+    switch(adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new DeleteMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new DeleteRegionAdminById(payload));
+        break;
+      }
+      default: {
+        dispatch(new DeleteMinistryAdminById(payload));
+      }
+    }
   }
 
   @Action(DeleteMinistryAdminById)
@@ -589,6 +644,26 @@ export class AdminState {
       }),
       new GetAllMinistryAdmins()
     ]);
+  }
+
+  @Action(BlockAdminById)
+  blockAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, adminType }: BlockAdminById
+  ): void {
+    switch(adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new BlockMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new BlockRegionAdminById(payload));
+        break;
+      }
+      default: {
+        dispatch(new BlockMinistryAdminById(payload));
+      }
+    }
   }
 
   @Action(BlockMinistryAdminById)
@@ -751,8 +826,8 @@ export class AdminState {
     return this.regionAdminService
       .getAllAdmin(parameters)
       .pipe(
-        tap((regionAdmins: SearchResponse<RegionAdmin[]>) =>
-          patchState({ regionAdmins: regionAdmins ?? EMPTY_RESULT, isLoading: false })
+        tap((admins: SearchResponse<RegionAdmin[]>) =>
+          patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })
         )
       );
   }

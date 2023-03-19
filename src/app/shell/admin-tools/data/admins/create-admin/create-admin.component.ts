@@ -25,7 +25,7 @@ import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Util } from 'shared-utils/utils';
-import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin, UpdateRegionAdmin, CreateRegionAdmin, GetRegionAdminById } from 'shared-store/admin.actions';
+import { GetMinistryAdminById, UpdateMinistryAdmin, CreateMinistryAdmin, UpdateRegionAdmin, CreateRegionAdmin, GetRegionAdminById, GetAdminById } from 'shared-store/admin.actions';
 import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from 'shared-enum/enumUA/tech-admin/admins';
 import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
 import { BaseAdmin } from 'shared-models/admin.model';
@@ -152,11 +152,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   public setEditMode(): void {
     this.adminId = this.route.snapshot.paramMap.get('id');
-    if(this.isRegionAdmin) {
-      this.store.dispatch(new GetRegionAdminById(this.adminId));
-    } else {
-      this.store.dispatch(new GetMinistryAdminById(this.adminId));
-    }
+    this.store.dispatch(new GetAdminById(this.adminId, this.adminRole));
 
     this.selectedAdmin$
       .pipe(

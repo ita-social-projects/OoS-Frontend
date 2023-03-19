@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdminTabTypes } from '../enum/admins';
+import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from 'shared/models/admin.model';
+import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
@@ -170,9 +171,24 @@ export class GetAllMinistryAdmins {
   constructor(public parameters?: MinistryAdminParameters) {}
 }
 
+export class GetAllAdmins {
+  static readonly type = '[admin] Get All Admins';
+  constructor(public adminType: AdminRoles, public parameters?: BaseAdminParameters) {}
+}
+
+export class GetAdminById {
+  static readonly type = '[admin] Get Admin By Id';
+  constructor(public payload: string, public adminType: AdminRoles) {}
+}
+
 export class GetMinistryAdminById {
   static readonly type = '[admin] Get Ministry Admin By Id';
   constructor(public payload: string) {}
+}
+
+export class DeleteAdminById {
+  static readonly type = '[admin] delete Admin';
+  constructor(public payload: string, public adminType: AdminRoles) {}
 }
 
 export class DeleteMinistryAdminById {
@@ -215,6 +231,11 @@ export class OnDeleteRegionAdminFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
+export class BlockAdminById {
+  static readonly type = '[admin] block Admin';
+  constructor(public payload: BaseAdminBlockData, public adminType: AdminRoles) {}
+}
+
 export class BlockMinistryAdminById {
   static readonly type = '[admin] block Ministry Admin';
   constructor(public payload: MinistryAdminBlockData) {}
@@ -233,6 +254,11 @@ export class OnBlockSuccess {
 export class OnBlockFail {
   static readonly type = '[admin] block Ministry Admin fail';
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class UpdateAdmin {
+  static readonly type = '[admin] update Admin';
+  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
 }
 
 export class UpdateMinistryAdmin {

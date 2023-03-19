@@ -1,29 +1,32 @@
-import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
-import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, BlockRegionAdminById, DeleteMinistryAdminById, DeleteRegionAdminById, GetAllMinistryAdmins, GetAllRegionAdmins } from './../../../../shared/store/admin.actions';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Subject, Observable } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
-import { AdminRoles, AdminRoleTypes } from '../../../../shared/enum/admins';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../../shared/enum/role';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
-import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { Util } from '../../../../shared/utils/utils';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { RegistrationState } from './../../../../shared/store/registration.state';
-import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
-import { AdminRolesTitles } from '../../../../shared/enum/enumUA/tech-admin/admins';
+
+import { MinistryAdmin, MinistryAdminParameters } from 'shared-models/ministryAdmin.model';
+import { AdminState } from 'shared-store/admin.state';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants } from 'shared/constants/constants';
+import { AdminRoles, AdminRoleTypes } from 'shared-enum/admins';
+import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
+import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared-enum/enumUA/no-results';
+import { Role } from 'shared-enum/role';
+import { PaginationElement } from 'shared-models/paginationElement.model';
+import { BlockData, UsersTable } from 'shared-models/usersTable';
+import { PushNavPath, PopNavPath } from 'shared/store/navigation.actions';
+import { Util } from 'shared-utils/utils';
+import { SearchResponse } from 'shared-models/search.model';
+import { RegistrationState } from 'shared-store/registration.state';
+import { UserStatusesTitles } from 'shared-enum/enumUA/statuses';
+import { AdminRolesTitles } from 'shared-enum/enumUA/tech-admin/admins';
+import { BaseAdmin } from 'shared-models/admin.model';
+import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admin.actions';
 
 @Component({
   selector: 'app-admins',
@@ -37,10 +40,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   readonly Role = Role;
   readonly statusesTitles = UserStatusesTitles;
 
-  @Select(AdminState.ministryAdmins)
-  ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
-  @Select(AdminState.regionAdmins)
-  regionAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
+  @Select(AdminState.admins)
+  admins$: Observable<SearchResponse<BaseAdmin[]>>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(RegistrationState.role)
@@ -48,8 +49,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   tabIndex: number;
   filterFormControl: FormControl = new FormControl('');
-  ministryAdminsTable: UsersTable[];
-  regionAdminsTable: UsersTable[];
+  adminsTable: UsersTable[];
   role: Role;
   destroy$: Subject<boolean> = new Subject<boolean>();
   totalEntities: number;
@@ -76,13 +76,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.getAdmins();
       });
 
-    this.ministryAdmins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {
-      this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
-      this.totalEntities = ministryAdmins.totalAmount;
-    });
-    this.regionAdmins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((regionAdmins: SearchResponse<MinistryAdmin[]>) => {
-      this.regionAdminsTable = Util.updateStructureForTheTableAdmins(regionAdmins.entities);
-      this.totalEntities = regionAdmins.totalAmount;
+    this.admins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((admins: SearchResponse<MinistryAdmin[]>) => {
+      this.adminsTable = Util.updateStructureForTheTableAdmins(admins.entities);
+      this.totalEntities = admins.totalAmount;
     });
 
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => {
@@ -115,6 +111,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const queryRole = this.route.snapshot.queryParamMap.get('role');
     this.adminParams.tabTitle = queryRole ? AdminRoles[queryRole] : AdminRoles.ministryAdmin;
     this.tabIndex = AdminRoleTypes[queryRole];
+  }
+
+  private get adminType(): AdminRoles {
+    return this.adminParams.tabTitle as AdminRoles;
   }
 
   /**
@@ -156,40 +156,18 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.blockAdmin(admin, this.adminParams.tabTitle as AdminRoles);
+      result && this.blockAdmin(admin, this.adminType);
     });
 
   }
 
   private blockAdmin(blockData: BlockData, admin: AdminRoles): void{
-    switch(admin){
-      case AdminRoles.regionAdmin: {
-        this.store.dispatch(
-          new BlockRegionAdminById({
-            adminId: blockData.user.id,
-            isBlocked: blockData.isBlocked
-          })
-        );
-        break;
-      }
-      case AdminRoles.ministryAdmin: {
-        this.store.dispatch(
-          new BlockMinistryAdminById({
-            adminId: blockData.user.id,
-            isBlocked: blockData.isBlocked
-          })
-        );
-        break;
-      }
-      default :{
-        this.store.dispatch(
-          new BlockMinistryAdminById({
-            adminId: blockData.user.id,
-            isBlocked: blockData.isBlocked
-          })
-        );
-      }
-    }
+    this.store.dispatch(
+      new BlockAdminById({
+        adminId: blockData.user.id,
+        isBlocked: blockData.isBlocked
+      }, admin)
+    );
   }
 
   /**
@@ -205,24 +183,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.deleteAdmin(admin.id, this.adminParams.tabTitle as AdminRoles)
+      result && this.deleteAdmin(admin.id, this.adminType)
     });
   }
 
   private deleteAdmin(id: string, admin: AdminRoles): void {
-    switch(admin){
-      case AdminRoles.regionAdmin: {
-        this.store.dispatch(new DeleteRegionAdminById(id));
-        break;
-      }
-      case AdminRoles.ministryAdmin: {
-        this.store.dispatch(new DeleteMinistryAdminById(id));
-        break;
-      }
-      default :{
-        this.store.dispatch(new DeleteMinistryAdminById(id));
-      }
-    }
+    this.store.dispatch(new DeleteAdminById(id, admin));
   }
 
   onUpdate(admin: UsersTable): void {
@@ -231,7 +197,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   private addNavPath(): void {
     this.store.dispatch([
-      new GetAllMinistryAdmins(this.adminParams),
+      new GetAllAdmins(this.adminType ,this.adminParams),
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,
@@ -257,12 +223,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   private getAdmins(): void {
-    if(this.adminParams.tabTitle === AdminRoles.regionAdmin) {
-      this.store.dispatch(new GetAllRegionAdmins(this.adminParams));
-      Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
-    } else {
-      this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
-      Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
-    }
+    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
+    this.store.dispatch(new GetAllAdmins(this.adminType, this.adminParams));
   }
 }
