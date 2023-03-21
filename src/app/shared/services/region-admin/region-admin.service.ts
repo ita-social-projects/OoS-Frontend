@@ -19,7 +19,7 @@ export class RegionAdminService extends BaseAdminService {
   /**
    * This method get Profile of authorized RegionAdmin
    */
-  getAdminProfile(): Observable<RegionAdmin> {
+  public getAdminProfile(): Observable<RegionAdmin> {
     return <Observable<RegionAdmin>>super.getAdminProfile();
   }
 
@@ -27,14 +27,14 @@ export class RegionAdminService extends BaseAdminService {
    * This method get Region Admin by Id
    * * @param regionAdminId: string
    */
-  getAdminById(regionAdminId: string): Observable<RegionAdmin> {
+  public getAdminById(regionAdminId: string): Observable<RegionAdmin> {
     return <Observable<RegionAdmin>>super.getAdminById(regionAdminId);
   }
 
   /**
    * This method get All Region Admins
    */
-  getAllAdmin(parameters: RegionAdminParameters): Observable<SearchResponse<RegionAdmin[]>> {
+  public getAllAdmin(parameters: RegionAdminParameters): Observable<SearchResponse<RegionAdmin[]>> {
     return <Observable<SearchResponse<RegionAdmin[]>>>super.getAllAdmin(parameters);
   }
 
@@ -42,7 +42,7 @@ export class RegionAdminService extends BaseAdminService {
    * This method create Region Admin
    * @param regionAdmin: RegionAdmin
    */
-  createAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
+  public createAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
     return <Observable<RegionAdmin>>super.createAdmin(regionAdmin);
   }
 
@@ -50,7 +50,7 @@ export class RegionAdminService extends BaseAdminService {
    * This method delete Region Admin by id
    * @param regionAdminId: string
    */
-  deleteAdmin(regionAdminId: string): Observable<void> {
+  public deleteAdmin(regionAdminId: string): Observable<void> {
     return super.deleteAdmin(regionAdminId);
   }
 
@@ -58,7 +58,7 @@ export class RegionAdminService extends BaseAdminService {
    * This method block Region Admin
    * @param regionAdminId: string
    */
-  blockAdmin(regionAdminId: string, isBlocked: boolean): Observable<void> {
+  public blockAdmin(regionAdminId: string, isBlocked: boolean): Observable<void> {
     return super.blockAdmin(regionAdminId, isBlocked);
   }
 
@@ -66,7 +66,7 @@ export class RegionAdminService extends BaseAdminService {
    * This method update Region Admin
    * @param regionAdmin: RegionAdmin
    */
-  updateAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
+  public updateAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
     return <Observable<RegionAdmin>>super.updateAdmin(regionAdmin);
   }
 }

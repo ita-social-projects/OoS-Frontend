@@ -12,7 +12,7 @@ import { Workshop } from '../../../shared/models/workshop.model';
 import { ProviderDetailsComponent } from './provider-details.component';
 import { TranslateModule } from '@ngx-translate/core';
 
-fdescribe('ProviderDetailsComponent', () => {
+describe('ProviderDetailsComponent', () => {
   let component: ProviderDetailsComponent;
   let fixture: ComponentFixture<ProviderDetailsComponent>;
 

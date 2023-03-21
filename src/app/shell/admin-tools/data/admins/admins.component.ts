@@ -34,28 +34,28 @@ import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admi
   styleUrls: ['./admins.component.scss']
 })
 export class AdminsComponent implements OnInit, OnDestroy {
-  readonly noAdmins = NoResultsTitle.noAdmins;
-  readonly AdminRolesTitles = AdminRolesTitles;
-  readonly AdminRoles = AdminRoles;
-  readonly Role = Role;
-  readonly statusesTitles = UserStatusesTitles;
+  public readonly noAdmins = NoResultsTitle.noAdmins;
+  public readonly AdminRolesTitles = AdminRolesTitles;
+  public readonly AdminRoles = AdminRoles;
+  public readonly Role = Role;
+  public readonly statusesTitles = UserStatusesTitles;
 
   @Select(AdminState.admins)
-  admins$: Observable<SearchResponse<BaseAdmin[]>>;
+  private admins$: Observable<SearchResponse<BaseAdmin[]>>;
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
 
-  tabIndex: number;
-  filterFormControl: FormControl = new FormControl('');
-  adminsTable: UsersTable[];
-  role: Role;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  totalEntities: number;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
-  adminParams: MinistryAdminParameters = {
+  public tabIndex: number;
+  public filterFormControl: FormControl = new FormControl('');
+  public adminsTable: UsersTable[];
+  public role: Role;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public totalEntities: number;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
+  public adminParams: MinistryAdminParameters = {
     searchString: '',
     tabTitle: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
@@ -63,7 +63,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setTabOptions();
     this.getAdmins();
     this.setDisplayedColumns();
@@ -93,7 +93,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
    * This method filter admins according to selected tab
    * @param event: MatTabChangeEvent
    */
-  onTabChange(event: MatTabChangeEvent): void {
+  public onTabChange(event: MatTabChangeEvent): void {
     this.currentPage = PaginationConstants.firstPage;
     this.filterFormControl.reset("", { emitEvent: false });
     this.adminParams.searchString = '';
@@ -147,7 +147,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method block, unBlock Admin By Id
    */
-  onBlock(admin: BlockData): void {
+  public onBlock(admin: BlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -173,7 +173,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method delete Admin By Id
    */
-  onDelete(admin: UsersTable): void {
+  public onDelete(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -191,7 +191,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new DeleteAdminById(id, admin));
   }
 
-  onUpdate(admin: UsersTable): void {
+  public onUpdate(admin: UsersTable): void {
     this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
   }
 
@@ -206,17 +206,17 @@ export class AdminsComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getAdmins();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.adminParams.size = itemsPerPage;
     this.getAdmins();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());

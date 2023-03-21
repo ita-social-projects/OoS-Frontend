@@ -694,7 +694,7 @@
       "DELETE_ADMIN": "Are you sure you want to delete an administrator?",
       "BLOCK_ADMIN": "Are you sure you want to block the administrator?",
       "UNBLOCK_ADMIN": "Are you sure you want to unblock administrator?",
-      "CREATE_ADMIN": "Are you sure you want to add a ministry administrator?",
+      "CREATE_ADMIN": "Are you sure you want to add a administrator?",
       "UPDATE_ADMIN": "Are you sure you want to edit the administrator?",
       "LICENSE_APPROVED": "Are you sure you want to confirm the provider's license?",
       "TITLES": {

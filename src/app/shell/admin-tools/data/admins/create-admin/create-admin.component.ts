@@ -46,24 +46,23 @@ const defaultValidators: ValidatorFn[] = [
   styleUrls: ['./create-admin.component.scss']
 })
 export class CreateAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
   public readonly noSettlement = Constants.NO_SETTLEMENT;
 
-  readonly phonePrefix = Constants.PHONE_PREFIX;
-  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  readonly adminsRole = AdminRoles;
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+  public institutions$: Observable<Institution[]>;
   @Select(AdminState.selectedAdmin)
-  selectedAdmin$: Observable<BaseAdmin>;
+  public selectedAdmin$: Observable<BaseAdmin>;
   @Select(MetaDataState.codeficatorSearch)
-  codeficatorSearch$: Observable<Codeficator[]>;
+  public codeficatorSearch$: Observable<Codeficator[]>;
 
-  AdminFormGroup: FormGroup;
-  adminRole: AdminRoles;
-  adminId: string;
-  formTitle: string;
+  public AdminFormGroup: FormGroup;
+  public adminRole: AdminRoles;
+  public adminId: string;
+  public formTitle: string;
 
   constructor(
     protected store: Store,
