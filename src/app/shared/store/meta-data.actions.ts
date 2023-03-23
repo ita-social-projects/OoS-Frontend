@@ -1,3 +1,4 @@
+import { CodeficatorCategories } from '../enum/codeficator-categories';
 import { RateParameters } from '../models/rating';
 
 export class GetDirections {
@@ -78,7 +79,7 @@ export class GetInstitutionHierarchyParentsById {
 export class GetCodeficatorSearch {
   static readonly type = '[meta-data] Get Codeficator search';
 
-  constructor(public payload: string) {}
+  constructor(public name: string, public categories?: CodeficatorCategories[]) {}
 }
 
 export class GetCodeficatorById {

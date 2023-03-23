@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
 import { Codeficator, CodeficatorCityDistrict } from '../../models/codeficator.model';
+import { CodeficatorCategories } from '../../enum/codeficator-categories';
 
 @Injectable({
   providedIn: 'root'
@@ -13,15 +15,21 @@ export class CodeficatorService {
    * This method to get all Codeficators from the database
    * @param settlement string
    */
-  searchCodeficator(settlement: string): Observable<Codeficator[]> {
-    return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}`);
+  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[]): Observable<Codeficator[]> {
+    if(!categories){
+      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}`);
+    } else {
+      const categoriesParam = categories?.join("");
+  
+      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}&Categories=${categoriesParam}`);
+    }
   }
 
   /**
    * This method to get Codeficator by id
    * @param id number
    */
-  getCodeficatorById(id: number): Observable<Codeficator> {
+  public getCodeficatorById(id: number): Observable<Codeficator> {
     return this.http.get<Codeficator>(`/api/v1/Codeficator/${id}/parents`);
   }
 
@@ -29,7 +37,7 @@ export class CodeficatorService {
    * This method to get all Codeficator City Districts from the database
    * @param id number
    */
-  searchCodeficatorCityDistrict(id: number): Observable<CodeficatorCityDistrict[]> {
+  public searchCodeficatorCityDistrict(id: number): Observable<CodeficatorCityDistrict[]> {
     return this.http.get<CodeficatorCityDistrict[]>(`/api/v1/Codeficator/children?id=${id}`);
   }
 
@@ -38,7 +46,7 @@ export class CodeficatorService {
    * @param lat number
    * @param lon number
    */
-  getNearestByCoordinates(lat: number, lon: number): Observable<Codeficator> {
+  public getNearestByCoordinates(lat: number, lon: number): Observable<Codeficator> {
     let params = new HttpParams().set('Lat', lat.toString()).set('Lon', lon.toString());
 
     return this.http.get<Codeficator>('/api/v1/Codeficator/NearestByCoordinates', { params });
