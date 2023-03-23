@@ -62,7 +62,7 @@
           *ngFor="let notification of notifications"
           #accordionItem="cdkAccordionItem"
           role="button"
-          [disabled]="notification.data ? 'false' : 'true'"
+          [disabled]="!notification.data"
         >
           <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
