@@ -3,7 +3,7 @@
 
   width: 355px;
   min-height: 35px;
-  
+
   cursor: default;
 
   &__header {
@@ -50,7 +50,7 @@
         background-color: darken($color: #ffffff, $amount: 3.8);
       }
     }
-    
+
     .notification:last-child {
       .notification__wrapper {
         border-bottom: 0;
@@ -71,33 +71,11 @@
   cursor: pointer;
   padding: 0.75rem 1rem 0.5rem;
 
-  >.icon {
-    opacity: 0;
-  }
-
-  &:hover{
-    >.icon {
-      opacity: 1;
-      transition: opacity 0.1s;
-    }
-
-    >.info__link, >.icon__link {
-      color: #3849f9;
-    }
-  }
-
-  &__group-info {
+  &__group {
     align-items: center;
   }
 
-  &__group-details {
-    align-items: center;
-    gap: 0.25rem;
-
-    padding-left: 2rem;
-  }
-
-  &__single-info {
+  &__single {
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
@@ -135,11 +113,44 @@
 }
 
 .body-notification {
-  background-color: darken($color: #f8f8f8, $amount: 3);
-  transition: max-height 0.5s;
+  &__wrapper {
+    background-color: darken($color: #f8f8f8, $amount: 3);
+    transition: max-height 0.5s;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    padding: 0.75rem 1rem 0.5rem;
+
+    > .icon {
+      opacity: 0;
+    }
+
+    &:hover {
+      > .icon {
+        opacity: 1;
+        transition: opacity 0.1s;
+      }
+
+      > .info__link,
+      > .icon__link {
+        color: #3849f9;
+      }
+    }
+  }
 
   &__single {
     padding: 0.75rem 1rem 0.75rem 2rem;
+  }
+
+  &__group {
+    align-items: center;
+    gap: 0.25rem;
+
+    padding-left: 2rem;
   }
 }
 
@@ -153,7 +164,7 @@
   }
 
   .header-notification {
-    >.icon {
+    > .icon {
       opacity: 1;
     }
   }
