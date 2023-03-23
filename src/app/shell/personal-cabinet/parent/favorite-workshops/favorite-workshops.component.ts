@@ -31,14 +31,15 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   @Select(ParentState.favoriteWorkshopsCard)
-  favoriteWorkshopsCard$: Observable<SearchResponse<WorkshopCard[]>>;
+  public favoriteWorkshopsCard$: Observable<SearchResponse<WorkshopCard[]>>;
 
-  paginationParameters: PaginationParameters = {
+  private totalAmount: number;
+
+  public paginationParameters: PaginationParameters = {
     size: PaginationConstants.WORKSHOPS_PER_PAGE,
     from: 0
   };
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalAmount: number;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
     super(store, matDialog);
@@ -54,7 +55,7 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
     );
   }
 
-  initParentData(): void {
+  public initParentData(): void {
     this.store.dispatch(new GetFavoriteWorkshopsByUserId(this.paginationParameters));
 
     this.favoriteWorkshopsCard$
@@ -67,12 +68,12 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
       .subscribe(() => this.store.dispatch(new GetFavoriteWorkshopsByUserId(this.paginationParameters)));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
     this.getWorkshops();
   }
