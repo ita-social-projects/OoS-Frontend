@@ -150,7 +150,7 @@ export class AppWorkshopsService {
     params = params.set('Limit', size.toString());
     params = this.setCityFilterParams(settlement, params);
 
-    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', {
+    return this.http.get<WorkshopCard[]>('/api/v1/popular/workshops', {
       params
     });
   }
