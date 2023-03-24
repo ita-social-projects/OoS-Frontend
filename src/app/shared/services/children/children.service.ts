@@ -44,11 +44,12 @@ export class ChildrenService {
   getUsersChildren(params: ChildrenParameters): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams(params) };
 
-    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/children/my', options);
   }
 
-  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]> {
-    return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
+  getUsersChildrenByParentId(requestParams: RequestParams): Observable<TruncatedItem[]> {
+    const params = new HttpParams().set('isParent', `${requestParams.isParent}`);
+    return this.http.get<TruncatedItem[]>(`/api/v1/parents/${requestParams.id}/children`, { params });
   }
 
   /**
@@ -58,7 +59,7 @@ export class ChildrenService {
   getAllUsersChildren(): Observable<SearchResponse<Child[]>> {
     let params = new HttpParams().set('Size', '0').set('From', '0');
 
-    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', { params });
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/children/my', { params });
   }
 
   /**
@@ -67,7 +68,7 @@ export class ChildrenService {
   getChildrenForAdmin(paremeters: ChildrenParameters): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams(paremeters) };
 
-    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/children', options);
   }
 
   /**
@@ -75,7 +76,7 @@ export class ChildrenService {
    * @param child: Child
    */
   createChild(child: Child): Observable<Child> {
-    return this.http.post<Child>('/api/v1/Child/Create', child);
+    return this.http.post<Child>('/api/v1/children', child);
   }
 
   /**
@@ -83,7 +84,7 @@ export class ChildrenService {
    * @param children: Child[]
    */
   public createChildren(children: Child[]): Observable<Child[]> {
-    return this.http.post<Child[]>('/api/v1/Child/CreateChildren', children);
+    return this.http.post<Child[]>('/api/v1/children/batch', children);
   }
 
   /**
@@ -91,7 +92,7 @@ export class ChildrenService {
    * @param child: Child
    */
   updateChild(child: Child): Observable<Child> {
-    return this.http.put<Child>('/api/v1/Child/Update', child);
+    return this.http.put<Child>(`/api/v1/children/${child.id}`, child);
   }
 
   /**
@@ -99,7 +100,7 @@ export class ChildrenService {
    * @param id: string
    */
   getUsersChildById(id: string): Observable<Child> {
-    return this.http.get<Child>(`/api/v1/Child/GetUsersChildById/${id}`);
+    return this.http.get<Child>(`/api/v1/children/my/${id}`);
   }
 
   /**
@@ -107,7 +108,7 @@ export class ChildrenService {
    * @param id: string
    */
   deleteChild(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/v1/Child/Delete/${id}`);
+    return this.http.delete<void>(`/api/v1/children/${id}`);
   }
 
   /**
