@@ -1,0 +1,55 @@
+<!-- <div class="mat-dialog-container">
+  <span class="mat-dialog-title">{{ editFormTitle }}</span>
+  <span class="confirmation">{{ editFormSubtitle }}</span>
+  <h3>{{ ministryLabel }}</h3>
+  <h3>МОН</h3>
+  <span *ngIf="true">{{ warningMsg }}</span>
+  <h3>Назва напрямку</h3>
+  <input value="Науково-технічний напрям" />
+  <h3>Назва профілю</h3>
+  <input value="Цирковий" />
+  <h3>{{ userDirectionsLabel }}</h3>
+  <input value="Театр, цирк та кіно" />
+  <br><br>
+  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
+    <button class="btn btn-cancel" mat-button>Скасувати</button>
+    <button class="btn" mat-button>Зберегти</button>
+  </mat-dialog-actions>
+</div> -->
+
+<div class="create-form" fxLayout="column" fxLayoutAlign="center center">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">{{ editFormTitle }}</h3>
+      <p class="wrapper-text">
+        {{ editFormSubtitle }}
+      </p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center start" class="warning-box">
+      <span>
+      <i class="material-icons status-info-icon inactiveInfoBtn">info_outline</i>
+      </span>
+      <div>
+        <span>{{ warningMsg }}
+        </span>
+      </div>
+    </div>
+    <form [formGroup]="EditDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+      <label class="step-label">{{ ministryLabel }}</label>
+      <mat-form-field>
+        <input matInput class="step-input" formControlName="ministry"  type="text"  autocomplete="none" appTrimValue disabled/>
+      </mat-form-field>
+      <ng-container *ngFor="let column of this.data.columns; let i = index;">
+        <label class="step-label">{{ column }}</label>
+        <mat-form-field>
+          <input matInput class="step-input" formControlName="column"  type="text"  autocomplete="none" value="{{this.data.element.insHierarchies[i].title}}" appTrimValue />
+        </mat-form-field>
+      </ng-container>
+    </form>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <button mat-raised-button class="btn btn-cancel">Скасувати</button>
+      <button class="btn" mat-button type="submit">Зберегти</button>
+    </div>
+  </div>
+</div>
