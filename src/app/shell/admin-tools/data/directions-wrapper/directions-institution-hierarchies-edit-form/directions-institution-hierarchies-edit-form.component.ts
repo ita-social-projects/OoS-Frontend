@@ -19,16 +19,35 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
   userDirectionsLabel: string = 'Напрямки для користувача';
 
   EditDirectionFormGroup: FormGroup;
+  fields: string[] = [];
 
   constructor(private formBuilder: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any) {
-    this.EditDirectionFormGroup = this.formBuilder.group({
-      ministry: new FormControl(this.data.element.insHierarchies[0].institution.title),
+    this.buildForm();
+    // this.EditDirectionFormGroup = this.formBuilder.group({
+    //   ministry: new FormControl(this.data.element.insHierarchies[0].institution.title),
+    // });
 
-    });
    }
 
   ngOnInit(): void {
     console.log(this.data.element.insHierarchies[0].title);
   }
+
+  buildForm() {
+    const formGroupFields = this.getFormControlsFields();
+    this.EditDirectionFormGroup = new FormGroup(formGroupFields);
+  }
+
+  getFormControlsFields() {
+    const formGroupFields = {};
+    formGroupFields[this.ministryLabel] = new FormControl(this.data.element.insHierarchies[0].institution.title);
+    this.fields.push(this.ministryLabel);
+    for (let i = 0; i < this.data.columns.length; ++i) {
+        let field = this.data.columns[i];
+        formGroupFields[field] = new FormControl(this.data.element.insHierarchies[i].title);
+        this.fields.push(field);
+    }
+    return formGroupFields;
+ }
 
 }

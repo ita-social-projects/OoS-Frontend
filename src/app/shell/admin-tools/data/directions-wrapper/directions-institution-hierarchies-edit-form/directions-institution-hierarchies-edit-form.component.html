@@ -35,14 +35,14 @@
       </div>
     </div>
     <form [formGroup]="EditDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
-      <label class="step-label">{{ ministryLabel }}</label>
+      <!-- <label class="step-label">{{ ministryLabel }}</label>
       <mat-form-field>
         <input matInput class="step-input" formControlName="ministry"  type="text"  autocomplete="none" appTrimValue disabled/>
-      </mat-form-field>
-      <ng-container *ngFor="let column of this.data.columns; let i = index;">
+      </mat-form-field> -->
+      <ng-container *ngFor="let column of this.fields; let i = index;">
         <label class="step-label">{{ column }}</label>
         <mat-form-field>
-          <input matInput class="step-input" formControlName="column"  type="text"  autocomplete="none" value="{{this.data.element.insHierarchies[i].title}}" appTrimValue />
+          <input matInput class="step-input" [formControlName]="column"  type="text"  autocomplete="none" appTrimValue />
         </mat-form-field>
       </ng-container>
     </form>
