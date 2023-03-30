@@ -17,6 +17,7 @@ import {
   CreateChild,
   CreateFavoriteWorkshop,
   CreateRating,
+  DeleteRatingById,
   DeleteChildById,
   DeleteFavoriteWorkshop,
   GetAllUsersChildren,
@@ -36,6 +37,8 @@ import {
   OnCreateChildSuccess,
   OnCreateRatingFail,
   OnCreateRatingSuccess,
+  OnDeleteRatingFail,
+  OnDeleteRatingSuccess,
   OnDeleteChildFail,
   OnDeleteChildSuccess,
   OnUpdateChildFail,
@@ -339,6 +342,27 @@ export class ParentState {
         type: 'success'
       })
     );
+  }
+
+  @Action(DeleteRatingById)
+  deleteRatingById(
+    { dispatch }: StateContext<ParentStateModel>,
+    { payload }: DeleteRatingById
+  ): Observable<void | Observable<void>> {
+    return this.ratingService.deleteRate(payload).pipe(
+      tap(() => dispatch(new OnDeleteRatingSuccess(payload))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteRatingFail(error))))
+    );
+  }
+  
+  @Action(OnDeleteChildFail)
+  onDeleteRatingFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(OnDeleteChildSuccess)
+  onDeleteRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { parameters }: OnDeleteChildSuccess): void {
+    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren(parameters)]);
   }
 
   @Action(CreateApplication)
