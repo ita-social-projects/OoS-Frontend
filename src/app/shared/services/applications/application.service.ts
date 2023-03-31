@@ -1,10 +1,16 @@
-import { ApplicationStatuses } from './../../enum/statuses';
+import { catchError, Observable, tap, throwError } from 'rxjs';
+
+import {
+  HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { PaginationElement } from '../../models/paginationElement.model';
 import { Store } from '@ngxs/store';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
-import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../../models/application.model';
+
+import { ApplicationStatuses } from '../../enum/statuses';
+import {
+  Application, ApplicationFilterParameters, ApplicationUpdate
+} from '../../models/application.model';
+import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({

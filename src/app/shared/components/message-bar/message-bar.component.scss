@@ -1,5 +1,5 @@
 .popup-body {
-  height: 30px;
+  min-height: 30px;
 }
 
 ::ng-deep .mat-snack-bar-container {
@@ -67,6 +67,7 @@
   line-height: 19px;
   letter-spacing: 0em;
   text-align: left;
+  margin: 0;
 }
 
 .drop-below {
