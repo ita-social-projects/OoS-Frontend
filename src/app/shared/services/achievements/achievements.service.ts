@@ -24,7 +24,9 @@ export class AchievementsService {
   }
 
   public getChildrenByWorkshopId(id: string): Observable<SearchResponse<Child[]>> {
-    return this.http.get<SearchResponse<Child[]>>(`/api/v1/workshop/${id}/children/approved/`);
+    //TODO: Delete params after deleting from the endpoint need to send a duplicate workshop id
+    const params = new HttpParams().set('workshopId', id);
+    return this.http.get<SearchResponse<Child[]>>(`/api/v1/workshops/${id}/children/approved/`, { params });
   }
 
   public createAchievement(achievement: Achievement): Observable<Achievement> {
