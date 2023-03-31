@@ -26,9 +26,13 @@ export class AppWorkshopsService {
   }
 
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
+    const defaultFilters = {
+      from: '0',
+      size: '100'
+    }
     let params = new HttpParams();
 
-    if (filters.settlement && !filters.mapViewCoords) {
+    if (filters.settlement) {
       params = this.setCityFilterParams(filters.settlement, params);
     } else if (!!filters.mapViewCoords) {
       const { lat, lng } = filters.mapViewCoords;
@@ -92,7 +96,7 @@ export class AppWorkshopsService {
       params = params.set('IsStrictWorkdays', 'true');
     }
 
-    if (filters.order && !filters.mapViewCoords) {
+    if (filters.order) {
       params = params.set('OrderByField', filters.order);
     }
 
@@ -105,12 +109,14 @@ export class AppWorkshopsService {
     }
 
     if (isMapView) {
-      params = params.set('OrderByField', Ordering.nearest).set('Size', '100').set('From', '0');
+      params = params.set('OrderByField', Ordering.nearest).set('Size', defaultFilters.size).set('From', defaultFilters.from);
       if (filters.userRadiusSize) {
         params = params.set('RadiusKm', filters.userRadiusSize);
       }
     } else {
-      params = params.set('Size', filters.size.toString()).set('From', filters.from.toString());
+      const size = filters?.size?.toString() || defaultFilters.size;
+      const from = filters?.from?.toString() || defaultFilters.from;
+      params = params.set('Size', size).set('From', from);
     }
 
     return params;
