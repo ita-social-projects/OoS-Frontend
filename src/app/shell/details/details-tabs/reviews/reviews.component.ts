@@ -4,7 +4,6 @@ import { Component, Input, OnDestroy, OnInit} from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { TranslateService } from '@ngx-translate/core';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { ReviewDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
@@ -22,7 +21,6 @@ import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, Cre
 import { ParentState } from '../../../../shared/store/parent.state.';
 import { RegistrationState } from '../../../../shared/store/registration.state';
 import { Util } from '../../../../shared/utils/utils';
-
 
 @Component({
   selector: 'app-reviews',
