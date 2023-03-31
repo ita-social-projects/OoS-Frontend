@@ -38,4 +38,8 @@ export class InstitutionsService {
 
     return this.http.get<InstituitionHierarchy[]>(`/api/v1/InstitutionHierarchy/GetParents/${id}`, { params });
   }
+
+  editInstitutionHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy> {
+    return this.http.put<InstituitionHierarchy>(`/api/v1/InstitutionHierarchy/Update`, insHierarchy);
+  }
 }

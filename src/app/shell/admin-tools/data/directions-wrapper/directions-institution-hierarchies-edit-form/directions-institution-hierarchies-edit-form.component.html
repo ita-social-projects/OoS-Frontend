@@ -39,17 +39,17 @@
       <mat-form-field>
         <input matInput class="step-input" formControlName="ministry"  type="text"  autocomplete="none" appTrimValue disabled/>
       </mat-form-field> -->
-      <ng-container *ngFor="let column of this.fields; let i = index;">
-        <label class="step-label">{{ column }}</label>
+      <ng-container *ngFor="let field of this.fields; let i = index;">
+        <label class="step-label">{{ field }}</label>
         <mat-form-field>
-          <input matInput class="step-input" [formControlName]="column"  type="text"  autocomplete="none" appTrimValue />
+          <input matInput class="step-input" [formControlName]="field"  type="text"  autocomplete="none" appTrimValue />
         </mat-form-field>
       </ng-container>
     </form>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button class="btn btn-cancel">Скасувати</button>
-      <button class="btn" mat-button type="submit">Зберегти</button>
+      <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
     </div>
   </div>
 </div>
