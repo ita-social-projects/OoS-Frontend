@@ -499,7 +499,7 @@ export class AdminState {
     const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
-        message: message,
+        message,
         type: 'error'
       })
     );
@@ -777,7 +777,7 @@ export class AdminState {
     const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
-        message: message,
+        message,
         type: 'error'
       })
     );
