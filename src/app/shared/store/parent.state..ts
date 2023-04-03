@@ -1,20 +1,30 @@
+import { Observable, of } from 'rxjs';
+import { catchError, debounceTime, tap } from 'rxjs/operators';
+
+import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, tap } from 'rxjs/operators';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+
+import { EMPTY_RESULT } from '../constants/constants';
+import { SnackbarText } from '../enum/enumUA/messageBer';
+import { Application } from '../models/application.model';
 import { Child } from '../models/child.model';
 import { Favorite } from '../models/favorite.model';
+import { TruncatedItem } from '../models/item.model';
+import { Rate } from '../models/rating';
+import { SearchResponse } from '../models/search.model';
 import { WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ChildrenService } from '../services/children/children.service';
+import { RatingService } from '../services/rating/rating.service';
 import { FavoriteWorkshopsService } from '../services/workshops/favorite-workshops/favorite-workshops.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CreateApplication,
-  CreateChildren,
   CreateChild,
+  CreateChildren,
   CreateFavoriteWorkshop,
   CreateRating,
   DeleteChildById,
@@ -30,9 +40,9 @@ import {
   GetUsersChildren,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
+  OnCreateChildFail,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
-  OnCreateChildFail,
   OnCreateChildSuccess,
   OnCreateRatingFail,
   OnCreateRatingSuccess,
@@ -43,14 +53,6 @@ import {
   ResetSelectedChild,
   UpdateChild
 } from './parent.actions';
-import { Location } from '@angular/common';
-import { RatingService } from '../services/rating/rating.service';
-import { TruncatedItem } from '../models/item.model';
-import { Rate } from '../models/rating';
-import { Application } from '../models/application.model';
-import { SearchResponse } from '../models/search.model';
-import { EMPTY_RESULT } from '../constants/constants';
-import { SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface ParentStateModel {
   isLoading: boolean;
@@ -348,7 +350,9 @@ export class ParentState {
   ): Observable<HttpResponse<Application> | Observable<void>> {
     return this.applicationService.createApplication(payload).pipe(
       tap(() => dispatch(new OnCreateApplicationSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateApplicationFail(error))))
+      catchError((error) => {
+        return of(dispatch(new OnCreateApplicationFail(error)));
+      })
     );
   }
 

@@ -1,97 +1,56 @@
-import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { Direction } from '../models/category.model';
-import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { DirectionsService } from '../services/directions/directions.service';
-import { Child } from '../models/child.model';
-import { ChildrenService } from '../services/children/children.service';
-import { CompanyInformation } from '../models/сompanyInformation.model';
-import { Injectable } from '@angular/core';
-import { Parent } from '../models/parent.model';
-import { PlatformService } from '../services/platform/platform.service';
-import { Provider } from '../models/provider.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { Router } from '@angular/router';
+
 import { Location } from '@angular/common';
-import {
-  BlockAdminById,
-  BlockMinistryAdminById,
-  BlockProviderById,
-  BlockRegionAdminById,
-  CreateAdmin,
-  CreateDirection,
-  CreateMinistryAdmin,
-  CreateRegionAdmin,
-  DeleteAdminById,
-  DeleteDirectionById,
-  DeleteMinistryAdminById,
-  DeleteRegionAdminById,
-  DownloadStatisticReport,
-  GetAboutPortal,
-  GetAdminById,
-  GetAllAdmins,
-  GetAllMinistryAdmins,
-  GetAllRegionAdmins,
-  GetApplicationHistory,
-  GetChildrenForAdmin,
-  GetDirectionById,
-  GetFilteredDirections,
-  GetFilteredProviders,
-  GetLawsAndRegulations,
-  GetMainPageInformation,
-  GetMinistryAdminById,
-  GetMinistryAdminProfile,
-  GetPlatformInfo,
-  GetProviderAdminHistory,
-  GetProviderHistory,
-  GetRegionAdminById,
-  GetRegionAdminProfile,
-  GetStatisticReports,
-  GetSupportInformation,
-  OnBlockFail,
-  OnBlockSuccess,
-  OnCreateDirectionFail,
-  OnCreateDirectionSuccess,
-  OnCreateMinistryAdminFail,
-  OnCreateMinistryAdminSuccess,
-  OnCreateRegionAdminFail,
-  OnCreateRegionAdminSuccess,
-  OnDeleteDirectionFail,
-  OnDeleteDirectionSuccess,
-  OnDeleteMinistryAdminFail,
-  OnDeleteMinistryAdminSuccess,
-  OnDeleteRegionAdminFail,
-  OnDeleteRegionAdminSuccess,
-  OnUpdateDirectionFail,
-  OnUpdateDirectionSuccess,
-  OnUpdateMinistryAdminFail,
-  OnUpdateMinistryAdminSuccess,
-  OnUpdatePlatformInfoFail,
-  OnUpdatePlatformInfoSuccess,
-  OnUpdateRegionAdminFail,
-  OnUpdateRegionAdminSuccess,
-  UpdateAdmin,
-  UpdateDirection,
-  UpdateMinistryAdmin,
-  UpdatePlatformInfo,
-  UpdateRegionAdmin
-} from './admin.actions';
-import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
+import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+
 import { EMPTY_RESULT } from '../constants/constants';
-import { HistoryLogService } from '../services/history-log/history-log.service';
-import { SearchResponse } from '../models/search.model';
-import { GetMainPageInfo } from './main-page.actions';
-import { StatisticReport } from '../models/statistic.model';
-import { StatisticReportsService } from '../services/statistics-reports/statistic-reports.service';
 import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { SnackbarText } from '../enum/enumUA/messageBer';
-import { RegionAdmin } from '../models/regionAdmin.model';
-import { RegionAdminService } from '../services/region-admin/region-admin.service';
 import { BaseAdmin } from '../models/admin.model';
+import { Direction } from '../models/category.model';
+import { Child } from '../models/child.model';
+import {
+  ApplicationHistory, ProviderAdminHistory, ProviderHistory
+} from '../models/history-log.model';
+import { MinistryAdmin } from '../models/ministryAdmin.model';
+import { Parent } from '../models/parent.model';
+import { Provider } from '../models/provider.model';
+import { RegionAdmin } from '../models/regionAdmin.model';
+import { SearchResponse } from '../models/search.model';
+import { StatisticReport } from '../models/statistic.model';
+import { CompanyInformation } from '../models/сompanyInformation.model';
+import { ChildrenService } from '../services/children/children.service';
+import { DirectionsService } from '../services/directions/directions.service';
+import { HistoryLogService } from '../services/history-log/history-log.service';
+import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
+import { PlatformService } from '../services/platform/platform.service';
+import { ProviderService } from '../services/provider/provider.service';
+import { RegionAdminService } from '../services/region-admin/region-admin.service';
+import { StatisticReportsService } from '../services/statistics-reports/statistic-reports.service';
+import {
+  BlockAdminById, BlockMinistryAdminById, BlockProviderById, BlockRegionAdminById, CreateAdmin,
+  CreateDirection, CreateMinistryAdmin, CreateRegionAdmin, DeleteAdminById, DeleteDirectionById,
+  DeleteMinistryAdminById, DeleteRegionAdminById, DownloadStatisticReport, GetAboutPortal,
+  GetAdminById, GetAllAdmins, GetAllMinistryAdmins, GetAllRegionAdmins, GetApplicationHistory,
+  GetChildrenForAdmin, GetDirectionById, GetFilteredDirections, GetFilteredProviders,
+  GetLawsAndRegulations, GetMainPageInformation, GetMinistryAdminById, GetMinistryAdminProfile,
+  GetPlatformInfo, GetProviderAdminHistory, GetProviderHistory, GetRegionAdminById,
+  GetRegionAdminProfile, GetStatisticReports, GetSupportInformation, OnBlockFail, OnBlockSuccess,
+  OnCreateDirectionFail, OnCreateDirectionSuccess, OnCreateMinistryAdminFail,
+  OnCreateMinistryAdminSuccess, OnCreateRegionAdminFail, OnCreateRegionAdminSuccess,
+  OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnDeleteMinistryAdminFail,
+  OnDeleteMinistryAdminSuccess, OnDeleteRegionAdminFail, OnDeleteRegionAdminSuccess,
+  OnUpdateDirectionFail, OnUpdateDirectionSuccess, OnUpdateMinistryAdminFail,
+  OnUpdateMinistryAdminSuccess, OnUpdatePlatformInfoFail, OnUpdatePlatformInfoSuccess,
+  OnUpdateRegionAdminFail, OnUpdateRegionAdminSuccess, UpdateAdmin, UpdateDirection,
+  UpdateMinistryAdmin, UpdatePlatformInfo, UpdateRegionAdmin
+} from './admin.actions';
+import { MarkFormDirty, ShowMessageBar } from './app.actions';
+import { GetMainPageInfo } from './main-page.actions';
 
 export interface AdminStateModel {
   aboutPortal: CompanyInformation;
@@ -508,11 +467,8 @@ export class AdminState {
   }
 
   @Action(CreateAdmin)
-  createAdmin(
-    { dispatch }: StateContext<AdminState>,
-    { payload, adminType }: CreateAdmin
-  ): void {
-    switch(adminType) {
+  createAdmin({ dispatch }: StateContext<AdminState>, { payload, adminType }: CreateAdmin): void {
+    switch (adminType) {
       case AdminRoles.ministryAdmin: {
         dispatch(new CreateMinistryAdmin(payload));
         break;
@@ -540,10 +496,10 @@ export class AdminState {
 
   @Action(OnCreateMinistryAdminFail)
   onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
-    const message = payload.message === 'Internal Server Error' ? SnackbarText.errorEmail : SnackbarText.error;
+    const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
-        message: message,
+        message,
         type: 'error'
       })
     );
@@ -562,11 +518,8 @@ export class AdminState {
   }
 
   @Action(GetAllAdmins)
-  getAllAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { adminType, parameters }: GetAllAdmins
-  ): void {
-    switch(adminType) {
+  getAllAdmin({ dispatch }: StateContext<AdminStateModel>, { adminType, parameters }: GetAllAdmins): void {
+    switch (adminType) {
       case AdminRoles.ministryAdmin: {
         dispatch(new GetAllMinistryAdmins(parameters));
         break;
@@ -589,16 +542,12 @@ export class AdminState {
     patchState({ isLoading: true });
     return this.ministryAdminService
       .getAllAdmin(parameters)
-      .pipe(
-        tap((admins: SearchResponse<MinistryAdmin[]>) =>
-          patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })
-        )
-      );
+      .pipe(tap((admins: SearchResponse<MinistryAdmin[]>) => patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(GetAdminById)
-  getAdminById({dispatch}: StateContext<AdminState>, {payload, adminType}: GetAdminById): void {
-    switch(adminType) {
+  getAdminById({ dispatch }: StateContext<AdminState>, { payload, adminType }: GetAdminById): void {
+    switch (adminType) {
       case AdminRoles.ministryAdmin: {
         dispatch(new GetMinistryAdminById(payload));
         break;
@@ -622,11 +571,8 @@ export class AdminState {
   }
 
   @Action(DeleteAdminById)
-  deleteAdminById(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload, adminType }: DeleteAdminById
-  ):void {
-    switch(adminType) {
+  deleteAdminById({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: DeleteAdminById): void {
+    switch (adminType) {
       case AdminRoles.ministryAdmin: {
         dispatch(new DeleteMinistryAdminById(payload));
         break;
@@ -669,11 +615,8 @@ export class AdminState {
   }
 
   @Action(BlockAdminById)
-  blockAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload, adminType }: BlockAdminById
-  ): void {
-    switch(adminType) {
+  blockAdmin({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: BlockAdminById): void {
+    switch (adminType) {
       case AdminRoles.ministryAdmin: {
         dispatch(new BlockMinistryAdminById(payload));
         break;
@@ -726,11 +669,8 @@ export class AdminState {
   }
 
   @Action(UpdateAdmin)
-  updateAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload, adminType }: UpdateAdmin
-  ): void {
-    switch(adminType) {
+  updateAdmin({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: UpdateAdmin): void {
+    switch (adminType) {
       case AdminRoles.ministryAdmin: {
         dispatch(new UpdateMinistryAdmin(payload));
         break;
@@ -744,7 +684,7 @@ export class AdminState {
       }
     }
   }
- 
+
   @Action(UpdateMinistryAdmin)
   updateMinistryAdmin(
     { dispatch }: StateContext<AdminStateModel>,
@@ -778,7 +718,6 @@ export class AdminState {
     this.router.navigate(['/admin-tools/data/admins']);
   }
 
-  
   @Action(GetRegionAdminProfile)
   getRegionAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<RegionAdmin> {
     patchState({ isLoading: true });
@@ -822,14 +761,11 @@ export class AdminState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/admin-tools/data/admins'], {queryParams:{ role: AdminRoles.regionAdmin }});
+    this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.regionAdmin } });
   }
 
   @Action(CreateRegionAdmin)
-  createRegionAdmin(
-    { dispatch }: StateContext<AdminState>,
-    { payload }: CreateRegionAdmin
-  ): Observable<RegionAdmin | Observable<void>> {
+  createRegionAdmin({ dispatch }: StateContext<AdminState>, { payload }: CreateRegionAdmin): Observable<RegionAdmin | Observable<void>> {
     return this.regionAdminService.createAdmin(payload).pipe(
       tap(() => dispatch(new OnCreateRegionAdminSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRegionAdminFail(error))))
@@ -838,10 +774,10 @@ export class AdminState {
 
   @Action(OnCreateRegionAdminFail)
   onCreateRegionAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateRegionAdminFail): void {
-    const message = payload.message === 'Internal Server Error' ? SnackbarText.errorEmail : SnackbarText.error;
+    const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
-        message: message,
+        message,
         type: 'error'
       })
     );
@@ -867,11 +803,7 @@ export class AdminState {
     patchState({ isLoading: true });
     return this.regionAdminService
       .getAllAdmin(parameters)
-      .pipe(
-        tap((admins: SearchResponse<RegionAdmin[]>) =>
-          patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })
-        )
-      );
+      .pipe(tap((admins: SearchResponse<RegionAdmin[]>) => patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })));
   }
 
   @Action(GetRegionAdminById)
@@ -910,10 +842,7 @@ export class AdminState {
   }
 
   @Action(BlockRegionAdminById)
-  blockRegionAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: BlockRegionAdminById
-  ): Observable<void | Observable<void>> {
+  blockRegionAdmin({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockRegionAdminById): Observable<void | Observable<void>> {
     return this.regionAdminService.blockAdmin(payload.adminId, payload.isBlocked).pipe(
       tap(() => dispatch([new OnBlockSuccess(payload), new GetAllRegionAdmins()])),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
