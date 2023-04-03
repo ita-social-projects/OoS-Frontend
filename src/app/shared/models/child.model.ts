@@ -4,29 +4,30 @@ import { PaginationParameters } from './queryParameters.model';
 import { Person } from './user.model';
 
 export class Child implements Person {
-  id: string;
+  id?: string;
   firstName: string;
   lastName: string;
   middleName?: string;
   dateOfBirth: string;
   gender: number;
-  parentId?: number;
+  parentId: string;
   isParent: boolean;
-  socialGroups: DataItem[];
-  placeOfLiving: string;
-  parent: ParentWithContactInfo;
+  socialGroups?: DataItem[];
+  socialGroupIds?: number[] = [];
+  placeOfStudy: string;
+  parent?: ParentWithContactInfo;
 
-  constructor(info, parentId, id?) {
+  constructor(childFormValue, parentId: string, id?: string) {
     this.id = id;
-    this.firstName = info.firstName;
-    this.lastName = info.lastName;
-    this.middleName = info.middleName;
-    this.dateOfBirth = info.dateOfBirth;
-    this.gender = info.gender;
-    this.socialGroups = info.socialGroups;
+    this.firstName = childFormValue.firstName;
+    this.lastName = childFormValue.lastName;
+    this.middleName = childFormValue.middleName;
+    this.dateOfBirth = childFormValue.dateOfBirth;
+    this.gender = childFormValue.gender;
+    this.socialGroupIds = childFormValue.socialGroups.map((item: DataItem) => item.id);
     this.parentId = parentId;
-    this.placeOfLiving = info.placeOfLiving;
-    this.isParent = info.isParent;
+    this.placeOfStudy = childFormValue.placeOfStudy;
+    this.isParent = childFormValue.isParent || false;
   }
 }
 

@@ -1,10 +1,12 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+
 import { Achievement, AchievementParameters, AchievementType } from '../../models/achievement.model';
 import { Child } from '../../models/child.model';
 import { SearchResponse } from '../../models/search.model';
-import { Store } from '@ngxs/store';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +14,7 @@ import { Store } from '@ngxs/store';
 export class AchievementsService {
   constructor(private http: HttpClient, private store: Store) {}
 
-  getAchievementsByWorkshopId(achievementParameters: AchievementParameters): Observable<SearchResponse<Achievement[]>> {
+  public getAchievementsByWorkshopId(achievementParameters: AchievementParameters): Observable<SearchResponse<Achievement[]>> {
     const params = new HttpParams()
       .set('WorkshopId', achievementParameters.workshopId)
       .set('From', achievementParameters.from.toString())
@@ -21,27 +23,29 @@ export class AchievementsService {
     return this.http.get<SearchResponse<Achievement[]>>(`/api/v1/Achievement/GetByWorkshopId`, { params });
   }
 
-  getChildrenByWorkshopId(id: string): Observable<SearchResponse<Child[]>> {
-    return this.http.get<SearchResponse<Child[]>>(`/api/v1/Child/GetApprovedByWorkshopId/${id}`);
+  public getChildrenByWorkshopId(id: string): Observable<SearchResponse<Child[]>> {
+    //TODO: Delete params after deleting from the endpoint need to send a duplicate workshop id
+    const params = new HttpParams().set('workshopId', id);
+    return this.http.get<SearchResponse<Child[]>>(`/api/v1/workshops/${id}/children/approved/`, { params });
   }
 
-  createAchievement(achievement: Achievement): Observable<Achievement> {
+  public createAchievement(achievement: Achievement): Observable<Achievement> {
     return this.http.post<Achievement>('/api/v1/Achievement/Create', achievement);
   }
 
-  updateAchievement(achievement: Achievement): Observable<Achievement> {
+  public updateAchievement(achievement: Achievement): Observable<Achievement> {
     return this.http.put<Achievement>('/api/v1/Achievement/Update', achievement);
   }
 
-  deleteAchievement(id: string): Observable<void> {
+  public deleteAchievement(id: string): Observable<void> {
     return this.http.delete<void>(`/api/v1/Achievement/Delete/${id}`);
   }
 
-  getAchievementsType(): Observable<AchievementType[]> {
+  public getAchievementsType(): Observable<AchievementType[]> {
     return this.http.get<AchievementType[]>('/api/v1/AchievementType/GetAll');
   }
 
-  getAchievementById(achievementId: string): Observable<Achievement> {
+  public getAchievementById(achievementId: string): Observable<Achievement> {
     return this.http.get<Achievement>(`/api/v1/Achievement/GetById/${achievementId}`);
   }
 }
