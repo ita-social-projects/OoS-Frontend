@@ -1,3 +1,5 @@
+import { NotificationType } from 'shared/enum/notifications';
+
 export interface NotificationsAmount {
   amount: number;
 }
@@ -5,7 +7,7 @@ export interface Notification {
   id?: string;
   userId: string;
   data?: NotificationsDate;
-  type: string;
+  type: NotificationType;
   action: string;
   createdDateTime: string;
   readDateTime?: string;
@@ -16,9 +18,9 @@ export class NotificationGroupedByAdditionalData {
   action: string;
   amount = 1;
   groupedData: string;
-  type: string;
+  type: NotificationType;
 
-  constructor(action: string, groupedData: string, type: string) {
+  constructor(action: string, groupedData: string, type: NotificationType) {
     this.action = action;
     this.groupedData = groupedData;
     this.type = type;
@@ -26,7 +28,7 @@ export class NotificationGroupedByAdditionalData {
 }
 
 export interface Notifications {
-  notificationsGrouped: NotificationGroupedByAdditionalData[];
+  notificationsGroupedByType: NotificationsGroupedByType[];
   notifications: Notification[];
 }
 
@@ -36,14 +38,14 @@ export interface NotificationsDate {
 }
 
 export class NotificationsGroupedByType {
-  type: string;
+  type: NotificationType;
   amount: number;
-  isRead = false;
-  groupsByAdditionalData: NotificationGroupedByAdditionalData[];
+  isRead?: boolean = false;
+  groupedByAdditionalData: NotificationGroupedByAdditionalData[];
 
-  constructor(type: string, amount: number, groupsByAction: NotificationGroupedByAdditionalData[]) {
+  constructor(type: NotificationType, amount: number, groupsByAction: NotificationGroupedByAdditionalData[]) {
     this.type = type;
     this.amount = amount;
-    this.groupsByAdditionalData = groupsByAction;
+    this.groupedByAdditionalData = groupsByAction;
   }
 }
