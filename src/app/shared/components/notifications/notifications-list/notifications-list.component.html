@@ -46,7 +46,7 @@
               class="body-notification__wrapper"
             >
               <div
-                *ngFor="let group of groupByType.groupsByAdditionalData"
+                *ngFor="let group of groupByType.groupedByAdditionalData"
                 class="body-notification__content body-notification__group info"
                 (click)="onNavigate(group.type, group.groupedData)"
               >

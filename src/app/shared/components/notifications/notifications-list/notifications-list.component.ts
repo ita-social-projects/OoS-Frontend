@@ -8,37 +8,26 @@ import { Select, Store } from '@ngxs/store';
 import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-links';
 import { Constants } from '../../../constants/constants';
 import {
-  ApplicationApproved,
-  ApplicationChanges,
-  ApplicationLeft,
-  ApplicationPending,
-  ApplicationRejected
+  ApplicationApproved, ApplicationChanges, ApplicationLeft, ApplicationPending, ApplicationRejected
 } from '../../../enum/enumUA/declinations/notification-declination';
 import { NoResultsTitle } from '../../../enum/enumUA/no-results';
 import {
-  NotificationProviderLicenseFullDescription,
-  NotificationProviderLicenseShortDescription,
-  NotificationsProviderFullDescriptions,
-  NotificationsProviderShortDescriptions,
-  NotificationWorkshopFullDescriptions,
-  NotificationWorkshopShortDescription
+  NotificationProviderLicenseFullDescription, NotificationProviderLicenseShortDescription,
+  NotificationsProviderFullDescriptions, NotificationsProviderShortDescriptions,
+  NotificationWorkshopFullDescriptions, NotificationWorkshopShortDescription
 } from '../../../enum/enumUA/notifications';
-import { DataTypes, NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
+import {
+  DataTypes, NotificationDescriptionType, NotificationType
+} from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
 import { ApplicationStatuses, LicenseStatuses, ProviderStatuses } from '../../../enum/statuses';
 import {
-  Notification,
-  NotificationGroupedByAdditionalData,
-  Notifications,
-  NotificationsAmount,
+  Notification, NotificationGroupedByAdditionalData, Notifications, NotificationsAmount,
   NotificationsGroupedByType
 } from '../../../models/notifications.model';
 import {
-  ClearNotificationState,
-  DeleteUsersNotificationById,
-  GetAllUsersNotificationsGrouped,
-  ReadUsersNotificationById,
-  ReadUsersNotificationsByType
+  ClearNotificationState, DeleteUsersNotificationById, GetAllUsersNotificationsGrouped,
+  ReadUsersNotificationById, ReadUsersNotificationsByType
 } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
@@ -82,7 +71,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         filter((recievedNotifications: Notifications) => !!recievedNotifications)
       )
       .subscribe((recievedNotifications: Notifications) => {
-        this.createGroupsByType(recievedNotifications);
+        this.groupsByType = recievedNotifications.notificationsGroupedByType;
         this.notifications = recievedNotifications.notifications;
       });
   }
@@ -103,7 +92,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
       return;
     }
 
-    this.store.dispatch(new ReadUsersNotificationsByType(groupByType));
+    this.store.dispatch(new ReadUsersNotificationsByType(groupByType.type));
 
     this.notificationsAmount.amount -= groupByType.amount;
     groupByType.isRead = true;
@@ -216,26 +205,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  private createGroupsByType(recievedNotifications: Notifications): void {
-    let groupsByType = new Map<string, NotificationsGroupedByType>();
-
-    for (const group of recievedNotifications.notificationsGrouped) {
-      const currentGroupByType = groupsByType.get(group.type);
-      let newGroupByType: NotificationsGroupedByType;
-
-      if (currentGroupByType) {
-        currentGroupByType.groupsByAdditionalData.push(group);
-        currentGroupByType.amount += group.amount;
-        groupsByType.set(currentGroupByType.type, currentGroupByType);
-      } else {
-        newGroupByType = new NotificationsGroupedByType(group.type, group.amount, [group]);
-        groupsByType.set(newGroupByType.type, newGroupByType);
-      }
-    }
-
-    groupsByType.forEach((groupByType: NotificationsGroupedByType) => this.groupsByType.push(groupByType));
-  }
-
   private addRecievedNotification(recievedNotification: Notification): void {
     this.notificationsAmount.amount++;
 
@@ -246,7 +215,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
     for (const groupByType of this.groupsByType) {
       if (groupByType.type === recievedNotification.type) {
-        for (const groupByAction of groupByType.groupsByAdditionalData) {
+        for (const groupByAction of groupByType.groupedByAdditionalData) {
           if (groupByAction.groupedData === recievedNotification.data.Status) {
             groupByType.amount++;
             groupByAction.amount++;
@@ -266,7 +235,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   private addNewGroupByAdditionalData(groupByType: NotificationsGroupedByType, recievedNotification: Notification): void {
     switch (recievedNotification.type) {
       case NotificationType.Application:
-        groupByType.groupsByAdditionalData.push(
+        groupByType.groupedByAdditionalData.push(
           new NotificationGroupedByAdditionalData(recievedNotification.action, recievedNotification.data.Status, recievedNotification.type)
         );
         break;

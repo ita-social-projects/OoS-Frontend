@@ -1,23 +1,22 @@
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
+
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+
 import { SnackbarText } from '../enum/enumUA/messageBer';
-import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
+import {
+  Notification, NotificationGroupedByAdditionalData, Notifications, NotificationsAmount,
+  NotificationsGroupedByType
+} from '../models/notifications.model';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
 import {
-  GetAllUsersNotificationsGrouped,
-  GetAmountOfNewUsersNotifications,
-  OnReadUsersNotificationsFail,
-  OnReadUsersNotificationsByTypeSuccess,
-  ReadUsersNotificationsByType,
-  ReadUsersNotificationById,
-  DeleteUsersNotificationById,
-  OnDeleteUsersNotificationByIdSuccess,
-  OnDeleteUsersNotificationByIdFail,
-  ClearNotificationState,
+  ClearNotificationState, DeleteUsersNotificationById, GetAllUsersNotificationsGrouped,
+  GetAmountOfNewUsersNotifications, OnDeleteUsersNotificationByIdFail,
+  OnDeleteUsersNotificationByIdSuccess, OnReadUsersNotificationsByTypeSuccess,
+  OnReadUsersNotificationsFail, ReadUsersNotificationById, ReadUsersNotificationsByType
 } from './notifications.actions';
 
 export interface NotificationsStateModel {
@@ -28,8 +27,8 @@ export interface NotificationsStateModel {
   name: 'notifications',
   defaults: {
     notificationsAmount: undefined,
-    notifications: undefined,
-  },
+    notifications: undefined
+  }
 })
 @Injectable()
 export class NotificationsState {
@@ -67,11 +66,16 @@ export class NotificationsState {
   @Action(ReadUsersNotificationsByType)
   readUsersNotificationsByType(
     { dispatch }: StateContext<NotificationsStateModel>,
-    { payload }: ReadUsersNotificationsByType
+    { notificationType, needGetRequest }: ReadUsersNotificationsByType
   ): Observable<void | Observable<void>> {
-    return this.notificationsService
-      .readUsersNotificationsByType(payload)
-      .pipe(catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error)))));
+    return this.notificationsService.readUsersNotificationsByType(notificationType).pipe(
+      tap(() => {
+        if (needGetRequest) {
+          dispatch(new OnReadUsersNotificationsByTypeSuccess());
+        }
+      }),
+      catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error))))
+    );
   }
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
@@ -79,7 +83,7 @@ export class NotificationsState {
     { dispatch }: StateContext<NotificationsStateModel>,
     {}: OnReadUsersNotificationsByTypeSuccess
   ): void {
-    dispatch(new GetAmountOfNewUsersNotifications());
+    dispatch([new GetAllUsersNotificationsGrouped(), new GetAmountOfNewUsersNotifications()]);
   }
 
   @Action(ReadUsersNotificationById)
@@ -117,10 +121,7 @@ export class NotificationsState {
   }
 
   @Action(OnReadUsersNotificationsFail)
-  onReadUsersNotificationsFail(
-    { dispatch }: StateContext<NotificationsStateModel>,
-    { payload }: OnReadUsersNotificationsFail
-  ): void {
+  onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
