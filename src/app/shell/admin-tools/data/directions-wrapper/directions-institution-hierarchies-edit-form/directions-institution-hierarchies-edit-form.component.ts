@@ -1,9 +1,10 @@
-import { Component, OnInit, Inject, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Observable } from 'rxjs';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Observable, forkJoin } from 'rxjs';
 import { InstituitionHierarchy } from '../../../../../shared/models/institution.model';
 import { InstitutionsService } from '../../../../../shared/services/institutions/institutions.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -12,8 +13,7 @@ import { InstitutionsService } from '../../../../../shared/services/institutions
   styleUrls: ['./directions-institution-hierarchies-edit-form.component.scss']
 })
 export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit, AfterViewInit {
-  //@Inject(MAT_DIALOG_DATA) public data: any;
-
+  @ViewChild('editForm') editForm: ElementRef;
   editFormTitle: string = 'Редагувати напрямок';
   editFormSubtitle: string = 'Редагуйте новий напрямок';
   ministryLabel: string = 'Підпорядкування (Міністерство)';
@@ -22,15 +22,15 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
   userDirectionsLabel: string = 'Напрямки для користувача';
 
   EditDirectionFormGroup: FormGroup;
+  allEdited: Observable<boolean>;
   fields: string[] = [];
+  requests: Observable<InstituitionHierarchy>;
+  editedInsHierarchies: InstituitionHierarchy[] = [];
 
-  constructor(private formBuilder: FormBuilder, private institutionService: InstitutionsService,
+  constructor(private formBuilder: FormBuilder, private router: Router, private institutionService: InstitutionsService,
+    private dialogRef: MatDialogRef<DirectionsInstitutionHierarchiesEditFormComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
     this.buildForm();
-    // this.EditDirectionFormGroup = this.formBuilder.group({
-    //   ministry: new FormControl(this.data.element.insHierarchies[0].institution.title),
-    // });
-
    }
 
   ngOnInit(): void {
@@ -38,8 +38,7 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
   }
 
   ngAfterViewInit(): void {
-    //let inputs = document.getElementById('wrapper');//.getElementsByTagName('input');
-    //inputs[inputs.length - 1].focus();
+    this.lastInputFocus();
   }
 
   buildForm() {
@@ -60,17 +59,42 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
   }
 
   onSubmit() {
-    for(let i = 0; i < this.data.columns.length; ++i) {
+    for (let i = 0; i < this.data.columns.length; ++i) {
       const fieldName = this.data.columns[i];
       const field = this.EditDirectionFormGroup.controls[fieldName];
       if (field.value != this.data.element.name[i]) {
-        this.editInstitutionalHierarchyTitle(this.data.element.insHierarchies[i], field.value).subscribe();
+        let editedInsHierarchy = this.data.element.insHierarchies[i];
+        editedInsHierarchy.title = field.value;
+        this.editedInsHierarchies.push(editedInsHierarchy);
       }
     }
+
+    forkJoin(
+      this.editedInsHierarchies.map(ins => this.editInstitutionalHierarchy(ins))).subscribe((result) => {
+        this.closeDialog();
+        this.reloadPage();
+    });
+
   }
 
-  editInstitutionalHierarchyTitle(insHierarchy: InstituitionHierarchy, title: string): Observable<InstituitionHierarchy> {
-    insHierarchy.title = title;
+  lastInputFocus() {
+    let inputs = this.editForm.nativeElement.getElementsByTagName('input') as HTMLInputElement[];
+    let lastInput = inputs[inputs.length - 1];
+    lastInput.focus();
+  }
+
+  editInstitutionalHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy> {
     return this.institutionService.editInstitutionHierarchy(insHierarchy);
+  }
+
+  reloadPage() {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+
+  closeDialog() {
+    this.dialogRef.close();
   }
 }
