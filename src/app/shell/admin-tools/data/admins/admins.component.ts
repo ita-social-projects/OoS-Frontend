@@ -1,29 +1,32 @@
-import { MinistryAdmin, MinistryAdminParameters } from './../../../../shared/models/ministryAdmin.model';
 import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, skip } from 'rxjs/operators';
-import { AdminState } from './../../../../shared/store/admin.state';
-import { BlockMinistryAdminById, DeleteMinistryAdminById, GetAllMinistryAdmins } from './../../../../shared/store/admin.actions';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Subject, Observable } from 'rxjs';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
-import { AdminRoles, AdminRoleTypes } from '../../../../shared/enum/admins';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../../shared/enum/role';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { BlockData, UsersTable } from '../../../../shared/models/usersTable';
-import { PushNavPath, PopNavPath } from '../../../../shared/store/navigation.actions';
-import { Util } from '../../../../shared/utils/utils';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { RegistrationState } from './../../../../shared/store/registration.state';
-import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
-import { AdminRolesTitles } from '../../../../shared/enum/enumUA/tech-admin/admins';
+
+import { MinistryAdmin, MinistryAdminParameters } from 'shared-models/ministryAdmin.model';
+import { AdminState } from 'shared-store/admin.state';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants } from 'shared/constants/constants';
+import { AdminRoles, AdminRoleTypes } from 'shared-enum/admins';
+import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
+import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared-enum/enumUA/no-results';
+import { Role } from 'shared-enum/role';
+import { PaginationElement } from 'shared-models/paginationElement.model';
+import { BlockData, UsersTable } from 'shared-models/usersTable';
+import { PushNavPath, PopNavPath } from 'shared/store/navigation.actions';
+import { Util } from 'shared-utils/utils';
+import { SearchResponse } from 'shared-models/search.model';
+import { RegistrationState } from 'shared-store/registration.state';
+import { UserStatusesTitles } from 'shared-enum/enumUA/statuses';
+import { AdminRolesTitles } from 'shared-enum/enumUA/tech-admin/admins';
+import { BaseAdmin } from 'shared-models/admin.model';
+import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admin.actions';
 
 @Component({
   selector: 'app-admins',
@@ -31,28 +34,28 @@ import { AdminRolesTitles } from '../../../../shared/enum/enumUA/tech-admin/admi
   styleUrls: ['./admins.component.scss']
 })
 export class AdminsComponent implements OnInit, OnDestroy {
-  readonly noAdmins = NoResultsTitle.noAdmins;
-  readonly AdminRolesTitles = AdminRolesTitles;
-  readonly AdminRoles = AdminRoles;
-  readonly Role = Role;
-  readonly statusesTitles = UserStatusesTitles;
+  public readonly noAdmins = NoResultsTitle.noAdmins;
+  public readonly AdminRolesTitles = AdminRolesTitles;
+  public readonly AdminRoles = AdminRoles;
+  public readonly Role = Role;
+  public readonly statusesTitles = UserStatusesTitles;
 
-  @Select(AdminState.ministryAdmins)
-  ministryAdmins$: Observable<SearchResponse<MinistryAdmin[]>>;
+  @Select(AdminState.admins)
+  private admins$: Observable<SearchResponse<BaseAdmin[]>>;
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
 
-  tabIndex: number;
-  filterFormControl: FormControl = new FormControl('');
-  ministryAdminsTable: UsersTable[];
-  role: Role;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  totalEntities: number;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
-  adminParams: MinistryAdminParameters = {
+  public tabIndex: number;
+  public filterFormControl: FormControl = new FormControl('');
+  public adminsTable: UsersTable[];
+  public role: Role;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public totalEntities: number;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
+  public adminParams: MinistryAdminParameters = {
     searchString: '',
     tabTitle: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
@@ -60,9 +63,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
-  ngOnInit(): void {
-    this.getAdmins();
+  public ngOnInit(): void {
     this.setTabOptions();
+    this.getAdmins();
     this.setDisplayedColumns();
 
     this.filterFormControl.valueChanges
@@ -73,9 +76,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
         this.getAdmins();
       });
 
-    this.ministryAdmins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((ministryAdmins: SearchResponse<MinistryAdmin[]>) => {
-      this.ministryAdminsTable = Util.updateStructureForTheTableAdmins(ministryAdmins.entities);
-      this.totalEntities = ministryAdmins.totalAmount;
+    this.admins$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((admins: SearchResponse<MinistryAdmin[]>) => {
+      this.adminsTable = Util.updateStructureForTheTableAdmins(admins.entities);
+      this.totalEntities = admins.totalAmount;
     });
 
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => {
@@ -90,10 +93,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
    * This method filter admins according to selected tab
    * @param event: MatTabChangeEvent
    */
-  onTabChange(event: MatTabChangeEvent): void {
+  public onTabChange(event: MatTabChangeEvent): void {
     this.currentPage = PaginationConstants.firstPage;
-    this.filterFormControl.reset();
+    this.filterFormControl.reset("", { emitEvent: false });
     this.adminParams.searchString = '';
+    this.adminParams.from = 0;
     this.adminParams.tabTitle = AdminRoleTypes[event.index];
     this.getAdmins();
     this.router.navigate(['./'], {
@@ -107,6 +111,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const queryRole = this.route.snapshot.queryParamMap.get('role');
     this.adminParams.tabTitle = queryRole ? AdminRoles[queryRole] : AdminRoles.ministryAdmin;
     this.tabIndex = AdminRoleTypes[queryRole];
+  }
+
+  private get adminType(): AdminRoles {
+    return this.adminParams.tabTitle as AdminRoles;
   }
 
   /**
@@ -139,7 +147,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method block, unBlock Admin By Id
    */
-  onBlock(admin: BlockData): void {
+  public onBlock(admin: BlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -148,20 +156,24 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
-        this.store.dispatch(
-          new BlockMinistryAdminById({
-            ministryAdminId: admin.user.id,
-            isBlocked: admin.isBlocked
-          })
-        );
+      result && this.blockAdmin(admin, this.adminType);
     });
+
+  }
+
+  private blockAdmin(blockData: BlockData, admin: AdminRoles): void{
+    this.store.dispatch(
+      new BlockAdminById({
+        adminId: blockData.user.id,
+        isBlocked: blockData.isBlocked
+      }, admin)
+    );
   }
 
   /**
    * This method delete Admin By Id
    */
-  onDelete(admin: UsersTable): void {
+  public onDelete(admin: UsersTable): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -171,17 +183,21 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteMinistryAdminById(admin.id));
+      result && this.deleteAdmin(admin.id, this.adminType)
     });
   }
 
-  onUpdate(admin: UsersTable): void {
-    this.router.navigate([`update-admin/ministryAdmin/${admin.id}`]);
+  private deleteAdmin(id: string, admin: AdminRoles): void {
+    this.store.dispatch(new DeleteAdminById(id, admin));
+  }
+
+  public onUpdate(admin: UsersTable): void {
+    this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
   }
 
   private addNavPath(): void {
     this.store.dispatch([
-      new GetAllMinistryAdmins(this.adminParams),
+      new GetAllAdmins(this.adminType ,this.adminParams),
       new PushNavPath({
         name: NavBarName.Admins,
         isActive: false,
@@ -190,24 +206,24 @@ export class AdminsComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getAdmins();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.adminParams.size = itemsPerPage;
     this.getAdmins();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
   }
 
   private getAdmins(): void {
-    this.store.dispatch(new GetAllMinistryAdmins(this.adminParams));
     Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
+    this.store.dispatch(new GetAllAdmins(this.adminType, this.adminParams));
   }
 }

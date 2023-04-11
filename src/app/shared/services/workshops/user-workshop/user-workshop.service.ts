@@ -1,16 +1,19 @@
-import { ProviderWorkshopCard, WorkshopCard, WorkshopCardParameters } from './../../../models/workshop.model';
+import { Observable } from 'rxjs';
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Workshop, WorkshopStatus } from '../../../models/workshop.model';
-import { FeaturesList } from '../../../models/featuresList.model';
-import { MetaDataState } from '../../../store/meta-data.state';
-import { TruncatedItem } from '../../../models/item.model';
-import { SearchResponse } from '../../../models/search.model';
-import { PaginationElement } from '../../../models/paginationElement.model';
+
 import { ProviderParameters } from '../../../../shared/models/provider.model';
 import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
+import { FeaturesList } from '../../../models/featuresList.model';
+import { TruncatedItem } from '../../../models/item.model';
+import { PaginationElement } from '../../../models/paginationElement.model';
+import { SearchResponse } from '../../../models/search.model';
+import {
+  ProviderWorkshopCard, Workshop, WorkshopCard, WorkshopCardParameters, WorkshopStatus
+} from '../../../models/workshop.model';
+import { MetaDataState } from '../../../store/meta-data.state';
 
 @Injectable({
   providedIn: 'root'
@@ -66,6 +69,10 @@ export class UserWorkshopService {
 
   getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
+  }
+
+  getWorkshopListByProviderAdminId(id: string): Observable<TruncatedItem[]> {
+    return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderAdminId/${id}`);
   }
 
   /**

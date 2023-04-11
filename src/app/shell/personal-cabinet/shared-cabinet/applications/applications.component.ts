@@ -1,25 +1,34 @@
-import { ApplicationStatuses } from './../../../../shared/enum/statuses';
-import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { takeUntil, filter, debounceTime, take } from 'rxjs/operators';
-import { Application, ApplicationFilterParameters } from '../../../../shared/models/application.model';
-import { MatTabChangeEvent } from '@angular/material/tabs';
-import { MatTabGroup } from '@angular/material/tabs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
 import { Observable, Subject } from 'rxjs';
+import { debounceTime, filter, take, takeUntil } from 'rxjs/operators';
+import { NotificationType } from 'shared/enum/notifications';
+
+import {
+  AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { ActivatedRoute, Params, Router } from '@angular/router';
+import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
+
 import { PaginationConstants } from '../../../../shared/constants/constants';
+import { ApplicationStatusTabParams } from '../../../../shared/enum/applications';
+import {
+  ChildDeclination, WorkshopDeclination
+} from '../../../../shared/enum/enumUA/declinations/declination';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { ApplicationTitles } from '../../../../shared/enum/enumUA/statuses';
 import { Role } from '../../../../shared/enum/role';
+import { ApplicationStatuses } from '../../../../shared/enum/statuses';
+import {
+  Application, ApplicationFilterParameters
+} from '../../../../shared/models/application.model';
 import { Child } from '../../../../shared/models/child.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { SearchResponse } from '../../../../shared/models/search.model';
-import { FormControl } from '@angular/forms';
-import { ApplicationStatusTabParams } from '../../../../shared/enum/applications';
-import { ApplicationTitles } from '../../../../shared/enum/enumUA/statuses';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { ReadUsersNotificationsByType } from '../../../../shared/store/notifications.actions';
+import { OnUpdateApplicationSuccess } from '../../../../shared/store/shared-user.actions';
+import { SharedUserState } from '../../../../shared/store/shared-user.state';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -28,42 +37,43 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly applicationTabTitles = ApplicationTitles;
-  readonly statusTitles = ApplicationStatusTabParams;
-  readonly statuses = ApplicationStatuses;
-  readonly noApplicationTitle = NoResultsTitle.noApplication;
-  readonly Role = Role;
+  public readonly applicationTabTitles = ApplicationTitles;
+  public readonly statusTitles = ApplicationStatusTabParams;
+  public readonly statuses = ApplicationStatuses;
+  public readonly noApplicationTitle = NoResultsTitle.noApplication;
+  public readonly Role = Role;
 
   @Select(SharedUserState.applications)
-  applicationCards$: Observable<SearchResponse<Application[]>>;
-  applicationCards: SearchResponse<Application[]>;
+  private applicationCards$: Observable<SearchResponse<Application[]>>;
+  public applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
 
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
 
-  @Input() applicationParams: ApplicationFilterParameters;
-  @Input() dropdownEntities: Child[] | Workshop[];
-  @Input() declination: ChildDeclination | WorkshopDeclination;
-  @Input() role: Role;
+  @Input() public applicationParams: ApplicationFilterParameters;
+  @Input() public dropdownEntities: Child[] | Workshop[];
+  @Input() public declination: ChildDeclination | WorkshopDeclination;
+  @Input() public role: Role;
 
-  @Output() getApplications = new EventEmitter();
-  @Output() enititiesSelect = new EventEmitter();
-  @Output() leave = new EventEmitter();
-  @Output() approve = new EventEmitter();
-  @Output() reject = new EventEmitter();
-  @Output() block = new EventEmitter();
-  @Output() unblock = new EventEmitter();
-  @Output() sendMessage = new EventEmitter();
+  @Output() public getApplications = new EventEmitter();
+  @Output() public enititiesSelect = new EventEmitter();
+  @Output() public leave = new EventEmitter();
+  @Output() public approve = new EventEmitter();
+  @Output() public reject = new EventEmitter();
+  @Output() public block = new EventEmitter();
+  @Output() public unblock = new EventEmitter();
+  @Output() public sendMessage = new EventEmitter();
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  isActiveInfoButton = false;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  isMobileView: boolean;
-  searchFormControl: FormControl = new FormControl('');
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public isActiveInfoButton = false;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public isMobileView: boolean;
+  public searchFormControl: FormControl = new FormControl('');
 
   @HostListener('window: resize', ['$event.target'])
-  onResize(event: Window): void {
+  public onResize(event: Window): void {
     this.isMobileView = event.outerWidth < 530;
   }
 
@@ -71,13 +81,15 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.onResize(window);
   }
 
-  onEntitiesSelect(IDs: string[]): void {
+  public onEntitiesSelect(IDs: string[]): void {
     this.currentPage = PaginationConstants.firstPage;
     Util.setFromPaginationParam(this.applicationParams, this.currentPage, this.applicationCards?.totalAmount);
     this.enititiesSelect.emit(IDs);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    this.store.dispatch(new ReadUsersNotificationsByType(NotificationType.Application, true));
+
     this.searchFormControl.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((searchString: string) => {
       this.applicationParams.searchString = searchString;
       this.currentPage = PaginationConstants.firstPage;
@@ -94,7 +106,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
       .subscribe(() => this.getApplications.emit());
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
       const status = params['status'];
       const tabIndex = Number(ApplicationStatusTabParams[status]);
@@ -109,24 +121,24 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
    * This method get the list of application according to the selected tab
    * @param workshopsId: number[]
    */
-  onTabChange(event: MatTabChangeEvent): void {
+  public onTabChange(event: MatTabChangeEvent): void {
     this.router.navigate(['./'], {
       relativeTo: this.route,
       queryParams: { status: ApplicationStatusTabParams[event.index] }
     });
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getApplicationData();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.applicationParams.size = itemsPerPage;
     this.getApplicationData();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

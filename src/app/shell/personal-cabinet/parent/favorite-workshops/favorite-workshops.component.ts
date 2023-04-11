@@ -1,21 +1,25 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ParentComponent } from '../parent.component';
+import { filter, takeUntil } from 'rxjs/operators';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { takeUntil } from 'rxjs/operators';
-import { Role } from '../../../../shared/enum/role';
+import { Actions, ofAction, Select, Store } from '@ngxs/store';
+
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { Role } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { WorkshopCard } from '../../../../shared/models/workshop.model';
 import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { GetFavoriteWorkshopsByUserId, DeleteFavoriteWorkshop } from '../../../../shared/store/parent.actions';
+import {
+  DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId
+} from '../../../../shared/store/parent.actions';
 import { ParentState } from '../../../../shared/store/parent.state.';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
 import { Util } from '../../../../shared/utils/utils';
+import { ParentComponent } from '../parent.component';
 
 @Component({
   selector: 'app-favorite-workshops',
@@ -27,14 +31,15 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   readonly noFavoriteWorkshops = NoResultsTitle.noFavoriteWorkshops;
 
   @Select(ParentState.favoriteWorkshopsCard)
-  favoriteWorkshopsCard$: Observable<SearchResponse<WorkshopCard[]>>;
+  public favoriteWorkshopsCard$: Observable<SearchResponse<WorkshopCard[]>>;
 
-  paginationParameters: PaginationParameters = {
+  private totalAmount: number;
+
+  public paginationParameters: PaginationParameters = {
     size: PaginationConstants.WORKSHOPS_PER_PAGE,
     from: 0
   };
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalAmount: number;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
 
   constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
     super(store, matDialog);
@@ -50,11 +55,11 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
     );
   }
 
-  initParentData(): void {
+  public initParentData(): void {
     this.store.dispatch(new GetFavoriteWorkshopsByUserId(this.paginationParameters));
 
     this.favoriteWorkshopsCard$
-      .pipe(takeUntil(this.destroy$))
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((favoriteWorkshopsCard: SearchResponse<WorkshopCard[]>) => (this.totalAmount = favoriteWorkshopsCard.totalAmount));
 
     this.actions$
@@ -63,14 +68,14 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
       .subscribe(() => this.store.dispatch(new GetFavoriteWorkshopsByUserId(this.paginationParameters)));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new GetFavoriteWorkshopsByUserId(this.paginationParameters));
+    this.getWorkshops();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
-    this.store.dispatch(new GetFavoriteWorkshopsByUserId(this.paginationParameters));
+    this.getWorkshops();
   }
 
   private getWorkshops(): void {

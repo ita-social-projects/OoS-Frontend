@@ -1,4 +1,6 @@
-import { Notification, NotificationGroupedByAdditionalData, NotificationsGroupedByType } from '../models/notifications.model';
+import { NotificationType } from 'shared/enum/notifications';
+
+import { Notification, NotificationGroupedByAdditionalData } from '../models/notifications.model';
 
 export class GetAmountOfNewUsersNotifications {
   static readonly type = '[user] get amount of new users notifications';
@@ -12,7 +14,7 @@ export class GetAllUsersNotificationsGrouped {
 
 export class ReadUsersNotificationsByType {
   static readonly type = '[user] read users notifications by type';
-  constructor(public payload: NotificationsGroupedByType) {}
+  constructor(public notificationType: NotificationType, public needGetRequest: boolean = false) {}
 }
 
 export class DeleteUsersNotificationById {
@@ -37,7 +39,7 @@ export class OnDeleteUsersNotificationByIdFail {
 
 export class OnReadUsersNotificationsByTypeSuccess {
   static readonly type = '[user] read users notifications by type success';
-  constructor(public payload: NotificationGroupedByAdditionalData) {}
+  constructor() {}
 }
 export class ReadUsersNotificationById {
   static readonly type = '[user] read users notifications by id';

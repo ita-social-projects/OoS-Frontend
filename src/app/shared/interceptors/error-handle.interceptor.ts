@@ -1,10 +1,12 @@
-import { catchError } from 'rxjs/operators';
-import { Injectable } from '@angular/core';
-import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
-import { ShowMessageBar } from '../store/app.actions';
+import { catchError } from 'rxjs/operators';
+
+import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+
 import { SnackbarText } from '../enum/enumUA/messageBer';
+import { ShowMessageBar } from '../store/app.actions';
 
 @Injectable()
 export class ErrorHandleInterceptor implements HttpInterceptor {
@@ -18,7 +20,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
       })
     );
   }
-  intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
+  public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
         let errorMsg = '';
@@ -39,7 +41,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
             this.displayErrorMessageBar(SnackbarText.error500);
             break;
         }
-        return throwError(() => new Error(errorMsg));
+        return throwError(() => error);
       })
     );
   }

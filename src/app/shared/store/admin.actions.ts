@@ -1,10 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { AdminTabTypes } from '../enum/admins';
+import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from 'shared/models/admin.model';
+import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
 import { BlockProviderData } from '../models/provider.model';
 import { ProviderParameters } from '../models/provider.model';
+import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from '../models/regionAdmin.model';
 import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
 import { MinistryAdmin, MinistryAdminParameters, MinistryAdminBlockData } from './../models/ministryAdmin.model';
@@ -129,6 +131,11 @@ export class GetMinistryAdminProfile {
   constructor() {}
 }
 
+export class CreateAdmin {
+  static readonly type = '[admin] create Admin';
+  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+}
+
 export class CreateMinistryAdmin {
   static readonly type = '[admin] create Ministry Admin';
   constructor(public payload: MinistryAdmin) {}
@@ -144,14 +151,49 @@ export class OnCreateMinistryAdminSuccess {
   constructor() {}
 }
 
+export class GetRegionAdminProfile {
+  static readonly type = '[admin] Get Region Admin Profile';
+  constructor() {}
+}
+
+export class CreateRegionAdmin {
+  static readonly type = '[admin] create Region Admin';
+  constructor(public payload: RegionAdmin) {}
+}
+
+export class OnCreateRegionAdminFail {
+  static readonly type = '[admin] create Region Admin fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnCreateRegionAdminSuccess {
+  static readonly type = '[admin] create Region Admin success';
+  constructor() {}
+}
+
 export class GetAllMinistryAdmins {
   static readonly type = '[admin] Get All Ministry Admins';
   constructor(public parameters?: MinistryAdminParameters) {}
 }
 
+export class GetAllAdmins {
+  static readonly type = '[admin] Get All Admins';
+  constructor(public adminType: AdminRoles, public parameters?: BaseAdminParameters) {}
+}
+
+export class GetAdminById {
+  static readonly type = '[admin] Get Admin By Id';
+  constructor(public payload: string, public adminType: AdminRoles) {}
+}
+
 export class GetMinistryAdminById {
   static readonly type = '[admin] Get Ministry Admin By Id';
   constructor(public payload: string) {}
+}
+
+export class DeleteAdminById {
+  static readonly type = '[admin] delete Admin';
+  constructor(public payload: string, public adminType: AdminRoles) {}
 }
 
 export class DeleteMinistryAdminById {
@@ -167,6 +209,36 @@ export class OnDeleteMinistryAdminSuccess {
 export class OnDeleteMinistryAdminFail {
   static readonly type = '[admin] delete Ministry Admin fail';
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class GetAllRegionAdmins {
+  static readonly type = '[admin] Get All Region Admins';
+  constructor(public parameters?: RegionAdminParameters) {}
+}
+
+export class GetRegionAdminById {
+  static readonly type = '[admin] Get Region Admin By Id';
+  constructor(public payload: string) {}
+}
+
+export class DeleteRegionAdminById {
+  static readonly type = '[admin] delete Region Admin';
+  constructor(public payload: string) {}
+}
+
+export class OnDeleteRegionAdminSuccess {
+  static readonly type = '[admin] delete Region Admin success';
+  constructor() {}
+}
+
+export class OnDeleteRegionAdminFail {
+  static readonly type = '[admin] delete Region Admin fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class BlockAdminById {
+  static readonly type = '[admin] block Admin';
+  constructor(public payload: BaseAdminBlockData, public adminType: AdminRoles) {}
 }
 
 export class BlockMinistryAdminById {
@@ -189,6 +261,11 @@ export class OnBlockFail {
   constructor(public payload: HttpErrorResponse) {}
 }
 
+export class UpdateAdmin {
+  static readonly type = '[admin] update Admin';
+  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+}
+
 export class UpdateMinistryAdmin {
   static readonly type = '[admin] update Ministry Admin';
   constructor(public payload: MinistryAdmin) {}
@@ -202,4 +279,24 @@ export class OnUpdateMinistryAdminFail {
 export class OnUpdateMinistryAdminSuccess {
   static readonly type = '[admin] update Ministry Admin success';
   constructor(public payload: MinistryAdmin) {}
+}
+
+export class BlockRegionAdminById {
+  static readonly type = '[admin] block Region Admin';
+  constructor(public payload: RegionAdminBlockData) {}
+}
+
+export class UpdateRegionAdmin {
+  static readonly type = '[admin] update Region Admin';
+  constructor(public payload: RegionAdmin) {}
+}
+
+export class OnUpdateRegionAdminFail {
+  static readonly type = '[admin] update Region Admin fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUpdateRegionAdminSuccess {
+  static readonly type = '[admin] update Region Admin success';
+  constructor(public payload: RegionAdmin) {}
 }
