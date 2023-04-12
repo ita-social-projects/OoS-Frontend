@@ -6,6 +6,7 @@ import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.act
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 import { Institution } from '../../../../shared/models/institution.model';
 import { GetAllInstitutions } from '../../../../shared/store/meta-data.actions';
+import { OnInstitutionTabSelection } from '../../../../shared/store/admin.actions';
 
 @Component({
   selector: 'app-directions-wrapper',
@@ -15,7 +16,6 @@ import { GetAllInstitutions } from '../../../../shared/store/meta-data.actions';
 export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
-
   constructor(private store: Store) {}
 
   ngOnInit(): void {
@@ -31,5 +31,10 @@ export class DirectionsWrapperComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.store.dispatch(new PopNavPath());
+  }
+
+  onTabChange(tabIndex) {
+    alert(tabIndex);
+    this.store.dispatch(new OnInstitutionTabSelection(tabIndex));
   }
 }
