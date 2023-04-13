@@ -3,7 +3,7 @@ import {
   debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
 } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -62,10 +62,9 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
+  constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.getTableData();
     this.addNavPath();
 
     this.searchFormControl.valueChanges
@@ -146,6 +145,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.dropdownData = ApplicationOptions;
         break;
     }
+    this.cdr.detectChanges();
   }
 
   private addNavPath(): void {

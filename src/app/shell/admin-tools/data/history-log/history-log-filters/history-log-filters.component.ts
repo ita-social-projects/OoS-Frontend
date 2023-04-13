@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
 import { DropdownData, FilterData } from '../../../../../shared/models/history-log.model';
 
 @Component({
@@ -16,11 +17,17 @@ export class HistoryLogFiltersComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    const currentDate = new Date();
+    const monthAgoDate = new Date(currentDate);
+    monthAgoDate.setMonth(currentDate.getMonth() - 1);
+
     this.filtersForm = this.fb.group({
-      dateFrom: new FormControl(''),
-      dateTo: new FormControl(''),
+      dateFrom: new FormControl(monthAgoDate),
+      dateTo: new FormControl(currentDate),
       options: new FormControl('')
     });
+
+    this.filterData.emit(this.filtersForm.value);
   }
 
   applyFilters(): void {
