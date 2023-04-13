@@ -2,17 +2,14 @@
   <div class="filters-wrapper">
     <div class="filters-period">
       <span>{{ 'HISTORY_LOG.PERIOD' | translate }}</span>
-      <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
-        <input matInput [matDatepicker]="dateFrom" formControlName="dateFrom" />
-        <mat-datepicker-toggle matSuffix [for]="dateFrom"></mat-datepicker-toggle>
-        <mat-datepicker #dateFrom></mat-datepicker>
-      </mat-form-field>
-
-      <div class="separate-line"></div>
-      <mat-form-field appPlaceholderStyling class="step-input step-input-date date" floatLabel="never">
-        <input matInput [matDatepicker]="dateTo" formControlName="dateTo" />
-        <mat-datepicker-toggle matSuffix [for]="dateTo"></mat-datepicker-toggle>
-        <mat-datepicker #dateTo></mat-datepicker>
+      <mat-form-field appPlaceholderStyling class="date" appearance="fill">
+        <mat-label>{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="{{ 'FROM' | translate }}" formControlName="dateFrom" />
+          <input matEndDate placeholder="{{ 'TO' | translate }}" formControlName="dateTo" />
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
       </mat-form-field>
     </div>
 
@@ -22,7 +19,8 @@
         formControlName="options"
         panelClass="dropdown-panel"
         class="select"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.ALL_FILTERS' | translate }}">
+        placeholder="{{ 'FORMS.PLACEHOLDERS.ALL_FILTERS' | translate }}"
+      >
         <mat-option *ngFor="let option of dropdownOptions" [value]="option.value" class="dropdown-option">{{
           option.label | translate
         }}</mat-option>
@@ -31,8 +29,7 @@
   </div>
   <div class="filters-actions">
     <div class="reset" (click)="onResetFilters()">
-      <mat-icon class="reset__icon">refresh</mat-icon
-      ><span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
+      <mat-icon class="reset__icon">refresh</mat-icon><span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
     </div>
     <button class="btn" mat-raised-button (click)="applyFilters()">{{ 'HISTORY_LOG.SHOW' | translate }}</button>
   </div>

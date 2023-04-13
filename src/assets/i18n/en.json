@@ -5,7 +5,7 @@
   "ADDED_TO_FAVORITES": "Added to favorites",
   "ALL": "All",
   "PARENTS": "Parents",
-  "CHILDREN":"Children",
+  "CHILDREN": "Children",
   "ALL_CHILDREN": "All children",
   "ALL_WORKSHOPS": "All workshops",
   "APPLY_AN_APPLICATION": "APPLY FOR THE WORKSHOP",
@@ -121,10 +121,10 @@
       "FAVORITE": "Favorite",
       "LAWS_AND_REGULATIONS": "Laws and regulations"
     },
-    "INSTITUTION_TYPE":{
-      "COMPLEX" : "Complex",
-      "PROFILE" : "Profile",
-      "SPECIALIZED" : "Specialized",
+    "INSTITUTION_TYPE": {
+      "COMPLEX": "Complex",
+      "PROFILE": "Profile",
+      "SPECIALIZED": "Specialized",
       "OTHER": "Other"
     },
     "OWNERSHIP_TYPE": {
@@ -196,7 +196,7 @@
       "HOURS": "hours",
       "HOURS_ABLATIVE": "hours"
     },
-    "APPLICATION_STATUSES":{
+    "APPLICATION_STATUSES": {
       "ALL": "All",
       "PENDING": "Pending",
       "APPROVED": "Approved",
@@ -207,7 +207,7 @@
       "COMPLETED": "Completed",
       "BLOCKED": "Blocked"
     },
-    "APPLICATION_DESCRIPTION":{
+    "APPLICATION_DESCRIPTION": {
       "PENDING": "A new application created, awaiting confirmation from the service provider",
       "APPROVED": "The application is approved/the user is accepted to the workshop",
       "REJECTED": "The user was refused to be accepted to the workshop with reason",
@@ -217,16 +217,16 @@
       "COMPLETED": "User completed studying",
       "BLOCKED": "The user has violated the Terms of Use of the Platform"
     },
-    "USER_STATUSES":{
+    "USER_STATUSES": {
       "NEVER_LOGGED": "Never logged",
       "ACCEPTED": "Accepted",
       "BLOCKED": "Blocked"
     },
-    "EMAIL_CONFIRMATION_STATUSES" : {
+    "EMAIL_CONFIRMATION_STATUSES": {
       "PENDING": "Pending email confirmation",
       "CONFIRMED": "Confirmed email"
     },
-    "PROVIDER_STATUSES":{
+    "PROVIDER_STATUSES": {
       "APPROVED": "Approved",
       "PENDING": "Pending",
       "EDITING": "Needs editing",
@@ -236,12 +236,12 @@
       "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
       "PENDING": "Your organization is awaiting confirmation by an administrator."
     },
-    "LICENSE_STATUSES":{
+    "LICENSE_STATUSES": {
       "APPROVED": "Approved license",
       "PENDING": "Awaiting license confirmation",
       "NOT_PROVIDED": "License is not provided"
     },
-    "PROVIDER_ADMINS" : {
+    "PROVIDER_ADMINS": {
       "PROVIDER_DEPUTY": "Provider deputy",
       "PROVIDER_ADMIN": "Workshop administrator",
       "ALL": "All"
@@ -251,13 +251,13 @@
       "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
     },
     "ADMISTRATORS": {
-      "MINISTRY_ADMIN" : "Ministry administrator",
-      "REGION_ADMIN" : "Region administrator",
-      "TERRITORIAL_ADMIN" : "Territorial community administrator"
-    }, 
+      "MINISTRY_ADMIN": "Ministry administrator",
+      "REGION_ADMIN": "Region administrator",
+      "TERRITORIAL_ADMIN": "Territorial community administrator"
+    },
     "HISTORY_LOG": {
-      "PROVIDERS" : "Providers",
-      "ADMINS":"Adminstrators",
+      "PROVIDERS": "Providers",
+      "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications"
     }
   },
@@ -290,11 +290,11 @@
       "NEW_PROVIDER_SUBHEADER": "Register you provider institution in just 3 steps",
       "LEGAL_ADDRESS": "Legal address",
       "ACTUAL_ADDRESS": "Actual address",
-      "EDIT" : "EDIT",
-      "EDIT_INFO" : "EDIT INFORMATION",
-      "SUBHEADER_TITLE" : "Title",
+      "EDIT": "EDIT",
+      "EDIT_INFO": "EDIT INFORMATION",
+      "SUBHEADER_TITLE": "Title",
       "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
-      "ADD_ACHIEVEMENT":"ADD ACHIEVEMENT",
+      "ADD_ACHIEVEMENT": "ADD ACHIEVEMENT",
       "ADD_ADMINS_SUBHEADER": "Login details will be sent to the user's login email. Password is temporary and must be changed at first login"
     },
     "LABELS": {
@@ -330,7 +330,7 @@
       "PARENTS": "Parents",
       "OWNERSHIP": "Ownership",
       "LICENSE": "License",
-      "INSTITUTION_CATEGORY":"Provider category",
+      "INSTITUTION_CATEGORY": "Provider category",
       "ORGANIZATION_TYPE": "Organization type",
       "ORGANIZATION_STATUS": "Organization status",
       "FULL_ORGANIZATION_NAME": "Full organization name",
@@ -372,9 +372,10 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "ENTER_DATE_RANGE": "Enter a date range",
       "ALL_FILTERS": "All filters",
-      "SELECT_SUBORDINATION" : "Select subordination",
-      "SELECT_REGION" : "Select region",
+      "SELECT_SUBORDINATION": "Select subordination",
+      "SELECT_REGION": "Select region",
       "SELECT_TEACHER": "Select teachers/coaches",
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",
@@ -445,7 +446,7 @@
   "TOP_WORKSHOPS": "Top workshops",
   "ALL_DIRECTIONS": "All categories",
   "TOTAL_PARTICIPANTS": "Total participants",
-  "TYPE_OF_ORGANIZATION" : "Organization type",
+  "TYPE_OF_ORGANIZATION": "Organization type",
   "UAH": "UAH",
   "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",
@@ -457,9 +458,9 @@
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "You have already rated this workshop",
   "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "You must be accepted to this workshop",
   "BANNERS": {
-    "ADD_CHILDREN" : "You can add information about the child for further applying to the workshops",
-    "MAX_CHILDREN_AMOUNT" : "It is possible to add no more than 20 children",
-    "ADD_WORKSHOP" : "You can add information about the new workshop",
+    "ADD_CHILDREN": "You can add information about the child for further applying to the workshops",
+    "MAX_CHILDREN_AMOUNT": "It is possible to add no more than 20 children",
+    "ADD_WORKSHOP": "You can add information about the new workshop",
     "ADD_ACHIEVEMENT_PARTICIPANTS": "Adding achievements is only possible if there are participants in the workshop.",
     "PREVIOUSLY_SELECTED_TEACHERS": "Previously selected teachers/coaches:",
     "ADD_ACHIEVEMENT_TEACHERS": "Adding achievements is only possible if there are teachers/coaches in the workshop.",
@@ -467,10 +468,10 @@
   },
   "BUTTONS": {
     "ADD_CHILDREN": "Add child",
-    "ADD_WORKSHOP" : "Add workshop",
+    "ADD_WORKSHOP": "Add workshop",
     "APPROVE_APPLICATION": "Approve",
-    "LEAVE_WORKSHOP" : "Leave workshop",
-    "REJECT" : "Reject",
+    "LEAVE_WORKSHOP": "Leave workshop",
+    "REJECT": "Reject",
     "BLOCK_USER": "Block the user",
     "UNBLOCK_USER": "Unblock the user",
     "SEND_INVITATION": "Send an invitation",
@@ -541,7 +542,7 @@
   "HISTORY_LOG": {
     "WAS": "Was",
     "BECAME": "Became",
-    "SHOW" : "Show",
+    "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
     "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
@@ -553,7 +554,7 @@
     "FORMAT": "Format",
     "GENERATE_REPORT": "Generate reports",
     "NO_DATA": "You have no generated reports yet.",
-    "NO_DATA_SUBHEADER":"Enter your criteria and click the Generate Reports button to see them here.",
+    "NO_DATA_SUBHEADER": "Enter your criteria and click the Generate Reports button to see them here.",
     "TITLE": "Title",
     "PERIOD": "Period",
     "CREATE_DATE": "Creation date",
@@ -593,12 +594,12 @@
     }
   },
   "SERVICE_MESSAGES": {
-    "NO_INFO" : "no data",
+    "NO_INFO": "no data",
     "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you",
     "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you",
     "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you",
     "MESSAGE_STATUS": {
-      "LEFT":"Leaved workshop successfully",
+      "LEFT": "Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",
       "REJECTED": "The application was successfully rejected"
     },

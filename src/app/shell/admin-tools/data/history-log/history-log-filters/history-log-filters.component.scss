@@ -46,9 +46,15 @@
   box-sizing: border-box;
 }
 
-.date {
+:host ::ng-deep .date {
   width: 100%;
-  max-width: 150px;
+  max-width: 250px;
+  padding: 0.35rem 1rem 0.35rem;
+
+  .mat-form-field-flex {
+    background-color: transparent;
+    padding: 0;
+  }
 }
 
 .select,
@@ -58,8 +64,12 @@
   font-style: normal;
   font-size: 13px;
   line-height: 22px;
-  padding: 0.5rem 1rem;
   height: 40px;
+}
+
+.select,
+.options {
+  padding: 0.5rem 1rem;
 }
 
 ::ng-deep .mat-form-field.mat-focused.mat-primary,
