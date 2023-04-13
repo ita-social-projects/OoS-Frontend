@@ -9,14 +9,14 @@ import { DropdownData, FilterData } from '../../../../../shared/models/history-l
   styleUrls: ['./history-log-filters.component.scss']
 })
 export class HistoryLogFiltersComponent implements OnInit {
-  @Input() dropdownOptions: DropdownData;
-  @Output() filterData = new EventEmitter<FilterData>();
+  @Input() public dropdownOptions: DropdownData;
+  @Output() public filterData = new EventEmitter<FilterData>();
 
-  filtersForm: FormGroup;
+  public filtersForm: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     const currentDate = new Date();
     const monthAgoDate = new Date(currentDate);
     monthAgoDate.setMonth(currentDate.getMonth() - 1);
@@ -30,11 +30,11 @@ export class HistoryLogFiltersComponent implements OnInit {
     this.filterData.emit(this.filtersForm.value);
   }
 
-  applyFilters(): void {
+  public applyFilters(): void {
     this.filterData.emit(this.filtersForm.value);
   }
 
-  onResetFilters(): void {
+  public onResetFilters(): void {
     this.filtersForm.reset();
     this.filtersForm.controls.options.setValue('');
   }
