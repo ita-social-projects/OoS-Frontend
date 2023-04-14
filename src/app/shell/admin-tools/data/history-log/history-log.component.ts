@@ -3,7 +3,7 @@ import {
   debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
 } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -35,37 +35,37 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./history-log.component.scss']
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
-  readonly HistoryLogTabTitles = HistoryLogTabTitles;
-  readonly HistoryLogTypes = HistoryLogTypes;
-  readonly noHistory = NoResultsTitle.noHistory;
+  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
+  public readonly HistoryLogTypes = HistoryLogTypes;
+  public readonly noHistory = NoResultsTitle.noHistory;
 
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.providerHistory)
-  providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
+  public providersHistory$: Observable<SearchResponse<ProviderHistory[]>>;
   @Select(AdminState.providerAdminHistory)
-  providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
+  public providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
   @Select(AdminState.applicationHistory)
-  applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
+  public applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  tabIndex = 0;
-  searchString: string;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  searchFormControl = new FormControl('');
-  totalAmount: number;
-  dropdownData: DropdownData[];
-  filters: FilterData = {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private searchString: string;
+  private totalAmount: number;
+
+  public tabIndex = 0;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public searchFormControl = new FormControl('');
+  public dropdownData: DropdownData[];
+  public filters: FilterData = {
     dateFrom: null,
     dateTo: null,
     options: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
-  constructor(private router: Router, private route: ActivatedRoute, public store: Store) {}
+  constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
-    this.getTableData();
+  public ngOnInit(): void {
     this.addNavPath();
 
     this.searchFormControl.valueChanges
@@ -98,7 +98,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
   }
 
-  onTabChange(event: MatTabChangeEvent): void {
+  public onTabChange(event: MatTabChangeEvent): void {
     this.currentPage = PaginationConstants.firstPage;
     this.tabIndex = event.index;
     this.getTableData();
@@ -109,23 +109,23 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     });
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.filters.size = itemsPerPage;
     this.getTableData();
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getTableData(this.searchString);
   }
 
-  onFilter(event: FilterData): void {
+  public onFilter(event: FilterData): void {
     this.filters = { ...this.filters, ...event };
     this.currentPage = PaginationConstants.firstPage;
     this.getTableData(this.searchString);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
@@ -146,6 +146,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.dropdownData = ApplicationOptions;
         break;
     }
+    this.cdr.detectChanges();
   }
 
   private addNavPath(): void {
