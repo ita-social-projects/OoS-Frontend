@@ -1,22 +1,11 @@
-export enum providerAdminRole {
+export enum ProviderAdminRole {
   all = 'all',
   deputy = 'deputy',
-  admin = 'admin',
+  admin = 'admin'
 }
 
-export enum ProviderAdminStatus {
-  NeverLogged = 'NeverLogged',
-  Accepted = 'Accepted',
-  Blocked = 'Blocked',
-}
-export enum ProviderAdminIcons {
-  NeverLogged = 'fas fa-user-clock',
-  Accepted = 'fas fa-user-check',
-  Blocked = 'fas fa-user-times',
-}
-
-export enum createDirectionSteps {
-  'direction',
-  'department',
-  'class',
+export enum ProviderAdminParams{
+  all,
+  deputy,
+  admin
 }

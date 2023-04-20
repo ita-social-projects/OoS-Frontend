@@ -8,20 +8,18 @@
 .wrapper {
   margin-top: 13px;
 }
-::ng-deep .filter{
-  &-text{
+
+::ng-deep .filter {
+  &-text {
     font-family: Innerspace;
     font-weight: 700;
     line-height: 14.6px;
     color: #444444;
   }
-  &-slider{
-    margin: 12px 0;
-    margin-left: 0.5rem;
-    .ngx-slider{
-      margin: 0;
-      max-width: 234px;
-      .ngx-slider-bar-wrapper{
+  &-slider {
+    .ngx-slider {
+      margin-top: 1rem;
+      .ngx-slider-bar-wrapper {
         margin: 0;
         height: 0;
       }
@@ -31,48 +29,73 @@
         height: 2px;
       }
       .ngx-slider-selection {
-        background: #3849F9;
+        background: #3849f9;
       }
       .ngx-slider-pointer {
         width: 15px;
         height: 15px;
-        margin-top:20px;
-        background-color:  white;
-        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+        margin-top: 20px;
+        background-color: white;
+        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px,
+          rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
       }
-      .ngx-slider-pointer:after, .ngx-slider-bubble  {
+      .ngx-slider-pointer:after,
+      .ngx-slider-bubble {
         display: none;
       }
     }
   }
 }
-.price-input{
-  border: 1px solid #E3E3E3;
-  background-color: #FFFFFF;
+
+.price-input {
+  border: 1px solid #e3e3e3;
+  background-color: #ffffff;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 85px;
   max-height: 34px;
+  text-align: center;
 }
-.input-wrapper{
+.input-wrapper {
   margin-top: 13px;
   margin-bottom: 0 !important;
-  &-disable{
+  &-disable {
     opacity: 0.5;
     cursor: initial;
-    .price-input{
-      color:#FFFFFF;
+    .price-input {
+      color: #ffffff;
     }
   }
 }
 ::ng-deep .mat-form-field-underline {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
-:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
-  padding: 0 !important;
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
+
+.price-input:hover + .clear-price {
+  visibility: visible;
+}
+.clear-price {
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  font-size: 18px;
+  color: #adadad;
+  top: 12px;
+  left: 114px;
+}
+.clear-price:hover {
+  visibility: visible;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 0;
+  margin: 0;
 }

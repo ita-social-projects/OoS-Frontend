@@ -1,0 +1,39 @@
+@import 'src/app/shared/styles/cards.scss';
+.card {
+  height: 410px;
+  .img-section {
+    height: 180px;
+    margin: 26px 0;
+  }
+}
+.mat-icon {
+  color: #fff;
+}
+
+.card_icon {
+  color: #aaaaaa;
+}
+
+.mat-card-header {
+  .mat-card-title {
+    max-width: 235px;
+    width: 100%;
+  }
+}
+.workshop-list {
+  color: #3849f9;
+  text-overflow: ellipsis;
+  max-height: 64px;
+  overflow: scroll;
+  width: 100%;
+  .item {
+    margin: 0.5rem 0 0 2rem;
+    &:last-child {
+      margin-bottom: 0;
+    }
+    &:hover {
+      cursor: pointer;
+      opacity: 0.5;
+    }
+  }
+}

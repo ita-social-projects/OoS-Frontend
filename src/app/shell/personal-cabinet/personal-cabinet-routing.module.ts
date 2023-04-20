@@ -1,12 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserConfigComponent } from './user-config/user-config.component';
-import { ApplicationsComponent } from './applications/applications.component';
-import { MessagesComponent } from './messages/messages.component';
+import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
-import { WorkshopsComponent } from './workshops/workshops.component';
-import { ProviderAdminsComponent } from './provider-admins/provider-admins.component';
+import { MessagesComponent } from './shared-cabinet/messages/messages.component';
+import { ChatComponent } from './shared-cabinet/messages/chat/chat.component';
+import { PersonalCabinetGuard } from './personal-cabinet.guard';
 
 const routes: Routes = [
   {
@@ -14,35 +13,28 @@ const routes: Routes = [
     component: UserConfigComponent
   },
   {
-    path: 'workshops',
-    component: WorkshopsComponent,
-  },
-  {
     path: 'messages',
-    component: MessagesComponent,
+    component: MessagesComponent
   },
   {
-    path: 'applications/:param',
-    component: ApplicationsComponent,
+    path: 'messages/:id',
+    component: ChatComponent,
+    canLoad: [PersonalCabinetGuard]
   },
   {
     path: 'provider',
-    loadChildren: () => import('./provider/provider.module').then(m => m.ProviderModule),
+    loadChildren: () => import('./provider/provider.module').then((m) => m.ProviderModule),
     canLoad: [ProviderGuard]
   },
   {
     path: 'parent',
-    loadChildren: () => import('./parent/parent.module').then(m => m.ParentModule),
+    loadChildren: () => import('./parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard]
-  },
-  {
-    path: 'administration/:param',
-    component: ProviderAdminsComponent,
-  },
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class PersonalCabinetRoutingModule { }
+export class PersonalCabinetRoutingModule {}

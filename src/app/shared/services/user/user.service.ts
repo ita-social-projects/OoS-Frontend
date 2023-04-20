@@ -2,26 +2,25 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { User } from '../../models/user.model';
-import { map } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
+  
+  private readonly url = '/api/v1/users/personalinfo';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   /**
-   * gets user data
-   * @return object of type User
+   * This method get user personal information
    */
-  getUserById(id): Observable<User> {
-    return this.http.get<User>(`/api/v1/User/GetUserById/${id}`);
+  getPersonalInfo(): Observable<User> {
+    return this.http.get<User>(this.url);
   }
 
   /**
-   * This method update Provider
-   * @param user: User
+   * This method update user personal information
    */
-  updateUser(user: User): Observable<object> {
-    return this.http.put('/api/v1/User/Update', user);
+  updatePersonalInfo(user: User): Observable<User> {
+    return this.http.put<User>(this.url, user);
   }
 }

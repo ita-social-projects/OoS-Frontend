@@ -7,9 +7,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-
+import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { UsersComponent } from './users.component';
 
 describe('UsersComponent', () => {
@@ -27,14 +28,10 @@ describe('UsersComponent', () => {
         ReactiveFormsModule,
         MatTabsModule,
         MatIconModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [ 
-        UsersComponent,
-        MockUsersListComponent,
-        NoResultCardComponent,
-       ]
-    })
-    .compileComponents();
+      declarations: [UsersComponent, MockUsersListComponent, NoResultCardComponent, MockListAdminChildrenPaginatorComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -54,5 +51,15 @@ describe('UsersComponent', () => {
 })
 class MockUsersListComponent {
   @Input() users: object[];
-  @Input() filterValue: string;
+  @Input() displayedColumns: string[];
+}
+
+@Component({
+  selector: 'app-paginator',
+  template: ''
+})
+class MockListAdminChildrenPaginatorComponent {
+  @Input() totalEntities: number;
+  @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
 }

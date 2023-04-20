@@ -2,37 +2,28 @@
   width: 193px;
   height: 184px;
   padding: 24px 0;
+  gap: 1rem;
   box-sizing: border-box;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
-  &:hover {
-    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.241);
-    cursor: pointer;
-  }
   .icon {
-    height: 100px;
+    height: 68px;
   }
   .title {
     text-align: center;
     margin-bottom: 9px;
   }
   .link {
+    display: flex;
     font-weight: bold;
-    line-height: 15px;
-    color: #3849F9;
-    text-align: center;
-    text-decoration: none;
-    a span{
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: "Innerspace";
-      .arrow {
-        margin-left: 0.5rem;
-        font-size: 15px;
-        line-height: 24px;
-      }
+    color: #3849f9;
+    align-items: center;
+    justify-content: center;
+    .arrow {
+      margin-left: 0.5rem;
+      font-size: 15px;
+      line-height: 24px;
     }
   }
 }
@@ -40,17 +31,17 @@
 .config_edit-icon {
   position: absolute;
   top: 12px;
-  right: 32px;
+  right: 35px;
   z-index: 2;
-  color : #3849F9;
+  color: #3849f9;
   .mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
   .mat-button {
     padding: 0px;
-    min-width:auto;
+    min-width: auto;
     line-height: 16px;
   }
 }
@@ -59,19 +50,30 @@
   top: 12px;
   right: 12px;
   z-index: 2;
-  color : #3849F9;
+  color: #3849f9;
   .mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
   .mat-button {
     padding: 0px;
-    min-width:auto;
+    min-width: auto;
     line-height: 16px;
   }
 }
 
 .config-support p {
   margin: 0;
+}
+
+.hoverOnCard:hover {
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.241);
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.5;
+  color: #3849f9;
+  cursor: pointer;
 }

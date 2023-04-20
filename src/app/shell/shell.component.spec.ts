@@ -1,13 +1,11 @@
 /* istanbul ignore file */
-import { GeolocationService } from 'src/app/shared/services/geolocation/geolocation.service';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShellComponent } from './shell.component';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Component } from '@angular/core';
+import { GeolocationService } from '../shared/services/geolocation/geolocation.service';
 export class GeolocationServiceStub {
-  handleUserLocation(): void {
-
-  }
+  handleUserLocation(): void {}
 }
 
 xdescribe('ShellComponent', () => {
@@ -16,18 +14,10 @@ xdescribe('ShellComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [
-        ShellComponent,
-        MockNavigationBarComponent,
-      ],
-      providers: [
-        { provide: GeolocationService, useValue: GeolocationServiceStub }
-      ]
-    })
-      .compileComponents();
+      imports: [RouterTestingModule],
+      declarations: [ShellComponent, MockNavigationBarComponent],
+      providers: [{ provide: GeolocationService, useValue: GeolocationServiceStub }]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -45,4 +35,4 @@ xdescribe('ShellComponent', () => {
   selector: 'app-navigation-bar',
   template: ''
 })
-class MockNavigationBarComponent { }
+class MockNavigationBarComponent {}

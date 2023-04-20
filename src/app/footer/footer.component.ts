@@ -4,7 +4,8 @@ import { Actions, ofAction } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { MessageBarComponent } from '../shared/components/message-bar/message-bar.component';
-import { ShowMessageBar } from '../shared/store/app.actions';
+import { MessageBar } from '../shared/models/messageBar.model';
+import { ClearMessageBar, ShowMessageBar } from '../shared/store/app.actions';
 
 @Component({
   selector: 'app-footer',
@@ -12,25 +13,29 @@ import { ShowMessageBar } from '../shared/store/app.actions';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private actions$: Actions, private snackBar: MatSnackBar) { }
+  constructor(private actions$: Actions, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
-    this.actions$.pipe(ofAction(ShowMessageBar))
-      .pipe(
-        takeUntil(this.destroy$))
+    this.actions$
+      .pipe(ofAction(ShowMessageBar))
+      .pipe(takeUntil(this.destroy$))
       .subscribe((payload) => this.showSnackBar(payload.payload));
+
+    this.actions$
+      .pipe(ofAction(ClearMessageBar))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => this.snackBar.dismiss());
   }
 
-  showSnackBar({ message, type, info }): void {
+  showSnackBar(message: MessageBar): void {
     this.snackBar.openFromComponent(MessageBarComponent, {
-      duration: 5000,
+      duration: message.infinityDuration ? null : 5000,
       verticalPosition: 'top',
       horizontalPosition: 'center',
-      panelClass: type,
-      data: { message, type, info },
+      panelClass: message.type,
+      data: message
     });
   }
 
@@ -38,5 +43,4 @@ export class FooterComponent implements OnInit, OnDestroy {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

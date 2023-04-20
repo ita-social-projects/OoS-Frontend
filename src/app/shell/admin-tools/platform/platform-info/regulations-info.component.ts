@@ -1,19 +1,19 @@
-import { PlatformInfoType } from 'src/app/shared/enum/platform';
-import { Select } from '@ngxs/store';
 import { Component } from '@angular/core';
-import { CompanyInformation } from 'src/app/shared/models/сompanyInformation.model';
-import { AdminState } from 'src/app/shared/store/admin.state';
 import { Observable } from 'rxjs';
+import { Select } from '@ngxs/store';
+import { CompanyInformation } from '../../../../shared/models/сompanyInformation.model';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { AdminTabTypes } from '../../../../shared/enum/admins';
+
 @Component({
   selector: 'app-regulations-info',
-  template: '<app-info-card [type]="lawsAndRegulations" [platformInfo]="LawsAndRegulations$ | async"></app-info-card>',
+  template: '<app-info-card [type]="lawsAndRegulations" [platformInfo]="LawsAndRegulations$ | async"></app-info-card>'
 })
 export class RegulationsInfoComponent {
-  readonly lawsAndRegulations = PlatformInfoType.LawsAndRegulations;
+  readonly lawsAndRegulations = AdminTabTypes.LawsAndRegulations;
 
   @Select(AdminState.LawsAndRegulations)
   LawsAndRegulations$: Observable<CompanyInformation>;
-
-  constructor() {}
-
+  @Select(AdminState.isLoading)
+  isLoading$: Observable<boolean>;
 }

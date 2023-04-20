@@ -1,0 +1,13 @@
+<div class="step">
+  <div class="address-wrapper-border">
+    <app-create-address-form [addressFormGroup]="addressFormGroup" [searchFormGroup]="searchFormGroup" [address]="address">
+    </app-create-address-form>
+  </div>
+
+  <p class="text">{{ 'FORMS.LABELS.OR_SELECT_ON_THE_MAP' | translate }}</p>
+  <div class="map">
+    <app-map [settelmentFormGroup]="settlementFormControl" [addressFormGroup]="addressFormGroup" (addressSelect)="onAddressSelect($event)">
+    </app-map>
+  </div>
+  <small *ngIf="noAddressFound" class="warning">{{ 'FORMS.VALIDATIONS.INVALID_MAP' | translate }}</small>
+</div>

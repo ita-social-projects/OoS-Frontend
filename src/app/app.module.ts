@@ -1,40 +1,46 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HeaderComponent } from './header/header.component';
-import { ShellModule } from './shell/shell.module';
+import { registerLocaleData } from '@angular/common';
+import { HTTP_INTERCEPTORS, HttpClient, HttpClientModule } from '@angular/common/http';
+import localeUk from '@angular/common/locales/uk';
+import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { AppState } from './shared/store/app.state';
-import { FilterState } from './shared/store/filter.state';
-import { NgxsModule } from '@ngxs/store';
+import { FormsModule } from '@angular/forms';
+import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { NgxsReduxDevtoolsPluginModule } from '@ngxs/devtools-plugin';
 import { NgxsLoggerPluginModule } from '@ngxs/logger-plugin';
-import { environment } from './../environments/environment';
-import { FormsModule } from '@angular/forms';
-import { ShellComponent } from './shell/shell.component';
-import { MetaDataState } from './shared/store/meta-data.state';
+import { NgxsModule } from '@ngxs/store';
+
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { AppComponent } from './app.component';
+import { FooterComponent } from './footer/footer.component';
+import { HeaderComponent } from './header/header.component';
+import { ProgressBarComponent } from './header/progress-bar/progress-bar.component';
+import { ErrorHandleInterceptor } from './shared/interceptors/error-handle.interceptor';
 import { RegistrationModule } from './shared/modules/registration.module';
-import { RegistrationState } from './shared/store/registration.state';
 import { SharedModule } from './shared/shared.module';
-import { UserState } from './shared/store/user.state';
-import { NavigationState } from './shared/store/navigation.state';
-import { LOCALE_ID } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import localeUk from '@angular/common/locales/uk';
 import { AdminState } from './shared/store/admin.state';
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { AppState } from './shared/store/app.state';
+import { ChatState } from './shared/store/chat.state';
+import { FilterState } from './shared/store/filter.state';
+import { MainPageState } from './shared/store/main-page.state';
+import { MetaDataState } from './shared/store/meta-data.state';
+import { NavigationState } from './shared/store/navigation.state';
 import { NotificationsState } from './shared/store/notifications.state';
+import { ParentState } from './shared/store/parent.state.';
+import { ProviderState } from './shared/store/provider.state';
+import { RegistrationState } from './shared/store/registration.state';
+import { SharedUserState } from './shared/store/shared-user.state';
+import { ShellComponent } from './shell/shell.component';
+import { ShellModule } from './shell/shell.module';
 
 registerLocaleData(localeUk);
 
 @NgModule({
-  declarations: [
-    HeaderComponent,
-    AppComponent,
-    ShellComponent,
-  ],
+  declarations: [HeaderComponent, AppComponent, ShellComponent, FooterComponent, ProgressBarComponent],
   imports: [
     SharedModule,
     FormsModule,
@@ -46,10 +52,14 @@ registerLocaleData(localeUk);
       FilterState,
       MetaDataState,
       RegistrationState,
-      UserState,
+      SharedUserState,
       AdminState,
       NavigationState,
-      NotificationsState
+      NotificationsState,
+      MainPageState,
+      ProviderState,
+      ParentState,
+      ChatState
     ]),
 
     NgxsReduxDevtoolsPluginModule.forRoot({
@@ -61,15 +71,31 @@ registerLocaleData(localeUk);
     FlexLayoutModule,
     ShellModule,
     RegistrationModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: createTranslateLoader,
+        deps: [HttpClient]
+      }
+    })
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'uk' },
-    { provide: MAT_SELECT_CONFIG, useValue: { overlayPanelClass: 'custom-overlay-panel' } },
+    {
+      provide: MAT_SELECT_CONFIG,
+      useValue: { overlayPanelClass: 'custom-overlay-panel' }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorHandleInterceptor,
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {
-  constructor() {
-    localStorage.setItem('ui-culture', 'uk');
-  }
+export class AppModule {}
+
+export function createTranslateLoader(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

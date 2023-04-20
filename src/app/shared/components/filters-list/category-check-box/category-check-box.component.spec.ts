@@ -7,8 +7,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
-describe('CategoryCheckBoxComponent', () => {
+
+fdescribe('CategoryCheckBoxComponent', () => {
   let component: CategoryCheckBoxComponent;
   let fixture: ComponentFixture<CategoryCheckBoxComponent>;
 
@@ -21,11 +23,11 @@ describe('CategoryCheckBoxComponent', () => {
         ReactiveFormsModule,
         MatInputModule,
         MatCheckboxModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [ CategoryCheckBoxComponent ],
-    })
-    .compileComponents();
+      declarations: [CategoryCheckBoxComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

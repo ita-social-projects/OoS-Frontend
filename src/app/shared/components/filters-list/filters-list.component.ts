@@ -1,76 +1,91 @@
-import { SetWithDisabilityOption } from './../../store/filter.actions';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Store, Select } from '@ngxs/store';
-import { Observable, Subject} from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { FilterChange, FilterClear, SetClosedRecruitment, SetOpenRecruitment } from '../../store/filter.actions';
+import {
+  FilterClear,
+  SetClosedRecruitment,
+  SetOpenRecruitment,
+  SetWithDisabilityOption,
+} from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
-import { AppState } from '../../store/app.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
+import { FilterList } from '../../models/filterList.model';
+import { NavigationState } from '../../store/navigation.state';
+import { WorkshopOpenStatus } from '../../enum/workshop';
+
 @Component({
   selector: 'app-filters-list',
   templateUrl: './filters-list.component.html',
   styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
-
-  @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
   @Select(FilterState.filterList)
-  @Input()
-  set filtersList(filters) {
-    const { withDisabilityOption, ageFilter, categoryCheckBox, priceFilter, workingHours } = filters;
-    this.priceFilter = priceFilter;
-    this.workingHours = workingHours;
-    this.categoryCheckBox = categoryCheckBox;
-    this.ageFilter = ageFilter;
-    this.WithDisabilityOptionControl.setValue(withDisabilityOption, { emitEvent: false });
-  };
+  filterList$: Observable<FilterList>;
+  filterList: FilterList;
 
-  public priceFilter;
-  public workingHours;
-  public categoryCheckBox;
-  public ageFilter;
+  @Select(NavigationState.filtersSidenavOpenTrue)
+  filtersSidenavOpenTrue$: Observable<boolean>;
+  visibleFiltersSidenav: boolean;
+
+  @Select(FilterState.isMapView)
+  isMapView$: Observable<boolean>;
+
+  @Input() isMobileView: boolean;
 
   OpenRecruitmentControl = new FormControl(false);
   ClosedRecruitmentControl = new FormControl(false);
   WithDisabilityOptionControl = new FormControl(false);
-
   destroy$: Subject<boolean> = new Subject<boolean>();
+  statuses: WorkshopOpenStatus[];
+  readonly workhopStatus = WorkshopOpenStatus;
 
-  constructor(private store: Store) { }
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
+    combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([visibleFiltersSidenav, filterList]) => {
+        this.visibleFiltersSidenav = visibleFiltersSidenav;
+        this.filterList = filterList;
+        this.statuses = filterList.statuses;
+        this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
+      });
 
-    this.OpenRecruitmentControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((val: boolean) => this.store.dispatch(new SetOpenRecruitment(val)));
+    this.OpenRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
+      this.statusHandler(val, this.workhopStatus.Open);
+      this.store.dispatch(new SetOpenRecruitment(this.statuses));
+    });
 
-    this.ClosedRecruitmentControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((val: boolean) => this.store.dispatch(new SetClosedRecruitment(val)));
+    this.ClosedRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
+      this.statusHandler(val, this.workhopStatus.Closed);
+      this.store.dispatch(new SetClosedRecruitment(this.statuses));
+    });
 
     this.WithDisabilityOptionControl.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((val: boolean) => this.store.dispatch(new SetWithDisabilityOption(val)));
+  }
 
+  /**
+   * When the user selects filters (OpenRecruitment or ClosedRecruitment),
+   * we add the status to the array or remove the status from the array.
+   */
+  statusHandler(val: boolean, status: string): void {
+    val ? this.statuses.push(this.workhopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
   }
 
   changeView(): void {
-    this.store.dispatch(new FiltersSidenavToggle());
+    this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
   }
 
   onFilterReset(): void {
-    this.store.dispatch([new FilterClear(), new FilterChange()])
+    this.store.dispatch(new FilterClear());
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-
 }

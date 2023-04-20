@@ -1,0 +1,20 @@
+<div class="card-person">
+  <div class="card-edit">
+    <label class="card-label">{{"FORMS.LABELS.FULL_NAME" | translate}}</label>
+    <a [routerLink]="[editLink]" class="edit">
+      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
+    </a>
+  </div>
+  <p>{{ child.lastName }} {{ child.firstName }} {{ child.middleName }}</p>
+  <label class="card-label">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</label>
+  <p>{{ child.dateOfBirth | date: dateFormat }}</p>
+  <label class="card-label">{{ 'FORMS.LABELS.SEX' | translate }}</label>
+  <p>{{ gender[child.gender] | translate }}</p>
+
+  <ng-container *ngIf="!child.isParent">
+    <div class="info-group">
+      <h5 class="text">{{ 'FORMS.LABELS.SOCIAL_GROUPS' | translate }}:</h5>
+      <p>{{ child.socialGroups | join: 'name' }}</p>
+    </div>
+  </ng-container>
+</div>

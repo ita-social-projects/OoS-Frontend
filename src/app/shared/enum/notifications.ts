@@ -1,7 +1,8 @@
 export enum NotificationType {
-  Application = 'applications',
-  Chat = 'chat',
-  Workshop = 'workshops'
+  Application = 'Application',
+  Chat = 'Chat',
+  Workshop = 'Workshop',
+  Provider = 'Provider'
 }
 
 export enum NotificationAction {
@@ -9,4 +10,14 @@ export enum NotificationAction {
   update = 'Update',
   delete = 'Delete',
   message = 'Message'
+}
+
+export enum NotificationDescriptionType {
+  Short,
+  Full
+}
+
+export enum DataTypes {
+  LicenseStatus = 'LicenseStatus',
+  Status = 'Status'
 }

@@ -1,0 +1,13 @@
+.container {
+  width: 50%;
+}
+
+@media (max-width: 750px) {
+  .container {
+    width: 100%;
+  }
+}
+
+app-status-banner {
+  margin-bottom: 1.5rem;
+}

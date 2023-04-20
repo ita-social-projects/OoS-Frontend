@@ -9,7 +9,7 @@ import { Component, Input } from '@angular/core';
 import { Direction } from '../../shared/models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop } from '../../shared/models/workshop.model';
-import { FooterComponent } from 'src/app/footer/footer.component';
+import { FooterComponent } from '../../footer/footer.component';
 
 describe('MainComponent', () => {
   let component: MainComponent;
@@ -17,23 +17,10 @@ describe('MainComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatSnackBarModule,
-        NgxsModule.forRoot([]),
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
-      declarations: [
-        MainComponent,
-        FooterComponent,
-        MockMainCategoryCardComponent,
-        MockMainWorkshopCardComponent
-      ],
-      providers: [
-        { provide: OidcSecurityService, useValue: MockOidcSecurityService }
-      ]
-    })
-      .compileComponents();
+      imports: [MatSnackBarModule, NgxsModule.forRoot([]), HttpClientTestingModule, RouterTestingModule],
+      declarations: [MainComponent, FooterComponent, MockMainCategoryCardComponent, MockMainWorkshopCardComponent],
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -63,6 +50,5 @@ class MockMainCategoryCardComponent {
 })
 class MockMainWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
 }

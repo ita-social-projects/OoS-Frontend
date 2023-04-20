@@ -1,0 +1,106 @@
+<!-- eslint-disable @angular-eslint/template/eqeqeq -->
+<div class="users-wrapper">
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <input
+        #input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
+    </div>
+    <ng-container *ngIf="subRole === Role.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
+  </div>
+
+  <div class="tab-wrapper">
+    <ng-container *ngIf="subRole === Role.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
+  </div>
+</div>
+
+<ng-template #UsersList let-users>
+  <ng-container *ngIf="!(isLoadingCabinet$ | async) && !!providerAdmins">
+    <ng-container *ngIf="users?.length; else isEmptyList">
+      <div class="table-wrapper">
+        <app-users-list
+          [statusesTitles]="statusesTitles"
+          [users]="users"
+          [isEdit]="true"
+          (delete)="onDelete($event)"
+          (block)="onBlock($event)"
+          (update)="onUpdate($event)"
+          (sendInvitation)="onSendInvitation($event)"
+          >
+        </app-users-list>
+      </div>
+      <app-paginator
+        [totalEntities]="providerAdmins.totalAmount"
+        [currentPage]="currentPage"
+        [itemsPerPage]="filterParams.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
+    </ng-container>
+  </ng-container>
+</ng-template>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noProviderAdmins"></app-no-result-card>
+</ng-template>
+
+<ng-template #DeputyBtnViewTmpl>
+  <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+    ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
+  >
+</ng-template>
+
+<ng-template #ProviderTableViewTmpl>
+  <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+    <mat-tab label="{{ ProviderAdminTitles.All | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+    <mat-tab label="{{ ProviderAdminTitles.Deputy | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+    <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #DeputyTableViewTmpl>
+  <mat-tab-group mat-align-tabs="start">
+    <mat-tab label="{{ ProviderAdminTitles.Admin | translate}}">
+      <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"> </ng-container>
+    </mat-tab>
+  </mat-tab-group>
+</ng-template>
+
+<ng-template #ProviderViewBtnTmpl>
+  <ng-container *ngIf="tabIndex == 0">
+    <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
+      {{ 'BUTTONS.ADD' | translate }} <mat-icon>arrow_drop_down</mat-icon>
+    </button>
+    <mat-menu #add="matMenu" class="header_menu">
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
+        ><button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button></a
+      >
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+        ><button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button></a
+      >
+    </mat-menu>
+  </ng-container>
+
+  <ng-container *ngIf="tabIndex == 1">
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
+      ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
+    >
+  </ng-container>
+
+  <ng-container *ngIf="tabIndex == 2">
+    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
+      ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button></a
+    >
+  </ng-container>
+</ng-template>

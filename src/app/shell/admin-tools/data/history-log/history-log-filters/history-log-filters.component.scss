@@ -1,0 +1,163 @@
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/calendar.scss';
+@import 'src/app/shared/styles/buttons.scss';
+
+.form-wrapper {
+  display: flex;
+  justify-content: end;
+  row-gap: 10px;
+
+  flex-wrap: wrap;
+}
+
+.filters-wrapper {
+  display: flex;
+  align-items: center;
+  column-gap: 5px;
+}
+
+.filters-period {
+  display: flex;
+  align-items: flex-end;
+  row-gap: 10px;
+
+  > span {
+    margin-right: 10px;
+    font-size: 14px;
+    align-self: center;
+    line-height: 14.6px;
+    color: #444444;
+    font-weight: 700;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+  }
+}
+
+.filters-actions {
+  display: flex;
+  align-items: center;
+}
+
+.select,
+.date {
+  min-width: 100px;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  box-sizing: border-box;
+}
+
+:host ::ng-deep .date {
+  width: 100%;
+  max-width: 250px;
+  padding: 0.35rem 1rem 0.35rem;
+
+  .mat-form-field-flex {
+    background-color: transparent;
+    padding: 0;
+  }
+}
+
+.select,
+.options,
+.date {
+  font-family: 'Open Sans', sans-serif;
+  font-style: normal;
+  font-size: 13px;
+  line-height: 22px;
+  height: 40px;
+}
+
+.select,
+.options {
+  padding: 0.5rem 1rem;
+}
+
+::ng-deep .mat-form-field.mat-focused.mat-primary,
+::ng-deep .mat-form-field-infix {
+  border: 0;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0;
+}
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding: 0;
+}
+
+.btn {
+  height: 40px;
+}
+
+.separate-line {
+  display: inline-block;
+  width: 14px;
+  margin: 0 5px;
+  align-self: center;
+  border-top: 1px solid rgba(0, 0, 0, 0.54);
+}
+
+.reset {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  cursor: pointer;
+
+  margin-left: 15px;
+
+  &:hover {
+    opacity: 0.5;
+  }
+
+  &__icon {
+    transform: rotateY(180deg) rotate(45deg);
+    overflow: visible;
+  }
+  &__title {
+    font-size: 0.8125rem;
+    line-height: 19px;
+
+    color: #444444;
+  }
+}
+
+@media (max-width: 1450px) {
+  .reset {
+    &__title {
+      display: none;
+    }
+  }
+}
+
+@media (max-width: 1300px) {
+  .filters-wrapper {
+    justify-content: end;
+    flex-wrap: wrap;
+    row-gap: 10px;
+  }
+}
+
+@media (max-width: 1000px) {
+  .form-wrapper {
+    justify-content: center;
+  }
+  .filters-wrapper {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 440px) {
+  .filters-period {
+    span {
+      display: block;
+      width: 100%;
+      margin: 0 0 5px 10px;
+    }
+  }
+  .separate-line {
+    position: relative;
+    top: 10px;
+  }
+}

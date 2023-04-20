@@ -1,10 +1,8 @@
-
-@media(max-width: 750px) {
-
+@media (max-width: 750px) {
   .mobile-sidenav {
     width: 100%;
     padding: 2rem 1rem;
     position: fixed;
-    z-index: 999;
+    z-index: 10001;
   }
 }

@@ -1,5 +1,5 @@
 import { MatIconModule } from '@angular/material/icon';
-import { StarsComponent } from './../stars/stars.component';
+import { StarsComponent } from '../../../shell/details/details-tabs/reviews/stars/stars.component';
 import { Component } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -7,7 +7,7 @@ import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/materia
 import { ConfirmationModalWindowComponent } from './confirmation-modal-window.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ConfirmationModalWindowComponent', () => {
   let component: ConfirmationModalWindowComponent;
@@ -15,23 +15,13 @@ describe('ConfirmationModalWindowComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatDialogModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatButtonToggleModule,
-        MatIconModule,
-      ],
-      declarations: [
-        ConfirmationModalWindowComponent,
-        StarsComponent
-      ],
+      imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatButtonToggleModule, MatIconModule, TranslateModule.forRoot()],
+      declarations: [ConfirmationModalWindowComponent, StarsComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} }
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {

@@ -1,0 +1,26 @@
+<div class="create-form" *ngIf="!(isLoading$ | async)">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАТИ' : 'ДОДАТИ' }} НАПРЯМОК</h3>
+    </div>
+
+    <ng-container *ngIf="!editMode || (editMode && (direction$ | async))">
+      <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+        <label class="step-label"
+          >{{ editMode ? 'Редагувати назву напрямку' : 'Назва нового напрямку' }}
+          <span *ngIf="!editMode" class="step-required">*</span>
+        </label>
+
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="title" />
+        </mat-form-field>
+        <app-validation-hint [validationFormControl]="directionFormGroup.get('title')"></app-validation-hint>
+
+        <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+          <button mat-raised-button class="btn btn-cancel" (click)="onBack()">Скасувати</button>
+          <button [disabled]="directionFormGroup.invalid" class="btn" (click)="onSubmit()" mat-raised-button>Зберегти</button>
+        </div>
+      </form>
+    </ng-container>
+  </div>
+</div>

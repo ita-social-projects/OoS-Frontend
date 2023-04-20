@@ -1,131 +1,153 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { Constants } from '../constants/constants';
-import { Direction } from '../models/category.model';
-import { City } from '../models/city.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { WorkshopCard, WorkshopFilterCard } from '../models/workshop.model';
+import { EMPTY_RESULT } from '../constants/constants';
+import { Codeficator } from '../models/codeficator.model';
+import { DefaultFilterState } from '../models/defaultFilterState.model';
+import { FilterStateModel } from '../models/filterState.model';
+import { FilterList } from '../models/filterList.model';
+import { SearchResponse } from '../models/search.model';
+import { WorkshopCard } from '../models/workshop.model';
 import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
 import {
-  SetOrder,
-  SetCity,
-  GetFilteredWorkshops,
-  GetTopWorkshops,
-  SetDirections,
-  SetWorkingDays,
-  SetStartTime,
-  SetEndTime,
-  SetIsFree,
-  SetMinPrice,
-  SetMaxPrice,
-  SetSearchQueryValue,
-  SetOpenRecruitment,
-  SetClosedRecruitment,
-  SetWithDisabilityOption,
-  FilterChange,
-  SetMinAge,
-  SetMaxAge,
-  PageChange,
-  ConfirmCity,
   CleanCity,
+  ClearCoordsByMap,
+  ClearRadiusSize,
+  ConfirmCity,
+  FilterChange,
   FilterClear,
-  SetFirstPage,
-  SetIsPaid
+  GetFilteredWorkshops,
+  ResetFilteredWorkshops,
+  SetCity,
+  SetClosedRecruitment,
+  SetCoordsByMap,
+  SetDirections,
+  SetEndTime,
+  SetFilterFromURL,
+  SetIsAppropriateAge,
+  SetIsAppropriateHours,
+  SetIsFree,
+  SetIsPaid,
+  SetIsStrictWorkdays,
+  SetMapView,
+  SetMaxAge,
+  SetMaxPrice,
+  SetMinAge,
+  SetMinPrice,
+  SetOpenRecruitment,
+  SetOrder,
+  SetRadiusSize,
+  SetSearchQueryValue,
+  SetFilterPagination,
+  SetStartTime,
+  SetWithDisabilityOption,
+  SetWorkingDays
 } from './filter.actions';
 
-export interface FilterStateModel {
-  directions: Direction[];
-  maxAge: number;
-  minAge: number;
-  workingDays: string[];
-  startTime: string;
-  endTime: string;
-  isFree: boolean;
-  isPaid: boolean;
-  maxPrice: number;
-  minPrice: number;
-  isOpenRecruitment: boolean;
-  isClosedRecruitment: boolean;
-  city: City;
-  searchQuery: string;
-  order: string;
-  filteredWorkshops: WorkshopFilterCard;
-  topWorkshops: WorkshopCard[];
-  withDisabilityOption: boolean;
-  isLoading: boolean;
-  currentPage: PaginationElement;
-  isConfirmCity: boolean;
-}
 @State<FilterStateModel>({
   name: 'filter',
   defaults: {
-    directions: [],
-    maxAge: null,
-    minAge: null,
-    startTime: null,
-    endTime: null,
-    workingDays: [],
-    isFree: false,
-    isPaid: false,
-    maxPrice: Constants.MAX_PRICE,
-    minPrice: Constants.MIN_PRICE,
-    isOpenRecruitment: false,
-    isClosedRecruitment: false,
-    city: JSON.parse(localStorage.getItem('cityConfirmation')),
-    searchQuery: '',
-    order: 'Rating',
-    filteredWorkshops: undefined,
-    topWorkshops: [],
-    withDisabilityOption: false,
+    ...new DefaultFilterState(),
+    settlement: null,
+    filteredWorkshops: null,
     isLoading: false,
-    currentPage: {
-      element: 1,
-      isActive: true
-    },
-    isConfirmCity: true,
+    isConfirmCity: false,
+    mapViewCoords: null,
+    userRadiusSize: null,
+    isMapView: false,
+    from: null,
+    size: null
   }
 })
 @Injectable()
 export class FilterState {
+  @Selector()
+  static FilterState(state: FilterStateModel): FilterStateModel {
+    return state;
+  }
 
   @Selector()
-  static filterState(state: FilterStateModel): FilterStateModel { return state };
+  static filteredWorkshops(state: FilterStateModel): SearchResponse<WorkshopCard[]> {
+    return state.filteredWorkshops;
+  }
 
   @Selector()
-  static filteredWorkshops(state: FilterStateModel): WorkshopFilterCard { return state.filteredWorkshops };
+  static directions(state: FilterStateModel): number[] {
+    return state.directionIds;
+  }
 
   @Selector()
-  static topWorkshops(state: FilterStateModel): WorkshopCard[] { return state.topWorkshops };
+  static isLoading(state: FilterStateModel): boolean {
+    return state.isLoading;
+  }
 
   @Selector()
-  static directions(state: FilterStateModel): Direction[] { return state.directions };
+  static settlement(state: FilterStateModel): Codeficator {
+    return state.settlement;
+  }
 
   @Selector()
-  static isLoading(state: FilterStateModel): boolean { return state.isLoading };
+  static isConfirmCity(state: FilterStateModel): boolean {
+    return state.isConfirmCity;
+  }
 
   @Selector()
-  static city(state: FilterStateModel): City { return state.city };
+  static searchQuery(state: FilterStateModel): string {
+    return state.searchQuery;
+  }
 
   @Selector()
-  static isConfirmCity(state: FilterStateModel): boolean { return state.isConfirmCity };
+  static order(state: FilterStateModel): {} {
+    return state.order;
+  }
 
   @Selector()
-  static searchQuery(state: FilterStateModel): string { return state.searchQuery };
+  static userRadiusSize(state: FilterStateModel) {
+    const meterInKilometer = 1000;
+    return state.userRadiusSize * meterInKilometer;
+  }
 
   @Selector()
-  static currentPage(state: FilterStateModel): {} { return state.currentPage };
+  static isMapView(state: FilterStateModel) {
+    return state.isMapView;
+  }
 
   @Selector()
-  static order(state: FilterStateModel): {} { return state.order };
+  static size(state: FilterStateModel): number {
+    return state.size;
+  }
 
   @Selector()
-  static filterList(state: FilterStateModel): any {
-    const { withDisabilityOption, minAge, maxAge, directions, minPrice, maxPrice, isFree, isPaid, workingDays, startTime, endTime, currentPage, order } = state
+  static from(state: FilterStateModel): number {
+    return state.from;
+  }
+
+  @Selector()
+  static filterList(state: FilterStateModel): FilterList {
+    const {
+      withDisabilityOption,
+      isStrictWorkdays,
+      isAppropriateHours,
+      isAppropriateAge,
+      minAge,
+      maxAge,
+      directionIds,
+      minPrice,
+      maxPrice,
+      isFree,
+      isPaid,
+      workingDays,
+      startTime,
+      endTime,
+      statuses,
+      order
+    } = state;
     return {
       withDisabilityOption,
-      categoryCheckBox: directions,
-      ageFilter: { minAge, maxAge },
+      statuses,
+      directionIds,
+      ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
         minPrice,
         maxPrice,
@@ -135,179 +157,188 @@ export class FilterState {
       workingHours: {
         workingDays,
         startTime,
-        endTime
+        endTime,
+        isStrictWorkdays,
+        isAppropriateHours
       },
-      currentPage,
       order
-    }
-  };
+    };
+  }
 
-  constructor(
-    private appWorkshopsService: AppWorkshopsService) { }
+  constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
-  setCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCity): void {
-    patchState({ city: payload });
-    localStorage.setItem('cityConfirmation', JSON.stringify(payload));
-    dispatch(new FilterChange());
+  setCity({ patchState }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
+    patchState({ settlement: payload });
+    if (isConfirmedCity) {
+      localStorage.setItem('cityConfirmation', JSON.stringify(payload));
+    }
   }
 
   @Action(CleanCity)
   cleanCity({ patchState }: StateContext<FilterStateModel>): void {
-    patchState({ city: undefined });
+    patchState({ settlement: null });
   }
 
   @Action(ConfirmCity)
-  confirmCity({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
-    patchState({ isConfirmCity: payload});
+  confirmCity({ patchState }: StateContext<FilterStateModel>, { payload }: ConfirmCity): void {
+    patchState({ isConfirmCity: payload });
   }
 
   @Action(SetOrder)
-  setOrder({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOrder) {
-    patchState({ order: payload });
-    dispatch(new FilterChange());
+  setOrder({ patchState }: StateContext<FilterStateModel>, { payload }: SetOrder): void {
+    patchState({ order: payload, from: 0 });
   }
 
   @Action(SetDirections)
-  setDirections({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
-    patchState({ directions: payload });
-    dispatch(new FilterChange());
+  setDirections({ patchState }: StateContext<FilterStateModel>, { payload }: SetDirections): void {
+    patchState({ directionIds: payload, from: 0 });
   }
 
   @Action(SetWorkingDays)
-  setWorkingDays({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWorkingDays) {
-    patchState({ workingDays: payload });
-    dispatch(new FilterChange());
+  setWorkingDays({ patchState }: StateContext<FilterStateModel>, { payload }: SetWorkingDays): void {
+    patchState({ workingDays: payload, from: 0 });
   }
 
   @Action(SetStartTime)
-  setStartTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetStartTime) {
-    patchState({ startTime: payload });
-    dispatch(new FilterChange());
+  setStartTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
+    patchState({ startTime: payload, from: 0 });
   }
   @Action(SetEndTime)
-  setEndTime({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetEndTime) {
-    patchState({ endTime: payload });
-    dispatch(new FilterChange());
+  setEndTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
+    patchState({ endTime: payload, from: 0 });
   }
 
   @Action(SetIsFree)
-  setIsFree({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsFree) {
-    patchState({ isFree: payload });
-    dispatch(new FilterChange());
+  setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
+    patchState({ isFree: payload, from: 0 });
   }
   @Action(SetIsPaid)
-  setIsPaid({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetIsPaid) {
-    patchState({ isPaid: payload });
-    dispatch(new FilterChange());
+  setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
+    patchState({ isPaid: payload, from: 0 });
   }
 
   @Action(SetMinPrice)
-  setMinPrice({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinPrice) {
-    patchState({ minPrice: payload });
-    dispatch(new FilterChange());
+  setMinPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMinPrice): void {
+    patchState({ minPrice: payload, from: 0 });
   }
 
   @Action(SetMaxPrice)
-  setMaxPrice({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxPrice) {
-    patchState({ maxPrice: payload });
-    dispatch(new FilterChange());
+  setMaxPrice({ patchState }: StateContext<FilterStateModel>, { payload }: SetMaxPrice): void {
+    patchState({ maxPrice: payload, from: 0 });
   }
 
   @Action(SetSearchQueryValue)
-  setSearchQueryValue({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue) {
-    patchState({ searchQuery: payload });
-    dispatch(new FilterChange());
+  setSearchQueryValue({ patchState }: StateContext<FilterStateModel>, { payload }: SetSearchQueryValue): void {
+    patchState({ searchQuery: payload, from: 0 });
   }
 
   @Action(SetOpenRecruitment)
-  setOpenRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment) {
-    patchState({ isOpenRecruitment: payload });
-    dispatch(new FilterChange());
-
+  setOpenRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetOpenRecruitment): void {
+    patchState({ statuses: payload, from: 0 });
   }
 
   @Action(SetClosedRecruitment)
-  setClosedRecruitment({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment) {
-    patchState({ isClosedRecruitment: payload });
-    dispatch(new FilterChange());
+  setClosedRecruitment({ patchState }: StateContext<FilterStateModel>, { payload }: SetClosedRecruitment): void {
+    patchState({ statuses: payload, from: 0 });
   }
 
   @Action(GetFilteredWorkshops)
-  getFilteredWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { payload }: GetFilteredWorkshops) {
+  getFilteredWorkshops(
+    { patchState, getState }: StateContext<FilterStateModel>,
+    { payload }: GetFilteredWorkshops
+  ): Observable<SearchResponse<WorkshopCard[]>> {
     patchState({ isLoading: true });
     const state: FilterStateModel = getState();
 
-    return this.appWorkshopsService
-      .getFilteredWorkshops(state, payload)
-      .pipe(tap((filterResult: WorkshopFilterCard) => patchState(filterResult ? { filteredWorkshops: filterResult, isLoading: false } : { filteredWorkshops: undefined, isLoading: false }),
-        () => patchState({ isLoading: false })));
-  }
-
-  @Action(GetTopWorkshops)
-  getTopWorkshops({ patchState, getState }: StateContext<FilterStateModel>, { }: GetTopWorkshops) {
-    patchState({ isLoading: true });
-    const state: FilterStateModel = getState();
-
-    return this.appWorkshopsService
-      .getTopWorkshops(state)
-      .subscribe((filterResult: WorkshopCard[]) => patchState({ topWorkshops: filterResult, isLoading: false }), () => patchState({ isLoading: false }));
+    return this.appWorkshopsService.getFilteredWorkshops(state, payload).pipe(
+      tap((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
+        patchState({ filteredWorkshops: filteredWorkshops ?? EMPTY_RESULT, isLoading: false });
+      })
+    );
   }
 
   @Action(SetWithDisabilityOption)
-  setWithDisabilityOption({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption) {
-    patchState({ withDisabilityOption: payload });
-    dispatch(new FilterChange());
+  setWithDisabilityOption({ patchState }: StateContext<FilterStateModel>, { payload }: SetWithDisabilityOption): void {
+    patchState({ withDisabilityOption: payload, from: 0 });
+  }
+
+  @Action(SetIsStrictWorkdays)
+  setIsStrictWorkdays({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsStrictWorkdays): void {
+    patchState({ isStrictWorkdays: payload, from: 0 });
+  }
+
+  @Action(SetIsAppropriateHours)
+  setIsAppropriateHours({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateHours): void {
+    patchState({ isAppropriateHours: payload, from: 0 });
   }
 
   @Action(SetMinAge)
-  setMinAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMinAge) {
-    patchState({ minAge: payload });
-    dispatch(new FilterChange());
+  setMinAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetMinAge): void {
+    patchState({ minAge: payload, from: 0 });
   }
 
   @Action(SetMaxAge)
-  setMaxAge({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetMaxAge) {
-    patchState({ maxAge: payload });
-    dispatch(new FilterChange());
+  setMaxAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetMaxAge): void {
+    patchState({ maxAge: payload, from: 0 });
   }
 
-  @Action(PageChange)
-  pageChange({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: PageChange) {
-    patchState({ currentPage: payload });
-    dispatch(new GetFilteredWorkshops());
+  @Action(SetIsAppropriateAge)
+  setIsAppropriateAge({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsAppropriateAge): void {
+    patchState({ isAppropriateAge: payload, from: 0 });
   }
 
-  @Action(SetFirstPage)
-  setFirstPage({ patchState }: StateContext<FilterStateModel>) {
-    patchState({ currentPage: { element: 1, isActive: true } });
+  @Action(ResetFilteredWorkshops)
+  resetFilteredWorkshops({ patchState }: StateContext<FilterStateModel>, {}: ResetFilteredWorkshops): void {
+    patchState({ filteredWorkshops: null, from: 0 });
   }
 
   @Action(FilterChange)
-  filterChange({ }: StateContext<FilterStateModel>, { }: FilterChange) { }
+  filterChange({ getState, dispatch }: StateContext<FilterStateModel>): void {
+    const isMapView = getState().isMapView;
+    dispatch(new GetFilteredWorkshops(isMapView));
+  }
 
   @Action(FilterClear)
-  FilterClear({ patchState }: StateContext<FilterStateModel>, { }: FilterChange) {
-    patchState({
-      directions: [],
-      maxAge: null,
-      minAge: null,
-      startTime: null,
-      endTime: null,
-      workingDays: [],
-      isFree: false,
-      isPaid: false,
-      maxPrice: Constants.MAX_PRICE,
-      minPrice: Constants.MIN_PRICE,
-      isOpenRecruitment: false,
-      isClosedRecruitment: false,
-      searchQuery: '',
-      order: 'Rating',
-      withDisabilityOption: false,
-      currentPage: {
-        element: 1,
-        isActive: true
-      }
-    });
+  FilterClear({ patchState, dispatch }: StateContext<FilterStateModel>, {}: FilterChange): void {
+    patchState(new DefaultFilterState());
+    dispatch(new FilterChange());
+  }
+
+  @Action(SetCoordsByMap)
+  SetCoordsByMap({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetCoordsByMap): void {
+    patchState({ mapViewCoords: payload, from: 0 });
+    dispatch(new FilterChange());
+  }
+
+  @Action(ClearCoordsByMap)
+  ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ mapViewCoords: null, from: 0 });
+  }
+
+  @Action(SetRadiusSize)
+  SetRadiusSize({ patchState }: StateContext<FilterStateModel>, { payload }: SetRadiusSize): void {
+    patchState({ userRadiusSize: payload, from: 0 });
+  }
+
+  @Action(ClearRadiusSize)
+  ClearRadiusSize({ patchState }: StateContext<FilterStateModel>): void {
+    patchState({ userRadiusSize: null, from: 0 });
+  }
+
+  @Action(SetMapView)
+  SetMapView({ patchState }: StateContext<FilterStateModel>, { payload }: SetMapView): void {
+    patchState({ isMapView: payload, from: 0 });
+  }
+
+  @Action(SetFilterFromURL)
+  setFilterFromURL({ patchState, dispatch }: StateContext<FilterStateModel>, { payload }: SetFilterFromURL): void {
+    patchState(payload);
+    dispatch(new FilterChange());
+  }
+
+  @Action(SetFilterPagination)
+  setSize({ patchState }: StateContext<FilterStateModel>, { paginationParameters }: SetFilterPagination): void {
+    patchState({ size: paginationParameters.size, from: paginationParameters.from });
   }
 }

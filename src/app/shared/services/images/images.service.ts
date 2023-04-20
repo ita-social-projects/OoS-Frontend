@@ -1,27 +1,23 @@
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { Constants } from '../../constants/constants';
+import { environment } from '../../../../environments/environment';
 import { CategoryIcons } from '../../enum/category-icons';
+import { ImgPath } from '../../models/carousel.model';
 import { Provider } from '../../models/provider.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
-import { imgPath } from 'src/app/shared/models/carousel.model';
+import { ProviderWorkshopCard, Workshop, WorkshopCard } from '../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImagesService {
+  constructor() {}
 
-  constructor() { }
-
-  setWorkshopCoverImage(workshop: WorkshopCard): WorkshopCard {
-    workshop['_meta'] = workshop.coverImageId ?
-    environment.storageUrl + workshop.coverImageId :
-      CategoryIcons[workshop.directionId];
+  setWorkshopCoverImage(workshop: WorkshopCard | ProviderWorkshopCard): WorkshopCard | ProviderWorkshopCard {
+    workshop['_meta'] = workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
     return workshop;
   }
 
-  setCarouselImages(enityty: Workshop | Provider): imgPath[] {
-    let images: imgPath[];
+  setCarouselImages(enityty: Workshop | Provider): ImgPath[] {
+    let images: ImgPath[];
 
     if (enityty.imageIds?.length) {
       images = enityty.imageIds.map((imgId: string) => {

@@ -1,4 +1,4 @@
- <nav class="mobile-navigation">
+<nav class="mobile-navigation">
   <ul class="mobile-navigation-links">
     <li>
       <div class="link pointer">
@@ -6,9 +6,9 @@
       </div>
     </li>
     <li *ngFor="let nav of navigationPathsMobile">
-      <div class="link"><a>{{nav?.name}}</a></div>
+      <div class="link">
+        <a>{{ nav.name | translate }}</a>
+      </div>
     </li>
   </ul>
-</nav> 
-
-
+</nav>

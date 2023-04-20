@@ -8,9 +8,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-
+import { Workshop } from '../../../../shared/models/workshop.model';
 import { CreateProviderAdminComponent } from './create-provider-admin.component';
 
 describe('CreateProviderAdminComponent', () => {
@@ -29,14 +29,14 @@ describe('CreateProviderAdminComponent', () => {
         RouterTestingModule,
         MatDialogModule,
         NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
       ],
-      declarations: [ 
+      declarations: [
         CreateProviderAdminComponent,
         MockValidationHintForInputComponent,
-        MockWorkshopChekcboxDropdownComponent
-       ]
-    })
-    .compileComponents();
+        MockWorkshopChekcboxDropdownComponent,
+      ],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -49,7 +49,6 @@ describe('CreateProviderAdminComponent', () => {
       phoneNumber: new FormControl(),
       email: new FormControl(),
     });
-    fixture.detectChanges();
   });
 
   it('should create', () => {
@@ -59,21 +58,21 @@ describe('CreateProviderAdminComponent', () => {
 
 @Component({
   selector: 'app-validation-hint',
-  template: ''
+  template: '',
 })
-
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
+  @Input() isPhoneNumber: true;
 }
 
 @Component({
-  selector: 'app-workshop-checkbox-dropdown',
-  template: ''
+  selector: 'app-entity-checkbox-dropdown',
+  template: '',
 })
-
 class MockWorkshopChekcboxDropdownComponent {
-  @Input() workshops: Workshop[];
+  @Input() entities: Workshop[];
   @Input() dropdownContainerClass: string;
+  @Input() declination: string;
 }

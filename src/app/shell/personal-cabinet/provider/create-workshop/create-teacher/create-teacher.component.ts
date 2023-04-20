@@ -1,11 +1,13 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { NAME_REGEX } from 'src/app/shared/constants/regex-constants'
+import { AbstractControl, FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { ValidationConstants } from 'src/app/shared/constants/validation';
+import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from '../../../../../shared/constants/constants';
+import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
+import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
+import { Teacher } from '../../../../../shared/models/teacher.model';
+
 @Component({
   selector: 'app-create-teacher',
   templateUrl: './create-teacher.component.html',
@@ -15,11 +17,11 @@ export class CreateTeacherComponent implements OnInit {
   TeacherFormArray: FormArray = new FormArray([]);
 
   @Input() teachers: Teacher[];
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
 
   @Output() passTeacherFormArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private matDialog: MatDialog) { }
+  constructor(private fb: FormBuilder, private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     if (this.teachers?.length) {
@@ -31,7 +33,9 @@ export class CreateTeacherComponent implements OnInit {
    * This method add new FormGroup to teh FormArray
    */
   onAddTeacher(teacher?: Teacher): void {
-    this.TeacherFormArray.push(this.createNewForm(teacher));
+    const formGroup = this.createNewForm(teacher);
+    this.TeacherFormArray.controls.push(formGroup);
+    this.TeacherFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }
 
@@ -41,31 +45,33 @@ export class CreateTeacherComponent implements OnInit {
    */
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
-      avatarImage: new FormControl(''),
+      id: new FormControl(''),
+      coverImage: new FormControl(''),
+      coverImageId: new FormControl(''),
       lastName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       firstName: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
-        Validators.required, 
         Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1), 
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
+      gender: new FormControl('', Validators.required),
       dateOfBirth: new FormControl('', Validators.required),
       description: new FormControl('', [
-        Validators.required, 
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300)
-      ]),
+      ])
     });
 
     if (teacher) {
@@ -75,12 +81,13 @@ export class CreateTeacherComponent implements OnInit {
   }
 
   /**
-    * This method fills inputs with information of edited teachers
-    */
+   * This method fills inputs with information of edited teachers
+   */
   private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
-    teacherFormGroup.addControl('teacherId', this.fb.control(teacher.id));
-    teacher.avatarImageId && teacherFormGroup.addControl('avatarImageId', this.fb.control([teacher.avatarImageId]));
+    if (teacher.coverImageId) {
+      teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
+    }
   }
 
   /**
@@ -88,11 +95,12 @@ export class CreateTeacherComponent implements OnInit {
    * @param index: number
    */
   onDeleteForm(index: number): void {
-    const  teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
+    const teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
+    const isPristine = teacherFormGroup.pristine;
 
-    if (teacherFormGroup.invalid || teacherFormGroup.touched) {
+    if (teacherFormGroup.status === 'VALID' || !isPristine) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: '330px',
+        width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteTeacher,
           property: ''
@@ -104,5 +112,4 @@ export class CreateTeacherComponent implements OnInit {
       this.TeacherFormArray.removeAt(index);
     }
   }
-
 }

@@ -1,4 +1,3 @@
-import { ValidationHintComponent } from './../../../../../shared/components/validation-hint/validation-hint.component';
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
@@ -11,10 +10,11 @@ import { MatChipsModule } from '@angular/material/chips';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Workshop } from 'src/app/shared/models/workshop.model';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { Provider } from '../../../../../shared/models/provider.model';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -33,16 +33,17 @@ describe('CreateDescriptionFormComponent', () => {
         MatIconModule,
         MatRadioModule,
         MatGridListModule,
-        MatTooltipModule
+        MatTooltipModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         CreateDescriptionFormComponent,
-        MockCategorySelectComponent,
         ImageFormControlComponent,
-        MockValidationHintAboutComponent
-      ],
-    })
-      .compileComponents();
+        MockValidationHintAboutComponent,
+        MockInfoFormComponent,
+        MockIstitutionHierarchyComponent
+      ]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -65,21 +66,32 @@ describe('CreateDescriptionFormComponent', () => {
 });
 
 @Component({
-  selector: 'app-category-select',
-  template: ''
-})
-class MockCategorySelectComponent {
-  @Input() workshop: Workshop;
-  @Input() CategoryFormGroup: FormGroup;
-}
-
-@Component({
   selector: 'app-validation-hint',
   template: ''
 })
 class MockValidationHintAboutComponent {
-  @Input() validationFormControl: FormControl; //required for validation
+  @Input() validationFormControl: FormControl; // required for validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+}
+@Component({
+  selector: 'app-info-form',
+  template: ''
+})
+class MockInfoFormComponent {
+  @Input() InfoEditFormGroup: FormGroup;
+  @Input() index: number;
+  @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
+}
+
+@Component({
+  selector: '<app-institution-hierarchy',
+  template: ''
+})
+class MockIstitutionHierarchyComponent {
+  @Input() instituitionHierarchyIdFormControl: FormControl;
+  @Input() instituitionIdFormControl: FormControl;
+  @Input() provider: Provider;
 }

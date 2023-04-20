@@ -9,6 +9,7 @@ import { InfoEditComponent } from './info-edit.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { TranslateModule } from '@ngx-translate/core';
 
 fdescribe('PlatformInfoEditComponent', () => {
   let component: InfoEditComponent;
@@ -24,15 +25,11 @@ fdescribe('PlatformInfoEditComponent', () => {
         MatButtonModule,
         MatIconModule,
         RouterTestingModule,
-        BrowserAnimationsModule
+        BrowserAnimationsModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [ 
-        InfoEditComponent,
-        MockInfoFormComponent,
-        MockValidationHintForInputComponent
-      ]
-    })
-    .compileComponents();
+      declarations: [InfoEditComponent, MockInfoFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -52,9 +49,10 @@ fdescribe('PlatformInfoEditComponent', () => {
   template: ''
 })
 class MockInfoFormComponent {
-  @Input() PlatformInfoEditFormGroup: FormGroup;
+  @Input() InfoEditFormGroup: FormGroup;
   @Input() index: number;
   @Input() formAmount: number;
+  @Input() maxDescriptionLength: number;
 }
 @Component({
   selector: 'app-validation-hint',

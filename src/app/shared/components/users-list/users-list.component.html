@@ -1,119 +1,113 @@
-<table
-  mat-table
-  [dataSource]="dataSource"
-  matSort
-  (matSortChange)="announceSortChange($event)"
-  class="mat-elevation-z8"
->
-  <!-- Name Column -->
-  <ng-container matColumnDef="pib" sticky>
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by name"
-    >
-      ПІБ
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.pib }}</td>
-  </ng-container>
+<div class="wrapper">
+  <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
+      <!-- Name Column -->
+      <ng-container matColumnDef="pib" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
+          {{ 'FORMS.LABELS.FULL_NAME' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element" class="tab">
+          <div
+            [matTooltip]="element.pib"
+            showTooltipIfTruncated
+            matTooltipClass="tooltip"
+            [matTooltipPosition]="tooltipPosition"
+            class="tab-text">
+            {{ element.pib }}
+          </div>
+        </td>
+      </ng-container>
 
-  <!-- Email Column -->
-  <ng-container matColumnDef="email">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by email"
-    >
-      Емейл
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.email }}</td>
-  </ng-container>
+      <!-- Email Column -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by email">
+          {{ 'FORMS.LABELS.EMAIL' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element" class="tab">
+          <div
+            [matTooltip]="element.email"
+            showTooltipIfTruncated
+            matTooltipClass="tooltip"
+            [matTooltipPosition]="tooltipPosition"
+            class="tab-text">
+            {{ element.email }}
+          </div>
+        </td>
+      </ng-container>
 
-  <!-- Phone Column -->
-  <ng-container matColumnDef="phone">
-    <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
-      Телефон
-    </th>
-    <td mat-cell *matCellDef="let element">{{element.phoneNumber}} </td>
-  </ng-container>
+      <!-- Phone Column -->
+      <ng-container matColumnDef="phone">
+        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by phone">
+          {{ 'FORMS.LABELS.PHONE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
+      </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="place">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by place"
-    >
-      Населений пункт
-    </th>
-    <td mat-cell *matCellDef="let element">{{ element.place || "" }}</td>
-  </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="institution">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by institution">
+          {{ 'FORMS.LABELS.SUBORDINATION' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.institutionTitle }}</td>
+      </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="role">
-    <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
-      Роль
-    </th>
-    <td mat-cell *matCellDef="let element"> {{element.role}} </td>
-  </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="role">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
+          {{ 'FORMS.LABELS.ROLE' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.role | translate }}</td>
+      </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="status">
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      mat-sort-header
-      sortActionDescription="Sort by status"
-    >
-      Статус
-    </th>
-    <td mat-cell *matCellDef="let element">
-      <div class="provider-admin-status {{ element.status }}">
-        <span>
-          <i class="status-icon {{ providerAdminIcons[element.status] }}"></i
-        ></span>
-        <span> {{ providerAdminTitles[element.status] }}</span>
-      </div>
-    </td>
-  </ng-container>
+      <!-- Name Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
+          {{ 'FORMS.LABELS.STATUS' | translate }}
+        </th>
+        <td mat-cell *matCellDef="let element">
+          <div class="statuses {{ element.status }}">
+            <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
+            <span> {{ statusesTitles[element.status] | translate }}</span>
+          </div>
+        </td>
+      </ng-container>
 
-  <!-- Name Column -->
-  <ng-container matColumnDef="actions" sticky>
-    <th
-      mat-header-cell
-      *matHeaderCellDef
-      sortActionDescription="Sort by actions"
-    ></th>
-    <td mat-cell *matCellDef="let user">
-      <a class="more-details" [routerLink]="['#']">
-        <span class="Cancel"> Скасувати </span>
-      </a>
-      <button mat-icon-button [matMenuTriggerFor]="actions">
-        <mat-icon>more_vert</mat-icon>
-      </button>
-      <button mat-icon-button [matMenuTriggerFor]="email">
-        <mat-icon>email</mat-icon>
-      </button>
+      <!-- Name Column -->
+      <ng-container matColumnDef="actions" stickyEnd>
+        <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions" style="width: 7%"></th>
+        <td mat-cell *matCellDef="let user">
+          <div class="icons" fxLayout="row" fxLayoutAlign="space-between center">
+            <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
+              <mat-icon class="action-icon">more_vert</mat-icon>
+            </button>
+            <button mat-icon-button [matMenuTriggerFor]="email">
+              <mat-icon class="action-icon">email</mat-icon>
+            </button>
+          </div>
 
-      <mat-menu #actions="matMenu" class="header_menu">
-        <button mat-menu-item (click)="onBlock(user)">
-          Заблокувати користувача
-        </button>
-        <button mat-menu-item (click)="onDelete(user)">
-          Видалити користувача
-        </button>
-      </mat-menu>
-      <mat-menu #email="matMenu" class="header_menu">
-        <button mat-menu-item (click)="sendInvitation()">
-          Надіслати запрошення
-        </button>
-      </mat-menu>
-    </td>
-  </ng-container>
+          <mat-menu #actions="matMenu" class="header_menu">
+            <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
+            <ng-container *ngIf="user.status === blockedStatus then unBlock; else Block"></ng-container >
+            <ng-template #Block>
+              <button mat-menu-item (click)="block.emit({user, isBlocked: true})">
+                {{ 'BUTTONS.BLOCK_USER' | translate }}
+              </button>
+            </ng-template>
+            <ng-template #unBlock>
+              <button mat-menu-item (click)="block.emit({user, isBlocked: false})">
+                {{ 'BUTTONS.UNBLOCK_USER' | translate }}
+              </button>
+            </ng-template>
+            <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
+          </mat-menu>
+          <mat-menu #email="matMenu" class="header_menu">
+            <button mat-menu-item (click)="sendInvitation.emit(user)">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+          </mat-menu>
+        </td>
+      </ng-container>
 
-  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-</table>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

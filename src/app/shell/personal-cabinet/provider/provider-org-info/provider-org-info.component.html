@@ -1,8 +1,15 @@
-<ng-container *ngIf="provider$ | async as provider">
-  <app-provider-info
-    [provider]="provider"
-    [currentStatus]="currentStatus"
-    (selectedTabChange)="onTabChanged($event)"
-    [isProviderView]="true"
-  ></app-provider-info>
-</ng-container>
+<div *ngIf="provider" fxLayout="column"
+fxLayoutAlign="space-between" fxLayoutGap="1rem">
+  <app-provider-status-banner
+    *ngIf="provider.ownership !== ownershipTypes.Private"
+    [provider]="provider">
+  </app-provider-status-banner>
+  <div class="container">
+    <app-provider-info
+      [provider]="provider"
+      [currentStatus]="currentStatus"
+      [isProviderView]="true"
+      (selectedTabChange)="onTabChanged($event)">
+    </app-provider-info>
+  </div>
+</div>

@@ -1,0 +1,135 @@
+@import 'src/app/shared/styles/buttons.scss';
+
+.chat-card {
+  display: flex;
+  flex-direction: column;
+  height: 580px;
+
+  margin-bottom: 32px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+}
+
+.chat-card ::ng-deep .mat-icon {
+  overflow: visible;
+}
+
+.header {
+  display: flex;
+
+  padding: 8px 0 16px;
+
+  border-bottom: 1px #e3e3e3 solid;
+
+  p {
+    margin: 6px 0 16px;
+  }
+
+  &__icon {
+    font-size: 16px;
+    color: #444444;
+
+    width: 16px;
+    height: 16px;
+
+    margin-right: 16px;
+    cursor: pointer;
+
+    &:hover {
+      opacity: 0.5;
+    }
+  }
+
+  &__title {
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 20px;
+  }
+}
+
+.content {
+  padding: 20px 11px;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 100%;
+
+  overflow: scroll;
+}
+
+.message {
+  max-width: 80%;
+  &__income {
+    align-self: flex-start;
+  }
+
+  &__outcome {
+    align-self: flex-end;
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+
+  border-top: 1px #e3e3e3 solid;
+  padding: 32px 0 16px;
+}
+
+.search-input {
+  font-weight: normal;
+  line-height: 22px;
+  color: #161414;
+  width: 100%;
+  max-height: 80px;
+
+  //TODO: Remove after finish sending file
+  padding-left: 10px;
+
+  align-self: center;
+
+  border: 0;
+  outline: 0;
+
+  &::placeholder {
+    opacity: 0.4;
+  }
+}
+
+.attach-icon {
+  color: #aaaaaa;
+  margin-right: 14px;
+  cursor: pointer;
+}
+
+#file-input {
+  display: none;
+}
+
+.btn {
+  line-height: 15px;
+  padding: 10px 30px;
+  min-width: auto;
+  .mat-icon {
+    display: none;
+  }
+}
+
+@media (max-width: 530px) {
+  .footer {
+    padding: 16px 0 0;
+  }
+  .btn {
+    padding: 10px 16px;
+    margin: 0 8px;
+    span {
+      display: none;
+    }
+    .mat-icon {
+      display: block;
+      font-size: 16px;
+      height: 16px;
+      width: 16px;
+    }
+  }
+}

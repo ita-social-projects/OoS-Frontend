@@ -1,26 +1,30 @@
-<mat-card class="category" fxLayout="column" fxLayoutAlign="center center" [routerLink]="'/result'"
-  (click)="selectDirection(direction)">
-  <img class="icon" [src]="categoryIcons[direction.id]" alt="{{direction.title}}">
+<mat-card
+  [ngClass]="{ hoverOnCard: !workshopsCount }"
+  class="category"
+  fxLayout="column"
+  fxLayoutAlign="center center"
+  (click)="!workshopsCount && selectDirection(direction)"
+>
+  <img class="icon" [src]="categoryIcons[direction.id]" alt="{{ direction.title }}" />
 
   <ng-container *ngIf="isEditMode">
-    <div  [routerLink]="['./create', direction.id]" class="config_edit-icon">
+    <div [routerLink]="['./create', direction.id]" class="config_edit-icon">
       <button mat-button class="config-button">
         <mat-icon>edit</mat-icon>
       </button>
     </div>
-    <div class="del-icon" (click)="onDelete()" >
-    <button mat-button class="del-button">
-      <mat-icon>delete</mat-icon>
-    </button>
-  </div>
+    <div class="del-icon" (click)="onDelete($event)">
+      <button mat-button class="del-button">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </div>
   </ng-container>
 
   <div class="details">
     <h3 class="title">{{ direction.title }}</h3>
-    <!-- <div class="link">
-      <a >
-        {{ workshopsCount }} {{ getWord(workshopsCount) }} <span class="material-icons arrow">arrow_forward</span>
-      </a>
-    </div> -->
+    <a *ngIf="workshopsCount" class="link" (click)="selectDirection(direction)">
+      {{ workshopsCount | translateCases: WorkshopDeclination }}
+      <span class="material-icons arrow">arrow_forward</span>
+    </a>
   </div>
 </mat-card>

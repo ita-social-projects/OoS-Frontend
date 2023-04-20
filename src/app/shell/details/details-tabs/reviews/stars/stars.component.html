@@ -1,0 +1,17 @@
+<mat-button-toggle-group [formControl]="ratingFormControl" class="stars-toggle-group">
+  <mat-button-toggle
+    *ngFor="let rate of ratingStars"
+    class="toggle"
+    fxLayout="row"
+    fxLayoutAlign="center center"
+    [value]="rate"
+    (click)="onClick(rate)"
+  >
+    <mat-icon *ngIf="modalWindow" class="star-icon-modal" [ngClass]="selectedStars >= rate ? 'selected-star' : ''">
+      {{ selectedStars >= rate ? 'star' : 'star_border' }}
+    </mat-icon>
+    <mat-icon disabled *ngIf="!modalWindow" class="star-icon-list" [ngClass]="rating >= rate ? 'yellow-star-list' : 'gray-star-list'"
+      >star
+    </mat-icon>
+  </mat-button-toggle>
+</mat-button-toggle-group>

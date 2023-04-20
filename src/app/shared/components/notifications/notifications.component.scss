@@ -1,22 +1,32 @@
-.container{
-  min-height: 35px;
-  max-height: 400px;
-  width: 270px;
-
-}
 :host::ng-deep mat-icon {
+  position: relative;
   font-size: 30px;
   .mat-badge-content {
     position: absolute;
     left: -10px;
     top: -10px;
     display: block;
-    background-color: #F5BC4A;
+    background-color: #f5bc4a;
   }
+  top: -1px;
+  overflow: visible;
 }
-.icon-mobile{
+
+button {
+  height: auto;
+  width: auto;
+}
+
+.icon-mobile {
   top: 10px;
 }
-.full-width{
+.full-width {
   width: 100%;
+}
+
+@media (max-width: 847px) {
+  .mat-badge-content {
+    left: 15px;
+    top: 10px;
+  }
 }

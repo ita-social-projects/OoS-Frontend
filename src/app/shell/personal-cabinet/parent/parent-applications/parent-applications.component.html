@@ -1,0 +1,12 @@
+<app-applications
+  *ngIf="parent"
+  [applicationParams]="applicationParams"
+  [declination]="ChildDeclination"
+  [dropdownEntities]="truncatedItems$ | async"
+  [role]="role"
+  (enititiesSelect)="onEntitiesSelect($event)"
+  (getApplications)="onGetApplications()"
+  (leave)="onLeave($event)"
+  (sendMessage)="onSendMessage($event)"
+>
+</app-applications>

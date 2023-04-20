@@ -1,34 +1,33 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Constants } from 'src/app/shared/constants/constants';
+import { LicenseStatuses } from './../../enum/statuses';
+import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import {
-  CreateProviderSteps,
-  OwnershipType,
-  OwnershipTypeUkr,
-  ProviderType,
-  ProviderTypeUkr,
-} from '../../enum/provider';
+import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { GetInstitutionStatus } from '../../store/meta-data.actions';
 import { MetaDataState } from '../../store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
-import { InstitutionStatus } from '../../models/institutionStatus.model';
+import { GetInstitutionStatuses } from '../../store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { RegistrationState } from '../../store/registration.state';
-import { ActivateEditMode } from 'src/app/shared/store/app.actions';
+import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from '../../enum/enumUA/provider';
+import { Constants } from '../../constants/constants';
+import { ActivateEditMode } from '../../store/app.actions';
+import { DataItem } from '../../models/item.model';
 
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
   styleUrls: ['./provider-info.component.scss'],
 })
-export class ProviderInfoComponent implements OnInit {
+export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
-  readonly providerType: typeof ProviderType = ProviderType;
-  readonly ownershipType: typeof OwnershipType = OwnershipType;
-  readonly ownershipTypeUkr = OwnershipTypeUkr;
-  readonly providerTypeUkr = ProviderTypeUkr;
+  
+  readonly ownershipTypes = OwnershipTypes;
+  readonly ownershipTypesEnum = OwnershipTypesEnum;
+  readonly institutionTypes = InstitutionTypes;
+  readonly institutionTypesEnum = InstitutionTypesEnum;
+  readonly licenseStatusEnum = LicenseStatusEnum;
+  readonly licenseStatuses = LicenseStatuses;
+
   editLink: string = CreateProviderSteps[0];
 
   @Input() provider: Provider;
@@ -38,28 +37,26 @@ export class ProviderInfoComponent implements OnInit {
   @Output() closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<InstitutionStatus[]>;
+  institutionStatuses$: Observable<DataItem[]>;
+  institutionStatusName: string;
   destroy$: Subject<boolean> = new Subject<boolean>();
-  currentStatus: string;
 
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.store.dispatch(new GetInstitutionStatus());
+    this.store.dispatch(new GetInstitutionStatuses());
     this.institutionStatuses$
-      .pipe(
-        filter((institutionStatuses) => !!institutionStatuses.length),
-        takeUntil(this.destroy$)
-      ).subscribe((institutionStatuses) => {
-        const provider = this.store.selectSnapshot(RegistrationState.provider);
-        this.currentStatus =
-          institutionStatuses
-            .find((item) => +item.id === provider?.institutionStatusId)
-            ?.name.toString() ?? 'Відсутній';
-      });
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(
+        (institutionStatuses: DataItem[]) =>
+          (this.institutionStatusName = institutionStatuses.find(
+            (item: DataItem) => item.id === this.provider.institutionStatusId
+          ).name)
+      );
   }
 
   onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
+    this.editLink = CreateProviderSteps[tabChangeEvent.index];
     this.tabChanged.emit(tabChangeEvent);
   }
 
@@ -69,5 +66,10 @@ export class ProviderInfoComponent implements OnInit {
 
   onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

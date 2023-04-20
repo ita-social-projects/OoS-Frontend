@@ -8,8 +8,8 @@ import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { Direction } from 'src/app/shared/models/category.model';
 import { PlatformComponent } from './platform.component';
 
 describe('PlatformComponent', () => {
@@ -28,17 +28,11 @@ describe('PlatformComponent', () => {
         MatInputModule,
         NoopAnimationsModule,
         MatDialogModule,
+        TranslateModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        PlatformComponent,
-        MockRegulations,
-        MockSupport,
-        MockAbout,
-        MockDirections
-      ]
-    })
-    .compileComponents();
+      declarations: [PlatformComponent, MockRegulationsComponent, MockSupportComponent, MockAboutComponent, MockDirectionsComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,21 +49,20 @@ describe('PlatformComponent', () => {
   selector: 'app-about-info',
   template: ''
 })
-class MockAbout { }
+class MockAboutComponent {}
 
 @Component({
   selector: 'app-support-info',
   template: ''
 })
-class MockSupport { }
+class MockSupportComponent {}
 @Component({
   selector: 'app-regulations-info',
   template: ''
 })
-class MockRegulations { }
+class MockRegulationsComponent {}
 @Component({
   selector: 'app-directions',
   template: ''
 })
-class MockDirections { }
-
+class MockDirectionsComponent {}

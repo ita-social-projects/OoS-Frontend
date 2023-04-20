@@ -1,0 +1,79 @@
+<div class="wrapper">
+  <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource" matSort appStretchTable>
+      <!-- Name Column -->
+      <ng-container matColumnDef="pib">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.USER_THAT_CHANGE' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ getFullName(element?.user) }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.EMAIL' | translate }}</th>
+        <td mat-cell *matCellDef="let element">{{ element.user?.email }}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="providerTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}</th>
+        <td mat-cell *matCellDef="let element">{{ element?.providerTitle | emptyValueTransform | translate}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="institutionTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.institutionTitle | emptyValueTransform | translate}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="providerCity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</th>
+        <td mat-cell *matCellDef="let element">{{ element?.providerCity | emptyValueTransform | translate}}</td>
+      </ng-container>
+      <ng-container matColumnDef="fieldName">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.TYPE' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ typeChange[element?.fieldName] | emptyValueTransform | translate}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="updatedDate">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.DATE_TIME' | translate }}</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element?.updatedDate | date : SHORT_DATE_FORMAT | emptyValueTransform | translate}}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="oldValue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'HISTORY_LOG.WAS' | translate }}</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{ 'application-status': isApplicationHistoryType }"
+          class="{{ element.oldValue }}">
+          {{
+            (isApplicationHistoryType ? statusTitles[element?.oldValue] : element?.oldValue)
+              | emptyValueTransform | translate
+          }}
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="newValue">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'HISTORY_LOG.BECAME' | translate }}</th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [ngClass]="{ 'application-status': isApplicationHistoryType }"
+          class="{{ element.newValue }}">
+          {{
+            (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue) 
+              | emptyValueTransform | translate
+          }}
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+    </table>
+  </div>
+</div>

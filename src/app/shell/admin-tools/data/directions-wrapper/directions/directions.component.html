@@ -1,0 +1,34 @@
+<div class="header-wrapper" fxLayout="row wrap" fxLayoutAlign="space-between center">
+  <div class="search-area">
+    <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+      <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+      <input [formControl]="filterFormControl" matInput type="text" maxlength="200" class="search" placeholder="Введіть назву напрямку" />
+    </div>
+  </div>
+
+  <a [routerLink]="['./create', ModeConstants.NEW]"><button class="btn" mat-raised-button>Додати напрямок</button></a>
+</div>
+<ng-container *ngIf="filteredDirections$ | async; else isEmptyList">
+  <div class="card-wrapper">
+    <app-category-card
+      class="card"
+      *ngFor="let direction of (filteredDirections$ | async)?.entities"
+      [direction]="direction"
+      (deleteDirection)="onDelete($event)"
+      [isEditMode]="true"
+    >
+    </app-category-card>
+  </div>
+  <app-paginator
+    [totalEntities]="(filteredDirections$ | async).totalAmount"
+    [currentPage]="currentPage"
+    [itemsPerPage]="directionsParameters.size"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)"
+  >
+  </app-paginator>
+</ng-container>
+
+<ng-template #isEmptyList>
+  <app-no-result-card [title]="noDirections"></app-no-result-card>
+</ng-template>

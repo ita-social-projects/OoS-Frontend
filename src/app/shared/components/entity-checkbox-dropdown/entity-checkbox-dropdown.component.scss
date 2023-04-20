@@ -1,0 +1,43 @@
+@import 'src/app/shared/styles/dropdown.scss';
+
+.dropdown {
+  max-width: 200px;
+  background: #ffffff;
+  font-weight: 500;
+  border: 1px solid #e3e3e3;
+  box-sizing: border-box;
+  border-radius: 21px;
+  padding: 0.8rem;
+  color: #333333;
+}
+
+.dropdown-wrapper {
+  z-index: 3;
+}
+
+.label {
+  padding: 1rem;
+}
+
+mat-form-field mat-label {
+  display: flex;
+  justify-content: flex-start;
+  font-weight: 800;
+  font-size: 0.8rem;
+  color: #333333;
+}
+
+::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  display: none;
+}
+::ng-deep .mat-primary .mat-pseudo-checkbox-checked {
+  background: #3849f9;
+}
+
+:host ::ng-deep .mat-form-field-underline {
+  height: 0;
+}
+
+::ng-deep .custom-overlay-panel .application-dropdown {
+  max-width: 180px;
+}

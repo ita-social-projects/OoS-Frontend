@@ -5,7 +5,7 @@ import { ActivateEditMode, MarkFormDirty, ShowMessageBar, ToggleMobileScreen } f
 export interface AppStateModel {
   isDirtyForm: boolean;
   isEditMode: boolean;
-  isMobileScreen: undefined | boolean;  
+  isMobileScreen: undefined | boolean;
 }
 
 @State<AppStateModel>({
@@ -13,22 +13,27 @@ export interface AppStateModel {
   defaults: {
     isDirtyForm: false,
     isEditMode: false,
-    isMobileScreen: undefined    
+    isMobileScreen: undefined
   }
 })
 @Injectable()
 export class AppState {
+  @Selector()
+  static isMobileScreen(state: AppStateModel): boolean {
+    return state.isMobileScreen;
+  }
 
   @Selector()
-  static isMobileScreen(state: AppStateModel): boolean { return state.isMobileScreen; }
+  static isDirtyForm(state: AppStateModel): boolean {
+    return state.isDirtyForm;
+  }
 
   @Selector()
-  static isDirtyForm(state: AppStateModel): boolean { return state.isDirtyForm; }
+  static isEditMode(state: AppStateModel): boolean {
+    return state.isEditMode;
+  }
 
-  @Selector()
-  static isEditMode(state: AppStateModel): boolean { return state.isEditMode; }
-
-  constructor() { }
+  constructor() {}
 
   @Action(MarkFormDirty)
   markFormDirty({ patchState }: StateContext<AppStateModel>, { payload }: MarkFormDirty): void {
@@ -41,12 +46,10 @@ export class AppState {
   }
 
   @Action(ShowMessageBar)
-  showMessageBar({ }: StateContext<AppStateModel>, { }: ShowMessageBar): void {     
-  }
+  showMessageBar({}: StateContext<AppStateModel>, {}: ShowMessageBar): void {}
 
   @Action(ToggleMobileScreen)
   ToggleMobileScreen({ patchState }: StateContext<AppStateModel>, { payload }: ActivateEditMode): void {
     patchState({ isMobileScreen: payload });
   }
-
 }

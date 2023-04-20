@@ -1,0 +1,11 @@
+@import 'src/app/shared/styles/buttons.scss';
+
+.btn-add {
+  padding: 2px 0;
+}
+
+@media (max-width: 750px) {
+  .add-hour {
+    place-content: center !important;
+  }
+}

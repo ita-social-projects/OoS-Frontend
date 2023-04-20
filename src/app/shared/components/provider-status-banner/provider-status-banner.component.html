@@ -1,0 +1,15 @@
+<div class="banner-header">
+  <div class="status">
+    <i [classList]="iconClasses"></i>
+    <h4 class="status-title">{{ statusTitle | translate }}</h4>
+  </div>
+  <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
+</div>
+<p class="banner-details">{{ statusDetails | translate }}</p>
+<a
+  *ngIf="provider.status === statuses.Editing"
+  [routerLink]="editLink"
+  (click)="onActivateEditMode()"
+  class="banner-link">
+  {{ 'BUTTONS.EDIT' | translate }}
+</a>

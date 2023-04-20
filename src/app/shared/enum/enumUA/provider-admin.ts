@@ -1,26 +1,17 @@
-export enum providerAdminRoleUkr {
-  deputy = 'Заступник директора',
-  admin = 'Адміністратор гуртка',
-  all = 'Усі',
-}
-
-export enum providerAdminRoleUkrReverse {
-  'Заступник директора' = 'deputy',
-  'Адміністратор гуртка' = 'admin',
-  'Усі' = 'all',
-}
 
 export enum ProviderAdminTitles {
-  NeverLogged = 'Очікує логування',
-  Accepted = 'Підтвердженно',
-  Blocked = 'Заблоковано',
+  All = 'ENUM.PROVIDER_ADMINS.ALL',
+  Deputy = 'ENUM.PROVIDER_ADMINS.PROVIDER_DEPUTY',
+  Admin = 'ENUM.PROVIDER_ADMINS.PROVIDER_ADMIN',
 }
 
-export enum PersonalCabinetTitle {
-  None = 'КАБІНЕТ НАДАВАЧА',
-  admin = 'КАБІНЕТ ТЕХ. АДМІНА',
-  user = 'КАБІНЕТ КОРИСТУВАЧА',
-  deputy = 'КАБІНЕТ ЗАСТУПНИКА ДИРЕКТОРА',
-  ProviderAdmin = 'КАБІНЕТ АДМІНІСТРАТОРА ГУРТКА',
+export enum ProviderAdminsFormTitlesNew {
+  deputy = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_DEPUTY',
+  admin = 'ENUM.NAV_BAR_NAME.ADD_PROVIDER_ADMIN',
+}
+
+export enum ProviderAdminsFormTitlesEdit {
+  deputy = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_DEPUTY',
+  admin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_ADMIN',
 }
 

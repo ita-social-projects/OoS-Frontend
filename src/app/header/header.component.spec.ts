@@ -1,3 +1,4 @@
+import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +13,8 @@ import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
+import { TranslateModule } from '@ngx-translate/core';
+import { DateAdapter } from '@angular/material/core';
 
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
@@ -27,20 +30,19 @@ describe('HeaderComponent', () => {
         HttpClientModule,
         RouterTestingModule,
         MatMenuModule,
+        MatSelectModule,
         MatProgressBarModule,
-        MatSelectModule
+        TranslateModule.forRoot()
       ],
       declarations: [
         HeaderComponent,
         MockSearchBarComponent,
         MockNavigationMobileBarComponent,
-        MockNotificationsComponent
+        MockNotificationsComponent,
+        ProgressBarComponent
       ],
-      providers: [
-        { provide: OidcSecurityService, useValue: MockOidcSecurityService },
-      ]
-    })
-      .compileComponents();
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }, DateAdapter]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -58,17 +60,16 @@ describe('HeaderComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockSearchBarComponent {
-}
+class MockSearchBarComponent {}
 
 @Component({
   selector: 'app-navigation-mobile-bar',
   template: ''
 })
-class MockNavigationMobileBarComponent { }
+class MockNavigationMobileBarComponent {}
 
 @Component({
   selector: 'app-notifications',
   template: ''
 })
-class MockNotificationsComponent { }
+class MockNotificationsComponent {}

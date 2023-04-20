@@ -8,8 +8,9 @@ import { BrowserModule } from '@angular/platform-browser';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatButtonModule } from '@angular/material/button';
-import { MaterialModule } from 'src/app/shared/modules/material.module';
 import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from '../../../modules/material.module';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('WorkingHoursComponent', () => {
   let component: WorkingHoursComponent;
@@ -29,11 +30,10 @@ describe('WorkingHoursComponent', () => {
         MatButtonModule,
         MaterialModule,
         NgxsModule.forRoot([]),
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        WorkingHoursComponent]
-    })
-      .compileComponents();
+      declarations: [WorkingHoursComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

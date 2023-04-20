@@ -1,0 +1,16 @@
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+
+:host ::ng-deep .mat-form-field-wrapper {
+  padding-bottom: 0;
+}
+
+:host ::ng-deep .mat-select-disabled,
+.mat-select-content,
+.mat-disabled,
+mat-select.mat-disabled {
+  opacity: 0.5;
+  background-color: rgb(83, 81, 81) !important;
+  pointer-events: none;
+}

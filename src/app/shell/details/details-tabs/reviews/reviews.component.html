@@ -1,0 +1,44 @@
+<div *ngIf="rating" class="wrapper" fxLayout="column" fxLayoutAlign="start space-between">
+  <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+    <div fxLayout="row wrap" fxLayoutAlign="space-between center">
+      <mat-icon class="star-icon">star</mat-icon> {{ workshop.rating }}
+      <p class="rate-amount">({{ rating.totalAmount | translateCases: ReviewDeclination }})</p>
+    </div>
+    <div [matTooltip]="!isReviewed ? mustBeAccepted : alreadyRated" [matTooltipDisabled]="!(isReviewed || !isAllowedToReview)">
+      <button
+        mat-raised-button
+        class="button"
+        (click)="onRate()"
+        *ngIf="role !== Role.provider"
+        [disabled]="isReviewed || !isAllowedToReview"
+      >
+        <mat-icon class="button-icon">edit</mat-icon>
+        {{ 'RATE' | translate }}
+      </button>
+    </div>
+  </div>
+
+  <ng-container *ngIf="!(isLoading$ | async)">
+    <ng-container *ngIf="rating.totalAmount; else isEmptyList">
+      <div class="rate" *ngFor="let rate of rating.entities" fxLayout="column" fxLayoutAlign="start space-between">
+        <p class="rate-author">{{ rate.firstName }} {{ rate.lastName }}</p>
+        <p class="rate-date" fxLayout="row" fxLayoutAlign="start center">
+          <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
+          {{ rate.creationTime | date: 'shortDate' }}
+        </p>
+      </div>
+      <app-paginator
+        [totalEntities]="rating.totalAmount"
+        [currentPage]="currentPage"
+        [itemsPerPage]="rateParameters.size"
+        (itemsPerPageChange)="itemsPerPageChange($event)"
+        (pageChange)="pageChange($event)"
+      >
+      </app-paginator>
+    </ng-container>
+  </ng-container>
+
+  <ng-template #isEmptyList>
+    <app-no-result-card [title]="noResultReviews"></app-no-result-card>
+  </ng-template>
+</div>

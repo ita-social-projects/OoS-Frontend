@@ -6,11 +6,13 @@ import { Workshop } from '../../shared/models/workshop.model';
 import { User } from '../../shared/models/user.model';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { of } from 'rxjs';
+import { Provider } from '../../shared/models/provider.model';
+import { Role } from '../../shared/enum/role';
 
 const MockUser = {
-  role: '',
+  role: ''
 };
 
 describe('DetailsComponent', () => {
@@ -20,24 +22,15 @@ describe('DetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        RouterModule.forRoot([]),
-        FlexLayoutModule
-      ],
-      declarations: [
-        DetailsComponent,
-        MockSideMenuComponent,
-        MockDetailsPageComponent
-      ],
+      imports: [NgxsModule.forRoot([]), RouterModule.forRoot([]), FlexLayoutModule],
+      declarations: [DetailsComponent, MockSideMenuComponent, MockDetailsWorkshopComponent, MockDetailsProviderComponent],
       providers: [{ provide: APP_BASE_HREF, useValue: '/' }]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue(MockUser as User);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of(MockUser as User));
 
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
@@ -50,21 +43,35 @@ describe('DetailsComponent', () => {
 });
 
 @Component({
-  selector: 'app-information-page',
+  selector: 'app-workshop-details',
   template: ''
 })
-class MockDetailsPageComponent {
+class MockDetailsWorkshopComponent {
+  @Input() role: Role;
   @Input() workshop: Workshop;
-  @Input() providerData: Provider;
-  @Input() providerWorkshops: Workshop[];
-  @Input() role: string;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
 }
-
+@Component({
+  selector: 'app-provider-details',
+  template: ''
+})
+class MockDetailsProviderComponent {
+  @Input() role: Role;
+  @Input() workshop: Workshop;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
+}
 @Component({
   selector: 'app-side-menu',
   template: ''
 })
 class MockSideMenuComponent {
+  @Input() role: Role;
   @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input() provider: Provider;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
 }

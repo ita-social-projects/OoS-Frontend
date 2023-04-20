@@ -1,12 +1,3 @@
-export enum ApplicationStatus {
-  Pending = 'Pending',
-  AcceptedForSelection = 'AcceptedForSelection',
-  Approved = 'Approved',
-  StudyingForYears = 'StudyingForYears',
-  Completed = 'Completed',
-  Rejected = 'Rejected',
-  Left = 'Left',
-}
 export enum ApplicationIcons {
   Pending = 'fas fa-user-clock',
   AcceptedForSelection = 'fas fa-user-plus',
@@ -15,4 +6,27 @@ export enum ApplicationIcons {
   Completed = 'fas fa-user-times',
   Rejected = 'fas fa-user-slash',
   Left = 'fas fa-user-slash',
+  Blocked = 'fas fa-user-lock',
+  Editing = 'fas fa-user-clock'
+}
+
+export enum ApplicationEntityType {
+  parent = 'parents',
+  provider = 'providers',
+  workshop = 'workshops',
+  ProviderAdmin = 'provideradmins',
+  ProviderDeputy = 'providers',
+  None = 'providers'
+}
+
+export enum ApplicationStatusTabParams {
+  All,
+  Pending,
+  Approved,
+  Rejected,
+  Left,
+  AcceptedForSelection,
+  StudyingForYears,
+  Completed,
+  Blocked,
 }

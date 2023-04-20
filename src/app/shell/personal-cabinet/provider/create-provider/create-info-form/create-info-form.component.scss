@@ -1,7 +1,11 @@
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/calendar.scss";
-:host ::ng-deep .mat-form-field-wrapper{
-  padding: 0;
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/calendar.scss';
+@import 'src/app/shared/styles/info-hint.scss';
+
+::ng-deep .mat-form-field {
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
 }

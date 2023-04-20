@@ -1,4 +1,4 @@
-import { Parent } from 'src/app/shared/models/parent.model';
+import { Observable } from 'rxjs/internal/Observable';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopCardsListComponent } from './workshop-cards-list.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -6,8 +6,10 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { NgxsModule, Store } from '@ngxs/store';
-import { NoResultCardComponent } from 'src/app/shared/components/no-result-card/no-result-card.component';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
+import { of } from 'rxjs';
+import { NoResultCardComponent } from '../../../shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from '../../../shared/models/paginationElement.model';
+import { Parent } from '../../../shared/models/parent.model';
 
 describe('WorkshopCardsListComponentt', () => {
   let component: WorkshopCardsListComponent;
@@ -23,20 +25,16 @@ describe('WorkshopCardsListComponentt', () => {
         NoResultCardComponent,
         MockListWorkshopCardPaginatorComponent
       ],
-      imports: [
-        FlexLayoutModule,
-        CommonModule,
-        NgxsModule.forRoot([]),
-      ],
-    })
-      .compileComponents();
+      imports: [FlexLayoutModule, CommonModule, NgxsModule.forRoot([])]
+    }).compileComponents();
   });
 
   beforeEach(() => {
     store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({} as Parent);
+    jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of({} as Parent));
     fixture = TestBed.createComponent(WorkshopCardsListComponent);
     component = fixture.componentInstance;
+    component.workshops$ = new Observable();
     fixture.detectChanges();
   });
 
@@ -49,8 +47,7 @@ describe('WorkshopCardsListComponentt', () => {
   selector: 'app-ordering-menu',
   template: ''
 })
-class MockOrderingComponent {
-}
+class MockOrderingComponent {}
 
 @Component({
   selector: 'app-workshop-card',
@@ -58,8 +55,7 @@ class MockOrderingComponent {
 })
 class MockListWorkshopCardComponent {
   @Input() workshop: Workshop;
-  @Input() isMainPage: boolean;
-  @Input() userRoleView: string;
+  @Input() isCreateFormView: boolean;
 }
 @Component({
   selector: 'app-paginator',
@@ -68,4 +64,5 @@ class MockListWorkshopCardComponent {
 class MockListWorkshopCardPaginatorComponent {
   @Input() totalEntities: number;
   @Input() currentPage: PaginationElement;
+  @Input() itemsPerPage: number;
 }

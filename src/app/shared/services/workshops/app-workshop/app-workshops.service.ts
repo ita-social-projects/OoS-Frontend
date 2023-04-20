@@ -1,29 +1,42 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants, PaginationConstants } from 'src/app/shared/constants/constants';
-import { Ordering } from 'src/app/shared/enum/ordering';
-import { Direction } from 'src/app/shared/models/category.model';
+import { SearchResponse } from '../../../models/search.model';
+import { Constants, PaginationConstants } from '../../../constants/constants';
+import { Ordering } from '../../../enum/ordering';
+import { Codeficator } from '../../../models/codeficator.model';
+import { FilterStateModel } from '../../../models/filterState.model';
+import { WorkshopCard } from '../../../models/workshop.model';
+import { FilterState } from '../../../store/filter.state';
 
-import { WorkshopCard, WorkshopFilterCard } from '../../../models/workshop.model';
-import { FilterStateModel } from '../../../store/filter.state';
 @Injectable({
   providedIn: 'root'
 })
 export class AppWorkshopsService {
+  constructor(private http: HttpClient, private store: Store) {}
 
-  dataUrlMock = '/assets/mock-org-cards.json';
-  size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
+  private setCityFilterParams(settlement: Codeficator, params: HttpParams): HttpParams {
+    params = params
+      .set('Latitude', settlement.latitude.toString())
+      .set('Longitude', settlement.longitude.toString())
+      .set('catottgId', settlement?.id?.toString() ?? Constants.KYIV.id.toString());
 
-  constructor(private http: HttpClient) { }
+    return params;
+  }
 
   private setParams(filters: FilterStateModel, isMapView: boolean): HttpParams {
+    const defaultFilters = {
+      from: '0',
+      size: '100'
+    }
     let params = new HttpParams();
 
-    if (filters.city) {
-      params = params.set('City', filters.city.name);
-      params = params.set('Latitude', filters.city.latitude.toString());
-      params = params.set('Longitude', filters.city.longitude.toString());
+    if (filters.settlement) {
+      params = this.setCityFilterParams(filters.settlement, params);
+    } else if (!!filters.mapViewCoords) {
+      const { lat, lng } = filters.mapViewCoords;
+      params = params.set('Latitude', lat.toFixed(5).toString()).set('Longitude', lng.toFixed(5).toString());
     }
 
     if (filters.isFree) {
@@ -51,6 +64,10 @@ export class AppWorkshopsService {
       params = params.set('MaxAge', filters.maxAge.toString());
     }
 
+    if (filters.isAppropriateAge) {
+      params = params.set('IsAppropriateAge', 'true');
+    }
+
     if (filters.startTime) {
       params = params.set('StartHour', filters.startTime);
     }
@@ -60,7 +77,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.workingDays.length > 0) {
-      filters.workingDays.forEach((day: string) => params = params.append('Workdays', day));
+      filters.workingDays.forEach((day: string) => (params = params.append('Workdays', day)));
     }
 
     if (filters.isFree || !filters.minPrice) {
@@ -71,24 +88,35 @@ export class AppWorkshopsService {
       params = params.set('WithDisabilityOptions', 'true');
     }
 
+    if (filters.isAppropriateHours) {
+      params = params.set('IsAppropriateHours', 'true');
+    }
+
+    if (filters.isStrictWorkdays) {
+      params = params.set('IsStrictWorkdays', 'true');
+    }
+
     if (filters.order) {
       params = params.set('OrderByField', filters.order);
     }
 
-    if (filters.directions.length > 0) {
-      filters.directions.forEach((direction: Direction) => params = params.append('DirectionIds', direction.id.toString()));
+    if (!!filters.statuses.length) {
+      filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
+    }
+
+    if (!!filters.directionIds.length) {
+      filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
     }
 
     if (isMapView) {
-      params = params.set('OrderByField', Ordering.nearest);
-      params = params.set('Size', '100');
-      params = params.set('From', '0');
-    } else if (filters.currentPage) {
-      const size: number = PaginationConstants.ITEMS_PER_PAGE_DEFAULT;
-      const from: number = size * (+filters.currentPage.element - 1);
-
-      params = params.set('Size', size.toString());
-      params = params.set('From', from.toString());
+      params = params.set('OrderByField', Ordering.nearest).set('Size', defaultFilters.size).set('From', defaultFilters.from);
+      if (filters.userRadiusSize) {
+        params = params.set('RadiusKm', filters.userRadiusSize);
+      }
+    } else {
+      const size = filters?.size?.toString() || defaultFilters.size;
+      const from = filters?.from?.toString() || defaultFilters.from;
+      params = params.set('Size', size).set('From', from);
     }
 
     return params;
@@ -111,20 +139,25 @@ export class AppWorkshopsService {
   /**
    * This method get workshops with applied filter options
    */
-  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<WorkshopFilterCard> {
+  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<SearchResponse<WorkshopCard[]>> {
     const options = { params: this.setParams(filters, isMapView) };
-    return this.http.get<WorkshopFilterCard>('/api/v1/Workshop/GetByFilter', options);
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Workshop/GetByFilter', options);
   }
 
   /**
    * This method get top workshops
    */
-  getTopWorkshops(filters: FilterStateModel): Observable<WorkshopCard[]> {
+  getTopWorkshops(): Observable<WorkshopCard[]> {
     let params = new HttpParams();
 
-    params = params.set('Limit', this.size.toString());
-    params = params.set('City', filters.city?.name ?? Constants.KIEV.name);
-    
-    return this.http.get<WorkshopCard[]>('/api/v1/Statistic/GetWorkshops', { params });
+    const size: number = PaginationConstants.WORKSHOPS_PER_PAGE;
+    const settlement: Codeficator = this.store.selectSnapshot(FilterState.settlement);
+
+    params = params.set('Limit', size.toString());
+    params = this.setCityFilterParams(settlement, params);
+
+    return this.http.get<WorkshopCard[]>('/api/v1/popular/workshops', {
+      params
+    });
   }
 }

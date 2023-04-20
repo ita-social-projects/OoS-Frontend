@@ -1,79 +1,99 @@
+import { catchError, Observable, tap, throwError } from 'rxjs';
+
+import {
+  HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse
+} from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { Application, ApplicationUpdate } from '../../models/application.model';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Store } from '@ngxs/store';
+
+import { ApplicationStatuses } from '../../enum/statuses';
+import {
+  Application, ApplicationFilterParameters, ApplicationUpdate
+} from '../../models/application.model';
+import { PaginationElement } from '../../models/paginationElement.model';
+import { SearchResponse } from '../../models/search.model';
+
 @Injectable({
   providedIn: 'root'
 })
-
 export class ApplicationService {
+  constructor(private http: HttpClient, private store: Store) {}
 
-  constructor(private http: HttpClient) {
-  }
-
-  private setParams(parameters): HttpParams {
+  private setParams(parameters: ApplicationFilterParameters): HttpParams {
     let params = new HttpParams();
 
-    if (parameters.status) {
-      params = params.set('Status', parameters.status);
-    }
+    if (parameters) {
+      if (parameters.statuses.length) {
+        parameters.statuses.forEach((status: ApplicationStatuses) => (params = params.append('Statuses', status)));
+      }
 
-    if (parameters.workshopsId.length) {
-      parameters.workshopsId.forEach((workshopId: string) => params = params.append('Workshops', workshopId));
-    }
+      if (parameters.workshops?.length) {
+        parameters.workshops.forEach((workshopId: string) => (params = params.append('Workshops', workshopId)));
+      }
 
-    params = params.set('OrderByDateAscending', 'true'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('OrderByAlphabetically', 'false'); // TODO: change parameters setting according to the backend updtaes
-    params = params.set('OrderByStatus', 'true'); // TODO: change parameters setting according to the backend updtaes
+      if (parameters.children?.length) {
+        parameters.children.forEach((childrenId: string) => (params = params.append('Children', childrenId)));
+      }
+
+      if (parameters.searchString) {
+        params = params.set('SearchString', parameters.searchString);
+      }
+
+      params = params.set('ShowBlocked', parameters.showBlocked.toString());
+    }
+    params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
+
+    params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     return params;
-  }
-
-
-
-  /**
-   * This method get applications by Parent id
-   * @param id string
-   */
-   getApplicationsByParentId(id: string, status): Observable<Application[]> {
-    const options = { params: this.setParams({
-      status: status,
-      workshopsId: []
-    }) };
-    return this.http.get<Application[]>(`/api/v1/Application/GetByParentId/${id}`, options);
   }
 
   /**
    * This method get applications by Provider id
    * @param id string
    */
-  getApplicationsByProviderId(id: string, parameters): Observable<Application[]> {
+  getApplicationsByPropertyId(id: string, parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<Application[]>(`/api/v1/Application/GetByPropertyId/provider/${id}`, options);
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/${parameters.property}/${id}/applications`, options);
+  }
+
+  getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
+    const options = { params: this.setParams(parameters) };
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/applications`, options);
   }
 
   /**
    * This method create Application
-   * @param Workshop Workshop
+   * @param application Application
    */
-  createApplication(application: Application): Observable<object> {
-    return this.http.post('/api/v1/Application/Create', application, { observe: 'response' });
-  }
-
-  /**
-   * This method delete Application by Application id
-   * @param id string
-   */
-  deleteApplication(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Application/Delete/${id}`);
+  createApplication(application: Application): Observable<HttpResponse<Application>> {
+    return this.http.post<Application>('/api/v1/applications', application, { observe: 'response' });
   }
 
   /**
    * This method update Application
    * @param application: ApplicationUpdate
    */
-  updateApplication(application: ApplicationUpdate): Observable<object> {
-    return this.http.put('/api/v1/Application/Update', application);
+  updateApplication(application: ApplicationUpdate): Observable<Application> {
+    return this.http.put<Application>('/api/v1/applications', application);
+  }
+
+  /**
+   * This method get status if child can apply to workshop by application id and child id
+   * @param childId string
+   * @param workshopId string
+   */
+  getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/applications/allowed/workshops/${workshopId}/children/${childId}`);
+  }
+
+  /**
+   * This method Check if exists an any application with approve status in workshop for parent
+   * @param parentId string
+   * @param workshopId string
+   */
+  getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
+    return this.http.get<boolean>(`/api/v1/applications/reviewable/parents/${parentId}/workshops/${workshopId}`);
   }
 }

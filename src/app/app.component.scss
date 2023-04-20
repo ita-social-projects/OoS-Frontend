@@ -1,24 +1,25 @@
-
 .app-wrapper {
   position: relative;
   box-sizing: border-box;
 }
+
+.hide-content {
+  visibility: hidden;
+}
+
 .content {
   min-height: calc(100vh - 121px);
   flex-grow: 1;
 
-  @media(max-width: 900px) {
+  @media (max-width: 900px) {
     min-height: calc(100vh - 113px);
   }
 
-  @media(max-width: 750px) {
+  @media (max-width: 750px) {
     min-height: calc(100vh - 154px);
   }
 
-  @media(max-width: 600px) {
+  @media (max-width: 600px) {
     min-height: calc(100vh - 106px);
   }
 }
-
-
-

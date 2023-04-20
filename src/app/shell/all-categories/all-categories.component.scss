@@ -1,28 +1,15 @@
-@import "src/app/shared/styles/card-wrapper.scss";
-.header-wrapper{
+@import 'src/app/shared/styles/card-wrapper.scss';
+.header-wrapper {
   margin-bottom: 2rem;
 }
 
-.title{
+.title {
   margin-right: 1rem;
-}
-
-.all-categories-full-search-bar-wrap {
-  max-width: 420px;
-  width: 100%;
-
-  .search {
-    .search__search-bar {
-      .search-bar {
-        height: 34px;
-      }
-    }
-  }
 }
 
 :host ::ng-deep app-full-search-bar {
   min-width: 300px;
-  max-width: 420px;
+  max-width: 550px;
   width: 100%;
 
   app-searchbar {
@@ -42,14 +29,14 @@
   }
 }
 
-@media(min-width: 750px) {
+@media (min-width: 750px) {
   .shell-search {
     width: 50%;
   }
 }
 
-@media(max-width: 750px) {
-  .header-wrapper{
+@media (max-width: 750px) {
+  .header-wrapper {
     margin: 2rem 1rem;
   }
 }

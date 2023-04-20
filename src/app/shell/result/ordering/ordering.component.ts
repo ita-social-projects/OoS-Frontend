@@ -1,43 +1,41 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatSelectChange } from '@angular/material/select';
-import { Actions, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Constants } from 'src/app/shared/constants/constants';
-import { Ordering } from 'src/app/shared/enum/ordering';
-import { SetOrder } from 'src/app/shared/store/filter.actions';
+import { Ordering } from '../../../shared/enum/ordering';
+import { FilterList } from '../../../shared/models/filterList.model';
+import { SetOrder } from '../../../shared/store/filter.actions';
+import { FilterState } from '../../../shared/store/filter.state';
 
 @Component({
   selector: 'app-ordering',
   templateUrl: './ordering.component.html',
   styleUrls: ['./ordering.component.scss']
 })
+export class OrderingComponent implements OnInit, OnDestroy {
+  readonly ordering = Ordering;
 
-export class OrderingComponent implements OnInit {
+  @Select(FilterState.filterList)
+  filterList$: Observable<FilterList>;
 
-  @Input()
-  set order(rating) {
-    this.orderFormControl.setValue(rating, {emitEvent: false});
-  };
-
-  readonly ordering: typeof Ordering = Ordering;
-
-  selectedOption: string;
   orderFormControl = new FormControl();
   destroy$: Subject<boolean> = new Subject<boolean>();
-  constructor(private store: Store) { }
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-
+    this.filterList$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((filters) => this.orderFormControl.setValue(filters.order, { emitEvent: false }));
   }
 
   OnSelectOption(event: MatSelectChange): void {
-    this.selectedOption = event.value;
-    this.store.dispatch(new SetOrder(this.selectedOption))
+    this.store.dispatch(new SetOrder(event.value));
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

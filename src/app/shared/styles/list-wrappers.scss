@@ -1,15 +1,15 @@
-.empty-list-wrapper{
+.empty-list-wrapper {
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
   background: #e5e6f1;
   border-radius: 5px;
   min-height: 66px;
   margin: 2rem 0;
-  flex-wrap: wrap
+  flex-wrap: wrap;
 }
-.text{
+.text {
   font-family: Open Sans;
   font-style: normal;
   font-weight: normal;
@@ -18,7 +18,7 @@
   opacity: 1;
   margin: 0 2rem;
 }
-.add-wrapper{
+.add-wrapper {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -28,7 +28,7 @@
   padding: 20px 24px;
   margin-bottom: 2rem;
 
-  a{
+  a {
     display: flex;
     justify-content: center;
   }
@@ -41,10 +41,9 @@
     justify-content: center !important;
     align-items: center;
 
-    p{
+    p {
       margin-bottom: 1rem;
       text-align: center;
     }
-
   }
 }

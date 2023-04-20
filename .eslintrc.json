@@ -1,0 +1,80 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "parserOptions": {
+        "project": [
+          "tsconfig.json",
+          "e2e/tsconfig.json"
+        ],
+        "createDefaultProgram": true
+      },
+      "extends": [
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates",
+        "prettier"
+      ],
+      "rules": {
+        "curly": "error",
+        "semi": [
+          "warn",
+          "always"
+        ],
+        "eol-last": "warn",
+        "no-console": ["warn", { "allow": ["warn", "error"]}],
+        "quotes": ["error", "single", { "avoidEscape": true }],
+        "indent": ["error", 2, { "SwitchCase": 1, "ignoredNodes": ["PropertyDefinition"] }],
+        "keyword-spacing": "error",
+        "space-before-blocks": "error",
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "app",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "app",
+            "style": "kebab-case"
+          }
+        ],
+        "@angular-eslint/no-empty-lifecycle-method": "off",
+        "@angular-eslint/use-pipe-transform-interface": "error",
+        "@angular-eslint/use-lifecycle-interface": "error",
+        "@angular-eslint/no-outputs-metadata-property": "error",
+        "@angular-eslint/no-output-rename": "error",
+        "@angular-eslint/no-output-on-prefix": "error",
+        "@angular-eslint/no-output-native": "error",
+        "@angular-eslint/no-inputs-metadata-property": "error",
+        "@angular-eslint/no-input-rename": "error",
+        "@angular-eslint/no-host-metadata-property": "error",
+        "@angular-eslint/no-conflicting-lifecycle": "error",
+        "@angular-eslint/directive-class-suffix": "error",
+        "@angular-eslint/contextual-lifecycle": "error",
+        "@angular-eslint/component-class-suffix": "error"
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {
+        "@angular-eslint/template/no-negated-async": "off",
+        "@angular-eslint/template/banana-in-box": "error"
+      }
+    }
+  ]
+}

@@ -7,14 +7,12 @@ import { FeaturesList } from '../../models/featuresList.model';
   providedIn: 'root'
 })
 export class FeatureManagementService {
+  constructor(private http: HttpClient) {}
 
-  constructor(private http: HttpClient) { }
-
-    /**
+  /**
    * This method get features flags depending on releases
    */
-     getFeaturesList(): Observable<FeaturesList> {
-      return this.http.get<FeaturesList>('/api/v1/FeatureManagement/Get');
-    }
-
+  getFeaturesList(): Observable<FeaturesList> {
+    return this.http.get<FeaturesList>('/api/v1/FeatureManagement/Get');
+  }
 }

@@ -1,18 +1,24 @@
-@import "src/app/shared/styles/create-form-wrapper.scss";
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/create-form-wrapper.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/validation-form.scss';
 
-
-::ng-deep .dropdown-panel.create-admin{
+::ng-deep .dropdown-panel.create-admin {
   max-height: 216px;
 }
 
-.wrapper .personal-info {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
+.wrapper-check-box {
+  margin-top: 2rem;
+  text-align: center;
 }
 
 .about-link {
   color: blue;
   font-weight: 300;
+}
+
+::ng-deep .mat-form-field {
+  .mat-form-field-wrapper {
+    padding: 0;
+  }
 }

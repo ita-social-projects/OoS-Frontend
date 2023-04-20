@@ -9,12 +9,9 @@ describe('ImageCarouselComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        IvyCarouselModule
-      ],
-      declarations: [ ImageCarouselComponent ]
-    })
-    .compileComponents();
+      imports: [IvyCarouselModule],
+      declarations: [ImageCarouselComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

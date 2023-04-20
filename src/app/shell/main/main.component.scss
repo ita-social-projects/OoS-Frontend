@@ -1,8 +1,8 @@
-@import "src/app/shared/styles/list-wrappers.scss";
-@import "src/app/shared/styles/card-wrapper.scss";
-
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/card-wrapper.scss';
 .main {
   width: 100%;
+  min-height: 500px;
 
   &_registration {
     padding: 32px 40px;
@@ -13,7 +13,7 @@
     margin-top: 4rem;
     margin-bottom: 4rem;
     &::before {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       background-image: url(../../../assets/images/half_circle.png);
@@ -56,7 +56,7 @@
     align-items: center;
     margin: 1rem 0;
   }
- }
+}
 
 app-footer {
   visibility: hidden;
@@ -87,7 +87,7 @@ app-footer {
   }
   .main-header {
     padding: 0 1rem;
-    h3{
+    h3 {
       font-size: 14px;
     }
     .main_link {
@@ -100,13 +100,12 @@ app-footer {
     overflow-x: scroll;
     justify-content: flex-start;
     scroll-snap-type: x mandatory;
-      &::-webkit-scrollbar {
-        display: none;
-      }
+    &::-webkit-scrollbar {
+      display: none;
+    }
     .card {
       margin-right: 8px;
       scroll-snap-align: center;
     }
   }
-  
 }

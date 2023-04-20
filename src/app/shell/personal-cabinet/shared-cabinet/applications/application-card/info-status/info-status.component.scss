@@ -1,0 +1,133 @@
+@import 'src/app/shared/styles/application-statuses.scss';
+
+.application-popup-status,
+.application-menu,
+.application-info-menu {
+  i {
+    padding-right: 5px;
+  }
+  width: max-content;
+  max-width: max-content;
+  font-size: 13px;
+  font: Open Sans;
+  font-weight: normal;
+}
+.application-popup-status {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+}
+.application-info-description-card {
+  color: #aaaaaa;
+}
+.application-info-menu {
+  width: 90vw;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.menu-wrapper {
+  padding: 0 0.5rem;
+  p {
+    margin: 0.3rem 0;
+  }
+}
+.application-info-menu {
+  display: flex;
+  flex-direction: row;
+  max-width: 600px;
+  font-size: 13px;
+  line-height: 17px;
+  overflow-wrap: break-word;
+  word-break: break-all;
+}
+
+.card-block {
+  margin: 0px;
+  &-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+  }
+}
+.material-icons {
+  font-size: 16px;
+  line-height: 14.6px;
+  color: #888;
+  cursor: pointer;
+}
+
+.status-icon {
+  font-size: 12px !important;
+}
+
+@media (min-width: 751px) and (max-width: 950px) {
+  .card-block {
+    max-width: 25%;
+  }
+  .card-block-buttons {
+    flex-flow: wrap;
+    row-gap: 1rem;
+  }
+  .hidden {
+    display: none !important;
+  }
+}
+
+@media (max-width: 750px) {
+  .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start !important;
+  }
+  .application-info-menu {
+    max-width: 300px;
+  }
+  .card > :nth-of-type(2) {
+    max-width: 100%;
+  }
+
+  .card-block,
+  .workshop-description,
+  .application-status,
+  .workshop-header {
+    margin: 0px;
+    width: 100%;
+    text-align: center;
+    &-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
+      align-items: center;
+      .btn {
+        min-width: min-content;
+        margin: 1rem 0 0 0;
+      }
+    }
+    .title,
+    .name {
+      width: 100%;
+      text-align: center;
+    }
+    .application-status,
+    .title,
+    .btn-gray {
+      margin-top: 1rem;
+    }
+  }
+}
+.status-info-icon {
+  margin-top: 2.5px;
+  margin-left: 5px;
+  font-size: 16px;
+}
+.activeInfoBtn {
+  color: #3849f9;
+}
+.inactiveInfoBtn {
+  color: #aaaaaa;
+}

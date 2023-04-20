@@ -1,0 +1,132 @@
+<div class="create-form" fxLayout="column" fxLayoutAlign="center center">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">{{ formTitle | translate | uppercase }}</h3>
+      <p class="wrapper-text" *ngIf="!editMode">
+        {{ 'FORMS.HEADERS.ADD_ADMINS_SUBHEADER' | translate }}
+      </p>
+    </div>
+
+    <form [formGroup]="AdminFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+      <label class="step-label">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="lastName" autocomplete="none" appTrimValue />
+      </mat-form-field>
+      <app-validation-hint
+        [validationFormControl]="AdminFormGroup.get('lastName')"
+        [minCharachters]="validationConstants.INPUT_LENGTH_1"
+        [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+      </app-validation-hint>
+
+      <label class="step-label">{{ 'FORMS.LABELS.FIRST_NAME' | translate }}<span class="step-required">*</span></label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="firstName" autocomplete="none" appTrimValue />
+      </mat-form-field>
+      <app-validation-hint
+        [validationFormControl]="AdminFormGroup.get('firstName')"
+        [minCharachters]="validationConstants.INPUT_LENGTH_1"
+        [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+      </app-validation-hint>
+
+      <label class="step-label">{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</label>
+      <mat-form-field>
+        <input matInput class="step-input" type="text" formControlName="middleName" autocomplete="none" appTrimValue />
+      </mat-form-field>
+      <app-validation-hint
+        [validationFormControl]="AdminFormGroup.get('middleName')"
+        [minCharachters]="validationConstants.INPUT_LENGTH_1"
+        [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+      </app-validation-hint>
+
+      <label class="step-label"> {{ 'FORMS.LABELS.PHONE' | translate }} <span class="step-required">*</span></label>
+      <mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="start">
+          <span class="step-text">{{ phonePrefix }}</span>
+          <input
+            matInput
+            class="step-input"
+            type="tel"
+            formControlName="phoneNumber"
+            appDigitOnly
+            maxlength="{{ validationConstants.PHONE_LENGTH }}"
+            appTrimValue
+            ui-number-mask
+            ui-hide-group-sep />
+        </div>
+      </mat-form-field>
+      <app-validation-hint
+        [validationFormControl]="AdminFormGroup.get('phoneNumber')"
+        [minCharachters]="validationConstants.PHONE_LENGTH"
+        [isPhoneNumber]="true">
+      </app-validation-hint>
+
+      <label class="step-label"
+        >{{ 'FORMS.LABELS.SUBORDINATION' | translate }}<span class="step-required">*</span></label
+      >
+      <mat-form-field floatLabel="never" appearance="none">
+        <mat-select
+          [compareWith]="compareInstitutions"
+          disableOptionCentering
+          panelClass="dropdown-panel"
+          class="step-input"
+          formControlName="institution"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}">
+          <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+            {{ institution.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <app-validation-hint [validationFormControl]="institutionFormControl"> </app-validation-hint>
+      <ng-container *ngIf="isRegionAdmin">
+        <label class="step-label">{{ 'FORMS.LABELS.REGION' | translate }}<span class="step-required">*</span></label>
+        <mat-form-field floatLabel="never" appearance="none">
+          <input
+            matInput
+            type="text"
+            class="step-input"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
+            [formControl]="regionFormControl"
+            [matAutocomplete]="auto"
+          />
+          <mat-autocomplete
+            #auto="matAutocomplete"
+            panelClass="dropdown-panel"
+            [displayWith]="displayRegionNameFn"
+          >
+            <mat-option
+              class="dropdown-option"
+              *ngFor="let codeficator of codeficatorSearch$ | async"
+              [value]="codeficator"
+              [disabled]="codeficator.settlement === noSettlement"
+            >
+              {{ codeficator.fullName || codeficator.settlement | translate }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>      
+      </ng-container>
+      <label class="step-label"> {{ 'FORMS.LABELS.EMAIL' | translate }} <span class="step-required">*</span></label>
+      <mat-form-field appearance="none">
+        <input
+          matInput
+          class="step-input"
+          type="email"
+          formControlName="email"
+          appTrimValue
+          [placeholder]="mailFormPlaceholder" />
+      </mat-form-field>
+    </form>
+
+    <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
+      <label class="checkbox-label">
+        {{ 'AGREEMENTS.I_AGREE_FOR_ADMIN' | translate }}
+        <a class="link" [routerLink]="'/info/rules'" target="_blank"> {{ 'AGREEMENTS.PLATFORM_RULES' | translate }}</a>
+        {{ 'AGREEMENTS.PERSONAL_DATA_USE' | translate }}</label
+      >
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <button mat-raised-button class="btn btn-cancel" (click)="onBack()">{{ 'BUTTONS.CANCEL' | translate }}</button>
+      <button class="btn" mat-button type="submit" (click)="onSubmit()">{{ 'BUTTONS.SAVE' | translate }}</button>
+    </div>
+  </div>
+</div>

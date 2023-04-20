@@ -1,31 +1,58 @@
-<form [formGroup]="PhotoFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <!-- <app-image-form-control [imgMaxAmount]="4" [label]="'Фото'" formControlName="image">
-  </app-image-form-control> TODO: Second release -->
+<form [formGroup]="PhotoFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <app-image-form-control
+    *ngIf="isRelease3"
+    [imgMaxAmount]="4"
+    [cropperConfig]="cropperConfig"
+    [label]="'Фото'"
+    formControlName="imageFiles"
+    [imageIdsFormControl]="PhotoFormGroup.get('imageIds')">
+  </app-image-form-control>
 
-  <label class="step-label">Статус</label>
-  <mat-form-field floatLabel="never" appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
-      formControlName="institutionStatusId">
-      <mat-option [value]="0" class="dropdown-option"> Відсутній </mat-option>
-      <mat-option *ngFor="let status of (institutionStatuses$ | async)" [value]="status.id" class="dropdown-option">
-        {{status.name}}
-      </mat-option>
-    </mat-select>
+  <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
   </mat-form-field>
-
-  <div class="step-label-combined">
-    <label class="step-label"> Опис<span class="step-required">*</span></label>
-    <label class="step-characters-count">
-      {{descriptionFormGroup.value.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}
-    </label>
-  </div>
-  <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none" >
-    <textarea matInput class="step-textarea" placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_2000}} символів"
-      formControlName="description" minlength="3" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_2000}}" appTrimValue></textarea>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="PhotoFormGroup.get('description')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+  <app-validation-hint
+    [validationFormControl]="PhotoFormGroup.get('website')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
+
+  <label class="step-label">Facebook</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PhotoFormGroup.get('facebook')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
+
+  <label class="step-label">Instagram</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="PhotoFormGroup.get('instagram')"
+    [minCharachters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+  </app-validation-hint>
+
+  <app-info-form
+    *ngFor="let form of SectionItemsFormArray.controls"
+    [InfoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)"
+    [formAmount]="SectionItemsFormArray.controls.length"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
+    (deleteForm)="onDeleteForm($event)">
+  </app-info-form>
+
+  <button
+    *ngIf="SectionItemsFormArray.controls.length < 10"
+    class="btn-add"
+    mat-button
+    (click)="onAddForm()"
+    [disabled]="SectionItemsFormArray.invalid">
+    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
+  </button>
 </form>

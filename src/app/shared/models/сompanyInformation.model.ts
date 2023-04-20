@@ -1,30 +1,27 @@
+import { SectionItem } from './sectionItem.model';
+
 export class CompanyInformation {
   id?: string;
   title?: string;
-  companyInformationItems: СompanyInformationItem [];
+  companyInformationItems: CompanyInformationSectionItem[];
 
-  constructor(title: string, portalItems: СompanyInformationItem[], id?) {
+  constructor(title: string, portalItems: CompanyInformationSectionItem[], id?) {
     this.id = id;
     this.title = title;
     this.companyInformationItems = portalItems;
   }
 }
-export class СompanyInformationItem {
-  id?: string;
-  sectionName?: string;
-  description: string;
+
+export class CompanyInformationSectionItem extends SectionItem {
   companyInformationId?: string;
 
-  constructor(info, id?) {
-    
-    this.sectionName = info.sectionName;
-    this.description = info.description;
-    if(id){
-      this.id = id;
+  constructor(info) {
+    super(info);
+
+    if (info.companyInformationId) {
+      this.companyInformationId = info.companyInformationId;
     }
-    if(info.companyInformationId)
-      this.companyInformationId =  info.companyInformationId;
-    }
+  }
 }
 
 export interface PlatformInfoStateModel {

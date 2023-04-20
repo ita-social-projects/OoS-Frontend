@@ -1,0 +1,94 @@
+<div class="create-form">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">{{ 'FORMS.HEADERS.EDIT_PERSONAL_INFORMATION' | translate }}</h3>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center">
+      <form [formGroup]="userEditFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+        <label class="step-label">
+          {{ 'FORMS.LABELS.LAST_NAME' | translate }} <span class="step-required">*</span></label
+        >
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue />
+        </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('lastName')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
+
+        <label class="step-label">
+          {{ 'FORMS.LABELS.FIRST_NAME' | translate }} <span class="step-required">*</span></label
+        >
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue />
+        </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('firstName')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
+
+        <label class="step-label"> {{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</label>
+        <mat-form-field>
+          <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue />
+        </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('middleName')"
+          [minCharachters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+        </app-validation-hint>
+
+        <ng-container *ngIf="userRole === role.parent">
+          <label class="step-label"
+            >{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label
+          >
+          <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
+            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth" placeholder="ДД/ММ/РРРР" />
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+
+          <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
+          <mat-radio-group formControlName="gender" color="primary">
+            <mat-radio-button class="step-radio" [value]="0">{{
+              'FORMS.CONTROL_VALUES.MALE' | translate
+            }}</mat-radio-button>
+            <mat-radio-button class="step-radio" [value]="1">{{
+              'FORMS.CONTROL_VALUES.FEMALE' | translate
+            }}</mat-radio-button>
+          </mat-radio-group>
+          <app-validation-hint [validationFormControl]="userEditFormGroup.get('gender')"> </app-validation-hint>
+        </ng-container>
+
+        <label class="step-label"> {{ 'FORMS.LABELS.PHONE' | translate }} <span class="step-required">*</span></label>
+        <mat-form-field>
+          <div fxLayout="row" fxLayoutAlign="start center">
+            <span class="step-text">{{ phonePrefix }}</span>
+            <input
+              matInput
+              class="step-input"
+              type="tel"
+              formControlName="phoneNumber"
+              appDigitOnly
+              ui-number-mask
+              ui-hide-group-sep
+              maxlength="{{ validationConstants.PHONE_LENGTH }}"
+              appTrimValue />
+          </div>
+        </mat-form-field>
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('phoneNumber')"
+          [minCharachters]="validationConstants.PHONE_LENGTH"
+          [isPhoneNumber]="true">
+        </app-validation-hint>
+      </form>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
+      <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">
+        {{ 'BUTTONS.SAVE' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

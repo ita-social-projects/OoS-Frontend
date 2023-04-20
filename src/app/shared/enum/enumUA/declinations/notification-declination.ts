@@ -1,23 +1,29 @@
+export enum ApplicationChanges {
+  'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS',
+  'ENUM.APPLICATION_CHANGES.CHANGES_IN_APPLICATIONS',
+  'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS_ABLATIVE'
+}
+
 export enum ApplicationApproved {
-  'заявка зарахована',
-  'заявки зараховано',
-  'заявок зараховано',
+  'ENUM.APPLICATION_APPROVED.APPLICATION_ACCEPTED',
+  'ENUM.APPLICATION_APPROVED.APPLICATIONS_ACCEPTED',
+  'ENUM.APPLICATION_APPROVED.APPLICATION_ACCEPTED_ABLATIVE'
 }
 
 export enum ApplicationPending {
-  'заявка очікує підтвердження',
-  'заявки очікують підтвердження',
-  'заявок очікують підтвердження',
+  'ENUM.APPLICATION_PENDING.APPLICATION_PENDING_CONFIRMATION',
+  'ENUM.APPLICATION_PENDING.APPLICATIONS_PENDING_CONFIRMATION',
+  'ENUM.APPLICATION_PENDING.CHANGE_IN_APPLICATIONS_ABLATIVE'
 }
 
 export enum ApplicationRejected {
-  'заявка відхилена',
-  'заявки відхилено',
-  'заявок відхилено',
+  'ENUM.APPLICATION_REJECTED.APPLICATION_REJECTED',
+  'ENUM.APPLICATION_REJECTED.APPLICATIONS_REJECTED',
+  'ENUM.APPLICATION_REJECTED.APPLICATION_REJECTED_ABLATIVE'
 }
 
 export enum ApplicationLeft {
-  'гурток залишено',
-  'гуртки залишено',
-  'гуртків залишено',
+  'ENUM.APPLICATION_LEFT.WORKSHOP_LEFT',
+  'ENUM.APPLICATION_LEFT.WORKSHOPS_LEFT',
+  'ENUM.APPLICATION_LEFT.WORKSHOP_LEFT_ABLATIVE'
 }

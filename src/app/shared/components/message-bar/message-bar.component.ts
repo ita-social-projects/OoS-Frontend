@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 import { messageType } from '../../enum/messageBar';
+import { MessageBar } from '../../models/messageBar.model';
 
 @Component({
   selector: 'app-message-bar',
@@ -8,20 +9,15 @@ import { messageType } from '../../enum/messageBar';
   styleUrls: ['./message-bar.component.scss']
 })
 export class MessageBarComponent implements OnInit {
+  messageType: string = messageType[messageType.success];
 
-  messageType: string = messageType[messageType.success];  
-
-  constructor(
-    private snackBar: MatSnackBar,
-    @Inject(MAT_SNACK_BAR_DATA) public data: any) {
-  }
+  constructor(private snackBar: MatSnackBar, @Inject(MAT_SNACK_BAR_DATA) public data: MessageBar) {}
 
   ngOnInit(): void {
-    this.messageType = messageType[this.data.type];          
+    this.messageType = messageType[this.data.type];
   }
 
   onClose(): void {
     this.snackBar.dismiss();
   }
-
 }

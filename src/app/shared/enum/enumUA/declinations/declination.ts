@@ -1,57 +1,49 @@
 export enum ReviewDeclination {
-  'відгук',
-  'відгуки',
-  'відгуків',
+  'ENUM.REVIEW_DECLINATION.FEEDBACK',
+  'ENUM.REVIEW_DECLINATION.FEEDBACKS',
+  'ENUM.REVIEW_DECLINATION.FEEDBACKS_ABLATIVE'
 }
 
 export enum ApplicationDeclination {
-  'заява',
-  'заяви',
-  'заяв',
+  'ENUM.APPLICATION.APPLICATION',
+  'ENUM.APPLICATION.APPLICATIONS',
+  'ENUM.APPLICATION.APPLICATIONS_ABLATIVE'
 }
 
 export enum WorkshopDeclination {
-  'гурток',
-  'гуртки',
-  'гуртків',
-  'Гуртки відсутні',
+  'ENUM.WORKSHOP_DECLINATION.WORKSHOP',
+  'ENUM.WORKSHOP_DECLINATION.WORKSHOPS',
+  'ENUM.WORKSHOP_DECLINATION.WORKSHOPS_ABLATIVE',
+  'ENUM.WORKSHOP_DECLINATION.NO_WORKSHOPS',
 }
 
 export enum HourDeclination {
-  'година',
-  'години',
-  'годин',
+  'ENUM.HOUR_DECLINATION.HOUR',
+  'ENUM.HOUR_DECLINATION.HOURS',
+  'ENUM.HOUR_DECLINATION.HOURS_ABLATIVE'
 }
 
 export enum DayDeclination {
-  'день',
-  'дні',
-  'днів',
+  'ENUM.DAY_DECLINATION.DAY',
+  'ENUM.DAY_DECLINATION.DAYS',
+  'ENUM.DAY_DECLINATION.DAYS_ABLATIVE'
 }
 
 export enum MonthDeclination {
-  'місяць',
-  'місяці',
-  'місяців',
+  'ENUM.MONTH_DECLINATION.MONTH',
+  'ENUM.MONTH_DECLINATION.MONTHS',
+  'ENUM.MONTH_DECLINATION.MONTHS_ABLATIVE'
 }
 
 export enum YearDeclination {
-  'рік',
-  'роки',
-  'років',
+  'ENUM.YEAR_DECLINATION.YEAR',
+  'ENUM.YEAR_DECLINATION.YEARS',
+  'ENUM.YEAR_DECLINATION.YEARS_ABLATIVE'
 }
 
 export enum ChildDeclination {
-  'дитина',
-  'дитини',
-  'дітей',
-  'Діти відсутні',
-  'діти'
-}
-
-export enum Words {
-  'review' = 'відгук',
-  'application' = 'заява',
-  'workshop' = 'гурток',
-  'child' = 'дитина'
+  'ENUM.CHILD_DECLINATION.CHILD',
+  'ENUM.CHILD_DECLINATION.CHILD_GENITIVE',
+  'ENUM.CHILD_DECLINATION.CHILDREN_ABLATIVE',
+  'ENUM.CHILD_DECLINATION.NO_CHILDREN'
 }

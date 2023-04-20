@@ -1,12 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { AgeFilterComponent } from './age-filter.component';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { NgxsModule } from '@ngxs/store';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { BrowserModule } from '@angular/platform-browser';
+import { MaterialModule } from '../../../modules/material.module';
+import { MinMaxDirective } from '../../../directives/min-max.directive';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;
@@ -20,13 +25,16 @@ describe('AgeFilterComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         BrowserAnimationsModule,
-        MatIconModule
+        MatIconModule,
+        BrowserModule,
+        MatDatepickerModule,
+        NgxMatTimepickerModule,
+        MatButtonModule,
+        MaterialModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        AgeFilterComponent,
-        MinMaxDirective],
-    })
-      .compileComponents();
+      declarations: [AgeFilterComponent, MinMaxDirective]
+    }).compileComponents();
   });
 
   beforeEach(() => {

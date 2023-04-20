@@ -9,19 +9,21 @@ import { ModalConfirmationText, ModalConfirmationTitle, ModalConfirmationType } 
   styleUrls: ['./confirmation-modal-window.component.scss']
 })
 export class ConfirmationModalWindowComponent implements OnInit {
+  readonly modalConfirmationType = ModalConfirmationType;
   readonly modalWindow = true;
+
   modalTitle: string;
   modalConfirmationText: string;
   modalConfirmationProperty: string;
   ratingSelectControl: FormControl;
-  readonly modalConfirmationType = ModalConfirmationType;
 
-
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data: {
-    type: string,
-    property: string
-  }) { }
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    public data: {
+      type: string;
+      property: string;
+    }
+  ) {}
 
   ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];
@@ -30,5 +32,4 @@ export class ConfirmationModalWindowComponent implements OnInit {
       this.modalConfirmationProperty = this.data.property;
     }
   }
-
 }

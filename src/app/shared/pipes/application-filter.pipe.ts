@@ -1,18 +1,17 @@
+import { ApplicationStatuses } from './../enum/statuses';
 import { Pipe, PipeTransform } from '@angular/core';
-import { connectableObservableDescriptor } from 'rxjs/internal/observable/ConnectableObservable';
-import { ApplicationStatus } from '../enum/applications';
 import { Application } from '../models/application.model';
 
 @Pipe({
   name: 'applicationFilter',
-  pure: false
+  pure: false,
 })
 export class ApplicationFilterPipe implements PipeTransform {
-
-  readonly applicationStatus = ApplicationStatus;
+  readonly statuses = ApplicationStatuses;
 
   transform(array: Application[], statuses: string[]): Application[] {
-    return array.filter(card => statuses.find((status: string) => this.applicationStatus[card.status] === this.applicationStatus[status]));
+    return array.filter(card =>
+      statuses.find((status: string) => this.statuses[card.status] === this.statuses[status])
+    );
   }
-
 }

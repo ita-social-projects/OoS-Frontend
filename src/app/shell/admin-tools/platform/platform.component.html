@@ -1,15 +1,14 @@
 <mat-tab-group (selectedTabChange)="onSelectedTabChange($event)" [selectedIndex]="tabIndex">
-  <mat-tab label="{{adminTabsUkr.about}}">
+  <mat-tab label="{{ AdminTabsTitles.AboutPortal | translate }}">
     <app-about-info></app-about-info>
   </mat-tab>
-  <mat-tab label="{{adminTabsUkr.mainPage}}"></mat-tab>
-  <mat-tab label="{{adminTabsUkr.directions}}">
-    <app-directions></app-directions>
+  <mat-tab label="{{ AdminTabsTitles.MainInformation | translate }}">
+    <app-main-info></app-main-info>
   </mat-tab>
-  <mat-tab label="{{adminTabsUkr.regulations}}">
+  <mat-tab label="{{ AdminTabsTitles.LawsAndRegulations | translate }}">
     <app-regulations-info></app-regulations-info>
   </mat-tab>
-  <mat-tab label="{{adminTabsUkr.support}}">
+  <mat-tab label="{{ AdminTabsTitles.SupportInformation | translate }}">
     <app-support-info></app-support-info>
   </mat-tab>
 </mat-tab-group>

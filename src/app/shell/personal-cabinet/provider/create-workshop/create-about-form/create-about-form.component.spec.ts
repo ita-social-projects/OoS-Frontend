@@ -11,14 +11,15 @@ import { MatOptionModule } from '@angular/material/core';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
+import { MatMenuModule } from '@angular/material/menu';
 import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
-import { Provider } from 'src/app/shared/models/provider.model';
 import { MatGridListModule } from '@angular/material/grid-list';
-import { MinMaxDirective } from 'src/app/shared/directives/min-max.directive';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
-import { Workshop } from 'src/app/shared/models/workshop.model';
+import { MinMaxDirective } from '../../../../../shared/directives/min-max.directive';
+import { Workshop } from '../../../../../shared/models/workshop.model';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;
@@ -39,25 +40,26 @@ describe('CreateAboutFormComponent', () => {
         MatRadioModule,
         MatButtonToggleModule,
         MatIconModule,
+        MatMenuModule,
         MatSelectModule,
         MatGridListModule,
-        NgxMatTimepickerModule
+        NgxMatTimepickerModule,
+        TranslateModule.forRoot()
       ],
       declarations: [
         CreateAboutFormComponent,
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MinMaxDirective,
-        MockWorkingHours
+        MockWorkingHoursComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
-    component.provider = { fullTitle: '' } as Provider;
+    component.provider = {} as any;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),
@@ -71,7 +73,8 @@ describe('CreateAboutFormComponent', () => {
       instagram: new FormControl(''),
       price: new FormControl(''),
       workingHours: new FormControl(''),
-      isPerMonth: new FormControl(''),
+      payRate: new FormControl(''),
+      availableSeats: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -84,7 +87,7 @@ describe('CreateAboutFormComponent', () => {
   selector: 'app-working-hours-form-wrapper',
   template: ''
 })
-class MockWorkingHours {
+class MockWorkingHoursComponent {
   @Input() workshop: Workshop;
   @Input() workingHoursFormArray: FormArray;
 }
@@ -94,8 +97,10 @@ class MockWorkingHours {
   template: ''
 })
 class MockValidationHintAboutComponent {
-  @Input() validationFormControl: FormControl; //required for validation
+  @Input() validationFormControl: FormControl; // required for validation
+  @Input() isTouched: boolean;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isPhoneNumber: boolean;
 }

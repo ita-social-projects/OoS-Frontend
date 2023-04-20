@@ -1,16 +1,32 @@
-import { Component } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Provider } from 'src/app/shared/models/provider.model';
-import { RegistrationState } from 'src/app/shared/store/registration.state';
+import { OwnershipTypes } from './../../../../shared/enum/provider';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { MatDialog } from '@angular/material/dialog';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { ProviderComponent } from '../provider.component';
 
 @Component({
   selector: 'app-provider-org-info',
-  templateUrl: './provider-org-info.component.html',  
+  templateUrl: './provider-org-info.component.html',
+  styleUrls: ['./provider-org-info.component.scss'],
 })
-export class ProviderOrgInfoComponent {
-  @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+export class ProviderOrgInfoComponent extends ProviderComponent implements OnInit, OnDestroy {
+  readonly ownershipTypes = OwnershipTypes;
 
-  constructor() {}
+  constructor(protected store: Store, protected matDialog: MatDialog) {
+    super(store, matDialog);
+  }
+
+  addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.ProviderInfo,
+        isActive: false,
+        disable: true,
+      })
+    );
+  }
+
+  initProviderData(): void {}
 }

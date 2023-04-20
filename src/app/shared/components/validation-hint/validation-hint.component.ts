@@ -1,5 +1,5 @@
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { Constants } from '../../constants/constants';
@@ -12,74 +12,81 @@ enum ValidatorsTypes {
 }
 @Component({
   selector: 'app-validation-hint',
-  templateUrl: './validation-hint.component.html',
+  templateUrl: './validation-hint.component.html'
 })
-export class ValidationHintComponent implements OnInit, OnDestroy {
-  readonly dateFormPlaceholder = Constants.DATE_FORMAT_PLACEHOLDER;
-
-  @Input() validationFormControl: FormControl; //required for validation
-
-  //for Length Validation
+export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() validationFormControl: FormControl = new FormControl(); // required for validation
+  // for Length Validation
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
+  @Input() isPhoneNumber: number; // required to display validation for phone number
 
-  //for Date Format Validation
+  // for Date Format Validation
   @Input() minMaxDate: boolean;
 
+  takeOnce = false;
   required: boolean;
-  invalid: boolean;
   invalidSymbols: boolean;
   invalidCharacters: boolean;
-  invalidLength: boolean;
+  invalidFieldLength: boolean;
   invalidDateRange: boolean;
+  invalidDateFormat: boolean;
   invalidEmail: boolean;
+  invalidPhoneLength: boolean;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {}
+  constructor(private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.validationFormControl.statusChanges.pipe(
-      debounceTime(200),
-      takeUntil(this.destroy$)
-    ).subscribe(()=>{
+    this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       const errors = this.validationFormControl.errors;
-      //Check is the field valid
-      this.invalid = this.validationFormControl.invalid && this.validationFormControl.touched;
 
-      //Check is the field required and empty
+      // Check is the field required and empty
       this.required = !!(errors?.required && !this.validationFormControl.value);
 
-      //Check Date Picker Format
+      // Check Date Picker Format
       this.minMaxDate && this.checkMatDatePciker();
 
-      //Check errors from validators
+      // Check errors from validators
       this.checkValidationErrors(errors);
 
-      //Check errors for invalid text field 
+      // Check errors for invalid text field
       this.checkInvalidText(errors);
-    })
+
+      this.cd.detectChanges();
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes?.isTouched) {
+      (this.validationFormControl.statusChanges as EventEmitter<any>).emit();
+    }
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    this.invalidLength = !!(errors?.maxlength || errors?.minlength);
+    if (this.isPhoneNumber) {
+      this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
+    } else {
+      this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
+    }
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    if(requiredPattern){
+    if (requiredPattern) {
       this.invalidSymbols = NAME_REGEX == requiredPattern;
       this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     }
   }
 
   private checkMatDatePciker(): void {
+    this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
-        this.validationFormControl.hasError('matDatepickerMin') || 
-        this.validationFormControl.hasError('matDatepickerMax')
-      );
+      this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')
+    );
   }
 
   ngOnDestroy(): void {

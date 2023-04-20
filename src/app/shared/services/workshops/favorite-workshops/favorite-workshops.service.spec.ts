@@ -1,5 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { NgxsModule } from '@ngxs/store';
 import { FavoriteWorkshopsService } from './favorite-workshops.service';
 
 describe('FavoriteWorkshopsService', () => {
@@ -7,7 +8,7 @@ describe('FavoriteWorkshopsService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientTestingModule],
+      imports: [HttpClientTestingModule, NgxsModule.forRoot([])]
     });
     service = TestBed.inject(FavoriteWorkshopsService);
   });

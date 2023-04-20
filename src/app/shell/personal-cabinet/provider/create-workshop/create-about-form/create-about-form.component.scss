@@ -1,5 +1,51 @@
-@import "src/app/shared/styles/create-form.scss";
-@import "src/app/shared/styles/validation-form.scss";
-@import "src/app/shared/styles/dropdown.scss";
-@import "src/app/shared/styles/toggle-button.scss";
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+@import 'src/app/shared/styles/toggle-button.scss';
+@import 'src/app/shared/styles/info-hint.scss';
 
+.pay-type {
+  flex-grow: 1;
+}
+
+.price-text {
+  width: 65px;
+}
+
+.price-input {
+  max-width: 100px;
+  text-align: center;
+}
+
+::ng-deep .dropdown-panel {
+  max-height: 150px !important;
+}
+
+@media (max-width: 750px) {
+  .conteiner {
+    flex-direction: column !important;
+    align-items: initial !important;
+  }
+
+  .price::after {
+    content: 'грн';
+    font-weight: 700;
+    color: #aaaaaa;
+    padding: 5px;
+    line-height: initial;
+    width: 65px;
+  }
+
+  .price,
+  .radio-button-wrap {
+    place-content: flex-start !important;
+  }
+  .step-input-age {
+    max-width: 100%;
+    height: 40px;
+  }
+}
+
+:host ::ng-deep .mat-form-field-infix {
+  width: auto !important;
+}

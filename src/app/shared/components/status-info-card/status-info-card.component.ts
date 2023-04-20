@@ -1,27 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { ApplicationIcons, ApplicationStatus } from 'src/app/shared/enum/applications';
-import { ApplicationTitles, ApplicationStatusDescription } from 'src/app/shared/enum/enumUA/applications';
-import { Application } from '../../../shared/models/application.model';
+import { Component, Input } from '@angular/core';
+import { ApplicationIcons } from '../../enum/applications';
+import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/statuses';
+import { ApplicationStatuses } from '../../enum/statuses';
+import { Application } from '../../models/application.model';
 @Component({
   selector: 'app-status-info-card',
   templateUrl: './status-info-card.component.html',
-  styleUrls: ['./status-info-card.component.scss']
+  styleUrls: ['./status-info-card.component.scss'],
 })
-export class StatusInfoCardComponent implements OnInit {
-
-  readonly applicationTitles = ApplicationTitles;
+export class StatusInfoCardComponent {
+  readonly statusTitles = ApplicationTitles;
   readonly applicationStatusDescription = ApplicationStatusDescription;
   readonly applicationIcons = ApplicationIcons;
-  readonly applicationStatus = ApplicationStatus;
+  readonly statuses = ApplicationStatuses;
 
   @Input() application: Application = null;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
-  getValuesFromEnum(): Array<any> {
-    return Object.keys(this.applicationStatus);
-  }
 }

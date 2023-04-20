@@ -2,10 +2,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CategoryCardComponent } from './category-card.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
-import { Direction } from '../../models/category.model';
+import { Direction } from '../../../shared/models/category.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { TranslateCasesPipe } from '../../pipes/translate-cases.pipe';
 
 describe('CategoryCardComponent', () => {
   let component: CategoryCardComponent;
@@ -13,16 +14,9 @@ describe('CategoryCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatCardModule,
-        MatButtonModule,
-        NgxsModule.forRoot([]),
-        RouterTestingModule,
-        MatIconModule
-      ],
-      declarations: [CategoryCardComponent],
-    })
-      .compileComponents();
+      imports: [MatCardModule, MatButtonModule, NgxsModule.forRoot([]), RouterTestingModule, MatIconModule],
+      declarations: [CategoryCardComponent, TranslateCasesPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

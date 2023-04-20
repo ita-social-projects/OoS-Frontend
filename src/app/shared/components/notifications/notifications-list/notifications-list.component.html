@@ -1,31 +1,97 @@
-<div class="container">
-  <ng-container *ngIf=" notificationsData$ | async  as  notificationsData">
-    <h3 class="title">СПОВІЩЕННЯ</h3>
-    <ng-container *ngIf="(notificationsAmount$ | async)?.amount; else isEmptyList">
-      <ng-container *ngTemplateOutlet="Notifications; context:{$implicit: notificationsData }">
-      </ng-container>
+<div class="notifications-list" (click)="stopPropagation($event)">
+  <ng-container *ngIf="notificationsData$ | async as notificationsData">
+    <div class="notifications-list__header">
+      <h3 class="notifications-list__title">{{ 'NOTIFICATIONS' | translate | uppercase }}</h3>
+      <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
+      <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
+        <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
+          {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
+        </button>
+        <button mat-menu-item [disabled]="!(notifications.length || groupsByType.length)">
+          {{ 'NOTIFICATION_DETAILS.DELETE_ALL' | translate }}
+        </button>
+      </mat-menu>
+    </div>
+
+    <ng-container *ngIf="notifications.length || groupsByType.length; else isEmptyList">
+      <ng-container *ngTemplateOutlet="Notifications"></ng-container>
     </ng-container>
   </ng-container>
 </div>
 
 <ng-template #isEmptyList>
-  <span fxLayout="row wrap" fxLayoutAlign="start start">{{notificationsConstants.NO_MESSAGE}}</span>
+  <div class="no-message info info__description">
+    {{ NoResults | translate }}
+  </div>
 </ng-template>
 
-<ng-template #Notifications let-notificationsData>
-  <ng-container *ngIf="notificationsData.notificationsGrouped.length">
-    <span *ngFor="let notifications of notificationsData.notificationsGrouped" fxLayout="row wrap"
-      fxLayoutAlign="space-between center">{{notifications.amount | declination: defineDeclination(notifications.groupedData) }}
-      <mat-icon class="icon" (click)="onReadGroup(notifications)">
-        arrow_forward</mat-icon>
-    </span>
-  </ng-container>
-  <ng-container *ngIf="notificationsData.notifications.length">
-    <div *ngFor="let notification of notificationsData.notifications" matMenuItem disableRipple="true">
-      <span fxLayout="row wrap" fxLayoutAlign="space-between center">{{notification.text}}<mat-icon class="icon"
-          (click)="onReadSingle($event, notification)">
-          highlight_off
-        </mat-icon></span>
-    </div>
-  </ng-container>
+<ng-template #Notifications>
+  <div class="accordions-wrapper">
+    <cdk-accordion>
+      <ng-container *ngIf="groupsByType.length">
+        <cdk-accordion-item *ngFor="let groupByType of groupsByType" #accordionGroupItem="cdkAccordionItem" role="button">
+          <div [class]="groupByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
+            <div class="header-notification header-notification__group" (click)="accordionGroupItem.toggle(); onReadGroup(groupByType)">
+              <div class="info">
+                <span class="info__description"
+                  >{{ 'NOTIFICATION_DETAILS.YOU_HAVE' | translate }}
+                  {{ groupByType.amount | translateCases: ApplicationHeaderDeclinations }}</span
+                >
+              </div>
+            </div>
+            <div
+              [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
+              role="region"
+              class="body-notification__wrapper"
+            >
+              <div
+                *ngFor="let group of groupByType.groupedByAdditionalData"
+                class="body-notification__content body-notification__group info"
+                (click)="onNavigate(group.type, group.groupedData)"
+              >
+                <span class="info__description info__link">{{ group.amount | translateCases: defineDeclination(group.groupedData) }}</span>
+                <mat-icon class="icon icon__link">navigate_next</mat-icon>
+              </div>
+            </div>
+          </div>
+        </cdk-accordion-item>
+      </ng-container>
+      <ng-container *ngIf="notifications.length">
+        <cdk-accordion-item
+          *ngFor="let notification of notifications"
+          #accordionItem="cdkAccordionItem"
+          role="button"
+          [disabled]="!notification.data"
+        >
+          <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
+            <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
+              <div class="header-notification__single info">
+                <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
+                <span class="info__description">{{
+                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data) | translate
+                }}</span>
+                <h4 class="info__time">
+                  {{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}
+                </h4>
+              </div>
+            </div>
+            <div
+              [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
+              role="region"
+              class="body-notification__wrapper info info__description"
+            >
+              <div class="body-notification__content body-notification__single" (click)="onNavigate(notification.type)">
+                <span class="info__description info__link">{{
+                  getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data) | translate
+                }}</span>
+                <mat-icon class="icon icon__link">navigate_next</mat-icon>
+              </div>
+            </div>
+          </div>
+        </cdk-accordion-item>
+      </ng-container>
+    </cdk-accordion>
+  </div>
 </ng-template>

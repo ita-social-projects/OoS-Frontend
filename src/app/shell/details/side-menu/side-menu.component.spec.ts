@@ -3,10 +3,12 @@ import { SideMenuComponent } from './side-menu.component';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { Workshop } from '../../../shared/models/workshop.model';
 import { Store } from '@ngxs/store';
-import { User } from 'src/app/shared/models/user.model';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { of } from 'rxjs';
+import { User } from '../../../shared/models/user.model';
+import { Address } from '../../../shared/models/address.model';
 
 describe('SideMenuComponent', () => {
   let component: SideMenuComponent;
@@ -15,25 +17,13 @@ describe('SideMenuComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule,
-        NgxsModule.forRoot([]),
-        FlexLayoutModule
-      ],
-      declarations: [
-        SideMenuComponent,
-        MockScheduleComponent,
-        MockActionsComponent,
-        MockContactsComponent
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
-    })
-      .compileComponents();
+      imports: [RouterTestingModule, NgxsModule.forRoot([]), FlexLayoutModule],
+      declarations: [SideMenuComponent, MockActionsComponent, MockContactsComponent],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    store = TestBed.inject(Store);
-    spyOn(store, 'selectSnapshot').and.returnValue({ role: '' } as User);
     fixture = TestBed.createComponent(SideMenuComponent);
     component = fixture.componentInstance;
   });
@@ -48,8 +38,8 @@ describe('SideMenuComponent', () => {
   template: ''
 })
 class MockContactsComponent {
-  @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input() address: Address;
+  @Input() contactsData: any;
 }
 
 @Component({
@@ -59,12 +49,4 @@ class MockContactsComponent {
 class MockActionsComponent {
   @Input() workshop: Workshop;
   @Input() role: string;
-}
-
-@Component({
-  selector: 'app-schedule',
-  template: ''
-})
-class MockScheduleComponent {
-  @Input() workshop: Workshop;
 }

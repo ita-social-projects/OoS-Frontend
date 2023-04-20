@@ -1,25 +1,171 @@
-.container {
-  line-height: 35px;
-  font-weight: bold;
-  cursor: default;
-}
+.notifications-list {
+  padding: 0.5rem 0;
 
-.title {
-  font-style: normal;
-  font-weight: bold;
-  font-size: 18px;
-  line-height: 20px;
-  padding: 0 1rem 1rem 0;
+  width: 355px;
+  min-height: 35px;
+
+  cursor: default;
+
+  &__header {
+    padding: 0.5rem 1rem 1rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e3e3e3;
+  }
+
+  &__title {
+    position: relative;
+    top: 2px;
+
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.125rem;
+    line-height: 1.25rem;
+  }
 }
 
 .icon {
-  color: #3849F9;
-  font-size: 16px;
-  font-weight: bold;
-  margin-left: 1rem;
+  font-weight: 400;
+  font-size: 1.5rem;
+  line-height: 1.5rem;
 
-  &:hover {
+  cursor: pointer;
+
+  overflow: visible;
+
+  color: #888888;
+}
+
+.accordions-wrapper {
+  max-height: 300px;
+  overflow: auto;
+
+  cdk-accordion {
+    .notification__wrapper {
+      border-bottom: 1px solid #e3e3e3;
+      &:hover {
+        background-color: darken($color: #ffffff, $amount: 3.8);
+      }
+    }
+
+    .notification:last-child {
+      .notification__wrapper {
+        border-bottom: 0;
+      }
+    }
+  }
+}
+
+.new {
+  border-left: 5px solid #3849f9;
+  background-color: #f8f8f8;
+}
+
+.header-notification {
+  display: flex;
+  justify-content: space-between;
+
+  cursor: pointer;
+  padding: 0.75rem 1rem 0.5rem;
+
+  &__group {
+    align-items: center;
+  }
+
+  &__single {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+}
+
+.info {
+  font-size: 0.8125rem;
+
+  &__workshop-name {
+    font-size: inherit;
+    font-weight: 700;
+    line-height: 1rem;
+  }
+
+  &__description {
+    font-weight: 400;
+    line-height: 1.125rem;
+  }
+
+  &__time {
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 1.125rem;
+    color: #aaaaaa;
+  }
+
+  &__link {
+    transition: color 0.1s ease;
+
+    &:active {
+      color: #3849f9;
+    }
+  }
+}
+
+.body-notification {
+  &__wrapper {
+    background-color: darken($color: #f8f8f8, $amount: 3);
+    transition: max-height 0.5s;
+  }
+
+  &__content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     cursor: pointer;
-    opacity: 0.5;
+    padding: 0.75rem 1rem 0.5rem;
+
+    > .icon {
+      opacity: 0;
+    }
+
+    &:hover {
+      > .icon {
+        opacity: 1;
+        transition: opacity 0.1s;
+      }
+
+      > .info__link,
+      > .icon__link {
+        color: #3849f9;
+      }
+    }
+  }
+
+  &__single {
+    padding: 0.75rem 1rem 0.75rem 2rem;
+  }
+
+  &__group {
+    align-items: center;
+    gap: 0.25rem;
+
+    padding-left: 2rem;
+  }
+}
+
+.no-message {
+  padding: 0.75rem 1rem;
+}
+
+@media (max-width: 750px) {
+  .notifications-list {
+    width: auto;
+  }
+
+  .header-notification {
+    > .icon {
+      opacity: 1;
+    }
   }
 }

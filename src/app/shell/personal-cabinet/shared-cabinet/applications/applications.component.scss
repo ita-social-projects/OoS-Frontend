@@ -1,0 +1,28 @@
+@import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/application-list.scss';
+@import 'src/app/shared/styles/search.scss';
+
+.search-area {
+  flex: 1;
+  position: relative;
+}
+.search-bar {
+  width: 100%;
+}
+
+:host .mat-tab-header {
+  border: none;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1200px) {
+  .dropdown {
+    width: auto;
+  }
+  .search-bar {
+    max-width: 24rem;
+  }
+  .search-area {
+    right: 0;
+  }
+}

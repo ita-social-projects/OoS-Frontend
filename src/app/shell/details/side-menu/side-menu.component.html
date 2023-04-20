@@ -1,10 +1,16 @@
-<div class="container" fxLayout="column"
- [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row'"
- [fxLayoutAlign]="isMobileScreen ? 'none' : 'center start'"
- fxLayoutGap="2rem">
- <ng-container *ngIf="!isMobileScreen">
-   <app-actions *ngIf="(role !== Role.provider && role !== Role.techAdmin)" [role]="role" [workshop]="workshop"></app-actions>
- </ng-container>
-  <app-contacts [workshop]="workshop"></app-contacts>
-  <!-- <app-schedule [workshop]="workshop"></app-schedule> TODO: for teh second release-->
+<div
+  fxLayout="column"
+  [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row'"
+  [fxLayoutAlign]="isMobileScreen ? 'none' : 'center start'"
+  fxLayoutGap="2rem"
+>
+  <app-actions
+    *ngIf="workshop && displayActionCard && !isMobileScreen"
+    [role]="role"
+    [workshop]="workshop"
+    [isMobileScreen]="isMobileScreen"
+  >
+  </app-actions>
+
+  <app-contacts [address]="address" [contactsData]="contactsData"></app-contacts>
 </div>

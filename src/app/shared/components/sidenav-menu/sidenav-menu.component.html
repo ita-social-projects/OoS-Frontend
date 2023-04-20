@@ -1,0 +1,139 @@
+<mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
+  <div class="mobile-sidenav-content" *ngIf="isMobileView">
+    <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>
+
+    <ng-template #isUnauthorized>
+      <div class="mobile-sidenav-header">
+        <button mat-stroked-button class="header_login" (click)="login()">{{ 'LOGIN' | translate }}</button>
+        <button mat-button (click)="changeView()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <ng-container *ngTemplateOutlet="Language"> </ng-container>
+    </ng-template>
+
+    <ng-template #isAuthorized>
+      <div class="mobile-sidenav-header">
+        <button mat-icon-button class="mobile-sidenav-account">
+          <mat-icon>account_circle</mat-icon>
+        </button>
+        <ng-container>{{ user.firstName }} {{ user.lastName }}</ng-container>
+        <button mat-button (click)="changeView()">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+
+      <div class="mobile-sidenav-shell">
+        <ng-container *ngTemplateOutlet="Language"> </ng-container>
+
+        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async).release2">
+          <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
+            <app-notifications fxLayout="row" fxLayoutAlign="space-between center"> </app-notifications>
+          </a>
+        </div>
+
+        <hr class="hr-grey" />
+
+        <div class="mobile-sidenav-menu">
+          <div
+            *ngIf="
+              user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin;
+              then UserView;
+              else AdminView
+            "></div>
+          <ng-template #UserView>
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate
+            }}</a>
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">
+              {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</a
+            >
+            <a
+              *ngIf="user.role === Role.provider"
+              [routerLink]="'./personal-cabinet/provider/workshops'"
+              (click)="changeView()"
+              >{{ 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate }}</a
+            >
+            <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
+            }}</a>
+            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.MESSAGES' | translate
+            }}</a>
+            <a
+              *ngIf="user.role === Role.provider && (subrole$ | async) !== Role.ProviderAdmin"
+              [routerLink]="'./personal-cabinet/provider/administration'"
+              (click)="changeView()"
+              >{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}</a
+            >
+            <a
+              *ngIf="user.role === Role.parent"
+              [routerLink]="'./personal-cabinet/parent/favorite'"
+              (click)="changeView()"
+              >{{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate }}</a
+            >
+          </ng-template>
+          <ng-template #AdminView>
+            <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate
+            }}</a>
+            <a
+              *ngIf="user.role === Role.techAdmin"
+              [routerLink]="'./admin-tools/platform'"
+              [queryParams]="{ page: defaultAdminTabs }"
+              (click)="changeView()">
+              {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+            </a>
+            <a 
+              *ngIf="user.role === Role.ministryAdmin"
+              [routerLink]="'./admin-tools/data/admins'"
+              (click)="changeView()">
+              {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
+            </a>
+          </ng-template>
+        </div>
+      </div>
+    </ng-template>
+    <hr class="hr-grey" />
+
+    <a [routerLink]="'./info/about'" (click)="changeView()">
+      <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate }}</button>
+    </a>
+    <hr class="hr-grey" />
+
+    <a [routerLink]="'./info/rules'" (click)="changeView()">
+      <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.LAWS_AND_REGULATIONS' | translate }}</button>
+    </a>
+    <hr class="hr-grey" />
+
+    <a [routerLink]="'./info/support'" (click)="changeView()">
+      <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate }}</button>
+    </a>
+    <hr class="hr-grey" />
+
+    <a [routerLink]="''" (click)="changeView()">
+      <button mat-flat-button>{{ 'ENUM.NAV_BAR_NAME.MAIN_PAGE' | translate }}</button>
+    </a>
+    <hr class="hr-grey" />
+
+    <button *ngIf="isAuthorized$ | async" mat-flat-button (click)="logout()">{{ 'LOGOUT' | translate }}</button>
+  </div>
+</mat-drawer>
+
+<ng-template #Language>
+  <div class="mobile-sidenav-language">
+    <button mat-flat-button (click)="lngSelect.open()">
+      <mat-icon>language</mat-icon>
+      <mat-select
+        #lngSelect
+        (selectionChange)="setLanguage()"
+        [(value)]="selectedLanguage"
+        class="lang-option"
+        disableOptionCentering
+        panelClass="dropdown-panel">
+        <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
+        <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
+      </mat-select>
+    </button>
+  </div>
+</ng-template>

@@ -1,49 +1,26 @@
-export enum ProviderType {
-  FOP,
-  Social,
-  TOV,
-  Private,
-  EducationalInstitution,
-  Other,
+export enum OwnershipTypes {
+  State = 'State',
+  Common = 'Common',
+  Private = 'Private',
 }
 
-export enum ProviderTypeUkr {
-  'ФОП',
-  'Громадська організація',
-  'ТОВ',
-  'ПП',
-  'Заклад освіти',
-  'Інше',
+//TODO: temporary removed for 1st release
+export enum SelectableOwnershipTypes {
+  State = 'State',
+  Common = 'Common',
 }
 
-export enum OwnershipType {
-  State,
-  Common,
-  Private,
-}
-
-export enum OwnershipTypeUkr {
-  State = 'Державна',
-  Common = 'Комунальна',
-  Private = 'Приватна',
-}
-
-export enum WorkshopType {
-  Group,
-  Section,
-  Class,
-}
-
-export enum WorkshopTypeUkr {
-  'Гурток',
-  'Секція',
-  'Клас',
+export enum InstitutionTypes {
+  Complex = 'Complex',
+  Profile = 'Profile',
+  Specialized = 'Specialized',
+  Other = 'Other'
 }
 
 export enum CreateProviderSteps {
   'info',
   'contacts',
-  'description'
+  'description',
 }
 
 export enum ProviderWorkshopSameValues {
@@ -51,5 +28,5 @@ export enum ProviderWorkshopSameValues {
   phone = 'phoneNumber',
   website = 'website',
   facebook = 'facebook',
-  instagram = 'instagram'
+  instagram = 'instagram',
 }

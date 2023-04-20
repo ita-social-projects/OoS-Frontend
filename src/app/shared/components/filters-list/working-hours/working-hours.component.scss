@@ -1,11 +1,11 @@
-@import "src/app/shared/styles/buttons.scss";
+@import 'src/app/shared/styles/buttons.scss';
 
-.filter-text{
-  margin: 0;
+.filter-text {
+  margin: 0 1rem 0 0;
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
-  color:#444444;
+  color: #444444;
 }
 .title {
   margin-top: 24px;
@@ -18,24 +18,26 @@
   min-height: 50px;
 }
 
-.title{
+.title {
   margin-bottom: 0;
 }
 
-.time-input{
-  border: 1px solid #E3E3E3;
-  background-color: #FFFFFF;
+.time-input {
+  border: 1px solid #e3e3e3;
+  background-color: #ffffff;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 85px;
   max-height: 34px;
   text-align: center;
 }
-::ng-deep .mat-form-field-underline {
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
+:host ::ng-deep .mat-form-field-underline {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
@@ -43,37 +45,43 @@
   padding: 0 !important;
 }
 
-.toggle{
+.toggle {
   height: 40px;
   flex-grow: 1;
   box-sizing: border-box;
-  border: 1px solid #EBEBEB;
-  background: #FFFFFF;
-  &-selected{
+  border: 1px solid #ebebeb;
+  background: #ffffff;
+  &-selected {
     background: rgba(56, 73, 249, 0.07);
-    border: 1px solid #3849F9;
+    border: 1px solid #3849f9;
   }
-  &:first-child{
+  &:first-child {
     border-top-left-radius: 25px;
     border-bottom-left-radius: 25px;
   }
-  &:last-child{
+  &:last-child {
     border-top-right-radius: 25px;
     border-bottom-right-radius: 25px;
   }
-  &:hover{
+  &:hover {
     cursor: pointer;
     opacity: 0.8;
   }
 }
-
-.btn{
+::ng-deep.mat-dialog-container {
+  [mat-dialog-actions] {
+    display: flex;
+    justify-content: center !important;
+  }
+}
+.btn {
   min-width: 150px;
+  margin: 0 0 0.5rem 0;
 }
-::ng-deep .mat-toolbar.mat-primary{
-  background-color: #3849F9 !important;
+::ng-deep .mat-toolbar.mat-primary {
+  background-color: #3849f9 !important;
 }
-::ng-deep .timepicker__main-content{
+::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
 }
@@ -87,17 +95,12 @@
   position: absolute;
   font-size: 18px;
   color: #adadad;
+  top: 8px;
+  left: 114px;
 }
-.clear-time-start {
-  top: 22px;
-  left: 99px;
-}
-.clear-time-end {
-  top: 22px;
-  left: 234px;
-}
-.clear-time-start:hover,
-.clear-time-end:hover {
+.clear-time:hover {
   visibility: visible;
 }
-
+.check-boxes {
+  margin-top: 20px;
+}

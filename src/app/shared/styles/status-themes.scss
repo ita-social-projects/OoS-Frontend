@@ -1,0 +1,50 @@
+:host {
+  display: block;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+
+  &.Editing {
+    background: linear-gradient(0deg, rgba(255, 189, 0, 0.1), rgba(255, 189, 0, 0.1)), #ffffff;
+
+    .status {
+      &-icon,
+      &-title {
+        color: #ffbd00;
+      }
+    }
+  }
+
+  &.Approved {
+    background: linear-gradient(0deg, rgba(25, 153, 83, 0.1), rgba(25, 153, 83, 0.1)), #ffffff;
+
+    .status {
+      &-icon,
+      &-title {
+        color: #199953;
+      }
+    }
+  }
+
+  &.Pending {
+    background: #e1f1f9;
+
+    .status {
+      &-icon,
+      &-title {
+        color: #007bda;
+      }
+    }
+  }
+
+  &.Blocked {
+    background: #f9ebe1;
+
+    .status {
+      &-icon,
+      &-title {
+        color: #c72a21;
+      }
+    }
+  }
+  
+
+}

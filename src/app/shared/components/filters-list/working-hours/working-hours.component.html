@@ -1,31 +1,59 @@
-<p class="filter-text title">Дні роботи</p>
-<div class="wrapper" fxLayout='column' fxLayoutAlign='center space-between'>
-  <div fxLayout='row' fxLayoutAlign='space-between'>
-    <div *ngFor="let day of days" class="toggle" fxLayout='row' fxLayoutAlign='center center'
-      (click)="onToggleDays(day)" [ngClass]="(day.selected) ? 'toggle-selected' : '' ">
-      {{day.value}}</div>
-  </div>
-  <p class="filter-text title">Години роботи</p>
-  <mat-form-field>
-    <div class="wrapper" fxLayout='row' fxLayoutAlign='start center' fxLayoutGap='1rem'>
-      <p class="filter-text">Від</p>
-      <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24"
-        [formControl]="startTimeFormControl" [max]="maxTime" autocomplete="off">
-      <mat-icon class="clear-time-start clear-time" (click)="clearStart()">clear</mat-icon>
-      <p class="filter-text">До</p>
-      <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24"
-        [formControl]="endTimeFormControl" [min]="minTime" autocomplete="off">
-      <mat-icon class="clear-time-end clear-time" (click)="clearEnd()">clear</mat-icon>
+<p class="filter-text title">
+  {{"WORKING_DAYS" | translate}}
+</p>
+<div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+  <mat-checkbox color="primary" [formControl]="isStrictWorkdaysControl">
+    {{"EXACT_MATCH" | translate}}
+  </mat-checkbox>
+</div>
+<div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
+  <div fxLayout="row" fxLayoutAlign="space-between">
+    <div *ngFor="let day of days" class="toggle" fxLayout="row" fxLayoutAlign="center center"
+      (click)="onToggleDays(day)" [ngClass]="day.selected ? 'toggle-selected' : ''">
+      {{ day.value | translate}}
     </div>
-    <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass="">
-    </ngx-mat-timepicker>
-    <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm">
-    </ngx-mat-timepicker>
-  </mat-form-field>
+  </div>
+  <p class="filter-text title">
+    {{"WORKING_HOURS" | translate}}
+  </p>
+  <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
+    <mat-checkbox color="primary" [formControl]="isAppropriateHoursControl">
+      {{"EXACT_MATCH" | translate}}
+    </mat-checkbox>
+  </div>
+  <div class="wrapper" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
+    <mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="filter-text">
+          {{"FROM" | translate}}
+        </p>
+        <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerStart" format="24"
+          [formControl]="startTimeFormControl" [max]="maxTime" autocomplete="off" />
+        <mat-icon class="clear-time-start clear-time" (click)="clearStart()">clear</mat-icon>
+      </div>
+    </mat-form-field>
+    <mat-form-field>
+      <div fxLayout="row" fxLayoutAlign="start center">
+        <p class="filter-text">
+          {{"TO" | translate}}
+        </p>
+        <input class="time-input" type="text" matInput [ngxMatTimepicker]="timepickerEnd" format="24"
+          [formControl]="endTimeFormControl" [min]="minTime" autocomplete="off" />
+        <mat-icon class="clear-time" (click)="clearEnd()">clear</mat-icon>
+      </div>
+    </mat-form-field>
+  </div>
+  <ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
+  <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
 
   <ng-template #btnCancel>
-    <button mat-raised-button class="btn btn-cancel">Скасувати</button>
+    <button mat-raised-button class="btn btn-cancel">
+      {{"BUTTONS.CANCEL" | translate}}
+    </button>
   </ng-template>
   <ng-template #btnConfirm>
-    <button class="btn" mat-raised-button>Додати</button>
+    <button class="btn" mat-raised-button>
+      {{"BUTTONS.ADD" | translate}}
+    </button>
   </ng-template>
+</div>

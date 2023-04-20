@@ -1,0 +1,25 @@
+<div class="wrapper">
+  <h5 class="title">{{ 'FORMS.LABELS.FOUNDER' | translate }}</h5>
+  <p class="txt">{{ provider.founder }}</p>
+  <h5>{{ 'FORMS.LABELS.OWNERSHIP' | translate }}</h5>
+  <p>{{ ownershipTypesEnum[provider.ownership] | translate }}</p>
+  <h5>{{ 'FORMS.LABELS.INSTITUTION_CATEGORY' | translate }}</h5>
+  <p>{{ institutionTypesEnum[provider.institutionType] | translate }}</p>
+  <ng-container *ngIf="provider.type">
+    <h5>{{ 'FORMS.LABELS.ORGANIZATION_TYPE' | translate }}</h5>
+    <p>{{ provider.type.name }}</p>
+  </ng-container>
+  <ng-container *ngIf="provider.institution">
+    <h5>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</h5>
+    <p class="description">{{ provider.institution.title }}</p>
+  </ng-container>
+  <h5 class="title">{{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}</h5>
+  <p class="txt">{{ provider.director }}</p>
+  <ng-container *ngIf="provider.providerSectionItems?.length">
+    <h5 class="title">{{ 'TITLES.ABOUT_THE_PROVIDER' | translate }}</h5>
+    <div *ngFor="let item of provider.providerSectionItems" class="config-wrapper">
+      <h5 class="section-title">{{ item.sectionName }}</h5>
+      <p>{{ item.description }}</p>
+    </div>
+  </ng-container>
+</div>

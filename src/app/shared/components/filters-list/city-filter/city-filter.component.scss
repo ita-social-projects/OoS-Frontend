@@ -1,4 +1,140 @@
-.confirmation{
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+
+:host ::ng-deep .mat-form-field-wrapper,
+:host ::ng-deep .mat-form-field-infix {
+  padding: 0;
+  border: none;
+  vertical-align: sub;
+  padding: 0.2rem;
+  width: auto;
+}
+.input-filter {
+  text-transform: capitalize;
+  font-family: 'Innerspace';
+  color: #000000;
+  font-size: 1.125rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+}
+.additional-text {
+  opacity: 0.5;
+  margin: 0;
+  white-space: nowrap;
+}
+
+h4 {
+  margin-bottom: 1rem;
+}
+.custom-input-autocomplete {
+  padding: 0.1rem 1rem;
+  border: 1px solid #e3e3e3;
+  border-radius: 21px;
+  line-height: initial;
+  box-sizing: border-box;
+}
+
+.input-wrapper {
+  padding: 0.5rem 0;
+}
+
+.option-sub-text {
+  color: #161414;
+  opacity: 0.6;
+  font-size: 14px;
+  &:hover {
+    background-color: transparent;
+  }
+}
+
+.mat-option {
+  line-height: 20px;
+}
+
+.confirmation {
   position: relative;
   right: 5rem;
+}
+
+.city-confirmation {
+  position: absolute;
+  color: #444444;
+  width: 300px;
+  min-height: 130px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 1px rgb(50 50 50 / 30%);
+  background: #fff;
+  padding: 10px;
+  z-index: 1000;
+  top: 20px;
+  p {
+    text-align: center;
+    font-size: 19px;
+    margin-bottom: 0;
+    line-height: 1.3rem;
+    span {
+      font-weight: 700;
+    }
+  }
+
+  .mat-icon {
+    cursor: pointer;
+    &:hover {
+      color: #3849f9;
+    }
+  }
+  &_button {
+    width: auto;
+    margin-top: 25px;
+    .button {
+      color: white;
+      background-color: #3849f9;
+      border: 1px solid #3849f9;
+      box-sizing: border-box;
+      border-radius: 20px;
+      padding: 0 30px;
+      margin: 0 auto;
+      &-change {
+        color: #444444 !important;
+        background-color: transparent !important;
+        border-color: #444444 !important;
+      }
+    }
+  }
+}
+.city-confirmation::before {
+  content: '';
+  position: absolute;
+  left: 46%;
+  width: 32px;
+  height: 15px;
+  background: #fff;
+  top: -14px;
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+// TO DO mobile view ...
+@media (max-width: 750px) {
+  .confirmation {
+    position: absolute;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    right: 0;
+  }
+  .city-confirmation::before {
+    left: 10%;
+  }
+}
+
+@media (max-width: 425px) {
+  .city-confirmation::before {
+    left: 15%;
+  }
+}
+
+@media (max-width: 375px) {
+  .city-confirmation::before {
+    left: 25%;
+  }
 }

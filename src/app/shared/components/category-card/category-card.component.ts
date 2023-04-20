@@ -1,8 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-import { CategoryIcons } from '../../enum/category-icons';
-import { Direction } from '../../models/category.model';
-import { SetDirections } from '../../store/filter.actions';
+import { CategoryIcons } from '../../../shared/enum/category-icons';
+import { Direction } from '../../../shared/models/category.model';
+import { SetDirections } from '../../../shared/store/filter.actions';
+import { WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
+import { DefaultFilterState } from '../../models/defaultFilterState.model';
 
 @Component({
   selector: 'app-category-card',
@@ -15,33 +18,21 @@ export class CategoryCardComponent {
   @Input() direction: Direction;
   @Input() icons: {};
   @Output() deleteDirection = new EventEmitter<Direction>();
+
+  readonly WorkshopDeclination = WorkshopDeclination;
+
   public categoryIcons = CategoryIcons;
 
-  constructor(private store: Store) {
-  }
+  constructor(private store: Store, private router: Router) {}
 
-  onDelete(): void {
+  onDelete(event: Event): void {
     this.deleteDirection.emit(this.direction);
+    event.stopPropagation();
   }
 
   selectDirection(direction: Direction): void {
-    this.store.dispatch(new SetDirections([direction]));
+    this.store.dispatch(new SetDirections([direction.id]));
+    const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
+    this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
   }
-  /**
-   * Returns correct form of the ukrainian word "гурток" depending on the amount of workshops by category.
-   * @returns correct form of the word
-   *
-   */
-  getWord(workshopsAmount): string {
-    if ((workshopsAmount % 100 >= 10 && workshopsAmount % 100 <= 20) || (workshopsAmount % 10 === 0 || workshopsAmount % 10 > 4)) {
-      return 'гуртків';
-    } else {
-      if (workshopsAmount % 10 === 1) {
-        return 'гурток';
-      } else if (workshopsAmount % 10 > 1 && workshopsAmount % 10 < 5) {
-        return 'гуртки';
-      }
-    }
-  }
-
 }

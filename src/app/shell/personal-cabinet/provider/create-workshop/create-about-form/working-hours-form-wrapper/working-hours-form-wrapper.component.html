@@ -1,0 +1,14 @@
+<ng-container *ngFor="let form of workingHoursFormArray.controls">
+  <app-working-hours-form
+    [workingHoursForm]="form"
+    [workingHoursAmount]="workingHoursFormArray.controls.length"
+    [index]="workingHoursFormArray.controls.indexOf(form)"
+    (deleteWorkingHour)="deleteWorkingHour($event)"
+  >
+  </app-working-hours-form>
+</ng-container>
+<div fxLayout="row" fxLayoutAlign="start center" class="add-hour">
+  <button class="btn-add" mat-button (click)="addWorkingHours()" [disabled]="workingHoursFormArray.invalid">
+    <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_MORE_DAYS_HOURS' | translate }}
+  </button>
+</div>

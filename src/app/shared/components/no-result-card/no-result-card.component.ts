@@ -4,18 +4,11 @@ import { Component, Input, OnInit } from '@angular/core';
   selector: 'app-no-result-card',
   template: `
     <div class="empty-list-wrapper">
-      <p class="text">{{title}}</p>
+      <p class="text">{{ title | translate }}</p>
     </div>
   `,
-  styleUrls: ['/src/app/shared/styles/list-wrappers.scss']
+  styleUrls: ['../../styles/list-wrappers.scss']
 })
-export class NoResultCardComponent implements OnInit {
-
+export class NoResultCardComponent {
   @Input() title: string;
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
-
 }

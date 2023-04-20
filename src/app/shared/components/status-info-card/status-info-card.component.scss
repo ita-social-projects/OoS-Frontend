@@ -1,7 +1,5 @@
-@import "src/app/shared/styles/application-statuses.scss";
+@import 'src/app/shared/styles/application-statuses.scss';
 
-.status-menu,
-.application-popup-status,
 .mat-application-menu,
 .application-info-menu {
   i {
@@ -13,14 +11,8 @@
   font: Open Sans;
   font-weight: normal;
 }
-.application-popup-status {
-  cursor: pointer;
-}
 .application-info-description-card {
   color: #aaaaaa;
-}
-.application-info-span {
-  background-color: #ffffff !important;
 }
 .application-info-menu,
 ::ng-deep .mat-application-menu {
@@ -43,7 +35,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  align-items: start;
+  align-items: flex-start;
   max-width: max-content;
   font-size: 13px;
   font-weight: normal;
@@ -61,10 +53,16 @@
 }
 
 .application-info-description {
-  .Approved, .Pending, .StudyingForYears, .AcceptedForSelection, .Rejected, .Completed, .Left {
+  .Approved,
+  .Pending,
+  .StudyingForYears,
+  .AcceptedForSelection,
+  .Rejected,
+  .Completed,
+  .Left,
+  .Blocked {
     color: black;
   }
-
 }
 
 .application-info-menu-title {
@@ -72,8 +70,14 @@
   font-weight: bold;
   padding: 8px;
 }
-@media(max-width: 750px) {
-  .application-info-menu,::ng-deep .mat-application-menu {
+@media (max-width: 750px) {
+  .application-info-menu,
+  ::ng-deep .mat-application-menu {
     width: 100vw;
   }
+}
+.application-status,
+.title,
+.btn-gray {
+  margin-top: 1rem;
 }

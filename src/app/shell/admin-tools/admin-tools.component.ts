@@ -1,26 +1,30 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
-import { NavBarName } from 'src/app/shared/enum/navigation-bar';
-import { NavigationBarService } from 'src/app/shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath, DeleteNavPath } from 'src/app/shared/store/navigation.actions';
-
+import { Select } from '@ngxs/store';
+import { Observable, Subject, takeUntil } from 'rxjs';
+import { Role } from '../../shared/enum/role';
+import { RegistrationState } from '../../shared/store/registration.state';
 @Component({
   selector: 'app-admin-tools',
   templateUrl: './admin-tools.component.html',
   styleUrls: ['./admin-tools.component.scss']
 })
 export class AdminToolsComponent implements OnInit, OnDestroy {
+  readonly Role = Role;
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) { }
+  @Select(RegistrationState.role)
+  role$: Observable<string>;
+  role: Role;
+
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor() {}
 
   ngOnInit(): void {
-    this.store.dispatch(new AddNavPath(this.navigationBarService.createOneNavPath(
-      { name: NavBarName.AdminTools,
-        isActive: false, disable: true }
-    )));
+    this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

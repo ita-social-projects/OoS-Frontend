@@ -2,23 +2,22 @@
   margin-top: 16px;
 }
 .filter-text {
-  margin: 0;
+  margin: 0 1rem 0 0;
   font-family: Innerspace;
   font-weight: 700;
   line-height: 14.6px;
   color: #444444;
 }
-.title{
+.title {
   margin-top: 24px;
   margin-bottom: 0;
 }
-.age-input{
-  border: 1px solid #E3E3E3;
-  background-color: #FFFFFF;
+.age-input {
+  border: 1px solid #e3e3e3;
+  background-color: #ffffff;
   box-sizing: border-box;
   border-radius: 21px;
   padding: 0.5rem;
-  max-width: 85px;
   max-height: 34px;
   text-align: center;
 }
@@ -33,14 +32,16 @@
   padding: 0 !important;
 }
 
-::ng-deep .mat-form-field-underline {
+:host ::ng-deep .mat-form-field-underline {
   display: none;
 }
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
   padding: 0;
   margin: 0;
 }
-
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
 .age-input:hover + .clear-age {
   visibility: visible;
 }
@@ -50,19 +51,12 @@
   position: absolute;
   font-size: 18px;
   color: #adadad;
+  top: 8px;
+  left: 114px;
 }
-.clear-age-min {
-  top: 6px;
-  left: 99px;
-}
-.clear-age-max {
-  top: 6px;
-  left: 98px;
-}
-.clear-age-min:hover,
-.clear-age-max:hover {
+.clear-age:hover {
   visibility: visible;
-  z-index: 1000;
 }
-
-
+.check-boxes {
+  margin-top: 20px;
+}

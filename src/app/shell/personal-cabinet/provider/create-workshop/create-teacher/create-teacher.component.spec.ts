@@ -6,6 +6,7 @@ import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatDialogModule } from '@angular/material/dialog';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('CreateTeacherComponent', () => {
   let component: CreateTeacherComponent;
@@ -13,20 +14,9 @@ describe('CreateTeacherComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatFormFieldModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        MatGridListModule,
-        MatDialogModule
-      ],
-      declarations: [
-        CreateTeacherComponent,
-        MockTeacherFormComponent,
-        MockImageFormControlComponent
-      ]
-    })
-      .compileComponents();
+      imports: [MatFormFieldModule, ReactiveFormsModule, MatIconModule, MatGridListModule, MatDialogModule, TranslateModule.forRoot()],
+      declarations: [CreateTeacherComponent, MockTeacherFormComponent, MockImageFormControlComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -48,11 +38,11 @@ class MockTeacherFormComponent {
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
   @Input() index: number;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
 }
 
 @Component({
   selector: 'app-image-form-control',
   template: ''
 })
-class MockImageFormControlComponent { }
+class MockImageFormControlComponent {}

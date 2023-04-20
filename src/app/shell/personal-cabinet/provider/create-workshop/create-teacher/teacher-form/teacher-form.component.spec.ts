@@ -10,6 +10,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ImageFormControlComponent } from '../../../../../../shared/components/image-form-control/image-form-control.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { Component, Input } from '@angular/core';
+import { MatRadioModule } from '@angular/material/radio';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('TeacherFormComponent', () => {
   let component: TeacherFormComponent;
@@ -27,15 +29,12 @@ describe('TeacherFormComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         MatIconModule,
-        MatGridListModule
+        MatGridListModule,
+        MatRadioModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        ImageFormControlComponent,
-        TeacherFormComponent,
-        MockValidationHintForInputComponent
-      ]
-    })
-      .compileComponents();
+      declarations: [ImageFormControlComponent, TeacherFormComponent, MockValidationHintForInputComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -46,8 +45,9 @@ describe('TeacherFormComponent', () => {
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
+      gender: new FormControl(''),
       dateOfBirth: new FormControl(''),
-      description: new FormControl(''),
+      description: new FormControl('')
     });
     fixture.detectChanges();
   });
@@ -61,10 +61,10 @@ describe('TeacherFormComponent', () => {
   selector: 'app-validation-hint',
   template: ''
 })
-
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl; 
+  @Input() validationFormControl: FormControl;
   @Input() minCharachters: number;
   @Input() maxCharachters: number;
   @Input() minMaxDate: boolean;
+  @Input() isTouched: boolean;
 }

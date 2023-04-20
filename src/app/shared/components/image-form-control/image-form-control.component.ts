@@ -1,8 +1,15 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { environment } from 'src/environments/environment';
+import { MatDialog } from '@angular/material/dialog';
+import { environment } from '../../../../environments/environment';
 import { Constants } from '../../constants/constants';
+import { Cropper } from '../../models/cropper';
 import { DecodedImage } from '../../models/image.model';
+import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
+
+type FilesToVoid = (array: File[]) => void;
+type VoidToVoid = () => void;
+
 @Component({
   selector: 'app-image-form-control',
   templateUrl: './image-form-control.component.html',
@@ -25,44 +32,35 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   touched = false;
   disabled = false;
 
+  onChange: FilesToVoid;
+  onTouched: VoidToVoid;
+
   @Input() imgMaxAmount: number;
   @Input() imageIdsFormControl: FormControl;
   @Input() label: string;
+  @Input() cropperConfig: Cropper;
 
-  constructor() { }
+  @ViewChild('inputImage') inputImage: ElementRef;
+
+  constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.onResize(window);
-    (this.imageIdsFormControl && this.imageIdsFormControl.value.length) && this.activateEditMode();
+    this.imageIdsFormControl && this.imageIdsFormControl.value?.length && this.activateEditMode();
   }
-  /**
-   * This methods adds files from input to the list of selected files and pass them to imageDecoder
-   * @param event
-   */
-  onFileSelected(event): void {
-    this.markAsTouched();
-    if (!this.disabled) {
-      const maxNewImg = this.imgMaxAmount - this.decodedImages.length;
-      for (let i = 0; i < event.target.files.length; i++) {
-        if (i < maxNewImg) {
-          this.imageDecoder(event.target.files[i]);
-          this.selectedImages.push(event.target.files[i]);
-        }
-      }
-      this.onChange(this.selectedImages);
-    }
-  }
+
   /**
    * This methods decodes the file for its correct displaying
    * @param file: File)
    */
-  imageDecoder(file: any): void {
+  imageDecoder(file: Blob): void {
     const myReader = new FileReader();
     myReader.onload = () => {
       this.decodedImages.push(new DecodedImage(myReader.result, file));
     };
     return myReader.readAsDataURL(file);
   }
+
   /**
    * This method remove already added img from the list of images
    * @param string word
@@ -75,29 +73,25 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
         this.decodedImages.splice(imageIndex, 1);
         if (img.imgFile) {
           this.selectedImages.splice(this.selectedImages.indexOf(img.imgFile), 1);
-          this.onChange(this.selectedImages);
-        } else {
-          if (this.imageIdsFormControl) {
-            this.imageIdsFormControl.value.splice(imageIndex, 1);
-          }
         }
+        if (this.imageIdsFormControl) {
+          this.imageIdsFormControl.value.splice(imageIndex, 1);
+        }
+        this.onChange(this.selectedImages);
       }
     }
   }
 
   activateEditMode(): void {
     this.imageIdsFormControl.value.forEach((imageId) => {
-      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null))
-    })
+      this.decodedImages.push(new DecodedImage(environment.storageUrl + imageId, null));
+    });
   }
 
-  onChange = (array: File[]): void => { }
-  onTouched = (): void => { }
-  writeValue(array: File[]): void { }
-  registerOnChange(onChange: any): void {
+  registerOnChange(onChange: FilesToVoid): void {
     this.onChange = onChange;
   }
-  registerOnTouched(onTouched: any): void {
+  registerOnTouched(onTouched: VoidToVoid): void {
     this.onTouched = onTouched;
   }
   markAsTouched(): void {
@@ -109,8 +103,9 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
+
   /* This method controls cols quantity in the img preview grid rows depending on screen width */
-  onResize(screen): void {
+  onResize(screen: Window): void {
     if (screen.innerWidth >= this.mediumScreen) {
       this.gridCols = 4;
     } else if (screen.innerWidth < this.mediumScreen && screen.innerWidth >= this.smallScreen) {
@@ -118,5 +113,27 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
     } else {
       this.gridCols = 2;
     }
+  }
+
+  fileChangeEvent(event: string): void {
+    const dialogRef = this.dialog.open(ImageCropperModalComponent, {
+      width: Constants.MODAL_MEDIUM,
+      maxHeight: '95vh',
+      height: 'auto',
+      data: {
+        image: event,
+        cropperConfig: this.cropperConfig
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((image: File) => {
+      this.markAsTouched();
+      if (!this.disabled && image) {
+        this.imageDecoder(image);
+        this.selectedImages.push(image);
+        this.onChange(this.selectedImages);
+      }
+      this.inputImage.nativeElement.value = '';
+    });
   }
 }

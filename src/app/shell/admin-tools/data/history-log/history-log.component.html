@@ -1,0 +1,64 @@
+<div class="wrapper">
+  <div class="filters-wrapper">
+    <div class="search-area">
+      <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
+        <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
+        <input
+          [formControl]="searchFormControl"
+          matInput
+          type="text"
+          class="search"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}"
+        />
+      </div>
+    </div>
+    <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
+  </div>
+
+  <div class="tab-wrapper">
+    <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
+      <mat-tab [label]="HistoryLogTabTitles.Providers | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providersHistory$ | async, tableTitle: HistoryLogTypes.Providers }"
+        >
+        </ng-container>
+      </mat-tab>
+      <mat-tab [label]="HistoryLogTabTitles.ProviderAdmins | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }"
+        >
+        </ng-container>
+      </mat-tab>
+      <mat-tab [label]="HistoryLogTabTitles.Applications | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }"
+        >
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+
+  <ng-template #HistoryLogTable let-table="table" let-tableTitle="tableTitle">
+    <ng-container *ngIf="!(isLoadingCabinet$ | async)">
+      <ng-container *ngIf="table?.totalAmount; else isEmptyList">
+        <div class="table-wrapper">
+          <app-history-log-table [table]="table.entities" [tableType]="tableTitle"></app-history-log-table>
+        </div>
+        <app-paginator
+          [totalEntities]="table.totalAmount"
+          [currentPage]="currentPage"
+          [itemsPerPage]="filters.size"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)"
+        >
+        </app-paginator>
+      </ng-container>
+    </ng-container>
+  </ng-template>
+
+  <ng-template #isEmptyList>
+    <div class="table-wrapper">
+      <app-no-result-card [title]="noHistory"></app-no-result-card>
+    </div>
+  </ng-template>
+</div>

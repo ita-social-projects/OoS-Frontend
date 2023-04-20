@@ -1,14 +1,18 @@
-import { Favorite, WorkshopFavoriteCard } from './../../../models/favorite.model';
+import { Favorite } from './../../../models/favorite.model';
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { SearchResponse } from '../../../models/search.model';
+import { WorkshopCard } from '../../../../shared/models/workshop.model';
+import { Store } from '@ngxs/store';
+import { PaginationElement } from '../../../models/paginationElement.model';
+import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteWorkshopsService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private store: Store) {}
 
   /**
    * This method get favorite workshops
@@ -20,23 +24,25 @@ export class FavoriteWorkshopsService {
   /**
    * This method get favorite workshops by Userid
    */
-  getFavoriteWorkshopsByUserId(): Observable<WorkshopFavoriteCard> {
-    return this.http.get<WorkshopFavoriteCard>('/api/v1/Favorite/workshops');
+  getFavoriteWorkshopsByUserId(paginationParameters: PaginationParameters): Observable<SearchResponse<WorkshopCard[]>> {
+    let params = new HttpParams().set('Size', paginationParameters.size.toString()).set('From', paginationParameters.from.toString());
+
+    return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Favorite/workshops', { params });
   }
 
   /**
    * This method create favorite workshop
    * @param favorite: Favorite
    */
-  createFavoriteWorkshop(favorite: Favorite): Observable<object> {
-    return this.http.post('/api/v1/Favorite', favorite);
+  createFavoriteWorkshop(favorite: Favorite): Observable<Favorite> {
+    return this.http.post<Favorite>('/api/v1/Favorite', favorite);
   }
 
   /**
    * This method delete favorite workshop
    * @param id: string
    */
-  deleteFavoriteWorkshop(id: string): Observable<object> {
-    return this.http.delete(`/api/v1/Favorite/${id}`);
+  deleteFavoriteWorkshop(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Favorite/${id}`);
   }
 }

@@ -1,40 +1,46 @@
 <div class="users-wrapper">
-
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <mat-form-field floatLabel=never appearance="none">
-        <input matInput [formControl]="filter" type="text" class="search"
-          placeholder="Пошук за ПІБ, емейлом, телефоном, містом чи статусом" #input>
-      </mat-form-field>
+      <input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+      />
     </div>
-
   </div>
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab label="{{userRoleUkr.all}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: allUsers}">
-        </ng-container>
+      <mat-tab label="{{ UserTabsTitles.all | translate }}">
+        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{userRoleUkr.parent}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: parents}">
-        </ng-container>
+      <mat-tab label="{{ UserTabsTitles.parent | translate }}">
+        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{userRoleUkr.child}}">
-        <ng-container *ngTemplateOutlet="UsersList; context:{ $implicit: filterValue, users: children}">
-        </ng-container>
+      <mat-tab label="{{ UserTabsTitles.child | translate }}">
+        <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: allUsers }"> </ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
-
 </div>
 
-<ng-template #UsersList let-filterValue let-users="users">
+<ng-template #UsersList let-users>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
-    <ng-container *ngIf="users?.length else isEmptyList;">
-      <app-users-list [users]="users" [filterValue]="filterValue" (deleteAdmin)="onDelete($event)"
-        (blockAdmin)="onBlock($event)"></app-users-list>
+    <ng-container *ngIf="users?.length; else isEmptyList">
+      <div class="table-wrapper">
+        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns"> </app-users-list>
+      </div>
+      <app-paginator
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="childrenParams.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onTableItemsPerPageChange($event)"
+      >
+      </app-paginator>
     </ng-container>
   </ng-container>
 </ng-template>

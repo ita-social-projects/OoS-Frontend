@@ -1,49 +1,21 @@
+import { PaginationParameters } from './queryParameters.model';
+
 export class Direction {
   id: number;
   title: string;
   description: string;
+  workshopsCount?: number;
 
   constructor(info) {
-    if(info.id){
+    if (info.id) {
       this.id = info.id;
     }
     this.title = info.title;
     this.description = info.title;
+    this.workshopsCount = info.workshopsCount;
   }
 }
 
-export class Department {
-  id: number;
-  directionId: number;
-  title: string;
-  description: string;
-
-  constructor(info, directionId) {
-    if(info.id){
-      this.id = info.id;
-    }
-    this.directionId = directionId;
-    this.title = info.title;
-    this.description = info.title;
-  }
-}
-
-export class IClass {
-  id: number;
-  departmentId: number;
-  title: string;
-  description: string;
-
- constructor(info, departmentId) {
-    if(info.id){
-      this.id = info.id
-    }
-    this.departmentId = departmentId,
-    this.title = info.title,
-    this.description = info.title
-  }
-}
-export interface DirectionsFilter {
-  totalAmount: number;
-  entities: Direction[];
+export interface DirectionParameters extends PaginationParameters {
+  searchString: string;
 }

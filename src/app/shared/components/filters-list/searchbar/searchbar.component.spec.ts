@@ -7,6 +7,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('SearchbarComponent', () => {
   let component: SearchbarComponent;
@@ -22,11 +24,12 @@ describe('SearchbarComponent', () => {
         MatInputModule,
         BrowserAnimationsModule,
         NgxsModule.forRoot([]),
-        RouterTestingModule
+        RouterTestingModule,
+        MatAutocompleteModule,
+        TranslateModule.forRoot()
       ],
-      declarations: [SearchbarComponent],
-    })
-      .compileComponents();
+      declarations: [SearchbarComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

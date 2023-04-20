@@ -1,5 +1,6 @@
+@import 'src/app/shared/styles/dropdown.scss';
 .mat-form-field {
-  font-size: 14px;
+  font-size: 16px;
 }
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0 0 0 10px;
@@ -7,22 +8,28 @@
 }
 :host ::ng-deep .mat-form-field-infix {
   border: none;
+  padding: 0;
   display: flex;
+  width: auto;
 }
-button {
-  border: none;
-  height: 100%;
+.input-wrapper {
+  padding: 0.5rem 0;
 }
-input {
+.search-input {
   font-weight: normal;
   line-height: 22px;
   color: #161414;
-  opacity: 0.4;
   text-overflow: ellipsis;
+
+  &::placeholder {
+    opacity: 0.4;
+  }
 }
 .icon {
-  margin: 0 1rem;
-  color: #AAAAAA;
-  line-height: 26px;
+  margin: 0 1rem 0 0.5rem;
+  color: #aaaaaa;
   cursor: pointer;
+}
+.search-bar {
+  width: 100%;
 }

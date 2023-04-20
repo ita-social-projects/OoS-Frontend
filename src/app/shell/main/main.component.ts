@@ -1,90 +1,89 @@
-import { PaginationConstants } from './../../shared/constants/constants';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { FilterClear, GetTopWorkshops } from 'src/app/shared/store/filter.actions';
-import { FilterState } from 'src/app/shared/store/filter.state';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { Direction } from 'src/app/shared/models/category.model';
-import { MetaDataState } from 'src/app/shared/store/meta-data.state';
 import { WorkshopCard } from '../../shared/models/workshop.model';
-import { GetTopDirections } from 'src/app/shared/store/meta-data.actions';
-import { filter, takeUntil } from 'rxjs/operators';
-import { UserState } from 'src/app/shared/store/user.state';
-import { Favorite } from 'src/app/shared/models/favorite.model';
-import { City } from 'src/app/shared/models/city.model';
-import { Role } from 'src/app/shared/enum/role';
-import { Login } from 'src/app/shared/store/registration.actions';
-import { AppState } from 'src/app/shared/store/app.state';
-
+import { filter, take, takeUntil } from 'rxjs/operators';
+import { Direction } from '../../shared/models/category.model';
+import { Role } from '../../shared/enum/role';
+import { Codeficator } from '../../shared/models/codeficator.model';
+import { Favorite } from '../../shared/models/favorite.model';
+import { AppState } from '../../shared/store/app.state';
+import { FilterState } from '../../shared/store/filter.state';
+import { GetTopWorkshops, GetTopDirections } from '../../shared/store/main-page.actions';
+import { MainPageState } from '../../shared/store/main-page.state';
+import { ParentState } from '../../shared/store/parent.state.';
+import { Login } from '../../shared/store/registration.actions';
 
 @Component({
   selector: 'app-main',
   templateUrl: './main.component.html',
-  styleUrls: ['./main.component.scss'],
+  styleUrls: ['./main.component.scss']
 })
-
 export class MainComponent implements OnInit, OnDestroy {
   Role = Role;
 
-  @Select(FilterState.topWorkshops)
+  @Select(MainPageState.topWorkshops)
   topWorkshops$: Observable<WorkshopCard[]>;
-  @Select(RegistrationState.role)
-  role$: Observable<string>;
-  @Select(UserState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(FilterState.city)
-  city$: Observable<City>;
-  @Select(MetaDataState.topDirections)
+  topWorkshops: WorkshopCard[];
+  @Select(MainPageState.topDirections)
   topDirections$: Observable<Direction[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
-  @Select(MetaDataState.isLoading)
-  isLoadingMetaData$: Observable<boolean>;
+  topDirections: Direction[];
+  @Select(MainPageState.isLoadingData)
+  isLoadingData$: Observable<boolean>;
+  isLoadingData: boolean;
+  @Select(RegistrationState.role)
+  role$: Observable<Role>;
+  @Select(ParentState.favoriteWorkshops)
+  favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
+  settlement: Codeficator;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
-  isMobile:boolean;
-  constructor(private store: Store) { }
+  isMobile: boolean;
 
-  getTopWorkshops(role: string): void {
-    if (role === Role.parent) {
-      combineLatest([this.city$, this.favoriteWorkshops$])
-        .pipe(
-          filter(([city, favorite]) => (!!city && !!favorite?.length) || (favorite === null)),
-          takeUntil(this.destroy$))
-        .subscribe(() => this.store.dispatch(new GetTopWorkshops(PaginationConstants.ITEMS_PER_PAGE_DEFAULT)));
-    }
-    else {
-      this.city$
-        .pipe(
-          filter(city => !!city),
-          takeUntil(this.destroy$))
-        .subscribe(() => this.store.dispatch(new GetTopWorkshops(PaginationConstants.ITEMS_PER_PAGE_DEFAULT)));
-    }
-  }
+  destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private store: Store) {}
 
   ngOnInit(): void {
-
-    this.store.dispatch([new GetTopDirections(), new FilterClear()]);
-
-    this.role$
+    combineLatest([this.role$, this.settlement$])
       .pipe(
-        filter(role => !!role),
-        takeUntil(this.destroy$))
-      .subscribe(role => this.getTopWorkshops(role));
-    
-    this.isMobileScreen$
-      .pipe(takeUntil(this.destroy$))  
-      .subscribe((isMobile) => this.isMobile = isMobile);
+        filter(([role, settlement]: [Role, Codeficator]) => !!(role && settlement)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(([role, settlement]: [Role, Codeficator]) => {
+        this.settlement = settlement;
+        this.getData(role);
+      });
+
+    this.isMobileScreen$.pipe(takeUntil(this.destroy$)).subscribe((isMobile: boolean) => (this.isMobile = isMobile));
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
-  
-  register(): void {
+
+  onRegister(): void {
     this.store.dispatch(new Login(true));
+  }
+
+  private getData(role: Role): void {
+    if (role === Role.parent) {
+      this.favoriteWorkshops$
+        .pipe(
+          take(1),
+          filter((favorite: Favorite[]) => !!favorite?.length || favorite === null)
+        )
+        .subscribe((favorite: Favorite[]) => this.getMainPageData());
+    } else {
+      this.getMainPageData();
+    }
+  }
+
+  private getMainPageData(): void {
+    this.store.dispatch([new GetTopWorkshops(), new GetTopDirections()]);
   }
 }

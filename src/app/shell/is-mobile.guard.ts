@@ -13,10 +13,16 @@ export class IsMobileGuard implements CanLoad, CanActivate {
   isMobileScreen$: Observable<boolean>;
 
   canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.isMobileScreen$.pipe(filter((isMobileScreen: boolean) => isMobileScreen !== undefined), map((isMobileScreen: boolean) => isMobileScreen));
+    return this.isMobileScreen$.pipe(
+      filter((isMobileScreen: boolean) => isMobileScreen !== undefined),
+      map((isMobileScreen: boolean) => isMobileScreen)
+    );
   }
 
   canActivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.isMobileScreen$.pipe(filter((isMobileScreen: boolean) => isMobileScreen !== undefined), map((isMobileScreen: boolean) => isMobileScreen));
+    return this.isMobileScreen$.pipe(
+      filter((isMobileScreen: boolean) => isMobileScreen !== undefined),
+      map((isMobileScreen: boolean) => isMobileScreen)
+    );
   }
 }

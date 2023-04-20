@@ -1,27 +1,32 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
+@import '@angular/material/theming';
 
 @font-face {
-  font-family: "Innerspace";
-  src:
-    local("Innerspace"),
-    url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format("truetype"),
-    url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format("truetype");
+  font-family: 'Innerspace';
+  src: local('Innerspace'), url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format('truetype'),
+    url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format('truetype');
 }
 
-html, body {
+html,
+body {
   height: 100%;
 }
 body {
   margin: 0;
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 0.8125rem;
   line-height: 1.125rem;
-  background-color: #F8F8F8;
+  background-color: #f8f8f8;
   color: #333333;
 }
 
-h1, h2, h3, h4, h5, h6 {
-  font-family: "Innerspace";
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Innerspace';
   color: #000000;
   margin: 0;
 }
@@ -53,31 +58,28 @@ h6 {
 a {
   text-decoration: none;
   color: inherit;
-}
-
-div.cdk-overlay-pane {
-  width: auto !important; /** workaround for issue #101 **/
+  vertical-align: middle;
 }
 .mat-step-label {
   font-family: Open Sans;
   font-weight: 700;
-  color: #AAAAAA !important;
+  color: #aaaaaa !important;
 }
 .mat-step-icon {
-  border: 2px solid #AAAAAA;
+  border: 2px solid #aaaaaa;
   box-sizing: border-box;
-  color: #AAAAAA!important;
-  background-color: transparent!important;
+  color: #aaaaaa !important;
+  background-color: transparent !important;
 }
 
 .mat-step-icon-selected {
-  border: 2px solid #3849F9;
+  border: 2px solid #3849f9;
   box-sizing: border-box;
-  color: #3849F9 !important;
-  background-color: transparent!important;
+  color: #3849f9 !important;
+  background-color: transparent !important;
 }
 .mat-step-label-active.mat-step-label-selected {
-  color: #3849F9 !important;
+  color: #3849f9 !important;
 }
 .mat-step-label-active {
   color: black !important;
@@ -96,48 +98,39 @@ div.cdk-overlay-pane {
   }
 }
 
-$config: mat-typography-config(
-  $font-family: "Innerspace",
-  $button: mat-typography-level(13px, 15px, 700)
+$config: mat.define-typography-config(
+  $font-family: 'Innerspace',
+  $button: mat.define-typography-level(13px, 15px, 700)
 );
 
 @mixin mat-button-toggle-typography($config) {
-  .mat-button-toggle, .mat-button-toggle-button {
-    @include mat-typography-level-to-styles($config, button);
-    font-family: "Open Sans", sans-serif;
+  .mat-button-toggle,
+  .mat-button-toggle-button {
+    @include mat.typography-level($config, button);
+    font-family: 'Open Sans', sans-serif;
   }
 }
 @mixin mat-form-typography($config) {
   .mat-form-field {
-    font-family: "Open Sans", sans-serif;
+    font-family: 'Open Sans', sans-serif;
   }
 }
-@include mat-button-typography($config);
-@include mat-button-toggle-typography($config);
+@include mat.button-typography($config);
+@include mat.button-toggle-typography($config);
 @include mat-form-typography($config);
 // @include mat-core($config);
 
 ::-webkit-scrollbar {
- background-color: transparent;
- width: 4px;
- height: 4px;
- border-radius: 5px;
+  background-color: transparent;
+  width: 4px;
+  height: 4px;
+  border-radius: 5px;
 }
-::-webkit-scrollbar-thumb{
-  background-color: #E0E0E0;
+::-webkit-scrollbar-thumb {
+  background-color: #e0e0e0;
   border-radius: 5px;
 }
 .mobile-sidenav ::-webkit-scrollbar {
-  display: none;
-}
-
-.dropdownOption {
-  margin-top: 35px;
-  background-color: white !important;
-  border-radius: 15px !important;
-}
-
-.dropdownOptionMobile {
   display: none;
 }
 
@@ -159,20 +152,79 @@ $config: mat-typography-config(
 .mat-checkbox-checked {
   & .mat-checkbox-background,
   .mat-checkbox-frame {
-      background-color: #3849F9 !important;
-      border-radius: 3px;
+    background-color: #3849f9 !important;
+    border-radius: 3px;
   }
 }
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #3849F9 !important;
+  border-color: #3849f9 !important;
   border-width: 5px;
 }
 .mat-radio-button.mat-primary .mat-radio-inner-circle {
   background-color: #ffffff !important;
 }
-.mat-card-image:first-child{
+.mat-card-image:first-child {
   margin-top: 0 !important;
 }
 .mat-horizontal-content-container {
   padding: 0 !important;
+}
+
+.cdk-overlay-container {
+  .notification-menu {
+    max-width: none;
+
+    .mat-menu-content {
+      padding: 0;
+    }
+  }
+
+  .notifications-list-menu {
+    border-radius: 5px !important;
+    min-height: 0;
+
+    .mat-menu-content {
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+    }
+
+    .mat-menu-item {
+      padding: 0.75rem;
+
+      height: auto !important;
+
+      font-family: 'Open Sans';
+      font-weight: 700;
+      font-size: 13px;
+      line-height: 18px;
+
+      color: #272425;
+
+      &[disabled] {
+        color: lighten($color: #272425, $amount: 50);
+      }
+    }
+  }
+
+  .application-menu {
+    max-width: fit-content;
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+  line-height: initial;
+  font-family: 'Open Sans', sans-serif;
+}
+
+.mat-menu-panel {
+  min-height: auto !important;
 }

@@ -1,116 +1,34 @@
-<form [formGroup]="LegalAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between'
-  class="step legal-address-wrapper">
-  <h4 class="step-title">Юридична адреса</h4>
-
-  <label class="step-label">Область<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="district" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('district')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Місто<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('city')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Район<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="region" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('region')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Вулиця<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('street')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Будинок<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="LegalAddressFormGroup.get('buildingNumber')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-</form>
-
-<div fxLayout='column' fxLayoutAlign='center space-between' class="step">
-  <h4>Фактична адреса</h4>
-  <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">Співпадає з юридичною
-    адресою
-  </mat-checkbox>
+<!-- LEGAL ADDRESS BLOCK -->
+<div class="step" fxLayout="column" fxLayoutAlign="center space-between">
+  <h4 class="step-title">{{ 'FORMS.HEADERS.LEGAL_ADDRESS' | translate }}</h4>
+  <div class="address-wrapper address-wrapper-border">
+    <app-create-address-form
+      [addressFormGroup]="legalAddressFormGroup"
+      [searchFormGroup]="searchLegalFormGroup"
+      [address]="provider?.legalAddress">
+    </app-create-address-form>
+  </div>
 </div>
 
-<form [formGroup]="ActualAddressFormGroup" fxLayout='column' fxLayoutAlign='center space-between' class="step"
-  [ngClass]="{'disabled-field': isSameAddressControl.value}">
+<!-- ACTUAL ADDRESS CHECKBOX BLOCK -->
+<div fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <h4>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h4>
+  <mat-checkbox class="step-label" color="primary" [formControl]="isSameAddressControl">
+    {{ 'FORMS.MATCH_ACTUAL_ADDRESS' | translate }}</mat-checkbox
+  >
+</div>
 
-  <label class="step-label">Область<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="district" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('district')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Місто<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="city" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('city')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Район<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="region" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('region')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Вулиця<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="street" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('street')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-
-  <label class="step-label">Будинок<span class="step-required">*</span></label>
-  <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="buildingNumber" autocomplete="none" appTrimValue>
-  </mat-form-field>
-  <app-validation-hint 
-    [validationFormControl]="ActualAddressFormGroup.get('buildingNumber')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
-  </app-validation-hint>
-</form>
+<!-- ACTUAL ADDRESS BLOCK -->
+<div
+  class="step"
+  fxLayout="column"
+  fxLayoutAlign="center space-between"
+  [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+  <div class="address-wrapper">
+    <app-create-address-form
+      [addressFormGroup]="actualAddressFormGroup"
+      [searchFormGroup]="searchActualFormGroup"
+      [address]="provider?.actualAddress">
+    </app-create-address-form>
+  </div>
+</div>

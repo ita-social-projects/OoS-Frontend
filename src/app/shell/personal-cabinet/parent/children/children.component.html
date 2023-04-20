@@ -1,30 +1,31 @@
-<div class="add-wrapper" fxLayout='row' fxLayoutAlign='space-between center'>
-  <div>
-    <p class="text">Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу</p>
-    <span *ngIf="(childrenCards$ | async)?.totalAmount >= 20" class="text">Можливо додати не більш, ніж 20 дітей</span></div>
-  <a *ngIf="(childrenCards$ | async)?.totalAmount < 20" [routerLink]="['/create-child', '']">
-    <button
-    class="btn"
-    mat-raised-button
-  >Додати дитину</button></a>
-  <a *ngIf="(childrenCards$ | async)?.totalAmount >= 20"><button
-    class="btn"
-    mat-raised-button
-    [disabled]="(childrenCards$ | async)?.totalAmount >= 20"
-  >Додати дитину</button></a>
+<div *ngIf="childrenCards" class="add-wrapper" fxLayout="row" fxLayoutAlign="space-between center">
+  <p class="text">{{ 'BANNERS.ADD_CHILDREN' | translate }}</p>
+  <ng-container *ngIf="childrenCards.totalAmount >= 20">
+    <span class="text">{{ 'BANNERS.MAX_CHILDREN_AMOUNT' | translate }}</span>
+  </ng-container>
+
+  <a [routerLink]="['/create-child', ModeConstants.NEW]">
+    <button class="btn" mat-raised-button [disabled]="childrenCards.totalAmount >= 20">
+      {{ 'BUTTONS.ADD_CHILDREN' | translate }}
+    </button>
+  </a>
 </div>
 
-<div *ngIf="(childrenCards$ | async)?.totalAmount then ChildList;"></div>
+<ng-container *ngIf="childrenCards">
+  <div *ngIf="childrenCards.totalAmount; then ChildList"></div>
+</ng-container>
 
 <ng-template #ChildList>
-  <ng-container>
-    <div class="card-wrapper">
-      <app-child-card class="card" *ngFor="let child of (childrenCards$ | async)?.entities" [child]="child"
-        (deleteChild)="onDelete($event)" [applications]="childApplications(applications$ |async, child)">
-      </app-child-card>
-    </div>
-    <app-paginator [totalEntities]="(childrenCards$ | async).totalAmount" [currentPage]="currentPage" 
-      (pageChange)="onPageChange($event)">
-    </app-paginator>
-  </ng-container>
+  <div class="card-wrapper">
+    <app-child-card class="card" *ngFor="let child of childrenCards.entities" [child]="child" (deleteChild)="onDelete($event)">
+    </app-child-card>
+  </div>
+  <app-paginator
+    [totalEntities]="childrenCards.totalAmount"
+    [currentPage]="currentPage"
+    [itemsPerPage]="childrenParameters.size"
+    (pageChange)="onPageChange($event)"
+    (itemsPerPageChange)="onItemsPerPageChange($event)"
+  >
+  </app-paginator>
 </ng-template>

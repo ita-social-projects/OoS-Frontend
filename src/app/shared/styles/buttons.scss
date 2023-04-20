@@ -1,8 +1,8 @@
-$button-color: #3849F9;
+$button-color: #3849f9;
 $button-color-cancel: #444444;
 
 .btn {
-  color:white;
+  color: white;
   background-color: $button-color;
   border: 1px solid $button-color;
   box-sizing: border-box;
@@ -15,7 +15,8 @@ $button-color-cancel: #444444;
   align-items: center;
   text-transform: capitalize;
 
-  &-reset, &-add {
+  &-reset,
+  &-add {
     color: $button-color;
     padding: 2px 30px;
     border-radius: 20px;
@@ -31,9 +32,25 @@ $button-color-cancel: #444444;
   }
 
   &-cancel {
-    color: $button-color-cancel!important;
-    background-color:transparent !important;
-    border-color: $button-color-cancel!important;
+    color: $button-color-cancel !important;
+    background-color: transparent !important;
+    border-color: $button-color-cancel !important;
+  }
+
+  &-transparent {
+    padding: 0.75rem 1rem;
+    color: black;
+    font-weight: 700;
+    gap: 0.5rem;
+
+    background-color: transparent;
+    border-color: #aaaaaa;
+
+    .download-icon {
+      font-size: 1rem;
+      height: 1rem;
+      width: 1rem;
+    }
   }
 
   &:hover {
@@ -49,7 +66,7 @@ $button-color-cancel: #444444;
   &-application {
     background: $button-color;
     border: 1px solid $button-color;
-    color: #FFFFFF;
+    color: #ffffff;
   }
 
   &:hover {
@@ -63,12 +80,6 @@ button[disabled] {
   border: 1px solid #dddcdc;
   background-color: #dddcdc;
   color: #666666;
-}
-.activeInfoBtn {
-  color: #3849f9;
-}
-.inactiveInfoBtn {
-  color: #AAAAAA;
 }
 .status-info-icon {
   cursor: pointer;

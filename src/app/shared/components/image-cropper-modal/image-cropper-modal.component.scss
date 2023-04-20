@@ -1,0 +1,16 @@
+@import 'src/app/shared/styles/buttons.scss';
+
+.cropped-image {
+  max-width: 100%;
+}
+small.warning {
+  display: block;
+  color: red;
+  font-size: 10px;
+}
+.image-cropper-wrapper {
+  min-height: 50vh;
+}
+.btn-wrapper {
+  padding-bottom: 2rem;
+}

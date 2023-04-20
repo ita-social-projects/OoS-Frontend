@@ -1,55 +1,65 @@
-import { Application } from 'src/app/shared/models/application.model';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from 'src/app/shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'src/app/shared/enum/modal-confirmation';
-import { Child } from 'src/app/shared/models/child.model';
-import { PaginationElement } from 'src/app/shared/models/paginationElement.model';
-import { CabinetPageChange, DeleteChildById, GetUsersChildren } from 'src/app/shared/store/user.actions';
-import { CabinetDataComponent } from '../../cabinet-data/cabinet-data.component';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { ParentComponent } from '../parent.component';
+import { filter, takeUntil } from 'rxjs/operators';
+import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants, ModeConstants } from '../../../../shared/constants/constants';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
+import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { GetUsersChildren, DeleteChildById } from '../../../../shared/store/parent.actions';
+import { ParentState } from './../../../../shared/store/parent.state.';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-children',
   templateUrl: './children.component.html',
   styleUrls: ['./children.component.scss']
 })
-export class ChildrenComponent extends CabinetDataComponent implements OnInit {
-  currentPage: PaginationElement = {
-    element: 1,
-    isActive: true
+export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
+  readonly ModeConstants = ModeConstants;
+
+  @Select(ParentState.children)
+  childrenCards$: Observable<SearchResponse<Child[]>>;
+  childrenCards: SearchResponse<Child[]>;
+
+  currentPage: PaginationElement = PaginationConstants.firstPage;
+  childrenParameters: ChildrenParameters = {
+    searchString: '',
+    isParent: null,
+    size: PaginationConstants.CHILDREN_PER_PAGE
   };
 
-  constructor(
-    store: Store,
-    matDialog: MatDialog,
-    actions$: Actions) {
-    super(store, matDialog, actions$);
+  constructor(protected store: Store, protected matDialog: MatDialog) {
+    super(store, matDialog);
   }
 
-  ngOnInit(): void {
-    this.getUserData();
+  addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Children,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 
-  init(): void {
-    this.getUsersChildren();
-    this.getParentApplications();
-    this.actions$.pipe(ofAction(CabinetPageChange))
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$))
-      .subscribe(() => this.store.dispatch(new GetUsersChildren()));
-  }
-
-  childApplications(applications: Application[], child: Child): Array<Application> {
-    return applications?.length && applications.filter((application: Application) => application.child.id === child.id && application.status === 'Approved');
+  initParentData(): void {
+    this.getChildrens();
+    this.childrenCards$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((childrenCards: SearchResponse<Child[]>) => {
+      childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
+      this.childrenCards = childrenCards;
+    });
   }
 
   onDelete(child: Child): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: '330px',
+      width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.deleteChild,
         property: `${child.firstName} ${child.lastName}`
@@ -57,13 +67,22 @@ export class ChildrenComponent extends CabinetDataComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      (result) && this.store.dispatch(new DeleteChildById(child.id));
+      result && this.store.dispatch(new DeleteChildById(child.id, this.childrenParameters));
     });
+  }
+
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.childrenParameters.size = itemsPerPage;
+    this.getChildrens();
   }
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.store.dispatch(new CabinetPageChange(page));
+    this.getChildrens();
   }
 
+  private getChildrens(): void {
+    Util.setFromPaginationParam(this.childrenParameters, this.currentPage, this.childrenCards?.totalAmount);
+    this.store.dispatch(new GetUsersChildren(this.childrenParameters));
+  }
 }

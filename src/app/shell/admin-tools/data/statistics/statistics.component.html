@@ -1,0 +1,95 @@
+<div [formGroup]="filtersForm" class="statistics-filters">
+  <div class="filter-wrapper">
+    <span class="title">{{ 'STATISTICS.DATE_RANGE' | translate }}</span>
+    <mat-form-field floatLabel="never" appearance="none">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period" class="control control-select select">
+        <ng-container *ngFor="let type of StatisticPeriodTitles | keyvalue">
+          <mat-option [value]="type.key" class="dropdown-option">
+            {{ StatisticPeriodTitles[type.key] | translate }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <div class="filter-wrapper">
+    <span class="title">{{ 'STATISTICS.FORMAT' | translate }}</span>
+    <mat-form-field>
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="format" class="control control-select">
+        <ng-container *ngFor="let format of StatisticFileFormats | keyvalue">
+          <mat-option [value]="format.key" class="dropdown-option">
+            {{ StatisticFileFormats[format.key] | translate }}
+          </mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+  <button class="btn" mat-raised-button (click)="onGenerateReport()">
+    {{ 'STATISTICS.GENERATE_REPORT' | translate }}
+  </button>
+</div>
+<ng-container [ngSwitch]="statisticReports?.totalAmount">
+  <ng-container *ngSwitchCase="undefined" [ngTemplateOutlet]="noData"></ng-container>
+  <ng-container *ngSwitchCase="0" [ngTemplateOutlet]="noReport"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="report"></ng-container>
+</ng-container>
+
+<ng-template #noData>
+  <div class="statistics-result">
+    <span
+      >{{ 'STATISTICS.NO_DATA' | translate }} <br />
+      {{ 'STATISTICS.NO_DATA_SUBHEADER' | translate }}</span
+    >
+  </div>
+</ng-template>
+
+<ng-template #noReport>
+  <app-no-result-card [title]="noReports"></app-no-result-card>
+</ng-template>
+
+<ng-template #report>
+  <div class="statistics-result">
+    <div class="table-wrapper mat-elevation-z8">
+      <table mat-table [dataSource]="statisticReports.entities">
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.TITLE' | translate }}</th>
+          <td mat-cell *matCellDef="let element">{{ element.title }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fileFormat">
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.FORMAT' | translate }}</th>
+          <td mat-cell *matCellDef="let element">{{ element.reportDataType }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.PERIOD' | translate }}</th>
+          <td mat-cell *matCellDef="let element">{{ StatisticPeriodTitles[element.reportType] | translate }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="createDate">
+          <th mat-header-cell *matHeaderCellDef>{{ 'STATISTICS.CREATE_DATE' | translate }}</th>
+          <td mat-cell *matCellDef="let element">{{ element.date | date }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <button class="btn btn-transparent" mat-strocked-button (click)="onLoadReport(element.externalStorageId)">
+              <mat-icon class="download-icon">get_app</mat-icon> {{ 'STATISTICS.DOWNLOAD' | translate }}
+            </button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+    </div>
+    <app-paginator
+      [totalEntities]="statisticReports$ | async"
+      [currentPage]="currentPage"
+      [itemsPerPage]="statisticParameters.size"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)"
+    >
+    </app-paginator>
+  </div>
+</ng-template>

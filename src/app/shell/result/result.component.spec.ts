@@ -2,14 +2,15 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ResultComponent } from './result.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { Component, Input } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatIconModule } from '@angular/material/icon';
-import { Workshop, WorkshopFilterCard } from 'src/app/shared/models/workshop.model';
 import { Observable } from 'rxjs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
+import { Workshop, WorkshopFilterCard } from '../../shared/models/workshop.model';
+import { TranslateCasesPipe } from '../../shared/pipes/translate-cases.pipe';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;
@@ -23,21 +24,21 @@ describe('ResultComponent', () => {
         MatSidenavModule,
         BrowserAnimationsModule,
         MatIconModule,
-        RouterTestingModule
+        RouterTestingModule,
+        TranslateModule.forRoot()
       ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [
         ResultComponent,
         MockSearchbarComponent,
         MockOrderingComponent,
         MockFiltersListComponent,
-        MockFiltersSidenavComponent,
         MockWorkshopCardsListComponent,
         MockWorkshopMapViewListComponent,
         MockScrollToTopComponent,
-        DeclinationPipe,
+        TranslateCasesPipe
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,8 +56,7 @@ describe('ResultComponent', () => {
   selector: 'app-full-search-bar',
   template: ''
 })
-class MockSearchbarComponent {
-}
+class MockSearchbarComponent {}
 
 @Component({
   selector: 'app-ordering',
@@ -88,19 +88,11 @@ class MockWorkshopCardsListComponent {
 })
 class MockWorkshopMapViewListComponent {
   @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
-  @Input() currentPage;;
+  @Input() currentPage;
   @Input() role: string;
 }
 @Component({
   selector: 'app-scroll-to-top',
   template: ''
 })
-class MockScrollToTopComponent { }
-@Component({
-  selector: 'app-sidenav-filters',
-  template: ''
-})
-class MockFiltersSidenavComponent {
-  @Input() isMobileView;
-  @Input() filtersList;
-}
+class MockScrollToTopComponent {}

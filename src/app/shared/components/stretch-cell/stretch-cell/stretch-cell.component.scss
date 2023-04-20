@@ -1,0 +1,30 @@
+.cell-body {
+  height: 100%;
+  position: relative;
+
+  &:hover .resize-border {
+    opacity: 1;
+  }
+}
+.resize-border {
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 20;
+  align-self: stretch;
+
+  height: 100%;
+  width: 2px;
+  padding: 0 0 0 10px;
+
+  border-right: 2px solid silver;
+
+  cursor: col-resize;
+
+  opacity: 0;
+  transition: opacity 0.3s;
+
+  &:active {
+    opacity: 1;
+  }
+}

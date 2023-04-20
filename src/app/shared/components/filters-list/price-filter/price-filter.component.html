@@ -1,28 +1,37 @@
-<p class="filter-text title">Вартість</p>
+<p class="filter-text title">
+  {{"FORMS.LABELS.PRICE" | translate}}
+</p>
 <div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
-  <mat-checkbox color="primary" [formControl]="isFreeControl"> Безкоштовно </mat-checkbox>
-  <mat-checkbox color="primary" [formControl]="isPaidControl"> Платні </mat-checkbox>
+  <mat-checkbox color="primary" [formControl]="isFreeControl">
+    {{"FOR_FREE" | translate}}
+  </mat-checkbox>
+  <mat-checkbox color="primary" [formControl]="isPaidControl">
+    {{"PAID" | translate}}
+  </mat-checkbox>
 
-  <div class="input-wrapper" [ngClass]="{'input-wrapper-disable': !isPaidControl.value}" fxLayout="row"
-    fxLayoutAlign="start" fxLayoutGap="1rem">
+  <div class="wrapper" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="filter-text">Від</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [directiveFormControl]="minPriceControl" [formControl]="minPriceControl"
-          appMinMax>
+        <p class="filter-text">
+          {{"FROM" | translate}}
+        </p>
+        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="minPriceControl"
+          autocomplete="off" />
+        <mat-icon class="clear-price" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
-        <p class="filter-text">До</p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="4" [min]="constants.MIN_PRICE"
-          [max]="constants.MAX_PRICE" [directiveFormControl]="maxPriceControl" [formControl]="maxPriceControl"
-          appMinMax>
+        <p class="filter-text">
+          {{"TO" | translate}}
+        </p>
+        <input matInput class="price-input" type="text" appDigitOnly maxlength="6" [formControl]="maxPriceControl"
+          autocomplete="off" />
+        <mat-icon class="clear-price" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>
   </div>
-  <div class="filter-slider" [ngClass]="{'input-wrapper-disable': !isPaidControl.value}" fxLayout="column"
+  <div class="filter-slider" [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }" fxLayout="column"
     fxLayoutAlign="space-between" fxLayoutGap="1rem">
     <ngx-slider (userChange)="priceHandler($event)" [value]="minValue" [highValue]="maxValue" [options]="options">
     </ngx-slider>

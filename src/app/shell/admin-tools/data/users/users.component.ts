@@ -1,18 +1,28 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import {
+    debounceTime, distinctUntilChanged, filter, skip, startWith, takeUntil
+} from 'rxjs/operators';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { UserTabsUkr, UserTabsUkrReverse } from 'src/app/shared/enum/enumUA/tech-admin/users-tabs';
-import { NoResultsTitle } from 'src/app/shared/enum/no-results';
-import { Child, ChildCards } from 'src/app/shared/models/child.model';
-import { Parent } from 'src/app/shared/models/parent.model';
-import { UsersTable } from 'src/app/shared/models/usersTable';
-import { GetChildren } from 'src/app/shared/store/admin.actions';
-import { AdminState } from 'src/app/shared/store/admin.state';
-import { Util } from 'src/app/shared/utils/utils';
+
+import { PaginationConstants } from '../../../../shared/constants/constants';
+import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { EmailConfirmationStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
+import { UserTabsTitles } from '../../../../shared/enum/enumUA/user';
+import { UserTabParams } from '../../../../shared/enum/role';
+import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
+import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { SearchResponse } from '../../../../shared/models/search.model';
+import { UsersTable } from '../../../../shared/models/usersTable';
+import { GetChildrenForAdmin } from '../../../../shared/store/admin.actions';
+import { AdminState } from '../../../../shared/store/admin.state';
+import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
+import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-users',
@@ -20,73 +30,100 @@ import { Util } from 'src/app/shared/utils/utils';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  readonly userRoleUkr = UserTabsUkr;
+  readonly UserTabsTitles = UserTabsTitles;
   readonly noUsers = NoResultsTitle.noUsers;
+  readonly statusesTitles = EmailConfirmationStatusesTitles;
 
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
-  children$: Observable<ChildCards>;
+  children$: Observable<SearchResponse<Child[]>>;
 
-  filter = new FormControl('');
-  filterValue: string;
+  filterFormControl = new FormControl('');
   destroy$: Subject<boolean> = new Subject<boolean>();
   tabIndex: number;
-  allUsers: Parent[] | Child[] = [];
-  parents: Parent[] = [];
-  children: UsersTable[];
+  allUsers: UsersTable[] = [];
+  totalEntities: number;
+  displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status'];
+  currentPage: PaginationElement = PaginationConstants.firstPage;
+  childrenParams: ChildrenParameters = {
+    searchString: '',
+    isParent: null,
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
+  };
 
-  constructor(
-    public store: Store,
-    private router: Router,
-    private route: ActivatedRoute,
-  ) { }
+  constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.filter.valueChanges
-      .pipe(takeUntil(this.destroy$), debounceTime(200), distinctUntilChanged())
-      .subscribe((val: string) => this.filterValue = val);
+    this.getChildren();
 
-    this.children$.pipe(
-      takeUntil(this.destroy$),
-      filter((children: ChildCards) => !!children)
-    ).subscribe((children: ChildCards) => {
-      this.children = Util.updateStructureForTheTable(children.entities)
-      this.allUsers = this.children;
-    })
+    this.filterFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
+      .subscribe((searchString: string) => {
+        this.childrenParams.searchString = searchString;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getChildren();
+      });
 
-    // this.parents$.pipe(
-    //   takeUntil(this.destroy$),
-    //   filter((parents: Parent[]) => !!parents)
-    // ).subscribe((parents: Parent[]) => this.parents = Util.updateStructureForTheTable(parents))
-    // TODO: for the tab 'Батьки' will implement when backend will be ready
+    this.children$
+      .pipe(
+        takeUntil(this.destroy$),
+        filter((children: SearchResponse<Child[]>) => !!children)
+      )
+      .subscribe((children: SearchResponse<Child[]>) => {
+        this.allUsers = Util.updateStructureForTheTable(children.entities);
+        this.totalEntities = children.totalAmount;
+      });
 
-    // this.parents$.pipe(
-    //   takeUntil(this.destroy$),
-    //   filter((parents: Parent[]) => !!parents),
-    //   combineLatestWith(this.children$),
-    // ).subscribe(users => this.allUsers = Util.updateStructureForTheTable(users))
-    // this.store.dispatch(new GetParents());
-    // TODO: for the tab 'Усі' will implement when backend will be ready    
-
-    this.store.dispatch(new GetChildren());
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Users,
+        isActive: false,
+        disable: true
+      })
+    );
   }
-  
+
   /**
    * This method filter users according to selected tab
    * @param event: MatTabChangeEvent
    */
-   onTabChange(event: MatTabChangeEvent): void {
-    this.filter.reset();
-    this.router.navigate(
-      ['../', UserTabsUkrReverse[event.tab.textLabel]],
-      { relativeTo: this.route }
-    );
+  onTabChange(event: MatTabChangeEvent): void {
+    const tabIndex = event.index;
+    this.filterFormControl.reset('', { emitEvent: false });
+    this.childrenParams.searchString = '';
+    if (tabIndex !== UserTabParams.all) {
+      this.childrenParams.isParent = UserTabParams.child !== tabIndex;
+    } else {
+      this.childrenParams.isParent = null;
+    }
+
+    this.currentPage = PaginationConstants.firstPage;
+    this.getChildren();
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { role: UserTabParams[tabIndex] }
+    });
+  }
+
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.getChildren();
+  }
+
+  onTableItemsPerPageChange(itemsPerPage: number): void {
+    this.childrenParams.size = itemsPerPage;
+    this.getChildren();
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
+  }
+
+  private getChildren(): void {
+    Util.setFromPaginationParam(this.childrenParams, this.currentPage, this.totalEntities);
+    this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
   }
 }
-

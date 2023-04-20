@@ -1,0 +1,47 @@
+@import 'src/app/shared/styles/card-wrapper.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/pagination.scss';
+@import 'src/app/shared/styles/search.scss';
+
+.wrapper {
+  p {
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 13px;
+    line-height: 18px;
+  }
+}
+
+.link {
+  color: blue;
+  font-weight: 300 !important;
+}
+
+.support-title {
+  margin-bottom: 1rem;
+}
+
+.config-button {
+  font-weight: 300;
+  font-family: Open Sans;
+}
+
+.config-support p {
+  margin: 0;
+}
+
+.header-wrapper {
+  margin-bottom: 2rem;
+}
+
+.title {
+  margin-right: 1rem;
+}
+
+@media (max-width: 820px) {
+  .header-wrapper {
+    gap: 10px;
+  }
+}

@@ -1,8 +1,14 @@
 export interface UsersTable {
-  id: string,
-  pib: string,
-  email: string,
-  phoneNumber: string,
-  role: boolean,
-  status: string,
+  id: string;
+  pib: string;
+  email: string;
+  phoneNumber: string;
+  status: string;
+  isDeputy: boolean;
+  role?: string;
+}
+
+export interface BlockData {
+  user: UsersTable;
+  isBlocked: boolean;
 }

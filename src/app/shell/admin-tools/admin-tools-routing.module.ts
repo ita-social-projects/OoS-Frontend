@@ -1,21 +1,22 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { ProviderListComponent } from './data/provider-list/provider-list.component';
+import { DataComponent } from './data/data.component';
 import { PlatformComponent } from './platform/platform.component';
-import { UsersComponent } from './data/users/users.component';
 
 const routes: Routes = [
   {
-    path: 'platform/:index', component: PlatformComponent,
-    loadChildren: () => import('./platform/platform.module').then(m => m.PlatformModule),
+    path: 'platform',
+    component: PlatformComponent,
+    loadChildren: () => import('./platform/platform.module').then((m) => m.PlatformModule)
   },
   {
     path: 'data',
-    loadChildren: () => import('./data/data.module').then((m) => m.DataModule),
-  },
+    component: DataComponent,
+    loadChildren: () => import('./data/data.module').then((m) => m.DataModule)
+  }
 ];
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule],
+  exports: [RouterModule]
 })
 export class AdminToolsRoutingModule {}

@@ -9,12 +9,9 @@ describe('InfoComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        RouterTestingModule
-      ],
-      declarations: [ InfoComponent ]
-    })
-    .compileComponents();
+      imports: [RouterTestingModule],
+      declarations: [InfoComponent]
+    }).compileComponents();
   });
 
   beforeEach(() => {

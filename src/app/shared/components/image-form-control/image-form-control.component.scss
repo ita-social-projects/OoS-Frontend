@@ -1,4 +1,4 @@
-@import "src/app/shared/styles/create-form.scss";
+@import 'src/app/shared/styles/create-form.scss';
 
 .form-wrapper {
   width: 100%;
@@ -16,15 +16,15 @@
   font-weight: normal;
   font-size: 0.813rem;
   line-height: 1.125rem;
-  margin-bottom:0.3rem;
-  color: #AAAAAA;
+  margin-bottom: 0.3rem;
+  color: #aaaaaa;
 }
 .logo {
-  &_cancel{
+  &_cancel {
     position: absolute;
     cursor: pointer;
-    top:0;
-    right:0;
+    top: 0;
+    right: 0;
     z-index: 10;
     display: none;
   }
@@ -38,7 +38,7 @@
       width: 95px;
       height: 58px;
       background: rgba(56, 73, 249, 0.1);
-      border: 0.063rem dashed #3849F9;
+      border: 0.063rem dashed #3849f9;
       box-sizing: border-box;
       border-radius: 0.313rem;
       display: flex;
@@ -57,7 +57,7 @@
   &_images {
     width: 95px;
     height: 58px;
-    background: #FFFFFF;
+    background: #ffffff;
     img {
       object-fit: cover;
       width: 95px;
@@ -66,12 +66,12 @@
     }
   }
 }
-mat-grid-tile img:hover +.logo_cancel {
-  display:block;
+mat-grid-tile img:hover + .logo_cancel {
+  display: block;
 }
 .logo_cancel:hover {
-  display: block
+  display: block;
 }
-mat-icon:hover{
-  color:red;
+mat-icon:hover {
+  color: red;
 }

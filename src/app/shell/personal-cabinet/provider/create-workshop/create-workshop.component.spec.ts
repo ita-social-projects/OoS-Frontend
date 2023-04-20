@@ -6,10 +6,11 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Teacher } from 'src/app/shared/models/teacher.model';
-import { Address } from 'src/app/shared/models/address.model';
 import { FormArray, FormGroup } from '@angular/forms';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { Provider } from '../../../../shared/models/provider.model';
+import { Address } from '../../../../shared/models/address.model';
+import { Teacher } from '../../../../shared/models/teacher.model';
 
 describe('CreateWorkshopComponent', () => {
   let component: CreateWorkshopComponent;
@@ -17,22 +18,15 @@ describe('CreateWorkshopComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        MatStepperModule,
-        RouterTestingModule,
-        BrowserAnimationsModule,
-        NgxsModule.forRoot([]),
-        HttpClientTestingModule
-      ],
+      imports: [MatStepperModule, RouterTestingModule, BrowserAnimationsModule, NgxsModule.forRoot([]), HttpClientTestingModule],
       declarations: [
         CreateWorkshopComponent,
-        MockCreateAddressComponent,
+        MockCreateWorkshopAddressComponent,
         MockCreateTeacherComponent,
         MockCreateAboutFormComponent,
         MockCreateDescriptionFormComponent
       ]
-    })
-      .compileComponents();
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -57,7 +51,8 @@ describe('CreateWorkshopComponent', () => {
 })
 class MockCreateAboutFormComponent {
   @Input() workshop: Workshop;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
+  @Input() provider: Provider;
 }
 
 @Component({
@@ -66,14 +61,15 @@ class MockCreateAboutFormComponent {
 })
 class MockCreateDescriptionFormComponent {
   @Input() workshop: Workshop;
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
+  @Input() provider: Provider;
 }
 
 @Component({
-  selector: 'app-create-address',
+  selector: 'app-create-workshop-address',
   template: ''
 })
-class MockCreateAddressComponent {
+class MockCreateWorkshopAddressComponent {
   @Input() address: Address;
 }
 
@@ -83,5 +79,5 @@ class MockCreateAddressComponent {
 })
 class MockCreateTeacherComponent {
   @Input() teachers: Teacher[];
-  @Input() isRelease2: boolean;
+  @Input() isRelease3: boolean;
 }

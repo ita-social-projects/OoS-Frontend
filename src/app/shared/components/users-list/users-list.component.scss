@@ -1,27 +1,31 @@
-table {
-  width: 100%;
-  mat-icon {
-    color: #888;
-  }
-}
-.material-icons {
-  font-size: 16px;
-}
-.provider-admin-status {
+@import 'src/app/shared/styles/tables.scss';
+.statuses {
   font-family: 'Open Sans', sans-serif;
-  font-weight: 700;
+  font-weight: 600;
   font-size: 13px;
 }
-.Accepted {
-  color:#199953;
+.Accepted,
+.Confirmed {
+  color: #199953;
 }
-.NeverLogged {
-  color: #FFBD00;
+
+.NeverLogged,
+.Pending {
+  color: #ffbd00;
 }
 .Blocked {
-  color: #C72A21;
+  color: #c72a21;
 }
-.Cancel {
-  color:#3849F9;
-  font-weight: 500;
+
+.tab-text {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tab {
+  max-width: 50px;
+}
+
+:host ::ng-deep .mat-icon-button{
+  width: auto !important;
 }

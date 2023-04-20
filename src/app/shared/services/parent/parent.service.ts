@@ -4,7 +4,7 @@ import { Parent } from '../../models/parent.model';
 import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ParentService {
   constructor(private http: HttpClient) {}
@@ -13,13 +13,6 @@ export class ParentService {
    * This method get Parent by User id
    */
   getProfile(): Observable<Parent> {
-    return this.http.get<Parent>(`/api/v1/Parent/GetProfile`);
-  }
-
-  /**
-   * This method get Parents
-   */
-  getParents(): Observable<Parent[]> {
-    return this.http.get<Parent[]>(`/api/v1/Parent/Get`);
+    return this.http.get<Parent>('/api/v1/parents/profile');
   }
 }

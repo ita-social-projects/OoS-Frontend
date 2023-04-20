@@ -1,3 +1,4 @@
+import { Institution } from './../../models/institution.model';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -11,8 +12,8 @@ import { NgxsModule } from '@ngxs/store';
 import { Address } from '../../models/address.model';
 import { Provider } from '../../models/provider.model';
 import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
-
 import { ProviderInfoComponent } from './provider-info.component';
+import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderInfoComponent', () => {
   let component: ProviderInfoComponent;
@@ -30,8 +31,9 @@ describe('ProviderInfoComponent', () => {
         HttpClientTestingModule,
         MatTabsModule,
         BrowserAnimationsModule,
+        TranslateModule.forRoot(),
       ],
-      declarations: [ProviderInfoComponent, PhoneTransformPipe],
+      declarations: [ProviderInfoComponent, PhoneTransformPipe]
     }).compileComponents();
   });
 
@@ -39,8 +41,14 @@ describe('ProviderInfoComponent', () => {
     fixture = TestBed.createComponent(ProviderInfoComponent);
     component = fixture.componentInstance;
     component.provider = {} as Provider;
-    component.provider.actualAddress = {} as Address;
-    component.provider.legalAddress = {} as Address;
+    component.provider.actualAddress = {
+      codeficatorAddressDto: {}
+    } as Address;
+    component.provider.legalAddress = {
+      codeficatorAddressDto: {}
+    } as Address;
+    component.provider.institution = {} as Institution;
+
     fixture.detectChanges();
   });
 

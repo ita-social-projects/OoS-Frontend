@@ -1,0 +1,61 @@
+@import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/list-wrappers.scss';
+@import 'src/app/shared/styles/search.scss';
+
+.users-wrapper {
+  position: relative;
+}
+
+.tab-wrapper {
+  margin-bottom: 4rem;
+}
+
+.table-wrapper {
+  padding: 0 1rem;
+}
+
+.search {
+  padding-left: 10px;
+}
+
+.search-area {
+  position: static;
+  display: flex;
+}
+
+.filters-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 20px;
+}
+
+@media (max-width: 1200px) {
+  .search-area {
+    position: static;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+  }
+  .filters-wrapper {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 1070px) {
+  .tab-wrapper {
+    bottom: 0;
+  }
+
+  .search-area {
+    display: flex;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 1000px) {
+  .filters-wrapper {
+    flex-direction: column;
+  }
+}

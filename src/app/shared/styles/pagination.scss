@@ -2,7 +2,7 @@
   margin-bottom: 62px;
 }
 pagination-controls {
-  font-family: "Innerspace";
+  font-family: 'Innerspace';
   font-weight: bold;
   display: flex;
   align-items: center;
@@ -10,7 +10,7 @@ pagination-controls {
     color: #444444;
   }
   li.current {
-    color: #3849F9;
+    color: #3849f9;
     background-color: inherit;
   }
 }
@@ -30,21 +30,21 @@ pagination-controls {
 }
 .pagination ::ng-deep .ngx-pagination .current {
   background: inherit;
-  color: #3849F9;
+  color: #3849f9;
   line-height: 19px;
 }
 
 .pagination ::ng-deep .ngx-pagination .pagination-next a::after {
-  color: #3849F9;
-  font-family: "Material Icons";
-  content: "arrow_forward";
+  color: #3849f9;
+  font-family: 'Material Icons';
+  content: 'arrow_forward';
   font-size: 13px;
   line-height: 24px;
 }
 .pagination ::ng-deep .ngx-pagination .pagination-previous a::before {
-  color: #3849F9;
-  font-family: "Material Icons";
-  content: "arrow_backward";
+  color: #3849f9;
+  font-family: 'Material Icons';
+  content: 'arrow_backward';
   width: 16px;
   font-size: 13px;
   line-height: 24px;

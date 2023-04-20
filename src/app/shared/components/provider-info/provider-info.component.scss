@@ -1,13 +1,15 @@
-@import "src/app/shared/styles/navigation-tabs.scss";
-$basen-blue-color: #3849F9;
-.wrapper{
-  background: #FFFFFF;
+@import 'src/app/shared/styles/navigation-tabs.scss';
+@import 'src/app/shared/styles/info-hint.scss';
+@import 'src/app/shared/styles/buttons.scss';
+
+$basen-blue-color: #3849f9;
+.wrapper {
+  background: #ffffff;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px;
   padding: 2rem;
   margin-bottom: 2rem;
-  margin-left: 1rem;
-   p{
+  p {
     font-family: Open Sans;
     font-style: normal;
     font-weight: normal;
@@ -15,25 +17,28 @@ $basen-blue-color: #3849F9;
     line-height: 18px;
   }
 }
-.edit-icon{
+.edit-icon {
   position: relative;
   color: $basen-blue-color;
 }
-.legal-address-wrapper{
-  border-bottom: 2px solid #E3E3E3;
+.legal-address-wrapper {
+  border-bottom: 2px solid #e3e3e3;
   margin-bottom: 1rem;
 }
-.description{
+.description {
   max-width: 35rem;
 }
-h3{
+h3 {
   padding-bottom: 1rem;
 }
-@media(max-width: 750px) {
-  .wrapper{
+
+@media (max-width: 750px) {
+  .wrapper {
     width: 100%;
     padding: 1rem 0;
-    p, h5, h3{
+    p,
+    h5,
+    h3 {
       padding: 0 1rem;
     }
   }
@@ -42,4 +47,25 @@ h3{
 .close-icon {
   color: #ccc;
   cursor: pointer;
+  &:hover {
+    opacity: 0.5;
+    color: #3849f9;
+  }
+}
+
+.section-title {
+  font-weight: 400;
+  margin-top: 1rem;
+}
+
+.license-status {
+  .Approved {
+    color: #199953;
+  }
+  .Pending {
+    color: #ffbd00;
+  }
+  .NotProvided {
+    color: #888888;
+  }
 }

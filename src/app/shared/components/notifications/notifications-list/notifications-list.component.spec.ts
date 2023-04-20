@@ -2,8 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { DeclinationPipe } from 'src/app/shared/pipes/declination.pipe';
-
+import { TranslateCasesPipe } from '../../../pipes/translate-cases.pipe';
 import { NotificationsListComponent } from './notifications-list.component';
 
 describe('NotificationsListComponent', () => {
@@ -12,16 +11,9 @@ describe('NotificationsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        RouterTestingModule,
-      ],
-      declarations: [
-        NotificationsListComponent,
-        DeclinationPipe]
-    })
-      .compileComponents();
+      imports: [NgxsModule.forRoot([]), MatIconModule, RouterTestingModule],
+      declarations: [NotificationsListComponent, TranslateCasesPipe]
+    }).compileComponents();
   });
 
   beforeEach(() => {

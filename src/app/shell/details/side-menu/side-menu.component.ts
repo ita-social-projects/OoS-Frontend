@@ -1,36 +1,45 @@
-import { Workshop } from 'src/app/shared/models/workshop.model';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { Role } from 'src/app/shared/enum/role';
-import { Select } from '@ngxs/store';
-import { AppState } from 'src/app/shared/store/app.state';
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Component, Input, OnInit } from '@angular/core';
+import { Role } from '../../../shared/enum/role';
+import { Address } from '../../../shared/models/address.model';
+import { Provider } from '../../../shared/models/provider.model';
+import { Workshop } from '../../../shared/models/workshop.model';
 
 @Component({
   selector: 'app-side-menu',
-  templateUrl: './side-menu.component.html',
-  styleUrls: ['./side-menu.component.scss']
+  templateUrl: './side-menu.component.html'
 })
-export class SideMenuComponent implements OnInit, OnDestroy {
-
-  @Select(AppState.isMobileScreen) isMobileScreen$: Observable<boolean>;
-  isMobileScreen:boolean;
-
+export class SideMenuComponent implements OnInit {
   readonly Role: typeof Role = Role;
-  @Input() role: string;
+
+  @Input() provider: Provider;
   @Input() workshop: Workshop;
+  @Input() role: string;
+  @Input() isMobileScreen: boolean;
+  @Input() displayActionCard: boolean;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  address: Address;
+  contactsData: {
+    phone: string;
+    email: string;
+    facebook: string;
+    instagram: string;
+    website: string;
+  };
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit(): void {
-    this.isMobileScreen$.pipe(
-      takeUntil(this.destroy$)
-      ).subscribe((isMobileScreen: boolean) => this.isMobileScreen = isMobileScreen)
+    this.getContactsData();
   }
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
+
+  private getContactsData(): void {
+    this.contactsData = {
+      phone: this.workshop?.phone || this.provider.phoneNumber,
+      email: this.workshop?.email || this.provider.email,
+      facebook: this.workshop?.facebook || this.provider.facebook,
+      instagram: this.workshop?.instagram || this.provider.instagram,
+      website: this.workshop?.website || this.provider.website
+    };
+    this.address = { ...(this.workshop?.address || this.provider?.actualAddress || this.provider.legalAddress) };
   }
 }

@@ -1,21 +1,18 @@
-.wrapper{
-  width: 70%;
-}
 .wrapper-full-width {
   width: 100%;
 }
 .search-bar {
-background: #FFFFFF;
-border: 1px solid #FFFFFF;
-box-sizing: border-box;
-border-radius: 60px;
-margin: 1rem 0;
-box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 60px;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  margin: 1rem 0.5rem;
 }
-.list-wrapper{
+.list-wrapper {
   max-height: 200px;
   overflow: auto;
-  position:relative;
+  position: relative;
 }
 .list {
   list-style-type: none;
@@ -25,11 +22,11 @@ box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   margin-bottom: 0;
 }
 
-.filter-text{
-font-family: Innerspace;
-font-weight: 700;
-line-height: 14.6px;
-color:#444444;
+.filter-text {
+  font-family: Innerspace;
+  font-weight: 700;
+  line-height: 14.6px;
+  color: #444444;
 }
 button {
   border: none;
@@ -46,7 +43,7 @@ button {
   padding: 0;
 }
 :host ::ng-deep .mat-checkbox-label {
-  font-family: "Open Sans", sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-weight: 400;
   font-size: 13px;
   line-height: 17.7px;
