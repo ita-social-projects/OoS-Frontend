@@ -23,6 +23,41 @@
           <input matInput class="step-input" [formControlName]="field"  type="text"  autocomplete="none" appTrimValue />
         </mat-form-field>
       </ng-container>
+      <ng-container>
+        <!-- <mat-form-field appearance="fill">
+          <label class="step-label">{{ userDirectionsLabel }}</label>
+          <mat-select [formControlName]="" multiple>
+            <mat-option *ngFor="let direction of (directions$ | async)">
+              {{ direction.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field> -->
+        <mat-form-field appearance="none">
+          <label class="step-label">{{ userDirectionsLabel }}</label>
+          <mat-select
+            #select
+            multiple
+            disableOptionCentering
+            panelClass="dropdown-panel"
+            class="step-input"
+            [compareWith]="compareDirections"
+            [formControl]="this.directionsControl">
+            
+            <mat-select-trigger>
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let direction of this.directionsControl.value" (removed)="onRemoveItem(direction)">
+                  <img class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
+                  <span>{{ direction.title }}</span>
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-select-trigger>
+            <mat-option class="dropdown-option" *ngFor="let direction of (directions$ | async)" [value]="direction" >
+              {{ direction.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
     </form>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">

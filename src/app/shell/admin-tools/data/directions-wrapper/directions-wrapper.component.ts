@@ -6,7 +6,6 @@ import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.act
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
 import { Institution } from '../../../../shared/models/institution.model';
 import { GetAllInstitutions } from '../../../../shared/store/meta-data.actions';
-import { OnInstitutionTabSelection } from '../../../../shared/store/admin.actions';
 
 @Component({
   selector: 'app-directions-wrapper',
@@ -33,8 +32,4 @@ export class DirectionsWrapperComponent implements OnInit, OnDestroy {
     this.store.dispatch(new PopNavPath());
   }
 
-  onTabChange(tabIndex) {
-    alert(tabIndex);
-    this.store.dispatch(new OnInstitutionTabSelection(tabIndex));
-  }
 }
