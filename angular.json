@@ -79,7 +79,7 @@
                 }
               ]
             },
-            "test": {
+            "qa": {
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
