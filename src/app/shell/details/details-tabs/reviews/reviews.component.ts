@@ -88,7 +88,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.isReviewed$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isReviewed = status));
   }
 
-  onRate(): void {
+  public onRate(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -110,7 +110,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     });
   }
 
-  onDelete(rate: Rate): void {
+  public onDelete(rate: Rate): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -124,12 +124,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     });
   }
 
-  itemsPerPageChange(itemsPerPage: number): void {
+  public itemsPerPageChange(itemsPerPage: number): void {
     this.rateParameters.size = itemsPerPage;
     this.getRates();
   }
 
-  pageChange(page: PaginationElement): void {
+  public pageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getRates();
   }

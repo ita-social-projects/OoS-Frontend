@@ -12,7 +12,7 @@ export class RateComponent {
 
   constructor() {}
 
-  onDelete(): void {
+  public onDelete(): void {
     this.deleteRate.emit(this.rate);
   }
 }
