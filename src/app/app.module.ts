@@ -4,7 +4,6 @@ import localeUk from '@angular/common/locales/uk';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { DateAdapter } from '@angular/material/core';
 import { MAT_SELECT_CONFIG } from '@angular/material/select';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';

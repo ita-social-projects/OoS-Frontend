@@ -41,41 +41,42 @@ export class ChildrenService {
    * This method get children by Parent Child id
    * @param id: number
    */
-  getUsersChildren(params: ChildrenParameters): Observable<SearchResponse<Child[]>> {
+  public getUsersChildren(params: ChildrenParameters): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams(params) };
 
-    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/children/my', options);
   }
 
-  getUsersChildrenByParentId(params: RequestParams): Observable<TruncatedItem[]> {
-    return this.http.get<TruncatedItem[]>(`/api/v1/Child/GetChildrenListByParentId/${params.id}/${params.isParent}`);
+  public getUsersChildrenByParentId(requestParams: RequestParams): Observable<TruncatedItem[]> {
+    const params = new HttpParams().set('isParent', `${requestParams.isParent}`);
+    return this.http.get<TruncatedItem[]>(`/api/v1/parents/${requestParams.id}/children`, { params });
   }
 
   /**
    * This method get children by Parent Child id
    * @param id: number
    */
-  getAllUsersChildren(): Observable<SearchResponse<Child[]>> {
+  public getAllUsersChildren(): Observable<SearchResponse<Child[]>> {
     let params = new HttpParams().set('Size', '0').set('From', '0');
 
-    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetUsersChildren', { params });
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/children/my', { params });
   }
 
   /**
    * This method get children for Admin
    */
-  getChildrenForAdmin(paremeters: ChildrenParameters): Observable<SearchResponse<Child[]>> {
+  public getChildrenForAdmin(paremeters: ChildrenParameters): Observable<SearchResponse<Child[]>> {
     const options = { params: this.setParams(paremeters) };
 
-    return this.http.get<SearchResponse<Child[]>>('/api/v1/Child/GetAllForAdmin', options);
+    return this.http.get<SearchResponse<Child[]>>('/api/v1/children', options);
   }
 
   /**
    * This method create single Child
    * @param child: Child
    */
-  createChild(child: Child): Observable<Child> {
-    return this.http.post<Child>('/api/v1/Child/Create', child);
+  public createChild(child: Child): Observable<Child> {
+    return this.http.post<Child>('/api/v1/children', child);
   }
 
   /**
@@ -83,37 +84,37 @@ export class ChildrenService {
    * @param children: Child[]
    */
   public createChildren(children: Child[]): Observable<Child[]> {
-    return this.http.post<Child[]>('/api/v1/Child/CreateChildren', children);
+    return this.http.post<Child[]>('/api/v1/children/batch', children);
   }
 
   /**
    * This method update Child
    * @param child: Child
    */
-  updateChild(child: Child): Observable<Child> {
-    return this.http.put<Child>('/api/v1/Child/Update', child);
+  public updateChild(child: Child): Observable<Child> {
+    return this.http.put<Child>(`/api/v1/children/${child.id}`, child);
   }
 
   /**
    * This method get Users Child By Id
    * @param id: string
    */
-  getUsersChildById(id: string): Observable<Child> {
-    return this.http.get<Child>(`/api/v1/Child/GetUsersChildById/${id}`);
+  public getUsersChildById(id: string): Observable<Child> {
+    return this.http.get<Child>(`/api/v1/children/my/${id}`);
   }
 
   /**
    * This method delete child by Child id
    * @param id: string
    */
-  deleteChild(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/v1/Child/Delete/${id}`);
+  public deleteChild(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/children/${id}`);
   }
 
   /**
    * This method get all social groups
    */
-  getSocialGroup(): Observable<DataItem[]> {
+  public getSocialGroup(): Observable<DataItem[]> {
     return this.http.get<DataItem[]>('/api/v1/SocialGroup/Get');
   }
 }

@@ -5,7 +5,7 @@
   "ADDED_TO_FAVORITES": "Додано в улюблені",
   "ALL": "Всі",
   "PARENTS": "Батьки",
-  "CHILDREN":"Діти",
+  "CHILDREN": "Діти",
   "ALL_CHILDREN": "Всі діти",
   "ALL_WORKSHOPS": "Всі гуртки",
   "APPLICATIONS": "Заяви",
@@ -121,10 +121,10 @@
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані"
     },
-    "INSTITUTION_TYPE":{
-      "COMPLEX" : "Комплексний",
-      "PROFILE" : "Профільний",
-      "SPECIALIZED" : "Спеціалізований",
+    "INSTITUTION_TYPE": {
+      "COMPLEX": "Комплексний",
+      "PROFILE": "Профільний",
+      "SPECIALIZED": "Спеціалізований",
       "OTHER": "Інше"
     },
     "OWNERSHIP_TYPE": {
@@ -196,7 +196,7 @@
       "HOURS": "години",
       "HOURS_ABLATIVE": "годин"
     },
-    "APPLICATION_STATUSES":{
+    "APPLICATION_STATUSES": {
       "ALL": "Усі",
       "PENDING": "Очікує підтвердження",
       "APPROVED": "Зараховано",
@@ -207,7 +207,7 @@
       "COMPLETED": "Завершено",
       "BLOCKED": "Заблоковано"
     },
-    "APPLICATION_DESCRIPTION":{
+    "APPLICATION_DESCRIPTION": {
       "PENDING": "Нова створена заява, яка очікує підтвердження від надавача послуг",
       "APPROVED": "Заява підтверджена/користувача зараховано до гуртка/секції/школи",
       "REJECTED": "Користувачеві відмовлено у зарахуванні з причиною",
@@ -217,16 +217,16 @@
       "COMPLETED": "Користувач завершив навчання",
       "BLOCKED": "Користувач порушили Правила користування платформою"
     },
-    "USER_STATUSES":{
+    "USER_STATUSES": {
       "NEVER_LOGGED": "Очікує логування",
       "ACCEPTED": "Підтверджений",
       "BLOCKED": "Заблокований"
     },
-    "EMAIL_CONFIRMATION_STATUSES" : {
+    "EMAIL_CONFIRMATION_STATUSES": {
       "PENDING": "Очікує підтвердження ел. пошти",
       "CONFIRMED": "Ел. пошта підтверджена"
     },
-    "PROVIDER_STATUSES":{
+    "PROVIDER_STATUSES": {
       "APPROVED": "Заклад підтверджено",
       "PENDING": "Очікує підтвердження",
       "EDITING": "Потребує редагування",
@@ -236,28 +236,28 @@
       "APPROVED": "Ваш заклад підтверджено адміністратором. Тепер ваш заклад буде видно іншим користувачам платформи і ви зможете редагувати інформацію про заклад.",
       "PENDING": "Ваш заклад очікує підтвердження адміністратором."
     },
-    "LICENSE_STATUSES":{
+    "LICENSE_STATUSES": {
       "APPROVED": "Ліцензію підтверджено",
       "PENDING": "Очікує підтвердження ліцензії",
       "NOT_PROVIDED": "Ліцензію не надано"
     },
-    "PROVIDER_ADMINS" : {
+    "PROVIDER_ADMINS": {
       "PROVIDER_DEPUTY": "Заступник директора",
       "PROVIDER_ADMIN": "Адміністратор гуртка",
       "ALL": "Усі"
     },
     "ADMISTRATORS": {
-      "MINISTRY_ADMIN" : "Адміністратор міністерства",
-      "REGION_ADMIN" : "Адміністратор області",
-      "TERRITORIAL_ADMIN" : "Адміністратор ОТГ"
+      "MINISTRY_ADMIN": "Адміністратор міністерства",
+      "REGION_ADMIN": "Адміністратор області",
+      "TERRITORIAL_ADMIN": "Адміністратор ОТГ"
     },
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",
       "PROVIDER_ADMIN_GENETIVE": "Адміністратора гуртка"
     },
     "HISTORY_LOG": {
-      "PROVIDERS" : "Заклади",
-      "ADMINS":"Адміністратори",
+      "PROVIDERS": "Заклади",
+      "ADMINS": "Адміністратори",
       "APPLICATIONS": "Заявки"
     }
   },
@@ -290,11 +290,11 @@
       "NEW_PROVIDER_SUBHEADER": "Додайте свій заклад всього у 3 кроки",
       "LEGAL_ADDRESS": "Юридична адреса",
       "ACTUAL_ADDRESS": "Фактична адреса",
-      "EDIT" : "РЕДАГУВАННЯ",
-      "EDIT_INFO" : "Редагування інформації",
-      "SUBHEADER_TITLE" : "Заголовок",
+      "EDIT": "РЕДАГУВАННЯ",
+      "EDIT_INFO": "Редагування інформації",
+      "SUBHEADER_TITLE": "Заголовок",
       "PROVIDER_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему.",
-      "ADD_ACHIEVEMENT":"ДОДАТИ ДОСЯГНЕННЯ",
+      "ADD_ACHIEVEMENT": "ДОДАТИ ДОСЯГНЕННЯ",
       "ADD_ADMINS_SUBHEADER": "Дані для входу будуть надіслані на електронну пошту користувача для логування в систему. Пароль є тимчасовим і повинен бути заміненим при першому вході"
     },
     "LABELS": {
@@ -330,7 +330,7 @@
       "PARENTS": "Батьки",
       "OWNERSHIP": "Форма власності",
       "LICENSE": "Ліцензія",
-      "INSTITUTION_CATEGORY":" Категорія закладу",
+      "INSTITUTION_CATEGORY": " Категорія закладу",
       "ORGANIZATION_TYPE": "Тип організації",
       "ORGANIZATION_STATUS": "Статус організації",
       "FULL_ORGANIZATION_NAME": "Повна назва організації",
@@ -354,7 +354,8 @@
       "TEACHERS": "Тренер/Викладач",
       "DATE": "Дата",
       "ACHIEVEMENT_DESCRIPTION": "Опис досягнення",
-      "RADIUS": "Радіус (км)"
+      "RADIUS": "Радіус (км)",
+      "REGION": "Область"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -371,8 +372,10 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, емейлом, містом, типом чи зміною",
+      "ENTER_DATE_RANGE": "Введіть діапазон дат",
       "ALL_FILTERS": "Усі фільтри",
-      "SELECT_SUBORDINATION" : "Оберіть підпорядкування",
+      "SELECT_SUBORDINATION": "Оберіть підпорядкування",
+      "SELECT_REGION": "Оберіть область",
       "SELECT_TEACHER": "Обрати тренера/викладача",
       "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
       "SELECT_OWNERSHIP": "Оберіть форму власності",
@@ -420,7 +423,7 @@
   "RATE": "ЗАЛИШИТИ ОЦІНКУ",
   "RECRUITMENT": "Набір",
   "SEARCH_BY_DIRECTIONS": "Пошук за напрямком",
-  "SELECTED" : "вибрано",
+  "SELECTED": "вибрано",
   "SELECT_AGE": "Обрати вік",
   "SEND_A_MESSAGE": "Надіслати повідомлення",
   "SHOW_ON_THE_MAP": "Показати на карті",
@@ -442,9 +445,10 @@
   "TO": "До",
   "TOP_DIRECTIONS": "Найпопулярніші напрямки",
   "TOP_WORKSHOPS": "Найпопулярніші гуртки",
+  "TRIAL_MESSAGE": "Режим дослідної експлуатації",
   "ALL_DIRECTIONS": "Усі напрямки",
   "TOTAL_PARTICIPANTS": "Всього учасників",
-  "TYPE_OF_ORGANIZATION" : "Тип організації",
+  "TYPE_OF_ORGANIZATION": "Тип організації",
   "UAH": "грн",
   "UNLIMITED": "Без обмежень",
   "VIEW_ALL": "Переглянути всі",
@@ -470,7 +474,7 @@
     "ADD_WORKSHOP": "Додати гурток",
     "APPROVE_APPLICATION": "Прийняти",
     "LEAVE_WORKSHOP": "Залишити гурток",
-    "REJECT" : "Відмовити",
+    "REJECT": "Відмовити",
     "BLOCK_USER": "Заблокувати користувача",
     "UNBLOCK_USER": "Розблокувати користувача",
     "SEND_INVITATION": "Надіслати запрошення",
@@ -541,9 +545,10 @@
   "HISTORY_LOG": {
     "WAS": "Було",
     "BECAME": "Стало",
-    "SHOW" : "Показати",
+    "SHOW": "Показати",
     "RESET_FILTERS": "Скинути фільтри",
     "PERIOD": "Період",
+    "ADD_ADMIN_OPTION": "Додавання адміністратора до гуртка",
     "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
     "STATUS_CHANGE_TYPE": "Зміна статусів заявок"
   },
@@ -552,7 +557,7 @@
     "FORMAT": "Формат",
     "GENERATE_REPORT": "Згенерувати звіти",
     "NO_DATA": "У вас ще немає згенерованих звітів.",
-    "NO_DATA_SUBHEADER":"Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут",
+    "NO_DATA_SUBHEADER": "Задайте критерії і натисніть кнопку “Згенерувати звіти”, щоб побачити їх тут",
     "TITLE": "Назва",
     "PERIOD": "Період",
     "CREATE_DATE": "Дата створення",
@@ -592,12 +597,12 @@
     }
   },
   "SERVICE_MESSAGES": {
-    "NO_INFO" : "не вказано",
+    "NO_INFO": "не вказано",
     "UNREGISTERED_FAVORITE": "Щоб додати гурток в улюблені, зареєструйтеся на порталі. Дякуємо",
     "UNREGISTERED_APPLICATION": "Щоб подати заявку на гурток, зареєструйтеся на порталі. Дякуємо",
     "UNREGISTERED_MESSAGE": "Щоб надіслати повідомлення, зареєструйтеся на порталі. Дякуємо",
     "MESSAGE_STATUS": {
-      "LEFT":"Гурток успішно залишено",
+      "LEFT": "Гурток успішно залишено",
       "APPROVED": "Статус заявки успішно змінено",
       "REJECTED": "Заявку успішно відхилено"
     },
@@ -695,7 +700,7 @@
       "DELETE_ADMIN": "Ви впевнені, що хочете видалити адміністратора?",
       "BLOCK_ADMIN": "Ви впевнені, що хочете заблокувати адміністратора?",
       "UNBLOCK_ADMIN": "Ви впевнені, що хочете розблокувати адміністратора?",
-      "CREATE_ADMIN": "Ви впевнені, що хочете додати адміна міністерства?",
+      "CREATE_ADMIN": "Ви впевнені, що хочете додати адміністратора?",
       "UPDATE_ADMIN": "Ви впевнені, що хочете редагувати адміністратора?",
       "LICENSE_APPROVED": "Ви впевнені, що хочете підтвердити ліцензію закладу?",
       "TITLES": {
