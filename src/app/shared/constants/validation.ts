@@ -1,4 +1,5 @@
 import { ValidatorFn, Validators } from '@angular/forms';
+
 import { NO_LATIN_REGEX } from './regex-constants';
 
 export class ValidationConstants {
@@ -21,6 +22,7 @@ export class ValidationConstants {
 
   // Input Length
   static readonly INPUT_LENGTH_256 = 256;
+  static readonly INPUT_LENGTH_100 = 100;
   static readonly INPUT_LENGTH_60 = 60;
   static readonly INPUT_LENGTH_30 = 30;
   static readonly INPUT_LENGTH_10 = 10;
