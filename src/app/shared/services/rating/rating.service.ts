@@ -38,6 +38,14 @@ export class RatingService {
   }
 
   /**
+   * This method delete Rate by Id
+   * @param rate: Rate
+   */
+  deleteRate(id: number): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Rating/Delete/${id}`);
+  }
+
+  /**
    * This method Check if the workshop is reviewed by parent.
    * @param parentId string
    * @param workshopId string

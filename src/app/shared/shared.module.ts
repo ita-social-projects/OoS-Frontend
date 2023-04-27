@@ -58,6 +58,7 @@ import { LoginComponent } from './components/login/login.component';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
+import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { ErrorPageComponent } from './components/error-page/error-page.component';
 import { JoinPipe } from './pipes/join.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
@@ -128,6 +129,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     ErrorPageComponent,
     AchievementCardComponent,
     StarsComponent,
+    RateComponent,
     JoinPipe,
     GetFullNamePipe,
     TextSliceTransformPipe,
@@ -206,6 +208,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     InfoFormComponent,
     AchievementCardComponent,
     StarsComponent,
+    RateComponent,
     JoinPipe,
     GetFullNamePipe,
     TextSliceTransformPipe,
