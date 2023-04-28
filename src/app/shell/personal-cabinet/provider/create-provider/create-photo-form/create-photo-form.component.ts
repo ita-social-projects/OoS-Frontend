@@ -1,14 +1,19 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators
+} from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { CropperConfigurationConstants, Constants } from '../../../../../shared/constants/constants';
+
+import {
+  Constants, CropperConfigurationConstants
+} from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-create-photo-form',
   templateUrl: './create-photo-form.component.html',
-  styleUrls: ['./create-photo-form.component.scss'],
+  styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
@@ -21,7 +26,7 @@ export class CreatePhotoFormComponent implements OnInit {
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   @Input() provider: Provider;
@@ -44,13 +49,13 @@ export class CreatePhotoFormComponent implements OnInit {
       providerSectionItems: this.SectionItemsFormArray,
       website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)])
     });
   }
 
   ngOnInit(): void {
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-    if(this.provider) {
+    if (this.provider) {
       this.activateEditMode();
     } else {
       this.onAddForm();
@@ -77,12 +82,16 @@ export class CreatePhotoFormComponent implements OnInit {
    */
   private newForm(item?: ProviderSectionItem): FormGroup {
     this.editFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [Validators.required]),
+      sectionName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
+      ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ])
     });
 
     if (this.provider) {
