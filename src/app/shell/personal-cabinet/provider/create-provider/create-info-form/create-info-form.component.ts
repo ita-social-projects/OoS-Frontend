@@ -22,11 +22,11 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit {
-  readonly validationConstants = ValidationConstants;
-  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly validationConstants = ValidationConstants;
+  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
-  readonly cropperConfig = {
+  public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
@@ -37,37 +37,37 @@ export class CreateInfoFormComponent implements OnInit {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  readonly ownershipTypes = OwnershipTypes;
-  readonly selectableOwnerShipTypes = SelectableOwnershipTypes; //TODO: temporary removed for 1st release
-  readonly ownershipTypesEnum = OwnershipTypesEnum;
-  readonly institutionTypes = InstitutionTypes;
-  readonly institutionTypesEnum = InstitutionTypesEnum;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; //TODO: temporary removed for 1st release
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypes = InstitutionTypes;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+  public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.providerTypes)
-  providerTypes$: Observable<Institution[]>;
+  public providerTypes$: Observable<Institution[]>;
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<DataItem[]>;
-  institutionStatuses: DataItem[];
+  public institutionStatuses$: Observable<DataItem[]>;
 
-  @Input() provider: Provider;
-  @Input() isRelease3: boolean;
+  @Input() public provider: Provider;
+  @Input() public isRelease3: boolean;
 
-  @Output() passInfoFormGroup = new EventEmitter();
+  @Output() public passInfoFormGroup = new EventEmitter();
 
-  InfoFormGroup: FormGroup;
-  dateFilter: RegExp = DATE_REGEX;
-  maxDate: Date = Util.getMaxBirthDate();
-  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
-  isEditMode = false;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  get EdrpouIpnLabel(): string {
+  public InfoFormGroup: FormGroup;
+  public dateFilter: RegExp = DATE_REGEX;
+  public maxDate: Date = Util.getMaxBirthDate();
+  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  public isEditMode = false;
+
+  public get EdrpouIpnLabel(): string {
     return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
   }
 
-  get ownershipTypeControl(): AbstractControl {
+  public get ownershipTypeControl(): AbstractControl {
     return this.InfoFormGroup.get('ownership');
   }
 
@@ -115,14 +115,19 @@ export class CreateInfoFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
     this.initData();
     this.passInfoFormGroup.emit(this.InfoFormGroup);
   }
 
-  compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
     return institution1.id === institution2.id;
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   /**
@@ -135,17 +140,11 @@ export class CreateInfoFormComponent implements OnInit {
 
   private initData(): void {
     this.institutionStatuses$.pipe(filter(Boolean), first(), takeUntil(this.destroy$)).subscribe((institutionStatuses: DataItem[]) => {
-      this.institutionStatuses = institutionStatuses;
       if (this.provider) {
         this.activateEditMode();
       } else {
         this.InfoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
       }
     });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
