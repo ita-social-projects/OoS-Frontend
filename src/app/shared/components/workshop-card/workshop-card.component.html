@@ -1,5 +1,5 @@
 <mat-card *ngIf="workshopData">
-  <ng-container *ngIf="!isCabinetView; then UserActions; else ProviderActions"> </ng-container>
+  <ng-container *ngIf="role === Role.parent; then UserActions; else ProviderActions"> </ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
@@ -77,7 +77,7 @@
 </ng-template>
 
 <ng-template #ProviderActions>
-  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="isCabinetView" fxLayout="row" fxLayoutAlign="end start" class="actions">
     <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshopData.workshopId]">
       <mat-icon>edit</mat-icon>
     </div>
@@ -88,7 +88,7 @@
 </ng-template>
 
 <ng-template #UserActions>
-  <div *ngIf="!isHorizontalView && role !== Role.provider" fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
     <ng-container *ngIf="isFavorite; then favorite; else notFavorite"></ng-container>
   </div>
 </ng-template>
