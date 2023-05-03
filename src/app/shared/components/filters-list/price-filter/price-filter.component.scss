@@ -9,6 +9,12 @@
   margin-top: 13px;
 }
 
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
 ::ng-deep .filter {
   &-text {
     font-family: Innerspace;
