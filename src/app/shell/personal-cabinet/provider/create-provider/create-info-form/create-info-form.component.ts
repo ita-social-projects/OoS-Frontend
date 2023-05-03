@@ -1,7 +1,9 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl, FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
 import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
+
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
+
 import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { DATE_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
@@ -10,18 +12,14 @@ import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from '../.
 import { Institution } from '../../../../../shared/models/institution.model';
 import { DataItem } from '../../../../../shared/models/item.model';
 import { Provider } from '../../../../../shared/models/provider.model';
-import {
-  GetAllInstitutions,
-  GetInstitutionStatuses,
-  GetProviderTypes,
-} from '../../../../../shared/store/meta-data.actions';
+import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Util } from '../../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-create-info-form',
   templateUrl: './create-info-form.component.html',
-  styleUrls: ['./create-info-form.component.scss'],
+  styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit {
   readonly validationConstants = ValidationConstants;
@@ -36,7 +34,7 @@ export class CreateInfoFormComponent implements OnInit {
     cropperAspectRatio: CropperConfigurationConstants.coverImageCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedCoverImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
   readonly ownershipTypes = OwnershipTypes;
@@ -62,12 +60,11 @@ export class CreateInfoFormComponent implements OnInit {
   dateFilter: RegExp = DATE_REGEX;
   maxDate: Date = Util.getMaxBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  isEditMode = false;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   get EdrpouIpnLabel(): string {
-    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State
-      ? 'FORMS.LABELS.EDRPO'
-      : 'FORMS.LABELS.IPN';
+    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
   }
 
   get ownershipTypeControl(): AbstractControl {
@@ -79,23 +76,23 @@ export class CreateInfoFormComponent implements OnInit {
       fullTitle: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       shortTitle: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       edrpouIpn: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_8),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_10),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_10)
       ]),
       director: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
@@ -107,14 +104,14 @@ export class CreateInfoFormComponent implements OnInit {
       institutionStatusId: new FormControl('', Validators.required),
       license: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       founder: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
-      ]),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+      ])
     });
   }
 
@@ -132,20 +129,19 @@ export class CreateInfoFormComponent implements OnInit {
    * This method fills inputs with information of edited provider
    */
   private activateEditMode(): void {
+    this.isEditMode = true;
     this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 
   private initData(): void {
-    this.institutionStatuses$
-      .pipe(filter(Boolean), first(), takeUntil(this.destroy$))
-      .subscribe((institutionStatuses: DataItem[]) => {
-        this.institutionStatuses = institutionStatuses;
-        if (this.provider) {
-          this.activateEditMode();
-        } else {
-          this.InfoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
-        }
-      });
+    this.institutionStatuses$.pipe(filter(Boolean), first(), takeUntil(this.destroy$)).subscribe((institutionStatuses: DataItem[]) => {
+      this.institutionStatuses = institutionStatuses;
+      if (this.provider) {
+        this.activateEditMode();
+      } else {
+        this.InfoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
+      }
+    });
   }
 
   ngOnDestroy(): void {
