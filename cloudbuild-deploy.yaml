@@ -1,0 +1,20 @@
+steps:
+  - name: gcr.io/cloud-builders/gcloud
+    entrypoint: 'bash'
+    args:
+    - '-c'
+    - |
+      cat <<EOF > /root/.kube/config
+      $$KUBECFG
+      EOF
+    secretEnv: ['KUBECFG']
+    volumes:
+    - name: 'kube'
+      path: /root/.kube
+availableSecrets:
+  secretManager:
+  - versionName: $_KUBE_CONFIG
+    env: 'KUBECFG'
+options:
+  pool:
+    name: 'projects/$_PROJECT/locations/$_REGION/workerPools/$_POOL'
