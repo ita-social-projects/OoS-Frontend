@@ -7,14 +7,15 @@ steps:
       cat <<EOF > /root/.kube/config
       $$KUBECFG
       EOF
-      chmod 644 /root/.kube/config
     secretEnv: ['KUBECFG']
     volumes:
     - name: 'kube'
       path: /root/.kube
-  - name: bitnami/kubectl
+  - name: gcr.io/cloud-builders/kubectl
     env:
     - KUBECONFIG=/root/.kube/config
+    - CLOUDSDK_COMPUTE_ZONE=europe-west1-b
+    - CLOUDSDK_CONTAINER_CLUSTER=default-cluster
     args:
     - get
     - pod
