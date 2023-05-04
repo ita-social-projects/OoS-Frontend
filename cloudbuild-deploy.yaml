@@ -17,4 +17,4 @@ availableSecrets:
     env: 'KUBECFG'
 options:
   pool:
-    name: 'projects/$_PROJECT/locations/$_REGION/workerPools/$_POOL'
+    name: $_POOL
