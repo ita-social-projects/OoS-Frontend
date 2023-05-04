@@ -11,11 +11,10 @@ steps:
     volumes:
     - name: 'kube'
       path: /root/.kube
-  - name: gcr.io/cloud-builders/kubectl
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: 'kubectl'
     env:
     - KUBECONFIG=/root/.kube/config
-    - CLOUDSDK_COMPUTE_ZONE=europe-west1-b
-    - CLOUDSDK_CONTAINER_CLUSTER=default-cluster
     args:
     - get
     - pod
