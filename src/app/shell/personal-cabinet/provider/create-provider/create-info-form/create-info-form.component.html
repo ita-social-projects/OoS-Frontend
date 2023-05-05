@@ -5,8 +5,7 @@
     [cropperConfig]="cropperConfig"
     [label]="'Фонове зображення'"
     formControlName="coverImage"
-    [imageIdsFormControl]="InfoFormGroup.get('coverImageId')"
-  ></app-image-form-control>
+    [imageIdsFormControl]="InfoFormGroup.get('coverImageId')"></app-image-form-control>
 
   <label class="step-label">{{ 'FORMS.LABELS.OWNERSHIP' | translate }}<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
@@ -17,8 +16,7 @@
       formControlName="ownership"
       name="ownership"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_OWNERSHIP' | translate }}"
-      [disabled]="isEditMode"
-    >
+      [disabled]="isEditMode">
       <ng-container *ngFor="let type of selectableOwnerShipTypes | keyvalue">
         <mat-option [value]="type.key" class="dropdown-option">
           {{ ownershipTypesEnum[type.key] | translate }}
@@ -49,8 +47,7 @@
     <app-validation-hint
       [validationFormControl]="InfoFormGroup.get('license')"
       [minCharachters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-    >
+      [maxCharachters]="validationConstants.INPUT_LENGTH_60">
     </app-validation-hint>
   </ng-container>
 
@@ -65,8 +62,7 @@
       class="step-input"
       formControlName="institutionType"
       name="institutionType"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_INSTITUTION_CATEGORY' | translate }}"
-    >
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_INSTITUTION_CATEGORY' | translate }}">
       <ng-container *ngFor="let type of institutionTypes | keyvalue">
         <mat-option [value]="type.key" class="dropdown-option">
           {{ institutionTypesEnum[type.key] | translate }}
@@ -83,8 +79,7 @@
       panelClass="dropdown-panel"
       class="step-input"
       formControlName="typeId"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ORGANIZATION_TYPE' | translate }}"
-    >
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ORGANIZATION_TYPE' | translate }}">
       <mat-option *ngFor="let type of providerTypes$ | async" [value]="type.id" class="dropdown-option">
         {{ type.name }}
       </mat-option>
@@ -100,8 +95,7 @@
       class="step-input"
       formControlName="institution"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
-      [compareWith]="compareInstitutions"
-    >
+      [compareWith]="compareInstitutions">
       <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
         {{ institution.title }}
       </mat-option>
@@ -125,8 +119,7 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('fullTitle')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label"> {{ 'FORMS.LABELS.SHORT_ORGANIZATION_NAME' | translate }}<span class="step-required">*</span></label>
@@ -136,8 +129,7 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('shortTitle')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label"> {{ EdrpouIpnLabel | translate }}<span class="step-required">*</span></label>
@@ -150,14 +142,12 @@
       [maxlength]="validationConstants.INPUT_LENGTH_10"
       formControlName="edrpouIpn"
       autocomplete="none"
-      appTrimValue
-    />
+      appTrimValue />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('edrpouIpn')"
     [minCharachters]="validationConstants.INPUT_LENGTH_8"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_10"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_10">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
@@ -173,15 +163,13 @@
         appTrimValue
         ui-number-mask
         ui-hide-group-sep
-        maxlength="{{ validationConstants.PHONE_LENGTH }}"
-      />
+        maxlength="{{ validationConstants.PHONE_LENGTH }}" />
     </div>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('phoneNumber')"
     [minCharachters]="validationConstants.PHONE_LENGTH"
-    [isPhoneNumber]="true"
-  >
+    [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
@@ -197,8 +185,7 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('founder')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}<span class="step-required">*</span></label>
@@ -208,8 +195,7 @@
   <app-validation-hint
     [validationFormControl]="InfoFormGroup.get('director')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.DIRECTOR_BIRTHDAY' | translate }}<span class="step-required">*</span></label>
@@ -221,8 +207,7 @@
       [matDatepicker]="picker"
       formControlName="directorDateOfBirth"
       [appKeyFilter]="dateFilter"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
-    />
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
