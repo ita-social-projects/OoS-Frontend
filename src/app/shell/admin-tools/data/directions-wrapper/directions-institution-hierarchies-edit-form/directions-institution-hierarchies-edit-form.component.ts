@@ -82,9 +82,16 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     const formGroupFields = {};
     formGroupFields[this.ministryLabel] = new FormControl({value: this.data.element.insHierarchies[0].institution.title, disabled: true});
     this.fields.push(this.ministryLabel);
+    let field, title;
     for (let i = 0; i < this.data.columns.length; ++i) {
-      let field = this.data.columns[i];
-      formGroupFields[field] = new FormControl(this.data.element.insHierarchies[i].title);
+      field = this.data.columns[i];
+      title = this.data.element.insHierarchies[i]?.title;
+      if (title) {
+        formGroupFields[field] = new FormControl(title);
+      }
+      else {
+        formGroupFields[field] = new FormControl({value: null, disabled: true});
+      }
       this.fields.push(field);
     }
     return formGroupFields;
