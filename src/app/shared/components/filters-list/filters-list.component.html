@@ -17,12 +17,12 @@
   <app-price-filter [priceFilter]="filterList.priceFilter"></app-price-filter>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
     <p class="filter-text">{{ 'RECRUITMENT' | translate }}</p>
-    <mat-checkbox class="check-boxes__item" color="primary" [formControl]="OpenRecruitmentControl"
-      >{{ 'OPEN_RECRUITMENT_ONLY' | translate }}
+    <mat-checkbox class="check-boxes__item" color="primary" [formControl]="OpenRecruitmentControl">
+      {{ 'OPEN_RECRUITMENT_ONLY' | translate }}
     </mat-checkbox>
     <mat-checkbox class="check-boxes__item" color="primary" [formControl]="ClosedRecruitmentControl">
-      {{ 'CLOSE_RECRUITMENT' | translate }}</mat-checkbox
-    >
+      {{ 'CLOSE_RECRUITMENT' | translate }}
+    </mat-checkbox>
   </div>
   <div class="check-boxes" fxLayout="column" fxLayoutAlign="start">
     <p class="filter-text">{{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }}</p>
