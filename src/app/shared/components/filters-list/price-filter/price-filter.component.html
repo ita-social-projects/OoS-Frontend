@@ -16,8 +16,7 @@
     [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }"
     fxLayout="row"
     fxLayoutAlign="space-between"
-    fxLayoutGap="1rem"
-  >
+    fxLayoutGap="1rem">
     <mat-form-field>
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="filter-text">
@@ -42,8 +41,7 @@
     [ngClass]="{ 'input-wrapper-disable': !isPaidControl.value }"
     fxLayout="column"
     fxLayoutAlign="space-between"
-    fxLayoutGap="1rem"
-  >
+    fxLayoutGap="1rem">
     <ngx-slider (userChange)="priceHandler($event)" [value]="minValue" [highValue]="maxValue" [options]="options"> </ngx-slider>
   </div>
 </div>
