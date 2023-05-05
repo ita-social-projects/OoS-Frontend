@@ -19,7 +19,7 @@ steps:
     args:
       - build
       - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
-      - --cache-image=gcr.io/$PROJECT_ID/oos-frontend:cache
+      - --cache-image=gcr.io/$PROJECT_ID/oos-cache:front
       - --builder=paketobuildpacks/builder:base
       - --buildpack=paketo-buildpacks/web-servers
       - --buildpack=gcr.io/paketo-buildpacks/environment-variables
