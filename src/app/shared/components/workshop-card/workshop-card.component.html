@@ -7,8 +7,7 @@
         [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
         mat-card-image
         [src]="workshopData['_meta']"
-        alt="{{ workshopData.title }}"
-      />
+        alt="{{ workshopData.title }}" />
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
@@ -18,14 +17,12 @@
           showTooltipIfTruncated
           matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition"
-          class="card-title"
-        >
+          class="card-title">
           <a
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
             matTooltipPosition="above"
-            [routerLink]="['/details/workshop', workshopData.workshopId]"
-          >
+            [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           {{ workshopData.title }}
@@ -69,8 +66,7 @@
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
-      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)"
-    >
+      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
       <span class="card_link">{{ recruitmentStatusEnum.Open | translate }}</span>
     </a>
   </div>
@@ -114,8 +110,7 @@
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
-        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)"
-      >
+        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
         <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
       </a>
     </div>
@@ -146,8 +141,7 @@
       [matTooltip]="workshopData.providerTitle"
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition"
-    >
+      [matTooltipPosition]="tooltipPosition">
       {{ workshopData.providerTitle }}
     </p>
   </a>
@@ -183,8 +177,7 @@
       "
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition"
-    >
+      [matTooltipPosition]="tooltipPosition">
       {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>
