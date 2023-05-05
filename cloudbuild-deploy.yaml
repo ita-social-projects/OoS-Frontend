@@ -21,8 +21,9 @@ steps:
     - --set=image.fullTagOverride=$_IMAGE_TAG
     - --set=ingress.hosts[0].host=$_HOST
     - --set=ingress.tls[0].hosts[0]=$_HOST
+    - --wait
     - frontend
-    - https://github.com/ita-social-projects/OoS-Backend/raw/dmin/update_k3s/k8s/infrastructure/charts/webapp-1.0.3.tgz
+    - https://github.com/ita-social-projects/OoS-Backend/raw/4b0a75827dee0f8119100705fbff091fac3e0c1d/k8s/infrastructure/charts/webapp-1.0.3.tgz
     volumes:
     - name: 'kube'
       path: /root/.kube
