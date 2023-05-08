@@ -230,7 +230,8 @@
       "APPROVED": "Approved",
       "PENDING": "Pending",
       "EDITING": "Needs editing",
-      "BLOCK": "Blocked"
+      "BLOCK": "Blocked",
+      "RECHECK": "Needs reconfirmation"
     },
     "PROVIDER_STATUS_DETAILS": {
       "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
@@ -668,7 +669,7 @@
       "UPDATE_DIRECTION": "Are you sure you want to edit the direction?",
       "DELETE_CHILD": "Are you sure you want to delete the child's data?",
       "DELETE_ACHIEVEMENT": "Are you sure you want to delete the achievement?",
-      "DELETE_RATE": "Are you sure you want to delete the rate?", 
+      "DELETE_RATE": "Are you sure you want to delete the rate?",
       "DELETE_TEACHER": "Are you sure you want to delete teacher's data?",
       "DELETE_PROVIDER": "Are you sure you want to delete a provider?",
       "DELETE_PROVIDER_ADMIN": "Are you sure you want to delete the workshop administrator?",
