@@ -3,7 +3,8 @@
   fxLayout="column"
   fxLayoutAlign="center space-between"
   class="step"
-  [class.step-border]="formAmount > 1 && index !== formAmount - 1">
+  [class.step-border]="formAmount > 1 && index !== formAmount - 1"
+>
   <label class="step-label">{{ 'FORMS.LABELS.SECTION_TITLE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="sectionName" appTrimValue />
@@ -11,30 +12,29 @@
   <app-validation-hint
     [validationFormControl]="InfoEditFormGroup.get('sectionName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [maxCharachters]="validationConstants.INPUT_LENGTH_100"
+  >
   </app-validation-hint>
 
   <div class="step-label-combined">
     <label class="step-label"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>
-    <label class="step-characters-count">
-      {{ InfoEditFormGroup.get('description').value.length }}/{{ maxDescriptionLength }}</label
-    >
+    <label class="step-characters-count"> {{ InfoEditFormGroup.get('description').value.length }}/{{ maxDescriptionLength }}</label>
   </div>
   <mat-form-field appearance="none">
     <textarea
       matInput
       class="step-textarea"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ maxDescriptionLength }} {{
-        'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-      }}"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ maxDescriptionLength }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
       formControlName="description"
       maxlength="{{ maxDescriptionLength }}"
-      appTrimValue></textarea>
+      appTrimValue
+    ></textarea>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoEditFormGroup.get('description')"
     [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="maxDescriptionLength">
+    [maxCharachters]="maxDescriptionLength"
+  >
   </app-validation-hint>
 
   <div fxLayout="row" fxLayoutAlign="center" *ngIf="formAmount > 1">

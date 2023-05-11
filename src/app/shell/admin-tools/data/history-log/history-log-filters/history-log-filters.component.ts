@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+
 import { DropdownData, FilterData } from '../../../../../shared/models/history-log.model';
 
 @Component({
@@ -8,26 +9,32 @@ import { DropdownData, FilterData } from '../../../../../shared/models/history-l
   styleUrls: ['./history-log-filters.component.scss']
 })
 export class HistoryLogFiltersComponent implements OnInit {
-  @Input() dropdownOptions: DropdownData;
-  @Output() filterData = new EventEmitter<FilterData>();
+  @Input() public dropdownOptions: DropdownData;
+  @Output() public filterData = new EventEmitter<FilterData>();
 
-  filtersForm: FormGroup;
+  public filtersForm: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
+    const currentDate = new Date();
+    const monthAgoDate = new Date(currentDate);
+    monthAgoDate.setMonth(currentDate.getMonth() - 1);
+
     this.filtersForm = this.fb.group({
-      dateFrom: new FormControl(''),
-      dateTo: new FormControl(''),
+      dateFrom: new FormControl(monthAgoDate),
+      dateTo: new FormControl(currentDate),
       options: new FormControl('')
     });
-  }
 
-  applyFilters(): void {
     this.filterData.emit(this.filtersForm.value);
   }
 
-  onResetFilters(): void {
+  public applyFilters(): void {
+    this.filterData.emit(this.filtersForm.value);
+  }
+
+  public onResetFilters(): void {
     this.filtersForm.reset();
     this.filtersForm.controls.options.setValue('');
   }
