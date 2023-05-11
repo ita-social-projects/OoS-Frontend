@@ -4,25 +4,6 @@
 @import 'src/app/shared/styles/validation-form.scss';
 @import 'src/app/shared/styles/dropdown.scss';
 
-.wrapper .personal-info {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.about-link {
-  color: blue;
-  font-weight: 300;
-}
-
-.wrapper-check-box {
-  text-align: center;
-}
-
-
-.cropped-image {
-  max-width: 100%;
-}
-
 .warning-box {
   width: 410px;
   height: 50px; 
@@ -33,19 +14,11 @@
   i {
     color: orange;
   }
-  div {  
+}
+
+mat-select {
+  img {
+    width: 20px;
+    height: 20px;
   }
-}
-
-.image-cropper-wrapper {
-  min-height: 50vh;
-}
-
-.btn-wrapper {
-  padding-bottom: 2rem;
-}
-
-img {
-  width: 20px;
-  height: 20px;
 }

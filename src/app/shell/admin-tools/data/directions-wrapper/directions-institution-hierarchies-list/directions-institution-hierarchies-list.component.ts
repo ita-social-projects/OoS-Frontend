@@ -109,7 +109,8 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
       data: {
         columns: this.columns,
         element: element
-      }
+      },
+      autoFocus: false
     });
   }
 

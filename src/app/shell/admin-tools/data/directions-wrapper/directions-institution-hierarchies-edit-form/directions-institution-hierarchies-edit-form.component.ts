@@ -1,17 +1,17 @@
-import { Component, OnInit, Inject, AfterViewInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, Inject, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
+import { Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
 import { Observable, forkJoin } from 'rxjs';
 import { InstituitionHierarchy } from '../../../../../shared/models/institution.model';
 import { InstitutionsService } from '../../../../../shared/services/institutions/institutions.service';
-import { NavigationEnd, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import { GetAllInstitutionsHierarchy, GetDirections } from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Direction } from '../../../../../shared/models/category.model';
 import { DataItem } from '../../../../../shared/models/item.model';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
 
 
 @Component({
@@ -19,9 +19,8 @@ import { MatSelect } from '@angular/material/select';
   templateUrl: './directions-institution-hierarchies-edit-form.component.html',
   styleUrls: ['./directions-institution-hierarchies-edit-form.component.scss']
 })
-export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit, AfterViewInit, OnDestroy {
+export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit, AfterViewInit {
   @ViewChild('editForm') editForm: ElementRef;
-  @ViewChild('institution-hierarchies-table') insHierarchiesTable: ElementRef;
   @ViewChild('select') select: MatSelect;
 
   @Select(MetaDataState.directions) directions$: Observable<Direction[]>;
@@ -37,11 +36,8 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
   directionsControl: FormControl = new FormControl([]);
   directions: Direction[];
   lastInsHierarchy: InstituitionHierarchy;
-  allEdited: Observable<boolean>;
   fields: string[] = [];
-  requests: Observable<InstituitionHierarchy>;
   editedInsHierarchies: InstituitionHierarchy[] = [];
-  someSubscription: any;
 
   constructor(private formBuilder: FormBuilder, private router: Router, private institutionService: InstitutionsService,
     private dialogRef: MatDialogRef<DirectionsInstitutionHierarchiesEditFormComponent>,
@@ -49,24 +45,26 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     private store: Store) {
     this.store.dispatch(new GetDirections());
     this.lastInsHierarchy = this.getLastInsHierarchy();
-    //this.directions = this.getDirections();
     this.buildForm();
-   }
+  }
 
   ngOnInit(): void {
-    this.directionsControl = this.EditDirectionFormGroup.get(this.userDirectionsLabel) as FormControl;
-    console.log(this.data.element.insHierarchies[0].title);
-    console.log("table : " + JSON.stringify(this.insHierarchiesTable));
   }
 
   ngAfterViewInit(): void {
-    this.lastInputFocus();
+    setTimeout(() => {
+      if (this.editForm) {
+        this.lastInputFocus();
+      }
+    }, 0);
   }
 
   buildForm() {
+    let directions = [...this.lastInsHierarchy.directions];
     const formGroupFields = this.getFormControlsFields();
-    formGroupFields[this.userDirectionsLabel] = new FormControl(this.lastInsHierarchy.directions);
+    formGroupFields[this.userDirectionsLabel] = new FormControl(directions);
     this.EditDirectionFormGroup = new FormGroup(formGroupFields);
+    this.directionsControl = this.EditDirectionFormGroup.get(this.userDirectionsLabel) as FormControl;
   }
 
   getDirections() {
@@ -97,6 +95,10 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     return formGroupFields;
   }
 
+  onCancel() {
+    this.closeDialog();
+  }
+
   onSubmit() {
     for (let i = 0; i < this.data.columns.length; ++i) {
       const fieldName = this.data.columns[i];
@@ -108,7 +110,7 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
       }
     }
 
-    if (this.directionsControl.value != this.lastInsHierarchy.directions) {
+    if (!this.compareTwoArrays(this.directionsControl.value, this.lastInsHierarchy.directions)) {//(this.directionsControl.value != this.lastInsHierarchy.directions) {
       let editedInsHierarchy = this.editedInsHierarchies.find(ins => ins.id === this.lastInsHierarchy.id);
       if (editedInsHierarchy) {
         editedInsHierarchy.directions = this.directionsControl.value;
@@ -123,20 +125,20 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     forkJoin(
       this.editedInsHierarchies.map(ins => this.editInstitutionalHierarchy(ins))).subscribe((result) => {
         this.store.dispatch(new GetAllInstitutionsHierarchy());
-        this.closeDialog();
         this.reloadPage();
     });
 
+    this.closeDialog();
+  }
+
+  editInstitutionalHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy> {
+    return this.institutionService.editInstitutionHierarchy(insHierarchy);
   }
 
   lastInputFocus() {
     let inputs = this.editForm.nativeElement.getElementsByTagName('input') as HTMLInputElement[];
     let lastInput = inputs[inputs.length - 1];
     lastInput.focus();
-  }
-
-  editInstitutionalHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy> {
-    return this.institutionService.editInstitutionHierarchy(insHierarchy);
   }
 
   reloadPage() {
@@ -155,19 +157,18 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     this.select.options.find((option: MatOption) => option.value.id === direction.id).deselect();
   }
 
-  // checkDisabled(option: DataItem): boolean {
-  //   if (!this.directionsControl.value.length) {
-  //     return false;
-  //   } else {
-  //     const isNoneValueSelected = this.directionsControl.value.some((group: DataItem) => group.id === this.NONE_SOCIAL_GROUP_ID);
-  //     return option.id === this.NONE_SOCIAL_GROUP_ID ? !isNoneValueSelected : isNoneValueSelected;
-  //   }
-  // }
-
   compareDirections(direction: DataItem, direction2: DataItem): boolean {
     return direction.id === direction2.id;
   }
 
-  ngOnDestroy() {
+  compareTwoArrays(array1: Direction[], array2: Direction[]): boolean {
+    return (
+      array1.length === array2.length &&
+      array1.every((element_1) =>
+        array2.some((element_2) =>
+          Object.keys(element_1).every((key) => element_1[key] === element_2[key])
+        )
+      )
+    );
   }
 }

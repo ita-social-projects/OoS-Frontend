@@ -15,8 +15,8 @@
         </span>
       </div>
     </div>
+    
     <form #editForm [formGroup]="EditDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
-
       <ng-container *ngFor="let field of this.fields; let i = index;">
         <label class="step-label">{{ field }}</label>
         <mat-form-field>
@@ -24,14 +24,6 @@
         </mat-form-field>
       </ng-container>
       <ng-container>
-        <!-- <mat-form-field appearance="fill">
-          <label class="step-label">{{ userDirectionsLabel }}</label>
-          <mat-select [formControlName]="" multiple>
-            <mat-option *ngFor="let direction of (directions$ | async)">
-              {{ direction.title }}
-            </mat-option>
-          </mat-select>
-        </mat-form-field> -->
         <mat-form-field appearance="none">
           <label class="step-label">{{ userDirectionsLabel }}</label>
           <mat-select
@@ -61,7 +53,7 @@
     </form>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button mat-raised-button class="btn btn-cancel" (click)="closeDialog()">Скасувати</button>
+      <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
       <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
     </div>
   </div>
