@@ -15,6 +15,7 @@ import { GetAllInstitutions } from '../../../../shared/store/meta-data.actions';
 export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
   institutions$: Observable<Institution[]>;
+  
   constructor(private store: Store) {}
 
   ngOnInit(): void {
@@ -31,5 +32,4 @@ export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.store.dispatch(new PopNavPath());
   }
-
 }

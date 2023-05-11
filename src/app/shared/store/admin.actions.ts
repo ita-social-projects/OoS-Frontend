@@ -300,8 +300,3 @@ export class OnUpdateRegionAdminSuccess {
   static readonly type = '[admin] update Region Admin success';
   constructor(public payload: RegionAdmin) {}
 }
-
-export class OnInstitutionTabSelection {
-  static readonly type = '[admin] select institution tab';
-  constructor(public payload: string) {}
-}

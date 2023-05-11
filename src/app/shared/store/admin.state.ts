@@ -44,7 +44,6 @@ import {
   OnCreateMinistryAdminSuccess, OnCreateRegionAdminFail, OnCreateRegionAdminSuccess,
   OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnDeleteMinistryAdminFail,
   OnDeleteMinistryAdminSuccess, OnDeleteRegionAdminFail, OnDeleteRegionAdminSuccess,
-  OnInstitutionTabSelection,
   OnUpdateDirectionFail, OnUpdateDirectionSuccess, OnUpdateMinistryAdminFail,
   OnUpdateMinistryAdminSuccess, OnUpdatePlatformInfoFail, OnUpdatePlatformInfoSuccess,
   OnUpdateRegionAdminFail, OnUpdateRegionAdminSuccess, UpdateAdmin, UpdateDirection,
@@ -73,7 +72,6 @@ export interface AdminStateModel {
   applicationHistory: SearchResponse<ApplicationHistory[]>;
   statisticsReports: SearchResponse<StatisticReport[]>;
   downloadedReport: HttpResponse<Blob>;
-  selectedInstitutionTab: string;
 }
 @State<AdminStateModel>({
   name: 'admin',
@@ -96,8 +94,7 @@ export interface AdminStateModel {
     providerAdminHistory: null,
     applicationHistory: null,
     statisticsReports: null,
-    downloadedReport: null,
-    selectedInstitutionTab: null
+    downloadedReport: null
   }
 })
 @Injectable()
@@ -168,10 +165,6 @@ export class AdminState {
 
   @Selector() static downloadedReport(state: AdminStateModel): HttpResponse<Blob> {
     return state.downloadedReport;
-  }
-
-  @Selector() static selectedInstitutionTab(state: AdminStateModel): string {
-    return state.selectedInstitutionTab;
   }
 
   constructor(
@@ -869,10 +862,5 @@ export class AdminState {
         type: 'success'
       })
     ]);
-  }
-
-  @Action(OnInstitutionTabSelection)
-  onInstitutionTabSelection({ patchState }: StateContext<AdminStateModel>, payload : string): void {
-    patchState({ selectedInstitutionTab: payload});
   }
 }
