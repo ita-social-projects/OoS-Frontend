@@ -1,1 +1,18 @@
 @import 'src/app/shared/styles/config.scss';
+.config {
+
+  p {
+
+    &.important {
+      margin-bottom: 0;
+      color: red;
+    
+      mat-icon {
+        overflow: visible;
+      }
+
+    }
+
+  }
+  
+}
