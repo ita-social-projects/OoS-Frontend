@@ -9,7 +9,9 @@ export enum LicenseStatuses {
 export enum ProviderStatuses {
   Approved = 'Approved',
   Pending = 'Pending',
-  Editing = 'Editing'
+  Editing = 'Editing',
+  Blocked = 'Blocked',
+  Recheck = 'Recheck'
 }
 
 // Statuses for Ministry Admin Logging
