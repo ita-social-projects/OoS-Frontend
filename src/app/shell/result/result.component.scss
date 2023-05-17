@@ -13,10 +13,6 @@
   margin-right: 2rem;
 }
 
-.toggle-wrapper {
-  margin-left: 1rem;
-}
-
 .mat-button-toggle-group.view-toggle {
   height: 40px;
   border: none;
@@ -69,6 +65,10 @@
     height: 100%;
     min-width: 100px;
   }
+}
+
+.search-filters {
+  gap: 1rem;
 }
 
 :host::ng-deep.mat-drawer-inner-container {
@@ -149,6 +149,10 @@
 @media (max-width: 960px) {
   .workshops-count .filters-toggle-btn {
     display: none;
+  }
+
+  .search-filters {
+    gap: 0.5rem;
   }
 }
 

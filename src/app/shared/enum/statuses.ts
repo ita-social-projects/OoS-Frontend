@@ -2,21 +2,21 @@
 export enum LicenseStatuses {
   NotProvided = 'NotProvided',
   Pending = 'Pending',
-  Approved = 'Approved',
+  Approved = 'Approved'
 }
 
-// Statuses for Provider Data Review 
+// Statuses for Provider Data Review
 export enum ProviderStatuses {
   Approved = 'Approved',
   Pending = 'Pending',
-  Editing = 'Editing',
+  Editing = 'Editing'
 }
 
 // Statuses for Ministry Admin Logging
 export enum UserStatuses {
   NeverLogged = 'NeverLogged',
   Accepted = 'Accepted',
-  Blocked = 'Blocked',
+  Blocked = 'Blocked'
 }
 
 // Statuses for Applications
@@ -27,14 +27,14 @@ export enum ApplicationStatuses {
   StudyingForYears = 'StudyingForYears',
   Completed = 'Completed',
   Rejected = 'Rejected',
-  Left = 'Left',
+  Left = 'Left'
 }
 
 // Statuses for user Email Confirmation
 export enum EmailConfirmationStatuses {
   Pending = 'Pending',
   Confirmed = 'Confirmed',
-  NotConfirmed = 'NotConfirmed',
+  NotConfirmed = 'NotConfirmed'
 }
 
 export enum UserStatusIcons {
@@ -44,5 +44,6 @@ export enum UserStatusIcons {
   Approved = 'fas fa-user-check',
   Confrimed = 'fas fa-user-check',
   Blocked = 'fas fa-user-times',
-  Editing = 'fas fa-user-edit'
+  Editing = 'fas fa-user-edit',
+  Recheck = 'fas fa-user-edit'
 }

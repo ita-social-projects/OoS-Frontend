@@ -12,8 +12,7 @@
     fxLayout.lt-lg="row wrap"
     fxLayout="row"
     fxLayoutAlign.lt-lg="center center"
-    fxLayoutAlign="space-between center"
-  >
+    fxLayoutAlign="space-between center">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
   <app-scroll-to-top *ngIf="isMobileView"></app-scroll-to-top>
@@ -29,8 +28,7 @@
         [role]="role"
         [paginationParameters]="paginationParameters"
         [currentPage]="currentPage"
-        [filteredWorkshops$]="filteredWorkshops$"
-      >
+        [filteredWorkshops$]="filteredWorkshops$">
       </app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
@@ -39,8 +37,7 @@
         [role]="role"
         [paginationParameters]="paginationParameters"
         [currentPage]="currentPage"
-        [workshops$]="filteredWorkshops$"
-      >
+        [workshops$]="filteredWorkshops$">
       </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
@@ -59,11 +56,11 @@
 
 <ng-template #searchBlock>
   <app-full-search-bar [styleClass]="'min-height'"></app-full-search-bar>
-  <div fxLayout="row" fxLayoutAlign="center center">
+  <div class="search-filters" fxLayout="row" fxLayoutAlign="center center">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="currentView === viewType.list"></app-ordering>
 
-    <div class="toggle-wrapper">
+    <div>
       <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView" (change)="viewHandler(group.value)">
         <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row" fxLayoutAlign="center center">
           <mat-icon class="view-toggle_icon_small">view_module</mat-icon>

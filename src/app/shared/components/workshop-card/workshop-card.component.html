@@ -1,5 +1,5 @@
 <mat-card *ngIf="workshopData">
-  <ng-container *ngIf="!isCabinetView; then UserActions; else ProviderActions"> </ng-container>
+  <ng-container *ngIf="role === Role.parent; then UserActions; else ProviderActions"> </ng-container>
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
@@ -7,8 +7,7 @@
         [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
         mat-card-image
         [src]="workshopData['_meta']"
-        alt="{{ workshopData.title }}"
-      />
+        alt="{{ workshopData.title }}" />
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
@@ -18,14 +17,12 @@
           showTooltipIfTruncated
           matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPosition"
-          class="card-title"
-        >
+          class="card-title">
           <a
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
             matTooltipPosition="above"
-            [routerLink]="['/details/workshop', workshopData.workshopId]"
-          >
+            [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
           {{ workshopData.title }}
@@ -69,15 +66,14 @@
     <a
       *ngIf="canChangeWorkshopStatus"
       class="more-details"
-      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)"
-    >
+      (click)="onChangeWorkshopStatus(workhopStatus.Open, modalConfirmationType.openSet)">
       <span class="card_link">{{ recruitmentStatusEnum.Open | translate }}</span>
     </a>
   </div>
 </ng-template>
 
 <ng-template #ProviderActions>
-  <div fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="isCabinetView" fxLayout="row" fxLayoutAlign="end start" class="actions">
     <div class="actions_btn action-icon" [routerLink]="['/create-workshop', workshopData.workshopId]">
       <mat-icon>edit</mat-icon>
     </div>
@@ -88,7 +84,7 @@
 </ng-template>
 
 <ng-template #UserActions>
-  <div *ngIf="!isHorizontalView && role !== Role.provider" fxLayout="row" fxLayoutAlign="end start" class="actions">
+  <div *ngIf="!isHorizontalView" fxLayout="row" fxLayoutAlign="end start" class="actions">
     <ng-container *ngIf="isFavorite; then favorite; else notFavorite"></ng-container>
   </div>
 </ng-template>
@@ -114,8 +110,7 @@
       <a
         *ngIf="canChangeWorkshopStatus"
         class="more-details"
-        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)"
-      >
+        (click)="onChangeWorkshopStatus(workhopStatus.Closed, modalConfirmationType.closeSet)">
         <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
       </a>
     </div>
@@ -146,8 +141,7 @@
       [matTooltip]="workshopData.providerTitle"
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition"
-    >
+      [matTooltipPosition]="tooltipPosition">
       {{ workshopData.providerTitle }}
     </p>
   </a>
@@ -183,8 +177,7 @@
       "
       showTooltipIfTruncated
       matTooltipClass="tooltip"
-      [matTooltipPosition]="tooltipPosition"
-    >
+      [matTooltipPosition]="tooltipPosition">
       {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>
