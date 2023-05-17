@@ -10,9 +10,7 @@ import { FeaturesList } from '../../../models/featuresList.model';
 import { TruncatedItem } from '../../../models/item.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
 import { SearchResponse } from '../../../models/search.model';
-import {
-  ProviderWorkshopCard, Workshop, WorkshopCard, WorkshopCardParameters, WorkshopStatus
-} from '../../../models/workshop.model';
+import { ProviderWorkshopCard, Workshop, WorkshopCard, WorkshopCardParameters, WorkshopStatus } from '../../../models/workshop.model';
 import { MetaDataState } from '../../../store/meta-data.state';
 
 @Injectable({
@@ -120,7 +118,7 @@ export class UserWorkshopService {
   }
 
   deleteWorkshop(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/v2/Workshop/Delete/${id}`);
+    return this.http.delete<void>(`/api/v1/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {

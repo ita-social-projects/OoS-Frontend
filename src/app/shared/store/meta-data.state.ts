@@ -1,27 +1,27 @@
-import { EMPTY_RESULT } from './../constants/constants';
-import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+
+import { Injectable } from '@angular/core';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+
+import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { AchievementType } from '../models/achievement.model';
 import { Direction } from '../models/category.model';
 import { Codeficator } from '../models/codeficator.model';
 import { FeaturesList } from '../models/featuresList.model';
+import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../models/institution.model';
+import { DataItem } from '../models/item.model';
 import { Rate } from '../models/rating';
+import { SearchResponse } from '../models/search.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { ChildrenService } from '../services/children/children.service';
 import { CodeficatorService } from '../services/codeficator/codeficator.service';
 import { DirectionsService } from '../services/directions/directions.service';
 import { FeatureManagementService } from '../services/feature-management/feature-management.service';
+import { InstitutionsService } from '../services/institutions/institutions.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { RatingService } from '../services/rating/rating.service';
-import { Constants } from '../constants/constants';
-import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from './../models/institution.model';
-import { InstitutionsService } from '../services/institutions/institutions.service';
 import {
-  GetSocialGroup,
-  GetDirections,
-  GetInstitutionStatuses,
   ClearCodeficatorSearch,
   ClearRatings,
   GetAchievementsType,
@@ -30,16 +30,17 @@ import {
   GetAllInstitutionsHierarchy,
   GetCodeficatorById,
   GetCodeficatorSearch,
+  GetDirections,
   GetFeaturesList,
   GetFieldDescriptionByInstitutionId,
   GetInstitutionHierarchyChildrenById,
   GetInstitutionHierarchyParentsById,
+  GetInstitutionStatuses,
+  GetProviderTypes,
   GetRateByEntityId,
-  ResetInstitutionHierarchy,
-  GetProviderTypes
+  GetSocialGroup,
+  ResetInstitutionHierarchy
 } from './meta-data.actions';
-import { SearchResponse } from '../models/search.model';
-import { DataItem } from '../models/item.model';
 
 export interface MetaDataStateModel {
   directions: Direction[];
@@ -68,7 +69,7 @@ export interface MetaDataStateModel {
     achievementsTypes: null,
     rating: null,
     isLoading: false,
-    featuresList: { release1: true, release2: true, release3: false },
+    featuresList: null,
     institutions: null,
     institutionFieldDesc: null,
     instituitionsHierarchyAll: null,
@@ -299,7 +300,10 @@ export class MetaDataState {
   }
 
   @Action(GetCodeficatorSearch)
-  getCodeficatorSearch({ patchState }: StateContext<MetaDataStateModel>, { name, categories }: GetCodeficatorSearch): Observable<Codeficator[]> {
+  getCodeficatorSearch(
+    { patchState }: StateContext<MetaDataStateModel>,
+    { name, categories }: GetCodeficatorSearch
+  ): Observable<Codeficator[]> {
     patchState({ isLoading: true });
     return this.codeficatorService.searchCodeficator(name, categories).pipe(
       tap((codeficatorSearch: Codeficator[]) => {
