@@ -14,31 +14,30 @@ import { ActivateEditMode } from '../../store/app.actions';
   styleUrls: ['./provider-status-banner.component.scss']
 })
 export class ProviderStatusBannerComponent implements OnInit {
-  readonly statuses = ProviderStatuses;
+  public readonly statuses = ProviderStatuses;
 
-  @Input() provider: Provider;
+  @Input() public provider: Provider;
 
   private get HostElement(): HTMLElement {
     return this.elementRef.nativeElement;
   }
 
-  editLink = '/create-provider/info';
-  iconClasses: string;
-  statusTitle: string;
-  statusDetails: string;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public editLink = '/create-provider/info';
+  public iconClasses: string;
+  public statusTitle: string;
+  public statusDetails: string;
 
   constructor(private elementRef: ElementRef<HTMLElement>, private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.setBannerOptions();
   }
 
-  onActivateEditMode(): void {
+  public onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
   }
 
-  onClose(): void {
+  public onClose(): void {
     this.HostElement.classList.add('hide');
   }
 
