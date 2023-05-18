@@ -1,0 +1,59 @@
+steps:
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: 'sh'
+    args:
+      - '-c'
+      - |
+        cat <<EOF > src/environments/environment.qa.ts
+        export const environment = {
+          production: true,
+          stsServer: '$_STS_SERVER',
+          serverUrl: '$_API_SERVER',
+          storageUrl: 'https://storage.googleapis.com/oos-images-63325/'
+        };
+        EOF
+  # Build the container image
+  - name: 'gcr.io/k8s-skaffold/pack'
+    entrypoint: 'pack'
+    args:
+      - build
+      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
+      - --cache-image=gcr.io/$PROJECT_ID/oos-frontend:cache
+      - --builder=paketobuildpacks/builder:base
+      - --buildpack=paketo-buildpacks/web-servers
+      - --buildpack=gcr.io/paketo-buildpacks/environment-variables
+      - --env=BP_NODE_RUN_SCRIPTS=build:qa
+      - --env=BPE_APP_ROOT=/workspace
+      - --env=BP_INCLUDE_FILES=dist/out-of-school/*:nginx.conf:includes/*
+      - --publish
+  # Deploy container image to Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    args:
+      - beta
+      - run
+      - deploy
+      - $_SERVICE_NAME
+      - --image
+      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
+      - --region
+      - $_REGION
+      - --platform
+      - managed
+      - --ingress
+      - internal-and-cloud-load-balancing
+      - --allow-unauthenticated
+      - --service-account
+      - $_SERVICE_ACCOUNT
+      - --cpu=1
+      - --memory=128Mi
+      - --max-instances=4
+      - --concurrency=40
+      - --set-env-vars=APP_ROOT=/workspace
+      # Disable http2 because prod will be http1.1 for now
+      - --no-use-http2
+  # Clean old versions except previous Cloud Run
+  - name: 'gcr.io/cloud-builders/gcloud'
+    entrypoint: bash
+    args:
+      - -c
+      - for revision in `gcloud run revisions list --service $_SERVICE_NAME --platform managed --region $_REGION --format 'value(name)' | sort -r | tail -n +3 | paste -sd " " -`; do $(yes | gcloud run revisions delete --platform managed --region $_REGION $revision) || exit 0; done;
