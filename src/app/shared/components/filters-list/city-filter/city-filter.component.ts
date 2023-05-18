@@ -1,12 +1,14 @@
-import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { FilterChange, SetCoordsByMap } from '../../../../shared/store/filter.actions';
+
 import { Coords } from '../../../../shared/models/coords.model';
 import { GeolocationService } from '../../../../shared/services/geolocation/geolocation.service';
+import { FilterChange, SetCoordsByMap } from '../../../../shared/store/filter.actions';
 import { Constants } from '../../../constants/constants';
 import { Codeficator } from '../../../models/codeficator.model';
 import { FilterState } from '../../../store/filter.state';
@@ -87,7 +89,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
     this.settlementSearchControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((value: string) => {
-        if (value?.length > 3) {
+        if (value?.length >= 3) {
           this.store.dispatch(new GetCodeficatorSearch(value));
           this.isTopCities = false;
         } else if (!this.isTopCities) {
