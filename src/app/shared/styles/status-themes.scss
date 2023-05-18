@@ -24,7 +24,8 @@
     }
   }
 
-  &.Pending {
+  &.Pending,
+  &.Recheck {
     background: #e1f1f9;
 
     .status {
@@ -45,6 +46,4 @@
       }
     }
   }
-  
-
 }
