@@ -31,7 +31,8 @@ export enum UserStatusesTitles {
 // Statuses for user Email Confirmation
 export enum EmailConfirmationStatusesTitles {
   Pending = 'ENUM.EMAIL_CONFIRMATION_STATUSES.PENDING',
-  Confirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.CONFIRMED'
+  Confirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.CONFIRMED',
+  NotConfirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.NOT_CONFIRMED'
 }
 
 export enum ProviderStatusTitles {
