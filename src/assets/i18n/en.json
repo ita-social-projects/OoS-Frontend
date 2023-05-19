@@ -237,7 +237,10 @@
     },
     "PROVIDER_STATUS_DETAILS": {
       "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
-      "PENDING": "Your organization is awaiting confirmation by an administrator."
+      "PENDING": "Your organization is awaiting confirmation by an administrator.",
+      "BLOCKED": "Unfortunately, the reason for the block was not specified. Please contact the administration.",
+      "EDITING": "Please make sure that the information about your institution is correct.",
+      "RECHECK": "Your organization is awaiting confirmation by an administrator."
     },
     "LICENSE_STATUSES": {
       "APPROVED": "Approved license",

@@ -7,7 +7,7 @@
 </div>
 <p class="banner-details">{{ statusDetails | translate }}</p>
 <a
-  *ngIf="provider.status === statuses.Editing"
+  *ngIf="provider.status === statuses.Editing && !provider.isBlocked"
   [routerLink]="editLink"
   (click)="onActivateEditMode()"
   class="banner-link">
