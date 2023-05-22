@@ -16,6 +16,7 @@
   "BY_PRICE_INCREASE": "By price increase",
   "BY_RATING": "By rating",
   "CHANGE_EMAIL": "Change email",
+  "CONFIRM_EMAIL": "Confirm email",
   "CHANGE_PASSWORD": "Change password",
   "CITY_DISTRICT": "City district",
   "CLEAR_FILTERS": "Clear Filters",
@@ -224,7 +225,8 @@
     },
     "EMAIL_CONFIRMATION_STATUSES": {
       "PENDING": "Pending email confirmation",
-      "CONFIRMED": "Confirmed email"
+      "CONFIRMED": "Confirmed email",
+      "NOT_CONFIRMED": "You have not yet verified your email address. Follow the link in the previous email."
     },
     "PROVIDER_STATUSES": {
       "APPROVED": "Approved",

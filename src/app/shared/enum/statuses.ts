@@ -35,7 +35,8 @@ export enum ApplicationStatuses {
 // Statuses for user Email Confirmation
 export enum EmailConfirmationStatuses {
   Pending = 'Pending',
-  Confirmed = 'Confirmed'
+  Confirmed = 'Confirmed',
+  NotConfirmed = 'NotConfirmed'
 }
 
 export enum UserStatusIcons {
