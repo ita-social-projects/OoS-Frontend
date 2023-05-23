@@ -9,7 +9,9 @@ export enum LicenseStatuses {
 export enum ProviderStatuses {
   Approved = 'Approved',
   Pending = 'Pending',
-  Editing = 'Editing'
+  Editing = 'Editing',
+  Blocked = 'Blocked',
+  Recheck = 'Recheck'
 }
 
 // Statuses for Ministry Admin Logging
@@ -33,7 +35,8 @@ export enum ApplicationStatuses {
 // Statuses for user Email Confirmation
 export enum EmailConfirmationStatuses {
   Pending = 'Pending',
-  Confirmed = 'Confirmed'
+  Confirmed = 'Confirmed',
+  NotConfirmed = 'NotConfirmed'
 }
 
 export enum UserStatusIcons {

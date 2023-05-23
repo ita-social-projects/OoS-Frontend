@@ -31,13 +31,15 @@ export enum UserStatusesTitles {
 // Statuses for user Email Confirmation
 export enum EmailConfirmationStatusesTitles {
   Pending = 'ENUM.EMAIL_CONFIRMATION_STATUSES.PENDING',
-  Confirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.CONFIRMED'
+  Confirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.CONFIRMED',
+  NotConfirmed = 'ENUM.EMAIL_CONFIRMATION_STATUSES.NOT_CONFIRMED'
 }
 
 export enum ProviderStatusTitles {
   Approved = 'ENUM.PROVIDER_STATUSES.APPROVED',
   Pending = 'ENUM.PROVIDER_STATUSES.PENDING',
   Editing = 'ENUM.PROVIDER_STATUSES.EDITING',
+  Blocked = 'ENUM.PROVIDER_STATUSES.BLOCK',
   Recheck = 'ENUM.PROVIDER_STATUSES.RECHECK'
 }
 
@@ -49,5 +51,8 @@ export enum LicenseStatusTitles {
 
 export enum ProviderStatusDetails {
   Approved = 'ENUM.PROVIDER_STATUS_DETAILS.APPROVED',
-  Pending = 'ENUM.PROVIDER_STATUS_DETAILS.PENDING'
+  Pending = 'ENUM.PROVIDER_STATUS_DETAILS.PENDING',
+  Blocked = 'ENUM.PROVIDER_STATUS_DETAILS.BLOCKED',
+  Editing = 'ENUM.PROVIDER_STATUS_DETAILS.EDITING',
+  Recheck = 'ENUM.PROVIDER_STATUS_DETAILS.RECHECK'
 }
