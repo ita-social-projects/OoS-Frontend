@@ -5,21 +5,20 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, forkJoin } from 'rxjs';
+import { Observable, forkJoin, asyncScheduler } from 'rxjs';
 import { InstituitionHierarchy } from '../../../../../shared/models/institution.model';
 import { InstitutionsService } from '../../../../../shared/services/institutions/institutions.service';
-import { GetAllInstitutionsHierarchy, GetDirections } from '../../../../../shared/store/meta-data.actions';
+import { GetAllInstitutionsHierarchy, GetDirections, UpdateInstitutionHierarchy } from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Direction } from '../../../../../shared/models/category.model';
 import { DataItem } from '../../../../../shared/models/item.model';
-
 
 @Component({
   selector: 'app-directions-institution-hierarchies-edit-form',
   templateUrl: './directions-institution-hierarchies-edit-form.component.html',
   styleUrls: ['./directions-institution-hierarchies-edit-form.component.scss']
 })
-export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit, AfterViewInit {
+export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterViewInit {
   @ViewChild('editForm') editForm: ElementRef;
   @ViewChild('select') select: MatSelect;
 
@@ -32,7 +31,7 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     'інших залежних профілів також поміняється назва. ';
   userDirectionsLabel: string = 'Напрямки для користувача';
 
-  EditDirectionFormGroup: FormGroup;
+  editDirectionFormGroup: FormGroup;
   directionsControl: FormControl = new FormControl([]);
   directions: Direction[];
   lastInsHierarchy: InstituitionHierarchy;
@@ -48,35 +47,27 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     this.buildForm();
   }
 
-  ngOnInit(): void {
-  }
-
   ngAfterViewInit(): void {
-    setTimeout(() => {
+    asyncScheduler.schedule(() => {
       if (this.editForm) {
         this.lastInputFocus();
       }
     }, 0);
   }
 
-  buildForm() {
+  private buildForm(): void {
     let directions = [...this.lastInsHierarchy.directions];
     const formGroupFields = this.getFormControlsFields();
     formGroupFields[this.userDirectionsLabel] = new FormControl(directions);
-    this.EditDirectionFormGroup = new FormGroup(formGroupFields);
-    this.directionsControl = this.EditDirectionFormGroup.get(this.userDirectionsLabel) as FormControl;
+    this.editDirectionFormGroup = new FormGroup(formGroupFields);
+    this.directionsControl = this.editDirectionFormGroup.get(this.userDirectionsLabel) as FormControl;
   }
 
-  getDirections() {
-    let lastInsHierarchy = this.data.element.insHierarchies[this.data.element.insHierarchies.length - 1];
-    return lastInsHierarchy.directions;
-  }
-
-  getLastInsHierarchy() {
+  private getLastInsHierarchy(): InstituitionHierarchy {
     return this.data.element.insHierarchies[this.data.element.insHierarchies.length - 1];
   }
 
-  getFormControlsFields() {
+  private getFormControlsFields(): any {
     const formGroupFields = {};
     formGroupFields[this.ministryLabel] = new FormControl({value: this.data.element.insHierarchies[0].institution.title, disabled: true});
     this.fields.push(this.ministryLabel);
@@ -95,14 +86,46 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     return formGroupFields;
   }
 
-  onCancel() {
+  private editInstitutionalHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy | Observable<void>> {
+    return this.store.dispatch(new UpdateInstitutionHierarchy(insHierarchy));
+  }
+
+  private lastInputFocus(): void {
+    let inputs = this.editForm.nativeElement.getElementsByTagName('input') as HTMLInputElement[];
+    let lastInput = inputs[inputs.length - 1];
+    lastInput.focus();
+  }
+
+  private reloadPage(): void {
+    const currentUrl = this.router.url;
+    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigate([currentUrl]);
+    });
+  }
+
+  private closeDialog(): void {
+    this.dialogRef.close();
+  }
+
+  private compareTwoArrays(array1: Direction[], array2: Direction[]): boolean {
+    return (
+      array1.length === array2.length &&
+      array1.every((first) =>
+        array2.some((second) =>
+          Object.keys(first).every((key) => first[key] === second[key])
+        )
+      )
+    );
+  }
+
+  public onCancel(): void {
     this.closeDialog();
   }
 
-  onSubmit() {
+  public onSubmit(): void {
     for (let i = 0; i < this.data.columns.length; ++i) {
       const fieldName = this.data.columns[i];
-      const field = this.EditDirectionFormGroup.controls[fieldName];
+      const field = this.editDirectionFormGroup.controls[fieldName];
       if (field.value != this.data.element.name[i]) {
         let editedInsHierarchy = this.data.element.insHierarchies[i];
         editedInsHierarchy.title = field.value;
@@ -110,7 +133,7 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
       }
     }
 
-    if (!this.compareTwoArrays(this.directionsControl.value, this.lastInsHierarchy.directions)) {//(this.directionsControl.value != this.lastInsHierarchy.directions) {
+    if (!this.compareTwoArrays(this.directionsControl.value, this.lastInsHierarchy.directions)) {
       let editedInsHierarchy = this.editedInsHierarchies.find(ins => ins.id === this.lastInsHierarchy.id);
       if (editedInsHierarchy) {
         editedInsHierarchy.directions = this.directionsControl.value;
@@ -131,44 +154,12 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements OnInit
     this.closeDialog();
   }
 
-  editInstitutionalHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy> {
-    return this.institutionService.editInstitutionHierarchy(insHierarchy);
-  }
-
-  lastInputFocus() {
-    let inputs = this.editForm.nativeElement.getElementsByTagName('input') as HTMLInputElement[];
-    let lastInput = inputs[inputs.length - 1];
-    lastInput.focus();
-  }
-
-  reloadPage() {
-    const currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-      this.router.navigate([currentUrl]);
-    });
-  }
-
-  closeDialog() {
-    this.dialogRef.close();
-  }
-
-  onRemoveItem(direction: DataItem): void {
-    this.directionsControl.value.splice(this.directionsControl.value.indexOf(direction), 1);
-    this.select.options.find((option: MatOption) => option.value.id === direction.id).deselect();
-  }
-
-  compareDirections(direction: DataItem, direction2: DataItem): boolean {
+  public compareDirections(direction: DataItem, direction2: DataItem): boolean {
     return direction.id === direction2.id;
   }
 
-  compareTwoArrays(array1: Direction[], array2: Direction[]): boolean {
-    return (
-      array1.length === array2.length &&
-      array1.every((element_1) =>
-        array2.some((element_2) =>
-          Object.keys(element_1).every((key) => element_1[key] === element_2[key])
-        )
-      )
-    );
+  public onRemoveItem(direction: DataItem): void {
+    this.directionsControl.value.splice(this.directionsControl.value.indexOf(direction), 1);
+    this.select.options.find((option: MatOption) => option.value.id === direction.id).deselect();
   }
 }

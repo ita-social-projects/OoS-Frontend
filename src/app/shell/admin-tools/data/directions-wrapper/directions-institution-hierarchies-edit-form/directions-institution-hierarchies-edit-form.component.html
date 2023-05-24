@@ -16,7 +16,7 @@
       </div>
     </div>
     
-    <form #editForm [formGroup]="EditDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+    <form #editForm [formGroup]="editDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
       <ng-container *ngFor="let field of this.fields; let i = index;">
         <label class="step-label">{{ field }}</label>
         <mat-form-field>

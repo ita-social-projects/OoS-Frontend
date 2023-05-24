@@ -1,4 +1,5 @@
 import { CodeficatorCategories } from '../enum/codeficator-categories';
+import { InstituitionHierarchy } from '../models/institution.model';
 import { RateParameters } from '../models/rating';
 
 export class GetDirections {
@@ -68,6 +69,11 @@ export class ResetInstitutionHierarchy {
   static readonly type = '[meta-data] Reset Institution Hierarchy';
 
   constructor() {}
+}
+
+export class UpdateInstitutionHierarchy {
+  static readonly type = '[meta-data] Update Institution Hierarchy';
+  constructor(public payload: InstituitionHierarchy) {}
 }
 
 export class GetInstitutionHierarchyParentsById {
