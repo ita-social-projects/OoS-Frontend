@@ -1,5 +1,5 @@
-import { Component, OnInit, Inject, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Component, Inject, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
@@ -7,11 +7,11 @@ import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, forkJoin, asyncScheduler } from 'rxjs';
 import { InstituitionHierarchy } from '../../../../../shared/models/institution.model';
-import { InstitutionsService } from '../../../../../shared/services/institutions/institutions.service';
 import { GetAllInstitutionsHierarchy, GetDirections, UpdateInstitutionHierarchy } from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Direction } from '../../../../../shared/models/category.model';
 import { DataItem } from '../../../../../shared/models/item.model';
+import { EditInsHierarchyModel } from '../edit-ins-hierarchy-model';
 
 @Component({
   selector: 'app-directions-institution-hierarchies-edit-form',
@@ -38,10 +38,8 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
   fields: string[] = [];
   editedInsHierarchies: InstituitionHierarchy[] = [];
 
-  constructor(private formBuilder: FormBuilder, private router: Router, private institutionService: InstitutionsService,
-    private dialogRef: MatDialogRef<DirectionsInstitutionHierarchiesEditFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private store: Store) {
+  constructor(private router: Router, private dialogRef: MatDialogRef<DirectionsInstitutionHierarchiesEditFormComponent>,
+    private store: Store, @Inject(MAT_DIALOG_DATA) public data: EditInsHierarchyModel) {
     this.store.dispatch(new GetDirections());
     this.lastInsHierarchy = this.getLastInsHierarchy();
     this.buildForm();
@@ -110,8 +108,8 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
   private compareTwoArrays(array1: Direction[], array2: Direction[]): boolean {
     return (
       array1.length === array2.length &&
-      array1.every((first) =>
-        array2.some((second) =>
+      array1.every((first: Direction) =>
+        array2.some((second: Direction) =>
           Object.keys(first).every((key) => first[key] === second[key])
         )
       )
@@ -134,7 +132,7 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
     }
 
     if (!this.compareTwoArrays(this.directionsControl.value, this.lastInsHierarchy.directions)) {
-      let editedInsHierarchy = this.editedInsHierarchies.find(ins => ins.id === this.lastInsHierarchy.id);
+      let editedInsHierarchy = this.editedInsHierarchies.find((ins: InstituitionHierarchy) => ins.id === this.lastInsHierarchy.id);
       if (editedInsHierarchy) {
         editedInsHierarchy.directions = this.directionsControl.value;
       }
@@ -146,7 +144,7 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
     }
 
     forkJoin(
-      this.editedInsHierarchies.map(ins => this.editInstitutionalHierarchy(ins))).subscribe((result) => {
+      this.editedInsHierarchies.map((ins: InstituitionHierarchy) => this.editInstitutionalHierarchy(ins))).subscribe((result) => {
         this.store.dispatch(new GetAllInstitutionsHierarchy());
         this.reloadPage();
     });
@@ -154,8 +152,8 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
     this.closeDialog();
   }
 
-  public compareDirections(direction: DataItem, direction2: DataItem): boolean {
-    return direction.id === direction2.id;
+  public compareItems(item1: DataItem, item2: DataItem): boolean {
+    return item1.id === item2.id;
   }
 
   public onRemoveItem(direction: DataItem): void {
