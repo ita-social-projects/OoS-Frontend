@@ -93,9 +93,20 @@
   }
 }
 
+:host ::ng-deep .filters-toggle-btn mat-icon {
+  font-size: 1rem;
+  width: 1rem;
+  height: 1rem;
+}
+
 .filters-toggle-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 34px;
   width: 34px;
-  height: 40px;
+  height: 34px;
   box-sizing: border-box;
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 60px;
@@ -113,10 +124,13 @@
   &.hidden {
     background: #ffffff;
   }
+}
 
-  .btn-icon {
-    line-height: 8px;
-  }
+.search-bar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
 }
 
 .mat-drawer-side {
@@ -147,7 +161,7 @@
 }
 
 @media (max-width: 960px) {
-  .workshops-count .filters-toggle-btn {
+  .search-bar .filters-toggle-btn {
     display: none;
   }
 
@@ -156,8 +170,8 @@
   }
 }
 
-@media (min-width: 961px) {
-  .workshops-search .filters-toggle-btn {
+@media (min-width: 960px) {
+  .search-filters .filters-toggle-btn {
     display: none;
   }
 }
@@ -166,10 +180,6 @@
   .view-control-panel {
     flex-wrap: wrap-reverse;
     margin-bottom: 16px;
-  }
-
-  .workshops-count {
-    margin-top: 10px;
   }
 }
 
@@ -276,10 +286,6 @@
         display: block;
       }
     }
-  }
-
-  .filters-toggle-btn {
-    display: block;
   }
 
   :host-context(app-footer) {

@@ -4,7 +4,6 @@
       {{ (filteredWorkshops$ | async)?.totalAmount !== 0 ? ('FOUND' | translate) : '' }}
       {{ (filteredWorkshops$ | async)?.totalAmount | translateCases: WorkshopDeclination }}
     </h3>
-    <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
   </div>
   <div
     class="workshops-search"
@@ -45,21 +44,18 @@
 
 <ng-template #filterButton>
   <button class="filters-toggle-btn" [ngClass]="isFiltersSidenavOpen ? 'visible' : 'hidden'" (click)="filterHandler()">
-    <span class="material-icons btn-icon">
-      <mat-icon *ngIf="isFiltersSidenavOpen; else hidden">filter_alt</mat-icon>
-      <ng-template #hidden>
-        <mat-icon>filter_alt</mat-icon>
-      </ng-template>
-    </span>
+    <mat-icon>filter_alt</mat-icon>
   </button>
 </ng-template>
 
 <ng-template #searchBlock>
-  <app-full-search-bar [styleClass]="'min-height'"></app-full-search-bar>
+  <div class="search-bar">
+    <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
+    <app-full-search-bar [styleClass]="'min-height'"></app-full-search-bar>
+  </div>
   <div class="search-filters" fxLayout="row" fxLayoutAlign="center center">
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="currentView === viewType.list"></app-ordering>
-
     <div>
       <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentView" (change)="viewHandler(group.value)">
         <mat-button-toggle value="{{ viewType.list }}" aria-label="{{ viewType.list }}" fxLayout="row" fxLayoutAlign="center center">
