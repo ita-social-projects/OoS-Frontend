@@ -1,9 +1,7 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
   <div [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <div
-        class="logo-wrapper"
-        *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
+      <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
           <a class="info-link" [routerLink]="'./info/about'"> {{ 'ENUM.NAV_BAR_NAME.ABOUT_PORTAL' | translate | uppercase }}</a>
@@ -27,8 +25,7 @@
           </button>
         </div>
 
-        <ng-conatiner
-          *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
+        <ng-conatiner *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-conatiner>
       </div>
     </div>
     <div *ngIf="isRouter('/')" fxLayout="column" fxLayoutAlign="center center">
@@ -63,7 +60,7 @@
 
 <ng-template #isAuthorizedTmpl>
   <ng-container *ngIf="!isMobileScreen; else menuTmpl">
-    <app-notifications class="menu" *ngIf="(featuresList$ | async).release2"></app-notifications>
+    <app-notifications class="menu" *ngIf="(featuresList$ | async)?.release2"></app-notifications>
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
       <mat-icon>account_circle</mat-icon>
@@ -73,8 +70,7 @@
   </ng-container>
 
   <mat-menu #log="matMenu" class="menu">
-    <ng-conatiner
-      *ngIf="user.role !== Role.parent && user.role !== Role.provider; then AdminView; else UserView"></ng-conatiner>
+    <ng-conatiner *ngIf="user.role !== Role.parent && user.role !== Role.provider; then AdminView; else UserView"></ng-conatiner>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
@@ -88,9 +84,7 @@
       <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</button>
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
-      <button mat-menu-item>
-        {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}
-      </button>
+      <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</button>
     </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'">
       <button mat-menu-item>
@@ -107,9 +101,7 @@
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
     </a>
-    <a
-      *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
-      [routerLink]="'./personal-cabinet/provider/administration'">
+    <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>
@@ -128,10 +120,7 @@
       {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}
     </button>
   </a>
-  <a
-    *ngIf="user.role === Role.techAdmin"
-    [routerLink]="'./admin-tools/platform'"
-    [queryParams]="{ page: defaultAdminTabs }">
+  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
     <button mat-menu-item>
       {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
