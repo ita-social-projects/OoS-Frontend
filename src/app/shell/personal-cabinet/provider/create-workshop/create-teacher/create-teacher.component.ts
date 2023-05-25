@@ -1,7 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+
+import {
+  ConfirmationModalWindowComponent
+} from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../../shared/constants/constants';
 import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
@@ -17,7 +22,7 @@ export class CreateTeacherComponent implements OnInit {
   TeacherFormArray: FormArray = new FormArray([]);
 
   @Input() teachers: Teacher[];
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
 
   @Output() passTeacherFormArray = new EventEmitter();
 

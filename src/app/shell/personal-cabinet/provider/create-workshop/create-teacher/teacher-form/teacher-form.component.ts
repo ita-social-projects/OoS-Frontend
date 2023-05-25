@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Output, EventEmitter } from '@angular/core';
+
 import { CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../../shared/constants/validation';
 import { Util } from '../../../../../../shared/utils/utils';
@@ -29,7 +29,7 @@ export class TeacherFormComponent {
   @Input() index: number;
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
 
   @Output() deleteForm = new EventEmitter();
 

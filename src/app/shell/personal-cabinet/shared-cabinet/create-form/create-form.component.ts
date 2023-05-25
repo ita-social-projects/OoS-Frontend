@@ -1,12 +1,16 @@
+import { Observable, Subject } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+
 import { ModeConstants } from '../../../../shared/constants/constants';
 import { FeaturesList } from '../../../../shared/models/featuresList.model';
-import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import {
+  NavigationBarService
+} from '../../../../shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from '../../../../shared/store/app.actions';
 import { AppState } from '../../../../shared/store/app.state';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
@@ -15,7 +19,7 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
-  template: '',
+  template: ''
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
@@ -24,17 +28,13 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
-  isRelease3: boolean;
+  isImagesFeature: boolean;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   isPristine = true;
   editMode: boolean;
 
-  constructor(
-    protected store: Store,
-    protected route: ActivatedRoute,
-    protected navigationBarService: NavigationBarService
-  ) {}
+  constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {}
 
@@ -44,7 +44,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   protected determineRelease(): void {
     this.featuresList$
       .pipe(takeWhile(() => this.isPristine))
-      .subscribe((featuresList: FeaturesList) => (this.isRelease3 = featuresList.release3));
+      .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
   protected determineEditMode(): void {

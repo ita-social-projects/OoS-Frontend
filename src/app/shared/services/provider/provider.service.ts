@@ -1,11 +1,15 @@
-import { PaginationElement } from './../../models/paginationElement.model';
+import { Observable } from 'rxjs';
+
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { BlockProviderData, LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../../models/provider.model';
-import { SearchResponse } from '../../models/search.model';
+
 import { DataItem } from '../../models/item.model';
+import { PaginationElement } from '../../models/paginationElement.model';
+import {
+  BlockProviderData, LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData
+} from '../../models/provider.model';
+import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -47,8 +51,8 @@ export class ProviderService {
    * This method create Provider
    * @param Provider
    */
-  createProvider(provider: Provider, isRelease3: boolean): Observable<Provider> {
-    return isRelease3 ? this.createProviderV2(provider) : this.createProviderV1(provider);
+  createProvider(provider: Provider, isImagesFeature: boolean): Observable<Provider> {
+    return isImagesFeature ? this.createProviderV2(provider) : this.createProviderV1(provider);
   }
 
   createProviderV1(provider: Provider): Observable<Provider> {
@@ -71,8 +75,8 @@ export class ProviderService {
    * This method update Provider
    * @param Provider
    */
-  updateProvider(provider: Provider, isRelease3: boolean): Observable<Provider> {
-    return isRelease3 ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
+  updateProvider(provider: Provider, isImagesFeature: boolean): Observable<Provider> {
+    return isImagesFeature ? this.updateProviderV2(provider) : this.updateProviderV1(provider);
   }
 
   updateProviderV1(provider: Provider): Observable<Provider> {

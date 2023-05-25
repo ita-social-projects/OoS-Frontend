@@ -10,14 +10,16 @@ import { FeaturesList } from '../../../models/featuresList.model';
 import { TruncatedItem } from '../../../models/item.model';
 import { PaginationElement } from '../../../models/paginationElement.model';
 import { SearchResponse } from '../../../models/search.model';
-import { ProviderWorkshopCard, Workshop, WorkshopCard, WorkshopCardParameters, WorkshopStatus } from '../../../models/workshop.model';
+import {
+  ProviderWorkshopCard, Workshop, WorkshopCard, WorkshopCardParameters, WorkshopStatus
+} from '../../../models/workshop.model';
 import { MetaDataState } from '../../../store/meta-data.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserWorkshopService {
-  private isRelease3: boolean;
+  private isImagesFeature: boolean;
 
   constructor(private http: HttpClient, private store: Store) {}
 
@@ -78,8 +80,8 @@ export class UserWorkshopService {
    * @param workshop: Workshop
    */
   public createWorkshop(workshop: Workshop): Observable<Workshop> {
-    this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release3;
-    return this.isRelease3 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
+    return this.isImagesFeature ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
   }
 
   public createWorkshopV1(workshop: Workshop): Observable<Workshop> {
@@ -96,8 +98,8 @@ export class UserWorkshopService {
    * @param workshop: Workshop
    */
   public updateWorkshop(workshop: Workshop): Observable<Workshop> {
-    this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease3 ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
+    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
+    return this.isImagesFeature ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
   }
 
   public updateWorkshopV1(workshop: Workshop): Observable<Workshop> {

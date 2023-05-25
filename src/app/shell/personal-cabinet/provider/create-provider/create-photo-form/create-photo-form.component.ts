@@ -30,7 +30,7 @@ export class CreatePhotoFormComponent implements OnInit {
   };
 
   @Input() provider: Provider;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
 
   @Output() passPhotoFormGroup = new EventEmitter();
 

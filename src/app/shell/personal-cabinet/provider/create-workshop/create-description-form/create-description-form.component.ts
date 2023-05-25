@@ -1,7 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import {
+  Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild
+} from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { Provider } from '../../../../../shared/models/provider.model';
@@ -26,7 +30,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   };
 
   @Input() workshop: Workshop;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
   @Input() provider: Provider;
 
   @Output() passDescriptionFormGroup = new EventEmitter();

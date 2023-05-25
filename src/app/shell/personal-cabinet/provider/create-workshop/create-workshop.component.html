@@ -6,10 +6,7 @@
           {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
         </h3>
         <p class="wrapper-text">
-          {{
-            (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH')
-              | translate
-          }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
           {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
         </p>
       </div>
@@ -23,7 +20,7 @@
             fxLayout="row"
             fxLayoutAlign="center center"
             [workshop]="workshop"
-            [isRelease3]="isRelease3"
+            [isImagesFeature]="isImagesFeature"
             [provider]="provider"
             (PassAboutFormGroup)="onReceiveAboutFormGroup($event)">
           </app-create-about-form>
@@ -37,9 +34,7 @@
           </div>
         </mat-step>
 
-        <mat-step
-          [stepControl]="DescriptionFormGroup"
-          [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
@@ -48,7 +43,7 @@
             fxLayoutAlign="center center"
             [workshop]="workshop"
             [provider]="provider"
-            [isRelease3]="isRelease3"
+            [isImagesFeature]="isImagesFeature"
             (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-description-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
@@ -68,9 +63,7 @@
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-workshop-address
-            [address]="workshop?.address"
-            (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
+          <app-create-workshop-address [address]="workshop?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-workshop-address>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
@@ -91,7 +84,7 @@
           </ng-template>
           <app-create-teacher
             [teachers]="workshop?.teachers"
-            [isRelease3]="isRelease3"
+            [isImagesFeature]="isImagesFeature"
             (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
           </app-create-teacher>
 

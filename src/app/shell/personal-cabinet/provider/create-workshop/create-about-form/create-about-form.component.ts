@@ -1,9 +1,15 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
+
+import {
+  ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output
+} from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngxs/store';
+
+import {
+  Constants, CropperConfigurationConstants
+} from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { PayRateTypeEnum } from '../../../../../shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
@@ -39,7 +45,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   @Input() workshop: Workshop;
   @Input() provider: Provider;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
   @Output() PassAboutFormGroup = new EventEmitter();
 
   AboutFormGroup: FormGroup;
