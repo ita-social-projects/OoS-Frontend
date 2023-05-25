@@ -11,8 +11,8 @@ import { Util } from '../../../../../../shared/utils/utils';
   styleUrls: ['./teacher-form.component.scss']
 })
 export class TeacherFormComponent {
-  readonly validationConstants = ValidationConstants;
-  readonly cropperConfig = {
+  public readonly validationConstants = ValidationConstants;
+  public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
@@ -23,19 +23,19 @@ export class TeacherFormComponent {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  today: Date = new Date();
-  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  public today: Date = new Date();
+  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  @Input() index: number;
-  @Input() TeacherFormGroup: FormGroup;
-  @Input() teacherAmount: number;
-  @Input() isImagesFeature: boolean;
+  @Input() public index: number;
+  @Input() public TeacherFormGroup: FormGroup;
+  @Input() public teacherAmount: number;
+  @Input() public isImagesFeature: boolean;
 
-  @Output() deleteForm = new EventEmitter();
+  @Output() public deleteForm = new EventEmitter();
 
   constructor() {}
 
-  onDeleteTeacher(): void {
+  public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
   }
 }

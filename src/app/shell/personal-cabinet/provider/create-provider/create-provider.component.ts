@@ -45,21 +45,21 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   ]
 })
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
-  provider: Provider;
-  isAgreed: boolean;
-  isNotRobot: boolean;
+  @ViewChild('stepper') public stepper: MatStepper;
 
-  InfoFormGroup: FormGroup;
-  ActualAddressFormGroup: FormGroup;
-  LegalAddressFormGroup: FormGroup;
-  PhotoFormGroup: FormGroup;
+  public provider: Provider;
+  public isAgreed: boolean;
+  public isNotRobot: boolean;
 
-  ContactsFormGroup: FormGroup = new FormGroup({});
-  RobotFormControl = new FormControl(false);
-  AgreementFormControl = new FormControl(false);
-  isImagesFeature: boolean;
+  public InfoFormGroup: FormGroup;
+  public ActualAddressFormGroup: FormGroup;
+  public LegalAddressFormGroup: FormGroup;
+  public PhotoFormGroup: FormGroup;
 
-  @ViewChild('stepper') stepper: MatStepper;
+  public ContactsFormGroup: FormGroup = new FormGroup({});
+  public RobotFormControl = new FormControl(false);
+  public AgreementFormControl = new FormControl(false);
+  public isImagesFeature: boolean;
 
   constructor(
     protected store: Store,
@@ -72,7 +72,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     super(store, route, navigationBarService);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.determineEditMode();
 
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
@@ -80,7 +80,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     if (this.editMode) {
       this.route.params.subscribe((params: Params) => {
         this.stepper.selectedIndex = +CreateProviderSteps[params.param];
@@ -88,18 +88,18 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     }
   }
 
-  ngAfterViewChecked(): void {
+  public ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.addNavPath();
     this.isAgreed = true;
     this.isNotRobot = true;
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -117,7 +117,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   /**
    * This method dispatch store action to create a Provider with Form Groups values
    */
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.PhotoFormGroup.invalid) {
       this.checkValidation(this.PhotoFormGroup);
     } else {
@@ -147,7 +147,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * This method receives a form from create-info child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
-  onReceiveInfoFormGroup(form: FormGroup): void {
+  public onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -156,13 +156,13 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
    * @param FormGroup form
    */
-  onReceiveActualAddressFormGroup(form: FormGroup): void {
+  public onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('actual', form);
   }
 
-  onReceiveLegalAddressFormGroup(form: FormGroup): void {
+  public onReceiveLegalAddressFormGroup(form: FormGroup): void {
     this.LegalAddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
     this.ContactsFormGroup.addControl('legal', form);
@@ -172,7 +172,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * This method receives a from from create-photo child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
-  onReceivePhotoFormGroup(form: FormGroup): void {
+  public onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -181,7 +181,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
    * This method receives a form and marks each control of this form as touched
    * @param FormGroup form
    */
-  checkValidation(form: FormGroup): void {
+  public checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
     });
@@ -190,7 +190,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   /**
    * This method marks each control of form in the array of forms in ContactsFormGroup as touched
    */
-  checkValidationContacts(): void {
+  public checkValidationContacts(): void {
     Object.keys(this.ContactsFormGroup.controls).forEach((key) => {
       if ((this.ContactsFormGroup.get(key) as FormGroup).enabled) {
         this.checkValidation(this.ContactsFormGroup.get(key) as FormGroup);
@@ -198,7 +198,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
     });
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
 
     if (!isRegistered) {

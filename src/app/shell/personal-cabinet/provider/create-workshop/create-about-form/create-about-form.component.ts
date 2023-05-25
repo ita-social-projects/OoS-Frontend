@@ -24,15 +24,15 @@ import { Workshop } from '../../../../../shared/models/workshop.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
-  readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
-  readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  readonly PayRateType = PayRateType;
-  readonly PayRateTypeEnum = PayRateTypeEnum;
-  readonly ownershipType = OwnershipTypes;
-  readonly cropperConfig = {
+  public readonly validationConstants = ValidationConstants;
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
+  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  public readonly PayRateType = PayRateType;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly ownershipType = OwnershipTypes;
+  public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
@@ -43,44 +43,44 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isImagesFeature: boolean;
-  @Output() PassAboutFormGroup = new EventEmitter();
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
+  @Output() public PassAboutFormGroup = new EventEmitter();
 
-  AboutFormGroup: FormGroup;
-  workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  priceRadioBtn: FormControl = new FormControl(false);
-  useProviderInfoCtrl: FormControl = new FormControl(false);
-  availableSeatsRadioBtnControl: FormControl = new FormControl(true);
+  public AboutFormGroup: FormGroup;
+  public workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
+  public priceRadioBtn: FormControl = new FormControl(false);
+  public useProviderInfoCtrl: FormControl = new FormControl(false);
+  public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
 
   // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to the second release
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initForm();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.workshop && this.activateEditMode();
     this.initListeners();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  get priceControl(): FormControl {
+  public get priceControl(): FormControl {
     return this.AboutFormGroup.get('price') as FormControl;
   }
 
-  get payRateControl(): FormControl {
+  public get payRateControl(): FormControl {
     return this.AboutFormGroup.get('payRate') as FormControl;
   }
 
-  get availableSeatsControl(): FormControl {
+  public get availableSeatsControl(): FormControl {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
   }
 
