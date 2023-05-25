@@ -24,33 +24,25 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
 
   @Select(MetaDataState.directions) directions$: Observable<Direction[]>;
 
-  editFormTitle: string = 'Редагувати напрямок';
-  editFormSubtitle: string = 'Редагуйте новий напрямок';
-  ministryLabel: string = 'Підпорядкування (Міністерство)';
-  warningMsg: string = 'Зверніть увагу, що після зміни назви напрямку для всіх \n' +
+  readonly editFormTitle: string = 'Редагувати напрямок';
+  readonly editFormSubtitle: string = 'Редагуйте новий напрямок';
+  readonly ministryLabel: string = 'Підпорядкування (Міністерство)';
+  readonly warningMsg: string = 'Зверніть увагу, що після зміни назви напрямку для всіх \n' +
     'інших залежних профілів також поміняється назва. ';
-  userDirectionsLabel: string = 'Напрямки для користувача';
+  readonly userDirectionsLabel: string = 'Напрямки для користувача';
 
-  editDirectionFormGroup: FormGroup;
-  directionsControl: FormControl = new FormControl([]);
-  directions: Direction[];
-  lastInsHierarchy: InstituitionHierarchy;
-  fields: string[] = [];
-  editedInsHierarchies: InstituitionHierarchy[] = [];
+  public editDirectionFormGroup: FormGroup;
+  public directionsControl: FormControl = new FormControl([]);
+  public fields: string[] = [];
+
+  private lastInsHierarchy: InstituitionHierarchy;
+  private editedInsHierarchies: InstituitionHierarchy[] = [];
 
   constructor(private router: Router, private dialogRef: MatDialogRef<DirectionsInstitutionHierarchiesEditFormComponent>,
     private store: Store, @Inject(MAT_DIALOG_DATA) public data: EditInsHierarchyModel) {
     this.store.dispatch(new GetDirections());
     this.lastInsHierarchy = this.getLastInsHierarchy();
     this.buildForm();
-  }
-
-  ngAfterViewInit(): void {
-    asyncScheduler.schedule(() => {
-      if (this.editForm) {
-        this.lastInputFocus();
-      }
-    }, 0);
   }
 
   private buildForm(): void {
@@ -114,6 +106,14 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
         )
       )
     );
+  }
+
+  public ngAfterViewInit(): void {
+    asyncScheduler.schedule(() => {
+      if (this.editForm) {
+        this.lastInputFocus();
+      }
+    }, 0);
   }
 
   public onCancel(): void {
