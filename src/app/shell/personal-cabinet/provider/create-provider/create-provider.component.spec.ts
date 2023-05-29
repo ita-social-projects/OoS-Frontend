@@ -1,14 +1,15 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateProviderComponent } from './create-provider.component';
 import { Component, Input } from '@angular/core';
-import { MatStepperModule } from '@angular/material/stepper';
-import { RouterTestingModule } from '@angular/router/testing';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxsModule } from '@ngxs/store';
-import { MatCheckboxModule } from '@angular/material/checkbox';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormBuilder, FormControl, ReactiveFormsModule } from '@angular/forms';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatStepperModule } from '@angular/material/stepper';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { NgxsModule } from '@ngxs/store';
+
 import { Provider } from '../../../../shared/models/provider.model';
+import { CreateProviderComponent } from './create-provider.component';
 
 fdescribe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
@@ -68,7 +69,7 @@ class MockCreateContactsFormComponent {
 class MockCreateInfoComponent {
   @Input() provider: Provider;
   @Input() InfoFormGroup;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
 }
 
 @Component({
@@ -77,5 +78,5 @@ class MockCreateInfoComponent {
 })
 class MockCreatePhotoFormComponent {
   @Input() provider: Provider;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
 }

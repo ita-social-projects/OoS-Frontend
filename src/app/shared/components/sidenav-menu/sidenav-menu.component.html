@@ -26,7 +26,7 @@
       <div class="mobile-sidenav-shell">
         <ng-container *ngTemplateOutlet="Language"> </ng-container>
 
-        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async).release2">
+        <div class="mobile-sidenav-menu" *ngIf="(featuresList$ | async)?.release2">
           <a [routerLink]="'./notifications'" (click)="changeView()" class="full-width notif">
             <app-notifications fxLayout="row" fxLayoutAlign="space-between center"> </app-notifications>
           </a>
@@ -35,12 +35,7 @@
         <hr class="hr-grey" />
 
         <div class="mobile-sidenav-menu">
-          <div
-            *ngIf="
-              user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin;
-              then UserView;
-              else AdminView
-            "></div>
+          <div *ngIf="user?.role !== Role.techAdmin && user?.role !== Role.ministryAdmin; then UserView; else AdminView"></div>
           <ng-template #UserView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate
@@ -48,30 +43,22 @@
             <a [routerLink]="'./personal-cabinet/' + user.role + '/info'" (click)="changeView()">
               {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</a
             >
-            <a
-              *ngIf="user.role === Role.provider"
-              [routerLink]="'./personal-cabinet/provider/workshops'"
-              (click)="changeView()"
-              >{{ 'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate }}</a
-            >
+            <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.MY_WORKSHOPS' | translate
+            }}</a>
             <a [routerLink]="'./personal-cabinet/' + user.role + '/applications'" (click)="changeView()">{{
               'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate
             }}</a>
-            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{
-              'ENUM.NAV_BAR_NAME.MESSAGES' | translate
-            }}</a>
+            <a [routerLink]="'./personal-cabinet/messages'" (click)="changeView()">{{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}</a>
             <a
               *ngIf="user.role === Role.provider && (subrole$ | async) !== Role.ProviderAdmin"
               [routerLink]="'./personal-cabinet/provider/administration'"
               (click)="changeView()"
               >{{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}</a
             >
-            <a
-              *ngIf="user.role === Role.parent"
-              [routerLink]="'./personal-cabinet/parent/favorite'"
-              (click)="changeView()"
-              >{{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate }}</a
-            >
+            <a *ngIf="user.role === Role.parent" [routerLink]="'./personal-cabinet/parent/favorite'" (click)="changeView()">{{
+              'ENUM.NAV_BAR_NAME.FAVORITE' | translate
+            }}</a>
           </ng-template>
           <ng-template #AdminView>
             <a [routerLink]="'./personal-cabinet/config'" (click)="changeView()">{{
@@ -84,10 +71,7 @@
               (click)="changeView()">
               {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
             </a>
-            <a 
-              *ngIf="user.role === Role.ministryAdmin"
-              [routerLink]="'./admin-tools/data/admins'"
-              (click)="changeView()">
+            <a *ngIf="user.role === Role.ministryAdmin" [routerLink]="'./admin-tools/data/admins'" (click)="changeView()">
               {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
             </a>
           </ng-template>

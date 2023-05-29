@@ -13,7 +13,7 @@
           <p class="step-name">{{ 'TITLES.ABOUT_THE_PROVIDER_INFO' | translate }}</p>
         </ng-template>
         <app-create-info-form
-          [isRelease3]="isRelease3"
+          [isImagesFeature]="isImagesFeature"
           [provider]="provider"
           (passInfoFormGroup)="onReceiveInfoFormGroup($event)">
         </app-create-info-form>
@@ -21,12 +21,7 @@
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button
-            class="btn"
-            mat-raised-button
-            matStepperNext
-            (click)="checkValidation(InfoFormGroup)"
-            [disabled]="InfoFormGroup.invalid">
+          <button class="btn" mat-raised-button matStepperNext (click)="checkValidation(InfoFormGroup)" [disabled]="InfoFormGroup.invalid">
             {{ 'BUTTONS.NEXT' | translate }}
           </button>
         </div>
@@ -62,7 +57,7 @@
           <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
         </ng-template>
         <app-create-photo-form
-          [isRelease3]="isRelease3"
+          [isImagesFeature]="isImagesFeature"
           [provider]="provider"
           (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
         </app-create-photo-form>
@@ -85,9 +80,7 @@
             mat-button
             type="submit"
             (click)="onSubmit()"
-            [disabled]="
-              !isAgreed || !isNotRobot || PhotoFormGroup.invalid || ContactsFormGroup.invalid || InfoFormGroup.invalid
-            ">
+            [disabled]="!isAgreed || !isNotRobot || PhotoFormGroup.invalid || ContactsFormGroup.invalid || InfoFormGroup.invalid">
             {{ 'BUTTONS.SAVE' | translate }}
           </button>
         </div>
