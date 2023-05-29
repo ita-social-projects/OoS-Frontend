@@ -55,7 +55,7 @@
       <p>{{ provider.director }}</p>
       <h5>{{ 'FORMS.LABELS.DIRECTOR_BIRTHDAY' | translate }}</h5>
       <p>
-        {{ provider.directorDateOfBirth | date : constants.SHORT_DATE_FORMAT }}
+        {{ provider.directorDateOfBirth | date: constants.SHORT_DATE_FORMAT }}
       </p>
     </mat-tab>
 
@@ -67,7 +67,7 @@
       <h3>{{ 'FORMS.HEADERS.ACTUAL_ADDRESS' | translate }}</h3>
       <ng-container *ngIf="provider?.actualAddress; else LegalAddress">
         <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-        <p>{{ provider.actualAddress.codeficatorAddressDto.fullAddress }}</p>
+        <p>{{ provider.actualAddress.codeficatorAddressDto.fullName }}</p>
         <h5 *ngIf="provider.actualAddress.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
         <p>{{ provider.actualAddress.codeficatorAddressDto.cityDistrict }}</p>
         <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
@@ -98,7 +98,7 @@
 
 <ng-template #LegalAddress>
   <h5>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</h5>
-  <p>{{ provider.legalAddress.codeficatorAddressDto.fullAddress }}</p>
+  <p>{{ provider.legalAddress.codeficatorAddressDto.fullName }}</p>
   <h5 *ngIf="provider.legalAddress.codeficatorAddressDto.cityDistrict">{{ 'CITY_DISTRICT' | translate }}</h5>
   <p>{{ provider.legalAddress.codeficatorAddressDto.cityDistrict }}</p>
   <h5>{{ 'FORMS.LABELS.STREET' | translate }}</h5>
