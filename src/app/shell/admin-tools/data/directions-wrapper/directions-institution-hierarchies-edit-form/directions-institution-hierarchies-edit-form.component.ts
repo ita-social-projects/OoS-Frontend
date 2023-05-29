@@ -24,12 +24,8 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
 
   @Select(MetaDataState.directions) directions$: Observable<Direction[]>;
 
-  readonly editFormTitle: string = 'Редагувати напрямок';
-  readonly editFormSubtitle: string = 'Редагуйте новий напрямок';
-  readonly ministryLabel: string = 'Підпорядкування (Міністерство)';
-  readonly warningMsg: string = 'Зверніть увагу, що після зміни назви напрямку для всіх \n' +
-    'інших залежних профілів також поміняється назва. ';
-  readonly userDirectionsLabel: string = 'Напрямки для користувача';
+  readonly ministryControl: string = 'Ministry';
+  readonly userDirectionsControl: string = 'USER_DIRECTIONS';
 
   public editDirectionFormGroup: FormGroup;
   public directionsControl: FormControl = new FormControl([]);
@@ -48,9 +44,9 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
   private buildForm(): void {
     let directions = [...this.lastInsHierarchy.directions];
     const formGroupFields = this.getFormControlsFields();
-    formGroupFields[this.userDirectionsLabel] = new FormControl(directions);
+    formGroupFields[this.userDirectionsControl] = new FormControl(directions);
     this.editDirectionFormGroup = new FormGroup(formGroupFields);
-    this.directionsControl = this.editDirectionFormGroup.get(this.userDirectionsLabel) as FormControl;
+    this.directionsControl = this.editDirectionFormGroup.get(this.userDirectionsControl) as FormControl;
   }
 
   private getLastInsHierarchy(): InstituitionHierarchy {
@@ -59,8 +55,8 @@ export class DirectionsInstitutionHierarchiesEditFormComponent implements AfterV
 
   private getFormControlsFields(): any {
     const formGroupFields = {};
-    formGroupFields[this.ministryLabel] = new FormControl({value: this.data.element.insHierarchies[0].institution.title, disabled: true});
-    this.fields.push(this.ministryLabel);
+    formGroupFields[this.ministryControl] = new FormControl({value: this.data.element.insHierarchies[0].institution.title, disabled: true});
+    this.fields.push(this.ministryControl);
     let field, title;
     for (let i = 0; i < this.data.columns.length; ++i) {
       field = this.data.columns[i];
