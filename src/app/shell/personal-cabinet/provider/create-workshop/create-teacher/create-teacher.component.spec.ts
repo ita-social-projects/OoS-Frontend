@@ -1,12 +1,13 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateTeacherComponent } from './create-teacher.component';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { Component, Input } from '@angular/core';
-import { MatGridListModule } from '@angular/material/grid-list';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { CreateTeacherComponent } from './create-teacher.component';
 
 describe('CreateTeacherComponent', () => {
   let component: CreateTeacherComponent;
@@ -38,7 +39,7 @@ class MockTeacherFormComponent {
   @Input() TeacherFormGroup: FormGroup;
   @Input() teacherAmount: number;
   @Input() index: number;
-  @Input() isRelease3: boolean;
+  @Input() isImagesFeature: boolean;
 }
 
 @Component({

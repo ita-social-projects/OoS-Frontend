@@ -3,16 +3,14 @@
   fxLayout="column"
   fxLayoutAlign="center space-between"
   class="step"
-  [class.step-border]="(teacherAmount > 1) && (index !== teacherAmount - 1)"
->
+  [class.step-border]="teacherAmount > 1 && index !== teacherAmount - 1">
   <app-image-form-control
-    *ngIf="isRelease3"
+    *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
     [label]="'Фото викладача'"
     formControlName="coverImage"
-    [imageIdsFormControl]="TeacherFormGroup.get('coverImageId')"
-  >
+    [imageIdsFormControl]="TeacherFormGroup.get('coverImageId')">
   </app-image-form-control>
 
   <label class="step-label">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
@@ -22,8 +20,7 @@
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('lastName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.FIRST_NAME' | translate }}<span class="step-required">*</span></label>
@@ -33,8 +30,7 @@
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('firstName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</label>
@@ -44,8 +40,7 @@
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('middleName')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
@@ -63,16 +58,11 @@
       matInput
       [matDatepicker]="picker"
       formControlName="dateOfBirth"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
-    />
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="TeacherFormGroup.get('dateOfBirth')"
-    minMaxDate="true"
-  >
-  </app-validation-hint>
+  <app-validation-hint [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" minMaxDate="true"> </app-validation-hint>
 
   <div class="step-label-combined">
     <label class="step-label">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
@@ -89,14 +79,12 @@
       }}"
       formControlName="description"
       maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}"
-      appTrimValue
-    ></textarea>
+      appTrimValue></textarea>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('description')"
     [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_300"
-  >
+    [maxCharachters]="validationConstants.MAX_DESCRIPTION_LENGTH_300">
   </app-validation-hint>
 
   <div fxLayout="row" fxLayoutAlign="center">

@@ -1,12 +1,16 @@
+import { Observable, Subject } from 'rxjs';
+import { takeWhile } from 'rxjs/operators';
+
 import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+
 import { ModeConstants } from '../../../../shared/constants/constants';
 import { FeaturesList } from '../../../../shared/models/featuresList.model';
-import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
+import {
+  NavigationBarService
+} from '../../../../shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from '../../../../shared/store/app.actions';
 import { AppState } from '../../../../shared/store/app.state';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
@@ -15,36 +19,32 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
 
 @Component({
   selector: 'app-create-form',
-  template: '',
+  template: ''
 })
 export abstract class CreateFormComponent implements OnInit, OnDestroy {
   @Select(AppState.isDirtyForm)
-  isDirtyForm$: Observable<boolean>;
+  public isDirtyForm$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
-  isRelease3: boolean;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public featuresList$: Observable<FeaturesList>;
 
-  isPristine = true;
-  editMode: boolean;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public isImagesFeature: boolean;
+  public isPristine = true;
+  public editMode: boolean;
 
-  constructor(
-    protected store: Store,
-    protected route: ActivatedRoute,
-    protected navigationBarService: NavigationBarService
-  ) {}
+  constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 
-  abstract setEditMode(): void;
-  abstract addNavPath(): void;
+  public abstract setEditMode(): void;
+  public abstract addNavPath(): void;
 
   protected determineRelease(): void {
     this.featuresList$
       .pipe(takeWhile(() => this.isPristine))
-      .subscribe((featuresList: FeaturesList) => (this.isRelease3 = featuresList.release3));
+      .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
   protected determineEditMode(): void {
@@ -78,7 +78,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new DeleteNavPath());

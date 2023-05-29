@@ -16,9 +16,9 @@ import { Provider, ProviderSectionItem } from '../../../../../shared/models/prov
   styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
 
-  readonly cropperConfig = {
+  public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
@@ -29,16 +29,17 @@ export class CreatePhotoFormComponent implements OnInit {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() provider: Provider;
-  @Input() isRelease3: boolean;
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
 
-  @Output() passPhotoFormGroup = new EventEmitter();
+  @Output() public passPhotoFormGroup = new EventEmitter();
 
-  PhotoFormGroup: FormGroup;
-  SectionItemsFormArray = new FormArray([]);
-  editFormGroup: FormGroup;
+  private editFormGroup: FormGroup;
 
-  get providerSectionItemsControl(): AbstractControl {
+  public PhotoFormGroup: FormGroup;
+  public SectionItemsFormArray = new FormArray([]);
+
+  public get providerSectionItemsControl(): AbstractControl {
     return this.PhotoFormGroup.get('providerSectionItems');
   }
 
@@ -53,13 +54,30 @@ export class CreatePhotoFormComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
     if (this.provider) {
       this.activateEditMode();
     } else {
       this.onAddForm();
     }
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  public onAddForm(): void {
+    if (this.providerSectionItemsControl) {
+      (this.providerSectionItemsControl as FormArray).push(this.newForm());
+    }
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    this.SectionItemsFormArray.removeAt(index);
   }
 
   private activateEditMode(): void {
@@ -103,22 +121,5 @@ export class CreatePhotoFormComponent implements OnInit {
     }
 
     return this.editFormGroup;
-  }
-
-  /**
-   * This method creates new FormGroup adds new FormGroup to the FormArray
-   */
-  onAddForm(): void {
-    if (this.providerSectionItemsControl) {
-      (this.providerSectionItemsControl as FormArray).push(this.newForm());
-    }
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
-  onDeleteForm(index: number): void {
-    this.SectionItemsFormArray.removeAt(index);
   }
 }
