@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatTableModule } from '@angular/material/table';
 import { NgxsModule } from '@ngxs/store';
 import { DirectionsInstitutionHierarchiesListComponent } from './directions-institution-hierarchies-list.component';
+import { MatDialogModule } from '@angular/material/dialog'; 
 
 describe('DirectionsInstitutionHierarchiesListComponent', () => {
   let component: DirectionsInstitutionHierarchiesListComponent;
@@ -9,7 +10,7 @@ describe('DirectionsInstitutionHierarchiesListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatTableModule],
+      imports: [NgxsModule.forRoot([]), MatTableModule, MatDialogModule],
       declarations: [DirectionsInstitutionHierarchiesListComponent]
     })
       .compileComponents();

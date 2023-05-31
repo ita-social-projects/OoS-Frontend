@@ -4,13 +4,12 @@
   </mat-checkbox>
 
   <app-image-form-control
-    *ngIf="isRelease3"
+    *ngIf="isImagesFeature"
     [imgMaxAmount]="1"
     [cropperConfig]="cropperConfig"
     [label]="'Фонове зображення'"
     formControlName="coverImage"
-    [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"
-  ></app-image-form-control>
+    [imageIdsFormControl]="AboutFormGroup.get('coverImageId')"></app-image-form-control>
 
   <label class="step-label">{{ 'FORMS.LABELS.TITLE' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
@@ -19,8 +18,7 @@
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('title')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
@@ -36,15 +34,13 @@
         appTrimValue
         ui-number-mask
         ui-hide-group-sep
-        maxlength="{{ validationConstants.PHONE_LENGTH }}"
-      />
+        maxlength="{{ validationConstants.PHONE_LENGTH }}" />
     </div>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('phone')"
     [minCharachters]="validationConstants.PHONE_LENGTH"
-    [isPhoneNumber]="true"
-  >
+    [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
@@ -60,8 +56,7 @@
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('website')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Facebook</label>
@@ -71,8 +66,7 @@
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('facebook')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Instagram</label>
@@ -82,8 +76,7 @@
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('instagram')"
     [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256"
-  >
+    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <div class="border-bottom"></div>
@@ -105,8 +98,7 @@
             [directiveFormControl]="AboutFormGroup.get('minAge')"
             [min]="validationConstants.AGE_MIN"
             [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
-            autocomplete="none"
-          />
+            autocomplete="none" />
         </mat-form-field>
       </div>
       <app-validation-hint [validationFormControl]="AboutFormGroup.get('minAge')"> </app-validation-hint>
@@ -126,8 +118,7 @@
             [directiveFormControl]="AboutFormGroup.get('maxAge')"
             appMinMax
             [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
-            autocomplete="none"
-          />
+            autocomplete="none" />
         </mat-form-field>
       </div>
       <app-validation-hint [validationFormControl]="AboutFormGroup.get('maxAge')"> </app-validation-hint>
@@ -152,8 +143,7 @@
             type="number"
             [directiveFormControl]="priceControl"
             [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE"
-          />
+            [max]="validationConstants.MAX_PRICE" />
         </mat-radio-button>
       </div>
       <div fxLayoutAlign="center center" class="pay-type">
@@ -164,8 +154,7 @@
           class="step-input"
           formControlName="payRate"
           name="payRate"
-          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}"
-        >
+          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
           <ng-container *ngFor="let type of PayRateType | keyvalue">
             <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
               {{ PayRateTypeEnum[type.key] | translate }}
@@ -206,13 +195,11 @@
               type="number"
               [directiveFormControl]="availableSeatsControl"
               [min]="MIN_SEATS"
-              [max]="UNLIMITED_SEATS"
-            />
+              [max]="UNLIMITED_SEATS" />
           </mat-radio-button>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl">
-      </app-validation-hint>
+      <app-validation-hint [validationFormControl]="availableSeatsControl"> </app-validation-hint>
     </mat-radio-group>
   </div>
 

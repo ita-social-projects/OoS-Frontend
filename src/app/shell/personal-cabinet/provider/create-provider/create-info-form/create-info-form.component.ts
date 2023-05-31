@@ -1,18 +1,26 @@
 import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
 
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
-import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
+import {
+  Constants, CropperConfigurationConstants
+} from '../../../../../shared/constants/constants';
 import { DATE_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { InstitutionTypesEnum, OwnershipTypesEnum } from '../../../../../shared/enum/enumUA/provider';
-import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from '../../../../../shared/enum/provider';
+import {
+  InstitutionTypesEnum, OwnershipTypesEnum
+} from '../../../../../shared/enum/enumUA/provider';
+import {
+  InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes
+} from '../../../../../shared/enum/provider';
 import { Institution } from '../../../../../shared/models/institution.model';
 import { DataItem } from '../../../../../shared/models/item.model';
 import { Provider } from '../../../../../shared/models/provider.model';
-import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from '../../../../../shared/store/meta-data.actions';
+import {
+  GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes
+} from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { Util } from '../../../../../shared/utils/utils';
 
@@ -21,7 +29,7 @@ import { Util } from '../../../../../shared/utils/utils';
   templateUrl: './create-info-form.component.html',
   styleUrls: ['./create-info-form.component.scss']
 })
-export class CreateInfoFormComponent implements OnInit {
+export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly phonePrefix = Constants.PHONE_PREFIX;
@@ -51,7 +59,7 @@ export class CreateInfoFormComponent implements OnInit {
   public institutionStatuses$: Observable<DataItem[]>;
 
   @Input() public provider: Provider;
-  @Input() public isRelease3: boolean;
+  @Input() public isImagesFeature: boolean;
 
   @Output() public passInfoFormGroup = new EventEmitter();
 

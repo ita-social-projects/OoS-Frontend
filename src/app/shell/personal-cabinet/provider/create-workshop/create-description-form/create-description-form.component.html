@@ -1,12 +1,11 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <app-image-form-control
-    *ngIf="isRelease3"
+    *ngIf="isImagesFeature"
     [imgMaxAmount]="10"
     [cropperConfig]="cropperConfig"
     [label]="'Фото'"
     formControlName="imageFiles"
-    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')"
-  >
+    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 
   <app-info-form
@@ -15,8 +14,7 @@
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-    (deleteForm)="onDeleteForm($event)"
-  >
+    (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
   <button
@@ -24,8 +22,7 @@
     [disabled]="SectionItemsFormArray.invalid"
     class="btn-add"
     mat-button
-    (click)="onAddForm()"
-  >
+    (click)="onAddForm()">
     <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
   </button>
 
@@ -40,21 +37,18 @@
       placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}"
       formControlName="disabilityOptionsDesc"
       autocomplete="none"
-      appTrimValue
-    />
+      appTrimValue />
     <app-validation-hint
       [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
       [minCharachters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharachters]="validationConstants.INPUT_LENGTH_256"
-    >
+      [maxCharachters]="validationConstants.INPUT_LENGTH_256">
     </app-validation-hint>
   </mat-radio-group>
 
   <app-institution-hierarchy
     [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
     [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')"
-    [provider]="provider"
-  >
+    [provider]="provider">
   </app-institution-hierarchy>
 
   <div class="step-label-combined">
@@ -83,8 +77,7 @@
         (keyup.enter)="onKeyWordsInput()"
         [(ngModel)]="keyWord"
         autocomplete="none"
-        appTrimValue
-      />
+        appTrimValue />
     </mat-chip-list>
   </div>
 </form>

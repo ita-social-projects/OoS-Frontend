@@ -1,0 +1,24 @@
+@import 'src/app/shared/styles/create-form-wrapper.scss';
+@import 'src/app/shared/styles/create-form.scss';
+@import 'src/app/shared/styles/buttons.scss';
+@import 'src/app/shared/styles/validation-form.scss';
+@import 'src/app/shared/styles/dropdown.scss';
+
+.warning-box {
+  width: 410px;
+  height: 50px; 
+  padding: 5px;
+  border-radius: 5px;
+  background-color: #ffdab9;
+
+  i {
+    color: orange;
+  }
+}
+
+mat-select {
+  img {
+    width: 20px;
+    height: 20px;
+  }
+}

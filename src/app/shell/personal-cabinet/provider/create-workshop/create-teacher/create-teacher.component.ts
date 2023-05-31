@@ -1,7 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import {
+  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
+
+import {
+  ConfirmationModalWindowComponent
+} from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from '../../../../../shared/constants/constants';
 import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
@@ -14,16 +19,16 @@ import { Teacher } from '../../../../../shared/models/teacher.model';
   styleUrls: ['./create-teacher.component.scss']
 })
 export class CreateTeacherComponent implements OnInit {
-  TeacherFormArray: FormArray = new FormArray([]);
+  public TeacherFormArray: FormArray = new FormArray([]);
 
-  @Input() teachers: Teacher[];
-  @Input() isRelease3: boolean;
+  @Input() public teachers: Teacher[];
+  @Input() public isImagesFeature: boolean;
 
-  @Output() passTeacherFormArray = new EventEmitter();
+  @Output() public passTeacherFormArray = new EventEmitter();
 
   constructor(private fb: FormBuilder, private matDialog: MatDialog) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.teachers?.length) {
       this.teachers.forEach((teahcer: Teacher) => this.onAddTeacher(teahcer));
     }
@@ -32,11 +37,34 @@ export class CreateTeacherComponent implements OnInit {
   /**
    * This method add new FormGroup to teh FormArray
    */
-  onAddTeacher(teacher?: Teacher): void {
+  public onAddTeacher(teacher?: Teacher): void {
     const formGroup = this.createNewForm(teacher);
     this.TeacherFormArray.controls.push(formGroup);
     this.TeacherFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
+  }
+
+  /**
+   * This method delete form from teh FormArray by index
+   * @param index: number
+   */
+  public onDeleteForm(index: number): void {
+    const teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
+    const isPristine = teacherFormGroup.pristine;
+
+    if (teacherFormGroup.status === 'VALID' || !isPristine) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.deleteTeacher,
+          property: ''
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
+    } else {
+      this.TeacherFormArray.removeAt(index);
+    }
   }
 
   /**
@@ -87,29 +115,6 @@ export class CreateTeacherComponent implements OnInit {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
-    }
-  }
-
-  /**
-   * This method delete form from teh FormArray by index
-   * @param index: number
-   */
-  onDeleteForm(index: number): void {
-    const teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
-    const isPristine = teacherFormGroup.pristine;
-
-    if (teacherFormGroup.status === 'VALID' || !isPristine) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.deleteTeacher,
-          property: ''
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => result && this.TeacherFormArray.removeAt(index));
-    } else {
-      this.TeacherFormArray.removeAt(index);
     }
   }
 }

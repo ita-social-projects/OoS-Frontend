@@ -39,7 +39,8 @@ import {
   GetProviderTypes,
   GetRateByEntityId,
   GetSocialGroup,
-  ResetInstitutionHierarchy
+  ResetInstitutionHierarchy,
+  UpdateInstitutionHierarchy
 } from './meta-data.actions';
 
 export interface MetaDataStateModel {
@@ -297,6 +298,11 @@ export class MetaDataState {
       editInstituitionsHierarchy: null,
       institutionFieldDesc: null
     });
+  }
+
+  @Action(UpdateInstitutionHierarchy)
+  updateInstitutionHierarchy({ patchState }: StateContext<MetaDataStateModel>, { payload }: UpdateInstitutionHierarchy): Observable<InstituitionHierarchy | Observable<void>> {
+    return this.institutionsService.editInstitutionHierarchy(payload).pipe();
   }
 
   @Action(GetCodeficatorSearch)

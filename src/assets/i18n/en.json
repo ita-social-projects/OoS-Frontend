@@ -361,7 +361,9 @@
       "DATE": "Date",
       "ACHIEVEMENT_DESCRIPTION": "Achievement description",
       "RADIUS": "Radius (km)",
-      "REGION": "Region"
+      "REGION": "Region",
+      "MINISTRY_SUBMISSION": "Ministry of submission",
+      "USER_DIRECTIONS": "Directions for user"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -403,7 +405,8 @@
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created"
-    }
+    },
+    "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. "
   },
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
@@ -445,7 +448,9 @@
     "REVIEWS": "Reviews",
     "TEACHERS": "Teachers",
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
-    "ACCESS_MANAGMENT": "Access managment"
+    "ACCESS_MANAGMENT": "Access managment",
+    "EDIT_INSTITUTION_HIERARCHY_FORM_TITLE": "Edit direction",
+    "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Edit new direction"
   },
   "TO": "To",
   "TOP_DIRECTIONS": "Top categories",
