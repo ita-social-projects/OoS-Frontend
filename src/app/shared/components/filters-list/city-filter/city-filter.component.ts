@@ -92,12 +92,9 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
    * This method listen input FocusOut event and update search and settlement controls value
    * @param auto MatAutocomplete
    */
-  public onFocusOut(): void {
-    if (!this.settlementSearchControl.value) {
-      const settlement = this.store.selectSnapshot(FilterState.settlement);
-      this.settlement = settlement;
-      this.settlementSearchControl.setValue(settlement.settlement, { emitEvent: false });
-      this.codeficatorSearch = null;
+  public onFocusOut(event: FocusEvent): void {
+    if (!event.relatedTarget) {
+      this.settlementSearchControl.setValue(this.settlement.settlement);
     }
   }
 
