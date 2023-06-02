@@ -83,13 +83,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     super(store, route, navigationBarService);
 
     this.ProviderAdminFormGroup = this.formBuilder.group({
-      lastName: new FormControl('', defaultValidators),
-      firstName: new FormControl('', defaultValidators),
-      middleName: new FormControl('', [
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
+      lastName: new FormControl('', [Validators.required, ...defaultValidators]),
+      firstName: new FormControl('', [Validators.required, ...defaultValidators]),
+      middleName: new FormControl('', defaultValidators),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, Validators.email])
     });
