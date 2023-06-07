@@ -8,6 +8,8 @@
     <ng-container *ngIf="invalidPhoneLength; then invalidPhoneTmpl"></ng-container>
     <ng-container *ngIf="invalidDateRange; then invalidDateRangeTmpl"></ng-container>
     <ng-container *ngIf="invalidEmail; then invalidEmailTmpl"></ng-container>
+    <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
+    <ng-container *ngIf="invalidHouse; then invalidHouseTmpl"></ng-container>
   </ng-container>
 </small>
 
@@ -28,7 +30,8 @@
 
 <ng-template #incorrectDateFieldTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} <br />
-  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate}}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}
+  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate
+  }}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}
   <br />
 </ng-template>
 
@@ -41,5 +44,15 @@
 
 <ng-template #invalidPhoneTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharachters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}
+  <br />
+</ng-template>
+
+<ng-template #invalidStreetTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} {{ 'FORMS.VALIDATIONS.INVALID_STREET' | translate }}
+  <br />
+</ng-template>
+
+<ng-template #invalidHouseTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} {{ 'FORMS.VALIDATIONS.INVALID_HOUSE' | translate }}
   <br />
 </ng-template>

@@ -1,6 +1,6 @@
 import { ValidatorFn, Validators } from '@angular/forms';
 
-import { NO_LATIN_REGEX } from './regex-constants';
+import { HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from './regex-constants';
 
 export class ValidationConstants {
   // Age
@@ -25,6 +25,7 @@ export class ValidationConstants {
   static readonly INPUT_LENGTH_100 = 100;
   static readonly INPUT_LENGTH_60 = 60;
   static readonly INPUT_LENGTH_30 = 30;
+  static readonly INPUT_LENGTH_15 = 15;
   static readonly INPUT_LENGTH_10 = 10;
   static readonly INPUT_LENGTH_8 = 8;
   static readonly INPUT_LENGTH_3 = 3;
@@ -45,11 +46,18 @@ export class ValidationConstants {
 }
 
 export class FormValidators {
-  static readonly defaultAddressValidators: ValidatorFn[] = [
+  static readonly defaultStreetValidators: ValidatorFn[] = [
     Validators.required,
-    Validators.pattern(NO_LATIN_REGEX),
+    Validators.pattern(STREET_REGEX),
     Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+  ];
+
+  static readonly defaultHouseValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(HOUSE_REGEX),
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_15)
   ];
 
   static readonly defaultSearchValidators: ValidatorFn[] = [
