@@ -673,7 +673,7 @@
       "BLOCK_PARENT": "Specify the blocking reason",
       "REJECT": "Specify the reason for rejection",
       "EDITING_PROVIDER": "Specify the reason for editing",
-      "DELETE_WORKSHOP": "Are you sure you want to delete the workshop?",
+      "DELETE_WORKSHOP": "Are you sure you want to delete the workshop",
       "DELETE_DIRECTION": "Are you sure you want to delete the direction?",
       "CREATE_DIRECTION": "Are you sure you want to create the direction?",
       "UPDATE_DIRECTION": "Are you sure you want to edit the direction?",
