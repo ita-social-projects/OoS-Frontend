@@ -1,9 +1,11 @@
-import { debounceTime, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy, OnChanges, SimpleChanges, EventEmitter, ChangeDetectorRef } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl, ValidationErrors } from '@angular/forms';
+
 import { Constants } from '../../constants/constants';
-import { NAME_REGEX, NO_LATIN_REGEX } from '../../constants/regex-constants';
+import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX } from '../../constants/regex-constants';
 
 enum ValidatorsTypes {
   requiredField,
@@ -33,6 +35,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   invalidDateFormat: boolean;
   invalidEmail: boolean;
   invalidPhoneLength: boolean;
+  invalidStreet: boolean;
+  invalidHouse: boolean;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -79,6 +83,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     if (requiredPattern) {
       this.invalidSymbols = NAME_REGEX == requiredPattern;
       this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
+      this.invalidStreet = STREET_REGEX == requiredPattern;
+      this.invalidHouse = HOUSE_REGEX == requiredPattern;
     }
   }
 
