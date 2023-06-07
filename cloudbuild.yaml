@@ -17,8 +17,8 @@ steps:
     entrypoint: 'pack'
     args:
       - build
-      - gcr.io/$PROJECT_ID/oos-frontend:$SHORT_SHA
-      - --cache-image=gcr.io/$PROJECT_ID/oos-cache:front
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-frontend:$SHORT_SHA
+      - --cache-image=${_REGION}-docker.pkg.dev/$PROJECT_ID/outofschool/oos-cache:front
       - --builder=paketobuildpacks/builder:base
       - --buildpack=paketo-buildpacks/web-servers
       - --buildpack=gcr.io/paketo-buildpacks/environment-variables
