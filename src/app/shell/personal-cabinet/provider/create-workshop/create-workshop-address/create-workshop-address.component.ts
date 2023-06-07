@@ -11,27 +11,27 @@ import { Geocoder } from '../../../../../shared/models/geolocation';
   styleUrls: ['./create-workshop-address.component.scss']
 })
 export class CreateWorkshopAddressComponent implements OnInit {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
 
-  @Input() address: Address;
+  @Input() public address: Address;
 
-  @Output() passAddressFormGroup = new EventEmitter();
+  @Output() public passAddressFormGroup = new EventEmitter();
 
-  addressFormGroup: FormGroup;
-  searchFormGroup: FormGroup;
-  noAddressFound = false;
+  public addressFormGroup: FormGroup;
+  public searchFormGroup: FormGroup;
+  public noAddressFound = false;
 
-  get settlementFormControl(): FormControl {
+  public get settlementFormControl(): FormControl {
     return this.searchFormGroup.get('settlement') as FormControl;
   }
 
-  get settlementSearchFormControl(): FormControl {
+  public get settlementSearchFormControl(): FormControl {
     return this.searchFormGroup.get('settlementSearch') as FormControl;
   }
 
   constructor(private formBuilder: FormBuilder) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.addressFormGroup = this.formBuilder.group({
       street: new FormControl('', FormValidators.defaultStreetValidators),
       buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
@@ -47,7 +47,7 @@ export class CreateWorkshopAddressComponent implements OnInit {
     this.passAddressFormGroup.emit(this.addressFormGroup);
   }
 
-  onAddressSelect(result: Geocoder): void {
+  public onAddressSelect(result: Geocoder): void {
     this.noAddressFound = !result;
     if (result) {
       this.settlementFormControl.setValue(result.codeficator);

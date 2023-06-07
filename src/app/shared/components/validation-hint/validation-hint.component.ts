@@ -17,32 +17,31 @@ enum ValidatorsTypes {
   templateUrl: './validation-hint.component.html'
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() validationFormControl: FormControl = new FormControl(); // required for validation
+  @Input() public validationFormControl: FormControl = new FormControl(); // required for validation
   // for Length Validation
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
-  @Input() isPhoneNumber: number; // required to display validation for phone number
+  @Input() public minCharachters: number;
+  @Input() public maxCharachters: number;
+  @Input() public isPhoneNumber: number; // required to display validation for phone number
 
   // for Date Format Validation
-  @Input() minMaxDate: boolean;
+  @Input() public minMaxDate: boolean;
 
-  takeOnce = false;
-  required: boolean;
-  invalidSymbols: boolean;
-  invalidCharacters: boolean;
-  invalidFieldLength: boolean;
-  invalidDateRange: boolean;
-  invalidDateFormat: boolean;
-  invalidEmail: boolean;
-  invalidPhoneLength: boolean;
-  invalidStreet: boolean;
-  invalidHouse: boolean;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public required: boolean;
+  public invalidSymbols: boolean;
+  public invalidCharacters: boolean;
+  public invalidFieldLength: boolean;
+  public invalidDateRange: boolean;
+  public invalidDateFormat: boolean;
+  public invalidEmail: boolean;
+  public invalidPhoneLength: boolean;
+  public invalidStreet: boolean;
+  public invalidHouse: boolean;
 
   constructor(private cd: ChangeDetectorRef) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       const errors = this.validationFormControl.errors;
 
@@ -67,10 +66,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     });
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes?.isTouched) {
       (this.validationFormControl.statusChanges as EventEmitter<any>).emit();
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
@@ -98,10 +102,5 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidDateRange = !!(
       this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')
     );
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

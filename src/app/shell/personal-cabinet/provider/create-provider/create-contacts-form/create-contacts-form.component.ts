@@ -14,66 +14,66 @@ import { Provider } from '../../../../../shared/models/provider.model';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateContactsFormComponent implements OnInit, OnDestroy {
-  legalAddressFormGroup: FormGroup;
-  actualAddressFormGroup: FormGroup;
-  searchFormGroup: FormGroup;
-  isSameAddressControl: FormControl = new FormControl(false);
+  @Input() public provider: Provider;
+  @Output() public passActualAddressFormGroup = new EventEmitter();
+  @Output() public passLegalAddressFormGroup = new EventEmitter();
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() provider: Provider;
-  @Output() passActualAddressFormGroup = new EventEmitter();
-  @Output() passLegalAddressFormGroup = new EventEmitter();
+  public legalAddressFormGroup: FormGroup;
+  public actualAddressFormGroup: FormGroup;
+  public searchFormGroup: FormGroup;
+  public isSameAddressControl: FormControl = new FormControl(false);
 
   constructor() {}
 
-  get searchActualFormGroup(): FormGroup {
+  public get searchActualFormGroup(): FormGroup {
     return this.searchFormGroup.get('actualAddress') as FormGroup;
   }
 
-  get searchLegalFormGroup(): FormGroup {
+  public get searchLegalFormGroup(): FormGroup {
     return this.searchFormGroup.get('legalAddress') as FormGroup;
   }
 
-  get settlementLegalSearchFormControl(): FormControl {
+  public get settlementLegalSearchFormControl(): FormControl {
     return this.searchFormGroup.get('legalAddress').get('settlementSearch') as FormControl;
   }
 
-  get settlementLegalFormControl(): FormControl {
+  public get settlementLegalFormControl(): FormControl {
     return this.searchFormGroup.get('legalAddress').get('settlement') as FormControl;
   }
 
-  get settlementActualSearchFormControl(): FormControl {
+  public get settlementActualSearchFormControl(): FormControl {
     return this.searchActualFormGroup.get('settlementSearch') as FormControl;
   }
 
-  get settlementActualFormControl(): FormControl {
+  public get settlementActualFormControl(): FormControl {
     return this.searchActualFormGroup.get('settlement') as FormControl;
   }
 
-  get codeficatorIdActualFormControl(): FormControl {
+  public get codeficatorIdActualFormControl(): FormControl {
     return this.actualAddressFormGroup.get('catottgId') as FormControl;
   }
 
-  get streetActualFormControl(): FormControl {
+  public get streetActualFormControl(): FormControl {
     return this.actualAddressFormGroup.get('street') as FormControl;
   }
 
-  get buildingNumberActualFormControl(): FormControl {
+  public get buildingNumberActualFormControl(): FormControl {
     return this.actualAddressFormGroup.get('buildingNumber') as FormControl;
   }
 
   /**
    * This method handle Angular Lifecycle hook OnInit
    */
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.initData();
   }
 
   /**
    * This method handle Angular Lifecycle hook OnDestroy
    */
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.complete();
   }
