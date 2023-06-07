@@ -1,8 +1,9 @@
-import { Geocoder } from './../../../../../shared/models/geolocation';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ValidationConstants, FormValidators } from '../../../../../shared/constants/validation';
+
+import { FormValidators, ValidationConstants } from '../../../../../shared/constants/validation';
 import { Address } from '../../../../../shared/models/address.model';
+import { Geocoder } from '../../../../../shared/models/geolocation';
 
 @Component({
   selector: 'app-create-workshop-address',
@@ -32,8 +33,8 @@ export class CreateWorkshopAddressComponent implements OnInit {
 
   ngOnInit(): void {
     this.addressFormGroup = this.formBuilder.group({
-      street: new FormControl('', FormValidators.defaultAddressValidators),
-      buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
+      street: new FormControl('', FormValidators.defaultStreetValidators),
+      buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
       catottgId: new FormControl('', Validators.required),
       lat: new FormControl(''),
       lon: new FormControl('')

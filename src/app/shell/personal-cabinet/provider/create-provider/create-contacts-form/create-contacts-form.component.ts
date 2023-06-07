@@ -1,7 +1,9 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+
 import { FormValidators } from '../../../../../shared/constants/validation';
 import { Provider } from '../../../../../shared/models/provider.model';
 
@@ -94,14 +96,14 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
    */
   private initFormGroups(): void {
     this.legalAddressFormGroup = new FormGroup({
-      street: new FormControl('', FormValidators.defaultAddressValidators),
-      buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
+      street: new FormControl('', FormValidators.defaultStreetValidators),
+      buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
       catottgId: new FormControl('', Validators.required)
     });
 
     this.actualAddressFormGroup = new FormGroup({
-      street: new FormControl('', FormValidators.defaultAddressValidators),
-      buildingNumber: new FormControl('', FormValidators.defaultAddressValidators),
+      street: new FormControl('', FormValidators.defaultStreetValidators),
+      buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
       catottgId: new FormControl('', Validators.required)
     });
 
@@ -210,8 +212,8 @@ export class CreateContactsFormComponent implements OnInit, OnDestroy {
       this.enableControl(this.searchActualFormGroup);
 
       const controlsConfigList: { control: AbstractControl; validators: ValidatorFn | ValidatorFn[] }[] = [
-        { control: this.streetActualFormControl, validators: FormValidators.defaultAddressValidators },
-        { control: this.buildingNumberActualFormControl, validators: FormValidators.defaultAddressValidators },
+        { control: this.streetActualFormControl, validators: FormValidators.defaultStreetValidators },
+        { control: this.buildingNumberActualFormControl, validators: FormValidators.defaultHouseValidators },
         { control: this.codeficatorIdActualFormControl, validators: Validators.required },
         { control: this.settlementActualSearchFormControl, validators: FormValidators.defaultSearchValidators }
       ];
