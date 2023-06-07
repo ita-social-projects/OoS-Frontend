@@ -46,6 +46,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       const errors = this.validationFormControl.errors;
 
+      // Makes the control touched, so that the user can see the result of the check without needing to unfocus
+      if (!this.validationFormControl.touched) {
+        this.validationFormControl.markAsTouched();
+      }
+
       // Check is the field required and empty
       this.required = !!(errors?.required && !this.validationFormControl.value);
 
