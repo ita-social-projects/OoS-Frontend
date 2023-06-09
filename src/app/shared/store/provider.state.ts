@@ -401,7 +401,7 @@ export class ProviderState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnCreateProviderSuccess): void {
-    dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['']));
+    dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.createProvider,
