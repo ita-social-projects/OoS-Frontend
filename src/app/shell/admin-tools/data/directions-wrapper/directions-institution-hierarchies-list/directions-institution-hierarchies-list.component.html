@@ -1,4 +1,7 @@
-<div class="wrapper">
+<div class="wrapper" fxLayout="column">
+  <div fxLayout="row" fxLayoutAlign="end center">
+    <button class="btn" mat-raised-button (click)="onAdd()">Додати напрямок</button>
+  </div>
   <div [hidden]="!dataSource" *ngIf="isLoaded" class="table-container mat-elevation-z8">
     <table mat-table [dataSource]="dataSource" matSort appStretchTable>
       <ng-container *ngFor="let column of columns; index as i">

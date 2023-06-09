@@ -21,6 +21,7 @@ import { AdminApplicationsComponent } from './admin-applications/admin-applicati
 import { SharedCabinetModule } from '../../personal-cabinet/shared-cabinet/shared-cabinet.module';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-wrapper/directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
+import { DirectionsInstitutionHierarchiesAddFormComponent } from './directions-wrapper/directions-institution-hierarchies-add-form/directions-institution-hierarchies-add-form.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-
     AdminApplicationsComponent,
     StatisticsComponent,
     DirectionsInstitutionHierarchiesEditFormComponent,
+    DirectionsInstitutionHierarchiesAddFormComponent,
   ],
   imports: [
     CommonModule,

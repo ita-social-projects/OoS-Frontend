@@ -13,6 +13,7 @@ import { GetFieldDescriptionByInstitutionId, GetAllInstitutionsHierarchy } from 
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
 import { DirectionsInstitutionHierarchiesEditFormComponent } from '../directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
 import { InsHierarchyTableRecord } from './ins-hierarchy-table-record';
+import { DirectionsInstitutionHierarchiesAddFormComponent } from '../directions-institution-hierarchies-add-form/directions-institution-hierarchies-add-form.component';
 
 
 @Component({
@@ -110,6 +111,13 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
         columns: this.columns,
         element: element
       },
+      autoFocus: false
+    });
+  }
+
+  public onAdd() {
+    const dialogRef = this.matDialog.open(DirectionsInstitutionHierarchiesAddFormComponent, {
+      data: this.institutionalHierarchies,
       autoFocus: false
     });
   }
