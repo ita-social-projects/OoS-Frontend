@@ -48,7 +48,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
       const errors = this.validationFormControl.errors;
-      console.log(errors);
 
       // Makes the control touched, so that the user can see the result of the check without needing to unfocus
       if (!this.validationFormControl.touched) {
@@ -66,11 +65,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
       // Check errors for invalid text field
       this.checkInvalidText(errors);
-
-      console.log({
-        invalidHouse: this.invalidHouse,
-        invalidFieldLength: this.invalidFieldLength
-      });
 
       this.cd.detectChanges();
     });
