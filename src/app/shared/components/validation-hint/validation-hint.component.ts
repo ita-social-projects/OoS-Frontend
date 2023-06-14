@@ -1,11 +1,15 @@
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import {
+  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges
+} from '@angular/core';
 import { FormControl, ValidationErrors } from '@angular/forms';
 
 import { Constants } from '../../constants/constants';
-import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX } from '../../constants/regex-constants';
+import {
+  HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX
+} from '../../constants/regex-constants';
 
 enum ValidatorsTypes {
   requiredField,
@@ -89,12 +93,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    if (requiredPattern) {
-      this.invalidSymbols = NAME_REGEX == requiredPattern;
-      this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
-      this.invalidStreet = STREET_REGEX == requiredPattern;
-      this.invalidHouse = HOUSE_REGEX == requiredPattern;
-    }
+    this.invalidSymbols = NAME_REGEX == requiredPattern;
+    this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
+    this.invalidStreet = STREET_REGEX == requiredPattern;
+    this.invalidHouse = HOUSE_REGEX == requiredPattern;
   }
 
   private checkMatDatePciker(): void {
