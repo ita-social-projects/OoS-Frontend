@@ -23,35 +23,36 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() instituitionHierarchyIdFormControl: FormControl;
-  @Input() instituitionIdFormControl: FormControl;
-  @Input() provider: Provider;
+  @Input() private instituitionHierarchyIdFormControl: FormControl;
+  @Input() private provider: Provider;
+  @Input() public instituitionIdFormControl: FormControl;
 
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+  public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.instituitionsHierarchy)
-  instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  private instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
-  editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
-  editInstituitionsHierarchy: InstituitionHierarchy[];
+  private editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
+  private editInstituitionsHierarchy: InstituitionHierarchy[];
   @Select(MetaDataState.institutionFieldDesc)
-  institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
-  institutionFieldDesc: InstitutionFieldDescription[];
+  private institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
+  private institutionFieldDesc: InstitutionFieldDescription[];
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  hierarchyArray: HierarchyElement[] = [];
-  private editMode: boolean;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isEditMode: boolean;
+
+  public hierarchyArray: HierarchyElement[] = [];
 
   constructor(private store: Store) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));
 
-    this.editMode = !!this.instituitionIdFormControl.value;
+    this.isEditMode = !!this.instituitionIdFormControl.value;
 
     this.setInitialInstitution();
 
-    if (this.editMode) {
+    if (this.isEditMode) {
       this.setEditMode();
     } else {
       this.setFieldsDescriptionSubscribe();
@@ -77,7 +78,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   private setInitialInstitution(): void {
-    const institutionId = this.editMode ? this.instituitionIdFormControl.value : this.provider.institution?.id;
+    const institutionId = this.isEditMode ? this.instituitionIdFormControl.value : this.provider.institution?.id;
 
     if (institutionId) {
       this.instituitionIdFormControl.setValue(institutionId, { emitEvent: false });
