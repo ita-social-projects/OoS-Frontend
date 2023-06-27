@@ -174,6 +174,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   onBack(): void {
+    // TODO: Fix redirection when edit canceled onBack() and then confirm
     this.location.back();
   }
 

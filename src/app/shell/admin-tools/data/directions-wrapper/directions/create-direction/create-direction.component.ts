@@ -78,6 +78,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   }
 
   onBack(): void {
+    // TODO: Fix redirection when edit canceled onBack() and then confirm
     this.location.back();
   }
 

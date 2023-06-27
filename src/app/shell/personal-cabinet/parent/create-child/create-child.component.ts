@@ -221,6 +221,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method navigate back
    */
   onCancel(): void {
+    // TODO: Fix redirection when edit canceled onBack() and then confirm
     this.location.back();
   }
 

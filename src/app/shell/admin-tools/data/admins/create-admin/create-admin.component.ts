@@ -213,6 +213,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public onBack(): void {
+    // TODO: Fix redirection when edit canceled onBack() and then confirm
     this.location.back();
   }
 
@@ -224,7 +225,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       }
     });
 
-    dialogRef.afterClosed().pipe(filter((result: boolean)=>result)).subscribe(() => {      
+    dialogRef.afterClosed().pipe(filter((result: boolean)=>result)).subscribe(() => {
       this.saveAdmin();
     });
   }

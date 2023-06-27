@@ -144,6 +144,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   }
 
   onBack(): void {
+    // TODO: Fix redirection when edit canceled onBack() and then confirm
     this.location.back();
   }
 
