@@ -7,9 +7,8 @@
       [TeacherFormGroup]="form"
       [index]="TeacherFormArray.controls.indexOf(form)"
       [teacherAmount]="TeacherFormArray.controls.length"
-      [isRelease3]="isRelease3"
-      (deleteForm)="onDeleteForm($event)"
-    >
+      [isImagesFeature]="isImagesFeature"
+      (deleteForm)="onDeleteForm($event)">
     </app-teacher-form>
   </ng-container>
   <div fxLayout="column" fxLayoutAlign="center center">

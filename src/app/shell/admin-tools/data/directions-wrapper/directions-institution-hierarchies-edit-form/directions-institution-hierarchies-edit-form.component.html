@@ -1,0 +1,64 @@
+<div class="create-form" fxLayout="column" fxLayoutAlign="center center">
+  <div class="wrapper">
+    <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
+      <h3 class="wrapper-title">{{ 'TITLES.EDIT_INSTITUTION_HIERARCHY_FORM_TITLE' | translate }}</h3>
+      <p class="wrapper-text">
+        {{ 'TITLES.EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE' | translate }}
+      </p>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center start" class="warning-box">
+      <span>
+      <i class="material-icons status-info-icon inactiveInfoBtn">info_outline</i>
+      </span>
+      <div>
+        <span>{{ 'FORMS.EDIT_INSTITUTION_HIERARCHY_WARNING_MSG' | translate }}
+        </span>
+      </div>
+    </div>
+    
+    <form #editForm [formGroup]="editDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+      <label class="step-label">{{ 'FORMS.LABELS.MINISTRY_SUBMISSION' | translate }}</label>
+      <mat-form-field>
+        <input matInput class="step-input" [formControlName]="ministryControl"  type="text"  autocomplete="none" appTrimValue />
+      </mat-form-field>
+      <ng-container *ngFor="let field of this.fields.slice(1); let i = index;">
+        <label class="step-label">{{ field }}</label>
+        <mat-form-field>
+          <input matInput class="step-input" [formControlName]="field"  type="text"  autocomplete="none" appTrimValue />
+        </mat-form-field>
+      </ng-container>
+      <ng-container>
+        <mat-form-field appearance="none">
+          <label class="step-label">{{ 'FORMS.LABELS.USER_DIRECTIONS' | translate }}</label>
+          <mat-select
+            #select
+            multiple
+            disableOptionCentering
+            panelClass="dropdown-panel"
+            class="step-input"
+            [compareWith]="compareItems"
+            [formControl]="this.directionsControl">
+            
+            <mat-select-trigger>
+              <mat-chip-list #chipList>
+                <mat-chip *ngFor="let direction of this.directionsControl.value" (removed)="onRemoveItem(direction)">
+                  <img class="min-logo" src="../../assets/icons/icon_painting.svg" alt="Link" />
+                  <span>{{ direction.title }}</span>
+                  <mat-icon matChipRemove>cancel</mat-icon>
+                </mat-chip>
+              </mat-chip-list>
+            </mat-select-trigger>
+            <mat-option class="dropdown-option" *ngFor="let direction of (directions$ | async)" [value]="direction" >
+              {{ direction.title }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-container>
+    </form>
+
+    <div fxLayout="row" fxLayoutAlign="center center" class="footer">
+      <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>
+      <button class="btn" mat-button type="submit" (click)="onSubmit()">Зберегти</button>
+    </div>
+  </div>
+</div>

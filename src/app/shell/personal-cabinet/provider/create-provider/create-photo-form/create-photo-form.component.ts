@@ -1,19 +1,24 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators
+} from '@angular/forms';
 import { Store } from '@ngxs/store';
-import { CropperConfigurationConstants, Constants } from '../../../../../shared/constants/constants';
+
+import {
+  Constants, CropperConfigurationConstants
+} from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-create-photo-form',
   templateUrl: './create-photo-form.component.html',
-  styleUrls: ['./create-photo-form.component.scss'],
+  styleUrls: ['./create-photo-form.component.scss']
 })
 export class CreatePhotoFormComponent implements OnInit {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
 
-  readonly cropperConfig = {
+  public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
@@ -21,19 +26,20 @@ export class CreatePhotoFormComponent implements OnInit {
     cropperAspectRatio: CropperConfigurationConstants.galleryImagesCropperAspectRatio,
     croppedHeight: CropperConfigurationConstants.croppedGalleryImage.height,
     croppedFormat: CropperConfigurationConstants.croppedFormat,
-    croppedQuality: CropperConfigurationConstants.croppedQuality,
+    croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() provider: Provider;
-  @Input() isRelease3: boolean;
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
 
-  @Output() passPhotoFormGroup = new EventEmitter();
+  @Output() public passPhotoFormGroup = new EventEmitter();
 
-  PhotoFormGroup: FormGroup;
-  SectionItemsFormArray = new FormArray([]);
-  editFormGroup: FormGroup;
+  private editFormGroup: FormGroup;
 
-  get providerSectionItemsControl(): AbstractControl {
+  public PhotoFormGroup: FormGroup;
+  public SectionItemsFormArray = new FormArray([]);
+
+  public get providerSectionItemsControl(): AbstractControl {
     return this.PhotoFormGroup.get('providerSectionItems');
   }
 
@@ -44,17 +50,34 @@ export class CreatePhotoFormComponent implements OnInit {
       providerSectionItems: this.SectionItemsFormArray,
       website: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       facebook: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
-      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
+      instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)])
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.passPhotoFormGroup.emit(this.PhotoFormGroup);
-    if(this.provider) {
+    if (this.provider) {
       this.activateEditMode();
     } else {
       this.onAddForm();
     }
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  public onAddForm(): void {
+    if (this.providerSectionItemsControl) {
+      (this.providerSectionItemsControl as FormArray).push(this.newForm());
+    }
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    this.SectionItemsFormArray.removeAt(index);
   }
 
   private activateEditMode(): void {
@@ -77,12 +100,16 @@ export class CreatePhotoFormComponent implements OnInit {
    */
   private newForm(item?: ProviderSectionItem): FormGroup {
     this.editFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [Validators.required]),
+      sectionName: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
+      ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
-      ]),
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+      ])
     });
 
     if (this.provider) {
@@ -94,22 +121,5 @@ export class CreatePhotoFormComponent implements OnInit {
     }
 
     return this.editFormGroup;
-  }
-
-  /**
-   * This method creates new FormGroup adds new FormGroup to the FormArray
-   */
-  onAddForm(): void {
-    if (this.providerSectionItemsControl) {
-      (this.providerSectionItemsControl as FormArray).push(this.newForm());
-    }
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
-  onDeleteForm(index: number): void {
-    this.SectionItemsFormArray.removeAt(index);
   }
 }

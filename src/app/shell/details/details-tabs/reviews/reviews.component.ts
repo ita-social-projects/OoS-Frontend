@@ -1,25 +1,25 @@
-import { ParentState } from '../../../../shared/store/parent.state.';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+import { Component, Input, OnDestroy, OnInit} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { PaginationConstants, Constants } from '../../../../shared/constants/constants';
 import { ReviewDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
 import { Role, EntityType } from '../../../../shared/enum/role';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { Rate, RateParameters } from '../../../../shared/models/rating';
+import { SearchResponse } from '../../../../shared/models/search.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { GetRateByEntityId, ClearRatings } from '../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, CreateRating } from '../../../../shared/store/parent.actions';
+import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, CreateRating, DeleteRatingById } from '../../../../shared/store/parent.actions';
+import { ParentState } from '../../../../shared/store/parent.state.';
 import { RegistrationState } from '../../../../shared/store/registration.state';
-import { TranslateService } from '@ngx-translate/core';
-import { SearchResponse } from '../../../../shared/models/search.model';
 import { Util } from '../../../../shared/utils/utils';
 
 @Component({
@@ -62,7 +62,12 @@ export class ReviewsComponent implements OnInit, OnDestroy {
   alreadyRated: string = this.translateService.instant('YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP');
   mustBeAccepted: string = this.translateService.instant('YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP');
 
-  constructor(private store: Store, private matDialog: MatDialog, private actions$: Actions, private translateService: TranslateService) {}
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog,
+    private actions$: Actions,
+    private translateService: TranslateService
+  ) {}
 
   ngOnInit(): void {
     this.rateParameters.entityId = this.workshop.id;
@@ -83,7 +88,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     this.isReviewed$.pipe(takeUntil(this.destroy$)).subscribe((status: boolean) => (this.isReviewed = status));
   }
 
-  onRate(): void {
+  public onRate(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -105,12 +110,26 @@ export class ReviewsComponent implements OnInit, OnDestroy {
     });
   }
 
-  itemsPerPageChange(itemsPerPage: number): void {
+  public onDelete(rate: Rate): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteRate,
+        property: ''
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.store.dispatch(new DeleteRatingById(rate.id));
+    });
+  }
+
+  public itemsPerPageChange(itemsPerPage: number): void {
     this.rateParameters.size = itemsPerPage;
     this.getRates();
   }
 
-  pageChange(page: PaginationElement): void {
+  public pageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getRates();
   }

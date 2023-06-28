@@ -1,7 +1,11 @@
-import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import {
+  Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild
+} from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { ValidationConstants } from '../../../../../shared/constants/validation';
 import { Provider } from '../../../../../shared/models/provider.model';
@@ -13,8 +17,8 @@ import { Workshop, WorkshopSectionItem } from '../../../../../shared/models/work
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-  readonly cropperConfig = {
+  public readonly validationConstants = ValidationConstants;
+  public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
     cropperMinHeight: CropperConfigurationConstants.cropperMinHeight,
@@ -25,25 +29,26 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() workshop: Workshop;
-  @Input() isRelease3: boolean;
-  @Input() provider: Provider;
+  @Input() public workshop: Workshop;
+  @Input() public isImagesFeature: boolean;
+  @Input() public provider: Provider;
 
-  @Output() passDescriptionFormGroup = new EventEmitter();
+  @Output() public passDescriptionFormGroup = new EventEmitter();
 
-  @ViewChild('keyWordsInput') keyWordsInputElement: ElementRef;
+  @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
 
-  DescriptionFormGroup: FormGroup;
-  EditFormGroup: FormGroup;
-  SectionItemsFormArray = new FormArray([]);
-  keyWordsCtrl: FormControl = new FormControl('', Validators.required);
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  keyWords: string[] = [];
-  keyWord: string;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public DescriptionFormGroup: FormGroup;
+  public EditFormGroup: FormGroup;
+  public SectionItemsFormArray = new FormArray([]);
+  public keyWordsCtrl: FormControl = new FormControl('', Validators.required);
 
-  disabilityOptionRadioBtn: FormControl = new FormControl(false);
-  disabledKeyWordsInput = false;
+  public keyWords: string[] = [];
+  public keyWord: string;
+
+  public disabilityOptionRadioBtn: FormControl = new FormControl(false);
+  public disabledKeyWordsInput = false;
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
@@ -60,7 +65,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
     this.workshop ? this.activateEditMode() : this.onAddForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
@@ -70,7 +75,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method remove already added key words from the list of key words
    * @param string word
    */
-  onRemoveKeyWord(word: string): void {
+  public onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
       this.disabledKeyWordsInput = false;
       this.keyWords.splice(this.keyWords.indexOf(word), 1);
@@ -82,7 +87,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  onKeyWordsInput(isEditMode: boolean = true): void {
+  public onKeyWordsInput(isEditMode: boolean = true): void {
     this.DescriptionFormGroup.get('keyWords').markAsTouched();
     if (this.keyWord) {
       const inputKeyWord = this.keyWord.trim().toLowerCase();
@@ -98,7 +103,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
@@ -106,12 +111,36 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
    */
-  onDisabilityOptionCtrlInit(): void {
+  public onDisabilityOptionCtrlInit(): void {
     const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
 
     this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
       isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
     });
+  }
+
+  /**
+   * This method puts keyWordsInput field in focus
+   */
+  public setFocus(): void {
+    this.keyWordsInputElement.nativeElement.focus();
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  public onAddForm(): void {
+    if (this.DescriptionFormGroup.get('workshopDescriptionItems')) {
+      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(this.newForm());
+    }
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    this.SectionItemsFormArray.removeAt(index);
   }
 
   /**
@@ -142,13 +171,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method puts keyWordsInput field in focus
-   */
-  setFocus(): void {
-    this.keyWordsInputElement.nativeElement.focus();
-  }
-
-  /**
    * This method creates new FormGroup
    */
   private newForm(item?: WorkshopSectionItem): FormGroup {
@@ -174,22 +196,5 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     return this.EditFormGroup;
-  }
-
-  /**
-   * This method creates new FormGroup adds new FormGroup to the FormArray
-   */
-  onAddForm(): void {
-    if (this.DescriptionFormGroup.get('workshopDescriptionItems')) {
-      (this.DescriptionFormGroup.get('workshopDescriptionItems') as FormArray).push(this.newForm());
-    }
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
-  onDeleteForm(index: number): void {
-    this.SectionItemsFormArray.removeAt(index);
   }
 }

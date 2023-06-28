@@ -25,6 +25,12 @@
 }
 .check-boxes {
   margin-top: 30px;
+
+  &__item {
+    &:not(:last-child) {
+      margin-bottom: 0.8rem;
+    }
+  }
 }
 
 .resetFilter {

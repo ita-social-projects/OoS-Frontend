@@ -16,6 +16,7 @@
   "BY_PRICE_INCREASE": "By price increase",
   "BY_RATING": "By rating",
   "CHANGE_EMAIL": "Change email",
+  "CONFIRM_EMAIL": "Confirm email",
   "CHANGE_PASSWORD": "Change password",
   "CITY_DISTRICT": "City district",
   "CLEAR_FILTERS": "Clear Filters",
@@ -224,17 +225,22 @@
     },
     "EMAIL_CONFIRMATION_STATUSES": {
       "PENDING": "Pending email confirmation",
-      "CONFIRMED": "Confirmed email"
+      "CONFIRMED": "Confirmed email",
+      "NOT_CONFIRMED": "You have not yet verified your email address. Follow the link in the previous email."
     },
     "PROVIDER_STATUSES": {
       "APPROVED": "Approved",
       "PENDING": "Pending",
       "EDITING": "Needs editing",
-      "BLOCK": "Blocked"
+      "BLOCK": "Blocked",
+      "RECHECK": "Needs reconfirmation"
     },
     "PROVIDER_STATUS_DETAILS": {
       "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
-      "PENDING": "Your organization is awaiting confirmation by an administrator."
+      "PENDING": "Your organization is awaiting confirmation by an administrator.",
+      "BLOCKED": "Unfortunately, the reason for the block was not specified. Please contact the administration.",
+      "EDITING": "Please make sure that the information about your institution is correct.",
+      "RECHECK": "Your organization is awaiting confirmation by an administrator."
     },
     "LICENSE_STATUSES": {
       "APPROVED": "Approved license",
@@ -355,7 +361,9 @@
       "DATE": "Date",
       "ACHIEVEMENT_DESCRIPTION": "Achievement description",
       "RADIUS": "Radius (km)",
-      "REGION": "Region"
+      "REGION": "Region",
+      "MINISTRY_SUBMISSION": "Ministry of submission",
+      "USER_DIRECTIONS": "Directions for user"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -385,19 +393,22 @@
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",
-      "INVALID_CHARACHTERS": ", please use only Cyrillic",
+      "INVALID_CHARACHTERS": ", please use only cyrillic",
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
       "INVALID_EMAIL": "Enter a valid email.",
+      "INVALID_HOUSE": ", please use only numbers and cyrillic",
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
       "INVALID_MAP": "No such address was found on the map",
-      "INVALID_SYMBOLS": ", please use only Cyrillic and symbols ( ' - )",
+      "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - )",
+      "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created"
-    }
+    },
+    "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. "
   },
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
@@ -439,7 +450,9 @@
     "REVIEWS": "Reviews",
     "TEACHERS": "Teachers",
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
-    "ACCESS_MANAGMENT": "Access managment"
+    "ACCESS_MANAGMENT": "Access managment",
+    "EDIT_INSTITUTION_HIERARCHY_FORM_TITLE": "Edit direction",
+    "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Edit new direction"
   },
   "TO": "To",
   "TOP_DIRECTIONS": "Top categories",
@@ -627,6 +640,7 @@
       "CREATE_ACHIEVEMENT": "New achievement added!",
       "UPDATE_ACHIEVEMENT": "Achievement edited successfully!",
       "DELETE_ACHIEVEMENT": "Achievement deleted!",
+      "DELETE_RATE": "Rate deleted!",
       "CREATE_PROVIDER_ADMIN_SUCCESS": "Workshop administrator successfully created!",
       "CREATE_PROVIDER_ADMIN_FAIL": "Unfortunately, an error occurred while creating the Workshop administrator!",
       "UPDATE_PROVIDER_ADMIN": "Workshop administrator successfully edited!",
@@ -661,12 +675,13 @@
       "BLOCK_PARENT": "Specify the blocking reason",
       "REJECT": "Specify the reason for rejection",
       "EDITING_PROVIDER": "Specify the reason for editing",
-      "DELETE_WORKSHOP": "Are you sure you want to delete the workshop?",
+      "DELETE_WORKSHOP": "Are you sure you want to delete the workshop",
       "DELETE_DIRECTION": "Are you sure you want to delete the direction?",
       "CREATE_DIRECTION": "Are you sure you want to create the direction?",
       "UPDATE_DIRECTION": "Are you sure you want to edit the direction?",
       "DELETE_CHILD": "Are you sure you want to delete the child's data?",
       "DELETE_ACHIEVEMENT": "Are you sure you want to delete the achievement?",
+      "DELETE_RATE": "Are you sure you want to delete the rate?",
       "DELETE_TEACHER": "Are you sure you want to delete teacher's data?",
       "DELETE_PROVIDER": "Are you sure you want to delete a provider?",
       "DELETE_PROVIDER_ADMIN": "Are you sure you want to delete the workshop administrator?",
@@ -706,6 +721,7 @@
         "UPDATE_DIRECTION": "EDIT DIRECTION?",
         "DELETE_CHILD": "DELETE CHILD DATA?",
         "DELETE_ACHIEVEMENT": "DELETE ACHIEVEMENT?",
+        "DELETE_RATE": "DELETE RATE?",
         "DELETE_TEACHER": "DELETE TEACHER DATA?",
         "DELETE_PROVIDER": "DELETE PROVIDER?",
         "DELETE_PROVIDER_ADMIN": "DELETE WORKSHOP ADMINISTRATOR?",

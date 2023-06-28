@@ -20,6 +20,7 @@ import { TranslateModule } from '@ngx-translate/core';
 import { AdminApplicationsComponent } from './admin-applications/admin-applications.component';
 import { SharedCabinetModule } from '../../personal-cabinet/shared-cabinet/shared-cabinet.module';
 import { StatisticsComponent } from './statistics/statistics.component';
+import { DirectionsInstitutionHierarchiesEditFormComponent } from './directions-wrapper/directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { StatisticsComponent } from './statistics/statistics.component';
     DirectionsInstitutionHierarchiesListComponent,
     AdminApplicationsComponent,
     StatisticsComponent,
+    DirectionsInstitutionHierarchiesEditFormComponent,
   ],
   imports: [
     CommonModule,

@@ -20,12 +20,19 @@
 
   <ng-container *ngIf="!(isLoading$ | async)">
     <ng-container *ngIf="rating.totalAmount; else isEmptyList">
-      <div class="rate" *ngFor="let rate of rating.entities" fxLayout="column" fxLayoutAlign="start space-between">
-        <p class="rate-author">{{ rate.firstName }} {{ rate.lastName }}</p>
-        <p class="rate-date" fxLayout="row" fxLayoutAlign="start center">
-          <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
-          {{ rate.creationTime | date: 'shortDate' }}
-        </p>
+      <div class="rate" *ngFor="let rate of rating.entities" fxLayout="row wrap" fxLayoutAlign="space-between center">
+        <div>
+          <p class="rate-author">{{ rate.firstName }} {{ rate.lastName }}</p>
+          <p class="rate-date" fxLayout="row" fxLayoutAlign="start center">
+            <app-stars [rating]="rate.rate" class="star-icon"></app-stars>
+            {{ rate.creationTime | date: 'shortDate' }}
+          </p>
+        </div>
+        <app-rate
+          [rate]="rate"
+          (deleteRate)="onDelete($event)"
+          *ngIf="role === Role.techAdmin">
+        </app-rate>
       </div>
       <app-paginator
         [totalEntities]="rating.totalAmount"

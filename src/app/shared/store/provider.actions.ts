@@ -144,7 +144,7 @@ export class OnDeleteWorkshopFail {
 
 export class CreateProvider {
   static readonly type = '[provider] create Provider';
-  constructor(public payload: Provider, public isRelease3: boolean) {}
+  constructor(public payload: Provider, public isImagesFeature: boolean) {}
 }
 
 export class OnCreateProviderFail {
@@ -159,7 +159,7 @@ export class OnCreateProviderSuccess {
 
 export class UpdateProvider {
   static readonly type = '[provider] update Provider';
-  constructor(public payload: Provider, public isRelease3: boolean) {}
+  constructor(public payload: Provider, public isImagesFeature: boolean) {}
 }
 
 export class OnUpdateProviderFail {

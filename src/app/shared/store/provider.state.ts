@@ -382,9 +382,9 @@ export class ProviderState {
   @Action(CreateProvider)
   createProvider(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, isRelease3 }: CreateProvider
+    { payload, isImagesFeature }: CreateProvider
   ): Observable<Provider | Observable<void>> {
-    return this.providerService.createProvider(payload, isRelease3).pipe(
+    return this.providerService.createProvider(payload, isImagesFeature).pipe(
       tap((res: Provider) => dispatch(new OnCreateProviderSuccess(res))),
       catchError((error) => of(dispatch(new OnCreateProviderFail(error))))
     );
@@ -401,7 +401,7 @@ export class ProviderState {
 
   @Action(OnCreateProviderSuccess)
   onCreateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnCreateProviderSuccess): void {
-    dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['']));
+    dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.createProvider,
@@ -414,9 +414,9 @@ export class ProviderState {
   @Action(UpdateProvider)
   updateProvider(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, isRelease3 }: UpdateProvider
+    { payload, isImagesFeature }: UpdateProvider
   ): Observable<Provider | Observable<void>> {
-    return this.providerService.updateProvider(payload, isRelease3).pipe(
+    return this.providerService.updateProvider(payload, isImagesFeature).pipe(
       tap(() => dispatch(new OnUpdateProviderSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
     );

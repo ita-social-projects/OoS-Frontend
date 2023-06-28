@@ -19,14 +19,14 @@ import { MetaDataState } from '../../../store/meta-data.state';
   providedIn: 'root'
 })
 export class UserWorkshopService {
-  isRelease3: boolean;
+  private isImagesFeature: boolean;
 
   constructor(private http: HttpClient, private store: Store) {}
 
   /**
    * This method get related workshops for provider admins personal cabinet
    */
-  getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+  public getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     let params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
 
     return this.http.get<SearchResponse<ProviderWorkshopCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
@@ -35,7 +35,7 @@ export class UserWorkshopService {
   /**
    * This method get related workshops for provider personal cabinet
    */
-  getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+  public getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
     const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
 
     return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(
@@ -49,7 +49,7 @@ export class UserWorkshopService {
   /**
    * This method get workshops by Provider id for details page
    */
-  getWorkshopsByProviderId(providerParameters: ProviderParameters): Observable<SearchResponse<WorkshopCard[]>> {
+  public getWorkshopsByProviderId(providerParameters: ProviderParameters): Observable<SearchResponse<WorkshopCard[]>> {
     let params = new HttpParams().set('From', providerParameters.from.toString()).set('Size', providerParameters.size.toString());
 
     if (providerParameters.excludedWorkshopId) {
@@ -63,15 +63,15 @@ export class UserWorkshopService {
    * This method get workshops by Workshop id
    * @param id: string
    */
-  getWorkshopById(id: string): Observable<Workshop> {
+  public getWorkshopById(id: string): Observable<Workshop> {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
   }
 
-  getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
+  public getWorkshopListByProviderId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
-  getWorkshopListByProviderAdminId(id: string): Observable<TruncatedItem[]> {
+  public getWorkshopListByProviderAdminId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderAdminId/${id}`);
   }
 
@@ -79,16 +79,16 @@ export class UserWorkshopService {
    * This method create workshop
    * @param workshop: Workshop
    */
-  createWorkshop(workshop: Workshop): Observable<Workshop> {
-    this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release3;
-    return this.isRelease3 ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
+  public createWorkshop(workshop: Workshop): Observable<Workshop> {
+    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
+    return this.isImagesFeature ? this.createWorkshopV2(workshop) : this.createWorkshopV1(workshop);
   }
 
-  createWorkshopV1(workshop: Workshop): Observable<Workshop> {
+  public createWorkshopV1(workshop: Workshop): Observable<Workshop> {
     return this.http.post<Workshop>('/api/v1/Workshop/Create', workshop);
   }
 
-  createWorkshopV2(workshop: Workshop): Observable<Workshop> {
+  public createWorkshopV2(workshop: Workshop): Observable<Workshop> {
     const formData = this.createFormData(workshop);
     return this.http.post<Workshop>('/api/v2/Workshop/Create', formData);
   }
@@ -97,16 +97,16 @@ export class UserWorkshopService {
    * This method update workshop
    * @param workshop: Workshop
    */
-  updateWorkshop(workshop: Workshop): Observable<Workshop> {
-    this.isRelease3 = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).release2;
-    return this.isRelease3 ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
+  public updateWorkshop(workshop: Workshop): Observable<Workshop> {
+    this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
+    return this.isImagesFeature ? this.updateWorkshopV2(workshop) : this.updateWorkshopV1(workshop);
   }
 
-  updateWorkshopV1(workshop: Workshop): Observable<Workshop> {
+  public updateWorkshopV1(workshop: Workshop): Observable<Workshop> {
     return this.http.put<Workshop>('/api/v1/Workshop/Update', workshop);
   }
 
-  updateWorkshopV2(workshop: Workshop): Observable<Workshop> {
+  public updateWorkshopV2(workshop: Workshop): Observable<Workshop> {
     const formData = this.createFormData(workshop);
     return this.http.put<Workshop>('/api/v2/Workshop/Update', formData);
   }
@@ -115,12 +115,12 @@ export class UserWorkshopService {
    * This method update workshop status
    * @param workshopStatus: WorkshopStatus
    */
-  updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
+  public updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
   }
 
-  deleteWorkshop(id: string): Observable<void> {
-    return this.http.delete<void>(`/api/v2/Workshop/Delete/${id}`);
+  public deleteWorkshop(id: string): Observable<void> {
+    return this.http.delete<void>(`/api/v1/Workshop/Delete/${id}`);
   }
 
   private createFormData(workshop: Workshop): FormData {

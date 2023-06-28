@@ -141,6 +141,21 @@ export class OnCreateRatingSuccess {
   constructor() {}
 }
 
+export class DeleteRatingById {
+  static readonly type = '[parent] delete Rating';
+  constructor(public payload: number) {}
+}
+
+export class OnDeleteRatingFail {
+  static readonly type = '[parent] delete Rating fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnDeleteRatingSuccess {
+  static readonly type = '[parent] delete Rating success';
+  constructor(public payload: number) {}
+}
+
 export class CreateApplication {
   static readonly type = '[parent] create Application';
   constructor(public payload: Application) {}
