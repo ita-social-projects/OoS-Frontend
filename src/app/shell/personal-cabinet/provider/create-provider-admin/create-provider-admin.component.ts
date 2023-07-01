@@ -1,40 +1,30 @@
-import { combineLatest, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
-
-import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { combineLatest, Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
-import {
-  ConfirmationModalWindowComponent
-} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
-import { NAME_REGEX } from '../../../../shared/constants/regex-constants';
-import { ValidationConstants } from '../../../../shared/constants/validation';
-import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import {
-  ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew
-} from '../../../../shared/enum/enumUA/provider-admin';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { ProviderAdminRole } from '../../../../shared/enum/provider-admin';
-import { Role } from '../../../../shared/enum/role';
-import { TruncatedItem } from '../../../../shared/models/item.model';
-import { Provider } from '../../../../shared/models/provider.model';
-import { ProviderAdmin } from '../../../../shared/models/providerAdmin.model';
-import {
-  NavigationBarService
-} from '../../../../shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath } from '../../../../shared/store/navigation.actions';
-import {
-  CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin
-} from '../../../../shared/store/provider.actions';
-import { ProviderState } from '../../../../shared/store/provider.state';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { Util } from '../../../../shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { NAME_REGEX } from 'shared/constants/regex-constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew } from 'shared/enum/enumUA/provider-admin';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { ProviderAdminRole } from 'shared/enum/provider-admin';
+import { Role } from 'shared/enum/role';
+import { TruncatedItem } from 'shared/models/item.model';
+import { Provider } from 'shared/models/provider.model';
+import { ProviderAdmin } from 'shared/models/providerAdmin.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -78,7 +68,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     protected navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
-    private location: Location
+    private router: Router
   ) {
     super(store, route, navigationBarService);
 
@@ -142,9 +132,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     let navBarTitle: string;
 
     if (this.editMode) {
-      this.isDeputy ? (navBarTitle = NavBarName.UpdateProviderDeputy) : (navBarTitle = NavBarName.UpdateProviderAdmin);
+      navBarTitle = this.isDeputy ? NavBarName.UpdateProviderDeputy : NavBarName.UpdateProviderAdmin;
     } else {
-      this.isDeputy ? (navBarTitle = NavBarName.CreateProviderDeputy) : (navBarTitle = NavBarName.CreateProviderAdmin);
+      navBarTitle = this.isDeputy ? NavBarName.CreateProviderDeputy : NavBarName.CreateProviderAdmin;
     }
 
     this.store.dispatch(
@@ -176,22 +166,13 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     });
   }
 
-  public onBack(): void {
-    // TODO: Fix redirection when edit canceled onBack() and then confirm
-    this.location.back();
-  }
-
   public onSubmit(): void {
     let confirmationType: string;
 
     if (this.editMode) {
-      this.isDeputy
-        ? (confirmationType = ModalConfirmationType.updateProviderAdminDeputy)
-        : (confirmationType = ModalConfirmationType.updateProviderAdmin);
+      confirmationType = this.isDeputy ? ModalConfirmationType.updateProviderAdminDeputy : ModalConfirmationType.updateProviderAdmin;
     } else {
-      this.isDeputy
-        ? (confirmationType = ModalConfirmationType.createProviderAdminDeputy)
-        : (confirmationType = ModalConfirmationType.createProviderAdmin);
+      confirmationType = this.isDeputy ? ModalConfirmationType.createProviderAdminDeputy : ModalConfirmationType.createProviderAdmin;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
@@ -215,5 +196,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
         );
       }
     });
+  }
+
+  public onCancel(): void {
+    this.router.navigate(['/personal-cabinet/provider/administration']);
   }
 }

@@ -1,38 +1,35 @@
-import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
-import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-
-import { ActivatedRoute } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Location } from '@angular/common';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
 
-import { NAME_REGEX } from 'shared-constants/regex-constants';
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared-constants/constants';
+import { NAME_REGEX } from 'shared-constants/regex-constants';
 import { ValidationConstants } from 'shared-constants/validation';
 import { AdminRoles } from 'shared-enum/admins';
-import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
+import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
 import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
+import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from 'shared-enum/enumUA/tech-admin/admins';
+import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
 import { Role } from 'shared-enum/role';
+import { BaseAdmin } from 'shared-models/admin.model';
+import { Codeficator } from 'shared-models/codeficator.model';
 import { Institution } from 'shared-models/institution.model';
+import { RegionAdmin } from 'shared-models/regionAdmin.model';
 import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
+import { CreateAdmin, GetAdminById, UpdateAdmin } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
 import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorSearch } from 'shared-store/meta-data.actions';
 import { MetaDataState } from 'shared-store/meta-data.state';
 import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
-import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { Util } from 'shared-utils/utils';
-import { GetAdminById, UpdateAdmin, CreateAdmin } from 'shared-store/admin.actions';
-import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from 'shared-enum/enumUA/tech-admin/admins';
-import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
-import { BaseAdmin } from 'shared-models/admin.model';
-import { Codeficator } from 'shared-models/codeficator.model';
-import { RegionAdmin } from 'shared-models/regionAdmin.model';
 import { AdminFactory } from 'shared/utils/admin.factory';
-
+import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
   Validators.required,
@@ -40,6 +37,7 @@ const defaultValidators: ValidatorFn[] = [
   Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
   Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
 ];
+
 @Component({
   selector: 'app-create-admin',
   templateUrl: './create-admin.component.html',
@@ -70,7 +68,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     protected navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
-    private location: Location
+    private router: Router
   ) {
     super(store, route, navigationBarService);
 
@@ -89,7 +87,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
     this.subscribeOnDirtyForm(this.AdminFormGroup);
-    if(this.isRegionAdmin) {
+    if (this.isRegionAdmin) {
       this.AdminFormGroup.addControl('region', new FormControl('', [Validators.required]));
       this.initRegionListener();
     }
@@ -105,11 +103,11 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public get regionFormControl(): FormControl {
-    return <FormControl>this.AdminFormGroup.get('region');
+    return this.AdminFormGroup.get('region') as FormControl;
   }
 
   public get institutionFormControl(): FormControl {
-    return <FormControl>this.AdminFormGroup.get('institution');
+    return this.AdminFormGroup.get('institution') as FormControl;
   }
 
   private initRegionListener(): void {
@@ -130,10 +128,9 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public displayRegionNameFn(codeficator: Codeficator | string): string {
-    if (typeof codeficator === "string") {
+    if (typeof codeficator === 'string') {
       return codeficator;
-    };
-
+    }
     return codeficator.region || codeficator.fullName || codeficator.settlement;
   }
 
@@ -168,20 +165,20 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           },
           { emitEvent: false }
         );
-        if(this.isRegionAdmin) {
-          this.fillRegion(<RegionAdmin>admin)
+        if (this.isRegionAdmin) {
+          this.fillRegion(<RegionAdmin>admin);
         }
       });
   }
 
   private fillRegion(admin: RegionAdmin): void {
-      this.regionFormControl.setValue(
-        {
-          id: admin.catottgId,
-          fullName: admin.catottgName
-        },
-        { emitEvent: false }
-      );
+    this.regionFormControl.setValue(
+      {
+        id: admin.catottgId,
+        fullName: admin.catottgName
+      },
+      { emitEvent: false }
+    );
   }
 
   public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
@@ -212,11 +209,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     );
   }
 
-  public onBack(): void {
-    // TODO: Fix redirection when edit canceled onBack() and then confirm
-    this.location.back();
-  }
-
   public onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
@@ -232,7 +224,17 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   private saveAdmin(): void {
     const regionId = this.regionFormControl?.value?.id || null;
-    const admin = AdminFactory.createAdmin(this.adminRole, this.AdminFormGroup.value, this.institutionFormControl.value.id, regionId, this.adminId)
+    const admin = AdminFactory.createAdmin(
+      this.adminRole,
+      this.AdminFormGroup.value,
+      this.institutionFormControl.value.id,
+      regionId,
+      this.adminId
+    );
     this.store.dispatch(this.editMode ? new UpdateAdmin(admin, this.adminRole) : new CreateAdmin(admin, this.adminRole));
+  }
+
+  public onCancel(): void {
+    this.router.navigate(['/admin-tools/data/admins']);
   }
 }

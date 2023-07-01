@@ -25,9 +25,9 @@
             (PassAboutFormGroup)="onReceiveAboutFormGroup($event)">
           </app-create-about-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"
-              ><button mat-raised-button class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button></a
-            >
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
             <button class="btn" mat-raised-button matStepperNext [disabled]="AboutFormGroup.invalid">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -47,10 +47,12 @@
             (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-description-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"
-              ><button mat-raised-button class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button></a
-            >
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
             <button class="btn" mat-raised-button matStepperNext [disabled]="DescriptionFormGroup?.invalid">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -66,10 +68,12 @@
           <app-create-workshop-address [address]="workshop?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-workshop-address>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"
-              ><button mat-raised-button class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button></a
-            >
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
             <button class="btn" mat-raised-button matStepperNext [disabled]="AddressFormGroup?.invalid">
               {{ 'BUTTONS.NEXT' | translate }}
             </button>
@@ -89,10 +93,12 @@
           </app-create-teacher>
 
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-            <button class="btn" mat-raised-button matStepperPrevious>{{ 'BUTTONS.BACK' | translate }}</button>
-            <a [routerLink]="'/personal-cabinet/provider/workshops'"
-              ><button mat-raised-button class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate }}</button></a
-            >
+            <button class="btn" mat-raised-button matStepperPrevious>
+              {{ 'BUTTONS.BACK' | translate }}
+            </button>
+            <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
+              {{ 'BUTTONS.CANCEL' | translate }}
+            </button>
             <button
               [disabled]="(isLoading$ | async) || TeacherFormArray?.invalid"
               class="btn"

@@ -143,7 +143,7 @@
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button class="btn btn-cancel" mat-raised-button (click)="onBack()">{{ 'BUTTONS.CANCEL' | translate }}</button>
+      <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
       <button class="btn" mat-button type="submit" (click)="onSubmit()" [disabled]="AchievementFormGroup.invalid">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>
