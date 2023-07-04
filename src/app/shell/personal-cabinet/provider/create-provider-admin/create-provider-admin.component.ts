@@ -1,5 +1,7 @@
 import { combineLatest, Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, take, takeUntil } from 'rxjs/operators';
+import {
+  debounceTime, distinctUntilChanged, filter, switchMap, take, takeUntil
+} from 'rxjs/operators';
 
 import { Location } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
@@ -118,19 +120,30 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   public setEditMode(): void {
-    combineLatest([this.providerAdmin$, this.truncatedItems$])
-      .pipe(
-        filter(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => !!(providerAdmin && allEntities)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(([providerAdmin, allEntities]) => {
-        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
-        this.entityControl.setValue(
-          allEntities.filter((entity: TruncatedItem) =>
-            providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
-          )
-        );
-      });
+    if (this.isDeputy) {
+      this.providerAdmin$
+        .pipe(
+          filter((providerAdmin: ProviderAdmin) => !!providerAdmin),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((providerAdmin: ProviderAdmin) => {
+          this.patchProviderAdminForm(providerAdmin);
+        });
+    } else {
+      combineLatest([this.providerAdmin$, this.truncatedItems$])
+        .pipe(
+          filter(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => !!(providerAdmin && allEntities)),
+          takeUntil(this.destroy$)
+        )
+        .subscribe(([providerAdmin, allEntities]) => {
+          this.patchProviderAdminForm(providerAdmin);
+          this.entityControl.setValue(
+            allEntities.filter((entity: TruncatedItem) =>
+              providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
+            )
+          );
+        });
+    }
 
     this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
   }
@@ -214,5 +227,9 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
         );
       }
     });
+  }
+
+  private patchProviderAdminForm(providerAdmin: ProviderAdmin): void {
+    this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
   }
 }
