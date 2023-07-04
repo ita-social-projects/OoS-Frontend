@@ -120,30 +120,24 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   public setEditMode(): void {
-    if (this.isDeputy) {
-      this.providerAdmin$
-        .pipe(
-          filter((providerAdmin: ProviderAdmin) => !!providerAdmin),
-          takeUntil(this.destroy$)
-        )
-        .subscribe((providerAdmin: ProviderAdmin) => {
-          this.patchProviderAdminForm(providerAdmin);
-        });
-    } else {
-      combineLatest([this.providerAdmin$, this.truncatedItems$])
-        .pipe(
-          filter(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => !!(providerAdmin && allEntities)),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(([providerAdmin, allEntities]) => {
-          this.patchProviderAdminForm(providerAdmin);
+    const editObservables: Observable<ProviderAdmin | TruncatedItem[]>[] = [this.providerAdmin$.pipe(filter(Boolean))];
+
+    if (!this.isDeputy) {
+      editObservables.push(this.truncatedItems$.pipe(filter(Boolean)));
+    }
+
+    combineLatest(editObservables)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => {
+        this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
+        if (allEntities) {
           this.entityControl.setValue(
             allEntities.filter((entity: TruncatedItem) =>
               providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
             )
           );
-        });
-    }
+        }
+      });
 
     this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
   }
@@ -227,9 +221,5 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
         );
       }
     });
-  }
-
-  private patchProviderAdminForm(providerAdmin: ProviderAdmin): void {
-    this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
   }
 }
