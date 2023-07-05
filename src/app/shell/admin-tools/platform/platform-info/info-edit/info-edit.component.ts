@@ -1,20 +1,20 @@
-import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { filter, takeUntil, tap } from 'rxjs/operators';
-import { AdminTabsTitles } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
-import { Location } from '@angular/common';
 import { Observable } from 'rxjs';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
-import { CompanyInformation, CompanyInformationSectionItem } from '../../../../../shared/models/сompanyInformation.model';
-import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
-import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../../shared/store/admin.state';
-import { AddNavPath } from '../../../../../shared/store/navigation.actions';
+import { filter, takeUntil, tap } from 'rxjs/operators';
+
+import { ValidationConstants } from 'shared/constants/validation';
+import { AdminTabTypes } from 'shared/enum/admins';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { AdminTabsTitles } from 'shared/enum/enumUA/tech-admin/admin-tabs';
+import { CompanyInformation, CompanyInformationSectionItem } from 'shared/models/сompanyInformation.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { GetPlatformInfo, UpdatePlatformInfo } from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
-import { AdminTabTypes } from '../../../../../shared/enum/admins';
 
 @Component({
   selector: 'app-info-edit',
@@ -47,7 +47,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
-    private location: Location
+    private router: Router
   ) {
     super(store, route, navigationBarService);
   }
@@ -77,7 +77,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
             isActive: false,
             disable: false
           },
-          { name: `Редагувати інфомацію "${NavBarName[this.platformInfoType]}"`, isActive: false, disable: true }
+          { name: `Редагувати інформацію "${NavBarName[this.platformInfoType]}"`, isActive: false, disable: true }
         )
       )
     );
@@ -143,8 +143,8 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.PlatformInfoItemArray.removeAt(index);
   }
 
-  onBack(): void {
-    this.location.back();
+  onCancel(): void {
+    this.router.navigate(['/admin-tools/platform']);
   }
 
   onSubmit(): void {
