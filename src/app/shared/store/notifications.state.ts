@@ -6,23 +6,27 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 
 import { SnackbarText } from '../enum/enumUA/messageBer';
-import {
-  Notification, NotificationGroupedByAdditionalData, Notifications, NotificationsAmount,
-  NotificationsGroupedByType
-} from '../models/notifications.model';
+import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
 import { NotificationsService } from '../services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
 import {
-  ClearNotificationState, DeleteUsersNotificationById, GetAllUsersNotificationsGrouped,
-  GetAmountOfNewUsersNotifications, OnDeleteUsersNotificationByIdFail,
-  OnDeleteUsersNotificationByIdSuccess, OnReadUsersNotificationsByTypeSuccess,
-  OnReadUsersNotificationsFail, ReadUsersNotificationById, ReadUsersNotificationsByType
+  ClearNotificationState,
+  DeleteUsersNotificationById,
+  GetAllUsersNotificationsGrouped,
+  GetAmountOfNewUsersNotifications,
+  OnDeleteUsersNotificationByIdFail,
+  OnDeleteUsersNotificationByIdSuccess,
+  OnReadUsersNotificationsByTypeSuccess,
+  OnReadUsersNotificationsFail,
+  ReadUsersNotificationById,
+  ReadUsersNotificationsByType
 } from './notifications.actions';
 
 export interface NotificationsStateModel {
   notificationsAmount: NotificationsAmount;
   notifications: Notifications;
 }
+
 @State<NotificationsStateModel>({
   name: 'notifications',
   defaults: {
@@ -36,6 +40,7 @@ export class NotificationsState {
   static notificationsAmount(state: NotificationsStateModel): NotificationsAmount {
     return state.notificationsAmount;
   }
+
   @Selector()
   static notifications(state: NotificationsStateModel): Notifications {
     return state.notifications;

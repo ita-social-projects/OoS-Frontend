@@ -8,26 +8,37 @@ import { Select, Store } from '@ngxs/store';
 import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-links';
 import { Constants } from '../../../constants/constants';
 import {
-  ApplicationApproved, ApplicationChanges, ApplicationLeft, ApplicationPending, ApplicationRejected
+  ApplicationApproved,
+  ApplicationChanges,
+  ApplicationLeft,
+  ApplicationPending,
+  ApplicationRejected
 } from '../../../enum/enumUA/declinations/notification-declination';
 import { NoResultsTitle } from '../../../enum/enumUA/no-results';
 import {
-  NotificationProviderLicenseFullDescription, NotificationProviderLicenseShortDescription,
-  NotificationsProviderFullDescriptions, NotificationsProviderShortDescriptions,
-  NotificationWorkshopFullDescriptions, NotificationWorkshopShortDescription
+  NotificationProviderLicenseFullDescription,
+  NotificationProviderLicenseShortDescription,
+  NotificationsProviderFullDescriptions,
+  NotificationsProviderShortDescriptions,
+  NotificationWorkshopFullDescriptions,
+  NotificationWorkshopShortDescription
 } from '../../../enum/enumUA/notifications';
-import {
-  DataTypes, NotificationDescriptionType, NotificationType
-} from '../../../enum/notifications';
+import { DataTypes, NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
 import { Role } from '../../../enum/role';
-import { ApplicationStatuses, LicenseStatuses, ProviderStatuses } from '../../../enum/statuses';
+import { ApplicationStatuses, ProviderStatuses } from '../../../enum/statuses';
 import {
-  Notification, NotificationGroupedByAdditionalData, Notifications, NotificationsAmount,
+  Notification,
+  NotificationGroupedByAdditionalData,
+  Notifications,
+  NotificationsAmount,
   NotificationsGroupedByType
 } from '../../../models/notifications.model';
 import {
-  ClearNotificationState, DeleteUsersNotificationById, GetAllUsersNotificationsGrouped,
-  ReadUsersNotificationById, ReadUsersNotificationsByType
+  ClearNotificationState,
+  DeleteUsersNotificationById,
+  GetAllUsersNotificationsGrouped,
+  ReadUsersNotificationById,
+  ReadUsersNotificationsByType
 } from '../../../store/notifications.actions';
 import { NotificationsState } from '../../../store/notifications.state';
 import { RegistrationState } from '../../../store/registration.state';
@@ -123,7 +134,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         this.router.navigate([`/personal-cabinet/${PersonalCabinetLinks.Chat}`]);
         break;
       case NotificationType.Provider:
-        this.router.navigate(['personal-cabinet/provider/info']);
+        this.router.navigate(['admin-tools/data/provider-list']);
         break;
     }
   }
