@@ -1,18 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  debounceTime, distinctUntilChanged, filter, switchMap, take, takeUntil
+} from 'rxjs/operators';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew } from 'shared/enum/enumUA/provider-admin';
+import {
+  ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew
+} from 'shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminRole } from 'shared/enum/provider-admin';
 import { Role } from 'shared/enum/role';
@@ -21,10 +21,20 @@ import { Provider } from 'shared/models/provider.model';
 import { ProviderAdmin } from 'shared/models/providerAdmin.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin } from 'shared/store/provider.actions';
+import {
+  CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin
+} from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
+
+import { Location } from '@angular/common';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -108,18 +118,23 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   }
 
   public setEditMode(): void {
-    combineLatest([this.providerAdmin$, this.truncatedItems$])
-      .pipe(
-        filter(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => !!(providerAdmin && allEntities)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(([providerAdmin, allEntities]) => {
+    const editObservables: Observable<ProviderAdmin | TruncatedItem[]>[] = [this.providerAdmin$.pipe(filter(Boolean))];
+
+    if (!this.isDeputy) {
+      editObservables.push(this.truncatedItems$.pipe(filter(Boolean)));
+    }
+
+    combineLatest(editObservables)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([providerAdmin, allEntities]: [ProviderAdmin, TruncatedItem[]]) => {
         this.ProviderAdminFormGroup.patchValue(providerAdmin, { emitEvent: false });
-        this.entityControl.setValue(
-          allEntities.filter((entity: TruncatedItem) =>
-            providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
-          )
-        );
+        if (allEntities) {
+          this.entityControl.setValue(
+            allEntities.filter((entity: TruncatedItem) =>
+              providerAdmin.workshopTitles.find((checkedEntity: TruncatedItem) => entity.id === checkedEntity.id)
+            )
+          );
+        }
       });
 
     this.store.dispatch(new GetProviderAdminById(this.providerAdminId));
