@@ -1,39 +1,34 @@
-import { ProviderState } from './../../../../shared/store/provider.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, combineLatest } from 'rxjs';
-import { ActivatedRoute } from '@angular/router';
-import { filter, takeUntil } from 'rxjs/operators';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { combineLatest, Observable, Subject } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Role } from 'shared/enum/role';
+import { Achievement, AchievementType } from 'shared/models/achievement.model';
+import { Child } from 'shared/models/child.model';
+import { Navigation } from 'shared/models/navigation.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Person } from 'shared/models/user.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { GetAchievementsType } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { CreateAchievement, GetAchievementById, GetChildrenByWorkshopId, UpdateAchievement } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { Location } from '@angular/common';
-import {
-  CreateAchievement,
-  GetAchievementById,
-  GetChildrenByWorkshopId,
-  UpdateAchievement
-} from './../../../../shared/store/provider.actions';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../shared/constants/validation';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../shared/enum/role';
-import { Achievement, AchievementType } from '../../../../shared/models/achievement.model';
-import { Person } from '../../../../shared/models/user.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
-import { GetAchievementsType } from '../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { AddNavPath } from '../../../../shared/store/navigation.actions';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../shared/store/shared-user.actions';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
-import { Util } from '../../../../shared/utils/utils';
-import { Navigation } from '../../../../shared/models/navigation.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Child } from '../../../../shared/models/child.model';
 
 @Component({
   selector: 'app-create-achievement',
@@ -77,8 +72,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     protected navigationBarService: NavigationBarService,
     private formBuilder: FormBuilder,
     private matDialog: MatDialog,
-    private location: Location,
-    private routeParams: ActivatedRoute
+    private router: Router
   ) {
     super(store, route, navigationBarService);
     this.AchievementFormGroup = this.formBuilder.group({
@@ -101,7 +95,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   determineEditMode(): void {
-    this.achievementId = this.routeParams.snapshot.queryParams['achievementId'];
+    this.achievementId = this.route.snapshot.paramMap.get('achievementId');
     this.editMode = !!this.achievementId;
     if (this.editMode) {
       this.setEditMode();
@@ -173,10 +167,6 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     );
   }
 
-  onBack(): void {
-    this.location.back();
-  }
-
   onSubmit(): void {
     if (this.editMode) {
       const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
@@ -198,6 +188,10 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
         this.store.dispatch(new CreateAchievement(achievement));
       }
     });
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/details/workshop', this.workshopId], { queryParams: { status: 'Achievements' } });
   }
 
   onRemoveItem(item: string, control: string): void {

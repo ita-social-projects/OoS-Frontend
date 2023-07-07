@@ -1,36 +1,29 @@
-import { takeUntil } from 'rxjs/operators';
-
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import {
-  AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild
-} from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
+import { takeUntil } from 'rxjs/operators';
 
-import {
-  ConfirmationModalWindowComponent
-} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../shared/constants/constants';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { CreateProviderSteps } from '../../../../shared/enum/provider';
-import { Role } from '../../../../shared/enum/role';
-import { Address } from '../../../../shared/models/address.model';
-import { FeaturesList } from '../../../../shared/models/featuresList.model';
-import { Provider } from '../../../../shared/models/provider.model';
-import { User } from '../../../../shared/models/user.model';
-import {
-  NavigationBarService
-} from '../../../../shared/services/navigation-bar/navigation-bar.service';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { AddNavPath } from '../../../../shared/store/navigation.actions';
-import { CreateProvider, UpdateProvider } from '../../../../shared/store/provider.actions';
-import { Logout } from '../../../../shared/store/registration.actions';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { Util } from '../../../../shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { CreateProviderSteps } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
+import { Address } from 'shared/models/address.model';
+import { FeaturesList } from 'shared/models/featuresList.model';
+import { Provider } from 'shared/models/provider.model';
+import { User } from 'shared/models/user.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
+import { Logout } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -124,20 +117,20 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       const user: User = this.store.selectSnapshot<User>(RegistrationState.user);
       this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
       let legalAddress: Address;
-      let actulaAdress: Address;
+      let actualAddress: Address;
       let provider: Provider;
 
       if (this.editMode) {
         legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
-        actulaAdress = this.ActualAddressFormGroup.disabled
+        actualAddress = this.ActualAddressFormGroup.disabled
           ? null
           : new Address(this.ActualAddressFormGroup.value, this.provider.actualAddress);
-        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user, this.provider);
+        provider = new Provider(this.InfoFormGroup.value, legalAddress, actualAddress, this.PhotoFormGroup.value, user, this.provider);
         this.store.dispatch(new UpdateProvider(provider, this.isImagesFeature));
       } else {
         legalAddress = new Address(this.LegalAddressFormGroup.value);
-        actulaAdress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
-        provider = new Provider(this.InfoFormGroup.value, legalAddress, actulaAdress, this.PhotoFormGroup.value, user);
+        actualAddress = this.ActualAddressFormGroup.disabled ? null : new Address(this.ActualAddressFormGroup.value);
+        provider = new Provider(this.InfoFormGroup.value, legalAddress, actualAddress, this.PhotoFormGroup.value, user);
         this.store.dispatch(new CreateProvider(provider, this.isImagesFeature));
       }
     }
@@ -169,7 +162,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   /**
-   * This method receives a from from create-photo child component and assigns to the Info FormGroup
+   * This method receives a form from create-photo child component and assigns to the Info FormGroup
    * @param FormGroup form
    */
   public onReceivePhotoFormGroup(form: FormGroup): void {
