@@ -18,6 +18,7 @@ export interface FilterStateModel {
   maxPrice: number;
   minPrice: number;
   settlement: Codeficator;
+  currentGeolocation: Codeficator;
   searchQuery: string;
   order: string;
   filteredWorkshops: SearchResponse<WorkshopCard[]>;

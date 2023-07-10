@@ -1,5 +1,5 @@
 import { CodeficatorService } from './../codeficator/codeficator.service';
-import { ConfirmCity, SetCity } from './../../store/filter.actions';
+import { ConfirmCity, SetCity, SetCurrentGeolocation } from './../../store/filter.actions';
 import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
 import { Coords } from '../../models/coords.model';
@@ -18,6 +18,10 @@ export class GeolocationService {
    */
   confirmCity(settlement: Codeficator, isConfirmed: boolean): void {
     this.store.dispatch([new SetCity(settlement, isConfirmed), new ConfirmCity(isConfirmed)]);
+  }
+
+  setCurrentGeolocation(settlement: Codeficator): void {
+    this.store.dispatch([new SetCurrentGeolocation(settlement)]);
   }
 
   navigatorRecievedError(err: GeolocationPositionError): void {
