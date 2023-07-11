@@ -133,7 +133,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
             this.store.dispatch(new ClearCodeficatorSearch());
           } else {
             this.autocompleteSelected = 'region';
-            this.territorialCommunityFormControl.setValue('', {emitEvent: false});
+            this.territorialCommunityFormControl?.setValue('', {emitEvent: false});
           }
         }),
         filter((value: string) => value?.length > 2)
