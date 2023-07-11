@@ -5,10 +5,10 @@ export class RegionAdmin extends BaseAdmin {
   public catottgName: string;
 
   constructor(info, institutionId: string, regionId: string, id?: string, accountStatus?: string) {
-    super(info, institutionId, id, accountStatus)
-    this.catottgId = regionId
+    super(info, institutionId, id, accountStatus);
+    this.catottgId = regionId;
   }
 }
 
-export interface RegionAdminParameters extends BaseAdminParameters { }
-export interface RegionAdminBlockData extends BaseAdminBlockData { }
+export interface RegionAdminParameters extends BaseAdminParameters {}
+export interface RegionAdminBlockData extends BaseAdminBlockData {}
