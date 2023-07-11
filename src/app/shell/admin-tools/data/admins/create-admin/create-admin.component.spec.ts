@@ -42,7 +42,7 @@ describe('CreateAdminComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
-    component.AdminFormGroup = new FormGroup({
+    component.adminFormGroup = new FormGroup({
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),

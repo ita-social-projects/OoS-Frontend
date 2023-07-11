@@ -363,7 +363,8 @@
       "RADIUS": "Радіус (км)",
       "REGION": "Область",
       "MINISTRY_SUBMISSION": "Підпорядкування (Міністерство)",
-      "USER_DIRECTIONS": "Напрямки для користувача"
+      "USER_DIRECTIONS": "Напрямки для користувача",
+      "TERRITORIAL_COMMUNITY": "Територіальна громада"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
@@ -388,7 +389,8 @@
       "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
       "SELECT_OWNERSHIP": "Оберіть форму власності",
       "SELECT_INSTITUTION_CATEGORY": "Оберіть категорія закладу",
-      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
+      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації",
+      "SELECT_TERRITORIAL_COMMUNITY": "Оберіть територіальну громаду"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -545,12 +547,13 @@
     "NO_TEACHERS": "Викладачів поки немає",
     "NO_ACHIEVEMENTS": "Досягнень поки немає",
     "NO_REVIEWS": "Відгуків поки немає",
-    "NO_ADMINS": "Тут ви можете додати aдміністраторів",
+    "NO_ADMINS": "Тут ви можете додати адміністраторів",
     "NO_HISTORY": "Історії змін поки немає",
     "NO_INFO": "Інформації поки немає",
     "NO_MESSAGES": "Повідомлень поки немає",
     "NO_NOTIFICATIONS": "У вас немає нових сповіщень",
-    "NO_SETTLEMENT": "Такого населенного пункту немає",
+    "NO_SETTLEMENT": "Такого населеного пункту немає",
+    "NO_TERRITORIAL_COMMUNITY": "Такої територіальної громади немає",
     "NO_CHILD_WORKSHOPS": "Гуртків поки немає!"
   },
   "NOTIFICATIONS": "Сповіщення",

@@ -363,7 +363,8 @@
       "RADIUS": "Radius (km)",
       "REGION": "Region",
       "MINISTRY_SUBMISSION": "Ministry of submission",
-      "USER_DIRECTIONS": "Directions for user"
+      "USER_DIRECTIONS": "Directions for user",
+      "TERRITORIAL_COMMUNITY": "Territorial community"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -388,7 +389,8 @@
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",
       "SELECT_INSTITUTION_CATEGORY": "Select provider category",
-      "SELECT_ORGANIZATION_TYPE": "Select organization type"
+      "SELECT_ORGANIZATION_TYPE": "Select organization type",
+      "SELECT_TERRITORIAL_COMMUNITY": "Select territorial community"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -549,6 +551,7 @@
     "NO_MESSAGES": "No messages yet",
     "NO_NOTIFICATIONS": "You don't have any new notifications",
     "NO_SETTLEMENT": "There is no such settlement",
+    "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
     "NO_CHILD_WORKSHOPS": "There are no workshops yet"
   },
   "NOTIFICATIONS": "Notifications",
