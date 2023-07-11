@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
+import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared-constants/constants';
@@ -46,8 +46,6 @@ const defaultValidators: ValidatorFn[] = [
 })
 export class CreateAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
-  public readonly noSettlement = Constants.NO_SETTLEMENT;
-  public readonly noTerritorialCommunity = Constants.NO_TERRITORIAL_COMMUNITY;
 
   public readonly phonePrefix = Constants.PHONE_PREFIX;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
@@ -63,7 +61,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   public adminRole: AdminRoles;
   public adminId: string;
   public formTitle: string;
-  private autocompleteSelected: 'region' | 'territorialCommunity';
+  public regions: Codeficator[];
 
   constructor(
     protected store: Store,
@@ -90,13 +88,12 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
 
     if (this.isRegionAdmin || this.isTerritorialCommunityAdmin) {
-      this.adminFormGroup.addControl('region', new FormControl('', [Validators.required]));
-      this.initRegionListener();
+      this.adminFormGroup.addControl('region', new FormControl(undefined, Validators.required));
     }
 
     if (this.isTerritorialCommunityAdmin) {
-      this.adminFormGroup.addControl('territorialCommunity', new FormControl('', [Validators.required]));
-      this.initTerritorialCommunityListener();
+      this.adminFormGroup.addControl('territorialCommunity', new FormControl('', Validators.required));
+      this.initRegionListener();
     }
 
     this.subscribeOnDirtyForm(this.adminFormGroup);
@@ -106,6 +103,13 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.formTitle = this.editMode ? AdminsFormTitlesEdit[this.adminRole] : AdminsFormTitlesNew[this.adminRole];
 
     this.store.dispatch(new GetAllInstitutions(true));
+    if (this.isRegionAdmin || this.isTerritorialCommunityAdmin) {
+      this.store
+        .dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1]))
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((state) => (this.regions = state.metaDataState.codeficatorSearch));
+    }
+
     this.determineEditMode();
   }
 
@@ -122,63 +126,9 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   private initRegionListener(): void {
-    this.regionFormControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith(''),
-        takeUntil(this.destroy$),
-        tap((value: string) => {
-          if (!value) {
-            this.store.dispatch(new ClearCodeficatorSearch());
-          } else {
-            this.autocompleteSelected = 'region';
-            this.territorialCommunityFormControl?.setValue('', {emitEvent: false});
-          }
-        }),
-        filter((value: string) => value?.length > 2)
-      )
-      .subscribe((value: string) => {
-        this.store.dispatch(new GetCodeficatorSearch(value, [CodeficatorCategories.Level1]));
-      });
-  }
-
-  public displayRegionNameFn(codeficator: Codeficator | string): string {
-    if (typeof codeficator === 'string') {
-      return codeficator;
-    }
-    return codeficator.region || codeficator.fullName || codeficator.settlement;
-  }
-
-  private initTerritorialCommunityListener(): void {
-    this.territorialCommunityFormControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        startWith(''),
-        takeUntil(this.destroy$),
-        tap((value: string) => {
-          if (!value) {
-            this.store.dispatch(new ClearCodeficatorSearch());
-          } else {
-            this.autocompleteSelected = 'territorialCommunity';
-          }
-        }),
-        filter((value: string) => value?.length > 2)
-      )
-      .subscribe((value: string) =>
-        this.store.dispatch(
-          new GetCodeficatorSearch(value, [CodeficatorCategories.TerritorialCommunity], this.regionFormControl?.value?.id)
-        )
-      );
-  }
-
-  public displayTerritorialCommunityNameFn(codeficator: Codeficator | string): string {
-    if (typeof codeficator === 'string') {
-      return codeficator;
-    }
-
-    return codeficator.territorialCommunity || codeficator.fullName || codeficator.settlement;
+    this.regionFormControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(value => {
+      this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], value.id));
+    });
   }
 
   public determineEditMode(): void {
@@ -235,7 +185,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       },
       { emitEvent: false }
     );
-    this.autocompleteSelected = 'region';
   }
 
   private fillTerritorialCommunity(admin: TerritorialCommunityAdmin): void {
@@ -270,6 +219,10 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     return institution1.id === institution2.id;
   }
 
+  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
+    return codeficator1.id === codeficator2.id;
+  }
+
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
@@ -292,19 +245,6 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
         )
       )
     );
-  }
-
-  onAutocompleteFocus(isRegion: boolean): void {
-    if (
-      (this.autocompleteSelected !== undefined &&
-        isRegion &&
-        this.territorialCommunityFormControl?.value &&
-        this.autocompleteSelected === 'territorialCommunity') ||
-      (!isRegion && this.regionFormControl?.value && this.autocompleteSelected === 'region')
-    ) {
-      this.autocompleteSelected = undefined;
-      this.store.dispatch(new ClearCodeficatorSearch());
-    }
   }
 
   public onSubmit(): void {
