@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { SearchResponse } from '../../models/search.model';
-import { TerritorialCommunityAdmin, TerritorialCommunityAdminParameters } from '../../models/TerritorialCommunityAdmin.model';
+import { TerritorialCommunityAdmin, TerritorialCommunityAdminParameters } from '../../models/territorialCommunityAdmin.model';
 import { BaseAdminService } from '../base-admin/base-admin';
 
 @Injectable({
