@@ -85,7 +85,7 @@
       "EDIT_PROVIDER_ADMIN": "Редагувати адміністратора гуртка",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Додати адміністратора міністерства",
       "ADD_PROVIDER_REGION_ADMIN": "Додати адміністратора області",
-      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Додати адімінстратора ОТГ",
+      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Додати адміністратора ОТГ",
       "EDIT_PROVIDER_MINISTRY_ADMIN": "Редагувати адміністратора міністерства",
       "EDIT_PROVIDER_REGION_ADMIN": "Редагувати адміністратора області",
       "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Редагувати адміністратора ОТГ",
@@ -152,7 +152,7 @@
       "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора міністерства",
       "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора гуртка",
       "PROVIDER_PERSONAL_CABINET": "Кабінет надавача послуг",
-      "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет тех.адімінстратора",
+      "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет тех.адміністратора",
       "UNKNOWN_ACCOUNT": "Кабінет надавача послуг",
       "USER_PERSONAL_CABINET": "Кабінет користувача"
     },

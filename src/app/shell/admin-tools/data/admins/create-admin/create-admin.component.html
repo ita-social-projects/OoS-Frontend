@@ -87,7 +87,7 @@
             class="step-input"
             [formControl]="regionFormControl"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}">
-            <mat-option *ngFor="let region of regions"
+            <mat-option *ngFor="let region of regions$ | async"
                         [value]="region" class="dropdown-option">
               {{ region.fullName }}
             </mat-option>
@@ -107,7 +107,7 @@
             [formControl]="territorialCommunityFormControl"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}">
             <mat-option *ngFor="let codeficator of codeficatorSearch$ | async"
-                        [value]="codeficatorSearch$" class="dropdown-option">
+                        [value]="codeficator" class="dropdown-option">
               {{ codeficator.territorialCommunity }}
             </mat-option>
           </mat-select>

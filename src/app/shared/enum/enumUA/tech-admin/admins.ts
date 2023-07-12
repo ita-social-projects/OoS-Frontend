@@ -5,8 +5,8 @@ export enum AdminsFormTitlesNew {
 }
 
 export enum AdminsFormTitlesEdit {
-  deputy = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_MINISTRY_ADMIN',
-  admin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_REGION_ADMIN',
+  ministryAdmin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_MINISTRY_ADMIN',
+  regionAdmin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_REGION_ADMIN',
   territorialCommunityAdmin = 'ENUM.NAV_BAR_NAME.EDIT_PROVIDER_TERRITORIAL_ADMIN',
 }
 

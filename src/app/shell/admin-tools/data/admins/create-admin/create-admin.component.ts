@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@a
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
@@ -23,7 +23,7 @@ import { RegionAdmin } from 'shared-models/regionAdmin.model';
 import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
 import { CreateAdmin, GetAdminById, UpdateAdmin } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
-import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared-store/meta-data.actions';
+import { GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared-store/meta-data.actions';
 import { MetaDataState } from 'shared-store/meta-data.state';
 import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
@@ -61,7 +61,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   public adminRole: AdminRoles;
   public adminId: string;
   public formTitle: string;
-  public regions: Codeficator[];
+  public regions$: Observable<Codeficator[]>;
 
   constructor(
     protected store: Store,
@@ -100,17 +100,16 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public ngOnInit(): void {
-    this.formTitle = this.editMode ? AdminsFormTitlesEdit[this.adminRole] : AdminsFormTitlesNew[this.adminRole];
-
     this.store.dispatch(new GetAllInstitutions(true));
     if (this.isRegionAdmin || this.isTerritorialCommunityAdmin) {
-      this.store
-        .dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1]))
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((state) => (this.regions = state.metaDataState.codeficatorSearch));
+      this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
+        takeUntil(this.destroy$),
+        map((state) => [...state.metaDataState.codeficatorSearch])
+      );
     }
 
     this.determineEditMode();
+    this.formTitle = this.editMode ? AdminsFormTitlesEdit[this.adminRole] : AdminsFormTitlesNew[this.adminRole];
   }
 
   public get institutionFormControl(): FormControl {
@@ -126,7 +125,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   private initRegionListener(): void {
-    this.regionFormControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe(value => {
+    this.regionFormControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((value) => {
       this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], value.id));
     });
   }
@@ -196,14 +195,16 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           .dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
           .pipe(takeUntil(this.destroy$))
           .subscribe((state) => {
+            const { id: regionId, fullName: regionName } = state.metaDataState.codeficatorSearch[0];
+
             this.regionFormControl.setValue(
               {
-                id: state.metaDataState.codeficatorSearch[0].id,
-                fullName: state.metaDataState.codeficatorSearch[0].fullName
+                id: regionId,
+                fullName: regionName
               },
               { emitEvent: false }
             );
-            this.store.dispatch(new ClearCodeficatorSearch());
+            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
           })
       );
     this.territorialCommunityFormControl.setValue(
