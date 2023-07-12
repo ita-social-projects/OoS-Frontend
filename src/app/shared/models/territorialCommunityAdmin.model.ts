@@ -11,5 +11,4 @@ export class TerritorialCommunityAdmin extends BaseAdmin {
 }
 
 export interface TerritorialCommunityAdminParameters extends BaseAdminParameters {}
-
 export interface TerritorialCommunityAdminBlockData extends BaseAdminBlockData {}
