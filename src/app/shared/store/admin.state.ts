@@ -1,21 +1,20 @@
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
 import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
+import { TerritorialCommunityAdmin } from 'shared/models/territorialCommunityAdmin.model';
+import { TerritorialCommunityAdminService } from 'shared/services/territorial-community-admin/territorial-community-admin.service';
 import { EMPTY_RESULT } from '../constants/constants';
 import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { SnackbarText } from '../enum/enumUA/messageBer';
 import { BaseAdmin } from '../models/admin.model';
 import { Direction } from '../models/category.model';
 import { Child } from '../models/child.model';
-import {
-  ApplicationHistory, ProviderAdminHistory, ProviderHistory
-} from '../models/history-log.model';
+import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { Parent } from '../models/parent.model';
 import { Provider } from '../models/provider.model';
@@ -32,22 +31,80 @@ import { ProviderService } from '../services/provider/provider.service';
 import { RegionAdminService } from '../services/region-admin/region-admin.service';
 import { StatisticReportsService } from '../services/statistics-reports/statistic-reports.service';
 import {
-  BlockAdminById, BlockMinistryAdminById, BlockProviderById, BlockRegionAdminById, CreateAdmin,
-  CreateDirection, CreateMinistryAdmin, CreateRegionAdmin, DeleteAdminById, DeleteDirectionById,
-  DeleteMinistryAdminById, DeleteRegionAdminById, DownloadStatisticReport, GetAboutPortal,
-  GetAdminById, GetAllAdmins, GetAllMinistryAdmins, GetAllRegionAdmins, GetApplicationHistory,
-  GetChildrenForAdmin, GetDirectionById, GetFilteredDirections, GetFilteredProviders,
-  GetLawsAndRegulations, GetMainPageInformation, GetMinistryAdminById, GetMinistryAdminProfile,
-  GetPlatformInfo, GetProviderAdminHistory, GetProviderHistory, GetRegionAdminById,
-  GetRegionAdminProfile, GetStatisticReports, GetSupportInformation, OnBlockFail, OnBlockSuccess,
-  OnCreateDirectionFail, OnCreateDirectionSuccess, OnCreateMinistryAdminFail,
-  OnCreateMinistryAdminSuccess, OnCreateRegionAdminFail, OnCreateRegionAdminSuccess,
-  OnDeleteDirectionFail, OnDeleteDirectionSuccess, OnDeleteMinistryAdminFail,
-  OnDeleteMinistryAdminSuccess, OnDeleteRegionAdminFail, OnDeleteRegionAdminSuccess,
-  OnUpdateDirectionFail, OnUpdateDirectionSuccess, OnUpdateMinistryAdminFail,
-  OnUpdateMinistryAdminSuccess, OnUpdatePlatformInfoFail, OnUpdatePlatformInfoSuccess,
-  OnUpdateRegionAdminFail, OnUpdateRegionAdminSuccess, UpdateAdmin, UpdateDirection,
-  UpdateMinistryAdmin, UpdatePlatformInfo, UpdateRegionAdmin
+  BlockAdminById,
+  BlockMinistryAdminById,
+  BlockProviderById,
+  BlockRegionAdminById,
+  BlockTerritorialCommunityAdminById,
+  CreateAdmin,
+  CreateDirection,
+  CreateMinistryAdmin,
+  CreateRegionAdmin,
+  CreateTerritorialCommunityAdmin,
+  DeleteAdminById,
+  DeleteDirectionById,
+  DeleteMinistryAdminById,
+  DeleteRegionAdminById,
+  DeleteTerritorialCommunityAdminById,
+  DownloadStatisticReport,
+  GetAboutPortal,
+  GetAdminById,
+  GetAllAdmins,
+  GetAllMinistryAdmins,
+  GetAllRegionAdmins,
+  GetAllTerritorialCommunityAdmins,
+  GetApplicationHistory,
+  GetChildrenForAdmin,
+  GetDirectionById,
+  GetFilteredDirections,
+  GetFilteredProviders,
+  GetLawsAndRegulations,
+  GetMainPageInformation,
+  GetMinistryAdminById,
+  GetMinistryAdminProfile,
+  GetPlatformInfo,
+  GetProviderAdminHistory,
+  GetProviderHistory,
+  GetRegionAdminById,
+  GetRegionAdminProfile,
+  GetStatisticReports,
+  GetSupportInformation,
+  GetTerritorialCommunityAdminById,
+  GetTerritorialCommunityAdminProfile,
+  OnBlockFail,
+  OnBlockSuccess,
+  OnCreateDirectionFail,
+  OnCreateDirectionSuccess,
+  OnCreateMinistryAdminFail,
+  OnCreateMinistryAdminSuccess,
+  OnCreateRegionAdminFail,
+  OnCreateRegionAdminSuccess,
+  OnCreateTerritorialCommunityAdminFail,
+  OnCreateTerritorialCommunityAdminSuccess,
+  OnDeleteDirectionFail,
+  OnDeleteDirectionSuccess,
+  OnDeleteMinistryAdminFail,
+  OnDeleteMinistryAdminSuccess,
+  OnDeleteRegionAdminFail,
+  OnDeleteRegionAdminSuccess,
+  OnDeleteTerritorialCommunityAdminFail,
+  OnDeleteTerritorialCommunityAdminSuccess,
+  OnUpdateDirectionFail,
+  OnUpdateDirectionSuccess,
+  OnUpdateMinistryAdminFail,
+  OnUpdateMinistryAdminSuccess,
+  OnUpdatePlatformInfoFail,
+  OnUpdatePlatformInfoSuccess,
+  OnUpdateRegionAdminFail,
+  OnUpdateRegionAdminSuccess,
+  OnUpdateTerritorialCommunityAdminFail,
+  OnUpdateTerritorialCommunityAdminSuccess,
+  UpdateAdmin,
+  UpdateDirection,
+  UpdateMinistryAdmin,
+  UpdatePlatformInfo,
+  UpdateRegionAdmin,
+  UpdateTerritorialCommunityAdmin
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -57,22 +114,24 @@ export interface AdminStateModel {
   mainPageInformation: CompanyInformation;
   supportInformation: CompanyInformation;
   lawsAndRegulations: CompanyInformation;
-  isLoading: boolean;
-  direction: Direction;
-  selectedDirection: Direction;
+  statisticsReports: SearchResponse<StatisticReport[]>;
+  downloadedReport: HttpResponse<Blob>;
   filteredDirections: SearchResponse<Direction[]>;
+  selectedDirection: Direction;
+  direction: Direction;
+  applicationHistory: SearchResponse<ApplicationHistory[]>;
   parents: Parent[];
   children: SearchResponse<Child[]>;
   providers: SearchResponse<Provider[]>;
-  selectedAdmin: BaseAdmin;
-  selectedRegionAdmin: RegionAdmin;
-  admins: SearchResponse<BaseAdmin[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
-  applicationHistory: SearchResponse<ApplicationHistory[]>;
-  statisticsReports: SearchResponse<StatisticReport[]>;
-  downloadedReport: HttpResponse<Blob>;
+  admins: SearchResponse<BaseAdmin[]>;
+  selectedAdmin: BaseAdmin;
+  selectedRegionAdmin: RegionAdmin;
+  selectedTerritorialCommunityAdmin: TerritorialCommunityAdmin;
+  isLoading: boolean;
 }
+
 @State<AdminStateModel>({
   name: 'admin',
   defaults: {
@@ -80,122 +139,125 @@ export interface AdminStateModel {
     mainPageInformation: null,
     supportInformation: null,
     lawsAndRegulations: null,
-    direction: null,
-    isLoading: false,
+    statisticsReports: null,
+    downloadedReport: null,
     filteredDirections: null,
     selectedDirection: null,
+    direction: null,
+    applicationHistory: null,
+    parents: null,
     children: null,
     providers: null,
-    parents: null,
-    selectedAdmin: null,
-    selectedRegionAdmin: null,
-    admins: null,
     providerHistory: null,
     providerAdminHistory: null,
-    applicationHistory: null,
-    statisticsReports: null,
-    downloadedReport: null
+    admins: null,
+    selectedAdmin: null,
+    selectedRegionAdmin: null,
+    selectedTerritorialCommunityAdmin: null,
+    isLoading: false
   }
 })
 @Injectable()
 export class AdminState {
-  @Selector() static AboutPortal(state: AdminStateModel): CompanyInformation {
+  @Selector()
+  static AboutPortal(state: AdminStateModel): CompanyInformation {
     return state.aboutPortal;
   }
 
-  @Selector() static MainInformation(state: AdminStateModel): CompanyInformation {
+  @Selector()
+  static MainInformation(state: AdminStateModel): CompanyInformation {
     return state.mainPageInformation;
   }
 
-  @Selector() static providers(state: AdminStateModel): SearchResponse<Provider[]> {
-    return state.providers;
-  }
-
-  @Selector() static admins(state: AdminStateModel): SearchResponse<BaseAdmin[]> {
-    return state.admins;
-  }
-
-  @Selector() static selectedAdmin(state: AdminStateModel): BaseAdmin {
-    return state.selectedAdmin;
-  }
-
-  @Selector() static SupportInformation(state: AdminStateModel): CompanyInformation {
+  @Selector()
+  static SupportInformation(state: AdminStateModel): CompanyInformation {
     return state.supportInformation;
   }
 
-  @Selector() static LawsAndRegulations(state: AdminStateModel): CompanyInformation {
+  @Selector()
+  static LawsAndRegulations(state: AdminStateModel): CompanyInformation {
     return state.lawsAndRegulations;
   }
 
-  @Selector() static direction(state: AdminStateModel): Direction {
-    return state.direction;
-  }
-
-  @Selector() static filteredDirections(state: AdminStateModel): SearchResponse<Direction[]> {
-    return state.filteredDirections;
-  }
-
-  @Selector() static isLoading(state: AdminStateModel): boolean {
-    return state.isLoading;
-  }
-
-  @Selector() static parents(state: AdminStateModel): Parent[] {
-    return state.parents;
-  }
-
-  @Selector() static children(state: AdminStateModel): SearchResponse<Child[]> {
-    return state.children;
-  }
-
-  @Selector() static providerHistory(state: AdminStateModel): SearchResponse<ProviderHistory[]> | [] {
-    return state.providerHistory;
-  }
-
-  @Selector() static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
-    return state.providerAdminHistory;
-  }
-
-  @Selector() static applicationHistory(state: AdminStateModel): SearchResponse<ApplicationHistory[]> | [] {
-    return state.applicationHistory;
-  }
-
-  @Selector() static statisticsReports(state: AdminStateModel): SearchResponse<StatisticReport[]> {
+  @Selector()
+  static statisticsReports(state: AdminStateModel): SearchResponse<StatisticReport[]> {
     return state.statisticsReports;
   }
 
-  @Selector() static downloadedReport(state: AdminStateModel): HttpResponse<Blob> {
+  @Selector()
+  static downloadedReport(state: AdminStateModel): HttpResponse<Blob> {
     return state.downloadedReport;
+  }
+
+  @Selector()
+  static filteredDirections(state: AdminStateModel): SearchResponse<Direction[]> {
+    return state.filteredDirections;
+  }
+
+  @Selector()
+  static direction(state: AdminStateModel): Direction {
+    return state.direction;
+  }
+
+  @Selector()
+  static applicationHistory(state: AdminStateModel): SearchResponse<ApplicationHistory[]> | [] {
+    return state.applicationHistory;
+  }
+
+  @Selector()
+  static parents(state: AdminStateModel): Parent[] {
+    return state.parents;
+  }
+
+  @Selector()
+  static children(state: AdminStateModel): SearchResponse<Child[]> {
+    return state.children;
+  }
+
+  @Selector()
+  static providers(state: AdminStateModel): SearchResponse<Provider[]> {
+    return state.providers;
+  }
+
+  @Selector()
+  static providerHistory(state: AdminStateModel): SearchResponse<ProviderHistory[]> | [] {
+    return state.providerHistory;
+  }
+
+  @Selector()
+  static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
+    return state.providerAdminHistory;
+  }
+
+  @Selector()
+  static admins(state: AdminStateModel): SearchResponse<BaseAdmin[]> {
+    return state.admins;
+  }
+
+  @Selector()
+  static selectedAdmin(state: AdminStateModel): BaseAdmin {
+    return state.selectedAdmin;
+  }
+
+  @Selector()
+  static isLoading(state: AdminStateModel): boolean {
+    return state.isLoading;
   }
 
   constructor(
     private platformService: PlatformService,
     private categoriesService: DirectionsService,
+    private historyLogService: HistoryLogService,
+    private statisticService: StatisticReportsService,
     private childrenService: ChildrenService,
-    private router: Router,
     private providerService: ProviderService,
     private ministryAdminService: MinistryAdminService,
     private regionAdminService: RegionAdminService,
-    private historyLogService: HistoryLogService,
-    private statisticService: StatisticReportsService,
+    private territorialCommunityAdminService: TerritorialCommunityAdminService,
+    private router: Router,
     private location: Location,
     private store: Store
   ) {}
-
-  @Action(GetPlatformInfo)
-  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {}: GetPlatformInfo): void {
-    dispatch([new GetAboutPortal(), new GetMainPageInformation(), new GetSupportInformation(), new GetLawsAndRegulations()]);
-  }
-
-  @Action(GetFilteredProviders)
-  getFilteredProvider(
-    { patchState }: StateContext<AdminStateModel>,
-    { providerParameters }: GetFilteredProviders
-  ): Observable<SearchResponse<Provider[]>> {
-    patchState({ isLoading: true });
-    return this.providerService
-      .getFilteredProviders(providerParameters)
-      .pipe(tap((providers: SearchResponse<Provider[]>) => patchState({ providers: providers ?? EMPTY_RESULT, isLoading: false })));
-  }
 
   @Action(GetAboutPortal)
   getAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {
@@ -250,9 +312,19 @@ export class AdminState {
     { externalStorageId: id }: DownloadStatisticReport
   ): Observable<HttpResponse<Blob>> {
     patchState({ isLoading: true });
-    return this.statisticService
-      .getReportById(id)
-      .pipe(tap((uploadedReport: HttpResponse<Blob>) => patchState({ downloadedReport: uploadedReport, isLoading: false })));
+    return this.statisticService.getReportById(id).pipe(
+      tap((uploadedReport: HttpResponse<Blob>) =>
+        patchState({
+          downloadedReport: uploadedReport,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetPlatformInfo)
+  getPlatformInfo({ dispatch }: StateContext<AdminStateModel>, {}: GetPlatformInfo): void {
+    dispatch([new GetAboutPortal(), new GetMainPageInformation(), new GetSupportInformation(), new GetLawsAndRegulations()]);
   }
 
   @Action(UpdatePlatformInfo)
@@ -290,31 +362,29 @@ export class AdminState {
     });
   }
 
-  @Action(DeleteDirectionById)
-  deleteDirectionById(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload, directionParameters }: DeleteDirectionById
-  ): Observable<void | Observable<void>> {
-    return this.categoriesService.deleteDirection(payload).pipe(
-      tap(() => dispatch(new OnDeleteDirectionSuccess(directionParameters))),
-      catchError((error: Error) => of(dispatch(new OnDeleteDirectionFail(error))))
+  @Action(GetFilteredDirections)
+  getFilteredDirections(
+    { patchState }: StateContext<AdminStateModel>,
+    { parameters }: GetFilteredDirections
+  ): Observable<SearchResponse<Direction[]>> {
+    patchState({ isLoading: true });
+    return this.categoriesService.getFilteredDirections(parameters).pipe(
+      tap((filteredDirections: SearchResponse<Direction[]>) =>
+        patchState({
+          filteredDirections: filteredDirections ?? EMPTY_RESULT,
+          isLoading: false,
+          direction: null
+        })
+      )
     );
   }
 
-  @Action(OnDeleteDirectionFail)
-  onDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
-  }
-
-  @Action(OnDeleteDirectionSuccess)
-  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { directionParameters }: OnDeleteDirectionSuccess): void {
-    dispatch([
-      new ShowMessageBar({
-        message: SnackbarText.deleteDirection,
-        type: 'success'
-      }),
-      new GetFilteredDirections(directionParameters)
-    ]);
+  @Action(GetDirectionById)
+  getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
+    patchState({ isLoading: true });
+    return this.categoriesService
+      .getDirectionById(payload)
+      .pipe(tap((direction: Direction) => patchState({ direction, isLoading: false })));
   }
 
   @Action(CreateDirection)
@@ -352,7 +422,7 @@ export class AdminState {
   }
 
   @Action(OnUpdateDirectionFail)
-  onUpdateDirectionfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
+  onUpdateDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateDirectionFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -369,26 +439,44 @@ export class AdminState {
     this.location.back();
   }
 
-  @Action(GetDirectionById)
-  getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
-    patchState({ isLoading: true });
-    return this.categoriesService
-      .getDirectionById(payload)
-      .pipe(tap((direction: Direction) => patchState({ direction, isLoading: false })));
+  @Action(DeleteDirectionById)
+  deleteDirectionById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, directionParameters }: DeleteDirectionById
+  ): Observable<void | Observable<void>> {
+    return this.categoriesService.deleteDirection(payload).pipe(
+      tap(() => dispatch(new OnDeleteDirectionSuccess(directionParameters))),
+      catchError((error: Error) => of(dispatch(new OnDeleteDirectionFail(error))))
+    );
   }
 
-  @Action(GetFilteredDirections)
-  getFilteredDirections(
+  @Action(OnDeleteDirectionFail)
+  onDeleteDirectionFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteDirectionFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(OnDeleteDirectionSuccess)
+  onDeleteDirectionSuccess({ dispatch }: StateContext<AdminStateModel>, { directionParameters }: OnDeleteDirectionSuccess): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteDirection,
+        type: 'success'
+      }),
+      new GetFilteredDirections(directionParameters)
+    ]);
+  }
+
+  @Action(GetApplicationHistory)
+  getApplicationHistory(
     { patchState }: StateContext<AdminStateModel>,
-    { parameters }: GetFilteredDirections
-  ): Observable<SearchResponse<Direction[]>> {
+    { payload, searchSting }: GetApplicationHistory
+  ): Observable<SearchResponse<ApplicationHistory[]>> {
     patchState({ isLoading: true });
-    return this.categoriesService.getFilteredDirections(parameters).pipe(
-      tap((filteredDirections: SearchResponse<Direction[]>) =>
+    return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
+      tap((applicationHistory: SearchResponse<ApplicationHistory[]>) =>
         patchState({
-          filteredDirections: filteredDirections ?? EMPTY_RESULT,
-          isLoading: false,
-          direction: null
+          applicationHistory: applicationHistory ?? EMPTY_RESULT,
+          isLoading: false
         })
       )
     );
@@ -400,13 +488,34 @@ export class AdminState {
     { parameters }: GetChildrenForAdmin
   ): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
-    return this.childrenService
-      .getChildrenForAdmin(parameters)
-      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false })));
+    return this.childrenService.getChildrenForAdmin(parameters).pipe(
+      tap((children: SearchResponse<Child[]>) =>
+        patchState({
+          children: children ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetFilteredProviders)
+  getFilteredProvider(
+    { patchState }: StateContext<AdminStateModel>,
+    { providerParameters }: GetFilteredProviders
+  ): Observable<SearchResponse<Provider[]>> {
+    patchState({ isLoading: true });
+    return this.providerService.getFilteredProviders(providerParameters).pipe(
+      tap((providers: SearchResponse<Provider[]>) =>
+        patchState({
+          providers: providers ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetProviderHistory)
-  GetProviderHistory(
+  getProviderHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderHistory
   ): Observable<SearchResponse<ProviderHistory[]>> {
@@ -422,7 +531,7 @@ export class AdminState {
   }
 
   @Action(GetProviderAdminHistory)
-  GetProviderAdminHistory(
+  getProviderAdminHistory(
     { patchState }: StateContext<AdminStateModel>,
     { payload, searchSting }: GetProviderAdminHistory
   ): Observable<SearchResponse<ProviderAdminHistory[]>> {
@@ -437,33 +546,57 @@ export class AdminState {
     );
   }
 
-  @Action(GetApplicationHistory)
-  GetApplicationHistory(
-    { patchState }: StateContext<AdminStateModel>,
-    { payload, searchSting }: GetApplicationHistory
-  ): Observable<SearchResponse<ApplicationHistory[]>> {
-    patchState({ isLoading: true });
-    return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
-      tap((applicationHistory: SearchResponse<ApplicationHistory[]>) =>
-        patchState({
-          applicationHistory: applicationHistory ?? EMPTY_RESULT,
-          isLoading: false
-        })
-      )
+  @Action(BlockProviderById)
+  blockProviderById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload, parameters }: BlockProviderById
+  ): Observable<void | Observable<void>> {
+    return this.providerService.blockProvider(payload).pipe(
+      tap(() => dispatch([new OnBlockSuccess(payload), new GetFilteredProviders(parameters)])),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
     );
   }
 
-  @Action(GetMinistryAdminProfile)
-  getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<MinistryAdmin> {
-    patchState({ isLoading: true });
-    return this.ministryAdminService.getAdminProfile().pipe(
-      tap((selectedAdmin: MinistryAdmin) =>
-        patchState({
-          selectedAdmin: selectedAdmin,
-          isLoading: false
-        })
-      )
-    );
+  @Action(GetAllAdmins)
+  getAllAdmins({ dispatch }: StateContext<AdminStateModel>, { adminType, parameters }: GetAllAdmins): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new GetAllMinistryAdmins(parameters));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new GetAllRegionAdmins(parameters));
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        dispatch(new GetAllTerritorialCommunityAdmins(parameters));
+        break;
+      }
+      default: {
+        dispatch(new GetAllMinistryAdmins(parameters));
+      }
+    }
+  }
+
+  @Action(GetAdminById)
+  getAdminById({ dispatch }: StateContext<AdminState>, { payload, adminType }: GetAdminById): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new GetMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new GetRegionAdminById(payload));
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        dispatch(new GetTerritorialCommunityAdminById(payload));
+        break;
+      }
+      default: {
+        dispatch(new GetMinistryAdminById(payload));
+      }
+    }
   }
 
   @Action(CreateAdmin)
@@ -477,10 +610,114 @@ export class AdminState {
         dispatch(new CreateRegionAdmin(payload as RegionAdmin));
         break;
       }
+      case AdminRoles.areaAdmin: {
+        dispatch(new CreateTerritorialCommunityAdmin(payload as TerritorialCommunityAdmin));
+        break;
+      }
       default: {
         dispatch(new CreateMinistryAdmin(payload));
       }
     }
+  }
+
+  @Action(UpdateAdmin)
+  updateAdmin({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: UpdateAdmin): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new UpdateMinistryAdmin(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new UpdateRegionAdmin(payload as RegionAdmin));
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        dispatch(new UpdateTerritorialCommunityAdmin(payload as TerritorialCommunityAdmin));
+        break;
+      }
+      default: {
+        dispatch(new UpdateMinistryAdmin(payload));
+      }
+    }
+  }
+
+  @Action(DeleteAdminById)
+  deleteAdminById({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: DeleteAdminById): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new DeleteMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new DeleteRegionAdminById(payload));
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        dispatch(new DeleteTerritorialCommunityAdminById(payload));
+        break;
+      }
+      default: {
+        dispatch(new DeleteMinistryAdminById(payload));
+      }
+    }
+  }
+
+  @Action(BlockAdminById)
+  blockAdmin({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: BlockAdminById): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new BlockMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new BlockRegionAdminById(payload));
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        dispatch(new BlockTerritorialCommunityAdminById(payload));
+        break;
+      }
+      default: {
+        dispatch(new BlockMinistryAdminById(payload));
+      }
+    }
+  }
+
+  @Action(GetAllMinistryAdmins)
+  getAllMinistryAdmins(
+    { patchState }: StateContext<AdminStateModel>,
+    { parameters }: GetAllMinistryAdmins
+  ): Observable<SearchResponse<MinistryAdmin[]>> {
+    patchState({ isLoading: true });
+    return this.ministryAdminService.getAllAdmin(parameters).pipe(
+      tap((admins: SearchResponse<MinistryAdmin[]>) =>
+        patchState({
+          admins: admins ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetMinistryAdminById)
+  getMinistryAdminById({ patchState }: StateContext<AdminStateModel>, { payload }: GetMinistryAdminById): Observable<MinistryAdmin> {
+    patchState({ isLoading: true });
+    return this.ministryAdminService
+      .getAdminById(payload)
+      .pipe(tap((selectedAdmin: MinistryAdmin) => patchState({ selectedAdmin, isLoading: false })));
+  }
+
+  @Action(GetMinistryAdminProfile)
+  getMinistryAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<MinistryAdmin> {
+    patchState({ isLoading: true });
+    return this.ministryAdminService.getAdminProfile().pipe(
+      tap((selectedAdmin: MinistryAdmin) =>
+        patchState({
+          selectedAdmin: selectedAdmin,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(CreateMinistryAdmin)
@@ -517,74 +754,37 @@ export class AdminState {
     this.router.navigate(['/admin-tools/data/admins']);
   }
 
-  @Action(GetAllAdmins)
-  getAllAdmin({ dispatch }: StateContext<AdminStateModel>, { adminType, parameters }: GetAllAdmins): void {
-    switch (adminType) {
-      case AdminRoles.ministryAdmin: {
-        dispatch(new GetAllMinistryAdmins(parameters));
-        break;
-      }
-      case AdminRoles.regionAdmin: {
-        dispatch(new GetAllRegionAdmins(parameters));
-        break;
-      }
-      default: {
-        dispatch(new GetAllMinistryAdmins(parameters));
-      }
-    }
+  @Action(UpdateMinistryAdmin)
+  updateMinistryAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: UpdateMinistryAdmin
+  ): Observable<MinistryAdmin | Observable<void>> {
+    return this.ministryAdminService.updateAdmin(payload).pipe(
+      tap((res: MinistryAdmin) => dispatch(new OnUpdateMinistryAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateMinistryAdminFail(error))))
+    );
   }
 
-  @Action(GetAllMinistryAdmins)
-  getAllMinistryAdmin(
-    { patchState }: StateContext<AdminStateModel>,
-    { parameters }: GetAllMinistryAdmins
-  ): Observable<SearchResponse<MinistryAdmin[]>> {
-    patchState({ isLoading: true });
-    return this.ministryAdminService
-      .getAllAdmin(parameters)
-      .pipe(tap((admins: SearchResponse<MinistryAdmin[]>) => patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })));
+  @Action(OnUpdateMinistryAdminFail)
+  onUpdateMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateMinistryAdminFail): void {
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.error,
+        type: 'error'
+      })
+    );
   }
 
-  @Action(GetAdminById)
-  getAdminById({ dispatch }: StateContext<AdminState>, { payload, adminType }: GetAdminById): void {
-    switch (adminType) {
-      case AdminRoles.ministryAdmin: {
-        dispatch(new GetMinistryAdminById(payload));
-        break;
-      }
-      case AdminRoles.regionAdmin: {
-        dispatch(new GetRegionAdminById(payload));
-        break;
-      }
-      default: {
-        dispatch(new GetMinistryAdminById(payload));
-      }
-    }
-  }
-
-  @Action(GetMinistryAdminById)
-  getMinistryAdminById({ patchState }: StateContext<AdminStateModel>, { payload }: GetMinistryAdminById): Observable<MinistryAdmin> {
-    patchState({ isLoading: true });
-    return this.ministryAdminService
-      .getAdminById(payload)
-      .pipe(tap((selectedAdmin: MinistryAdmin) => patchState({ selectedAdmin, isLoading: false })));
-  }
-
-  @Action(DeleteAdminById)
-  deleteAdminById({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: DeleteAdminById): void {
-    switch (adminType) {
-      case AdminRoles.ministryAdmin: {
-        dispatch(new DeleteMinistryAdminById(payload));
-        break;
-      }
-      case AdminRoles.regionAdmin: {
-        dispatch(new DeleteRegionAdminById(payload));
-        break;
-      }
-      default: {
-        dispatch(new DeleteMinistryAdminById(payload));
-      }
-    }
+  @Action(OnUpdateMinistryAdminSuccess)
+  onUpdateMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.updateAdmin,
+        type: 'success'
+      })
+    ]);
+    this.router.navigate(['/admin-tools/data/admins']);
   }
 
   @Action(DeleteMinistryAdminById)
@@ -614,23 +814,6 @@ export class AdminState {
     ]);
   }
 
-  @Action(BlockAdminById)
-  blockAdmin({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: BlockAdminById): void {
-    switch (adminType) {
-      case AdminRoles.ministryAdmin: {
-        dispatch(new BlockMinistryAdminById(payload));
-        break;
-      }
-      case AdminRoles.regionAdmin: {
-        dispatch(new BlockRegionAdminById(payload));
-        break;
-      }
-      default: {
-        dispatch(new BlockMinistryAdminById(payload));
-      }
-    }
-  }
-
   @Action(BlockMinistryAdminById)
   blockMinistryAdmin(
     { dispatch }: StateContext<AdminStateModel>,
@@ -638,17 +821,6 @@ export class AdminState {
   ): Observable<void | Observable<void>> {
     return this.ministryAdminService.blockAdmin(payload.adminId, payload.isBlocked).pipe(
       tap(() => dispatch([new OnBlockSuccess(payload), new GetAllMinistryAdmins()])),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
-    );
-  }
-
-  @Action(BlockProviderById)
-  blockProviderById(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload, parameters }: BlockProviderById
-  ): Observable<void | Observable<void>> {
-    return this.providerService.blockProvider(payload).pipe(
-      tap(() => dispatch([new OnBlockSuccess(payload), new GetFilteredProviders(parameters)])),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
     );
   }
@@ -668,54 +840,28 @@ export class AdminState {
     ]);
   }
 
-  @Action(UpdateAdmin)
-  updateAdmin({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: UpdateAdmin): void {
-    switch (adminType) {
-      case AdminRoles.ministryAdmin: {
-        dispatch(new UpdateMinistryAdmin(payload));
-        break;
-      }
-      case AdminRoles.regionAdmin: {
-        dispatch(new UpdateRegionAdmin(payload as RegionAdmin));
-        break;
-      }
-      default: {
-        dispatch(new UpdateMinistryAdmin(payload));
-      }
-    }
-  }
-
-  @Action(UpdateMinistryAdmin)
-  updateMinistryAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: UpdateMinistryAdmin
-  ): Observable<MinistryAdmin | Observable<void>> {
-    return this.ministryAdminService.updateAdmin(payload).pipe(
-      tap((res: MinistryAdmin) => dispatch(new OnUpdateMinistryAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateMinistryAdminFail(error))))
+  @Action(GetAllRegionAdmins)
+  getAllRegionAdmins(
+    { patchState }: StateContext<AdminStateModel>,
+    { parameters }: GetAllRegionAdmins
+  ): Observable<SearchResponse<RegionAdmin[]>> {
+    patchState({ isLoading: true });
+    return this.regionAdminService.getAllAdmin(parameters).pipe(
+      tap((admins: SearchResponse<RegionAdmin[]>) =>
+        patchState({
+          admins: admins ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
     );
   }
 
-  @Action(OnUpdateMinistryAdminFail)
-  onUpdateMinistryAdminrfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateMinistryAdminFail): void {
-    dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.error,
-        type: 'error'
-      })
-    );
-  }
-
-  @Action(OnUpdateMinistryAdminSuccess)
-  onUpdateMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch([
-      new MarkFormDirty(false),
-      new ShowMessageBar({
-        message: SnackbarText.updateAdmin,
-        type: 'success'
-      })
-    ]);
-    this.router.navigate(['/admin-tools/data/admins']);
+  @Action(GetRegionAdminById)
+  getRegionAdminById({ patchState }: StateContext<AdminStateModel>, { payload }: GetRegionAdminById): Observable<RegionAdmin> {
+    patchState({ isLoading: true });
+    return this.regionAdminService
+      .getAdminById(payload)
+      .pipe(tap((selectedAdmin: RegionAdmin) => patchState({ selectedAdmin, isLoading: false })));
   }
 
   @Action(GetRegionAdminProfile)
@@ -729,39 +875,6 @@ export class AdminState {
         })
       )
     );
-  }
-
-  @Action(UpdateRegionAdmin)
-  updateRegionAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: UpdateRegionAdmin
-  ): Observable<RegionAdmin | Observable<void>> {
-    return this.regionAdminService.updateAdmin(payload).pipe(
-      tap((res: RegionAdmin) => dispatch(new OnUpdateRegionAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateRegionAdminFail(error))))
-    );
-  }
-
-  @Action(OnUpdateRegionAdminFail)
-  onUpdateRegionAdminrfail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateRegionAdminFail): void {
-    dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.error,
-        type: 'error'
-      })
-    );
-  }
-
-  @Action(OnUpdateRegionAdminSuccess)
-  onUpdateRegionAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch([
-      new MarkFormDirty(false),
-      new ShowMessageBar({
-        message: SnackbarText.updateAdmin,
-        type: 'success'
-      })
-    ]);
-    this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.regionAdmin } });
   }
 
   @Action(CreateRegionAdmin)
@@ -795,23 +908,37 @@ export class AdminState {
     this.router.navigate(['/admin-tools/data/admins']);
   }
 
-  @Action(GetAllRegionAdmins)
-  getAllRegionAdmin(
-    { patchState }: StateContext<AdminStateModel>,
-    { parameters }: GetAllRegionAdmins
-  ): Observable<SearchResponse<RegionAdmin[]>> {
-    patchState({ isLoading: true });
-    return this.regionAdminService
-      .getAllAdmin(parameters)
-      .pipe(tap((admins: SearchResponse<RegionAdmin[]>) => patchState({ admins: admins ?? EMPTY_RESULT, isLoading: false })));
+  @Action(UpdateRegionAdmin)
+  updateRegionAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: UpdateRegionAdmin
+  ): Observable<RegionAdmin | Observable<void>> {
+    return this.regionAdminService.updateAdmin(payload).pipe(
+      tap((res: RegionAdmin) => dispatch(new OnUpdateRegionAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateRegionAdminFail(error))))
+    );
   }
 
-  @Action(GetRegionAdminById)
-  getRegionAdminById({ patchState }: StateContext<AdminStateModel>, { payload }: GetRegionAdminById): Observable<RegionAdmin> {
-    patchState({ isLoading: true });
-    return this.regionAdminService
-      .getAdminById(payload)
-      .pipe(tap((selectedAdmin: RegionAdmin) => patchState({ selectedAdmin, isLoading: false })));
+  @Action(OnUpdateRegionAdminFail)
+  onUpdateRegionAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateRegionAdminFail): void {
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.error,
+        type: 'error'
+      })
+    );
+  }
+
+  @Action(OnUpdateRegionAdminSuccess)
+  onUpdateRegionAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.updateAdmin,
+        type: 'success'
+      })
+    ]);
+    this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.regionAdmin } });
   }
 
   @Action(DeleteRegionAdminById)
@@ -856,6 +983,175 @@ export class AdminState {
 
   @Action(OnBlockSuccess)
   onBlockRegionAdminSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockRegionAdminById): void {
+    dispatch([
+      new ShowMessageBar({
+        message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(GetAllTerritorialCommunityAdmins)
+  getAllTerritorialCommunityAdmins(
+    { patchState }: StateContext<AdminStateModel>,
+    { parameters }: GetAllTerritorialCommunityAdmins
+  ): Observable<SearchResponse<TerritorialCommunityAdmin[]>> {
+    patchState({ isLoading: true });
+    return this.territorialCommunityAdminService.getAllAdmin(parameters).pipe(
+      tap((admins: SearchResponse<TerritorialCommunityAdmin[]>) =>
+        patchState({
+          admins: admins ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetTerritorialCommunityAdminById)
+  getTerritorialCommunityAdminById(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload }: GetTerritorialCommunityAdminById
+  ): Observable<TerritorialCommunityAdmin> {
+    patchState({ isLoading: true });
+    return this.territorialCommunityAdminService
+      .getAdminById(payload)
+      .pipe(tap((selectedAdmin: TerritorialCommunityAdmin) => patchState({ selectedAdmin, isLoading: false })));
+  }
+
+  @Action(GetTerritorialCommunityAdminProfile)
+  getTerritorialCommunityAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<TerritorialCommunityAdmin> {
+    patchState({ isLoading: true });
+    return this.territorialCommunityAdminService.getAdminProfile().pipe(
+      tap((selectedTerritorialCommunityAdmin: TerritorialCommunityAdmin) =>
+        patchState({
+          selectedTerritorialCommunityAdmin: selectedTerritorialCommunityAdmin,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(CreateTerritorialCommunityAdmin)
+  createTerritorialCommunityAdmin(
+    { dispatch }: StateContext<AdminState>,
+    { payload }: CreateTerritorialCommunityAdmin
+  ): Observable<TerritorialCommunityAdmin | Observable<void>> {
+    return this.territorialCommunityAdminService.createAdmin(payload).pipe(
+      tap(() => dispatch(new OnCreateTerritorialCommunityAdminSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateTerritorialCommunityAdminFail(error))))
+    );
+  }
+
+  @Action(OnCreateTerritorialCommunityAdminFail)
+  onCreateTerritorialCommunityAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateTerritorialCommunityAdminFail): void {
+    const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
+    dispatch(
+      new ShowMessageBar({
+        message,
+        type: 'error'
+      })
+    );
+  }
+
+  @Action(OnCreateTerritorialCommunityAdminSuccess)
+  onCreateTerritorialCommunityAdminSuccess({ dispatch }: StateContext<AdminState>): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.createAdminSuccess,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
+    ]);
+    this.router.navigate(['/admin-tools/data/admins']);
+  }
+
+  @Action(UpdateTerritorialCommunityAdmin)
+  updateTerritorialCommunityAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: UpdateTerritorialCommunityAdmin
+  ): Observable<TerritorialCommunityAdmin | Observable<void>> {
+    return this.territorialCommunityAdminService.updateAdmin(payload).pipe(
+      tap((res: TerritorialCommunityAdmin) => dispatch(new OnUpdateTerritorialCommunityAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateTerritorialCommunityAdminFail(error))))
+    );
+  }
+
+  @Action(OnUpdateTerritorialCommunityAdminFail)
+  onUpdateTerritorialCommunityAdminFail(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: OnUpdateTerritorialCommunityAdminFail
+  ): void {
+    dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.error,
+        type: 'error'
+      })
+    );
+  }
+
+  @Action(OnUpdateTerritorialCommunityAdminSuccess)
+  onUpdateTerritorialCommunityAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch([
+      new MarkFormDirty(false),
+      new ShowMessageBar({
+        message: SnackbarText.updateAdmin,
+        type: 'success'
+      })
+    ]);
+    this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.areaAdmin } });
+  }
+
+  @Action(DeleteTerritorialCommunityAdminById)
+  deleteTerritorialCommunityAdminById(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: DeleteMinistryAdminById
+  ): Observable<void | Observable<void>> {
+    return this.territorialCommunityAdminService.deleteAdmin(payload).pipe(
+      tap(() => dispatch(new OnDeleteTerritorialCommunityAdminSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteTerritorialCommunityAdminFail(error))))
+    );
+  }
+
+  @Action(OnDeleteTerritorialCommunityAdminFail)
+  onDeleteTerritorialCommunityAdminFail(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: OnDeleteTerritorialCommunityAdminFail
+  ): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(OnDeleteTerritorialCommunityAdminSuccess)
+  onDeleteTerritorialCommunityAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteAdmin,
+        type: 'success'
+      }),
+      new GetAllTerritorialCommunityAdmins()
+    ]);
+  }
+
+  @Action(BlockTerritorialCommunityAdminById)
+  blockTerritorialCommunityAdmin(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: BlockTerritorialCommunityAdminById
+  ): Observable<void | Observable<void>> {
+    return this.territorialCommunityAdminService.blockAdmin(payload.adminId, payload.isBlocked).pipe(
+      tap(() => dispatch([new OnBlockSuccess(payload), new GetAllTerritorialCommunityAdmins()])),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
+    );
+  }
+
+  @Action(OnBlockFail)
+  onBlockTerritorialCommunityAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
+  @Action(OnBlockSuccess)
+  onBlockTerritorialCommunityAdminSuccess(
+    { dispatch }: StateContext<AdminStateModel>,
+    { payload }: BlockTerritorialCommunityAdminById
+  ): void {
     dispatch([
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,

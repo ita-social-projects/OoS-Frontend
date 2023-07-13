@@ -1,14 +1,14 @@
-import { Observable } from "rxjs";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import { HttpClient, HttpParams } from "@angular/common/http";
-
-import { BaseAdminParameters, BaseAdmin } from "../../models/admin.model";
-import { PaginationConstants } from "../../constants/constants";
-import { SearchResponse } from "../../models/search.model";
-import { AdminIds, AdminRoles } from "../../enum/admins";
+import { PaginationConstants } from '../../constants/constants';
+import { AdminIds, AdminRoles } from '../../enum/admins';
+import { BaseAdmin, BaseAdminParameters } from '../../models/admin.model';
+import { SearchResponse } from '../../models/search.model';
 
 export class BaseAdminService {
-  protected adminType = "";
+  protected adminType = '';
+
   constructor(protected http: HttpClient, adminType: AdminRoles) {
     this.adminType = adminType;
   }
@@ -25,7 +25,7 @@ export class BaseAdminService {
     }
 
     const size = parameters?.size?.toString() || PaginationConstants.TABLE_ITEMS_PER_PAGE;
-    const from = parameters?.from?.toString() || "0";
+    const from = parameters?.from?.toString() || '0';
 
     params = params.set('Size', size).set('From', from);
 
@@ -41,7 +41,7 @@ export class BaseAdminService {
 
   /**
    * This method get Admin by Id
-   * * @param adminId: string
+   * @param adminId string
    */
   protected getAdminById(adminId: string): Observable<BaseAdmin> {
     let params = new HttpParams().set('id', `${adminId}`);
@@ -60,7 +60,7 @@ export class BaseAdminService {
 
   /**
    * This method create Admin
-   * @param baseAdmin: BaseAdmin
+   * @param baseAdmin BaseAdmin
    */
   protected createAdmin(baseAdmin: BaseAdmin): Observable<BaseAdmin> {
     return this.http.post<BaseAdmin>(`${this.adminBaseUrl}/Create`, baseAdmin);
@@ -68,7 +68,7 @@ export class BaseAdminService {
 
   /**
    * This method delete Admin by id
-   * @param adminId: string
+   * @param adminId string
    */
   protected deleteAdmin(adminId: string): Observable<void> {
     let params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`);
@@ -78,7 +78,8 @@ export class BaseAdminService {
 
   /**
    * This method block Admin
-   * @param adminId: string
+   * @param adminId string
+   * @param isBlocked boolean
    */
   protected blockAdmin(adminId: string, isBlocked: boolean): Observable<void> {
     let params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`).set('isBlocked', `${isBlocked}`);
@@ -88,7 +89,7 @@ export class BaseAdminService {
 
   /**
    * This method update Admin
-   * @param baseAdmin: BaseAdmin
+   * @param admin BaseAdmin
    */
   protected updateAdmin(admin: BaseAdmin): Observable<BaseAdmin> {
     return this.http.put<BaseAdmin>(`${this.adminBaseUrl}/Update`, admin);
