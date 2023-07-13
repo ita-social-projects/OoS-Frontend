@@ -17,7 +17,7 @@ export class CodeficatorService {
    * @param categories CodeficatorCategories[]
    * @param parentId string
    */
-  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[], parentId?: string): Observable<Codeficator[]> {
+  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[], parentId?: number): Observable<Codeficator[]> {
     return this.http.get<Codeficator[]>('/api/v1/Codeficator/search', {
       params: {
         Name: settlement,
