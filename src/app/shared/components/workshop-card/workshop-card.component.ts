@@ -19,7 +19,7 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
 import { UpdateWorkshopStatus } from '../../store/provider.actions';
 import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
-import { ParentState } from '../../store/parent.state.';
+import { ParentState } from 'shared-store/parent.state';
 import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { OwnershipTypes } from '../../enum/provider';
 import { SnackbarText } from '../../enum/enumUA/messageBer';

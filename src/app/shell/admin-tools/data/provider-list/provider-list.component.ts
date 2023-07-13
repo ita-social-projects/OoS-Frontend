@@ -1,30 +1,40 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, Subscription } from 'rxjs';
 import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, filter, takeUntil, startWith, map, skip } from 'rxjs/operators';
-import { FormControl } from '@angular/forms';
-import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
-import { AdminState } from '../../../../shared/store/admin.state';
-import { Provider, ProviderParameters, ProviderStatusUpdateData } from '../../../../shared/models/provider.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { BlockProviderById, GetFilteredProviders } from '../../../../shared/store/admin.actions';
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { OwnershipTypesEnum } from '../../../../shared/enum/enumUA/provider';
-import { SearchResponse } from '../../../../shared/models/search.model';
+import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { AdminState } from 'shared/store/admin.state';
+import { Provider, ProviderParameters, ProviderStatusUpdateData } from 'shared/models/provider.model';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { BlockProviderById, GetFilteredProviders } from 'shared/store/admin.actions';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { SearchResponse } from 'shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
-import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from '../../../../shared/enum/statuses';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { ModalConfirmationType } from './../../../../shared/enum/modal-confirmation';
-import { ConfirmationModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderStatus, UpdateProviderLicenseStatuse } from './../../../../shared/store/provider.actions';
-import { OwnershipTypes } from '../../../../shared/enum/provider';
-import { LicenseStatusTitles, ProviderStatusTitles } from '../../../../shared/enum/enumUA/statuses';
-import { Util } from '../../../../shared/utils/utils';
+import {
+  ReasonModalWindowComponent
+} from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { DeleteProviderById, UpdateProviderLicenseStatuse, UpdateProviderStatus } from 'shared/store/provider.actions';
+import { OwnershipTypes } from 'shared/enum/provider';
+import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
+import { Util } from 'shared/utils/utils';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { Institution } from 'shared/models/institution.model';
+import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { FilterState } from 'shared/store/filter.state';
 
 @Component({
   selector: 'app-provider-list',
@@ -51,6 +61,12 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   providers$: Observable<SearchResponse<Provider[]>>;
   @Select(AdminState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
+  @Select(MetaDataState.institutions)
+  public institutions$: Observable<Institution[]>;
+  @Select(FilterState.settlement)
+  settlement$: Observable<Codeficator>;
+  @Select(MetaDataState.codeficatorSearch)
+  public codeficatorSearch$: Observable<Codeficator[]>;
 
   provider: Provider;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -67,16 +83,20 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'status',
     'star'
   ];
-  filterFormControl: FormControl = new FormControl('');
+  public FilterGroup: FormGroup;
   dataSource = new MatTableDataSource([{}]);
   currentPage: PaginationElement = PaginationConstants.firstPage;
   totalEntities: number;
   providerParameters: ProviderParameters = {
     searchString: '',
-    size: PaginationConstants.TABLE_ITEMS_PER_PAGE
+    size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+    institutionId: '',
+    catottgId: ''
   };
+  public regions$: Observable<Codeficator[]>;
+  searchBarFormControlSubscription: Subscription;
 
-  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog) {}
+  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store, private matDialog: MatDialog, private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.getProviders();
@@ -94,20 +114,71 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       this.totalEntities = providers.totalAmount;
     });
 
-    this.filterFormControl.valueChanges
+    this.FilterGroup = this.formBuilder.group({
+      filterFormControl: new FormControl(''),
+      institution: new FormControl(''),
+      region: new FormControl(''),
+      area: new FormControl('')
+    });
+
+    this.FilterGroup.get('area').disable();
+
+    this.store.dispatch(new GetAllInstitutions(true));
+    this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
+      takeUntil(this.destroy$),
+      map((state) => [...state.metaDataState.codeficatorSearch])
+    );
+
+    this.setSubscription();
+
+    this.FilterGroup.get('institution').valueChanges
       .pipe(
         distinctUntilChanged(),
         startWith(''),
         skip(1),
         debounceTime(1000),
-        takeUntil(this.destroy$),
-        map((value: string) => value.trim())
+        takeUntil(this.destroy$)
       )
-      .subscribe((searchString: string) => {
-        this.providerParameters.searchString = searchString;
+      .subscribe((value: string) => {
+        if (value != '') {
+          this.providerParameters.institutionId = this.FilterGroup.get('institution').value.id;
+          this.currentPage = PaginationConstants.firstPage;
+          this.getProviders();
+        }
+      });
 
-        this.currentPage = PaginationConstants.firstPage;
-        this.getProviders();
+    this.FilterGroup.get('region').valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        startWith(''),
+        skip(1),
+        debounceTime(1000),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((value: string) => {
+        if (value != '') {
+          this.providerParameters.catottgId = this.FilterGroup.get('region').value.id;
+          this.currentPage = PaginationConstants.firstPage;
+          this.getProviders();
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.FilterGroup.get('region').value.id));
+          this.FilterGroup.get('area').enable();
+        }
+      });
+
+    this.FilterGroup.get('area').valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        startWith(''),
+        skip(1),
+        debounceTime(1000),
+        takeUntil(this.destroy$)
+      )
+      .subscribe((value: string) => {
+        if (value != '') {
+          this.providerParameters.catottgId = this.FilterGroup.get('area').value.id;
+          this.currentPage = PaginationConstants.firstPage;
+          this.getProviders();
+        }
       });
   }
 
@@ -215,6 +286,32 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     }
   }
 
+  public onResetFilters(): void {
+    if (this.FilterGroup.get('filterFormControl').value != '') {
+      this.searchBarFormControlSubscription.unsubscribe();
+      this.FilterGroup.get('filterFormControl').setValue('');
+      this.setSubscription();
+    }
+    if (this.FilterGroup.get('institution').value != '') {
+      this.FilterGroup.get('institution').setValue('');
+    }
+    if (this.FilterGroup.get('region').value != '') {
+      this.FilterGroup.get('region').setValue('');
+    }
+    if (this.FilterGroup.get('area').value != '') {
+      this.FilterGroup.get('area').setValue('');
+      this.store.dispatch(new ClearCodeficatorSearch());
+      this.FilterGroup.get('area').disable();
+    }
+    this.providerParameters = {
+      searchString: '',
+      size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
+      institutionId: '',
+      catottgId: ''
+    };
+    this.getProviders();
+  }
+
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -224,5 +321,26 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   private getProviders(): void {
     Util.setFromPaginationParam(this.providerParameters, this.currentPage, this.totalEntities);
     this.store.dispatch(new GetFilteredProviders(this.providerParameters));
+  }
+
+  private setSubscription() {
+    this.searchBarFormControlSubscription = this.FilterGroup.get('filterFormControl').valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        startWith(''),
+        skip(1),
+        debounceTime(1000),
+        takeUntil(this.destroy$),
+        map((value: string) => value.trim())
+      )
+      .subscribe((searchValue: string) => {
+        this.providerParameters.searchString = searchValue;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+  }
+
+  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
+    return codeficator1.id === codeficator2.id;
   }
 }

@@ -1,17 +1,72 @@
-<div class="wrapper-header">
+<form class="wrapper-header" [formGroup]="FilterGroup">
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        [formControl]="filterFormControl"
+        formControlName="filterFormControl"
         matInput
         type="text"
         class="search"
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_EDRPO_MAIL_PHONE' | translate }}"
       />
     </div>
+    <div class="reset" (click)="onResetFilters()">
+      <mat-icon class="reset__icon">refresh</mat-icon><span class="reset__title">{{ 'HISTORY_LOG.RESET_FILTERS' | translate }}</span>
+    </div>
   </div>
-</div>
+  <div class="filters-area">
+    <div class="filter-dropdown">
+      <mat-form-field floatLabel="never" appearance="none">
+        <mat-select
+          disableOptionCentering
+          formControlName="institution"
+          panelClass="dropdown-panel"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
+          class="select">
+          <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+            {{ institution.title }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="region-filters-area">
+      <div class="filter-dropdown institution-filter">
+        <mat-form-field floatLabel="never" appearance="none">
+          <mat-select
+            disableOptionCentering
+            formControlName="region"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}"
+            class="select">
+            <mat-option
+              class="dropdown-option"
+              *ngFor="let region of regions$ | async"
+              [value]="region"
+            >
+              {{ region.fullName | translate }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="filter-dropdown">
+        <mat-form-field floatLabel="never" appearance="none">
+          <mat-select
+            [compareWith]="compareCodeficators"
+            disableOptionCentering
+            formControlName="area"
+            panelClass="dropdown-panel"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}"
+            class="select">
+            <mat-option *ngFor="let codeficator of codeficatorSearch$ | async"
+                        [value]="codeficator" class="dropdown-option">
+              {{ codeficator.territorialCommunity }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</form>
 
 <!-- -------------Table------------ -->
 <ng-container *ngIf="!(isLoadingCabinet$ | async)">

@@ -89,7 +89,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
     this.subscribeOnDirtyForm(this.AdminFormGroup);
-    if(this.isRegionAdmin) {
+    if (this.isRegionAdmin) {
       this.AdminFormGroup.addControl('region', new FormControl('', [Validators.required]));
       this.initRegionListener();
     }
@@ -105,11 +105,11 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public get regionFormControl(): FormControl {
-    return <FormControl>this.AdminFormGroup.get('region');
+    return <FormControl> this.AdminFormGroup.get('region');
   }
 
   public get institutionFormControl(): FormControl {
-    return <FormControl>this.AdminFormGroup.get('institution');
+    return <FormControl> this.AdminFormGroup.get('institution');
   }
 
   private initRegionListener(): void {
@@ -130,7 +130,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public displayRegionNameFn(codeficator: Codeficator | string): string {
-    if (typeof codeficator === "string") {
+    if (typeof codeficator === 'string') {
       return codeficator;
     };
 
@@ -168,20 +168,18 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           },
           { emitEvent: false }
         );
-        if(this.isRegionAdmin) {
+        if (this.isRegionAdmin) {
           this.fillRegion(<RegionAdmin>admin)
         }
       });
   }
 
   private fillRegion(admin: RegionAdmin): void {
-      this.regionFormControl.setValue(
-        {
-          id: admin.catottgId,
-          fullName: admin.catottgName
-        },
-        { emitEvent: false }
-      );
+    this.regionFormControl.setValue(
+      {
+        id: admin.catottgId,
+        fullName: admin.catottgName
+      }, { emitEvent: false });
   }
 
   public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
@@ -224,7 +222,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       }
     });
 
-    dialogRef.afterClosed().pipe(filter((result: boolean)=>result)).subscribe(() => {      
+    dialogRef.afterClosed().pipe(filter((result: boolean)=>result)).subscribe(() => {
       this.saveAdmin();
     });
   }

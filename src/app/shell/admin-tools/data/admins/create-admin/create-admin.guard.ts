@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { CanActivate, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { filter, map, Observable } from 'rxjs';
-import { Role } from '../../../../../shared/enum/role';
-import { RegistrationState } from '../../../../../shared/store/registration.state';
+import { Role } from 'shared/enum/role';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Injectable({
   providedIn: 'root',

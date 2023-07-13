@@ -6,7 +6,6 @@
   display: flex;
   justify-content: end;
   row-gap: 10px;
-
   flex-wrap: wrap;
 }
 
@@ -41,7 +40,7 @@
 .date {
   min-width: 100px;
   background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 20px;
   box-sizing: border-box;
 }

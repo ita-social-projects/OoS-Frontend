@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { DropdownData, FilterData } from '../../../../../shared/models/history-log.model';
+import { DropdownData, FilterData } from 'shared/models/history-log.model';
 
 @Component({
   selector: 'app-history-log-filters',

@@ -85,13 +85,13 @@ export class GetInstitutionHierarchyParentsById {
 export class GetCodeficatorSearch {
   static readonly type = '[meta-data] Get Codeficator search';
 
-  constructor(public name: string, public categories?: CodeficatorCategories[]) {}
+  constructor(public name: string, public categories?: CodeficatorCategories[] , public parentId?: string) {}
 }
 
 export class GetCodeficatorById {
   static readonly type = '[meta-data] Get Codeficator By Id';
 
-  constructor(public id: number) {}
+  constructor(public id: string) {}
 }
 
 export class ClearCodeficatorSearch {
