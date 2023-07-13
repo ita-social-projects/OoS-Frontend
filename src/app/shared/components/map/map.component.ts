@@ -39,6 +39,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   settlement$: Observable<Codeficator>;
   @Select(FilterState.userRadiusSize)
   userRadiusSize$: Observable<number>;
+  @Select(FilterState.currentGeolocation)
+  currentGeolocation$: Observable<Codeficator>;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   map: Layer.Map;
@@ -86,7 +88,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.settlement$
+    this.currentGeolocation$
       .pipe(
         takeUntil(this.destroy$),
         filter((settlement: Codeficator) => !!settlement)
