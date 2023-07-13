@@ -62,6 +62,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   public adminId: string;
   public formTitle: string;
   public regions$: Observable<Codeficator[]>;
+  public isRegionSelected: boolean;
 
   constructor(
     protected store: Store,
@@ -125,7 +126,10 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   private initRegionListener(): void {
-    this.regionFormControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((value) => {
+    this.regionFormControl.valueChanges.pipe(distinctUntilChanged(), takeUntil(this.destroy$)).subscribe((value: Codeficator) => {
+      this.isRegionSelected = value.category === CodeficatorCategories.Region;
+      this.territorialCommunityFormControl.setValue(this.isRegionSelected ? '' : value.id);
+
       this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], value.id));
     });
   }
@@ -144,7 +148,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   }
 
   public get isTerritorialCommunityAdmin(): boolean {
-    return this.adminRole === AdminRoles.territorialCommunityAdmin;
+    return this.adminRole === AdminRoles.areaAdmin;
   }
 
   public setEditMode(): void {
@@ -195,7 +199,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           .dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
           .pipe(takeUntil(this.destroy$))
           .subscribe((state) => {
-            const { id: regionId, fullName: regionName } = state.metaDataState.codeficatorSearch[0];
+            const { id: regionId, fullName: regionName, category } = state.metaDataState.codeficatorSearch[0];
 
             this.regionFormControl.setValue(
               {
@@ -204,7 +208,11 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
               },
               { emitEvent: false }
             );
-            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+            this.isRegionSelected = category === CodeficatorCategories.Region;
+
+            if (this.isRegionSelected) {
+              this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+            }
           })
       );
     this.territorialCommunityFormControl.setValue(
