@@ -1,24 +1,25 @@
-import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../shared/store/shared-user.actions';
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { Role } from 'shared/enum/role';
+import { Address } from 'shared/models/address.model';
+import { Provider } from 'shared/models/provider.model';
+import { Teacher } from 'shared/models/teacher.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../shared/enum/role';
-import { Address } from '../../../../shared/models/address.model';
-import { Teacher } from '../../../../shared/models/teacher.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { NavigationBarService } from '../../../../shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath } from '../../../../shared/store/navigation.actions';
-import { UpdateWorkshop, CreateWorkshop } from '../../../../shared/store/provider.actions';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
-import { Util } from '../../../../shared/utils/utils';
-import { Provider } from '../../../../shared/models/provider.model';
 
 @Component({
   selector: 'app-create-workshop',
@@ -27,9 +28,9 @@ import { Provider } from '../../../../shared/models/provider.model';
   providers: [
     {
       provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false },
-    },
-  ],
+      useValue: { displayDefaultIndicatorType: false }
+    }
+  ]
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
@@ -48,7 +49,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
-    protected navigationBarService: NavigationBarService
+    protected navigationBarService: NavigationBarService,
+    private router: Router
   ) {
     super(store, route, navigationBarService);
   }
@@ -77,12 +79,12 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
             name: personalCabinetTitle,
             path: '/personal-cabinet/provider/administration',
             isActive: false,
-            disable: false,
+            disable: false
           },
           {
             name: this.editMode ? NavBarName.EditWorkshop : NavBarName.NewWorkshop,
             isActive: false,
-            disable: true,
+            disable: true
           }
         )
       )
@@ -141,7 +143,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   /**
-   * This method receives  a from form create-about child component and assigns to the About FormGroup
+   * This method receives a form from create-about child component and assigns to the About FormGroup
    * @param FormGroup form
    */
   onReceiveAboutFormGroup(form: FormGroup): void {
@@ -156,6 +158,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
     this.subscribeOnDirtyForm(form);
+  }
+
+  onCancel(): void {
+    this.router.navigate(['/personal-cabinet/provider/workshops']);
   }
 
   /**

@@ -1,27 +1,21 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
-import { Location } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, ValidatorFn, Validators
-} from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-
-import { Constants } from '../../../../../shared/constants/constants';
-import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../../shared/enum/role';
-import { User } from '../../../../../shared/models/user.model';
-import {
-  NavigationBarService
-} from '../../../../../shared/services/navigation-bar/navigation-bar.service';
-import { AddNavPath, DeleteNavPath } from '../../../../../shared/store/navigation.actions';
-import { UpdateUser } from '../../../../../shared/store/registration.actions';
-import { RegistrationState } from '../../../../../shared/store/registration.state';
-import { Util } from '../../../../../shared/utils/utils';
+import { Constants } from 'shared/constants/constants';
+import { NAME_REGEX } from 'shared/constants/regex-constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { Role } from 'shared/enum/role';
+import { User } from 'shared/models/user.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
+import { UpdateUser } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../create-form/create-form.component';
 
 @Component({
@@ -50,7 +44,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
     protected store: Store,
     protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
-    private location: Location
+    private router: Router
   ) {
     super(store, route, navigationBarService);
 
@@ -72,7 +66,10 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
+      phoneNumber: new FormControl('', [
+        Validators.required,
+        Validators.minLength(ValidationConstants.PHONE_LENGTH)
+      ])
     });
   }
 
@@ -124,6 +121,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public onCancel(): void {
-    this.location.back();
+    this.router.navigate(['../'], { relativeTo: this.route });
   }
 }

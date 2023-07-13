@@ -32,11 +32,11 @@ export class AppWorkshopsService {
     }
     let params = new HttpParams();
 
-    if (filters.settlement) {
-      params = this.setCityFilterParams(filters.settlement, params);
-    } else if (!!filters.mapViewCoords) {
+    if (filters.mapViewCoords) {
       const { lat, lng } = filters.mapViewCoords;
       params = params.set('Latitude', lat.toFixed(5).toString()).set('Longitude', lng.toFixed(5).toString());
+    } else {
+      params = this.setCityFilterParams(filters.settlement, params);
     }
 
     if (filters.isFree) {

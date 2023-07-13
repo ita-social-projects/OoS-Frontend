@@ -33,6 +33,7 @@ export class Constants {
   static readonly THERE_IS_SUCH_DATA = ': There is already a provider with such a data';
 
   static readonly NO_SETTLEMENT = 'EMPTY_BANNERS.NO_SETTLEMENT';
+  static readonly NO_TERRITORIAL_COMMUNITY = 'EMPTY_BANNERS.NO_TERRITORIAL_COMMUNITY';
   static readonly KYIV: Codeficator = {
     id: 31737,
     region: null,
