@@ -9,7 +9,7 @@ import { SearchResponse } from '../../models/search.model';
 export class BaseAdminService {
   protected adminType = '';
 
-  constructor(protected http: HttpClient, adminType: AdminRoles | string) {
+  constructor(protected http: HttpClient, adminType: AdminRoles) {
     this.adminType = adminType;
   }
 

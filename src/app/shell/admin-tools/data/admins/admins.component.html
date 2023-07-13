@@ -23,7 +23,7 @@
         <a [routerLink]="['/create-admin', AdminRoles.regionAdmin]">
           <button mat-menu-item>{{ 'ENUM.ADMISTRATORS.REGION_ADMIN' | translate }}</button>
         </a>
-        <a [routerLink]="['/create-admin', AdminRoles.territorialCommunityAdmin]">
+        <a [routerLink]="['/create-admin', AdminRoles.areaAdmin]">
           <button mat-menu-item>{{ 'ENUM.ADMISTRATORS.TERRITORIAL_ADMIN' | translate }}</button>
         </a>
       </mat-menu>
@@ -38,7 +38,7 @@
       <mat-tab label="{{ AdminRolesTitles.regionAdmin | translate }}">
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
       </mat-tab>
-      <mat-tab label="{{ AdminRolesTitles.territorialCommunityAdmin | translate }}">
+      <mat-tab label="{{ AdminRolesTitles.areaAdmin | translate }}">
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
       </mat-tab>
     </mat-tab-group>

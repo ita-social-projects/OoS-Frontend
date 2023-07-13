@@ -568,7 +568,7 @@ export class AdminState {
         dispatch(new GetAllRegionAdmins(parameters));
         break;
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         dispatch(new GetAllTerritorialCommunityAdmins(parameters));
         break;
       }
@@ -589,7 +589,7 @@ export class AdminState {
         dispatch(new GetRegionAdminById(payload));
         break;
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         dispatch(new GetTerritorialCommunityAdminById(payload));
         break;
       }
@@ -610,7 +610,7 @@ export class AdminState {
         dispatch(new CreateRegionAdmin(payload as RegionAdmin));
         break;
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         dispatch(new CreateTerritorialCommunityAdmin(payload as TerritorialCommunityAdmin));
         break;
       }
@@ -631,7 +631,7 @@ export class AdminState {
         dispatch(new UpdateRegionAdmin(payload as RegionAdmin));
         break;
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         dispatch(new UpdateTerritorialCommunityAdmin(payload as TerritorialCommunityAdmin));
         break;
       }
@@ -652,7 +652,7 @@ export class AdminState {
         dispatch(new DeleteRegionAdminById(payload));
         break;
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         dispatch(new DeleteTerritorialCommunityAdminById(payload));
         break;
       }
@@ -673,7 +673,7 @@ export class AdminState {
         dispatch(new BlockRegionAdminById(payload));
         break;
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         dispatch(new BlockTerritorialCommunityAdminById(payload));
         break;
       }
@@ -1098,7 +1098,7 @@ export class AdminState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.territorialCommunityAdmin } });
+    this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.areaAdmin } });
   }
 
   @Action(DeleteTerritorialCommunityAdminById)

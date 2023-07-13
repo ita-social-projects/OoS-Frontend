@@ -22,7 +22,7 @@ export class AdminFactory {
       case AdminRoles.regionAdmin: {
         return new RegionAdmin(adminData, institutionId, regionId, id, accountStatus);
       }
-      case AdminRoles.territorialCommunityAdmin: {
+      case AdminRoles.areaAdmin: {
         return new TerritorialCommunityAdmin(adminData, institutionId, regionId, territorialCommunityId, id,  accountStatus);
       }
       default: {

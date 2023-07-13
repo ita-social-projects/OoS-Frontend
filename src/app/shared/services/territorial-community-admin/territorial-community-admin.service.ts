@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { AdminRoles } from 'shared/enum/admins';
 
 import { SearchResponse } from '../../models/search.model';
 import { TerritorialCommunityAdmin, TerritorialCommunityAdminParameters } from '../../models/territorialCommunityAdmin.model';
@@ -11,7 +12,7 @@ import { BaseAdminService } from '../base-admin/base-admin';
 })
 export class TerritorialCommunityAdminService extends BaseAdminService {
   constructor(protected http: HttpClient) {
-    super(http, 'areaAdmin');
+    super(http, AdminRoles.areaAdmin);
   }
 
   /**
