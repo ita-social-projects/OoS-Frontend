@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@a
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable } from 'rxjs';
+import { map, Observable, switchMap } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
@@ -193,28 +193,28 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   private fillTerritorialCommunity(admin: TerritorialCommunityAdmin): void {
     this.store
       .dispatch(new GetCodeficatorById(admin.catottgId))
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((state) =>
-        this.store
-          .dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
-          .pipe(takeUntil(this.destroy$))
-          .subscribe((state) => {
-            const { id: regionId, fullName: regionName, category } = state.metaDataState.codeficatorSearch[0];
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap((state) =>
+          this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
+        )
+      )
+      .subscribe((state) => {
+        const { id: regionId, fullName: regionName, category } = state.metaDataState.codeficatorSearch[0];
 
-            this.regionFormControl.setValue(
-              {
-                id: regionId,
-                fullName: regionName
-              },
-              { emitEvent: false }
-            );
-            this.isRegionSelected = category === CodeficatorCategories.Region;
+        this.regionFormControl.setValue(
+          {
+            id: regionId,
+            fullName: regionName
+          },
+          { emitEvent: false }
+        );
+        this.isRegionSelected = category === CodeficatorCategories.Region;
 
-            if (this.isRegionSelected) {
-              this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
-            }
-          })
-      );
+        if (this.isRegionSelected) {
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+        }
+      });
     this.territorialCommunityFormControl.setValue(
       {
         id: admin.catottgId,
