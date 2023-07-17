@@ -35,26 +35,20 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('chat') chatEl: ElementRef;
+  @ViewChild('chat')
+  private chatEl: ElementRef;
 
   @Select(ChatState.selectedChatRoomMessages)
-  messages$: Observable<IncomingMessage[]>;
+  private messages$: Observable<IncomingMessage[]>;
+  public messages: IncomingMessage[] = [];
   @Select(ChatState.selectedChatRoom)
-  chatRoom$: Observable<ChatRoom>;
+  private chatRoom$: Observable<ChatRoom>;
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+  private workshop$: Observable<Workshop>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+  private user$: Observable<User>;
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
-  @Select(RegistrationState.role)
-  role$: Observable<Role>;
-
-  messages: IncomingMessage[] = [];
-  messageControl: FormControl = new FormControl('');
-  userIsProvider: boolean;
-  userName: string;
-  companionName: string;
+  private parent$: Observable<Parent>;
 
   private messagesParameters: MessagesParameters = {
     from: 0,
@@ -67,16 +61,21 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private isHistoryLoading = false;
   private mode: string;
 
+  public messageControl: FormControl = new FormControl('');
+  public userIsProvider: boolean;
+  public userName: string;
+  public companionName: string;
+
   constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.addNavPath();
     this.getUserRole();
     this.getChatRoom();
     this.createHubConnection();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.setChatSubscriptions();
 
     this.chatEl.nativeElement.onscroll = () => {
@@ -96,7 +95,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  onSendMessage(): void {
+  public onSendMessage(): void {
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
       const sendMessage = new OutgoingMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.messageControl.value);
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
@@ -104,11 +103,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onBack(): void {
+  public onBack(): void {
     this.location.back();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom(), new ResetProviderWorkshopDetails()]);
     this.hubConnection.stop();
     this.destroy$.next(true);

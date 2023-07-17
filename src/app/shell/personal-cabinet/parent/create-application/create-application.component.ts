@@ -32,37 +32,24 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
   styleUrls: ['./create-application.component.scss']
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
-  readonly ModeConstants = ModeConstants;
+  public readonly ModeConstants = ModeConstants;
 
   @Select(ParentState.children)
-  children$: Observable<SearchResponse<Child[]>>;
-  children: Child[];
-  parentCard: Child;
+  private children$: Observable<SearchResponse<Child[]>>;
+  public children: Child[];
   @Select(ParentState.isAllowChildToApply)
-  isAllowChildToApply$: Observable<boolean>;
+  private isAllowChildToApply$: Observable<boolean>;
+  public isAllowChildToApply: boolean;
   @Select(RegistrationState.parent)
-  parent$: Observable<ParentWithContactInfo>;
-  parent: ParentWithContactInfo;
+  private parent$: Observable<ParentWithContactInfo>;
+  public parent: ParentWithContactInfo;
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
-  workshop: Workshop;
+  private workshop$: Observable<Workshop>;
+  public workshop: Workshop;
 
-  ContraindicationAgreementFormControl = new FormControl(false);
-  ParentAgreementFormControl = new FormControl(false);
-  AttendAgreementFormControl = new FormControl(false);
-
-  ContraindicationAgreementFormControlYourself = new FormControl(false);
-  AttendAgreementFormControlYourself = new FormControl(false);
-
-  selectedChild: Child;
-  isContraindicationAgreed: boolean;
-  isAttendAgreed: boolean;
-  isParentAgreed: boolean;
-  isAllowChildToApply: boolean;
-  isContraindicationAgreementYourself: boolean;
-  isAttendAgreementYourself: boolean;
-  tabIndex = 0;
-  childrenParameters: ChildrenParameters = {
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private tabIndex = 0;
+  private childrenParameters: ChildrenParameters = {
     searchString: '',
     isParent: null,
     isGetParent: true,
@@ -70,10 +57,21 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     size: 0
   };
 
-  workshopId: string;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public ContraindicationAgreementFormControl = new FormControl(false);
+  public ParentAgreementFormControl = new FormControl(false);
+  public AttendAgreementFormControl = new FormControl(false);
+  public ContraindicationAgreementFormControlYourself = new FormControl(false);
+  public AttendAgreementFormControlYourself = new FormControl(false);
+  public ChildFormControl = new FormControl('', Validators.required);
 
-  ChildFormControl = new FormControl('', Validators.required);
+  public parentCard: Child;
+  public selectedChild: Child;
+  public isContraindicationAgreed: boolean;
+  public isAttendAgreed: boolean;
+  public isParentAgreed: boolean;
+  public isContraindicationAgreementYourself: boolean;
+  public isAttendAgreementYourself: boolean;
+  public workshopId: string;
 
   constructor(
     private store: Store,
@@ -84,7 +82,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.workshopId = this.route.snapshot.paramMap.get('id');
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new GetWorkshopById(this.workshopId));
     this.ParentAgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isParentAgreed = val));
     this.AttendAgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAttendAgreed = val));
@@ -129,16 +127,10 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopDetails()]);
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
   /**
    * This method create new Application
    */
-  onSubmit(): void {
+  public onSubmit(): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -155,14 +147,20 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     });
   }
 
-  onSelectChild(child: MatSelectChange): void {
+  public onSelectChild(child: MatSelectChange): void {
     this.store.dispatch(new GetStatusIsAllowToApply(child.value.id, this.workshopId));
   }
 
-  onTabChange(tabChangeEvent: MatTabChangeEvent): void {
+  public onTabChange(tabChangeEvent: MatTabChangeEvent): void {
     this.tabIndex = tabChangeEvent.index;
     if (this.tabIndex) {
       this.store.dispatch(new GetStatusIsAllowToApply(this.parentCard.id, this.workshopId));
     }
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopDetails()]);
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
