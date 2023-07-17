@@ -1,17 +1,18 @@
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
+
+import { Component, OnDestroy, OnInit, Provider } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+
 import { EntityType, Role } from '../../shared/enum/role';
 import { Workshop } from '../../shared/models/workshop.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
 import { DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { ResetProviderWorkshopDetails, GetWorkshopById, GetProviderById } from '../../shared/store/shared-user.actions';
+import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from '../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../shared/store/shared-user.state';
-import { PaginationConstants } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-details',
@@ -19,31 +20,32 @@ import { PaginationConstants } from '../../shared/constants/constants';
   styleUrls: ['./details.component.scss']
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-  readonly entityType = EntityType;
+  public readonly entityType = EntityType;
 
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
-  isMobileScreen: boolean;
+  private isMobileScreen$: Observable<boolean>;
+  public isMobileScreen: boolean;
 
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
-  workshop: Workshop;
+  private workshop$: Observable<Workshop>;
+  public workshop: Workshop;
 
   @Select(SharedUserState.selectedProvider)
-  provider$: Observable<Provider>;
-  provider: Provider;
+  private provider$: Observable<Provider>;
+  public provider: Provider;
 
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
-  role: Role;
+  private role$: Observable<Role>;
+  public role: Role;
 
-  entity: EntityType;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  displayActionCard: boolean;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public entity: EntityType;
+  public displayActionCard: boolean;
 
   constructor(private store: Store, private route: ActivatedRoute, public navigationBarService: NavigationBarService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {
       this.store.dispatch(new ResetProviderWorkshopDetails());
       this.entity = params.entity;
@@ -57,6 +59,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
     });
 
     this.setDataSubscribtion();
+  }
+
+  public ngOnDestroy(): void {
+    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopDetails()]);
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private setDataSubscribtion(): void {
@@ -77,11 +85,5 @@ export class DetailsComponent implements OnInit, OnDestroy {
    */
   private getEntity(id: string): void {
     this.entity === EntityType.workshop ? this.store.dispatch(new GetWorkshopById(id)) : this.store.dispatch(new GetProviderById(id));
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

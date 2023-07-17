@@ -1,31 +1,33 @@
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
+
+import { Location } from '@angular/common';
+import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import * as signalR from '@microsoft/signalr';
+import { Select, Store } from '@ngxs/store';
+
+import { ModeConstants } from '../../../../../shared/constants/constants';
+import { CHAT_HUB_URL } from '../../../../../shared/constants/hubs-Url';
+import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
+import { Role } from '../../../../../shared/enum/role';
+import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
+import { Parent } from '../../../../../shared/models/parent.model';
+import { User } from '../../../../../shared/models/user.model';
+import { Workshop } from '../../../../../shared/models/workshop.model';
+import { SignalRService } from '../../../../../shared/services/signalR/signal-r.service';
 import {
   ClearSelectedChatRoom,
   GetChatRoomById,
   GetChatRoomMessages,
   GetChatRoomMessagesByWorkshopId
 } from '../../../../../shared/store/chat.actions';
-import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
-import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
 import { ChatState } from '../../../../../shared/store/chat.state';
-import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
-import { Location } from '@angular/common';
-import { Role } from '../../../../../shared/enum/role';
+import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
 import { RegistrationState } from '../../../../../shared/store/registration.state';
-import { SignalRService } from '../../../../../shared/services/signalR/signal-r.service';
-import { CHAT_HUB_URL } from '../../../../../shared/constants/hubs-Url';
-import * as signalR from '@microsoft/signalr';
-import { FormControl } from '@angular/forms';
-import { Parent } from '../../../../../shared/models/parent.model';
-import { Workshop } from '../../../../../shared/models/workshop.model';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../../../../shared/store/shared-user.state';
-import { GetWorkshopById } from '../../../../../shared/store/shared-user.actions';
-import { User } from '../../../../../shared/models/user.model';
 import { Util } from '../../../../../shared/utils/utils';
-import { ModeConstants } from '../../../../../shared/constants/constants';
 
 @Component({
   selector: 'app-chat',
@@ -33,26 +35,20 @@ import { ModeConstants } from '../../../../../shared/constants/constants';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('chat') chatEl: ElementRef;
+  @ViewChild('chat')
+  private chatEl: ElementRef;
 
   @Select(ChatState.selectedChatRoomMessages)
-  messages$: Observable<IncomingMessage[]>;
+  private messages$: Observable<IncomingMessage[]>;
+  public messages: IncomingMessage[] = [];
   @Select(ChatState.selectedChatRoom)
-  chatRoom$: Observable<ChatRoom>;
+  private chatRoom$: Observable<ChatRoom>;
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+  private workshop$: Observable<Workshop>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+  private user$: Observable<User>;
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
-  @Select(RegistrationState.role)
-  role$: Observable<Role>;
-
-  messages: IncomingMessage[] = [];
-  messageControl: FormControl = new FormControl('');
-  userIsProvider: boolean;
-  userName: string;
-  companionName: string;
+  private parent$: Observable<Parent>;
 
   private messagesParameters: MessagesParameters = {
     from: 0,
@@ -65,16 +61,21 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private isHistoryLoading = false;
   private mode: string;
 
+  public messageControl: FormControl = new FormControl('');
+  public userIsProvider: boolean;
+  public userName: string;
+  public companionName: string;
+
   constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.addNavPath();
     this.getUserRole();
     this.getChatRoom();
     this.createHubConnection();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.setChatSubscriptions();
 
     this.chatEl.nativeElement.onscroll = () => {
@@ -94,7 +95,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     };
   }
 
-  onSendMessage(): void {
+  public onSendMessage(): void {
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
       const sendMessage = new OutgoingMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.messageControl.value);
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
@@ -102,12 +103,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  onBack(): void {
+  public onBack(): void {
     this.location.back();
   }
 
-  ngOnDestroy(): void {
-    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom()]);
+  public ngOnDestroy(): void {
+    this.store.dispatch([new PopNavPath(), new ClearSelectedChatRoom(), new ResetProviderWorkshopDetails()]);
     this.hubConnection.stop();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
