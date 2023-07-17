@@ -1,17 +1,19 @@
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { Component, OnInit, OnDestroy, Provider } from '@angular/core';
+
+import { Component, OnDestroy, OnInit, Provider } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+
+import { PaginationConstants } from '../../shared/constants/constants';
 import { EntityType, Role } from '../../shared/enum/role';
 import { Workshop } from '../../shared/models/workshop.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from '../../shared/store/app.state';
 import { DeleteNavPath } from '../../shared/store/navigation.actions';
 import { RegistrationState } from '../../shared/store/registration.state';
-import { ResetProviderWorkshopDetails, GetWorkshopById, GetProviderById } from '../../shared/store/shared-user.actions';
+import { GetProviderById, GetWorkshopById, ResetProviderWorkshopDetails } from '../../shared/store/shared-user.actions';
 import { SharedUserState } from '../../shared/store/shared-user.state';
-import { PaginationConstants } from '../../shared/constants/constants';
 
 @Component({
   selector: 'app-details',
@@ -80,7 +82,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch([new DeleteNavPath(), new ResetProviderWorkshopDetails()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
