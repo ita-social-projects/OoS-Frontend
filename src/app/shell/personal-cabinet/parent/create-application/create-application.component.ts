@@ -29,7 +29,7 @@ import {
 } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById } from 'shared/store/shared-user.actions';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
