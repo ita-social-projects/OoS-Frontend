@@ -1,10 +1,10 @@
 import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from './admin.model';
 
 export class RegionAdmin extends BaseAdmin {
-  public catottgId: string;
+  public catottgId: number;
   public catottgName: string;
 
-  constructor(info, institutionId: string, regionId: string, id?: string, accountStatus?: string) {
+  constructor(info, institutionId: string, regionId: number, id?: string, accountStatus?: string) {
     super(info, institutionId, id, accountStatus);
     this.catottgId = regionId;
   }

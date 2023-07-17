@@ -1,9 +1,9 @@
-<form class="wrapper-header" [formGroup]="FilterGroup">
+<form class="wrapper-header" [formGroup]="filterGroup">
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
       <input
-        formControlName="filterFormControl"
+        formControlName="searchBarFilter"
         matInput
         type="text"
         class="search"
@@ -16,7 +16,7 @@
   </div>
   <div class="filters-area">
     <div class="filter-dropdown">
-      <mat-form-field floatLabel="never" appearance="none">
+      <mat-form-field *ngIf='isTechAdmin' floatLabel="never" appearance="none">
         <mat-select
           disableOptionCentering
           formControlName="institution"
@@ -31,7 +31,7 @@
     </div>
     <div class="region-filters-area">
       <div class="filter-dropdown institution-filter">
-        <mat-form-field floatLabel="never" appearance="none">
+        <mat-form-field *ngIf='isTechAdmin || isMinistryAdmin' floatLabel="never" appearance="none">
           <mat-select
             disableOptionCentering
             formControlName="region"
@@ -49,7 +49,7 @@
         </mat-form-field>
       </div>
       <div class="filter-dropdown">
-        <mat-form-field floatLabel="never" appearance="none">
+        <mat-form-field *ngIf='isTechAdmin || isMinistryAdmin || isRegionAdmin' floatLabel="never" appearance="none">
           <mat-select
             [compareWith]="compareCodeficators"
             disableOptionCentering
