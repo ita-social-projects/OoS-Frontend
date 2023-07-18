@@ -1,28 +1,28 @@
-import { ProviderWorkshopCard } from '../../models/workshop.model';
-import { Favorite } from '../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Role } from '../../enum/role';
-import { WorkshopCard } from '../../models/workshop.model';
-import { RegistrationState } from '../../store/registration.state';
-import { ShowMessageBar } from '../../store/app.actions';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
+import { WorkshopSeatsLackModalComponent } from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
 import { Constants } from '../../constants/constants';
-import { ImagesService } from '../../services/images/images.service';
 import { CategoryIcons } from '../../enum/category-icons';
-import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
-import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
-import { WorkshopOpenStatus } from '../../enum/workshop';
-import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
-import { UpdateWorkshopStatus } from '../../store/provider.actions';
-import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
-import { ParentState } from '../../store/parent.state.';
-import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-import { OwnershipTypes } from '../../enum/provider';
 import { SnackbarText } from '../../enum/enumUA/messageBer';
+import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
+import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
+import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
+import { OwnershipTypes } from '../../enum/provider';
+import { Role } from '../../enum/role';
+import { WorkshopOpenStatus } from '../../enum/workshop';
+import { Favorite } from '../../models/favorite.model';
+import { ProviderWorkshopCard, WorkshopCard } from '../../models/workshop.model';
+import { ImagesService } from '../../services/images/images.service';
+import { ShowMessageBar } from '../../store/app.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/parent.actions';
+import { ParentState } from '../../store/parent.state.';
+import { UpdateWorkshopStatus } from '../../store/provider.actions';
+import { RegistrationState } from '../../store/registration.state';
+import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
+import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @Component({
   selector: 'app-workshop-card',
@@ -49,6 +49,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
+
   @Input() isCabinetView = false;
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
@@ -63,6 +64,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   private favoriteWorkshopId: string;
+
+  public get canOpenWorkshopRecruitment(): boolean {
+    return (this.workshopData as ProviderWorkshopCard).takenSeats < (this.workshopData as ProviderWorkshopCard).availableSeats;
+  }
 
   constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
@@ -111,20 +116,36 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onChangeWorkshopStatus(status: string, type: ModalConfirmationType): void {
-    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: type
-      }
-    });
+    if ((this.canOpenWorkshopRecruitment && type === ModalConfirmationType.openSet) || type === ModalConfirmationType.closeSet) {
+      const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: type
+        }
+      });
 
-    dialogRef.afterClosed().subscribe((res: boolean) => {
-      if (res) {
-        this.store.dispatch(
-          new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
-        );
-      }
-    });
+      dialogRef.afterClosed().subscribe((res: boolean) => {
+        if (res) {
+          this.store.dispatch(
+            new UpdateWorkshopStatus(
+              {
+                workshopId: this.workshopData.workshopId,
+                status: status
+              },
+              this.workshopData.providerId
+            )
+          );
+        }
+      });
+    } else {
+      this.dialog.open(WorkshopSeatsLackModalComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          workshopId: this.workshopData.workshopId,
+          workshopTitle: this.workshopData.title
+        }
+      });
+    }
   }
 
   onOpenDialog(): void {
@@ -132,8 +153,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       autoFocus: false,
       restoreFocus: false,
       data: {
-        message: ModalConfirmationDescription.unregisteredFavoriteWarning,
-      },
+        message: ModalConfirmationDescription.unregisteredFavoriteWarning
+      }
     });
   }
 
