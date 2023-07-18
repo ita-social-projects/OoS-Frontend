@@ -123,8 +123,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
               protected route: ActivatedRoute,
               private store: Store,
               private matDialog: MatDialog,
-              private formBuilder: FormBuilder) {
-  }
+              private formBuilder: FormBuilder) {}
 
   ngOnInit(): void {
     this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => this.selectedAdmin = admin);
