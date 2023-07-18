@@ -41,8 +41,7 @@
             <mat-option
               class="dropdown-option"
               *ngFor="let region of regions$ | async"
-              [value]="region"
-            >
+              [value]="region">
               {{ region.fullName | translate }}
             </mat-option>
           </mat-select>

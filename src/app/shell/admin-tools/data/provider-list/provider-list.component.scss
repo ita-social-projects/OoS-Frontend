@@ -88,15 +88,11 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-
   cursor: pointer;
-
   margin-left: 15px;
-
   &:hover {
     opacity: 0.5;
   }
-
   &__icon {
     color:black;
     font-size: 24px;

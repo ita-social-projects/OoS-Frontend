@@ -172,6 +172,11 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       area: new FormControl('')
     });
 
+    this.setInformationDependingOnRole();
+    this.subscribeFormControls();
+  }
+
+  private setInformationDependingOnRole() {
     if (this.isTechAdmin) {
       this.store.dispatch(new GetAllInstitutions(true));
     }
@@ -183,27 +188,28 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       this.areaFormControl.disable();
     }
     if (this.isRegionAdmin) {
-      this.selectedAdmin$.subscribe((admin: RegionAdmin) => {
-        this.store
-          .dispatch(new GetCodeficatorById(admin.catottgId))
-          .pipe(
-            takeUntil(this.destroy$),
+      this.selectedAdmin$.pipe(
+        takeUntil(this.destroy$),
+        switchMap((admin: RegionAdmin) =>
+          this.store.dispatch(new GetCodeficatorById(admin.catottgId)).pipe(
             switchMap((state) =>
               this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
             )
           )
-          .subscribe((state) => {
-            const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
+        )
+      ).subscribe((state) => {
+        const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
 
-            if (category === CodeficatorCategories.Region) {
-              this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
-            }
-          });
-        this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId));
+        if (category === CodeficatorCategories.Region) {
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+        }
       });
-    }
 
-    this.subscribeFormControls();
+      this.selectedAdmin$.pipe(
+        takeUntil(this.destroy$)
+      ).subscribe((admin: RegionAdmin) =>
+        this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId)));
+    }
   }
 
   private subscribeFormControls() {
@@ -228,14 +234,13 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         startWith(''),
         skip(1),
         debounceTime(1000),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
+        filter(Boolean)
       )
-      .subscribe((value: string) => {
-        if (value !== '') {
-          this.providerParameters.institutionId = this.institutionFormControl.value.id;
-          this.currentPage = PaginationConstants.firstPage;
-          this.getProviders();
-        }
+      .subscribe(() => {
+        this.providerParameters.institutionId = this.institutionFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
       });
 
     this.regionFormControl.valueChanges
@@ -244,20 +249,19 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         startWith(''),
         skip(1),
         debounceTime(1000),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
+        filter(Boolean)
       )
-      .subscribe((value: Codeficator | string) => {
-        if (value !== '') {
-          this.providerParameters.catottgId = this.regionFormControl.value.id;
-          this.currentPage = PaginationConstants.firstPage;
-          this.getProviders();
-          if ((value as Codeficator).category === CodeficatorCategories.Region) {
-            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.regionFormControl.value.id));
-            this.areaFormControl.enable();
-          } else {
-            this.store.dispatch(new ClearCodeficatorSearch());
-            this.areaFormControl.disable();
-          }
+      .subscribe((value: Codeficator) => {
+        this.providerParameters.catottgId = this.regionFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+        if (value.category === CodeficatorCategories.Region) {
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.regionFormControl.value.id));
+          this.areaFormControl.enable();
+        } else {
+          this.store.dispatch(new ClearCodeficatorSearch());
+          this.areaFormControl.disable();
         }
       });
 
@@ -267,14 +271,13 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         startWith(''),
         skip(1),
         debounceTime(1000),
-        takeUntil(this.destroy$)
+        takeUntil(this.destroy$),
+        filter(Boolean)
       )
-      .subscribe((value: string) => {
-        if (value !== '') {
-          this.providerParameters.catottgId = this.areaFormControl.value.id;
-          this.currentPage = PaginationConstants.firstPage;
-          this.getProviders();
-        }
+      .subscribe(() => {
+        this.providerParameters.catottgId = this.areaFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
       });
   }
 
@@ -455,14 +458,25 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   private checkFiltersParametersForReset() {
     if (this.providerParameters.searchString !== '' || this.providerParameters.size !== PaginationConstants.TABLE_ITEMS_PER_PAGE
-      || (this.isTechAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== ''))
-      || (this.isMinistryAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== this.selectedAdmin.institutionId))
-      || ((this.isRegionAdmin || this.isTerritorialCommunityAdmin)
-        && (this.providerParameters.catottgId !== String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId
-          || this.providerParameters.institutionId !== this.selectedAdmin.institutionId)))) {
+      || this.checkFiltersParametersForResetOnTechAdminRole || this.checkFiltersParametersForResetOnMinistryAdminRole
+      || this.checkFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole) {
       this.setProviderFilterByDefault();
       this.getProviders();
     }
+  }
+
+  private get checkFiltersParametersForResetOnTechAdminRole(): boolean {
+    return this.isTechAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== '');
+  }
+
+  private get checkFiltersParametersForResetOnMinistryAdminRole(): boolean {
+    return this.isMinistryAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== this.selectedAdmin.institutionId);
+  }
+
+  private get checkFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole(): boolean {
+    return (this.isRegionAdmin || this.isTerritorialCommunityAdmin) &&
+      (this.providerParameters.catottgId !== String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId
+        || this.providerParameters.institutionId !== this.selectedAdmin.institutionId));
   }
 
   private setProviderFilterByDefault() {
