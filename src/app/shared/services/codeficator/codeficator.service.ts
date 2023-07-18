@@ -14,22 +14,24 @@ export class CodeficatorService {
   /**
    * This method to get all Codeficators from the database
    * @param settlement string
+   * @param categories CodeficatorCategories[]
+   * @param parentId string
    */
-  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[]): Observable<Codeficator[]> {
-    if(!categories){
-      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}`);
-    } else {
-      const categoriesParam = categories?.join("");
-  
-      return this.http.get<Codeficator[]>(`/api/v1/Codeficator/search?Name=${settlement}&Categories=${categoriesParam}`);
-    }
+  public searchCodeficator(settlement: string, categories?: CodeficatorCategories[], parentId?: number): Observable<Codeficator[]> {
+    return this.http.get<Codeficator[]>('/api/v1/Codeficator/search', {
+      params: {
+        Name: settlement,
+        ...(categories && { Categories: categories.join('') }),
+        ...(parentId && { ParentId: parentId })
+      }
+    });
   }
 
   /**
    * This method to get Codeficator by id
    * @param id number
    */
-  public getCodeficatorById(id: number): Observable<Codeficator> {
+  public getCodeficatorById(id: string): Observable<Codeficator> {
     return this.http.get<Codeficator>(`/api/v1/Codeficator/${id}/parents`);
   }
 

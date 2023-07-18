@@ -42,7 +42,8 @@ import {
   SetFilterPagination,
   SetStartTime,
   SetWithDisabilityOption,
-  SetWorkingDays
+  SetWorkingDays,
+  SetCurrentGeolocation
 } from './filter.actions';
 
 @State<FilterStateModel>({
@@ -50,6 +51,7 @@ import {
   defaults: {
     ...new DefaultFilterState(),
     settlement: null,
+    currentGeolocation: null,
     filteredWorkshops: null,
     isLoading: false,
     isConfirmCity: false,
@@ -100,6 +102,11 @@ export class FilterState {
   @Selector()
   static order(state: FilterStateModel): {} {
     return state.order;
+  }
+
+  @Selector()
+  static currentGeolocation(state: FilterStateModel) {
+    return state.currentGeolocation;
   }
 
   @Selector()
@@ -314,6 +321,11 @@ export class FilterState {
   @Action(ClearCoordsByMap)
   ClearCoordsByMap({ patchState }: StateContext<FilterStateModel>): void {
     patchState({ mapViewCoords: null, from: 0 });
+  }
+
+  @Action(SetCurrentGeolocation)
+  SetCurrentGeolocation({ patchState }: StateContext<FilterStateModel>, { payload }: SetCurrentGeolocation): void {
+    patchState({ currentGeolocation: payload });
   }
 
   @Action(SetRadiusSize)
