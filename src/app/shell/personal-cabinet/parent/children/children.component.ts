@@ -4,17 +4,17 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { ParentComponent } from '../parent.component';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants, ModeConstants } from '../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { Child, ChildrenParameters } from '../../../../shared/models/child.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { GetUsersChildren, DeleteChildById } from '../../../../shared/store/parent.actions';
-import { ParentState } from './../../../../shared/store/parent.state.';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Util } from '../../../../shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { PaginationConstants, Constants, ModeConstants } from 'shared/constants/constants';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { Child, ChildrenParameters } from 'shared/models/child.model';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { GetUsersChildren, DeleteChildById } from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
+import { SearchResponse } from 'shared/models/search.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-children',

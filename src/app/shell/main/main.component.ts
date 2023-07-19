@@ -1,19 +1,19 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { WorkshopCard } from '../../shared/models/workshop.model';
+import { RegistrationState } from 'shared/store/registration.state';
+import { WorkshopCard } from 'shared/models/workshop.model';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { Direction } from '../../shared/models/category.model';
-import { Role } from '../../shared/enum/role';
-import { Codeficator } from '../../shared/models/codeficator.model';
-import { Favorite } from '../../shared/models/favorite.model';
-import { AppState } from '../../shared/store/app.state';
-import { FilterState } from '../../shared/store/filter.state';
-import { GetTopWorkshops, GetTopDirections } from '../../shared/store/main-page.actions';
-import { MainPageState } from '../../shared/store/main-page.state';
-import { ParentState } from '../../shared/store/parent.state.';
-import { Login } from '../../shared/store/registration.actions';
+import { Direction } from 'shared/models/category.model';
+import { Role } from 'shared/enum/role';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Favorite } from 'shared/models/favorite.model';
+import { AppState } from 'shared/store/app.state';
+import { FilterState } from 'shared/store/filter.state';
+import { GetTopWorkshops, GetTopDirections } from 'shared/store/main-page.actions';
+import { MainPageState } from 'shared/store/main-page.state';
+import { ParentState } from 'shared/store/parent.state';
+import { Login } from 'shared/store/registration.actions';
 
 @Component({
   selector: 'app-main',

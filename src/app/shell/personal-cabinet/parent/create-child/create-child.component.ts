@@ -22,7 +22,7 @@ import { GetSocialGroup } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateChildren, GetUsersChildById, ResetSelectedChild, UpdateChild } from 'shared/store/parent.actions';
-import { ParentState } from 'shared/store/parent.state.';
+import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 

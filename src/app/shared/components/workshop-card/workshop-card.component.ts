@@ -1,28 +1,31 @@
+import { ProviderWorkshopCard } from '../../models/workshop.model';
+import { Favorite } from '../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
+import { Role } from '../../enum/role';
+import { WorkshopCard } from '../../models/workshop.model';
+import { RegistrationState } from '../../store/registration.state';
+import { ShowMessageBar } from '../../store/app.actions';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { WorkshopSeatsLackModalComponent } from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
+import { MatDialog } from '@angular/material/dialog';
 import { Constants } from '../../constants/constants';
-import { CategoryIcons } from '../../enum/category-icons';
-import { SnackbarText } from '../../enum/enumUA/messageBer';
-import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
-import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
-import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
-import { OwnershipTypes } from '../../enum/provider';
-import { Role } from '../../enum/role';
-import { WorkshopOpenStatus } from '../../enum/workshop';
-import { Favorite } from '../../models/favorite.model';
-import { ProviderWorkshopCard, WorkshopCard } from '../../models/workshop.model';
 import { ImagesService } from '../../services/images/images.service';
-import { ShowMessageBar } from '../../store/app.actions';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/parent.actions';
-import { ParentState } from '../../store/parent.state.';
-import { UpdateWorkshopStatus } from '../../store/provider.actions';
-import { RegistrationState } from '../../store/registration.state';
+import { CategoryIcons } from '../../enum/category-icons';
+import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
-import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
+import { WorkshopOpenStatus } from '../../enum/workshop';
+import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
+import { UpdateWorkshopStatus } from '../../store/provider.actions';
+import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
+import { ParentState } from 'shared-store/parent.state';
+import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { OwnershipTypes } from '../../enum/provider';
+import { SnackbarText } from '../../enum/enumUA/messageBer';
+import {
+  WorkshopSeatsLackModalComponent
+} from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
 
 @Component({
   selector: 'app-workshop-card',

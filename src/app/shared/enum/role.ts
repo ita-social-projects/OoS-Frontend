@@ -5,6 +5,7 @@ export enum Role {
   techAdmin = 'techadmin',
   ministryAdmin = 'ministryadmin',
   regionAdmin = 'regionadmin',
+  areaAdmin = 'areaadmin',
   ProviderDeputy = 'ProviderDeputy',
   ProviderAdmin = 'ProviderAdmin',
   all = 'all',
