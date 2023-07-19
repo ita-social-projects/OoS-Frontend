@@ -12,7 +12,7 @@
       <p class="filter-text">
         {{"FROM"| translate}}
       </p>
-      <input matInput class="age-input" type="text" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
+      <input matInput class="age-input" type="number" [formControl]="minAgeFormControl" appDigitOnly maxlength="2"
         autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMin()">clear</mat-icon>
     </div>
@@ -22,7 +22,7 @@
       <p class="filter-text">
         {{"TO"| translate}}
       </p>
-      <input matInput class="age-input" type="text" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
+      <input matInput class="age-input" type="number" [formControl]="maxAgeFormControl" appDigitOnly maxlength="2"
         autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
     </div>
