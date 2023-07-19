@@ -1,12 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -21,9 +17,18 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { GetSocialGroup } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { CreateChildren, GetUsersChildById, ResetSelectedChild, UpdateChild } from 'shared/store/parent.actions';
+import {
+  CreateChildren, GetUsersChildById, ResetSelectedChild, UpdateChild
+} from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state.';
 import { RegistrationState } from 'shared/store/registration.state';
+
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -143,6 +148,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       middleName: new FormControl('', [
+        Validators.required,
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
