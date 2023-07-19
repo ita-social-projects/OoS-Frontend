@@ -456,26 +456,18 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   }
 
   private checkFiltersParametersForReset() {
+    const conditionForFiltersParametersForResetOnTechAdminRole = this.isTechAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== '');
+    const conditionForFiltersParametersForResetOnMinistryAdminRole = this.isMinistryAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== this.selectedAdmin.institutionId);
+    const conditionForFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole = (this.isRegionAdmin || this.isTerritorialCommunityAdmin) &&
+      (this.providerParameters.catottgId !== String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId
+        || this.providerParameters.institutionId !== this.selectedAdmin.institutionId));
+
     if (this.providerParameters.searchString !== '' || this.providerParameters.size !== PaginationConstants.TABLE_ITEMS_PER_PAGE
-      || this.checkFiltersParametersForResetOnTechAdminRole || this.checkFiltersParametersForResetOnMinistryAdminRole
-      || this.checkFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole) {
+      || conditionForFiltersParametersForResetOnTechAdminRole || conditionForFiltersParametersForResetOnMinistryAdminRole
+      || conditionForFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole) {
       this.setProviderFilterByDefault();
       this.getProviders();
     }
-  }
-
-  private get checkFiltersParametersForResetOnTechAdminRole(): boolean {
-    return this.isTechAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== '');
-  }
-
-  private get checkFiltersParametersForResetOnMinistryAdminRole(): boolean {
-    return this.isMinistryAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== this.selectedAdmin.institutionId);
-  }
-
-  private get checkFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole(): boolean {
-    return (this.isRegionAdmin || this.isTerritorialCommunityAdmin) &&
-      (this.providerParameters.catottgId !== String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId
-        || this.providerParameters.institutionId !== this.selectedAdmin.institutionId));
   }
 
   private setProviderFilterByDefault() {
