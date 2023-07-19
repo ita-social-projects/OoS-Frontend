@@ -23,6 +23,9 @@ import { ParentState } from 'shared-store/parent.state';
 import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { OwnershipTypes } from '../../enum/provider';
 import { SnackbarText } from '../../enum/enumUA/messageBer';
+import {
+  WorkshopSeatsLackModalComponent
+} from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
 
 @Component({
   selector: 'app-workshop-card',
