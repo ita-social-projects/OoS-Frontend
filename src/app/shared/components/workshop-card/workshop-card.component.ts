@@ -127,13 +127,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       dialogRef.afterClosed().subscribe((res: boolean) => {
         if (res) {
           this.store.dispatch(
-            new UpdateWorkshopStatus(
-              {
-                workshopId: this.workshopData.workshopId,
-                status: status
-              },
-              this.workshopData.providerId
-            )
+            new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
           );
         }
       });

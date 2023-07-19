@@ -5,15 +5,16 @@
   </p>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
-    <a
-      class="btn"
-      mat-button
-      cdkFocusInitial
-      [routerLink]="['/create-workshop', workshopId]"
-      [mat-dialog-close]="true"
-    >
+    <a class="btn"
+       mat-button
+       cdkFocusInitial
+       [routerLink]="['/create-workshop', workshopId]"
+       [mat-dialog-close]="true">
       {{ 'BUTTONS.CHANGE' | translate | uppercase }}
     </a>
-    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
+    <button class="btn btn-cancel" mat-button
+            [mat-dialog-close]="false">
+      {{ 'BUTTONS.CANCEL' | translate | uppercase }}
+    </button>
   </mat-dialog-actions>
 </div>
