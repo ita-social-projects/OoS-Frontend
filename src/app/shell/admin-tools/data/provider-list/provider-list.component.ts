@@ -5,7 +5,7 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { MatTableDataSource } from '@angular/material/table';
 import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { AdminState } from 'shared/store/admin.state';
@@ -429,45 +429,26 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   }
 
   public onResetFilters(): void {
-    if (this.searchBarFormControl.value !== '') {
-      this.searchBarFormControl.setValue('', { emitEvent: false });
-    }
-    if (this.institutionFormControl.value !== '') {
-      this.institutionFormControl.setValue('');
-    }
-    if (this.regionFormControl.value !== '') {
-      this.regionFormControl.setValue('');
-      this.areaFormControl.setValue('');
-      this.areaFormControl.disable();
-      this.store.dispatch(new ClearCodeficatorSearch());
-    }
-    if (this.areaFormControl.value !== '') {
-      this.areaFormControl.setValue('');
-      this.store.dispatch(new ClearCodeficatorSearch());
-    }
+    const hasFilter = Object.values(this.filterGroup.controls).some((control: AbstractControl) => Boolean(control.value));
+    if (hasFilter) {
+      this.searchBarFormControl.reset('', { emitEvent: false });
+      this.institutionFormControl.reset('');
+      this.regionFormControl.reset('');
+      this.areaFormControl.reset('');
 
-    this.checkFiltersParametersForReset();
+      this.areaFormControl.disable();
+
+      this.store.dispatch(new ClearCodeficatorSearch());
+
+      this.setProviderFilterByDefault();
+      this.getProviders();
+    }
   }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
-  }
-
-  private checkFiltersParametersForReset() {
-    const conditionForFiltersParametersForResetOnTechAdminRole = this.isTechAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== '');
-    const conditionForFiltersParametersForResetOnMinistryAdminRole = this.isMinistryAdmin && (this.providerParameters.catottgId !== '' || this.providerParameters.institutionId !== this.selectedAdmin.institutionId);
-    const conditionForFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole = (this.isRegionAdmin || this.isTerritorialCommunityAdmin) &&
-      (this.providerParameters.catottgId !== String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId
-        || this.providerParameters.institutionId !== this.selectedAdmin.institutionId));
-
-    if (this.providerParameters.searchString !== '' || this.providerParameters.size !== PaginationConstants.TABLE_ITEMS_PER_PAGE
-      || conditionForFiltersParametersForResetOnTechAdminRole || conditionForFiltersParametersForResetOnMinistryAdminRole
-      || conditionForFiltersParametersForResetOnRegionAndTerritorialCommunityAdminRole) {
-      this.setProviderFilterByDefault();
-      this.getProviders();
-    }
   }
 
   private setProviderFilterByDefault() {
