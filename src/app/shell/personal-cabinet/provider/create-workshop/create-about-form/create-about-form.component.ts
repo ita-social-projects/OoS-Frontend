@@ -84,6 +84,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     return this.AboutFormGroup.get('availableSeats') as FormControl;
   }
 
+  public get minSeats(): number {
+    return Math.max(this.MIN_SEATS, this.workshop?.takenSeats + (this.workshop?.status !== 'Closed' && 1));
+  }
+
   private get availableSeats(): number {
     return this.workshop?.availableSeats === this.UNLIMITED_SEATS ? this.MIN_SEATS : this.workshop?.availableSeats;
   }

@@ -757,7 +757,9 @@
         "UNBLOCK_ADMIN": "UNBLOCK ADMINISTRATOR?",
         "CREATE_ADMIN": "ADD ADMINISTRATOR?",
         "UPDATE_ADMIN": "EDIT ADMINISTRATOR?",
-        "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?"
+        "LICENSE_APPROVED": "APPROVE PROVIDER LICENSE?",
+        "WORKSHOP_SEATS_LACK": "WORKSHOP SEATS LACK FOR RECRUITMENT",
+        "WORKSHOP_EDIT_SEATS": "You have to change workshop seats number to open recruitment."
       }
     }
   },

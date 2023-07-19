@@ -49,6 +49,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
+
   @Input() isCabinetView = false;
   @Input() isHorizontalView = false;
   @Input() isCreateFormView = false;
@@ -63,6 +64,10 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   private favoriteWorkshopId: string;
+
+  public get canOpenWorkshopRecruitment(): boolean {
+    return (this.workshopData as ProviderWorkshopCard).takenSeats < (this.workshopData as ProviderWorkshopCard).availableSeats;
+  }
 
   constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
@@ -111,20 +116,30 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   }
 
   onChangeWorkshopStatus(status: string, type: ModalConfirmationType): void {
-    const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: type
-      }
-    });
+    if ((this.canOpenWorkshopRecruitment && type === ModalConfirmationType.openSet) || type === ModalConfirmationType.closeSet) {
+      const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: type
+        }
+      });
 
-    dialogRef.afterClosed().subscribe((res: boolean) => {
-      if (res) {
-        this.store.dispatch(
-          new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
-        );
-      }
-    });
+      dialogRef.afterClosed().subscribe((res: boolean) => {
+        if (res) {
+          this.store.dispatch(
+            new UpdateWorkshopStatus({ workshopId: this.workshopData.workshopId, status: status }, this.workshopData.providerId)
+          );
+        }
+      });
+    } else {
+      this.dialog.open(WorkshopSeatsLackModalComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          workshopId: this.workshopData.workshopId,
+          workshopTitle: this.workshopData.title
+        }
+      });
+    }
   }
 
   onOpenDialog(): void {
@@ -132,8 +147,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       autoFocus: false,
       restoreFocus: false,
       data: {
-        message: ModalConfirmationDescription.unregisteredFavoriteWarning,
-      },
+        message: ModalConfirmationDescription.unregisteredFavoriteWarning
+      }
     });
   }
 
