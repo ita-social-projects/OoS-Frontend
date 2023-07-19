@@ -35,7 +35,7 @@ export class AppWorkshopsService {
     if (filters.mapViewCoords) {
       const { lat, lng } = filters.mapViewCoords;
       params = params.set('Latitude', lat.toFixed(5).toString()).set('Longitude', lng.toFixed(5).toString());
-    } else {
+    } else if (filters.settlement) {
       params = this.setCityFilterParams(filters.settlement, params);
     }
 
