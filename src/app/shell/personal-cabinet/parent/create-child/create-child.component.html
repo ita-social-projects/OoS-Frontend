@@ -14,8 +14,7 @@
         [index]="ChildrenFormArray.controls.indexOf(form)"
         [childrenAmount]="ChildrenFormArray.controls.length"
         [socialGroups]="socialGroups"
-        (deleteForm)="onDeleteForm($event)"
-      ></app-child-form>
+        (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
@@ -23,9 +22,8 @@
         *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
         class="btn-add"
         mat-button
-        (click)="addChild()"
-        [disabled]="ChildrenFormArray.invalid"
-      >
+        (click)="onAddChild()"
+        [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
       </button>
       <ng-template #noMoreChildren>
@@ -54,8 +52,7 @@
         class="btn"
         mat-button
         type="submit"
-        (click)="onSubmit()"
-      >
+        (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate | uppercase }}
       </button>
     </div>

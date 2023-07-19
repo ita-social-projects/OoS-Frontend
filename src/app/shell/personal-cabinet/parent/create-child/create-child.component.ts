@@ -37,21 +37,21 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   styleUrls: ['./create-child.component.scss']
 })
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
+  public readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
-  socialGroups$: Observable<DataItem[]>;
-  socialGroups: DataItem[];
+  private socialGroups$: Observable<DataItem[]>;
+  public socialGroups: DataItem[];
   @Select(ParentState.children)
-  childrenCards$: Observable<SearchResponse<Child[]>>;
+  public childrenCards$: Observable<SearchResponse<Child[]>>;
   @Select(ParentState.selectedChild)
-  selectedChild$: Observable<Child>;
-  child: Child;
+  private selectedChild$: Observable<Child>;
+  public child: Child;
 
-  ChildrenFormArray = new FormArray([]);
-  AgreementFormControl = new FormControl(false);
-  isAgreed = false;
-  workshopId: string;
+  private workshopId: string;
+
+  public ChildrenFormArray = new FormArray([]);
+  public AgreementFormControl = new FormControl(false);
 
   constructor(
     protected store: Store,
@@ -68,7 +68,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       .subscribe((socialGroups: DataItem[]) => (this.socialGroups = socialGroups));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new GetSocialGroup());
 
     this.determineEditMode();
@@ -78,12 +78,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.editMode ? this.AgreementFormControl.setValue(true) : this.ChildrenFormArray.push(this.newForm());
   }
 
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.store.dispatch(new ResetSelectedChild());
-  }
-
-  addNavPath(): void {
+  public addNavPath(): void {
     let previousNavPath: Navigation;
 
     if (this.workshopId) {
@@ -112,9 +107,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     );
   }
 
-  setEditMode(): void {
-    this.isAgreed = true;
-
+  public setEditMode(): void {
     const childId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetUsersChildById(childId));
 
@@ -127,6 +120,66 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
         this.child = child;
         this.ChildrenFormArray.push(this.newForm(this.child));
       });
+  }
+
+  /**
+   * This method create new FormGroup add new FormGroup to the FormArray
+   */
+  public onAddChild(): void {
+    this.ChildrenFormArray.push(this.newForm());
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    const status: string = this.ChildrenFormArray.controls[index].status;
+    const isPristine = this.ChildrenFormArray.controls[index].pristine;
+
+    if (status === 'VALID' || !isPristine) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.deleteChild,
+          property: ''
+        }
+      });
+
+      dialogRef.afterClosed().subscribe((result: boolean) => result && this.ChildrenFormArray.removeAt(index));
+    } else {
+      this.ChildrenFormArray.removeAt(index);
+    }
+  }
+
+  /**
+   * This method create or edit Child and dispatch CreateChild action
+   */
+  public onSubmit(): void {
+    if (this.ChildrenFormArray.invalid) {
+      this.checkValidationChild();
+    } else {
+      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+      if (this.editMode) {
+        const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+        this.store.dispatch(new UpdateChild(child));
+      } else {
+        const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
+        this.store.dispatch(new CreateChildren(controlsData));
+      }
+    }
+  }
+
+  /**
+   * This method navigate back
+   */
+  public onCancel(): void {
+    this.router.navigate(this.workshopId ? ['/create-application', this.workshopId] : ['/personal-cabinet/parent/info']);
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetSelectedChild());
   }
 
   /**
@@ -169,61 +222,6 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     }
 
     return childFormGroup;
-  }
-
-  /**
-   * This method create new FormGroup add new FormGroup to the FormArray
-   */
-  addChild(): void {
-    this.ChildrenFormArray.push(this.newForm());
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
-  onDeleteForm(index: number): void {
-    const status: string = this.ChildrenFormArray.controls[index].status;
-    const isPristine = this.ChildrenFormArray.controls[index].pristine;
-
-    if (status === 'VALID' || !isPristine) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.deleteChild,
-          property: ''
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => result && this.ChildrenFormArray.removeAt(index));
-    } else {
-      this.ChildrenFormArray.removeAt(index);
-    }
-  }
-
-  /**
-   * This method create or edit Child and dispatch CreateChild action
-   */
-  onSubmit(): void {
-    if (this.ChildrenFormArray.invalid) {
-      this.checkValidationChild();
-    } else {
-      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-      if (this.editMode) {
-        const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
-        this.store.dispatch(new UpdateChild(child));
-      } else {
-        const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
-        this.store.dispatch(new CreateChildren(controlsData));
-      }
-    }
-  }
-
-  /**
-   * This method navigate back
-   */
-  onCancel(): void {
-    this.router.navigate(this.workshopId ? ['/create-application', this.workshopId] : ['/personal-cabinet/parent/info']);
   }
 
   /**
