@@ -2,19 +2,46 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/working-hours.scss';
 
+.step {
+  display: flex;
+  justify-content: start;
+  align-items: start;
+  gap: 10px;
+}
+
+.days-toggle,
+.time-input {
+  &:not(:last-child) {
+    margin-bottom: 5px;
+  }
+}
+
 .days-toggle {
   min-width: 200px;
   &-invalid {
+    margin: -1px;
+
     border-radius: 21px;
     outline: none;
     border: 1px solid #c72a21;
   }
 }
+
+.time-input-wrapper {
+  display: flex;
+  align-items: start;
+  gap: 10px;
+}
+
 .toggle {
   &:hover {
     cursor: pointer;
     opacity: 0.8;
   }
+}
+
+.delete-block {
+  align-self: center;
 }
 
 .mat-icon-delete {
@@ -43,12 +70,17 @@
   row-gap: 1rem;
 }
 
-@media (max-width: 750px) {
+@media (max-width: 830px) {
   .step {
     flex-direction: column !important;
+    align-items: center;
   }
 
   .days {
     width: 100%;
+  }
+
+  .time {
+    gap: 5px;
   }
 }
