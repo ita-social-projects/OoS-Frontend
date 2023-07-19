@@ -1,0 +1,20 @@
+<div fxLayout="column" fxLayoutAlign="center center">
+  <h2 mat-dialog-title>{{ 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.WORKSHOP_SEATS_LACK' | translate }}</h2>
+  <p class="confirmation">
+    {{ 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.WORKSHOP_EDIT_SEATS' | translate }}
+  </p>
+
+  <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
+    <a class="btn"
+       mat-button
+       cdkFocusInitial
+       [routerLink]="['/create-workshop', workshopId]"
+       [mat-dialog-close]="true">
+      {{ 'BUTTONS.CHANGE' | translate | uppercase }}
+    </a>
+    <button class="btn btn-cancel" mat-button
+            [mat-dialog-close]="false">
+      {{ 'BUTTONS.CANCEL' | translate | uppercase }}
+    </button>
+  </mat-dialog-actions>
+</div>
