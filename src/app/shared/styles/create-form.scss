@@ -148,11 +148,13 @@ button:focus {
   display: none;
 }
 
-::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper,
+::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0;
 }
 
 ::ng-deep .mat-form-field-infix {
+  padding: 0.4375em 0;
   border: none;
 }
 
