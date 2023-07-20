@@ -21,7 +21,7 @@
   "CHANGE_PASSWORD": "Змінити пароль",
   "CITY_DISTRICT": "Район міста",
   "CLEAR_FILTERS": "Очистити фільтри",
-  "CLOSE_RECRUITMENT": "Закритий набір",
+  "CLOSE_RECRUITMENT": "Закритий відбір",
   "CONTACTS": "КОНТАКТИ",
   "DAYS": {
     "FRIDAY": "ПТ",
@@ -267,8 +267,8 @@
       "APPLICATIONS": "Заявки"
     }
   },
-  "EXACT_MATCH": "Повне співпадіння",
-  "FOR_FREE": "Безкоштовно",
+  "EXACT_MATCH": "Повний збіг",
+  "FOR_FREE": "Безкоштовні",
   "FORMS": {
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
     "MATCH_ACTUAL_ADDRESS": "Співпадає з юридичною адресою",
