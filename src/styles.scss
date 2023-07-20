@@ -217,8 +217,8 @@ $config: mat.define-typography-config(
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
 input:-webkit-autofill:active{
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   line-height: initial;
@@ -227,4 +227,8 @@ input:-webkit-autofill:active{
 
 .mat-menu-panel {
   min-height: auto !important;
+}
+
+.mat-form-field-wrapper {
+  padding-bottom: 0 !important;
 }

@@ -10,8 +10,8 @@ export class AdminFactory {
     adminType: AdminRoles,
     adminData: AdminFormModel,
     institutionId: string,
-    regionId?: string,
-    territorialCommunityId?: string,
+    regionId?: number,
+    territorialCommunityId?: number,
     id?: string,
     accountStatus?: string
   ): BaseAdmin {

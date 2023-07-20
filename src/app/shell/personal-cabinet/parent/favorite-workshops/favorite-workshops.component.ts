@@ -5,20 +5,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 
-import { PaginationConstants } from '../../../../shared/constants/constants';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../../shared/enum/role';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { WorkshopCard } from '../../../../shared/models/workshop.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId
-} from '../../../../shared/store/parent.actions';
-import { ParentState } from '../../../../shared/store/parent.state.';
-import { Util } from '../../../../shared/utils/utils';
+} from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
+import { Util } from 'shared/utils/utils';
 import { ParentComponent } from '../parent.component';
 
 @Component({

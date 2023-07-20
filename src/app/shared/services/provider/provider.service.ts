@@ -5,9 +5,12 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 
 import { DataItem } from '../../models/item.model';
-import { PaginationElement } from '../../models/paginationElement.model';
 import {
-  BlockProviderData, LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData
+  BlockProviderData,
+  LicenseStatusData,
+  Provider,
+  ProviderParameters,
+  ProviderStatusUpdateData
 } from '../../models/provider.model';
 import { SearchResponse } from '../../models/search.model';
 
@@ -105,6 +108,12 @@ export class ProviderService {
 
     if (providerParameters.searchString) {
       params = params.set('SearchString', providerParameters.searchString);
+    }
+    if (providerParameters.institutionId) {
+      params = params.set('InstitutionId', providerParameters.institutionId);
+    }
+    if (providerParameters.catottgId) {
+      params = params.set('CATOTTGId', providerParameters.catottgId);
     }
 
     params = params.set('Size', providerParameters.size.toString()).set('From', providerParameters.from.toString());

@@ -183,6 +183,12 @@
   border-radius: 15px !important;
 }
 
+.mat-option {
+  &:hover {
+      background-color: #f8f8f8 !important;
+  }
+}
+
 @media (max-width: 750px) {
   .header-title {
     margin-top: 1rem;

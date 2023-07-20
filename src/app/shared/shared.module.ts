@@ -74,6 +74,7 @@ import { CdkAccordionModule } from '@angular/cdk/accordion';
 import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ProviderStatusBannerComponent } from './components/provider-status-banner/provider-status-banner.component';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
+import { WorkshopSeatsLackModalComponent } from './components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
 
 @NgModule({
   declarations: [
@@ -140,7 +141,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     EmptyValueTransformPipe,
     GetAddressPipe,
     TranslateCasesPipe,
-    ProviderStatusBannerComponent
+    ProviderStatusBannerComponent,
+    WorkshopSeatsLackModalComponent
   ],
 
   imports: [
