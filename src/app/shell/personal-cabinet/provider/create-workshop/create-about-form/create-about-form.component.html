@@ -97,7 +97,7 @@
             appMinMax
             [directiveFormControl]="AboutFormGroup.get('minAge')"
             [min]="validationConstants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
+            [max]="AboutFormGroup.get('maxAge').value !== undefined ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
             autocomplete="none" />
         </mat-form-field>
       </div>
@@ -117,7 +117,7 @@
             maxlength="2"
             [directiveFormControl]="AboutFormGroup.get('maxAge')"
             appMinMax
-            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
+            [min]="AboutFormGroup.get('minAge').value !== undefined ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
             autocomplete="none" />
         </mat-form-field>
       </div>
@@ -195,7 +195,7 @@
               type="number"
               [directiveFormControl]="availableSeatsControl"
               [min]="minSeats"
-              [max]="UNLIMITED_SEATS"/>
+              [max]="UNLIMITED_SEATS" />
           </mat-radio-button>
         </div>
       </div>
