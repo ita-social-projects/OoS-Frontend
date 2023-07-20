@@ -68,8 +68,6 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public ngAfterViewInit(): void {
-    this.setCurrentGeolocation();
-    
     if (this.geolocationService.isCityInStorage()) {
       this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
     } else {
@@ -110,6 +108,7 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public confirmCity(): void {
     this.geolocationService.confirmCity(this.settlement, true);
+    this.store.dispatch(new FilterChange());
   }
 
   public changeCity(): void {
@@ -147,15 +146,5 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
             .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
         }
       });
-  }
-
-  private setCurrentGeolocation(): void {
-    this.geolocationService.handleUserLocation((coords: Coords) => {
-      if (coords) {
-        this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-          this.geolocationService.setCurrentGeolocation(result);
-        });
-      } 
-    });
   }
 }
