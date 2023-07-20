@@ -91,7 +91,7 @@ export class GetCodeficatorSearch {
 export class GetCodeficatorById {
   static readonly type = '[meta-data] Get Codeficator By Id';
 
-  constructor(public id: string) {}
+  constructor(public id: number) {}
 }
 
 export class ClearCodeficatorSearch {

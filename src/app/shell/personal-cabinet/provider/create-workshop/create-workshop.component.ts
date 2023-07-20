@@ -1,11 +1,5 @@
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
@@ -19,6 +13,13 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
+
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -34,17 +35,17 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
 })
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
-  provider: Provider;
+  private provider$: Observable<Provider>;
+  public provider: Provider;
 
   @Select(SharedUserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
-  workshop: Workshop;
+  private selectedWorkshop$: Observable<Workshop>;
+  public workshop: Workshop;
 
-  AboutFormGroup: FormGroup;
-  DescriptionFormGroup: FormGroup;
-  AddressFormGroup: FormGroup;
-  TeacherFormArray: FormArray;
+  public AboutFormGroup: FormGroup;
+  public DescriptionFormGroup: FormGroup;
+  public AddressFormGroup: FormGroup;
+  public TeacherFormArray: FormArray;
 
   constructor(
     protected store: Store,
@@ -55,7 +56,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     super(store, route, navigationBarService);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.provider$
       .pipe(
         takeUntil(this.destroy$),
@@ -68,7 +69,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.addNavPath();
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
     const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
@@ -91,14 +92,14 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     );
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     const workshopId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetWorkshopById(workshopId));
 
     this.selectedWorkshop$
       .pipe(
         takeUntil(this.destroy$),
-        filter((workshop: Workshop) => !!workshop)
+        filter((workshop: Workshop) => workshop?.id === workshopId)
       )
       .subscribe((workshop: Workshop) => (this.workshop = workshop));
   }
@@ -106,7 +107,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   /**
    * This method dispatch store action to create a Workshop with Form Groups values
    */
-  onSubmit(): void {
+  public onSubmit(): void {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
     const aboutInfo = this.AboutFormGroup.getRawValue();
@@ -128,7 +129,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a form from create-address child component and assigns to the Address FormGroup
    * @param FormGroup form
    */
-  onReceiveAddressFormGroup(form: FormGroup): void {
+  public onReceiveAddressFormGroup(form: FormGroup): void {
     this.AddressFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -137,7 +138,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives an array of forms from create-teachers child component and assigns to the Teacher FormArray
    * @param FormArray array
    */
-  onReceiveTeacherFormArray(array: FormArray): void {
+  public onReceiveTeacherFormArray(array: FormArray): void {
     this.TeacherFormArray = array;
     this.subscribeOnDirtyForm(array);
   }
@@ -146,7 +147,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a form from create-about child component and assigns to the About FormGroup
    * @param FormGroup form
    */
-  onReceiveAboutFormGroup(form: FormGroup): void {
+  public onReceiveAboutFormGroup(form: FormGroup): void {
     this.AboutFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
@@ -155,13 +156,18 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
    * This method receives a from create-description child component and assigns to the Description FormGroup
    * @param FormGroup form
    */
-  onReceiveDescriptionFormGroup(form: FormGroup): void {
+  public onReceiveDescriptionFormGroup(form: FormGroup): void {
     this.DescriptionFormGroup = form;
     this.subscribeOnDirtyForm(form);
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.router.navigate(['/personal-cabinet/provider/workshops']);
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    this.store.dispatch(new ResetProviderWorkshopDetails());
   }
 
   /**
@@ -177,10 +183,5 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
       });
     }
     return teachers;
-  }
-
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
-    this.store.dispatch(new ResetProviderWorkshopDetails());
   }
 }
