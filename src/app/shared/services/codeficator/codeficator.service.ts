@@ -31,7 +31,7 @@ export class CodeficatorService {
    * This method to get Codeficator by id
    * @param id number
    */
-  public getCodeficatorById(id: string): Observable<Codeficator> {
+  public getCodeficatorById(id: number): Observable<Codeficator> {
     return this.http.get<Codeficator>(`/api/v1/Codeficator/${id}/parents`);
   }
 
