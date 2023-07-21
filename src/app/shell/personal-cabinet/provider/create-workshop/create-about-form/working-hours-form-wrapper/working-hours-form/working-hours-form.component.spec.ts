@@ -56,7 +56,7 @@ describe('WorkingHoursFormComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl; // required for validation
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
 }

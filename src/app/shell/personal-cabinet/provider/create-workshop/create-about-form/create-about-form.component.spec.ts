@@ -99,8 +99,8 @@ class MockWorkingHoursComponent {
 class MockValidationHintAboutComponent {
   @Input() validationFormControl: FormControl; // required for validation
   @Input() isTouched: boolean;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
 }
