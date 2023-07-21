@@ -124,6 +124,7 @@
           appTrimValue
           [placeholder]="mailFormPlaceholder" />
       </mat-form-field>
+      <app-validation-hint [validationFormControl]="adminFormGroup.get('email')"></app-validation-hint>
     </form>
 
     <div fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
