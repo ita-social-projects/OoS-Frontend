@@ -130,11 +130,6 @@ export class ClearCoordsByMap {
   static readonly type = '[filter] Clear coords by map';
 }
 
-export class SetCurrentGeolocation {
-  static readonly type = '[filter] Set current geolocation';
-  constructor(public payload: Codeficator) {}
-}
-
 export class SetRadiusSize {
   static readonly type = '[filter] Set Radius Size';
   constructor(public payload: number) {}
