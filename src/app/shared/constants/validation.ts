@@ -1,6 +1,6 @@
 import { ValidatorFn, Validators } from '@angular/forms';
 
-import { HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from './regex-constants';
+import { EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from "./regex-constants";
 
 export class ValidationConstants {
   // Age
@@ -66,4 +66,6 @@ export class FormValidators {
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
+
+  static readonly email: ValidatorFn = Validators.pattern(EMAIL_REGEX);
 }
