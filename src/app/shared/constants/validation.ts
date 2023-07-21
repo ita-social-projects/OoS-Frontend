@@ -1,4 +1,4 @@
-import { ValidatorFn, Validators } from '@angular/forms';
+import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
 import { EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from './regex-constants';
 
@@ -67,5 +67,6 @@ export class FormValidators {
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
 
-  static readonly email: ValidatorFn = Validators.pattern(EMAIL_REGEX);
+  static readonly email: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
+    EMAIL_REGEX.test(control.value) ? null : { email: true };
 }
