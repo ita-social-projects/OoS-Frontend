@@ -8,7 +8,7 @@ import { FormControl, ValidationErrors } from '@angular/forms';
 
 import { Constants } from '../../constants/constants';
 import {
-  HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX
+  HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX
 } from '../../constants/regex-constants';
 
 enum ValidatorsTypes {
@@ -42,6 +42,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidPhoneLength: boolean;
   public invalidStreet: boolean;
   public invalidHouse: boolean;
+  public invalidSectionName: boolean;
 
   constructor(private cd: ChangeDetectorRef) {}
 
@@ -97,6 +98,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     this.invalidStreet = STREET_REGEX == requiredPattern;
     this.invalidHouse = HOUSE_REGEX == requiredPattern;
+    this.invalidSectionName = SECTION_NAME_REGEX == requiredPattern;
   }
 
   private checkMatDatePciker(): void {

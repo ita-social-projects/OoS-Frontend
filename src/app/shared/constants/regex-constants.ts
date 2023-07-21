@@ -12,3 +12,5 @@ export const DATE_REGEX: RegExp = /[^0-9./-]*/g;
 export const STREET_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`.\s-]*$/;
 // Regex for house number
 export const HOUSE_REGEX: RegExp = /^[0-9]+ *[А-Яа-яЇїІіЄєЁёҐґ]* *$/;
+// Regex for section name, it checks that the first char is a letter
+export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!\])(?!\\)[А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-za-z].+/;
