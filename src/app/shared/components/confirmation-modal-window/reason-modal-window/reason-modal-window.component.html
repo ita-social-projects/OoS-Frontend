@@ -18,11 +18,9 @@
       ></textarea>
     </mat-form-field>
 
-    <app-validation-hint
-      [validationFormControl]="ReasonFormControl"
-      [minCharacters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-    >
+    <app-validation-hint [validationFormControl]="ReasonFormControl"
+                         [minCharacters]="validationConstants.INPUT_LENGTH_1"
+                         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
     </app-validation-hint>
   </form>
 
