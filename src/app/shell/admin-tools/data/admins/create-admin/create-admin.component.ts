@@ -9,7 +9,7 @@ import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared-constants/constants';
 import { NAME_REGEX } from 'shared-constants/regex-constants';
-import { ValidationConstants } from 'shared-constants/validation';
+import { FormValidators, ValidationConstants } from 'shared-constants/validation';
 import { AdminRoles } from 'shared-enum/admins';
 import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
 import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
@@ -84,7 +84,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       ]),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       institution: new FormControl('', Validators.required),
-      email: new FormControl('', [Validators.required, Validators.email])
+      email: new FormControl('', [Validators.required, FormValidators.email])
     });
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
 

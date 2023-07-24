@@ -10,8 +10,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoEditFormGroup.get('sectionName')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_100">
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_100">
   </app-validation-hint>
 
   <div class="step-label-combined">
@@ -29,8 +29,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="InfoEditFormGroup.get('description')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharachters]="maxDescriptionLength">
+    [minCharacters]="validationConstants.INPUT_LENGTH_3"
+    [maxCharacters]="maxDescriptionLength">
   </app-validation-hint>
 
   <div fxLayout="row" fxLayoutAlign="center" *ngIf="formAmount > 1">
