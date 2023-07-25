@@ -8,11 +8,13 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="sectionName" appTrimValue />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoEditFormGroup.get('sectionName')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_3"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_100">
-  </app-validation-hint>
+  <div class="error-wrapper">
+    <app-validation-hint
+      [validationFormControl]="InfoEditFormGroup.get('sectionName')"
+      [minCharacters]="validationConstants.INPUT_LENGTH_3"
+      [maxCharacters]="validationConstants.INPUT_LENGTH_100">
+    </app-validation-hint>
+  </div> 
 
   <div class="step-label-combined">
     <label class="step-label"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>

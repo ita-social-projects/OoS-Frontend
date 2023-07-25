@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-import { EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX } from './regex-constants';
+import { EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX, SECTION_NAME_REGEX } from './regex-constants';
 
 export class ValidationConstants {
   // Age
@@ -67,6 +67,13 @@ export class FormValidators {
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
   ];
 
+  static readonly defaultSectionNameValidators: ValidatorFn[] = [
+    Validators.required,
+    Validators.pattern(SECTION_NAME_REGEX),
+    Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
+    Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
+  ];
+  
   static readonly email: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
     EMAIL_REGEX.test(control.value) ? null : { email: true };
 }

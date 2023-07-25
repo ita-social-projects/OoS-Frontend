@@ -2,8 +2,10 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
+import {
+  HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX
+} from '../../constants/regex-constants';
 
-import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX } from '../../constants/regex-constants';
 
 enum ValidatorsTypes {
   requiredField,
@@ -37,6 +39,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidPhoneLength: boolean;
   public invalidStreet: boolean;
   public invalidHouse: boolean;
+  public invalidSectionName: boolean;
 
   constructor(private cd: ChangeDetectorRef) {}
 
@@ -92,6 +95,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     this.invalidStreet = STREET_REGEX == requiredPattern;
     this.invalidHouse = HOUSE_REGEX == requiredPattern;
+    this.invalidSectionName = SECTION_NAME_REGEX == requiredPattern;
   }
 
   private checkMatDatePicker(): void {
