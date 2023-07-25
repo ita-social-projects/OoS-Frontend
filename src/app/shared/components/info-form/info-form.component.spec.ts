@@ -39,8 +39,8 @@ describe('InfoFormComponent', () => {
   template: ''
 })
 class MockValidationHintForInputComponent {
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() validationFormControl: FormControl;
   @Input() maxDescriptionLength: number;
 }

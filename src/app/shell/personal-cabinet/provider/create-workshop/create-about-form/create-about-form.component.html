@@ -17,8 +17,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('title')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_60">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
@@ -39,7 +39,7 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('phone')"
-    [minCharachters]="validationConstants.PHONE_LENGTH"
+    [minCharacters]="validationConstants.PHONE_LENGTH"
     [isPhoneNumber]="true">
   </app-validation-hint>
 
@@ -55,8 +55,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('website')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Facebook</label>
@@ -65,8 +65,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('facebook')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Instagram</label>
@@ -75,8 +75,8 @@
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="AboutFormGroup.get('instagram')"
-    [minCharachters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharachters]="validationConstants.INPUT_LENGTH_256">
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <div class="border-bottom"></div>
@@ -97,7 +97,7 @@
             appMinMax
             [directiveFormControl]="AboutFormGroup.get('minAge')"
             [min]="validationConstants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
+            [max]="AboutFormGroup.get('maxAge').value !== undefined ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
             autocomplete="none" />
         </mat-form-field>
       </div>
@@ -117,7 +117,7 @@
             maxlength="2"
             [directiveFormControl]="AboutFormGroup.get('maxAge')"
             appMinMax
-            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
+            [min]="AboutFormGroup.get('minAge').value !== undefined ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
             autocomplete="none" />
         </mat-form-field>
       </div>
@@ -195,7 +195,7 @@
               type="number"
               [directiveFormControl]="availableSeatsControl"
               [min]="minSeats"
-              [max]="UNLIMITED_SEATS"/>
+              [max]="UNLIMITED_SEATS" />
           </mat-radio-button>
         </div>
       </div>

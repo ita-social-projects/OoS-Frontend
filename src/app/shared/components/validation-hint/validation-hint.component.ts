@@ -1,21 +1,18 @@
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-
-import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges
-} from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
-
-import { Constants } from '../../constants/constants';
 import {
   HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX
 } from '../../constants/regex-constants';
+
 
 enum ValidatorsTypes {
   requiredField,
   validLength,
   validTextField
 }
+
 @Component({
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html'
@@ -23,8 +20,8 @@ enum ValidatorsTypes {
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public validationFormControl: FormControl = new FormControl(); // required for validation
   // for Length Validation
-  @Input() public minCharachters: number;
-  @Input() public maxCharachters: number;
+  @Input() public minCharacters: number;
+  @Input() public maxCharacters: number;
   @Input() public isPhoneNumber: number; // required to display validation for phone number
 
   // for Date Format Validation
@@ -59,7 +56,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.required = !!(errors?.required && !this.validationFormControl.value);
 
       // Check Date Picker Format
-      this.minMaxDate && this.checkMatDatePciker();
+      this.minMaxDate && this.checkMatDatePicker();
 
       // Check errors from validators
       this.checkValidationErrors(errors);
@@ -101,7 +98,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidSectionName = SECTION_NAME_REGEX == requiredPattern;
   }
 
-  private checkMatDatePciker(): void {
+  private checkMatDatePicker(): void {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
       this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')
