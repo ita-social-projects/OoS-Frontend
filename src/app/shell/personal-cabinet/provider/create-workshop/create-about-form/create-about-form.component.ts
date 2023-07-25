@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnI
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
@@ -50,8 +50,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
-
-  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to the second release
+  public competitiveSelectionRadioBtn: FormControl = new FormControl(false); 
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
 
@@ -60,6 +59,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.workshop && this.activateEditMode();
     this.initListeners();
+    this.onCompetitiveSelectionCtrlInit();
   }
 
   public ngOnDestroy(): void {
@@ -111,8 +111,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required])
-      // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
+      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+      competitiveSelectionDescription: new FormControl({value: '', disabled: true}, Validators.required), 
     });
   }
 
@@ -215,22 +215,22 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to teh formgroup TODO: add to the second release
+   * is true and sets the value to the formgroup 
    */
-  // private onCompetitiveSelectionCtrlInit(): void {
-  //   this.competitiveSelectionRadioBtn.valueChanges
-  //     .pipe(
-  //       takeUntil(this.destroy$),
-  //     ).subscribe((iscompetitiveSelectionDesc: boolean) => {
-  //       iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
-  //     });
+  private onCompetitiveSelectionCtrlInit(): void {
+    this.competitiveSelectionRadioBtn.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((iscompetitiveSelectionDesc: boolean) => {
+        iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
+      });
 
-  //   this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
-  //     .pipe(
-  //       takeUntil(this.destroy$),
-  //       debounceTime(100),
-  //     ).subscribe((disabilityOptionsDesc: string) =>
-  //       this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-  //     );
-  // }
+    this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(100),
+      ).subscribe((disabilityOptionsDesc: string) => 
+        this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
+      );
+  }
 }
