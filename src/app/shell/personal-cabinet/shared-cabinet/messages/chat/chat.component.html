@@ -1,30 +1,30 @@
-<mat-card class='chat-card'>
-  <div class='chat-card__header header'>
-    <mat-icon class='header__icon' (click)='onBack()'>arrow_back</mat-icon>
-    <div class='header__companion-info'>
-      <h4 class='header__title' *ngIf='!!companionName'>
+<mat-card class="chat-card">
+  <div class="chat-card__header header">
+    <mat-icon class="header__icon" (click)="onBack()">arrow_back</mat-icon>
+    <div class="header__companion-info">
+      <h4 class="header__title" *ngIf="!!companionName">
         {{ companionName }}
       </h4>
     </div>
   </div>
-  <div #chat class='chat-card__content content'>
-    <ng-container *ngFor='let message of messages; index as i'>
+  <div #chat class="chat-card__content content">
+    <ng-container *ngFor="let message of messages; index as i">
       <app-message
         [ngClass]="
           message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'
         "
-        [message]='message'
-        [isFirstMessage]='messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider'
-        [senderName]='message.senderRoleIsProvider === userIsProvider ? userName : companionName'
-        [userIsProvider]='userIsProvider'>
+        [message]="message"
+        [isFirstMessage]="messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider"
+        [senderName]="message.senderRoleIsProvider === userIsProvider ? userName : companionName"
+        [userIsProvider]="userIsProvider">
       </app-message>
     </ng-container>
   </div>
-  <div class='chat-card__footer footer' fxLayout='column' fxLayoutAlign='start center'>
-    <div class='step-label'>
-      <label class='step-characters-count'> {{ messageControl.value.length }}/{{ validationConstants.INPUT_LENGTH_256 }}</label>
+  <div class="chat-card__footer footer" fxLayout="column" fxLayoutAlign="start center">
+    <div class="step-label">
+      <label class="step-characters-count"> {{ messageControl.value.length }}/{{ validationConstants.INPUT_LENGTH_256 }}</label>
     </div>
-    <div class='main-functional-block'>
+    <div class="main-functional-block">
 
       <!--
         TODO: Uncomment when we finish sending the file
@@ -34,14 +34,14 @@
       -->
 
       <textarea
-        type='text'
-        class='message-input'
+        type="text"
+        class="message-input"
         placeholder="{{ 'SEND_A_MESSAGE' | translate }}"
         cdkTextareaAutosize
-        maxlength='{{ validationConstants.INPUT_LENGTH_256 }}'
-        autocomplete='off'
-        [formControl]='messageControl'></textarea>
-      <button class='btn' mat-button (click)='onSendMessage()'>
+        maxlength="{{ validationConstants.INPUT_LENGTH_256 }}"
+        autocomplete="off"
+        [formControl]="messageControl"></textarea>
+      <button class="btn" mat-button (click)="onSendMessage()">
         <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
         <mat-icon>send</mat-icon>
       </button>
