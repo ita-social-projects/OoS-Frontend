@@ -396,7 +396,7 @@
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",
-      "INVALID_CHARACHTERS": ", please use only cyrillic",
+      "INVALID_CHARACTERS": ", please use only cyrillic",
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
       "INVALID_EMAIL": "Enter a valid email.",
@@ -407,6 +407,7 @@
       "INVALID_MAP": "No such address was found on the map",
       "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
+      "INVALID_SECTION_NAME": "please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created"

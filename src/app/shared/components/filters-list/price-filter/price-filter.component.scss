@@ -62,6 +62,13 @@
   max-height: 34px;
   text-align: center;
 }
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
 .input-wrapper {
   margin-top: 13px;
   margin-bottom: 0 !important;

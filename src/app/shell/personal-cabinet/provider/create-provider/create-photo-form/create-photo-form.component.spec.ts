@@ -63,8 +63,8 @@ describe('CreatePhotoFormComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
 }

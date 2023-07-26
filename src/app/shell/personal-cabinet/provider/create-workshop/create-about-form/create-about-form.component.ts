@@ -1,21 +1,16 @@
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import {
-  ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output
-} from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
-
-import {
-  Constants, CropperConfigurationConstants
-} from '../../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { PayRateTypeEnum } from '../../../../../shared/enum/enumUA/workshop';
-import { OwnershipTypes, ProviderWorkshopSameValues } from '../../../../../shared/enum/provider';
-import { PayRateType } from '../../../../../shared/enum/workshop';
-import { Provider } from '../../../../../shared/models/provider.model';
-import { Workshop } from '../../../../../shared/models/workshop.model';
+import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
+import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
+import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
+import { PayRateType } from 'shared/enum/workshop';
+import { Provider } from 'shared/models/provider.model';
+import { Workshop } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-about-form',
@@ -104,7 +99,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, FormValidators.email]),
       minAge: new FormControl('', [Validators.required]),
       maxAge: new FormControl('', [Validators.required]),
       image: new FormControl(''),

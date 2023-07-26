@@ -1,28 +1,19 @@
-import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
-
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
+import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
 
-import {
-  Constants, CropperConfigurationConstants
-} from '../../../../../shared/constants/constants';
-import { DATE_REGEX, NAME_REGEX } from '../../../../../shared/constants/regex-constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import {
-  InstitutionTypesEnum, OwnershipTypesEnum
-} from '../../../../../shared/enum/enumUA/provider';
-import {
-  InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes
-} from '../../../../../shared/enum/provider';
-import { Institution } from '../../../../../shared/models/institution.model';
-import { DataItem } from '../../../../../shared/models/item.model';
-import { Provider } from '../../../../../shared/models/provider.model';
-import {
-  GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes
-} from '../../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../../shared/store/meta-data.state';
-import { Util } from '../../../../../shared/utils/utils';
+import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
+import { DATE_REGEX, NAME_REGEX } from 'shared/constants/regex-constants';
+import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { InstitutionTypesEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from 'shared/enum/provider';
+import { Institution } from 'shared/models/institution.model';
+import { DataItem } from 'shared/models/item.model';
+import { Provider } from 'shared/models/provider.model';
+import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-info-form',
@@ -104,7 +95,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
-      email: new FormControl('', [Validators.required, Validators.email]),
+      email: new FormControl('', [Validators.required, FormValidators.email]),
       typeId: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
       institution: new FormControl('', Validators.required),

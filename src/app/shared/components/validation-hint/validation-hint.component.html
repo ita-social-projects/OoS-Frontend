@@ -10,13 +10,14 @@
     <ng-container *ngIf="invalidEmail; then invalidEmailTmpl"></ng-container>
     <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
     <ng-container *ngIf="invalidHouse; then invalidHouseTmpl"></ng-container>
+    <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
   </ng-container>
 </small>
 
 <ng-template #requiredInputTmpl> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }} <br /> </ng-template>
 
 <ng-template #invalidCharactersTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_CHARACHTERS' | translate }}<br />
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_CHARACTERS' | translate }}<br />
 </ng-template>
 
 <ng-template #invalidSymbolsTmpl>
@@ -24,8 +25,8 @@
 </ng-template>
 
 <ng-template #invalidLengthTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ 'FROM' | translate | lowercase }} {{ minCharachters }}
-  {{ 'TO' | translate | lowercase }} {{ maxCharachters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }} <br />
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ 'FROM' | translate | lowercase }} {{ minCharacters }}
+  {{ 'TO' | translate | lowercase }} {{ maxCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }} <br />
 </ng-template>
 
 <ng-template #incorrectDateFieldTmpl>
@@ -43,7 +44,7 @@
 <ng-template #invalidEmailTmpl> {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }} <br /> </ng-template>
 
 <ng-template #invalidPhoneTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharachters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}
   <br />
 </ng-template>
 
@@ -54,5 +55,10 @@
 
 <ng-template #invalidHouseTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} {{ 'FORMS.VALIDATIONS.INVALID_HOUSE' | translate }}
+  <br />
+</ng-template>
+
+<ng-template #invalidSectionNameTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }} {{ 'FORMS.VALIDATIONS.INVALID_SECTION_NAME' | translate }}
   <br />
 </ng-template>

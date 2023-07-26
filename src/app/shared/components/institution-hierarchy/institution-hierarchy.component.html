@@ -1,5 +1,5 @@
 <div class="wrapper" fxLayout="column" fxLayoutAlign="center space-between">
-  <label class="step-label">{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</label>
+  <label class="step-label">{{ 'FORMS.LABELS.SUBORDINATION' | translate }} <span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
     <mat-select
       [formControl]="instituitionIdFormControl"
@@ -16,7 +16,7 @@
 
   <ng-container *ngFor="let hierarchy of hierarchyArray">
     <ng-container *ngIf="hierarchy.shouldDisplay">
-      <label class="step-label">{{ hierarchy.title }}</label>
+      <label class="step-label">{{ hierarchy.title }} <span class="step-required">*</span></label>
       <mat-form-field floatLabel="never" appearance="none">
         <mat-select
           [formControl]="hierarchy.formControl"
