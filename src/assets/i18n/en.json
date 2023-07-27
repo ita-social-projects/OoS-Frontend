@@ -390,8 +390,7 @@
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",
       "SELECT_INSTITUTION_CATEGORY": "Select provider category",
-      "SELECT_ORGANIZATION_TYPE": "Select organization type",
-      "SELECT_TERRITORIAL_COMMUNITY": "Select territorial community"
+      "SELECT_ORGANIZATION_TYPE": "Select organization type"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
