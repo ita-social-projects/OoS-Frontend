@@ -40,6 +40,12 @@ export enum ModalConfirmationType {
   updateAdmin = 'updateAdmin',
   licenseApproved = 'licenseApproved'
 }
+
+export enum ModalConfirmationTypeWithQuotes {
+  delete = 'delete',
+  deleteDirection = 'deleteDirection'
+}
+
 export enum ModalConfirmationTitle {
   delete = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_WORKSHOP',
   deleteDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_DIRECTION',

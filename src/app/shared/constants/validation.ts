@@ -1,6 +1,6 @@
 import { AbstractControl, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 
-import { EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, STREET_REGEX, SECTION_NAME_REGEX } from './regex-constants';
+import { EDRPOU_IPN_REGEX, EMAIL_REGEX, HOUSE_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from './regex-constants';
 
 export class ValidationConstants {
   // Age
@@ -33,6 +33,8 @@ export class ValidationConstants {
 
   static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly PHONE_LENGTH = 9;
+  static readonly EDRPOU_LENGTH = 8;
+  static readonly IPN_LENGTH = 10;
 
   // Entity Amount
   static readonly CHILDREN_AMOUNT_MAX = 20;
@@ -73,7 +75,10 @@ export class FormValidators {
     Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
     Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
   ];
-  
+
   static readonly email: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
     EMAIL_REGEX.test(control.value) ? null : { email: true };
+
+  static readonly edrpouIpn: ValidatorFn = (control: AbstractControl): ValidationErrors | null =>
+    EDRPOU_IPN_REGEX.test(control.value) ? null : { edrpouIpn: true };
 }
