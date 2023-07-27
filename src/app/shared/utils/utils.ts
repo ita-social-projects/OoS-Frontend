@@ -54,7 +54,16 @@ export class Util {
    * This method returns max birth date
    * @returns Date
    */
-  public static getMaxBirthDate(): Date {
+  public static getMaxBirthDate(minAge: number): Date {
+    const today = new Date();
+    const maxBirthDate = new Date();
+
+    maxBirthDate.setFullYear(today.getFullYear() - minAge);
+
+    return maxBirthDate;
+  }
+
+  public static getTodayBirthDate(): Date {
     const today = new Date();
 
     return today;

@@ -58,7 +58,8 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
 
   public infoFormGroup: FormGroup;
   public dateFilter: RegExp = DATE_REGEX;
-  public maxDate: Date = Util.getMaxBirthDate();
+  // TODO: Check the maximum allowable date in this case
+  public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
   public isEditMode = false;
 
