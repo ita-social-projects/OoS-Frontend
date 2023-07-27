@@ -399,6 +399,7 @@
       "INVALID_DATA_END": "\" format. For example \"20/10/2010\".",
       "INVALID_DATA_START": "Use \"",
       "INVALID_EMAIL": "Enter a valid email.",
+      "INVALID_EDRPO_IPN_END": " digit number.",
       "INVALID_HOUSE": ", please use only numbers and cyrillic",
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
