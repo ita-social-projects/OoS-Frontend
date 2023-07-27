@@ -385,13 +385,12 @@
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION": "Оберіть підпорядкування",
       "SELECT_REGION": "Оберіть область",
-      "SELECT_TERRITORIAL_COMMUNITY": "Оберіть ОТГ",
+      "SELECT_TERRITORIAL_COMMUNITY": "Оберіть територіальну громаду",
       "SELECT_TEACHER": "Обрати тренера/викладача",
       "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
       "SELECT_OWNERSHIP": "Оберіть форму власності",
       "SELECT_INSTITUTION_CATEGORY": "Оберіть категорія закладу",
-      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації",
-      "SELECT_TERRITORIAL_COMMUNITY": "Оберіть територіальну громаду"
+      "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
     },
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
@@ -400,6 +399,7 @@
       "INVALID_DATA_END": "\" формат. Наприклад \"20/10/2010\".",
       "INVALID_DATA_START": "Використовуйте \"",
       "INVALID_EMAIL": "Введіть коректний імейл.",
+      "INVALID_EDRPO_IPN_END": "-значне число.",
       "INVALID_HOUSE": ", використовуйте, будь ласка,  тільки числа та кирилицю",
       "INVALID_INPUT": "Перевірте введені дані",
       "INVALID_LENGTH_END": "символів.",

@@ -1,22 +1,21 @@
-<form [formGroup]="InfoFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <app-image-form-control
-    *ngIf="isImagesFeature"
-    [imgMaxAmount]="1"
-    [cropperConfig]="cropperConfig"
-    [label]="'Фонове зображення'"
-    formControlName="coverImage"
-    [imageIdsFormControl]="InfoFormGroup.get('coverImageId')"></app-image-form-control>
+<form [formGroup]="infoFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
+  <app-image-form-control *ngIf="isImagesFeature"
+                          [imgMaxAmount]="1"
+                          [cropperConfig]="cropperConfig"
+                          [label]="'Фонове зображення'"
+                          formControlName="coverImage"
+                          [imageIdsFormControl]="infoFormGroup.get('coverImageId')">
+  </app-image-form-control>
 
   <label class="step-label">{{ 'FORMS.LABELS.OWNERSHIP' | translate }}<span class="step-required">*</span></label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select
-      disableOptionCentering
-      panelClass="dropdown-panel"
-      class="step-input"
-      formControlName="ownership"
-      name="ownership"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_OWNERSHIP' | translate }}"
-      [disabled]="isEditMode">
+    <mat-select disableOptionCentering
+                panelClass="dropdown-panel"
+                class="step-input"
+                formControlName="ownership"
+                name="ownership"
+                placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_OWNERSHIP' | translate }}"
+                [disabled]="isEditMode">
       <ng-container *ngFor="let type of selectableOwnerShipTypes | keyvalue">
         <mat-option [value]="type.key" class="dropdown-option">
           {{ ownershipTypesEnum[type.key] | translate }}
@@ -24,19 +23,18 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="ownershipTypeControl"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="ownershipTypeControl"></app-validation-hint>
 
   <ng-container *ngIf="ownershipTypeControl.value === ownershipTypes.Private">
     <div fxLayout="row" fxLayoutAlign="left space-between">
       <label class="step-label">{{ 'FORMS.LABELS.LICENSE' | translate }}</label>
-      <i
-        [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
-        [matMenuTriggerFor]="licenseInfo"
-        #childTrigger="matMenuTrigger"
-        (menuOpened)="opened = childTrigger.menuOpen"
-        (menuClosed)="opened = childTrigger.menuOpen"
-        >info_outline</i
-      >
+      <i #childTrigger="matMenuTrigger"
+         [matMenuTriggerFor]="licenseInfo"
+         [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
+         (menuOpened)="opened = childTrigger.menuOpen"
+         (menuClosed)="opened = childTrigger.menuOpen">
+        info_outline
+      </i>
       <mat-menu class="hint-menu" #licenseInfo="matMenu" [overlapTrigger]="false">
         {{ 'INFO_MENU.LICENSE' | translate }}
       </mat-menu>
@@ -44,25 +42,22 @@
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="license" autocomplete="none" appTrimValue />
     </mat-form-field>
-    <app-validation-hint
-      [validationFormControl]="InfoFormGroup.get('license')"
-      [minCharacters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+    <app-validation-hint [validationFormControl]="infoFormGroup.get('license')"
+                         [minCharacters]="validationConstants.INPUT_LENGTH_1"
+                         [maxCharacters]="validationConstants.INPUT_LENGTH_60">
     </app-validation-hint>
   </ng-container>
 
   <label class="step-label">
-    {{ 'FORMS.LABELS.INSTITUTION_CATEGORY' | translate }}
-    <span class="step-required">*</span></label
-  >
+    {{ 'FORMS.LABELS.INSTITUTION_CATEGORY' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select
-      disableOptionCentering
-      panelClass="dropdown-panel"
-      class="step-input"
-      formControlName="institutionType"
-      name="institutionType"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_INSTITUTION_CATEGORY' | translate }}">
+    <mat-select disableOptionCentering
+                panelClass="dropdown-panel"
+                class="step-input"
+                formControlName="institutionType"
+                name="institutionType"
+                placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_INSTITUTION_CATEGORY' | translate }}">
       <ng-container *ngFor="let type of institutionTypes | keyvalue">
         <mat-option [value]="type.key" class="dropdown-option">
           {{ institutionTypesEnum[type.key] | translate }}
@@ -70,146 +65,167 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="InfoFormGroup.get('institutionType')"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('institutionType')"></app-validation-hint>
 
-  <label class="step-label"> {{ 'FORMS.LABELS.ORGANIZATION_TYPE' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.ORGANIZATION_TYPE' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select
-      disableOptionCentering
-      panelClass="dropdown-panel"
-      class="step-input"
-      formControlName="typeId"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ORGANIZATION_TYPE' | translate }}">
+    <mat-select disableOptionCentering
+                panelClass="dropdown-panel"
+                class="step-input"
+                formControlName="typeId"
+                placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ORGANIZATION_TYPE' | translate }}">
       <mat-option *ngFor="let type of providerTypes$ | async" [value]="type.id" class="dropdown-option">
         {{ type.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="InfoFormGroup.get('typeId')"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('typeId')"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.SUBORDINATION' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.SUBORDINATION' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select
-      disableOptionCentering
-      panelClass="dropdown-panel"
-      class="step-input"
-      formControlName="institution"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
-      [compareWith]="compareInstitutions">
-      <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
+    <mat-select disableOptionCentering
+                panelClass="dropdown-panel"
+                class="step-input"
+                formControlName="institution"
+                placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}"
+                [compareWith]="compareInstitutions">
+      <mat-option *ngFor="let institution of institutions$ | async"
+                  [value]="institution" class="dropdown-option">
         {{ institution.title }}
       </mat-option>
     </mat-select>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="InfoFormGroup.get('institution')"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('institution')"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.ORGANIZATION_STATUS' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.ORGANIZATION_STATUS' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field floatLabel="never" appearance="none">
-    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="institutionStatusId">
+    <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input"
+                formControlName="institutionStatusId">
       <mat-option *ngFor="let status of institutionStatuses$ | async" [value]="status.id" class="dropdown-option">
         {{ status.name }}
       </mat-option>
     </mat-select>
   </mat-form-field>
 
-  <label class="step-label"> {{ 'FORMS.LABELS.FULL_ORGANIZATION_NAME' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.FULL_ORGANIZATION_NAME' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="fullTitle" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('fullTitle')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('fullTitle')"
+                       [minCharacters]="validationConstants.INPUT_LENGTH_1"
+                       [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label"> {{ 'FORMS.LABELS.SHORT_ORGANIZATION_NAME' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.SHORT_ORGANIZATION_NAME' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('shortTitle')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('shortTitle')"
+                       [minCharacters]="validationConstants.INPUT_LENGTH_1"
+                       [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label"> {{ EdrpouIpnLabel | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ edrpouIpnLabel | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field>
-    <input
-      matInput
-      class="step-input"
-      type="text"
-      [minlength]="validationConstants.INPUT_LENGTH_8"
-      [maxlength]="validationConstants.INPUT_LENGTH_10"
-      formControlName="edrpouIpn"
-      autocomplete="none"
-      appTrimValue />
+    <input matInput
+           class="step-input"
+           type="text"
+           appDigitOnly
+           [minlength]="edrpouIpnLength"
+           [maxlength]="edrpouIpnLength"
+           formControlName="edrpouIpn"
+           autocomplete="none"
+           appTrimValue />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('edrpouIpn')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_8"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_10">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('edrpouIpn')"
+                       [minCharacters]="edrpouIpnLength"
+                       [isEdrpouIpn]="true">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field>
     <div fxLayout="row" fxLayoutAlign="start">
       <span class="step-text">{{ phonePrefix }}</span>
-      <input
-        matInput
-        class="step-input"
-        type="tel"
-        formControlName="phoneNumber"
-        appDigitOnly
-        appTrimValue
-        ui-number-mask
-        ui-hide-group-sep
-        maxlength="{{ validationConstants.PHONE_LENGTH }}" />
+      <input matInput
+             class="step-input"
+             type="tel"
+             formControlName="phoneNumber"
+             appDigitOnly
+             appTrimValue
+             ui-number-mask
+             ui-hide-group-sep
+             [maxlength]="validationConstants.PHONE_LENGTH" />
     </div>
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('phoneNumber')"
-    [minCharacters]="validationConstants.PHONE_LENGTH"
-    [isPhoneNumber]="true">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('phoneNumber')"
+                       [minCharacters]="validationConstants.PHONE_LENGTH"
+                       [isPhoneNumber]="true">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field appearance="none">
-    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
+    <input matInput
+           class="step-input"
+           type="email"
+           formControlName="email"
+           appTrimValue
+           [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="InfoFormGroup.get('email')"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('email')"></app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.FOUNDER' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.FOUNDER' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="founder" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('founder')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('founder')"
+                       [minCharacters]="validationConstants.INPUT_LENGTH_1"
+                       [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.DIRECTOR_NAME' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="director" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint
-    [validationFormControl]="InfoFormGroup.get('director')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1"
-    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('director')"
+                       [minCharacters]="validationConstants.INPUT_LENGTH_1"
+                       [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.DIRECTOR_BIRTHDAY' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">
+    {{ 'FORMS.LABELS.DIRECTOR_BIRTHDAY' | translate }}<span class="step-required">*</span>
+  </label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-    <input
-      [min]="minDate"
-      [max]="maxDate"
-      matInput
-      [matDatepicker]="picker"
-      formControlName="directorDateOfBirth"
-      [appKeyFilter]="dateFilter"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
+    <input [min]="minDate"
+           [max]="maxDate"
+           matInput
+           [matDatepicker]="picker"
+           formControlName="directorDateOfBirth"
+           [appKeyFilter]="dateFilter"
+           placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="InfoFormGroup.get('directorDateOfBirth')" minMaxDate="true"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('directorDateOfBirth')"
+                       minMaxDate="true">
+  </app-validation-hint>
 </form>
