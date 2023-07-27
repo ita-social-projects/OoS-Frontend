@@ -2,7 +2,7 @@
   <h2 mat-dialog-title>{{ modalTitle | translate }}</h2>
   <p class="confirmation">
     {{ modalConfirmationText | translate }}
-    {{ modalConfirmationProperty && '"' + modalConfirmationProperty + '"?' }}
+    {{ modalConfirmationProperty && modalConfirmationProperty + '?' }}
   </p>
 
   <div *ngIf="data.type === modalConfirmationType.rate">
