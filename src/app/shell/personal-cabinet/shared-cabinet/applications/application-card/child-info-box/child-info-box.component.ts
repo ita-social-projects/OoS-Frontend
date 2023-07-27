@@ -1,10 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from '../../../../../../shared/constants/constants';
-import { YearDeclination } from '../../../../../../shared/enum/enumUA/declinations/declination';
-import { Gender } from '../../../../../../shared/enum/enumUA/gender';
-import { Child } from '../../../../../../shared/models/child.model';
-import { DetectedDeviceService } from '../../../../../../shared/services/detected-device/detected-device.service';
-import { Util } from '../../../../../../shared/utils/utils';
+import { Constants } from 'shared/constants/constants';
+import { YearDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { Gender } from 'shared/enum/enumUA/gender';
+import { Child } from 'shared/models/child.model';
+import { DetectedDeviceService } from 'shared/services/detected-device/detected-device.service';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-child-info-box',
@@ -16,7 +16,7 @@ export class ChildInfoBoxComponent implements OnInit {
   readonly constants: typeof Constants = Constants;
   readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly YearDeclination = YearDeclination;
-  
+
   constructor(private detectedDevice: DetectedDeviceService) {}
 
   @Input() child: Child;

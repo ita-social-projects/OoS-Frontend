@@ -9,7 +9,7 @@ export class User implements Person {
   lastName: string;
   middleName?: string;
   firstName: string;
-  gender?: number;
+  gender?: string;
   id: string;
   userName?: string;
   email?: string;
