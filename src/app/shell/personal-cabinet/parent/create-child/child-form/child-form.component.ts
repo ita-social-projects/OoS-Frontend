@@ -2,10 +2,10 @@ import { Component, EventEmitter, Input, Output, OnInit, ViewChild } from '@angu
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
-import { DATE_REGEX } from '../../../../../shared/constants/regex-constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { Util } from '../../../../../shared/utils/utils';
-import { DataItem } from '../../../../../shared/models/item.model';
+import { DATE_REGEX } from 'shared/constants/regex-constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Util } from 'shared/utils/utils';
+import { DataItem } from 'shared/models/item.model';
 
 @Component({
   selector: 'app-child-form',
@@ -28,7 +28,8 @@ export class ChildFormComponent implements OnInit {
 
   socialGroupControl: FormControl = new FormControl([]);
   dateFilter: RegExp = DATE_REGEX;
-  maxDate: Date = Util.getMaxBirthDate();
+  // TODO: Check the maximum allowable date in this case
+  maxDate: Date = Util.getTodayBirthDate();
   minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   ngOnInit(): void {
