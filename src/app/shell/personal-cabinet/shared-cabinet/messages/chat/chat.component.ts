@@ -7,27 +7,28 @@ import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
 
-import { ModeConstants } from '../../../../../shared/constants/constants';
-import { CHAT_HUB_URL } from '../../../../../shared/constants/hubs-Url';
-import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../../shared/enum/role';
-import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from '../../../../../shared/models/chat.model';
-import { Parent } from '../../../../../shared/models/parent.model';
-import { User } from '../../../../../shared/models/user.model';
-import { Workshop } from '../../../../../shared/models/workshop.model';
-import { SignalRService } from '../../../../../shared/services/signalR/signal-r.service';
+import { ModeConstants } from 'shared/constants/constants';
+import { CHAT_HUB_URL } from 'shared/constants/hubs-Url';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { Role } from 'shared/enum/role';
+import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from 'shared/models/chat.model';
+import { Parent } from 'shared/models/parent.model';
+import { User } from 'shared/models/user.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import {
   ClearSelectedChatRoom,
   GetChatRoomById,
   GetChatRoomMessages,
   GetChatRoomMessagesByWorkshopId
-} from '../../../../../shared/store/chat.actions';
-import { ChatState } from '../../../../../shared/store/chat.state';
-import { PopNavPath, PushNavPath } from '../../../../../shared/store/navigation.actions';
-import { RegistrationState } from '../../../../../shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from '../../../../../shared/store/shared-user.actions';
-import { SharedUserState } from '../../../../../shared/store/shared-user.state';
-import { Util } from '../../../../../shared/utils/utils';
+} from 'shared/store/chat.actions';
+import { ChatState } from 'shared/store/chat.state';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Util } from 'shared/utils/utils';
+import { ValidationConstants } from 'shared/constants/validation';
 
 @Component({
   selector: 'app-chat',
@@ -35,6 +36,8 @@ import { Util } from '../../../../../shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
+  readonly validationConstants = ValidationConstants;
+
   @ViewChild('chat')
   private chatEl: ElementRef;
 
@@ -66,7 +69,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   public userName: string;
   public companionName: string;
 
-  constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
+  constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {
+  }
 
   public ngOnInit(): void {
     this.addNavPath();
