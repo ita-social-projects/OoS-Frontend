@@ -34,7 +34,7 @@ export class Workshop implements WorkshopTruncated {
   providerId: string;
   providerTitle?: string;
   payRate?: string;
-  сompetitiveSelection: boolean;
+  competitiveSelection: boolean;
   competitiveSelectionDescription: string;
   logo: string;
   dateTimeRanges: DateTimeRanges[];
@@ -55,7 +55,7 @@ export class Workshop implements WorkshopTruncated {
     this.email = about.email;
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
-    this.сompetitiveSelection = about.сompetitiveSelection;
+    this.competitiveSelection = about.competitiveSelection;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);

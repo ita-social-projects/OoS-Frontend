@@ -31,9 +31,6 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   readonly workshopStatus = WorkshopOpenStatus;
   readonly workshopTitles = DetailsTabTitlesEnum;
 
-  // FIXME: Delete
-  test = true;
-
   @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
 
   @Input() role: Role;
