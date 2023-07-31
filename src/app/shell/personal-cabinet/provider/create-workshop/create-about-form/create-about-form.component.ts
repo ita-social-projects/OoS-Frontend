@@ -50,16 +50,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
-  public competitiveSelectionRadioBtn: FormControl = new FormControl(false); 
+  public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
 
   constructor(private formBuilder: FormBuilder, private store: Store) {}
-
+  
   public ngOnInit(): void {
     this.initForm();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.workshop && this.activateEditMode();
     this.initListeners();
     this.onCompetitiveSelectionCtrlInit();
+    this.workshop && this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
   public ngOnDestroy(): void {
@@ -112,8 +113,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
-      сompetitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: new FormControl({value: '', disabled: true}, Validators.required), 
+      competitiveSelection: new FormControl(false),
+      competitiveSelectionDescription: null,
     });
   }
 
@@ -223,8 +224,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
       ).subscribe((iscompetitiveSelectionDesc: boolean) => {
-        iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
-        this.AboutFormGroup.get('сompetitiveSelection').setValue(iscompetitiveSelectionDesc);
+        this.AboutFormGroup.get('competitiveSelection').setValue(iscompetitiveSelectionDesc);
+        iscompetitiveSelectionDesc
+          ? this.AboutFormGroup.setControl('competitiveSelectionDescription', new FormControl(this.workshop.competitiveSelectionDescription, Validators.required))
+          : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
       });
 
     this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
