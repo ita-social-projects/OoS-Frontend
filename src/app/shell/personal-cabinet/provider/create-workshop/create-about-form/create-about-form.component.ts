@@ -112,6 +112,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+      сompetitiveSelection: new FormControl(false),
       competitiveSelectionDescription: new FormControl({value: '', disabled: true}, Validators.required), 
     });
   }
@@ -223,6 +224,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       ).subscribe((iscompetitiveSelectionDesc: boolean) => {
         iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
+        this.AboutFormGroup.get('сompetitiveSelection').setValue(iscompetitiveSelectionDesc);
       });
 
     this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
