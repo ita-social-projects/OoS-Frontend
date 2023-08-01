@@ -22,3 +22,23 @@
     margin-bottom: 0;
   }
 }
+
+.info-icon {
+  color: #888888;
+  cursor: pointer;
+}
+
+::ng-deep .mat-menu-panel.competitiveSelectionDesc-menu {
+  max-width: 400px;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+}
+::ng-deep .competitiveSelectionDesc-menu .mat-menu-content {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 1rem;
+}
