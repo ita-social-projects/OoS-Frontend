@@ -128,7 +128,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     this.initData();
     this.passInfoFormGroup.emit(this.infoFormGroup);
     this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > 8) {
+      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
         this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
           emitEvent: false
         });
