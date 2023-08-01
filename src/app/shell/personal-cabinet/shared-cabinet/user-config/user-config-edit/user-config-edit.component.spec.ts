@@ -11,7 +11,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatRadioModule } from '@angular/material/radio';
-import { User } from '../../../../../shared/models/user.model';
+import { User } from 'shared/models/user.model';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('UserConfigEditComponent', () => {
@@ -45,7 +45,7 @@ describe('UserConfigEditComponent', () => {
       firstName: '',
       middleName: '',
       phoneNumber: '',
-      gender: 0
+      gender: ''
     } as User;
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),

@@ -52,8 +52,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {}
-  
+  constructor(private formBuilder: FormBuilder) {
+  }
+
   public ngOnInit(): void {
     this.initForm();
     this.PassAboutFormGroup.emit(this.AboutFormGroup);

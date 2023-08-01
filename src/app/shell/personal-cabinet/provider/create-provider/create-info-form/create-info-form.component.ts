@@ -37,7 +37,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   };
 
   public readonly ownershipTypes = OwnershipTypes;
-  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; //TODO: temporary removed for 1st release
+  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; // TODO: temporary removed for 1st release
   public readonly ownershipTypesEnum = OwnershipTypesEnum;
   public readonly institutionTypes = InstitutionTypes;
   public readonly institutionTypesEnum = InstitutionTypesEnum;
@@ -56,22 +56,35 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  public InfoFormGroup: FormGroup;
+  public infoFormGroup: FormGroup;
   public dateFilter: RegExp = DATE_REGEX;
-  public maxDate: Date = Util.getMaxBirthDate();
+  // TODO: Check the maximum allowable date in this case
+  public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
   public isEditMode = false;
 
-  public get EdrpouIpnLabel(): string {
-    return this.InfoFormGroup.get('ownership').value === OwnershipTypes.State ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
+  public get ownershipTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('ownership');
   }
 
-  public get ownershipTypeControl(): AbstractControl {
-    return this.InfoFormGroup.get('ownership');
+  public get edrpouIpnTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('edrpouIpn');
+  }
+
+  public get edrpouIpnLabel(): string {
+    return this.isOwnershipTypeState ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
+  }
+
+  public get edrpouIpnLength(): number {
+    return this.isOwnershipTypeState ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
+  }
+
+  private get isOwnershipTypeState(): boolean {
+    return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
   }
 
   constructor(private formBuilder: FormBuilder, private store: Store) {
-    this.InfoFormGroup = this.formBuilder.group({
+    this.infoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -82,11 +95,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
-      edrpouIpn: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_8),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_10)
-      ]),
+      edrpouIpn: new FormControl('', [Validators.required, FormValidators.edrpouIpn]),
       director: new FormControl('', [
         Validators.required,
         Validators.pattern(NAME_REGEX),
@@ -117,7 +126,14 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
     this.initData();
-    this.passInfoFormGroup.emit(this.InfoFormGroup);
+    this.passInfoFormGroup.emit(this.infoFormGroup);
+    this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
+        this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
+          emitEvent: false
+        });
+      }
+    });
   }
 
   public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
@@ -134,7 +150,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
    */
   private activateEditMode(): void {
     this.isEditMode = true;
-    this.InfoFormGroup.patchValue(this.provider, { emitEvent: false });
+    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 
   private initData(): void {
@@ -142,7 +158,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       if (this.provider) {
         this.activateEditMode();
       } else {
-        this.InfoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
+        this.infoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
       }
     });
   }

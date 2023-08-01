@@ -7,7 +7,7 @@ import { Store } from '@ngxs/store';
 import {
   Constants, CropperConfigurationConstants
 } from '../../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
+import { FormValidators, ValidationConstants } from '../../../../../shared/constants/validation';
 import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
 
 @Component({
@@ -100,11 +100,7 @@ export class CreatePhotoFormComponent implements OnInit {
    */
   private newForm(item?: ProviderSectionItem): FormGroup {
     this.editFormGroup = this.formBuilder.group({
-      sectionName: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100)
-      ]),
+      sectionName: new FormControl('', FormValidators.defaultSectionNameValidators),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),

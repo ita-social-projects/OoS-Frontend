@@ -3,11 +3,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { Constants } from '../../../shared/constants/constants';
-import { Role } from '../../../shared/enum/role';
-import { PopNavPath } from '../../../shared/store/navigation.actions';
-import { RegistrationState } from '../../../shared/store/registration.state';
-import { SharedUserState } from '../../../shared/store/shared-user.state';
+import { Constants } from 'shared/constants/constants';
+import { Role } from 'shared/enum/role';
+import { PopNavPath } from 'shared/store/navigation.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
   selector: 'app-cabinet-data',

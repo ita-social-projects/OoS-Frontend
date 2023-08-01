@@ -3,7 +3,7 @@ import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX } from '../../constants/regex-constants';
+import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from '../../constants/regex-constants';
 
 enum ValidatorsTypes {
   requiredField,
@@ -20,7 +20,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
-  @Input() public isPhoneNumber: number; // required to display validation for phone number
+  @Input() public isPhoneNumber: boolean; // required to display validation for phone number
+  @Input() public isEdrpouIpn: boolean;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
@@ -34,9 +35,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidDateRange: boolean;
   public invalidDateFormat: boolean;
   public invalidEmail: boolean;
+  public invalidEdrpouIpn: boolean;
   public invalidPhoneLength: boolean;
   public invalidStreet: boolean;
   public invalidHouse: boolean;
+  public invalidSectionName: boolean;
 
   constructor(private cd: ChangeDetectorRef) {}
 
@@ -80,6 +83,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidEmail = !!errors?.email;
     if (this.isPhoneNumber) {
       this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
+    } else if (this.isEdrpouIpn) {
+      this.invalidEdrpouIpn = !!errors?.minlength && !errors?.maxlength;
     } else {
       this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
     }
@@ -92,6 +97,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
     this.invalidStreet = STREET_REGEX == requiredPattern;
     this.invalidHouse = HOUSE_REGEX == requiredPattern;
+    this.invalidSectionName = SECTION_NAME_REGEX == requiredPattern;
   }
 
   private checkMatDatePicker(): void {

@@ -36,7 +36,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   public user: User;
   public userEditFormGroup: FormGroup;
   public userRole: Role;
-  public maxDate: Date = Util.getMaxBirthDate();
+  public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   constructor(

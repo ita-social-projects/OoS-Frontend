@@ -1,20 +1,21 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateInfoFormComponent } from './create-info-form.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatSelectModule } from '@angular/material/select';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { Component, Input } from '@angular/core';
-import { NgxsModule } from '@ngxs/store';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
-import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
-import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
+import { CreateInfoFormComponent } from './create-info-form.component';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
@@ -45,7 +46,7 @@ describe('CreateInfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
-    component.InfoFormGroup = new FormGroup({
+    component.infoFormGroup = new FormGroup({
       fullTitle: new FormControl(''),
       shortTitle: new FormControl(''),
       edrpouIpn: new FormControl(''),
@@ -59,7 +60,7 @@ describe('CreateInfoFormComponent', () => {
       institutionType: new FormControl(''),
       license: new FormControl(''),
       founder: new FormControl(''),
-      institutionStatusId: new FormControl(''),
+      institutionStatusId: new FormControl('')
     });
     fixture.detectChanges();
   });

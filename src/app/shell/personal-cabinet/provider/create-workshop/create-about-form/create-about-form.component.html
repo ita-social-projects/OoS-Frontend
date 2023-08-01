@@ -1,6 +1,6 @@
 <form [formGroup]="AboutFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
   <mat-checkbox class="step-label" color="primary" [formControl]="useProviderInfoCtrl"
-    >{{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
+  >{{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
   </mat-checkbox>
 
   <app-image-form-control
@@ -45,9 +45,10 @@
 
   <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
-    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue
+           [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"></app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.WEBSITE' | translate }}</label>
   <mat-form-field>
@@ -81,7 +82,8 @@
 
   <div class="border-bottom"></div>
 
-  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span
+    class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
     <div fxLayout="column" fxLayoutAlign="start start">
       <div fxLayout="row" fxLayoutAlign="start center">
@@ -97,11 +99,11 @@
             appMinMax
             [directiveFormControl]="AboutFormGroup.get('minAge')"
             [min]="validationConstants.AGE_MIN"
-            [max]="AboutFormGroup.get('maxAge').value !== undefined ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
+            [max]="AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.AGE_MAX"
             autocomplete="none" />
         </mat-form-field>
       </div>
-      <app-validation-hint [validationFormControl]="AboutFormGroup.get('minAge')"> </app-validation-hint>
+      <app-validation-hint [validationFormControl]="AboutFormGroup.get('minAge')"></app-validation-hint>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="start start">
@@ -117,16 +119,18 @@
             maxlength="2"
             [directiveFormControl]="AboutFormGroup.get('maxAge')"
             appMinMax
-            [min]="AboutFormGroup.get('minAge').value !== undefined ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
+            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
+            [max]="validationConstants.BIRTH_AGE_MAX"
             autocomplete="none" />
         </mat-form-field>
       </div>
-      <app-validation-hint [validationFormControl]="AboutFormGroup.get('maxAge')"> </app-validation-hint>
+      <app-validation-hint [validationFormControl]="AboutFormGroup.get('maxAge')"></app-validation-hint>
     </div>
   </div>
 
   <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
-  <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"></app-working-hours-form-wrapper>
+  <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray"
+                                  [workshop]="workshop"></app-working-hours-form-wrapper>
 
   <label class="step-label">{{ 'FORMS.LABELS.PRICE' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group [formControl]="priceRadioBtn" color="primary">
@@ -134,16 +138,16 @@
     <div fxLayout="row" fxLayoutAlign="space-between center" class="conteiner">
       <div fxLayout="row" fxLayoutAlign="center center" class="price">
         <mat-radio-button #radio2 name="radioBtn2" [value]="true"
-          ><input
-            matInput
-            class="step-input price-input"
-            appDigitOnly
-            appMinMax
-            formControlName="price"
-            type="number"
-            [directiveFormControl]="priceControl"
-            [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE" />
+        ><input
+          matInput
+          class="step-input price-input"
+          appDigitOnly
+          appMinMax
+          formControlName="price"
+          type="number"
+          [directiveFormControl]="priceControl"
+          [min]="validationConstants.MIN_PRICE"
+          [max]="validationConstants.MAX_PRICE" />
         </mat-radio-button>
       </div>
       <div fxLayoutAlign="center center" class="pay-type">
@@ -163,19 +167,20 @@
         </mat-select>
       </div>
     </div>
-    <app-validation-hint [validationFormControl]="payRateControl"> </app-validation-hint>
+    <app-validation-hint [validationFormControl]="payRateControl"></app-validation-hint>
   </mat-radio-group>
 
   <div *ngIf="provider.ownership !== ownershipType.State" fxLayout="column" fxLayoutAlign="center space-between">
     <div fxLayout="row" fxLayoutAlign="left space-between">
-      <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label>
+      <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span
+        class="step-required">*</span></label>
       <i
         [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
         [matMenuTriggerFor]="unlimitedInfo"
         #childTrigger="matMenuTrigger"
         (menuOpened)="opened = childTrigger.menuOpen"
         (menuClosed)="opened = childTrigger.menuOpen"
-        >info_outline</i
+      >info_outline</i
       >
       <mat-menu class="hint-menu" #unlimitedInfo="matMenu" [overlapTrigger]="false">
         {{ 'INFO_MENU.UNLIMITED' | translate }}
@@ -199,7 +204,7 @@
           </mat-radio-button>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl"> </app-validation-hint>
+      <app-validation-hint [validationFormControl]="availableSeatsControl"></app-validation-hint>
     </mat-radio-group>
   </div>
 
