@@ -20,12 +20,13 @@
 
   &-text {
     margin-bottom: 0;
+    margin-right: 0.5rem !important;
   }
 }
-
-.info-icon {
+.material-icons {
   color: #888888;
   cursor: pointer;
+  font-size: 20px;
 }
 
 ::ng-deep .mat-menu-panel.competitiveSelectionDesc-menu {
