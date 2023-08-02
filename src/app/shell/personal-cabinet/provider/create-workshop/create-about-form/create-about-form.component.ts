@@ -60,7 +60,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.workshop && this.activateEditMode();
     this.initListeners();
-    this.onCompetitiveSelectionCtrlInit();
     this.workshop && this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
@@ -123,6 +122,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.useProviderInfo();
     this.availableSeatsControlListener();
     this.priceControlListener();
+    this.competitiveSelectionListener();
   }
 
   /**
@@ -220,7 +220,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value
    * is true and sets the value to the formgroup 
    */
-  private onCompetitiveSelectionCtrlInit(): void {
+  private competitiveSelectionListener(): void {
     this.competitiveSelectionRadioBtn.valueChanges
       .pipe(
         takeUntil(this.destroy$),
