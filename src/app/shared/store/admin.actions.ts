@@ -175,7 +175,7 @@ export class GetProviderAdminHistory {
 export class BlockProviderById {
   static readonly type = '[admin] Block Provider';
 
-  constructor(public payload: BlockProviderData, public parameters: MinistryAdminParameters) {}
+  constructor(public payload: BlockProviderData, public parameters: ProviderParameters) {}
 }
 
 export class GetAllAdmins {
