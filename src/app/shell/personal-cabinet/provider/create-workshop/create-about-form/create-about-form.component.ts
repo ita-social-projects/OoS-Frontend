@@ -51,6 +51,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+  private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -60,7 +61,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.PassAboutFormGroup.emit(this.AboutFormGroup);
     this.workshop && this.activateEditMode();
     this.initListeners();
-    this.workshop && this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
   }
 
   public ngOnDestroy(): void {
@@ -214,6 +214,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
       this.availableSeatsRadioBtnControl.setValue(false);
     }
+
+    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
+    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, Validators.required);
   }
 
   /**
@@ -227,7 +230,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       ).subscribe((iscompetitiveSelectionDesc: boolean) => {
         this.AboutFormGroup.get('competitiveSelection').setValue(iscompetitiveSelectionDesc);
         iscompetitiveSelectionDesc
-          ? this.AboutFormGroup.setControl('competitiveSelectionDescription', new FormControl(this.workshop.competitiveSelectionDescription, Validators.required))
+          ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
           : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
       });
 
