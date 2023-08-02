@@ -11,7 +11,7 @@ export enum AdminsFormTitlesEdit {
 }
 
 export enum AdminRolesTitles {
-  ministryAdmin = 'ENUM.ADMISTRATORS.MINISTRY_ADMIN',
-  regionAdmin = 'ENUM.ADMISTRATORS.REGION_ADMIN',
-  areaAdmin = 'ENUM.ADMISTRATORS.TERRITORIAL_ADMIN',
+  ministryAdmin = 'ENUM.ADMINISTRATORS.MINISTRY_ADMIN',
+  regionAdmin = 'ENUM.ADMINISTRATORS.REGION_ADMIN',
+  areaAdmin = 'ENUM.ADMINISTRATORS.TERRITORIAL_ADMIN',
 }
