@@ -271,7 +271,7 @@
   "FOR_FREE": "Безкоштовні",
   "FORMS": {
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
-    "MATCH_ACTUAL_ADDRESS": "Співпадає з юридичною адресою",
+    "MATCH_ACTUAL_ADDRESS": "Збігається з юридичною адресою",
     "CONTROL_VALUES": {
       "FEMALE": "Жіноча",
       "MALE": "Чоловіча",
@@ -389,7 +389,7 @@
       "SELECT_TEACHER": "Обрати тренера/викладача",
       "SELECT_ACHIEVEMENT": "Оберіть тип досягнення",
       "SELECT_OWNERSHIP": "Оберіть форму власності",
-      "SELECT_INSTITUTION_CATEGORY": "Оберіть категорія закладу",
+      "SELECT_INSTITUTION_CATEGORY": "Оберіть категорію закладу",
       "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
     },
     "UAH_FOR": "грн за",
