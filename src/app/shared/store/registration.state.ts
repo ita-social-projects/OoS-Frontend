@@ -1,57 +1,56 @@
-import { MinistryAdmin } from './../models/ministryAdmin.model';
+import { Location } from '@angular/common';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
-import {
-  Login,
-  Logout,
-  CheckAuth,
-  OnAuthFail,
-  CheckRegistration,
-  GetProfile,
-  OnUpdateUserSuccess,
-  UpdateUser,
-  OnUpdateUserFail,
-  GetUserPersonalInfo,
-} from './registration.actions';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { User } from '../models/user.model';
-import { ProviderService } from '../services/provider/provider.service';
-import { ParentService } from '../services/parent/parent.service';
-import { Parent } from '../models/parent.model';
-import { catchError, tap } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { Role } from '../enum/role';
-import { UserService } from '../services/user/user.service';
 import { Observable, of } from 'rxjs';
-import { TechAdminService } from '../services/tech-admin/tech-admin.service';
-import { MarkFormDirty, ShowMessageBar } from './app.actions';
-import { HttpErrorResponse } from '@angular/common/http';
-import { TechAdmin } from '../models/techAdmin.model';
-import { Provider } from '../models/provider.model';
-import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
-import { ModeConstants } from '../constants/constants';
-import { Location } from '@angular/common';
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { RegionAdminService } from '../services/region-admin/region-admin.service';
-import { RegionAdmin } from '../models/regionAdmin.model';
+import { catchError, tap } from 'rxjs/operators';
+
 import { TerritorialCommunityAdmin } from 'shared/models/territorialCommunityAdmin.model';
+import { TerritorialCommunityAdminService } from 'shared/services/territorial-community-admin/territorial-community-admin.service';
+import { ModeConstants } from '../constants/constants';
+import { SnackbarText } from '../enum/enumUA/messageBer';
+import { Role } from '../enum/role';
+import { Parent } from '../models/parent.model';
+import { Provider } from '../models/provider.model';
+import { RegionAdmin } from '../models/regionAdmin.model';
+import { TechAdmin } from '../models/techAdmin.model';
+import { User } from '../models/user.model';
+import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
+import { ParentService } from '../services/parent/parent.service';
+import { ProviderService } from '../services/provider/provider.service';
+import { RegionAdminService } from '../services/region-admin/region-admin.service';
+import { TechAdminService } from '../services/tech-admin/tech-admin.service';
+import { UserService } from '../services/user/user.service';
+import { MinistryAdmin } from './../models/ministryAdmin.model';
+import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
-  TerritorialCommunityAdminService
-} from 'shared/services/territorial-community-admin/territorial-community-admin.service';
+  CheckAuth,
+  CheckRegistration,
+  GetProfile,
+  GetUserPersonalInfo,
+  Login,
+  Logout,
+  OnAuthFail,
+  OnUpdateUserFail,
+  OnUpdateUserSuccess,
+  UpdateUser
+} from './registration.actions';
 
 export interface RegistrationStateModel {
   isAuthorized: boolean;
   isLoading: boolean;
-  isAutorizationLoading: boolean;
+  isAuthorizationLoading: boolean;
   user: User;
   provider: Provider;
   parent: Parent;
   techAdmin: TechAdmin;
-  regionAdmin: RegionAdmin;
   ministryAdmin: MinistryAdmin;
-  territorialCommunityAdmin: TerritorialCommunityAdmin;
+  regionAdmin: RegionAdmin;
+  areaAdmin: TerritorialCommunityAdmin;
   role: Role;
   subrole: Role;
 }
@@ -60,7 +59,7 @@ export interface RegistrationStateModel {
   name: 'registration',
   defaults: {
     isAuthorized: false,
-    isAutorizationLoading: true,
+    isAuthorizationLoading: true,
     isLoading: false,
     user: undefined,
     provider: undefined,
@@ -68,10 +67,10 @@ export interface RegistrationStateModel {
     techAdmin: undefined,
     regionAdmin: undefined,
     ministryAdmin: undefined,
-    territorialCommunityAdmin: undefined,
+    areaAdmin: undefined,
     role: Role.unauthorized,
-    subrole: null,
-  },
+    subrole: null
+  }
 })
 @Injectable()
 export class RegistrationState {
@@ -79,18 +78,22 @@ export class RegistrationState {
   static isAuthorized(state: RegistrationStateModel): boolean {
     return state.isAuthorized;
   }
+
   @Selector()
-  static isAutorizationLoading(state: RegistrationStateModel): boolean {
-    return state.isAutorizationLoading;
+  static isAuthorizationLoading(state: RegistrationStateModel): boolean {
+    return state.isAuthorizationLoading;
   }
+
   @Selector()
   static isLoading(state: RegistrationStateModel): boolean {
     return state.isLoading;
   }
+
   @Selector()
   static isRegistered(state: RegistrationStateModel): boolean {
     return state.user.isRegistered;
   }
+
   @Selector()
   static user(state: RegistrationStateModel): User {
     return state.user;
@@ -137,18 +140,18 @@ export class RegistrationState {
       customParams: {
         culture: localStorage.getItem('ui-culture'),
         'ui-culture': localStorage.getItem('ui-culture'),
-        ProviderRegistration: payload,
-      },
+        ProviderRegistration: payload
+      }
     });
   }
 
   @Action(Logout)
-  Logout({}: StateContext<RegistrationStateModel>): void {
+  logout({}: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
   }
 
   @Action(CheckAuth)
-  CheckAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
+  checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.checkAuth().subscribe((auth: LoginResponse) => {
       patchState({ isAuthorized: auth.isAuthenticated });
       if (auth.isAuthenticated) {
@@ -160,7 +163,7 @@ export class RegistrationState {
           dispatch(new GetUserPersonalInfo()).subscribe(() => dispatch(new CheckRegistration()));
         });
       } else {
-        patchState({ role: Role.unauthorized, isAutorizationLoading: false });
+        patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
       }
     });
   }
@@ -169,7 +172,7 @@ export class RegistrationState {
   onAuthFail(): void {
     this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
-      panelClass: ['red-snackbar'],
+      panelClass: ['red-snackbar']
     });
   }
 
@@ -179,11 +182,9 @@ export class RegistrationState {
 
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
-      patchState({ isAutorizationLoading: false });
+      patchState({ isAuthorizationLoading: false });
     } else {
-      this.router
-        .navigate(['/create-provider', ModeConstants.NEW])
-        .finally(() => patchState({ isAutorizationLoading: false }));
+      this.router.navigate(['/create-provider', ModeConstants.NEW]).finally(() => patchState({ isAuthorizationLoading: false }));
     }
   }
 
@@ -191,7 +192,12 @@ export class RegistrationState {
   getProfile(
     { patchState, getState }: StateContext<RegistrationStateModel>,
     {}: GetProfile
-  ): Observable<Parent> | Observable<Provider> | Observable<MinistryAdmin> | Observable<RegionAdmin> | Observable<TerritorialCommunityAdmin> {
+  ):
+    | Observable<Parent>
+    | Observable<Provider>
+    | Observable<MinistryAdmin>
+    | Observable<RegionAdmin>
+    | Observable<TerritorialCommunityAdmin> {
     const state = getState();
     patchState({ role: state.user.role as Role });
 
@@ -199,13 +205,9 @@ export class RegistrationState {
       case Role.parent:
         return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
       case Role.techAdmin:
-        return this.techAdminService
-          .getProfile()
-          .pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
+        return this.techAdminService.getProfile().pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       case Role.regionAdmin:
-        return this.regionAdminService
-          .getAdminProfile()
-          .pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
+        return this.regionAdminService.getAdminProfile().pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
       case Role.ministryAdmin:
         return this.ministryAdminService
           .getAdminProfile()
@@ -213,7 +215,7 @@ export class RegistrationState {
       case Role.areaAdmin:
         return this.territorialCommunityAdmin
           .getAdminProfile()
-          .pipe(tap((territorialCommunityAdmin: TerritorialCommunityAdmin) => patchState({ territorialCommunityAdmin: territorialCommunityAdmin })));
+          .pipe(tap((territorialCommunityAdmin: TerritorialCommunityAdmin) => patchState({ areaAdmin: territorialCommunityAdmin })));
       default:
         return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }
@@ -226,10 +228,7 @@ export class RegistrationState {
   }
 
   @Action(UpdateUser)
-  updateUser(
-    { dispatch }: StateContext<RegistrationStateModel>,
-    { user }: UpdateUser
-  ): Observable<User | Observable<void>> {
+  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { user }: UpdateUser): Observable<User | Observable<void>> {
     return this.userService.updatePersonalInfo(user).pipe(
       tap(() => dispatch(new OnUpdateUserSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
@@ -248,8 +247,8 @@ export class RegistrationState {
       new GetUserPersonalInfo(),
       new ShowMessageBar({
         message: SnackbarText.updateUser,
-        type: 'success',
-      }),
+        type: 'success'
+      })
     ]);
     this.location.back();
   }

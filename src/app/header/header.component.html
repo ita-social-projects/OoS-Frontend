@@ -1,5 +1,5 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
-  <div [ngClass]="{ 'hide-content': (isAutorizationLoading$ | async) }">
+  <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
     <div fxLayout="row" fxLayoutAlign="space-between">
       <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
