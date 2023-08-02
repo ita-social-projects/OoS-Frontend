@@ -20,7 +20,7 @@ import { environment } from '../../../environments/environment';
         responseType: 'code',
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
-        scope: 'openid outofschoolapi.read offline_access',
+        scope: 'openid profile roles outofschoolapi offline_access',
         logLevel: LogLevel.Error,
         // @ts-ignore: Object is possibly 'null'
         secureRoutes: [environment.stsServer]
