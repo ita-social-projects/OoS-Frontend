@@ -27,12 +27,8 @@
       <div fxLayout="row" fxLayoutAlign="start center" class="selection" *ngIf="workshop.competitiveSelection"> 
         <img class="icon icon-dimensions selection-icon" src="../../../../assets/icons/competitiveSelection.svg">
         <span class="icon-text selection-text">{{ 'COMPETITIVE_SELECTION' | translate }}</span>
-        <i
-        class="material-icons"
-        [matMenuTriggerFor]="competitiveSelectionDesc"
-        #competitiveSelectionDescTrigger="matMenuTrigger"
-        >
-        info_outline
+        <i class="material-icons" [matMenuTriggerFor]="competitiveSelectionDesc" #competitiveSelectionDescTrigger="matMenuTrigger">
+          info_outline
         </i>
         <mat-menu class="competitiveSelectionDesc-menu" #competitiveSelectionDesc="matMenu" [overlapTrigger]="false">
           {{workshop.competitiveSelectionDescription}}

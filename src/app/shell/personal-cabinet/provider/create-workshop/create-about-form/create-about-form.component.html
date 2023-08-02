@@ -209,8 +209,8 @@
   </div>
 
   <label class="step-label"> Конкурсний відбір </label>
-  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout='column'
-    fxLayoutAlign='center space-between'>
+  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column"
+    fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Без конкурсного відбору</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Є конкурсний відбір</mat-radio-button>
     <ng-container *ngIf="AboutFormGroup.get('competitiveSelection').value">
