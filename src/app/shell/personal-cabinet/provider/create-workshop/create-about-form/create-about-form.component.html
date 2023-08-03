@@ -208,18 +208,26 @@
     </mat-radio-group>
   </div>
 
-  <!-- <label class="step-label"> Конкурсний відбір </label>
+  <label class="step-label"> Конкурсний відбір </label>
   <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column"
     fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">Без конкурсного відбору</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">Є конкурсний відбір</mat-radio-button>
-    <div class="step-label-combined">
-      <label class="step-label"> Інформація про відбір<span class="step-required">*</span></label>
-      <label class="step-characters-count">
-        {{AboutFormGroup.get('competitiveSelectionDescription').value.length}}/{{constants.MAX_DESCRIPTION_LENGTH}}</label>
-    </div>
-    <textarea matInput class="step-textarea step-textarea-short"
-      placeholder="Максимум {{constants.MAX_DESCRIPTION_LENGTH}} символів"
-      formControlName="competitiveSelectionDescription" maxlength="{{constants.MAX_DESCRIPTION_LENGTH}}"></textarea>
-  </mat-radio-group> -->
+    <ng-container *ngIf="AboutFormGroup.get('competitiveSelection').value">
+      <div class="step-label-combined">
+        <label class="step-label"> Інформація про відбір<span class="step-required">*</span></label>
+        <label class="step-characters-count">
+          <ng-container *ngIf="AboutFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
+            {{AboutFormGroup.get('competitiveSelectionDescription').value?.length}}/{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}
+          </ng-container>
+          <ng-template #elseBlock>
+            0/{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}
+          </ng-template>
+        </label>
+      </div>
+      <textarea matInput class="step-textarea step-textarea-short"
+        placeholder="Максимум {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} символів"
+        formControlName="competitiveSelectionDescription" maxlength="{{validationConstants.MAX_DESCRIPTION_LENGTH_500}}"></textarea>
+    </ng-container>
+  </mat-radio-group>
 </form>

@@ -1,3 +1,45 @@
 @import 'src/app/shared/styles/side-menu-cards.scss';
 @import 'src/app/shared/styles/details.scss';
 @import 'src/app/shared/styles/workshop-status.scss';
+
+.workshop-title {
+  margin-bottom: 0;
+}
+
+.icon-dimensions {
+  width: 20px;
+  height: 20px;
+}
+
+.selection {
+  margin-bottom: 0.75rem;
+
+  &-icon {
+    margin-right: 0.5rem;
+  }
+
+  &-text {
+    margin-bottom: 0;
+    margin-right: 0.5rem !important;
+  }
+}
+.material-icons {
+  color: #888888;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+::ng-deep .mat-menu-panel.competitiveSelectionDesc-menu {
+  max-width: 400px;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+}
+::ng-deep .competitiveSelectionDesc-menu .mat-menu-content {
+  font-family: 'Open Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 18px;
+  padding: 1rem;
+}

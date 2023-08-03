@@ -477,6 +477,7 @@
   "YOU_HAVE_ALREADY_RATED_THIS_WORKSHOP": "Ви вже оцінили цей гурток",
   "YOU_MUST_BE_ACCEPTED_TO_THIS_WORKSHOP": "Ви повинні бути прийнятим до даного гуртка",
   "FOUND_WORKSHOP": "Знайдено {count|#1 }",
+  "COMPETITIVE_SELECTION": "Конкурсний відбір",
   "BANNERS": {
     "ADD_CHILDREN": "Тут ви можете додати інформацію про дитину, щоб записати її у гурток, секцію чи школу",
     "MAX_CHILDREN_AMOUNT": "Можливо додати не більш, ніж 20 дітей",

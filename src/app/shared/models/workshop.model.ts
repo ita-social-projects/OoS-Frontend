@@ -34,7 +34,7 @@ export class Workshop implements WorkshopTruncated {
   providerId: string;
   providerTitle?: string;
   payRate?: string;
-  isCompetitiveSelection: boolean;
+  competitiveSelection: boolean;
   competitiveSelectionDescription: string;
   logo: string;
   dateTimeRanges: DateTimeRanges[];
@@ -55,6 +55,7 @@ export class Workshop implements WorkshopTruncated {
     this.email = about.email;
     this.minAge = about.minAge;
     this.maxAge = about.maxAge;
+    this.competitiveSelection = about.competitiveSelection;
     this.address = address;
     this.teachers = teachers;
     this.withDisabilityOptions = Boolean(description.disabilityOptionsDesc);
@@ -104,6 +105,9 @@ export class Workshop implements WorkshopTruncated {
     }
     if (about.availableSeats) {
       this.availableSeats = about.availableSeats;
+    }
+    if (about.competitiveSelectionDescription) {
+      this.competitiveSelectionDescription = about.competitiveSelectionDescription;
     }
   }
 }

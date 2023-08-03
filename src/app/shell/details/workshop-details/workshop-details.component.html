@@ -21,8 +21,18 @@
       </span>
       <div fxLayout="row" fxLayoutAlign="start center">
         <a [routerLink]="['/details/provider', workshop.providerId]">
-          <span class="icon-text details-link"> <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }} </span>
+          <span class="icon-text details-link" [ngClass]="{'workshop-title': workshop.competitiveSelection}"> <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }} </span>
         </a>
+      </div>
+      <div fxLayout="row" fxLayoutAlign="start center" class="selection" *ngIf="workshop.competitiveSelection"> 
+        <img class="icon icon-dimensions selection-icon" src="../../../../assets/icons/competitiveSelection.svg">
+        <span class="icon-text selection-text">{{ 'COMPETITIVE_SELECTION' | translate }}</span>
+        <i class="material-icons" [matMenuTriggerFor]="competitiveSelectionDesc" #competitiveSelectionDescTrigger="matMenuTrigger">
+          info_outline
+        </i>
+        <mat-menu class="competitiveSelectionDesc-menu" #competitiveSelectionDesc="matMenu" [overlapTrigger]="false">
+          {{workshop.competitiveSelectionDescription}}
+        </mat-menu>
       </div>
     </div>
 
