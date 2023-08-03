@@ -1,9 +1,9 @@
 <div class="create-form" fxLayout="column" fxLayoutAlign="center center">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{ 'TITLES.EDIT_INSTITUTION_HIERARCHY_FORM_TITLE' | translate }}</h3>
+      <h3 class="wrapper-title">{{ 'TITLES.ADD_INSTITUTION_HIERARCHY_FORM_TITLE' | translate }}</h3>
       <p class="wrapper-text">
-        {{ 'TITLES.EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE' | translate }}
+        {{ 'TITLES.ADD_INSTITUTION_HIERARCHY_FORM_SUBTITLE' | translate }}
       </p>
     </div>
     <div fxLayout="row" fxLayoutAlign="center start" class="warning-box">
@@ -16,18 +16,31 @@
       </div>
     </div>
     
-    <!-- <form #addForm [formGroup]="editDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
+    <form #addForm [formGroup]="addDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
       <label class="step-label">{{ 'FORMS.LABELS.MINISTRY_SUBMISSION' | translate }}</label>
       <mat-form-field>
         <input matInput class="step-input" [formControlName]="ministryControl"  type="text"  autocomplete="none" appTrimValue />
       </mat-form-field>
       <ng-container *ngFor="let field of this.fields.slice(1); let i = index;">
-        <label class="step-label">{{ field }}</label>
-        <mat-form-field>
-          <input matInput class="step-input" [formControlName]="field"  type="text"  autocomplete="none" appTrimValue />
-        </mat-form-field>
+        <ng-container *ngIf="field.isVisible">
+          <label class="step-label">{{ field.name }}</label>
+          <mat-form-field>
+            <mat-select
+              disableOptionCentering
+              panelClass="dropdown-panel"
+              class="step-input"
+              (selectionChange)="changeLevel($event.value, field)"
+              [formControlName]="field.name">
+              <mat-option class="dropdown-option option" *ngFor="let insHierarchy of field.options"
+                [value]="insHierarchy">
+                {{insHierarchy.title}}
+              </mat-option>
+            </mat-select>
+            <!-- <input matInput class="step-input" [formControlName]="field" type="text" autocomplete="none" appTrimValue /> -->
+          </mat-form-field>
+        </ng-container>
       </ng-container>
-      <ng-container>
+      <!-- <ng-container>
         <mat-form-field appearance="none">
           <label class="step-label">{{ 'FORMS.LABELS.USER_DIRECTIONS' | translate }}</label>
           <mat-select
@@ -53,8 +66,8 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </ng-container>
-    </form> -->
+      </ng-container> -->
+    </form>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">Скасувати</button>

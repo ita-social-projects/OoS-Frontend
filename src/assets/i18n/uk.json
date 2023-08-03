@@ -450,6 +450,8 @@
     "TEACHERS": "Викладачі",
     "ABOUT_THE_PROVIDER_INFO": "Інформація про заклад",
     "ACCESS_MANAGMENT": "Керування доступами",
+    "ADD_INSTITUTION_HIERARCHY_FORM_TITLE": "Додати напрямок",
+    "ADD_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Додайте новий напрямок",
     "EDIT_INSTITUTION_HIERARCHY_FORM_TITLE": "Редагувати напрямок",
     "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Редагуйте новий напрямок"
   },

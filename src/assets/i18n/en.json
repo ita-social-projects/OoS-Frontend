@@ -449,6 +449,8 @@
     "TEACHERS": "Teachers",
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
     "ACCESS_MANAGMENT": "Access managment",
+    "ADD_INSTITUTION_HIERARCHY_FORM_TITLE": "Add direction",
+    "ADD_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Add new direction",
     "EDIT_INSTITUTION_HIERARCHY_FORM_TITLE": "Edit direction",
     "EDIT_INSTITUTION_HIERARCHY_FORM_SUBTITLE": "Edit new direction"
   },

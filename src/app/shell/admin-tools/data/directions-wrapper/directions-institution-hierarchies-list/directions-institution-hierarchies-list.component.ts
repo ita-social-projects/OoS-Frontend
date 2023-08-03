@@ -117,7 +117,11 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
 
   public onAdd() {
     const dialogRef = this.matDialog.open(DirectionsInstitutionHierarchiesAddFormComponent, {
-      data: this.institutionalHierarchies,
+      data: {
+        columns: this.columns,
+        allInsHierarchies: this.institutionalHierarchies,
+        institution: this.institution
+      },
       autoFocus: false
     });
   }
