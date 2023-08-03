@@ -115,6 +115,9 @@
       </a>
     </div>
   </ng-container>
+  <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="workshopData.competitiveSelection">
+    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p> 
+  </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
     <span class="card_text card_text_blue">

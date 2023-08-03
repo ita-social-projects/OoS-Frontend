@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnI
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
@@ -50,8 +50,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
-
-  // competitiveSelectionRadioBtn: FormControl = new FormControl(false); TODO: add to the second release
+  public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+  private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
 
   constructor(private formBuilder: FormBuilder) {
   }
@@ -112,8 +112,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required])
-      // competitiveSelectionDescription: new FormControl('', Validators.required),TODO: add to the second release
+      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+      competitiveSelection: new FormControl(false),
+      competitiveSelectionDescription: null,
     });
   }
 
@@ -121,6 +122,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.useProviderInfo();
     this.availableSeatsControlListener();
     this.priceControlListener();
+    this.competitiveSelectionListener();
   }
 
   /**
@@ -212,26 +214,32 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       this.setAvailableSeatsControlValue(this.availableSeats, 'enable', false);
       this.availableSeatsRadioBtnControl.setValue(false);
     }
+
+    this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
+    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, Validators.required);
   }
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to teh formgroup TODO: add to the second release
+   * is true and sets the value to the formgroup 
    */
-  // private onCompetitiveSelectionCtrlInit(): void {
-  //   this.competitiveSelectionRadioBtn.valueChanges
-  //     .pipe(
-  //       takeUntil(this.destroy$),
-  //     ).subscribe((iscompetitiveSelectionDesc: boolean) => {
-  //       iscompetitiveSelectionDesc ? this.AboutFormGroup.get('competitiveSelectionDescription').enable() : this.AboutFormGroup.get('competitiveSelectionDescription').disable();
-  //     });
+  private competitiveSelectionListener(): void {
+    this.competitiveSelectionRadioBtn.valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+      ).subscribe((iscompetitiveSelectionDesc: boolean) => {
+        this.AboutFormGroup.get('competitiveSelection').setValue(iscompetitiveSelectionDesc);
+        iscompetitiveSelectionDesc
+          ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
+          : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
+      });
 
-  //   this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
-  //     .pipe(
-  //       takeUntil(this.destroy$),
-  //       debounceTime(100),
-  //     ).subscribe((disabilityOptionsDesc: string) =>
-  //       this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-  //     );
-  // }
+    this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
+      .pipe(
+        takeUntil(this.destroy$),
+        debounceTime(100),
+      ).subscribe((disabilityOptionsDesc: string) => 
+        this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
+      );
+  }
 }
