@@ -2,29 +2,28 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input
-        #input
-        [formControl]="filterFormControl"
-        matInput
-        type="text"
-        class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
+      <input [formControl]="filterFormControl"
+             matInput
+             type="text"
+             class="search"
+             placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
     </div>
 
     <div>
       <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-        {{ 'BUTTONS.ADD' | translate }} <mat-icon>arrow_drop_down</mat-icon>
+        {{ 'BUTTONS.ADD' | translate }}
+        <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #add="matMenu" class="header_menu">
         <a *ngIf="role === Role.techAdmin"
            [routerLink]="['/create-admin', AdminRoles.ministryAdmin]">
-          <button mat-menu-item>{{ 'ENUM.ADMISTRATORS.MINISTRY_ADMIN' | translate }}</button>
+          <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.MINISTRY_ADMIN' | translate }}</button>
         </a>
-        <a [routerLink]="['/create-admin', AdminRoles.regionAdmin]">
-          <button mat-menu-item>{{ 'ENUM.ADMISTRATORS.REGION_ADMIN' | translate }}</button>
+        <a *ngIf="canManageInstitution(role)" [routerLink]="['/create-admin', AdminRoles.regionAdmin]">
+          <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.REGION_ADMIN' | translate }}</button>
         </a>
-        <a [routerLink]="['/create-admin', AdminRoles.areaAdmin]">
-          <button mat-menu-item>{{ 'ENUM.ADMISTRATORS.TERRITORIAL_ADMIN' | translate }}</button>
+        <a *ngIf="canManageRegion(role)" [routerLink]="['/create-admin', AdminRoles.areaAdmin]">
+          <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.TERRITORIAL_ADMIN' | translate }}</button>
         </a>
       </mat-menu>
     </div>
@@ -32,14 +31,14 @@
 
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
-      <mat-tab label="{{ AdminRolesTitles.ministryAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
+      <mat-tab *ngIf="role === Role.techAdmin" label="{{ AdminRolesTitles.ministryAdmin | translate }}">
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ AdminRolesTitles.regionAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
+      <mat-tab *ngIf="canManageInstitution(role)" label="{{ AdminRolesTitles.regionAdmin | translate }}">
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
       </mat-tab>
-      <mat-tab label="{{ AdminRolesTitles.areaAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"> </ng-container>
+      <mat-tab *ngIf="canManageRegion(role)" label="{{ AdminRolesTitles.areaAdmin | translate }}">
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
@@ -49,23 +48,21 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="admins?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list
-          [statusesTitles]="statusesTitles"
-          [users]="admins"
-          [isEdit]="true"
-          [displayedColumns]="displayedColumns"
-          (delete)="onDelete($event)"
-          (block)="onBlock($event)"
-          (update)="onUpdate($event)">
+        <app-users-list [statusesTitles]="statusesTitles"
+                        [users]="admins"
+                        [isEdit]="true"
+                        [displayedColumns]="displayedColumns"
+                        (delete)="onDelete($event)"
+                        (block)="onBlock($event)"
+                        (update)="onUpdate($event)">
         </app-users-list>
       </div>
-      <app-paginator
-        *ngIf="!(isLoadingCabinet$ | async) && adminsTable"
-        [totalEntities]="totalEntities"
-        [currentPage]="currentPage"
-        [itemsPerPage]="adminParams.size"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      <app-paginator *ngIf="!(isLoadingCabinet$ | async) && adminsTable"
+                     [totalEntities]="totalEntities"
+                     [currentPage]="currentPage"
+                     [itemsPerPage]="adminParams.size"
+                     (pageChange)="onPageChange($event)"
+                     (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>

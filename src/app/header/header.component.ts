@@ -5,6 +5,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
+import { AdminTabTypes } from 'shared/enum/admins';
 
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
@@ -28,6 +29,7 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly RoleLinks = RoleLinks;

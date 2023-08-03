@@ -460,7 +460,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         this.providerParameters.institutionId = this.selectedAdmin.institutionId;
         this.providerParameters.catottgId = '';
         break;
-      case Role.regionAdmin || Role.areaAdmin:
+      case Role.regionAdmin:
+      case Role.areaAdmin:
         this.providerParameters.institutionId = this.selectedAdmin.institutionId;
         this.providerParameters.catottgId = String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId);
         break;
