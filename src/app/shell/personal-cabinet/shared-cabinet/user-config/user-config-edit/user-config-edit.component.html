@@ -57,12 +57,10 @@
           <mat-radio-group formControlName="gender" color="primary">
             <mat-radio-button
               class="step-radio"
-              [value]="'Male'"
-              [checked]="user.gender === 'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
+              [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
             <mat-radio-button
               class="step-radio"
-              [value]="'Female'"
-              [checked]="user.gender === 'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
+              [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
           </mat-radio-group>
           <app-validation-hint [validationFormControl]="userEditFormGroup.get('gender')"></app-validation-hint>
         </ng-container>
