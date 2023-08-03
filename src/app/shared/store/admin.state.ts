@@ -127,8 +127,6 @@ export interface AdminStateModel {
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
   selectedAdmin: BaseAdmin;
-  selectedRegionAdmin: RegionAdmin;
-  selectedTerritorialCommunityAdmin: TerritorialCommunityAdmin;
   isLoading: boolean;
 }
 
@@ -152,8 +150,6 @@ export interface AdminStateModel {
     providerAdminHistory: null,
     admins: null,
     selectedAdmin: null,
-    selectedRegionAdmin: null,
-    selectedTerritorialCommunityAdmin: null,
     isLoading: false
   }
 })
@@ -870,7 +866,7 @@ export class AdminState {
     return this.regionAdminService.getAdminProfile().pipe(
       tap((selectedRegionAdmin: RegionAdmin) =>
         patchState({
-          selectedRegionAdmin: selectedRegionAdmin,
+          selectedAdmin: selectedRegionAdmin,
           isLoading: false
         })
       )
@@ -1024,7 +1020,7 @@ export class AdminState {
     return this.territorialCommunityAdminService.getAdminProfile().pipe(
       tap((selectedTerritorialCommunityAdmin: TerritorialCommunityAdmin) =>
         patchState({
-          selectedTerritorialCommunityAdmin: selectedTerritorialCommunityAdmin,
+          selectedAdmin: selectedTerritorialCommunityAdmin,
           isLoading: false
         })
       )
