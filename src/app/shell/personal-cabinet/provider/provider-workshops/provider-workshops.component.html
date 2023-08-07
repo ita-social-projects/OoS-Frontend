@@ -1,29 +1,25 @@
 <div class="add-wrapper">
   <p class="text">{{ 'BANNERS.ADD_WORKSHOP' | translate }}</p>
-  <a [routerLink]="['/create-workshop', ModeConstants.NEW]"
-    ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_WORKSHOP' | translate }}</button></a
-  >
+  <a [routerLink]="['/create-workshop', ModeConstants.NEW]">
+    <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_WORKSHOP' | translate }}</button>
+  </a>
 </div>
 
 <ng-container *ngIf="!(isLoading$ | async) && !!workshops">
   <div class="card-wrapper" *ngIf="workshops?.totalAmount; else isEmptyList">
-    <app-workshop-card
-      class="card"
-      *ngFor="let workshop of workshops.entities"
-      [workshop]="workshop"
-      [isCabinetView]="true"
-      (deleteWorkshop)="onDelete($event)"
-    >
+    <app-workshop-card class="card"
+                       *ngFor="let workshop of workshops.entities"
+                       [workshop]="workshop"
+                       [isCabinetView]="true"
+                       (deleteWorkshop)="onDelete($event)">
     </app-workshop-card>
   </div>
   <ng-container *ngIf="workshops.totalAmount">
-    <app-paginator
-      [totalEntities]="workshops.totalAmount"
-      [currentPage]="currentPage"
-      [itemsPerPage]="workshopCardParameters.size"
-      (pageChange)="onPageChange($event)"
-      (itemsPerPageChange)="onItemsPerPageChange($event)"
-    >
+    <app-paginator [totalEntities]="workshops.totalAmount"
+                   [currentPage]="currentPage"
+                   [itemsPerPage]="workshopCardParameters.size"
+                   (pageChange)="onPageChange($event)"
+                   (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </ng-container>
 </ng-container>

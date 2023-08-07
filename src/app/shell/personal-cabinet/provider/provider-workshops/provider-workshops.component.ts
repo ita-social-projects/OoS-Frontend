@@ -1,26 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Actions, ofAction, Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../../../shared/enum/role';
-import { ProviderWorkshopCard, WorkshopCardParameters } from '../../../../shared/models/workshop.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { ProviderWorkshopCard, WorkshopCardParameters } from 'shared/models/workshop.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
 import {
-  OnUpdateWorkshopStatusSuccess,
-  GetProviderViewWorkshops,
+  DeleteWorkshopById,
   GetProviderAdminWorkshops,
-  DeleteWorkshopById
-} from '../../../../shared/store/provider.actions';
-import { ProviderState } from '../../../../shared/store/provider.state';
+  GetProviderViewWorkshops,
+  OnUpdateWorkshopStatusSuccess
+} from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-provider-workshops',
@@ -98,6 +99,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   }
 
   onItemsPerPageChange(itemsPerPage: number) {
+    this.currentPage = PaginationConstants.firstPage;
     this.workshopCardParameters.size = itemsPerPage;
     this.getProviderWorkshops();
   }
