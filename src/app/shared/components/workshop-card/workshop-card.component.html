@@ -116,7 +116,7 @@
     </div>
   </ng-container>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center" *ngIf="workshopData.competitiveSelection">
-    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p> 
+    <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
@@ -134,7 +134,8 @@
 <ng-template #UserWorkshopView>
   <p *ngIf="!isHorizontalView" class="card_text">
     <mat-icon class="card_icon">star</mat-icon>
-    {{ workshopData.rating }}
+    {{ workshopData.rating }}&nbsp;
+    <span class="rating-number">({{ workshopData.numberOfRatings }})</span>
   </p>
 
   <a [routerLink]="['/details/provider', workshopData.providerId]" class="provider-link" fxLayout="row" fxLayoutAlign="start center">
