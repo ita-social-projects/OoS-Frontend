@@ -2,25 +2,26 @@ import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
-import { ReasonModalWindowComponent } from './../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { ChildDeclination, WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { Role } from '../../../../shared/enum/role';
-import { ApplicationFilterParameters } from '../../../../shared/models/application.model';
-import { Child } from '../../../../shared/models/child.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
+
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { ChildDeclination, WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { Role } from 'shared/enum/role';
+import { ApplicationFilterParameters } from 'shared/models/application.model';
+import { Child } from 'shared/models/child.model';
+import { Workshop } from 'shared/models/workshop.model';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 import { ProviderComponent } from '../provider.component';
-import { ProviderApplciationsComponent } from './provider-applciations.component';
+import { ProviderApplicationsComponent } from './provider-applications.component';
 
-describe('ProviderApplciationsComponent', () => {
-  let component: ProviderApplciationsComponent;
-  let fixture: ComponentFixture<ProviderApplciationsComponent>;
+describe('ProviderApplicationsComponent', () => {
+  let component: ProviderApplicationsComponent;
+  let fixture: ComponentFixture<ProviderApplicationsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), MatDialogModule],
       declarations: [
-        ProviderApplciationsComponent,
+        ProviderApplicationsComponent,
         ApplicationsMockComponent,
         ProviderComponent,
         CabinetDataComponent,
@@ -30,7 +31,7 @@ describe('ProviderApplciationsComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ProviderApplciationsComponent);
+    fixture = TestBed.createComponent(ProviderApplicationsComponent);
     component = fixture.componentInstance;
   });
 
