@@ -24,7 +24,7 @@
           panelClass="dropdown-panel"
           class="step-input"
           (selectionChange)="onHierarchyLevelSelect(hierarchy)">
-          <mat-option *ngFor="let option of hierarchy.options" [value]="option.id" class="dropdown-option">
+          <mat-option *ngFor="let option of hierarchy.options" [value]="option.id" class="dropdown-option" title="{{option.title}}">
             {{ option.title }}
           </mat-option>
         </mat-select>
