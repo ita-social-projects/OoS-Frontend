@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { Rate } from '../../../../../shared/models/rating';
+import { Rate } from 'shared/models/rating';
 
 @Component({
   selector: 'app-rate',
