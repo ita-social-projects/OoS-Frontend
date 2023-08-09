@@ -1,24 +1,24 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from '../../../shared/constants/constants';
-import { CategoryIcons } from '../../../shared/enum/category-icons';
-import { DetailsTabTitlesEnum, RecruitmentStatusEnum } from '../../../shared/enum/enumUA/workshop';
-import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
-import { Role, EntityType } from '../../../shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopOpenStatus } from '../../../shared/enum/workshop';
-import { ImgPath } from '../../../shared/models/carousel.model';
-import { Provider, ProviderParameters } from '../../../shared/models/provider.model';
-import { Workshop } from '../../../shared/models/workshop.model';
-import { ImagesService } from '../../../shared/services/images/images.service';
-import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
-import { GetRateByEntityId } from '../../../shared/store/meta-data.actions';
-import { AddNavPath } from '../../../shared/store/navigation.actions';
-import { ResetAchievements } from '../../../shared/store/provider.actions';
-import { GetProviderById, GetWorkshopsByProviderId } from '../../../shared/store/shared-user.actions';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { CategoryIcons } from 'shared/enum/category-icons';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { DetailsTabTitlesEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { Role } from 'shared/enum/role';
+import { DetailsTabTitlesParams, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { ImgPath } from 'shared/models/carousel.model';
+import { Provider, ProviderParameters } from 'shared/models/provider.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { ImagesService } from 'shared/services/images/images.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath } from 'shared/store/navigation.actions';
+import { ResetAchievements } from 'shared/store/provider.actions';
+import { GetProviderById } from 'shared/store/shared-user.actions';
 
 @Component({
   selector: 'app-workshop-details',
@@ -49,6 +49,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
+  readonly Role: typeof Role = Role;
 
   constructor(
     private route: ActivatedRoute,
