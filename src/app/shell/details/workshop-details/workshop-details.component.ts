@@ -49,6 +49,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
+  readonly Role: typeof Role = Role;
 
   constructor(
     private route: ActivatedRoute,
