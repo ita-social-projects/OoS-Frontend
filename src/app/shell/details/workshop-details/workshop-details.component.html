@@ -53,7 +53,7 @@
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
         <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
+      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
         <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">

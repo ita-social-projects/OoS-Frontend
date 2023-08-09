@@ -41,7 +41,7 @@
         maxlength="2"
         appMinMax
         [directiveFormControl]="maxAgeFormControl"
-        [min]="minAgeFormControl.value ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
+        [min]="minAgeFormControl.value !== undefined ? minAgeFormControl.value + 1 : validationConstants.AGE_MIN"
         [max]="validationConstants.BIRTH_AGE_MAX"
         autocomplete="off" />
       <mat-icon class="clear-age" (click)="clearMax()">clear</mat-icon>
