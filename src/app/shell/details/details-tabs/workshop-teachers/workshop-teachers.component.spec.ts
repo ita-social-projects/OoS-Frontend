@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopTeachersComponent } from './workshop-teachers.component';
 import { Component, Input } from '@angular/core';
-import { Teacher } from '../../../../shared/models/teacher.model';
-import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
+import { Teacher } from 'shared/models/teacher.model';
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { TranslateModule } from '@ngx-translate/core';
 
 describe('WorkshopTeachersComponent', () => {
