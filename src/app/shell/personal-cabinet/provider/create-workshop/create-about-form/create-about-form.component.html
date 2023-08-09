@@ -119,7 +119,7 @@
             maxlength="2"
             [directiveFormControl]="AboutFormGroup.get('maxAge')"
             appMinMax
-            [min]="AboutFormGroup.get('minAge').value ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
+            [min]="AboutFormGroup.get('minAge').value !== undefined ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
             [max]="validationConstants.BIRTH_AGE_MAX"
             autocomplete="none" />
         </mat-form-field>
