@@ -66,12 +66,12 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
 
   onOpenDialog(type: ModalConfirmationDescription): void {
-    !(this.role !== Role.unauthorized) &&
+    this.role === Role.unauthorized &&
       this.dialog.open(UnregisteredUserWarningModalComponent, {
         autoFocus: false,
         restoreFocus: false,
         data: {
-          message: ModalConfirmationDescription[type],
+          message: type
         }
       });
   }

@@ -615,9 +615,9 @@
   },
   "SERVICE_MESSAGES": {
     "NO_INFO": "no data",
-    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you",
-    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you",
-    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you",
+    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you!",
+    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you!",
+    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you!",
     "MESSAGE_STATUS": {
       "LEFT": "Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",
