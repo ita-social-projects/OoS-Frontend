@@ -77,7 +77,7 @@
         </mat-select>
       </mat-form-field>
       <app-validation-hint [validationFormControl]="institutionFormControl"></app-validation-hint>
-      <ng-container *ngIf="isRegionAdmin || isTerritorialCommunityAdmin">
+      <ng-container *ngIf="isRegionAdmin || isAreaAdmin">
         <label class="step-label">{{ 'FORMS.LABELS.REGION' | translate }}<span class="step-required">*</span></label>
         <mat-form-field floatLabel="never" appearance="none">
           <mat-select
@@ -95,7 +95,7 @@
         </mat-form-field>
         <app-validation-hint [validationFormControl]="regionFormControl"></app-validation-hint>
       </ng-container>
-      <ng-container *ngIf="isTerritorialCommunityAdmin && regionFormControl.valid && isRegionSelected">
+      <ng-container *ngIf="isAreaAdmin && regionFormControl.valid && isRegionSelected">
         <label class="step-label">{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}<span
           class="step-required">*</span></label>
         <mat-form-field floatLabel="never" appearance="none">

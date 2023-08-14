@@ -23,7 +23,7 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./sidenav-menu.component.scss']
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
-  readonly defaultAdminTabs = AdminTabTypes[0];
+  readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
   readonly Languages: typeof Languages = Languages;
   readonly Role = Role;
   readonly RoleLinks = RoleLinks;

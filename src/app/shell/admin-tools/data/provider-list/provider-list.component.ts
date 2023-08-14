@@ -16,7 +16,7 @@ import {
   GetFilteredProviders,
   GetMinistryAdminProfile,
   GetRegionAdminProfile,
-  GetTerritorialCommunityAdminProfile
+  GetAreaAdminProfile
 } from 'shared/store/admin.actions';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -52,7 +52,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { Role } from 'shared/enum/role';
 import { RegionAdmin } from 'shared/models/regionAdmin.model';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { TerritorialCommunityAdmin } from 'shared/models/territorialCommunityAdmin.model';
+import { AreaAdmin } from 'shared/models/areaAdmin.model';
 
 @Component({
   selector: 'app-provider-list',
@@ -140,7 +140,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
             case Role.regionAdmin:
               return this.store.dispatch(new GetRegionAdminProfile());
             case Role.areaAdmin:
-              return this.store.dispatch(new GetTerritorialCommunityAdminProfile());
+              return this.store.dispatch(new GetAreaAdminProfile());
             default:
               return of(null);
           }
@@ -292,7 +292,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     return this.role === Role.regionAdmin;
   }
 
-  public get isTerritorialCommunityAdmin(): boolean {
+  public get isAreaAdmin(): boolean {
     return this.role === Role.areaAdmin;
   }
 
@@ -460,9 +460,10 @@ export class ProviderListComponent implements OnInit, OnDestroy {
         this.providerParameters.institutionId = this.selectedAdmin.institutionId;
         this.providerParameters.catottgId = '';
         break;
-      case Role.regionAdmin || Role.areaAdmin:
+      case Role.regionAdmin:
+      case Role.areaAdmin:
         this.providerParameters.institutionId = this.selectedAdmin.institutionId;
-        this.providerParameters.catottgId = String((this.selectedAdmin as RegionAdmin | TerritorialCommunityAdmin).catottgId);
+        this.providerParameters.catottgId = String((this.selectedAdmin as RegionAdmin | AreaAdmin).catottgId);
         break;
       default:
         this.providerParameters = {

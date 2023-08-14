@@ -85,10 +85,10 @@
       "EDIT_PROVIDER_ADMIN": "Редагувати адміністратора гуртка",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Додати адміністратора міністерства",
       "ADD_PROVIDER_REGION_ADMIN": "Додати адміністратора області",
-      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Додати адміністратора ОТГ",
+      "ADD_PROVIDER_AREA_ADMIN": "Додати адміністратора ОТГ",
       "EDIT_PROVIDER_MINISTRY_ADMIN": "Редагувати адміністратора міністерства",
       "EDIT_PROVIDER_REGION_ADMIN": "Редагувати адміністратора області",
-      "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Редагувати адміністратора ОТГ",
+      "EDIT_PROVIDER_AREA_ADMIN": "Редагувати адміністратора ОТГ",
       "ADMINISTRATION": "Адміністрування",
       "ADMINS": "Адміністратори",
       "APPLICATIONS": "Заявки",
@@ -148,13 +148,15 @@
       "YEAR": "Рік"
     },
     "PERSONAL_CABINET_TITLE": {
-      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Кабінет заступника директора",
-      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора міністерства",
-      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора гуртка",
+      "USER_PERSONAL_CABINET": "Кабінет користувача",
       "PROVIDER_PERSONAL_CABINET": "Кабінет надавача послуг",
+      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора гуртка",
+      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Кабінет заступника директора",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет тех.адміністратора",
-      "UNKNOWN_ACCOUNT": "Кабінет надавача послуг",
-      "USER_PERSONAL_CABINET": "Кабінет користувача"
+      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора міністерства",
+      "REGION_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора області",
+      "AREA_ADMINISTRATOR_PERSONAL_CABINET": "Кабінет адміністратора ОТГ",
+      "UNKNOWN_ACCOUNT": "Кабінет надавача послуг"
     },
     "RECRUITMENT_STATUS": {
       "OPEN": "Відкрити набір",
@@ -252,10 +254,10 @@
       "PROVIDER_ADMIN": "Адміністратор гуртка",
       "ALL": "Усі"
     },
-    "ADMISTRATORS": {
+    "ADMINISTRATORS": {
       "MINISTRY_ADMIN": "Адміністратор міністерства",
       "REGION_ADMIN": "Адміністратор області",
-      "TERRITORIAL_ADMIN": "Адміністратор ОТГ"
+      "AREA_ADMIN": "Адміністратор ОТГ"
     },
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",

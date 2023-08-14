@@ -1,25 +1,27 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { DateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { RegistrationState } from '../shared/store/registration.state';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
-import { Logout, Login } from '../shared/store/registration.actions';
-import { User } from '../shared/models/user.model';
-import { Router } from '@angular/router';
-import { NavigationState } from '../shared/store/navigation.state';
-import { Navigation } from '../shared/models/navigation.model';
-import { Role } from '../shared/enum/role';
-import { Languages } from '../shared/enum/languages';
-import { SidenavToggle } from '../shared/store/navigation.actions';
-import { AppState } from '../shared/store/app.state';
-import { FeaturesList } from '../shared/models/featuresList.model';
-import { MetaDataState } from '../shared/store/meta-data.state';
-import { MainPageState } from '../shared/store/main-page.state';
-import { CompanyInformation } from '../shared/models/сompanyInformation.model';
-import { GetMainPageInfo } from '../shared/store/main-page.actions';
-import { TranslateService } from '@ngx-translate/core';
-import { RoleLinks } from '../shared/enum/enumUA/user';
-import { DateAdapter } from '@angular/material/core';
+import { AdminTabTypes } from 'shared/enum/admins';
+
+import { RoleLinks } from 'shared/enum/enumUA/user';
+import { Languages } from 'shared/enum/languages';
+import { Role } from 'shared/enum/role';
+import { FeaturesList } from 'shared/models/featuresList.model';
+import { Navigation } from 'shared/models/navigation.model';
+import { User } from 'shared/models/user.model';
+import { CompanyInformation } from 'shared/models/сompanyInformation.model';
+import { AppState } from 'shared/store/app.state';
+import { GetMainPageInfo } from 'shared/store/main-page.actions';
+import { MainPageState } from 'shared/store/main-page.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { SidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
+import { Login, Logout } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-header',
@@ -27,16 +29,13 @@ import { DateAdapter } from '@angular/material/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
+  readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
   readonly Languages: typeof Languages = Languages;
   readonly Role: typeof Role = Role;
   readonly RoleLinks = RoleLinks;
 
-  selectedLanguage = localStorage.getItem('ui-culture');
-  showModalReg = false;
-  userShortName = '';
-
-  @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+  @Select(RegistrationState.isAuthorizationLoading)
+  isAuthorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
   isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
@@ -45,21 +44,24 @@ export class HeaderComponent implements OnInit, OnDestroy {
   isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
-  isMobileScreen: boolean;
   @Select(RegistrationState.user)
   user$: Observable<User>;
-  user: User;
   @Select(MetaDataState.featuresList)
   featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
   subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
   headerInfo$: Observable<CompanyInformation>;
+
+  selectedLanguage = localStorage.getItem('ui-culture');
+  showModalReg = false;
+  userShortName = '';
+  isMobileScreen: boolean;
+  user: User;
   headerTitle: string;
   headerSubtitle: string;
   navigationPaths: Navigation[];
   subrole: string;
-
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}

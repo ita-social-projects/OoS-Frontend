@@ -1,13 +1,15 @@
-import { NavigationBarService } from './../../shared/services/navigation-bar/navigation-bar.service';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
-import { PersonalCabinetTitle } from '../../shared/enum/enumUA/navigation-bar';
-import { Role } from '../../shared/enum/role';
-import { AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { Util } from '../../shared/utils/utils';
-import { ApplicationStatuses } from '../../shared/enum/statuses';
-import { RoleLinks } from '../../shared/enum/enumUA/user';
+
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { RoleLinks } from 'shared/enum/enumUA/user';
+import { Role } from 'shared/enum/role';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-personal-cabinet',
@@ -18,7 +20,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   readonly ApplicationStatuses = ApplicationStatuses;
   readonly roles = RoleLinks;
   readonly Role = Role;
-  
+  protected isRoleAdmin = isRoleAdmin;
+
   personalCabinetTitle: PersonalCabinetTitle;
   userRole: Role;
   subRole: Role;

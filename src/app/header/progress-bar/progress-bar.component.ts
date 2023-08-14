@@ -1,15 +1,16 @@
-import { ProviderState } from 'shared/store/provider.state';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, takeUntil } from 'rxjs/operators';
-import { FilterState } from 'shared/store/filter.state';
-import { SharedUserState } from 'shared/store/shared-user.state';
-import { MetaDataState } from 'shared/store/meta-data.state';
+
 import { AdminState } from 'shared/store/admin.state';
+import { FilterState } from 'shared/store/filter.state';
 import { MainPageState } from 'shared/store/main-page.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
 import { ParentState } from 'shared/store/parent.state';
+import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
+import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
   selector: 'app-progress-bar',
@@ -31,8 +32,8 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isLoadingProvider$: Observable<boolean>;
   @Select(ParentState.isLoading)
   isLoadingParent$: Observable<boolean>;
-  @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+  @Select(RegistrationState.isAuthorizationLoading)
+  isAuthorizationLoading$: Observable<boolean>;
 
   isLoadingResultPage: boolean;
   isLoadingCabinet: boolean;
@@ -40,7 +41,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
   isLoadingAdminData: boolean;
   isLoadingNotifications: boolean;
   isLoadingMainPage: boolean;
-  isAutorizationLoading: boolean;
+  isAuthorizationLoading: boolean;
   isLoadingProvider: boolean;
   isLoadingParent: boolean;
 
@@ -55,7 +56,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       this.isLoadingCabinet$,
       this.isLoadingAdminData$,
       this.isLoadingMainPage$,
-      this.isAutorizationLoading$,
+      this.isAuthorizationLoading$,
       this.isLoadingProvider$,
       this.isLoadingParent$
     ])
@@ -67,7 +68,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           isLoadingCabinet,
           isLoadingAdminData,
           isLoadingMainPage,
-          isAutorizationLoading,
+          isAuthorizationLoading,
           isLoadingProvider,
           isLoadingParent
         ]) => {
@@ -76,7 +77,7 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
           this.isLoadingCabinet = isLoadingCabinet;
           this.isLoadingAdminData = isLoadingAdminData;
           this.isLoadingMainPage = isLoadingMainPage;
-          this.isAutorizationLoading = isAutorizationLoading;
+          this.isAuthorizationLoading = isAuthorizationLoading;
           this.isLoadingProvider = isLoadingProvider;
           this.isLoadingParent = isLoadingParent;
         }
