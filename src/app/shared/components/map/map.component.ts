@@ -18,6 +18,7 @@ import { SearchResponse } from '../../models/search.model';
 import { SetCoordsByMap } from '../../store/filter.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { SnackbarText } from '../../enum/enumUA/messageBer';
+import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 
 @Component({
   selector: 'app-map',
@@ -77,7 +78,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/user_dot.svg'
   });
 
-  constructor(private geocoderService: GeocoderService, private store: Store) {}
+  constructor(private geocoderService: GeocoderService, private store: Store, private geolocationService: GeolocationService) {}
 
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
@@ -111,6 +112,18 @@ export class MapComponent implements AfterViewInit, OnDestroy {
           this.setAddress();
         }
       });
+  }
+
+  public setCurrentGeolocation(): void {
+    this.geolocationService.handleUserLocation((coords: Coords) => {
+      if (coords) {
+        this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+          (this.geolocationService.getCityFromStorage().id === result.id)
+            ? this.geolocationService.confirmCity(result, true)
+            : this.geolocationService.confirmCity(result, false);
+        });
+      }
+    });    
   }
 
   /**
