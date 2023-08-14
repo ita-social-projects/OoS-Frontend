@@ -24,20 +24,20 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
   styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  public readonly role = Role;
-  public readonly validationConstants = ValidationConstants;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
+  readonly role = Role;
+  readonly validationConstants = ValidationConstants;
+  readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
   private subRole: Role;
 
-  public user: User;
-  public userEditFormGroup: FormGroup;
-  public userRole: Role;
-  public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
-  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  user: User;
+  userEditFormGroup: FormGroup;
+  userRole: Role;
+  maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
+  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   constructor(
     protected route: ActivatedRoute,
