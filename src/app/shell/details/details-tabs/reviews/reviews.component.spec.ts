@@ -9,15 +9,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Component, Input } from '@angular/core';
 import { of } from 'rxjs';
-import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Parent } from '../../../../shared/models/parent.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { Parent } from 'shared/models/parent.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { DeclinationPipe } from 'shared/pipes/declination.pipe';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Rate } from '../../../../shared/models/rating';
-import { TranslateCasesPipe } from '../../../../shared/pipes/translate-cases.pipe';
+import { SearchResponse } from 'shared/models/search.model';
+import { Rate } from 'shared/models/rating';
+import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
 
 @Component({
   selector: 'app-paginator',
