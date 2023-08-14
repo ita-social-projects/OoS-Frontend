@@ -148,13 +148,15 @@
       "YEAR": "Year"
     },
     "PERSONAL_CABINET_TITLE": {
-      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
-      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
-      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "USER_PERSONAL_CABINET": "User personal cabinet",
       "PROVIDER_PERSONAL_CABINET": "Provider personal cabinet",
+      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Technical administrator personal cabinet",
-      "UNKNOWN_ACCOUNT": "Provider personal cabinet",
-      "USER_PERSONAL_CABINET": "User personal cabinet"
+      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
+      "REGION_ADMINISTRATOR_PERSONAL_CABINET": "Region administrator personal cabinet",
+      "AREA_ADMINISTRATOR_PERSONAL_CABINET": "Territorial community administrator personal cabinet",
+      "UNKNOWN_ACCOUNT": "Provider personal cabinet"
     },
     "RECRUITMENT_STATUS": {
       "OPEN": "Open recruitment",
