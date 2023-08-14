@@ -85,10 +85,10 @@
       "EDIT_PROVIDER_ADMIN": "Редагувати адміністратора гуртка",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Додати адміністратора міністерства",
       "ADD_PROVIDER_REGION_ADMIN": "Додати адміністратора області",
-      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Додати адміністратора ОТГ",
+      "ADD_PROVIDER_AREA_ADMIN": "Додати адміністратора ОТГ",
       "EDIT_PROVIDER_MINISTRY_ADMIN": "Редагувати адміністратора міністерства",
       "EDIT_PROVIDER_REGION_ADMIN": "Редагувати адміністратора області",
-      "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Редагувати адміністратора ОТГ",
+      "EDIT_PROVIDER_AREA_ADMIN": "Редагувати адміністратора ОТГ",
       "ADMINISTRATION": "Адміністрування",
       "ADMINS": "Адміністратори",
       "APPLICATIONS": "Заявки",
@@ -257,7 +257,7 @@
     "ADMINISTRATORS": {
       "MINISTRY_ADMIN": "Адміністратор міністерства",
       "REGION_ADMIN": "Адміністратор області",
-      "TERRITORIAL_ADMIN": "Адміністратор ОТГ"
+      "AREA_ADMIN": "Адміністратор ОТГ"
     },
     "PROVIDER_ADMINS_DECLINATION": {
       "PROVIDER_DEPUTY_GENETIVE": "Заступника директора",

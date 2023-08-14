@@ -9,8 +9,8 @@ import jwt_decode from 'jwt-decode';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { TerritorialCommunityAdmin } from 'shared/models/territorialCommunityAdmin.model';
-import { TerritorialCommunityAdminService } from 'shared/services/territorial-community-admin/territorial-community-admin.service';
+import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ModeConstants } from '../constants/constants';
 import { SnackbarText } from '../enum/enumUA/messageBer';
 import { Role } from '../enum/role';
@@ -50,7 +50,7 @@ export interface RegistrationStateModel {
   techAdmin: TechAdmin;
   ministryAdmin: MinistryAdmin;
   regionAdmin: RegionAdmin;
-  areaAdmin: TerritorialCommunityAdmin;
+  areaAdmin: AreaAdmin;
   role: Role;
   subrole: Role;
 }
@@ -129,7 +129,7 @@ export class RegistrationState {
     private regionAdminService: RegionAdminService,
     private router: Router,
     private ministryAdminService: MinistryAdminService,
-    private territorialCommunityAdmin: TerritorialCommunityAdminService,
+    private areaAdmin: AreaAdminService,
     private location: Location
   ) {}
 
@@ -192,12 +192,7 @@ export class RegistrationState {
   getProfile(
     { patchState, getState }: StateContext<RegistrationStateModel>,
     {}: GetProfile
-  ):
-    | Observable<Parent>
-    | Observable<Provider>
-    | Observable<MinistryAdmin>
-    | Observable<RegionAdmin>
-    | Observable<TerritorialCommunityAdmin> {
+  ): Observable<Parent> | Observable<Provider> | Observable<MinistryAdmin> | Observable<RegionAdmin> | Observable<AreaAdmin> {
     const state = getState();
     patchState({ role: state.user.role as Role });
 
@@ -213,9 +208,7 @@ export class RegistrationState {
           .getAdminProfile()
           .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
       case Role.areaAdmin:
-        return this.territorialCommunityAdmin
-          .getAdminProfile()
-          .pipe(tap((territorialCommunityAdmin: TerritorialCommunityAdmin) => patchState({ areaAdmin: territorialCommunityAdmin })));
+        return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin: areaAdmin })));
       default:
         return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }

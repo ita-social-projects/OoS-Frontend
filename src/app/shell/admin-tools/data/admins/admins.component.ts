@@ -25,7 +25,7 @@ import { Util } from 'shared-utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { canManageInstitution, canManageRegion } from '../../admin-tools.guard';
+import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
 @Component({
   selector: 'app-admins',

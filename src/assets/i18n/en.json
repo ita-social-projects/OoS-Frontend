@@ -85,10 +85,10 @@
       "EDIT_PROVIDER_ADMIN": "Add workshop administrator",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Add ministry administrator",
       "ADD_PROVIDER_REGION_ADMIN": "Add region administrator",
-      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Add territorial community administrator",
+      "ADD_PROVIDER_AREA_ADMIN": "Add territorial community administrator",
       "EDIT_PROVIDER_MINISTRY_ADMIN": "Edit ministry administrator",
       "EDIT_PROVIDER_REGION_ADMIN": "Edit region administrator",
-      "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Edit territorial community administrator",
+      "EDIT_PROVIDER_AREA_ADMIN": "Edit territorial community administrator",
       "ADMINISTRATION": "Administration",
       "ADMINS": "Administrators",
       "APPLICATIONS": "Applications",
@@ -261,7 +261,7 @@
     "ADMINISTRATORS": {
       "MINISTRY_ADMIN": "Ministry administrator",
       "REGION_ADMIN": "Region administrator",
-      "TERRITORIAL_ADMIN": "Territorial community administrator"
+      "AREA_ADMIN": "Territorial community administrator"
     },
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",

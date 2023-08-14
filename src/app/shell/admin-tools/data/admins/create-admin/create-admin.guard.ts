@@ -5,7 +5,7 @@ import { filter, map, Observable } from 'rxjs';
 
 import { Role } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
-import { canManageInstitution, canManageRegion } from '../../../admin-tools.guard';
+import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
 @Injectable({
   providedIn: 'root'

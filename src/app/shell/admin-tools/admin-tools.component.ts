@@ -4,7 +4,7 @@ import { Observable, Subject, takeUntil } from 'rxjs';
 
 import { Role } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
-import { canManageInstitution, canManageRegion } from './admin-tools.guard';
+import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
 @Component({
   selector: 'app-admin-tools',

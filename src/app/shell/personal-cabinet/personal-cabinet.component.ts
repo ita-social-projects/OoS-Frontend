@@ -8,8 +8,8 @@ import { ApplicationStatuses } from 'shared/enum/statuses';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
 import { Util } from 'shared/utils/utils';
-import { isRoleAdmin } from '../admin-tools/admin-tools.guard';
 
 @Component({
   selector: 'app-personal-cabinet',

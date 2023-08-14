@@ -3,8 +3,9 @@ import { CanLoad, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+
 import { RegistrationState } from 'shared/store/registration.state';
-import { canManageRegion } from '../../admin-tools.guard';
+import { canManageRegion } from 'shared/utils/admin.utils';
 
 @Injectable({
   providedIn: 'root'

@@ -6,8 +6,8 @@ import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { TerritorialCommunityAdmin } from 'shared/models/territorialCommunityAdmin.model';
-import { TerritorialCommunityAdminService } from 'shared/services/territorial-community-admin/territorial-community-admin.service';
+import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { EMPTY_RESULT } from '../constants/constants';
 import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { SnackbarText } from '../enum/enumUA/messageBer';
@@ -35,24 +35,24 @@ import {
   BlockMinistryAdminById,
   BlockProviderById,
   BlockRegionAdminById,
-  BlockTerritorialCommunityAdminById,
+  BlockAreaAdminById,
   CreateAdmin,
   CreateDirection,
   CreateMinistryAdmin,
   CreateRegionAdmin,
-  CreateTerritorialCommunityAdmin,
+  CreateAreaAdmin,
   DeleteAdminById,
   DeleteDirectionById,
   DeleteMinistryAdminById,
   DeleteRegionAdminById,
-  DeleteTerritorialCommunityAdminById,
+  DeleteAreaAdminById,
   DownloadStatisticReport,
   GetAboutPortal,
   GetAdminById,
   GetAllAdmins,
   GetAllMinistryAdmins,
   GetAllRegionAdmins,
-  GetAllTerritorialCommunityAdmins,
+  GetAllAreaAdmins,
   GetApplicationHistory,
   GetChildrenForAdmin,
   GetDirectionById,
@@ -69,8 +69,8 @@ import {
   GetRegionAdminProfile,
   GetStatisticReports,
   GetSupportInformation,
-  GetTerritorialCommunityAdminById,
-  GetTerritorialCommunityAdminProfile,
+  GetAreaAdminById,
+  GetAreaAdminProfile,
   OnBlockFail,
   OnBlockSuccess,
   OnCreateDirectionFail,
@@ -79,16 +79,16 @@ import {
   OnCreateMinistryAdminSuccess,
   OnCreateRegionAdminFail,
   OnCreateRegionAdminSuccess,
-  OnCreateTerritorialCommunityAdminFail,
-  OnCreateTerritorialCommunityAdminSuccess,
+  OnCreateAreaAdminFail,
+  OnCreateAreaAdminSuccess,
   OnDeleteDirectionFail,
   OnDeleteDirectionSuccess,
   OnDeleteMinistryAdminFail,
   OnDeleteMinistryAdminSuccess,
   OnDeleteRegionAdminFail,
   OnDeleteRegionAdminSuccess,
-  OnDeleteTerritorialCommunityAdminFail,
-  OnDeleteTerritorialCommunityAdminSuccess,
+  OnDeleteAreaAdminFail,
+  OnDeleteAreaAdminSuccess,
   OnUpdateDirectionFail,
   OnUpdateDirectionSuccess,
   OnUpdateMinistryAdminFail,
@@ -97,14 +97,14 @@ import {
   OnUpdatePlatformInfoSuccess,
   OnUpdateRegionAdminFail,
   OnUpdateRegionAdminSuccess,
-  OnUpdateTerritorialCommunityAdminFail,
-  OnUpdateTerritorialCommunityAdminSuccess,
+  OnUpdateAreaAdminFail,
+  OnUpdateAreaAdminSuccess,
   UpdateAdmin,
   UpdateDirection,
   UpdateMinistryAdmin,
   UpdatePlatformInfo,
   UpdateRegionAdmin,
-  UpdateTerritorialCommunityAdmin
+  UpdateAreaAdmin
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -249,7 +249,7 @@ export class AdminState {
     private providerService: ProviderService,
     private ministryAdminService: MinistryAdminService,
     private regionAdminService: RegionAdminService,
-    private territorialCommunityAdminService: TerritorialCommunityAdminService,
+    private areaAdminService: AreaAdminService,
     private router: Router,
     private location: Location,
     private store: Store
@@ -565,7 +565,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        dispatch(new GetAllTerritorialCommunityAdmins(parameters));
+        dispatch(new GetAllAreaAdmins(parameters));
         break;
       }
       default: {
@@ -586,7 +586,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        dispatch(new GetTerritorialCommunityAdminById(payload));
+        dispatch(new GetAreaAdminById(payload));
         break;
       }
       default: {
@@ -607,7 +607,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        dispatch(new CreateTerritorialCommunityAdmin(payload as TerritorialCommunityAdmin));
+        dispatch(new CreateAreaAdmin(payload as AreaAdmin));
         break;
       }
       default: {
@@ -628,7 +628,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        dispatch(new UpdateTerritorialCommunityAdmin(payload as TerritorialCommunityAdmin));
+        dispatch(new UpdateAreaAdmin(payload as AreaAdmin));
         break;
       }
       default: {
@@ -649,7 +649,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        dispatch(new DeleteTerritorialCommunityAdminById(payload));
+        dispatch(new DeleteAreaAdminById(payload));
         break;
       }
       default: {
@@ -670,7 +670,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        dispatch(new BlockTerritorialCommunityAdminById(payload));
+        dispatch(new BlockAreaAdminById(payload));
         break;
       }
       default: {
@@ -987,14 +987,14 @@ export class AdminState {
     ]);
   }
 
-  @Action(GetAllTerritorialCommunityAdmins)
-  getAllTerritorialCommunityAdmins(
+  @Action(GetAllAreaAdmins)
+  getAllAreaAdmins(
     { patchState }: StateContext<AdminStateModel>,
-    { parameters }: GetAllTerritorialCommunityAdmins
-  ): Observable<SearchResponse<TerritorialCommunityAdmin[]>> {
+    { parameters }: GetAllAreaAdmins
+  ): Observable<SearchResponse<AreaAdmin[]>> {
     patchState({ isLoading: true });
-    return this.territorialCommunityAdminService.getAllAdmin(parameters).pipe(
-      tap((admins: SearchResponse<TerritorialCommunityAdmin[]>) =>
+    return this.areaAdminService.getAllAdmin(parameters).pipe(
+      tap((admins: SearchResponse<AreaAdmin[]>) =>
         patchState({
           admins: admins ?? EMPTY_RESULT,
           isLoading: false
@@ -1003,43 +1003,43 @@ export class AdminState {
     );
   }
 
-  @Action(GetTerritorialCommunityAdminById)
-  getTerritorialCommunityAdminById(
+  @Action(GetAreaAdminById)
+  getAreaAdminById(
     { patchState }: StateContext<AdminStateModel>,
-    { payload }: GetTerritorialCommunityAdminById
-  ): Observable<TerritorialCommunityAdmin> {
+    { payload }: GetAreaAdminById
+  ): Observable<AreaAdmin> {
     patchState({ isLoading: true });
-    return this.territorialCommunityAdminService
+    return this.areaAdminService
       .getAdminById(payload)
-      .pipe(tap((selectedAdmin: TerritorialCommunityAdmin) => patchState({ selectedAdmin, isLoading: false })));
+      .pipe(tap((selectedAdmin: AreaAdmin) => patchState({ selectedAdmin, isLoading: false })));
   }
 
-  @Action(GetTerritorialCommunityAdminProfile)
-  getTerritorialCommunityAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<TerritorialCommunityAdmin> {
+  @Action(GetAreaAdminProfile)
+  getAreaAdminProfile({ patchState }: StateContext<AdminStateModel>): Observable<AreaAdmin> {
     patchState({ isLoading: true });
-    return this.territorialCommunityAdminService.getAdminProfile().pipe(
-      tap((selectedTerritorialCommunityAdmin: TerritorialCommunityAdmin) =>
+    return this.areaAdminService.getAdminProfile().pipe(
+      tap((selectedAreaAdmin: AreaAdmin) =>
         patchState({
-          selectedAdmin: selectedTerritorialCommunityAdmin,
+          selectedAdmin: selectedAreaAdmin,
           isLoading: false
         })
       )
     );
   }
 
-  @Action(CreateTerritorialCommunityAdmin)
-  createTerritorialCommunityAdmin(
+  @Action(CreateAreaAdmin)
+  createAreaAdmin(
     { dispatch }: StateContext<AdminState>,
-    { payload }: CreateTerritorialCommunityAdmin
-  ): Observable<TerritorialCommunityAdmin | Observable<void>> {
-    return this.territorialCommunityAdminService.createAdmin(payload).pipe(
-      tap(() => dispatch(new OnCreateTerritorialCommunityAdminSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateTerritorialCommunityAdminFail(error))))
+    { payload }: CreateAreaAdmin
+  ): Observable<AreaAdmin | Observable<void>> {
+    return this.areaAdminService.createAdmin(payload).pipe(
+      tap(() => dispatch(new OnCreateAreaAdminSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateAreaAdminFail(error))))
     );
   }
 
-  @Action(OnCreateTerritorialCommunityAdminFail)
-  onCreateTerritorialCommunityAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateTerritorialCommunityAdminFail): void {
+  @Action(OnCreateAreaAdminFail)
+  onCreateAreaAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateAreaAdminFail): void {
     const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
     dispatch(
       new ShowMessageBar({
@@ -1049,8 +1049,8 @@ export class AdminState {
     );
   }
 
-  @Action(OnCreateTerritorialCommunityAdminSuccess)
-  onCreateTerritorialCommunityAdminSuccess({ dispatch }: StateContext<AdminState>): void {
+  @Action(OnCreateAreaAdminSuccess)
+  onCreateAreaAdminSuccess({ dispatch }: StateContext<AdminState>): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.createAdminSuccess,
@@ -1061,21 +1061,21 @@ export class AdminState {
     this.router.navigate(['/admin-tools/data/admins']);
   }
 
-  @Action(UpdateTerritorialCommunityAdmin)
-  updateTerritorialCommunityAdmin(
+  @Action(UpdateAreaAdmin)
+  updateAreaAdmin(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: UpdateTerritorialCommunityAdmin
-  ): Observable<TerritorialCommunityAdmin | Observable<void>> {
-    return this.territorialCommunityAdminService.updateAdmin(payload).pipe(
-      tap((res: TerritorialCommunityAdmin) => dispatch(new OnUpdateTerritorialCommunityAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateTerritorialCommunityAdminFail(error))))
+    { payload }: UpdateAreaAdmin
+  ): Observable<AreaAdmin | Observable<void>> {
+    return this.areaAdminService.updateAdmin(payload).pipe(
+      tap((res: AreaAdmin) => dispatch(new OnUpdateAreaAdminSuccess(res))),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateAreaAdminFail(error))))
     );
   }
 
-  @Action(OnUpdateTerritorialCommunityAdminFail)
-  onUpdateTerritorialCommunityAdminFail(
+  @Action(OnUpdateAreaAdminFail)
+  onUpdateAreaAdminFail(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnUpdateTerritorialCommunityAdminFail
+    { payload }: OnUpdateAreaAdminFail
   ): void {
     dispatch(
       new ShowMessageBar({
@@ -1085,8 +1085,8 @@ export class AdminState {
     );
   }
 
-  @Action(OnUpdateTerritorialCommunityAdminSuccess)
-  onUpdateTerritorialCommunityAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+  @Action(OnUpdateAreaAdminSuccess)
+  onUpdateAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
     dispatch([
       new MarkFormDirty(false),
       new ShowMessageBar({
@@ -1097,56 +1097,56 @@ export class AdminState {
     this.router.navigate(['/admin-tools/data/admins'], { queryParams: { role: AdminRoles.areaAdmin } });
   }
 
-  @Action(DeleteTerritorialCommunityAdminById)
-  deleteTerritorialCommunityAdminById(
+  @Action(DeleteAreaAdminById)
+  deleteAreaAdminById(
     { dispatch }: StateContext<AdminStateModel>,
     { payload }: DeleteMinistryAdminById
   ): Observable<void | Observable<void>> {
-    return this.territorialCommunityAdminService.deleteAdmin(payload).pipe(
-      tap(() => dispatch(new OnDeleteTerritorialCommunityAdminSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteTerritorialCommunityAdminFail(error))))
+    return this.areaAdminService.deleteAdmin(payload).pipe(
+      tap(() => dispatch(new OnDeleteAreaAdminSuccess())),
+      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteAreaAdminFail(error))))
     );
   }
 
-  @Action(OnDeleteTerritorialCommunityAdminFail)
-  onDeleteTerritorialCommunityAdminFail(
+  @Action(OnDeleteAreaAdminFail)
+  onDeleteAreaAdminFail(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnDeleteTerritorialCommunityAdminFail
+    { payload }: OnDeleteAreaAdminFail
   ): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
-  @Action(OnDeleteTerritorialCommunityAdminSuccess)
-  onDeleteTerritorialCommunityAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+  @Action(OnDeleteAreaAdminSuccess)
+  onDeleteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.deleteAdmin,
         type: 'success'
       }),
-      new GetAllTerritorialCommunityAdmins()
+      new GetAllAreaAdmins()
     ]);
   }
 
-  @Action(BlockTerritorialCommunityAdminById)
-  blockTerritorialCommunityAdmin(
+  @Action(BlockAreaAdminById)
+  blockAreaAdmin(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: BlockTerritorialCommunityAdminById
+    { payload }: BlockAreaAdminById
   ): Observable<void | Observable<void>> {
-    return this.territorialCommunityAdminService.blockAdmin(payload.adminId, payload.isBlocked).pipe(
-      tap(() => dispatch([new OnBlockSuccess(payload), new GetAllTerritorialCommunityAdmins()])),
+    return this.areaAdminService.blockAdmin(payload.adminId, payload.isBlocked).pipe(
+      tap(() => dispatch([new OnBlockSuccess(payload), new GetAllAreaAdmins()])),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
     );
   }
 
   @Action(OnBlockFail)
-  onBlockTerritorialCommunityAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockFail): void {
+  onBlockAreaAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnBlockFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnBlockSuccess)
-  onBlockTerritorialCommunityAdminSuccess(
+  onBlockAreaAdminSuccess(
     { dispatch }: StateContext<AdminStateModel>,
-    { payload }: BlockTerritorialCommunityAdminById
+    { payload }: BlockAreaAdminById
   ): void {
     dispatch([
       new ShowMessageBar({
