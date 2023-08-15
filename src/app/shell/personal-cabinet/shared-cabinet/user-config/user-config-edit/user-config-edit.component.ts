@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, throttleTime } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
@@ -24,20 +24,22 @@ import { CreateFormComponent } from '../../create-form/create-form.component';
   styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly role = Role;
-  readonly validationConstants = ValidationConstants;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly role = Role;
+  public readonly validationConstants = ValidationConstants;
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
   private subRole: Role;
+  private dispatchSubject = new Subject<void>();
 
-  user: User;
-  userEditFormGroup: FormGroup;
-  userRole: Role;
-  maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
-  minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  public isDispatching = false;
+  public user: User;
+  public userEditFormGroup: FormGroup;
+  public userRole: Role;
+  public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
+  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
   constructor(
     protected route: ActivatedRoute,
@@ -74,6 +76,13 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
+    this.dispatchSubject
+      .pipe(throttleTime(1000))
+      .subscribe(() => {
+        const user = new User(this.userEditFormGroup.value, this.user.id);
+        this.store.dispatch(new UpdateUser(user));
+      });
+
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
       this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
       this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
@@ -116,8 +125,11 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public onSubmit(): void {
-    const user = new User(this.userEditFormGroup.value, this.user.id);
-    this.store.dispatch(new UpdateUser(user));
+    if (!this.isDispatching) {
+      this.isDispatching = true;
+      this.dispatchSubject.next();
+      this.isDispatching = false;
+    }
   }
 
   public onCancel(): void {
