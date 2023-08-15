@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, Subject, throttleTime } from 'rxjs';
 import { filter, takeUntil, tap } from 'rxjs/operators';
 
 import { ValidationConstants } from 'shared/constants/validation';
@@ -22,25 +22,28 @@ import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
 
   @Select(AdminState.AboutPortal)
-  AboutPortal$: Observable<CompanyInformation>;
+  public AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.MainInformation)
-  MainInformation$: Observable<CompanyInformation>;
+  public MainInformation$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
-  SupportInformation$: Observable<CompanyInformation>;
+  public SupportInformation$: Observable<CompanyInformation>;
   @Select(AdminState.LawsAndRegulations)
-  LawsAndRegulations$: Observable<CompanyInformation>;
+  public LawsAndRegulations$: Observable<CompanyInformation>;
 
-  PlatformInfoItemArray = new FormArray([]);
-  platformInfoEditFormGroup: FormGroup;
-  titleFormControl = new FormControl('', [Validators.required]);
-  editTitle: AdminTabsTitles;
-  platformInfo: CompanyInformation;
+  private dispatchSubject = new Subject<void>();
 
-  platformInfoType: AdminTabTypes;
-  isMainPage: boolean = false;
+  public PlatformInfoItemArray = new FormArray([]);
+  public platformInfoEditFormGroup: FormGroup;
+  public titleFormControl = new FormControl('', [Validators.required]);
+  public editTitle: AdminTabsTitles;
+  public platformInfo: CompanyInformation;
+
+  public platformInfoType: AdminTabTypes;
+  public isMainPage: boolean = false;
+  public isDispatching = false;
 
   constructor(
     protected store: Store,
@@ -54,6 +57,21 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
+
+    this.dispatchSubject
+      .pipe(throttleTime(1000))
+      .subscribe(() => {
+        const platformInfoItemArray: CompanyInformationSectionItem[] = [];
+        this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+          platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
+        );
+
+        const platformInfo = this.editMode
+          ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
+          : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
+
+        this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
+      });
   }
 
   private setInitialData(params: Params): void {
@@ -149,16 +167,9 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   onSubmit(): void {
     if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
-      const platformInfoItemArray: CompanyInformationSectionItem[] = [];
-      this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-        platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
-      );
-
-      const platformInfo = this.editMode
-        ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
-        : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
-
-      this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
+      this.isDispatching = true;
+      this.dispatchSubject.next();
+      this.isDispatching = false;
     }
   }
 
