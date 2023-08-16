@@ -6,35 +6,33 @@ import { TranslateService as NgxTranslateService } from '@ngx-translate/core';
   name: 'translateCases',
   pure: false
 })
-
-export class TranslateCasesPipe implements PipeTransform  {
-  translateKey : string;
+export class TranslateCasesPipe implements PipeTransform {
+  translateKey: string;
   private translation: any;
   private _translateService: any;
 
   constructor(translateService: NgxTranslateService) {
-    this._translateService = translateService
+    this._translateService = translateService;
   }
 
-  transform(count: number, enumTranslate): string {
+  transform(count: number, enumTranslate: any): string {
     const countLastStr = count?.toString().slice(-1);
     let countNum = count?.toString();
-    if (count === 0) {
-      countNum = '0';
+
+    if (count === 0 || (count >= 11 && count <= 14)) {
       this.translateKey = enumTranslate[2];
     } else if (countLastStr === '1') {
       this.translateKey = enumTranslate[0];
-    } else if (countLastStr === '2' || countLastStr === '3' || countLastStr ==='4') {
+    } else if (countLastStr === '2' || countLastStr === '3' || countLastStr === '4') {
       this.translateKey = enumTranslate[1];
-    } else if(enumTranslate){
+    } else if (enumTranslate) {
       this.translateKey = enumTranslate[2];
     } else {
-       return '';
+      return '';
     }
 
-    this.translation = this._translateService.instant(this.translateKey)
+    this.translation = this._translateService.instant(this.translateKey);
 
-    return `${countNum} ${this.translation}`
+    return `${countNum} ${this.translation}`;
   }
-
 }

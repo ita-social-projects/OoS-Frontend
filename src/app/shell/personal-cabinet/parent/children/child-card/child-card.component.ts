@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Child } from '../../../../../shared/models/child.model';
-import { Constants } from '../../../../../shared/constants/constants';
-import { Util } from '../../../../../shared/utils/utils';
-import { YearDeclination } from '../../../../../shared/enum/enumUA/declinations/declination';
+
+import { Constants } from 'shared/constants/constants';
+import { YearDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { Child } from 'shared/models/child.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-child-card',
@@ -13,7 +14,7 @@ export class ChildCardComponent implements OnInit {
   readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   readonly constants = Constants;
   readonly YearDeclination = YearDeclination;
-  
+
   @Input() child: Child;
 
   @Output() deleteChild = new EventEmitter<Child>();
