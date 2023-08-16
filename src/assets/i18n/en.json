@@ -675,7 +675,8 @@
       "ERROR_500": "Server error",
       "ERROR_MAIL": "Check the data entered. A user with this email already exists",
       "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique",
-      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map."
+      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
+      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings."
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_PARENT": "Specify the blocking reason",

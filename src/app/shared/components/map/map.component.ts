@@ -122,6 +122,14 @@ export class MapComponent implements AfterViewInit, OnDestroy {
             ? this.geolocationService.confirmCity(result, true)
             : this.geolocationService.confirmCity(result, false);
         });
+      } else {
+        this.store.dispatch(
+          new ShowMessageBar({
+            message: SnackbarText.geolocationWarning,
+            type: 'warningYellow',
+            infinityDuration: true
+          })
+        );
       }
     });    
   }
