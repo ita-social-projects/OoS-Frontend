@@ -77,6 +77,13 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     popupAnchor: [-3, -76],
     iconUrl: '/assets/icons/user_dot.svg'
   });
+  private geolocationMarkerIcon: Layer.Icon = Layer.icon({
+    iconSize: [40, 40],
+    shadowSize: [0, 0],
+    iconAnchor: [10, 41],
+    popupAnchor: [9, -40],
+    iconUrl: '/assets/icons/geolocation-marker.svg'
+  });
 
   constructor(private geocoderService: GeocoderService, private store: Store, private geolocationService: GeolocationService) {}
 
@@ -155,6 +162,10 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       tms: true,
       attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
+
+    const geolocationMarker = Layer.marker([50.4664952, 30.6314882], {icon: this.geolocationMarkerIcon, zIndexOffset: 100});
+    geolocationMarker.addTo(this.map);
+    geolocationMarker.bindPopup('<p>Ви зараз тут</p>').openPopup();
 
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
       if (this.workshops) {
