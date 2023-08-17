@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, throttleTime } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
@@ -77,10 +77,13 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public ngOnInit(): void {
     this.dispatchSubject
-      .pipe(throttleTime(1000))
+      .pipe(throttleTime(1000),
+        switchMap(() => {
+          const user = new User(this.userEditFormGroup.value, this.user.id);
+          return this.store.dispatch(new UpdateUser(user));
+        }))
       .subscribe(() => {
-        const user = new User(this.userEditFormGroup.value, this.user.id);
-        this.store.dispatch(new UpdateUser(user));
+        this.isDispatching = false;
       });
 
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
@@ -128,7 +131,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
     if (!this.isDispatching) {
       this.isDispatching = true;
       this.dispatchSubject.next();
-      this.isDispatching = false;
     }
   }
 

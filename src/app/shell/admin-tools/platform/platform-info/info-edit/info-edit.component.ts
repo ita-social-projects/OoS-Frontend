@@ -3,7 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, throttleTime } from 'rxjs';
-import { filter, takeUntil, tap } from 'rxjs/operators';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { ValidationConstants } from 'shared/constants/validation';
 import { AdminTabTypes } from 'shared/enum/admins';
@@ -59,18 +59,21 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
 
     this.dispatchSubject
-      .pipe(throttleTime(1000))
+      .pipe(throttleTime(1000),
+        switchMap(() => {
+          const platformInfoItemArray: CompanyInformationSectionItem[] = [];
+          this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+            platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
+          );
+
+          const platformInfo = this.editMode
+            ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
+            : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
+
+          return this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
+        }))
       .subscribe(() => {
-        const platformInfoItemArray: CompanyInformationSectionItem[] = [];
-        this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-          platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
-        );
-
-        const platformInfo = this.editMode
-          ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
-          : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
-
-        this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
+        this.isDispatching = false;
       });
   }
 
@@ -95,7 +98,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
             isActive: false,
             disable: false
           },
-          { name: `Редагувати інформацію "${NavBarName[this.platformInfoType]}"`, isActive: false, disable: true }
+          { name: `${NavBarName[this.platformInfoType]}`, isActive: false, disable: true }
         )
       )
     );
@@ -169,7 +172,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
       this.isDispatching = true;
       this.dispatchSubject.next();
-      this.isDispatching = false;
     }
   }
 
