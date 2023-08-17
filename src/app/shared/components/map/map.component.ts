@@ -94,6 +94,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
+    this.setCurrentGeolocation();
     this.settlement$
       .pipe(
         takeUntil(this.destroy$),
@@ -124,6 +125,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   public setCurrentGeolocation(): void {
     this.geolocationService.handleUserLocation((coords: Coords) => {
       if (coords) {
+        this.setGeolocationMarkerOnMap(coords);
         this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
           (this.geolocationService.getCityFromStorage().id === result.id)
             ? this.geolocationService.confirmCity(result, true)
@@ -163,10 +165,6 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
 
-    const geolocationMarker = Layer.marker([50.4664952, 30.6314882], {icon: this.geolocationMarkerIcon, zIndexOffset: 100});
-    geolocationMarker.addTo(this.map);
-    geolocationMarker.bindPopup('<p>Ви зараз тут</p>').openPopup();
-
     this.map.on('click', (L: Layer.LeafletMouseEvent) => {
       if (this.workshops) {
         this.unselectMarkers();
@@ -177,6 +175,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     });
   }
 
+  private setGeolocationMarkerOnMap(coords: Coords): void {
+    Layer.marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 100})
+      .addTo(this.map)
+      .bindPopup('<p>Ви зараз тут</p>').openPopup();
+  }
+ 
   private setFilteredWorkshops(): void {
     this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
       this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
