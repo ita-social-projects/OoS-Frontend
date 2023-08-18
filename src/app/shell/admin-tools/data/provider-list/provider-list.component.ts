@@ -386,7 +386,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.providerParameters.size = itemsPerPage;
-    this.getProviders();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   onBlock(provider: Provider): void {

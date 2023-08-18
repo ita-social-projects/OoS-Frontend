@@ -111,7 +111,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.filters.size = itemsPerPage;
-    this.getTableData();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   public onPageChange(page: PaginationElement): void {

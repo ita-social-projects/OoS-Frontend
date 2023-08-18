@@ -2,6 +2,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { PaginationConstants } from "shared/constants/constants";
 import { WorkshopCard } from '../../../shared/models/workshop.model';
 import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
 import { Role } from '../../../shared/enum/role';
@@ -52,7 +53,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
-    this.getWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   ngOnDestroy(): void {

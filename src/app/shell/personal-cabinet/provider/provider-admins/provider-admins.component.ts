@@ -79,7 +79,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.filterParams.size = itemsPerPage;
-    this.getFilteredProviderAdmins();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   /**
