@@ -176,7 +176,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setGeolocationMarkerOnMap(coords: Coords): void {
-    Layer.marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 100})
+    Layer.marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 1})
       .addTo(this.map)
       .bindPopup('<p>Ви зараз тут</p>').openPopup();
   }
@@ -290,7 +290,8 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     return new Layer.Marker(coords, {
       draggable,
       icon: this.unselectedMarkerIcon,
-      riseOnHover: true
+      riseOnHover: true,
+      zIndexOffset: 3
     });
   }
 
