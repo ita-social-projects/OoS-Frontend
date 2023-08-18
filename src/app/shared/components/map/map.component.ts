@@ -1,4 +1,4 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
 import * as Layer from 'leaflet';
 import { FormGroup } from '@angular/forms';
 import { Coords } from '../../models/coords.model';
@@ -7,7 +7,7 @@ import { Workshop, WorkshopCard } from '../../models/workshop.model';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
-import { takeUntil, filter, debounceTime } from 'rxjs/operators';
+import { takeUntil, filter, debounceTime, switchMap } from 'rxjs/operators';
 import { SharedUserState } from '../../store/shared-user.state';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
 import { GeocoderService } from './../../services/geolocation/geocoder.service';
@@ -19,13 +19,14 @@ import { SetCoordsByMap } from '../../store/filter.actions';
 import { ShowMessageBar } from '../../store/app.actions';
 import { SnackbarText } from '../../enum/enumUA/messageBer';
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-map',
   templateUrl: './map.component.html',
   styleUrls: ['./map.component.scss']
 })
-export class MapComponent implements AfterViewInit, OnDestroy {
+export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() addressFormGroup: FormGroup;
   @Input() settelmentFormGroup: FormGroup;
 
@@ -51,6 +52,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   private workshops: WorkshopCard[];
   private customCoords: Coords;
   private userMarker: Layer.Marker;
+  private geolocationMarker: Layer.Marker;
   private userRadius: Layer.Circle;
   private radiusSize: number;
   private unselectedMarkerIcon: Layer.Icon = Layer.icon({
@@ -85,8 +87,12 @@ export class MapComponent implements AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/geolocation-marker.svg'
   });
 
-  constructor(private geocoderService: GeocoderService, private store: Store, private geolocationService: GeolocationService) {}
-
+  constructor(private geocoderService: GeocoderService, private store: Store, private geolocationService: GeolocationService, private translateService: TranslateService) {}
+  
+  ngOnInit(): void {
+    this.changeLanguageOnMarkerPopup();
+  }
+  
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
    * Creates and sets map after div with is "map" renders.
@@ -176,9 +182,25 @@ export class MapComponent implements AfterViewInit, OnDestroy {
   }
 
   private setGeolocationMarkerOnMap(coords: Coords): void {
-    Layer.marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 1})
-      .addTo(this.map)
-      .bindPopup('<p>Ви зараз тут</p>').openPopup();
+    this.geolocationMarker && this.geolocationMarker.remove();
+    this.translateService.get('GEOLOCATION_MARKER_TITLE').pipe(takeUntil(this.destroy$)).subscribe((popupText: string) => {
+      this.geolocationMarker = Layer
+        .marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 1})
+        .addTo(this.map)
+        .bindPopup(`<p>${popupText}</p>`)
+        .openPopup();
+    });
+  }
+
+  private changeLanguageOnMarkerPopup(): void {
+    this.translateService.onLangChange.pipe(
+      takeUntil(this.destroy$),
+      switchMap(() => {
+        return this.translateService.get('GEOLOCATION_MARKER_TITLE');
+      }))
+      .subscribe((translation: string) => {
+        this.geolocationMarker && this.geolocationMarker.setPopupContent(`<p>${translation}</p>`);
+      });
   }
  
   private setFilteredWorkshops(): void {
@@ -306,7 +328,7 @@ export class MapComponent implements AfterViewInit, OnDestroy {
       draggable: true,
       icon: this.userIcon,
       riseOnHover: true,
-      zIndexOffset: 5
+      zIndexOffset: 10
     }).addTo(this.map);
 
     this.userRadius = Layer.circle(this.defaultCoords, {

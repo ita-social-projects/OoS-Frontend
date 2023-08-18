@@ -766,6 +766,8 @@
       }
     }
   },
+  "GEOLOCATION_BUTTON_TITLE": "Find near me",
+  "GEOLOCATION_MARKER_TITLE": "You are here",
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Oops! Page is not found.",
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
