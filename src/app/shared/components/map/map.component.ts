@@ -118,7 +118,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!!this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
-          this.showWarningMessage();
+          this.showWarningMessage(SnackbarText.mapWarning, 'warningBlue', true);
         }
 
         // checking if user edit workshop information to create adress for workshop
@@ -138,13 +138,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
             : this.geolocationService.confirmCity(result, false);
         });
       } else {
-        this.store.dispatch(
-          new ShowMessageBar({
-            message: SnackbarText.geolocationWarning,
-            type: 'warningYellow',
-            infinityDuration: true
-          })
-        );
+        this.showWarningMessage(SnackbarText.geolocationWarning, 'warningYellow', true);
       }
     });    
   }
@@ -376,13 +370,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userRadius.setRadius(num);
   }
 
-  private showWarningMessage(): void {
+  private showWarningMessage(message: SnackbarText, type: string, infinityDuration: boolean): void {
     this.store.dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.mapWarning,
-        type: 'warningBlue',
-        infinityDuration: true
-      })
+      new ShowMessageBar({ message, type, infinityDuration })
     );
   }
 
