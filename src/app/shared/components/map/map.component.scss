@@ -7,21 +7,24 @@
   cursor: grab !important;
 }
 
-.gps-button {
+.geolocation-button {
   width: 34px;
   height: 34px;
   position: absolute;
-  padding: 0; 
+  padding: 2px 0 0; 
   top: 100px; 
   left: 10px; 
   z-index: 1000;
   cursor: pointer;
   background-color: #fff;
-  outline: none;
-  border: 2px #000;
-  border-radius: 2px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 4px;
 
   &:hover {
     background-color: #f4f4f4;
+  }
+
+  @media (max-width: 750px) {
+    top: calc(100vh - 250px);
   }
 }
