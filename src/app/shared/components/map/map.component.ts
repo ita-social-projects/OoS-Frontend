@@ -100,7 +100,6 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
   ngAfterViewInit(): void {
-    this.setCurrentGeolocation();
     this.settlement$
       .pipe(
         takeUntil(this.destroy$),
@@ -126,6 +125,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.setAddress();
         }
       });
+
+    this.setCurrentGeolocation();
   }
 
   public setCurrentGeolocation(): void {
@@ -133,9 +134,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       if (coords) {
         this.setGeolocationMarkerOnMap(coords);
         this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-          (this.geolocationService.getCityFromStorage().id === result.id)
-            ? this.geolocationService.confirmCity(result, true)
-            : this.geolocationService.confirmCity(result, false);
+          if (this.geolocationService.getCityFromStorage()) {
+            (this.geolocationService.getCityFromStorage().id === result.id)
+              ? this.geolocationService.confirmCity(result, true)
+              : this.geolocationService.confirmCity(result, false);
+          } else {
+            this.geolocationService.confirmCity(result, false);
+          }
         });
       } else {
         this.showWarningMessage(SnackbarText.geolocationWarning, 'warningYellow', true);
