@@ -7,7 +7,7 @@ import { Workshop, WorkshopCard } from '../../models/workshop.model';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { Subject } from 'rxjs';
-import { takeUntil, filter, debounceTime, switchMap } from 'rxjs/operators';
+import { takeUntil, filter, debounceTime, switchMap, take, delay } from 'rxjs/operators';
 import { SharedUserState } from '../../store/shared-user.state';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
 import { GeocoderService } from './../../services/geolocation/geocoder.service';
@@ -126,7 +126,13 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
-    this.setCurrentGeolocation();
+    this.settlement$
+      .pipe(        
+        takeUntil(this.destroy$),
+        delay(3000),
+        take(1)
+      )
+      .subscribe(() => this.setCurrentGeolocation());
   }
 
   public setCurrentGeolocation(): void {
