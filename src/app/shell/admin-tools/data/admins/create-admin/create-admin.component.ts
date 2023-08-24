@@ -28,8 +28,8 @@ import { MetaDataState } from 'shared-store/meta-data.state';
 import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
 import { Util } from 'shared-utils/utils';
-import { TerritorialCommunityAdmin } from 'shared/models/territorialCommunityAdmin.model';
-import { AdminFactory } from 'shared/utils/admin.factory';
+import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AdminFactory } from 'shared/utils/admin.utils';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 const defaultValidators: ValidatorFn[] = [
@@ -88,11 +88,11 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     });
     this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
 
-    if (this.isRegionAdmin || this.isTerritorialCommunityAdmin) {
+    if (this.isRegionAdmin || this.isAreaAdmin) {
       this.adminFormGroup.addControl('region', new FormControl(undefined, Validators.required));
     }
 
-    if (this.isTerritorialCommunityAdmin) {
+    if (this.isAreaAdmin) {
       this.adminFormGroup.addControl('territorialCommunity', new FormControl('', Validators.required));
       this.initRegionListener();
     }
@@ -102,7 +102,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(true));
-    if (this.isRegionAdmin || this.isTerritorialCommunityAdmin) {
+    if (this.isRegionAdmin || this.isAreaAdmin) {
       this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
         takeUntil(this.destroy$),
         map((state) => [...state.metaDataState.codeficatorSearch])
@@ -147,7 +147,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     return this.adminRole === AdminRoles.regionAdmin;
   }
 
-  public get isTerritorialCommunityAdmin(): boolean {
+  public get isAreaAdmin(): boolean {
     return this.adminRole === AdminRoles.areaAdmin;
   }
 
@@ -174,8 +174,8 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
           this.fillRegion(admin as RegionAdmin);
         }
 
-        if (this.isTerritorialCommunityAdmin) {
-          this.fillTerritorialCommunity(admin as TerritorialCommunityAdmin);
+        if (this.isAreaAdmin) {
+          this.fillTerritorialCommunity(admin as AreaAdmin);
         }
       });
   }
@@ -190,7 +190,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     );
   }
 
-  private fillTerritorialCommunity(admin: TerritorialCommunityAdmin): void {
+  private fillTerritorialCommunity(admin: AreaAdmin): void {
     this.store
       .dispatch(new GetCodeficatorById(admin.catottgId))
       .pipe(
