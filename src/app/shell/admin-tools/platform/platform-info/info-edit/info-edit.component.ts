@@ -34,6 +34,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   public LawsAndRegulations$: Observable<CompanyInformation>;
 
   private dispatchSubject = new Subject<void>();
+  private defaultThrottleTime = 1000;
 
   public PlatformInfoItemArray = new FormArray([]);
   public platformInfoEditFormGroup: FormGroup;
@@ -59,18 +60,9 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
 
     this.dispatchSubject
-      .pipe(throttleTime(1000),
+      .pipe(throttleTime(this.defaultThrottleTime),
         switchMap(() => {
-          const platformInfoItemArray: CompanyInformationSectionItem[] = [];
-          this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-            platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
-          );
-
-          const platformInfo = this.editMode
-            ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
-            : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
-
-          return this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
+          return this.updatePlatformInfoInStore();
         }))
       .subscribe(() => {
         this.isDispatching = false;
@@ -86,7 +78,20 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.addNavPath();
   }
 
-  addNavPath(): void {
+  private updatePlatformInfoInStore() {
+    const platformInfoItemArray: CompanyInformationSectionItem[] = [];
+    this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+      platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
+    );
+
+    const platformInfo = this.editMode
+      ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
+      : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
+
+    return this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
+  }
+
+  public addNavPath(): void {
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

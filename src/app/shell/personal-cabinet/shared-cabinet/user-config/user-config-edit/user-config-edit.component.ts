@@ -33,6 +33,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   private subRole: Role;
   private dispatchSubject = new Subject<void>();
+  private defaultThrottleTime = 1000;
 
   public isDispatching = false;
   public user: User;
@@ -77,10 +78,9 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public ngOnInit(): void {
     this.dispatchSubject
-      .pipe(throttleTime(1000),
+      .pipe(throttleTime(this.defaultThrottleTime),
         switchMap(() => {
-          const user = new User(this.userEditFormGroup.value, this.user.id);
-          return this.store.dispatch(new UpdateUser(user));
+          return this.updateUserInfoInStore();
         }))
       .subscribe(() => {
         this.isDispatching = false;
@@ -99,6 +99,11 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
       this.subscribeOnDirtyForm(this.userEditFormGroup);
       this.setEditMode();
     });
+  }
+
+  private updateUserInfoInStore() {
+    const user = new User(this.userEditFormGroup.value, this.user.id);
+    return this.store.dispatch(new UpdateUser(user));
   }
 
   public setEditMode(): void {
