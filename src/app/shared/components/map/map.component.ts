@@ -55,6 +55,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private geolocationMarker: Layer.Marker;
   private userRadius: Layer.Circle;
   private radiusSize: number;
+  private delayDuration = 3000;
   private unselectedMarkerIcon: Layer.Icon = Layer.icon({
     iconSize: [25, 25],
     shadowSize: [0, 0],
@@ -129,7 +130,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.settlement$
       .pipe(        
         takeUntil(this.destroy$),
-        delay(3000),
+        delay(this.delayDuration),
         take(1)
       )
       .subscribe(() => this.setCurrentGeolocation());
@@ -141,9 +142,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setGeolocationMarkerOnMap(coords);
         this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
           if (this.geolocationService.getCityFromStorage()) {
-            (this.geolocationService.getCityFromStorage().id === result.id)
-              ? this.geolocationService.confirmCity(result, true)
-              : this.geolocationService.confirmCity(result, false);
+            if (this.geolocationService.getCityFromStorage().id === result.id) {
+              this.geolocationService.confirmCity(result, true);
+            } else {
+              this.geolocationService.confirmCity(result, false);
+            }
           } else {
             this.geolocationService.confirmCity(result, false);
           }
@@ -187,7 +190,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setGeolocationMarkerOnMap(coords: Coords): void {
-    this.geolocationMarker && this.geolocationMarker.remove();
+    if (this.geolocationMarker) {
+      this.geolocationMarker.remove();
+    }
     this.translateService.get('GEOLOCATION_MARKER_TITLE').pipe(takeUntil(this.destroy$)).subscribe((popupText: string) => {
       this.geolocationMarker = Layer
         .marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 1})
@@ -204,7 +209,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         return this.translateService.get('GEOLOCATION_MARKER_TITLE');
       }))
       .subscribe((translation: string) => {
-        this.geolocationMarker && this.geolocationMarker.setPopupContent(`<p>${translation}</p>`);
+        if (this.geolocationMarker) {
+          this.geolocationMarker.setPopupContent(`<p>${translation}</p>`);
+        }
       });
   }
  
