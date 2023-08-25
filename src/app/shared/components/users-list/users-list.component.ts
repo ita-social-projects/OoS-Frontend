@@ -31,7 +31,7 @@ import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() users: Array<object>;
-  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
+  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'region', 'status', 'actions'];
   @Input() isEdit: boolean;
   @Input() statusesTitles: UserStatuses | EmailConfirmationStatuses;
 

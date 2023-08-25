@@ -55,7 +55,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public totalEntities: number;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'status'];
+  public displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'region', 'status'];
   public adminParams: BaseAdminParameters = {
     searchString: '',
     tabTitle: null,
