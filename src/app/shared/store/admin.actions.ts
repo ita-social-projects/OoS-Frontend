@@ -1,11 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
 import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from 'shared/models/admin.model';
-import {
-  TerritorialCommunityAdmin,
-  TerritorialCommunityAdminBlockData,
-  TerritorialCommunityAdminParameters
-} from 'shared/models/territorialCommunityAdmin.model';
+import { AreaAdmin, AreaAdminBlockData, AreaAdminParameters } from 'shared/models/areaAdmin.model';
 import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
@@ -175,7 +171,7 @@ export class GetProviderAdminHistory {
 export class BlockProviderById {
   static readonly type = '[admin] Block Provider';
 
-  constructor(public payload: BlockProviderData, public parameters: MinistryAdminParameters) {}
+  constructor(public payload: BlockProviderData, public parameters: ProviderParameters) {}
 }
 
 export class GetAllAdmins {
@@ -370,82 +366,82 @@ export class BlockRegionAdminById {
   constructor(public payload: RegionAdminBlockData) {}
 }
 
-export class GetAllTerritorialCommunityAdmins {
-  static readonly type = '[admin] Get All Territorial Community Admins';
+export class GetAllAreaAdmins {
+  static readonly type = '[admin] Get All Area Admins';
 
-  constructor(public parameters?: TerritorialCommunityAdminParameters) {}
+  constructor(public parameters?: AreaAdminParameters) {}
 }
 
-export class GetTerritorialCommunityAdminById {
-  static readonly type = '[admin] Get Territorial Community Admin By Id';
+export class GetAreaAdminById {
+  static readonly type = '[admin] Get Area Admin By Id';
 
   constructor(public payload: string) {}
 }
 
-export class GetTerritorialCommunityAdminProfile {
-  static readonly type = '[admin] Get Territorial Community Admin Profile';
+export class GetAreaAdminProfile {
+  static readonly type = '[admin] Get Area Admin Profile';
 
   constructor() {}
 }
 
-export class CreateTerritorialCommunityAdmin {
-  static readonly type = '[admin] Create Territorial Community Admin';
+export class CreateAreaAdmin {
+  static readonly type = '[admin] Create Area Admin';
 
-  constructor(public payload: TerritorialCommunityAdmin) {}
+  constructor(public payload: AreaAdmin) {}
 }
 
-export class OnCreateTerritorialCommunityAdminFail {
-  static readonly type = '[admin] Create Territorial Community Admin Fail';
+export class OnCreateAreaAdminFail {
+  static readonly type = '[admin] Create Area Admin Fail';
 
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class OnCreateTerritorialCommunityAdminSuccess {
-  static readonly type = '[admin] Create Territorial Community Admin Success';
+export class OnCreateAreaAdminSuccess {
+  static readonly type = '[admin] Create Area Admin Success';
 
   constructor() {}
 }
 
-export class UpdateTerritorialCommunityAdmin {
-  static readonly type = '[admin] Update Territorial Community Admin';
+export class UpdateAreaAdmin {
+  static readonly type = '[admin] Update Area Admin';
 
-  constructor(public payload: TerritorialCommunityAdmin) {}
+  constructor(public payload: AreaAdmin) {}
 }
 
-export class OnUpdateTerritorialCommunityAdminFail {
-  static readonly type = '[admin] Update Territorial Community Admin Fail';
+export class OnUpdateAreaAdminFail {
+  static readonly type = '[admin] Update Area Admin Fail';
 
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class OnUpdateTerritorialCommunityAdminSuccess {
-  static readonly type = '[admin] Update Territorial Community Admin Success';
+export class OnUpdateAreaAdminSuccess {
+  static readonly type = '[admin] Update Area Admin Success';
 
-  constructor(public payload: TerritorialCommunityAdmin) {}
+  constructor(public payload: AreaAdmin) {}
 }
 
-export class DeleteTerritorialCommunityAdminById {
-  static readonly type = '[admin] Delete Territorial Community Admin';
+export class DeleteAreaAdminById {
+  static readonly type = '[admin] Delete Area Admin';
 
   constructor(public payload: string) {}
 }
 
-export class OnDeleteTerritorialCommunityAdminSuccess {
-  static readonly type = '[admin] Delete Territorial Community Admin Success';
+export class OnDeleteAreaAdminSuccess {
+  static readonly type = '[admin] Delete Area Admin Success';
 
   constructor() {}
 }
 
-export class OnDeleteTerritorialCommunityAdminFail {
-  static readonly type = '[admin] Delete Territorial Community Admin Fail';
+export class OnDeleteAreaAdminFail {
+  static readonly type = '[admin] Delete Area Admin Fail';
 
   constructor(public payload: HttpErrorResponse) {}
 }
 
-export class BlockTerritorialCommunityAdminById {
-  static readonly type = '[admin] Block Territorial Community Admin';
+export class BlockAreaAdminById {
+  static readonly type = '[admin] Block Area Admin';
 
-  constructor(public payload: TerritorialCommunityAdminBlockData) {}
+  constructor(public payload: AreaAdminBlockData) {}
 }
 
 export class OnBlockSuccess {
