@@ -21,7 +21,7 @@ export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0
 export const DATE_REGEX: RegExp = /[^0-9./-]*/g;
 
 // Regex for street name
-export const STREET_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`\s-]+[А-Яа-яЇїІіЄєЁёҐґ'’`\s(\d)]?$/;
+export const STREET_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`.\s-]*(?:\s*\([^()]+\))?\s*$/;
 
 // Regex for house number
 export const HOUSE_REGEX: RegExp = /^(?!.*\d[\/\-]$)\d+(?:[А-Яа-яЇїІіЄєЁёҐґ]*)?(?:[\/\-][\dА-Яа-яЇїІіЄєЁёҐґ]+(?:[А-Яа-яЇїІіЄєЁёҐґ]+)*)?(?:\s+[А-Яа-яЇїІіЄєЁёҐґ]*\.\s*[0-9А-Яа-яЇїІіЄєЁёҐґ]+\s*)?$/;
