@@ -436,9 +436,10 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       this.regionFormControl.reset('');
       this.areaFormControl.reset('');
 
-      this.areaFormControl.disable();
-
-      this.store.dispatch(new ClearCodeficatorSearch());
+      if (!this.isRegionAdmin) {
+        this.areaFormControl.disable();
+        this.store.dispatch(new ClearCodeficatorSearch());
+      }
 
       this.setProviderFilterByDefault();
       this.getProviders();

@@ -32,6 +32,10 @@ export class GeolocationService {
     return !!localStorage.getItem('cityConfirmation');
   }
 
+  getCityFromStorage(): Codeficator {
+    return JSON.parse(localStorage.getItem('cityConfirmation'));
+  }
+
   /**
    * gets user location
    * renders Kyiv map by default in case user denies Geolocation
