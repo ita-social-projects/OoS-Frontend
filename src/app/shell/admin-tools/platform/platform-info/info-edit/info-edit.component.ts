@@ -60,13 +60,11 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
 
     this.dispatchSubject
-      .pipe(throttleTime(this.defaultThrottleTime),
-        switchMap(() => {
-          return this.updatePlatformInfoInStore();
-        }))
-      .subscribe(() => {
-        this.isDispatching = false;
-      });
+      .pipe(
+        throttleTime(this.defaultThrottleTime),
+        switchMap(() => this.updatePlatformInfoInStore())
+      )
+      .subscribe(() => this.isDispatching = false);
   }
 
   private setInitialData(params: Params): void {

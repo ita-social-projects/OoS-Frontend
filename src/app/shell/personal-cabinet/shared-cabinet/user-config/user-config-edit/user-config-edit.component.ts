@@ -78,13 +78,11 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public ngOnInit(): void {
     this.dispatchSubject
-      .pipe(throttleTime(this.defaultThrottleTime),
-        switchMap(() => {
-          return this.updateUserInfoInStore();
-        }))
-      .subscribe(() => {
-        this.isDispatching = false;
-      });
+      .pipe(
+        throttleTime(this.defaultThrottleTime),
+        switchMap(() => this.updateUserInfoInStore())
+      )
+      .subscribe(() => this.isDispatching = false);
 
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
       this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
