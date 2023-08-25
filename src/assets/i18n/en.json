@@ -677,7 +677,8 @@
       "ERROR_500": "Server error",
       "ERROR_MAIL": "Check the data entered. A user with this email already exists",
       "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique",
-      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map."
+      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
+      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings."
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_PARENT": "Specify the blocking reason",
@@ -767,6 +768,8 @@
       }
     }
   },
+  "GEOLOCATION_BUTTON_TITLE": "Find near me",
+  "GEOLOCATION_MARKER_TITLE": "You are here",
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Oops! Page is not found.",
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
