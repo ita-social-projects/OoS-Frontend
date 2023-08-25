@@ -126,7 +126,7 @@ export class ReviewsComponent implements OnInit, OnDestroy {
 
   public itemsPerPageChange(itemsPerPage: number): void {
     this.rateParameters.size = itemsPerPage;
-    this.getRates();
+    this.pageChange(PaginationConstants.firstPage);
   }
 
   public pageChange(page: PaginationElement): void {

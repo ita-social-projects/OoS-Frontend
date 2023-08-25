@@ -99,9 +99,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   }
 
   onItemsPerPageChange(itemsPerPage: number) {
-    this.currentPage = PaginationConstants.firstPage;
     this.workshopCardParameters.size = itemsPerPage;
-    this.getProviderWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   private getProviderWorkshops(): void {

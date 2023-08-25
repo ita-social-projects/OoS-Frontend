@@ -3,6 +3,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetec
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+import { PaginationConstants } from "shared/constants/constants";
 import { SearchResponse } from '../../../shared/models/search.model';
 import { Role } from '../../../shared/enum/role';
 import { Address } from '../../../shared/models/address.model';
@@ -129,7 +130,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
-    this.getWorkshopsOnPage();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   ngOnDestroy(): void {

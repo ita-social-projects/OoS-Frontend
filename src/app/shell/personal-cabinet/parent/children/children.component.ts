@@ -73,7 +73,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.childrenParameters.size = itemsPerPage;
-    this.getChildrens();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   onPageChange(page: PaginationElement): void {

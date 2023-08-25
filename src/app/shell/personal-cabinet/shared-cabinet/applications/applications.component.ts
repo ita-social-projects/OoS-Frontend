@@ -135,7 +135,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.applicationParams.size = itemsPerPage;
-    this.getApplicationData();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   public ngOnDestroy(): void {

@@ -68,7 +68,7 @@ export class StatisticsComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.statisticParameters.size = itemsPerPage;
-    this.getReports();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   onPageChange(page: PaginationElement): void {
