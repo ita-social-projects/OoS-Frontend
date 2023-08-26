@@ -113,7 +113,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   onTableItemsPerPageChange(itemsPerPage: number): void {
     this.childrenParams.size = itemsPerPage;
-    this.getChildren();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   ngOnDestroy(): void {

@@ -41,7 +41,7 @@
         class="btn"
         mat-button
         type="submit"
-        [disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid"
+        [disabled]="PlatformInfoItemArray.invalid || titleFormControl.invalid || isDispatching"
         (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>

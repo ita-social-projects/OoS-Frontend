@@ -88,7 +88,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
-      <button [disabled]="!userEditFormGroup.valid" class="btn" mat-button type="submit" (click)="onSubmit()">
+      <button [disabled]="!userEditFormGroup.valid || isDispatching" class="btn" mat-button type="submit" (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>

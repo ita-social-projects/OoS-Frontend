@@ -148,7 +148,7 @@ export class MessagesComponent extends CabinetDataComponent {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.chatRoomsParameters.size = itemsPerPage;
-    this.getChatRooms();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   onPageChange(page: PaginationElement): void {

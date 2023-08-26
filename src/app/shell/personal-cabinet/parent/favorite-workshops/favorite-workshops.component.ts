@@ -75,7 +75,7 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
 
   public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
-    this.getWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   private getWorkshops(): void {

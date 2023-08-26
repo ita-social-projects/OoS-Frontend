@@ -93,7 +93,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number) {
     this.achievementParameters.size = itemsPerPage;
-    this.getAchievements();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   private getAchievements(): void {
