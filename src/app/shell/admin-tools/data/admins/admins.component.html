@@ -35,10 +35,10 @@
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
       </mat-tab>
       <mat-tab *ngIf="canManageInstitution(role)" label="{{ AdminRolesTitles.regionAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.regionAdmin }"></ng-container>
       </mat-tab>
       <mat-tab *ngIf="canManageRegion(role)" label="{{ AdminRolesTitles.areaAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.areaAdmin }"></ng-container>
       </mat-tab>
     </mat-tab-group>
   </div>
@@ -50,6 +50,7 @@
       <div class="table-wrapper">
         <app-users-list [statusesTitles]="statusesTitles"
                         [users]="admins"
+                        [adminType]="adminType"
                         [isEdit]="true"
                         [displayedColumns]="displayedColumns"
                         (delete)="onDelete($event)"
