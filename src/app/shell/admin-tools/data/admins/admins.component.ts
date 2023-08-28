@@ -248,9 +248,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
   }
 
   public onItemsPerPageChange(itemsPerPage: number): void {
-    this.currentPage = PaginationConstants.firstPage;
     this.adminParams.size = itemsPerPage;
-    this.getAdmins();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   public ngOnDestroy(): void {

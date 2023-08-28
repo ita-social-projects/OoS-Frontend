@@ -55,7 +55,7 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number) {
     this.providerParameters.size = itemsPerPage;
-    this.getWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   private getWorkshops(): void {
