@@ -103,7 +103,8 @@ export class Util {
         email: admin.email,
         phoneNumber: admin.phoneNumber,
         institutionTitle: admin.institutionTitle,
-        status: admin.accountStatus || UserStatuses.Accepted
+        status: admin.accountStatus || UserStatuses.Accepted,
+        catottgName: admin.catottgName,
       });
     });
     return updatedAdmins;
