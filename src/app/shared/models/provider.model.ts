@@ -11,6 +11,7 @@ export interface BlockProviderData {
   id: string;
   isBlocked?: boolean;
   blockReason?: string;
+  phoneNumber?: string;
 }
 
 export class Provider implements BlockProviderData {

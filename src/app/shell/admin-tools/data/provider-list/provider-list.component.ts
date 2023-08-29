@@ -23,27 +23,18 @@ import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { SearchResponse } from 'shared/models/search.model';
 import { MatDialog } from '@angular/material/dialog';
-import {
-  ReasonModalWindowComponent
-} from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import {
-  ConfirmationModalWindowComponent
-} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { DeleteProviderById, UpdateProviderLicenseStatuse, UpdateProviderStatus } from 'shared/store/provider.actions';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { Util } from 'shared/utils/utils';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Institution } from 'shared/models/institution.model';
-import {
-  ClearCodeficatorSearch,
-  GetAllInstitutions,
-  GetCodeficatorById,
-  GetCodeficatorSearch
-} from 'shared/store/meta-data.actions';
+import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { FilterState } from 'shared/store/filter.state';
@@ -119,14 +110,16 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   };
   public regions$: Observable<Codeficator[]>;
 
-  constructor(private liveAnnouncer: LiveAnnouncer,
-              protected route: ActivatedRoute,
-              private store: Store,
-              private matDialog: MatDialog,
-              private formBuilder: FormBuilder) {}
+  constructor(
+    private liveAnnouncer: LiveAnnouncer,
+    protected route: ActivatedRoute,
+    private store: Store,
+    private matDialog: MatDialog,
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
-    this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => this.selectedAdmin = admin);
+    this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => (this.selectedAdmin = admin));
 
     this.role$
       .pipe(
@@ -187,27 +180,32 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       this.areaFormControl.disable();
     }
     if (this.isRegionAdmin) {
-      this.selectedAdmin$.pipe(
-        takeUntil(this.destroy$),
-        switchMap((admin: RegionAdmin) =>
-          this.store.dispatch(new GetCodeficatorById(admin.catottgId)).pipe(
-            switchMap((state) =>
-              this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
-            )
+      this.selectedAdmin$
+        .pipe(
+          takeUntil(this.destroy$),
+          switchMap((admin: RegionAdmin) =>
+            this.store
+              .dispatch(new GetCodeficatorById(admin.catottgId))
+              .pipe(
+                switchMap((state) =>
+                  this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
+                )
+              )
           )
         )
-      ).subscribe((state) => {
-        const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
+        .subscribe((state) => {
+          const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
 
-        if (category === CodeficatorCategories.Region) {
-          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
-        }
-      });
+          if (category === CodeficatorCategories.Region) {
+            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+          }
+        });
 
-      this.selectedAdmin$.pipe(
-        takeUntil(this.destroy$)
-      ).subscribe((admin: RegionAdmin) =>
-        this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId)));
+      this.selectedAdmin$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((admin: RegionAdmin) =>
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
+        );
     }
   }
 
@@ -228,14 +226,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       });
 
     this.institutionFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(1000),
-        takeUntil(this.destroy$),
-        filter(Boolean)
-      )
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
       .subscribe(() => {
         this.providerParameters.institutionId = this.institutionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
@@ -243,14 +234,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       });
 
     this.regionFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(1000),
-        takeUntil(this.destroy$),
-        filter(Boolean)
-      )
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
       .subscribe((value: Codeficator) => {
         this.providerParameters.catottgId = this.regionFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
@@ -265,14 +249,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       });
 
     this.areaFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(1000),
-        takeUntil(this.destroy$),
-        filter(Boolean)
-      )
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
       .subscribe(() => {
         this.providerParameters.catottgId = this.areaFormControl.value.id;
         this.currentPage = PaginationConstants.firstPage;
@@ -356,10 +333,13 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .pipe(filter(Boolean))
       .subscribe(() =>
         this.store.dispatch(
-          new UpdateProviderLicenseStatuse({
-            providerId,
-            licenseStatus: LicenseStatuses.Approved
-          }, this.providerParameters)
+          new UpdateProviderLicenseStatuse(
+            {
+              providerId,
+              licenseStatus: LicenseStatuses.Approved
+            },
+            this.providerParameters
+          )
         )
       );
   }
@@ -416,13 +396,19 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.blockProvider }
       });
-      dialogRef.afterClosed().subscribe((result: string) => {
+      dialogRef.afterClosed().subscribe((result: { reason: string; phoneNumber: string }) => {
         if (result) {
-          this.store.dispatch(new BlockProviderById({
-            id: provider.id,
-            isBlocked: true,
-            blockReason: result
-          }, this.providerParameters));
+          this.store.dispatch(
+            new BlockProviderById(
+              {
+                id: provider.id,
+                isBlocked: true,
+                blockReason: result.reason,
+                phoneNumber: result.phoneNumber
+              },
+              this.providerParameters
+            )
+          );
         }
       });
     }

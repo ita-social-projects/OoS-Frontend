@@ -1,17 +1,19 @@
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { Component, Input } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReasonModalWindowComponent } from './reason-modal-window.component';
-import { TextSliceTransformPipe } from '../../../pipes/text-slice-transform.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+
+import { TextSliceTransformPipe } from 'shared/pipes/text-slice-transform.pipe';
+import { ReasonModalWindowComponent } from './reason-modal-window.component';
 
 describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;
   let fixture: ComponentFixture<ReasonModalWindowComponent>;
+  let formBuilder: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -22,20 +24,18 @@ describe('ReasonModalWindowComponent', () => {
         MatFormFieldModule,
         MatInputModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       declarations: [ReasonModalWindowComponent, MockValidationHintForInputComponent, TextSliceTransformPipe],
-      providers: [
-        { provide: MAT_DIALOG_DATA, useValue: {} },
-        { provide: MatDialogRef, useValue: {} },
-      ],
+      providers: [{ provide: MAT_DIALOG_DATA, useValue: {} }, { provide: MatDialogRef, useValue: {} }, FormBuilder]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ReasonModalWindowComponent);
+    formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
-    component.ReasonFormControl = new FormControl({ value: 'Reason', disabled: true }, Validators.required);
+    component.formGroup = formBuilder.group({ reason: new FormControl({ value: 'Reason', disabled: true }, Validators.required) });
     fixture.detectChanges();
   });
 
@@ -50,7 +50,7 @@ describe('ReasonModalWindowComponent', () => {
 
 @Component({
   selector: 'app-validation-hint',
-  template: '',
+  template: ''
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
