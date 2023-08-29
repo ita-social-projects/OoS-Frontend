@@ -1,7 +1,7 @@
-import { Subject } from 'rxjs';
-
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
+import { Constants } from 'shared/constants/constants';
 
 import { ProviderStatusDetails, ProviderStatusTitles } from '../../enum/enumUA/statuses';
 import { ProviderStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
@@ -27,7 +27,7 @@ export class ProviderStatusBannerComponent implements OnInit {
   public statusTitle: string;
   public statusDetails: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private store: Store) {}
+  constructor(private elementRef: ElementRef<HTMLElement>, private translateService: TranslateService, private store: Store) {}
 
   public ngOnInit(): void {
     this.setBannerOptions();
@@ -42,11 +42,19 @@ export class ProviderStatusBannerComponent implements OnInit {
   }
 
   private setBannerOptions(): void {
+    this.provider.blockPhoneNumber = '111111111';
+
     if (this.provider.isBlocked) {
       this.iconClasses = `${UserStatusIcons.Blocked} status-icon`;
       this.statusTitle = ProviderStatusTitles[UserStatuses.Blocked];
       this.statusDetails = this.provider.blockReason ? this.provider.blockReason : ProviderStatusDetails[UserStatuses.Blocked];
       this.HostElement.classList.value = ProviderStatuses[UserStatuses.Blocked];
+
+      if (this.provider.blockPhoneNumber) {
+        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} ${Constants.PHONE_PREFIX}${
+          this.provider.blockPhoneNumber
+        })`;
+      }
     } else {
       this.iconClasses = `${UserStatusIcons[this.provider.status]} status-icon`;
       this.statusTitle = ProviderStatusTitles[this.provider.status];

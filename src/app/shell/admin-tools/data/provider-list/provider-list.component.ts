@@ -404,7 +404,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
                 id: provider.id,
                 isBlocked: true,
                 blockReason: result.reason,
-                phoneNumber: result.phoneNumber
+                blockPhoneNumber: result.phoneNumber
               },
               this.providerParameters
             )
