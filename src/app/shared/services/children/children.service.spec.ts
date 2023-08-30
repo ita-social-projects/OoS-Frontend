@@ -4,7 +4,7 @@ import { ChildrenService } from './children.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
 
-describe('CildrenService', () => {
+describe('ChildrenService', () => {
   let service: ChildrenService;
 
   beforeEach(() => {
