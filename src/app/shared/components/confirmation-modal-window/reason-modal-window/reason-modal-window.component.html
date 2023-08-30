@@ -9,8 +9,6 @@
     </label>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
       <textarea matInput
-                ng-focus="updateValue()"
-                ng-blur="updateValue()"
                 class="step-textarea"
                 placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
                 [formControl]="reasonFormControl"
