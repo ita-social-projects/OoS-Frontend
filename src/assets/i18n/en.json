@@ -241,6 +241,7 @@
       "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
       "PENDING": "Your organization is awaiting confirmation by an administrator.",
       "BLOCKED": "Unfortunately, the reason for the block was not specified. Please contact the administration.",
+      "BLOCKED_PHONE_NUMBER": "For more info call phone number:",
       "EDITING": "Please make sure that the information about your institution is correct.",
       "RECHECK": "Your organization is awaiting confirmation by an administrator."
     },
@@ -318,6 +319,7 @@
       "FIRST_NAME": "First name",
       "OR_SELECT_ON_THE_MAP": "Or select on the map",
       "PHONE": "Phone",
+      "PHONE_FEEDBACK": "Phone for feedback",
       "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
       "SECTION_TITLE": "Section title",

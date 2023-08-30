@@ -11,6 +11,7 @@ export interface BlockProviderData {
   id: string;
   isBlocked?: boolean;
   blockReason?: string;
+  blockPhoneNumber?: string;
 }
 
 export class Provider implements BlockProviderData {
@@ -35,6 +36,7 @@ export class Provider implements BlockProviderData {
   licenseStatus?: LicenseStatuses;
   isBlocked?: boolean;
   blockReason?: string;
+  blockPhoneNumber?: string;
   imageFiles?: File[];
   imageIds?: string[];
   rating?: number;
