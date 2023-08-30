@@ -1,5 +1,5 @@
 <div class="container" *ngIf="provider">
-  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"> </app-actions>
+  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
   <app-image-carousel [images]="images"></app-image-carousel>
 
   <div class="details-wrapper">
@@ -11,23 +11,27 @@
             <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
           </ng-container>
         </div>
-        <div *ngFor="let direction of workshop.directions">
-          <img class="details-icon" [src]="categoryIcons[direction.id]" alt="{{ workshop.title }}" />
+        <div *ngFor="let directionId of workshop.directionIds">
+          <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}" />
         </div>
       </div>
       <span class="icon-text">
         <mat-icon class="icon">star</mat-icon>
-        {{ workshop.rating }}
+        {{ workshop.rating }}&nbsp;
+        <span class="rating-number">({{ workshop.numberOfRatings }})</span>
       </span>
       <div fxLayout="row" fxLayoutAlign="start center">
         <a [routerLink]="['/details/provider', workshop.providerId]">
-          <span class="icon-text details-link" [ngClass]="{'workshop-title': workshop.competitiveSelection}"> <mat-icon class="icon">home</mat-icon>{{ workshop.providerTitle }} </span>
+          <span class="icon-text details-link" [ngClass]="{'workshop-title': workshop.competitiveSelection}"> <mat-icon
+            class="icon">home</mat-icon>
+            {{ workshop.providerTitle }} </span>
         </a>
       </div>
-      <div fxLayout="row" fxLayoutAlign="start center" class="selection" *ngIf="workshop.competitiveSelection"> 
-        <img class="icon icon-dimensions selection-icon" src="../../../../assets/icons/competitiveSelection.svg">
+      <div fxLayout="row" fxLayoutAlign="start center" class="selection" *ngIf="workshop.competitiveSelection">
+        <img class="icon icon-dimensions selection-icon" src="assets/icons/competitiveSelection.svg">
         <span class="icon-text selection-text">{{ 'COMPETITIVE_SELECTION' | translate }}</span>
-        <i class="material-icons" [matMenuTriggerFor]="competitiveSelectionDesc" #competitiveSelectionDescTrigger="matMenuTrigger">
+        <i class="material-icons" [matMenuTriggerFor]="competitiveSelectionDesc"
+           #competitiveSelectionDescTrigger="matMenuTrigger">
           info_outline
         </i>
         <mat-menu class="competitiveSelectionDesc-menu" #competitiveSelectionDesc="matMenu" [overlapTrigger]="false">
@@ -47,10 +51,10 @@
         <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-        <app-all-provider-workshops [providerParameters]="providerParameters"> </app-all-provider-workshops>
+        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
       </mat-tab>
-      <mat-tab class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
-        <app-reviews [workshop]="workshop" [role]="role"> </app-reviews>
+      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
+        <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
       </mat-tab>
       <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
         <app-achievements [workshop]="workshop"></app-achievements>

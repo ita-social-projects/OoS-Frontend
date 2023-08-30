@@ -75,11 +75,14 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.addNavPath();
     this.setViewType();
     this.setInitialSubscriptions();
+    this.setFiltersFromQueryParamsWhenMapView();
   }
 
   ngAfterViewInit(): void {
     this.setFilterStateURLParams();
+  }
 
+  private setFiltersFromQueryParamsWhenMapView(): void {
     combineLatest([this.route.queryParamMap, this.isMapView$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {

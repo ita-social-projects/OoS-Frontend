@@ -85,10 +85,10 @@
       "EDIT_PROVIDER_ADMIN": "Add workshop administrator",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Add ministry administrator",
       "ADD_PROVIDER_REGION_ADMIN": "Add region administrator",
-      "ADD_PROVIDER_TERRITORIAL_ADMIN": "Add territorial community administrator",
+      "ADD_PROVIDER_AREA_ADMIN": "Add territorial community administrator",
       "EDIT_PROVIDER_MINISTRY_ADMIN": "Edit ministry administrator",
       "EDIT_PROVIDER_REGION_ADMIN": "Edit region administrator",
-      "EDIT_PROVIDER_TERRITORIAL_ADMIN": "Edit territorial community administrator",
+      "EDIT_PROVIDER_AREA_ADMIN": "Edit territorial community administrator",
       "ADMINISTRATION": "Administration",
       "ADMINS": "Administrators",
       "APPLICATIONS": "Applications",
@@ -148,13 +148,15 @@
       "YEAR": "Year"
     },
     "PERSONAL_CABINET_TITLE": {
-      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
-      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
-      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "USER_PERSONAL_CABINET": "User personal cabinet",
       "PROVIDER_PERSONAL_CABINET": "Provider personal cabinet",
+      "PROVIDER_ADMINISTRATOR_PERSONAL_CABINET": "Provider administrator personal cabinet",
+      "DEPUTY_DIRECTOR_PERSONAL_CABINET": "Deputy director personal cabinet",
       "TECHNICAL_ADMINISTRATOR_PERSONAL_CABINET": "Technical administrator personal cabinet",
-      "UNKNOWN_ACCOUNT": "Provider personal cabinet",
-      "USER_PERSONAL_CABINET": "User personal cabinet"
+      "MINISTRY_ADMINISTRATOR_PERSONAL_CABINET": "Ministry administrator personal cabinet",
+      "REGION_ADMINISTRATOR_PERSONAL_CABINET": "Region administrator personal cabinet",
+      "AREA_ADMINISTRATOR_PERSONAL_CABINET": "Territorial community administrator personal cabinet",
+      "UNKNOWN_ACCOUNT": "Provider personal cabinet"
     },
     "RECRUITMENT_STATUS": {
       "OPEN": "Open recruitment",
@@ -256,10 +258,10 @@
       "PROVIDER_DEPUTY_GENETIVE": "Provider deputy",
       "PROVIDER_ADMIN_GENETIVE": "Workshop administrator"
     },
-    "ADMISTRATORS": {
+    "ADMINISTRATORS": {
       "MINISTRY_ADMIN": "Ministry administrator",
       "REGION_ADMIN": "Region administrator",
-      "TERRITORIAL_ADMIN": "Territorial community administrator"
+      "AREA_ADMIN": "Territorial community administrator"
     },
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",
@@ -308,7 +310,7 @@
       "AVAILABLE_PLACES": "Number of available places",
       "BIRTHDAY": "Birthday",
       "BUILDING": "Building",
-      "DAYS_HOURS": "Days/Hours",
+      "LESSONS_SCHEDULE": "Lessons schedule",
       "EMAIL": "Email",
       "KEYWORDS": "Keywords",
       "LAST_NAME": "Last name",
@@ -400,12 +402,12 @@
       "INVALID_DATA_START": "Use \"",
       "INVALID_EMAIL": "Enter a valid email.",
       "INVALID_EDRPO_IPN_END": " digit number.",
-      "INVALID_HOUSE": ", please use only numbers and cyrillic",
+      "INVALID_HOUSE": ", please use only numbers, cyrillic and symbols ( / - . )",
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
       "INVALID_MAP": "No such address was found on the map",
-      "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - )",
+      "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
       "INVALID_SECTION_NAME": "please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "REQUIRED_INPUT": "This field is required.",
@@ -504,7 +506,7 @@
     "ADD_ANOTHER_CHILD": "Add another child",
     "ADD_ANOTHER_SECTION": "Add another section",
     "ADD_ANOTHER_TEACHER": "Add another teacher",
-    "ADD_MORE_DAYS_HOURS": "Add more Days/Hours",
+    "ADD_MORE_LESSONS_SCHEDULE": "Add more lessons schedule",
     "REMOVE": "Remove",
     "REMOVE_CHILD_DATA": "Remove data about the child",
     "REMOVE_TEACHER_DATA": "Remove data about the teacher",
@@ -615,9 +617,9 @@
   },
   "SERVICE_MESSAGES": {
     "NO_INFO": "no data",
-    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you",
-    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you",
-    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you",
+    "UNREGISTERED_FAVORITE": "To add a workshop to your favorites, please register on the portal. Thank you!",
+    "UNREGISTERED_APPLICATION": "To apply for a workshop, please register on the portal. Thank you!",
+    "UNREGISTERED_MESSAGE": "To send a message, please register on the portal. Thank you!",
     "MESSAGE_STATUS": {
       "LEFT": "Leaved workshop successfully",
       "APPROVED": "Application status successfully changed",
@@ -675,7 +677,8 @@
       "ERROR_500": "Server error",
       "ERROR_MAIL": "Check the data entered. A user with this email already exists",
       "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique",
-      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map."
+      "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
+      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings."
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_PARENT": "Specify the blocking reason",
@@ -765,6 +768,8 @@
       }
     }
   },
+  "GEOLOCATION_BUTTON_TITLE": "Find near me",
+  "GEOLOCATION_MARKER_TITLE": "You are here",
   "ERROR_PAGE": {
     "ERROR_HAPPEND": "Oops! Page is not found.",
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"

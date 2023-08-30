@@ -48,7 +48,7 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.directionsParameters.size = itemsPerPage;
-    this.getDirections();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   ngOnDestroy(): void {

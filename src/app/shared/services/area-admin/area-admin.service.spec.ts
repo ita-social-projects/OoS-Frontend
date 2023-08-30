@@ -1,16 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { TerritorialCommunityAdminService } from './territorial-community-admin.service';
 
-describe('TerritorialCommunityAdminService', () => {
-  let service: TerritorialCommunityAdminService;
+import { AreaAdminService } from './area-admin.service';
+
+describe('AreaAdminService', () => {
+  let service: AreaAdminService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule, NgxsModule.forRoot([])]
     });
-    service = TestBed.inject(TerritorialCommunityAdminService);
+    service = TestBed.inject(AreaAdminService);
   });
 
   it('should be created', () => {

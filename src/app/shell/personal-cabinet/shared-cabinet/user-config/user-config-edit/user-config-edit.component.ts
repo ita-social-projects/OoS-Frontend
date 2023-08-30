@@ -2,8 +2,8 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { Observable, Subject, throttleTime } from 'rxjs';
+import { filter, switchMap } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
@@ -32,7 +32,10 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   private user$: Observable<User>;
 
   private subRole: Role;
+  private dispatchSubject = new Subject<void>();
+  private defaultThrottleTime = 1000;
 
+  public isDispatching = false;
   public user: User;
   public userEditFormGroup: FormGroup;
   public userRole: Role;
@@ -74,6 +77,13 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
+    this.dispatchSubject
+      .pipe(
+        throttleTime(this.defaultThrottleTime),
+        switchMap(() => this.updateUserInfoInStore())
+      )
+      .subscribe(() => this.isDispatching = false);
+
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
       this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
       this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
@@ -87,6 +97,11 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
       this.subscribeOnDirtyForm(this.userEditFormGroup);
       this.setEditMode();
     });
+  }
+
+  private updateUserInfoInStore() {
+    const user = new User(this.userEditFormGroup.value, this.user.id);
+    return this.store.dispatch(new UpdateUser(user));
   }
 
   public setEditMode(): void {
@@ -116,8 +131,10 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public onSubmit(): void {
-    const user = new User(this.userEditFormGroup.value, this.user.id);
-    this.store.dispatch(new UpdateUser(user));
+    if (!this.isDispatching) {
+      this.isDispatching = true;
+      this.dispatchSubject.next();
+    }
   }
 
   public onCancel(): void {

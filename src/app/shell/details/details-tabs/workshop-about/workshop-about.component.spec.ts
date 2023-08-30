@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { WorkshopAboutComponent } from './workshop-about.component';
-import { Workshop } from '../../../../shared/models/workshop.model';
+import { Workshop } from 'shared/models/workshop.model';
 import {TranslateModule} from '@ngx-translate/core';
 
 describe('WorkshopAboutComponent', () => {

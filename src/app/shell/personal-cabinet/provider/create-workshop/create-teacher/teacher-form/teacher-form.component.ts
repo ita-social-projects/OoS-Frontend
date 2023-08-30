@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { CropperConfigurationConstants } from '../../../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../../../shared/constants/validation';
-import { Util } from '../../../../../../shared/utils/utils';
+import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-teacher-form',
@@ -33,7 +33,8 @@ export class TeacherFormComponent {
 
   @Output() public deleteForm = new EventEmitter();
 
-  constructor() {}
+  constructor() {
+  }
 
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
