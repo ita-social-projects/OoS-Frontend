@@ -1,7 +1,7 @@
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
-import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
@@ -20,7 +20,7 @@ import { MetaDataState } from '../../../store/meta-data.state';
   templateUrl: './city-filter.component.html',
   styleUrls: ['./city-filter.component.scss']
 })
-export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CityFilterComponent implements OnInit, OnDestroy {
   public readonly Constants = Constants;
   public readonly sliceLength = 25;
 
@@ -65,22 +65,8 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
         this.codeficatorSearch = searchResult;
       }
     });
-  }
 
-  public ngAfterViewInit(): void {
-    if (this.geolocationService.isCityInStorage()) {
-      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
-    } else {
-      this.geolocationService.handleUserLocation((coords: Coords) => {
-        if (coords) {
-          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
-            this.geolocationService.confirmCity(result, false);
-          });
-        } else {
-          this.geolocationService.confirmCity(Constants.KYIV, false);
-        }
-      });
-    }
+    this.setCurrentGeolocation();
   }
 
   public onSelectedCity(event: MatAutocompleteSelectedEvent): void {
@@ -146,5 +132,21 @@ export class CityFilterComponent implements OnInit, AfterViewInit, OnDestroy {
             .filter((codeficator: Codeficator) => codeficator.settlement.toLowerCase().startsWith(value.toLowerCase()));
         }
       });
+  }
+
+  private setCurrentGeolocation(): void {
+    if (this.geolocationService.isCityInStorage()) {
+      this.geolocationService.confirmCity(JSON.parse(localStorage.getItem('cityConfirmation')), true);
+    } else {
+      this.geolocationService.handleUserLocation((coords: Coords) => {
+        if (coords) {
+          this.geolocationService.getNearestByCoordinates(coords, (result: Codeficator) => {
+            this.geolocationService.confirmCity(result, false);
+          });
+        } else {
+          this.geolocationService.confirmCity(Constants.KYIV, false);
+        }
+      });
+    }
   }
 }

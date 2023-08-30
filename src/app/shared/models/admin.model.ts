@@ -10,6 +10,7 @@ export class BaseAdmin {
   accountStatus?: string;
   institutionId: string;
   institutionTitle?: string;
+  catottgName?: string;
 
   constructor(info, institutionId: string, id?: string, accountStatus?: string) {
     this.email = info.email;
@@ -19,6 +20,7 @@ export class BaseAdmin {
     this.firstName = info.firstName;
     this.institutionId = institutionId;
     this.institutionTitle = info.institutionTitle;
+    this.catottgName = info.catottgName;
     if (id) {
       this.id = id;
     }

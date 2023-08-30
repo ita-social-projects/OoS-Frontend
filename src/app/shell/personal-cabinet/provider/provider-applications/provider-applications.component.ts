@@ -1,46 +1,35 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { Select, Store } from '@ngxs/store';
-
-import {
-  ConfirmationModalWindowComponent
-} from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import {
-  ReasonModalWindowComponent
-} from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ApplicationEntityType } from '../../../../shared/enum/applications';
-import { WorkshopDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { Role } from '../../../../shared/enum/role';
-import { ApplicationStatuses } from '../../../../shared/enum/statuses';
-import {
-  Application, ApplicationFilterParameters, ApplicationUpdate
-} from '../../../../shared/models/application.model';
-import { BlockedParent } from '../../../../shared/models/block.model';
-import { TruncatedItem } from '../../../../shared/models/item.model';
-import { Provider } from '../../../../shared/models/provider.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import {
-  BlockParent, GetProviderAdminWorkshops, GetWorkshopListByProviderAdminId,
-  GetWorkshopListByProviderId, UnBlockParent
-} from '../../../../shared/store/provider.actions';
-import { ProviderState } from '../../../../shared/store/provider.state';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import {
-  GetApplicationsByPropertyId, UpdateApplication
-} from '../../../../shared/store/shared-user.actions';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { ApplicationEntityType } from 'shared/enum/applications';
+import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Role } from 'shared/enum/role';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application, ApplicationFilterParameters, ApplicationUpdate } from 'shared/models/application.model';
+import { BlockedParent } from 'shared/models/block.model';
+import { TruncatedItem } from 'shared/models/item.model';
+import { Provider } from 'shared/models/provider.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { BlockParent, GetWorkshopListByProviderAdminId, GetWorkshopListByProviderId, UnBlockParent } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { GetApplicationsByPropertyId, UpdateApplication } from 'shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 
 @Component({
-  selector: 'app-provider-applciations',
-  templateUrl: './provider-applciations.component.html'
+  selector: 'app-provider-applications',
+  templateUrl: './provider-applications.component.html'
 })
-export class ProviderApplciationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
+export class ProviderApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(ProviderState.truncated)
@@ -60,7 +49,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(protected store: Store, protected matDialog: MatDialog, protected router: Router) {
     super(store, matDialog);
   }
 
@@ -98,7 +87,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   /**
    * This method changes status of emitted event to "approved"
-   * @param Application event
+   * @param application event
    */
   onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Approved);
@@ -107,7 +96,7 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   /**
    * This method changes status of emitted event to "rejected"
-   * @param Application event
+   * @param application event
    */
   onReject(application: Application): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
@@ -122,8 +111,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   }
 
   /**
-   * This method emit block Application
-   * @param Application application
+   * This method emit block parent
+   * @param parentId
    */
   onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
@@ -139,8 +128,8 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
   }
 
   /**
-   * This method emit unblock Application
-   * @param Application application
+   * This method emit unblock parent
+   * @param parentId
    */
   onUnBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
@@ -172,10 +161,17 @@ export class ProviderApplciationsComponent extends CabinetDataComponent implemen
 
   /**
    * This applies selected IDs as filtering parameter to get list of applications
-   * @param IDs: string[]
+   * @param IDs
    */
   onEntitiesSelect(IDs: string[]): void {
     this.applicationParams.workshops = IDs;
     this.onGetApplications();
+  }
+
+  onSendMessage(application: Application): void {
+    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], {
+      queryParams: { mode: ModeConstants.WORKSHOP },
+      replaceUrl: false
+    });
   }
 }
