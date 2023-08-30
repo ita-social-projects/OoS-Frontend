@@ -42,8 +42,6 @@ export class ProviderStatusBannerComponent implements OnInit {
   }
 
   private setBannerOptions(): void {
-    this.provider.blockPhoneNumber = '111111111';
-
     if (this.provider.isBlocked) {
       this.iconClasses = `${UserStatusIcons.Blocked} status-icon`;
       this.statusTitle = ProviderStatusTitles[UserStatuses.Blocked];
