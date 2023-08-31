@@ -13,7 +13,7 @@ export class GetChatRoomMessages {
 
 export class GetChatRoomMessagesByWorkshopId {
   static readonly type = '[chat] Get Chat Room Messages By Workshop Id';
-  constructor(public workshopId: string, public parameters: MessagesParameters) {}
+  constructor(public workshopId: string, public role: Role, public parameters: MessagesParameters) {}
 }
 
 export class GetChatRoomById {

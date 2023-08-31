@@ -1,34 +1,29 @@
-import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
-
 import { Location } from '@angular/common';
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
+import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-Url';
+import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from 'shared/models/chat.model';
 import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
 import { User } from 'shared/models/user.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
-import {
-  ClearSelectedChatRoom,
-  GetChatRoomById,
-  GetChatRoomMessages,
-  GetChatRoomMessagesByWorkshopId
-} from 'shared/store/chat.actions';
+import { ClearSelectedChatRoom, GetChatRoomById, GetChatRoomMessages, GetChatRoomMessagesByWorkshopId } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
-import { ValidationConstants } from 'shared/constants/validation';
 
 @Component({
   selector: 'app-chat',
@@ -52,6 +47,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private user$: Observable<User>;
   @Select(RegistrationState.parent)
   private parent$: Observable<Parent>;
+  @Select(RegistrationState.provider)
+  private provider$: Observable<Provider>;
 
   private messagesParameters: MessagesParameters = {
     from: 0,
@@ -69,8 +66,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   public userName: string;
   public companionName: string;
 
-  constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {
-  }
+  constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
   public ngOnInit(): void {
     this.addNavPath();
@@ -90,7 +86,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isHistoryLoading = true;
           this.messagesParameters.from = this.messages.length;
           if (this.mode === ModeConstants.WORKSHOP) {
-            this.store.dispatch(new GetChatRoomMessagesByWorkshopId(this.chatRoom.workshopId, this.messagesParameters));
+            this.store.dispatch(new GetChatRoomMessagesByWorkshopId(this.chatRoom.workshopId, this.userRole, this.messagesParameters));
           } else {
             this.store.dispatch(new GetChatRoomMessages(this.chatRoom.id, this.userRole, this.messagesParameters));
           }
@@ -136,15 +132,21 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.store.dispatch(new GetWorkshopById(workshopId));
 
-    combineLatest([this.workshop$, this.user$, this.parent$])
+    combineLatest([this.workshop$, this.user$, this.parent$, this.provider$])
       .pipe(
-        filter(([workshop, user, parent]) => !!(workshop && user && parent)),
+        filter(([workshop, user, parent, provider]) => {
+          if (this.userIsProvider) {
+            return !!(workshop && user && provider);
+          } else {
+            return !!(workshop && user && parent);
+          }
+        }),
         takeUntil(this.destroy$)
       )
       .subscribe(([workshop, user, parent]) => {
         this.chatRoom = new ChatRoom(workshop, user, parent);
         this.messagesParameters.from = this.messages.length;
-        this.store.dispatch(new GetChatRoomMessagesByWorkshopId(this.chatRoom.workshopId, this.messagesParameters));
+        this.store.dispatch(new GetChatRoomMessagesByWorkshopId(this.chatRoom.workshopId, this.userRole, this.messagesParameters));
         this.getChatMembersNames();
       });
   }

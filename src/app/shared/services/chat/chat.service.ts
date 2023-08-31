@@ -25,10 +25,10 @@ export class ChatService {
     return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
   }
 
-  getChatRoomMessagesByWorkshopId(workshopId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
+  getChatRoomMessagesByWorkshopId(workshopId: string, role: Role, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
-    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/parent/workshops/${workshopId}/messages`, { params });
+    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/${role}/workshops/${workshopId}/messages`, { params });
   }
 
   getChatRoomById(chatRoomId: string, role: Role) {

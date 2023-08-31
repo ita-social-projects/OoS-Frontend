@@ -21,6 +21,7 @@ import { Provider } from 'shared/models/provider.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { BlockParent, GetWorkshopListByProviderAdminId, GetWorkshopListByProviderId, UnBlockParent } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
+import { SetParent } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetApplicationsByPropertyId, UpdateApplication } from 'shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
@@ -169,6 +170,8 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
   }
 
   onSendMessage(application: Application): void {
+    this.store.dispatch(new SetParent(application.parent));
+
     this.router.navigate(['/personal-cabinet/messages/', application.workshopId], {
       queryParams: { mode: ModeConstants.WORKSHOP },
       replaceUrl: false

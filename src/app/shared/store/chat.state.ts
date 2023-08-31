@@ -75,11 +75,11 @@ export class ChatState {
   @Action(GetChatRoomMessagesByWorkshopId)
   getChatRoomMessagesByWorkshopId(
     { patchState }: StateContext<ChatStateModel>,
-    { workshopId, parameters }: GetChatRoomMessagesByWorkshopId
+    { workshopId, role, parameters }: GetChatRoomMessagesByWorkshopId
   ): Observable<IncomingMessage[]> {
     patchState({ isLoadingData: true });
     return this.chatService
-      .getChatRoomMessagesByWorkshopId(workshopId, parameters)
+      .getChatRoomMessagesByWorkshopId(workshopId, role, parameters)
       .pipe(tap((selectedChatRoomMessages: IncomingMessage[]) => patchState({ selectedChatRoomMessages, isLoadingData: false })));
   }
 
