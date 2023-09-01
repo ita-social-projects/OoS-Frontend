@@ -267,7 +267,13 @@
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
-      "APPLICATIONS": "Applications"
+      "APPLICATIONS": "Applications",
+      "USER_STATUS": {
+        "CREATE": "Create",
+        "UPDATE": "Update",
+        "DELETE": "Delete",
+        "BLOCK": "Block"
+      }
     }
   },
   "EXACT_MATCH": "Exact match",

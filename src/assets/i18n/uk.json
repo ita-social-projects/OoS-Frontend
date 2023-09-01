@@ -267,7 +267,13 @@
     "HISTORY_LOG": {
       "PROVIDERS": "Заклади",
       "ADMINS": "Адміністратори",
-      "APPLICATIONS": "Заявки"
+      "APPLICATIONS": "Заявки",
+      "USER_STATUS": {
+        "CREATE": "Створено",
+        "UPDATE": "Оновлено",
+        "DELETE": "Видалено",
+        "BLOCK": "Заблоковано"
+      }
     }
   },
   "EXACT_MATCH": "Повний збіг",
