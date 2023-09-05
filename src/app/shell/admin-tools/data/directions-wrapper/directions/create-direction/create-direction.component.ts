@@ -35,7 +35,8 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;
 
-  directionFormGroup: FormGroup;
+  public directionFormGroup: FormGroup;
+  public isDispatching = false;
 
   constructor(
     protected store: Store,
@@ -90,7 +91,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
   }
 
   onSubmit(): void {
-    if (this.directionFormGroup.dirty) {
+    if (this.directionFormGroup.dirty && !this.isDispatching) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
@@ -103,6 +104,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
           this.editMode ? this.store.dispatch(new UpdateDirection(direction)) : this.store.dispatch(new CreateDirection(direction));
 
           this.directionFormGroup.markAsPristine();
+          this.isDispatching = true;
         }
       });
     }
