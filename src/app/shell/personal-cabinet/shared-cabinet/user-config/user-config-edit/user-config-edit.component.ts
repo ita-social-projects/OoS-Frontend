@@ -140,8 +140,8 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
           this.updateUserInfoInStore();
 
           this.userEditFormGroup.markAsPristine();
+          this.isDispatching = true;
         }
-        this.isDispatching = true;
       });
     }
   }
