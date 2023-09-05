@@ -5,16 +5,16 @@ import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
-import { PersonalCabinetLinks } from '../../../../shared/enum/personal-cabinet-links';
-import { Constants } from '../../../constants/constants';
+import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
+import { Constants } from 'shared/constants/constants';
 import {
   ApplicationApproved,
   ApplicationChanges,
   ApplicationLeft,
   ApplicationPending,
   ApplicationRejected
-} from '../../../enum/enumUA/declinations/notification-declination';
-import { NoResultsTitle } from '../../../enum/enumUA/no-results';
+} from 'shared/enum/enumUA/declinations/notification-declination';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import {
   NotificationProviderLicenseFullDescription,
   NotificationProviderLicenseShortDescription,
@@ -22,26 +22,26 @@ import {
   NotificationsProviderShortDescriptions,
   NotificationWorkshopFullDescriptions,
   NotificationWorkshopShortDescription
-} from '../../../enum/enumUA/notifications';
-import { DataTypes, NotificationDescriptionType, NotificationType } from '../../../enum/notifications';
-import { Role } from '../../../enum/role';
-import { ApplicationStatuses, ProviderStatuses } from '../../../enum/statuses';
+} from 'shared/enum/enumUA/notifications';
+import { DataTypes, NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
+import { Role } from 'shared/enum/role';
+import { ApplicationStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import {
   Notification,
   NotificationGroupedByAdditionalData,
   Notifications,
   NotificationsAmount,
   NotificationsGroupedByType
-} from '../../../models/notifications.model';
+} from 'shared/models/notifications.model';
 import {
   ClearNotificationState,
   DeleteUsersNotificationById,
   GetAllUsersNotificationsGrouped,
   ReadUsersNotificationById,
   ReadUsersNotificationsByType
-} from '../../../store/notifications.actions';
-import { NotificationsState } from '../../../store/notifications.state';
-import { RegistrationState } from '../../../store/registration.state';
+} from 'shared/store/notifications.actions';
+import { NotificationsState } from 'shared/store/notifications.state';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-notifications-list',
@@ -123,6 +123,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   public onNavigate(type: NotificationType, groupedDataStatus?: ApplicationStatuses): void {
     switch (NotificationType[type]) {
+      case NotificationType.Workshop:
       case NotificationType.Application:
         const userRole: Role = this.store.selectSnapshot<Role>(RegistrationState.role);
         const status: string = ApplicationStatuses[groupedDataStatus];
