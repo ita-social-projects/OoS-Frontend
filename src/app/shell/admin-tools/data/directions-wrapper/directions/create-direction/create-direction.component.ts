@@ -92,21 +92,21 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
 
   onSubmit(): void {
     if (this.directionFormGroup.dirty && !this.isDispatching) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection
         }
-      });
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
+      }).afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe(() => {
+          this.isDispatching = true;
+
           const direction: Direction = new Direction(this.directionFormGroup.value);
           this.editMode ? this.store.dispatch(new UpdateDirection(direction)) : this.store.dispatch(new CreateDirection(direction));
 
           this.directionFormGroup.markAsPristine();
-          this.isDispatching = true;
-        }
-      });
+        });
     }
   }
 

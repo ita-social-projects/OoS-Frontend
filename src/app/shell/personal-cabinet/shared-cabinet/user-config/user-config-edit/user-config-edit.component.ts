@@ -129,20 +129,20 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public onSubmit(): void {
     if (this.userEditFormGroup.dirty && !this.isDispatching) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.editPersonalInformation
         }
-      });
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
+      }).afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe(() => {
+          this.isDispatching = true;
+
           this.updateUserInfoInStore();
 
           this.userEditFormGroup.markAsPristine();
-          this.isDispatching = true;
-        }
-      });
+        });
     }
   }
 
