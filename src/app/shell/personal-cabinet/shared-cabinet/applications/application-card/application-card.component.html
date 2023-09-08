@@ -60,8 +60,15 @@
     <ng-container *ngIf="isMobileView; then actionsBlock"></ng-container>
   </mat-card-content>
   <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider && !application.isBlocked">
-    <button class="btn btn-blue" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
-      <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
+    <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+      <p>
+        <ng-container *ngIf="application.workshop.competitiveSelection">
+          {{ 'BUTTONS.APPROVE_TO_COMPETITIVE_SELECTION' | translate }}
+        </ng-container>
+        <ng-container *ngIf="!application.workshop.competitiveSelection">
+          {{ 'BUTTONS.APPROVE_APPLICATION' | translate }}
+        </ng-container>
+      </p>
     </button>
     <button class="btn btn-gray"
             (click)="reject.emit(application)"
