@@ -1,5 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
-import { ParentWithContactInfo } from 'shared/models/parent.model';
+
+import { Parent } from 'shared/models/parent.model';
 import { User } from '../models/user.model';
 
 export class Login {
@@ -71,5 +72,5 @@ export class GetUserPersonalInfo {
 export class SetParent {
   static readonly type = '[user] set Parent';
 
-  constructor(parent: ParentWithContactInfo) {}
+  constructor(public parent: Parent) {}
 }

@@ -248,7 +248,7 @@ export class RegistrationState {
   }
 
   @Action(SetParent)
-  setParent({ patchState }: StateContext<RegistrationStateModel>, parent: Parent) {
+  setParent({ patchState }: StateContext<RegistrationStateModel>, { parent }: SetParent) {
     patchState({ parent });
   }
 }

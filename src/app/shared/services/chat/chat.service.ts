@@ -1,51 +1,61 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+
 import { Role } from '../../enum/role';
 import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from '../../models/chat.model';
-import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChatService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
-    let params = this.setFilterParams(parameters);
+    const params = this.setChatRoomParams(parameters);
 
     return this.http.get<SearchResponse<ChatRoom[]>>(`/api/v1/ChatWorkshop/${parameters.role}/chatrooms`, { params });
   }
 
-  getChatRoomsMessages(chatRoomId: string, role: Role, parameters: MessagesParameters): Observable<IncomingMessage[]> {
-    let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
+  getChatRoomsForProviderByParentId(parentId: string): Observable<ChatRoom[]> {
+    return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/provider/chatroomsforparent/${parentId}`);
+  }
+
+  getChatRoomById(role: Role, chatRoomId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}`);
+  }
+
+  getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`/api/v1/ChatWorkshop/parent/chatroomforworkshop/${workshopId}`);
+  }
+
+  getChatRoomMessagesById(role: Role, chatRoomId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
+    const params = this.setMessagesParams(parameters);
 
     return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
   }
 
-  getChatRoomMessagesByWorkshopId(workshopId: string, role: Role, parameters: MessagesParameters): Observable<IncomingMessage[]> {
-    let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
+  getChatRoomMessagesForParentByWorkshopId(workshopId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
+    const params = this.setMessagesParams(parameters);
 
-    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/${role}/workshops/${workshopId}/messages`, { params });
+    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/parent/workshops/${workshopId}/messages`, { params });
   }
 
-  getChatRoomById(chatRoomId: string, role: Role) {
-    return this.http.get<ChatRoom>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}`);
-  }
-
-  private setFilterParams(parameters: ChatRoomsParameters): HttpParams {
+  private setChatRoomParams(parameters: ChatRoomsParameters): HttpParams {
     let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     if (parameters.searchText) {
       params = params.set('SearchText', parameters.searchText);
     }
-
     if (parameters.workshopIds) {
-      parameters.workshopIds.forEach((Id: string) => (params = params.append('WorkshopIds', Id)));
+      parameters.workshopIds.forEach((id: string) => (params = params.append('WorkshopIds', id)));
     }
 
     return params;
+  }
+
+  private setMessagesParams(parameters: MessagesParameters): HttpParams {
+    return new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
   }
 }
