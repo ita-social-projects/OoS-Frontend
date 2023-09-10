@@ -38,8 +38,10 @@
     font-family: 'Open Sans';
     font-size: 15px;
     line-height: 20px;
-    
+
     margin-right: 32px;
+
+    word-break: break-word;
   }
 
   &__read-status{
