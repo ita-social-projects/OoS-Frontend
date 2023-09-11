@@ -157,6 +157,8 @@ export interface WorkshopCard extends WorkshopBaseCard {
   minAge: number;
   price: number;
   address: Address;
+  availableSeats: number;
+  takenSeats: number;
 }
 
 export interface WorkshopStatus {

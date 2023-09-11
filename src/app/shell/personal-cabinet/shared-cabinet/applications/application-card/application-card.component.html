@@ -33,6 +33,18 @@
             [classList]="userIsAdmin ? 'text text-link' : 'title text-link'">
           {{ application?.workshop.title }}
         </h4>
+        <h5 *ngIf="userRole === role.provider">
+          {{ applicationDirections }}
+        </h5>
+        <div fxLayout="row"
+             fxLayoutAlign="center center"
+             *ngIf="userRole === role.provider && application?.workshop.availableSeats !== UNLIMITED_SEATS">
+          <mat-icon class="text_icon">person</mat-icon>
+          <p class="text">
+            Доступних місць:&nbsp;
+            <b>{{ application?.workshop.availableSeats - application?.workshop.takenSeats }}</b>
+          </p>
+        </div>
         <div class="organization"
              fxLayout="row"
              fxLayoutAlign="center center"
