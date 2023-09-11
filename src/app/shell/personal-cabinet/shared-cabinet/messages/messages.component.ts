@@ -39,11 +39,11 @@ export class MessagesComponent extends CabinetDataComponent {
   readonly noMessagesTitle = NoResultsTitle.noMessages;
 
   @Select(ProviderState.truncated)
-  workshops$: Observable<TruncatedItem[]>;
+  protected workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
+  private provider$: Observable<Provider>;
   @Select(ChatState.chatRooms)
-  chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
+  private chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
 
   providerId: string;
   filterFormControl: FormControl = new FormControl('');

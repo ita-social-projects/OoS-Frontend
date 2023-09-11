@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import { asyncScheduler, combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-Url';
@@ -53,6 +53,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @Select(RegistrationState.parent)
   private parent$: Observable<Parent>;
 
+  private readonly scrollTopStep = 10;
   private messagesParameters: MessagesParameters = {
     from: 0,
     size: 20
@@ -69,6 +70,18 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   public userIsProvider: boolean;
   public userName: string;
   public companionName: string;
+
+  private readonly onScroll = () => {
+    if (this.chatEl.nativeElement.scrollTop < this.scrollTopStep) {
+      this.chatEl.nativeElement.scrollTop = this.scrollTopStep;
+
+      if (!this.isHistoryLoading) {
+        this.isHistoryLoading = true;
+        this.messagesParameters.from = this.messages.length;
+        this.store.dispatch(new GetChatRoomMessagesById(this.userRole, this.chatRoom.id, this.messagesParameters));
+      }
+    }
+  };
 
   constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
 
@@ -88,6 +101,8 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.hubConnection.stop();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+
+    this.chatEl.nativeElement.removeEventListener('scroll', this.onScroll);
   }
 
   private setChatSubscriptions(): void {
@@ -96,17 +111,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.store.dispatch(new GetChatRoomMessagesById(this.userRole, this.chatRoom.id, this.messagesParameters));
       this.getChatMembersNames();
 
-      this.chatEl.nativeElement.onscroll = () => {
-        if (this.chatEl.nativeElement.scrollTop < 10) {
-          this.chatEl.nativeElement.scrollTop = 10;
-
-          if (!this.isHistoryLoading) {
-            this.isHistoryLoading = true;
-            this.messagesParameters.from = this.messages.length;
-            this.store.dispatch(new GetChatRoomMessagesById(this.userRole, this.chatRoom.id, this.messagesParameters));
-          }
-        }
-      };
+      this.chatEl.nativeElement.addEventListener('scroll', this.onScroll);
     });
 
     this.messages$
@@ -135,10 +140,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private scrollDown(): void {
-    //TODO: Replace setTimeout
-    setTimeout(() => {
-      this.chatEl.nativeElement.scrollTop = this.chatEl.nativeElement.scrollHeight;
-    }, 200);
+    asyncScheduler.schedule(() => (this.chatEl.nativeElement.scrollTop = this.chatEl.nativeElement.scrollHeight), 200);
   }
 
   private addNavPath(): void {

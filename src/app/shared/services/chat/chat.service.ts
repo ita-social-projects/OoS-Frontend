@@ -10,36 +10,38 @@ import { SearchResponse } from '../../models/search.model';
   providedIn: 'root'
 })
 export class ChatService {
+  private readonly baseApiUrl = '/api/v1/ChatWorkshop';
+
   constructor(private http: HttpClient) {}
 
-  getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
+  public getChatRooms(parameters: ChatRoomsParameters): Observable<SearchResponse<ChatRoom[]>> {
     const params = this.setChatRoomParams(parameters);
 
-    return this.http.get<SearchResponse<ChatRoom[]>>(`/api/v1/ChatWorkshop/${parameters.role}/chatrooms`, { params });
+    return this.http.get<SearchResponse<ChatRoom[]>>(`${this.baseApiUrl}/${parameters.role}/chatrooms`, { params });
   }
 
-  getChatRoomsForProviderByParentId(parentId: string): Observable<ChatRoom[]> {
-    return this.http.get<ChatRoom[]>(`/api/v1/ChatWorkshop/provider/chatroomsforparent/${parentId}`);
+  public getChatRoomsForProviderByParentId(parentId: string): Observable<ChatRoom[]> {
+    return this.http.get<ChatRoom[]>(`${this.baseApiUrl}/provider/chatroomsforparent/${parentId}`);
   }
 
-  getChatRoomById(role: Role, chatRoomId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}`);
+  public getChatRoomById(role: Role, chatRoomId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}`);
   }
 
-  getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`/api/v1/ChatWorkshop/parent/chatroomforworkshop/${workshopId}`);
+  public getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatroomforworkshop/${workshopId}`);
   }
 
-  getChatRoomMessagesById(role: Role, chatRoomId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
+  public getChatRoomMessagesById(role: Role, chatRoomId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     const params = this.setMessagesParams(parameters);
 
-    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/${role}/chatrooms/${chatRoomId}/messages`, { params });
+    return this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}/messages`, { params });
   }
 
-  getChatRoomMessagesForParentByWorkshopId(workshopId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
+  public getChatRoomMessagesForParentByWorkshopId(workshopId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {
     const params = this.setMessagesParams(parameters);
 
-    return this.http.get<IncomingMessage[]>(`/api/v1/ChatWorkshop/parent/workshops/${workshopId}/messages`, { params });
+    return this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/parent/workshops/${workshopId}/messages`, { params });
   }
 
   private setChatRoomParams(parameters: ChatRoomsParameters): HttpParams {
