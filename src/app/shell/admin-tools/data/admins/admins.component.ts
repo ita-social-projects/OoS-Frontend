@@ -199,7 +199,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
     const isTerritorialCommunityInList = this.displayedColumns.includes('territorialCommunity');
     const isActionsInList = this.displayedColumns.includes('actions');
 
-    if (this.adminParams.tabTitle !== AdminRoles.regionAdmin && this.adminParams.tabTitle !== AdminRoles.areaAdmin) {
+    if (
+      ![AdminRoles.regionAdmin, AdminRoles.areaAdmin].includes(this.adminParams.tabTitle as AdminRoles) ||
+      (this.role === Role.regionAdmin && this.adminParams.tabTitle === AdminRoles.areaAdmin)
+    ) {
       this.displayedColumns = this.displayedColumns.filter((value: string) => value !== 'region');
     } else if (!isRegionInList) {
       this.displayedColumns.splice(this.displayedColumns.indexOf('institution') + 1, 0, 'region');

@@ -54,7 +54,7 @@
       <!-- Region Column -->
       <ng-container matColumnDef="region">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by region">
-          <ng-container *ngIf="Role[adminType] === Role.regionAdmin || canSeeAreaAdminRegion()">
+          <ng-container>
             {{ 'FORMS.LABELS.REGION' | translate }}
           </ng-container>
         </th>
@@ -64,7 +64,7 @@
       <!-- Territorial community Column -->
       <ng-container matColumnDef="territorialCommunity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by territorial community">
-          <ng-container *ngIf="Role[adminType] === Role.areaAdmin">
+          <ng-container>
             {{ 'FORMS.LABELS.TERRITORIAL_COMMUNITY' | translate }}
           </ng-container>
         </th>

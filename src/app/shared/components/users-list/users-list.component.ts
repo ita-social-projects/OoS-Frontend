@@ -71,8 +71,4 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
       this.liveAnnouncer.announce('Sorting cleared');
     }
   }
-
-  canSeeAreaAdminRegion(): boolean {
-    return this.Role[this.adminType] === this.Role.areaAdmin && [Role.techAdmin, Role.ministryAdmin].includes(this.userRole);
-  }
 }
