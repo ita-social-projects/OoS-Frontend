@@ -272,6 +272,9 @@
   },
   "EXACT_MATCH": "Exact match",
   "FOR_FREE": "For free",
+  "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
+  "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
+  "INFO_ABOUT_SELECTION": "Information about selection",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "MATCH_ACTUAL_ADDRESS": "Actual address matches the legal address",
