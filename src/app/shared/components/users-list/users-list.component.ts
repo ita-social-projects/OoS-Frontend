@@ -21,42 +21,41 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
-  readonly statuses = UserStatusesTitles;
-  readonly statusIcons = UserStatusIcons;
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  readonly blockedStatus = 'Blocked';
-  readonly Role = Role;
+  public readonly statuses = UserStatusesTitles;
+  public readonly statusIcons = UserStatusIcons;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly blockedStatus = 'Blocked';
+  public readonly Role = Role;
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort)
+  private sort: MatSort;
 
-  @Input() users: Array<object>;
-  @Input() adminType: Role;
-  @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'region', 'status', 'actions'];
-  @Input() isEdit: boolean;
-  @Input() statusesTitles: UserStatuses | EmailConfirmationStatuses;
+  @Input() public users: Array<object>;
+  @Input() public adminType: Role;
+  @Input() public displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'region', 'status', 'actions'];
+  @Input() public isEdit: boolean;
+  @Input() public statusesTitles: UserStatuses | EmailConfirmationStatuses;
 
-  @Output() delete = new EventEmitter<UsersTable>();
-  @Output() block = new EventEmitter<BlockData>();
-  @Output() update = new EventEmitter<UsersTable>();
-  @Output() sendInvitation = new EventEmitter<UsersTable>();
+  @Output() public delete = new EventEmitter<UsersTable>();
+  @Output() public block = new EventEmitter<BlockData>();
+  @Output() public update = new EventEmitter<UsersTable>();
+  @Output() public sendInvitation = new EventEmitter<UsersTable>();
 
-  subrole: string;
-  userRole: Role;
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  public subrole: string;
+  public dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   constructor(private liveAnnouncer: LiveAnnouncer, private store: Store) {}
 
-  ngOnInit(): void {
-    this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
+  public ngOnInit(): void {
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.dataSource = new MatTableDataSource(this.users);
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes.users && changes.users.currentValue) {
       const users = changes.users.currentValue;
       this.dataSource = new MatTableDataSource(users);
@@ -64,7 +63,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   /** Announce the change in sort state for assistive technology. */
-  announceSortChange(sortState: Sort): void {
+  public announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
