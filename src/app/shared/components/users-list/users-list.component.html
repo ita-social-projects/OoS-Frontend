@@ -51,18 +51,25 @@
         <td mat-cell *matCellDef="let element">{{ element.institutionTitle }}</td>
       </ng-container>
 
-      <!-- Region / Territorial community Column -->
+      <!-- Region Column -->
       <ng-container matColumnDef="region">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by region">
-          <ng-container *ngIf="Role[adminType] === Role.regionAdmin">
+          <ng-container *ngIf="Role[adminType] === Role.regionAdmin || canSeeAreaAdminRegion()">
             {{ 'FORMS.LABELS.REGION' | translate }}
           </ng-container>
+        </th>
+        <td mat-cell *matCellDef="let element">{{ element.regionName }}</td>
+      </ng-container>
+
+      <!-- Territorial community Column -->
+      <ng-container matColumnDef="territorialCommunity">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by territorial community">
           <ng-container *ngIf="Role[adminType] === Role.areaAdmin">
             {{ 'FORMS.LABELS.TERRITORIAL_COMMUNITY' | translate }}
           </ng-container>
         </th>
         <td mat-cell *matCellDef="let element">{{ element.catottgName }}</td>
-      </ng-container>      
+      </ng-container>
 
       <!-- Name Column -->
       <ng-container matColumnDef="role">

@@ -1,25 +1,16 @@
-import { BlockData } from './../../models/usersTable';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  OnChanges,
-  OnInit,
-  Output,
-  SimpleChanges,
-  ViewChild,
-} from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
-import { Role } from '../../enum/role';
-import { RegistrationState } from '../../store/registration.state';
+
+import { BlockData } from 'shared/models/usersTable';
 import { Constants } from '../../constants/constants';
-import { UsersTable } from '../../models/usersTable';
-import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
 import { UserStatusesTitles } from '../../enum/enumUA/statuses';
+import { Role } from '../../enum/role';
+import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
+import { UsersTable } from '../../models/usersTable';
+import { RegistrationState } from '../../store/registration.state';
 
 /**
  * @title Table with sorting
@@ -27,9 +18,17 @@ import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 @Component({
   selector: 'app-users-list',
   templateUrl: './users-list.component.html',
-  styleUrls: ['./users-list.component.scss'],
+  styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
+  readonly statuses = UserStatusesTitles;
+  readonly statusIcons = UserStatusIcons;
+  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  readonly blockedStatus = 'Blocked';
+  readonly Role = Role;
+
+  @ViewChild(MatSort) sort: MatSort;
+
   @Input() users: Array<object>;
   @Input() adminType: Role;
   @Input() displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'region', 'status', 'actions'];
@@ -41,20 +40,14 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() update = new EventEmitter<UsersTable>();
   @Output() sendInvitation = new EventEmitter<UsersTable>();
 
-  readonly statuses = UserStatusesTitles;
-  readonly statusIcons = UserStatusIcons;
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  readonly blockedStatus = 'Blocked';
-  
   subrole: string;
-  Role = Role;
+  userRole: Role;
   dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
   constructor(private liveAnnouncer: LiveAnnouncer, private store: Store) {}
 
-  @ViewChild(MatSort) sort: MatSort;
-
   ngOnInit(): void {
+    this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);
     this.dataSource = new MatTableDataSource(this.users);
   }
@@ -77,5 +70,9 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
     } else {
       this.liveAnnouncer.announce('Sorting cleared');
     }
+  }
+
+  canSeeAreaAdminRegion(): boolean {
+    return this.Role[this.adminType] === this.Role.areaAdmin && [Role.techAdmin, Role.ministryAdmin].includes(this.userRole);
   }
 }
