@@ -272,6 +272,9 @@
   },
   "EXACT_MATCH": "Повний збіг",
   "FOR_FREE": "Безкоштовні",
+  "WITHOUT_COMPETITIVE_SELECTION": "Без конкурсного відбору",
+  "WITH_COMPETITIVE_SELECTION": "Є конкурсний відбір",
+  "INFO_ABOUT_SELECTION": "Інформація про відбір",
   "FORMS": {
     "ADD_TEACHER_LATER": "Вчителів до гуртка можна додати пізніше",
     "MATCH_ACTUAL_ADDRESS": "Збігається з юридичною адресою",
