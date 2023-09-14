@@ -55,12 +55,16 @@ export class AdminsComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public totalEntities: number;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'region', 'status'];
+  public displayedColumns: string[] = ['pib', 'email', 'phone', 'institution', 'region', 'territorialCommunity', 'status'];
   public adminParams: BaseAdminParameters = {
     searchString: '',
     tabTitle: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+
+  public get adminType(): AdminRoles {
+    return this.adminParams.tabTitle as AdminRoles;
+  }
 
   constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
@@ -95,6 +99,22 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.addNavPath();
   }
 
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Admins,
+        isActive: false,
+        disable: true
+      })
+    );
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
+  }
+
   /**
    * This method filter admins according to selected tab
    * @param event
@@ -113,6 +133,92 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.setDisplayedColumns();
   }
 
+  public onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    this.getAdmins();
+  }
+
+  public onItemsPerPageChange(itemsPerPage: number): void {
+    this.adminParams.size = itemsPerPage;
+    this.onPageChange(PaginationConstants.firstPage);
+  }
+
+  public onUpdate(admin: UsersTable): void {
+    this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
+  }
+
+  /**
+   * This method block, unBlock Admin By Id
+   */
+  public onBlock(admin: BlockData): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: admin.isBlocked ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.blockAdmin(admin, this.adminType);
+    });
+  }
+
+  /**
+   * This method delete Admin By Id
+   */
+  public onDelete(admin: UsersTable): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: ModalConfirmationType.deleteAdmin,
+        property: admin.pib
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result && this.deleteAdmin(admin.id, this.adminType);
+    });
+  }
+
+  private setTabOptions(): void {
+    const role = this.route.snapshot.queryParamMap.get('role');
+    this.adminParams.tabTitle = role ? AdminRoles[role] : this.getDefaultSearchRole();
+    this.tabIndex = this.getTabIndexFromRole(role);
+  }
+
+  private getAdmins(): void {
+    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
+    this.store.dispatch(new GetAllAdmins(this.adminType, this.adminParams));
+  }
+
+  /**
+   * This method determines whether the user needs to display actions column depending on his role.
+   */
+  private setDisplayedColumns(): void {
+    const isRegionInList = this.displayedColumns.includes('region');
+    const isTerritorialCommunityInList = this.displayedColumns.includes('territorialCommunity');
+    const isActionsInList = this.displayedColumns.includes('actions');
+
+    if (
+      ![AdminRoles.regionAdmin, AdminRoles.areaAdmin].includes(this.adminParams.tabTitle as AdminRoles) ||
+      (this.role === Role.regionAdmin && this.adminParams.tabTitle === AdminRoles.areaAdmin)
+    ) {
+      this.displayedColumns = this.displayedColumns.filter((value: string) => value !== 'region');
+    } else if (!isRegionInList) {
+      this.displayedColumns.splice(this.displayedColumns.indexOf('institution') + 1, 0, 'region');
+    }
+
+    if (this.adminParams.tabTitle !== AdminRoles.areaAdmin) {
+      this.displayedColumns = this.displayedColumns.filter((value: string) => value !== 'territorialCommunity');
+    } else if (!isTerritorialCommunityInList) {
+      this.displayedColumns.splice(this.displayedColumns.indexOf('region') + 1, 0, 'territorialCommunity');
+    }
+
+    if (this.role !== Role.techAdmin || !isActionsInList) {
+      this.displayedColumns.push('actions');
+    }
+  }
+
   private getRoleByIndex(index: number): string {
     switch (this.role) {
       case Role.ministryAdmin:
@@ -124,12 +230,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
     }
 
     return AdminRoleTypes[index];
-  }
-
-  private setTabOptions(): void {
-    const role = this.route.snapshot.queryParamMap.get('role');
-    this.adminParams.tabTitle = role ? AdminRoles[role] : this.getDefaultSearchRole();
-    this.tabIndex = this.getTabIndexFromRole(role);
   }
 
   private getDefaultSearchRole(): AdminRoles {
@@ -156,110 +256,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private get adminType(): AdminRoles {
-    return this.adminParams.tabTitle as AdminRoles;
-  }
-
-  /**
-   * This method determines whether the user needs to display actions column depending on his role.
-   */
-  private setDisplayedColumns(): void {
-    const isActionsInList = this.displayedColumns.includes('actions');
-
-    // If the user is a technical administrator and he already has the actions column in the list, exit
-    if (this.role === Role.techAdmin && isActionsInList) {
-      return;
-    }
-
-    // If the user is the ministryAdmin, we check whether he needs to display action column on this table.
-    if (this.role === Role.ministryAdmin) {
-      //If a table is selected that the user cannot edit and the actions column is added - delete column
-      //If a table is selected that the user can edit and the actions column is added, exit.
-      if (this.adminParams.tabTitle === AdminRoles.ministryAdmin && isActionsInList) {
-        this.displayedColumns = this.displayedColumns.filter((value: string) => value !== 'actions');
-        return;
-      } else if (isActionsInList) {
-        return;
-      }
-    }
-
-    //In all other cases, add an actions column
-    this.displayedColumns.push('actions');
-  }
-
-  /**
-   * This method block, unBlock Admin By Id
-   */
-  public onBlock(admin: BlockData): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: admin.isBlocked ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.blockAdmin(admin, this.adminType);
-    });
-  }
-
   private blockAdmin(blockData: BlockData, admin: AdminRoles): void {
     this.store.dispatch(new BlockAdminById({ adminId: blockData.user.id, isBlocked: blockData.isBlocked }, admin));
   }
 
-  /**
-   * This method delete Admin By Id
-   */
-  public onDelete(admin: UsersTable): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.deleteAdmin,
-        property: admin.pib
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.deleteAdmin(admin.id, this.adminType);
-    });
-  }
-
   private deleteAdmin(id: string, admin: AdminRoles): void {
     this.store.dispatch(new DeleteAdminById(id, admin));
-  }
-
-  public onUpdate(admin: UsersTable): void {
-    this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
-  }
-
-  private addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Admins,
-        isActive: false,
-        disable: true
-      })
-    );
-  }
-
-  public onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
-    this.getAdmins();
-  }
-
-  public onItemsPerPageChange(itemsPerPage: number): void {
-    this.adminParams.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new PopNavPath());
-  }
-
-  private getAdmins(): void {
-    Util.setFromPaginationParam(this.adminParams, this.currentPage, this.totalEntities);
-    this.store.dispatch(new GetAllAdmins(this.adminType, this.adminParams));
   }
 }
