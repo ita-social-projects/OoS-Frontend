@@ -27,8 +27,10 @@
           matInput
           [ngxMatTimepicker]="timepickerStart"
           format="24"
+          readonly
           required
           [formControl]="startTimeFormControl"
+          [max]="getMaxTime()"
           autocomplete="none" />
       </div>
       <app-validation-hint [validationFormControl]="startTimeFormControl"> </app-validation-hint>
@@ -44,6 +46,7 @@
           matInput
           [ngxMatTimepicker]="timepickerEnd"
           format="24"
+          readonly
           required
           [formControl]="endTimeFormControl"
           [min]="getMinTime()"
@@ -61,7 +64,7 @@
   <small appValidationMessageStyling> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }} <br /> </small>
 </ng-template>
 
-<ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm" timepickerClass=""> </ngx-mat-timepicker>
+<ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
 <ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"> </ngx-mat-timepicker>
 
 <ng-template #btnCancel>

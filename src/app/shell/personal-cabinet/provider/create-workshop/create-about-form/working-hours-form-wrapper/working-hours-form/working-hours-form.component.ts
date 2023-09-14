@@ -1,11 +1,11 @@
-import { ValidationConstants } from '../../../../../../../shared/constants/validation';
+import { ValidationConstants } from 'shared/constants/validation';
 import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { WorkingDaysValues } from '../../../../../../../shared/constants/constants';
-import { WorkingDaysReverse } from '../../../../../../../shared/enum/enumUA/working-hours';
-import { WorkingDaysToggleValue } from '../../../../../../../shared/models/workingHours.model';
+import { WorkingDaysValues } from 'shared/constants/constants';
+import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
+import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -62,7 +62,39 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   getMinTime(): string {
-    return this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MAX_TIME;
+    const startTimeString = this.startTimeFormControl.value ? this.startTimeFormControl.value : ValidationConstants.MAX_TIME;
+    const [startHours, startMinutes] = startTimeString.split(':').map(Number);
+
+    let newMinutes = startMinutes + 1;
+    let newHours = startHours;
+
+    if (newMinutes >= 60) {
+      newMinutes = 0;
+      newHours++;
+    }
+
+    newHours = newHours % 24;
+
+    return `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`;
+  }
+
+  getMaxTime(): string {
+    const endTimeString = this.endTimeFormControl.value ? this.endTimeFormControl.value : ValidationConstants.MAX_TIME;
+    const [endHours, endMinutes] = endTimeString.split(':').map(Number);
+
+    let newMinutes = endMinutes - 1;
+    let newHours = endHours;
+
+    if (newMinutes < 0) {
+      newMinutes = 59;
+      newHours--;
+    }
+
+    if (newHours < 0) {
+      newHours = 23;
+    }
+
+    return `${newHours.toString().padStart(2, '0')}:${newMinutes.toString().padStart(2, '0')}`;
   }
 
   delete(): void {

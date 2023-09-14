@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { DateTimeRanges } from '../../../../../../shared/models/workingHours.model';
-import { Workshop } from '../../../../../../shared/models/workshop.model';
+import { DateTimeRanges } from 'shared/models/workingHours.model';
+import { Workshop } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-working-hours-form-wrapper',
