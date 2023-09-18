@@ -1,17 +1,19 @@
-import { EmailConfirmationStatuses } from './../enum/statuses';
+import { BaseAdmin } from 'shared/models/admin.model';
+import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { CodeMessageErrors } from '../enum/enumUA/errors';
+import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
+import { UserTabsTitles } from '../enum/enumUA/user';
+import { Role } from '../enum/role';
+import { UserStatuses } from '../enum/statuses';
+import { Child } from '../models/child.model';
 import { DefaultFilterState } from '../models/defaultFilterState.model';
 import { FilterStateModel } from '../models/filterState.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { Role } from '../enum/role';
-import { Child } from '../models/child.model';
+import { PaginationElement } from '../models/paginationElement.model';
+import { PaginationParameters } from '../models/queryParameters.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
-import { UserStatuses } from '../enum/statuses';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { UserTabsTitles } from '../enum/enumUA/user';
+import { EmailConfirmationStatuses } from './../enum/statuses';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -96,7 +98,7 @@ export class Util {
    */
   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
     const updatedAdmins = [];
-    admins.forEach((admin: MinistryAdmin) => {
+    admins.forEach((admin: BaseAdmin) => {
       updatedAdmins.push({
         id: admin.id,
         pib: this.getFullName(admin),
@@ -105,6 +107,7 @@ export class Util {
         institutionTitle: admin.institutionTitle,
         status: admin.accountStatus || UserStatuses.Accepted,
         catottgName: admin.catottgName,
+        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName
       });
     });
     return updatedAdmins;
