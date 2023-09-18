@@ -1,24 +1,30 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { take, takeUntil } from 'rxjs/operators';
-import { Router, ActivatedRoute, NavigationStart, ParamMap } from '@angular/router';
-import { WorkshopDeclination } from '../../shared/enum/enumUA/declinations/declination';
-import { NavBarName } from '../../shared/enum/enumUA/navigation-bar';
-import { FilterStateModel } from '../../shared/models/filterState.model';
-import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';
-import { AppState } from '../../shared/store/app.state';
-import { ResetFilteredWorkshops, SetMapView, SetFilterFromURL, FilterClear, SetFilterPagination } from '../../shared/store/filter.actions';
-import { FilterState } from '../../shared/store/filter.state';
-import { FiltersSidenavToggle, AddNavPath, DeleteNavPath } from '../../shared/store/navigation.actions';
-import { NavigationState } from '../../shared/store/navigation.state';
-import { RegistrationState } from '../../shared/store/registration.state';
-import { WorkshopCard } from '../../shared/models/workshop.model';
-import { SearchResponse } from '../../shared/models/search.model';
-import { Util } from '../../shared/utils/utils';
-import { PaginationConstants } from '../../shared/constants/constants';
-import { PaginationParameters } from '../../shared/models/queryParameters.model';
-import { PaginationElement } from '../../shared/models/paginationElement.model';
+import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { FilterStateModel } from 'shared/models/filterState.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AppState } from 'shared/store/app.state';
+import {
+  FilterClear,
+  ResetFilteredWorkshops,
+  SetFilterFromURL,
+  SetFilterPagination,
+  SetMapView
+} from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Util } from 'shared/utils/utils';
+import { PaginationConstants } from 'shared/constants/constants';
+import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { PaginationElement } from 'shared/models/paginationElement.model';
 
 enum ViewType {
   map = 'map',
