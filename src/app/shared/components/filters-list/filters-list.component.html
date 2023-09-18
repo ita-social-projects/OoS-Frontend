@@ -11,7 +11,7 @@
     </ng-container>
   </div>
   <app-user-radius-set *ngIf="isMapView$ | async"></app-user-radius-set>
-  <app-category-check-box [slectedDirectionIds]="filterList.directionIds"></app-category-check-box>
+  <app-category-check-box [selectedDirectionIds]="filterList.directionIds"></app-category-check-box>
   <app-age-filter [ageFilter]="filterList.ageFilter"></app-age-filter>
   <app-working-hours [workingHours]="filterList.workingHours"></app-working-hours>
   <app-price-filter [priceFilter]="filterList.priceFilter"></app-price-filter>

@@ -1,11 +1,16 @@
 import { Observable, Subject } from 'rxjs';
-import { filter, switchMap, take, takeUntil, tap } from 'rxjs/operators';
+import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
-import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
+import {
+  HierarchyElement,
+  InstituitionHierarchy,
+  Institution,
+  InstitutionFieldDescription
+} from '../../models/institution.model';
 import { Provider } from '../../models/provider.model';
 import {
   GetAllByInstitutionAndLevel,

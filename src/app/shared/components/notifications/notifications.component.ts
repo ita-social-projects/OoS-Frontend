@@ -15,19 +15,19 @@ import { NotificationsState } from '../../store/notifications.state';
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
   @Select(NotificationsState.notificationsAmount)
-  notificationsAmount$: Observable<NotificationsAmount>;
+  public notificationsAmount$: Observable<NotificationsAmount>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+  public isMobileScreen$: Observable<boolean>;
 
   private hubConnection: signalR.HubConnection;
 
-  notificationsAmount: NotificationsAmount;
-  recievedNotification: Notification;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public notificationsAmount: NotificationsAmount;
+  public recievedNotification: Notification;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private signalRService: SignalRService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
 
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
@@ -54,7 +54,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       .subscribe((notificationsAmount: NotificationsAmount) => (this.notificationsAmount = notificationsAmount));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.hubConnection.stop();
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

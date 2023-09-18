@@ -17,15 +17,15 @@ import {
   styleUrls: ['./reason-modal-window.component.scss']
 })
 export class ReasonModalWindowComponent implements OnInit {
-  readonly validationConstants = ValidationConstants;
-  readonly modalConfirmationType = ModalConfirmationType;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly validationConstants = ValidationConstants;
+  public readonly modalConfirmationType = ModalConfirmationType;
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
-  formGroup: FormGroup;
-  modalTitle: string;
-  modalConfirmationText: string;
-  modalConfirmationDescription: string;
-  isPhoneNumberRequired: boolean;
+  public formGroup: FormGroup;
+  public modalTitle: string;
+  public modalConfirmationText: string;
+  public modalConfirmationDescription: string;
+  public isPhoneNumberRequired: boolean;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { type: string; property: string },
@@ -50,7 +50,7 @@ export class ReasonModalWindowComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.modalTitle = ModalConfirmationTitle[this.data.type];
     this.modalConfirmationText = ModalConfirmationText[this.data.type];
     this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
@@ -64,7 +64,7 @@ export class ReasonModalWindowComponent implements OnInit {
     return this.isPhoneNumberRequired && (this.formGroup.get('phoneNumber') as FormControl);
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.isPhoneNumberRequired) {
       this.dialogRef.close({
         reason: this.reasonFormControl.value,
@@ -75,7 +75,7 @@ export class ReasonModalWindowComponent implements OnInit {
     }
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.dialogRef.close();
   }
 }

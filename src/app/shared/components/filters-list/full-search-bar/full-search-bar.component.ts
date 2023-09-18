@@ -6,5 +6,5 @@ import { Component, Input } from '@angular/core';
   styleUrls: ['./full-search-bar.component.scss']
 })
 export class FullSearchBarComponent {
-  @Input() styleClass: string;
+  @Input() public styleClass: string;
 }

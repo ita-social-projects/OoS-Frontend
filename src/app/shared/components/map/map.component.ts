@@ -10,9 +10,9 @@ import { Subject } from 'rxjs';
 import { takeUntil, filter, debounceTime, switchMap, take, delay } from 'rxjs/operators';
 import { SharedUserState } from '../../store/shared-user.state';
 import { WorkshopMarker } from '../../models/workshopMarker.model';
-import { GeocoderService } from './../../services/geolocation/geocoder.service';
-import { Geocoder } from './../../models/geolocation';
-import { Codeficator } from './../../models/codeficator.model';
+import { GeocoderService } from 'shared/services/geolocation/geocoder.service';
+import { Geocoder } from 'shared/models/geolocation';
+import { Codeficator } from 'shared/models/codeficator.model';
 import { FilterState } from '../../store/filter.state';
 import { SearchResponse } from '../../models/search.model';
 import { SetCoordsByMap } from '../../store/filter.actions';
@@ -27,23 +27,23 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./map.component.scss']
 })
 export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Input() addressFormGroup: FormGroup;
-  @Input() settelmentFormGroup: FormGroup;
+  @Input() public addressFormGroup: FormGroup;
+  @Input() public settelmentFormGroup: FormGroup;
 
-  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
-  @Output() addressSelect = new EventEmitter<Geocoder>();
-  @Output() selectedWorkshopAddress = new EventEmitter<Address>();
+  @Output() public addressSelect = new EventEmitter<Geocoder>();
+  @Output() public selectedWorkshopAddress = new EventEmitter<Address>();
 
   @Select(SharedUserState.selectedWorkshop)
-  selectedWorkshop$: Observable<Workshop>;
+  public selectedWorkshop$: Observable<Workshop>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+  public settlement$: Observable<Codeficator>;
   @Select(FilterState.userRadiusSize)
-  userRadiusSize$: Observable<number>;
+  public userRadiusSize$: Observable<number>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  map: Layer.Map;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public map: Layer.Map;
 
   private singleMarker: Layer.Marker;
   private workshopMarkers: WorkshopMarker[] = [];
@@ -89,18 +89,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   });
 
   constructor(private geocoderService: GeocoderService, private store: Store, private geolocationService: GeolocationService, private translateService: TranslateService) {}
-  
-  ngOnInit(): void {
+
+  public ngOnInit(): void {
     this.changeLanguageOnMarkerPopup();
   }
-  
+
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
    * Creates and sets map after div with is "map" renders.
    * Adds onclick event handler which translates map coords into address
    * subscribes on @input address change and on every change calls method to translate address into coords
    */
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.settlement$
       .pipe(
         takeUntil(this.destroy$),
@@ -128,7 +128,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       });
 
     this.settlement$
-      .pipe(        
+      .pipe(
         takeUntil(this.destroy$),
         delay(this.delayDuration),
         take(1)
@@ -154,7 +154,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.showWarningMessage(SnackbarText.geolocationWarning, 'warningYellow', true);
       }
-    });    
+    });
   }
 
   /**
@@ -214,7 +214,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
   }
- 
+
   private setFilteredWorkshops(): void {
     this.filteredWorkshops$.pipe(takeUntil(this.destroy$)).subscribe((filteredWorkshops: SearchResponse<WorkshopCard[]>) => {
       this.workshopMarkers.forEach((workshopMarker: WorkshopMarker) => this.map.removeLayer(workshopMarker.marker));
@@ -394,7 +394,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

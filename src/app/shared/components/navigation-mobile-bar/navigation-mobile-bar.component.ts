@@ -13,22 +13,22 @@ import { delay } from 'rxjs/operators';
 })
 export class NavigationMobileBarComponent implements OnInit, OnDestroy {
   @Select(NavigationState.navigationPathsMobile)
-  navigationPathsMobile$: Observable<Navigation[]>;
-  navigationPathsMobile: Navigation[] = [];
+  public navigationPathsMobile$: Observable<Navigation[]>;
+  public navigationPathsMobile: Navigation[] = [];
 
   private navigation: Subscription;
 
   constructor(private location: Location) {}
 
-  goBack(): void {
+  public goBack(): void {
     this.location.back();
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.navigation = this.navigationPathsMobile$.pipe(delay(0)).subscribe((navigation) => (this.navigationPathsMobile = navigation));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.navigation.unsubscribe();
   }
 }

@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
   styleUrls: ['./workshop-seats-lack-modal.component.scss']
 })
 export class WorkshopSeatsLackModalComponent implements OnInit {
-  workshopId: string;
+  public workshopId: string;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -17,7 +17,7 @@ export class WorkshopSeatsLackModalComponent implements OnInit {
     }
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.workshopId = this.data.workshopId;
   }
 }

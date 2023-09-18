@@ -33,38 +33,38 @@ import {
   styleUrls: ['./workshop-card.component.scss']
 })
 export class WorkshopCardComponent implements OnInit, OnDestroy {
-  readonly OwnershipTypeEnum = OwnershipTypesEnum;
-  readonly recruitmentStatusEnum = RecruitmentStatusEnum;
-  readonly Role = Role;
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  readonly categoryIcons = CategoryIcons;
-  readonly PayRateTypeEnum = PayRateTypeEnum;
-  readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  readonly workhopStatus = WorkshopOpenStatus;
-  readonly modalConfirmationType = ModalConfirmationType;
+  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
+  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
+  public readonly Role = Role;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly categoryIcons = CategoryIcons;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+  public readonly workhopStatus = WorkshopOpenStatus;
+  public readonly modalConfirmationType = ModalConfirmationType;
 
-  openDialog = false;
-  isFavorite = false;
-  canChangeWorkshopStatus: boolean;
-  workshopData: ProviderWorkshopCard | WorkshopCard;
+  public openDialog = false;
+  public isFavorite = false;
+  public canChangeWorkshopStatus: boolean;
+  public workshopData: ProviderWorkshopCard | WorkshopCard;
 
-  @Input() set workshop(workshop: WorkshopCard) {
+  @Input() public set workshop(workshop: WorkshopCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
 
-  @Input() isCabinetView = false;
-  @Input() isHorizontalView = false;
-  @Input() isCreateFormView = false;
+  @Input() public isCabinetView = false;
+  @Input() public isHorizontalView = false;
+  @Input() public isCreateFormView = false;
 
-  @Output() deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
+  @Output() public deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
 
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+  public favoriteWorkshops$: Observable<Favorite[]>;
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
-  role: Role;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public role$: Observable<Role>;
+  public role: Role;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   private favoriteWorkshopId: string;
 
@@ -74,7 +74,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
 
   constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     if (this.isCabinetView) {
       this.canChangeWorkshopStatus = !(
         this.workshopData.providerOwnership === OwnershipTypes.State ||
@@ -91,11 +91,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDelete(): void {
+  public onDelete(): void {
     this.deleteWorkshop.emit(this.workshopData);
   }
 
-  onLike(): void {
+  public onLike(): void {
     const param = new Favorite(this.workshopData.workshopId, this.store.selectSnapshot(RegistrationState.parent).userId.toString());
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
@@ -107,7 +107,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onDisLike(): void {
+  public onDisLike(): void {
     this.store.dispatch([
       new DeleteFavoriteWorkshop(this.favoriteWorkshopId),
       new ShowMessageBar({
@@ -118,7 +118,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     this.isFavorite = !this.isFavorite;
   }
 
-  onChangeWorkshopStatus(status: string, type: ModalConfirmationType): void {
+  public onChangeWorkshopStatus(status: string, type: ModalConfirmationType): void {
     if ((this.canOpenWorkshopRecruitment && type === ModalConfirmationType.openSet) || type === ModalConfirmationType.closeSet) {
       const dialogRef = this.dialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
@@ -145,7 +145,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     }
   }
 
-  onOpenDialog(): void {
+  public onOpenDialog(): void {
     this.dialog.open(UnregisteredUserWarningModalComponent, {
       autoFocus: false,
       restoreFocus: false,
@@ -155,7 +155,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
