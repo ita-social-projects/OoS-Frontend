@@ -50,6 +50,7 @@
           required
           [formControl]="endTimeFormControl"
           [min]="getMinTime()"
+          [max]="ValidationConstants.MAX_TIME"
           autocomplete="none" />
       </div>
       <app-validation-hint [validationFormControl]="endTimeFormControl"> </app-validation-hint>

@@ -13,6 +13,8 @@ import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
   styleUrls: ['./working-hours-form.component.scss']
 })
 export class WorkingHoursFormComponent implements OnInit, OnDestroy {
+  protected readonly ValidationConstants = ValidationConstants;
+
   readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   destroy$: Subject<boolean> = new Subject<boolean>();
 

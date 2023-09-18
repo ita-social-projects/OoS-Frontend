@@ -1,4 +1,4 @@
-import { LicenseStatuses } from './../../enum/statuses';
+import { LicenseStatuses } from '../../enum/statuses';
 import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
@@ -20,7 +20,7 @@ import { DataItem } from '../../models/item.model';
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
   readonly constants: typeof Constants = Constants;
-  
+
   readonly ownershipTypes = OwnershipTypes;
   readonly ownershipTypesEnum = OwnershipTypesEnum;
   readonly institutionTypes = InstitutionTypes;
