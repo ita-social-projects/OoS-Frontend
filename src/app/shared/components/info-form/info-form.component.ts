@@ -8,18 +8,18 @@ import { ValidationConstants } from '../../constants/validation';
   styleUrls: ['./info-form.component.scss']
 })
 export class InfoFormComponent {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
 
-  @Input() InfoEditFormGroup: FormGroup;
-  @Input() index: number;
-  @Input() formAmount: number;
-  @Input() maxDescriptionLength: number;
+  @Input() public InfoEditFormGroup: FormGroup;
+  @Input() public index: number;
+  @Input() public formAmount: number;
+  @Input() public maxDescriptionLength: number;
 
-  @Output() deleteForm = new EventEmitter();
+  @Output() public deleteForm = new EventEmitter();
 
   constructor() {}
 
-  onDelete(): void {
+  public onDelete(): void {
     this.deleteForm.emit(this.index);
   }
 }

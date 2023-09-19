@@ -9,15 +9,15 @@ import { MessageBar } from '../../models/messageBar.model';
   styleUrls: ['./message-bar.component.scss']
 })
 export class MessageBarComponent implements OnInit {
-  messageType: string = messageType[messageType.success];
+  public messageType: string = messageType[messageType.success];
 
   constructor(private snackBar: MatSnackBar, @Inject(MAT_SNACK_BAR_DATA) public data: MessageBar) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.messageType = messageType[this.data.type];
   }
 
-  onClose(): void {
+  public onClose(): void {
     this.snackBar.dismiss();
   }
 }

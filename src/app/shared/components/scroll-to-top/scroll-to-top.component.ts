@@ -7,16 +7,16 @@ import { Constants } from '../../constants/constants';
   styleUrls: ['./scroll-to-top.component.scss']
 })
 export class ScrollToTopComponent implements OnInit {
-  showScrollButton: boolean;
-  readonly constants: typeof Constants = Constants;
+  public showScrollButton: boolean;
+  public readonly constants: typeof Constants = Constants;
 
   @HostListener('window:scroll')
-  checkScroll(): void {
+  public checkScroll(): void {
     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
     this.showScrollButton = scrollPosition >= this.constants.SCROLL_TO_TOP_BUTTON_POS ? true : false;
   }
 
-  scrolltoTop(): void {
+  public scrolltoTop(): void {
     window.scroll({
       top: 0,
       left: 0,
@@ -26,5 +26,5 @@ export class ScrollToTopComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 }

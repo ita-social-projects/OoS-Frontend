@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
@@ -221,7 +220,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to the formgroup 
+   * is true and sets the value to the formgroup
    */
   private competitiveSelectionListener(): void {
     this.competitiveSelectionRadioBtn.valueChanges
@@ -238,7 +237,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this.destroy$),
         debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) => 
+      ).subscribe((disabilityOptionsDesc: string) =>
         this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
       );
   }
