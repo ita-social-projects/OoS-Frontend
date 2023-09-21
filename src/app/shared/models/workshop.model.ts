@@ -158,6 +158,8 @@ export interface WorkshopCard extends WorkshopBaseCard {
   price: number;
   address: Address;
   competitiveSelection?: boolean;
+  availableSeats: number;
+  takenSeats: number;
 }
 
 export interface WorkshopStatus {

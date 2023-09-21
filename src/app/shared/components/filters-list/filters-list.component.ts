@@ -22,28 +22,28 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<FilterList>;
-  filterList: FilterList;
+  public filterList$: Observable<FilterList>;
+  public filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
-  visibleFiltersSidenav: boolean;
+  public filtersSidenavOpenTrue$: Observable<boolean>;
+  public visibleFiltersSidenav: boolean;
 
   @Select(FilterState.isMapView)
-  isMapView$: Observable<boolean>;
+  public isMapView$: Observable<boolean>;
 
-  @Input() isMobileView: boolean;
+  @Input() public isMobileView: boolean;
 
-  OpenRecruitmentControl = new FormControl(false);
-  ClosedRecruitmentControl = new FormControl(false);
-  WithDisabilityOptionControl = new FormControl(false);
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  statuses: WorkshopOpenStatus[];
-  readonly workhopStatus = WorkshopOpenStatus;
+  public OpenRecruitmentControl = new FormControl(false);
+  public ClosedRecruitmentControl = new FormControl(false);
+  public WithDisabilityOptionControl = new FormControl(false);
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public statuses: WorkshopOpenStatus[];
+  public readonly workhopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([visibleFiltersSidenav, filterList]) => {
@@ -72,19 +72,19 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    * When the user selects filters (OpenRecruitment or ClosedRecruitment),
    * we add the status to the array or remove the status from the array.
    */
-  statusHandler(val: boolean, status: string): void {
+  public statusHandler(val: boolean, status: string): void {
     val ? this.statuses.push(this.workhopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
   }
 
-  changeView(): void {
+  public changeView(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
   }
 
-  onFilterReset(): void {
+  public onFilterReset(): void {
     this.store.dispatch(new FilterClear());
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

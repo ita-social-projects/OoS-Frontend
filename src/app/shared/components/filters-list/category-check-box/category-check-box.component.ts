@@ -4,11 +4,11 @@ import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { Direction } from '../../../models/category.model';
-import { AppState } from '../../../store/app.state';
-import { SetDirections } from '../../../store/filter.actions';
-import { GetDirections } from '../../../store/meta-data.actions';
-import { MetaDataState } from '../../../store/meta-data.state';
+import { Direction } from 'shared/models/category.model';
+import { AppState } from 'shared/store/app.state';
+import { SetDirections } from 'shared/store/filter.actions';
+import { GetDirections } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-category-check-box',
@@ -17,13 +17,13 @@ import { MetaDataState } from '../../../store/meta-data.state';
 })
 export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
+  public directions$: Observable<Direction[]>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+  public isMobileScreen$: Observable<boolean>;
 
   @ViewChild('listWrapper') filterContainer: ElementRef;
 
-  @Input() slectedDirectionIds: number[];
+  @Input() selectedDirectionIds: number[];
 
   destroy$: Subject<boolean> = new Subject<boolean>();
   allDirections: Direction[] = [];
@@ -33,7 +33,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   constructor(private store: Store) {}
 
   ngAfterViewInit(): void {
-    if (this.slectedDirectionIds?.length) {
+    if (this.selectedDirectionIds?.length) {
       this.scrollToSelectedDirection();
     }
   }
@@ -50,18 +50,18 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   /**
-   * This method add checked direction to the list of selected directions and distpatch filter action
+   * This method add checked direction to the list of selected directions and dispatch filter action
    * @param direction
    * @param event
    */
   onDirectionCheck(direction: Direction, event: MatCheckbox): void {
     event.checked
-      ? this.slectedDirectionIds.push(direction.id)
-      : this.slectedDirectionIds.splice(
-          this.slectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-          1
-        );
-    this.store.dispatch(new SetDirections(this.slectedDirectionIds));
+      ? this.selectedDirectionIds.push(direction.id)
+      : this.selectedDirectionIds.splice(
+        this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+        1
+      );
+    this.store.dispatch(new SetDirections(this.selectedDirectionIds));
   }
 
   /**
@@ -79,7 +79,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    * @returns boolean
    */
   onSelectCheck(direction: Direction): boolean {
-    return this.slectedDirectionIds.some((directionId: number) => directionId === direction.id);
+    return this.selectedDirectionIds.some((directionId: number) => directionId === direction.id);
   }
 
   private scrollToSelectedDirection(): void {
