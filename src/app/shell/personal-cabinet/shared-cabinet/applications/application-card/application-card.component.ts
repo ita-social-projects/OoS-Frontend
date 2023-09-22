@@ -49,6 +49,7 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
 
   @Output() leave = new EventEmitter();
   @Output() approve = new EventEmitter();
+  @Output() acceptForSelection = new EventEmitter();
   @Output() reject = new EventEmitter();
   @Output() block = new EventEmitter();
   @Output() unblock = new EventEmitter();
