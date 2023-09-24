@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, tap } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from '../constants/constants';
 import { ChatRoom, IncomingMessage } from '../models/chat.model';
@@ -9,9 +8,8 @@ import { SearchResponse } from '../models/search.model';
 import { ChatService } from '../services/chat/chat.service';
 import {
   ClearSelectedChatRoom,
+  GetChatRoomByApplicationId,
   GetChatRoomById,
-  GetChatRoomForParentByWorkshopId,
-  GetChatRoomForProviderByParentIdAndWorkshopId,
   GetChatRoomMessagesById,
   GetChatRoomMessagesForParentByWorkshopId,
   GetChatRooms
@@ -65,19 +63,6 @@ export class ChatState {
       .pipe(tap((chatRooms) => patchState({ isLoadingData: false, chatRooms: chatRooms ?? EMPTY_RESULT })));
   }
 
-  @Action(GetChatRoomForProviderByParentIdAndWorkshopId)
-  getChatRoomsForProviderByParentIdAndWorkshopId(
-    { patchState }: StateContext<ChatStateModel>,
-    { parentId, workshopId }: GetChatRoomForProviderByParentIdAndWorkshopId
-  ): Observable<ChatRoom> {
-    patchState({ isLoadingData: true });
-    // TODO: Refactor due to incoming backend endpoint where is no need to filter chats on frontend
-    return this.chatService.getChatRoomsForProviderByParentId(parentId).pipe(
-      map((chatRooms) => chatRooms.find((chatRoom) => chatRoom.workshopId === workshopId)),
-      tap((selectedChatRoom) => patchState({ isLoadingData: false, selectedChatRoom }))
-    );
-  }
-
   @Action(GetChatRoomById)
   getChatRoomById({ patchState }: StateContext<ChatStateModel>, { role, chatRoomId }: GetChatRoomById): Observable<ChatRoom> {
     patchState({ isLoadingData: true });
@@ -86,14 +71,14 @@ export class ChatState {
       .pipe(tap((selectedChatRoom) => patchState({ isLoadingData: false, selectedChatRoom })));
   }
 
-  @Action(GetChatRoomForParentByWorkshopId)
-  getChatRoomForParentByWorkshopId(
+  @Action(GetChatRoomByApplicationId)
+  getChatRoomByApplicationId(
     { patchState }: StateContext<ChatStateModel>,
-    { workshopId }: GetChatRoomForParentByWorkshopId
+    { applicationId }: GetChatRoomByApplicationId
   ): Observable<ChatRoom> {
     patchState({ isLoadingData: true });
     return this.chatService
-      .getChatRoomForParentByWorkshopId(workshopId)
+      .getChatRoomByApplicationId(applicationId)
       .pipe(tap((selectedChatRoom) => patchState({ isLoadingData: false, selectedChatRoom })));
   }
 

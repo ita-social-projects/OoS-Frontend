@@ -20,16 +20,12 @@ export class ChatService {
     return this.http.get<SearchResponse<ChatRoom[]>>(`${this.baseApiUrl}/${parameters.role}/chatrooms`, { params });
   }
 
-  public getChatRoomsForProviderByParentId(parentId: string): Observable<ChatRoom[]> {
-    return this.http.get<ChatRoom[]>(`${this.baseApiUrl}/provider/chatroomsforparent/${parentId}`);
-  }
-
   public getChatRoomById(role: Role, chatRoomId: string): Observable<ChatRoom> {
     return this.http.get<ChatRoom>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}`);
   }
 
-  public getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatroomforworkshop/${workshopId}`);
+  public getChatRoomByApplicationId(applicationId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`${this.baseApiUrl}/chatrooms/applications/${applicationId}`);
   }
 
   public getChatRoomMessagesById(role: Role, chatRoomId: string, parameters: MessagesParameters): Observable<IncomingMessage[]> {

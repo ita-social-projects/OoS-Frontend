@@ -16,13 +16,7 @@ import { Parent } from 'shared/models/parent.model';
 import { User } from 'shared/models/user.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
-import {
-  ClearSelectedChatRoom,
-  GetChatRoomById,
-  GetChatRoomForParentByWorkshopId,
-  GetChatRoomForProviderByParentIdAndWorkshopId,
-  GetChatRoomMessagesById
-} from 'shared/store/chat.actions';
+import { ClearSelectedChatRoom, GetChatRoomByApplicationId, GetChatRoomById, GetChatRoomMessagesById } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { SetParent } from 'shared/store/registration.actions';
@@ -186,12 +180,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(([workshop, user, parent]) => {
         this.chatRoom = new ChatRoom(workshop, user, parent);
         this.messagesParameters.from = this.messages.length;
-
-        if (this.userIsProvider) {
-          this.store.dispatch(new GetChatRoomForProviderByParentIdAndWorkshopId(parentId, workshopId));
-        } else {
-          this.store.dispatch(new GetChatRoomForParentByWorkshopId(workshopId));
-        }
+        this.store.dispatch(new GetChatRoomByApplicationId(workshopId));
       });
   }
 
@@ -234,7 +223,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public onSendMessage(): void {
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
-      const sendMessage = new OutgoingMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.messageControl.value);
+      const sendMessage = new OutgoingMessage(
+        this.chatRoom.workshopId,
+        this.chatRoom.parentId,
+        this.chatRoom.id,
+        this.messageControl.value
+      );
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
       this.messageControl.setValue('');
     }

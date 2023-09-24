@@ -7,22 +7,16 @@ export class GetChatRooms {
   constructor(public parameters: ChatRoomsParameters) {}
 }
 
-export class GetChatRoomForProviderByParentIdAndWorkshopId {
-  static readonly type = '[chat] Get Chat Rooms For Provider By Parent Id And Workshop Id';
-
-  constructor(public parentId: string, public workshopId: string) {}
-}
-
 export class GetChatRoomById {
   static readonly type = '[chat] Get Chat Room By Id';
 
   constructor(public role: Role, public chatRoomId: string) {}
 }
 
-export class GetChatRoomForParentByWorkshopId {
-  static readonly type = '[chat] Get Chat Room For Parent By Workshop Id';
+export class GetChatRoomByApplicationId {
+  static readonly type = '[chat] Get Chat Room By Application Id';
 
-  constructor(public workshopId: string) {}
+  constructor(public applicationId: string) {}
 }
 
 export class GetChatRoomMessagesById {
