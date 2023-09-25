@@ -10,6 +10,7 @@ import {
   ClearSelectedChatRoom,
   GetChatRoomByApplicationId,
   GetChatRoomById,
+  GetChatRoomForParentByWorkshopId,
   GetChatRoomMessagesById,
   GetChatRoomMessagesForParentByWorkshopId,
   GetChatRooms
@@ -68,6 +69,17 @@ export class ChatState {
     patchState({ isLoadingData: true });
     return this.chatService
       .getChatRoomById(role, chatRoomId)
+      .pipe(tap((selectedChatRoom) => patchState({ isLoadingData: false, selectedChatRoom })));
+  }
+
+  @Action(GetChatRoomForParentByWorkshopId)
+  getChatRoomForParentByWorkshopId(
+    { patchState }: StateContext<ChatStateModel>,
+    { workshopId }: GetChatRoomForParentByWorkshopId
+  ): Observable<ChatRoom> {
+    patchState({ isLoadingData: true });
+    return this.chatService
+      .getChatRoomForParentByWorkshopId(workshopId)
       .pipe(tap((selectedChatRoom) => patchState({ isLoadingData: false, selectedChatRoom })));
   }
 

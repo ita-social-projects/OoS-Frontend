@@ -136,6 +136,7 @@ export class CropperConfigurationConstants {
 export class ModeConstants {
   static readonly NEW = 'new';
   static readonly WORKSHOP = 'workshop';
+  static readonly APPLICATION = 'application';
   static readonly SHORT = 'short';
   static readonly FULL = 'full';
 }

@@ -13,6 +13,12 @@ export class GetChatRoomById {
   constructor(public role: Role, public chatRoomId: string) {}
 }
 
+export class GetChatRoomForParentByWorkshopId {
+  static readonly type = '[chat] Get Chat Room For Parent By Workshop Id';
+
+  constructor(public workshopId: string) {}
+}
+
 export class GetChatRoomByApplicationId {
   static readonly type = '[chat] Get Chat Room By Application Id';
 

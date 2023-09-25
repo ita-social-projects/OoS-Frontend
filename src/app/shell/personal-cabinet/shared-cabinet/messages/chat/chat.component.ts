@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, combineLatest, filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import { asyncScheduler, filter, map, Observable, Subject, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-Url';
@@ -12,17 +12,18 @@ import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from 'shared/models/chat.model';
-import { Parent } from 'shared/models/parent.model';
-import { User } from 'shared/models/user.model';
-import { Workshop } from 'shared/models/workshop.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
-import { ClearSelectedChatRoom, GetChatRoomByApplicationId, GetChatRoomById, GetChatRoomMessagesById } from 'shared/store/chat.actions';
+import {
+  ClearSelectedChatRoom,
+  GetChatRoomByApplicationId,
+  GetChatRoomById,
+  GetChatRoomForParentByWorkshopId,
+  GetChatRoomMessagesById
+} from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { SetParent } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
-import { SharedUserState } from 'shared/store/shared-user.state';
+import { ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { Util } from 'shared/utils/utils';
 
 @Component({
@@ -40,12 +41,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private chatRoom$: Observable<ChatRoom>;
   @Select(ChatState.selectedChatRoomMessages)
   private messages$: Observable<IncomingMessage[]>;
-  @Select(SharedUserState.selectedWorkshop)
-  private workshop$: Observable<Workshop>;
-  @Select(RegistrationState.user)
-  private user$: Observable<User>;
-  @Select(RegistrationState.parent)
-  private parent$: Observable<Parent>;
 
   private readonly scrollTopStep = 10;
   private messagesParameters: MessagesParameters = {
@@ -153,35 +148,20 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getChatRoom(): void {
+    const routeId = this.route.snapshot.paramMap.get('id');
     this.mode = this.route.snapshot.queryParamMap.get('mode');
 
-    if (this.mode === ModeConstants.WORKSHOP) {
-      this.createChatRoom();
-    } else {
-      const chatRoomId = this.route.snapshot.paramMap.get('id');
-      this.store.dispatch(new GetChatRoomById(this.userRole, chatRoomId));
+    switch (this.mode) {
+      case ModeConstants.WORKSHOP:
+        this.store.dispatch(new GetChatRoomForParentByWorkshopId(routeId));
+        break;
+      case ModeConstants.APPLICATION:
+        this.store.dispatch(new GetChatRoomByApplicationId(routeId));
+        break;
+      default:
+        this.store.dispatch(new GetChatRoomById(this.userRole, routeId));
+        break;
     }
-  }
-
-  private createChatRoom(): void {
-    const workshopId = this.route.snapshot.paramMap.get('id');
-    const parentId = this.route.snapshot.queryParamMap.get('parentId');
-
-    this.store.dispatch(new GetWorkshopById(workshopId));
-    if (this.userIsProvider) {
-      this.store.dispatch(new SetParent({ id: parentId }));
-    }
-
-    combineLatest([this.workshop$, this.user$, this.parent$])
-      .pipe(
-        filter(([workshop, user, parent]) => !!(workshop && user && parent)),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(([workshop, user, parent]) => {
-        this.chatRoom = new ChatRoom(workshop, user, parent);
-        this.messagesParameters.from = this.messages.length;
-        this.store.dispatch(new GetChatRoomByApplicationId(workshopId));
-      });
   }
 
   private getChatMembersNames(): void {

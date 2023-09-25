@@ -24,6 +24,10 @@ export class ChatService {
     return this.http.get<ChatRoom>(`${this.baseApiUrl}/${role}/chatrooms/${chatRoomId}`);
   }
 
+  public getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
+    return this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatroomforworkshop/${workshopId}`);
+  }
+
   public getChatRoomByApplicationId(applicationId: string): Observable<ChatRoom> {
     return this.http.get<ChatRoom>(`${this.baseApiUrl}/chatrooms/applications/${applicationId}`);
   }

@@ -37,7 +37,6 @@ import {
   OnAuthFail,
   OnUpdateUserFail,
   OnUpdateUserSuccess,
-  SetParent,
   UpdateUser
 } from './registration.actions';
 
@@ -245,10 +244,5 @@ export class RegistrationState {
       })
     ]);
     this.location.back();
-  }
-
-  @Action(SetParent)
-  setParent({ patchState }: StateContext<RegistrationStateModel>, { parent }: SetParent) {
-    patchState({ parent });
   }
 }
