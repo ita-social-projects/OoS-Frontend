@@ -129,6 +129,10 @@
     <p class="card_text"><i class="fas fa-user-clock card_icon"></i> {{ 'AWAITING_CONFIRMATION' | translate }}:</p>
     <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
   </div>
+  <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
+    <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
+    <span class="card_text card_text_blue"> {{ workshopData.unreadMessages }}</span>
+  </div>
 </ng-template>
 
 <ng-template #UserWorkshopView>
