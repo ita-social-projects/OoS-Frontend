@@ -94,7 +94,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
-  onAcceptForSelection(application: Application): void {
+  public onAcceptForSelection(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.AcceptedForSelection);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
