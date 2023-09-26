@@ -1,10 +1,9 @@
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { SnackbarText } from '../enum/enumUA/messageBer';
@@ -16,7 +15,7 @@ import { TruncatedItem } from '../models/item.model';
 import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { SearchResponse } from '../models/search.model';
-import { ProviderWorkshopCard, Workshop, WorkshopStatus } from '../models/workshop.model';
+import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
 import { AchievementsService } from '../services/achievements/achievements.service';
 import { BlockService } from '../services/block/block.service';
 import { ProviderAdminService } from '../services/provider-admins/provider-admin.service';
@@ -26,25 +25,71 @@ import { Util } from '../utils/utils';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
-  BlockParent, BlockParentFail, BlockParentSuccess, BlockProviderAdminById, CreateAchievement,
-  CreateProvider, CreateProviderAdmin, CreateWorkshop, DeleteAchievementById,
-  DeleteProviderAdminById, DeleteProviderById, DeleteWorkshopById, GetAchievementById,
-  GetAchievementsByWorkshopId, GetBlockedParents, GetChildrenByWorkshopId,
-  GetFilteredProviderAdmins, GetProviderAdminById, GetProviderAdminWorkshops,
-  GetProviderViewWorkshops, GetWorkshopListByProviderAdminId, GetWorkshopListByProviderId,
-  OnBlockProviderAdminFail, OnBlockProviderAdminSuccess, OnClearBlockedParents,
-  OnCreateAchievementFail, OnCreateAchievementSuccess, OnCreateProviderAdminFail,
-  OnCreateProviderAdminSuccess, OnCreateProviderFail, OnCreateProviderSuccess, OnCreateWorkshopFail,
-  OnCreateWorkshopSuccess, OnDeleteAchievementFail, OnDeleteAchievementSuccess,
-  OnDeleteProviderAdminFail, OnDeleteProviderAdminSuccess, OnDeleteProviderByIdFail,
-  OnDeleteProviderByIdSuccess, OnDeleteWorkshopFail, OnDeleteWorkshopSuccess,
-  OnUpdateAchievementFail, OnUpdateAchievementSuccess, OnUpdateProviderAdminFail,
-  OnUpdateProviderAdminSuccess, OnUpdateProviderFail, OnUpdateProviderStatusFail,
-  OnUpdateProviderStatusSuccess, OnUpdateProviderSuccess, OnUpdateWorkshopFail,
-  OnUpdateWorkshopStatusFail, OnUpdateWorkshopStatusSuccess, OnUpdateWorkshopSuccess,
-  ReinviteProviderAdmin, ResetAchievements, UnBlockParent, UnBlockParentFail, UnBlockParentSuccess,
-  UpdateAchievement, UpdateProvider, UpdateProviderAdmin, UpdateProviderLicenseStatuse,
-  UpdateProviderStatus, UpdateWorkshop, UpdateWorkshopStatus
+  BlockParent,
+  BlockParentFail,
+  BlockParentSuccess,
+  BlockProviderAdminById,
+  CreateAchievement,
+  CreateProvider,
+  CreateProviderAdmin,
+  CreateWorkshop,
+  DeleteAchievementById,
+  DeleteProviderAdminById,
+  DeleteProviderById,
+  DeleteWorkshopById,
+  GetAchievementById,
+  GetAchievementsByWorkshopId,
+  GetBlockedParents,
+  GetChildrenByWorkshopId,
+  GetFilteredProviderAdmins,
+  GetProviderAdminById,
+  GetProviderAdminWorkshops,
+  GetProviderViewWorkshops,
+  GetWorkshopListByProviderAdminId,
+  GetWorkshopListByProviderId,
+  OnBlockProviderAdminFail,
+  OnBlockProviderAdminSuccess,
+  OnClearBlockedParents,
+  OnCreateAchievementFail,
+  OnCreateAchievementSuccess,
+  OnCreateProviderAdminFail,
+  OnCreateProviderAdminSuccess,
+  OnCreateProviderFail,
+  OnCreateProviderSuccess,
+  OnCreateWorkshopFail,
+  OnCreateWorkshopSuccess,
+  OnDeleteAchievementFail,
+  OnDeleteAchievementSuccess,
+  OnDeleteProviderAdminFail,
+  OnDeleteProviderAdminSuccess,
+  OnDeleteProviderByIdFail,
+  OnDeleteProviderByIdSuccess,
+  OnDeleteWorkshopFail,
+  OnDeleteWorkshopSuccess,
+  OnUpdateAchievementFail,
+  OnUpdateAchievementSuccess,
+  OnUpdateProviderAdminFail,
+  OnUpdateProviderAdminSuccess,
+  OnUpdateProviderFail,
+  OnUpdateProviderStatusFail,
+  OnUpdateProviderStatusSuccess,
+  OnUpdateProviderSuccess,
+  OnUpdateWorkshopFail,
+  OnUpdateWorkshopStatusFail,
+  OnUpdateWorkshopStatusSuccess,
+  OnUpdateWorkshopSuccess,
+  ReinviteProviderAdmin,
+  ResetAchievements,
+  UnBlockParent,
+  UnBlockParentFail,
+  UnBlockParentSuccess,
+  UpdateAchievement,
+  UpdateProvider,
+  UpdateProviderAdmin,
+  UpdateProviderLicenseStatuse,
+  UpdateProviderStatus,
+  UpdateWorkshop,
+  UpdateWorkshopStatus
 } from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
 import { GetApplicationsByPropertyId } from './shared-user.actions';
@@ -54,7 +99,7 @@ export interface ProviderStateModel {
   achievements: SearchResponse<Achievement[]>;
   selectedAchievement: Achievement;
   approvedChildren: SearchResponse<Child[]>;
-  providerWorkshops: SearchResponse<ProviderWorkshopCard[]>;
+  providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>;
   providerAdmins: SearchResponse<ProviderAdmin[]>;
   selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
@@ -98,7 +143,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static providerWorkshops(state: ProviderStateModel): SearchResponse<ProviderWorkshopCard[]> {
+  static providerWorkshops(state: ProviderStateModel): SearchResponse<WorkshopProviderViewCard[]> {
     return state.providerWorkshops;
   }
 
@@ -265,12 +310,12 @@ export class ProviderState {
   getProviderAdminWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
     { parameters }: GetProviderAdminWorkshops
-  ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+  ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getProviderAdminsWorkshops(parameters)
       .pipe(
-        tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
+        tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
         )
       );
@@ -280,12 +325,12 @@ export class ProviderState {
   getProviderWorkshops(
     { patchState }: StateContext<ProviderStateModel>,
     { workshopCardParameters }: GetProviderViewWorkshops
-  ): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+  ): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     patchState({ isLoading: true });
     return this.userWorkshopService
       .getProviderViewWorkshops(workshopCardParameters)
       .pipe(
-        tap((providerWorkshops: SearchResponse<ProviderWorkshopCard[]>) =>
+        tap((providerWorkshops: SearchResponse<WorkshopProviderViewCard[]>) =>
           patchState({ providerWorkshops: providerWorkshops ?? EMPTY_RESULT, isLoading: false })
         )
       );

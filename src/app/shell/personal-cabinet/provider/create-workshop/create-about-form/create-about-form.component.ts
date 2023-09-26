@@ -9,7 +9,7 @@ import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
 import { PayRateType } from 'shared/enum/workshop';
 import { Provider } from 'shared/models/provider.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopV2 } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-about-form',
@@ -52,8 +52,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -113,7 +112,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: null,
+      competitiveSelectionDescription: null
     });
   }
 
@@ -170,7 +169,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   /**
    * This method sets null as value for payRate when the price is null, otherwise it sests either workshop value, or null for selecting new value
    */
-  private setPayRateControlValue = (payRate: string = null, action: string = 'disable', emitEvent: boolean = true) => {
+  private setPayRateControlValue = (payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
   };
@@ -195,7 +194,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
-    if (this.workshop.coverImageId) {
+    if (this.workshop instanceof WorkshopV2 && this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
     if (this.workshop.price) {
@@ -223,21 +222,16 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * is true and sets the value to the formgroup
    */
   private competitiveSelectionListener(): void {
-    this.competitiveSelectionRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((iscompetitiveSelectionDesc: boolean) => {
-        this.AboutFormGroup.get('competitiveSelection').setValue(iscompetitiveSelectionDesc);
-        iscompetitiveSelectionDesc
-          ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
-          : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
-      });
+    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((iscompetitiveSelectionDesc: boolean) => {
+      this.AboutFormGroup.get('competitiveSelection').setValue(iscompetitiveSelectionDesc);
+      iscompetitiveSelectionDesc
+        ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
+        : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
+    });
 
-    this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) =>
+    this.AboutFormGroup.get('competitiveSelectionDescription')
+      .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
+      .subscribe((disabilityOptionsDesc: string) =>
         this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
       );
   }

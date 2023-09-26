@@ -13,7 +13,7 @@ import { Role } from 'shared/enum/role';
 import { DetailsTabTitlesParams, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { ImgPath } from 'shared/models/carousel.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopV2 } from 'shared/models/workshop.model';
 import { ImagesService } from 'shared/services/images/images.service';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
@@ -73,7 +73,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   }
 
   private getWorkshopData(): void {
-    this.images = this.imagesService.setCarouselImages(this.workshop);
+    this.images = this.imagesService.setCarouselImages(this.workshop as WorkshopV2);
     this.store.dispatch([
       new GetProviderById(this.workshop.providerId),
       new AddNavPath(

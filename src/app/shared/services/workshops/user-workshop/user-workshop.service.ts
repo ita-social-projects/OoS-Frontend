@@ -1,19 +1,15 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
-import { ProviderParameters } from '../../../../shared/models/provider.model';
-import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
-import { FeaturesList } from '../../../models/featuresList.model';
-import { TruncatedItem } from '../../../models/item.model';
-import { PaginationElement } from '../../../models/paginationElement.model';
-import { SearchResponse } from '../../../models/search.model';
-import {
-  ProviderWorkshopCard, Workshop, WorkshopCard, WorkshopCardParameters, WorkshopStatus
-} from '../../../models/workshop.model';
-import { MetaDataState } from '../../../store/meta-data.state';
+import { FeaturesList } from 'shared/models/featuresList.model';
+import { TruncatedItem } from 'shared/models/item.model';
+import { ProviderParameters } from 'shared/models/provider.model';
+import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop, WorkshopCard, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Injectable({
   providedIn: 'root'
@@ -26,19 +22,19 @@ export class UserWorkshopService {
   /**
    * This method get related workshops for provider admins personal cabinet
    */
-  public getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+  public getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     let params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
 
-    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
+    return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
   }
 
   /**
    * This method get related workshops for provider personal cabinet
    */
-  public getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<ProviderWorkshopCard[]>> {
+  public getProviderViewWorkshops(workshopCardParameters: WorkshopCardParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
     const params = new HttpParams().set('From', workshopCardParameters.from.toString()).set('Size', workshopCardParameters.size.toString());
 
-    return this.http.get<SearchResponse<ProviderWorkshopCard[]>>(
+    return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>(
       `/api/v1/Workshop/GetWorkshopProviderViewCardsByProviderId/${workshopCardParameters.providerId}`,
       {
         params
@@ -61,7 +57,7 @@ export class UserWorkshopService {
 
   /**
    * This method get workshops by Workshop id
-   * @param id: string
+   * @param id
    */
   public getWorkshopById(id: string): Observable<Workshop> {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
@@ -77,7 +73,7 @@ export class UserWorkshopService {
 
   /**
    * This method create workshop
-   * @param workshop: Workshop
+   * @param workshop
    */
   public createWorkshop(workshop: Workshop): Observable<Workshop> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
@@ -95,7 +91,7 @@ export class UserWorkshopService {
 
   /**
    * This method update workshop
-   * @param workshop: Workshop
+   * @param workshop
    */
   public updateWorkshop(workshop: Workshop): Observable<Workshop> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
@@ -113,7 +109,7 @@ export class UserWorkshopService {
 
   /**
    * This method update workshop status
-   * @param workshopStatus: WorkshopStatus
+   * @param workshopStatus
    */
   public updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);

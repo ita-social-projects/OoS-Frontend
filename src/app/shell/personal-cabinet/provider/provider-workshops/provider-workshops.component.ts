@@ -11,7 +11,7 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { PaginationElement } from 'shared/models/paginationElement.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { ProviderWorkshopCard, WorkshopCardParameters } from 'shared/models/workshop.model';
+import { WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   DeleteWorkshopById,
@@ -33,8 +33,8 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   readonly ModeConstants = ModeConstants;
 
   @Select(ProviderState.providerWorkshops)
-  workshops$: Observable<SearchResponse<ProviderWorkshopCard[]>>;
-  workshops: SearchResponse<ProviderWorkshopCard[]>;
+  workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
+  workshops: SearchResponse<WorkshopProviderViewCard[]>;
 
   currentPage: PaginationElement = PaginationConstants.firstPage;
   workshopCardParameters: WorkshopCardParameters = {
@@ -68,7 +68,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
     this.workshops$
       .pipe(takeUntil(this.destroy$))
-      .subscribe((workshops: SearchResponse<ProviderWorkshopCard[]>) => (this.workshops = workshops));
+      .subscribe((workshops: SearchResponse<WorkshopProviderViewCard[]>) => (this.workshops = workshops));
     this.actions$
       .pipe(ofAction(OnUpdateWorkshopStatusSuccess))
       .pipe(takeUntil(this.destroy$))
@@ -77,9 +77,9 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   /**
    * This method delete workshop By Workshop Id
-   * @param workshop: ProviderWorkshopCard
+   * @param workshop
    */
-  onDelete(workshop: ProviderWorkshopCard): void {
+  onDelete(workshop: WorkshopProviderViewCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {

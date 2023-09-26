@@ -1,19 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store, Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {
-  FilterClear,
-  SetClosedRecruitment,
-  SetOpenRecruitment,
-  SetWithDisabilityOption,
-} from '../../store/filter.actions';
+
+import { WorkshopOpenStatus } from '../../enum/workshop';
+import { FilterList } from '../../models/filterList.model';
+import { FilterClear, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
-import { FilterList } from '../../models/filterList.model';
 import { NavigationState } from '../../store/navigation.state';
-import { WorkshopOpenStatus } from '../../enum/workshop';
 
 @Component({
   selector: 'app-filters-list',
@@ -39,7 +35,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   public WithDisabilityOptionControl = new FormControl(false);
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public statuses: WorkshopOpenStatus[];
-  public readonly workhopStatus = WorkshopOpenStatus;
+  public readonly workshopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 
@@ -54,12 +50,12 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       });
 
     this.OpenRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.statusHandler(val, this.workhopStatus.Open);
+      this.statusHandler(val, this.workshopStatus.Open);
       this.store.dispatch(new SetOpenRecruitment(this.statuses));
     });
 
     this.ClosedRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.statusHandler(val, this.workhopStatus.Closed);
+      this.statusHandler(val, this.workshopStatus.Closed);
       this.store.dispatch(new SetClosedRecruitment(this.statuses));
     });
 
@@ -73,7 +69,7 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    * we add the status to the array or remove the status from the array.
    */
   public statusHandler(val: boolean, status: string): void {
-    val ? this.statuses.push(this.workhopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
+    val ? this.statuses.push(this.workshopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workshopStatus[status]), 1);
   }
 
   public changeView(): void {
