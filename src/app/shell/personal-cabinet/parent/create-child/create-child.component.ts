@@ -159,21 +159,23 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method create or edit Child and dispatch CreateChild action
    */
   public onSubmit(): void {
-    if (this.ChildrenFormArray.invalid && this.isDispatching) {
-      this.checkValidationChild();
-    } else {
-      this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.editChild
-        }
-      }).afterClosed()
-        .pipe(filter(Boolean))
-        .subscribe(() => {
-          this.isDispatching = true;
+    if (this.isDispatching) {
+      if (this.ChildrenFormArray.invalid) {
+        this.checkValidationChild();
+      } else {
+        this.matDialog.open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.editChild
+          }
+        }).afterClosed()
+          .pipe(filter(Boolean))
+          .subscribe(() => {
+            this.isDispatching = true;
 
-          this.updateInfoAboutChild();
-        });
+            this.updateInfoAboutChild();
+          });
+      }
     }
   }
 
