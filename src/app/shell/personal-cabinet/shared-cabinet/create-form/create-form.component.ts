@@ -31,7 +31,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   public isPristine = true;
   public editMode: boolean;
 
-  constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
+  protected constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
 
   public ngOnInit(): void {}
 

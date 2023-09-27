@@ -1,9 +1,9 @@
-import { OwnershipTypes } from './../../../../shared/enum/provider';
+import { OwnershipTypes } from 'shared/enum/provider';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { MatDialog } from '@angular/material/dialog';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { PushNavPath } from 'shared/store/navigation.actions';
 import { ProviderComponent } from '../provider.component';
 
 @Component({

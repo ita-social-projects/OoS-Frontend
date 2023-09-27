@@ -1,5 +1,5 @@
-import { LicenseStatuses } from './../../enum/statuses';
-import { Component, EventEmitter, Input, Output, OnInit, OnDestroy } from '@angular/core';
+import { LicenseStatuses } from 'shared/enum/statuses';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
 import { Provider } from '../../models/provider.model';
@@ -19,31 +19,31 @@ import { DataItem } from '../../models/item.model';
   styleUrls: ['./provider-info.component.scss'],
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
-  
-  readonly ownershipTypes = OwnershipTypes;
-  readonly ownershipTypesEnum = OwnershipTypesEnum;
-  readonly institutionTypes = InstitutionTypes;
-  readonly institutionTypesEnum = InstitutionTypesEnum;
-  readonly licenseStatusEnum = LicenseStatusEnum;
-  readonly licenseStatuses = LicenseStatuses;
+  public readonly constants: typeof Constants = Constants;
 
-  editLink: string = CreateProviderSteps[0];
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypes = InstitutionTypes;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
+  public readonly licenseStatusEnum = LicenseStatusEnum;
+  public readonly licenseStatuses = LicenseStatuses;
 
-  @Input() provider: Provider;
-  @Input() isProviderView: boolean;
+  public editLink: string = CreateProviderSteps[0];
 
-  @Output() tabChanged = new EventEmitter();
-  @Output() closeInfo = new EventEmitter();
+  @Input() public provider: Provider;
+  @Input() public isProviderView: boolean;
+
+  @Output() public tabChanged = new EventEmitter();
+  @Output() public closeInfo = new EventEmitter();
 
   @Select(MetaDataState.institutionStatuses)
-  institutionStatuses$: Observable<DataItem[]>;
-  institutionStatusName: string;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public institutionStatuses$: Observable<DataItem[]>;
+  public institutionStatusName: string;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) {}
+  public constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatuses());
     this.institutionStatuses$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
@@ -55,20 +55,22 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
       );
   }
 
-  onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
+  public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.editLink = CreateProviderSteps[tabChangeEvent.index];
     this.tabChanged.emit(tabChangeEvent);
   }
 
-  onCloseInfo(): void {
+  public onCloseInfo(): void {
     this.closeInfo.emit();
   }
 
-  onActivateEditMode(): void {
+  public onActivateEditMode(): void {
+    sessionStorage.setItem('editMode', 'true');
+
     this.store.dispatch(new ActivateEditMode(true));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

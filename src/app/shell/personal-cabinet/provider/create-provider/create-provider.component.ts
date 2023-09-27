@@ -1,5 +1,13 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewChecked,
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  OnDestroy,
+  OnInit,
+  ViewChild
+} from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
@@ -7,7 +15,9 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { takeUntil } from 'rxjs/operators';
 
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -43,6 +53,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   public provider: Provider;
   public isAgreed: boolean;
   public isNotRobot: boolean;
+  public isEditMode: boolean = Boolean(sessionStorage.getItem('editMode'));
 
   public InfoFormGroup: FormGroup;
   public ActualAddressFormGroup: FormGroup;
@@ -66,7 +77,9 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
-    this.determineEditMode();
+    if (this.isEditMode) {
+      this.setEditMode();
+    }
 
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
 
@@ -74,7 +87,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public ngAfterViewInit(): void {
-    if (this.editMode) {
+    if (this.isEditMode) {
       this.route.params.subscribe((params: Params) => {
         this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
@@ -120,7 +133,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       let actualAddress: Address;
       let provider: Provider;
 
-      if (this.editMode) {
+      if (this.isEditMode) {
         legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
         actualAddress = this.ActualAddressFormGroup.disabled
           ? null

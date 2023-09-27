@@ -3,10 +3,10 @@ import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 import { Constants } from 'shared/constants/constants';
 
-import { ProviderStatusDetails, ProviderStatusTitles } from '../../enum/enumUA/statuses';
-import { ProviderStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
-import { Provider } from '../../models/provider.model';
-import { ActivateEditMode } from '../../store/app.actions';
+import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
+import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-status-banner',
