@@ -73,7 +73,7 @@ export class UserWorkshopService {
 
   /**
    * This method create workshop
-   * @param workshop
+   * @param workshop Workshop
    */
   public createWorkshop(workshop: Workshop): Observable<Workshop> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
@@ -91,7 +91,7 @@ export class UserWorkshopService {
 
   /**
    * This method update workshop
-   * @param workshop
+   * @param workshop Workshop
    */
   public updateWorkshop(workshop: Workshop): Observable<Workshop> {
     this.isImagesFeature = this.store.selectSnapshot<FeaturesList>(MetaDataState.featuresList).images;
@@ -109,7 +109,7 @@ export class UserWorkshopService {
 
   /**
    * This method update workshop status
-   * @param workshopStatus
+   * @param workshopStatus WorkshopStatus
    */
   public updateWorkshopStatus(workshopStatus: WorkshopStatus): Observable<WorkshopStatus> {
     return this.http.put<WorkshopStatus>('/api/v1/Workshop/UpdateStatus', workshopStatus);
