@@ -86,7 +86,7 @@ import {
   UpdateAchievement,
   UpdateProvider,
   UpdateProviderAdmin,
-  UpdateProviderLicenseStatuse,
+  UpdateProviderLicenseStatus,
   UpdateProviderStatus,
   UpdateWorkshop,
   UpdateWorkshopStatus
@@ -495,10 +495,10 @@ export class ProviderState {
     );
   }
 
-  @Action(UpdateProviderLicenseStatuse)
+  @Action(UpdateProviderLicenseStatus)
   updateProviderLicenseStatuse(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, providerParameters }: UpdateProviderLicenseStatuse
+    { payload, providerParameters }: UpdateProviderLicenseStatus
   ): Observable<LicenseStatusData | void> {
     return this.providerService.updateProviderLicenseStatus(payload).pipe(
       tap(() =>
