@@ -53,7 +53,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   public provider: Provider;
   public isAgreed: boolean;
   public isNotRobot: boolean;
-  public isEditMode: boolean = Boolean(sessionStorage.getItem('editMode'));
+  public isEditMode: boolean = JSON.parse(sessionStorage.getItem('editMode'));
 
   public InfoFormGroup: FormGroup;
   public ActualAddressFormGroup: FormGroup;
@@ -99,7 +99,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public setEditMode(): void {
-    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.store.select<Provider>(RegistrationState.provider)
+      .subscribe((provider: Provider) => {
+        this.provider = provider;
+      });
     this.addNavPath();
     this.isAgreed = true;
     this.isNotRobot = true;

@@ -6,7 +6,6 @@ import { Constants } from 'shared/constants/constants';
 import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { Provider } from 'shared/models/provider.model';
-import { ActivateEditMode } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-status-banner',
@@ -27,14 +26,14 @@ export class ProviderStatusBannerComponent implements OnInit {
   public statusTitle: string;
   public statusDetails: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private translateService: TranslateService, private store: Store) {}
+  constructor(private elementRef: ElementRef<HTMLElement>, private translateService: TranslateService) {}
 
   public ngOnInit(): void {
     this.setBannerOptions();
   }
 
   public onActivateEditMode(): void {
-    this.store.dispatch(new ActivateEditMode(true));
+    sessionStorage.setItem('editMode', 'true');
   }
 
   public onClose(): void {

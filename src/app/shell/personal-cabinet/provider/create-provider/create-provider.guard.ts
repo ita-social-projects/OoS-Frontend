@@ -19,7 +19,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
   constructor(public store: Store) {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const isEditMode = Boolean(sessionStorage.getItem('editMode'));
+    const isEditMode = JSON.parse(sessionStorage.getItem('editMode'));
 
     return isEditMode
       ? true
@@ -35,10 +35,9 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const isEditMode = Boolean(sessionStorage.getItem('editMode'));
+    const isEditMode = JSON.parse(sessionStorage.getItem('editMode'));
 
     if (isEditMode) {
-      sessionStorage.setItem('editMode', 'false');
       return true;
     } else {
       return this.role$.pipe(

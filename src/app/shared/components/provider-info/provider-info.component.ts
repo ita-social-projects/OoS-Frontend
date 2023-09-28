@@ -1,17 +1,16 @@
 import { LicenseStatuses } from 'shared/enum/statuses';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from '../../enum/provider';
-import { Provider } from '../../models/provider.model';
+import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { Provider } from 'shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { MetaDataState } from '../../store/meta-data.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
-import { GetInstitutionStatuses } from '../../store/meta-data.actions';
+import { GetInstitutionStatuses } from 'shared/store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from '../../enum/enumUA/provider';
-import { Constants } from '../../constants/constants';
-import { ActivateEditMode } from '../../store/app.actions';
-import { DataItem } from '../../models/item.model';
+import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { Constants } from 'shared/constants/constants';
+import { DataItem } from 'shared/models/item.model';
 
 @Component({
   selector: 'app-provider-info',
@@ -66,8 +65,6 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   public onActivateEditMode(): void {
     sessionStorage.setItem('editMode', 'true');
-
-    this.store.dispatch(new ActivateEditMode(true));
   }
 
   public ngOnDestroy(): void {
