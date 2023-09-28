@@ -59,7 +59,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workingDays.delete(this.workingDaysReverse[day.value]);
     }
 
-    const value = this.workingDays.size !== 0 ? [...this.workingDays] : null;
+    const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
   }
 

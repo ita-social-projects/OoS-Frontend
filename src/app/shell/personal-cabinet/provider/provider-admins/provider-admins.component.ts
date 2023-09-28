@@ -1,29 +1,34 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ProviderAdminTitles } from '../../../../shared/enum/enumUA/provider-admin';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { ProviderAdminParams, ProviderAdminRole } from '../../../../shared/enum/provider-admin';
-import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { DeleteProviderAdminById, BlockProviderAdminById, ReinviteProviderAdmin } from '../../../../shared/store/provider.actions';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
+import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { ProviderAdminParams, ProviderAdminRole } from 'shared/enum/provider-admin';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from 'shared/models/providerAdmin.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { BlockData, UsersTable } from 'shared/models/usersTable';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import {
+  BlockProviderAdminById,
+  DeleteProviderAdminById,
+  GetFilteredProviderAdmins,
+  ReinviteProviderAdmin
+} from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
-import { ProviderState } from './../../../../shared/store/provider.state';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { GetFilteredProviderAdmins } from './../../../../shared/store/provider.actions';
-import { BlockData, UsersTable } from './../../../../shared/models/usersTable';
-import { UserStatusesTitles } from '../../../../shared/enum/enumUA/statuses';
-import { Util } from '../../../../shared/utils/utils';
 
 @Component({
   selector: 'app-provider-admins',
@@ -84,7 +89,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   /**
    * This method filter users according to selected tab
-   * @param event: MatTabChangeEvent
+   * @param event MatTabChangeEvent
    */
   onTabChange(event: MatTabChangeEvent): void {
     const tabIndex = event.index;
@@ -178,7 +183,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   protected initProviderData(): void {
-    this.addProviderAdminsSubscribtions();
+    this.addProviderAdminsSubscriptions();
   }
 
   /**
@@ -202,9 +207,9 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method subscribes on provider admins and filter form control value changing for data filtartion
+   * This method subscribes on provider admins and filter form control value changing for data filtration
    */
-  private addProviderAdminsSubscribtions(): void {
+  private addProviderAdminsSubscriptions(): void {
     this.filterFormControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: string) => {

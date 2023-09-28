@@ -4,7 +4,7 @@ import { environment } from '../../../../environments/environment';
 import { CategoryIcons } from '../../enum/category-icons';
 import { ImgPath } from '../../models/carousel.model';
 import { Provider } from '../../models/provider.model';
-import { WorkshopBaseCard, WorkshopV2 } from '../../models/workshop.model';
+import { Workshop, WorkshopBaseCard } from '../../models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +17,7 @@ export class ImagesService {
     return workshop;
   }
 
-  setCarouselImages(entity: WorkshopV2 | Provider): ImgPath[] {
+  setCarouselImages(entity: Workshop | Provider): ImgPath[] {
     let images: ImgPath[];
 
     if (entity.imageIds?.length) {

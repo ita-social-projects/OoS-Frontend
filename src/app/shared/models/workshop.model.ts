@@ -40,7 +40,7 @@ export abstract class WorkshopBase {
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
 
-  protected constructor(about: any, description: any, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(about: About, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -89,19 +89,12 @@ export class Workshop extends WorkshopBase {
   isBlocked: boolean;
   providerOwnership: OwnershipTypes;
   providerStatus: ProviderStatuses;
+  coverImageId?: string;
+  coverImage?: File;
+  imageIds?: string[];
+  imageFiles?: File[];
 
-  constructor(about: any, description: any, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
-    super(about, description, address, teachers, provider, id);
-  }
-}
-
-export class WorkshopV2 extends Workshop {
-  coverImageId: string;
-  coverImage: File;
-  imageIds: string[];
-  imageFiles: File[];
-
-  constructor(about: any, description: any, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(about: About, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     super(about, description, address, teachers, provider, id);
 
     if (about.coverImageId) {
@@ -187,4 +180,33 @@ export interface WorkshopStatusWithTitle extends WorkshopStatus {
 
 export interface WorkshopCardParameters extends PaginationParameters {
   providerId: string;
+}
+
+interface About {
+  title: string;
+  phone: string;
+  email: string;
+  minAge: number;
+  maxAge: number;
+  workingHours: DateTimeRanges[];
+  price: number;
+  website?: string;
+  facebook?: string;
+  instagram?: string;
+  payRate: PayRateType;
+  availableSeats: number;
+  competitiveSelection: boolean;
+  competitiveSelectionDescription: string;
+  coverImageId?: string;
+  coverImage?: File;
+}
+
+interface Description {
+  workshopDescriptionItems: WorkshopDescriptionItem[];
+  disabilityOptionsDesc?: string;
+  institutionId: string;
+  institutionHierarchyId: string;
+  keyWords: string[];
+  imageIds?: string[];
+  imageFiles?: File[];
 }

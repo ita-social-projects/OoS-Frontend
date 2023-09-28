@@ -9,7 +9,7 @@ import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
 import { PayRateType } from 'shared/enum/workshop';
 import { Provider } from 'shared/models/provider.model';
-import { Workshop, WorkshopV2 } from 'shared/models/workshop.model';
+import { Workshop } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-about-form',
@@ -178,8 +178,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    const setValue = (value) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = (value) => this.AboutFormGroup.get(value).reset();
+    const setValue = (value: string) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = (value: string) => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
       // eslint-disable-next-line guard-for-in
@@ -194,7 +194,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
-    if (this.workshop instanceof WorkshopV2 && this.workshop.coverImageId) {
+    if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
     }
     if (this.workshop.price) {
