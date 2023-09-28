@@ -25,7 +25,7 @@ export class ChatService {
   }
 
   public getChatRoomForParentByWorkshopId(workshopId: string): Observable<ChatRoom> {
-    return this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatroomforworkshop/${workshopId}`);
+    return this.http.get<ChatRoom>(`${this.baseApiUrl}/parent/chatrooms/workshop/${workshopId}`);
   }
 
   public getChatRoomByApplicationId(applicationId: string): Observable<ChatRoom> {
