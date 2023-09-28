@@ -106,7 +106,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh FormGroup
+   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
   public onDisabilityOptionCtrlInit(): void {
     const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();

@@ -182,8 +182,8 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method updates table according to teh received data
-   * @param admins: ProviderAdmin[]
+   * This method updates table according to the received data
+   * @param admins ProviderAdmin[]
    */
   private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
     const updatedAdmins = [];

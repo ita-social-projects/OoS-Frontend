@@ -114,7 +114,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.map || this.initMap();
         this.flyTo(this.defaultCoords);
 
-        // checking if there are filtered workshops on the map for teh result page view
+        // checking if there are filtered workshops on the map for the result page view
         if (!!this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();

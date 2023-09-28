@@ -57,7 +57,7 @@ export class UserWorkshopService {
 
   /**
    * This method get workshops by Workshop id
-   * @param id
+   * @param id string
    */
   public getWorkshopById(id: string): Observable<Workshop> {
     return this.http.get<Workshop>(`/api/v1/Workshop/GetById/${id}`);
