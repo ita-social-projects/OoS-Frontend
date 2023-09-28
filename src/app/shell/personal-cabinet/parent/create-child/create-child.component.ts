@@ -159,7 +159,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method create or edit Child and dispatch CreateChild action
    */
   public onSubmit(): void {
-    if (this.isDispatching) {
+    if (!this.isDispatching) {
       if (this.ChildrenFormArray.invalid) {
         this.checkValidationChild();
       } else {
