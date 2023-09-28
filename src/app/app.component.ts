@@ -46,7 +46,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * method defined window.width and assign isMobileView: boolean
    */
   isWindowMobile(event: Window): void {
-    this.isMobileView = event.innerWidth <= 750;
+    this.isMobileView = event.innerWidth < 750;
     if (this.previousMobileScreenValue !== this.isMobileView) {
       this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
       this.previousMobileScreenValue = this.isMobileView;
