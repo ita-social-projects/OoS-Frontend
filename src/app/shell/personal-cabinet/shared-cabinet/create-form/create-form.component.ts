@@ -31,7 +31,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   public isPristine = true;
   public editMode: boolean;
 
-  protected constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
+  constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
 
   public ngOnInit(): void {}
 
@@ -63,7 +63,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
 
   /** This method add status change emit of touch event.
    * Validation hint captures touch event and displays validation error.
-   * @param form
+   * @param form FormGroup | FormArray
    */
   protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
     let originalMethod = form.markAsTouched;
