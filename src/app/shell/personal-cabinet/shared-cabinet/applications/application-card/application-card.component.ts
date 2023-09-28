@@ -47,12 +47,13 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
   @Input() application: Application;
   @Input() userRole: string;
 
-  @Output() leave = new EventEmitter();
-  @Output() approve = new EventEmitter();
-  @Output() reject = new EventEmitter();
-  @Output() block = new EventEmitter();
-  @Output() unblock = new EventEmitter();
-  @Output() sendMessage = new EventEmitter();
+  @Output() public leave = new EventEmitter();
+  @Output() public approve = new EventEmitter();
+  @Output() public acceptForSelection = new EventEmitter();
+  @Output() public reject = new EventEmitter();
+  @Output() public block = new EventEmitter();
+  @Output() public unblock = new EventEmitter();
+  @Output() public sendMessage = new EventEmitter();
 
   get isApproveBtnHidden(): boolean {
     return (

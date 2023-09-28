@@ -496,6 +496,8 @@
     "ADD_CHILDREN": "Add child",
     "ADD_WORKSHOP": "Add workshop",
     "APPROVE_APPLICATION": "Approve",
+    "ACCEPT_TO_COMPETITIVE_SELECTION": "Accept to selection",
+    "ENROLL_TO_WORKSHOP": "Enroll",
     "LEAVE_WORKSHOP": "Leave workshop",
     "REJECT": "Reject",
     "BLOCK_USER": "Block the user",

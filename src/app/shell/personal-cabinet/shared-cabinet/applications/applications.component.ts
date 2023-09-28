@@ -54,6 +54,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() public enititiesSelect = new EventEmitter();
   @Output() public leave = new EventEmitter();
   @Output() public approve = new EventEmitter();
+  @Output() public acceptForSelection = new EventEmitter();
   @Output() public reject = new EventEmitter();
   @Output() public block = new EventEmitter();
   @Output() public unblock = new EventEmitter();

@@ -143,6 +143,7 @@ export interface ProviderWorkshopCard extends WorkshopBaseCard {
   takenSeats: number;
   amountOfPendingApplications: number;
   status: WorkshopOpenStatus;
+  unreadMessages: number;
 }
 
 export interface WorkshopCard extends WorkshopBaseCard {
@@ -157,6 +158,7 @@ export interface WorkshopCard extends WorkshopBaseCard {
   minAge: number;
   price: number;
   address: Address;
+  competitiveSelection?: boolean;
   availableSeats: number;
   takenSeats: number;
 }
