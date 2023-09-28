@@ -76,6 +76,7 @@
                             [userRole]="role"
                             [isMobileView]="isMobileView"
                             (approve)="approve.emit($event)"
+                            (acceptForSelection)="acceptForSelection.emit($event)"
                             (reject)="reject.emit($event)"
                             (unblock)="unblock.emit($event)"
                             (block)="block.emit($event)"
