@@ -44,7 +44,7 @@ export class CodeficatorService {
   }
 
   /**
-   * This method to get teh nearst settlemnt by coordinates
+   * This method to get the nearest settlement by coordinates
    * @param lat number
    * @param lon number
    */

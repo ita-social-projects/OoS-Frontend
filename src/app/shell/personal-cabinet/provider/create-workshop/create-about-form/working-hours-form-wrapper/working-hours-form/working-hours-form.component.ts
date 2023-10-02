@@ -1,9 +1,10 @@
-import { ValidationConstants } from 'shared/constants/validation';
-import { Component, EventEmitter, Input, OnInit, Output, OnDestroy } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { WorkingDaysValues } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
 import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
 
@@ -14,12 +15,11 @@ import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
 })
 export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   protected readonly ValidationConstants = ValidationConstants;
+  protected readonly workingDaysReverse = WorkingDaysReverse;
 
-  public readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
   public destroy$: Subject<boolean> = new Subject<boolean>();
-
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
-  public workingDays: string[] = [];
+  public workingDays: Set<string> = new Set<string>();
   public workdaysFormControl = new FormControl(['']);
   public startTimeFormControl = new FormControl('');
   public endTimeFormControl = new FormControl('');
@@ -48,18 +48,18 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method check value, add it to the list of selected working days and distpatch filter action
+   * This method check value, add it to the list of selected working days and dispatch filter action
    * @param day WorkingDaysToggleValue
    */
   public onToggleDays(day: WorkingDaysToggleValue): void {
     day.selected = !day.selected;
     if (day.selected) {
-      this.workingDays.push(this.workingDaysReverse[day.value]);
+      this.workingDays.add(this.workingDaysReverse[day.value]);
     } else {
-      this.workingDays.splice(this.workingDays.indexOf(day.value), 1);
+      this.workingDays.delete(this.workingDaysReverse[day.value]);
     }
 
-    const value = this.workingDays.length ? this.workingDays : null;
+    const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
   }
 
@@ -113,7 +113,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workdaysFormControl.value.forEach((workDay: string) => {
         if (this.workingDaysReverse[day.value] === workDay.toLowerCase()) {
           day.selected = true;
-          this.workingDays.push(workDay.toLowerCase());
+          this.workingDays.add(workDay.toLowerCase());
         }
       });
     });

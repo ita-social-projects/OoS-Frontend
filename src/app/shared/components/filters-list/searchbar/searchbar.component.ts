@@ -75,9 +75,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
   /**
-   * This method saves the search input value to teh local storage if the value exists
-   * and if it is not included to teh previous results. If teh length of the saved search length is more
-   * than the 4, then it is shifted and added the new one to teh array.
+   * This method saves the search input value to the local storage if the value exists
+   * and if it is not included to the previous results. If the length of the saved search length is more
+   * than the 4, then it is shifted and added the new one to the array.
    */
   private saveSearchResults(): void {
     this.previousResults = this.getPreviousResults();

@@ -35,7 +35,7 @@ export class CreateTeacherComponent implements OnInit {
   }
 
   /**
-   * This method add new FormGroup to teh FormArray
+   * This method add new FormGroup to the FormArray
    */
   public onAddTeacher(teacher?: Teacher): void {
     const formGroup = this.createNewForm(teacher);
@@ -45,8 +45,8 @@ export class CreateTeacherComponent implements OnInit {
   }
 
   /**
-   * This method delete form from teh FormArray by index
-   * @param index: number
+   * This method delete form from the FormArray by index
+   * @param index number
    */
   public onDeleteForm(index: number): void {
     const teacherFormGroup: AbstractControl = this.TeacherFormArray.controls[index];
