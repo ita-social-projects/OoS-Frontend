@@ -6,7 +6,7 @@
 export const TEXT_REGEX: RegExp = /^\S[А-Яа-яЇїІіЄєЁёҐґ'’`\s-]*$/;
 
 // Regex for lastName, firstName, middleName, fullName
-export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`\s-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
+export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
 
 // Regex for email
 export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
