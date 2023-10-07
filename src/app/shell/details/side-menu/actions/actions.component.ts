@@ -1,11 +1,15 @@
-import { ParentState } from 'shared/store/parent.state';
-import { Select, Store } from '@ngxs/store';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { combineLatest, Observable, Subject } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
+import { ModeConstants } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
 import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
+import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Favorite } from 'shared/models/favorite.model';
@@ -13,11 +17,9 @@ import { Workshop } from 'shared/models/workshop.model';
 import { ShowMessageBar } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-import { ModeConstants } from 'shared/constants/constants';
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
-import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
+
 @Component({
   selector: 'app-actions',
   templateUrl: './actions.component.html',
@@ -26,7 +28,7 @@ import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
 export class ActionsComponent implements OnInit, OnDestroy {
   readonly Role = Role;
   readonly PayRateTypeEnum = PayRateTypeEnum;
-  readonly workhopStatus = WorkshopOpenStatus;
+  readonly workshopStatus = WorkshopOpenStatus;
   readonly ModeConstants = ModeConstants;
   readonly ModalTypeAction = ModalConfirmationDescription;
 
@@ -49,7 +51,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
   constructor(private store: Store, public dialog: MatDialog, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.hideApplicationSubmission = this.workshop.status === this.workhopStatus.Closed;
+    this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
 
     combineLatest([this.favoriteWorkshops$, this.route.params])

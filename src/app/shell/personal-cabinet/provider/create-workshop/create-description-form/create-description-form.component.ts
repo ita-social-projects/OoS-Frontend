@@ -1,15 +1,12 @@
+import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import {
-  Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild
-} from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-
-import { CropperConfigurationConstants } from '../../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { Provider } from '../../../../../shared/models/provider.model';
-import { Workshop, WorkshopSectionItem } from '../../../../../shared/models/workshop.model';
+import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Provider } from 'shared/models/provider.model';
+import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-create-description-form',
@@ -72,8 +69,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method remove already added key words from the list of key words
-   * @param string word
+   * This method remove already added keywords from the list of keywords
+   * @param word
    */
   public onRemoveKeyWord(word: string): void {
     if (this.keyWords.indexOf(word) >= 0) {
@@ -109,7 +106,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
+   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
   public onDisabilityOptionCtrlInit(): void {
     const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
@@ -160,7 +157,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     if (this.workshop.workshopDescriptionItems?.length) {
-      this.workshop.workshopDescriptionItems.forEach((item: WorkshopSectionItem) => {
+      this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
         const itemFrom = this.newForm(item);
         this.SectionItemsFormArray.controls.push(itemFrom);
         this.SectionItemsFormArray['_registerControl'](itemFrom);
@@ -173,7 +170,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   /**
    * This method creates new FormGroup
    */
-  private newForm(item?: WorkshopSectionItem): FormGroup {
+  private newForm(item?: WorkshopDescriptionItem): FormGroup {
     this.EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),

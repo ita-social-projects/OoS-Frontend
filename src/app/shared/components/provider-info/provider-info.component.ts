@@ -19,7 +19,6 @@ import { DataItem } from 'shared/models/item.model';
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
   public readonly constants: typeof Constants = Constants;
-
   public readonly ownershipTypes = OwnershipTypes;
   public readonly ownershipTypesEnum = OwnershipTypesEnum;
   public readonly institutionTypes = InstitutionTypes;

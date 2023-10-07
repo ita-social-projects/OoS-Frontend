@@ -1,19 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Store, Select } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import {
-  FilterClear,
-  SetClosedRecruitment,
-  SetOpenRecruitment,
-  SetWithDisabilityOption,
-} from '../../store/filter.actions';
+
+import { WorkshopOpenStatus } from '../../enum/workshop';
+import { FilterList } from '../../models/filterList.model';
+import { FilterClear, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
 import { FilterState } from '../../store/filter.state';
 import { FiltersSidenavToggle } from '../../store/navigation.actions';
-import { FilterList } from '../../models/filterList.model';
 import { NavigationState } from '../../store/navigation.state';
-import { WorkshopOpenStatus } from '../../enum/workshop';
 
 @Component({
   selector: 'app-filters-list',
@@ -22,28 +18,28 @@ import { WorkshopOpenStatus } from '../../enum/workshop';
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
   @Select(FilterState.filterList)
-  filterList$: Observable<FilterList>;
-  filterList: FilterList;
+  public filterList$: Observable<FilterList>;
+  public filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
-  visibleFiltersSidenav: boolean;
+  public filtersSidenavOpenTrue$: Observable<boolean>;
+  public visibleFiltersSidenav: boolean;
 
   @Select(FilterState.isMapView)
-  isMapView$: Observable<boolean>;
+  public isMapView$: Observable<boolean>;
 
-  @Input() isMobileView: boolean;
+  @Input() public isMobileView: boolean;
 
-  OpenRecruitmentControl = new FormControl(false);
-  ClosedRecruitmentControl = new FormControl(false);
-  WithDisabilityOptionControl = new FormControl(false);
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  statuses: WorkshopOpenStatus[];
-  readonly workhopStatus = WorkshopOpenStatus;
+  public OpenRecruitmentControl = new FormControl(false);
+  public ClosedRecruitmentControl = new FormControl(false);
+  public WithDisabilityOptionControl = new FormControl(false);
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public statuses: WorkshopOpenStatus[];
+  public readonly workshopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     combineLatest([this.filtersSidenavOpenTrue$, this.filterList$])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([visibleFiltersSidenav, filterList]) => {
@@ -54,12 +50,12 @@ export class FiltersListComponent implements OnInit, OnDestroy {
       });
 
     this.OpenRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.statusHandler(val, this.workhopStatus.Open);
+      this.statusHandler(val, this.workshopStatus.Open);
       this.store.dispatch(new SetOpenRecruitment(this.statuses));
     });
 
     this.ClosedRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {
-      this.statusHandler(val, this.workhopStatus.Closed);
+      this.statusHandler(val, this.workshopStatus.Closed);
       this.store.dispatch(new SetClosedRecruitment(this.statuses));
     });
 
@@ -72,19 +68,19 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    * When the user selects filters (OpenRecruitment or ClosedRecruitment),
    * we add the status to the array or remove the status from the array.
    */
-  statusHandler(val: boolean, status: string): void {
-    val ? this.statuses.push(this.workhopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workhopStatus[status]), 1);
+  public statusHandler(val: boolean, status: string): void {
+    val ? this.statuses.push(this.workshopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workshopStatus[status]), 1);
   }
 
-  changeView(): void {
+  public changeView(): void {
     this.store.dispatch(new FiltersSidenavToggle(!this.visibleFiltersSidenav));
   }
 
-  onFilterReset(): void {
+  public onFilterReset(): void {
     this.store.dispatch(new FilterClear());
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

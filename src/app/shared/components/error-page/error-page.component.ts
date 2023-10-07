@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class ErrorPageComponent {
   constructor(private router: Router) {}
 
-  OnBack(): void {
+  public OnBack(): void {
     this.router.navigate(['']);
   }
 }

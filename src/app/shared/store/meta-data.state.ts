@@ -177,7 +177,9 @@ export class MetaDataState {
   @Action(GetSocialGroup)
   getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, {}: GetSocialGroup): Observable<DataItem[]> {
     patchState({ isLoading: true });
-    return this.childrenService.getSocialGroup().pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
+    return this.childrenService
+      .getSocialGroup({ uk: 0, en: 1 }[localStorage.getItem('ui-culture') || 'uk'])
+      .pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
   }
 
   @Action(GetInstitutionStatuses)
