@@ -1,7 +1,8 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Constants } from '../../../../../shared/constants/constants';
-import { Achievement, AchievementType } from '../../../../../shared/models/achievement.model';
-import { Workshop } from '../../../../../shared/models/workshop.model';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+
+import { Constants } from 'shared/constants/constants';
+import { Achievement, AchievementType } from 'shared/models/achievement.model';
+import { Workshop } from 'shared/models/workshop.model';
 
 @Component({
   selector: 'app-achievement-card',
