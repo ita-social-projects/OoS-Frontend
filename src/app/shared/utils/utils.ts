@@ -1,3 +1,4 @@
+import { Localization } from 'shared/enum/enumUA/localization';
 import { BaseAdmin } from 'shared/models/admin.model';
 import { AreaAdmin } from 'shared/models/areaAdmin.model';
 import { CodeMessageErrors } from '../enum/enumUA/errors';
@@ -19,6 +20,20 @@ import { EmailConfirmationStatuses } from './../enum/statuses';
  * Utility class that providers methods for shared data manipulations
  */
 export class Util {
+  /**
+   * This method returns current localization as a number for backend requests
+   * <br>
+   * Locale string can be passed as param or by default it is taken from local storage,
+   * but it is required to provide locale if calling from a language change event
+   * because storage gives the previous locale
+   * <br>
+   * Ukrainian locale is 0 and English is 1
+   * @param locale Locale string (uk, en)
+   */
+  public static getCurrentLocalization(locale: string = localStorage.getItem('ui-culture') || 'uk'): number {
+    return Localization[locale];
+  }
+
   /**
    * This method returns child age
    * @param child Child
@@ -66,9 +81,7 @@ export class Util {
   }
 
   public static getTodayBirthDate(): Date {
-    const today = new Date();
-
-    return today;
+    return new Date();
   }
 
   /**

@@ -1,18 +1,20 @@
-import { MatChipsModule } from '@angular/material/chips';
-import { MatIconModule } from '@angular/material/icon';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChildFormComponent } from './child-form.component';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatRadioModule } from '@angular/material/radio';
-import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSelectModule } from '@angular/material/select';
 import { Component, Input } from '@angular/core';
-import { KeyFilterDirective } from '../../../../../shared/directives/key-filter.directive';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
+import { ChildFormComponent } from './child-form.component';
 
 describe('ChildFormComponent', () => {
   let component: ChildFormComponent;
@@ -33,6 +35,7 @@ describe('ChildFormComponent', () => {
         MatSelectModule,
         MatIconModule,
         MatChipsModule,
+        NgxsModule.forRoot([]),
         TranslateModule.forRoot()
       ],
       declarations: [ChildFormComponent, MockValidationHintForInputComponent, KeyFilterDirective]
