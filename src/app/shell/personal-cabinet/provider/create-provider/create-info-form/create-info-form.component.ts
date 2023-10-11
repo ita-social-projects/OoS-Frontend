@@ -11,6 +11,8 @@ import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from 'shar
 import { Institution } from 'shared/models/institution.model';
 import { DataItem } from 'shared/models/item.model';
 import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { AppState } from 'shared/store/app.state';
 import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
@@ -61,7 +63,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
-  public isEditMode = JSON.parse(sessionStorage.getItem('editMode'));
+  public isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
   public get ownershipTypeControl(): AbstractControl {
     return this.infoFormGroup.get('ownership');
@@ -149,7 +151,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
    * This method fills inputs with information of edited provider
    */
   private activateEditMode(): void {
-    sessionStorage.setItem('editMode', 'true');
+    this.store.dispatch(new ActivateEditMode(true));
     this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 

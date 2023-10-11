@@ -135,8 +135,6 @@ export class RegistrationState {
 
   @Action(Login)
   Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
-    sessionStorage.setItem('editMode', 'false');
-
     const configIdOrNull = null;
     this.oidcSecurityService.authorize(configIdOrNull, {
       customParams: {
@@ -149,8 +147,6 @@ export class RegistrationState {
 
   @Action(Logout)
   logout({}: StateContext<RegistrationStateModel>): void {
-    sessionStorage.clear();
-
     this.oidcSecurityService.logoff();
   }
 

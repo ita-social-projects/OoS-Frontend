@@ -1,10 +1,13 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot, CanDeactivate, CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+
 import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { AppState } from 'shared/store/app.state';
 import { RegistrationState } from 'shared/store/registration.state';
 
 @Injectable({
@@ -19,7 +22,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
   constructor(public store: Store) {}
 
   canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const isEditMode = JSON.parse(sessionStorage.getItem('editMode'));
+    const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
     return isEditMode
       ? true
@@ -35,9 +38,10 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
     currentState: RouterStateSnapshot,
     nextState?: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const isEditMode = JSON.parse(sessionStorage.getItem('editMode'));
+    const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
     if (isEditMode) {
+      this.store.dispatch(new ActivateEditMode(false));
       return true;
     } else {
       return this.role$.pipe(

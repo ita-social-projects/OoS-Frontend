@@ -1,21 +1,23 @@
-import { LicenseStatuses } from 'shared/enum/statuses';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
-import { Provider } from 'shared/models/provider.model';
 import { Select, Store } from '@ngxs/store';
-import { MetaDataState } from 'shared/store/meta-data.state';
 import { Observable, Subject } from 'rxjs';
-import { GetInstitutionStatuses } from 'shared/store/meta-data.actions';
 import { filter, takeUntil } from 'rxjs/operators';
-import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+
 import { Constants } from 'shared/constants/constants';
+import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { LicenseStatuses } from 'shared/enum/statuses';
 import { DataItem } from 'shared/models/item.model';
+import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { GetInstitutionStatuses } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-provider-info',
   templateUrl: './provider-info.component.html',
-  styleUrls: ['./provider-info.component.scss'],
+  styleUrls: ['./provider-info.component.scss']
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
   public readonly constants: typeof Constants = Constants;
@@ -47,9 +49,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe(
         (institutionStatuses: DataItem[]) =>
-          (this.institutionStatusName = institutionStatuses.find(
-            (item: DataItem) => item.id === this.provider.institutionStatusId
-          ).name)
+          (this.institutionStatusName = institutionStatuses.find((item: DataItem) => item.id === this.provider.institutionStatusId).name)
       );
   }
 
@@ -63,7 +63,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   }
 
   public onActivateEditMode(): void {
-    sessionStorage.setItem('editMode', 'true');
+    this.store.dispatch(new ActivateEditMode(true));
   }
 
   public ngOnDestroy(): void {
