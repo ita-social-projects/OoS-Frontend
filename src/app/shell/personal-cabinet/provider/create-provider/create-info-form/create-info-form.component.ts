@@ -44,6 +44,8 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly institutionTypes = InstitutionTypes;
   public readonly institutionTypesEnum = InstitutionTypesEnum;
 
+  @Select(AppState.isEditMode)
+  public isEditMode$: Observable<boolean>;
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.providerTypes)
@@ -63,7 +65,6 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
-  public isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
   public get ownershipTypeControl(): AbstractControl {
     return this.infoFormGroup.get('ownership');
