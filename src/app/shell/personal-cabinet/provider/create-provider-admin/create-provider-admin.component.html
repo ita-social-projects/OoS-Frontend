@@ -53,15 +53,14 @@
           <mat-form-field>
             <div fxLayout="row" fxLayoutAlign="start">
               <span class="step-text">{{ phonePrefix }}</span>
-              <input
-                matInput class="step-input"
-                type="tel"
-                formControlName="phoneNumber"
-                appDigitOnly
-                appTrimValue
-                ui-number-mask
-                ui-hide-group-sep
-                maxlength="{{ validationConstants.PHONE_LENGTH }}" />
+              <input matInput class="step-input"
+                     type="tel"
+                     formControlName="phoneNumber"
+                     appDigitOnly
+                     appTrimValue
+                     ui-number-mask
+                     ui-hide-group-sep
+                     maxlength="{{ validationConstants.PHONE_LENGTH }}" />
             </div>
           </mat-form-field>
           <app-validation-hint [validationFormControl]="ProviderAdminFormGroup.get('phoneNumber')"
@@ -123,7 +122,10 @@
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button class="btn" mat-button type="submit" [disabled]="!isDeputy && !managedWorkshopIds"
+          <button class="btn"
+                  mat-button
+                  type="submit"
+                  [disabled]="!ProviderAdminFormGroup.dirty || (!isDeputy && !managedWorkshopIds)"
                   (click)="onSubmit()">
             {{ 'BUTTONS.SAVE' | translate }}
           </button>
