@@ -77,11 +77,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
     this.adminFormGroup = this.formBuilder.group({
       lastName: new FormControl('', defaultValidators),
       firstName: new FormControl('', defaultValidators),
-      middleName: new FormControl('', [
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
+      middleName: new FormControl('', defaultValidators.slice(1)),
       phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       institution: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, FormValidators.email])

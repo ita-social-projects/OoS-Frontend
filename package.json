@@ -33,6 +33,7 @@
     "@ngx-translate/core": "^14.0.0",
     "@ngx-translate/http-loader": "^7.0.0",
     "@ngxs/store": "^3.7.5",
+    "@ngxs/storage-plugin": "3.7.5",
     "@types/leaflet": "1",
     "angular-auth-oidc-client": "^14.1.5",
     "angular-responsive-carousel": "^2.1.2",

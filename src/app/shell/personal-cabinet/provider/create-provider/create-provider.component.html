@@ -1,12 +1,12 @@
-<div class="create-form" *ngIf="(editMode && provider) || !editMode">
+<div class="create-form" *ngIf="(isEditMode && provider) || !isEditMode">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">
-        {{ (editMode
+        {{ (isEditMode
             ? 'FORMS.HEADERS.EDIT_PROVIDER'
             : 'FORMS.HEADERS.NEW_PROVIDER') | translate }}
       </h3>
-      <p *ngIf="!editMode" class="wrapper-text">{{ 'FORMS.HEADERS.NEW_PROVIDER_SUBHEADER' | translate }}</p>
+      <p *ngIf="!isEditMode" class="wrapper-text">{{ 'FORMS.HEADERS.NEW_PROVIDER_SUBHEADER' | translate }}</p>
     </div>
 
     <mat-horizontal-stepper #stepper linear>
@@ -63,7 +63,7 @@
                                (passPhotoFormGroup)="onReceivePhotoFormGroup($event)">
         </app-create-photo-form>
 
-        <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
+        <div *ngIf="!isEditMode" fxLayout="column" fxLayoutAlign="start start" class="wrapper-check-box step">
           <mat-checkbox class="step-check-box" color="primary" [formControl]="AgreementFormControl">
             {{ 'AGREEMENTS.I_AGREE_FOR_DATA_USE' | translate }}
           </mat-checkbox>
