@@ -1,17 +1,20 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 
-import {
-  ConfirmationModalWindowComponent
-} from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from '../../../../../shared/constants/constants';
-import { NAME_REGEX } from '../../../../../shared/constants/regex-constants';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
-import { Teacher } from '../../../../../shared/models/teacher.model';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants } from 'shared/constants/constants';
+import { NAME_REGEX } from 'shared/constants/regex-constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Teacher } from 'shared/models/teacher.model';
+
+const defaultValidators = [
+  Validators.required,
+  Validators.pattern(NAME_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+];
 
 @Component({
   selector: 'app-create-teacher',
@@ -30,7 +33,7 @@ export class CreateTeacherComponent implements OnInit {
 
   public ngOnInit(): void {
     if (this.teachers?.length) {
-      this.teachers.forEach((teahcer: Teacher) => this.onAddTeacher(teahcer));
+      this.teachers.forEach((teacher: Teacher) => this.onAddTeacher(teacher));
     }
   }
 
@@ -69,25 +72,15 @@ export class CreateTeacherComponent implements OnInit {
 
   /**
    * This method create new FormGroup
-   * @param FormArray: array
+   * @param teacher Teacher
    */
   private createNewForm(teacher?: Teacher): FormGroup {
     const teacherFormGroup = this.fb.group({
       id: new FormControl(''),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
+      lastName: new FormControl('', defaultValidators),
+      firstName: new FormControl('', defaultValidators),
       middleName: new FormControl('', [
         Validators.pattern(NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
@@ -111,7 +104,7 @@ export class CreateTeacherComponent implements OnInit {
   /**
    * This method fills inputs with information of edited teachers
    */
-  private activateEditMode(teacherFormGroup: FormGroup, teacher): void {
+  private activateEditMode(teacherFormGroup: FormGroup, teacher: Teacher): void {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });

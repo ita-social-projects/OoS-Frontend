@@ -4,7 +4,7 @@ import { Select, Store } from '@ngxs/store';
 import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
-import { DATE_REGEX, NAME_REGEX } from 'shared/constants/regex-constants';
+import { DATE_REGEX, FULL_NAME_REGEX } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { InstitutionTypesEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from 'shared/enum/provider';
@@ -101,7 +101,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       edrpouIpn: new FormControl('', [Validators.required, FormValidators.edrpouIpn]),
       director: new FormControl('', [
         Validators.required,
-        Validators.pattern(NAME_REGEX),
+        Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
@@ -119,7 +119,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       ]),
       founder: new FormControl('', [
         Validators.required,
-        Validators.pattern(NAME_REGEX),
+        Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ])

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -25,6 +25,13 @@ import { CreateChildren, GetUsersChildById, ResetSelectedChild, UpdateChild } fr
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
+
+const defaultValidators: ValidatorFn[] = [
+  Validators.required,
+  Validators.pattern(NAME_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+];
 
 @Component({
   selector: 'app-create-child',
@@ -163,12 +170,14 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       if (this.ChildrenFormArray.invalid) {
         this.checkValidationChild();
       } else {
-        this.matDialog.open(ConfirmationModalWindowComponent, {
-          width: Constants.MODAL_SMALL,
-          data: {
-            type: ModalConfirmationType.editChild
-          }
-        }).afterClosed()
+        this.matDialog
+          .open(ConfirmationModalWindowComponent, {
+            width: Constants.MODAL_SMALL,
+            data: {
+              type: ModalConfirmationType.editChild
+            }
+          })
+          .afterClosed()
           .pipe(filter(Boolean))
           .subscribe(() => {
             this.isDispatching = true;
@@ -192,23 +201,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    */
   private newForm(child?: Child): FormGroup {
     const childFormGroup = this.fb.group({
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      middleName: new FormControl('', [
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
+      lastName: new FormControl('', defaultValidators),
+      firstName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', defaultValidators.slice(1)),
       dateOfBirth: new FormControl('', Validators.required),
       gender: new FormControl(null, Validators.required),
       socialGroups: new FormControl([]),
