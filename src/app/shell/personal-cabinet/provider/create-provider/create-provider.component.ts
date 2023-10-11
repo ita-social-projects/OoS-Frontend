@@ -48,7 +48,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   public provider: Provider;
   public isAgreed: boolean;
   public isNotRobot: boolean;
-  public isEditMode: boolean = this.store.selectSnapshot(AppState.isEditMode);
+  public isEditMode: boolean = false;
 
   public InfoFormGroup: FormGroup;
   public ActualAddressFormGroup: FormGroup;
@@ -72,12 +72,13 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
+    this.isEditMode = this.store.selectSnapshot(AppState.isEditMode);
+
     if (this.isEditMode) {
       this.setEditMode();
     }
 
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
-
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
 
