@@ -1,31 +1,29 @@
-import { ProviderWorkshopCard } from '../../models/workshop.model';
-import { Favorite } from '../../models/favorite.model';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { Role } from '../../enum/role';
-import { WorkshopCard } from '../../models/workshop.model';
-import { RegistrationState } from '../../store/registration.state';
-import { ShowMessageBar } from '../../store/app.actions';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { MatDialog } from '@angular/material/dialog';
-import { Constants } from '../../constants/constants';
-import { ImagesService } from '../../services/images/images.service';
-import { CategoryIcons } from '../../enum/category-icons';
-import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
-import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
-import { WorkshopOpenStatus } from '../../enum/workshop';
-import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
-import { UpdateWorkshopStatus } from '../../store/provider.actions';
-import { DeleteFavoriteWorkshop, CreateFavoriteWorkshop } from '../../store/parent.actions';
+
 import { ParentState } from 'shared-store/parent.state';
-import {UnregisteredUserWarningModalComponent} from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
-import { OwnershipTypes } from '../../enum/provider';
+import { WorkshopSeatsLackModalComponent } from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
+import { Constants } from '../../constants/constants';
+import { CategoryIcons } from '../../enum/category-icons';
 import { SnackbarText } from '../../enum/enumUA/messageBer';
-import {
-  WorkshopSeatsLackModalComponent
-} from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
+import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
+import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
+import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
+import { OwnershipTypes } from '../../enum/provider';
+import { Role } from '../../enum/role';
+import { WorkshopOpenStatus } from '../../enum/workshop';
+import { Favorite } from '../../models/favorite.model';
+import { WorkshopBaseCard, WorkshopProviderViewCard } from '../../models/workshop.model';
+import { ImagesService } from '../../services/images/images.service';
+import { ShowMessageBar } from '../../store/app.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/parent.actions';
+import { UpdateWorkshopStatus } from '../../store/provider.actions';
+import { RegistrationState } from '../../store/registration.state';
+import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
+import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
 @Component({
   selector: 'app-workshop-card',
@@ -40,15 +38,15 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly categoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-  public readonly workhopStatus = WorkshopOpenStatus;
+  public readonly workshopStatus = WorkshopOpenStatus;
   public readonly modalConfirmationType = ModalConfirmationType;
 
-  public openDialog = false;
   public isFavorite = false;
   public canChangeWorkshopStatus: boolean;
-  public workshopData: ProviderWorkshopCard | WorkshopCard;
+  public workshopData: WorkshopBaseCard;
 
-  @Input() public set workshop(workshop: WorkshopCard) {
+  @Input()
+  public set workshop(workshop: WorkshopBaseCard) {
     this.workshopData = workshop;
     this.imagesService.setWorkshopCoverImage(workshop);
   }
@@ -57,7 +55,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   @Input() public isHorizontalView = false;
   @Input() public isCreateFormView = false;
 
-  @Output() public deleteWorkshop = new EventEmitter<WorkshopCard | ProviderWorkshopCard>();
+  @Output() public deleteWorkshop = new EventEmitter<WorkshopBaseCard>();
 
   @Select(ParentState.favoriteWorkshops)
   public favoriteWorkshops$: Observable<Favorite[]>;
@@ -69,7 +67,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   private favoriteWorkshopId: string;
 
   public get canOpenWorkshopRecruitment(): boolean {
-    return (this.workshopData as ProviderWorkshopCard).takenSeats < (this.workshopData as ProviderWorkshopCard).availableSeats;
+    return (this.workshopData as WorkshopProviderViewCard).takenSeats < (this.workshopData as WorkshopProviderViewCard).availableSeats;
   }
 
   constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
@@ -78,7 +76,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     if (this.isCabinetView) {
       this.canChangeWorkshopStatus = !(
         this.workshopData.providerOwnership === OwnershipTypes.State ||
-        (this.workshopData as ProviderWorkshopCard).availableSeats === this.UNLIMITED_SEATS
+        (this.workshopData as WorkshopProviderViewCard).availableSeats === this.UNLIMITED_SEATS
       );
     }
 

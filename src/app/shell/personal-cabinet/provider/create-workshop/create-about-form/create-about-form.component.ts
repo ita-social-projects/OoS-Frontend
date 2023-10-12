@@ -52,8 +52,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
 
-  constructor(private formBuilder: FormBuilder) {
-  }
+  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.initForm();
@@ -113,7 +112,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: null,
+      competitiveSelectionDescription: null
     });
   }
 
@@ -125,7 +124,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method makes input enable if radiobutton value is true and sets the value to teh formgroup
+   * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
   private priceControlListener(): void {
     this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
@@ -155,7 +154,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method sets null as value for available setas when there is no limit, otherwise it sests either workshop value, or null for selecting new value
+   * This method sets null as value for available set as when there is no limit, otherwise it sets either workshop value, or null for selecting new value
    */
   private setAvailableSeatsControlValue = (availableSeats: number = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.availableSeatsControl[action]({ emitEvent });
@@ -168,9 +167,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   };
 
   /**
-   * This method sets null as value for payRate when the price is null, otherwise it sests either workshop value, or null for selecting new value
+   * This method sets null as value for payRate when the price is null, otherwise it sets either workshop value, or null for selecting new value
    */
-  private setPayRateControlValue = (payRate: string = null, action: string = 'disable', emitEvent: boolean = true) => {
+  private setPayRateControlValue = (payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = true) => {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
   };
@@ -179,8 +178,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    const setValue = (value) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = (value) => this.AboutFormGroup.get(value).reset();
+    const setValue = (value: string) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = (value: string) => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
       // eslint-disable-next-line guard-for-in
@@ -220,24 +219,19 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   /**
    * This method makes input enable if radiobutton value
-   * is true and sets the value to the formgroup
+   * is true and sets the value to the FormGroup
    */
   private competitiveSelectionListener(): void {
-    this.competitiveSelectionRadioBtn.valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-      ).subscribe((iscompetitiveSelectionDesc: boolean) => {
-        this.AboutFormGroup.get('competitiveSelection').setValue(iscompetitiveSelectionDesc);
-        iscompetitiveSelectionDesc
-          ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
-          : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
-      });
+    this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isCompetitiveSelectionDesc: boolean) => {
+      this.AboutFormGroup.get('competitiveSelection').setValue(isCompetitiveSelectionDesc);
+      isCompetitiveSelectionDesc
+        ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
+        : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
+    });
 
-    this.AboutFormGroup.get('competitiveSelectionDescription').valueChanges
-      .pipe(
-        takeUntil(this.destroy$),
-        debounceTime(100),
-      ).subscribe((disabilityOptionsDesc: string) =>
+    this.AboutFormGroup.get('competitiveSelectionDescription')
+      .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
+      .subscribe((disabilityOptionsDesc: string) =>
         this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
       );
   }

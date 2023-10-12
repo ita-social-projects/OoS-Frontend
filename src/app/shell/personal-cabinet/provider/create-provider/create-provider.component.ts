@@ -1,23 +1,14 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import {
-  AfterViewChecked,
-  AfterViewInit,
-  ChangeDetectorRef,
-  Component,
-  OnDestroy,
-  OnInit,
-  ViewChild
-} from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Store } from '@ngxs/store';
-import { takeUntil } from 'rxjs/operators';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
-import {
-  ConfirmationModalWindowComponent
-} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -28,6 +19,7 @@ import { FeaturesList } from 'shared/models/featuresList.model';
 import { Provider } from 'shared/models/provider.model';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { AppState } from 'shared/store/app.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
@@ -50,9 +42,13 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
 export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
   @ViewChild('stepper') public stepper: MatStepper;
 
+  @Select(RegistrationState.provider)
+  private provider$: Observable<Provider>;
+
   public provider: Provider;
   public isAgreed: boolean;
   public isNotRobot: boolean;
+  public isEditMode: boolean = false;
 
   public InfoFormGroup: FormGroup;
   public ActualAddressFormGroup: FormGroup;
@@ -76,15 +72,18 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public ngOnInit(): void {
-    this.determineEditMode();
+    this.isEditMode = this.store.selectSnapshot(AppState.isEditMode);
+
+    if (this.isEditMode) {
+      this.setEditMode();
+    }
 
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
-
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
 
   public ngAfterViewInit(): void {
-    if (this.editMode) {
+    if (this.isEditMode) {
       this.route.params.subscribe((params: Params) => {
         this.stepper.selectedIndex = +CreateProviderSteps[params.param];
       });
@@ -96,7 +95,10 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public setEditMode(): void {
-    this.provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
+    this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
+      this.provider = provider;
+    });
+
     this.addNavPath();
     this.isAgreed = true;
     this.isNotRobot = true;
@@ -130,7 +132,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
       let actualAddress: Address;
       let provider: Provider;
 
-      if (this.editMode) {
+      if (this.isEditMode) {
         legalAddress = new Address(this.LegalAddressFormGroup.value, this.provider.legalAddress);
         actualAddress = this.ActualAddressFormGroup.disabled
           ? null
@@ -148,7 +150,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-info child component and assigns to the Info FormGroup
-   * @param FormGroup form
+   * @param form FormGroup
    */
   public onReceiveInfoFormGroup(form: FormGroup): void {
     this.InfoFormGroup = form;
@@ -157,7 +159,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   /**
    * These methods receive froms from create-contacts child component and assigns to the Actual and Legal FormGroup
-   * @param FormGroup form
+   * @param form FormGroup
    */
   public onReceiveActualAddressFormGroup(form: FormGroup): void {
     this.ActualAddressFormGroup = form;
@@ -173,7 +175,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form from create-photo child component and assigns to the Info FormGroup
-   * @param FormGroup form
+   * @param form FormGroup
    */
   public onReceivePhotoFormGroup(form: FormGroup): void {
     this.PhotoFormGroup = form;
@@ -182,7 +184,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   /**
    * This method receives a form and marks each control of this form as touched
-   * @param FormGroup form
+   * @param form FormGroup
    */
   public checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach((key) => {

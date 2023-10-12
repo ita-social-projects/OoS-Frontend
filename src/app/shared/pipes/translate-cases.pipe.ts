@@ -17,7 +17,7 @@ export class TranslateCasesPipe implements PipeTransform {
 
   transform(count: number, enumTranslate: any): string {
     const countLastStr = count?.toString().slice(-1);
-    let countNum = count?.toString();
+    let countNum = count?.toString() || '0';
 
     if (count === 0 || (count >= 11 && count <= 14)) {
       this.translateKey = enumTranslate[2];

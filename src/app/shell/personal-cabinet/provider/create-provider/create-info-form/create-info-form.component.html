@@ -15,7 +15,7 @@
                 formControlName="ownership"
                 name="ownership"
                 placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_OWNERSHIP' | translate }}"
-                [disabled]="isEditMode">
+                [disabled]="isEditMode$ | async">
       <ng-container *ngFor="let type of selectableOwnerShipTypes | keyvalue">
         <mat-option [value]="type.key" class="dropdown-option">
           {{ ownershipTypesEnum[type.key] | translate }}

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -26,27 +26,35 @@ import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
+const defaultValidators: ValidatorFn[] = [
+  Validators.required,
+  Validators.pattern(NAME_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+];
+
 @Component({
   selector: 'app-create-child',
   templateUrl: './create-child.component.html',
   styleUrls: ['./create-child.component.scss']
 })
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
+  public readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   @Select(MetaDataState.socialGroups)
-  socialGroups$: Observable<DataItem[]>;
-  socialGroups: DataItem[];
+  public socialGroups$: Observable<DataItem[]>;
+  public socialGroups: DataItem[];
   @Select(ParentState.children)
-  childrenCards$: Observable<SearchResponse<Child[]>>;
+  public childrenCards$: Observable<SearchResponse<Child[]>>;
   @Select(ParentState.selectedChild)
-  selectedChild$: Observable<Child>;
-  child: Child;
+  public selectedChild$: Observable<Child>;
+  public child: Child;
 
-  ChildrenFormArray = new FormArray([]);
-  AgreementFormControl = new FormControl(false);
-  isAgreed = false;
-  workshopId: string;
+  public isDispatching = false;
+  public ChildrenFormArray = new FormArray([]);
+  public AgreementFormControl = new FormControl(false);
+  public isAgreed = false;
+  public workshopId: string;
 
   constructor(
     protected store: Store,
@@ -63,7 +71,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       .subscribe((socialGroups: DataItem[]) => (this.socialGroups = socialGroups));
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new GetSocialGroup());
 
     this.determineEditMode();
@@ -73,12 +81,12 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.editMode ? this.AgreementFormControl.setValue(true) : this.ChildrenFormArray.push(this.newForm());
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.store.dispatch(new ResetSelectedChild());
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     let previousNavPath: Navigation;
 
     if (this.workshopId) {
@@ -107,7 +115,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     );
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     this.isAgreed = true;
 
     const childId = this.route.snapshot.paramMap.get('param');
@@ -125,50 +133,9 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   }
 
   /**
-   * This method create new FormGroup
-   * @param FormArray array
-   */
-  private newForm(child?: Child): FormGroup {
-    const childFormGroup = this.fb.group({
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      middleName: new FormControl('', [
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      dateOfBirth: new FormControl('', Validators.required),
-      gender: new FormControl(null, Validators.required),
-      socialGroups: new FormControl([]),
-      placeOfStudy: new FormControl('', [
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
-      ])
-    });
-
-    this.subscribeOnDirtyForm(childFormGroup);
-
-    if (this.editMode) {
-      childFormGroup.patchValue(child, { emitEvent: false });
-    }
-
-    return childFormGroup;
-  }
-
-  /**
    * This method create new FormGroup add new FormGroup to the FormArray
    */
-  addChild(): void {
+  public addChild(): void {
     this.ChildrenFormArray.push(this.newForm());
   }
 
@@ -176,7 +143,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
    * This method delete FormGroup from the FormArray by index
    * @param index
    */
-  onDeleteForm(index: number): void {
+  public onDeleteForm(index: number): void {
     const status: string = this.ChildrenFormArray.controls[index].status;
     const isPristine = this.ChildrenFormArray.controls[index].pristine;
 
@@ -198,17 +165,25 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   /**
    * This method create or edit Child and dispatch CreateChild action
    */
-  onSubmit(): void {
-    if (this.ChildrenFormArray.invalid) {
-      this.checkValidationChild();
-    } else {
-      const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
-      if (this.editMode) {
-        const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
-        this.store.dispatch(new UpdateChild(child));
+  public onSubmit(): void {
+    if (!this.isDispatching) {
+      if (this.ChildrenFormArray.invalid) {
+        this.checkValidationChild();
       } else {
-        const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
-        this.store.dispatch(new CreateChildren(controlsData));
+        this.matDialog
+          .open(ConfirmationModalWindowComponent, {
+            width: Constants.MODAL_SMALL,
+            data: {
+              type: ModalConfirmationType.editChild
+            }
+          })
+          .afterClosed()
+          .pipe(filter(Boolean))
+          .subscribe(() => {
+            this.isDispatching = true;
+
+            this.updateInfoAboutChild();
+          });
       }
     }
   }
@@ -216,8 +191,35 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
   /**
    * This method navigate back
    */
-  onCancel(): void {
+  public onCancel(): void {
     this.router.navigate(this.workshopId ? ['/create-application', this.workshopId] : ['/personal-cabinet/parent/info']);
+  }
+
+  /**
+   * This method create new FormGroup
+   * @param FormArray array
+   */
+  private newForm(child?: Child): FormGroup {
+    const childFormGroup = this.fb.group({
+      lastName: new FormControl('', defaultValidators),
+      firstName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', defaultValidators.slice(1)),
+      dateOfBirth: new FormControl('', Validators.required),
+      gender: new FormControl(null, Validators.required),
+      socialGroups: new FormControl([]),
+      placeOfStudy: new FormControl('', [
+        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)
+      ])
+    });
+
+    this.subscribeOnDirtyForm(childFormGroup);
+
+    if (this.editMode) {
+      childFormGroup.patchValue(child, { emitEvent: false });
+    }
+
+    return childFormGroup;
   }
 
   /**
@@ -237,5 +239,16 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
     });
+  }
+
+  private updateInfoAboutChild() {
+    const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
+    if (this.editMode) {
+      const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);
+      this.store.dispatch(new UpdateChild(child));
+    } else {
+      const controlsData = this.ChildrenFormArray.controls.map((form: FormGroup) => new Child(form.value, parent.id));
+      this.store.dispatch(new CreateChildren(controlsData));
+    }
   }
 }

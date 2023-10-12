@@ -1,4 +1,5 @@
 import { HttpErrorResponse } from '@angular/common/http';
+
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../models/application.model';
 import { ProviderParameters } from '../models/provider.model';
 
@@ -8,7 +9,7 @@ export class GetWorkshopsByProviderId {
 }
 
 export class GetWorkshopById {
-  static readonly type = '[user] get Workshop By Wokrshop Id';
+  static readonly type = '[user] get Workshop By Workshop Id';
   constructor(public payload: string) {}
 }
 
@@ -57,12 +58,12 @@ export class OnUpdateApplicationSuccess {
   constructor(public payload: Application) {}
 }
 
-export class GetFilteredChildrens {
-  static readonly type = '[user] Get Filtered Childrens';
+export class GetFilteredChildren {
+  static readonly type = '[user] get Filtered Children';
   constructor() {}
 }
 
 export class ResetProviderWorkshopDetails {
-  static readonly type = '[user] clear provider and workshop details';
+  static readonly type = '[user] clear Provider And Workshop Details';
   constructor() {}
 }

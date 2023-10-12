@@ -5,8 +5,11 @@
 // Regex for text
 export const TEXT_REGEX: RegExp = /^\S[А-Яа-яЇїІіЄєЁёҐґ'’`\s-]*$/;
 
-// Regex for lastName, firstName, middleName, fullName
-export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`\s-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
+// Regex for lastName, firstName, middleName
+export const NAME_REGEX: RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ'’`-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
+
+// Regex for fullName
+export const FULL_NAME_REGEX:RegExp = /^[А-Яа-яЇїІіЄєЁёҐґ\s'’`-]*[А-Яа-яЇїІіЄєЁёҐґ]$/;
 
 // Regex for email
 export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
@@ -15,7 +18,7 @@ export const EMAIL_REGEX: RegExp = /^[\w.-]+@([\w.-]+\.)+[\w.-]{2,6}$/;
 export const EDRPOU_IPN_REGEX: RegExp = /^(\d{8}|\d{10})$/;
 
 // Regex for non-latin characters
-export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9.,_ \-’!@#$%^/&*()+={}\\|<>~`':;"]+$/;
+export const NO_LATIN_REGEX: RegExp = /^[А-ЩЬЮЯҐЄІЇа-щьюяґєії0-9.,_\s\-’!@#$%^/&*()+={}\\|<>~`':;"]+$/;
 
 // Regex for date
 export const DATE_REGEX: RegExp = /[^0-9./-]*/g;

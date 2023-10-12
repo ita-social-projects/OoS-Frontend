@@ -28,7 +28,7 @@ import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderLicenseStatuse, UpdateProviderStatus } from 'shared/store/provider.actions';
+import { DeleteProviderById, UpdateProviderLicenseStatus, UpdateProviderStatus } from 'shared/store/provider.actions';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { Util } from 'shared/utils/utils';
@@ -333,7 +333,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .pipe(filter(Boolean))
       .subscribe(() =>
         this.store.dispatch(
-          new UpdateProviderLicenseStatuse(
+          new UpdateProviderLicenseStatus(
             {
               providerId,
               licenseStatus: LicenseStatuses.Approved

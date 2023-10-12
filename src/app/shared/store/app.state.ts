@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
+
 import { ActivateEditMode, MarkFormDirty, ShowMessageBar, ToggleMobileScreen } from './app.actions';
 
 export interface AppStateModel {
