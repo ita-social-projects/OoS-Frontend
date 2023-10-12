@@ -69,7 +69,7 @@
               <div class="header-notification__single info">
                 <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
                 <span class="info__description">{{
-                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data) | translate
+                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data, notification.action) | translate
                 }}</span>
                 <h4 class="info__time">
                   {{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}
@@ -82,9 +82,9 @@
               role="region"
               class="body-notification__wrapper info info__description"
             >
-              <div class="body-notification__content body-notification__single" (click)="onNavigate(notification.type)">
+              <div class="body-notification__content body-notification__single" (click)="onNavigate(notification.type, notification.action)">
                 <span class="info__description info__link">{{
-                  getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data) | translate
+                  getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data,  notification.action) | translate
                 }}</span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>

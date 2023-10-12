@@ -23,7 +23,7 @@ import {
   NotificationWorkshopFullDescriptions,
   NotificationWorkshopShortDescription
 } from 'shared/enum/enumUA/notifications';
-import { DataTypes, NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
+import { DataTypes, NotificationAction, NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 import { Role } from 'shared/enum/role';
 import { ApplicationStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import {
@@ -121,7 +121,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.notifications = this.notifications.filter((recievedNotification: Notification) => recievedNotification.id !== notification.id);
   }
 
-  public onNavigate(type: NotificationType, groupedDataStatus?: ApplicationStatuses): void {
+  public onNavigate(type: NotificationType, action:NotificationAction, groupedDataStatus?: ApplicationStatuses): void {
     switch (NotificationType[type]) {
       case NotificationType.Workshop:
       case NotificationType.Application:
@@ -135,8 +135,14 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         this.router.navigate([`/personal-cabinet/${PersonalCabinetLinks.Chat}`]);
         break;
       case NotificationType.Provider:
-        this.router.navigate(['admin-tools/data/provider-list']);
-        break;
+        switch (NotificationAction[action]) {
+          case  NotificationAction.Block:
+            this.router.navigate(['personal-cabinet/provider/info']);
+            break;
+          default:
+            this.router.navigate(['admin-tools/data/provider-list']);
+            break;
+        }
     }
   }
 
@@ -164,11 +170,18 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public getNotificationDescription(
     descriptionType: NotificationDescriptionType,
     notificationType: NotificationType,
-    data: DataTypes
+    data: DataTypes,
+    action: ProviderStatuses
   ): string | void {
     if (data[DataTypes.LicenseStatus]) {
       return this.getDataLicenseNotification(descriptionType, data[DataTypes.LicenseStatus]);
-    } else if (data[DataTypes.Status]) {
+    }  
+    
+    if (!Object.keys(data).length) {
+      return this.getNotificationByAction(descriptionType, notificationType, action);
+    } 
+    
+    if (data[DataTypes.Status]) {
       return this.getDataStatusNotification(descriptionType, notificationType, data[DataTypes.Status]);
     }
   }
@@ -179,6 +192,18 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.destroy$.unsubscribe();
   }
 
+  private getNotificationByAction(descriptionType: NotificationDescriptionType, notificationType: NotificationType, action: ProviderStatuses): string |void {
+    if (descriptionType === NotificationDescriptionType.Full) {
+      return this.getFullNotificationMessage(notificationType, action);
+    }
+    
+    if (descriptionType === NotificationDescriptionType.Short) {
+      return this.getShortNotificationMessage(notificationType, action);
+    }
+
+    return Constants.NO_INFORMATION;
+  }
+
   private getDataStatusNotification(
     descriptionType: NotificationDescriptionType,
     notificationType: NotificationType,
@@ -186,21 +211,9 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   ): string {
     switch (descriptionType) {
       case NotificationDescriptionType.Full:
-        switch (notificationType) {
-          case NotificationType.Workshop:
-            return NotificationWorkshopFullDescriptions[status];
-          case NotificationType.Provider:
-            return NotificationsProviderFullDescriptions[status];
-        }
-        break;
+        return this.getFullNotificationMessage(notificationType, status);
       case NotificationDescriptionType.Short:
-        switch (notificationType) {
-          case NotificationType.Workshop:
-            return NotificationWorkshopShortDescription[status];
-          case NotificationType.Provider:
-            return NotificationsProviderShortDescriptions[status];
-        }
-        break;
+        return this.getShortNotificationMessage(notificationType, status);
       default:
         return Constants.NO_INFORMATION;
     }
@@ -261,5 +274,25 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     const newGroupByType = new NotificationsGroupedByType(recievedNotification.type, 1, []);
     this.addNewGroupByAdditionalData(newGroupByType, recievedNotification);
     this.groupsByType.push(newGroupByType);
+  }
+
+  private getFullNotificationMessage(notificationType: NotificationType, input: ProviderStatuses | NotificationAction | ApplicationStatuses): string {
+    if (notificationType === NotificationType.Workshop) {
+      return NotificationWorkshopFullDescriptions[input];
+    }
+
+    if (notificationType === NotificationType.Provider) {
+      return NotificationsProviderFullDescriptions[input];
+    }
+  }
+
+  private getShortNotificationMessage(notificationType: NotificationType, input: ProviderStatuses | NotificationAction | ApplicationStatuses): string {
+    if (notificationType === NotificationType.Workshop) {
+      return NotificationWorkshopShortDescription[input];
+    }
+
+    if (notificationType === NotificationType.Provider) {
+      return NotificationsProviderShortDescriptions[input];
+    }
   }
 }
