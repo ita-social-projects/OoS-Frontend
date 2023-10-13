@@ -597,7 +597,9 @@
     "YOU_HAVE": "You have",
     "PROVIDER_SHORT_DESCRIPTION": {
       "EDITING": "Your organization needs editing",
-      "APPROVED": "Congratulations! Your organization has been successfully approved"
+      "APPROVED": "Congratulations! Your organization has been successfully approved",
+      "BLOCK": "The institution has been blocked",
+      "UNBLOCK": "The institution has been unblocked"
     },
     "WORKSHOP_SHORT_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open",
@@ -610,7 +612,9 @@
     },
     "PROVIDER_FULL_DESCRIPTION": {
       "EDITING": "View the reason for editing and correct the information about the organization",
-      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform."
+      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform.",
+      "BLOCK": "The institution has been blocked",
+      "UNBLOCK": "The institution has been unblocked"
     },
     "WORKSHOP_FULL_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open, now you can apply for this workshop.",

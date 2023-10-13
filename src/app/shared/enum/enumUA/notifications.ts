@@ -1,6 +1,8 @@
 export enum NotificationsProviderShortDescriptions {
   Editing = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.EDITING',
   Approved = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.APPROVED',
+  Block = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.BLOCK',
+  Unblock = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.UNBLOCK',
 }
 
 export enum NotificationWorkshopShortDescription {
@@ -17,6 +19,8 @@ export enum NotificationProviderLicenseShortDescription {
 export enum NotificationsProviderFullDescriptions {
   Editing = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.EDITING',
   Approved = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.APPROVED',
+  Block = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.BLOCK',
+  Unblock = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.UNBLOCK',
 }
 
 export enum NotificationWorkshopFullDescriptions {
