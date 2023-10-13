@@ -23,9 +23,12 @@ export class Constants {
   static readonly RATE_FIVE_STAR = 5;
 
   static readonly FULL_DATE_FORMAT = 'dd MMMM yyyy, HH:mm';
+  static readonly FULL_DATE_FORMAT_ONLY_DIGITS = 'dd.MM.yyyy, HH:mm';
   static readonly SHORT_DATE_FORMAT = 'dd.MM.yyyy';
   static readonly SHORT_TIME_24_HOUR_SYSTEM = 'HH:mm';
+
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
+  static readonly DASH_VALUE = 'dash';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;

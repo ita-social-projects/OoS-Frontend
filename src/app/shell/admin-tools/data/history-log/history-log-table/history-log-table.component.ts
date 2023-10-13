@@ -24,7 +24,9 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   readonly HistoryLogTypes = HistoryLogTypes;
   readonly statusTitles = ApplicationTitles;
   readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
+  readonly FULL_DATE_FORMAT_ONLY_DIGITS = Constants.FULL_DATE_FORMAT_ONLY_DIGITS;
   readonly userStatus = UserStatus;
+  readonly DASH_VALUE = Constants.DASH_VALUE;
 
   @Input() table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
   @Input() tableType: HistoryLogTypes;
@@ -39,6 +41,19 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     'pib',
     'email',
     'providerTitle',
+    'institutionTitle',
+    'providerCity',
+    'fieldName',
+    'updatedDate',
+    'oldValue',
+    'newValue',
+  ];
+
+  displayedProviderAdminsColumns = [
+    'pib',
+    'email',
+    'providerTitle',
+    'workshopTitle',
     'institutionTitle',
     'providerCity',
     'fieldName',
