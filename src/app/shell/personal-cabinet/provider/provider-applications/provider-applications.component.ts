@@ -174,8 +174,8 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
   }
 
   onSendMessage(application: Application): void {
-    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], {
-      queryParams: { mode: ModeConstants.WORKSHOP },
+    this.router.navigate(['/personal-cabinet/messages/', application.id], {
+      queryParams: { mode: ModeConstants.APPLICATION },
       replaceUrl: false
     });
   }

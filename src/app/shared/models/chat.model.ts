@@ -16,11 +16,13 @@ export interface IncomingMessage {
 export class OutgoingMessage {
   workshopId: string;
   parentId: string;
+  chatRoomId: string;
   text: string;
 
-  constructor(workshopId: string, parentId: string, text: string) {
+  constructor(workshopId: string, parentId: string, chatRoomId: string, text: string) {
     this.workshopId = workshopId;
     this.parentId = parentId;
+    this.chatRoomId = chatRoomId;
     this.text = text;
   }
 }
