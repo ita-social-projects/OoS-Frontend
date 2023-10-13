@@ -3,8 +3,8 @@ import { Store } from '@ngxs/store';
 import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { ValidationConstants } from '../../../constants/validation';
-import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from '../../../store/filter.actions';
+import { ValidationConstants } from 'shared/constants/validation';
+import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.actions';
 
 @Component({
   selector: 'app-age-filter',
@@ -12,23 +12,23 @@ import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from '../../../store/filter
   styleUrls: ['./age-filter.component.scss']
 })
 export class AgeFilterComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
   @Input()
-  set ageFilter(filter) {
+  public set ageFilter(filter) {
     const { minAge, maxAge, isAppropriateAge } = filter;
     this.minAgeFormControl.setValue(minAge, { emitEvent: false });
     this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
     this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
   }
 
-  minAgeFormControl = new FormControl(null);
-  maxAgeFormControl = new FormControl(null);
-  isAppropriateAgeControl = new FormControl(false);
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public minAgeFormControl = new FormControl(null);
+  public maxAgeFormControl = new FormControl(null);
+  public isAppropriateAgeControl = new FormControl(false);
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.minAgeFormControl.valueChanges
       .pipe(debounceTime(400), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
@@ -42,16 +42,16 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  clearMin(): void {
+  public clearMin(): void {
     this.minAgeFormControl.reset();
   }
 
-  clearMax(): void {
+  public clearMax(): void {
     this.maxAgeFormControl.reset();
   }
 }

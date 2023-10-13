@@ -8,7 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { DataItem } from '../../../../shared/models/item.model';
+import { DataItem } from 'shared/models/item.model';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;

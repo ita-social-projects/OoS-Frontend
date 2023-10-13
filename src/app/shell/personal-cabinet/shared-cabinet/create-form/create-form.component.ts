@@ -63,7 +63,7 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
 
   /** This method add status change emit of touch event.
    * Validation hint captures touch event and displays validation error.
-   * @param form: FormGroup | FormArray
+   * @param form FormGroup | FormArray
    */
   protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
     let originalMethod = form.markAsTouched;

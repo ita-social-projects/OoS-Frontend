@@ -23,39 +23,39 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./sidenav-menu.component.scss']
 })
 export class SidenavMenuComponent implements OnInit, OnDestroy {
-  readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
-  readonly Languages: typeof Languages = Languages;
-  readonly Role = Role;
-  readonly RoleLinks = RoleLinks;
-  readonly title = 'out-of-school';
+  public readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
+  public readonly Languages: typeof Languages = Languages;
+  public readonly Role = Role;
+  public readonly RoleLinks = RoleLinks;
+  public readonly title = 'out-of-school';
 
-  @Input() isMobileView: boolean;
+  @Input() public isMobileView: boolean;
 
-  showModalReg = false;
-  visibleSidenav: boolean;
-  user: User;
-  selectedLanguage: string;
+  public showModalReg = false;
+  public visibleSidenav: boolean;
+  public user: User;
+  public selectedLanguage: string;
 
   @Select(NavigationState.sidenavOpenTrue)
-  sidenavOpenTrue$: Observable<boolean>;
+  public sidenavOpenTrue$: Observable<boolean>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+  public user$: Observable<User>;
   @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+  public subrole$: Observable<string>;
   @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<string>;
+  public isAuthorized$: Observable<string>;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+  public featuresList$: Observable<FeaturesList>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(public store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
 
-  changeView(): void {
+  public changeView(): void {
     this.store.dispatch(new SidenavToggle());
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture') || 'uk';
     this.sidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe((visible) => (this.visibleSidenav = visible));
     this.user$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((user: User) => {
@@ -63,25 +63,25 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
     });
   }
 
-  login(): void {
+  public login(): void {
     this.store.dispatch(new Login(false));
   }
 
-  logout(): void {
+  public logout(): void {
     this.store.dispatch(new Logout());
   }
 
-  setLanguage(): void {
+  public setLanguage(): void {
     this.translate.use(this.selectedLanguage);
     this.dateAdapter.setLocale(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
-  isRouter(route: string): boolean {
+  public isRouter(route: string): boolean {
     return this.router.url === route;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

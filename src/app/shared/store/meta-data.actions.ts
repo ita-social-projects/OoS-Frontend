@@ -8,7 +8,7 @@ export class GetDirections {
 
 export class GetSocialGroup {
   static readonly type = '[meta-data] Get get social groups';
-  constructor() {}
+  constructor(public locale?: string) {}
 }
 
 export class GetInstitutionStatuses {
@@ -37,7 +37,7 @@ export class GetFeaturesList {
 
 export class GetAllInstitutions {
   static readonly type = '[meta-data] Get All Institutions';
-  constructor(public filterNonGovernment: boolean) {}
+  constructor(public filterNonGovernment: boolean, public locale?: string) {}
 }
 
 export class GetAllInstitutionsHierarchy {

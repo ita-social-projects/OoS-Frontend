@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { MatSelectChange } from '@angular/material/select';
 import { PaginationConstants } from '../../constants/constants';
 import { PaginationElement } from '../../models/paginationElement.model';
@@ -9,41 +9,41 @@ import { PaginationElement } from '../../models/paginationElement.model';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnChanges {
-  readonly constants: typeof PaginationConstants = PaginationConstants;
+  public readonly constants: typeof PaginationConstants = PaginationConstants;
 
-  @Input() currentPage: PaginationElement;
-  @Input() totalEntities: number;
-  @Input() itemsPerPage: number;
+  @Input() public currentPage: PaginationElement;
+  @Input() public totalEntities: number;
+  @Input() public itemsPerPage: number;
 
-  @Output() pageChange = new EventEmitter<PaginationElement>();
-  @Output() itemsPerPageChange = new EventEmitter<number>();
+  @Output() public pageChange = new EventEmitter<PaginationElement>();
+  @Output() public itemsPerPageChange = new EventEmitter<number>();
 
-  carouselPageList: PaginationElement[] = [];
-  totalPageAmount: number;
-  listOfValues: Array<number> = [8, 12, 16, 20];
+  public carouselPageList: PaginationElement[] = [];
+  public totalPageAmount: number;
+  public listOfValues: Array<number> = [8, 12, 16, 20];
 
   constructor() {}
 
-  init(): void {
+  public init(): void {
     this.totalPageAmount = this.getTotalPageAmount();
     this.createPageList();
   }
 
-  OnSelectOption(event: MatSelectChange): void {
+  public OnSelectOption(event: MatSelectChange): void {
     this.itemsPerPageChange.emit(event.value);
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
+  public ngOnChanges(changes: SimpleChanges): void {
     if (changes) {
       this.init();
     }
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.pageChange.emit(page);
   }
 
-  onArroveClick(isForward: boolean): void {
+  public onArroveClick(isForward: boolean): void {
     const page: PaginationElement = {
       element: '',
       isActive: true

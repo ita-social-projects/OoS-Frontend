@@ -1,32 +1,33 @@
-import { ApplicationStatuses } from './../enum/statuses';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+
+import { EMPTY_RESULT } from '../constants/constants';
+import { messageStatus, SnackbarText } from '../enum/enumUA/messageBer';
 import { Application } from '../models/application.model';
 import { Provider } from '../models/provider.model';
+import { SearchResponse } from '../models/search.model';
 import { Workshop, WorkshopCard } from '../models/workshop.model';
 import { ApplicationService } from '../services/applications/application.service';
 import { ProviderService } from '../services/provider/provider.service';
 import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
+import { ApplicationStatuses } from './../enum/statuses';
 import { ShowMessageBar } from './app.actions';
 import {
-  GetWorkshopsByProviderId,
-  GetWorkshopById,
-  OnGetWorkshopByIdFail,
+  GetAllApplications,
   GetApplicationsByPropertyId,
-  OnUpdateApplicationSuccess,
-  UpdateApplication,
-  OnUpdateApplicationFail,
   GetProviderById,
+  GetWorkshopById,
+  GetWorkshopsByProviderId,
   OnGetProviderByIdFail,
+  OnGetWorkshopByIdFail,
+  OnUpdateApplicationFail,
+  OnUpdateApplicationSuccess,
   ResetProviderWorkshopDetails,
-  GetAllApplications
+  UpdateApplication
 } from './shared-user.actions';
-import { HttpErrorResponse } from '@angular/common/http';
-import { SearchResponse } from '../models/search.model';
-import { EMPTY_RESULT } from '../constants/constants';
-import { messageStatus, SnackbarText } from '../enum/enumUA/messageBer';
 
 export interface SharedUserStateModel {
   isLoading: boolean;
@@ -35,6 +36,7 @@ export interface SharedUserStateModel {
   selectedProvider: Provider;
   applicationCards: SearchResponse<Application[]>;
 }
+
 @State<SharedUserStateModel>({
   name: 'user',
   defaults: {
@@ -173,7 +175,7 @@ export class SharedUserState {
   }
 
   @Action(OnUpdateApplicationFail)
-  onUpdateApplicationfail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
+  onUpdateApplicationFail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 

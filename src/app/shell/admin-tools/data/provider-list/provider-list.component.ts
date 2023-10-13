@@ -28,7 +28,7 @@ import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderLicenseStatuse, UpdateProviderStatus } from 'shared/store/provider.actions';
+import { DeleteProviderById, UpdateProviderLicenseStatus, UpdateProviderStatus } from 'shared/store/provider.actions';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { Util } from 'shared/utils/utils';
@@ -51,29 +51,29 @@ import { AreaAdmin } from 'shared/models/areaAdmin.model';
   styleUrls: ['./provider-list.component.scss']
 })
 export class ProviderListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  readonly noProviders = NoResultsTitle.noResult;
-  readonly ModeConstants = ModeConstants;
-  readonly OwnershipTypeEnum = OwnershipTypesEnum;
-  readonly ownershipTypes = OwnershipTypes;
-  readonly statusIcons = UserStatusIcons;
-  readonly providerStatuses = ProviderStatuses;
-  readonly providerStatusTitles = ProviderStatusTitles;
+  public readonly noProviders = NoResultsTitle.noResult;
+  public readonly ModeConstants = ModeConstants;
+  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly statusIcons = UserStatusIcons;
+  public readonly providerStatuses = ProviderStatuses;
+  public readonly providerStatusTitles = ProviderStatusTitles;
 
-  readonly blockedStatus = 'Blocked'; //TODO: should be localized
+  public readonly blockedStatus = 'Blocked'; //TODO: should be localized
 
-  readonly licenseStatuses = LicenseStatuses;
-  readonly licenseStatusTitles = LicenseStatusTitles;
+  public readonly licenseStatuses = LicenseStatuses;
+  public readonly licenseStatusTitles = LicenseStatusTitles;
 
   @Select(AdminState.providers)
-  providers$: Observable<SearchResponse<Provider[]>>;
+  public providers$: Observable<SearchResponse<Provider[]>>;
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
   @Select(FilterState.settlement)
-  settlement$: Observable<Codeficator>;
+  public settlement$: Observable<Codeficator>;
   @Select(MetaDataState.codeficatorSearch)
   public codeficatorSearch$: Observable<Codeficator[]>;
   @Select(RegistrationState.role)
@@ -81,12 +81,12 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   @Select(AdminState.selectedAdmin)
   public selectedAdmin$: Observable<BaseAdmin>;
 
-  selectedAdmin: BaseAdmin;
-  role: Role;
-  provider: Provider;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  isInfoDisplayed: boolean;
-  displayedColumns: string[] = [
+  public selectedAdmin: BaseAdmin;
+  public role: Role;
+  public provider: Provider;
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public isInfoDisplayed: boolean;
+  public displayedColumns: string[] = [
     'fullTitle',
     'ownership',
     'edrpouIpn',
@@ -99,10 +99,10 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'star'
   ];
   public filterGroup: FormGroup;
-  dataSource = new MatTableDataSource([{}]);
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  totalEntities: number;
-  providerParameters: ProviderParameters = {
+  public dataSource = new MatTableDataSource([{}]);
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public totalEntities: number;
+  public providerParameters: ProviderParameters = {
     searchString: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
     institutionId: '',
@@ -118,7 +118,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => (this.selectedAdmin = admin));
 
     this.role$
@@ -293,12 +293,12 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     return this.filterGroup.get('area') as FormControl;
   }
 
-  onViewProviderInfo(provider: Provider): void {
+  public onViewProviderInfo(provider: Provider): void {
     this.provider = provider;
     this.isInfoDisplayed = true;
   }
 
-  announceSortChange(sortState: Sort): void {
+  public announceSortChange(sortState: Sort): void {
     if (sortState.direction) {
       this.liveAnnouncer.announce(`Sorted ${sortState.direction}ending`);
     } else {
@@ -306,7 +306,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onChangeStatus(provider: Provider, status: ProviderStatuses): void {
+  public onChangeStatus(provider: Provider, status: ProviderStatuses): void {
     const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
     if (status === ProviderStatuses.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
@@ -323,7 +323,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onLicenseApprove(providerId: string): void {
+  public onLicenseApprove(providerId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       data: { type: ModalConfirmationType.licenseApproved }
     });
@@ -333,7 +333,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .pipe(filter(Boolean))
       .subscribe(() =>
         this.store.dispatch(
-          new UpdateProviderLicenseStatuse(
+          new UpdateProviderLicenseStatus(
             {
               providerId,
               licenseStatus: LicenseStatuses.Approved
@@ -344,7 +344,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       );
   }
 
-  onDelete(provider: Provider): void {
+  public onDelete(provider: Provider): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -359,17 +359,17 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       .subscribe(() => this.store.dispatch(new DeleteProviderById(provider.id, this.providerParameters)));
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviders();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.providerParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onBlock(provider: Provider): void {
+  public onBlock(provider: Provider): void {
     if (provider.isBlocked) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
@@ -432,7 +432,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());

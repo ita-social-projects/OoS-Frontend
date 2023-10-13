@@ -4,13 +4,15 @@ import { Select, Store } from '@ngxs/store';
 import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
-import { DATE_REGEX, NAME_REGEX } from 'shared/constants/regex-constants';
+import { DATE_REGEX, FULL_NAME_REGEX } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { InstitutionTypesEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from 'shared/enum/provider';
 import { Institution } from 'shared/models/institution.model';
 import { DataItem } from 'shared/models/item.model';
 import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { AppState } from 'shared/store/app.state';
 import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
@@ -42,6 +44,8 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly institutionTypes = InstitutionTypes;
   public readonly institutionTypesEnum = InstitutionTypesEnum;
 
+  @Select(AppState.isEditMode)
+  public isEditMode$: Observable<boolean>;
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
   @Select(MetaDataState.providerTypes)
@@ -61,7 +65,6 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
-  public isEditMode = false;
 
   public get ownershipTypeControl(): AbstractControl {
     return this.infoFormGroup.get('ownership');
@@ -98,7 +101,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       edrpouIpn: new FormControl('', [Validators.required, FormValidators.edrpouIpn]),
       director: new FormControl('', [
         Validators.required,
-        Validators.pattern(NAME_REGEX),
+        Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
@@ -116,7 +119,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
       ]),
       founder: new FormControl('', [
         Validators.required,
-        Validators.pattern(NAME_REGEX),
+        Validators.pattern(FULL_NAME_REGEX),
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ])
@@ -149,7 +152,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
    * This method fills inputs with information of edited provider
    */
   private activateEditMode(): void {
-    this.isEditMode = true;
+    this.store.dispatch(new ActivateEditMode(true));
     this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 
