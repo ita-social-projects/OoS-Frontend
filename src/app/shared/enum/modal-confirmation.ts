@@ -24,6 +24,8 @@ export enum ModalConfirmationType {
   createAchievement = 'createAchievement',
   createDirection = 'createDirection',
   editDirection = 'editDirection',
+  editPersonalInformation = 'editPersonalInformation',
+  editChild = 'editChild',
   createProviderAdmin = 'createProviderAdmin',
   createProviderAdminDeputy = 'createProviderAdminDeputy',
   updateProviderAdmin = 'updateProviderAdmin',
@@ -51,6 +53,8 @@ export enum ModalConfirmationTitle {
   deleteDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_DIRECTION',
   createDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.CREATE_DIRECTION',
   editDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UPDATE_DIRECTION',
+  editPersonalInformation = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UPDATE_PERSONAL_INFORMATION',
+  editChild = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.UPDATE_CHILD_INFORMATION',
   deleteChild = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_CHILD',
   deleteAchievement = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_ACHIEVEMENT',
   deleteRate = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.TITLES.DELETE_RATE',
@@ -93,6 +97,8 @@ export enum ModalConfirmationText {
   deleteDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_DIRECTION',
   createDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.CREATE_DIRECTION',
   editDirection = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_DIRECTION',
+  editPersonalInformation = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_PERSONAL_INFORMATION',
+  editChild = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_CHILD_INFORMATION',
   deleteChild = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_CHILD',
   deleteAchievement = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_ACHIEVEMENT',
   deleteTeacher = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.DELETE_TEACHER',
@@ -128,6 +134,7 @@ export enum ModalConfirmationText {
   updateAdmin = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.UPDATE_ADMIN',
   licenseApproved = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.LICENSE_APPROVED'
 }
+
 
 export enum ModalConfirmationDescription {
   blockParent = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.BLOCK_PARENT',

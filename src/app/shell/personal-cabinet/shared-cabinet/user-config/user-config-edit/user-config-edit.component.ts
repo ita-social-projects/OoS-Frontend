@@ -1,14 +1,17 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, throttleTime } from 'rxjs';
-import { filter, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
@@ -17,6 +20,13 @@ import { UpdateUser } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../create-form/create-form.component';
+
+const defaultValidators = [
+  Validators.required,
+  Validators.pattern(NAME_REGEX),
+  Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
+  Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+];
 
 @Component({
   selector: 'app-user-config-edit',
@@ -32,8 +42,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   private user$: Observable<User>;
 
   private subRole: Role;
-  private dispatchSubject = new Subject<void>();
-  private defaultThrottleTime = 1000;
 
   public isDispatching = false;
   public user: User;
@@ -47,43 +55,20 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
     protected store: Store,
     protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private matDialog: MatDialog
   ) {
     super(store, route, navigationBarService);
 
     this.userEditFormGroup = this.fb.group({
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      middleName: new FormControl('', [
-        Validators.pattern(NAME_REGEX),
-        Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
-      ]),
-      phoneNumber: new FormControl('', [
-        Validators.required,
-        Validators.minLength(ValidationConstants.PHONE_LENGTH)
-      ])
+      lastName: new FormControl('', defaultValidators),
+      firstName: new FormControl('', defaultValidators),
+      middleName: new FormControl('', defaultValidators.slice(1)),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)])
     });
   }
 
   public ngOnInit(): void {
-    this.dispatchSubject
-      .pipe(
-        throttleTime(this.defaultThrottleTime),
-        switchMap(() => this.updateUserInfoInStore())
-      )
-      .subscribe(() => this.isDispatching = false);
-
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
       this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
       this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
@@ -131,9 +116,23 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public onSubmit(): void {
-    if (!this.isDispatching) {
-      this.isDispatching = true;
-      this.dispatchSubject.next();
+    if (this.userEditFormGroup.dirty && !this.isDispatching) {
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.editPersonalInformation
+          }
+        })
+        .afterClosed()
+        .pipe(filter(Boolean))
+        .subscribe(() => {
+          this.isDispatching = true;
+
+          this.updateUserInfoInStore();
+
+          this.userEditFormGroup.markAsPristine();
+        });
     }
   }
 

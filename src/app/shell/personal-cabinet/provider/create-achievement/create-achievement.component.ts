@@ -57,9 +57,11 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   get teachersFormControl(): FormControl {
     return this.AchievementFormGroup.get('teachers') as FormControl;
   }
+
   get childrenFormControl(): FormControl {
     return this.AchievementFormGroup.get('children') as FormControl;
   }
+
   get achievementTypeIdFormControl(): FormControl {
     return this.AchievementFormGroup.get('achievementTypeId') as FormControl;
   }
@@ -86,7 +88,6 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       teachers: new FormControl('', Validators.required),
       children: new FormControl('', Validators.required)
     });
-
     this.subscribeOnDirtyForm(this.AchievementFormGroup);
   }
 
@@ -95,7 +96,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   determineEditMode(): void {
-    this.achievementId = this.route.snapshot.paramMap.get('achievementId');
+    this.achievementId = this.route.snapshot.queryParamMap.get('achievementId');
     this.editMode = !!this.achievementId;
     if (this.editMode) {
       this.setEditMode();

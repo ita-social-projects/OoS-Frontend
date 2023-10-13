@@ -1,9 +1,10 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AbstractSecurityStorage, AuthModule, LogLevel } from 'angular-auth-oidc-client';
-import { HttpClientModule } from '@angular/common/http';
-import { LocalSessionManagerService } from '../services/local-session-manager/local-session-manager.service';
+
 import { environment } from '../../../environments/environment';
+import { LocalSessionManagerService } from '../services/local-session-manager/local-session-manager.service';
 
 @NgModule({
   declarations: [],
@@ -15,6 +16,7 @@ import { environment } from '../../../environments/environment';
         useRefreshToken: true,
         silentRenew: true,
         silentRenewTimeoutInSeconds: 300,
+        ignoreNonceAfterRefresh: true,
         clientId: 'angular',
         authority: environment.stsServer,
         responseType: 'code',

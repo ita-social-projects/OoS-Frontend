@@ -82,7 +82,7 @@
       "ADD_PROVIDER_DEPUTY": "Add provider deputy",
       "ADD_PROVIDER_ADMIN": "Add workshop administrator",
       "EDIT_PROVIDER_DEPUTY": "Edit provider deputy",
-      "EDIT_PROVIDER_ADMIN": "Add workshop administrator",
+      "EDIT_PROVIDER_ADMIN": "Edit workshop administrator",
       "ADD_PROVIDER_MINISTRY_ADMIN": "Add ministry administrator",
       "ADD_PROVIDER_REGION_ADMIN": "Add region administrator",
       "ADD_PROVIDER_AREA_ADMIN": "Add territorial community administrator",
@@ -278,6 +278,9 @@
   },
   "EXACT_MATCH": "Exact match",
   "FOR_FREE": "For free",
+  "WITHOUT_COMPETITIVE_SELECTION": "Without competitive selection",
+  "WITH_COMPETITIVE_SELECTION": "Competitive selection exists",
+  "INFO_ABOUT_SELECTION": "Information about selection",
   "FORMS": {
     "ADD_TEACHER_LATER": "Teachers can be added to the workshop later",
     "MATCH_ACTUAL_ADDRESS": "Actual address matches the legal address",
@@ -499,6 +502,8 @@
     "ADD_CHILDREN": "Add child",
     "ADD_WORKSHOP": "Add workshop",
     "APPROVE_APPLICATION": "Approve",
+    "ACCEPT_TO_COMPETITIVE_SELECTION": "Accept to selection",
+    "ENROLL_TO_WORKSHOP": "Enroll",
     "LEAVE_WORKSHOP": "Leave workshop",
     "REJECT": "Reject",
     "BLOCK_USER": "Block the user",
@@ -576,7 +581,7 @@
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
     "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-    "ADD_ADMIN_OPTION": "Administrator was added to teh workshop",
+    "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
     "STATUS_CHANGE_TYPE": "Application status change"
   },
   "STATISTICS": {
@@ -598,7 +603,9 @@
     "YOU_HAVE": "You have",
     "PROVIDER_SHORT_DESCRIPTION": {
       "EDITING": "Your organization needs editing",
-      "APPROVED": "Congratulations! Your organization has been successfully approved"
+      "APPROVED": "Congratulations! Your organization has been successfully approved",
+      "BLOCK": "The institution has been blocked",
+      "UNBLOCK": "The institution has been unblocked"
     },
     "WORKSHOP_SHORT_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open",
@@ -611,7 +618,9 @@
     },
     "PROVIDER_FULL_DESCRIPTION": {
       "EDITING": "View the reason for editing and correct the information about the organization",
-      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform."
+      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform.",
+      "BLOCK": "The institution has been blocked",
+      "UNBLOCK": "The institution has been unblocked"
     },
     "WORKSHOP_FULL_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open, now you can apply for this workshop.",
@@ -696,6 +705,8 @@
       "DELETE_DIRECTION": "Are you sure you want to delete the direction",
       "CREATE_DIRECTION": "Are you sure you want to create the direction?",
       "UPDATE_DIRECTION": "Are you sure you want to edit the direction?",
+      "UPDATE_CHILD_INFORMATION": "Are you sure you want to edit child information?",
+      "UPDATE_PERSONAL_INFORMATION": "Are you sure you want to edit the personal information?",
       "DELETE_CHILD": "Are you sure you want to delete the child's data",
       "DELETE_ACHIEVEMENT": "Are you sure you want to delete the achievement?",
       "DELETE_RATE": "Are you sure you want to delete the rate?",
@@ -736,6 +747,8 @@
         "DELETE_DIRECTION": "DELETE DIRECTION?",
         "CREATE_DIRECTION": "CREATE DIRECTION?",
         "UPDATE_DIRECTION": "EDIT DIRECTION?",
+        "UPDATE_CHILD_INFORMATION": "EDIT CHILD INFORMATION?",
+        "UPDATE_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION?",
         "DELETE_CHILD": "DELETE CHILD DATA?",
         "DELETE_ACHIEVEMENT": "DELETE ACHIEVEMENT?",
         "DELETE_RATE": "DELETE RATE?",

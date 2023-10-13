@@ -94,6 +94,11 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
+  public onAcceptForSelection(application: Application): void {
+    const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.AcceptedForSelection);
+    this.store.dispatch(new UpdateApplication(applicationUpdate));
+  }
+
   /**
    * This method changes status of emitted event to "rejected"
    * @param application event
@@ -169,8 +174,8 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
   }
 
   onSendMessage(application: Application): void {
-    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], {
-      queryParams: { mode: ModeConstants.WORKSHOP },
+    this.router.navigate(['/personal-cabinet/messages/', application.id], {
+      queryParams: { mode: ModeConstants.APPLICATION },
       replaceUrl: false
     });
   }

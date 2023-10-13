@@ -14,7 +14,7 @@ export class UnregisteredUserWarningModalComponent {
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: ModalData, private store: Store) {}
 
-  login(): void {
+  public login(): void {
     this.store.dispatch(new Login(false));
   }
 }

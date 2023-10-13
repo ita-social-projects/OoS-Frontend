@@ -1,22 +1,39 @@
-import { EmailConfirmationStatuses } from './../enum/statuses';
+import { Localization } from 'shared/enum/enumUA/localization';
+import { BaseAdmin } from 'shared/models/admin.model';
+import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { CodeMessageErrors } from '../enum/enumUA/errors';
+import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
+import { UserTabsTitles } from '../enum/enumUA/user';
+import { Role } from '../enum/role';
+import { UserStatuses } from '../enum/statuses';
+import { Child } from '../models/child.model';
 import { DefaultFilterState } from '../models/defaultFilterState.model';
 import { FilterStateModel } from '../models/filterState.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { Role } from '../enum/role';
-import { Child } from '../models/child.model';
+import { PaginationElement } from '../models/paginationElement.model';
+import { PaginationParameters } from '../models/queryParameters.model';
 import { Person } from '../models/user.model';
 import { UsersTable } from '../models/usersTable';
-import { UserStatuses } from '../enum/statuses';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { UserTabsTitles } from '../enum/enumUA/user';
+import { EmailConfirmationStatuses } from './../enum/statuses';
 
 /**
  * Utility class that providers methods for shared data manipulations
  */
 export class Util {
+  /**
+   * This method returns current localization as a number for backend requests
+   * <br>
+   * Locale string can be passed as param or by default it is taken from local storage,
+   * but it is required to provide locale if calling from a language change event
+   * because storage gives the previous locale
+   * <br>
+   * Ukrainian locale is 0 and English is 1
+   * @param locale Locale string (uk, en)
+   */
+  public static getCurrentLocalization(locale: string = localStorage.getItem('ui-culture') || 'uk'): number {
+    return Localization[locale];
+  }
+
   /**
    * This method returns child age
    * @param child Child
@@ -64,9 +81,7 @@ export class Util {
   }
 
   public static getTodayBirthDate(): Date {
-    const today = new Date();
-
-    return today;
+    return new Date();
   }
 
   /**
@@ -96,7 +111,7 @@ export class Util {
    */
   public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
     const updatedAdmins = [];
-    admins.forEach((admin: MinistryAdmin) => {
+    admins.forEach((admin: BaseAdmin) => {
       updatedAdmins.push({
         id: admin.id,
         pib: this.getFullName(admin),
@@ -105,6 +120,7 @@ export class Util {
         institutionTitle: admin.institutionTitle,
         status: admin.accountStatus || UserStatuses.Accepted,
         catottgName: admin.catottgName,
+        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName
       });
     });
     return updatedAdmins;

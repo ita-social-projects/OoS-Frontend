@@ -5,31 +5,41 @@
   &__parent {
     flex: 2;
   }
+
   &__info {
     display: flex;
     justify-content: space-between;
+
     & > div {
       flex: 1;
+
       &:not(:first-child) {
         padding-left: 8px;
       }
     }
   }
+
   &__buttons {
-    max-width: 340px;
+    max-width: 410px;
     display: flex;
     justify-content: flex-end;
     align-items: center;
   }
 }
+
 .workshop-description {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  h4 {
+
+  h4, h5 {
     &:not(:last-child) {
       padding-bottom: 8px;
     }
+  }
+
+  h5 {
+    color: #444444;
   }
 }
 
@@ -38,6 +48,7 @@
   justify-content: center;
   align-items: center;
 }
+
 .text {
   display: flex;
   justify-content: start;
@@ -54,6 +65,7 @@
   margin: 0 8px;
   min-width: 10rem;
   text-transform: uppercase;
+
   &-gray {
     background: #ffffff;
     border: 1px solid #aaaaaa;
@@ -61,6 +73,7 @@
     padding: 0.6rem 1.9rem;
   }
 }
+
 .hidden {
   visibility: hidden;
 }
@@ -75,6 +88,7 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   border-radius: 5px !important;
 }
+
 ::ng-deep .childInfo-menu .mat-menu-content {
   font-family: 'Open Sans';
   font-style: normal;
@@ -100,10 +114,12 @@
     &__parent {
       flex: 1;
     }
+
     &__info {
       flex-direction: column;
       align-items: start;
       gap: 12px;
+
       & > div {
         &:not(:first-child) {
           padding-left: 0px;
@@ -111,11 +127,13 @@
       }
     }
   }
+
   .text {
     &-bold {
       display: none;
     }
   }
+
   .workshop-age {
     display: none;
   }
@@ -125,31 +143,37 @@
   .title {
     min-width: 180px;
   }
+
   .card {
     flex-direction: column;
     align-items: start;
     gap: 20px;
   }
+
   .card-block {
     &:first-child {
       width: 100%;
       display: flex;
       justify-content: space-between;
     }
+
     &__buttons {
       max-width: none;
       width: 100%;
       flex-direction: row;
       justify-content: center;
     }
+
     &__actions {
       align-items: flex-start;
     }
   }
+
   .btn {
     min-width: 140px;
     margin: 0;
   }
+
   .material-icons {
     margin-top: 2px !important;
   }

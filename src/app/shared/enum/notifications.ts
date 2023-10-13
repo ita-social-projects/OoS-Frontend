@@ -9,7 +9,9 @@ export enum NotificationAction {
   create = 'Create',
   update = 'Update',
   delete = 'Delete',
-  message = 'Message'
+  message = 'Message',
+  Block = 'Block',
+  Unblock = 'Unblock',
 }
 
 export enum NotificationDescriptionType {

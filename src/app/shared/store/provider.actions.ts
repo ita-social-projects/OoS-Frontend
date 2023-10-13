@@ -3,14 +3,10 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationEntityType } from '../enum/applications';
 import { Achievement, AchievementParameters } from '../models/achievement.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
-import {
-  LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData
-} from '../models/provider.model';
+import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
 import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { PaginationParameters } from '../models/queryParameters.model';
-import {
-  ProviderWorkshopCard, Workshop, WorkshopCardParameters, WorkshopStatus
-} from '../models/workshop.model';
+import { WorkshopProviderViewCard, Workshop, WorkshopCardParameters, WorkshopStatus } from '../models/workshop.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -18,12 +14,12 @@ export class GetAchievementById {
 }
 
 export class GetChildrenByWorkshopId {
-  static readonly type = '[provider] get Children By Wokrshop Id';
+  static readonly type = '[provider] get Children By Workshop Id';
   constructor(public payload: string) {}
 }
 
 export class GetAchievementsByWorkshopId {
-  static readonly type = '[provider] get Achievements By Wokrshop Id';
+  static readonly type = '[provider] get Achievements By Workshop Id';
   constructor(public payload: AchievementParameters) {}
 }
 
@@ -129,7 +125,7 @@ export class OnUpdateWorkshopSuccess {
 
 export class DeleteWorkshopById {
   static readonly type = '[provider] delete Workshop';
-  constructor(public payload: ProviderWorkshopCard, public parameters: WorkshopCardParameters) {}
+  constructor(public payload: WorkshopProviderViewCard, public parameters: WorkshopCardParameters) {}
 }
 
 export class OnDeleteWorkshopSuccess {
@@ -177,7 +173,7 @@ export class UpdateProviderStatus {
   constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
 }
 
-export class UpdateProviderLicenseStatuse {
+export class UpdateProviderLicenseStatus {
   static readonly type = '[provider] update provider license status';
   constructor(public payload: LicenseStatusData, public providerParameters: ProviderParameters) {}
 }
@@ -276,6 +272,7 @@ export class BlockParentFail {
   static readonly type = '[provider] block parent fail';
   constructor(public payload: Error) {}
 }
+
 export class BlockParentSuccess {
   static readonly type = '[provider] block parent success';
   constructor(public payload: BlockedParent, public entityType: ApplicationEntityType) {}
@@ -328,10 +325,12 @@ export class OnDeleteProviderByIdFail {
 
 export class GetProviderAdminById {
   static readonly type = '[provider] get provider admin by id';
-  constructor(public payload: string) {}
+  constructor(public payload: string) {
+  }
 }
 
 export class ReinviteProviderAdmin {
-  static readonly type = '[provider] reinvates provider admin';
-  constructor(public providerAdmin: ProviderAdmin) {}
+  static readonly type = '[provider] reinvites provider admin';
+  constructor(public providerAdmin: ProviderAdmin) {
+  }
 }

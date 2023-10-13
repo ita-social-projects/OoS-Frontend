@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Util } from 'shared/utils/utils';
 
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { AchievementType } from '../models/achievement.model';
@@ -175,9 +176,11 @@ export class MetaDataState {
   }
 
   @Action(GetSocialGroup)
-  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, {}: GetSocialGroup): Observable<DataItem[]> {
+  getSocialGroup({ patchState }: StateContext<MetaDataStateModel>, { locale }: GetSocialGroup): Observable<DataItem[]> {
     patchState({ isLoading: true });
-    return this.childrenService.getSocialGroup().pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
+    return this.childrenService
+      .getSocialGroup(Util.getCurrentLocalization(locale))
+      .pipe(tap((socialGroups: DataItem[]) => patchState({ socialGroups, isLoading: false })));
   }
 
   @Action(GetInstitutionStatuses)
