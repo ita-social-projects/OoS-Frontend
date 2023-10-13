@@ -1,4 +1,5 @@
 import { MatDateFormats } from '@angular/material/core';
+
 import { CodeficatorCategories } from '../enum/codeficator-categories';
 import { WorkingDays } from '../enum/enumUA/working-hours';
 import { Codeficator } from '../models/codeficator.model';
@@ -51,6 +52,7 @@ export class Constants {
   static readonly MODAL_SMALL = '500px';
   static readonly MODAL_MEDIUM = '1024px';
 }
+
 export class PaginationConstants {
   static readonly FIRST_PAGINATION_PAGE = 1;
   static readonly MAX_PAGE_PAGINATOR_DISPLAY = 7;

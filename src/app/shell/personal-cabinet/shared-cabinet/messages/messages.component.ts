@@ -3,6 +3,7 @@ import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil } from 'rxjs';
+
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
@@ -18,7 +19,6 @@ import { TruncatedItem } from 'shared/models/item.model';
 import { PaginationElement } from 'shared/models/paginationElement.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
-
 import { GetChatRooms } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { PushNavPath } from 'shared/store/navigation.actions';

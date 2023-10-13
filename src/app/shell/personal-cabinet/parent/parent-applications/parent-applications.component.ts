@@ -1,25 +1,26 @@
-import { ParentState } from 'shared/store/parent.state';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ChildDeclination } from 'shared/enum/enumUA/declinations/declination';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { ApplicationFilterParameters, Application, ApplicationUpdate } from 'shared/models/application.model';
-import { Parent } from 'shared/models/parent.model';
-import { PushNavPath } from 'shared/store/navigation.actions';
-import { RegistrationState } from 'shared/store/registration.state';
-import { UpdateApplication, GetApplicationsByPropertyId } from 'shared/store/shared-user.actions';
-import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { ApplicationStatuses } from 'shared/enum/statuses';
-import { TruncatedItem } from 'shared/models/item.model';
-import { GetAllUsersChildrenByParentId } from 'shared/store/parent.actions';
-import { ApplicationEntityType } from 'shared/enum/applications';
+
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { ApplicationEntityType } from 'shared/enum/applications';
+import { ChildDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Router } from '@angular/router';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application, ApplicationFilterParameters, ApplicationUpdate } from 'shared/models/application.model';
+import { TruncatedItem } from 'shared/models/item.model';
+import { Parent } from 'shared/models/parent.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { GetAllUsersChildrenByParentId } from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { GetApplicationsByPropertyId, UpdateApplication } from 'shared/store/shared-user.actions';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
 
 @Component({
   selector: 'app-parent-applications',
