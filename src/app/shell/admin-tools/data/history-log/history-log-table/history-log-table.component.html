@@ -49,7 +49,7 @@
             {{ typeChange[element?.fieldName] | emptyValueTransform | translate}}
           </ng-container>
           <ng-container *ngIf="element.hasOwnProperty('operationType')">
-            {{ userStatus[element?.operationType] | emptyValueTransform | translate}}
+            {{ adminStatus[element?.operationType] | emptyValueTransform | translate}}
           </ng-container>
         </td>
       </ng-container>
