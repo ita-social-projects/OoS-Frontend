@@ -268,11 +268,11 @@
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications",
-      "USER_STATUS": {
-        "CREATE": "Create",
-        "UPDATE": "Update",
-        "DELETE": "Delete",
-        "BLOCK": "Block"
+      "ADMIN_STATUS": {
+        "CREATE": "Creating an administrator",
+        "UPDATE": "Replacement of the administrator",
+        "DELETE": "Removing the administrator",
+        "BLOCK": "Administrator lock"
       }
     }
   },

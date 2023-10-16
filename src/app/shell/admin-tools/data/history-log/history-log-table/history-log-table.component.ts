@@ -10,7 +10,7 @@ import {
 import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
 import { HistoryLogTypes } from '../../../../../shared/enum/history.log';
-import { UserStatus, TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
+import { AdminStatus, TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
 
 @Component({
   selector: 'app-history-log-table',
@@ -25,7 +25,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   readonly statusTitles = ApplicationTitles;
   readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
   readonly FULL_DATE_FORMAT_ONLY_DIGITS = Constants.FULL_DATE_FORMAT_ONLY_DIGITS;
-  readonly userStatus = UserStatus;
+  readonly adminStatus = AdminStatus;
   readonly DASH_VALUE = Constants.DASH_VALUE;
 
   @Input() table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
