@@ -6,10 +6,13 @@ import { Constants } from 'shared/constants/constants';
 })
 export class EmptyValueTransformPipe implements PipeTransform {
   transform(value: string, args: string): string {
-    if (args === Constants.DASH_VALUE) {
-      return value ? value : '—';
+    if (!value) {
+      if (args === Constants.DASH_VALUE) {
+        return Constants.DASH;
+      }
+      return 'SERVICE_MESSAGES.NO_INFO';
     }
 
-    return value ? value : 'SERVICE_MESSAGES.NO_INFO';
+    return value;
   }
 }
