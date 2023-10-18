@@ -29,6 +29,7 @@ export class Constants {
 
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
   static readonly DASH_VALUE = 'dash';
+  static readonly DASH = '—';
 
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;
