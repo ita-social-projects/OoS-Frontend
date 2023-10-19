@@ -10,7 +10,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class PlatformGuard implements CanLoad {
+export class UsersGuard implements CanLoad {
   @Select(RegistrationState.role)
   role$: Observable<string>;
 
