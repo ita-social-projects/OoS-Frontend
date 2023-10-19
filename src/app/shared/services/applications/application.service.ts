@@ -1,23 +1,19 @@
-import { catchError, Observable, tap, throwError } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  HttpClient, HttpErrorResponse, HttpHeaders, HttpParams, HttpResponse
-} from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
 
 import { ApplicationStatuses } from '../../enum/statuses';
 import {
   Application, ApplicationFilterParameters, ApplicationUpdate
 } from '../../models/application.model';
-import { PaginationElement } from '../../models/paginationElement.model';
 import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   private setParams(parameters: ApplicationFilterParameters): HttpParams {
     let params = new HttpParams();
@@ -39,11 +35,13 @@ export class ApplicationService {
         params = params.set('SearchString', parameters.searchString);
       }
 
+      if ('size' in parameters && 'from' in parameters) {
+        params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
+      }
+      
       params = params.set('ShowBlocked', parameters.showBlocked.toString());
     }
     params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
-
-    params = params.set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
     return params;
   }
@@ -60,7 +58,7 @@ export class ApplicationService {
 
   getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
-    return this.http.get<SearchResponse<Application[]>>(`/api/v1/applications`, options);
+    return this.http.get<SearchResponse<Application[]>>('/api/v1/applications', options);
   }
 
   /**
