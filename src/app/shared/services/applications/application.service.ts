@@ -1,7 +1,6 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { ApplicationStatuses } from '../../enum/statuses';
 import {
