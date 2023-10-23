@@ -19,6 +19,11 @@
         <td mat-cell *matCellDef="let element">{{ element?.providerTitle | emptyValueTransform | translate}}</td>
       </ng-container>
 
+      <ng-container matColumnDef="workshopTitle">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}</th>
+        <td mat-cell *matCellDef="let element">{{ element?.workshopTitle | emptyValueTransform : DASH_VALUE | translate}}</td>
+      </ng-container>
+
       <ng-container matColumnDef="institutionTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</th>
         <td mat-cell *matCellDef="let element">
@@ -28,19 +33,36 @@
 
       <ng-container matColumnDef="providerCity">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</th>
-        <td mat-cell *matCellDef="let element">{{ element?.providerCity | emptyValueTransform | translate}}</td>
+        <td mat-cell *matCellDef="let element">
+          <ng-container *ngIf="element.hasOwnProperty('providerCity')">
+            {{ element.providerCity | emptyValueTransform | translate}}
+          </ng-container>
+          <ng-container *ngIf="element.hasOwnProperty('workshopCity')">
+            {{ element.workshopCity | emptyValueTransform | translate}}
+          </ng-container>
+        </td>
       </ng-container>
       <ng-container matColumnDef="fieldName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.TYPE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ typeChange[element?.fieldName] | emptyValueTransform | translate}}
+          <ng-container *ngIf="element.hasOwnProperty('fieldName')">
+            {{ typeChange[element?.fieldName] | emptyValueTransform | translate}}
+          </ng-container>
+          <ng-container *ngIf="element.hasOwnProperty('operationType')">
+            {{ adminStatus[element?.operationType] | emptyValueTransform | translate}}
+          </ng-container>
         </td>
       </ng-container>
 
       <ng-container matColumnDef="updatedDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.DATE_TIME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ element?.updatedDate | date : SHORT_DATE_FORMAT | emptyValueTransform | translate}}
+          <ng-container *ngIf="element.hasOwnProperty('updatedDate')">
+            {{ element.updatedDate | date : SHORT_DATE_FORMAT | emptyValueTransform | translate}}
+          </ng-container>
+          <ng-container *ngIf="element.hasOwnProperty('operationDate')">
+            {{ element.operationDate | date : FULL_DATE_FORMAT_ONLY_DIGITS | emptyValueTransform | translate}}
+          </ng-container>
         </td>
       </ng-container>
 
@@ -53,7 +75,7 @@
           class="{{ element.oldValue }}">
           {{
             (isApplicationHistoryType ? statusTitles[element?.oldValue] : element?.oldValue)
-              | emptyValueTransform | translate
+              | emptyValueTransform : DASH_VALUE | translate
           }}
         </td>
       </ng-container>
@@ -67,13 +89,19 @@
           class="{{ element.newValue }}">
           {{
             (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue) 
-              | emptyValueTransform | translate
+              | emptyValueTransform : DASH_VALUE | translate
           }}
         </td>
       </ng-container>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      <ng-container *ngIf="tableType === HistoryLogTypes.ProviderAdmins; else tableWithoutAdditionalProviderAdminsColumn">
+        <tr mat-header-row *matHeaderRowDef="displayedProviderAdminsColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedProviderAdminsColumns"></tr>
+      </ng-container>
+      <ng-template #tableWithoutAdditionalProviderAdminsColumn>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </ng-template>
     </table>
   </div>
 </div>

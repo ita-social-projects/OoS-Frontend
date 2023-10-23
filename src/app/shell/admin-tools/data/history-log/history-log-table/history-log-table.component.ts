@@ -10,8 +10,7 @@ import {
 import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
 import { HistoryLogTypes } from '../../../../../shared/enum/history.log';
-import { Person } from '../../../../../shared/models/user.model';
-import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
+import { AdminStatus, TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
 
 @Component({
   selector: 'app-history-log-table',
@@ -19,23 +18,26 @@ import { TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history
   styleUrls: ['./history-log-table.component.scss'],
 })
 export class HistoryLogTableComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  readonly typeChange = TypeChange;
-  readonly HistoryLogTypes = HistoryLogTypes;
-  readonly statusTitles = ApplicationTitles;
-  readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
+  public readonly typeChange = TypeChange;
+  public readonly HistoryLogTypes = HistoryLogTypes;
+  public readonly statusTitles = ApplicationTitles;
+  public readonly SHORT_DATE_FORMAT = Constants.SHORT_DATE_FORMAT;
+  public readonly FULL_DATE_FORMAT_ONLY_DIGITS = Constants.FULL_DATE_FORMAT_ONLY_DIGITS;
+  public readonly adminStatus = AdminStatus;
+  public readonly DASH_VALUE = Constants.DASH_VALUE;
 
-  @Input() table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
-  @Input() tableType: HistoryLogTypes;
+  @Input() public table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
+  @Input() public tableType: HistoryLogTypes;
 
-  getFullName = Util.getFullName;
+  public getFullName = Util.getFullName;
 
-  get isApplicationHistoryType(): boolean {
+  public get isApplicationHistoryType(): boolean {
     return this.tableType === HistoryLogTypes.Applications;
   }
 
-  displayedColumns = [
+  public displayedColumns = [
     'pib',
     'email',
     'providerTitle',
@@ -46,9 +48,22 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     'oldValue',
     'newValue',
   ];
-  dataSource: MatTableDataSource<object>;
 
-  ngOnInit(): void {
+  public displayedProviderAdminsColumns = [
+    'pib',
+    'email',
+    'providerTitle',
+    'workshopTitle',
+    'institutionTitle',
+    'providerCity',
+    'fieldName',
+    'updatedDate',
+    'oldValue',
+    'newValue',
+  ];
+  public dataSource: MatTableDataSource<object>;
+
+  public ngOnInit(): void {
     this.dataSource = new MatTableDataSource(this.table);
     this.dataSource.sortingDataAccessor = (item: ProviderHistory, property) => {
       switch (property) {
@@ -65,7 +80,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     };
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
   }
 }
