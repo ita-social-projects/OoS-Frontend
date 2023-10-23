@@ -267,7 +267,13 @@
     "HISTORY_LOG": {
       "PROVIDERS": "Заклади",
       "ADMINS": "Адміністратори",
-      "APPLICATIONS": "Заявки"
+      "APPLICATIONS": "Заявки",
+      "ADMIN_STATUS": {
+        "CREATE": "Створення адміністратора",
+        "UPDATE": "Заміна адміністратора",
+        "DELETE": "Видалення адміністратора",
+        "BLOCK": "Блокування адміністратора"
+      }
     }
   },
   "EXACT_MATCH": "Повний збіг",
@@ -349,6 +355,7 @@
       "FULL_ORGANIZATION_NAME": "Повна назва організації",
       "SHORT_ORGANIZATION_NAME": "Скорочена назва організації",
       "PROVIDER_TITLE": "Назва закладу",
+      "WORKSHOP_TITLE": "Назва гуртка",
       "EDRPO": "ЄДРПОУ",
       "EDRPO_IPN": "ЄДРПОУ / ІПН",
       "IPN": "ІПН",
