@@ -50,7 +50,8 @@ export class AppWorkshopsService {
     };
     let params = new HttpParams();
 
-    if (filters.isMapView) {
+    if (filters.isMapView && filters.mapViewCoords) {
+    // if (filters.mapViewCoords) {
       const { lat, lng } = filters.mapViewCoords;
       params = params.set('Latitude', lat.toFixed(5).toString()).set('Longitude', lng.toFixed(5).toString());
     } else if (filters.settlement) {
