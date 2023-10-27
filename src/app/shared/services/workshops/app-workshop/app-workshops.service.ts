@@ -20,7 +20,7 @@ export class AppWorkshopsService {
   /**
    * This method get workshops with applied filter options
    */
-  getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<SearchResponse<WorkshopCard[]>> {
+  public getFilteredWorkshops(filters: FilterStateModel, isMapView: boolean): Observable<SearchResponse<WorkshopCard[]>> {
     const options = { params: this.setParams(filters, isMapView) };
 
     return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Workshop/GetByFilter', options);
@@ -29,7 +29,7 @@ export class AppWorkshopsService {
   /**
    * This method get top workshops
    */
-  getTopWorkshops(): Observable<WorkshopCard[]> {
+  public getTopWorkshops(): Observable<WorkshopCard[]> {
     let params = new HttpParams();
 
     const size = PaginationConstants.WORKSHOPS_PER_PAGE;
