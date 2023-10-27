@@ -20,7 +20,7 @@
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
-      <span class="option-sub-text">{{ codeficator.fullName }}</span>
+      <span class="option-sub-text" [title]="codeficator.fullName">{{ codeficator.fullName }}</span>
     </mat-option>
   </mat-autocomplete>
   <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">
