@@ -18,7 +18,8 @@
       class="dropdown-option"
       *ngFor="let codeficator of codeficatorSearch"
       [value]="codeficator"
-      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
+      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT"
+      [title]="codeficator.fullName">
       {{ codeficator.settlement | translate }} <br />
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
