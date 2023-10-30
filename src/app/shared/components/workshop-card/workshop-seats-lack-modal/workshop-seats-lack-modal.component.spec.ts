@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -13,7 +14,15 @@ describe('WorkshopSeatsLackModalComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatDialogModule, FormsModule, ReactiveFormsModule, MatButtonToggleModule, MatIconModule, TranslateModule.forRoot()],
+      imports: [
+        MatDialogModule, 
+        FormsModule, 
+        ReactiveFormsModule, 
+        MatButtonToggleModule, 
+        MatIconModule, 
+        TranslateModule.forRoot(),
+        RouterTestingModule,
+      ],
       declarations: [WorkshopSeatsLackModalComponent],
       providers: [
         { provide: MAT_DIALOG_DATA, useValue: {} },
