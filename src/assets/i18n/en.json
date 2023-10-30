@@ -267,7 +267,13 @@
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
-      "APPLICATIONS": "Applications"
+      "APPLICATIONS": "Applications",
+      "ADMIN_STATUS": {
+        "CREATE": "Creating an administrator",
+        "UPDATE": "Replacement of the administrator",
+        "DELETE": "Removing the administrator",
+        "BLOCK": "Administrator lock"
+      }
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -349,6 +355,7 @@
       "FULL_ORGANIZATION_NAME": "Full organization name",
       "SHORT_ORGANIZATION_NAME": "Short organization name",
       "PROVIDER_TITLE": "Provider title",
+      "WORKSHOP_TITLE": "Workshop title",
       "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
       "EDRPO_IPN": "Registration code",
       "IPN": "Individual tax number",

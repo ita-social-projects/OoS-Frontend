@@ -9,10 +9,11 @@ import { HistoryLogComponent } from './history-log/history-log.component';
 import { ProviderListComponent } from './provider-list/provider-list.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { UsersComponent } from './users/users.component';
+import { UsersGuard } from './users/users.guard';
 
 const routes: Routes = [
   { path: 'provider-list', component: ProviderListComponent },
-  { path: 'users', component: UsersComponent },
+  { path: 'users', component: UsersComponent, canLoad: [UsersGuard] },
   { path: 'admins', component: AdminsComponent, canLoad: [AdminsGuard] },
   { path: 'history-log', component: HistoryLogComponent },
   { path: 'directions', component: DirectionsWrapperComponent, canLoad: [DirectionsWrapperComponent] },
