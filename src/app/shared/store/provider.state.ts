@@ -637,7 +637,7 @@ export class ProviderState {
   }
 
   @Action(OnUpdateProviderAdminFail)
-  onUpdateProviderAdminfail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminFail): void {
+  onUpdateProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminFail): void {
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
@@ -729,11 +729,11 @@ export class ProviderState {
       new GetApplicationsByPropertyId(payload.providerId, {
         property: entityType,
         statuses: [],
-        showBlocked: false,
+        showBlocked: true,
         workshops: []
       }),
       new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' })
+      new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' })
     ]);
   }
 
