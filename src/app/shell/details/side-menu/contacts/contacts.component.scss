@@ -12,3 +12,19 @@
   height: 16px;
   margin-right: 8px;
 }
+
+.address {
+  &__settlement {
+    width: 100%;
+  }
+
+  &__street {
+    max-width: 205px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    @media (max-width: 750px) {
+      max-width: 100%;
+    }
+  }
+}
