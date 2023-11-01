@@ -32,6 +32,8 @@ describe('DetailsComponent', () => {
     store = TestBed.inject(Store);
     jest.spyOn(store, 'selectSnapshot').mockReturnValue(() => of(MockUser as User));
 
+    window.scrollTo = jest.fn();
+
     fixture = TestBed.createComponent(DetailsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -40,6 +42,10 @@ describe('DetailsComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  afterAll(() => {
+    jest.clearAllMocks();
+  });
 });
 
 @Component({
@@ -47,31 +53,31 @@ describe('DetailsComponent', () => {
   template: ''
 })
 class MockDetailsWorkshopComponent {
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  @Input() public role: Role;
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 }
 @Component({
   selector: 'app-provider-details',
   template: ''
 })
 class MockDetailsProviderComponent {
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  @Input() public role: Role;
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 }
 @Component({
   selector: 'app-side-menu',
   template: ''
 })
 class MockSideMenuComponent {
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  @Input() public role: Role;
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 }
