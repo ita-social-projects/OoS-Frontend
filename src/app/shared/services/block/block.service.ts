@@ -13,7 +13,7 @@ export class BlockService {
    * This method block Parent
    * @param block: BlockedParent
    */
-  blockParent(blockedParent: BlockedParent): Observable<BlockedParent> {
+  public blockParent(blockedParent: BlockedParent): Observable<BlockedParent> {
     return this.http.post<BlockedParent>('/api/v1/BlockedProviderParent/Block', blockedParent);
   }
 
@@ -21,7 +21,7 @@ export class BlockService {
    * This method unblock Parent
    * @param block: BlockedParent
    */
-  unBlockParent(blockedParent: BlockedParent): Observable<BlockedParent> {
+  public unBlockParent(blockedParent: BlockedParent): Observable<BlockedParent> {
     return this.http.post<BlockedParent>('/api/v1/BlockedProviderParent/UnBlock', blockedParent);
   }
 
@@ -29,7 +29,7 @@ export class BlockService {
    * This method get blocked parents
    * @param block: BlockedParent
    */
-  getBlockedParents(providerId: string, parentId: string): Observable<BlockedParent> {
+  public getBlockedParents(providerId: string, parentId: string): Observable<BlockedParent> {
     const params = {
       params: {
         providerId: providerId,
@@ -42,7 +42,7 @@ export class BlockService {
   /**
    * This method get status by childId, workshopId
    */
-  getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
+  public getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
     const options = {
       params: {
         childId: childId,
