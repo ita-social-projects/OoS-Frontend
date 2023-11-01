@@ -75,10 +75,11 @@ describe('CreateInfoFormComponent', () => {
   template: ''
 })
 class MockValidationHintForInputComponent {
-  @Input() validationFormControl: FormControl;
-  @Input() minCharacters: number;
-  @Input() maxCharacters: number;
-  @Input() minMaxDate: boolean;
-  @Input() isTouched: boolean;
-  @Input() isPhoneNumber: boolean;
+  @Input() public validationFormControl: FormControl;
+  @Input() public minCharacters: number;
+  @Input() public maxCharacters: number;
+  @Input() public minMaxDate: boolean;
+  @Input() public isTouched: boolean;
+  @Input() public isPhoneNumber: boolean;
+  @Input() public isEdrpouIpn: boolean;
 }
