@@ -3,9 +3,9 @@
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
     <span fxLayout="row wrap" fxLayoutAlign="start">
-      <span class="address__settlement">{{ address.codeficatorAddressDto?.settlement }}, </span>
+      <span>{{ address.codeficatorAddressDto?.settlement }}, </span>
       <span 
-        class="address__street" 
+        class="address-street" 
         showTooltipIfTruncated 
         [matTooltip]="getFullAddress"
         matTooltipClass="tooltip">
