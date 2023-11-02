@@ -32,7 +32,13 @@ describe('ProviderListComponent', () => {
         MatDialogModule,
         TranslateModule.forRoot()
       ],
-      declarations: [ProviderListComponent, MockproviderInfoComponent, MockListAdminProviderPaginatorComponent, ReasonModalWindowComponent]
+      declarations: [
+        ProviderListComponent, 
+        MockProviderInfoComponent, 
+        MockListAdminProviderPaginatorComponent, 
+        ReasonModalWindowComponent, 
+        MockNoResultCardComponent
+      ]
     }).compileComponents();
   });
 
@@ -50,9 +56,9 @@ describe('ProviderListComponent', () => {
   selector: 'app-provider-info',
   template: ''
 })
-class MockproviderInfoComponent {
-  @Input() provider: Provider;
-  @Input() isProviderView: boolean;
+class MockProviderInfoComponent {
+  @Input() public provider: Provider;
+  @Input() public isProviderView: boolean;
 }
 
 @Component({
@@ -60,7 +66,15 @@ class MockproviderInfoComponent {
   template: ''
 })
 class MockListAdminProviderPaginatorComponent {
-  @Input() totalEntities: number;
-  @Input() currentPage: PaginationElement;
-  @Input() itemsPerPage: number;
+  @Input() public totalEntities: number;
+  @Input() public currentPage: PaginationElement;
+  @Input() public itemsPerPage: number;
+}
+
+@Component({
+  selector: 'app-no-result-card',
+  template: ''
+})
+class MockNoResultCardComponent {
+  @Input() public title: string;
 }
