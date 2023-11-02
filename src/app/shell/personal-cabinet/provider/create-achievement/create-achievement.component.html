@@ -19,8 +19,11 @@
                       panelClass="dropdown-panel"
                       class="step-input"
                       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ACHIEVEMENT' | translate }}">
-            <mat-option *ngFor="let achievement of achievementsTypes$ | async" [value]="achievement.id"
-                        [title]="achievement.title">
+            <mat-option 
+              *ngFor="let achievement of achievementsTypes$ | async" 
+              [value]="achievement.id"
+              [matTooltip]="achievement.title"
+              matTooltipClass="tooltip">
               {{ achievement.title }}
             </mat-option>
           </mat-select>

@@ -19,7 +19,8 @@
       *ngFor="let codeficator of codeficatorSearch"
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT"
-      [title]="codeficator.fullName">
+      [matTooltip]="codeficator.fullName"
+      matTooltipClass="tooltip">
       {{ codeficator.settlement | translate }} <br />
       <span class="option-sub-text">{{ codeficator.fullName }}</span>
     </mat-option>
