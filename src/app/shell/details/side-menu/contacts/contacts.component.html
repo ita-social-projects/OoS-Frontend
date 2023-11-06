@@ -3,9 +3,15 @@
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
     <span fxLayout="row wrap" fxLayoutAlign="start">
-      <span>{{ address.codeficatorAddressDto?.settlement }}, </span>
-      <span>{{ address.street }}, </span>
-      <span>{{ address.buildingNumber }}</span>
+      <span class="address-city">{{ address.codeficatorAddressDto?.settlement }}, </span>
+      <span 
+        class="address-street" 
+        showTooltipIfTruncated 
+        [matTooltip]="getFullAddress"
+        matTooltipClass="tooltip">
+          {{ address.street }} 
+      </span>
+      <span>, {{ address.buildingNumber }}</span>
     </span>
   </p>
 

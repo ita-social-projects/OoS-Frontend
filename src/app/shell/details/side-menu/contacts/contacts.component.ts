@@ -8,10 +8,10 @@ import { Address } from '../../../../shared/models/address.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
-  @Input() address: Address;
-  @Input() contactsData: {
+  @Input() public address: Address;
+  @Input() public contactsData: {
     phone: string;
     email: string;
     facebook: string;
@@ -19,14 +19,18 @@ export class ContactsComponent implements OnInit {
     website: string;
   };
 
-  addressLink = 'https://www.google.com/maps/place/';
+  public get getFullAddress(): string {
+    return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
+  }
+
+  private addressLink = 'https://www.google.com/maps/place/';
 
   constructor() {}
 
-  ngOnInit(): void {}
+  public ngOnInit(): void {}
 
   /*Detects device and opens map*/
-  mapLink(): void {
+  public mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       this.addressLink = 'https://maps.apple.com:';
       window.open(
