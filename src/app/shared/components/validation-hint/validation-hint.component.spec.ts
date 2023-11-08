@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl } from '@angular/forms';
 
 import { ValidationHintComponent } from './validation-hint.component';
+import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 
 describe('ValidationHintComponent', () => {
   let component: ValidationHintComponent;
@@ -22,6 +23,28 @@ describe('ValidationHintComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+  
+  describe('tests of checkInvalidText method', () => {
+    const errorsCasesMap = [
+      ['invalidSymbols', 'NAME_REGEX', NAME_REGEX, true, false, false, false, false],
+      ['invalidCharacters', 'NO_LATIN_REGEX', NO_LATIN_REGEX, false, true, false, false, false],
+      ['invalidStreet', 'STREET_REGEX', STREET_REGEX, false, false, true, false, false],
+      ['invalidHouse', 'HOUSE_REGEX', HOUSE_REGEX, false, false, false, true, false],
+      ['invalidSectionName', 'SECTION_NAME_REGEX', SECTION_NAME_REGEX, false, false, false, false, true],
+    ];
+
+    test.each(errorsCasesMap)('should assign to %s TRUE if required pattern equal to %s',
+      (_, __, requiredPattern, invalidSymbols, invalidCharacters, invalidStreet, invalidHouse, invalidSectionName) => {
+        const errors = { pattern: { requiredPattern } };
+        component['checkInvalidText'](errors);
+
+        expect(component.invalidSymbols).toBe(invalidSymbols);
+        expect(component.invalidCharacters).toBe(invalidCharacters);
+        expect(component.invalidStreet).toBe(invalidStreet);
+        expect(component.invalidHouse).toBe(invalidHouse);
+        expect(component.invalidSectionName).toBe(invalidSectionName);
+      });
   });
 
   describe('tests of checkMatDatePicker method', () => {
@@ -52,7 +75,7 @@ describe('ValidationHintComponent', () => {
       expect(component.invalidDateFormat).toBeFalsy();
     });
   
-    it('should assign TRUE to invalidDateRange if validationFormControl has matDatepickerMin', () => {
+    it('should assign TRUE to invalidDateRange if validationFormControl has matDatepickerMin error', () => {
       control.setErrors({ matDatepickerMin: true, matDatepickerMax: false });
   
       component['checkMatDatePicker']();
