@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl } from '@angular/forms';
+import { FormControl, ValidationErrors } from '@angular/forms';
 
 import { ValidationHintComponent } from './validation-hint.component';
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
@@ -25,29 +25,71 @@ describe('ValidationHintComponent', () => {
     expect(component).toBeTruthy();
   });
   
-  describe('tests of checkInvalidText method', () => {
-    const errorsCasesMap = [
-      ['invalidSymbols', 'NAME_REGEX', NAME_REGEX, true, false, false, false, false],
-      ['invalidCharacters', 'NO_LATIN_REGEX', NO_LATIN_REGEX, false, true, false, false, false],
-      ['invalidStreet', 'STREET_REGEX', STREET_REGEX, false, false, true, false, false],
-      ['invalidHouse', 'HOUSE_REGEX', HOUSE_REGEX, false, false, false, true, false],
-      ['invalidSectionName', 'SECTION_NAME_REGEX', SECTION_NAME_REGEX, false, false, false, false, true],
-    ];
+  describe('checkInvalidText method', () => {
+    let errors: ValidationErrors;
 
-    test.each(errorsCasesMap)('should assign to %s TRUE if required pattern equal to %s',
-      (_, __, requiredPattern, invalidSymbols, invalidCharacters, invalidStreet, invalidHouse, invalidSectionName) => {
-        const errors = { pattern: { requiredPattern } };
-        component['checkInvalidText'](errors);
+    it('should assign to invalidSymbols TRUE if required pattern is equal to NAME_REGEX and others should be FALSE', () => {
+      errors = { pattern: { requiredPattern: NAME_REGEX } };
 
-        expect(component.invalidSymbols).toBe(invalidSymbols);
-        expect(component.invalidCharacters).toBe(invalidCharacters);
-        expect(component.invalidStreet).toBe(invalidStreet);
-        expect(component.invalidHouse).toBe(invalidHouse);
-        expect(component.invalidSectionName).toBe(invalidSectionName);
-      });
+      component['checkInvalidText'](errors);
+
+      expect(component.invalidSymbols).toBeTruthy();
+      expect(component.invalidCharacters).toBeFalsy();
+      expect(component.invalidStreet).toBeFalsy();
+      expect(component.invalidHouse).toBeFalsy();
+      expect(component.invalidSectionName).toBeFalsy();
+    });
+
+    it('should assign to invalidCharacters TRUE if required pattern is equal to NO_LATIN_REGEX and others should be FALSE', () => {
+      errors = { pattern: { requiredPattern: NO_LATIN_REGEX } };
+
+      component['checkInvalidText'](errors);
+
+      expect(component.invalidSymbols).toBeFalsy();
+      expect(component.invalidCharacters).toBeTruthy();
+      expect(component.invalidStreet).toBeFalsy();
+      expect(component.invalidHouse).toBeFalsy();
+      expect(component.invalidSectionName).toBeFalsy();
+    });
+
+    it('should assign to invalidStreet TRUE if required pattern is equal to STREET_REGEX and others should be FALSE', () => {
+      errors = { pattern: { requiredPattern: STREET_REGEX } };
+
+      component['checkInvalidText'](errors);
+
+      expect(component.invalidSymbols).toBeFalsy();
+      expect(component.invalidCharacters).toBeFalsy();
+      expect(component.invalidStreet).toBeTruthy();
+      expect(component.invalidHouse).toBeFalsy();
+      expect(component.invalidSectionName).toBeFalsy();
+    });
+
+    it('should assign to invalidHouse TRUE if required pattern is equal to HOUSE_REGEX and others should be FALSE', () => {
+      errors = { pattern: { requiredPattern: HOUSE_REGEX } };
+
+      component['checkInvalidText'](errors);
+
+      expect(component.invalidSymbols).toBeFalsy();
+      expect(component.invalidCharacters).toBeFalsy();
+      expect(component.invalidStreet).toBeFalsy();
+      expect(component.invalidHouse).toBeTruthy();
+      expect(component.invalidSectionName).toBeFalsy();
+    });
+
+    it('should assign to invalidSectionName TRUE if required pattern is equal to SECTION_NAME_REGEX and others should be FALSE', () => {
+      errors = { pattern: { requiredPattern: SECTION_NAME_REGEX } };
+
+      component['checkInvalidText'](errors);
+
+      expect(component.invalidSymbols).toBeFalsy();
+      expect(component.invalidCharacters).toBeFalsy();
+      expect(component.invalidStreet).toBeFalsy();
+      expect(component.invalidHouse).toBeFalsy();
+      expect(component.invalidSectionName).toBeTruthy();
+    });
   });
 
-  describe('tests of checkMatDatePicker method', () => {
+  describe('checkMatDatePicker method', () => {
     let control: FormControl;
     let formControlHasErrorSpy: jest.SpyInstance;
 

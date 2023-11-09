@@ -11,11 +11,15 @@ describe('SnackBarComponent', () => {
   let component: MessageBarComponent;
   let fixture: ComponentFixture<MessageBarComponent>;
   let matSnackBar: MatSnackBar;
-  let mockData: MessageBar = { 
-    type: 'messageType', 
-    message: 'messageText',
-    info: 'messageInfo',
-  };
+  let mockData: MessageBar;
+
+  beforeEach(() => {
+    mockData = { 
+      type: 'messageType', 
+      message: 'messageText',
+      info: 'messageInfo',
+    };
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -45,6 +49,7 @@ describe('SnackBarComponent', () => {
   it('should display error message when data type is error', () => {
     mockData.type = 'error';
     fixture.detectChanges();
+
     const errorContainer = fixture.debugElement.query(By.css('[data-testid="error-text"]'));
 
     expect(errorContainer).toBeTruthy();
@@ -54,6 +59,7 @@ describe('SnackBarComponent', () => {
   it('should not display error message when data type does not equal error', () => {
     mockData.type = '';
     fixture.detectChanges();
+
     const errorContainer = fixture.debugElement.query(By.css('[data-testid="error-text"]'));
 
     expect(errorContainer).toBeFalsy();
