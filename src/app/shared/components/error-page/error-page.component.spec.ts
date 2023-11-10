@@ -1,19 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
 
 import { ErrorPageComponent } from './error-page.component';
 
 describe('ErrorPageComponent', () => {
   let component: ErrorPageComponent;
   let fixture: ComponentFixture<ErrorPageComponent>;
+  let router: Router;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
+      imports: [RouterTestingModule, TranslateModule.forRoot()],
       declarations: [ErrorPageComponent]
     }).compileComponents();
+    router = TestBed.inject(Router);
   });
 
   beforeEach(() => {
@@ -24,5 +27,24 @@ describe('ErrorPageComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should execute router navigate', () => {
+    const routerSpy = jest.spyOn(router, 'navigate');
+
+    component.OnBack();
+
+    expect(routerSpy).toHaveBeenCalledWith(['']);
+    expect(routerSpy).toHaveBeenCalledTimes(1);
+  });
+
+  it('should execute router navigate when click on the button', () => {
+    const button = fixture.debugElement.query(By.css('[data-testid="button"]'));
+    const routerSpy = jest.spyOn(router, 'navigate');
+
+    button.nativeElement.click();
+
+    expect(routerSpy).toHaveBeenCalledWith(['']);
+    expect(routerSpy).toHaveBeenCalledTimes(1);
   });
 });
