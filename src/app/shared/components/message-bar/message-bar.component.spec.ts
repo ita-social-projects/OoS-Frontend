@@ -13,15 +13,13 @@ describe('SnackBarComponent', () => {
   let matSnackBar: MatSnackBar;
   let mockData: MessageBar;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     mockData = { 
       type: 'messageType', 
       message: 'messageText',
       info: 'messageInfo',
     };
-  });
 
-  beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatIconModule, MatSnackBarModule, TranslateModule.forRoot()],
       declarations: [MessageBarComponent],
