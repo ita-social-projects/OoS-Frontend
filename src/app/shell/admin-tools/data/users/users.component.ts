@@ -44,7 +44,7 @@ export class UsersComponent implements OnInit, OnDestroy {
   tabIndex: number;
   allUsers: UsersTable[] = [];
   totalEntities: number;
-  displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status'];
+  displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
   currentPage: PaginationElement = PaginationConstants.firstPage;
   childrenParams: ChildrenParameters = {
     searchString: '',

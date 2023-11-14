@@ -34,6 +34,12 @@
           *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }"
         >
         </ng-container>
+        <mat-tab [label]="HistoryLogTabTitles.Users | translate">
+          <ng-container
+            *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Users }"
+          >
+          </ng-container>
+        </mat-tab>
       </mat-tab>
     </mat-tab-group>
   </div>
