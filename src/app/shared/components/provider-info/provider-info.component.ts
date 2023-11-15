@@ -7,12 +7,14 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { Constants } from 'shared/constants/constants';
 import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
 import { LicenseStatuses } from 'shared/enum/statuses';
 import { DataItem } from 'shared/models/item.model';
 import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
 import { GetInstitutionStatuses } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-provider-info',
@@ -27,6 +29,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   public readonly institutionTypesEnum = InstitutionTypesEnum;
   public readonly licenseStatusEnum = LicenseStatusEnum;
   public readonly licenseStatuses = LicenseStatuses;
+  public readonly Role = Role;
 
   public editLink: string = CreateProviderSteps[0];
 
@@ -38,6 +41,10 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   @Select(MetaDataState.institutionStatuses)
   public institutionStatuses$: Observable<DataItem[]>;
+  @Select(RegistrationState.role)
+  public role$: Observable<Role>;
+
+  public role: Role;
   public institutionStatusName: string;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -45,6 +52,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatuses());
+    this.role$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((role: Role) => (this.role = role));
     this.institutionStatuses$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe(

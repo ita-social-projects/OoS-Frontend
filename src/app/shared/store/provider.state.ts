@@ -559,11 +559,11 @@ export class ProviderState {
   @Action(OnCreateProviderAdminSuccess)
   onCreateProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderAdminSuccess): void {
     dispatch([
+      new MarkFormDirty(false),
       new ShowMessageBar({
         message: payload.isDeputy ? SnackbarText.createDeputy : SnackbarText.createProviderAdminSuccess,
         type: 'success'
-      }),
-      new MarkFormDirty(false)
+      })
     ]);
     this.router.navigate(['/personal-cabinet/provider/administration']);
   }
@@ -649,11 +649,11 @@ export class ProviderState {
   @Action(OnUpdateProviderAdminSuccess)
   onUpdateProviderAdminSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateProviderAdminSuccess): void {
     dispatch([
+      new MarkFormDirty(false),
       new ShowMessageBar({
         message: payload.isDeputy ? SnackbarText.updateDeputy : SnackbarText.updateProviderAdmin,
         type: 'success'
-      }),
-      new MarkFormDirty(false)
+      })
     ]);
     this.router.navigate(['/personal-cabinet/provider/administration']);
   }
