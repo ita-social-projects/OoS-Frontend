@@ -6,13 +6,12 @@ import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 
-import { NotificationType } from 'shared/enum/notifications';
-import { GetDirections } from 'shared/store/meta-data.actions';
 import { PaginationConstants } from 'shared/constants/constants';
 import { ApplicationStatusTabParams } from 'shared/enum/applications';
 import { ChildDeclination, WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ApplicationTitles } from 'shared/enum/enumUA/statuses';
+import { NotificationType } from 'shared/enum/notifications';
 import { Role } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application, ApplicationFilterParameters } from 'shared/models/application.model';
@@ -20,6 +19,7 @@ import { Child } from 'shared/models/child.model';
 import { PaginationElement } from 'shared/models/paginationElement.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
+import { GetDirections } from 'shared/store/meta-data.actions';
 import { ReadUsersNotificationsByType } from 'shared/store/notifications.actions';
 import { OnUpdateApplicationSuccess } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
@@ -39,7 +39,6 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   @Select(SharedUserState.applications)
   private applicationCards$: Observable<SearchResponse<Application[]>>;
-  public applicationCards: SearchResponse<Application[]>;
   @Select(SharedUserState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
 
@@ -62,6 +61,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
+  public applicationCards: SearchResponse<Application[]>;
   public isActiveInfoButton = false;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public isMobileView: boolean;
@@ -115,7 +115,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   /**
    * This method get the list of application according to the selected tab
-   * @param workshopsId: number[]
+   * @param event
    */
   public onTabChange(event: MatTabChangeEvent): void {
     this.router.navigate(['./'], {
@@ -140,9 +140,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   }
 
   private setFilterParams(applicationStatus: string, tabIndex?: number): void {
-    const statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
-    this.applicationParams.statuses = statuses;
-    this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
+    this.applicationParams.statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
+    if (tabIndex === ApplicationStatusTabParams.All) {
+      delete this.applicationParams.showBlocked;
+    } else {
+      this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
+    }
   }
 
   private getApplicationData(): void {

@@ -44,7 +44,6 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false,
     size: PaginationConstants.APPLICATIONS_PER_PAGE,
     from: 0
   };
