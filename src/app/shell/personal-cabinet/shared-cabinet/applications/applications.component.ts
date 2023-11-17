@@ -50,7 +50,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Input() public role: Role;
 
   @Output() public getApplications = new EventEmitter();
-  @Output() public enititiesSelect = new EventEmitter();
+  @Output() public entitiesSelect = new EventEmitter();
   @Output() public leave = new EventEmitter();
   @Output() public approve = new EventEmitter();
   @Output() public acceptForSelection = new EventEmitter();
@@ -79,7 +79,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public onEntitiesSelect(IDs: string[]): void {
     this.currentPage = PaginationConstants.firstPage;
     Util.setFromPaginationParam(this.applicationParams, this.currentPage, this.applicationCards?.totalAmount);
-    this.enititiesSelect.emit(IDs);
+    this.entitiesSelect.emit(IDs);
   }
 
   public ngOnInit(): void {
@@ -141,8 +141,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setFilterParams(applicationStatus: string, tabIndex?: number): void {
     this.applicationParams.statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
-    if (tabIndex === ApplicationStatusTabParams.All) {
-      delete this.applicationParams.showBlocked;
+    if (applicationStatus && tabIndex === ApplicationStatusTabParams.All) {
+      this.applicationParams.showBlocked = null;
     } else {
       this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
     }
