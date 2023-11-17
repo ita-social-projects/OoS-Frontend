@@ -126,7 +126,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       if (result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
         const blockedParent = new BlockedParent(parentId, providerId, result);
-        this.store.dispatch(new BlockParent(blockedParent, ApplicationEntityType[this.subRole]));
+        this.store.dispatch(new BlockParent(blockedParent, this.applicationParams));
       }
     });
   }
@@ -146,7 +146,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       if (result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
         const blockedParent = new BlockedParent(parentId, providerId);
-        this.store.dispatch(new UnBlockParent(blockedParent, ApplicationEntityType[this.subRole]));
+        this.store.dispatch(new UnBlockParent(blockedParent, this.applicationParams));
       }
     });
   }
