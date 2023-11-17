@@ -11,7 +11,12 @@
 
       <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.EMAIL' | translate }}</th>
-        <td mat-cell *matCellDef="let element">{{ element.user?.email }}</td>
+        <td mat-cell *matCellDef="let element"
+        showTooltipIfTruncated 
+        [matTooltip]="element.user?.email"
+        matTooltipClass="tooltip"
+        id="test"
+        >{{ element.user?.email }}</td>
       </ng-container>
 
       <ng-container matColumnDef="providerTitle">
