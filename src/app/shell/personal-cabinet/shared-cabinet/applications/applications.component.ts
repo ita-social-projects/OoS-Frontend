@@ -141,8 +141,8 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setFilterParams(applicationStatus: string, tabIndex?: number): void {
     this.applicationParams.statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
-    if (applicationStatus && tabIndex === ApplicationStatusTabParams.All) {
-      this.applicationParams.showBlocked = null;
+    if (!applicationStatus || tabIndex === ApplicationStatusTabParams.All) {
+      this.applicationParams.showBlocked = '';
     } else {
       this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
     }

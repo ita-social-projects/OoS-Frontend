@@ -46,7 +46,7 @@ export interface ApplicationFilterParameters extends PaginationParameters {
   searchString?: string;
   property?: ApplicationEntityType;
   statuses: ApplicationStatuses[];
-  showBlocked?: boolean;
+  showBlocked: boolean | '';
   orderByDateAscending?: boolean;
   orderByAlphabetically?: boolean;
   orderByStatus?: boolean;

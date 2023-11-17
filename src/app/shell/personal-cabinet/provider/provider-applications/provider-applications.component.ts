@@ -42,6 +42,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
   applicationParams: ApplicationFilterParameters = {
     property: null,
     statuses: [],
+    showBlocked: '',
     workshops: [],
     children: [],
     size: PaginationConstants.APPLICATIONS_PER_PAGE,
