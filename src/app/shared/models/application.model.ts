@@ -1,4 +1,4 @@
-import { ApplicationEntityType } from '../enum/applications';
+import { ApplicationEntityType, ApplicationShowParams } from '../enum/applications';
 import { ApplicationStatuses } from './../enum/statuses';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
@@ -46,7 +46,7 @@ export interface ApplicationFilterParameters extends PaginationParameters {
   searchString?: string;
   property?: ApplicationEntityType;
   statuses: ApplicationStatuses[];
-  showBlocked: boolean | '';
+  show: ApplicationShowParams;
   orderByDateAscending?: boolean;
   orderByAlphabetically?: boolean;
   orderByStatus?: boolean;

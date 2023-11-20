@@ -84,7 +84,7 @@ export class ApplicationService {
       if (parameters.from) {
         params = params.set('From', parameters.from.toString());
       }
-      params = params.set('ShowBlocked', parameters.showBlocked.toString());
+      params = params.set('Show', parameters.show.toString());
     }
     params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
 

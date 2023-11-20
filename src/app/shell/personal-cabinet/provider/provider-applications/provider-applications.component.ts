@@ -8,7 +8,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { ApplicationEntityType } from 'shared/enum/applications';
+import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applications';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -42,7 +42,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
   applicationParams: ApplicationFilterParameters = {
     property: null,
     statuses: [],
-    showBlocked: '',
+    show: ApplicationShowParams.All,
     workshops: [],
     children: [],
     size: PaginationConstants.APPLICATIONS_PER_PAGE,
