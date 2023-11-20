@@ -8,7 +8,7 @@ import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import { GetAllApplications } from 'shared/store/shared-user.actions';
-import { CabinetDataComponent } from 'src/app/shell/personal-cabinet/shared-cabinet/cabinet-data.component';
+import { CabinetDataComponent } from '../../../personal-cabinet/shared-cabinet/cabinet-data.component';
 
 @Component({
   selector: 'app-admin-applications',
