@@ -49,7 +49,7 @@ export class UserWorkshopService {
     let params = new HttpParams().set('From', providerParameters.from.toString()).set('Size', providerParameters.size.toString());
 
     if (providerParameters.excludedWorkshopId) {
-      params = params.set('excludedWorkshopId', providerParameters.excludedWorkshopId);
+      params = params.set('ExcludedId', providerParameters.excludedWorkshopId);
     }
 
     return this.http.get<SearchResponse<WorkshopCard[]>>(`/api/v1/Workshop/GetByProviderId/${providerParameters.providerId}`, { params });

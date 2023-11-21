@@ -2,12 +2,12 @@ import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy,
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, filter, takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
-import { ApplicationStatusTabParams } from 'shared/enum/applications';
+import { ApplicationShowParams, ApplicationStatusTabParams } from 'shared/enum/applications';
 import { ChildDeclination, WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ApplicationTitles } from 'shared/enum/enumUA/statuses';
@@ -141,10 +141,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   private setFilterParams(applicationStatus: string, tabIndex?: number): void {
     this.applicationParams.statuses = ApplicationStatuses[applicationStatus] ? [ApplicationStatuses[applicationStatus]] : [];
-    if (applicationStatus && tabIndex === ApplicationStatusTabParams.All) {
-      this.applicationParams.showBlocked = null;
+    if (this.role !== Role.parent && (!applicationStatus || tabIndex === ApplicationStatusTabParams.All)) {
+      this.applicationParams.show = ApplicationShowParams.All;
     } else {
-      this.applicationParams.showBlocked = tabIndex === ApplicationStatusTabParams.Blocked;
+      this.applicationParams.show =
+        tabIndex === ApplicationStatusTabParams.Blocked ? ApplicationShowParams.Blocked : ApplicationShowParams.Unblocked;
     }
   }
 
