@@ -2,16 +2,17 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from '../../../../shared/constants/constants';
-import { ProviderParameters } from '../../../../shared/models/provider.model';
-import { GetWorkshopsByProviderId } from '../../../../shared/store/shared-user.actions';
-import { Util } from '../../../../shared/utils/utils';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../../shared/enum/role';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Workshop, WorkshopCard } from '../../../../shared/models/workshop.model';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { ProviderParameters } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { GetWorkshopsByProviderId } from 'shared/store/shared-user.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-all-provider-workshops',
