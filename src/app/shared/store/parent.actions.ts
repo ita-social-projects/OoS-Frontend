@@ -170,3 +170,33 @@ export class OnCreateApplicationSuccess {
   static readonly type = '[parent] create Application success';
   constructor() {}
 }
+
+export class OnBlockParent {
+  static readonly type = '[parent] block Parent';
+  constructor(public payload: unknown) {}
+}
+
+export class OnBlockParentSuccess {
+  static readonly type = '[parent] block Parent success';
+  constructor() {}
+}
+
+export class OnBlockParentFail {
+  static readonly type = '[parent] block Parent fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUnblockParent {
+  static readonly type = '[parent] unblock Parent';
+  constructor(public payload: unknown) {}
+}
+
+export class OnUnblockParentSuccess {
+  static readonly type = '[parent] unblock Parent success';
+  constructor() {}
+}
+
+export class OnUnblockParentFail {
+  static readonly type = '[parent] unblock Parent fail';
+  constructor(public payload: HttpErrorResponse) {}
+}

@@ -31,7 +31,12 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns"> </app-users-list>
+        <app-users-list 
+          [statusesTitles]="statusesTitles" 
+          [users]="users" 
+          [displayedColumns]="displayedColumns"
+          (block)="onBlock($event)"
+          > </app-users-list>
       </div>
       <app-paginator
         [totalEntities]="totalEntities"

@@ -1,15 +1,16 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import {
   debounceTime, distinctUntilChanged, filter, skip, startWith, takeUntil
 } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 
-import { PaginationConstants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { EmailConfirmationStatusesTitles } from 'shared/enum/enumUA/statuses';
@@ -23,6 +24,10 @@ import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { Util } from 'shared/utils/utils';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { OnBlockParent, OnUnblockParent } from 'shared/store/parent.actions';
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 
 @Component({
   selector: 'app-users',
@@ -52,9 +57,14 @@ export class UsersComponent implements OnInit, OnDestroy {
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
-  constructor(public store: Store, private router: Router, private route: ActivatedRoute) {}
+  constructor(
+    public store: Store, 
+    private router: Router, 
+    private route: ActivatedRoute,
+    private matDialog: MatDialog,
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getChildren();
 
     this.filterFormControl.valueChanges
@@ -88,7 +98,7 @@ export class UsersComponent implements OnInit, OnDestroy {
    * This method filter users according to selected tab
    * @param event: MatTabChangeEvent
    */
-  onTabChange(event: MatTabChangeEvent): void {
+  public onTabChange(event: MatTabChangeEvent): void {
     const tabIndex = event.index;
     this.filterFormControl.reset('', { emitEvent: false });
     this.childrenParams.searchString = '';
@@ -106,17 +116,59 @@ export class UsersComponent implements OnInit, OnDestroy {
     });
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getChildren();
   }
 
-  onTableItemsPerPageChange(itemsPerPage: number): void {
+  public onTableItemsPerPageChange(itemsPerPage: number): void {
     this.childrenParams.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  ngOnDestroy(): void {
+  public onBlock(input: {isBlocked: boolean, user: UsersTable}): void { //FIXME: Refactor input parameters
+    if (input.isBlocked) {
+      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockParent,
+          property: input.user.pib,
+        }
+      });
+
+      dialogRef.afterClosed()
+        .pipe(
+          takeUntil(this.destroy$)
+        )
+        .subscribe((result: boolean) => {
+          if (result) {
+            this.store.dispatch(new OnUnblockParent({})); //FIXME: Refactor action when unblocking the parent
+          }
+        });
+    } else {
+      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.blockParent }
+      });
+
+      dialogRef.afterClosed()
+        .pipe(
+          takeUntil(this.destroy$)
+        )
+        .subscribe((result: { reason: string }) => {
+          if (result) {
+            this.store.dispatch(new OnBlockParent(  //FIXME: Refactor action when blocking the parent
+              {
+                parentId: input.user.id,
+                isBlocked: true,
+                reason: result.reason
+              }
+            ));
+          }
+        });
+    }
+  }
+
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
