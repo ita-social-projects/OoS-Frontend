@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDialogModule } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -28,7 +29,8 @@ describe('UsersComponent', () => {
         ReactiveFormsModule,
         MatTabsModule,
         MatIconModule,
-        TranslateModule.forRoot()
+        TranslateModule.forRoot(),
+        MatDialogModule,
       ],
       declarations: [UsersComponent, MockUsersListComponent, NoResultCardComponent, MockListAdminChildrenPaginatorComponent]
     }).compileComponents();
