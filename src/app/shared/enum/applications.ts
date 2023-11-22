@@ -28,5 +28,11 @@ export enum ApplicationStatusTabParams {
   AcceptedForSelection,
   StudyingForYears,
   Completed,
-  Blocked,
+  Blocked
+}
+
+export enum ApplicationShowParams {
+  All = 'All',
+  Blocked = 'Blocked',
+  Unblocked = 'Unblocked'
 }

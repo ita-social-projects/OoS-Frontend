@@ -12,7 +12,7 @@ import { SearchResponse } from '../../models/search.model';
 export class ApplicationService {
   constructor(private http: HttpClient) {}
 
-  getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
+  public getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
     return this.http.get<SearchResponse<Application[]>>('/api/v1/applications', options);
   }
@@ -22,7 +22,7 @@ export class ApplicationService {
    * @param id string
    * @param parameters ApplicationFilterParameters
    */
-  getApplicationsByPropertyId(id: string, parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
+  public getApplicationsByPropertyId(id: string, parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
 
     return this.http.get<SearchResponse<Application[]>>(`/api/v1/${parameters.property}/${id}/applications`, options);
@@ -33,7 +33,7 @@ export class ApplicationService {
    * @param parentId string
    * @param workshopId string
    */
-  getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
+  public getApplicationsAllowedToReview(parentId: string, workshopId: string): Observable<boolean> {
     return this.http.get<boolean>(`/api/v1/applications/reviewable/parents/${parentId}/workshops/${workshopId}`);
   }
 
@@ -41,7 +41,7 @@ export class ApplicationService {
    * This method create Application
    * @param application Application
    */
-  createApplication(application: Application): Observable<HttpResponse<Application>> {
+  public createApplication(application: Application): Observable<HttpResponse<Application>> {
     return this.http.post<Application>('/api/v1/applications', application, { observe: 'response' });
   }
 
@@ -49,7 +49,7 @@ export class ApplicationService {
    * This method update Application
    * @param application ApplicationUpdate
    */
-  updateApplication(application: ApplicationUpdate): Observable<Application> {
+  public updateApplication(application: ApplicationUpdate): Observable<Application> {
     return this.http.put<Application>('/api/v1/applications', application);
   }
 
@@ -58,7 +58,7 @@ export class ApplicationService {
    * @param childId string
    * @param workshopId string
    */
-  getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
+  public getStatusIsAllowToApply(childId: string, workshopId: string): Observable<boolean> {
     return this.http.get<boolean>(`/api/v1/applications/allowed/workshops/${workshopId}/children/${childId}`);
   }
 
@@ -84,8 +84,7 @@ export class ApplicationService {
       if (parameters.from) {
         params = params.set('From', parameters.from.toString());
       }
-
-      params = params.set('ShowBlocked', parameters.showBlocked.toString());
+      params = params.set('Show', parameters.show.toString());
     }
     params = params.set('OrderByDateAscending', 'true').set('OrderByAlphabetically', 'true').set('OrderByStatus', 'true');
 
