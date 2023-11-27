@@ -42,3 +42,9 @@ export class ClearSelectedChatRoom {
 
   constructor() {}
 }
+
+export class GetUnreadMessagesCount {
+  static readonly type = '[chat] Get unread messages count';
+
+  constructor() {}
+}

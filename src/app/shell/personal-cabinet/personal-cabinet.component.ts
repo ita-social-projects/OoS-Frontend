@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Role } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { GetUnreadMessagesCount } from 'shared/store/chat.actions';
+import { ChatState } from 'shared/store/chat.state';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { isRoleAdmin } from 'shared/utils/admin.utils';
@@ -26,6 +29,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   userRole: Role;
   subRole: Role;
 
+  @Select(ChatState.unreadMessagesCount)
+  public unreadMessagesCount$: Observable<number>;
+
   constructor(private store: Store, public navigationBarService: NavigationBarService) {}
 
   ngOnInit(): void {
@@ -43,6 +49,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
         })
       )
     );
+
+    this.store.dispatch(new GetUnreadMessagesCount());
   }
 
   ngOnDestroy(): void {

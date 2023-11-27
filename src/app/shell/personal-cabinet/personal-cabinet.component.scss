@@ -1,1 +1,14 @@
 @import 'src/app/shared/styles/cabinet.scss';
+
+:host::ng-deep {
+  .mat-tab-links {
+    padding-top: 12px;
+  }
+  
+  .mat-badge-overlap.mat-badge-after .mat-badge-content {
+    background-color: #f5bc4a;
+    right: -2px;
+  }
+}
+
+

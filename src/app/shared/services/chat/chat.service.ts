@@ -44,6 +44,10 @@ export class ChatService {
     return this.http.get<IncomingMessage[]>(`${this.baseApiUrl}/parent/workshops/${workshopId}/messages`, { params });
   }
 
+  public getUnreadMessagesCount(): Observable<number> {
+    return this.http.get<number>(`${this.baseApiUrl}/user/unreadMessagesCount`)
+  }
+
   private setChatRoomParams(parameters: ChatRoomsParameters): HttpParams {
     let params = new HttpParams().set('Size', parameters.size.toString()).set('From', parameters.from.toString());
 
