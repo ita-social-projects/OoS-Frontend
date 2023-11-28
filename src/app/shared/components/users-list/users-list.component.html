@@ -71,7 +71,7 @@
         <td mat-cell *matCellDef="let element">{{ element.catottgName }}</td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Role Column -->
       <ng-container matColumnDef="role">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by role">
           {{ 'FORMS.LABELS.ROLE' | translate }}
@@ -79,7 +79,7 @@
         <td mat-cell *matCellDef="let element">{{ element.role | translate }}</td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Status Column -->
       <ng-container matColumnDef="status">
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by status">
           {{ 'FORMS.LABELS.STATUS' | translate }}
@@ -92,7 +92,7 @@
         </td>
       </ng-container>
 
-      <!-- Name Column -->
+      <!-- Actions Column -->
       <ng-container matColumnDef="actions" stickyEnd>
         <th mat-header-cell *matHeaderCellDef sortActionDescription="Sort by actions" style="width: 7%"></th>
         <td mat-cell *matCellDef="let user">
@@ -107,7 +107,7 @@
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <ng-container *ngIf="user.status === blockedStatus then unBlock; else Block"></ng-container >
+            <ng-container *ngIf="user.status === blockedStatus; then unBlock; else Block"></ng-container>
             <ng-template #Block>
               <button mat-menu-item (click)="block.emit({user, isBlocked: true})">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
