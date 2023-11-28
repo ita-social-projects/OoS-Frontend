@@ -1,12 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngxs/store';
-
 import { CategoryIcons } from 'shared/enum/category-icons';
-import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { Direction } from 'shared/models/category.model';
-import { DefaultFilterState } from 'shared/models/defaultFilterState.model';
 import { SetDirections } from 'shared/store/filter.actions';
+import { WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
+import { DefaultFilterState } from '../../models/defaultFilterState.model';
 
 @Component({
   selector: 'app-category-card',

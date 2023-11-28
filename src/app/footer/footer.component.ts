@@ -3,10 +3,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Actions, ofAction } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-
-import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
-import { MessageBar } from 'shared/models/messageBar.model';
-import { ClearMessageBar, ShowMessageBar } from 'shared/store/app.actions';
+import { MessageBarComponent } from '../shared/components/message-bar/message-bar.component';
+import { MessageBar } from '../shared/models/messageBar.model';
+import { ClearMessageBar, ShowMessageBar } from '../shared/store/app.actions';
 
 @Component({
   selector: 'app-footer',

@@ -1,5 +1,4 @@
 @import 'src/app/shared/styles/dropdown.scss';
-
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
@@ -93,7 +92,6 @@
     }
   }
 }
-
 .lang,
 .menu,
 .login {
@@ -114,7 +112,6 @@
   .icon-account {
     color: white;
   }
-
   .account-circle {
     width: 33px;
     padding: 0 5px;
@@ -188,7 +185,7 @@
 
 .mat-option {
   &:hover {
-    background-color: #f8f8f8 !important;
+      background-color: #f8f8f8 !important;
   }
 }
 

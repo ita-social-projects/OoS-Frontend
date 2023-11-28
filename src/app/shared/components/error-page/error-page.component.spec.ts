@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { Router } from '@angular/router';
+import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ErrorPageComponent } from './error-page.component';
@@ -26,14 +26,13 @@ describe('ErrorPageComponent', () => {
   });
 
   it('should create', () => {
-    component.onBack();
     expect(component).toBeTruthy();
   });
 
   it('should execute router navigate', () => {
     const routerSpy = jest.spyOn(router, 'navigate');
 
-    component.onBack();
+    component.OnBack();
 
     expect(routerSpy).toHaveBeenCalledWith(['']);
     expect(routerSpy).toHaveBeenCalledTimes(1);

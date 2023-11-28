@@ -92,14 +92,12 @@
       {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}
     </button>
   </a>
-  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'"
-     [queryParams]="{ page: defaultAdminTab }">
+  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTabs }">
     <button mat-menu-item>
       {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
   </a>
-  <a *ngIf="user.role === Role.ministryAdmin || user.role === Role.regionAdmin"
-     [routerLink]="'./admin-tools/data/admins'">
+  <a *ngIf="user.role === Role.ministryAdmin || user.role === Role.regionAdmin" [routerLink]="'./admin-tools/data/admins'">
     <button mat-menu-item>
       {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>

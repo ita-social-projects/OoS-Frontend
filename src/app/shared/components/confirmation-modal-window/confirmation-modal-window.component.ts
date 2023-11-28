@@ -20,7 +20,7 @@ export class ConfirmationModalWindowComponent implements OnInit {
 
   public modalTitle: string;
   public modalConfirmationText: string;
-  public modalConfirmationProperty: string;
+  public  modalConfirmationProperty: string;
   public ratingSelectControl: FormControl;
 
   constructor(

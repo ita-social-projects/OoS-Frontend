@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 export class ErrorPageComponent {
   constructor(private router: Router) {}
 
-  public onBack(): void {
+  public OnBack(): void {
     this.router.navigate(['']);
   }
 }

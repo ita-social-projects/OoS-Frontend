@@ -3,10 +3,10 @@ import { DateAdapter } from '@angular/material/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest } from 'rxjs';
+import { combineLatest, Observable, Subject } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
-
 import { AdminTabTypes } from 'shared/enum/admins';
+
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
 import { Role } from 'shared/enum/role';
@@ -29,44 +29,48 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
-  public readonly Languages = Languages;
-  public readonly Role = Role;
-  public readonly RoleLinks = RoleLinks;
+  readonly defaultAdminTabs = AdminTabTypes.AboutPortal;
+  readonly Languages: typeof Languages = Languages;
+  readonly Role: typeof Role = Role;
+  readonly RoleLinks = RoleLinks;
 
   @Select(RegistrationState.isAuthorizationLoading)
-  public isAuthorizationLoading$: Observable<boolean>;
+  isAuthorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
-  public isRegistered$: Observable<boolean>;
+  isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
-  public navigationPaths$: Observable<Navigation[]>;
+  navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
-  public isAuthorized$: Observable<string>;
+  isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
-  public isMobileScreen$: Observable<boolean>;
+  isMobileScreen$: Observable<boolean>;
   @Select(RegistrationState.user)
-  public user$: Observable<User>;
+  user$: Observable<User>;
   @Select(MetaDataState.featuresList)
-  public featuresList$: Observable<FeaturesList>;
+  featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
-  public subrole$: Observable<string>;
+  subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
-  public headerInfo$: Observable<CompanyInformation>;
+  headerInfo$: Observable<CompanyInformation>;
 
-  public selectedLanguage = localStorage.getItem('ui-culture');
-  public showModalReg = false;
-  public userShortName = '';
-  public isMobileScreen: boolean;
-  public user: User;
-  public headerTitle: string;
-  public headerSubtitle: string;
-  public navigationPaths: Navigation[];
-  public subrole: string;
+  selectedLanguage = localStorage.getItem('ui-culture');
+  showModalReg = false;
+  userShortName = '';
+  isMobileScreen: boolean;
+  user: User;
+  headerTitle: string;
+  headerSubtitle: string;
+  navigationPaths: Navigation[];
+  subrole: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
 
-  public ngOnInit(): void {
+  onViewChange(): void {
+    this.store.dispatch(new SidenavToggle());
+  }
+
+  ngOnInit(): void {
     this.store.dispatch(new GetMainPageInfo());
 
     combineLatest([this.subrole$, this.navigationPaths$])
@@ -89,34 +93,30 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onViewChange(): void {
-    this.store.dispatch(new SidenavToggle());
+  private getFullName(user: User): string {
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
   }
 
-  public onLogin(): void {
-    this.store.dispatch(new Login(false));
-  }
-
-  public onLogout(): void {
+  onLogout(): void {
     this.store.dispatch(new Logout());
   }
 
-  public isRouter(route: string): boolean {
+  onLogin(): void {
+    this.store.dispatch(new Login(false));
+  }
+
+  isRouter(route: string): boolean {
     return this.router.url === route;
   }
 
-  public setLanguage(): void {
+  setLanguage(): void {
     this.translate.use(this.selectedLanguage);
     this.dateAdapter.setLocale(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
-  public ngOnDestroy(): void {
+  ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }
-
-  private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
   }
 }
