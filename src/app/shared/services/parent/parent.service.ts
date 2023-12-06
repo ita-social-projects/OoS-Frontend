@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Parent } from '../../models/parent.model';
-import { Observable, of } from 'rxjs';
+import { IParentBlockedData, Parent } from '../../models/parent.model';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +16,7 @@ export class ParentService {
     return this.http.get<Parent>('/api/v1/parents/profile');
   }
 
-  public blockUnblockParent(parent: Parent): Observable<boolean> {
-    // return this.http.post<boolean>('/api/v1/parents/BlockUnblockParent', {});
-    return of(true);  //FIXME: Refactor 
+  public blockUnblockParent(parentBlockedData: IParentBlockedData): Observable<null> {
+    return this.http.post<null>('/api/v1/parents/BlockUnblockParent', parentBlockedData);
   }
 }

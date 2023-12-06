@@ -85,10 +85,18 @@
           {{ 'FORMS.LABELS.STATUS' | translate }}
         </th>
         <td mat-cell *matCellDef="let element">
-          <div class="statuses {{ element.status }}">
-            <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
-            <span> {{ statusesTitles[element.status] | translate }}</span>
-          </div>
+          <ng-container *ngIf="element.isBlocked; else notBlockedUser">
+            <div class="statuses {{ userStatuses.Blocked }}">
+              <span> <i class="status-icon fa-user-lock fas"></i></span>
+              <span> {{ statuses[userStatuses.Blocked] | translate }}</span>
+            </div>
+          </ng-container>
+          <ng-template #notBlockedUser>
+            <div class="statuses {{ element.status }}">
+              <span> <i class="status-icon {{ statusIcons[element.status] }}"></i></span>
+              <span> {{ statusesTitles[element.status] | translate }}</span>
+            </div>
+          </ng-template>
         </td>
       </ng-container>
 
@@ -107,14 +115,14 @@
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <ng-container *ngIf="user.status === blockedStatus then unBlock; else Block"></ng-container >
+            <ng-container *ngIf="user.isBlocked then unBlock; else Block"></ng-container >
             <ng-template #Block>
-              <button mat-menu-item (click)="block.emit({user, isBlocked: true})">
+              <button mat-menu-item (click)="blockUnblock.emit(user)">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="block.emit({user, isBlocked: false})">
+              <button mat-menu-item (click)="blockUnblock.emit(user)">
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>

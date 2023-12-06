@@ -408,8 +408,8 @@ export class ParentState {
   @Action(OnBlockParent)
   OnBlockParent(
     { dispatch }: StateContext<ParentStateModel>,
-    { payload }: any
-  ): Observable<unknown> {
+    { payload }: OnBlockParent
+  ): Observable<boolean | Observable<void>> {
     return this.parentService.blockUnblockParent(payload).pipe(
       tap(() => dispatch(new OnBlockParentSuccess())),
       catchError((error) => {
@@ -419,8 +419,11 @@ export class ParentState {
   }
 
   @Action(OnBlockParentSuccess)
-  OnBlockParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnBlockParentSuccess): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success'})]);
+  OnBlockParentSuccess(
+    { dispatch }: StateContext<ParentStateModel>, 
+    {}: OnBlockParentSuccess
+  ): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success'}));
   }
 
   @Action(OnBlockParentFail)
@@ -434,8 +437,8 @@ export class ParentState {
   @Action(OnUnblockParent)
   OnUnblockParent(
     { dispatch }: StateContext<ParentStateModel>, 
-    { payload }: any
-  ): Observable<unknown> {
+    { payload }: OnUnblockParent
+  ): Observable<boolean | Observable<void>> {
     return this.parentService.blockUnblockParent(payload).pipe(
       tap(() => dispatch(new OnUnblockParentSuccess())),
       catchError((error) => {
@@ -445,7 +448,10 @@ export class ParentState {
   }
 
   @Action(OnUnblockParentSuccess)
-  OnUnblockParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnUnblockParentSuccess): void {
+  OnUnblockParentSuccess(
+    { dispatch }: StateContext<ParentStateModel>, 
+    {}: OnUnblockParentSuccess
+  ): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success'}));
   }
 

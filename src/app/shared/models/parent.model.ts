@@ -17,6 +17,8 @@ export class ParentWithContactInfo implements Person {
   middleName?: string;
   firstName: string;
   emailConfirmed?: boolean;
+  gender?: string;
+  isBlocked: boolean;
 
   constructor(info) {
     this.id = info.id;
@@ -27,4 +29,10 @@ export class ParentWithContactInfo implements Person {
     this.middleName = info.middleName;
     this.firstName = info.firstName;
   }
+}
+
+export interface IParentBlockedData {
+  parentId: string
+  isBlocked: boolean
+  reason?: string
 }

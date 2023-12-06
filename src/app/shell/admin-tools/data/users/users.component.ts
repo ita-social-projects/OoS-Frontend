@@ -3,7 +3,7 @@ import { FormControl } from '@angular/forms';
 import { Observable, Subject } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import {
-  debounceTime, distinctUntilChanged, filter, skip, startWith, takeUntil
+  debounceTime, distinctUntilChanged, filter, skip, startWith, switchMap, takeUntil
 } from 'rxjs/operators';
 
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -35,27 +35,28 @@ import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  readonly UserTabsTitles = UserTabsTitles;
-  readonly noUsers = NoResultsTitle.noUsers;
-  readonly statusesTitles = EmailConfirmationStatusesTitles;
+  public readonly UserTabsTitles = UserTabsTitles;
+  public readonly noUsers = NoResultsTitle.noUsers;
+  public readonly statusesTitles = EmailConfirmationStatusesTitles;
 
   @Select(AdminState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
-  children$: Observable<SearchResponse<Child[]>>;
+  private children$: Observable<SearchResponse<Child[]>>;
 
-  filterFormControl = new FormControl('');
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  tabIndex: number;
-  allUsers: UsersTable[] = [];
-  totalEntities: number;
-  displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  childrenParams: ChildrenParameters = {
+  public filterFormControl = new FormControl('');
+  public tabIndex: number;
+  public allUsers: UsersTable[] = [];
+  public totalEntities: number;
+  public displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public childrenParams: ChildrenParameters = {
     searchString: '',
     isParent: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+  
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     public store: Store, 
@@ -126,25 +127,31 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  public onBlock(input: {isBlocked: boolean, user: UsersTable}): void { //FIXME: Refactor input parameters
-    if (input.isBlocked) {
+  public onBlockUnblock(user: UsersTable): void {
+    if (user.isBlocked) {
       const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.unBlockParent,
-          property: input.user.pib,
+          property: user.parentFullName,
         }
       });
 
       dialogRef.afterClosed()
         .pipe(
+          filter(Boolean),
+          switchMap(() => {
+            return this.store.dispatch(new OnUnblockParent(
+              {
+                parentId: user.parentId,
+                isBlocked: false,
+              }
+            ));
+          }),
+          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))),
           takeUntil(this.destroy$)
         )
-        .subscribe((result: boolean) => {
-          if (result) {
-            this.store.dispatch(new OnUnblockParent({})); //FIXME: Refactor action when unblocking the parent
-          }
-        });
+        .subscribe();
     } else {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.blockParent }
@@ -152,19 +159,20 @@ export class UsersComponent implements OnInit, OnDestroy {
 
       dialogRef.afterClosed()
         .pipe(
-          takeUntil(this.destroy$)
-        )
-        .subscribe((result: { reason: string }) => {
-          if (result) {
-            this.store.dispatch(new OnBlockParent(  //FIXME: Refactor action when blocking the parent
+          filter(Boolean),
+          switchMap((result: string) => {
+            return this.store.dispatch(new OnBlockParent(
               {
-                parentId: input.user.id,
+                parentId: user.parentId,
                 isBlocked: true,
-                reason: result.reason
+                reason: result
               }
             ));
-          }
-        });
+          }),
+          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))),
+          takeUntil(this.destroy$)
+        )
+        .subscribe();
     }
   }
 
