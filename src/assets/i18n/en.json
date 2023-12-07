@@ -268,7 +268,6 @@
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications",
-      "USERS": "Users",
       "ADMIN_STATUS": {
         "CREATE": "Creating an administrator",
         "UPDATE": "Replacement of the administrator",
