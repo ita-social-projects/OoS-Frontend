@@ -31,7 +31,7 @@ export class ParentWithContactInfo implements Person {
   }
 }
 
-export interface IParentBlockedData {
+export interface ParentBlockedData {
   parentId: string
   isBlocked: boolean
   reason?: string

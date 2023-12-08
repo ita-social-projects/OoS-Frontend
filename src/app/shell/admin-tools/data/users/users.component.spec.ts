@@ -26,8 +26,6 @@ describe('UsersComponent', () => {
   let matDialog: MatDialog;
   let store: Store;
 
-  jest.mock('@ngxs/store');
-
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
@@ -83,7 +81,6 @@ describe('UsersComponent', () => {
 
     it('should open matDialog with correct parameters on Unblocking', () => {
       mockUser.isBlocked =  true;
-
       expectedMatDialogData = {
         width: Constants.MODAL_SMALL,
         data: {
@@ -91,11 +88,9 @@ describe('UsersComponent', () => {
           property: mockUser.parentFullName,
         }
       };
-
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ConfirmationModalWindowComponent>);
-
 
       component.onBlockUnblock(mockUser);
 
@@ -105,14 +100,12 @@ describe('UsersComponent', () => {
 
     it('should dispatch OnUnblockParent action with the correct parameters on afterClosed', () => {
       mockUser.isBlocked =  true;
-
       const expectedUnblockParentDispatchData = {
         payload: {
           parentId: 'parentId',
           isBlocked: false,
         }
       };
-
       const expectedChildrenDispatchData = {
         parameters: {
           from: 0,
@@ -121,11 +114,9 @@ describe('UsersComponent', () => {
           size: 12,
         },
       };
-
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ConfirmationModalWindowComponent>);
-
 
       component.onBlockUnblock(mockUser);
 
@@ -136,15 +127,12 @@ describe('UsersComponent', () => {
 
     it('should open matDialog with correct parameters on Blocking', () => {
       mockUser.isBlocked = false;
-
       expectedMatDialogData = {
         data: { type: ModalConfirmationType.blockParent }
       };
-
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ReasonModalWindowComponent>);
-
 
       component.onBlockUnblock(mockUser);
 
@@ -154,7 +142,6 @@ describe('UsersComponent', () => {
 
     it('should dispatch OnBlockParent action with the correct parameters on afterClosed', () => {
       mockUser.isBlocked = false;
-
       const expectedBlockParentDispatchData = {
         payload: {
           parentId: mockUser.parentId,
@@ -162,7 +149,6 @@ describe('UsersComponent', () => {
           reason: 'the reason of blocking',
         }
       };
-
       const expectedChildrenDispatchData = {
         parameters: {
           from: 0,
@@ -171,11 +157,9 @@ describe('UsersComponent', () => {
           size: 12,
         },
       };
-
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(expectedBlockParentDispatchData.payload.reason)
       } as MatDialogRef<ReasonModalWindowComponent>);
-
 
       component.onBlockUnblock(mockUser);
 

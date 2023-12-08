@@ -129,46 +129,36 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public onBlockUnblock(user: UsersTable): void {
     if (user.isBlocked) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      this.matDialog.open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.unBlockParent,
           property: user.parentFullName,
         }
-      });
-
-      dialogRef.afterClosed()
+      }).afterClosed()
         .pipe(
           filter(Boolean),
-          switchMap(() => {
-            return this.store.dispatch(new OnUnblockParent(
-              {
-                parentId: user.parentId,
-                isBlocked: false,
-              }
-            ));
-          }),
+          switchMap(() => this.store.dispatch(
+            new OnUnblockParent({
+              parentId: user.parentId,
+              isBlocked: false,
+            }))),
           switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))),
           takeUntil(this.destroy$)
         )
         .subscribe();
     } else {
-      const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+      this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.blockParent }
-      });
-
-      dialogRef.afterClosed()
+      }).afterClosed()
         .pipe(
           filter(Boolean),
-          switchMap((result: string) => {
-            return this.store.dispatch(new OnBlockParent(
-              {
-                parentId: user.parentId,
-                isBlocked: true,
-                reason: result
-              }
-            ));
-          }),
+          switchMap((result: string) => this.store.dispatch(
+            new OnBlockParent({
+              parentId: user.parentId,
+              isBlocked: true,
+              reason: result
+            }))),
           switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))),
           takeUntil(this.destroy$)
         )
