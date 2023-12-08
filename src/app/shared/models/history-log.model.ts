@@ -38,6 +38,10 @@ export interface ApplicationHistory {
   providerTitle: string;
 }
 
+export interface ParentsBlockingByAdminHistory {
+
+}
+
 export interface FilterData extends PaginationParameters {
   dateFrom: string;
   dateTo: string;

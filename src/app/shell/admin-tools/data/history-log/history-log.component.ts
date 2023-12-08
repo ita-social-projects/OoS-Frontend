@@ -18,12 +18,12 @@ import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
 import { HistoryLogTypes } from '../../../../shared/enum/history.log';
 import {
-  ApplicationHistory, DropdownData, FilterData, ProviderAdminHistory, ProviderHistory
+  ApplicationHistory, DropdownData, FilterData, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory
 } from '../../../../shared/models/history-log.model';
 import { PaginationElement } from '../../../../shared/models/paginationElement.model';
 import { SearchResponse } from '../../../../shared/models/search.model';
 import {
-  GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory
+  GetApplicationHistory, GetParentsBlockingByAdminHistory, GetProviderAdminHistory, GetProviderHistory
 } from '../../../../shared/store/admin.actions';
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
@@ -47,6 +47,8 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public providerAdminHistory$: Observable<SearchResponse<ProviderAdminHistory[]>>;
   @Select(AdminState.applicationHistory)
   public applicationHistory$: Observable<SearchResponse<ApplicationHistory[]>>;
+  @Select(AdminState.parentsBlockingByAdminHistory)
+  public parentsBlockingByAdminHistory$: Observable<SearchResponse<ParentsBlockingByAdminHistory[]>>;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private searchString: string;
@@ -85,17 +87,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.providersHistory$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
-    this.providerAdminHistory$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe(
-        (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
-      );
-    this.applicationHistory$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
+    this.initSubscribeOnEachHistory();
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
@@ -145,6 +137,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
         this.dropdownData = ApplicationOptions;
         break;
+      case HistoryLogTypes.Users:
+        this.store.dispatch([new GetParentsBlockingByAdminHistory(filters, searchString)]);
+        // this.dropdownData = ApplicationOptions; TODO: ADD!!!!!!!!!!!!
+        break;
     }
     this.cdr.detectChanges();
   }
@@ -162,5 +158,27 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   private getTableData(searchString?: string): void {
     Util.setFromPaginationParam(this.filters, this.currentPage, this.totalAmount);
     this.dispatchProperValue(this.tabIndex, this.filters, searchString);
+  }
+
+  private initSubscribeOnEachHistory(): void {
+    this.providersHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
+
+    this.providerAdminHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe(
+        (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
+      );
+
+    this.applicationHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
+
+    this.parentsBlockingByAdminHistory$
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe(
+        (parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>) => (this.totalAmount = parentsBlockingByAdminHistory.totalAmount)
+      );
   }
 }
