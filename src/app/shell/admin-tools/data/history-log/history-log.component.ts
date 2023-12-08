@@ -28,6 +28,8 @@ import {
 import { AdminState } from '../../../../shared/store/admin.state';
 import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
 import { Util } from '../../../../shared/utils/utils';
+import { Role } from 'shared/enum/role';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-history-log',
@@ -38,6 +40,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public readonly HistoryLogTabTitles = HistoryLogTabTitles;
   public readonly HistoryLogTypes = HistoryLogTypes;
   public readonly noHistory = NoResultsTitle.noHistory;
+  public readonly Role = Role;
 
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
@@ -64,6 +67,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     options: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+  public role: string;
 
   constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
 
@@ -87,6 +91,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         }
       });
 
+    this.role = this.store.selectSnapshot<string>(RegistrationState.role);
     this.initSubscribeOnEachHistory();
   }
 

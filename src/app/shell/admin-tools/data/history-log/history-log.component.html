@@ -35,7 +35,7 @@
         >
         </ng-container>
       </mat-tab>
-      <mat-tab [label]="HistoryLogTabTitles.Users | translate">
+      <mat-tab *ngIf="role === Role.techAdmin" [label]="HistoryLogTabTitles.Users | translate">
         <ng-container
           *ngTemplateOutlet="HistoryLogTable; context: { table: parentsBlockingByAdminHistory$ | async, tableTitle: HistoryLogTypes.Users }"
         >

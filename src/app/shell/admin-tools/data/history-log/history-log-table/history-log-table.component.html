@@ -94,14 +94,22 @@
         </td>
       </ng-container>
 
-      <ng-container *ngIf="tableType === HistoryLogTypes.ProviderAdmins; else tableWithoutAdditionalProviderAdminsColumn">
-        <tr mat-header-row *matHeaderRowDef="displayedProviderAdminsColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedProviderAdminsColumns"></tr>
+      <ng-container *ngIf="tableType === HistoryLogTypes.Providers">
+        <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.Providers"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.Providers"></tr>
       </ng-container>
-      <ng-template #tableWithoutAdditionalProviderAdminsColumn>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
-      </ng-template>
+      <ng-container *ngIf="tableType === HistoryLogTypes.ProviderAdmins">
+        <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.ProviderAdmins"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.ProviderAdmins"></tr>
+      </ng-container>
+      <ng-container *ngIf="tableType === HistoryLogTypes.Applications">
+        <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.Applications"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.Applications"></tr>
+      </ng-container>
+      <ng-container *ngIf="tableType === HistoryLogTypes.Users">
+        <tr mat-header-row *matHeaderRowDef="columnsListForChangesLogHistory.Users"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.Users"></tr>
+      </ng-container>
     </table>
   </div>
 </div>
