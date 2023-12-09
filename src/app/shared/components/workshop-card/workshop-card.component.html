@@ -11,15 +11,14 @@
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
-        <mat-card-title
-          [matTooltip]="workshopData.title"
-          showTooltipIfTruncated
-          matTooltipClass="tooltip"
-          [matTooltipPosition]="tooltipPosition"
-          class="card-title">
+        <mat-card-title [matTooltip]="workshopData.title"
+                        showTooltipIfTruncated
+                        matTooltipClass="tooltip"
+                        [matTooltipPosition]="tooltipPositionBelow"
+                        class="card-title">
           <a *ngIf="isCabinetView"
              matTooltip="{{ 'MORE_DETAILS' | translate }}"
-             matTooltipPosition="above"
+             [matTooltipPosition]="tooltipPositionAbove"
              [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
@@ -149,7 +148,7 @@
        [matTooltip]="workshopData.providerTitle"
        matTooltipClass="tooltip"
        showTooltipIfTruncated
-       [matTooltipPosition]="tooltipPosition">
+       [matTooltipPosition]="tooltipPositionBelow">
       {{ workshopData.providerTitle }}
     </p>
   </a>
@@ -184,7 +183,7 @@
       "
        showTooltipIfTruncated
        matTooltipClass="tooltip"
-       [matTooltipPosition]="tooltipPosition">
+       [matTooltipPosition]="tooltipPositionAbove">
       {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>
