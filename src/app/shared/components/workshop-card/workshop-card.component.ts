@@ -34,7 +34,8 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly OwnershipTypeEnum = OwnershipTypesEnum;
   public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
   public readonly Role = Role;
-  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly tooltipPositionAbove = Constants.MAT_TOOL_TIP_POSITION_ABOVE;
+  public readonly tooltipPositionBelow = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly categoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
