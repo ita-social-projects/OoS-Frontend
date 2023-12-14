@@ -268,13 +268,7 @@
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications",
-      "USERS": "Users",
-      "ADMIN_STATUS": {
-        "CREATE": "Creating an administrator",
-        "UPDATE": "Replacement of the administrator",
-        "DELETE": "Removing the administrator",
-        "BLOCK": "Administrator lock"
-      }
+      "USERS": "Users"
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -584,7 +578,17 @@
     "PERIOD": "Period",
     "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
     "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
-    "STATUS_CHANGE_TYPE": "Application status change"
+    "STATUS_CHANGE_TYPE": "Application status change",
+    "ADMIN_STATUS": {
+      "CREATE": "Creating an administrator",
+      "UPDATE": "Replacement of the administrator",
+      "DELETE": "Removing the administrator",
+      "BLOCK": "Administrator lock"
+    },
+    "USER_THAT_WAS_BLOCKED": "User that was blocked",
+    "BLOCKING_REASON": "Blocking reason",
+    "USER_WAS_BLOCKED": "Blocked",
+    "USER_WAS_UNBLOCKED": "Unblocked"
   },
   "STATISTICS": {
     "DATE_RANGE": "Time Range",

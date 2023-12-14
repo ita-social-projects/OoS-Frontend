@@ -55,8 +55,8 @@ export class HistoryLogService {
     return this.http.get<SearchResponse<ApplicationHistory[]>>('/api/v1/ChangesLog/Application', body);
   }
 
-  public getParentsBlockingByAdminHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ParentsBlockingByAdminHistory>> {
+  public getParentsBlockingByAdminHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ParentsBlockingByAdminHistory[]>> {
     const body = { params: this.setParams(filters, searchString) };
-    return this.http.get<SearchResponse<ParentsBlockingByAdminHistory>>('/api/v1/ChangesLog/ParentBlockedByAdmin', body);
+    return this.http.get<SearchResponse<ParentsBlockingByAdminHistory[]>>('/api/v1/ChangesLog/ParentBlockedByAdmin', body);
   }
 }

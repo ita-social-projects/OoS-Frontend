@@ -131,7 +131,7 @@ export interface AdminStateModel {
   providerHistory: SearchResponse<ProviderHistory[]>;
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
   applicationHistory: SearchResponse<ApplicationHistory[]>;
-  parentsBlockingByAdminHistory: SearchResponse<unknown[]>;
+  parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
   selectedAdmin: BaseAdmin;
   isLoading: boolean;

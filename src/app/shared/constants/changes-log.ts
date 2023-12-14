@@ -37,6 +37,9 @@ export class ColumnsListForChangesLogHistory {
   ];
 
   static readonly Users = [
-
+    'parentFullName',
+    'operationDate',
+    'isBlocked',
+    'reason',
   ];
 }

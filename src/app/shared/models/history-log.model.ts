@@ -1,4 +1,5 @@
 import { PaginationParameters } from './queryParameters.model';
+import { TechAdmin } from './techAdmin.model';
 import { User } from './user.model';
 
 export interface ProviderHistory {
@@ -39,7 +40,12 @@ export interface ApplicationHistory {
 }
 
 export interface ParentsBlockingByAdminHistory {
-
+  parentFullName: string;
+  operationDate: Date;
+  isBlocked: string;
+  reason: string;
+  parentId: string;
+  user: TechAdmin;
 }
 
 export interface FilterData extends PaginationParameters {
