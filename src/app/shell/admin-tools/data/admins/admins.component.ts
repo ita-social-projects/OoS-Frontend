@@ -214,7 +214,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
       this.displayedColumns.splice(this.displayedColumns.indexOf('region') + 1, 0, 'territorialCommunity');
     }
 
-    if (this.role !== Role.techAdmin || !isActionsInList) {
+    if (!isActionsInList) {
       this.displayedColumns.push('actions');
     }
   }

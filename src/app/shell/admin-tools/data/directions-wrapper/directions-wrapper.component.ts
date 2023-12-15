@@ -15,11 +15,11 @@ import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 })
 export class DirectionsWrapperComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutions)
-  institutions$: Observable<Institution[]>;
+  public institutions$: Observable<Institution[]>;
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch([
       new GetAllInstitutions(true),
       new PushNavPath({
@@ -30,7 +30,7 @@ export class DirectionsWrapperComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new PopNavPath());
   }
 }
