@@ -4,6 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 
 import { Constants, ModeConstants } from 'shared/constants/constants';
+import { ApplicationShowParams } from 'shared/enum/applications';
 import { YearDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { Role } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
@@ -34,10 +35,10 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
   userIsAdmin: boolean;
   applicationParams: {
     status: string;
-    showBlocked: boolean;
+    show: ApplicationShowParams;
   } = {
     status: undefined,
-    showBlocked: false
+    show: ApplicationShowParams.Unblocked
   };
   applicationDirections: string;
 

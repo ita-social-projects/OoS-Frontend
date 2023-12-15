@@ -7,7 +7,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { ApplicationEntityType } from 'shared/enum/applications';
+import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applications';
 import { ChildDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -40,7 +40,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false,
+    show: ApplicationShowParams.Unblocked,
     size: PaginationConstants.APPLICATIONS_PER_PAGE,
     from: 0
   };

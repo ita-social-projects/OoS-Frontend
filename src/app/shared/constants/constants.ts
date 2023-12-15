@@ -30,7 +30,7 @@ export class Constants {
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
   static readonly DASH_VALUE = 'dash';
   static readonly DASH = '—';
-  
+
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;
 
@@ -51,6 +51,7 @@ export class Constants {
     fullName: 'Київ'
   };
 
+  static readonly MAT_TOOL_TIP_POSITION_ABOVE = 'above';
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = 'SERVICE_MESSAGES.NO_INFO';
   static readonly MODAL_SMALL = '500px';

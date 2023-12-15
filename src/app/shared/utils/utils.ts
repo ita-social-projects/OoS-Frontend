@@ -98,7 +98,10 @@ export class Util {
         email: user.parent.email,
         phoneNumber: user.parent.phoneNumber,
         role: user.isParent ? UserTabsTitles.parent : UserTabsTitles.child,
-        status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending
+        status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending,
+        isBlocked: user.parent.isBlocked,
+        parentId: user.parentId,
+        parentFullName: this.getFullName(user.parent),
       });
     });
     return updatedUsers;
