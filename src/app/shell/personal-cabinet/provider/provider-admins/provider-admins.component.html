@@ -11,7 +11,6 @@
     </div>
     <ng-container *ngIf="subRole === Role.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
-
   <div class="tab-wrapper">
     <ng-container *ngIf="subRole === Role.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
   </div>
@@ -66,45 +65,35 @@
 
 <ng-template #DeputyTableViewTmpl>
   <mat-tab-group mat-align-tabs="start">
-    <mat-tab label="{{ ProviderAdminTitles.Admin | translate}}">
+    <mat-tab label="{{ ProviderAdminTitles.Admin | translate }}">
       <ng-container *ngTemplateOutlet="UsersList; context: { $implicit: providerAdminsData }"></ng-container>
     </mat-tab>
   </mat-tab-group>
 </ng-template>
 
-<ng-template #ProviderViewBtnTmpl>
-  <ng-container *ngIf="tabIndex == 0">
-    <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
-      {{ 'BUTTONS.ADD' | translate }}
-      <mat-icon>arrow_drop_down</mat-icon>
-    </button>
-    <mat-menu #add="matMenu" class="header_menu">
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
-      >
-        <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button>
-      </a
-      >
-      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-      >
-        <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button>
-      </a
-      >
-    </mat-menu>
-  </ng-container>
-
-  <ng-container *ngIf="tabIndex == 1">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]"
-    >
-      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
-    </a
-    >
-  </ng-container>
-
-  <ng-container *ngIf="tabIndex == 2">
-    <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]"
-    >
-      <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
-    </a
-    >
-  </ng-container>
+<ng-template #ProviderViewBtnTmpl [ngSwitch]="tabIndex">
+    <ng-container *ngSwitchCase="0">
+      <button class="btn" mat-raised-button [matMenuTriggerFor]="add">
+        {{ 'BUTTONS.ADD' | translate }}
+        <mat-icon>arrow_drop_down</mat-icon>
+      </button>
+      <mat-menu #add="matMenu" class="header_menu">
+        <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]">
+          <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_DEPUTY_GENETIVE' | translate }}</button>
+        </a>
+        <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+          <button mat-menu-item>{{ 'ENUM.PROVIDER_ADMINS_DECLINATION.PROVIDER_ADMIN_GENETIVE' | translate }}</button>
+        </a>
+      </mat-menu>
+    </ng-container>
+    <ng-container *ngSwitchCase="1">
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.deputy]">
+        <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+      </a>
+    </ng-container>
+    <ng-container *ngSwitchCase="2">
+      <a [routerLink]="['/create-provider-admin', providerAdminRole.admin]">
+        <button class="btn" mat-raised-button>{{ 'BUTTONS.ADD' | translate }}</button>
+      </a>
+    </ng-container>
 </ng-template>

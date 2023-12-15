@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -67,12 +67,36 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     super.ngOnInit();
     Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
 
-    this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      this.tabIndex = params['role'] ? Object.keys(this.providerAdminRole).indexOf(params['role']) : 0;
-      this.filterParams.assistantsOnly = params['role'] === ProviderAdminRole.admin;
-      this.filterParams.deputyOnly = params['role'] === ProviderAdminRole.deputy;
-      this.currentPage = PaginationConstants.firstPage;
-      this.getFilteredProviderAdmins();
+    this.setTabOptions();
+    this.getFilteredProviderAdmins();
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Administration,
+        isActive: false,
+        disable: true
+      })
+    );
+  }
+
+  /**
+   * This method filter users according to selected tab
+   * @param event MatTabChangeEvent
+   */
+  public onTabChange(event: MatTabChangeEvent): void {
+    const providerAdminRoleValues = Object.values(this.providerAdminRole);
+    this.currentPage = PaginationConstants.firstPage;
+    this.filterFormControl.reset('', { emitEvent: false });
+    this.filterParams.searchString = '';
+    this.filterParams.from = 0;
+    this.filterParams.deputyOnly = providerAdminRoleValues[event.index] === ProviderAdminRole.deputy;
+    this.filterParams.assistantsOnly = providerAdminRoleValues[event.index] === ProviderAdminRole.admin;
+    this.getFilteredProviderAdmins();
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { role: ProviderAdminParams[event.index] }
     });
   }
 
@@ -87,41 +111,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method filter users according to selected tab
-   * @param event MatTabChangeEvent
+   * This method update provider Admin By Id
    */
-  public onTabChange(event: MatTabChangeEvent): void {
-    const tabIndex = event.index;
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { role: ProviderAdminParams[tabIndex] }
-    });
-  }
-
-  /**
-   * This method delete provider Admin By Id
-   */
-  public onDelete(user: UsersTable): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
-        property: user.pib
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
-        this.store.dispatch(
-          new DeleteProviderAdminById(
-            {
-              userId: user.id,
-              providerId: this.provider.id
-            },
-            this.filterParams
-          )
-        );
-    });
+  public onUpdate(user: ProviderAdminTable): void {
+    const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
+    this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
   }
 
   /**
@@ -159,30 +153,51 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
   }
 
+  /**
+   * This method delete provider Admin By Id
+   */
+  public onDelete(user: UsersTable): void {
+    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+      width: Constants.MODAL_SMALL,
+      data: {
+        type: user.isDeputy ? ModalConfirmationType.deleteProviderAdminDeputy : ModalConfirmationType.deleteProviderAdmin,
+        property: user.pib
+      }
+    });
+
+    dialogRef.afterClosed().subscribe((result: boolean) => {
+      result &&
+        this.store.dispatch(
+          new DeleteProviderAdminById(
+            {
+              userId: user.id,
+              providerId: this.provider.id
+            },
+            this.filterParams
+          )
+        );
+    });
+  }
+
   public onSendInvitation(providerAdmin: ProviderAdmin): void {
     this.store.dispatch(new ReinviteProviderAdmin(providerAdmin));
   }
 
-  /**
-   * This method update provider Admin By Id
-   */
-  public onUpdate(user: ProviderAdminTable): void {
-    const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
-    this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
-  }
-
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Administration,
-        isActive: false,
-        disable: true
-      })
-    );
-  }
-
   protected initProviderData(): void {
     this.addProviderAdminsSubscriptions();
+  }
+
+  private setTabOptions(): void {
+    const role = this.route.snapshot.queryParamMap.get('role');
+    this.tabIndex = role ? Object.keys(this.providerAdminRole).indexOf(role) : 0;
+    this.filterParams.deputyOnly = role === ProviderAdminRole.deputy;
+    this.filterParams.assistantsOnly = role === ProviderAdminRole.admin;
+    this.currentPage = PaginationConstants.firstPage;
+  }
+
+  private getFilteredProviderAdmins(): void {
+    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
+    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 
   /**
@@ -221,10 +236,5 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       this.providerAdmins = providerAdmins;
       this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
     });
-  }
-
-  private getFilteredProviderAdmins(): void {
-    Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
-    this.store.dispatch(new GetFilteredProviderAdmins(this.filterParams));
   }
 }
