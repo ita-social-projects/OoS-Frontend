@@ -9,25 +9,25 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { RouterTestingModule } from '@angular/router/testing';
-import { TranslateModule } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
 import { Role } from 'shared/enum/role';
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
 import { MainPageStateModel } from 'shared/store/main-page.state';
+import { SidenavToggle } from 'shared/store/navigation.actions';
 import { NavStateModel } from 'shared/store/navigation.state';
+import { Login, Logout } from 'shared/store/registration.actions';
 import { RegistrationStateModel } from 'shared/store/registration.state';
 import { HeaderComponent } from './header.component';
 import { ProgressBarComponent } from './progress-bar/progress-bar.component';
 
-const MockUser = {
-  role: ''
-};
-
 describe('HeaderComponent', () => {
   let component: HeaderComponent;
   let fixture: ComponentFixture<HeaderComponent>;
+  let store: Store;
+  let translate: TranslateService;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -57,6 +57,8 @@ describe('HeaderComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(HeaderComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    translate = TestBed.inject(TranslateService);
     fixture.detectChanges();
   });
 
@@ -64,36 +66,36 @@ describe('HeaderComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call onViewChange method', () => {
-    jest.spyOn(component, 'onViewChange');
+  it('should dispatch SidenavToggle action after onViewChange method call', () => {
+    jest.spyOn(store, 'dispatch');
 
     component.onViewChange();
 
-    expect(component.onViewChange).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new SidenavToggle());
   });
 
-  it('should call onLogin method', () => {
-    jest.spyOn(component, 'onLogin');
+  it('should dispatch Login action after onLogin method call', () => {
+    jest.spyOn(store, 'dispatch');
 
     component.onLogin();
 
-    expect(component.onLogin).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new Login(false));
   });
 
-  it('should call onLogout method', () => {
-    jest.spyOn(component, 'onLogout');
+  it('should dispatch Logout action after onLogout method call', () => {
+    jest.spyOn(store, 'dispatch');
 
     component.onLogout();
 
-    expect(component.onLogout).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new Logout());
   });
 
-  it('should call setLanguage method', () => {
-    jest.spyOn(component, 'setLanguage');
-
+  it('should change translate language and put locale into localStorage after setLanguage method call', () => {
+    component.selectedLanguage = 'en';
     component.setLanguage();
 
-    expect(component.setLanguage).toHaveBeenCalled();
+    expect(translate.currentLang).toEqual(component.selectedLanguage);
+    expect(localStorage.getItem('ui-culture')).toEqual(component.selectedLanguage);
   });
 });
 

@@ -16,6 +16,7 @@ import { DefaultFilterState } from 'shared/models/defaultFilterState.model';
 import { FilterStateModel } from 'shared/models/filterState.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { ParentStateModel } from 'shared/store/parent.state';
+import { Login } from 'shared/store/registration.actions';
 import { RegistrationStateModel } from 'shared/store/registration.state';
 import { FooterComponent } from '../../footer/footer.component';
 import { MainComponent } from './main.component';
@@ -50,13 +51,15 @@ describe('MainComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should call onRegister on click register button', () => {
-    const spy = jest.spyOn(component, 'onRegister');
+  it('should call onRegister and dispatch Login after click register button', () => {
+    jest.spyOn(component, 'onRegister');
+    jest.spyOn(store, 'dispatch');
     const button = fixture.debugElement.query(By.css('[data-testid="register-button"]'));
 
     button.nativeElement.click();
 
-    expect(spy).toHaveBeenCalled();
+    expect(component.onRegister).toHaveBeenCalled();
+    expect(store.dispatch).toHaveBeenCalledWith(new Login(true));
   });
 });
 

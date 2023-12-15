@@ -38,12 +38,14 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should resize', () => {
-    const spy = jest.spyOn(component, 'onResize');
-    
+  it('should set isMobileView on resize', () => {
+    jest.spyOn(component, 'onResize');
+
+    window.innerWidth = 500;
     window.dispatchEvent(new Event('resize'));
 
-    expect(spy).toHaveBeenCalled();
+    expect(component.onResize).toHaveBeenCalled();
+    expect(component.isMobileView).toBeTruthy();
   });
 });
 

@@ -26,26 +26,16 @@ describe('ErrorPageComponent', () => {
   });
 
   it('should create', () => {
-    component.onBack();
     expect(component).toBeTruthy();
-  });
-
-  it('should execute router navigate', () => {
-    const routerSpy = jest.spyOn(router, 'navigate');
-
-    component.onBack();
-
-    expect(routerSpy).toHaveBeenCalledWith(['']);
-    expect(routerSpy).toHaveBeenCalledTimes(1);
   });
 
   it('should execute router navigate when click on the button', () => {
     const button = fixture.debugElement.query(By.css('[data-testid="button"]'));
-    const routerSpy = jest.spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     button.nativeElement.click();
 
-    expect(routerSpy).toHaveBeenCalledWith(['']);
-    expect(routerSpy).toHaveBeenCalledTimes(1);
+    expect(router.navigate).toHaveBeenCalledWith(['']);
+    expect(router.navigate).toHaveBeenCalledTimes(1);
   });
 });

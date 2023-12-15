@@ -6,8 +6,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { TextSliceTransformPipe } from 'shared/pipes/text-slice-transform.pipe';
 import { ReasonModalWindowComponent } from './reason-modal-window.component';
 
@@ -15,6 +15,7 @@ describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;
   let fixture: ComponentFixture<ReasonModalWindowComponent>;
   let formBuilder: FormBuilder;
+  let mockMatDialogRef: MatDialogRef<ReasonModalWindowComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -46,34 +47,40 @@ describe('ReasonModalWindowComponent', () => {
     fixture = TestBed.createComponent(ReasonModalWindowComponent);
     formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
-    component.ngOnInit();
+    mockMatDialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
-  });
-
-  it('renders without crashing', () => {
-    global.scrollTo = jest.fn();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should submit', () => {
-    const spy = jest.spyOn(component, 'onSubmit');
+  it('should close dialog with both reason and phone number after submitting with phone number required', () => {
+    jest.spyOn(mockMatDialogRef, 'close');
 
     component.onSubmit();
+
+    expect(mockMatDialogRef.close).toHaveBeenCalledWith({
+      reason: component.reasonFormControl.value,
+      phoneNumber: component.phoneNumberFormControl.value
+    });
+  });
+
+  it('should close dialog with reason after submitting with no phone number required', () => {
+    jest.spyOn(mockMatDialogRef, 'close');
+
     component.isPhoneNumberRequired = false;
     component.onSubmit();
 
-    expect(spy).toHaveBeenCalled();
+    expect(mockMatDialogRef.close).toHaveBeenCalledWith(component.reasonFormControl.value);
   });
 
-  it('should cancel', () => {
-    const spy = jest.spyOn(component, 'onCancel');
+  it('should close dialog after cancelling', () => {
+    jest.spyOn(mockMatDialogRef, 'close');
 
     component.onCancel();
 
-    expect(spy).toHaveBeenCalled();
+    expect(mockMatDialogRef.close).toHaveBeenCalled();
   });
 });
 

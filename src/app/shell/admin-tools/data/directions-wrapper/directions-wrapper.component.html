@@ -3,11 +3,10 @@
     <mat-tab label="Напрямки для користувача">
       <app-directions></app-directions>
     </mat-tab>
-    <ng-container *ngFor="let institution of (institutions$ | async)">
-      <mat-tab label="{{institution.title}}">
+    <ng-container *ngFor="let institution of institutions$ | async">
+      <mat-tab label="{{ institution.title }}">
         <ng-template matTabContent>
-          <app-directions-institution-hierarchies-list [institution]="institution">
-          </app-directions-institution-hierarchies-list>
+          <app-directions-institution-hierarchies-list [institution]="institution"></app-directions-institution-hierarchies-list>
         </ng-template>
       </mat-tab>
     </ng-container>
