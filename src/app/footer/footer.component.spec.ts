@@ -13,8 +13,6 @@ describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
   let store: Store;
-  let mockMatSnackBar: MatSnackBar;
-  const messagePayload = { message: 'test', type: 'success' };
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -33,7 +31,6 @@ describe('FooterComponent', () => {
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
-    mockMatSnackBar = TestBed.inject(MatSnackBar);
     fixture.detectChanges();
   });
 
@@ -41,26 +38,35 @@ describe('FooterComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show showSnackBar on action dispatch', () => {
-    jest.spyOn(component, 'showSnackBar');
+  describe('showSnackBar method', () => {
+    const messagePayload = { message: 'test', type: 'success' };
+    let mockMatSnackBar: MatSnackBar;
 
-    component.showSnackBar(messagePayload);
-    store.dispatch([new ShowMessageBar(messagePayload), new ClearMessageBar()]);
+    beforeEach(() => {
+      mockMatSnackBar = TestBed.inject(MatSnackBar);
+    });
 
-    expect(component.showSnackBar).toHaveBeenCalledWith(messagePayload);
-  });
+    it('should show showSnackBar on action dispatch', () => {
+      jest.spyOn(component, 'showSnackBar');
 
-  it('should correctly call openFromComponent method with provided payload', () => {
-    jest.spyOn(mockMatSnackBar, 'openFromComponent');
+      component.ngOnInit();
+      store.dispatch([new ShowMessageBar(messagePayload), new ClearMessageBar()]);
 
-    component.showSnackBar(messagePayload);
+      expect(component.showSnackBar).toHaveBeenCalledWith(messagePayload);
+    });
 
-    expect(mockMatSnackBar.openFromComponent).toHaveBeenCalledWith(MessageBarComponent, {
-      duration: 5000,
-      verticalPosition: 'top',
-      horizontalPosition: 'center',
-      panelClass: messagePayload.type,
-      data: messagePayload
+    it('should correctly call openFromComponent method with provided payload', () => {
+      jest.spyOn(mockMatSnackBar, 'openFromComponent');
+
+      component.showSnackBar(messagePayload);
+
+      expect(mockMatSnackBar.openFromComponent).toHaveBeenCalledWith(MessageBarComponent, {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: messagePayload.type,
+        data: messagePayload
+      });
     });
   });
 });
