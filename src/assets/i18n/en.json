@@ -268,7 +268,13 @@
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications",
-      "USERS": "Users"
+      "USERS": "Users",
+      "ADMIN_STATUS": {
+        "CREATE": "Creating an administrator",
+        "UPDATE": "Replacement of the administrator",
+        "DELETE": "Removing the administrator",
+        "BLOCK": "Administrator lock"
+      }
     }
   },
   "EXACT_MATCH": "Exact match",
@@ -583,12 +589,6 @@
       "ALL": "All",
       "BLOCKED": "Blocked",
       "UNBLOCKED": "Unblocked"
-    },
-    "ADMIN_STATUS": {
-      "CREATE": "Creating an administrator",
-      "UPDATE": "Replacement of the administrator",
-      "DELETE": "Removing the administrator",
-      "BLOCK": "Administrator lock"
     },
     "USER_THAT_WAS_BLOCKED": "User that was blocked",
     "BLOCKING_REASON": "Blocking reason",
