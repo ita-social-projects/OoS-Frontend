@@ -38,3 +38,18 @@ export const ApplicationOptions = [
     label: 'FORMS.LABELS.STATUS'
   }
 ];
+
+export const ParentsBlockingByAdminOPtions = [
+  {
+    value: 'All',
+    label: 'HISTORY_LOG.USERS_FILTERS.ALL'
+  },
+  {
+    value: 'Blocked',
+    label: 'HISTORY_LOG.USERS_FILTERS.BLOCKED'
+  },
+  {
+    value: 'Unblocked',
+    label: 'HISTORY_LOG.USERS_FILTERS.UNBLOCKED'
+  }
+];

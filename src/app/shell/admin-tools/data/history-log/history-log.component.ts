@@ -11,7 +11,7 @@ import { Select, Store } from '@ngxs/store';
 
 import { PaginationConstants } from '../../../../shared/constants/constants';
 import {
-  ApplicationOptions, ProviderAdminOptions, ProviderOptions
+  ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions, ProviderOptions
 } from '../../../../shared/constants/drop-down';
 import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
@@ -144,7 +144,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         break;
       case HistoryLogTypes.Users:
         this.store.dispatch([new GetParentsBlockingByAdminHistory(filters, searchString)]);
-        // this.dropdownData = ApplicationOptions; TODO: ADD!!!!!!!!!!!!
+        this.dropdownData = ParentsBlockingByAdminOPtions;
         break;
     }
     this.cdr.detectChanges();
