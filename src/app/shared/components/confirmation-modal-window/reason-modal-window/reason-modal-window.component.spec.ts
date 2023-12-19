@@ -15,6 +15,7 @@ describe('ReasonModalWindowComponent', () => {
   let component: ReasonModalWindowComponent;
   let fixture: ComponentFixture<ReasonModalWindowComponent>;
   let formBuilder: FormBuilder;
+  let mockMatDialogRef: MatDialogRef<ReasonModalWindowComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -46,6 +47,7 @@ describe('ReasonModalWindowComponent', () => {
     fixture = TestBed.createComponent(ReasonModalWindowComponent);
     formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
+    mockMatDialogRef = TestBed.inject(MatDialogRef);
     fixture.detectChanges();
   });
 
@@ -54,12 +56,6 @@ describe('ReasonModalWindowComponent', () => {
   });
 
   describe('dialog', () => {
-    let mockMatDialogRef: MatDialogRef<ReasonModalWindowComponent>;
-
-    beforeEach(() => {
-      mockMatDialogRef = TestBed.inject(MatDialogRef);
-    });
-
     it('should close dialog with both reason and phone number after submitting with phone number required', () => {
       jest.spyOn(mockMatDialogRef, 'close');
 

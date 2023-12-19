@@ -13,6 +13,7 @@ describe('FooterComponent', () => {
   let component: FooterComponent;
   let fixture: ComponentFixture<FooterComponent>;
   let store: Store;
+  let mockMatSnackBar: MatSnackBar;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,6 +32,7 @@ describe('FooterComponent', () => {
     fixture = TestBed.createComponent(FooterComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
+    mockMatSnackBar = TestBed.inject(MatSnackBar);
     fixture.detectChanges();
   });
 
@@ -40,11 +42,6 @@ describe('FooterComponent', () => {
 
   describe('showSnackBar method', () => {
     const messagePayload = { message: 'test', type: 'success' };
-    let mockMatSnackBar: MatSnackBar;
-
-    beforeEach(() => {
-      mockMatSnackBar = TestBed.inject(MatSnackBar);
-    });
 
     it('should show showSnackBar on action dispatch', () => {
       jest.spyOn(component, 'showSnackBar');
