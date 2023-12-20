@@ -9,7 +9,7 @@
   font-family: 'Open Sans', sans-serif;
   box-sizing: border-box;
 
-  ::ng-deep {
+  ::ng-deep .ngx-mat-tel-input-container {
     .country-selector {
       opacity: unset;
       border-radius: 21px;
@@ -18,35 +18,32 @@
     }
 
     .phone-number-input {
-      margin-left: 5px !important;
+      margin-left: 5px;
     }
   }
 }
 
-::ng-deep .mat-menu {
-  &-panel {
-    max-width: none !important;
-    max-height: 500px !important;
-    box-sizing: border-box;
-    overflow-y: scroll !important;
+::ng-deep .ngx-mat-tel-input-mat-menu-panel {
+  max-width: none;
+  max-height: 500px;
+  overflow-x: hidden;
+  box-sizing: border-box;
+
+  .mat-menu-content {
+    padding: 0;
   }
 
-  &-content {
-    padding: 0 !important;
-    overflow-x: hidden;
-  }
-
-  &-item {
+  .country-search {
+    padding: 4px !important;
+    outline: none !important;
+    padding-left: 13px !important;
+    margin: 4px !important;
     font-size: 13px !important;
     font-family: 'Open Sans', sans-serif !important;
   }
-}
 
-::ng-deep .country-search {
-  padding: 4px !important;
-  margin: 4px !important;
-  outline: none !important;
-  font-family: 'Open Sans', sans-serif !important;
-  font-size: 13px;
-  padding-left: 13px !important;
+  .country-list-button {
+    font-size: 13px !important;
+    font-family: 'Open Sans', sans-serif !important;
+  }
 }
