@@ -20,6 +20,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
+  @Input() public isPhoneNumber: boolean; // required to display validation for phone number
   @Input() public isEdrpouIpn: boolean;
 
   // for Date Format Validation
@@ -36,6 +37,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidEmail: boolean;
   public invalidEdrpouIpn: boolean;
   public invalidPhoneLength: boolean;
+  public invalidPhoneNumber: boolean;
   public invalidStreet: boolean;
   public invalidHouse: boolean;
   public invalidSectionName: boolean;
@@ -80,8 +82,10 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = !!errors?.email;
-    this.invalidPhoneLength = !!errors?.validatePhoneNumber;
-    if (this.isEdrpouIpn) {
+    if (this.isPhoneNumber) {
+      this.invalidPhoneLength = !!errors?.minlength;
+      this.invalidPhoneNumber = !this.invalidPhoneLength && !!errors?.validatePhoneNumber;
+    } else if (this.isEdrpouIpn) {
       this.invalidEdrpouIpn = !!errors?.minlength && !errors?.maxlength;
     } else {
       this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);

@@ -160,7 +160,9 @@
 
   <app-phone-form-control [parentFormControl]="infoFormGroup.get('phoneNumber')">
   </app-phone-form-control>
-  <app-validation-hint [validationFormControl]="infoFormGroup.get('phoneNumber')">
+  <app-validation-hint [validationFormControl]="infoFormGroup.get('phoneNumber')"
+                       [minCharacters]="validationConstants.PHONE_LENGTH"
+                       [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label">

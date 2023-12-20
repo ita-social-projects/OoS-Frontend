@@ -418,6 +418,8 @@
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
+      "INVALID_LENGTH_START_MIN": "This field must contain minimum",
+      "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_MAP": "No such address was found on the map",
       "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",

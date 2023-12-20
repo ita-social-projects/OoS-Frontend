@@ -5,7 +5,8 @@
     <ng-container *ngIf="invalidCharacters; then invalidCharactersTmpl"></ng-container>
     <ng-container *ngIf="invalidSymbols; then invalidSymbolsTmpl"></ng-container>
     <ng-container *ngIf="invalidFieldLength; then invalidLengthTmpl"></ng-container>
-    <ng-container *ngIf="invalidPhoneLength; then invalidPhoneTmpl"></ng-container>
+    <ng-container *ngIf="invalidPhoneLength; then invalidPhoneLengthTmpl"></ng-container>
+    <ng-container *ngIf="invalidPhoneNumber; then invalidPhoneNumberTmpl"></ng-container>
     <ng-container *ngIf="invalidDateRange; then invalidDateRangeTmpl"></ng-container>
     <ng-container *ngIf="invalidEmail; then invalidEmailTmpl"></ng-container>
     <ng-container *ngIf="invalidEdrpouIpn; then invalidEdrpouIpnTmpl"></ng-container>
@@ -51,8 +52,12 @@
   {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }}{{ 'FORMS.VALIDATIONS.INVALID_EDRPO_IPN_END' | translate }}<br />
 </ng-template>
 
-<ng-template #invalidPhoneTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}<br />
+<ng-template #invalidPhoneLengthTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START_MIN' | translate }} {{ minCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}<br />
+</ng-template>
+
+<ng-template #invalidPhoneNumberTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_PHONE_NUMBER' | translate }}<br />
 </ng-template>
 
 <ng-template #invalidStreetTmpl>

@@ -106,7 +106,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ]),
       directorDateOfBirth: new FormControl('', Validators.required),
-      phoneNumber: new FormControl('', [Validators.required]),
+      phoneNumber: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, FormValidators.email]),
       typeId: new FormControl(null, Validators.required),
       ownership: new FormControl(null, Validators.required),
