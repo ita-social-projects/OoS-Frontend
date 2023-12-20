@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
-import { UrlTree, CanLoad, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { CanActivate, CanLoad, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { AppState } from '../shared/store/app.state';
+
+import { AppState } from 'shared/store/app.state';
 
 @Injectable({
   providedIn: 'root'

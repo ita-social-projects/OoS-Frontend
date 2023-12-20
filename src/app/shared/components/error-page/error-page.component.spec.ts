@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { Router } from '@angular/router';
 import { By } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { ErrorPageComponent } from './error-page.component';
@@ -29,22 +29,13 @@ describe('ErrorPageComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should execute router navigate', () => {
-    const routerSpy = jest.spyOn(router, 'navigate');
-
-    component.OnBack();
-
-    expect(routerSpy).toHaveBeenCalledWith(['']);
-    expect(routerSpy).toHaveBeenCalledTimes(1);
-  });
-
   it('should execute router navigate when click on the button', () => {
     const button = fixture.debugElement.query(By.css('[data-testid="button"]'));
-    const routerSpy = jest.spyOn(router, 'navigate');
+    jest.spyOn(router, 'navigate');
 
     button.nativeElement.click();
 
-    expect(routerSpy).toHaveBeenCalledWith(['']);
-    expect(routerSpy).toHaveBeenCalledTimes(1);
+    expect(router.navigate).toHaveBeenCalledWith(['']);
+    expect(router.navigate).toHaveBeenCalledTimes(1);
   });
 });
