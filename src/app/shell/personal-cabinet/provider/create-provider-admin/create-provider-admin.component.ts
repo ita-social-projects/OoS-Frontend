@@ -39,10 +39,10 @@ const defaultValidators: ValidatorFn[] = [
   styleUrls: ['./create-provider-admin.component.scss']
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-  readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  readonly WorkshopDeclination = WorkshopDeclination;
-  readonly providerAdminRole = ProviderAdminRole;
+  public readonly validationConstants = ValidationConstants;
+  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  public readonly WorkshopDeclination = WorkshopDeclination;
+  public readonly providerAdminRole = ProviderAdminRole;
 
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
@@ -186,8 +186,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .subscribe(() => {
         const providerAdmin = new ProviderAdmin(
           this.ProviderAdminFormGroup.value,
           this.isDeputy,
@@ -198,8 +200,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
         this.store.dispatch(
           this.editMode ? new UpdateProviderAdmin(this.provider.id, providerAdmin) : new CreateProviderAdmin(providerAdmin)
         );
-      }
-    });
+      });
   }
 
   public onCancel(): void {

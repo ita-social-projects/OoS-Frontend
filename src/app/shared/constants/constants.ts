@@ -50,6 +50,7 @@ export class Constants {
     fullName: 'Київ'
   };
 
+  static readonly MAT_TOOL_TIP_POSITION_ABOVE = 'above';
   static readonly MAT_TOOL_TIP_POSITION_BELOW = 'below';
   static readonly NO_INFORMATION = 'SERVICE_MESSAGES.NO_INFO';
   static readonly MODAL_SMALL = '500px';

@@ -4,7 +4,6 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 
-import { BlockData } from 'shared/models/usersTable';
 import { Constants } from '../../constants/constants';
 import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 import { Role } from '../../enum/role';
@@ -21,10 +20,10 @@ import { RegistrationState } from '../../store/registration.state';
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
+  public readonly userStatuses = UserStatuses;
   public readonly statuses = UserStatusesTitles;
   public readonly statusIcons = UserStatusIcons;
   public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  public readonly blockedStatus = 'Blocked';
   public readonly Role = Role;
 
   @ViewChild(MatSort)
@@ -37,7 +36,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public statusesTitles: UserStatuses | EmailConfirmationStatuses;
 
   @Output() public delete = new EventEmitter<UsersTable>();
-  @Output() public block = new EventEmitter<BlockData>();
+  @Output() public blockUnblock = new EventEmitter<UsersTable>();
   @Output() public update = new EventEmitter<UsersTable>();
   @Output() public sendInvitation = new EventEmitter<UsersTable>();
 

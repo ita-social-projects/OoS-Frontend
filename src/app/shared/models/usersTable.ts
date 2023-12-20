@@ -6,6 +6,9 @@ export interface UsersTable {
   status: string;
   isDeputy: boolean;
   role?: string;
+  isBlocked: boolean;
+  parentId: string;
+  parentFullName: string;
 }
 
 export interface BlockData {

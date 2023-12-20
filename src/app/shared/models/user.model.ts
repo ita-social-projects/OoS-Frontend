@@ -16,6 +16,7 @@ export class User implements Person {
   phoneNumber?: string;
   role: string;
   dateOfBirth: string;
+  isBlocked: boolean;
 
   constructor(info, id: string) {
     this.firstName = info.firstName;
