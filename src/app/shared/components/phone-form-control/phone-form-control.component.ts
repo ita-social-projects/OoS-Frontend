@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/
 import { FormControl } from '@angular/forms';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { Country } from 'ngx-mat-intl-tel-input/lib/model/country.model';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject, startWith, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-phone-form-control',
@@ -33,7 +33,7 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
       };
 
     this.inputComponent.countryChanged
-      .pipe(takeUntil(this.destroy$))
+      .pipe(startWith({}), takeUntil(this.destroy$))
       .subscribe(
         () =>
           (this.inputComponent.allCountries = this.countries.filter(
