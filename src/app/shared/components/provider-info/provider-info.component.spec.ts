@@ -1,4 +1,3 @@
-import { Institution } from './../../models/institution.model';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -8,12 +7,14 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
+
 import { Address } from '../../models/address.model';
 import { Provider } from '../../models/provider.model';
-import { PhoneTransformPipe } from '../../pipes/phone-transform.pipe';
+import { PhonePipe } from '../../pipes/phone-transform.pipe';
+import { Institution } from './../../models/institution.model';
 import { ProviderInfoComponent } from './provider-info.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderInfoComponent', () => {
   let component: ProviderInfoComponent;
@@ -31,9 +32,9 @@ describe('ProviderInfoComponent', () => {
         HttpClientTestingModule,
         MatTabsModule,
         BrowserAnimationsModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      declarations: [ProviderInfoComponent, PhoneTransformPipe]
+      declarations: [ProviderInfoComponent, PhonePipe]
     }).compileComponents();
   });
 

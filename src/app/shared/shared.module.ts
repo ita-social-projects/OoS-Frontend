@@ -74,7 +74,7 @@ import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
 import { GetAddressPipe } from './pipes/get-address.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { JoinPipe } from './pipes/join.pipe';
-import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
+import { PhonePipe } from './pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 
@@ -118,7 +118,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     UsersListComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
-    PhoneTransformPipe,
+    PhonePipe,
     DeclinationPipe,
     ProviderInfoComponent,
     ApplicationChildSortingPipe,
@@ -204,7 +204,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     ProviderInfoComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
-    PhoneTransformPipe,
+    PhonePipe,
     DeclinationPipe,
     ApplicationChildSortingPipe,
     ValidationHintComponent,

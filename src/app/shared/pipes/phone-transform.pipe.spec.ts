@@ -1,10 +1,10 @@
-import { PhoneTransformPipe } from './phone-transform.pipe';
+import { PhonePipe } from './phone-transform.pipe';
 
-describe('PhoneTransformPipe', () => {
-  let pipe: PhoneTransformPipe;
+describe('PhonePipe', () => {
+  let pipe: PhonePipe;
 
   beforeEach(() => {
-    pipe = new PhoneTransformPipe();
+    pipe = new PhonePipe();
   });
 
   it('create an instance', () => {
