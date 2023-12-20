@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from '../../../../shared/constants/constants';
-import { Address } from '../../../../shared/models/address.model';
+
+import { Address } from 'shared/models/address.model';
 
 @Component({
   selector: 'app-contacts',
@@ -8,8 +8,6 @@ import { Address } from '../../../../shared/models/address.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
-
   @Input() public address: Address;
   @Input() public contactsData: {
     phone: string;

@@ -40,7 +40,6 @@ const defaultValidators: ValidatorFn[] = [
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   readonly validationConstants = ValidationConstants;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly providerAdminRole = ProviderAdminRole;

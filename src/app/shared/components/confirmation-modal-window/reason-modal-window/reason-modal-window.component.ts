@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Constants } from 'shared/constants/constants';
 
 import { ValidationConstants } from 'shared/constants/validation';
 import {
@@ -19,7 +18,6 @@ import {
 export class ReasonModalWindowComponent implements OnInit {
   public readonly validationConstants = ValidationConstants;
   public readonly modalConfirmationType = ModalConfirmationType;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   public formGroup: FormGroup;
   public modalTitle: string;

@@ -46,8 +46,6 @@ const defaultValidators: ValidatorFn[] = [
 })
 export class CreateAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
-
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
 
   @Select(MetaDataState.institutions)

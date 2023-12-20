@@ -25,7 +25,6 @@ import { Util } from 'shared/utils/utils';
 export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,

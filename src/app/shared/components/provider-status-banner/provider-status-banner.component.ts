@@ -49,7 +49,7 @@ export class ProviderStatusBannerComponent implements OnInit {
       this.HostElement.classList.value = ProviderStatuses[UserStatuses.Blocked];
 
       if (this.provider.blockPhoneNumber) {
-        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} ${Constants.PHONE_PREFIX}${
+        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} ${
           this.provider.blockPhoneNumber
         })`;
       }

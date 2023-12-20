@@ -10,7 +10,7 @@
     <h4>{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</h4>
     <p>{{ user.middleName }}</p>
     <h4>{{ 'FORMS.LABELS.PHONE' | translate }}</h4>
-    <p>{{ phonePrefix + user.phoneNumber | phoneTransform }}</p>
+    <p>{{ user.phoneNumber | phoneTransform }}</p>
     <ng-container *ngIf="(role$ | async) === role.parent">
       <h4>{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>

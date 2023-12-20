@@ -197,7 +197,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        phoneNumber: `${admin.phoneNumber}`,
         role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
         status: admin.accountStatus,
         isDeputy: admin.isDeputy

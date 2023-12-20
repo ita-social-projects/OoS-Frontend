@@ -10,7 +10,6 @@ import { WorkingDaysToggleValue } from '../models/workingHours.model';
  */
 export class Constants {
   static readonly CHILDREN_AMOUNT_MAX = 20;
-  static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
   static readonly WORKSHOP_MIN_SEATS = 1;
@@ -30,7 +29,7 @@ export class Constants {
   static readonly MAIL_FORMAT_PLACEHOLDER = 'example@mail.com';
   static readonly DASH_VALUE = 'dash';
   static readonly DASH = '—';
-  
+
   static readonly SCROLL_TO_TOP_BUTTON_POS = 300;
   static readonly INSTITUTION_ID_ABSENT_VALUE = 0;
 

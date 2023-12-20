@@ -9,14 +9,44 @@
   font-family: 'Open Sans', sans-serif;
   box-sizing: border-box;
 
-  ::ng-deep .country-selector {
-    opacity: unset;
-    border-radius: 21px;
-    font-family: 'Open Sans', sans-serif;
-    padding-bottom: 2.75px;
+  ::ng-deep {
+    .country-selector {
+      opacity: unset;
+      border-radius: 21px;
+      font-family: 'Open Sans', sans-serif;
+      padding-bottom: 2.75px;
+    }
+
+    .phone-number-input {
+      margin-left: 5px !important;
+    }
+  }
+}
+
+::ng-deep .mat-menu {
+  &-panel {
+    max-width: none !important;
+    max-height: 500px !important;
+    box-sizing: border-box;
+    overflow-y: scroll !important;
   }
 
-  ::ng-deep .phone-number-input {
-    margin-left: 5px !important;
+  &-content {
+    padding: 0 !important;
+    overflow-x: hidden;
   }
+
+  &-item {
+    font-size: 13px !important;
+    font-family: 'Open Sans', sans-serif !important;
+  }
+}
+
+::ng-deep .country-search {
+  padding: 4px !important;
+  margin: 4px !important;
+  outline: none !important;
+  font-family: 'Open Sans', sans-serif !important;
+  font-size: 13px;
+  padding-left: 13px !important;
 }

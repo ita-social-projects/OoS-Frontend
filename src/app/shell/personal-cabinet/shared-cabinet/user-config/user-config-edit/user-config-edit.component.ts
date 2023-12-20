@@ -36,7 +36,6 @@ const defaultValidators = [
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
   public readonly role = Role;
   public readonly validationConstants = ValidationConstants;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   private user$: Observable<User>;
