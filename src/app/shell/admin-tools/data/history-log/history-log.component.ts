@@ -64,10 +64,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public filters: FilterData = {
     dateFrom: null,
     dateTo: null,
-    options: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
   public role: string;
+  public tabName: HistoryLogTypes;
 
   constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
 
@@ -96,6 +96,12 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
+    this.filters = {
+      dateFrom: null,
+      dateTo: null,
+      size: PaginationConstants.TABLE_ITEMS_PER_PAGE
+    };
+
     this.currentPage = PaginationConstants.firstPage;
     this.tabIndex = event.index;
     this.getTableData();
@@ -133,18 +139,22 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
       case HistoryLogTypes.Providers:
         this.store.dispatch([new GetProviderHistory(filters, searchString)]);
         this.dropdownData = ProviderOptions;
+        this.tabName = HistoryLogTypes.Providers;
         break;
       case HistoryLogTypes.ProviderAdmins:
         this.store.dispatch([new GetProviderAdminHistory(filters, searchString)]);
         this.dropdownData = ProviderAdminOptions;
+        this.tabName = HistoryLogTypes.ProviderAdmins;
         break;
       case HistoryLogTypes.Applications:
         this.store.dispatch([new GetApplicationHistory(filters, searchString)]);
         this.dropdownData = ApplicationOptions;
+        this.tabName = HistoryLogTypes.Applications;
         break;
       case HistoryLogTypes.Users:
         this.store.dispatch([new GetParentsBlockingByAdminHistory(filters, searchString)]);
         this.dropdownData = ParentsBlockingByAdminOPtions;
+        this.tabName = HistoryLogTypes.Users;
         break;
     }
     this.cdr.detectChanges();

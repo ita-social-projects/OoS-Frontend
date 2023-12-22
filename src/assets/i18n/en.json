@@ -582,8 +582,16 @@
     "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
-    "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-    "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
+    "PROVIDER_ADMIN_FILTERS": {
+      "ALL": "All",
+      "DEPUTIES": "Deputies",
+      "ASSISTANTS": "Assistants",
+      "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
+      "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
+      "BLOCK_ADMIN_OPTION": "Administrator was blocked",
+      "UPDATE_ADMIN_OPTION": "Administrator was updated",
+      "REINVITE_ADMIN_OPTION": "Administrator was reinvited"
+    },
     "STATUS_CHANGE_TYPE": "Application status change",
     "USERS_FILTERS": {
       "ALL": "All",

@@ -12,7 +12,7 @@
         />
       </div>
     </div>
-    <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
+    <app-history-log-filters [dropdownOptions]="dropdownData" [tabName]="tabName" (filterData)="onFilter($event)"></app-history-log-filters>
   </div>
 
   <div class="tab-wrapper">

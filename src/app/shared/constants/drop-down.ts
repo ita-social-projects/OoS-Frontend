@@ -23,12 +23,39 @@ export const ProviderOptions = [
 
 export const ProviderAdminOptions = [
   {
-    value: 'delete',
-    label: 'HISTORY_LOG.REMOVE_ADMIN_OPTION'
+    value: 'All',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ALL'
   },
   {
-    value: 'create',
-    label: 'HISTORY_LOG.ADD_ADMIN_OPTION'
+    value: 'Deputies',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.DEPUTIES'
+  },
+  {
+    value: 'Assistants',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ASSISTANTS'
+  }
+];
+
+export const ProviderAdminOperationOptions = [
+  {
+    value: 'Create',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ADD_ADMIN_OPTION'
+  },
+  {
+    value: 'Delete',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.REMOVE_ADMIN_OPTION'
+  },
+  {
+    value: 'Block',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.BLOCK_ADMIN_OPTION'
+  },
+  {
+    value: 'Update',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.UPDATE_ADMIN_OPTION'
+  },
+  {
+    value: 'Reinvite',
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.REINVITE_ADMIN_OPTION'
   }
 ];
 

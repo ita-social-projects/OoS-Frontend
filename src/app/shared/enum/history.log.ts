@@ -7,5 +7,7 @@ export enum HistoryLogTypes {
 
 export enum FilterOptions {
   PropertyName = 'PropertyName',
+  AdminType = 'AdminType',
+  OperationType = 'OperationType',
   ShowParents = 'ShowParents',
 }

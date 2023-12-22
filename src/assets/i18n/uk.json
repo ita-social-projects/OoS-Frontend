@@ -584,8 +584,16 @@
     "SHOW": "Показати",
     "RESET_FILTERS": "Скинути фільтри",
     "PERIOD": "Період",
-    "ADD_ADMIN_OPTION": "Додавання адміністратора до гуртка",
-    "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
+    "PROVIDER_ADMIN_FILTERS": {
+      "ALL": "Усі",
+      "DEPUTIES": "Заступники",
+      "ASSISTANTS": "Помічники",
+      "ADD_ADMIN_OPTION": "Додавання адміністратора до гуртка",
+      "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
+      "BLOCK_ADMIN_OPTION": "Адміністратора було заблоковано",
+      "UPDATE_ADMIN_OPTION": "Дані про адміністратора були оновлені",
+      "REINVITE_ADMIN_OPTION": "Адміністратор був запрошений повторно"
+    },
     "STATUS_CHANGE_TYPE": "Зміна статусів заявок",
     "USERS_FILTERS": {
       "ALL": "Всі",

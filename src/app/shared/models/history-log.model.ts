@@ -51,7 +51,10 @@ export interface ParentsBlockingByAdminHistory {
 export interface FilterData extends PaginationParameters {
   dateFrom: string;
   dateTo: string;
-  options: string;
+  PropertyName?: string;
+  ShowParents?: string;
+  AdminType?: string;
+  OperationType?: string;
 }
 
 export interface DropdownData {
