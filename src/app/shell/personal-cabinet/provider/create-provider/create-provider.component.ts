@@ -85,7 +85,7 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   public ngAfterViewInit(): void {
     if (this.isEditMode) {
       this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +CreateProviderSteps[params.param];
+        this.stepper!.selectedIndex = +CreateProviderSteps[params.param];
       });
     }
   }
