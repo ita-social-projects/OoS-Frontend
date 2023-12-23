@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
@@ -43,8 +43,11 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   public institutionStatuses$: Observable<DataItem[]>;
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
+  @Select(RegistrationState.subrole)
+  public subrole$: Observable<Role>;
 
   public role: Role;
+  public subrole: Role;
   public institutionStatusName: string;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -52,7 +55,12 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatuses());
-    this.role$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((role: Role) => (this.role = role));
+    combineLatest([this.role$, this.subrole$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([role, subrole]: [Role, Role]) => {
+        this.role = role;
+        this.subrole = subrole;
+      });
     this.institutionStatuses$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe(
