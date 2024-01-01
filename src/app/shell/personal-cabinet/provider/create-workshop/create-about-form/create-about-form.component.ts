@@ -128,6 +128,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private priceControlListener(): void {
     this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
         this.setPayRateControlValue(this.workshop?.payRate ? this.workshop.payRate : null, 'enable');
@@ -145,6 +146,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private availableSeatsControlListener(): void {
     this.availableSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
       if (noLimit) {
         this.setAvailableSeatsControlValue(null, 'disable');
       } else {
@@ -223,6 +225,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private competitiveSelectionListener(): void {
     this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isCompetitiveSelectionDesc: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
       this.AboutFormGroup.get('competitiveSelection').setValue(isCompetitiveSelectionDesc);
       isCompetitiveSelectionDesc
         ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
@@ -234,5 +237,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       .subscribe((disabilityOptionsDesc: string) =>
         this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
       );
+  }
+
+  private markFormAsDirtyOnUserInteraction(): void {
+    if (!this.AboutFormGroup.dirty) {
+      this.AboutFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }
