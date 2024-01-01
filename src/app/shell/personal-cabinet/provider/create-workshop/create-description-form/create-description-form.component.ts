@@ -110,9 +110,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   public onDisabilityOptionCtrlInit(): void {
     const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
-
     this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
-      isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
+      if (isDisabilityOptionsDesc) {
+        setAction('enable');
+      } else {
+        setAction('disable');
+        this.DescriptionFormGroup.get('disabilityOptionsDesc').reset();
+      }
+      this.markFormAsDirtyOnUserInteraction();
     });
   }
 
@@ -193,5 +198,11 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     return this.EditFormGroup;
+  }
+
+  private markFormAsDirtyOnUserInteraction(): void {
+    if (!this.DescriptionFormGroup.dirty) {
+      this.DescriptionFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }
