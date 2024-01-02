@@ -239,6 +239,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       );
   }
 
+  /**
+   * This method makes AboutFormGroup dirty
+   */
   public markFormAsDirtyOnUserInteraction(): void {
     if (!this.AboutFormGroup.dirty) {
       this.AboutFormGroup.markAsDirty({ onlySelf: true });
