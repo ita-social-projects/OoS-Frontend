@@ -1,11 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Actions, ofAction } from '@ngxs/store';
+import { Actions, ofAction, ofActionDispatched } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { MessageBarComponent } from '../shared/components/message-bar/message-bar.component';
-import { MessageBar } from '../shared/models/messageBar.model';
-import { ClearMessageBar, ShowMessageBar } from '../shared/store/app.actions';
+
+import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
+import { MessageBar } from 'shared/models/messageBar.model';
+import { ClearMessageBar, ShowMessageBar } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-footer',
@@ -13,19 +14,23 @@ import { ClearMessageBar, ShowMessageBar } from '../shared/store/app.actions';
   styleUrls: ['./footer.component.scss']
 })
 export class FooterComponent implements OnInit, OnDestroy {
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private actions$: Actions, private snackBar: MatSnackBar) {}
 
   ngOnInit(): void {
     this.actions$
-      .pipe(ofAction(ShowMessageBar))
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        ofActionDispatched(ShowMessageBar),
+        takeUntil(this.destroy$)
+      )
       .subscribe((payload) => this.showSnackBar(payload.payload));
 
     this.actions$
-      .pipe(ofAction(ClearMessageBar))
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        ofActionDispatched(ClearMessageBar),
+        takeUntil(this.destroy$)
+      )
       .subscribe(() => this.snackBar.dismiss());
   }
 
