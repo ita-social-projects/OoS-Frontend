@@ -5,6 +5,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
+import { ApplicationEntityType } from 'shared/enum/applications';
 import { Constants, EMPTY_RESULT } from '../constants/constants';
 import { SnackbarText } from '../enum/enumUA/messageBer';
 import { ProviderStatuses } from '../enum/statuses';
@@ -683,7 +684,17 @@ export class ProviderState {
     { payload, parameters }: BlockParent
   ): Observable<BlockedParent | Observable<void>> {
     return this.blockService.blockParent(payload).pipe(
-      tap((res: BlockedParent) => dispatch(new BlockParentSuccess(res, parameters))),
+      tap((res: BlockedParent) => {
+        dispatch(new BlockParentSuccess(res));
+        if (parameters) {
+          dispatch(
+            new GetApplicationsByPropertyId(
+              parameters.property === ApplicationEntityType.None ? payload.providerId : payload.userIdBlock,
+              parameters
+            )
+          );
+        }
+      }),
       catchError((error: HttpErrorResponse) => of(dispatch(new BlockParentFail(error))))
     );
   }
@@ -694,12 +705,8 @@ export class ProviderState {
   }
 
   @Action(BlockParentSuccess)
-  blockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: BlockParentSuccess): void {
-    dispatch([
-      new GetApplicationsByPropertyId(payload.providerId, parameters),
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' })
-    ]);
+  blockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParentSuccess): void {
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' })]);
   }
 
   @Action(UnBlockParent)
@@ -708,7 +715,17 @@ export class ProviderState {
     { payload, parameters }: UnBlockParent
   ): Observable<BlockedParent | Observable<void>> {
     return this.blockService.unBlockParent(payload).pipe(
-      tap((res: BlockedParent) => dispatch(new UnBlockParentSuccess(res, parameters))),
+      tap((res: BlockedParent) => {
+        dispatch(new UnBlockParentSuccess(res));
+        if (parameters) {
+          dispatch(
+            new GetApplicationsByPropertyId(
+              parameters.property === ApplicationEntityType.None ? payload.providerId : payload.userIdUnblock,
+              parameters
+            )
+          );
+        }
+      }),
       catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
     );
   }
@@ -719,12 +736,8 @@ export class ProviderState {
   }
 
   @Action(UnBlockParentSuccess)
-  unBlockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: UnBlockParentSuccess): void {
-    dispatch([
-      new GetApplicationsByPropertyId(payload.providerId, parameters),
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' })
-    ]);
+  unBlockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParentSuccess): void {
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' })]);
   }
 
   @Action(GetBlockedParents)

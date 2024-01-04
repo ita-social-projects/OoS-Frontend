@@ -2,17 +2,16 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { ApplicationEntityType } from 'shared/enum/applications';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { BlockedParent } from 'shared/models/block.model';
 import { ChatRoom, ChatRoomsParameters } from 'shared/models/chat.model';
 import { TruncatedItem } from 'shared/models/item.model';
@@ -34,7 +33,6 @@ import { CabinetDataComponent } from '../cabinet-data.component';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent extends CabinetDataComponent {
-  readonly Role = Role;
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly noMessagesTitle = NoResultsTitle.noMessages;
 
@@ -90,7 +88,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   getProviderWorkshops(): void {
-    if (this.subRole === Role.None) {
+    if (this.subrole === Subrole.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     }
   }
@@ -116,7 +114,8 @@ export class MessagesComponent extends CabinetDataComponent {
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         const blockedParent = new BlockedParent(parentId, this.providerId, result);
-        this.store.dispatch(new BlockParent(blockedParent, ApplicationEntityType[this.subRole]));
+        blockedParent.userIdBlock = this.providerId;
+        this.store.dispatch(new BlockParent(blockedParent));
       }
     });
   }
@@ -131,7 +130,8 @@ export class MessagesComponent extends CabinetDataComponent {
     dialogRef.afterClosed().subscribe((result: string) => {
       if (result) {
         const blockedParent = new BlockedParent(parentId, this.providerId);
-        this.store.dispatch(new UnBlockParent(blockedParent, ApplicationEntityType[this.subRole]));
+        blockedParent.userIdUnblock = this.providerId;
+        this.store.dispatch(new UnBlockParent(blockedParent));
       }
     });
   }

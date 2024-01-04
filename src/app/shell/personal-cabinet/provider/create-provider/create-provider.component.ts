@@ -13,7 +13,7 @@ import { Constants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateProviderSteps } from 'shared/enum/provider';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { FeaturesList } from 'shared/models/featuresList.model';
 import { Provider } from 'shared/models/provider.model';
@@ -106,8 +106,8 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
 
     this.store.dispatch(
       new AddNavPath(
