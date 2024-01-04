@@ -265,7 +265,7 @@ export class OnUpdateWorkshopStatusFail {
 
 export class BlockParent {
   static readonly type = '[provider] block parent';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent, public parameters?: ApplicationFilterParameters) {}
 }
 
 export class BlockParentFail {
@@ -275,12 +275,12 @@ export class BlockParentFail {
 
 export class BlockParentSuccess {
   static readonly type = '[provider] block parent success';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent) {}
 }
 
 export class UnBlockParent {
   static readonly type = '[provider] unblock parent';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent, public parameters?: ApplicationFilterParameters) {}
 }
 
 export class UnBlockParentFail {
@@ -290,7 +290,7 @@ export class UnBlockParentFail {
 
 export class UnBlockParentSuccess {
   static readonly type = '[provider] unblock parent success';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent) {}
 }
 
 export class GetBlockedParents {

@@ -1,7 +1,7 @@
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
@@ -71,8 +71,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

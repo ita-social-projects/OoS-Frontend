@@ -12,7 +12,7 @@ import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applic
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role } from 'shared/enum/role';
+import { Subrole } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application, ApplicationFilterParameters, ApplicationUpdate } from 'shared/models/application.model';
 import { BlockedParent } from 'shared/models/block.model';
@@ -66,13 +66,13 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
   init(): void {
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
-      switch (this.subRole) {
-        case Role.None:
+      switch (this.subrole) {
+        case Subrole.None:
           this.applicationParams.property = ApplicationEntityType.provider;
           this.providerId = provider.id;
           break;
-        case Role.ProviderDeputy:
-        case Role.ProviderAdmin:
+        case Subrole.ProviderDeputy:
+        case Subrole.ProviderAdmin:
           this.applicationParams.property = ApplicationEntityType.ProviderAdmin;
           this.providerId = this.store.selectSnapshot(RegistrationState.user).id;
           break;
@@ -127,6 +127,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       if (result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
         const blockedParent = new BlockedParent(parentId, providerId, result);
+        blockedParent.userIdBlock = this.providerId;
         this.store.dispatch(new BlockParent(blockedParent, this.applicationParams));
       }
     });
@@ -147,18 +148,19 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       if (result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
         const blockedParent = new BlockedParent(parentId, providerId);
+        blockedParent.userIdUnblock = this.providerId;
         this.store.dispatch(new UnBlockParent(blockedParent, this.applicationParams));
       }
     });
   }
 
   private getProviderWorkshops(): void {
-    switch (this.subRole) {
-      case Role.None:
+    switch (this.subrole) {
+      case Subrole.None:
         this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
         break;
-      case Role.ProviderDeputy:
-      case Role.ProviderAdmin:
+      case Subrole.ProviderDeputy:
+      case Subrole.ProviderAdmin:
         this.store.dispatch(new GetWorkshopListByProviderAdminId(this.providerId));
         break;
     }

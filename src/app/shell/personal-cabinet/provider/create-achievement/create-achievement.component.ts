@@ -11,7 +11,7 @@ import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { Achievement, AchievementType } from 'shared/models/achievement.model';
 import { Child } from 'shared/models/child.model';
 import { Navigation } from 'shared/models/navigation.model';
@@ -146,8 +146,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       };
     } else {
       const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-      const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-      const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+      const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+      const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
 
       prevPath = {
         name: personalCabinetTitle,
