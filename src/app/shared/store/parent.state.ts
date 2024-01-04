@@ -20,6 +20,7 @@ import { ApplicationService } from '../services/applications/application.service
 import { ChildrenService } from '../services/children/children.service';
 import { RatingService } from '../services/rating/rating.service';
 import { FavoriteWorkshopsService } from '../services/workshops/favorite-workshops/favorite-workshops.service';
+import { ParentService } from 'shared/services/parent/parent.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CreateApplication,
@@ -54,7 +55,13 @@ import {
   OnUpdateChildFail,
   OnUpdateChildSuccess,
   ResetSelectedChild,
-  UpdateChild
+  UpdateChild,
+  OnBlockParent,
+  OnBlockParentSuccess,
+  OnBlockParentFail,
+  OnUnblockParent,
+  OnUnblockParentSuccess,
+  OnUnblockParentFail,
 } from './parent.actions';
 
 export interface ParentStateModel {
@@ -136,7 +143,8 @@ export class ParentState {
     private childrenService: ChildrenService,
     private router: Router,
     private location: Location,
-    private ratingService: RatingService
+    private ratingService: RatingService,
+    private parentService: ParentService,
   ) {}
 
   @Action(GetStatusIsAllowToApply)
@@ -395,5 +403,63 @@ export class ParentState {
   onCreateApplicationSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateApplicationSuccess): void {
     dispatch([new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
     this.router.navigate(['']);
+  }
+
+  @Action(OnBlockParent)
+  OnBlockParent(
+    { dispatch }: StateContext<ParentStateModel>,
+    { payload }: OnBlockParent
+  ): Observable<boolean | Observable<void>> {
+    return this.parentService.blockUnblockParent(payload).pipe(
+      tap(() => dispatch(new OnBlockParentSuccess())),
+      catchError((error) => {
+        return of(dispatch(new OnBlockParentFail(error)));
+      })
+    );
+  }
+
+  @Action(OnBlockParentSuccess)
+  OnBlockParentSuccess(
+    { dispatch }: StateContext<ParentStateModel>, 
+    {}: OnBlockParentSuccess
+  ): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success'}));
+  }
+
+  @Action(OnBlockParentFail)
+  OnBlockParentFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnBlockParentFail): void {
+    dispatch(new ShowMessageBar({
+      message: payload.error,
+      type: 'error',
+    }));
+  }
+
+  @Action(OnUnblockParent)
+  OnUnblockParent(
+    { dispatch }: StateContext<ParentStateModel>, 
+    { payload }: OnUnblockParent
+  ): Observable<boolean | Observable<void>> {
+    return this.parentService.blockUnblockParent(payload).pipe(
+      tap(() => dispatch(new OnUnblockParentSuccess())),
+      catchError((error) => {
+        return of(dispatch(new OnUnblockParentFail(error)));
+      })
+    );
+  }
+
+  @Action(OnUnblockParentSuccess)
+  OnUnblockParentSuccess(
+    { dispatch }: StateContext<ParentStateModel>, 
+    {}: OnUnblockParentSuccess
+  ): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success'}));
+  }
+
+  @Action(OnUnblockParentFail)
+  OnUnblockParentFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUnblockParentFail): void {
+    dispatch(new ShowMessageBar({ 
+      message: payload.error,
+      type: 'error',
+    }));
   }
 }

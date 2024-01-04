@@ -5,6 +5,7 @@ import { Favorite } from '../models/favorite.model';
 import { RequestParams } from '../models/child.model';
 import { Rate } from '../models/rating';
 import { PaginationParameters } from '../models/queryParameters.model';
+import { ParentBlockedData } from 'shared/models/parent.model';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
@@ -169,4 +170,34 @@ export class OnCreateApplicationFail {
 export class OnCreateApplicationSuccess {
   static readonly type = '[parent] create Application success';
   constructor() {}
+}
+
+export class OnBlockParent {
+  static readonly type = '[parent] block Parent';
+  constructor(public payload: ParentBlockedData) {}
+}
+
+export class OnBlockParentSuccess {
+  static readonly type = '[parent] block Parent success';
+  constructor() {}
+}
+
+export class OnBlockParentFail {
+  static readonly type = '[parent] block Parent fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUnblockParent {
+  static readonly type = '[parent] unblock Parent';
+  constructor(public payload: ParentBlockedData) {}
+}
+
+export class OnUnblockParentSuccess {
+  static readonly type = '[parent] unblock Parent success';
+  constructor() {}
+}
+
+export class OnUnblockParentFail {
+  static readonly type = '[parent] unblock Parent fail';
+  constructor(public payload: HttpErrorResponse) {}
 }

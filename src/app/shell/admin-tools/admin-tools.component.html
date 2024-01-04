@@ -7,13 +7,13 @@
     <a *ngIf="canManageRegion(role)" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/admins'">
       {{ 'ENUM.NAV_BAR_NAME.ADMINS' | translate | uppercase }}
     </a>
-    <a *ngIf="canManageInstitution(role)" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/directions'">
+    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/directions'">
       {{ 'ENUM.NAV_BAR_NAME.DIRECTIONS' | translate | uppercase }}
     </a>
     <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/provider-list'">
       {{ 'ENUM.NAV_BAR_NAME.PROVIDERS' | translate | uppercase }}
     </a>
-    <a *ngIf="role === Role.techAdmin" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/users'">
+    <a *ngIf="canManageInstitution(role)" mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/users'">
       {{ 'ENUM.NAV_BAR_NAME.USERS' | translate | uppercase }}
     </a>
     <a mat-tab-link [routerLinkActive]="'active'" [routerLink]="'./data/applications'">
