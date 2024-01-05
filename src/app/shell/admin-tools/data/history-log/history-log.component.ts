@@ -1,4 +1,4 @@
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, merge } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
 } from 'rxjs/operators';
@@ -174,26 +174,18 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     Util.setFromPaginationParam(this.filters, this.currentPage, this.totalAmount);
     this.dispatchProperValue(this.tabIndex, this.filters, searchString);
   }
-
+  
   private initSubscribeOnEachHistory(): void {
-    this.providersHistory$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((providerHistories: SearchResponse<ProviderHistory[]>) => (this.totalAmount = providerHistories.totalAmount));
-
-    this.providerAdminHistory$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe(
-        (providerAdminHistories: SearchResponse<ProviderAdminHistory[]>) => (this.totalAmount = providerAdminHistories.totalAmount)
-      );
-
-    this.applicationHistory$
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
-      .subscribe((applicationHistories: SearchResponse<ApplicationHistory[]>) => (this.totalAmount = applicationHistories.totalAmount));
-
-    this.parentsBlockingByAdminHistory$
+    merge(
+      this.providersHistory$,
+      this.providerAdminHistory$,
+      this.applicationHistory$,
+      this.parentsBlockingByAdminHistory$
+    )
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe(
-        (parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>) => (this.totalAmount = parentsBlockingByAdminHistory.totalAmount)
+        (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) => 
+          (this.totalAmount = history.totalAmount)
       );
   }
 }
