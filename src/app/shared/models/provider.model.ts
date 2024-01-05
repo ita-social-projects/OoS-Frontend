@@ -30,6 +30,7 @@ export abstract class ProviderBase {
   coverImage?: File;
   imageIds?: string[];
   imageFiles?: File[];
+  userId: string; // TODO: Remove as soon as it will be removed from the backend
   legalAddress: Address;
   actualAddress?: Address;
   institutionStatusId?: number;
@@ -51,6 +52,7 @@ export abstract class ProviderBase {
     this.phoneNumber = info.phoneNumber;
     this.founder = info.founder;
     this.typeId = info.typeId;
+    this.userId = user.id;
     this.legalAddress = legalAddress;
     this.actualAddress = actualAddress;
     this.institutionId = info.institution.id;
