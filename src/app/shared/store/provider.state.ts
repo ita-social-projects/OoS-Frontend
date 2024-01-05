@@ -5,8 +5,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { ApplicationEntityType } from 'shared/enum/applications';
-import { Constants, EMPTY_RESULT } from '../constants/constants';
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from '../enum/enumUA/messageBer';
 import { ProviderStatuses } from '../enum/statuses';
 import { Achievement } from '../models/achievement.model';
@@ -93,7 +92,6 @@ import {
   UpdateWorkshopStatus
 } from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
-import { GetApplicationsByPropertyId } from './shared-user.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -681,20 +679,10 @@ export class ProviderState {
   @Action(BlockParent)
   blockParent(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: BlockParent
+    { payload }: BlockParent
   ): Observable<BlockedParent | Observable<void>> {
     return this.blockService.blockParent(payload).pipe(
-      tap((res: BlockedParent) => {
-        dispatch(new BlockParentSuccess(res));
-        if (parameters) {
-          dispatch(
-            new GetApplicationsByPropertyId(
-              parameters.property === ApplicationEntityType.None ? payload.providerId : payload.userIdBlock,
-              parameters
-            )
-          );
-        }
-      }),
+      tap((res: BlockedParent) =>  dispatch(new BlockParentSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new BlockParentFail(error))))
     );
   }
@@ -712,20 +700,10 @@ export class ProviderState {
   @Action(UnBlockParent)
   unBlockParent(
     { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: UnBlockParent
+    { payload }: UnBlockParent
   ): Observable<BlockedParent | Observable<void>> {
     return this.blockService.unBlockParent(payload).pipe(
-      tap((res: BlockedParent) => {
-        dispatch(new UnBlockParentSuccess(res));
-        if (parameters) {
-          dispatch(
-            new GetApplicationsByPropertyId(
-              parameters.property === ApplicationEntityType.None ? payload.providerId : payload.userIdUnblock,
-              parameters
-            )
-          );
-        }
-      }),
+      tap((res: BlockedParent) => dispatch(new UnBlockParentSuccess(res))),
       catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
     );
   }
