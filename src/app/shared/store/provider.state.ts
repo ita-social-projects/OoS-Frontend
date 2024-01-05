@@ -12,7 +12,7 @@ import { Achievement } from '../models/achievement.model';
 import { BlockedParent } from '../models/block.model';
 import { Child } from '../models/child.model';
 import { TruncatedItem } from '../models/item.model';
-import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
+import { ProviderWithLicenseStatus, Provider, ProviderWithStatus } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { SearchResponse } from '../models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
@@ -487,7 +487,7 @@ export class ProviderState {
   updateProviderStatus(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: UpdateProviderStatus
-  ): Observable<ProviderStatusUpdateData | Observable<void>> {
+  ): Observable<ProviderWithStatus | Observable<void>> {
     return this.providerService.updateProviderStatus(payload).pipe(
       tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload, providerParameters))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderStatusFail(error))))
@@ -498,7 +498,7 @@ export class ProviderState {
   updateProviderLicenseStatuse(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: UpdateProviderLicenseStatus
-  ): Observable<LicenseStatusData | void> {
+  ): Observable<ProviderWithLicenseStatus | void> {
     return this.providerService.updateProviderLicenseStatus(payload).pipe(
       tap(() =>
         dispatch([
@@ -677,12 +677,9 @@ export class ProviderState {
   onUpdateStatusSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopStatusSuccess): void {}
 
   @Action(BlockParent)
-  blockParent(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: BlockParent
-  ): Observable<BlockedParent | Observable<void>> {
+  blockParent({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParent): Observable<BlockedParent | Observable<void>> {
     return this.blockService.blockParent(payload).pipe(
-      tap((res: BlockedParent) =>  dispatch(new BlockParentSuccess(res))),
+      tap((res: BlockedParent) => dispatch(new BlockParentSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new BlockParentFail(error))))
     );
   }
@@ -698,10 +695,7 @@ export class ProviderState {
   }
 
   @Action(UnBlockParent)
-  unBlockParent(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: UnBlockParent
-  ): Observable<BlockedParent | Observable<void>> {
+  unBlockParent({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParent): Observable<BlockedParent | Observable<void>> {
     return this.blockService.unBlockParent(payload).pipe(
       tap((res: BlockedParent) => dispatch(new UnBlockParentSuccess(res))),
       catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
