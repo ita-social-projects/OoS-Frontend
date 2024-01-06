@@ -12,7 +12,47 @@
 .Rejected {
   color: #c72a21;
 }
+.AcceptedForSelection {
+  color: #27a3ff;
+}
 
 td {
   word-break: break-word;
+}
+
+.reason {
+  &-container {
+    display: flex;
+  }
+
+  &__detailed {
+    display: flex;
+    flex-direction: row;
+    max-width: 600px;
+    font-size: 13px;
+    line-height: 17px;
+    overflow-wrap: break-word;
+    word-break: break-all;
+    color: #aaaaaa;
+  }
+}
+
+.material-icons {
+  font-size: 16px;
+  line-height: 14.6px;
+  color: #aaaaaa;
+  cursor: pointer;
+}
+
+.status-info-icon {
+  margin-top: 2.5px;
+  margin-left: 5px;
+  font-size: 16px;
+}
+
+.menu-wrapper {
+  padding: 0 0.5rem;
+  p {
+    margin: 0.3rem 0;
+  }
 }

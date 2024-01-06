@@ -138,12 +138,6 @@ export class OnDeleteDirectionSuccess {
   constructor(public directionParameters: DirectionParameters) {}
 }
 
-export class GetApplicationHistory {
-  static readonly type = '[admin] Get Application History';
-
-  constructor(public payload?: FilterData, public searchSting?: string) {}
-}
-
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
 
@@ -164,6 +158,18 @@ export class GetProviderHistory {
 
 export class GetProviderAdminHistory {
   static readonly type = '[admin] Get Provider Admin History';
+
+  constructor(public payload?: FilterData, public searchSting?: string) {}
+}
+
+export class GetApplicationHistory {
+  static readonly type = '[admin] Get Application History';
+
+  constructor(public payload?: FilterData, public searchSting?: string) {}
+}
+
+export class GetParentsBlockingByAdminHistory {
+  static readonly type = '[admin] Get Parents Blocking By Admin History';
 
   constructor(public payload?: FilterData, public searchSting?: string) {}
 }
