@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { DropdownData, FilterData } from 'shared/models/history-log.model';
@@ -10,31 +10,36 @@ import { ProviderAdminOperationOptions } from 'shared/constants/drop-down';
   templateUrl: './history-log-filters.component.html',
   styleUrls: ['./history-log-filters.component.scss']
 })
-export class HistoryLogFiltersComponent implements OnInit, OnChanges {
-  @Input() public dropdownOptions: DropdownData;
-  @Input() public tabName: HistoryLogTypes;
-  @Output() public filterData = new EventEmitter<FilterData>();
-
+export class HistoryLogFiltersComponent implements OnInit {
   public filtersForm: FormGroup;
   public formControlName: string = '';
   public additionalFormControlName: string = '';
   public additionalDropdownOptions = ProviderAdminOperationOptions;
 
   private baseCountOfFiltersFormFields = 2;
+  private _tabName: HistoryLogTypes;
 
-  constructor(private fb: FormBuilder) {}
-
-  public ngOnInit(): void {
-    this.filterData.emit(this.filtersForm.value);
+  public get tabName(): HistoryLogTypes {
+    return this._tabName;
   }
-  
-  public ngOnChanges(changes: SimpleChanges): void {
+
+  @Input() public dropdownOptions: DropdownData;
+  @Input() public set tabName(newTabName: HistoryLogTypes) {
+    this._tabName = newTabName;
     this.setBaseFiltersForm();
     this.additionalFormControlName = '';
     if (Object.keys(this.filtersForm.controls).length > this.baseCountOfFiltersFormFields) {
       this.removeExtraFormControls();
     }
-    this.setFiltersDependOnTab(changes.tabName.currentValue);
+    this.setFiltersDependOnTab(newTabName);
+  }
+
+  @Output() public filterData = new EventEmitter<FilterData>();
+
+  constructor(private fb: FormBuilder) {}
+
+  public ngOnInit(): void {
+    this.filterData.emit(this.filtersForm.value);
   }
 
   public applyFilters(): void {
