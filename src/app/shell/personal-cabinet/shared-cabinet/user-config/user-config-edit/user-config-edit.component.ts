@@ -12,7 +12,7 @@ import { NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
@@ -34,19 +34,18 @@ const defaultValidators = [
   styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  public readonly role = Role;
+  public readonly Role = Role;
   public readonly validationConstants = ValidationConstants;
   public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
-  private subRole: Role;
-
   public isDispatching = false;
   public user: User;
   public userEditFormGroup: FormGroup;
-  public userRole: Role;
+  public role: Role;
+  public subrole: Subrole;
   public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
@@ -70,11 +69,11 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public ngOnInit(): void {
     this.user$.pipe(filter((user: User) => !!user)).subscribe((user: User) => {
-      this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-      this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
+      this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
+      this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
 
       this.user = user;
-      if (this.userRole === Role.parent) {
+      if (this.role === Role.parent) {
         this.userEditFormGroup.addControl('dateOfBirth', new FormControl('', Validators.required));
         this.userEditFormGroup.addControl('gender', new FormControl('', Validators.required));
       }
@@ -95,7 +94,7 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
   }
 
   public addNavPath(): void {
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subRole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(this.role, this.subrole);
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(

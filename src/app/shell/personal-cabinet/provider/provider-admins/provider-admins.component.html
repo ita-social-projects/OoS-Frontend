@@ -9,10 +9,10 @@
              class="search"
              placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
     </div>
-    <ng-container *ngIf="subRole === Role.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
+    <ng-container *ngIf="subrole === Subrole.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">
-    <ng-container *ngIf="subRole === Role.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
+    <ng-container *ngIf="subrole === Subrole.None; then ProviderTableViewTmpl; else DeputyTableViewTmpl"></ng-container>
   </div>
 </div>
 
