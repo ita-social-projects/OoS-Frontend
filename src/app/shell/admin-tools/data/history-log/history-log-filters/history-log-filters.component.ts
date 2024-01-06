@@ -39,7 +39,7 @@ export class HistoryLogFiltersComponent implements OnInit {
   constructor(private fb: FormBuilder) {}
 
   public ngOnInit(): void {
-    this.filterData.emit(this.filtersForm.value);
+    this.filterData.emit();
   }
 
   public applyFilters(): void {
