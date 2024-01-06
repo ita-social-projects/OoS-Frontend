@@ -4,6 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Util } from '../../../../../shared/utils/utils';
 import {
   ApplicationHistory,
+  ParentsBlockingByAdminHistory,
   ProviderAdminHistory,
   ProviderHistory,
 } from '../../../../../shared/models/history-log.model';
@@ -11,6 +12,7 @@ import { Constants } from '../../../../../shared/constants/constants';
 import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
 import { HistoryLogTypes } from '../../../../../shared/enum/history.log';
 import { AdminStatus, TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
+import { ColumnsListForChangesLogHistory } from 'shared/constants/changes-log';
 
 @Component({
   selector: 'app-history-log-table',
@@ -27,8 +29,9 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   public readonly FULL_DATE_FORMAT_ONLY_DIGITS = Constants.FULL_DATE_FORMAT_ONLY_DIGITS;
   public readonly adminStatus = AdminStatus;
   public readonly DASH_VALUE = Constants.DASH_VALUE;
+  public readonly columnsListForChangesLogHistory = ColumnsListForChangesLogHistory;
 
-  @Input() public table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory>;
+  @Input() public table: Array<ProviderHistory | ProviderAdminHistory | ApplicationHistory | ParentsBlockingByAdminHistory>;
   @Input() public tableType: HistoryLogTypes;
 
   public getFullName = Util.getFullName;
@@ -37,30 +40,6 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
     return this.tableType === HistoryLogTypes.Applications;
   }
 
-  public displayedColumns = [
-    'pib',
-    'email',
-    'providerTitle',
-    'institutionTitle',
-    'providerCity',
-    'fieldName',
-    'updatedDate',
-    'oldValue',
-    'newValue',
-  ];
-
-  public displayedProviderAdminsColumns = [
-    'pib',
-    'email',
-    'providerTitle',
-    'workshopTitle',
-    'institutionTitle',
-    'providerCity',
-    'fieldName',
-    'updatedDate',
-    'oldValue',
-    'newValue',
-  ];
   public dataSource: MatTableDataSource<object>;
 
   public ngOnInit(): void {

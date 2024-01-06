@@ -12,7 +12,7 @@
         />
       </div>
     </div>
-    <app-history-log-filters [dropdownOptions]="dropdownData" (filterData)="onFilter($event)"></app-history-log-filters>
+    <app-history-log-filters [dropdownOptions]="dropdownData" [tabName]="tabName" (filterData)="onFilter($event)"></app-history-log-filters>
   </div>
 
   <div class="tab-wrapper">
@@ -32,6 +32,12 @@
       <mat-tab [label]="HistoryLogTabTitles.Applications | translate">
         <ng-container
           *ngTemplateOutlet="HistoryLogTable; context: { table: applicationHistory$ | async, tableTitle: HistoryLogTypes.Applications }"
+        >
+        </ng-container>
+      </mat-tab>
+      <mat-tab *ngIf="role === Role.techAdmin" [label]="HistoryLogTabTitles.Users | translate">
+        <ng-container
+          *ngTemplateOutlet="HistoryLogTable; context: { table: parentsBlockingByAdminHistory$ | async, tableTitle: HistoryLogTypes.Users }"
         >
         </ng-container>
       </mat-tab>

@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -13,6 +13,7 @@ import { HistoryLogFiltersComponent } from './history-log-filters.component';
 describe('HistoryLogFiltersComponent', () => {
   let component: HistoryLogFiltersComponent;
   let fixture: ComponentFixture<HistoryLogFiltersComponent>;
+  let formBuilder: FormBuilder;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,7 +36,13 @@ describe('HistoryLogFiltersComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(HistoryLogFiltersComponent);
+    formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
+    component.filtersForm = formBuilder.group({ 
+      dateFrom: formBuilder.control(''), 
+      dateTo: formBuilder.control(''), 
+    });
+    component.filtersForm.addControl(component.formControlName, new FormControl(''));
     fixture.detectChanges();
   });
 
