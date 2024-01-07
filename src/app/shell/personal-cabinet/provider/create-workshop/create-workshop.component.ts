@@ -22,6 +22,7 @@ import { Select, Store } from '@ngxs/store';
 
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
+import { Constants } from 'shared/constants/constants';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -46,6 +47,8 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public DescriptionFormGroup: FormGroup;
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
+
+  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
 
   constructor(
     protected store: Store,
@@ -110,7 +113,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public onSubmit(): void {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
-    const aboutInfo = this.AboutFormGroup.getRawValue();
+    const aboutInfo = this.createAbout();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
@@ -171,11 +174,23 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   }
 
   /**
+   * Prepares 'About' section data from the form, setting 'availableSeats' to 'UNLIMITED_SEATS' if null.
+   */
+  private createAbout() {
+    const aboutInfo = this.AboutFormGroup.getRawValue();
+    if (aboutInfo.availableSeats === null) {
+      aboutInfo.availableSeats = this.UNLIMITED_SEATS;
+    }
+    return aboutInfo;
+  }
+
+  /**
    * This method create array of teachers
    * @param FormArray formArray
    */
   private createTeachers(): Teacher[] {
     const teachers: Teacher[] = [];
+    console.log('this.TeacherFormArray?.controls', this.TeacherFormArray?.controls);
     if (this.TeacherFormArray?.controls) {
       this.TeacherFormArray.controls.forEach((form: FormGroup) => {
         const teacher: Teacher = new Teacher(form.value);

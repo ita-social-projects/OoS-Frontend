@@ -83,7 +83,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private get availableSeats(): number {
-    return this.workshop?.availableSeats === this.UNLIMITED_SEATS ? this.MIN_SEATS : this.workshop?.availableSeats;
+    return this.workshop?.availableSeats === undefined || this.workshop?.availableSeats === this.UNLIMITED_SEATS
+      ? this.MIN_SEATS
+      : this.workshop?.availableSeats;
   }
 
   private get workshopPrice(): number {
@@ -110,7 +112,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required]),
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null
     });
