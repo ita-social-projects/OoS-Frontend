@@ -3,8 +3,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { Constants } from 'shared/constants/constants';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { PopNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { SharedUserState } from 'shared/store/shared-user.state';
@@ -16,29 +17,31 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
   readonly constants = Constants;
   readonly Role = Role;
+  readonly Subrole = Subrole;
 
   @Select(RegistrationState.role)
   role$: Observable<Role>;
-  role: Role;
   @Select(RegistrationState.subrole)
-  subRole$: Observable<Role>;
-  subRole: Role;
+  subrole$: Observable<Subrole>;
   @Select(SharedUserState.isLoading)
   isLoadingCabinet$: Observable<boolean>;
+
+  role: Role;
+  subrole: Subrole;
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(protected store: Store, protected matDialog: MatDialog) {}
 
   ngOnInit(): void {
-    combineLatest([this.role$, this.subRole$])
+    combineLatest([this.role$, this.subrole$])
       .pipe(
-        filter(([role, subRole]: [Role, Role]) => !!role),
+        filter(([role, subrole]: [Role, Subrole]) => !!role),
         takeUntil(this.destroy$)
       )
-      .subscribe(([role, subRole]: [Role, Role]) => {
+      .subscribe(([role, subrole]: [Role, Subrole]) => {
         this.role = role;
-        this.subRole = subRole;
+        this.subrole = subrole;
         this.init();
         this.addNavPath();
       });

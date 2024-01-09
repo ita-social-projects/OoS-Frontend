@@ -13,7 +13,7 @@ import { AreaAdmin } from 'shared/models/areaAdmin.model';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ModeConstants } from '../constants/constants';
 import { SnackbarText } from '../enum/enumUA/messageBer';
-import { Role } from '../enum/role';
+import { Role, Subrole } from '../enum/role';
 import { Parent } from '../models/parent.model';
 import { Provider } from '../models/provider.model';
 import { RegionAdmin } from '../models/regionAdmin.model';
@@ -52,7 +52,7 @@ export interface RegistrationStateModel {
   regionAdmin: RegionAdmin;
   areaAdmin: AreaAdmin;
   role: Role;
-  subrole: Role;
+  subrole: Subrole;
 }
 
 @State<RegistrationStateModel>({
@@ -115,7 +115,7 @@ export class RegistrationState {
   }
 
   @Selector()
-  static subrole(state: RegistrationStateModel): Role | undefined {
+  static subrole(state: RegistrationStateModel): Subrole | undefined {
     return state.subrole;
   }
 

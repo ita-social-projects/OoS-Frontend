@@ -5,14 +5,14 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { Constants, EMPTY_RESULT } from '../constants/constants';
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from '../enum/enumUA/messageBer';
 import { ProviderStatuses } from '../enum/statuses';
 import { Achievement } from '../models/achievement.model';
 import { BlockedParent } from '../models/block.model';
 import { Child } from '../models/child.model';
 import { TruncatedItem } from '../models/item.model';
-import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
+import { ProviderWithLicenseStatus, Provider, ProviderWithStatus } from '../models/provider.model';
 import { ProviderAdmin } from '../models/providerAdmin.model';
 import { SearchResponse } from '../models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
@@ -92,7 +92,6 @@ import {
   UpdateWorkshopStatus
 } from './provider.actions';
 import { CheckAuth, GetProfile } from './registration.actions';
-import { GetApplicationsByPropertyId } from './shared-user.actions';
 
 export interface ProviderStateModel {
   isLoading: boolean;
@@ -488,7 +487,7 @@ export class ProviderState {
   updateProviderStatus(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: UpdateProviderStatus
-  ): Observable<ProviderStatusUpdateData | Observable<void>> {
+  ): Observable<ProviderWithStatus | Observable<void>> {
     return this.providerService.updateProviderStatus(payload).pipe(
       tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload, providerParameters))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderStatusFail(error))))
@@ -499,7 +498,7 @@ export class ProviderState {
   updateProviderLicenseStatuse(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: UpdateProviderLicenseStatus
-  ): Observable<LicenseStatusData | void> {
+  ): Observable<ProviderWithLicenseStatus | void> {
     return this.providerService.updateProviderLicenseStatus(payload).pipe(
       tap(() =>
         dispatch([
@@ -678,12 +677,9 @@ export class ProviderState {
   onUpdateStatusSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopStatusSuccess): void {}
 
   @Action(BlockParent)
-  blockParent(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: BlockParent
-  ): Observable<BlockedParent | Observable<void>> {
+  blockParent({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParent): Observable<BlockedParent | Observable<void>> {
     return this.blockService.blockParent(payload).pipe(
-      tap((res: BlockedParent) => dispatch(new BlockParentSuccess(res, parameters))),
+      tap((res: BlockedParent) => dispatch(new BlockParentSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new BlockParentFail(error))))
     );
   }
@@ -694,21 +690,14 @@ export class ProviderState {
   }
 
   @Action(BlockParentSuccess)
-  blockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: BlockParentSuccess): void {
-    dispatch([
-      new GetApplicationsByPropertyId(payload.providerId, parameters),
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' })
-    ]);
+  blockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: BlockParentSuccess): void {
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' })]);
   }
 
   @Action(UnBlockParent)
-  unBlockParent(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: UnBlockParent
-  ): Observable<BlockedParent | Observable<void>> {
+  unBlockParent({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParent): Observable<BlockedParent | Observable<void>> {
     return this.blockService.unBlockParent(payload).pipe(
-      tap((res: BlockedParent) => dispatch(new UnBlockParentSuccess(res, parameters))),
+      tap((res: BlockedParent) => dispatch(new UnBlockParentSuccess(res))),
       catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
     );
   }
@@ -719,12 +708,8 @@ export class ProviderState {
   }
 
   @Action(UnBlockParentSuccess)
-  unBlockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: UnBlockParentSuccess): void {
-    dispatch([
-      new GetApplicationsByPropertyId(payload.providerId, parameters),
-      new MarkFormDirty(false),
-      new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' })
-    ]);
+  unBlockParentSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: UnBlockParentSuccess): void {
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' })]);
   }
 
   @Action(GetBlockedParents)

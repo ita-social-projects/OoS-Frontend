@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RoleLinks } from 'shared/enum/enumUA/user';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { GetUnreadMessagesCount } from 'shared/store/chat.actions';
@@ -23,11 +23,12 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   readonly ApplicationStatuses = ApplicationStatuses;
   readonly roles = RoleLinks;
   readonly Role = Role;
+  readonly Subrole = Subrole;
   protected isRoleAdmin = isRoleAdmin;
 
   personalCabinetTitle: PersonalCabinetTitle;
   userRole: Role;
-  subRole: Role;
+  subrole: Subrole;
 
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
@@ -36,8 +37,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    this.subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subRole);
+    this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subrole);
 
     this.store.dispatch(
       new AddNavPath(
