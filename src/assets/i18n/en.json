@@ -120,7 +120,8 @@
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
-      "LAWS_AND_REGULATIONS": "Laws and regulations"
+      "LAWS_AND_REGULATIONS": "Laws and regulations",
+      "PROVIDER_REGISTRATION": "Provider registration"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -682,6 +683,7 @@
       "CHANGE_PROVIDER_LICENSE_APPROVED": "License successfully approved",
       "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
+      "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",

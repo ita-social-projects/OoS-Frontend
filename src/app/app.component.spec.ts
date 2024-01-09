@@ -3,19 +3,34 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
+import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
+import { MessageBarData } from 'shared/models/messageBar.model';
+import { ClearMessageBar, ShowMessageBar } from 'shared/store/app.actions';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let store: Store;
+  let mockMatSnackBar: MatSnackBar;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatSidenavModule, MatProgressBarModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        NoopAnimationsModule,
+        MatSidenavModule,
+        MatSnackBarModule,
+        MatProgressBarModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot()
+      ],
       declarations: [
         AppComponent,
         MockHeaderComponent,
@@ -31,6 +46,8 @@ describe('AppComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    mockMatSnackBar = TestBed.inject(MatSnackBar);
     fixture.detectChanges();
   });
 
@@ -46,6 +63,25 @@ describe('AppComponent', () => {
 
     expect(component.onResize).toHaveBeenCalled();
     expect(component.isMobileView).toBeTruthy();
+  });
+
+  describe('showSnackBar method', () => {
+    const messagePayload: MessageBarData = { message: 'test', type: 'success' };
+
+    it('should show snackBar on action dispatch with provided payload', () => {
+      jest.spyOn(mockMatSnackBar, 'openFromComponent');
+
+      component.ngOnInit();
+      store.dispatch([new ShowMessageBar(messagePayload), new ClearMessageBar()]);
+
+      expect(mockMatSnackBar.openFromComponent).toHaveBeenCalledWith(MessageBarComponent, {
+        duration: 5000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: messagePayload.type,
+        data: messagePayload
+      });
+    });
   });
 });
 

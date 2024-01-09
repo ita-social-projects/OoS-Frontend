@@ -1,13 +1,12 @@
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable, of } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
-import { NotificationsService } from '../services/notifications/notifications.service';
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { Notification, Notifications, NotificationsAmount } from 'shared/models/notifications.model';
+import { NotificationsService } from 'shared/services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
 import {
   ClearNotificationState,

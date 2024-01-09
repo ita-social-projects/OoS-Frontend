@@ -1,19 +1,20 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
+import { CanDeactivate, CanLoad, UrlTree } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
 import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
-import { ActivateEditMode } from 'shared/store/app.actions';
+import { ActivateEditMode, ShowMessageBar } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
 import { RegistrationState } from 'shared/store/registration.state';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
+export class CreateProviderGuard implements CanLoad, CanDeactivate<unknown> {
   @Select(RegistrationState.user)
   user$: Observable<User>;
   @Select(RegistrationState.role)
@@ -21,23 +22,19 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
 
   constructor(public store: Store) {}
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
-    return isEditMode
-      ? true
-      : this.user$.pipe(
+    return (
+      isEditMode ||
+      this.user$.pipe(
         filter((user: User) => !!user),
         map((user: User) => user.role === Role.provider && user.isRegistered === false)
-      );
+      )
+    );
   }
 
-  canDeactivate(
-    component: unknown,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
     if (isEditMode) {
@@ -45,8 +42,21 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
       return true;
     } else {
       return this.role$.pipe(
-        filter((role: string) => !!role),
-        map((role: string) => role === Role.provider)
+        filter(Boolean),
+        map((role: string) => {
+          if (role === Role.provider) {
+            this.store.dispatch(
+              new ShowMessageBar({
+                message: SnackbarText.completeRegistration,
+                type: 'warningYellow',
+                verticalPosition: 'bottom',
+                infinityDuration: true,
+                unclosable: true
+              })
+            );
+            return true;
+          }
+        })
       );
     }
   }

@@ -6,7 +6,7 @@ import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
@@ -19,11 +19,11 @@ import { FeaturesList } from 'shared/models/featuresList.model';
 import { Provider } from 'shared/models/provider.model';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { MarkFormDirty } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
-import { Logout } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
@@ -204,22 +204,23 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public onCancel(): void {
-    const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
 
     if (!isRegistered) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.leaveRegistration,
-          property: ''
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.store.dispatch(new Logout());
-        }
-      });
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.leaveRegistration,
+            property: ''
+          }
+        })
+        .afterClosed()
+        .pipe(
+          filter(Boolean),
+          switchMap(() => this.store.dispatch(new MarkFormDirty(false)))
+        )
+        .subscribe(() => this.router.navigate(['']));
     } else {
       this.router.navigate(['/personal-cabinet/provider/info']);
     }
