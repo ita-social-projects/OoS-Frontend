@@ -1,26 +1,25 @@
-import { Observable, of } from 'rxjs';
-import { catchError, debounceTime, tap } from 'rxjs/operators';
-
 import { Location } from '@angular/common';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { catchError, debounceTime, tap } from 'rxjs/operators';
 
-import { EMPTY_RESULT } from '../constants/constants';
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { Application } from '../models/application.model';
-import { Child } from '../models/child.model';
-import { Favorite } from '../models/favorite.model';
-import { TruncatedItem } from '../models/item.model';
-import { Rate } from '../models/rating';
-import { SearchResponse } from '../models/search.model';
-import { WorkshopCard } from '../models/workshop.model';
-import { ApplicationService } from '../services/applications/application.service';
-import { ChildrenService } from '../services/children/children.service';
-import { RatingService } from '../services/rating/rating.service';
-import { FavoriteWorkshopsService } from '../services/workshops/favorite-workshops/favorite-workshops.service';
+import { EMPTY_RESULT } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { Application } from 'shared/models/application.model';
+import { Child } from 'shared/models/child.model';
+import { Favorite } from 'shared/models/favorite.model';
+import { TruncatedItem } from 'shared/models/item.model';
+import { Rate } from 'shared/models/rating';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { ApplicationService } from 'shared/services/applications/application.service';
+import { ChildrenService } from 'shared/services/children/children.service';
 import { ParentService } from 'shared/services/parent/parent.service';
+import { RatingService } from 'shared/services/rating/rating.service';
+import { FavoriteWorkshopsService } from 'shared/services/workshops/favorite-workshops/favorite-workshops.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CreateApplication,
@@ -28,9 +27,9 @@ import {
   CreateChildren,
   CreateFavoriteWorkshop,
   CreateRating,
-  DeleteRatingById,
   DeleteChildById,
   DeleteFavoriteWorkshop,
+  DeleteRatingById,
   GetAllUsersChildren,
   GetAllUsersChildrenByParentId,
   GetFavoriteWorkshops,
@@ -40,28 +39,28 @@ import {
   GetStatusIsAllowToApply,
   GetUsersChildById,
   GetUsersChildren,
+  OnBlockParent,
+  OnBlockParentFail,
+  OnBlockParentSuccess,
   OnCreateApplicationFail,
   OnCreateApplicationSuccess,
   OnCreateChildFail,
+  OnCreateChildSuccess,
   OnCreateChildrenFail,
   OnCreateChildrenSuccess,
-  OnCreateChildSuccess,
   OnCreateRatingFail,
   OnCreateRatingSuccess,
-  OnDeleteRatingFail,
-  OnDeleteRatingSuccess,
   OnDeleteChildFail,
   OnDeleteChildSuccess,
+  OnDeleteRatingFail,
+  OnDeleteRatingSuccess,
+  OnUnblockParent,
+  OnUnblockParentFail,
+  OnUnblockParentSuccess,
   OnUpdateChildFail,
   OnUpdateChildSuccess,
   ResetSelectedChild,
-  UpdateChild,
-  OnBlockParent,
-  OnBlockParentSuccess,
-  OnBlockParentFail,
-  OnUnblockParent,
-  OnUnblockParentSuccess,
-  OnUnblockParentFail,
+  UpdateChild
 } from './parent.actions';
 
 export interface ParentStateModel {
@@ -144,7 +143,7 @@ export class ParentState {
     private router: Router,
     private location: Location,
     private ratingService: RatingService,
-    private parentService: ParentService,
+    private parentService: ParentService
   ) {}
 
   @Action(GetStatusIsAllowToApply)
@@ -246,13 +245,10 @@ export class ParentState {
   }
 
   @Action(DeleteChildById)
-  deleteChildById(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload, parameters }: DeleteChildById
-  ): Observable<void | Observable<void>> {
+  deleteChildById({ dispatch }: StateContext<ParentStateModel>, { payload, parameters }: DeleteChildById): Observable<void> {
     return this.childrenService.deleteChild(payload).pipe(
       tap(() => dispatch(new OnDeleteChildSuccess(parameters))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteChildFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteChildFail(error)))
     );
   }
 
@@ -267,10 +263,10 @@ export class ParentState {
   }
 
   @Action(UpdateChild)
-  updateChild({ dispatch }: StateContext<ParentStateModel>, { payload }: UpdateChild): Observable<Child | Observable<void>> {
+  updateChild({ dispatch }: StateContext<ParentStateModel>, { payload }: UpdateChild): Observable<Child | void> {
     return this.childrenService.updateChild(payload).pipe(
       tap(() => dispatch(new OnUpdateChildSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateChildFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateChildFail(error)))
     );
   }
 
@@ -292,19 +288,19 @@ export class ParentState {
   }
 
   @Action(CreateChild)
-  createChild({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChild): Observable<Observable<void> | Child> {
+  createChild({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChild): Observable<Child | void> {
     return this.childrenService.createChild(payload).pipe(
       tap(() => dispatch(new OnCreateChildSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateChildFail(error)))
     );
   }
 
   @Action(CreateChildren)
-  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Observable<void> | Child[]> {
+  createChildren({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateChildren): Observable<Child[] | void> {
     const multipleChildren = payload.length > 1;
     return this.childrenService.createChildren(payload).pipe(
       tap(() => dispatch(new OnCreateChildrenSuccess(multipleChildren))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateChildrenFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateChildrenFail(error)))
     );
   }
 
@@ -332,10 +328,10 @@ export class ParentState {
   }
 
   @Action(CreateRating)
-  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<Observable<void> | Rate> {
+  createRating({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateRating): Observable<Rate | void> {
     return this.ratingService.createRate(payload).pipe(
       tap(() => dispatch(new OnCreateRatingSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateRatingFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateRatingFail(error)))
     );
   }
 
@@ -355,16 +351,13 @@ export class ParentState {
   }
 
   @Action(DeleteRatingById)
-  deleteRatingById(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: DeleteRatingById
-  ): Observable<void | Observable<void>> {
+  deleteRatingById({ dispatch }: StateContext<ParentStateModel>, { payload }: DeleteRatingById): Observable<void> {
     return this.ratingService.deleteRate(payload).pipe(
       tap(() => dispatch(new OnDeleteRatingSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteRatingFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteRatingFail(error)))
     );
   }
-  
+
   @Action(OnDeleteChildFail)
   onDeleteRatingFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnDeleteChildFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
@@ -379,12 +372,10 @@ export class ParentState {
   createApplication(
     { dispatch }: StateContext<ParentStateModel>,
     { payload }: CreateApplication
-  ): Observable<HttpResponse<Application> | Observable<void>> {
+  ): Observable<HttpResponse<Application> | void> {
     return this.applicationService.createApplication(payload).pipe(
       tap(() => dispatch(new OnCreateApplicationSuccess())),
-      catchError((error) => {
-        return of(dispatch(new OnCreateApplicationFail(error)));
-      })
+      catchError((error) => dispatch(new OnCreateApplicationFail(error)))
     );
   }
 
@@ -406,60 +397,43 @@ export class ParentState {
   }
 
   @Action(OnBlockParent)
-  OnBlockParent(
-    { dispatch }: StateContext<ParentStateModel>,
-    { payload }: OnBlockParent
-  ): Observable<boolean | Observable<void>> {
+  OnBlockParent({ dispatch }: StateContext<ParentStateModel>, { payload }: OnBlockParent): Observable<boolean | void> {
     return this.parentService.blockUnblockParent(payload).pipe(
       tap(() => dispatch(new OnBlockParentSuccess())),
-      catchError((error) => {
-        return of(dispatch(new OnBlockParentFail(error)));
-      })
+      catchError((error) => dispatch(new OnBlockParentFail(error)))
     );
   }
 
   @Action(OnBlockParentSuccess)
-  OnBlockParentSuccess(
-    { dispatch }: StateContext<ParentStateModel>, 
-    {}: OnBlockParentSuccess
-  ): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success'}));
+  OnBlockParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnBlockParentSuccess): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.blockPerson, type: 'success' }));
   }
 
   @Action(OnBlockParentFail)
   OnBlockParentFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnBlockParentFail): void {
-    dispatch(new ShowMessageBar({
-      message: payload.error,
-      type: 'error',
-    }));
-  }
-
-  @Action(OnUnblockParent)
-  OnUnblockParent(
-    { dispatch }: StateContext<ParentStateModel>, 
-    { payload }: OnUnblockParent
-  ): Observable<boolean | Observable<void>> {
-    return this.parentService.blockUnblockParent(payload).pipe(
-      tap(() => dispatch(new OnUnblockParentSuccess())),
-      catchError((error) => {
-        return of(dispatch(new OnUnblockParentFail(error)));
+    dispatch(
+      new ShowMessageBar({
+        message: payload.error,
+        type: 'error'
       })
     );
   }
 
+  @Action(OnUnblockParent)
+  OnUnblockParent({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUnblockParent): Observable<boolean | void> {
+    return this.parentService.blockUnblockParent(payload).pipe(
+      tap(() => dispatch(new OnUnblockParentSuccess())),
+      catchError((error) => dispatch(new OnUnblockParentFail(error)))
+    );
+  }
+
   @Action(OnUnblockParentSuccess)
-  OnUnblockParentSuccess(
-    { dispatch }: StateContext<ParentStateModel>, 
-    {}: OnUnblockParentSuccess
-  ): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success'}));
+  OnUnblockParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnUnblockParentSuccess): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.unblockPerson, type: 'success' }));
   }
 
   @Action(OnUnblockParentFail)
   OnUnblockParentFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUnblockParentFail): void {
-    dispatch(new ShowMessageBar({ 
-      message: payload.error,
-      type: 'error',
-    }));
+    dispatch(new ShowMessageBar({ message: payload.error, type: 'error' }));
   }
 }

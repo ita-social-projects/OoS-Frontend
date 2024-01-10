@@ -2,27 +2,27 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { ApplicationEntityType } from 'shared/enum/applications';
-import { Constants, EMPTY_RESULT } from '../constants/constants';
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { ProviderStatuses } from '../enum/statuses';
-import { Achievement } from '../models/achievement.model';
-import { BlockedParent } from '../models/block.model';
-import { Child } from '../models/child.model';
-import { TruncatedItem } from '../models/item.model';
-import { LicenseStatusData, Provider, ProviderStatusUpdateData } from '../models/provider.model';
-import { ProviderAdmin } from '../models/providerAdmin.model';
-import { SearchResponse } from '../models/search.model';
-import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
-import { AchievementsService } from '../services/achievements/achievements.service';
-import { BlockService } from '../services/block/block.service';
-import { ProviderAdminService } from '../services/provider-admins/provider-admin.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
-import { Util } from '../utils/utils';
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { ProviderStatuses } from 'shared/enum/statuses';
+import { Achievement } from 'shared/models/achievement.model';
+import { BlockedParent } from 'shared/models/block.model';
+import { Child } from 'shared/models/child.model';
+import { TruncatedItem } from 'shared/models/item.model';
+import { LicenseStatusData, Provider, ProviderStatusUpdateData } from 'shared/models/provider.model';
+import { ProviderAdmin } from 'shared/models/providerAdmin.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
+import { AchievementsService } from 'shared/services/achievements/achievements.service';
+import { BlockService } from 'shared/services/block/block.service';
+import { ProviderAdminService } from 'shared/services/provider-admins/provider-admin.service';
+import { ProviderService } from 'shared/services/provider/provider.service';
+import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
+import { Util } from 'shared/utils/utils';
 import { GetFilteredProviders } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
@@ -234,7 +234,7 @@ export class ProviderState {
   }
 
   @Action(CreateAchievement)
-  createAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateAchievement): Observable<void | Achievement> {
+  createAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateAchievement): Observable<Achievement | void> {
     return this.achievementsService.createAchievement(payload).pipe(
       tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
@@ -261,7 +261,7 @@ export class ProviderState {
   }
 
   @Action(UpdateAchievement)
-  updateAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateAchievement): Observable<void | Achievement> {
+  updateAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateAchievement): Observable<Achievement | void> {
     return this.achievementsService.updateAchievement(payload).pipe(
       tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
       catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
@@ -286,13 +286,10 @@ export class ProviderState {
   }
 
   @Action(DeleteAchievementById)
-  deleteAchievementById(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: DeleteAchievementById
-  ): Observable<void | Observable<void>> {
+  deleteAchievementById({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteAchievementById): Observable<void> {
     return this.achievementsService.deleteAchievement(payload).pipe(
       tap(() => dispatch(new OnDeleteAchievementSuccess(payload))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteAchievementFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteAchievementFail(error)))
     );
   }
 
@@ -353,14 +350,11 @@ export class ProviderState {
   }
 
   @Action(CreateWorkshop)
-  createWorkshop(
-    { patchState, dispatch }: StateContext<ProviderStateModel>,
-    { payload }: CreateWorkshop
-  ): Observable<Workshop | Observable<void>> {
+  createWorkshop({ patchState, dispatch }: StateContext<ProviderStateModel>, { payload }: CreateWorkshop): Observable<Workshop | void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.createWorkshop(payload).pipe(
       tap((res: Workshop) => dispatch(new OnCreateWorkshopSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateWorkshopFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateWorkshopFail(error)))
     );
   }
 
@@ -379,10 +373,10 @@ export class ProviderState {
   }
 
   @Action(UpdateWorkshop)
-  updateWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateWorkshop): Observable<Workshop | Observable<void>> {
+  updateWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateWorkshop): Observable<Workshop | void> {
     return this.userWorkshopService.updateWorkshop(payload).pipe(
       tap((res: Workshop) => dispatch(new OnUpdateWorkshopSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateWorkshopFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateWorkshopFail(error)))
     );
   }
 
@@ -399,13 +393,10 @@ export class ProviderState {
   }
 
   @Action(DeleteWorkshopById)
-  deleteWorkshop(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: DeleteWorkshopById
-  ): Observable<void | Observable<void>> {
+  deleteWorkshop({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: DeleteWorkshopById): Observable<void> {
     return this.userWorkshopService.deleteWorkshop(payload.workshopId).pipe(
       tap(() => dispatch(new OnDeleteWorkshopSuccess(parameters))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteWorkshopFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteWorkshopFail(error)))
     );
   }
 
@@ -429,10 +420,10 @@ export class ProviderState {
   createProvider(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, isImagesFeature }: CreateProvider
-  ): Observable<Provider | Observable<void>> {
+  ): Observable<Provider | void> {
     return this.providerService.createProvider(payload, isImagesFeature).pipe(
       tap((res: Provider) => dispatch(new OnCreateProviderSuccess(res))),
-      catchError((error) => of(dispatch(new OnCreateProviderFail(error))))
+      catchError((error) => dispatch(new OnCreateProviderFail(error)))
     );
   }
 
@@ -461,10 +452,10 @@ export class ProviderState {
   updateProvider(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, isImagesFeature }: UpdateProvider
-  ): Observable<Provider | Observable<void>> {
+  ): Observable<Provider | void> {
     return this.providerService.updateProvider(payload, isImagesFeature).pipe(
       tap(() => dispatch(new OnUpdateProviderSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateProviderFail(error)))
     );
   }
 
@@ -489,10 +480,10 @@ export class ProviderState {
   updateProviderStatus(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: UpdateProviderStatus
-  ): Observable<ProviderStatusUpdateData | Observable<void>> {
+  ): Observable<ProviderStatusUpdateData | void> {
     return this.providerService.updateProviderStatus(payload).pipe(
       tap(() => dispatch(new OnUpdateProviderStatusSuccess(payload, providerParameters))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateProviderStatusFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateProviderStatusFail(error)))
     );
   }
 
@@ -537,13 +528,10 @@ export class ProviderState {
   }
 
   @Action(CreateProviderAdmin)
-  createProviderAdmin(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload }: CreateProviderAdmin
-  ): Observable<ProviderAdmin | Observable<void>> {
+  createProviderAdmin({ dispatch }: StateContext<ProviderStateModel>, { payload }: CreateProviderAdmin): Observable<ProviderAdmin | void> {
     return this.providerAdminService.createProviderAdmin(payload).pipe(
       tap((res: ProviderAdmin) => dispatch(new OnCreateProviderAdminSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateProviderAdminFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnCreateProviderAdminFail(error)))
     );
   }
 
@@ -570,13 +558,10 @@ export class ProviderState {
   }
 
   @Action(BlockProviderAdminById)
-  blockProviderAdmin(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, filterParams }: BlockProviderAdminById
-  ): Observable<void | Observable<void>> {
+  blockProviderAdmin({ dispatch }: StateContext<ProviderStateModel>, { payload, filterParams }: BlockProviderAdminById): Observable<void> {
     return this.providerAdminService.blockProviderAdmin(payload).pipe(
       tap(() => dispatch(new OnBlockProviderAdminSuccess(payload, filterParams))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockProviderAdminFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnBlockProviderAdminFail(error)))
     );
   }
 
@@ -603,10 +588,10 @@ export class ProviderState {
   deleteProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, filterParams }: DeleteProviderAdminById
-  ): Observable<void | Observable<void>> {
+  ): Observable<void> {
     return this.providerAdminService.deleteProviderAdmin(payload.userId, payload.providerId).pipe(
       tap(() => dispatch(new OnDeleteProviderAdminSuccess(filterParams))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderAdminFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteProviderAdminFail(error)))
     );
   }
 
@@ -630,7 +615,7 @@ export class ProviderState {
   updateProviderAdmin(
     { dispatch }: StateContext<ProviderStateModel>,
     { providerId, providerAdmin }: UpdateProviderAdmin
-  ): Observable<void | ProviderAdmin> {
+  ): Observable<ProviderAdmin | void> {
     return this.providerAdminService.updateProviderAdmin(providerId, providerAdmin).pipe(
       tap(() => dispatch(new OnUpdateProviderAdminSuccess(providerAdmin))),
       catchError((error: HttpErrorResponse) => dispatch(new OnUpdateProviderAdminFail(error)))
@@ -663,10 +648,10 @@ export class ProviderState {
   updateStatus(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerId }: UpdateWorkshopStatus
-  ): Observable<WorkshopStatus | Observable<void>> {
+  ): Observable<WorkshopStatus | void> {
     return this.userWorkshopService.updateWorkshopStatus(payload).pipe(
       tap(() => dispatch(new OnUpdateWorkshopStatusSuccess(providerId))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateWorkshopStatusFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateWorkshopStatusFail(error)))
     );
   }
 
@@ -679,10 +664,7 @@ export class ProviderState {
   onUpdateStatusSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopStatusSuccess): void {}
 
   @Action(BlockParent)
-  blockParent(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: BlockParent
-  ): Observable<BlockedParent | Observable<void>> {
+  blockParent({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: BlockParent): Observable<BlockedParent | void> {
     return this.blockService.blockParent(payload).pipe(
       tap((res: BlockedParent) => {
         dispatch(new BlockParentSuccess(res));
@@ -695,7 +677,7 @@ export class ProviderState {
           );
         }
       }),
-      catchError((error: HttpErrorResponse) => of(dispatch(new BlockParentFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new BlockParentFail(error)))
     );
   }
 
@@ -710,10 +692,7 @@ export class ProviderState {
   }
 
   @Action(UnBlockParent)
-  unBlockParent(
-    { dispatch }: StateContext<ProviderStateModel>,
-    { payload, parameters }: UnBlockParent
-  ): Observable<BlockedParent | Observable<void>> {
+  unBlockParent({ dispatch }: StateContext<ProviderStateModel>, { payload, parameters }: UnBlockParent): Observable<BlockedParent | void> {
     return this.blockService.unBlockParent(payload).pipe(
       tap((res: BlockedParent) => {
         dispatch(new UnBlockParentSuccess(res));
@@ -726,7 +705,7 @@ export class ProviderState {
           );
         }
       }),
-      catchError((error: Error) => of(dispatch(new UnBlockParentFail(error))))
+      catchError((error: Error) => dispatch(new UnBlockParentFail(error)))
     );
   }
 
@@ -764,10 +743,10 @@ export class ProviderState {
   deleteProviderById(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: DeleteProviderById
-  ): Observable<void | Observable<void>> {
+  ): Observable<void> {
     return this.providerService.deleteProviderById(payload).pipe(
       tap(() => dispatch(new OnDeleteProviderByIdSuccess(payload, providerParameters))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteProviderByIdFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteProviderByIdFail(error)))
     );
   }
 

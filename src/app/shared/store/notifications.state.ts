@@ -1,13 +1,12 @@
-import { Observable, of } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
-
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { catchError, tap } from 'rxjs/operators';
 
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { Notification, Notifications, NotificationsAmount } from '../models/notifications.model';
-import { NotificationsService } from '../services/notifications/notifications.service';
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { Notification, Notifications, NotificationsAmount } from 'shared/models/notifications.model';
+import { NotificationsService } from 'shared/services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';
 import {
   ClearNotificationState,
@@ -72,14 +71,14 @@ export class NotificationsState {
   readUsersNotificationsByType(
     { dispatch }: StateContext<NotificationsStateModel>,
     { notificationType, needGetRequest }: ReadUsersNotificationsByType
-  ): Observable<void | Observable<void>> {
+  ): Observable<void> {
     return this.notificationsService.readUsersNotificationsByType(notificationType).pipe(
       tap(() => {
         if (needGetRequest) {
           dispatch(new OnReadUsersNotificationsByTypeSuccess());
         }
       }),
-      catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error))))
+      catchError((error: Error) => dispatch(new OnReadUsersNotificationsFail(error)))
     );
   }
 
@@ -95,20 +94,20 @@ export class NotificationsState {
   readUsersNotificationsById(
     { dispatch }: StateContext<NotificationsStateModel>,
     { payload }: ReadUsersNotificationById
-  ): Observable<Notification | Observable<void>> {
+  ): Observable<Notification | void> {
     return this.notificationsService
       .readUsersNotificationById(payload)
-      .pipe(catchError((error: Error) => of(dispatch(new OnReadUsersNotificationsFail(error)))));
+      .pipe(catchError((error: Error) => dispatch(new OnReadUsersNotificationsFail(error))));
   }
 
   @Action(DeleteUsersNotificationById)
   deleteUsersNotificationById(
     { dispatch }: StateContext<NotificationsStateModel>,
     { notificationId }: DeleteUsersNotificationById
-  ): Observable<void | Observable<void>> {
+  ): Observable<void> {
     return this.notificationsService.deleteNotification(notificationId).pipe(
       tap(() => dispatch(new OnDeleteUsersNotificationByIdSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnDeleteUsersNotificationByIdFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnDeleteUsersNotificationByIdFail(error)))
     );
   }
 
