@@ -189,7 +189,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef
       .afterClosed()
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .pipe(filter(Boolean))
       .subscribe(() => {
         const providerAdmin = new ProviderAdmin(
           this.ProviderAdminFormGroup.value,

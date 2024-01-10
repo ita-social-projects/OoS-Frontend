@@ -1,20 +1,20 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Observable, Subject } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  debounceTime, distinctUntilChanged, filter, skip, startWith, switchMap, takeUntil
-} from 'rxjs/operators';
-
-import { MatTabChangeEvent } from '@angular/material/tabs';
 import { MatDialog } from '@angular/material/dialog';
+import { MatTabChangeEvent } from '@angular/material/tabs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { EmailConfirmationStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { UserTabParams } from 'shared/enum/role';
 import { Child, ChildrenParameters } from 'shared/models/child.model';
 import { PaginationElement } from 'shared/models/paginationElement.model';
@@ -23,11 +23,8 @@ import { UsersTable } from 'shared/models/usersTable';
 import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { Util } from 'shared/utils/utils';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OnBlockParent, OnUnblockParent } from 'shared/store/parent.actions';
-import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-users',
@@ -55,15 +52,10 @@ export class UsersComponent implements OnInit, OnDestroy {
     isParent: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
-  
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(
-    public store: Store, 
-    private router: Router, 
-    private route: ActivatedRoute,
-    private matDialog: MatDialog,
-  ) {}
+  constructor(public store: Store, private router: Router, private route: ActivatedRoute, private matDialog: MatDialog) {}
 
   public ngOnInit(): void {
     this.getChildren();
@@ -129,38 +121,46 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public onBlockUnblock(user: UsersTable): void {
     if (user.isBlocked) {
-      this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.unBlockParent,
-          property: user.parentFullName,
-        }
-      }).afterClosed()
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.unBlockParent,
+            property: user.parentFullName
+          }
+        })
+        .afterClosed()
         .pipe(
           filter(Boolean),
-          switchMap(() => this.store.dispatch(
-            new OnUnblockParent({
-              parentId: user.parentId,
-              isBlocked: false,
-            }))),
-          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))),
-          takeUntil(this.destroy$)
+          switchMap(() =>
+            this.store.dispatch(
+              new OnUnblockParent({
+                parentId: user.parentId,
+                isBlocked: false
+              })
+            )
+          ),
+          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)))
         )
         .subscribe();
     } else {
-      this.matDialog.open(ReasonModalWindowComponent, {
-        data: { type: ModalConfirmationType.blockParent }
-      }).afterClosed()
+      this.matDialog
+        .open(ReasonModalWindowComponent, {
+          data: { type: ModalConfirmationType.blockParent }
+        })
+        .afterClosed()
         .pipe(
           filter(Boolean),
-          switchMap((result: string) => this.store.dispatch(
-            new OnBlockParent({
-              parentId: user.parentId,
-              isBlocked: true,
-              reason: result
-            }))),
-          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams))),
-          takeUntil(this.destroy$)
+          switchMap((result: string) =>
+            this.store.dispatch(
+              new OnBlockParent({
+                parentId: user.parentId,
+                isBlocked: true,
+                reason: result
+              })
+            )
+          ),
+          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)))
         )
         .subscribe();
     }
