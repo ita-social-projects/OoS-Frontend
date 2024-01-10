@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { Achievement, AchievementParameters } from 'shared/models/achievement.model';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
-import { Achievement, AchievementParameters } from '../models/achievement.model';
-import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
-import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
-import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
+import { BlockedParent, ProviderAdminBlockData } from 'shared/models/block.model';
+import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
+import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from 'shared/models/provider.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -325,12 +325,10 @@ export class OnDeleteProviderByIdFail {
 
 export class GetProviderAdminById {
   static readonly type = '[provider] get provider admin by id';
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) {}
 }
 
 export class ReinviteProviderAdmin {
   static readonly type = '[provider] reinvites provider admin';
-  constructor(public providerAdmin: ProviderAdmin) {
-  }
+  constructor(public providerAdmin: ProviderAdmin) {}
 }

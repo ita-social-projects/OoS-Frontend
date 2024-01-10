@@ -4,7 +4,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { Notification, Notifications, NotificationsAmount } from 'shared/models/notifications.model';
 import { NotificationsService } from 'shared/services/notifications/notifications.service';
 import { ShowMessageBar } from './app.actions';

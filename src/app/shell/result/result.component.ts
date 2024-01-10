@@ -1,30 +1,25 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
-import { Actions, Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
+import { Actions, Select, Store } from '@ngxs/store';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
+import { PaginationConstants } from 'shared/constants/constants';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { FilterStateModel } from 'shared/models/filterState.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AppState } from 'shared/store/app.state';
-import {
-  FilterClear,
-  ResetFilteredWorkshops,
-  SetFilterFromURL,
-  SetFilterPagination,
-  SetMapView
-} from 'shared/store/filter.actions';
+import { FilterClear, ResetFilteredWorkshops, SetFilterFromURL, SetFilterPagination, SetMapView } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { AddNavPath, DeleteNavPath, FiltersSidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';
 import { RegistrationState } from 'shared/store/registration.state';
-import { WorkshopCard } from 'shared/models/workshop.model';
-import { SearchResponse } from 'shared/models/search.model';
 import { Util } from 'shared/utils/utils';
-import { PaginationConstants } from 'shared/constants/constants';
-import { PaginationParameters } from 'shared/models/queryParameters.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
 
 enum ViewType {
   map = 'map',

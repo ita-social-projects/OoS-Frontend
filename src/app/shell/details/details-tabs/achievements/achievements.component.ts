@@ -3,21 +3,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Achievement, AchievementParameters, AchievementType } from '../../../../shared/models/achievement.model';
-import { Provider } from '../../../../shared/models/provider.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { GetAchievementsType } from '../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { GetAchievementsByWorkshopId, DeleteAchievementById } from '../../../../shared/store/provider.actions';
-import { ProviderState } from '../../../../shared/store/provider.state';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Util } from '../../../../shared/utils/utils';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Achievement, AchievementParameters, AchievementType } from 'shared/models/achievement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Provider } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { GetAchievementsType } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-achievements',

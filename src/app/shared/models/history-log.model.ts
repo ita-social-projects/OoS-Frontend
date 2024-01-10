@@ -1,4 +1,4 @@
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { User } from './user.model';
 
 export interface ProviderHistory {

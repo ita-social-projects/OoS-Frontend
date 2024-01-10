@@ -1,11 +1,10 @@
-import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Geocoder } from '../../models/geolocation';
-import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { Coords } from '../../models/coords.model';
+import { map } from 'rxjs/operators';
+
+import { Coords } from 'shared/models/coords.model';
+import { Geocoder } from 'shared/models/geolocation';
 
 @Injectable({
   providedIn: 'root'

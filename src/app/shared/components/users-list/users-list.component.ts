@@ -4,12 +4,12 @@ import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngxs/store';
 
-import { Constants } from '../../constants/constants';
-import { UserStatusesTitles } from '../../enum/enumUA/statuses';
-import { Role } from '../../enum/role';
-import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
-import { UsersTable } from '../../models/usersTable';
-import { RegistrationState } from '../../store/registration.state';
+import { Constants } from 'shared/constants/constants';
+import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
+import { Role } from 'shared/enum/role';
+import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { UsersTable } from 'shared/models/users-table';
+import { RegistrationState } from 'shared/store/registration.state';
 
 /**
  * @title Table with sorting

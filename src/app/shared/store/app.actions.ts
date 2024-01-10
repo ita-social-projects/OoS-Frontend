@@ -1,4 +1,4 @@
-import { MessageBar } from '../models/messageBar.model';
+import { MessageBar } from '../models/message-bar.model';
 
 export class ToggleLoading {
   static readonly type = '[app] toggle page loading';

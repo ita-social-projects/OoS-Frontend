@@ -1,12 +1,11 @@
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
-
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { ShowMessageBar } from '../store/app.actions';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Injectable()
 export class ErrorHandleInterceptor implements HttpInterceptor {

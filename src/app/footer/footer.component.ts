@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Actions, ofAction, ofActionDispatched } from '@ngxs/store';
+import { Actions, ofActionDispatched } from '@ngxs/store';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
-import { MessageBar } from 'shared/models/messageBar.model';
+import { MessageBar } from 'shared/models/message-bar.model';
 import { ClearMessageBar, ShowMessageBar } from 'shared/store/app.actions';
 
 @Component({

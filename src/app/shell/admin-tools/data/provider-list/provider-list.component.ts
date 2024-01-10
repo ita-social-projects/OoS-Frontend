@@ -1,49 +1,49 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable, of, Subject } from 'rxjs';
-import { MatSort, Sort } from '@angular/material/sort';
 import { LiveAnnouncer } from '@angular/cdk/a11y';
-import { MatTableDataSource } from '@angular/material/table';
-import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatSort, Sort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute } from '@angular/router';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
-import { AdminState } from 'shared/store/admin.state';
+import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { OwnershipTypes } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
+import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { BaseAdmin } from 'shared/models/admin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Institution } from 'shared/models/institution.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Provider, ProviderParameters, ProviderStatusUpdateData } from 'shared/models/provider.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 import {
   BlockProviderById,
+  GetAreaAdminProfile,
   GetFilteredProviders,
   GetMinistryAdminProfile,
-  GetRegionAdminProfile,
-  GetAreaAdminProfile
+  GetRegionAdminProfile
 } from 'shared/store/admin.actions';
-import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { SearchResponse } from 'shared/models/search.model';
-import { MatDialog } from '@angular/material/dialog';
-import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
-import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
-import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { DeleteProviderById, UpdateProviderLicenseStatus, UpdateProviderStatus } from 'shared/store/provider.actions';
-import { OwnershipTypes } from 'shared/enum/provider';
-import { LicenseStatusTitles, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
-import { Util } from 'shared/utils/utils';
-import { MetaDataState } from 'shared/store/meta-data.state';
-import { Institution } from 'shared/models/institution.model';
-import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
-import { Codeficator } from 'shared/models/codeficator.model';
-import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { AdminState } from 'shared/store/admin.state';
 import { FilterState } from 'shared/store/filter.state';
-import { ActivatedRoute } from '@angular/router';
+import { ClearCodeficatorSearch, GetAllInstitutions, GetCodeficatorById, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { DeleteProviderById, UpdateProviderLicenseStatus, UpdateProviderStatus } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
-import { Role } from 'shared/enum/role';
-import { RegionAdmin } from 'shared/models/regionAdmin.model';
-import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-provider-list',
@@ -134,8 +134,6 @@ export class ProviderListComponent implements OnInit, OnDestroy {
               return this.store.dispatch(new GetRegionAdminProfile());
             case Role.areaAdmin:
               return this.store.dispatch(new GetAreaAdminProfile());
-            default:
-              return of(null);
           }
         })
       )
@@ -450,7 +448,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       case Role.regionAdmin:
       case Role.areaAdmin:
         this.providerParameters.institutionId = this.selectedAdmin.institutionId;
-        this.providerParameters.catottgId = String((this.selectedAdmin as RegionAdmin | AreaAdmin).catottgId);
+        this.providerParameters.catottgId = (this.selectedAdmin as RegionAdmin | AreaAdmin).catottgId.toString();
         break;
       default:
         this.providerParameters = {

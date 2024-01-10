@@ -1,7 +1,5 @@
 import { Observable, Subject } from 'rxjs';
-import {
-  debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
-} from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
@@ -9,25 +7,19 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
-import { PaginationConstants } from '../../../../shared/constants/constants';
-import {
-  ApplicationOptions, ProviderAdminOptions, ProviderOptions
-} from '../../../../shared/constants/drop-down';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
-import { HistoryLogTypes } from '../../../../shared/enum/history.log';
-import {
-  ApplicationHistory, DropdownData, FilterData, ProviderAdminHistory, ProviderHistory
-} from '../../../../shared/models/history-log.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import {
-  GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory
-} from '../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../shared/store/admin.state';
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { Util } from '../../../../shared/utils/utils';
+import { PaginationConstants } from 'shared/constants/constants';
+import { ApplicationOptions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
+import { HistoryLogTypes } from 'shared/enum/history.log';
+import { ApplicationHistory, DropdownData, FilterData, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { GetApplicationHistory, GetProviderAdminHistory, GetProviderHistory } from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-history-log',

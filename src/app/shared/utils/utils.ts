@@ -1,20 +1,19 @@
+import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { Role } from 'shared/enum/role';
+import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { UserTabsTitles } from '../enum/enumUA/user';
-import { Role } from '../enum/role';
-import { UserStatuses } from '../enum/statuses';
-import { Child } from '../models/child.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { Person } from '../models/user.model';
-import { UsersTable } from '../models/usersTable';
-import { EmailConfirmationStatuses } from './../enum/statuses';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Child } from 'shared/models/child.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Person } from 'shared/models/user.model';
+import { UsersTable } from 'shared/models/users-table';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -101,7 +100,7 @@ export class Util {
         status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending,
         isBlocked: user.parent.isBlocked,
         parentId: user.parentId,
-        parentFullName: this.getFullName(user.parent),
+        parentFullName: this.getFullName(user.parent)
       });
     });
     return updatedUsers;

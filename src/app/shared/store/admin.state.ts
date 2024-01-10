@@ -8,19 +8,19 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
 import { AdminRoles, AdminTabTypes } from 'shared/enum/admins';
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Direction } from 'shared/models/category.model';
 import { Child } from 'shared/models/child.model';
+import { CompanyInformation } from 'shared/models/company-information.model';
 import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
-import { MinistryAdmin } from 'shared/models/ministryAdmin.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Parent } from 'shared/models/parent.model';
 import { Provider } from 'shared/models/provider.model';
-import { RegionAdmin } from 'shared/models/regionAdmin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticReport } from 'shared/models/statistic.model';
-import { CompanyInformation } from 'shared/models/сompanyInformation.model';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ChildrenService } from 'shared/services/children/children.service';
 import { DirectionsService } from 'shared/services/directions/directions.service';
@@ -565,9 +565,6 @@ export class AdminState {
         dispatch(new GetAllAreaAdmins(parameters));
         break;
       }
-      default: {
-        dispatch(new GetAllMinistryAdmins(parameters));
-      }
     }
   }
 
@@ -604,9 +601,6 @@ export class AdminState {
         dispatch(new CreateAreaAdmin(payload as AreaAdmin));
         break;
       }
-      default: {
-        dispatch(new CreateMinistryAdmin(payload));
-      }
     }
   }
 
@@ -624,9 +618,6 @@ export class AdminState {
       case AdminRoles.areaAdmin: {
         dispatch(new UpdateAreaAdmin(payload as AreaAdmin));
         break;
-      }
-      default: {
-        dispatch(new UpdateMinistryAdmin(payload));
       }
     }
   }
@@ -646,9 +637,6 @@ export class AdminState {
         dispatch(new DeleteAreaAdminById(payload));
         break;
       }
-      default: {
-        dispatch(new DeleteMinistryAdminById(payload));
-      }
     }
   }
 
@@ -666,9 +654,6 @@ export class AdminState {
       case AdminRoles.areaAdmin: {
         dispatch(new BlockAreaAdminById(payload));
         break;
-      }
-      default: {
-        dispatch(new BlockMinistryAdminById(payload));
       }
     }
   }

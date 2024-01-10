@@ -7,14 +7,14 @@ import { catchError, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { ApplicationEntityType } from 'shared/enum/applications';
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ProviderStatuses } from 'shared/enum/statuses';
 import { Achievement } from 'shared/models/achievement.model';
 import { BlockedParent } from 'shared/models/block.model';
 import { Child } from 'shared/models/child.model';
 import { TruncatedItem } from 'shared/models/item.model';
+import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { LicenseStatusData, Provider, ProviderStatusUpdateData } from 'shared/models/provider.model';
-import { ProviderAdmin } from 'shared/models/providerAdmin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';

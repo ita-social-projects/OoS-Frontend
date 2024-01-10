@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatSnackBar, MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
-import { messageType } from '../../enum/messageBar';
-import { MessageBar } from '../../models/messageBar.model';
+import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+
+import { messageType } from 'shared/enum/message-bar';
+import { MessageBar } from 'shared/models/message-bar.model';
 
 @Component({
   selector: 'app-message-bar',

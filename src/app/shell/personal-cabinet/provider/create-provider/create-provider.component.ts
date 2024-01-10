@@ -15,7 +15,7 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateProviderSteps } from 'shared/enum/provider';
 import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { Provider } from 'shared/models/provider.model';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';

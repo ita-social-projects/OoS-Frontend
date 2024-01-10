@@ -1,16 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { AdminRoles, AdminTabTypes } from 'shared/enum/admins';
 import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from 'shared/models/admin.model';
-import { AreaAdmin, AreaAdminBlockData, AreaAdminParameters } from 'shared/models/areaAdmin.model';
-import { AdminRoles, AdminTabTypes } from '../enum/admins';
-import { Direction, DirectionParameters } from '../models/category.model';
-import { ChildrenParameters } from '../models/child.model';
-import { FilterData } from '../models/history-log.model';
-import { BlockProviderData, ProviderParameters } from '../models/provider.model';
-import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from '../models/regionAdmin.model';
-import { StatisticParameters } from '../models/statistic.model';
-import { CompanyInformation } from '../models/сompanyInformation.model';
-import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from './../models/ministryAdmin.model';
+import { AreaAdmin, AreaAdminBlockData, AreaAdminParameters } from 'shared/models/area-admin.model';
+import { Direction, DirectionParameters } from 'shared/models/category.model';
+import { ChildrenParameters } from 'shared/models/child.model';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { FilterData } from 'shared/models/history-log.model';
+import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
+import { BlockProviderData, ProviderParameters } from 'shared/models/provider.model';
+import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from 'shared/models/region-admin.model';
+import { StatisticParameters } from 'shared/models/statistic.model';
 
 export class GetAboutPortal {
   static readonly type = '[admin] Get About Portal';

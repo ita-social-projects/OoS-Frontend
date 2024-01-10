@@ -9,7 +9,7 @@ import { ValidationConstants } from 'shared/constants/validation';
 import { AdminTabTypes } from 'shared/enum/admins';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { AdminTabsTitles } from 'shared/enum/enumUA/tech-admin/admin-tabs';
-import { CompanyInformation, CompanyInformationSectionItem } from 'shared/models/сompanyInformation.model';
+import { CompanyInformation, CompanyInformationSectionItem } from 'shared/models/company-information.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { GetPlatformInfo, UpdatePlatformInfo } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
@@ -64,7 +64,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
         throttleTime(this.defaultThrottleTime),
         switchMap(() => this.updatePlatformInfoInStore())
       )
-      .subscribe(() => this.isDispatching = false);
+      .subscribe(() => (this.isDispatching = false));
   }
 
   private setInitialData(params: Params): void {

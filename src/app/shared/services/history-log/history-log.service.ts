@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ApplicationHistory, FilterData, ProviderAdminHistory, ProviderHistory } from '../../models/history-log.model';
-import { PaginationElement } from '../../models/paginationElement.model';
-import { SearchResponse } from '../../models/search.model';
+
+import { ApplicationHistory, FilterData, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
   providedIn: 'root'

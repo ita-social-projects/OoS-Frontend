@@ -1,8 +1,8 @@
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { Codeficator } from './../models/codeficator.model';
-import { WorkshopOpenStatus } from '../enum/workshop';
-import { Coords } from '../models/coords.model';
-import { PaginationParameters } from '../models/queryParameters.model';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Coords } from 'shared/models/coords.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
 
 export class SetCity {
   static readonly type = '[app] Set City';

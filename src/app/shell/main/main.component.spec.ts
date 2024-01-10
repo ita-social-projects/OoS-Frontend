@@ -12,8 +12,8 @@ import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
 import { Role } from 'shared/enum/role';
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
 import { Direction } from 'shared/models/category.model';
-import { DefaultFilterState } from 'shared/models/defaultFilterState.model';
-import { FilterStateModel } from 'shared/models/filterState.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { ParentStateModel } from 'shared/store/parent.state';
 import { Login } from 'shared/store/registration.actions';
@@ -77,7 +77,7 @@ describe('MainComponent', () => {
     regionAdmin: undefined,
     areaAdmin: undefined,
     role: Role.unauthorized,
-    subrole: Role.unauthorized
+    subrole: undefined
   }
 })
 @Injectable()

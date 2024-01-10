@@ -1,18 +1,19 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from "shared/constants/constants";
-import { SearchResponse } from '../../../shared/models/search.model';
-import { Role } from '../../../shared/enum/role';
-import { Address } from '../../../shared/models/address.model';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { ClearCoordsByMap, ClearRadiusSize, GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
-import { ClearMessageBar } from '../../../shared/store/app.actions';
-import { PaginationParameters } from '../../../shared/models/queryParameters.model';
-import { Util } from '../../../shared/utils/utils';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { Role } from 'shared/enum/role';
+import { Address } from 'shared/models/address.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { ClearMessageBar } from 'shared/store/app.actions';
+import { ClearCoordsByMap, ClearRadiusSize } from 'shared/store/filter.actions';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-map-view-list',

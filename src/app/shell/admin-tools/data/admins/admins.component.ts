@@ -15,15 +15,15 @@ import { AdminRolesTitles } from 'shared-enum/enumUA/tech-admin/admins';
 import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
 import { Role } from 'shared-enum/role';
 import { BaseAdmin, BaseAdminParameters } from 'shared-models/admin.model';
-import { PaginationElement } from 'shared-models/paginationElement.model';
 import { SearchResponse } from 'shared-models/search.model';
-import { BlockData, UsersTable } from 'shared-models/usersTable';
 import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
 import { RegistrationState } from 'shared-store/registration.state';
 import { Util } from 'shared-utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { BlockData, UsersTable } from 'shared/models/users-table';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 

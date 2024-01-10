@@ -10,14 +10,14 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { Role, Subrole } from 'shared/enum/role';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
-import { MinistryAdmin } from 'shared/models/ministryAdmin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Parent } from 'shared/models/parent.model';
 import { Provider } from 'shared/models/provider.model';
-import { RegionAdmin } from 'shared/models/regionAdmin.model';
-import { TechAdmin } from 'shared/models/techAdmin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { TechAdmin } from 'shared/models/tech-admin.model';
 import { User } from 'shared/models/user.model';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-admin.service';
@@ -199,6 +199,8 @@ export class RegistrationState {
     switch (state.user.role) {
       case Role.parent:
         return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
+      case Role.provider:
+        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
       case Role.techAdmin:
         return this.techAdminService.getProfile().pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       case Role.regionAdmin:
@@ -209,8 +211,6 @@ export class RegistrationState {
           .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
       case Role.areaAdmin:
         return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin: areaAdmin })));
-      default:
-        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }
   }
 

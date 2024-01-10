@@ -1,11 +1,11 @@
-import { Institution } from './institution.model';
+import { InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import { Address } from './address.model';
-import { User } from './user.model';
-import { SectionItem } from './sectionItem.model';
-import { LicenseStatuses, ProviderStatuses } from '../enum/statuses';
+import { Institution } from './institution.model';
 import { DataItem } from './item.model';
-import { InstitutionTypes, OwnershipTypes } from '../enum/provider';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
+import { SectionItem } from './section-item.model';
+import { User } from './user.model';
 
 export interface BlockProviderData {
   id: string;

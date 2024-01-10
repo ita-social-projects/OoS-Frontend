@@ -1,16 +1,15 @@
-import { SearchResponse } from './../../models/search.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { PaginationElement } from '../../models/paginationElement.model';
-import { Rate, RateParameters } from '../../models/rating';
+
+import { Rate, RateParameters } from 'shared/models/rating';
+import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RatingService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   getRateByEntityId(rateParameters: RateParameters): Observable<SearchResponse<Rate[]>> {
     const params = new HttpParams().set('Size', rateParameters.size.toString()).set('From', rateParameters.from.toString());

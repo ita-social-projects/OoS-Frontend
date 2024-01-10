@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 import { catchError, debounceTime, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { Application } from 'shared/models/application.model';
 import { Child } from 'shared/models/child.model';
 import { Favorite } from 'shared/models/favorite.model';

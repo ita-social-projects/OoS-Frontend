@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormControl, Validators, FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { DateTimeRanges } from 'shared/models/workingHours.model';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+
+import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Workshop } from 'shared/models/workshop.model';
 
 @Component({

@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
-import { messageStatus, SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { messageStatus, SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application } from 'shared/models/application.model';
 import { Provider } from 'shared/models/provider.model';

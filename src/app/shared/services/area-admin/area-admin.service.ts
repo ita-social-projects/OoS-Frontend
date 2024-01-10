@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AdminRoles } from 'shared/enum/admins';
-import { AreaAdmin, AreaAdminParameters } from '../../models/areaAdmin.model';
-import { SearchResponse } from '../../models/search.model';
+import { AreaAdmin, AreaAdminParameters } from 'shared/models/area-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { BaseAdminService } from '../base-admin/base-admin';
 
 @Injectable({

@@ -4,10 +4,10 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, asyncScheduler, filter, map, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
-import { CHAT_HUB_URL } from 'shared/constants/hubs-Url';
+import { CHAT_HUB_URL } from 'shared/constants/hubs-url';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
