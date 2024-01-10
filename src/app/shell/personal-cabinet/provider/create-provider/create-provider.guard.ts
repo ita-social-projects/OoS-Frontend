@@ -4,10 +4,9 @@ import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
 import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
-import { ActivateEditMode, ShowMessageBar } from 'shared/store/app.actions';
+import { ActivateEditMode } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
 import { RegistrationState } from 'shared/store/registration.state';
 
@@ -43,20 +42,7 @@ export class CreateProviderGuard implements CanLoad, CanDeactivate<unknown> {
     } else {
       return this.role$.pipe(
         filter(Boolean),
-        map((role: string) => {
-          if (role === Role.provider) {
-            this.store.dispatch(
-              new ShowMessageBar({
-                message: SnackbarText.completeRegistration,
-                type: 'warningYellow',
-                verticalPosition: 'bottom',
-                infinityDuration: true,
-                unclosable: true
-              })
-            );
-            return true;
-          }
-        })
+        map((role: string) => role === Role.provider)
       );
     }
   }
