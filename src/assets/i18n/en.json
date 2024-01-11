@@ -269,6 +269,7 @@
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications",
+      "USERS": "Users",
       "ADMIN_STATUS": {
         "CREATE": "Creating an administrator",
         "UPDATE": "Replacement of the administrator",
@@ -582,9 +583,26 @@
     "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
-    "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-    "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
-    "STATUS_CHANGE_TYPE": "Application status change"
+    "PROVIDER_ADMIN_FILTERS": {
+      "ALL": "All",
+      "DEPUTIES": "Deputies",
+      "ASSISTANTS": "Assistants",
+      "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
+      "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
+      "BLOCK_ADMIN_OPTION": "Administrator was blocked",
+      "UPDATE_ADMIN_OPTION": "Administrator was updated",
+      "REINVITE_ADMIN_OPTION": "Administrator was reinvited"
+    },
+    "STATUS_CHANGE_TYPE": "Application status change",
+    "USERS_FILTERS": {
+      "ALL": "All",
+      "BLOCKED": "Blocked",
+      "UNBLOCKED": "Unblocked"
+    },
+    "USER_THAT_WAS_BLOCKED": "User that was blocked",
+    "BLOCKING_REASON": "Blocking reason",
+    "USER_WAS_BLOCKED": "Blocked",
+    "USER_WAS_UNBLOCKED": "Unblocked"
   },
   "STATISTICS": {
     "DATE_RANGE": "Time Range",

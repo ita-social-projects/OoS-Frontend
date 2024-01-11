@@ -269,6 +269,7 @@
       "PROVIDERS": "Заклади",
       "ADMINS": "Адміністратори",
       "APPLICATIONS": "Заявки",
+      "USERS": "Користувачі",
       "ADMIN_STATUS": {
         "CREATE": "Створення адміністратора",
         "UPDATE": "Заміна адміністратора",
@@ -584,9 +585,26 @@
     "SHOW": "Показати",
     "RESET_FILTERS": "Скинути фільтри",
     "PERIOD": "Період",
-    "ADD_ADMIN_OPTION": "Додавання адміністратора до гуртка",
-    "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
-    "STATUS_CHANGE_TYPE": "Зміна статусів заявок"
+    "PROVIDER_ADMIN_FILTERS": {
+      "ALL": "Усі",
+      "DEPUTIES": "Заступники",
+      "ASSISTANTS": "Помічники",
+      "ADD_ADMIN_OPTION": "Додавання адміністратора до гуртка",
+      "REMOVE_ADMIN_OPTION": "Видалення адміністратора з гуртка",
+      "BLOCK_ADMIN_OPTION": "Адміністратора було заблоковано",
+      "UPDATE_ADMIN_OPTION": "Дані про адміністратора були оновлені",
+      "REINVITE_ADMIN_OPTION": "Адміністратор був запрошений повторно"
+    },
+    "STATUS_CHANGE_TYPE": "Зміна статусів заявок",
+    "USERS_FILTERS": {
+      "ALL": "Всі",
+      "BLOCKED": "Заблоковані",
+      "UNBLOCKED": "Розблоковані"
+    },
+    "USER_THAT_WAS_BLOCKED": "Користувач якого заблокували",
+    "BLOCKING_REASON": "Причина блокування",
+    "USER_WAS_BLOCKED": "Заблоковано",
+    "USER_WAS_UNBLOCKED": "Розблоковано"
   },
   "STATISTICS": {
     "DATE_RANGE": "Часовий проміжок",

@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofActionSuccessful } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
@@ -30,16 +30,16 @@ import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.componen
   templateUrl: './provider-applications.component.html'
 })
 export class ProviderApplicationsComponent extends CabinetDataComponent implements OnInit, OnDestroy {
-  readonly WorkshopDeclination = WorkshopDeclination;
+  public readonly WorkshopDeclination = WorkshopDeclination;
 
   @Select(ProviderState.truncated)
-  workshops$: Observable<TruncatedItem[]>;
+  public workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
-  provider$: Observable<Provider>;
-  provider: Provider;
-  providerId: string;
+  private provider$: Observable<Provider>;
+  public provider: Provider;
+  private providerId: string;
 
-  applicationParams: ApplicationFilterParameters = {
+  public applicationParams: ApplicationFilterParameters = {
     property: null,
     statuses: [],
     show: ApplicationShowParams.All,
@@ -49,21 +49,11 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, protected router: Router) {
+  constructor(protected store: Store, protected matDialog: MatDialog, protected router: Router, private actions$: Actions) {
     super(store, matDialog);
   }
 
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Applications,
-        isActive: false,
-        disable: true
-      })
-    );
-  }
-
-  init(): void {
+  protected init(): void {
     this.provider$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((provider: Provider) => {
       this.provider = provider;
       switch (this.subrole) {
@@ -79,21 +69,32 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       }
       this.getProviderWorkshops();
     });
+    this.actions$.pipe(ofActionSuccessful(BlockParent, UnBlockParent), takeUntil(this.destroy$)).subscribe(() => this.onGetApplications());
   }
 
-  onGetApplications(): void {
-    this.store.dispatch(new GetApplicationsByPropertyId(this.providerId, this.applicationParams));
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Applications,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 
   /**
    * This method changes status of emitted event to "approved"
    * @param application event
    */
-  onApprove(application: Application): void {
+  public onApprove(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.Approved);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
   }
 
+  /**
+   * This method changes status of emitted event to "accepted for selection"
+   * @param application event
+   */
   public onAcceptForSelection(application: Application): void {
     const applicationUpdate = new ApplicationUpdate(application, ApplicationStatuses.AcceptedForSelection);
     this.store.dispatch(new UpdateApplication(applicationUpdate));
@@ -103,7 +104,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
    * This method changes status of emitted event to "rejected"
    * @param application event
    */
-  onReject(application: Application): void {
+  public onReject(application: Application): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
       data: { type: ModalConfirmationType.rejectApplication }
     });
@@ -119,7 +120,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
    * This method emit block parent
    * @param parentId
    */
-  onBlock(parentId: string): void {
+  public onBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
       data: { type: ModalConfirmationType.blockParent }
     });
@@ -127,8 +128,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       if (result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
         const blockedParent = new BlockedParent(parentId, providerId, result);
-        blockedParent.userIdBlock = this.providerId;
-        this.store.dispatch(new BlockParent(blockedParent, this.applicationParams));
+        this.store.dispatch(new BlockParent(blockedParent));
       }
     });
   }
@@ -137,7 +137,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
    * This method emit unblock parent
    * @param parentId
    */
-  onUnBlock(parentId: string): void {
+  public onUnBlock(parentId: string): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -148,10 +148,29 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
       if (result) {
         const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
         const blockedParent = new BlockedParent(parentId, providerId);
-        blockedParent.userIdUnblock = this.providerId;
-        this.store.dispatch(new UnBlockParent(blockedParent, this.applicationParams));
+        this.store.dispatch(new UnBlockParent(blockedParent));
       }
     });
+  }
+
+  public onSendMessage(application: Application): void {
+    this.router.navigate(['/personal-cabinet/messages/', application.id], {
+      queryParams: { mode: ModeConstants.APPLICATION },
+      replaceUrl: false
+    });
+  }
+
+  /**
+   * This applies selected IDs as filtering parameter to get list of applications
+   * @param IDs
+   */
+  public onEntitiesSelect(IDs: string[]): void {
+    this.applicationParams.workshops = IDs;
+    this.onGetApplications();
+  }
+
+  private onGetApplications(): void {
+    this.store.dispatch(new GetApplicationsByPropertyId(this.providerId, this.applicationParams));
   }
 
   private getProviderWorkshops(): void {
@@ -164,21 +183,5 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
         this.store.dispatch(new GetWorkshopListByProviderAdminId(this.providerId));
         break;
     }
-  }
-
-  /**
-   * This applies selected IDs as filtering parameter to get list of applications
-   * @param IDs
-   */
-  onEntitiesSelect(IDs: string[]): void {
-    this.applicationParams.workshops = IDs;
-    this.onGetApplications();
-  }
-
-  onSendMessage(application: Application): void {
-    this.router.navigate(['/personal-cabinet/messages/', application.id], {
-      queryParams: { mode: ModeConstants.APPLICATION },
-      replaceUrl: false
-    });
   }
 }

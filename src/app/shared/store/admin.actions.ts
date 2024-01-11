@@ -6,7 +6,7 @@ import { AdminRoles, AdminTabTypes } from '../enum/admins';
 import { Direction, DirectionParameters } from '../models/category.model';
 import { ChildrenParameters } from '../models/child.model';
 import { FilterData } from '../models/history-log.model';
-import { BlockProviderData, ProviderParameters } from '../models/provider.model';
+import { ProviderBlock, ProviderParameters } from '../models/provider.model';
 import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from '../models/regionAdmin.model';
 import { StatisticParameters } from '../models/statistic.model';
 import { CompanyInformation } from '../models/сompanyInformation.model';
@@ -138,12 +138,6 @@ export class OnDeleteDirectionSuccess {
   constructor(public directionParameters: DirectionParameters) {}
 }
 
-export class GetApplicationHistory {
-  static readonly type = '[admin] Get Application History';
-
-  constructor(public payload?: FilterData, public searchSting?: string) {}
-}
-
 export class GetChildrenForAdmin {
   static readonly type = '[admin] Get Children';
 
@@ -168,10 +162,22 @@ export class GetProviderAdminHistory {
   constructor(public payload?: FilterData, public searchSting?: string) {}
 }
 
+export class GetApplicationHistory {
+  static readonly type = '[admin] Get Application History';
+
+  constructor(public payload?: FilterData, public searchSting?: string) {}
+}
+
+export class GetParentsBlockingByAdminHistory {
+  static readonly type = '[admin] Get Parents Blocking By Admin History';
+
+  constructor(public payload?: FilterData, public searchSting?: string) {}
+}
+
 export class BlockProviderById {
   static readonly type = '[admin] Block Provider';
 
-  constructor(public payload: BlockProviderData, public parameters: ProviderParameters) {}
+  constructor(public payload: ProviderBlock, public parameters: ProviderParameters) {}
 }
 
 export class GetAllAdmins {
@@ -447,7 +453,7 @@ export class BlockAreaAdminById {
 export class OnBlockSuccess {
   static readonly type = '[admin] Block Success';
 
-  constructor(public payload: MinistryAdminBlockData | BlockProviderData) {}
+  constructor(public payload: MinistryAdminBlockData | ProviderBlock) {}
 }
 
 export class OnBlockFail {
