@@ -1,20 +1,20 @@
+import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { Role } from 'shared/enum/role';
+import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
 import { AreaAdmin } from 'shared/models/areaAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { UserTabsTitles } from '../enum/enumUA/user';
-import { Role } from '../enum/role';
-import { UserStatuses } from '../enum/statuses';
-import { Child } from '../models/child.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { Person } from '../models/user.model';
-import { UsersTable } from '../models/usersTable';
-import { EmailConfirmationStatuses } from './../enum/statuses';
+import { Child } from 'shared/models/child.model';
+import { DefaultFilterState } from 'shared/models/defaultFilterState.model';
+import { FilterStateModel } from 'shared/models/filterState.model';
+import { MessageBarData } from 'shared/models/messageBar.model';
+import { MinistryAdmin } from 'shared/models/ministryAdmin.model';
+import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { Person } from 'shared/models/user.model';
+import { UsersTable } from 'shared/models/usersTable';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -101,7 +101,7 @@ export class Util {
         status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending,
         isBlocked: user.parent.isBlocked,
         parentId: user.parentId,
-        parentFullName: this.getFullName(user.parent),
+        parentFullName: this.getFullName(user.parent)
       });
     });
     return updatedUsers;
@@ -135,8 +135,8 @@ export class Util {
    * @param message
    * @returns string
    */
-  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
-    const finalMessage = { text: '', type: 'success' };
+  public static getWorkshopMessage(payload, message: string): MessageBarData {
+    const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
@@ -174,7 +174,7 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    finalMessage.text = messageArr.join(';\n');
+    finalMessage.message = messageArr.join(';\n');
 
     return finalMessage;
   }
