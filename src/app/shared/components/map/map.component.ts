@@ -233,7 +233,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
+      this.setNewSingleMarker([this.addressFormGroup.get('latitude').value, this.addressFormGroup.get('longitude').value]);
     }
     this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((address: Geocoder) => {
       if (this.addressFormGroup.valid) {
@@ -252,7 +252,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.setNewSingleMarker([result.lat, result.lon]);
         this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.get('catottgId').value }, { emitEvent: false });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
