@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
-import { FormValidators, ValidationConstants } from '../../../../../shared/constants/validation';
-import { Address } from '../../../../../shared/models/address.model';
-import { Geocoder } from '../../../../../shared/models/geolocation';
+import { FormValidators, ValidationConstants } from 'shared/constants/validation';
+import { Address } from 'shared/models/address.model';
+import { Geocoder } from 'shared/models/geolocation';
 
 @Component({
   selector: 'app-create-workshop-address',
@@ -36,8 +36,8 @@ export class CreateWorkshopAddressComponent implements OnInit {
       street: new FormControl('', FormValidators.defaultStreetValidators),
       buildingNumber: new FormControl('', FormValidators.defaultHouseValidators),
       catottgId: new FormControl('', Validators.required),
-      lat: new FormControl(''),
-      lon: new FormControl('')
+      latitude: new FormControl('', Validators.required),
+      longitude: new FormControl('', Validators.required)
     });
     this.searchFormGroup = this.formBuilder.group({
       settlementSearch: new FormControl('', FormValidators.defaultSearchValidators),
