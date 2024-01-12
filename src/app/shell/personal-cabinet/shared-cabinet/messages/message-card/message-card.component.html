@@ -1,5 +1,9 @@
 <mat-card
-  [ngClass]="chatRoom.notReadByCurrentUserMessagesCount ? 'card card-new' : 'card'"
+  class="card"
+  [ngClass]="{
+    'card-new' : chatRoom.notReadByCurrentUserMessagesCount,
+    'card-blocked': role === Role.provider && chatRoom.parent.isBlocked
+  }"
   [routerLink]="['./', chatRoom.id]">
   <mat-card-content class="card-block card-block__message">
     <div class="companion">
@@ -12,6 +16,12 @@
     <div class="last-message text">
       {{ chatRoom.lastMessage.text }}
     </div>
+    <ng-container *ngIf="role === Role.provider && chatRoom.parent.isBlocked">
+      <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
+        <span> <i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
+        <span> {{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
+      </div>
+    </ng-container>
   </mat-card-content>
   <mat-card-content *ngIf="role === Role.provider" class="card-block card-block__actions">
     <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions"
