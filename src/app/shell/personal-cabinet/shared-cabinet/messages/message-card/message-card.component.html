@@ -28,14 +28,14 @@
       >more_vert</mat-icon
     >
     <mat-menu #actions="matMenu" class="header_menu">
-      <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
-      <!--
-        TODO: uncomment when value for condition is available
+      <ng-container *ngIf="chatRoom.parent.isBlocked then Unblock; else Block"></ng-container>
+      <ng-template #Block>
+        <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
+      </ng-template>
 
-        <button mat-menu-item (click)="onUnBlock()">
-          Розблокувати користувача
-        </button>
-      -->
+    <ng-template #Unblock>
+      <button mat-menu-item (click)="onUnBlock()">{{ 'BUTTONS.UNBLOCK_USER' | translate }}</button>
+    </ng-template>
     </mat-menu>
   </mat-card-content>
 </mat-card>
