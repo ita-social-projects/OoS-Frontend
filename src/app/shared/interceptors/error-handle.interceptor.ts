@@ -11,14 +11,6 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 export class ErrorHandleInterceptor implements HttpInterceptor {
   constructor(private store: Store) {}
 
-  private displayErrorMessageBar(message: string): void {
-    this.store.dispatch(
-      new ShowMessageBar({
-        message: message,
-        type: 'error'
-      })
-    );
-  }
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
@@ -28,19 +20,29 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
             errorMsg = 'Unauthorized';
             this.displayErrorMessageBar(SnackbarText.error401);
             break;
+          case 403:
+            errorMsg = 'Action is forbidden for this user';
+            this.displayErrorMessageBar(SnackbarText.error403);
+            break;
           case 404:
             errorMsg = `URL NOT FOUND: ${error.url}`;
             this.displayErrorMessageBar(SnackbarText.error404);
             break;
-          case 403:
-            errorMsg = 'Action is forbidden for this user';
-            this.displayErrorMessageBar(SnackbarText.error403);
           case 500:
             errorMsg = 'Internal Server Error';
             this.displayErrorMessageBar(SnackbarText.error500);
             break;
         }
         return throwError(() => error);
+      })
+    );
+  }
+
+  private displayErrorMessageBar(message: string): void {
+    this.store.dispatch(
+      new ShowMessageBar({
+        message: message,
+        type: 'error'
       })
     );
   }
