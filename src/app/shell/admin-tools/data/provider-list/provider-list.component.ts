@@ -26,7 +26,7 @@ import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Institution } from 'shared/models/institution.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { Provider, ProviderParameters, ProviderStatusUpdateData } from 'shared/models/provider.model';
+import { Provider, ProviderParameters, ProviderWithStatus } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import {
@@ -305,7 +305,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   }
 
   public onChangeStatus(provider: Provider, status: ProviderStatuses): void {
-    const statusUpdateData = new ProviderStatusUpdateData(provider.id, status);
+    const statusUpdateData = new ProviderWithStatus(provider.id, status);
     if (status === ProviderStatuses.Editing) {
       const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
         data: { type: ModalConfirmationType.editingProvider }

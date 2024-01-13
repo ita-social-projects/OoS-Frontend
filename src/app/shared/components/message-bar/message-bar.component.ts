@@ -1,8 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
 
-import { messageType } from 'shared/enum/message-bar';
-import { MessageBar } from 'shared/models/message-bar.model';
+import { MessageBarIcon } from 'shared/enum/message-bar';
+import { MessageBarData } from 'shared/models/message-bar.model';
 
 @Component({
   selector: 'app-message-bar',
@@ -10,12 +10,12 @@ import { MessageBar } from 'shared/models/message-bar.model';
   styleUrls: ['./message-bar.component.scss']
 })
 export class MessageBarComponent implements OnInit {
-  public messageType: string = messageType[messageType.success];
+  public messageIcon: MessageBarIcon = MessageBarIcon.success;
 
-  constructor(private snackBar: MatSnackBar, @Inject(MAT_SNACK_BAR_DATA) public data: MessageBar) {}
+  constructor(private snackBar: MatSnackBar, @Inject(MAT_SNACK_BAR_DATA) public data: MessageBarData) {}
 
   public ngOnInit(): void {
-    this.messageType = messageType[this.data.type];
+    this.messageIcon = MessageBarIcon[this.data.type];
   }
 
   public onClose(): void {

@@ -7,6 +7,7 @@ import { Observable, Subject } from 'rxjs';
 import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { MessageBarType } from 'shared/enum/message-bar';
 import { Address } from 'shared/models/address.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Coords } from 'shared/models/coords.model';
@@ -389,7 +390,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userRadius.setRadius(num);
   }
 
-  private showWarningMessage(message: SnackbarText, type: string, infinityDuration: boolean): void {
+  private showWarningMessage(message: SnackbarText, type: MessageBarType, infinityDuration: boolean): void {
     this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration }));
   }
 

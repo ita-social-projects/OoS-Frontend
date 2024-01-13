@@ -4,18 +4,18 @@ import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule } from '@angular/mat
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { MessageBar } from 'shared/models/message-bar.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
 import { MessageBarComponent } from './message-bar.component';
 
 describe('SnackBarComponent', () => {
   let component: MessageBarComponent;
   let fixture: ComponentFixture<MessageBarComponent>;
   let matSnackBar: MatSnackBar;
-  let mockData: MessageBar;
+  let mockData: MessageBarData;
 
   beforeEach(async () => {
     mockData = {
-      type: 'messageType',
+      type: 'success',
       message: 'messageText',
       info: 'messageInfo'
     };
@@ -51,11 +51,11 @@ describe('SnackBarComponent', () => {
     const errorContainer = fixture.debugElement.query(By.css('[data-testid="error-text"]'));
 
     expect(errorContainer).toBeTruthy();
-    expect(errorContainer.nativeElement.textContent).toBe('messageInfo');
+    expect(errorContainer.nativeElement.textContent).toBe(' messageInfo ');
   });
 
   it('should not display error message when data type does not equal error', () => {
-    mockData.type = '';
+    mockData.type = 'success';
     fixture.detectChanges();
 
     const errorContainer = fixture.debugElement.query(By.css('[data-testid="error-text"]'));

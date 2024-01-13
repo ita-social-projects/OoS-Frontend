@@ -14,7 +14,7 @@ import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Direction } from 'shared/models/category.model';
 import { Child } from 'shared/models/child.model';
 import { CompanyInformation } from 'shared/models/company-information.model';
-import { ApplicationHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { ApplicationHistory, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { Parent } from 'shared/models/parent.model';
 import { Provider } from 'shared/models/provider.model';
@@ -64,6 +64,7 @@ import {
   GetMainPageInformation,
   GetMinistryAdminById,
   GetMinistryAdminProfile,
+  GetParentsBlockingByAdminHistory,
   GetPlatformInfo,
   GetProviderAdminHistory,
   GetProviderHistory,
@@ -119,12 +120,13 @@ export interface AdminStateModel {
   filteredDirections: SearchResponse<Direction[]>;
   selectedDirection: Direction;
   direction: Direction;
-  applicationHistory: SearchResponse<ApplicationHistory[]>;
   parents: Parent[];
   children: SearchResponse<Child[]>;
   providers: SearchResponse<Provider[]>;
   providerHistory: SearchResponse<ProviderHistory[]>;
   providerAdminHistory: SearchResponse<ProviderAdminHistory[]>;
+  applicationHistory: SearchResponse<ApplicationHistory[]>;
+  parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>;
   admins: SearchResponse<BaseAdmin[]>;
   selectedAdmin: BaseAdmin;
   isLoading: boolean;
@@ -142,12 +144,13 @@ export interface AdminStateModel {
     filteredDirections: null,
     selectedDirection: null,
     direction: null,
-    applicationHistory: null,
     parents: null,
     children: null,
     providers: null,
     providerHistory: null,
     providerAdminHistory: null,
+    applicationHistory: null,
+    parentsBlockingByAdminHistory: null,
     admins: null,
     selectedAdmin: null,
     isLoading: false
@@ -196,11 +199,6 @@ export class AdminState {
   }
 
   @Selector()
-  static applicationHistory(state: AdminStateModel): SearchResponse<ApplicationHistory[]> | [] {
-    return state.applicationHistory;
-  }
-
-  @Selector()
   static parents(state: AdminStateModel): Parent[] {
     return state.parents;
   }
@@ -223,6 +221,16 @@ export class AdminState {
   @Selector()
   static providerAdminHistory(state: AdminStateModel): SearchResponse<ProviderAdminHistory[]> | [] {
     return state.providerAdminHistory;
+  }
+
+  @Selector()
+  static applicationHistory(state: AdminStateModel): SearchResponse<ApplicationHistory[]> | [] {
+    return state.applicationHistory;
+  }
+
+  @Selector()
+  static parentsBlockingByAdminHistory(state: AdminStateModel): SearchResponse<ParentsBlockingByAdminHistory[]> | [] {
+    return state.parentsBlockingByAdminHistory;
   }
 
   @Selector()
@@ -462,22 +470,6 @@ export class AdminState {
     ]);
   }
 
-  @Action(GetApplicationHistory)
-  getApplicationHistory(
-    { patchState }: StateContext<AdminStateModel>,
-    { payload, searchSting }: GetApplicationHistory
-  ): Observable<SearchResponse<ApplicationHistory[]>> {
-    patchState({ isLoading: true });
-    return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
-      tap((applicationHistory: SearchResponse<ApplicationHistory[]>) =>
-        patchState({
-          applicationHistory: applicationHistory ?? EMPTY_RESULT,
-          isLoading: false
-        })
-      )
-    );
-  }
-
   @Action(GetChildrenForAdmin)
   getChildrenForAdmin(
     { patchState }: StateContext<AdminStateModel>,
@@ -537,6 +529,38 @@ export class AdminState {
         patchState({
           providerAdminHistory: providerAdminHistory ?? EMPTY_RESULT,
           isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetApplicationHistory)
+  getApplicationHistory(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload, searchSting }: GetApplicationHistory
+  ): Observable<SearchResponse<ApplicationHistory[]>> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getApplicationHistory(payload, searchSting).pipe(
+      tap((applicationHistory: SearchResponse<ApplicationHistory[]>) =>
+        patchState({
+          applicationHistory: applicationHistory ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
+  }
+
+  @Action(GetParentsBlockingByAdminHistory)
+  getParentsBlockingByAdminHistory(
+    { patchState }: StateContext<AdminStateModel>,
+    { payload, searchSting }: GetParentsBlockingByAdminHistory
+  ): Observable<SearchResponse<ParentsBlockingByAdminHistory[]>> {
+    patchState({ isLoading: true });
+    return this.historyLogService.getParentsBlockingByAdminHistory(payload, searchSting).pipe(
+      tap((parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>) =>
+        patchState({
+          parentsBlockingByAdminHistory: parentsBlockingByAdminHistory ?? EMPTY_RESULT,
+          isLoading: false,
         })
       )
     );

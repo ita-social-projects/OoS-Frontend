@@ -4,7 +4,7 @@ import { Achievement, AchievementParameters } from 'shared/models/achievement.mo
 import { ApplicationFilterParameters } from 'shared/models/application.model';
 import { BlockedParent, ProviderAdminBlockData } from 'shared/models/block.model';
 import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
-import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from 'shared/models/provider.model';
+import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 
@@ -170,12 +170,12 @@ export class OnUpdateProviderSuccess {
 
 export class UpdateProviderStatus {
   static readonly type = '[provider] update Provider status';
-  constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
+  constructor(public payload: ProviderWithStatus, public providerParameters: ProviderParameters) {}
 }
 
 export class UpdateProviderLicenseStatus {
   static readonly type = '[provider] update provider license status';
-  constructor(public payload: LicenseStatusData, public providerParameters: ProviderParameters) {}
+  constructor(public payload: ProviderWithLicenseStatus, public providerParameters: ProviderParameters) {}
 }
 
 export class OnUpdateProviderStatusFail {
@@ -185,7 +185,7 @@ export class OnUpdateProviderStatusFail {
 
 export class OnUpdateProviderStatusSuccess {
   static readonly type = '[provider] update Provider status success';
-  constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
+  constructor(public payload: ProviderWithStatus, public providerParameters: ProviderParameters) {}
 }
 
 export class CreateProviderAdmin {

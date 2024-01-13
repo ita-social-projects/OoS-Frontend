@@ -1,11 +1,14 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Actions, Select, Store, ofActionDispatched } from '@ngxs/store';
+import { Observable, Subject, takeUntil } from 'rxjs';
 
-import { ToggleMobileScreen } from 'shared/store/app.actions';
+import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
+import { MessageBarData } from 'shared/models/message-bar.model';
+import { ClearMessageBar, ShowMessageBar, ToggleMobileScreen } from 'shared/store/app.actions';
 import { GetFeaturesList } from 'shared/store/meta-data.actions';
 import { CheckAuth } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -16,26 +19,26 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.isAuthorizationLoading)
+  public isAuthorizationLoading$: Observable<boolean>;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
-
-  @Select(RegistrationState.isAuthorizationLoading)
-  isAuthorizationLoading$: Observable<boolean>;
-
-  isMobileView: boolean;
+  public isMobileView: boolean;
 
   constructor(
-    public store: Store,
+    private store: Store,
+    private actions$: Actions,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
-  ngOnInit(): void {
-    this.getLanguage();
-    this.translateService.use(this.selectedLanguage);
-    this.dateAdapter.setLocale(this.selectedLanguage);
+  public ngOnInit(): void {
+    this.setLocale();
+    this.setSnackBar();
     this.router.canceledNavigationResolution = 'computed';
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
@@ -45,7 +48,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param event global variable window
    * method defined window.width and assign isMobileView: boolean
    */
-  isWindowMobile(event: Window): void {
+  public isWindowMobile(event: Window): void {
     this.isMobileView = event.innerWidth < 750;
     if (this.previousMobileScreenValue !== this.isMobileView) {
       this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
@@ -54,13 +57,28 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window: resize', ['$event.target'])
-  onResize(event: Window): void {
+  public onResize(event: Window): void {
     this.isWindowMobile(event);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private setLocale(): void {
+    this.getLanguage();
+    this.translateService.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
+  }
+
+  private setSnackBar(): void {
+    this.actions$
+      .pipe(ofActionDispatched(ShowMessageBar), takeUntil(this.destroy$))
+      .subscribe((action) => this.showSnackBar(action.payload));
+    this.actions$
+      .pipe(ofActionDispatched(ClearMessageBar), takeUntil(this.destroy$))
+      .subscribe(() => this.snackBar.dismiss());
   }
 
   private getLanguage(): void {
@@ -69,5 +87,15 @@ export class AppComponent implements OnInit, OnDestroy {
       this.selectedLanguage = 'uk';
       localStorage.setItem('ui-culture', this.selectedLanguage);
     }
+  }
+
+  private showSnackBar(messageBarData: MessageBarData): void {
+    this.snackBar.openFromComponent(MessageBarComponent, {
+      duration: messageBarData.infinityDuration ? null : 5000,
+      verticalPosition: messageBarData.verticalPosition || 'top',
+      horizontalPosition: messageBarData.horizontalPosition || 'center',
+      panelClass: messageBarData.type,
+      data: messageBarData
+    });
   }
 }

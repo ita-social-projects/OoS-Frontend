@@ -9,6 +9,7 @@ import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Child } from 'shared/models/child.model';
 import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
@@ -134,8 +135,8 @@ export class Util {
    * @param message
    * @returns string
    */
-  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
-    const finalMessage = { text: '', type: 'success' };
+  public static getWorkshopMessage(payload, message: string): MessageBarData {
+    const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
@@ -173,7 +174,7 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    finalMessage.text = messageArr.join(';\n');
+    finalMessage.message = messageArr.join(';\n');
 
     return finalMessage;
   }

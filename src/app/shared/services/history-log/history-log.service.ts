@@ -1,18 +1,24 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { ApplicationHistory, FilterData, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { FilterOptions } from 'shared/enum/history.log';
+import {
+  ApplicationHistory,
+  FilterData,
+  ParentsBlockingByAdminHistory,
+  ProviderAdminHistory,
+  ProviderHistory
+} from 'shared/models/history-log.model';
 import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class HistoryLogService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
-  setParams(filters: FilterData, searchString: string): HttpParams {
+  private setParams(filters: FilterData, searchString: string): HttpParams {
     let params = new HttpParams();
 
     if (filters?.dateFrom) {
@@ -23,8 +29,20 @@ export class HistoryLogService {
       params = params.set('DateTo', new Date(filters.dateTo).toISOString());
     }
 
-    if (filters?.options) {
-      params = params.set('PropertyName', filters.options);
+    if (filters?.PropertyName) {
+      params = params.set(FilterOptions.PropertyName, filters.PropertyName);
+    }
+
+    if (filters?.ShowParents) {
+      params = params.set(FilterOptions.ShowParents, filters.ShowParents);
+    }
+
+    if (filters?.AdminType) {
+      params = params.set(FilterOptions.AdminType, filters.AdminType);
+    }
+
+    if (filters?.OperationType) {
+      params = params.set(FilterOptions.OperationType, filters.OperationType);
     }
 
     if (searchString) {
@@ -35,16 +53,23 @@ export class HistoryLogService {
     return params;
   }
 
-  getProviderHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ProviderHistory[]>> {
+  public getProviderHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ProviderHistory[]>> {
     const body = { params: this.setParams(filters, searchString) };
     return this.http.get<SearchResponse<ProviderHistory[]>>('/api/v1/ChangesLog/Provider', body);
   }
-  getProviderAdminHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ProviderAdminHistory[]>> {
+
+  public getProviderAdminHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ProviderAdminHistory[]>> {
     const body = { params: this.setParams(filters, searchString) };
     return this.http.get<SearchResponse<ProviderAdminHistory[]>>('/api/v1/ChangesLog/ProviderAdmin', body);
   }
-  getApplicationHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ApplicationHistory[]>> {
+
+  public getApplicationHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ApplicationHistory[]>> {
     const body = { params: this.setParams(filters, searchString) };
     return this.http.get<SearchResponse<ApplicationHistory[]>>('/api/v1/ChangesLog/Application', body);
+  }
+
+  public getParentsBlockingByAdminHistory(filters: FilterData, searchString: string): Observable<SearchResponse<ParentsBlockingByAdminHistory[]>> {
+    const body = { params: this.setParams(filters, searchString) };
+    return this.http.get<SearchResponse<ParentsBlockingByAdminHistory[]>>('/api/v1/ChangesLog/ParentBlockedByAdmin', body);
   }
 }

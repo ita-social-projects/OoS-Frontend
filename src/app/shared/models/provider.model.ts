@@ -7,41 +7,30 @@ import { PaginationParameters } from './query-parameters.model';
 import { SectionItem } from './section-item.model';
 import { User } from './user.model';
 
-export interface BlockProviderData {
-  id: string;
-  isBlocked?: boolean;
-  blockReason?: string;
-  blockPhoneNumber?: string;
-}
-
-export class Provider implements BlockProviderData {
-  id: string;
+export abstract class ProviderBase {
+  id?: string;
   fullTitle: string;
   shortTitle: string;
+  email: string;
   website?: string;
   facebook?: string;
   instagram?: string;
-  email: string;
   edrpouIpn: string;
   director: string;
   directorDateOfBirth: string | Date;
   phoneNumber: string;
   founder: string;
-  ownership: OwnershipTypes;
   typeId?: number;
   type?: DataItem;
   status: ProviderStatuses;
   statusReason?: string;
   license?: string;
   licenseStatus?: LicenseStatuses;
-  isBlocked?: boolean;
-  blockReason?: string;
-  blockPhoneNumber?: string;
-  imageFiles?: File[];
+  coverImageId?: string;
+  coverImage?: File;
   imageIds?: string[];
-  rating?: number;
-  numberOfRatings?: number;
-  userId: string;
+  imageFiles?: File[];
+  userId: string; // TODO: Remove as soon as it will be removed from the backend
   legalAddress: Address;
   actualAddress?: Address;
   institutionStatusId?: number;
@@ -51,40 +40,40 @@ export class Provider implements BlockProviderData {
   providerSectionItems: ProviderSectionItem[];
 
   constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
-    this.shortTitle = info.shortTitle;
-    this.ownership = info.ownership;
-    this.typeId = info.typeId;
     this.fullTitle = info.fullTitle;
+    this.shortTitle = info.shortTitle;
     this.email = info.email;
-    this.phoneNumber = info.phoneNumber;
+    this.website = description.website;
+    this.facebook = description.facebook;
+    this.instagram = description.instagram;
     this.edrpouIpn = info.edrpouIpn;
     this.director = info.director;
     this.directorDateOfBirth = new Date(info.directorDateOfBirth).toISOString();
-    if (info.institutionStatusId) {
-      this.institutionStatusId = info.institutionStatusId;
+    this.phoneNumber = info.phoneNumber;
+    this.founder = info.founder;
+    this.typeId = info.typeId;
+    this.userId = user.id;
+    this.legalAddress = legalAddress;
+    this.actualAddress = actualAddress;
+    this.institutionId = info.institution.id;
+    this.institution = info.institution;
+    this.institutionType = info.institutionType;
+    this.providerSectionItems = description.providerSectionItems;
+
+    if (provider?.id) {
+      this.id = provider.id;
     }
     if (info.license) {
       this.license = info.license;
     }
-    this.founder = info.founder;
-    this.legalAddress = legalAddress;
-    this.actualAddress = actualAddress;
-    this.institutionType = info.institutionType;
-    this.userId = user.id;
-    this.institution = info.institution;
-    this.institutionId = info.institution.id;
-    this.website = description.website;
-    this.instagram = description.instagram;
-    this.facebook = description.facebook;
-    if (provider?.id) {
-      this.id = provider.id;
+    if (description.imageIds?.length) {
+      this.imageIds = description.imageIds;
     }
-    this.providerSectionItems = description.providerSectionItems;
     if (description.imageFiles?.length) {
       this.imageFiles = description.imageFiles;
     }
-    if (description.imageIds?.length) {
-      this.imageIds = description.imageIds;
+    if (info.institutionStatusId) {
+      this.institutionStatusId = info.institutionStatusId;
     }
   }
 
@@ -107,18 +96,56 @@ export class Provider implements BlockProviderData {
   }
 }
 
+export class Provider extends ProviderBase {
+  ownership: OwnershipTypes;
+  isBlocked?: boolean;
+  blockReason?: string;
+  rating?: number;
+  numberOfRatings?: number;
+  blockPhoneNumber?: string;
+
+  constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
+    super(info, legalAddress, actualAddress, description, user, provider);
+
+    this.ownership = info.ownership;
+    if (provider?.isBlocked) {
+      this.isBlocked = provider.isBlocked;
+    }
+    if (provider?.blockReason) {
+      this.blockReason = provider.blockReason;
+    }
+    if (provider?.blockPhoneNumber) {
+      this.blockPhoneNumber = provider.blockPhoneNumber;
+    }
+    if (provider?.rating) {
+      this.rating = provider.rating;
+    }
+    if (provider?.numberOfRatings) {
+      this.numberOfRatings = provider.numberOfRatings;
+    }
+  }
+}
+
+export interface ProviderBlock {
+  id: string;
+  isBlocked: boolean;
+  blockPhoneNumber?: string;
+  blockReason?: string;
+}
+
 export class ProviderSectionItem extends SectionItem {
   providerId?: string;
 
   constructor(info) {
     super(info);
+
     if (info.providerId) {
       this.providerId = info.providerId;
     }
   }
 }
 
-export class ProviderStatusUpdateData {
+export class ProviderWithStatus {
   providerId: string;
   status: ProviderStatuses;
   statusReason?: string;
@@ -126,13 +153,14 @@ export class ProviderStatusUpdateData {
   constructor(providerId: string, status: ProviderStatuses, statusReason?: string) {
     this.providerId = providerId;
     this.status = status;
+
     if (statusReason) {
       this.statusReason = statusReason;
     }
   }
 }
 
-export interface LicenseStatusData {
+export interface ProviderWithLicenseStatus {
   providerId: string;
   licenseStatus: LicenseStatuses;
 }
