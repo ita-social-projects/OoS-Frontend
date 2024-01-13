@@ -247,7 +247,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param coords - type Coords
    */
   private setMapLocation(coords: Coords): void {
-    this.geocoderService.locationDecode(coords, (result: Geocoder) => {
+    this.geocoderService.locationDecode(coords).subscribe((result: Geocoder) => {
       if (result) {
         this.setNewSingleMarker([result.lat, result.lon]);
         this.addressFormGroup.patchValue(result, { emitEvent: false });
@@ -260,15 +260,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private addressDecode(address: Geocoder): void {
-    this.geocoderService.addressDecode(address, (result: Geocoder) => {
-      if (result) {
-        this.setNewSingleMarker([result.lat, result.lon]);
-        this.addressSelect.emit(result);
-      } else {
-        this.addressSelect.emit(null);
-        this.map.removeLayer(this.singleMarker);
-      }
-    });
+    this.geocoderService
+      .addressDecode(address)
+      .pipe(take(1))
+      .subscribe((result: Geocoder) => {
+        if (result) {
+          this.setNewSingleMarker([result.lat, result.lon]);
+          this.addressSelect.emit(result);
+        } else {
+          this.addressSelect.emit(null);
+          this.map.removeLayer(this.singleMarker);
+        }
+      });
   }
 
   /**

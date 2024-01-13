@@ -1,5 +1,5 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -32,7 +32,7 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
     }
   ]
 })
-export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
   public provider: Provider;
@@ -50,6 +50,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
+    private changeDetector: ChangeDetectorRef,
     private router: Router
   ) {
     super(store, route, navigationBarService);
@@ -66,6 +67,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
+  }
+
+  public ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
   }
 
   public addNavPath(): void {
