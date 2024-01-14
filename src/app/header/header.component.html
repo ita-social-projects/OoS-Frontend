@@ -73,7 +73,7 @@
 
   <mat-menu #log="matMenu" class="menu">
     <ng-container
-      *ngIf="isRoleAdmin(role); then adminView; else userView"></ng-container>
+      *ngIf="isRoleAdmin(user.role); then adminView; else userView"></ng-container>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
