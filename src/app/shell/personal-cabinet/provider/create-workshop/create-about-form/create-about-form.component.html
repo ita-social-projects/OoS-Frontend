@@ -141,15 +141,15 @@
       <div fxLayout="row" fxLayoutAlign="center center" class="price">
         <mat-radio-button #radio2 name="radioBtn2" [value]="true"
         ><input
-            matInput
-            class="step-input price-input"
-            appDigitOnly
-            appMinMax
-            formControlName="price"
-            type="number"
-            [directiveFormControl]="priceControl"
-            [min]="validationConstants.MIN_PRICE"
-            [max]="validationConstants.MAX_PRICE" />
+          matInput
+          class="step-input price-input"
+          appDigitOnly
+          appMinMax
+          formControlName="price"
+          type="number"
+          [directiveFormControl]="priceControl"
+          [min]="validationConstants.MIN_PRICE"
+          [max]="validationConstants.MAX_PRICE" />
         </mat-radio-button>
       </div>
       <div fxLayoutAlign="center center" class="pay-type">
