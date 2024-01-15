@@ -1,5 +1,11 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
@@ -13,13 +19,6 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
-
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -33,7 +32,7 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
     }
   ]
 })
-export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
   public provider: Provider;
@@ -51,6 +50,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
+    private changeDetector: ChangeDetectorRef,
     private router: Router
   ) {
     super(store, route, navigationBarService);
@@ -67,6 +67,10 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.determineEditMode();
     this.determineRelease();
     this.addNavPath();
+  }
+
+  public ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
   }
 
   public addNavPath(): void {

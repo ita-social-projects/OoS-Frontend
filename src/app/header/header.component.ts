@@ -6,6 +6,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
 
+import { ModeConstants } from 'shared/constants/constants';
 import { AdminTabTypes } from 'shared/enum/admins';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
@@ -22,6 +23,7 @@ import { SidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';
 import { Login, Logout } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public readonly Languages = Languages;
   public readonly Role = Role;
   public readonly RoleLinks = RoleLinks;
+  public readonly ModeConstants = ModeConstants;
+  public readonly isRoleAdmin = isRoleAdmin;
 
   @Select(RegistrationState.isAuthorizationLoading)
   public isAuthorizationLoading$: Observable<boolean>;

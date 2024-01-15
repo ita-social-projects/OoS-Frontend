@@ -1,25 +1,26 @@
-import { Component, AfterViewInit, Input, Output, EventEmitter, OnDestroy, OnInit } from '@angular/core';
-import * as Layer from 'leaflet';
+import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { Coords } from '../../models/coords.model';
-import { Address } from '../../models/address.model';
-import { Workshop, WorkshopCard } from '../../models/workshop.model';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { Subject } from 'rxjs';
-import { takeUntil, filter, debounceTime, switchMap, take, delay } from 'rxjs/operators';
-import { SharedUserState } from '../../store/shared-user.state';
-import { WorkshopMarker } from '../../models/workshopMarker.model';
-import { GeocoderService } from 'shared/services/geolocation/geocoder.service';
-import { Geocoder } from 'shared/models/geolocation';
-import { Codeficator } from 'shared/models/codeficator.model';
-import { FilterState } from '../../store/filter.state';
-import { SearchResponse } from '../../models/search.model';
-import { SetCoordsByMap } from '../../store/filter.actions';
-import { ShowMessageBar } from '../../store/app.actions';
-import { SnackbarText } from '../../enum/enumUA/messageBer';
-import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { TranslateService } from '@ngx-translate/core';
+import { Select, Store } from '@ngxs/store';
+import * as Layer from 'leaflet';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
+
+import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { MessageBarType } from 'shared/enum/messageBar';
+import { Address } from 'shared/models/address.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Coords } from 'shared/models/coords.model';
+import { Geocoder } from 'shared/models/geolocation';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { WorkshopMarker } from 'shared/models/workshopMarker.model';
+import { GeocoderService } from 'shared/services/geolocation/geocoder.service';
+import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { SetCoordsByMap } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { SharedUserState } from 'shared/store/shared-user.state';
 
 @Component({
   selector: 'app-map',
@@ -88,7 +89,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     iconUrl: '/assets/icons/geolocation-marker.svg'
   });
 
-  constructor(private geocoderService: GeocoderService, private store: Store, private geolocationService: GeolocationService, private translateService: TranslateService) {}
+  constructor(
+    private geocoderService: GeocoderService,
+    private store: Store,
+    private geolocationService: GeolocationService,
+    private translateService: TranslateService
+  ) {}
 
   public ngOnInit(): void {
     this.changeLanguageOnMarkerPopup();
@@ -127,13 +133,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       });
 
-    this.settlement$
-      .pipe(
-        takeUntil(this.destroy$),
-        delay(this.delayDuration),
-        take(1)
-      )
-      .subscribe(() => this.setCurrentGeolocation());
+    this.settlement$.pipe(takeUntil(this.destroy$), delay(this.delayDuration), take(1)).subscribe(() => this.setCurrentGeolocation());
   }
 
   public setCurrentGeolocation(): void {
@@ -193,21 +193,25 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.geolocationMarker) {
       this.geolocationMarker.remove();
     }
-    this.translateService.get('GEOLOCATION_MARKER_TITLE').pipe(takeUntil(this.destroy$)).subscribe((popupText: string) => {
-      this.geolocationMarker = Layer
-        .marker(coords, {icon: this.geolocationMarkerIcon, zIndexOffset: 1})
-        .addTo(this.map)
-        .bindPopup(`<p>${popupText}</p>`)
-        .openPopup();
-    });
+    this.translateService
+      .get('GEOLOCATION_MARKER_TITLE')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((popupText: string) => {
+        this.geolocationMarker = Layer.marker(coords, { icon: this.geolocationMarkerIcon, zIndexOffset: 1 })
+          .addTo(this.map)
+          .bindPopup(`<p>${popupText}</p>`)
+          .openPopup();
+      });
   }
 
   private changeLanguageOnMarkerPopup(): void {
-    this.translateService.onLangChange.pipe(
-      takeUntil(this.destroy$),
-      switchMap(() => {
-        return this.translateService.get('GEOLOCATION_MARKER_TITLE');
-      }))
+    this.translateService.onLangChange
+      .pipe(
+        takeUntil(this.destroy$),
+        switchMap(() => {
+          return this.translateService.get('GEOLOCATION_MARKER_TITLE');
+        })
+      )
       .subscribe((translation: string) => {
         if (this.geolocationMarker) {
           this.geolocationMarker.setPopupContent(`<p>${translation}</p>`);
@@ -229,7 +233,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   private setAddress(): void {
     const address: Geocoder = this.addressFormGroup.getRawValue();
     if (address.catottgId) {
-      this.setNewSingleMarker([this.addressFormGroup.value.lat, this.addressFormGroup.value.lon]);
+      this.setNewSingleMarker([this.addressFormGroup.get('latitude').value, this.addressFormGroup.get('longitude').value]);
     }
     this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((address: Geocoder) => {
       if (this.addressFormGroup.valid) {
@@ -243,12 +247,12 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param coords - type Coords
    */
   private setMapLocation(coords: Coords): void {
-    this.geocoderService.locationDecode(coords, (result: Geocoder) => {
+    this.geocoderService.locationDecode(coords).subscribe((result: Geocoder) => {
       if (result) {
         this.setNewSingleMarker([result.lat, result.lon]);
         this.addressFormGroup.patchValue(result, { emitEvent: false });
       } else {
-        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.value.catottgId }, { emitEvent: false });
+        this.addressFormGroup.reset({ catottgId: this.addressFormGroup.get('catottgId').value }, { emitEvent: false });
         this.map.removeLayer(this.singleMarker);
       }
       this.addressSelect.emit(result);
@@ -256,15 +260,18 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private addressDecode(address: Geocoder): void {
-    this.geocoderService.addressDecode(address, (result: Geocoder) => {
-      if (result) {
-        this.setNewSingleMarker([result.lat, result.lon]);
-        this.addressSelect.emit(result);
-      } else {
-        this.addressSelect.emit(null);
-        this.map.removeLayer(this.singleMarker);
-      }
-    });
+    this.geocoderService
+      .addressDecode(address)
+      .pipe(take(1))
+      .subscribe((result: Geocoder) => {
+        if (result) {
+          this.setNewSingleMarker([result.lat, result.lon]);
+          this.addressSelect.emit(result);
+        } else {
+          this.addressSelect.emit(null);
+          this.map.removeLayer(this.singleMarker);
+        }
+      });
   }
 
   /**
@@ -293,9 +300,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
     marker.on('click', (event: Layer.LeafletMouseEvent) => {
       this.unselectMarkers();
-      const targetMarker = this.workshopMarkers.find(
-        (workshopMarker: WorkshopMarker) => workshopMarker.marker === event.target
-      );
+      const targetMarker = this.workshopMarkers.find((workshopMarker: WorkshopMarker) => workshopMarker.marker === event.target);
       targetMarker.isSelected = true;
       targetMarker.marker.setIcon(this.selectedMarkerIcon);
       this.selectedWorkshopAddress.emit(address);
@@ -388,10 +393,8 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userRadius.setRadius(num);
   }
 
-  private showWarningMessage(message: SnackbarText, type: string, infinityDuration: boolean): void {
-    this.store.dispatch(
-      new ShowMessageBar({ message, type, infinityDuration })
-    );
+  private showWarningMessage(message: SnackbarText, type: MessageBarType, infinityDuration: boolean): void {
+    this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration }));
   }
 
   public ngOnDestroy(): void {

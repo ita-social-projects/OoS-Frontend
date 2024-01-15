@@ -370,9 +370,9 @@ export class ProviderState {
 
   @Action(OnCreateWorkshopSuccess)
   onCreateWorkshopSuccess({ patchState, dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateWorkshopSuccess): void {
-    const message = Util.getWorkshopMessage(payload, SnackbarText.createWorkshop);
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.createWorkshop);
     patchState({ isLoading: false });
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
     this.router.navigate(['./personal-cabinet/provider/workshops']);
   }
 
@@ -386,8 +386,8 @@ export class ProviderState {
 
   @Action(OnUpdateWorkshopSuccess)
   onUpdateWorkshopSuccess({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnUpdateWorkshopSuccess): void {
-    const message = Util.getWorkshopMessage(payload, SnackbarText.updateWorkshop);
-    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: message.text, type: message.type })]);
+    const messageData = Util.getWorkshopMessage(payload, SnackbarText.updateWorkshop);
+    dispatch([new MarkFormDirty(false), new ShowMessageBar({ message: messageData.message, type: messageData.type })]);
     this.router.navigate(['/personal-cabinet/provider/workshops']);
   }
 
