@@ -1,13 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { Constants } from 'shared/constants/constants';
 import { InstitutionTypesEnum, LicenseStatusEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
 import { CreateProviderSteps, InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { LicenseStatuses } from 'shared/enum/statuses';
 import { DataItem } from 'shared/models/item.model';
 import { Provider } from 'shared/models/provider.model';
@@ -30,6 +30,7 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   public readonly licenseStatusEnum = LicenseStatusEnum;
   public readonly licenseStatuses = LicenseStatuses;
   public readonly Role = Role;
+  public readonly Subrole = Subrole;
 
   public editLink: string = CreateProviderSteps[0];
 
@@ -43,8 +44,11 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   public institutionStatuses$: Observable<DataItem[]>;
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
+  @Select(RegistrationState.subrole)
+  public subrole$: Observable<Subrole>;
 
   public role: Role;
+  public subrole: Subrole;
   public institutionStatusName: string;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -52,7 +56,12 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.store.dispatch(new GetInstitutionStatuses());
-    this.role$.pipe(takeUntil(this.destroy$), filter(Boolean)).subscribe((role: Role) => (this.role = role));
+    combineLatest([this.role$, this.subrole$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([role, subrole]: [Role, Subrole]) => {
+        this.role = role;
+        this.subrole = subrole;
+      });
     this.institutionStatuses$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe(

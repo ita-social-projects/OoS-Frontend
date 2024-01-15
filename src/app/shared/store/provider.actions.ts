@@ -3,7 +3,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
 import { Achievement, AchievementParameters } from '../models/achievement.model';
 import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
-import { LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData } from '../models/provider.model';
+import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from '../models/provider.model';
 import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
 import { PaginationParameters } from '../models/queryParameters.model';
 import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
@@ -170,12 +170,12 @@ export class OnUpdateProviderSuccess {
 
 export class UpdateProviderStatus {
   static readonly type = '[provider] update Provider status';
-  constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
+  constructor(public payload: ProviderWithStatus, public providerParameters: ProviderParameters) {}
 }
 
 export class UpdateProviderLicenseStatus {
   static readonly type = '[provider] update provider license status';
-  constructor(public payload: LicenseStatusData, public providerParameters: ProviderParameters) {}
+  constructor(public payload: ProviderWithLicenseStatus, public providerParameters: ProviderParameters) {}
 }
 
 export class OnUpdateProviderStatusFail {
@@ -185,7 +185,7 @@ export class OnUpdateProviderStatusFail {
 
 export class OnUpdateProviderStatusSuccess {
   static readonly type = '[provider] update Provider status success';
-  constructor(public payload: ProviderStatusUpdateData, public providerParameters: ProviderParameters) {}
+  constructor(public payload: ProviderWithStatus, public providerParameters: ProviderParameters) {}
 }
 
 export class CreateProviderAdmin {
@@ -265,7 +265,7 @@ export class OnUpdateWorkshopStatusFail {
 
 export class BlockParent {
   static readonly type = '[provider] block parent';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent, public parameters?: ApplicationFilterParameters) {}
 }
 
 export class BlockParentFail {
@@ -275,12 +275,12 @@ export class BlockParentFail {
 
 export class BlockParentSuccess {
   static readonly type = '[provider] block parent success';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent) {}
 }
 
 export class UnBlockParent {
   static readonly type = '[provider] unblock parent';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent, public parameters?: ApplicationFilterParameters) {}
 }
 
 export class UnBlockParentFail {
@@ -290,7 +290,7 @@ export class UnBlockParentFail {
 
 export class UnBlockParentSuccess {
   static readonly type = '[provider] unblock parent success';
-  constructor(public payload: BlockedParent, public parameters: ApplicationFilterParameters) {}
+  constructor(public payload: BlockedParent) {}
 }
 
 export class GetBlockedParents {
@@ -325,12 +325,10 @@ export class OnDeleteProviderByIdFail {
 
 export class GetProviderAdminById {
   static readonly type = '[provider] get provider admin by id';
-  constructor(public payload: string) {
-  }
+  constructor(public payload: string) {}
 }
 
 export class ReinviteProviderAdmin {
   static readonly type = '[provider] reinvites provider admin';
-  constructor(public providerAdmin: ProviderAdmin) {
-  }
+  constructor(public providerAdmin: ProviderAdmin) {}
 }

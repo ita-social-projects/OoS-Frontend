@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@a
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -15,7 +15,7 @@ import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ProviderAdminsFormTitlesEdit, ProviderAdminsFormTitlesNew } from 'shared/enum/enumUA/provider-admin';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminRole } from 'shared/enum/provider-admin';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { TruncatedItem } from 'shared/models/item.model';
 import { Provider } from 'shared/models/provider.model';
 import { ProviderAdmin } from 'shared/models/providerAdmin.model';
@@ -132,8 +132,8 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
     let navBarTitle: string;
 
     if (this.editMode) {

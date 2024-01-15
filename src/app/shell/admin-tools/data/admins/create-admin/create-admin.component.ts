@@ -15,7 +15,7 @@ import { CodeficatorCategories } from 'shared-enum/codeficator-categories';
 import { NavBarName } from 'shared-enum/enumUA/navigation-bar';
 import { AdminsFormTitlesEdit, AdminsFormTitlesNew } from 'shared-enum/enumUA/tech-admin/admins';
 import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
-import { Role } from 'shared-enum/role';
+import { Role, Subrole } from 'shared-enum/role';
 import { BaseAdmin } from 'shared-models/admin.model';
 import { Codeficator } from 'shared-models/codeficator.model';
 import { Institution } from 'shared-models/institution.model';
@@ -230,8 +230,8 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
 
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
 
     this.store.dispatch(
       new AddNavPath(
