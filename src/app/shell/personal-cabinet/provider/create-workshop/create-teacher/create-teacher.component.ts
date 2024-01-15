@@ -68,6 +68,8 @@ export class CreateTeacherComponent implements OnInit {
     } else {
       this.TeacherFormArray.removeAt(index);
     }
+
+    this.markFormAsDirtyOnUserInteraction();
   }
 
   /**
@@ -108,6 +110,15 @@ export class CreateTeacherComponent implements OnInit {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
+    }
+  }
+
+  /**
+   * This method makes TeacherFormArray dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.TeacherFormArray.dirty) {
+      this.TeacherFormArray.markAsDirty({ onlySelf: true });
     }
   }
 }
