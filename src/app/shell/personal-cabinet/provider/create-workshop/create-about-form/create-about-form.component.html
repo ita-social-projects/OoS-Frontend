@@ -231,12 +231,8 @@
           </ng-template>
         </label>
       </div>
-      <textarea
-        matInput
-        class="step-textarea step-textarea-short"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
-          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-        }}"
+      <textarea matInput class="step-textarea step-textarea-short"
+        placeholder="{{'FORMS.PLACEHOLDERS.MAXIMUM' | translate}} {{validationConstants.MAX_DESCRIPTION_LENGTH_500}} {{'FORMS.PLACEHOLDERS.SYMBOLS' | translate}}"
         formControlName="competitiveSelectionDescription"
         [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
       </textarea>
