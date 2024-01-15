@@ -226,7 +226,9 @@
           <ng-container *ngIf="AboutFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
             {{ AboutFormGroup.get('competitiveSelectionDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
           </ng-container>
-          <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
+          <ng-template #elseBlock> 
+            0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+          </ng-template>
         </label>
       </div>
       <textarea
