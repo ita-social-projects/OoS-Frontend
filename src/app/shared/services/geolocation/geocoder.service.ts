@@ -1,7 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { Observable, map } from 'rxjs';
 
 import { Coords } from 'shared/models/coords.model';
 import { Geocoder } from 'shared/models/geolocation';
@@ -18,20 +17,16 @@ export class GeocoderService {
    * @param address - Geocoder
    * @param callback - Function, which receives 1 argument of type Address
    */
-  addressDecode(address: Geocoder, callback: (GeolocationAddress) => void): void {
-    this.geocode({
-      catottgId: address.catottgId,
-      street: address.street,
-      buildingNumber: address.buildingNumber
-    }).subscribe((result: Geocoder) => callback(result));
+  public addressDecode(address: Geocoder): Observable<Geocoder | null> {
+    return this.geocode(address);
   }
 
-  locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
-    this.geocode({
+  public locationDecode(coords: Coords): Observable<Geocoder | null> {
+    return this.geocode({
       lat: coords.lat,
       lon: coords.lng,
       isReverse: true
-    }).subscribe((result: Geocoder) => callback(result));
+    });
   }
 
   /**
