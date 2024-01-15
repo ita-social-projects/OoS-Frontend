@@ -3,7 +3,7 @@ import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeWhile } from 'rxjs/operators';
+import { filter, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { FeaturesList } from 'shared/models/featuresList.model';
@@ -42,7 +42,10 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
 
   protected determineRelease(): void {
     this.featuresList$
-      .pipe(takeWhile(() => this.isPristine))
+      .pipe(
+        filter(Boolean),
+        takeWhile(() => this.isPristine)
+      )
       .subscribe((featuresList: FeaturesList) => (this.isImagesFeature = featuresList.images));
   }
 
