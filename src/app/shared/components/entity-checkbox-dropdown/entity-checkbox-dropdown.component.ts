@@ -19,9 +19,11 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Input() public labelByDefault: string;
   @Input() public entityControl: FormControl = new FormControl();
   @Output() public entityCheck = new EventEmitter<string[]>();
+  @Output() public change = new EventEmitter<string[]>();
 
   private ids: string[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private userInteracted = false;
 
   constructor(private translateCases: TranslateCasesPipe) {}
 
@@ -31,6 +33,10 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
       .subscribe((entities: TruncatedItem[]) => {
         this.ids = entities.map((entity) => entity.id);
         this.entityCheck.emit(this.ids);
+
+        if (this.userInteracted) {
+          this.change.emit();
+        }
       });
   }
 
