@@ -750,7 +750,7 @@
       "CREATE_ACHIEVEMENT": "Are you sure you want to add an achievement?",
       "REJECT_APPLICATION": "Are you sure you want to change the status of the application to 'Rejected'?",
       "CREATE_PROVIDER_DEPUTY": "Are you sure you want to add a provider deputy?",
-      "CREATE_PROVIDER_ADMIN": "Are you sure you want to edit the workshop administrator?",
+      "CREATE_PROVIDER_ADMIN": "Are you sure you want to add the workshop administrator?",
       "UPDATE_PROVIDER_DEPUTY": "Are you sure you want to edit the provider deputy?",
       "UPDATE_PROVIDER_ADMIN": "are you sure you want to edit the workshop administrator?",
       "BLOCK_USER": "Are you sure you want to block the user?",
