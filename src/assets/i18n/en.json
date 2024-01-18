@@ -32,6 +32,7 @@
     "WEDNESDAY": "Wed"
   },
   "DIRECTIONS": "Categories",
+  "DIRECTIONS_FOR_THE_USER": "Directions for the user",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
@@ -397,6 +398,7 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "SEARCH_BY_DIRECTIONS": "Search by directions",
       "ENTER_DATE_RANGE": "Enter a date range",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
@@ -539,7 +541,8 @@
     "CONFIRM_EDITING": "Send for editing",
     "DELETE": "Delete",
     "GO_BACK": "Go back",
-    "REGISTER": "Register"
+    "REGISTER": "Register",
+    "ADD_DIRECTION": "Add a direction"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
