@@ -710,6 +710,8 @@
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
+      "ACCESS_IS_RESTRICTED": "Your access to the workshops of this institution is restricted",
+      "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",
       "ERROR": "Unfortunately, an error has occurred",
       "ERROR_404": "Invalid request sent",
