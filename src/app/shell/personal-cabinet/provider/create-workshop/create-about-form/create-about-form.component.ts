@@ -83,7 +83,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   private get availableSeats(): number {
-    return this.workshop?.availableSeats === this.UNLIMITED_SEATS ? this.MIN_SEATS : this.workshop?.availableSeats;
+    return this.workshop?.availableSeats === undefined || this.workshop?.availableSeats === this.UNLIMITED_SEATS
+      ? this.MIN_SEATS
+      : this.workshop?.availableSeats;
   }
 
   private get workshopPrice(): number {
@@ -110,7 +112,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: 0, disabled: true }, [Validators.required]),
+      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required]),
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null
     });
@@ -128,6 +130,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private priceControlListener(): void {
     this.priceRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isPrice: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
       if (isPrice) {
         this.setPriceControlValue(this.workshopPrice, 'enable');
         this.setPayRateControlValue(this.workshop?.payRate ? this.workshop.payRate : null, 'enable');
@@ -145,6 +148,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private availableSeatsControlListener(): void {
     this.availableSeatsRadioBtnControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((noLimit: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
       if (noLimit) {
         this.setAvailableSeatsControlValue(null, 'disable');
       } else {
@@ -223,6 +227,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    */
   private competitiveSelectionListener(): void {
     this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isCompetitiveSelectionDesc: boolean) => {
+      this.markFormAsDirtyOnUserInteraction();
       this.AboutFormGroup.get('competitiveSelection').setValue(isCompetitiveSelectionDesc);
       isCompetitiveSelectionDesc
         ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
@@ -234,5 +239,14 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       .subscribe((disabilityOptionsDesc: string) =>
         this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
       );
+  }
+
+  /**
+   * This method makes AboutFormGroup dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.AboutFormGroup.dirty) {
+      this.AboutFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }
