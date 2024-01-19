@@ -2,7 +2,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
@@ -517,7 +517,7 @@ export class ProviderState {
   ): void {
     dispatch([
       new ShowMessageBar({
-        message: payload.status == ProviderStatuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
+        message: payload.status === ProviderStatuses.Editing ? SnackbarText.statusEditing : SnackbarText.changeProviderStatus,
         type: 'success'
       }),
       new MarkFormDirty(false),
@@ -535,12 +535,7 @@ export class ProviderState {
 
   @Action(OnCreateProviderAdminFail)
   onCreateProviderAdminFail({ dispatch }: StateContext<ProviderStateModel>, { payload }: OnCreateProviderAdminFail): void {
-    dispatch(
-      new ShowMessageBar({
-        message: SnackbarText.error,
-        type: 'error'
-      })
-    );
+    throwError(() => payload);
   }
 
   @Action(OnCreateProviderAdminSuccess)

@@ -3,7 +3,7 @@ import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
@@ -356,7 +356,7 @@ export class AdminState {
         type: 'success'
       })
     ]);
-    if (type == AdminTabTypes.MainPage) {
+    if (type === AdminTabTypes.MainPage) {
       this.store.dispatch(new GetMainPageInfo());
       this.router.navigate(['/']);
       return;
@@ -560,7 +560,7 @@ export class AdminState {
       tap((parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>) =>
         patchState({
           parentsBlockingByAdminHistory: parentsBlockingByAdminHistory ?? EMPTY_RESULT,
-          isLoading: false,
+          isLoading: false
         })
       )
     );
@@ -729,13 +729,7 @@ export class AdminState {
 
   @Action(OnCreateMinistryAdminFail)
   onCreateMinistryAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateMinistryAdminFail): void {
-    const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
-    dispatch(
-      new ShowMessageBar({
-        message,
-        type: 'error'
-      })
-    );
+    throwError(() => payload);
   }
 
   @Action(OnCreateMinistryAdminSuccess)
@@ -874,13 +868,7 @@ export class AdminState {
 
   @Action(OnCreateRegionAdminFail)
   onCreateRegionAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateRegionAdminFail): void {
-    const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
-    dispatch(
-      new ShowMessageBar({
-        message,
-        type: 'error'
-      })
-    );
+    throwError(() => payload);
   }
 
   @Action(OnCreateRegionAdminSuccess)
@@ -1019,13 +1007,7 @@ export class AdminState {
 
   @Action(OnCreateAreaAdminFail)
   onCreateAreaAdminFail({ dispatch }: StateContext<AdminState>, { payload }: OnCreateAreaAdminFail): void {
-    const message = payload.status === 500 ? SnackbarText.errorEmail : SnackbarText.error;
-    dispatch(
-      new ShowMessageBar({
-        message,
-        type: 'error'
-      })
-    );
+    throwError(() => payload);
   }
 
   @Action(OnCreateAreaAdminSuccess)

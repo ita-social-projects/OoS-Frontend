@@ -8,7 +8,7 @@ export interface ApiErrorResponse {
 }
 
 export interface ApiError {
-  message: string;
-  code: string;
   group: string;
+  code: string;
+  message: string;
 }

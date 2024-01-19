@@ -7,7 +7,7 @@ import {
   ModalConfirmationTitle,
   ModalConfirmationType,
   ModalConfirmationTypeWithQuotes
-} from '../../enum/modal-confirmation';
+} from 'shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-confirmation-modal-window',
@@ -36,7 +36,7 @@ export class ConfirmationModalWindowComponent implements OnInit {
     this.modalConfirmationText = ModalConfirmationText[this.data.type];
     if (this.data.property) {
       this.modalConfirmationProperty = this.data.property.trim();
-      if (Object.values(ModalConfirmationTypeWithQuotes).includes(this.data.type as ModalConfirmationTypeWithQuotes)) {
+      if (this.data.type in ModalConfirmationTypeWithQuotes) {
         this.modalConfirmationProperty = `"${this.modalConfirmationProperty}"`;
       }
     }
