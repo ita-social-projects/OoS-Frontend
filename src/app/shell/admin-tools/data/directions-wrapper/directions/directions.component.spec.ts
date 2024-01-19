@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
 import { Direction } from 'shared/models/category.model';
@@ -29,7 +30,8 @@ describe('DirectionsComponent', () => {
         BrowserAnimationsModule,
         RouterTestingModule,
         MatStepperModule,
-        MatDialogModule
+        MatDialogModule,
+        TranslateModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [DirectionsComponent, MockDirectionsPaginatorComponent, MockAllCategoriesCardComponent]

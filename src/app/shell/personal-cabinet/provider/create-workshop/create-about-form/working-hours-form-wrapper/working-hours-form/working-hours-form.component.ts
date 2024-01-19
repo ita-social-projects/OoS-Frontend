@@ -29,6 +29,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   @Input() public workingHoursAmount: number;
 
   @Output() public deleteWorkingHour = new EventEmitter();
+  @Output() public dataChanged = new EventEmitter<void>();
 
   constructor() {}
 
@@ -61,6 +62,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
+    this.dataChanged.emit();
   }
 
   public getMinTime(): string {
@@ -101,6 +103,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   public delete(): void {
     this.deleteWorkingHour.emit(this.index);
+    this.dataChanged.emit();
   }
 
   public onCancel(): void {

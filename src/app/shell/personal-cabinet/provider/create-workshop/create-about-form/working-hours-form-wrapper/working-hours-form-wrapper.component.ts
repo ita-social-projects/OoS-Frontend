@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { EventEmitter, Output } from '@angular/core';
 
 import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Workshop } from 'shared/models/workshop.model';
@@ -13,6 +14,8 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
   @Input() public workshop: Workshop;
   @Input() public workingHoursFormArray: FormArray;
   public workingHoursFormGroup: FormGroup;
+
+  @Output() public dataChangedInChild = new EventEmitter<void>();
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -61,5 +64,9 @@ export class WorkingHoursFormWrapperComponent implements OnInit {
     }
 
     return this.workingHoursFormGroup;
+  }
+
+  public onDataChanged(): void {
+    this.dataChangedInChild.emit();
   }
 }

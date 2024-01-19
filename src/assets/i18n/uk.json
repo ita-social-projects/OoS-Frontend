@@ -33,6 +33,7 @@
     "WEDNESDAY": "СР"
   },
   "DIRECTIONS": "Напрямки",
+  "DIRECTIONS_FOR_THE_USER": "Напрямки для користувача",
   "DISPLAY_ON_THE_PAGE": "Відображати на сторінці:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
@@ -397,6 +398,7 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
+      "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
       "ENTER_DATE_RANGE": "Введіть діапазон дат",
       "ALL_FILTERS": "Усі фільтри",
       "SELECT_SUBORDINATION": "Оберіть підпорядкування",
@@ -541,7 +543,8 @@
     "CONFIRM_EDITING": "Відправити на редагування",
     "DELETE": "Видалити",
     "GO_BACK": "Повернутись",
-    "REGISTER": "Зареєструватися"
+    "REGISTER": "Зареєструватися",
+    "ADD_DIRECTION": "Додати напрямок"
   },
   "PERSONAL_DATA": "Персональні дані",
   "CHILD_DATA": "Дані про дитину",
@@ -709,6 +712,8 @@
       "UPDATE_USER": "Особиста інформація успішно відредагована!",
       "BLOCK_USER": "Користувач успішно заблокований!",
       "UNBLOCK_USER": "Користувач успішно розблокований!",
+      "ACCESS_IS_RESTRICTED": "Вам обмеженно доступ до гуртків цього закладу",
+      "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "У разі виникнення запитань, зв'яжіться з нами за контактними телефонами закладу",
       "SEND_INVITATION": "Запрошення успішно надіслано!",
       "ERROR": "На жаль, виникла помилка.",
       "ERROR_401": "Користувач не зареєстрований.",

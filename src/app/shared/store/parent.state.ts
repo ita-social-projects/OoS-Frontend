@@ -381,13 +381,26 @@ export class ParentState {
 
   @Action(OnCreateApplicationFail)
   onCreateApplicationFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateApplicationFail): void {
-    dispatch(
-      new ShowMessageBar({
-        message: payload.error.status === 429 ? SnackbarText.applicationLimit : SnackbarText.error,
-        type: 'error',
-        info: payload.error.status === 429 ? SnackbarText.applicationLimitPerPerson : ''
-      })
-    );
+    if (payload.status === 403) {
+      dispatch(
+        new ShowMessageBar({ 
+          message: SnackbarText.accessIsRestricted, 
+          type: 'error', 
+          info: SnackbarText.accessIsRestrictedFullDescription 
+        })
+      );
+    } else if (payload.status === 429) {
+      dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.applicationLimit,
+          type: 'error',
+          info: SnackbarText.applicationLimitPerPerson
+        })
+      );
+    } else {
+      dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    }
+
   }
 
   @Action(OnCreateApplicationSuccess)

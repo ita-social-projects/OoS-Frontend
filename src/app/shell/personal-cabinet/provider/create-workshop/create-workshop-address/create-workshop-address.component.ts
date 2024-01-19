@@ -60,7 +60,17 @@ export class CreateWorkshopAddressComponent implements OnInit {
       if (result.codeficator) {
         this.settlementFormControl.setValue(result.codeficator, { emitEvent: false });
         this.settlementSearchFormControl.setValue(result.codeficator.settlement, { emitEvent: false });
+        this.markFormAsDirtyOnUserInteraction();
       }
+    }
+  }
+  
+  /**
+   * This method makes addressFormGroup dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.addressFormGroup.dirty) {
+      this.addressFormGroup.markAsDirty({ onlySelf: true });
     }
   }
 }
