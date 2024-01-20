@@ -137,7 +137,12 @@ export enum ModalConfirmationText {
 
 
 export enum ModalConfirmationDescription {
-  blockParent = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.BLOCK_PARENT',
+  blockReason = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.BLOCK_REASON',
+  blockParent = blockReason,
+  blockProvider = blockReason,
+  blockProviderAdmin = blockReason,
+  blockProviderAdminDeputy = blockReason,
+  blockAdmin = blockReason,
   rejectApplication = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.REJECT',
   editingProvider = 'SERVICE_MESSAGES.MODAL_CONFIRMATIONS.EDITING_PROVIDER',
   unregisteredFavoriteWarning = 'SERVICE_MESSAGES.UNREGISTERED_FAVORITE',
