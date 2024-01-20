@@ -35,8 +35,9 @@
           [statusesTitles]="statusesTitles" 
           [users]="users" 
           [displayedColumns]="displayedColumns"
-          (blockUnblock)="onBlockUnblock($event)"
-        ></app-users-list>
+          (block)="onBlockUnblock($event)"
+          (unblock)="onBlockUnblock($event)">
+      </app-users-list>
       </div>
       <app-paginator
         [totalEntities]="totalEntities"

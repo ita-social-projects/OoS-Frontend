@@ -117,12 +117,12 @@
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
             <ng-container *ngIf="user.isBlocked then unBlock; else Block"></ng-container >
             <ng-template #Block>
-              <button mat-menu-item (click)="blockUnblock.emit(user)">
+              <button mat-menu-item (click)="block.emit(user)">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="blockUnblock.emit(user)">
+              <button mat-menu-item (click)="unblock.emit(user)">
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
