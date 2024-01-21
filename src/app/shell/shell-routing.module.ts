@@ -53,8 +53,7 @@ const routes: Routes = [
     path: 'personal-cabinet',
     component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then((m) => m.PersonalCabinetModule),
-    canLoad: [PersonalCabinetGuard],
-    canActivate: [PersonalCabinetGuard]
+    canLoad: [PersonalCabinetGuard]
   },
   {
     path: 'admin-tools',

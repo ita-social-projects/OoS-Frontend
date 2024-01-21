@@ -32,6 +32,7 @@
     "WEDNESDAY": "Wed"
   },
   "DIRECTIONS": "Categories",
+  "DIRECTIONS_FOR_THE_USER": "Directions for the user",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
@@ -120,7 +121,8 @@
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
-      "LAWS_AND_REGULATIONS": "Laws and regulations"
+      "LAWS_AND_REGULATIONS": "Laws and regulations",
+      "PROVIDER_REGISTRATION": "Provider registration"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -396,6 +398,7 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "SEARCH_BY_DIRECTIONS": "Search by directions",
       "ENTER_DATE_RANGE": "Enter a date range",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
@@ -538,7 +541,8 @@
     "CONFIRM_EDITING": "Send for editing",
     "DELETE": "Delete",
     "GO_BACK": "Go back",
-    "REGISTER": "Register"
+    "REGISTER": "Register",
+    "ADD_DIRECTION": "Add a direction"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -700,11 +704,14 @@
       "CHANGE_PROVIDER_LICENSE_APPROVED": "License successfully approved",
       "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
+      "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
+      "ACCESS_IS_RESTRICTED": "Your access to the workshops of this institution is restricted",
+      "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",
       "ERROR": "Unfortunately, an error has occurred",
       "ERROR_404": "Invalid request sent",

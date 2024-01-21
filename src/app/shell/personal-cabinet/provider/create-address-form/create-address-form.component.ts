@@ -4,12 +4,13 @@ import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, startWith, takeUntil, tap } from 'rxjs/operators';
-import { Constants } from '../../../../shared/constants/constants';
-import { ValidationConstants } from '../../../../shared/constants/validation';
-import { Address } from '../../../../shared/models/address.model';
-import { Codeficator } from '../../../../shared/models/codeficator.model';
-import { ClearCodeficatorSearch, GetCodeficatorSearch } from '../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
+
+import { Constants } from 'shared/constants/constants';
+import { ValidationConstants } from 'shared/constants/validation';
+import { Address } from 'shared/models/address.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { ClearCodeficatorSearch, GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
 
 @Component({
   selector: 'app-create-address-form',
@@ -58,7 +59,7 @@ export class CreateAddressFormComponent implements OnInit {
 
   private activateEditMode(): void {
     if (this.address) {
-      this.addressFormGroup.patchValue({ ...this.address, lat: this.address.latitude, lon: this.address.longitude }, { emitEvent: false });
+      this.addressFormGroup.patchValue({ ...this.address }, { emitEvent: false });
       this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, {
         emitEvent: false,
         onlySelf: true
