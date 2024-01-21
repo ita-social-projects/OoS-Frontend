@@ -170,11 +170,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       if (this.ChildrenFormArray.invalid) {
         this.checkValidationChild();
       } else {
+        const modalConfirmationType = this.editMode ? ModalConfirmationType.editChild : ModalConfirmationType.createChild;
+
         this.matDialog
           .open(ConfirmationModalWindowComponent, {
             width: Constants.MODAL_SMALL,
             data: {
-              type: ModalConfirmationType.editChild
+              type: modalConfirmationType
             }
           })
           .afterClosed()
