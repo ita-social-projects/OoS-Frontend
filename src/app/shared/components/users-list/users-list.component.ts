@@ -36,7 +36,8 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Input() public statusesTitles: UserStatuses | EmailConfirmationStatuses;
 
   @Output() public delete = new EventEmitter<UsersTable>();
-  @Output() public blockUnblock = new EventEmitter<UsersTable>();
+  @Output() public block = new EventEmitter<UsersTable>();
+  @Output() public unblock = new EventEmitter<UsersTable>();
   @Output() public update = new EventEmitter<UsersTable>();
   @Output() public sendInvitation = new EventEmitter<UsersTable>();
 
