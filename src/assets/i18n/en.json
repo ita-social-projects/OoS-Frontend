@@ -724,7 +724,7 @@
       "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings."
     },
     "MODAL_CONFIRMATIONS": {
-      "BLOCK_PARENT": "Specify the blocking reason",
+      "BLOCK_REASON": "Specify the blocking reason",
       "REJECT": "Specify the reason for rejection",
       "EDITING_PROVIDER": "Specify the reason for editing",
       "DELETE_WORKSHOP": "Are you sure you want to delete the workshop",
