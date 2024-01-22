@@ -109,7 +109,10 @@ import {
   ReinviteAdminById,
   ReinviteMinistryAdminById,
   OnReinviteMinistryAdminSuccess,
-  OnReinviteMinistryAdminFail
+  OnReinviteMinistryAdminFail,
+  ReinviteRegionAdminById,
+  OnReinviteRegionAdminSuccess,
+  OnReinviteRegionAdminFail
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -715,7 +718,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.regionAdmin: {
-        // dispatch();
+        dispatch(new ReinviteRegionAdminById(payload));
         break;
       }
       case AdminRoles.areaAdmin: {
@@ -892,12 +895,7 @@ export class AdminState {
 
   @Action(OnReinviteMinistryAdminSuccess)
   onReinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch([
-      new ShowMessageBar({
-        message: SnackbarText.sendInvitation,
-        type: 'success'
-      })
-    ]);
+    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(OnReinviteMinistryAdminFail)
@@ -1054,6 +1052,24 @@ export class AdminState {
         type: 'success'
       })
     ]);
+  }
+
+  @Action(ReinviteRegionAdminById)
+  reinviteRegionAdminById({ dispatch }: StateContext<AdminState>, { payload }: ReinviteRegionAdminById): Observable<void> {
+    return this.regionAdminService.reinviteAdmin(payload).pipe(
+      tap(() => dispatch(new OnReinviteRegionAdminSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new OnReinviteRegionAdminFail(error)))
+    );
+  }
+
+  @Action(OnReinviteRegionAdminSuccess)
+  onReinviteRegionAdminSuccess({ dispatch }: StateContext<AdminState>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  }
+
+  @Action(OnReinviteRegionAdminFail)
+  onReinviteRegionAdminFail({ dispatch }: StateContext<AdminState>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetAllAreaAdmins)

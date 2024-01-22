@@ -69,4 +69,12 @@ export class RegionAdminService extends BaseAdminService {
   public updateAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
     return <Observable<RegionAdmin>>super.updateAdmin(regionAdmin);
   }
+
+  /**
+   * This method reinvite Region Admin
+   * @param adminId: string
+   */
+  public reinviteAdmin(adminId: string): Observable<null> {
+    return super.reinviteAdmin(adminId);
+  }
 }

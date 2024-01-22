@@ -396,6 +396,24 @@ export class BlockRegionAdminById {
   constructor(public payload: RegionAdminBlockData) {}
 }
 
+export class ReinviteRegionAdminById {
+  static readonly type = '[admin] Reinvite Region Admin';
+
+  constructor(public payload: string) {}
+}
+
+export class OnReinviteRegionAdminSuccess {
+  static readonly type = '[admin] Block Region Admin Success';
+
+  constructor() {}
+}
+
+export class OnReinviteRegionAdminFail {
+  static readonly type = '[admin] Reinvite Region Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
+}
+
 export class GetAllAreaAdmins {
   static readonly type = '[admin] Get All Area Admins';
 
