@@ -8,7 +8,7 @@ import { Constants } from '../../constants/constants';
 import { UserStatusesTitles } from '../../enum/enumUA/statuses';
 import { Role } from '../../enum/role';
 import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
-import { UsersTable } from '../../models/usersTable';
+import { InvitationData, UsersTable } from '../../models/usersTable';
 import { RegistrationState } from '../../store/registration.state';
 
 /**
@@ -39,7 +39,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @Output() public block = new EventEmitter<UsersTable>();
   @Output() public unblock = new EventEmitter<UsersTable>();
   @Output() public update = new EventEmitter<UsersTable>();
-  @Output() public sendInvitation = new EventEmitter<UsersTable>();
+  @Output() public sendInvitation = new EventEmitter<InvitationData>();
 
   public subrole: string;
   public dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);

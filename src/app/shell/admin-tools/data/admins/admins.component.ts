@@ -17,8 +17,8 @@ import { Role } from 'shared-enum/role';
 import { BaseAdmin, BaseAdminParameters } from 'shared-models/admin.model';
 import { PaginationElement } from 'shared-models/paginationElement.model';
 import { SearchResponse } from 'shared-models/search.model';
-import { BlockData, UsersTable } from 'shared-models/usersTable';
-import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admin.actions';
+import { BlockData, InvitationData, UsersTable } from 'shared-models/usersTable';
+import { BlockAdminById, DeleteAdminById, GetAllAdmins, ReinviteAdminById } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
 import { RegistrationState } from 'shared-store/registration.state';
 import { Util } from 'shared-utils/utils';
@@ -178,6 +178,10 @@ export class AdminsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result && this.deleteAdmin(admin.id, this.adminType);
     });
+  }
+
+  public onSendInvitation(event: InvitationData): void {
+    this.store.dispatch(new ReinviteAdminById(event.user.id, event.adminType));
   }
 
   private setTabOptions(): void {

@@ -14,12 +14,7 @@ import { SnackbarText } from '../enum/enumUA/messageBer';
 import { BaseAdmin } from '../models/admin.model';
 import { Direction } from '../models/category.model';
 import { Child } from '../models/child.model';
-import { 
-  ApplicationHistory, 
-  ParentsBlockingByAdminHistory, 
-  ProviderAdminHistory, 
-  ProviderHistory 
-} from '../models/history-log.model';
+import { ApplicationHistory, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from '../models/history-log.model';
 import { MinistryAdmin } from '../models/ministryAdmin.model';
 import { Parent } from '../models/parent.model';
 import { Provider } from '../models/provider.model';
@@ -110,7 +105,11 @@ import {
   UpdatePlatformInfo,
   UpdateRegionAdmin,
   UpdateAreaAdmin,
-  GetParentsBlockingByAdminHistory
+  GetParentsBlockingByAdminHistory,
+  ReinviteAdminById,
+  ReinviteMinistryAdminById,
+  OnReinviteMinistryAdminSuccess,
+  OnReinviteMinistryAdminFail
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -562,10 +561,10 @@ export class AdminState {
   ): Observable<SearchResponse<ParentsBlockingByAdminHistory[]>> {
     patchState({ isLoading: true });
     return this.historyLogService.getParentsBlockingByAdminHistory(payload, searchSting).pipe(
-      tap((parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>) => 
+      tap((parentsBlockingByAdminHistory: SearchResponse<ParentsBlockingByAdminHistory[]>) =>
         patchState({
           parentsBlockingByAdminHistory: parentsBlockingByAdminHistory ?? EMPTY_RESULT,
-          isLoading: false,
+          isLoading: false
         })
       )
     );
@@ -704,6 +703,24 @@ export class AdminState {
       }
       default: {
         dispatch(new BlockMinistryAdminById(payload));
+      }
+    }
+  }
+
+  @Action(ReinviteAdminById)
+  reinvite({ dispatch }: StateContext<AdminStateModel>, { payload, adminType }: ReinviteAdminById): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new ReinviteMinistryAdminById(payload));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        // dispatch();
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        // dispatch();
+        break;
       }
     }
   }
@@ -863,6 +880,29 @@ export class AdminState {
         type: 'success'
       })
     ]);
+  }
+
+  @Action(ReinviteMinistryAdminById)
+  reinviteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: ReinviteMinistryAdminById): Observable<void> {
+    return this.ministryAdminService.reinviteAdmin(payload).pipe(
+      tap(() => dispatch(new OnReinviteMinistryAdminSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new OnReinviteMinistryAdminFail(error)))
+    );
+  }
+
+  @Action(OnReinviteMinistryAdminSuccess)
+  onReinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.sendInvitation,
+        type: 'success'
+      })
+    ]);
+  }
+
+  @Action(OnReinviteMinistryAdminFail)
+  OnReinviteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch([new ShowMessageBar({ message: SnackbarText.error, type: 'error' })]);
   }
 
   @Action(GetAllRegionAdmins)
@@ -1033,10 +1073,7 @@ export class AdminState {
   }
 
   @Action(GetAreaAdminById)
-  getAreaAdminById(
-    { patchState }: StateContext<AdminStateModel>,
-    { payload }: GetAreaAdminById
-  ): Observable<AreaAdmin> {
+  getAreaAdminById({ patchState }: StateContext<AdminStateModel>, { payload }: GetAreaAdminById): Observable<AreaAdmin> {
     patchState({ isLoading: true });
     return this.areaAdminService
       .getAdminById(payload)
@@ -1057,10 +1094,7 @@ export class AdminState {
   }
 
   @Action(CreateAreaAdmin)
-  createAreaAdmin(
-    { dispatch }: StateContext<AdminState>,
-    { payload }: CreateAreaAdmin
-  ): Observable<AreaAdmin | Observable<void>> {
+  createAreaAdmin({ dispatch }: StateContext<AdminState>, { payload }: CreateAreaAdmin): Observable<AreaAdmin | Observable<void>> {
     return this.areaAdminService.createAdmin(payload).pipe(
       tap(() => dispatch(new OnCreateAreaAdminSuccess())),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnCreateAreaAdminFail(error))))
@@ -1091,10 +1125,7 @@ export class AdminState {
   }
 
   @Action(UpdateAreaAdmin)
-  updateAreaAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: UpdateAreaAdmin
-  ): Observable<AreaAdmin | Observable<void>> {
+  updateAreaAdmin({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateAreaAdmin): Observable<AreaAdmin | Observable<void>> {
     return this.areaAdminService.updateAdmin(payload).pipe(
       tap((res: AreaAdmin) => dispatch(new OnUpdateAreaAdminSuccess(res))),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateAreaAdminFail(error))))
@@ -1102,10 +1133,7 @@ export class AdminState {
   }
 
   @Action(OnUpdateAreaAdminFail)
-  onUpdateAreaAdminFail(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnUpdateAreaAdminFail
-  ): void {
+  onUpdateAreaAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnUpdateAreaAdminFail): void {
     dispatch(
       new ShowMessageBar({
         message: SnackbarText.error,
@@ -1138,10 +1166,7 @@ export class AdminState {
   }
 
   @Action(OnDeleteAreaAdminFail)
-  onDeleteAreaAdminFail(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: OnDeleteAreaAdminFail
-  ): void {
+  onDeleteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>, { payload }: OnDeleteAreaAdminFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
@@ -1157,10 +1182,7 @@ export class AdminState {
   }
 
   @Action(BlockAreaAdminById)
-  blockAreaAdmin(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: BlockAreaAdminById
-  ): Observable<void | Observable<void>> {
+  blockAreaAdmin({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockAreaAdminById): Observable<void | Observable<void>> {
     return this.areaAdminService.blockAdmin(payload.adminId, payload.isBlocked).pipe(
       tap(() => dispatch([new OnBlockSuccess(payload), new GetAllAreaAdmins()])),
       catchError((error: HttpErrorResponse) => of(dispatch(new OnBlockFail(error))))
@@ -1173,10 +1195,7 @@ export class AdminState {
   }
 
   @Action(OnBlockSuccess)
-  onBlockAreaAdminSuccess(
-    { dispatch }: StateContext<AdminStateModel>,
-    { payload }: BlockAreaAdminById
-  ): void {
+  onBlockAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>, { payload }: BlockAreaAdminById): void {
     dispatch([
       new ShowMessageBar({
         message: payload.isBlocked ? SnackbarText.blockPerson : SnackbarText.unblockPerson,

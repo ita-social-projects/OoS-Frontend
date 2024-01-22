@@ -1,3 +1,5 @@
+import { AdminRoles } from 'shared/enum/admins';
+
 export interface UsersTable {
   id: string;
   pib: string;
@@ -14,4 +16,9 @@ export interface UsersTable {
 export interface BlockData {
   user: UsersTable;
   isBlocked: boolean;
+}
+
+export interface InvitationData {
+  user: UsersTable;
+  adminType: AdminRoles;
 }

@@ -216,6 +216,12 @@ export class BlockAdminById {
   constructor(public payload: BaseAdminBlockData, public adminType: AdminRoles) {}
 }
 
+export class ReinviteAdminById {
+  static readonly type = '[admin] Reinvite Admin';
+
+  constructor(public payload: string, public adminType: AdminRoles) {}
+}
+
 export class GetAllMinistryAdmins {
   static readonly type = '[admin] Get All Ministry Admins';
 
@@ -292,6 +298,24 @@ export class BlockMinistryAdminById {
   static readonly type = '[admin] Block Ministry Admin';
 
   constructor(public payload: MinistryAdminBlockData) {}
+}
+
+export class ReinviteMinistryAdminById {
+  static readonly type = '[admin] Reinvite Ministry Admin';
+
+  constructor(public payload: string) {}
+}
+
+export class OnReinviteMinistryAdminSuccess {
+  static readonly type = '[admin] Reinvite Ministry Admin Success';
+
+  constructor() {}
+}
+
+export class OnReinviteMinistryAdminFail {
+  static readonly type = '[admin] Reinvite Ministry Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class GetAllRegionAdmins {
