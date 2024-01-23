@@ -1,4 +1,4 @@
-import { WorkshopOpenStatus } from '../enum/workshop';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
 
 export interface FilterList {
   withDisabilityOption: boolean;

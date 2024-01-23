@@ -1,14 +1,11 @@
 import { Component, HostListener, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { Actions, Select, Store, ofActionDispatched } from '@ngxs/store';
-import { Observable, Subject, takeUntil } from 'rxjs';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
 
-import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
-import { MessageBarData } from 'shared/models/messageBar.model';
-import { ClearMessageBar, ShowMessageBar, ToggleMobileScreen } from 'shared/store/app.actions';
+import { ToggleMobileScreen } from 'shared/store/app.actions';
 import { GetFeaturesList } from 'shared/store/meta-data.actions';
 import { CheckAuth } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -29,16 +26,13 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store,
-    private actions$: Actions,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
     private router: Router,
-    private snackBar: MatSnackBar
   ) {}
 
   public ngOnInit(): void {
     this.setLocale();
-    this.setSnackBar();
     this.router.canceledNavigationResolution = 'computed';
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
@@ -72,30 +66,11 @@ export class AppComponent implements OnInit, OnDestroy {
     this.dateAdapter.setLocale(this.selectedLanguage);
   }
 
-  private setSnackBar(): void {
-    this.actions$
-      .pipe(ofActionDispatched(ShowMessageBar), takeUntil(this.destroy$))
-      .subscribe((action) => this.showSnackBar(action.payload));
-    this.actions$
-      .pipe(ofActionDispatched(ClearMessageBar), takeUntil(this.destroy$))
-      .subscribe(() => this.snackBar.dismiss());
-  }
-
   private getLanguage(): void {
     this.selectedLanguage = localStorage.getItem('ui-culture');
     if (!this.selectedLanguage) {
       this.selectedLanguage = 'uk';
       localStorage.setItem('ui-culture', this.selectedLanguage);
     }
-  }
-
-  private showSnackBar(messageBarData: MessageBarData): void {
-    this.snackBar.openFromComponent(MessageBarComponent, {
-      duration: messageBarData.infinityDuration ? null : 5000,
-      verticalPosition: messageBarData.verticalPosition || 'top',
-      horizontalPosition: messageBarData.horizontalPosition || 'center',
-      panelClass: messageBarData.type,
-      data: messageBarData
-    });
   }
 }

@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Constants, PaginationConstants } from '../../constants/constants';
-import { Direction, DirectionParameters } from '../../models/category.model';
-import { Codeficator } from '../../models/codeficator.model';
-import { PaginationElement } from '../../models/paginationElement.model';
-import { SearchResponse } from '../../models/search.model';
-import { FilterState } from '../../store/filter.state';
+
+import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { Direction, DirectionParameters } from 'shared/models/category.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { FilterState } from 'shared/store/filter.state';
 
 @Injectable({
   providedIn: 'root'

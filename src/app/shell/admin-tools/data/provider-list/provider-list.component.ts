@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/f
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, of } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -22,12 +22,12 @@ import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
 import { LicenseStatuses, ProviderStatuses, UserStatusIcons } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Institution } from 'shared/models/institution.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Provider, ProviderParameters, ProviderWithStatus } from 'shared/models/provider.model';
-import { RegionAdmin } from 'shared/models/regionAdmin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import {
   BlockProviderById,
@@ -134,8 +134,6 @@ export class ProviderListComponent implements OnInit, OnDestroy {
               return this.store.dispatch(new GetRegionAdminProfile());
             case Role.areaAdmin:
               return this.store.dispatch(new GetAreaAdminProfile());
-            default:
-              return of(null);
           }
         })
       )
@@ -450,7 +448,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
       case Role.regionAdmin:
       case Role.areaAdmin:
         this.providerParameters.institutionId = this.selectedAdmin.institutionId;
-        this.providerParameters.catottgId = String((this.selectedAdmin as RegionAdmin | AreaAdmin).catottgId);
+        this.providerParameters.catottgId = (this.selectedAdmin as RegionAdmin | AreaAdmin).catottgId.toString();
         break;
       default:
         this.providerParameters = {

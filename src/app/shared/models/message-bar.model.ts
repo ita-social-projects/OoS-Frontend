@@ -1,6 +1,6 @@
 import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
-import { MessageBarType } from 'shared/enum/messageBar';
+import { MessageBarType } from 'shared/enum/message-bar';
 
 export interface MessageBarData {
   message: string;
@@ -8,6 +8,7 @@ export interface MessageBarData {
   verticalPosition?: MatSnackBarVerticalPosition;
   horizontalPosition?: MatSnackBarHorizontalPosition;
   info?: string;
+  duration?: number;
   infinityDuration?: boolean;
   unclosable?: boolean;
 }

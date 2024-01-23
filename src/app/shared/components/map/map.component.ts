@@ -6,15 +6,15 @@ import * as Layer from 'leaflet';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
-import { MessageBarType } from 'shared/enum/messageBar';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { MessageBarType } from 'shared/enum/message-bar';
 import { Address } from 'shared/models/address.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Coords } from 'shared/models/coords.model';
 import { Geocoder } from 'shared/models/geolocation';
 import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopMarker } from 'shared/models/workshop-marker.model';
 import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
-import { WorkshopMarker } from 'shared/models/workshopMarker.model';
 import { GeocoderService } from 'shared/services/geolocation/geocoder.service';
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { ShowMessageBar } from 'shared/store/app.actions';

@@ -1,15 +1,15 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { WorkshopOpenStatus } from '../../enum/workshop';
-import { FilterList } from '../../models/filterList.model';
-import { FilterClear, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
-import { FilterState } from '../../store/filter.state';
-import { FiltersSidenavToggle } from '../../store/navigation.actions';
-import { NavigationState } from '../../store/navigation.state';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FilterList } from 'shared/models/filter-list.model';
+import { FilterClear, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { FiltersSidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
 
 @Component({
   selector: 'app-filters-list',

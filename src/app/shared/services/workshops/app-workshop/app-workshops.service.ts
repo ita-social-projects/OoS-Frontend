@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { Ordering } from 'shared/enum/ordering';
 import { Codeficator } from 'shared/models/codeficator.model';
-import { FilterStateModel } from 'shared/models/filterState.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { FilterState } from 'shared/store/filter.state';

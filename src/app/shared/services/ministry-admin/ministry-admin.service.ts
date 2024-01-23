@@ -1,12 +1,11 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { AdminRoles } from 'shared/enum/admins';
+import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { BaseAdminService } from '../base-admin/base-admin';
-import { MinistryAdmin, MinistryAdminParameters } from './../../models/ministryAdmin.model';
-import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,11 +1,11 @@
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
-import { DateTimeRanges } from 'shared/models/workingHours.model';
-import { PayRateType, WorkshopOpenStatus } from '../enum/workshop';
+import { PayRateType, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
-import { PaginationParameters } from './queryParameters.model';
-import { SectionItem } from './sectionItem.model';
+import { PaginationParameters } from './query-parameters.model';
+import { SectionItem } from './section-item.model';
 import { Teacher } from './teacher.model';
 
 export abstract class WorkshopBase {

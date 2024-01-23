@@ -1,5 +1,5 @@
 import { TruncatedItem } from './item.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Person } from './user.model';
 
 export interface ProviderAdminParameters extends PaginationParameters {
@@ -17,6 +17,7 @@ export interface ProviderAdminTable {
   status: string;
   role?: string;
 }
+
 export class ProviderAdmin implements Person {
   id?: string;
   userId?: string;

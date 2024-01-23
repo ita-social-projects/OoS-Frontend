@@ -1,13 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Observable, Subject, takeUntil } from 'rxjs';
 import { Select, Store } from '@ngxs/store';
-import { NavBarName } from '../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
-import { CompanyInformation } from '../../../shared/models/сompanyInformation.model';
-import { NavigationBarService } from '../../../shared/services/navigation-bar/navigation-bar.service';
-import { GetLawsAndRegulations } from '../../../shared/store/admin.actions';
-import { AdminState } from '../../../shared/store/admin.state';
-import { AddNavPath, DeleteNavPath } from '../../../shared/store/navigation.actions';
+import { Observable, Subject, takeUntil } from 'rxjs';
+
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { GetLawsAndRegulations } from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 
 @Component({
   selector: 'app-rules',

@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FeaturesList } from '../../models/featuresList.model';
+
+import { FeaturesList } from 'shared/models/features-list.model';
 
 @Injectable({
   providedIn: 'root'

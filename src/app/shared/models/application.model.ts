@@ -2,7 +2,7 @@ import { ApplicationEntityType, ApplicationShowParams } from '../enum/applicatio
 import { ApplicationStatuses } from './../enum/statuses';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Workshop, WorkshopCard } from './workshop.model';
 
 export class Application {

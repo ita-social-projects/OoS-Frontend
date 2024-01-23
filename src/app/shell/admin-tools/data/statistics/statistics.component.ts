@@ -1,20 +1,21 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, takeUntil } from 'rxjs';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { StatisticPeriodTitles } from 'shared/enum/enumUA/statistics';
+import { StatisticFileFormats, StatisticPeriodTypes } from 'shared/enum/statistics';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticParameters, StatisticReport } from 'shared/models/statistic.model';
-import { AdminState } from 'shared/store/admin.state';
 import { DownloadStatisticReport, GetStatisticReports } from 'shared/store/admin.actions';
-import { StatisticFileFormats, StatisticPeriodTypes } from 'shared/enum/statistics';
-import { PaginationConstants } from 'shared/constants/constants';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { Util } from 'shared/utils/utils';
+import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { StatisticPeriodTitles } from 'shared/enum/enumUA/statistics';
-import { HttpResponse } from '@angular/common/http';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-statistics',
