@@ -180,8 +180,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
   }
 
-  public onSendInvitation(event: InvitationData): void {
-    this.store.dispatch(new ReinviteAdminById(event.user.id, event.adminType));
+  /**
+   * This method send invitation to Admin By Id
+   * @param invitationData: InvitationData
+   */
+  public onSendInvitation(invitationData: InvitationData): void {
+    this.store.dispatch(new ReinviteAdminById(invitationData.user.id, invitationData.adminType));
   }
 
   private setTabOptions(): void {

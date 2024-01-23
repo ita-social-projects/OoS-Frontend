@@ -219,7 +219,7 @@ export class BlockAdminById {
 export class ReinviteAdminById {
   static readonly type = '[admin] Reinvite Admin';
 
-  constructor(public payload: string, public adminType: AdminRoles) {}
+  constructor(public adminId: string, public adminType: AdminRoles) {}
 }
 
 export class GetAllMinistryAdmins {
@@ -303,16 +303,16 @@ export class BlockMinistryAdminById {
 export class ReinviteMinistryAdminById {
   static readonly type = '[admin] Reinvite Ministry Admin';
 
-  constructor(public payload: string) {}
+  constructor(public adminId: string) {}
 }
 
-export class OnReinviteMinistryAdminSuccess {
+export class ReinviteMinistryAdminSuccess {
   static readonly type = '[admin] Reinvite Ministry Admin Success';
 
   constructor() {}
 }
 
-export class OnReinviteMinistryAdminFail {
+export class ReinviteMinistryAdminFail {
   static readonly type = '[admin] Reinvite Ministry Admin Fail';
 
   constructor(public error: HttpErrorResponse) {}
@@ -399,16 +399,16 @@ export class BlockRegionAdminById {
 export class ReinviteRegionAdminById {
   static readonly type = '[admin] Reinvite Region Admin';
 
-  constructor(public payload: string) {}
+  constructor(public adminId: string) {}
 }
 
-export class OnReinviteRegionAdminSuccess {
+export class ReinviteRegionAdminSuccess {
   static readonly type = '[admin] Block Region Admin Success';
 
   constructor() {}
 }
 
-export class OnReinviteRegionAdminFail {
+export class ReinviteRegionAdminFail {
   static readonly type = '[admin] Reinvite Region Admin Fail';
 
   constructor(public error: HttpErrorResponse) {}
@@ -507,7 +507,7 @@ export class OnBlockFail {
 export class ReinviteAreaAdminById {
   static readonly type = '[admin] Reinvite Area Admin';
 
-  constructor(public payload: string) {}
+  constructor(public adminId: string) {}
 }
 
 export class ReinviteAreaAdminSuccess {
@@ -519,5 +519,5 @@ export class ReinviteAreaAdminSuccess {
 export class ReinviteAreaAdminFail {
   static readonly type = '[admin] Reinvite Area Admin Fail';
 
-  constructor(public payload: HttpErrorResponse) {}
+  constructor(public error: HttpErrorResponse) {}
 }
