@@ -69,4 +69,12 @@ export class AreaAdminService extends BaseAdminService {
   public blockAdmin(AreaAdminId: string, isBlocked: boolean): Observable<void> {
     return super.blockAdmin(AreaAdminId, isBlocked);
   }
+
+  /**
+   * This method reinvite Area Admin
+   * @param areaAdminId: string
+   */
+  public reinviteAdmin(areaAdminId: string): Observable<null> {
+    return super.reinviteAdmin(areaAdminId);
+  }
 }

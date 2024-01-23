@@ -112,7 +112,10 @@ import {
   OnReinviteMinistryAdminFail,
   ReinviteRegionAdminById,
   OnReinviteRegionAdminSuccess,
-  OnReinviteRegionAdminFail
+  OnReinviteRegionAdminFail,
+  ReinviteAreaAdminById,
+  ReinviteAreaAdminSuccess,
+  ReinviteAreaAdminFail
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -722,7 +725,7 @@ export class AdminState {
         break;
       }
       case AdminRoles.areaAdmin: {
-        // dispatch();
+        dispatch(new ReinviteAreaAdminById(payload));
         break;
       }
     }
@@ -1218,5 +1221,23 @@ export class AdminState {
         type: 'success'
       })
     ]);
+  }
+
+  @Action(ReinviteAreaAdminById)
+  reinviteAreaAdminById({ dispatch }: StateContext<AdminStateModel>, { payload }: ReinviteAreaAdminById): Observable<void> {
+    return this.areaAdminService.reinviteAdmin(payload).pipe(
+      tap(() => dispatch(new ReinviteAreaAdminSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new ReinviteAreaAdminFail(error)))
+    );
+  }
+
+  @Action(ReinviteAreaAdminSuccess)
+  reinviteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  }
+
+  @Action(ReinviteAreaAdminFail)
+  reinviteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }

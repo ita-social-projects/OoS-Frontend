@@ -503,3 +503,21 @@ export class OnBlockFail {
 
   constructor(public payload: HttpErrorResponse) {}
 }
+
+export class ReinviteAreaAdminById {
+  static readonly type = '[admin] Reinvite Area Admin';
+
+  constructor(public payload: string) {}
+}
+
+export class ReinviteAreaAdminSuccess {
+  static readonly type = '[admin] Reinvite Area Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteAreaAdminFail {
+  static readonly type = '[admin] Reinvite Area Admin Fail';
+
+  constructor(public payload: HttpErrorResponse) {}
+}
