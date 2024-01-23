@@ -51,7 +51,7 @@ export class AppState {
   @Action(ShowMessageBar)
   showMessageBar({}: StateContext<AppStateModel>, { payload }: ShowMessageBar): void {
     this.snackBar.openFromComponent(MessageBarComponent, {
-      duration: payload.infinityDuration ? null : 5000,
+      duration: payload.infinityDuration ? null : payload.duration || 5000,
       verticalPosition: payload.verticalPosition || 'top',
       horizontalPosition: payload.horizontalPosition || 'center',
       panelClass: payload.type,

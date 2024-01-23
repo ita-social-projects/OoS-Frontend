@@ -8,6 +8,7 @@ export interface MessageBarData {
   verticalPosition?: MatSnackBarVerticalPosition;
   horizontalPosition?: MatSnackBarHorizontalPosition;
   info?: string;
+  duration?: number;
   infinityDuration?: boolean;
   unclosable?: boolean;
 }

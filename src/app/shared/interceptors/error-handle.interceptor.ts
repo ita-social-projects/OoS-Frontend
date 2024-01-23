@@ -19,7 +19,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
       catchError((error: HttpErrorResponse) => {
         if ('apiErrorResponse' in error.error) {
           const message = this.buildApiErrorMessage(error.error.apiErrorResponse.apiErrors);
-          this.displayErrorMessageBar(message, true);
+          this.displayErrorMessageBar(message, 10000);
         } else {
           switch (error.status) {
             case 401:
@@ -61,7 +61,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
     return errorMessages.join('.\n') + '.';
   }
 
-  private displayErrorMessageBar(message: string, infinityDuration = false): void {
-    this.store.dispatch(new ShowMessageBar({ message, type: 'error', infinityDuration }));
+  private displayErrorMessageBar(message: string, duration?: number): void {
+    this.store.dispatch(new ShowMessageBar({ message, type: 'error', duration }));
   }
 }
