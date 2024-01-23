@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
-import { NOTIFICATION_HUB_URL } from '../../constants/hubs-Url';
-import { Notification, NotificationsAmount } from '../../models/notifications.model';
-import { SignalRService } from '../../services/signalR/signal-r.service';
-import { AppState } from '../../store/app.state';
-import { GetAmountOfNewUsersNotifications } from '../../store/notifications.actions';
-import { NotificationsState } from '../../store/notifications.state';
+import { Observable, Subject, filter, takeUntil } from 'rxjs';
+
+import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
+import { Notification, NotificationsAmount } from 'shared/models/notifications.model';
+import { SignalRService } from 'shared/services/signalR/signal-r.service';
+import { AppState } from 'shared/store/app.state';
+import { GetAmountOfNewUsersNotifications } from 'shared/store/notifications.actions';
+import { NotificationsState } from 'shared/store/notifications.state';
 
 @Component({
   selector: 'app-notifications',

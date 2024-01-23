@@ -3,7 +3,7 @@ import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@a
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { map, Observable, switchMap } from 'rxjs';
+import { Observable, map, switchMap } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared-components/confirmation-modal-window/confirmation-modal-window.component';
@@ -19,7 +19,6 @@ import { Role, Subrole } from 'shared-enum/role';
 import { BaseAdmin } from 'shared-models/admin.model';
 import { Codeficator } from 'shared-models/codeficator.model';
 import { Institution } from 'shared-models/institution.model';
-import { RegionAdmin } from 'shared-models/regionAdmin.model';
 import { NavigationBarService } from 'shared-services/navigation-bar/navigation-bar.service';
 import { CreateAdmin, GetAdminById, UpdateAdmin } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
@@ -28,7 +27,8 @@ import { MetaDataState } from 'shared-store/meta-data.state';
 import { AddNavPath } from 'shared-store/navigation.actions';
 import { RegistrationState } from 'shared-store/registration.state';
 import { Util } from 'shared-utils/utils';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
 import { AdminFactory } from 'shared/utils/admin.utils';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 

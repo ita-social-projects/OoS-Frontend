@@ -1,10 +1,10 @@
-import { InstitutionTypes, OwnershipTypes } from '../enum/provider';
-import { LicenseStatuses, ProviderStatuses } from '../enum/statuses';
+import { InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
 import { Address } from './address.model';
 import { Institution } from './institution.model';
 import { DataItem } from './item.model';
-import { PaginationParameters } from './queryParameters.model';
-import { SectionItem } from './sectionItem.model';
+import { PaginationParameters } from './query-parameters.model';
+import { SectionItem } from './section-item.model';
 import { User } from './user.model';
 
 export abstract class ProviderBase {

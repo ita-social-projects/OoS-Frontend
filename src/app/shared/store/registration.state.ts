@@ -6,26 +6,26 @@ import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { ModeConstants } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { Role, Subrole } from 'shared/enum/role';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
+import { TechAdmin } from 'shared/models/tech-admin.model';
+import { User } from 'shared/models/user.model';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
-import { ModeConstants } from '../constants/constants';
-import { SnackbarText } from '../enum/enumUA/messageBer';
-import { Role, Subrole } from '../enum/role';
-import { Parent } from '../models/parent.model';
-import { Provider } from '../models/provider.model';
-import { RegionAdmin } from '../models/regionAdmin.model';
-import { TechAdmin } from '../models/techAdmin.model';
-import { User } from '../models/user.model';
-import { MinistryAdminService } from '../services/ministry-admin/ministry-admin.service';
-import { ParentService } from '../services/parent/parent.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { RegionAdminService } from '../services/region-admin/region-admin.service';
-import { TechAdminService } from '../services/tech-admin/tech-admin.service';
-import { UserService } from '../services/user/user.service';
-import { MinistryAdmin } from './../models/ministryAdmin.model';
+import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-admin.service';
+import { ParentService } from 'shared/services/parent/parent.service';
+import { ProviderService } from 'shared/services/provider/provider.service';
+import { RegionAdminService } from 'shared/services/region-admin/region-admin.service';
+import { TechAdminService } from 'shared/services/tech-admin/tech-admin.service';
+import { UserService } from 'shared/services/user/user.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CheckAuth,
@@ -199,6 +199,8 @@ export class RegistrationState {
     switch (state.user.role) {
       case Role.parent:
         return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
+      case Role.provider:
+        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
       case Role.techAdmin:
         return this.techAdminService.getProfile().pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
       case Role.regionAdmin:
@@ -209,8 +211,6 @@ export class RegistrationState {
           .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
       case Role.areaAdmin:
         return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin: areaAdmin })));
-      default:
-        return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
     }
   }
 
@@ -221,10 +221,10 @@ export class RegistrationState {
   }
 
   @Action(UpdateUser)
-  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { user }: UpdateUser): Observable<User | Observable<void>> {
+  updateUser({ dispatch }: StateContext<RegistrationStateModel>, { user }: UpdateUser): Observable<User | void> {
     return this.userService.updatePersonalInfo(user).pipe(
       tap(() => dispatch(new OnUpdateUserSuccess())),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateUserFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateUserFail(error)))
     );
   }
 

@@ -4,16 +4,17 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, map, skip, startWith, takeUntil } from 'rxjs/operators';
-import { SearchResponse } from '../../../../../shared/models/search.model';
-import { ConfirmationModalWindowComponent } from '../../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants, ModeConstants } from '../../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../../shared/enum/modal-confirmation';
-import { NoResultsTitle } from '../../../../../shared/enum/enumUA/no-results';
-import { Direction, DirectionParameters } from '../../../../../shared/models/category.model';
-import { PaginationElement } from '../../../../../shared/models/paginationElement.model';
-import { GetFilteredDirections, DeleteDirectionById } from '../../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../../shared/store/admin.state';
-import { Util } from '../../../../../shared/utils/utils';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Direction, DirectionParameters } from 'shared/models/category.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { DeleteDirectionById, GetFilteredDirections } from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-directions',

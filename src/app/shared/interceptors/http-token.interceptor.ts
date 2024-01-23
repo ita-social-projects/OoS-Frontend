@@ -1,11 +1,12 @@
-import { Injectable } from '@angular/core';
 import { HttpErrorResponse, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngxs/store';
+import { OidcSecurityService } from 'angular-auth-oidc-client';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry, switchMap } from 'rxjs/operators';
-import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { Store } from '@ngxs/store';
-import { OnAuthFail } from '../store/registration.actions';
-import { environment } from '../../../environments/environment';
+
+import { OnAuthFail } from 'shared/store/registration.actions';
+import { environment } from 'src/environments/environment';
 
 @Injectable()
 export class HttpTokenInterceptor implements HttpInterceptor {

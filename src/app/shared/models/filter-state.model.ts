@@ -1,9 +1,8 @@
-import { WorkshopOpenStatus } from '../enum/workshop';
-import { Direction } from './category.model';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Codeficator } from './codeficator.model';
+import { Coords } from './coords.model';
 import { SearchResponse } from './search.model';
 import { WorkshopCard } from './workshop.model';
-import { Coords } from './coords.model';
 
 export interface FilterStateModel {
   directionIds: number[];

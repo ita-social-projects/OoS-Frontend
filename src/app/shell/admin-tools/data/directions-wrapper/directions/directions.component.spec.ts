@@ -8,10 +8,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { Direction } from '../../../../../shared/models/category.model';
-import { PaginationElement } from '../../../../../shared/models/paginationElement.model';
+import { NgxsModule } from '@ngxs/store';
+
+import { Direction } from 'shared/models/category.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { DirectionsComponent } from './directions.component';
 
 describe('DirectionsComponent', () => {
@@ -30,7 +31,7 @@ describe('DirectionsComponent', () => {
         RouterTestingModule,
         MatStepperModule,
         MatDialogModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [DirectionsComponent, MockDirectionsPaginatorComponent, MockAllCategoriesCardComponent]

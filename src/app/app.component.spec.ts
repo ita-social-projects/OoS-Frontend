@@ -9,9 +9,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 
-import { MessageBarComponent } from 'shared/components/message-bar/message-bar.component';
-import { MessageBarData } from 'shared/models/messageBar.model';
-import { ClearMessageBar, ShowMessageBar } from 'shared/store/app.actions';
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
@@ -63,25 +60,6 @@ describe('AppComponent', () => {
 
     expect(component.onResize).toHaveBeenCalled();
     expect(component.isMobileView).toBeTruthy();
-  });
-
-  describe('showSnackBar method', () => {
-    const messagePayload: MessageBarData = { message: 'test', type: 'success' };
-
-    it('should show snackBar on action dispatch with provided payload', () => {
-      jest.spyOn(mockMatSnackBar, 'openFromComponent');
-
-      component.ngOnInit();
-      store.dispatch([new ShowMessageBar(messagePayload), new ClearMessageBar()]);
-
-      expect(mockMatSnackBar.openFromComponent).toHaveBeenCalledWith(MessageBarComponent, {
-        duration: 5000,
-        verticalPosition: 'top',
-        horizontalPosition: 'center',
-        panelClass: messagePayload.type,
-        data: messagePayload
-      });
-    });
   });
 });
 

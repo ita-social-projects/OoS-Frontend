@@ -1,5 +1,5 @@
 import { Child } from './child.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Teacher } from './teacher.model';
 
 export class Achievement {

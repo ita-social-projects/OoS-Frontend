@@ -1,4 +1,4 @@
-import { SectionItem } from './sectionItem.model';
+import { SectionItem } from './section-item.model';
 
 export class CompanyInformation {
   id?: string;

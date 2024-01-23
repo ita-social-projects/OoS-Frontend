@@ -1,19 +1,19 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
-import { EMPTY_RESULT } from '../constants/constants';
-import { messageStatus, SnackbarText } from '../enum/enumUA/messageBer';
-import { Application } from '../models/application.model';
-import { Provider } from '../models/provider.model';
-import { SearchResponse } from '../models/search.model';
-import { Workshop, WorkshopCard } from '../models/workshop.model';
-import { ApplicationService } from '../services/applications/application.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { UserWorkshopService } from '../services/workshops/user-workshop/user-workshop.service';
-import { ApplicationStatuses } from './../enum/statuses';
+import { EMPTY_RESULT } from 'shared/constants/constants';
+import { messageStatus, SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application } from 'shared/models/application.model';
+import { Provider } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { ApplicationService } from 'shared/services/applications/application.service';
+import { ProviderService } from 'shared/services/provider/provider.service';
+import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { ShowMessageBar } from './app.actions';
 import {
   GetAllApplications,
@@ -81,14 +81,11 @@ export class SharedUserState {
   ) {}
 
   @Action(GetWorkshopById)
-  getWorkshopById(
-    { patchState, dispatch }: StateContext<SharedUserStateModel>,
-    { payload }: GetWorkshopById
-  ): Observable<Workshop | Observable<void>> {
+  getWorkshopById({ patchState, dispatch }: StateContext<SharedUserStateModel>, { payload }: GetWorkshopById): Observable<Workshop | void> {
     patchState({ isLoading: true });
     return this.userWorkshopService.getWorkshopById(payload).pipe(
       tap((workshop: Workshop) => patchState({ selectedWorkshop: workshop, isLoading: false })),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnGetWorkshopByIdFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetWorkshopByIdFail(error)))
     );
   }
 
@@ -119,14 +116,11 @@ export class SharedUserState {
   }
 
   @Action(GetProviderById)
-  getProviderById(
-    { patchState, dispatch }: StateContext<SharedUserStateModel>,
-    { payload }: GetProviderById
-  ): Observable<Provider | Observable<void>> {
+  getProviderById({ patchState, dispatch }: StateContext<SharedUserStateModel>, { payload }: GetProviderById): Observable<Provider | void> {
     patchState({ isLoading: true });
     return this.providerService.getProviderById(payload).pipe(
       tap((provider: Provider) => patchState({ selectedProvider: provider, isLoading: false })),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnGetProviderByIdFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnGetProviderByIdFail(error)))
     );
   }
 
@@ -164,13 +158,10 @@ export class SharedUserState {
   }
 
   @Action(UpdateApplication)
-  updateApplication(
-    { dispatch }: StateContext<SharedUserStateModel>,
-    { payload }: UpdateApplication
-  ): Observable<Application | Observable<void>> {
+  updateApplication({ dispatch }: StateContext<SharedUserStateModel>, { payload }: UpdateApplication): Observable<Application | void> {
     return this.applicationService.updateApplication(payload).pipe(
       tap((res: Application) => dispatch(new OnUpdateApplicationSuccess(res))),
-      catchError((error: HttpErrorResponse) => of(dispatch(new OnUpdateApplicationFail(error))))
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateApplicationFail(error)))
     );
   }
 

@@ -4,7 +4,7 @@ import { MAT_SNACK_BAR_DATA, MatSnackBar, MatSnackBarModule } from '@angular/mat
 import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { MessageBarData } from 'shared/models/messageBar.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
 import { MessageBarComponent } from './message-bar.component';
 
 describe('SnackBarComponent', () => {

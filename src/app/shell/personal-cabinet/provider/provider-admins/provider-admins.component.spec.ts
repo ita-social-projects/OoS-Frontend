@@ -14,7 +14,7 @@ import { NgxsModule } from '@ngxs/store';
 
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { Role, Subrole } from 'shared/enum/role';
-import { ProviderAdminTable } from 'shared/models/providerAdmin.model';
+import { ProviderAdminTable } from 'shared/models/provider-admin.model';
 import { ProviderAdminsComponent } from './provider-admins.component';
 
 describe('ProviderAdminsComponent', () => {

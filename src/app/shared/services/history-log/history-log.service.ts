@@ -1,15 +1,16 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { 
-  ApplicationHistory, 
-  FilterData, 
-  ParentsBlockingByAdminHistory, 
-  ProviderAdminHistory, 
-  ProviderHistory 
-} from '../../models/history-log.model';
-import { SearchResponse } from '../../models/search.model';
+
 import { FilterOptions } from 'shared/enum/history.log';
+import {
+  ApplicationHistory,
+  FilterData,
+  ParentsBlockingByAdminHistory,
+  ProviderAdminHistory,
+  ProviderHistory
+} from 'shared/models/history-log.model';
+import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +28,7 @@ export class HistoryLogService {
     if (filters?.dateTo) {
       params = params.set('DateTo', new Date(filters.dateTo).toISOString());
     }
-    
+
     if (filters?.PropertyName) {
       params = params.set(FilterOptions.PropertyName, filters.PropertyName);
     }

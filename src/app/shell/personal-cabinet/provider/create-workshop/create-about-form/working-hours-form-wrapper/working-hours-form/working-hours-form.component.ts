@@ -6,7 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
-import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 
 @Component({
   selector: 'app-working-hours-form',

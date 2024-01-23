@@ -714,14 +714,24 @@
       "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",
       "ERROR": "Unfortunately, an error has occurred",
-      "ERROR_404": "Invalid request sent",
-      "ERROR_403": "Access Denied",
-      "ERROR_401": "User not registered",
-      "ERROR_500": "Server error",
-      "ERROR_MAIL": "Check the data entered. A user with this email already exists",
-      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique",
+      "ERROR_401": "User not registered.",
+      "ERROR_403": "Access denied.",
+      "ERROR_404": "Invalid request sent.",
+      "ERROR_500": "Server error.",
+      "ERROR_MAIL": "Check the data entered. A user with this email already exists.",
+      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique.",
       "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
-      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings."
+      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings.",
+      "ERROR_RESPONSE": {
+        "GENERAL": "Request error",
+        "INCORRECT_INPUT_DATA": "Incorrect input data",
+        "COMMON": {
+          "EMAIL_ALREADY_TAKEN": "the email is taken already"
+        },
+        "PROVIDER_ADMIN": {
+          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create provider admin"
+        }
+      }
     },
     "MODAL_CONFIRMATIONS": {
       "BLOCK_REASON": "Specify the blocking reason",

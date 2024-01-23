@@ -5,16 +5,16 @@ import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { Role } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
 import { Child } from 'shared/models/child.model';
-import { DefaultFilterState } from 'shared/models/defaultFilterState.model';
-import { FilterStateModel } from 'shared/models/filterState.model';
-import { MessageBarData } from 'shared/models/messageBar.model';
-import { MinistryAdmin } from 'shared/models/ministryAdmin.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { UsersTable } from 'shared/models/usersTable';
+import { UsersTable } from 'shared/models/users-table';
 
 /**
  * Utility class that providers methods for shared data manipulations

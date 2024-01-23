@@ -1,5 +1,5 @@
-import { ValidationConstants } from '../constants/validation';
-import { WorkshopOpenStatus } from '../enum/workshop';
+import { ValidationConstants } from 'shared/constants/validation';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
 
 /**
  * Default filter state model

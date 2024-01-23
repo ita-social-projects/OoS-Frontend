@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';

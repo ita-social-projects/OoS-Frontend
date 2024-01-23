@@ -1,4 +1,3 @@
-import { WorkshopCard } from './workshop.model';
 export class Favorite {
   id?: string;
   workshopId: string;
