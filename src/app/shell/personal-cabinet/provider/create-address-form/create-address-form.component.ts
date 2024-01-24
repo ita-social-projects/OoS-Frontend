@@ -115,10 +115,8 @@ export class CreateAddressFormComponent implements OnInit {
       this.settlementSearchFormControl.setValue(null);
       this.codeficatorIdFormControl.setValue(null);
       this.settlementFormControl.setValue(null);
-    } else {
-      if (!this.autocomplete.isOpen) {
-        this.settlementSearchFormControl.setValue(this.settlementFormControl.value.settlement, { emitEvent: false });
-      }
+    } else if (!this.autocomplete.isOpen) {
+      this.settlementSearchFormControl.setValue(this.settlementFormControl.value.settlement, { emitEvent: false });
     }
   }
 
