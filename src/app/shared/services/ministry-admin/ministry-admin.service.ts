@@ -68,4 +68,12 @@ export class MinistryAdminService extends BaseAdminService {
   public updateAdmin(ministryAdmin: MinistryAdmin): Observable<MinistryAdmin> {
     return super.updateAdmin(ministryAdmin);
   }
+
+  /**
+   * This method reinvite Ministry Admin
+   * @param adminId: string
+   */
+  public reinviteAdmin(adminId: string): Observable<null> {
+    return super.reinviteAdmin(adminId);
+  }
 }

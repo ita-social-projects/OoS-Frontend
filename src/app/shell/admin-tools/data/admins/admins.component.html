@@ -32,7 +32,7 @@
   <div class="tab-wrapper">
     <mat-tab-group mat-align-tabs="start" (selectedTabChange)="onTabChange($event)" [selectedIndex]="tabIndex">
       <mat-tab *ngIf="role === Role.techAdmin" label="{{ AdminRolesTitles.ministryAdmin | translate }}">
-        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable }"></ng-container>
+        <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.ministryAdmin }"></ng-container>
       </mat-tab>
       <mat-tab *ngIf="canManageInstitution(role)" label="{{ AdminRolesTitles.regionAdmin | translate }}">
         <ng-container *ngTemplateOutlet="AdminsList; context: { admins: adminsTable, adminType: Role.regionAdmin }"></ng-container>
@@ -55,7 +55,8 @@
                         [displayedColumns]="displayedColumns"
                         (delete)="onDelete($event)"
                         (block)="onBlock($event)"
-                        (update)="onUpdate($event)">
+                        (update)="onUpdate($event)"
+                        (sendInvitation)="onSendInvitation($event)">
         </app-users-list>
       </div>
       <app-paginator *ngIf="!(isLoadingCabinet$ | async) && adminsTable"
