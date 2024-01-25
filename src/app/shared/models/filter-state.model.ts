@@ -1,4 +1,4 @@
-import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { Codeficator } from './codeficator.model';
 import { Coords } from './coords.model';
 import { SearchResponse } from './search.model';
@@ -12,6 +12,7 @@ export interface FilterStateModel {
   workingDays: string[];
   startTime: string;
   endTime: string;
+  formsOfLearning: FormOfLearning[];
   isFree: boolean;
   isPaid: boolean;
   maxPrice: number;

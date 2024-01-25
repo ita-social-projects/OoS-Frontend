@@ -10,6 +10,7 @@ import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider
 import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-about-form',
@@ -28,6 +29,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public readonly FormOfLearning = FormOfLearning;
   public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipType = OwnershipTypes;
+  public readonly Util = Util;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
