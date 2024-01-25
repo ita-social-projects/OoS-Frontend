@@ -139,6 +139,7 @@ export interface WorkshopBaseCard {
   providerOwnership: OwnershipTypes;
   title: string;
   payRate: PayRateType;
+  formOfLearning: FormOfLearning;
   coverImageId?: string;
   minAge: number;
   maxAge: number;
