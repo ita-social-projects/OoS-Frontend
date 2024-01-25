@@ -149,6 +149,11 @@
       "MONTH": "Місяць",
       "YEAR": "Рік"
     },
+    "FORM_OF_LEARNING": {
+      "ONLINE": "Онлайн",
+      "OFFLINE": "Офлайн",
+      "MIXED": "Змішана"
+    },
     "PERSONAL_CABINET_TITLE": {
       "USER_PERSONAL_CABINET": "Кабінет користувача",
       "PROVIDER_PERSONAL_CABINET": "Кабінет надавача послуг",
@@ -334,6 +339,7 @@
       "PHONE_FEEDBACK": "Телефон для зворотного зв'язку",
       "PLACE_OF_STUDY": "Місце навчання (заклад)",
       "PRICE": "Вартість",
+      "FORM_OF_LEARNING": "Форма проведення",
       "SECTION_TITLE": "Назва розділу",
       "SETTLEMENT": "Населений пункт",
       "ADDRESS": "Адреса",
