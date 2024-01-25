@@ -202,12 +202,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onSendMessage(): void {
-    if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
+    const message = this.messageControl.value.trim();
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected && message) {
       const sendMessage = new OutgoingMessage(
         this.chatRoom.workshopId,
         this.chatRoom.parentId,
         this.chatRoom.id,
-        this.messageControl.value
+        message
       );
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
       this.messageControl.setValue('');

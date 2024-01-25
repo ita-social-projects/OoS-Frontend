@@ -8,7 +8,8 @@ export namespace ApiErrorTypes {
   }
 
   export enum Common {
-    EmailAlreadyTaken = SnackbarText.commonEmailAlreadyTaken
+    EmailAlreadyTaken = SnackbarText.commonEmailAlreadyTaken,
+    PhoneNumberAlreadyTaken = SnackbarText.phoneNumberAlreadyTaken
   }
 
   export enum ProviderAdmin {

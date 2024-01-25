@@ -71,7 +71,7 @@
     </div>
     <ng-container *ngIf="isMobileView; then actionsBlock"></ng-container>
   </mat-card-content>
-  <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider && !application.isBlocked">
+  <mat-card-content class="card-block card-block__buttons" *ngIf="userRole === role.provider && !application.isBlockedByProvider">
     <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
       <ng-container *ngIf="application.status === applicationStatuses.Pending">
         <button class="btn" (click)="acceptForSelection.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
@@ -129,10 +129,10 @@
       email
     </mat-icon>
     <mat-menu #actions="matMenu" class="header_menu">
-      <button *ngIf="!application.isBlocked" mat-menu-item (click)="block.emit(application.parentId)">
+      <button *ngIf="!application.isBlockedByProvider" mat-menu-item (click)="block.emit(application.parentId)">
         {{ 'BUTTONS.BLOCK_USER' | translate }}
       </button>
-      <button *ngIf="application.isBlocked" mat-menu-item (click)="unblock.emit(application.parentId)">
+      <button *ngIf="application.isBlockedByProvider" mat-menu-item (click)="unblock.emit(application.parentId)">
         {{ 'BUTTONS.UNBLOCK_USER' | translate }}
       </button>
     </mat-menu>
