@@ -31,10 +31,9 @@
         type="text"
         appTrimValue
         [formControl]="context.searchControl"
-        [matAutocomplete]="auto"
-        (focusout)="onFocusOut(auto)" />
+        [matAutocomplete]="autocomplete"
+        (focusout)="onFocusOut()" />
       <mat-autocomplete
-        #auto="matAutocomplete"
         disableOptionCentering
         panelClass="dropdown-panel"
         [displayWith]="displaySettlementNameFn"

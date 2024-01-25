@@ -22,7 +22,7 @@ export class CreateAddressFormComponent implements OnInit {
   public readonly Constants = Constants;
 
   @ViewChild(MatAutocomplete)
-  private autocomplete: MatAutocomplete;
+  public autocomplete: MatAutocomplete;
 
   @Input()
   public addressFormGroup: FormGroup;
@@ -63,40 +63,6 @@ export class CreateAddressFormComponent implements OnInit {
     this.initSettlementListener();
   }
 
-  private activateEditMode(): void {
-    if (this.address) {
-      this.addressFormGroup.patchValue({ ...this.address }, { emitEvent: false, onlySelf: true });
-      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, { emitEvent: false, onlySelf: true });
-      this.settlementFormControl.patchValue(this.address.codeficatorAddressDto, { emitEvent: false, onlySelf: true });
-      this.store.dispatch(new ClearCodeficatorSearch());
-    }
-  }
-
-  /**
-   * This method listen input changes and handle search
-   */
-  private initSettlementListener(): void {
-    this.settlementSearchFormControl.valueChanges
-      .pipe(
-        debounceTime(500),
-        distinctUntilChanged(),
-        takeUntil(this.destroy$),
-        tap((value: string) => {
-          if (!value?.length) {
-            this.store.dispatch(new ClearCodeficatorSearch());
-          }
-        }),
-        filter((value: string) => value?.length > 2),
-        delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
-      )
-      .subscribe((value: string) => {
-        const options = this.autocomplete.options.filter((option) => option.value.settlement.toLowerCase() === value.toLowerCase());
-        if (options.length === 1) {
-          options[0].select();
-        }
-      });
-  }
-
   /**
    * This method handle displayed value for mat-autocomplete dropdown
    * @param codeficator: Codeficator | string
@@ -134,5 +100,39 @@ export class CreateAddressFormComponent implements OnInit {
     if (!this.addressFormGroup.dirty) {
       this.addressFormGroup.markAsDirty({ onlySelf: true });
     }
+  }
+
+    private activateEditMode(): void {
+    if (this.address) {
+      this.addressFormGroup.patchValue({ ...this.address }, { emitEvent: false, onlySelf: true });
+      this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, { emitEvent: false, onlySelf: true });
+      this.settlementFormControl.patchValue(this.address.codeficatorAddressDto, { emitEvent: false, onlySelf: true });
+      this.store.dispatch(new ClearCodeficatorSearch());
+    }
+  }
+
+  /**
+   * This method listen input changes and handle search
+   */
+  private initSettlementListener(): void {
+    this.settlementSearchFormControl.valueChanges
+      .pipe(
+        debounceTime(500),
+        distinctUntilChanged(),
+        takeUntil(this.destroy$),
+        tap((value: string) => {
+          if (!value?.length) {
+            this.store.dispatch(new ClearCodeficatorSearch());
+          }
+        }),
+        filter((value: string) => value?.length > 2),
+        delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
+      )
+      .subscribe((value: string) => {
+        const options = this.autocomplete.options.filter((option) => option.value.settlement.toLowerCase() === value.toLowerCase());
+        if (options.length === 1) {
+          options[0].select();
+        }
+      });
   }
 }
