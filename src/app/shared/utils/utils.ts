@@ -1,3 +1,5 @@
+import { KeyValue } from '@angular/common';
+
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
@@ -238,7 +240,7 @@ export class Util {
 
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
-      const arrayKeys = ['directionIds', 'workingDays', 'statuses'];
+      const arrayKeys = ['directionIds', 'workingDays', 'formsOfLearning', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
         filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);
@@ -257,6 +259,13 @@ export class Util {
       currentPage.element = Math.ceil(totalAmount / params.size);
       params.from = this.calculateFromParameter(currentPage, params.size);
     }
+  }
+
+  /**
+   * Used with `keyvalue` pipe for sorting keys in numerical order instead of alphanumeric
+   */
+  public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
+    return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {

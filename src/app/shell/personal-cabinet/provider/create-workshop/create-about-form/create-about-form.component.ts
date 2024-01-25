@@ -5,11 +5,12 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
-import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
+import { FormOfLearningEnum, PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { OwnershipTypes, ProviderWorkshopSameValues } from 'shared/enum/provider';
-import { PayRateType } from 'shared/enum/workshop';
+import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-create-about-form',
@@ -25,7 +26,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly PayRateType = PayRateType;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly FormOfLearning = FormOfLearning;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly ownershipType = OwnershipTypes;
+  public readonly Util = Util;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
     cropperMaxWidth: CropperConfigurationConstants.cropperMaxWidth,
@@ -109,6 +113,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       instagram: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_256)]),
       price: new FormControl({ value: 0, disabled: true }, [Validators.required]),
       workingHours: this.workingHoursFormArray,
+      formOfLearning: new FormControl(FormOfLearning.Offline, [Validators.required]),
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),

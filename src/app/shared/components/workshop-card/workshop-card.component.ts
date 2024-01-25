@@ -10,7 +10,7 @@ import { Constants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
-import { PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationDescription, ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { OwnershipTypes } from 'shared/enum/provider';
 import { Role } from 'shared/enum/role';
@@ -38,6 +38,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly tooltipPositionBelow = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly categoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly modalConfirmationType = ModalConfirmationType;
