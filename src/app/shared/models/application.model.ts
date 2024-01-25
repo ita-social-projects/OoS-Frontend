@@ -17,7 +17,7 @@ export class Application {
   child: Child;
   parent: ParentWithContactInfo;
   rejectionMessage: string;
-  isBlocked: boolean;
+  isBlockedByProvider: boolean;
 
   constructor(child: Child, workshop: Workshop, parent: ParentWithContactInfo) {
     this.childId = child.id;

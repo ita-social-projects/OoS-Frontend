@@ -32,13 +32,13 @@
         appTrimValue
         [formControl]="context.searchControl"
         [matAutocomplete]="auto"
-        (focusout)="onFocusOut(auto, context)" />
+        (focusout)="onFocusOut()" />
       <mat-autocomplete
         #auto="matAutocomplete"
         disableOptionCentering
         panelClass="dropdown-panel"
         [displayWith]="displaySettlementNameFn"
-        (optionSelected)="onSelectSettlement($event, context)">
+        (optionSelected)="onSelectSettlement($event)">
         <mat-option
           class="dropdown-option"
           *ngFor="let codeficator of codeficatorSearch$ | async"

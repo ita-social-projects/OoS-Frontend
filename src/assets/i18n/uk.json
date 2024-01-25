@@ -728,7 +728,8 @@
         "GENERAL": "Помилка запиту",
         "INCORRECT_INPUT_DATA": "Невірно введені дані",
         "COMMON": {
-          "EMAIL_ALREADY_TAKEN": "введену пошту вже зайнято"
+          "EMAIL_ALREADY_TAKEN": "введену пошту вже зайнято",
+          "PHONE_NUMBER_ALREADY_TAKEN": "введений номер телефону вже зайнято"
         },
         "PROVIDER_ADMIN": {
           "USER_DONT_HAVE_PERMISSION_TO_CREATE": "недостатньо прав для створення адміністратора закладу"
