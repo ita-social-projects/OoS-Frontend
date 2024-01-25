@@ -108,9 +108,6 @@
             <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
               <mat-icon class="action-icon">more_vert</mat-icon>
             </button>
-            <!-- <button mat-icon-button [matMenuTriggerFor]="email">
-              <mat-icon class="action-icon">email</mat-icon>
-            </button> -->
           </div>
 
           <mat-menu #actions="matMenu" class="header_menu">
@@ -126,10 +123,10 @@
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
+            <ng-container *ngIf="user.institutionTitle && user.status !== userStatuses.Accepted">
+              <button mat-menu-item (click)="sendInvitation.emit({user, adminType})">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+            </ng-container>
             <!-- <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button> -->
-          </mat-menu>
-          <mat-menu #email="matMenu" class="header_menu">
-            <button mat-menu-item (click)="sendInvitation.emit(user)">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>

@@ -105,7 +105,17 @@ import {
   UpdateDirection,
   UpdateMinistryAdmin,
   UpdatePlatformInfo,
-  UpdateRegionAdmin
+  UpdateRegionAdmin,
+  ReinviteAdminById,
+  ReinviteMinistryAdminById,
+  ReinviteMinistryAdminSuccess,
+  ReinviteMinistryAdminFail,
+  ReinviteRegionAdminById,
+  ReinviteRegionAdminSuccess,
+  ReinviteRegionAdminFail,
+  ReinviteAreaAdminById,
+  ReinviteAreaAdminSuccess,
+  ReinviteAreaAdminFail
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -682,6 +692,24 @@ export class AdminState {
     }
   }
 
+  @Action(ReinviteAdminById)
+  reinviteAdmin({ dispatch }: StateContext<AdminStateModel>, { adminId, adminType }: ReinviteAdminById): void {
+    switch (adminType) {
+      case AdminRoles.ministryAdmin: {
+        dispatch(new ReinviteMinistryAdminById(adminId));
+        break;
+      }
+      case AdminRoles.regionAdmin: {
+        dispatch(new ReinviteRegionAdminById(adminId));
+        break;
+      }
+      case AdminRoles.areaAdmin: {
+        dispatch(new ReinviteAreaAdminById(adminId));
+        break;
+      }
+    }
+  }
+
   @Action(GetAllMinistryAdmins)
   getAllMinistryAdmins(
     { patchState }: StateContext<AdminStateModel>,
@@ -819,6 +847,24 @@ export class AdminState {
         type: 'success'
       })
     ]);
+  }
+
+  @Action(ReinviteMinistryAdminById)
+  reinviteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { adminId }: ReinviteMinistryAdminById): Observable<void> {
+    return this.ministryAdminService.reinviteAdmin(adminId).pipe(
+      tap(() => dispatch(new ReinviteMinistryAdminSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new ReinviteMinistryAdminFail(error)))
+    );
+  }
+
+  @Action(ReinviteMinistryAdminSuccess)
+  reinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  }
+
+  @Action(ReinviteMinistryAdminFail)
+  reinviteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetAllRegionAdmins)
@@ -960,6 +1006,24 @@ export class AdminState {
     ]);
   }
 
+  @Action(ReinviteRegionAdminById)
+  reinviteRegionAdminById({ dispatch }: StateContext<AdminState>, { adminId }: ReinviteRegionAdminById): Observable<void> {
+    return this.regionAdminService.reinviteAdmin(adminId).pipe(
+      tap(() => dispatch(new ReinviteRegionAdminSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new ReinviteRegionAdminFail(error)))
+    );
+  }
+
+  @Action(ReinviteRegionAdminSuccess)
+  reinviteRegionAdminSuccess({ dispatch }: StateContext<AdminState>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  }
+
+  @Action(ReinviteRegionAdminFail)
+  reinviteRegionAdminFail({ dispatch }: StateContext<AdminState>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
   @Action(GetAllAreaAdmins)
   getAllAreaAdmins(
     { patchState }: StateContext<AdminStateModel>,
@@ -1097,5 +1161,23 @@ export class AdminState {
         type: 'success'
       })
     ]);
+  }
+
+  @Action(ReinviteAreaAdminById)
+  reinviteAreaAdminById({ dispatch }: StateContext<AdminStateModel>, { adminId }: ReinviteAreaAdminById): Observable<void> {
+    return this.areaAdminService.reinviteAdmin(adminId).pipe(
+      tap(() => dispatch(new ReinviteAreaAdminSuccess())),
+      catchError((error: HttpErrorResponse) => dispatch(new ReinviteAreaAdminFail(error)))
+    );
+  }
+
+  @Action(ReinviteAreaAdminSuccess)
+  reinviteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  }
+
+  @Action(ReinviteAreaAdminFail)
+  reinviteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }
