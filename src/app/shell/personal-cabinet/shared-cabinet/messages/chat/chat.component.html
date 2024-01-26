@@ -19,7 +19,7 @@
         [userIsProvider]="userIsProvider">
       </app-message>
     </ng-container>
-    <ng-container *ngIf="(chatRoom$ | async).isBlockedByProvider">
+    <ng-container *ngIf="(chatRoom$ | async)?.isBlockedByProvider">
       <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
         <span><i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
         <span>{{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
@@ -47,8 +47,9 @@
         cdkTextareaAutosize
         [maxlength]="validationConstants.INPUT_LENGTH_256"
         autocomplete="off"
-        [formControl]="messageControl"></textarea>
-      <button class="btn" mat-button (click)="onSendMessage()">
+        [formControl]="messageControl"
+        [readonly]="isDisabled$ | async"></textarea>
+      <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled$ | async">
         <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
         <mat-icon>send</mat-icon>
       </button>
