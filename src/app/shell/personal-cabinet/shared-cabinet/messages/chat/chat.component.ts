@@ -10,7 +10,9 @@ import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-url';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { Role } from 'shared/enum/role';
+import { UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from 'shared/models/chat.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import {
@@ -32,13 +34,16 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
+  public readonly userStatusesTitles = UserStatusesTitles;
+  public readonly userStatusIcons = UserStatusIcons;
+  public readonly userStatuses = UserStatuses;
 
   @ViewChild('chat')
   private chatEl: ElementRef;
 
   @Select(ChatState.selectedChatRoom)
-  private chatRoom$: Observable<ChatRoom>;
+  public chatRoom$: Observable<ChatRoom>;
   @Select(ChatState.selectedChatRoomMessages)
   private messages$: Observable<IncomingMessage[]>;
 
