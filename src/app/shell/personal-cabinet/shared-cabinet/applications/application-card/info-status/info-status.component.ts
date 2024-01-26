@@ -36,12 +36,12 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   constructor(private store: Store) {}
 
   ngOnInit(): void {
-    this.status = this.application.isBlocked ? this.blockedStatus : ApplicationStatuses[this.application.status];
-    this.reason = !this.application.isBlocked && this.application.rejectionMessage;
+    this.status = this.application.isBlockedByProvider ? this.blockedStatus : ApplicationStatuses[this.application.status];
+    this.reason = !this.application.isBlockedByProvider && this.application.rejectionMessage;
   }
 
   onGetBlockedParent(): void {
-    if (this.application.isBlocked) {
+    if (this.application.isBlockedByProvider) {
       const providerId = this.store.selectSnapshot<Provider>(RegistrationState.provider).id;
       this.store.dispatch(new GetBlockedParents(providerId, this.application.parentId));
       this.blockedParent$
@@ -54,7 +54,7 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   }
 
   onMenuClosed(): void {
-    if (this.application.isBlocked) {
+    if (this.application.isBlockedByProvider) {
       this.store.dispatch(new OnClearBlockedParents());
     }
   }

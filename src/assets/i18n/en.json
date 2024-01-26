@@ -149,6 +149,11 @@
       "MONTH": "Month",
       "YEAR": "Year"
     },
+    "FORM_OF_LEARNING": {
+      "OFFLINE": "Offline",
+      "ONLINE": "Online",
+      "MIXED": "Mixed"
+    },
     "PERSONAL_CABINET_TITLE": {
       "USER_PERSONAL_CABINET": "User personal cabinet",
       "PROVIDER_PERSONAL_CABINET": "Provider personal cabinet",
@@ -334,6 +339,7 @@
       "PHONE_FEEDBACK": "Phone for feedback",
       "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
+      "FORM_OF_LEARNING": "Form of learning",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "ADDRESS": "Address",
@@ -726,7 +732,8 @@
         "GENERAL": "Request error",
         "INCORRECT_INPUT_DATA": "Incorrect input data",
         "COMMON": {
-          "EMAIL_ALREADY_TAKEN": "the email is taken already"
+          "EMAIL_ALREADY_TAKEN": "the email is taken already",
+          "PHONE_NUMBER_ALREADY_TAKEN": "the phone number is taken already"
         },
         "PROVIDER_ADMIN": {
           "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create provider admin"

@@ -216,6 +216,12 @@ export class BlockAdminById {
   constructor(public payload: BaseAdminBlockData, public adminType: AdminRoles) {}
 }
 
+export class ReinviteAdminById {
+  static readonly type = '[admin] Reinvite Admin';
+
+  constructor(public adminId: string, public adminType: AdminRoles) {}
+}
+
 export class GetAllMinistryAdmins {
   static readonly type = '[admin] Get All Ministry Admins';
 
@@ -294,6 +300,24 @@ export class BlockMinistryAdminById {
   constructor(public payload: MinistryAdminBlockData) {}
 }
 
+export class ReinviteMinistryAdminById {
+  static readonly type = '[admin] Reinvite Ministry Admin';
+
+  constructor(public adminId: string) {}
+}
+
+export class ReinviteMinistryAdminSuccess {
+  static readonly type = '[admin] Reinvite Ministry Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteMinistryAdminFail {
+  static readonly type = '[admin] Reinvite Ministry Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
+}
+
 export class GetAllRegionAdmins {
   static readonly type = '[admin] Get All Region Admins';
 
@@ -370,6 +394,24 @@ export class BlockRegionAdminById {
   static readonly type = '[admin] Block Region Admin';
 
   constructor(public payload: RegionAdminBlockData) {}
+}
+
+export class ReinviteRegionAdminById {
+  static readonly type = '[admin] Reinvite Region Admin';
+
+  constructor(public adminId: string) {}
+}
+
+export class ReinviteRegionAdminSuccess {
+  static readonly type = '[admin] Block Region Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteRegionAdminFail {
+  static readonly type = '[admin] Reinvite Region Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class GetAllAreaAdmins {
@@ -460,4 +502,22 @@ export class OnBlockFail {
   static readonly type = '[admin] Block Fail';
 
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class ReinviteAreaAdminById {
+  static readonly type = '[admin] Reinvite Area Admin';
+
+  constructor(public adminId: string) {}
+}
+
+export class ReinviteAreaAdminSuccess {
+  static readonly type = '[admin] Reinvite Area Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteAreaAdminFail {
+  static readonly type = '[admin] Reinvite Area Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
 }

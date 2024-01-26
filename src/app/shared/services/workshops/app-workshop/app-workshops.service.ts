@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { Ordering } from 'shared/enum/ordering';
+import { FormOfLearning } from 'shared/enum/workshop';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { FilterStateModel } from 'shared/models/filter-state.model';
 import { SearchResponse } from 'shared/models/search.model';
@@ -57,6 +58,9 @@ export class AppWorkshopsService {
       params = this.setCityFilterParams(filters.settlement, params);
     }
 
+    if (filters.formsOfLearning.length) {
+      filters.formsOfLearning.forEach((formOfLearning: FormOfLearning) => (params = params.append('FormsOfLearning', formOfLearning)));
+    }
     if (filters.isFree) {
       params = params.set('IsFree', 'true');
     }
@@ -85,7 +89,7 @@ export class AppWorkshopsService {
     if (filters.endTime) {
       params = params.set('EndHour', filters.endTime);
     }
-    if (filters.workingDays.length > 0) {
+    if (filters.workingDays.length) {
       filters.workingDays.forEach((day: string) => (params = params.append('Workdays', day)));
     }
     if (filters.isFree || !filters.minPrice) {
@@ -103,10 +107,10 @@ export class AppWorkshopsService {
     if (filters.order) {
       params = params.set('OrderByField', filters.order);
     }
-    if (!!filters.statuses.length) {
+    if (filters.statuses.length) {
       filters.statuses.forEach((status: string) => (params = params.append('Statuses', status)));
     }
-    if (!!filters.directionIds.length) {
+    if (filters.directionIds.length) {
       filters.directionIds.forEach((id: number) => (params = params.append('DirectionIds', id.toString())));
     }
 

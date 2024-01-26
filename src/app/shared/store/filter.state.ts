@@ -27,6 +27,7 @@ import {
   SetEndTime,
   SetFilterFromURL,
   SetFilterPagination,
+  SetFormsOfLearning,
   SetIsAppropriateAge,
   SetIsAppropriateHours,
   SetIsFree,
@@ -136,6 +137,7 @@ export class FilterState {
       directionIds,
       minPrice,
       maxPrice,
+      formsOfLearning,
       isFree,
       isPaid,
       workingDays,
@@ -147,6 +149,7 @@ export class FilterState {
     return {
       withDisabilityOption,
       statuses,
+      formsOfLearning,
       directionIds,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
@@ -205,15 +208,22 @@ export class FilterState {
   setStartTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
     patchState({ startTime: payload, from: 0 });
   }
+
   @Action(SetEndTime)
   setEndTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
     patchState({ endTime: payload, from: 0 });
+  }
+
+  @Action(SetFormsOfLearning)
+  setFormsOfLearning({ patchState }: StateContext<FilterStateModel>, { payload }: SetFormsOfLearning): void {
+    patchState({ formsOfLearning: payload, from: 0 });
   }
 
   @Action(SetIsFree)
   setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
     patchState({ isFree: payload, from: 0 });
   }
+
   @Action(SetIsPaid)
   setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
     patchState({ isPaid: payload, from: 0 });

@@ -16,14 +16,14 @@ import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
 import { Role } from 'shared-enum/role';
 import { BaseAdmin, BaseAdminParameters } from 'shared-models/admin.model';
 import { SearchResponse } from 'shared-models/search.model';
-import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admin.actions';
+import { BlockAdminById, DeleteAdminById, GetAllAdmins, ReinviteAdminById } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
 import { RegistrationState } from 'shared-store/registration.state';
 import { Util } from 'shared-utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { BlockData, UsersTable } from 'shared/models/users-table';
+import { BlockData, InvitationData, UsersTable } from 'shared/models/users-table';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
@@ -178,6 +178,14 @@ export class AdminsComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe((result: boolean) => {
       result && this.deleteAdmin(admin.id, this.adminType);
     });
+  }
+
+  /**
+   * This method send invitation to Admin By Id
+   * @param invitationData: InvitationData
+   */
+  public onSendInvitation(invitationData: InvitationData): void {
+    this.store.dispatch(new ReinviteAdminById(invitationData.user.id, invitationData.adminType));
   }
 
   private setTabOptions(): void {

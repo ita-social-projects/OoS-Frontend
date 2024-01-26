@@ -10,15 +10,19 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { AdminsComponent } from './admins.component';
+import { InvitationData } from 'shared/models/users-table';
+import { AdminRoles } from 'shared/enum/admins';
+import { ReinviteAdminById } from 'shared/store/admin.actions';
 
 describe('AdminsComponent', () => {
   let component: AdminsComponent;
   let fixture: ComponentFixture<AdminsComponent>;
+  let store: Store;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,11 +46,33 @@ describe('AdminsComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AdminsComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('onSendInvitation method', () => {
+    let dispatchSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      dispatchSpy = jest.spyOn(store, 'dispatch');
+    });
+
+    it('should dispatch ReinviteAdminById action with correct parameters when onSendInvitation method executes', () => {
+      const mockInvitationData = {
+        user: { id: 'mockUserId' },
+        adminType: AdminRoles.ministryAdmin
+      } as InvitationData;
+
+      component.onSendInvitation(mockInvitationData);
+
+      expect(dispatchSpy).toHaveBeenCalledTimes(1);
+      expect(dispatchSpy).toHaveBeenCalledWith(new ReinviteAdminById(mockInvitationData.user.id, mockInvitationData.adminType));
+    });
   });
 });
 
