@@ -59,7 +59,7 @@ export class AppWorkshopsService {
     }
 
     if (filters.formsOfLearning.length) {
-      filters.formsOfLearning.forEach((formOfLearning: FormOfLearning) => (params = params.append('FormsOfLearning', formOfLearning)));
+      filters.formsOfLearning.forEach((formOfLearning: FormOfLearning) => (params = params.append('FormOfLearning', formOfLearning)));
     }
     if (filters.isFree) {
       params = params.set('IsFree', 'true');
