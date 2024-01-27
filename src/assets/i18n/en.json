@@ -32,6 +32,7 @@
     "WEDNESDAY": "Wed"
   },
   "DIRECTIONS": "Categories",
+  "DIRECTIONS_FOR_THE_USER": "Directions for the user",
   "DISPLAY_ON_THE_PAGE": "Items per page:",
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
@@ -120,7 +121,8 @@
       "MY_WORKSHOPS": "My workshops",
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
-      "LAWS_AND_REGULATIONS": "Laws and regulations"
+      "LAWS_AND_REGULATIONS": "Laws and regulations",
+      "PROVIDER_REGISTRATION": "Provider registration"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -146,6 +148,11 @@
       "HOUR": "Hour",
       "MONTH": "Month",
       "YEAR": "Year"
+    },
+    "FORM_OF_LEARNING": {
+      "OFFLINE": "Offline",
+      "ONLINE": "Online",
+      "MIXED": "Mixed"
     },
     "PERSONAL_CABINET_TITLE": {
       "USER_PERSONAL_CABINET": "User personal cabinet",
@@ -268,6 +275,7 @@
       "PROVIDERS": "Providers",
       "ADMINS": "Adminstrators",
       "APPLICATIONS": "Applications",
+      "USERS": "Users",
       "ADMIN_STATUS": {
         "CREATE": "Creating an administrator",
         "UPDATE": "Replacement of the administrator",
@@ -331,6 +339,7 @@
       "PHONE_FEEDBACK": "Phone for feedback",
       "PLACE_OF_STUDY": "Place of study",
       "PRICE": "Price",
+      "FORM_OF_LEARNING": "Form of learning",
       "SECTION_TITLE": "Section title",
       "SETTLEMENT": "Settlement",
       "ADDRESS": "Address",
@@ -395,6 +404,7 @@
       "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
+      "SEARCH_BY_DIRECTIONS": "Search by directions",
       "ENTER_DATE_RANGE": "Enter a date range",
       "ALL_FILTERS": "All filters",
       "SELECT_SUBORDINATION": "Select subordination",
@@ -540,7 +550,8 @@
     "CONFIRM_EDITING": "Send for editing",
     "DELETE": "Delete",
     "GO_BACK": "Go back",
-    "REGISTER": "Register"
+    "REGISTER": "Register",
+    "ADD_DIRECTION": "Add a direction"
   },
   "PERSONAL_DATA": "Personal data",
   "CHILD_DATA": "Child data",
@@ -584,9 +595,26 @@
     "SHOW": "Show",
     "RESET_FILTERS": "Reset filters",
     "PERIOD": "Period",
-    "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
-    "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
-    "STATUS_CHANGE_TYPE": "Application status change"
+    "PROVIDER_ADMIN_FILTERS": {
+      "ALL": "All",
+      "DEPUTIES": "Deputies",
+      "ASSISTANTS": "Assistants",
+      "REMOVE_ADMIN_OPTION": "Administrator was removed from the workshop",
+      "ADD_ADMIN_OPTION": "Administrator was added to the workshop",
+      "BLOCK_ADMIN_OPTION": "Administrator was blocked",
+      "UPDATE_ADMIN_OPTION": "Administrator was updated",
+      "REINVITE_ADMIN_OPTION": "Administrator was reinvited"
+    },
+    "STATUS_CHANGE_TYPE": "Application status change",
+    "USERS_FILTERS": {
+      "ALL": "All",
+      "BLOCKED": "Blocked",
+      "UNBLOCKED": "Unblocked"
+    },
+    "USER_THAT_WAS_BLOCKED": "User that was blocked",
+    "BLOCKING_REASON": "Blocking reason",
+    "USER_WAS_BLOCKED": "Blocked",
+    "USER_WAS_UNBLOCKED": "Unblocked"
   },
   "STATISTICS": {
     "DATE_RANGE": "Time Range",
@@ -685,30 +713,45 @@
       "CHANGE_PROVIDER_LICENSE_APPROVED": "License successfully approved",
       "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
+      "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
+      "ACCESS_IS_RESTRICTED": "Your access to the workshops of this institution is restricted",
+      "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",
       "ERROR": "Unfortunately, an error has occurred",
-      "ERROR_404": "Invalid request sent",
-      "ERROR_403": "Access Denied",
-      "ERROR_401": "User not registered",
-      "ERROR_500": "Server error",
-      "ERROR_MAIL": "Check the data entered. A user with this email already exists",
-      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique",
+      "ERROR_401": "User not registered.",
+      "ERROR_403": "Access denied.",
+      "ERROR_404": "Invalid request sent.",
+      "ERROR_500": "Server error.",
+      "ERROR_MAIL": "Check the data entered. A user with this email already exists.",
+      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique.",
       "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
-      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings."
+      "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings.",
+      "ERROR_RESPONSE": {
+        "GENERAL": "Request error",
+        "INCORRECT_INPUT_DATA": "Incorrect input data",
+        "COMMON": {
+          "EMAIL_ALREADY_TAKEN": "the email is taken already",
+          "PHONE_NUMBER_ALREADY_TAKEN": "the phone number is taken already"
+        },
+        "PROVIDER_ADMIN": {
+          "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create provider admin"
+        }
+      }
     },
     "MODAL_CONFIRMATIONS": {
-      "BLOCK_PARENT": "Specify the blocking reason",
+      "BLOCK_REASON": "Specify the blocking reason",
       "REJECT": "Specify the reason for rejection",
       "EDITING_PROVIDER": "Specify the reason for editing",
       "DELETE_WORKSHOP": "Are you sure you want to delete the workshop",
       "DELETE_DIRECTION": "Are you sure you want to delete the direction",
       "CREATE_DIRECTION": "Are you sure you want to create the direction?",
       "UPDATE_DIRECTION": "Are you sure you want to edit the direction?",
+      "CREATE_CHILD_INFORMATION": "Are you sure you want to add child information?",
       "UPDATE_CHILD_INFORMATION": "Are you sure you want to edit child information?",
       "UPDATE_PERSONAL_INFORMATION": "Are you sure you want to edit the personal information?",
       "DELETE_CHILD": "Are you sure you want to delete the child's data",
@@ -733,7 +776,7 @@
       "CREATE_ACHIEVEMENT": "Are you sure you want to add an achievement?",
       "REJECT_APPLICATION": "Are you sure you want to change the status of the application to 'Rejected'?",
       "CREATE_PROVIDER_DEPUTY": "Are you sure you want to add a provider deputy?",
-      "CREATE_PROVIDER_ADMIN": "Are you sure you want to edit the workshop administrator?",
+      "CREATE_PROVIDER_ADMIN": "Are you sure you want to add the workshop administrator?",
       "UPDATE_PROVIDER_DEPUTY": "Are you sure you want to edit the provider deputy?",
       "UPDATE_PROVIDER_ADMIN": "are you sure you want to edit the workshop administrator?",
       "BLOCK_USER": "Are you sure you want to block the user?",
@@ -751,6 +794,7 @@
         "DELETE_DIRECTION": "DELETE DIRECTION?",
         "CREATE_DIRECTION": "CREATE DIRECTION?",
         "UPDATE_DIRECTION": "EDIT DIRECTION?",
+        "CREATE_CHILD_INFORMATION": "ADD CHILD INFORMATION?",
         "UPDATE_CHILD_INFORMATION": "EDIT CHILD INFORMATION?",
         "UPDATE_PERSONAL_INFORMATION": "EDIT PERSONAL INFORMATION?",
         "DELETE_CHILD": "DELETE CHILD DATA?",

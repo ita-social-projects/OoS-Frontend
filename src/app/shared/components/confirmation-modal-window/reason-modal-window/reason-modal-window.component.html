@@ -3,15 +3,20 @@
   <p class="confirmation">{{ modalConfirmationText | translate }}</p>
 
   <form fxLayout="column" class="reject-form">
-    <label class="step-label">
-      {{ modalConfirmationDescription | translate }}
-      <span class="step-required">*</span>
-    </label>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <label class="step-label">
+        {{ modalConfirmationDescription | translate }}<span class="step-required">*</span>
+      </label>
+      <div class="step-label">
+        <label class="step-characters-count">{{ reasonFormControl.value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</label>
+      </div>
+    </div>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
       <textarea matInput
                 class="step-textarea"
                 placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
                 [formControl]="reasonFormControl"
+                [maxlength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
                 appTrimValue>
       </textarea>
     </mat-form-field>
@@ -21,8 +26,7 @@
     </app-validation-hint>
 
     <label *ngIf="isPhoneNumberRequired" class="step-label">
-      {{ 'FORMS.LABELS.PHONE_FEEDBACK' | translate }}
-      <span class="step-required">*</span>
+      {{ 'FORMS.LABELS.PHONE_FEEDBACK' | translate }}<span class="step-required">*</span>
     </label>
     <app-phone-form-control *ngIf="isPhoneNumberRequired"
                             [parentFormControl]="phoneNumberFormControl">

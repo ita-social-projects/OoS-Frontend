@@ -38,7 +38,7 @@
         class="message-input"
         placeholder="{{ 'SEND_A_MESSAGE' | translate }}"
         cdkTextareaAutosize
-        maxlength="{{ validationConstants.INPUT_LENGTH_256 }}"
+        [maxlength]="validationConstants.INPUT_LENGTH_256"
         autocomplete="off"
         [formControl]="messageControl"></textarea>
       <button class="btn" mat-button (click)="onSendMessage()">

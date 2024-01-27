@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofAction } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -8,8 +8,8 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role } from 'shared/enum/role';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { Subrole } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
@@ -105,7 +105,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
 
   private getProviderWorkshops(): void {
     Util.setFromPaginationParam(this.workshopCardParameters, this.currentPage, this.workshops?.totalAmount);
-    if (this.subRole === Role.None) {
+    if (this.subrole === Subrole.None) {
       this.store.dispatch(new GetProviderViewWorkshops(this.workshopCardParameters));
     } else {
       this.store.dispatch(new GetProviderAdminWorkshops(this.workshopCardParameters));

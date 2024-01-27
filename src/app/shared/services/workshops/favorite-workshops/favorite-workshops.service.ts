@@ -1,18 +1,17 @@
-import { Favorite } from './../../../models/favorite.model';
-import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { SearchResponse } from '../../../models/search.model';
-import { WorkshopCard } from '../../../../shared/models/workshop.model';
-import { Store } from '@ngxs/store';
-import { PaginationElement } from '../../../models/paginationElement.model';
-import { PaginationParameters } from '../../../../shared/models/queryParameters.model';
+
+import { Favorite } from 'shared/models/favorite.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FavoriteWorkshopsService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get favorite workshops

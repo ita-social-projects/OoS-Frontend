@@ -1,6 +1,6 @@
 import { DataItem } from './item.model';
 import { ParentWithContactInfo } from './parent.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Person } from './user.model';
 
 export class Child implements Person {

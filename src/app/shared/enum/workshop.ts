@@ -21,3 +21,9 @@ export enum DetailsTabTitlesParams {
   'Reviews',
   'Achievements'
 }
+
+export enum FormOfLearning {
+  Offline = 'Offline',
+  Online = 'Online',
+  Mixed = 'Mixed'
+}

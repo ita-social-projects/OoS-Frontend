@@ -1,11 +1,11 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Application } from '../models/application.model';
-import { Child, ChildrenParameters } from '../models/child.model';
-import { Favorite } from '../models/favorite.model';
-import { RequestParams } from '../models/child.model';
-import { Rate } from '../models/rating';
-import { PaginationParameters } from '../models/queryParameters.model';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { Application } from 'shared/models/application.model';
+import { Child, ChildrenParameters, RequestParams } from 'shared/models/child.model';
+import { Favorite } from 'shared/models/favorite.model';
 import { ParentBlockedData } from 'shared/models/parent.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Rate } from 'shared/models/rating';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';

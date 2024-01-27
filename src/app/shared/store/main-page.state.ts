@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
-import { State, Action, StateContext, Selector } from '@ngxs/store';
+import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { Direction } from '../models/category.model';
-import { WorkshopCard } from '../models/workshop.model';
-import { DirectionsService } from '../services/directions/directions.service';
-import { GetMainPageInfo, GetTopDirections, GetTopWorkshops } from './main-page.actions';
 import { tap } from 'rxjs/operators';
-import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
-import { CompanyInformation } from '../models/сompanyInformation.model';
-import { PlatformService } from '../services/platform/platform.service';
-import { AdminTabTypes } from '../enum/admins';
+
+import { AdminTabTypes } from 'shared/enum/admins';
+import { Direction } from 'shared/models/category.model';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { DirectionsService } from 'shared/services/directions/directions.service';
+import { PlatformService } from 'shared/services/platform/platform.service';
+import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
+import { GetMainPageInfo, GetTopDirections, GetTopWorkshops } from './main-page.actions';
 
 export interface MainPageStateModel {
   isLoadingData: boolean;
@@ -24,8 +25,8 @@ export interface MainPageStateModel {
     isLoadingData: false,
     headerInfo: null,
     topWorkshops: null,
-    topDirections: null,
-  },
+    topDirections: null
+  }
 })
 @Injectable()
 export class MainPageState {

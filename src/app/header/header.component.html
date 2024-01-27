@@ -73,7 +73,7 @@
 
   <mat-menu #log="matMenu" class="menu">
     <ng-container
-      *ngIf="user.role !== Role.parent && user.role !== Role.provider; then adminView; else userView"></ng-container>
+      *ngIf="isRoleAdmin(user.role); then adminView; else userView"></ng-container>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
@@ -112,7 +112,9 @@
 </ng-template>
 
 <ng-template #userView>
-  <ng-container *ngIf="isRegistered$ | async">
+  <ng-container *ngIf="isRegistered$ | async; then registeredView; else unregisteredView"></ng-container>
+
+  <ng-template #registeredView>
     <a [routerLink]="'./personal-cabinet/config'">
       <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</button>
     </a>
@@ -146,5 +148,13 @@
         {{ 'ENUM.NAV_BAR_NAME.FAVORITE' | translate }}
       </button>
     </a>
-  </ng-container>
+  </ng-template>
+
+  <ng-template #unregisteredView>
+    <a [routerLink]="['./create-provider', ModeConstants.NEW]">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.PROVIDER_REGISTRATION' | translate }}
+      </button>
+    </a>
+  </ng-template>
 </ng-template>

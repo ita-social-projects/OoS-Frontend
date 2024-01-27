@@ -16,26 +16,23 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.isAuthorizationLoading)
+  public isAuthorizationLoading$: Observable<boolean>;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
-
-  @Select(RegistrationState.isAuthorizationLoading)
-  isAuthorizationLoading$: Observable<boolean>;
-
-  isMobileView: boolean;
+  public isMobileView: boolean;
 
   constructor(
-    public store: Store,
+    private store: Store,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router
+    private router: Router,
   ) {}
 
-  ngOnInit(): void {
-    this.getLanguage();
-    this.translateService.use(this.selectedLanguage);
-    this.dateAdapter.setLocale(this.selectedLanguage);
+  public ngOnInit(): void {
+    this.setLocale();
     this.router.canceledNavigationResolution = 'computed';
     this.store.dispatch([new CheckAuth(), new GetFeaturesList()]);
     this.isWindowMobile(window);
@@ -45,7 +42,7 @@ export class AppComponent implements OnInit, OnDestroy {
    * @param event global variable window
    * method defined window.width and assign isMobileView: boolean
    */
-  isWindowMobile(event: Window): void {
+  public isWindowMobile(event: Window): void {
     this.isMobileView = event.innerWidth < 750;
     if (this.previousMobileScreenValue !== this.isMobileView) {
       this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
@@ -54,13 +51,19 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   @HostListener('window: resize', ['$event.target'])
-  onResize(event: Window): void {
+  public onResize(event: Window): void {
     this.isWindowMobile(event);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private setLocale(): void {
+    this.getLanguage();
+    this.translateService.use(this.selectedLanguage);
+    this.dateAdapter.setLocale(this.selectedLanguage);
   }
 
   private getLanguage(): void {

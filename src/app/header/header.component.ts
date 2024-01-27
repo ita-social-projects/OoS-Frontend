@@ -6,14 +6,15 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { delay, filter, takeUntil } from 'rxjs/operators';
 
+import { ModeConstants } from 'shared/constants/constants';
 import { AdminTabTypes } from 'shared/enum/admins';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
 import { Role } from 'shared/enum/role';
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { Navigation } from 'shared/models/navigation.model';
 import { User } from 'shared/models/user.model';
-import { CompanyInformation } from 'shared/models/сompanyInformation.model';
 import { AppState } from 'shared/store/app.state';
 import { GetMainPageInfo } from 'shared/store/main-page.actions';
 import { MainPageState } from 'shared/store/main-page.state';
@@ -22,6 +23,7 @@ import { SidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';
 import { Login, Logout } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
 
 @Component({
   selector: 'app-header',
@@ -33,6 +35,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public readonly Languages = Languages;
   public readonly Role = Role;
   public readonly RoleLinks = RoleLinks;
+  public readonly ModeConstants = ModeConstants;
+  public readonly isRoleAdmin = isRoleAdmin;
 
   @Select(RegistrationState.isAuthorizationLoading)
   public isAuthorizationLoading$: Observable<boolean>;

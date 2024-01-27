@@ -1,15 +1,17 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { startWith, takeUntil } from 'rxjs/operators';
 
-import { WorkshopOpenStatus } from '../../enum/workshop';
-import { FilterList } from '../../models/filterList.model';
-import { FilterClear, SetClosedRecruitment, SetOpenRecruitment, SetWithDisabilityOption } from '../../store/filter.actions';
-import { FilterState } from '../../store/filter.state';
-import { FiltersSidenavToggle } from '../../store/navigation.actions';
-import { NavigationState } from '../../store/navigation.state';
+import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
+import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { FilterList } from 'shared/models/filter-list.model';
+import { FilterClear, SetClosedRecruitment, SetFormsOfLearning, SetOpenRecruitment, SetWithDisabilityOption } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { FiltersSidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-filters-list',
@@ -17,25 +19,35 @@ import { NavigationState } from '../../store/navigation.state';
   styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
+  public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Util = Util;
+
   @Select(FilterState.filterList)
   public filterList$: Observable<FilterList>;
-  public filterList: FilterList;
 
   @Select(NavigationState.filtersSidenavOpenTrue)
   public filtersSidenavOpenTrue$: Observable<boolean>;
-  public visibleFiltersSidenav: boolean;
 
   @Select(FilterState.isMapView)
   public isMapView$: Observable<boolean>;
 
   @Input() public isMobileView: boolean;
 
+  public formOfLearningControls = {
+    Offline: new FormControl(false),
+    Online: new FormControl(false),
+    Mixed: new FormControl(false)
+  };
   public OpenRecruitmentControl = new FormControl(false);
   public ClosedRecruitmentControl = new FormControl(false);
   public WithDisabilityOptionControl = new FormControl(false);
+
+  private visibleFiltersSidenav: boolean;
+  public filterList: FilterList;
+  private statuses: WorkshopOpenStatus[];
+
   public destroy$: Subject<boolean> = new Subject<boolean>();
-  public statuses: WorkshopOpenStatus[];
-  public readonly workshopStatus = WorkshopOpenStatus;
 
   constructor(private store: Store) {}
 
@@ -47,6 +59,15 @@ export class FiltersListComponent implements OnInit, OnDestroy {
         this.filterList = filterList;
         this.statuses = filterList.statuses;
         this.WithDisabilityOptionControl.setValue(filterList.withDisabilityOption, { emitEvent: false });
+      });
+
+    combineLatest(
+      Object.values(this.formOfLearningControls).map((formControl) => formControl.valueChanges.pipe(startWith(formControl.value)))
+    )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((values: boolean[]) => {
+        const formsOfLearning = Object.values(FormOfLearning).filter((_, index) => values[index]);
+        this.store.dispatch(new SetFormsOfLearning(formsOfLearning));
       });
 
     this.OpenRecruitmentControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => {

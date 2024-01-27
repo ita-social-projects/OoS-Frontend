@@ -1,12 +1,11 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 
 import { AdminRoles } from 'shared/enum/admins';
+import { RegionAdmin, RegionAdminParameters } from 'shared/models/region-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { BaseAdminService } from '../base-admin/base-admin';
-import { RegionAdmin, RegionAdminParameters } from '../../models/regionAdmin.model';
-import { SearchResponse } from '../../models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +19,7 @@ export class RegionAdminService extends BaseAdminService {
    * This method get Profile of authorized RegionAdmin
    */
   public getAdminProfile(): Observable<RegionAdmin> {
-    return <Observable<RegionAdmin>>super.getAdminProfile();
+    return super.getAdminProfile() as Observable<RegionAdmin>;
   }
 
   /**
@@ -28,14 +27,14 @@ export class RegionAdminService extends BaseAdminService {
    * * @param regionAdminId: string
    */
   public getAdminById(regionAdminId: string): Observable<RegionAdmin> {
-    return <Observable<RegionAdmin>>super.getAdminById(regionAdminId);
+    return super.getAdminById(regionAdminId) as Observable<RegionAdmin>;
   }
 
   /**
    * This method get All Region Admins
    */
   public getAllAdmin(parameters: RegionAdminParameters): Observable<SearchResponse<RegionAdmin[]>> {
-    return <Observable<SearchResponse<RegionAdmin[]>>>super.getAllAdmin(parameters);
+    return super.getAllAdmin(parameters) as Observable<SearchResponse<RegionAdmin[]>>;
   }
 
   /**
@@ -43,7 +42,7 @@ export class RegionAdminService extends BaseAdminService {
    * @param regionAdmin: RegionAdmin
    */
   public createAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
-    return <Observable<RegionAdmin>>super.createAdmin(regionAdmin);
+    return super.createAdmin(regionAdmin) as Observable<RegionAdmin>;
   }
 
   /**
@@ -67,6 +66,14 @@ export class RegionAdminService extends BaseAdminService {
    * @param regionAdmin: RegionAdmin
    */
   public updateAdmin(regionAdmin: RegionAdmin): Observable<RegionAdmin> {
-    return <Observable<RegionAdmin>>super.updateAdmin(regionAdmin);
+    return super.updateAdmin(regionAdmin) as Observable<RegionAdmin>;
+  }
+
+  /**
+   * This method reinvite Region Admin
+   * @param adminId: string
+   */
+  public reinviteAdmin(adminId: string): Observable<null> {
+    return super.reinviteAdmin(adminId);
   }
 }

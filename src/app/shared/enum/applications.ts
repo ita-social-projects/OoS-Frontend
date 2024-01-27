@@ -11,12 +11,12 @@ export enum ApplicationIcons {
 }
 
 export enum ApplicationEntityType {
-  parent = 'parents',
   provider = 'providers',
   workshop = 'workshops',
+  None = 'providers',
+  ProviderDeputy = 'provideradmins',
   ProviderAdmin = 'provideradmins',
-  ProviderDeputy = 'providers',
-  None = 'providers'
+  parent = 'parents'
 }
 
 export enum ApplicationStatusTabParams {

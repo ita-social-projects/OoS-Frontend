@@ -14,6 +14,7 @@ export class ApplicationService {
 
   public getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
     const options = { params: this.setParams(parameters) };
+
     return this.http.get<SearchResponse<Application[]>>('/api/v1/applications', options);
   }
 

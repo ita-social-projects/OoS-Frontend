@@ -1,8 +1,9 @@
-import { WorkshopOpenStatus } from '../enum/workshop';
+import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
 
 export interface FilterList {
   withDisabilityOption: boolean;
   statuses: WorkshopOpenStatus[];
+  formsOfLearning: FormOfLearning[];
   directionIds: number[];
   ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
   priceFilter: {

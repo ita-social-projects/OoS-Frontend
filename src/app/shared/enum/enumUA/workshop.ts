@@ -23,3 +23,9 @@ export enum DetailsTabTitlesEnum {
   Reviews = 'TITLES.REVIEWS',
   Achievements = 'TITLES.ACHIEVEMENTS',
 }
+
+export enum FormOfLearningEnum {
+  Offline = 'ENUM.FORM_OF_LEARNING.OFFLINE',
+  Online = 'ENUM.FORM_OF_LEARNING.ONLINE',
+  Mixed = 'ENUM.FORM_OF_LEARNING.MIXED'
+}

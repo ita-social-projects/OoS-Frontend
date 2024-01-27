@@ -27,7 +27,7 @@
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate | uppercase }}
       </a>
     </ng-container>
-    <ng-container *ngIf="userRole === Role.provider && subRole !== Role.ProviderAdmin">
+    <ng-container *ngIf="userRole === Role.provider && subrole !== Subrole.ProviderAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/administration'">
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate | uppercase }}
       </a>

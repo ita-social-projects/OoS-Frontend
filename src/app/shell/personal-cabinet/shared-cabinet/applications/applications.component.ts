@@ -16,7 +16,7 @@ import { Role } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application, ApplicationFilterParameters } from 'shared/models/application.model';
 import { Child } from 'shared/models/child.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { GetDirections } from 'shared/store/meta-data.actions';

@@ -1,9 +1,9 @@
 import { MatDateFormats } from '@angular/material/core';
 
-import { CodeficatorCategories } from '../enum/codeficator-categories';
-import { WorkingDays } from '../enum/enumUA/working-hours';
-import { Codeficator } from '../models/codeficator.model';
-import { WorkingDaysToggleValue } from '../models/workingHours.model';
+import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { WorkingDays } from 'shared/enum/enumUA/working-hours';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 
 /**
  * Constants for OutOfSchool

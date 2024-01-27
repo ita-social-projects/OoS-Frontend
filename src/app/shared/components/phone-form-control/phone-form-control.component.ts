@@ -1,5 +1,6 @@
-import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, HostListener, Input, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
+
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { Country } from 'ngx-mat-intl-tel-input/lib/model/country.model';
 import { Subject, startWith, takeUntil } from 'rxjs';
@@ -21,8 +22,8 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
     this.countries = [...this.inputComponent.allCountries];
 
     this.inputComponent.getCountry = (code: string): Country =>
-      this.inputComponent.allCountries.find((country) => country.iso2 === code.toLowerCase()) ||
-      this.inputComponent.preferredCountriesInDropDown.find((country) => country.iso2 === code.toLowerCase()) || {
+      this.inputComponent.allCountries.find((country: Country) => country.iso2 === code.toLowerCase()) ||
+      this.inputComponent.preferredCountriesInDropDown.find((country: Country) => country.iso2 === code.toLowerCase()) || {
         name: 'UN',
         iso2: 'UN',
         dialCode: '',
@@ -45,5 +46,13 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  @HostListener('document:keypress')
+  public handleKeyboardEvent() {
+    const countrySearchElement = document.querySelector('.ngx-mat-tel-input-mat-menu-panel .country-search') as HTMLElement;
+    if (countrySearchElement) {
+      setTimeout(() => countrySearchElement.focus(), 200);
+    }
   }
 }

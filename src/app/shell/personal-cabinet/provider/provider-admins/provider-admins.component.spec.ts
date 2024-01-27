@@ -1,20 +1,21 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ProviderAdminsComponent } from './provider-admins.component';
-import { MatTabsModule } from '@angular/material/tabs';
-import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
 import { MatDialogModule } from '@angular/material/dialog';
-import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
-import { Role } from '../../../../shared/enum/role';
-import { ProviderAdminTable } from '../../../../shared/models/providerAdmin.model';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
+import { Role, Subrole } from 'shared/enum/role';
+import { ProviderAdminTable } from 'shared/models/provider-admin.model';
+import { ProviderAdminsComponent } from './provider-admins.component';
 
 describe('ProviderAdminsComponent', () => {
   let component: ProviderAdminsComponent;
@@ -43,13 +44,15 @@ describe('ProviderAdminsComponent', () => {
     fixture = TestBed.createComponent(ProviderAdminsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    component.subRole = Role.provider;
+    component.role = Role.provider;
+    component.subrole = Subrole.None;
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
 });
+
 @Component({
   selector: 'app-users-list',
   template: ''

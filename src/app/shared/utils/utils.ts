@@ -1,20 +1,22 @@
+import { KeyValue } from '@angular/common';
+
+import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { Role } from 'shared/enum/role';
+import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { UserTabsTitles } from '../enum/enumUA/user';
-import { Role } from '../enum/role';
-import { UserStatuses } from '../enum/statuses';
-import { Child } from '../models/child.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { Person } from '../models/user.model';
-import { UsersTable } from '../models/usersTable';
-import { EmailConfirmationStatuses } from './../enum/statuses';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Child } from 'shared/models/child.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Person } from 'shared/models/user.model';
+import { UsersTable } from 'shared/models/users-table';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -101,7 +103,7 @@ export class Util {
         status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending,
         isBlocked: user.parent.isBlocked,
         parentId: user.parentId,
-        parentFullName: this.getFullName(user.parent),
+        parentFullName: this.getFullName(user.parent)
       });
     });
     return updatedUsers;
@@ -135,8 +137,8 @@ export class Util {
    * @param message
    * @returns string
    */
-  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
-    const finalMessage = { text: '', type: 'success' };
+  public static getWorkshopMessage(payload, message: string): MessageBarData {
+    const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
     let isInvalidGaleryImages = false;
@@ -174,7 +176,7 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    finalMessage.text = messageArr.join(';\n');
+    finalMessage.message = messageArr.join(';\n');
 
     return finalMessage;
   }
@@ -238,7 +240,7 @@ export class Util {
 
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
-      const arrayKeys = ['directionIds', 'workingDays', 'statuses'];
+      const arrayKeys = ['directionIds', 'workingDays', 'formsOfLearning', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
         filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);
@@ -257,6 +259,13 @@ export class Util {
       currentPage.element = Math.ceil(totalAmount / params.size);
       params.from = this.calculateFromParameter(currentPage, params.size);
     }
+  }
+
+  /**
+   * Used with `keyvalue` pipe for sorting keys in numerical order instead of alphanumeric
+   */
+  public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
+    return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {

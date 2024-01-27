@@ -4,10 +4,10 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
-import { asyncScheduler, filter, map, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, asyncScheduler, filter, map, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
-import { CHAT_HUB_URL } from 'shared/constants/hubs-Url';
+import { CHAT_HUB_URL } from 'shared/constants/hubs-url';
 import { ValidationConstants } from 'shared/constants/validation';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
@@ -202,12 +202,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onSendMessage(): void {
-    if (this.hubConnection.state === signalR.HubConnectionState.Connected && !!this.messageControl.value) {
+    const message = this.messageControl.value.trim();
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected && message) {
       const sendMessage = new OutgoingMessage(
         this.chatRoom.workshopId,
         this.chatRoom.parentId,
         this.chatRoom.id,
-        this.messageControl.value
+        message
       );
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
       this.messageControl.setValue('');

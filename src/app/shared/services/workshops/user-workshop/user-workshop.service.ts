@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { TruncatedItem } from 'shared/models/item.model';
 import { ProviderParameters } from 'shared/models/provider.model';
-import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';

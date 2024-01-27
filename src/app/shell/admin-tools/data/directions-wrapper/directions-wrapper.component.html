@@ -1,6 +1,6 @@
 <div class="tabs-container">
   <mat-tab-group>
-    <mat-tab label="Напрямки для користувача">
+    <mat-tab label="{{ 'DIRECTIONS_FOR_THE_USER' | translate }}">
       <app-directions></app-directions>
     </mat-tab>
     <ng-container *ngFor="let institution of institutions$ | async">

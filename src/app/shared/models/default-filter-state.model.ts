@@ -1,5 +1,5 @@
-import { ValidationConstants } from '../constants/validation';
-import { WorkshopOpenStatus } from '../enum/workshop';
+import { ValidationConstants } from 'shared/constants/validation';
+import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
 
 /**
  * Default filter state model
@@ -12,6 +12,7 @@ export class DefaultFilterState {
   startTime: string = null;
   endTime: string = null;
   workingDays: string[] = [];
+  formsOfLearning: FormOfLearning[] = [];
   isFree = false;
   isPaid = false;
   maxPrice = ValidationConstants.MAX_PRICE;

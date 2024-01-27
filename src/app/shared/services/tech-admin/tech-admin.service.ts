@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { TechAdmin } from '../../models/techAdmin.model';
+
+import { TechAdmin } from 'shared/models/tech-admin.model';
 
 @Injectable({
   providedIn: 'root'

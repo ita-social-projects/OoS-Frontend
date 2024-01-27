@@ -1,7 +1,13 @@
+import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
+import { AfterContentChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormGroup } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
@@ -13,15 +19,9 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
-
-import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { Select, Store } from '@ngxs/store';
-
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
+import { Constants } from 'shared/constants/constants';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -33,7 +33,7 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
     }
   ]
 })
-export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
   public provider: Provider;
@@ -47,10 +47,13 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public AddressFormGroup: FormGroup;
   public TeacherFormArray: FormArray;
 
+  public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
+
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
+    private changeDetector: ChangeDetectorRef,
     private router: Router
   ) {
     super(store, route, navigationBarService);
@@ -69,10 +72,14 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
     this.addNavPath();
   }
 
+  public ngAfterContentChecked(): void {
+    this.changeDetector.detectChanges();
+  }
+
   public addNavPath(): void {
     const userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
-    const subRole = this.store.selectSnapshot<Role>(RegistrationState.subrole);
-    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subRole);
+    const subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+    const personalCabinetTitle = Util.getPersonalCabinetTitle(userRole, subrole);
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -110,7 +117,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public onSubmit(): void {
     const provider: Provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     const address: Address = new Address(this.AddressFormGroup.value, this.workshop?.address);
-    const aboutInfo = this.AboutFormGroup.getRawValue();
+    const aboutInfo = this.createAbout();
     const descInfo = this.DescriptionFormGroup.getRawValue();
     const teachers = this.createTeachers();
 
@@ -168,6 +175,17 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   public ngOnDestroy(): void {
     super.ngOnDestroy();
     this.store.dispatch(new ResetProviderWorkshopDetails());
+  }
+
+  /**
+   * Prepares 'About' section data from the form, setting 'availableSeats' to 'UNLIMITED_SEATS' if null.
+   */
+  private createAbout() {
+    const aboutInfo = this.AboutFormGroup.getRawValue();
+    if (aboutInfo.availableSeats === null) {
+      aboutInfo.availableSeats = this.UNLIMITED_SEATS;
+    }
+    return aboutInfo;
   }
 
   /**

@@ -66,6 +66,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.onDisabilityOptionCtrlInit();
     this.workshop ? this.activateEditMode() : this.onAddForm();
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
+    this.keyWordsListener();
   }
 
   /**
@@ -110,10 +111,27 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   public onDisabilityOptionCtrlInit(): void {
     const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
-
     this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
-      isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
+      if (isDisabilityOptionsDesc) {
+        setAction('enable');
+      } else {
+        setAction('disable');
+        this.DescriptionFormGroup.get('disabilityOptionsDesc').reset();
+      }
+      this.markFormAsDirtyOnUserInteraction();
     });
+  }
+
+  /**
+   * This method listens for changes in the 'keyWords' control and marks
+   * the form as 'dirty' whenever there are changes in the key words.
+   */
+  public keyWordsListener(): void {
+    this.DescriptionFormGroup.get('keyWords')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.markFormAsDirtyOnUserInteraction();
+      });
   }
 
   /**
@@ -138,6 +156,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   public onDeleteForm(index: number): void {
     this.SectionItemsFormArray.removeAt(index);
+    this.markFormAsDirtyOnUserInteraction();
   }
 
   /**
@@ -193,5 +212,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     return this.EditFormGroup;
+  }
+
+  /**
+   * This method makes DescriptionFormGroup dirty
+   */
+  private markFormAsDirtyOnUserInteraction(): void {
+    if (!this.DescriptionFormGroup.dirty) {
+      this.DescriptionFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }

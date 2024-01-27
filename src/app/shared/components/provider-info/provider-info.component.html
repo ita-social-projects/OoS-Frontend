@@ -1,5 +1,5 @@
 <div class="wrapper">
-  <div *ngIf="isProviderView && role === Role.provider" fxLayout="row" fxLayoutAlign="end">
+  <div *ngIf="isProviderView && role === Role.provider && (subrole === Subrole.None || subrole === Subrole.ProviderDeputy)" fxLayout="row" fxLayoutAlign="end">
     <a [routerLink]="['/create-provider', editLink]" (click)="onActivateEditMode()" class="edit-icon">
       <button mat-button><mat-icon>edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
     </a>

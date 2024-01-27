@@ -1,4 +1,4 @@
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 
 export class BaseAdmin {
   id?: string;

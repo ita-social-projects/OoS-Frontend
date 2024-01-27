@@ -3,13 +3,7 @@ import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from '../../constants/regex-constants';
-
-enum ValidatorsTypes {
-  requiredField,
-  validLength,
-  validTextField
-}
+import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-validation-hint',
@@ -95,11 +89,11 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkInvalidText(errors: ValidationErrors): void {
     const requiredPattern = errors?.pattern?.requiredPattern;
 
-    this.invalidSymbols = NAME_REGEX == requiredPattern;
-    this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
-    this.invalidStreet = STREET_REGEX == requiredPattern;
-    this.invalidHouse = HOUSE_REGEX == requiredPattern;
-    this.invalidSectionName = SECTION_NAME_REGEX == requiredPattern;
+    this.invalidSymbols = NAME_REGEX === requiredPattern;
+    this.invalidCharacters = NO_LATIN_REGEX === requiredPattern;
+    this.invalidStreet = STREET_REGEX === requiredPattern;
+    this.invalidHouse = HOUSE_REGEX === requiredPattern;
+    this.invalidSectionName = SECTION_NAME_REGEX === requiredPattern;
   }
 
   private checkMatDatePicker(): void {

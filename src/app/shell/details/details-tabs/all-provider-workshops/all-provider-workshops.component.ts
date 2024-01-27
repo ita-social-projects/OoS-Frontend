@@ -6,7 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { PaginationConstants } from 'shared/constants/constants';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { Role } from 'shared/enum/role';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ProviderParameters } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';

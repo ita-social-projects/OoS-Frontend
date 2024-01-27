@@ -2,21 +2,20 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
-import { debounceTime, distinctUntilChanged, filter, Observable, takeUntil } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
-import { ApplicationEntityType } from 'shared/enum/applications';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { BlockedParent } from 'shared/models/block.model';
 import { ChatRoom, ChatRoomsParameters } from 'shared/models/chat.model';
 import { TruncatedItem } from 'shared/models/item.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { GetChatRooms } from 'shared/store/chat.actions';
@@ -34,7 +33,6 @@ import { CabinetDataComponent } from '../cabinet-data.component';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent extends CabinetDataComponent {
-  readonly Role = Role;
   readonly WorkshopDeclination = WorkshopDeclination;
   readonly noMessagesTitle = NoResultsTitle.noMessages;
 
@@ -90,7 +88,7 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   getProviderWorkshops(): void {
-    if (this.subRole === Role.None) {
+    if (this.subrole === Subrole.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     }
   }
@@ -109,31 +107,35 @@ export class MessagesComponent extends CabinetDataComponent {
       });
   }
 
-  onBlock(parentId: string): void {
-    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
+  public onBlock(parentId: string): void {
+    this.matDialog.open(ReasonModalWindowComponent, {
       data: { type: ModalConfirmationType.blockParent }
-    });
-    dialogRef.afterClosed().subscribe((result: string) => {
-      if (result) {
+    }).afterClosed().pipe(
+      filter(Boolean),
+      switchMap((result) => {
         const blockedParent = new BlockedParent(parentId, this.providerId, result);
-        this.store.dispatch(new BlockParent(blockedParent, ApplicationEntityType[this.subRole]));
-      }
-    });
+        blockedParent.userIdBlock = this.providerId;
+        return this.store.dispatch(new BlockParent(blockedParent));
+      }),
+      switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters))),
+    ).subscribe();
   }
 
-  onUnBlock(parentId: string): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
+  public onUnBlock(parentId: string): void {
+    this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
         type: ModalConfirmationType.unBlockParent
       }
-    });
-    dialogRef.afterClosed().subscribe((result: string) => {
-      if (result) {
+    }).afterClosed().pipe(
+      filter(Boolean),
+      switchMap(() => {
         const blockedParent = new BlockedParent(parentId, this.providerId);
-        this.store.dispatch(new UnBlockParent(blockedParent, ApplicationEntityType[this.subRole]));
-      }
-    });
+        blockedParent.userIdUnblock = this.providerId;
+        return this.store.dispatch(new UnBlockParent(blockedParent));
+      }),
+      switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters))),
+    ).subscribe();
   }
 
   onEntitiesSelect(workshopIds: string[]): void {

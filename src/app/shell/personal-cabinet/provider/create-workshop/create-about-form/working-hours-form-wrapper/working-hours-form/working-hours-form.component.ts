@@ -6,7 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
-import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -29,6 +29,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   @Input() public workingHoursAmount: number;
 
   @Output() public deleteWorkingHour = new EventEmitter();
+  @Output() public dataChanged = new EventEmitter<void>();
 
   constructor() {}
 
@@ -61,6 +62,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
     const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
+    this.dataChanged.emit();
   }
 
   public getMinTime(): string {
@@ -101,6 +103,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   public delete(): void {
     this.deleteWorkingHour.emit(this.index);
+    this.dataChanged.emit();
   }
 
   public onCancel(): void {

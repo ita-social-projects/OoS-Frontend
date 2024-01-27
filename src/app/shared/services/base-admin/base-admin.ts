@@ -94,4 +94,12 @@ export class BaseAdminService {
   protected updateAdmin(admin: BaseAdmin): Observable<BaseAdmin> {
     return this.http.put<BaseAdmin>(`${this.adminBaseUrl}/Update`, admin);
   }
+
+  /**
+   * This method reinvite Admin
+   * @param adminId: string
+   */
+  protected reinviteAdmin(adminId: string): Observable<null> {
+    return this.http.put<null>(`${this.adminBaseUrl}/Reinvite/${adminId}`, {});
+  }
 }

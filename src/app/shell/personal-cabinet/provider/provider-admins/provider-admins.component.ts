@@ -15,10 +15,10 @@ import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminParams, ProviderAdminRole } from 'shared/enum/provider-admin';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from 'shared/models/providerAdmin.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from 'shared/models/provider-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { BlockData, UsersTable } from 'shared/models/usersTable';
+import { BlockData, UsersTable } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   BlockProviderAdminById,

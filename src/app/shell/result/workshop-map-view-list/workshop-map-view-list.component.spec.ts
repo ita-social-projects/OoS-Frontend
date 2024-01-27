@@ -6,10 +6,11 @@ import { FormGroup } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
-import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
 import { Observable, of } from 'rxjs';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { Workshop, WorkshopFilterCard } from '../../../shared/models/workshop.model';
+
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { WorkshopMapViewListComponent } from './workshop-map-view-list.component';
 
 describe('WorkshopMapViewListComponent', () => {
   let component: WorkshopMapViewListComponent;
@@ -54,7 +55,7 @@ class MockMapListWorkshopCardComponent {
 class MockResultMapComponent {
   @Input() addressFormGroup: FormGroup;
   @Input() workshops: Workshop[];
-  @Input() filteredWorkshops$: Observable<WorkshopFilterCard>;
+  @Input() filteredWorkshops$: Observable<WorkshopCard[]>;
 }
 @Component({
   selector: 'app-paginator',
