@@ -1,4 +1,4 @@
-name: Build and test
+name: Lint, build and test
 
 on: [push, pull_request]
 
@@ -14,9 +14,12 @@ jobs:
           node-version: '14'
           cache: 'yarn'
       - name: Install dependencies
-        run: yarn install
+        run: yarn run install
+      - name: Run lint
+        if: ${{ success() }}
+        run: yarn run lint
       - name: Run build
         run: yarn run build
       - name: Run tests
         if: ${{ success() }}
-        run: yarn test
+        run: yarn run test

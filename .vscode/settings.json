@@ -1,4 +1,6 @@
 {
   "editor.detectIndentation": false,
   "editor.tabSize": 2,
+  "cSpell.language": "en,uk",
+  "typescript.tsdk": "node_modules\\typescript\\lib",
 }
