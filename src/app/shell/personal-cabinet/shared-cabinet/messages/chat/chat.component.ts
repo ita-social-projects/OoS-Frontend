@@ -66,7 +66,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   public userIsProvider: boolean;
   public userName: string;
   public companionName: string;
-  public isDisabled$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  public isDisabled: boolean;
 
   private readonly onScroll = () => {
     if (this.chatEl.nativeElement.scrollTop < this.scrollTopStep) {
@@ -110,7 +110,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
       // Set textarea and button disabled if user's role is Provider and Parent is blocked
       if (this.userIsProvider && this.chatRoom.isBlockedByProvider) {
-        this.isDisabled$.next(true);
+        this.isDisabled = true;
       }
 
       this.chatEl.nativeElement.addEventListener('scroll', this.onScroll);
@@ -218,7 +218,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
    * Set textarea and button disabled if user's role is Parent and Parent is blocked by Provider
    */
   private setChatDisabled(): void {
-    this.isDisabled$.next(true);
+    this.isDisabled = true;
 
     this.store.dispatch(
       new ShowMessageBar({

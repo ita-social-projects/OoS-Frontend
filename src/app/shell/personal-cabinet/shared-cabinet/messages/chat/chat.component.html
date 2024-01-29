@@ -48,8 +48,8 @@
         [maxlength]="validationConstants.INPUT_LENGTH_256"
         autocomplete="off"
         [formControl]="messageControl"
-        [readonly]="isDisabled$ | async"></textarea>
-      <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled$ | async">
+        [readonly]="isDisabled"></textarea>
+      <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled">
         <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
         <mat-icon>send</mat-icon>
       </button>
