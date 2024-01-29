@@ -26,31 +26,33 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, OnDestroy {
-  readonly Role = Role;
-  readonly PayRateTypeEnum = PayRateTypeEnum;
-  readonly workshopStatus = WorkshopOpenStatus;
-  readonly ModeConstants = ModeConstants;
-  readonly ModalTypeAction = ModalConfirmationDescription;
+  private readonly workshopStatus = WorkshopOpenStatus;
+  public readonly ModalTypeAction = ModalConfirmationDescription;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly ModeConstants = ModeConstants;
+  public readonly Role = Role;
 
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
   public hideApplicationSubmission: boolean;
 
-  @Input() workshop: Workshop;
-  @Input() role: string;
+  @Input()
+  public workshop: Workshop;
+  @Input()
+  public role: string;
 
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
   @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
+  private favoriteWorkshops$: Observable<Favorite[]>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+  public isMobileScreen$: Observable<boolean>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, public dialog: MatDialog, private route: ActivatedRoute) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
 
@@ -62,12 +64,12 @@ export class ActionsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  onOpenDialog(type: ModalConfirmationDescription): void {
+  public onOpenDialog(type: ModalConfirmationDescription): void {
     if (this.role === Role.unauthorized) {
       this.dialog.open(UnregisteredUserWarningModalComponent, {
         autoFocus: false,
@@ -79,7 +81,15 @@ export class ActionsComponent implements OnInit, OnDestroy {
     }
   }
 
-  onLike(): void {
+  public onDislike(): void {
+    this.store.dispatch([
+      new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
+      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' })
+    ]);
+    this.isFavorite = !this.isFavorite;
+  }
+
+  public onLike(): void {
     const param = new Favorite(
       this.route.snapshot.paramMap.get('id'),
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
@@ -87,14 +97,6 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' })
-    ]);
-    this.isFavorite = !this.isFavorite;
-  }
-
-  onDisLike(): void {
-    this.store.dispatch([
-      new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
-      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }

@@ -59,14 +59,14 @@ export class ProviderService {
    * This method update Provider status
    */
   public updateProviderStatus(updateStatus: ProviderWithStatus): Observable<ProviderWithStatus> {
-    return this.http.put<ProviderWithStatus>('/api/v1/Provider/StatusUpdate', updateStatus);
+    return this.http.put<ProviderWithStatus>('/api/v1/PublicProvider/StatusUpdate', updateStatus);
   }
 
   /**
    * This method update Provider status
    */
   public updateProviderLicenseStatus(licenseStatusData: ProviderWithLicenseStatus): Observable<ProviderWithLicenseStatus> {
-    return this.http.put<ProviderWithLicenseStatus>('/api/v1/Provider/LicenseStatusUpdate', licenseStatusData);
+    return this.http.put<ProviderWithLicenseStatus>('/api/v1/PrivateProvider/LicenseStatusUpdate', licenseStatusData);
   }
 
   /**
