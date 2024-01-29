@@ -4,7 +4,7 @@ import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import * as signalR from '@microsoft/signalr';
 import { Select, Store } from '@ngxs/store';
-import { BehaviorSubject, Observable, Subject, asyncScheduler, filter, map, takeUntil } from 'rxjs';
+import { Observable, Subject, asyncScheduler, filter, map, takeUntil } from 'rxjs';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-url';
