@@ -1,7 +1,7 @@
 <mat-card
   class="card"
   [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
-  [class.card-blocked]="role === Role.provider && chatRoom.parent.isBlocked"
+  [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
   [routerLink]="['./', chatRoom.id]">
   <mat-card-content class="card-block card-block__message">
     <div class="companion">
@@ -14,7 +14,7 @@
     <div class="last-message text">
       {{ chatRoom.lastMessage.text }}
     </div>
-    <ng-container *ngIf="role === Role.provider && chatRoom.parent.isBlocked">
+    <ng-container *ngIf="role === Role.provider && chatRoom.isBlockedByProvider">
       <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
         <span><i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
         <span>{{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
@@ -26,7 +26,7 @@
       >more_vert</mat-icon
     >
     <mat-menu #actions="matMenu" class="header_menu">
-      <ng-container *ngIf="chatRoom.parent.isBlocked then Unblock; else Block"></ng-container>
+      <ng-container *ngIf="chatRoom.isBlockedByProvider then Unblock; else Block"></ng-container>
       <ng-template #Block>
         <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
       </ng-template>

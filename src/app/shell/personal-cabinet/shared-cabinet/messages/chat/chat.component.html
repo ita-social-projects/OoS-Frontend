@@ -19,6 +19,13 @@
         [userIsProvider]="userIsProvider">
       </app-message>
     </ng-container>
+    <ng-container *ngIf="(chatRoom$ | async)?.isBlockedByProvider">
+      <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
+        <span><i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
+        <span>{{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
+      </div>
+      <p class="pay-attention-block">{{ 'CHAT_PAY_ATTENTION_BLOCK' | translate }}</p>
+    </ng-container>
   </div>
   <div class="chat-card__footer footer" fxLayout="column" fxLayoutAlign="start center">
     <div class="step-label">
@@ -40,8 +47,9 @@
         cdkTextareaAutosize
         [maxlength]="validationConstants.INPUT_LENGTH_256"
         autocomplete="off"
-        [formControl]="messageControl"></textarea>
-      <button class="btn" mat-button (click)="onSendMessage()">
+        [formControl]="messageControl"
+        [readonly]="isDisabled"></textarea>
+      <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled">
         <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
         <mat-icon>send</mat-icon>
       </button>
