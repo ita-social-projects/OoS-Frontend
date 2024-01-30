@@ -1,15 +1,22 @@
 name: Lint, build and test
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+    - main
+    - develop
+    - '*'
+  pull_request:
+    branches: [ develop ]
 
 jobs:
   build_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Pull the source code to GitHub workspace
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Set up Node environment
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '16'
           cache: 'yarn'
@@ -23,3 +30,24 @@ jobs:
       - name: Run tests
         if: ${{ success() }}
         run: yarn run test
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Set up Node environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - name: Install dependencies
+        run: yarn install
+      - name: Test and coverage
+        run: yarn run test:coverage
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
