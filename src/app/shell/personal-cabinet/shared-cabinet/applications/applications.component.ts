@@ -20,7 +20,7 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { GetDirections } from 'shared/store/meta-data.actions';
-import { ReadUsersNotificationsByType } from 'shared/store/notifications.actions';
+import { ReadUsersNotificationsByType } from 'shared/store/notification.actions';
 import { OnUpdateApplicationSuccess } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';

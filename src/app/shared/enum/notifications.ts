@@ -1,25 +1,30 @@
+export enum NotificationDescriptionType {
+  Short = 'Short',
+  Full = 'Full'
+}
+
 export enum NotificationType {
   Application = 'Application',
   Chat = 'Chat',
   Workshop = 'Workshop',
-  Provider = 'Provider'
+  Provider = 'Provider',
+  System = 'System',
+  Parent = 'Parent'
 }
 
 export enum NotificationAction {
-  create = 'Create',
-  update = 'Update',
-  delete = 'Delete',
-  message = 'Message',
+  Unknown = 'Unknown',
+  Create = 'Create',
+  Update = 'Update',
+  Delete = 'Delete',
+  Message = 'Message',
+  LicenseApproval = 'LicenseApproval',
   Block = 'Block',
   Unblock = 'Unblock',
+  ProviderBlock = 'ProviderBlock'
 }
 
-export enum NotificationDescriptionType {
-  Short,
-  Full
-}
-
-export enum DataTypes {
+export enum NotificationDataType {
   LicenseStatus = 'LicenseStatus',
   Status = 'Status'
 }

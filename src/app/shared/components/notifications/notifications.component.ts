@@ -3,11 +3,11 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 
 import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
-import { Notification, NotificationsAmount } from 'shared/models/notifications.model';
+import { Notification, NotificationAmount } from 'shared/models/notification.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { AppState } from 'shared/store/app.state';
-import { GetAmountOfNewUsersNotifications } from 'shared/store/notifications.actions';
-import { NotificationsState } from 'shared/store/notifications.state';
+import { GetAmountOfNewUsersNotifications } from 'shared/store/notification.actions';
+import { NotificationState } from 'shared/store/notification.state';
 
 @Component({
   selector: 'app-notifications',
@@ -15,16 +15,16 @@ import { NotificationsState } from 'shared/store/notifications.state';
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  @Select(NotificationsState.notificationsAmount)
-  public notificationsAmount$: Observable<NotificationsAmount>;
+  @Select(NotificationState.notificationsAmount)
+  public notificationsAmount$: Observable<NotificationAmount>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
 
+  public notificationsAmount: NotificationAmount;
+  public recievedNotification: Notification;
   private hubConnection: signalR.HubConnection;
 
-  public notificationsAmount: NotificationsAmount;
-  public recievedNotification: Notification;
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store, private signalRService: SignalRService) {}
 
@@ -48,11 +48,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     });
 
     this.notificationsAmount$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
-      )
-      .subscribe((notificationsAmount: NotificationsAmount) => (this.notificationsAmount = notificationsAmount));
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
+      .subscribe((notificationsAmount: NotificationAmount) => (this.notificationsAmount = notificationsAmount));
   }
 
   public ngOnDestroy(): void {

@@ -5,8 +5,8 @@ import { Observable } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
-import { Notification, Notifications, NotificationsAmount } from 'shared/models/notifications.model';
-import { NotificationsService } from 'shared/services/notifications/notifications.service';
+import { Notification, NotificationAmount, NotificationGroupedAndSingle } from 'shared/models/notification.model';
+import { NotificationService } from 'shared/services/notification/notification.service';
 import { ShowMessageBar } from './app.actions';
 import {
   ClearNotificationState,
@@ -19,14 +19,14 @@ import {
   OnReadUsersNotificationsFail,
   ReadUsersNotificationById,
   ReadUsersNotificationsByType
-} from './notifications.actions';
+} from './notification.actions';
 
-export interface NotificationsStateModel {
-  notificationsAmount: NotificationsAmount;
-  notifications: Notifications;
+export interface NotificationStateModel {
+  notificationsAmount: NotificationAmount;
+  notifications: NotificationGroupedAndSingle;
 }
 
-@State<NotificationsStateModel>({
+@State<NotificationStateModel>({
   name: 'notifications',
   defaults: {
     notificationsAmount: undefined,
@@ -34,45 +34,45 @@ export interface NotificationsStateModel {
   }
 })
 @Injectable()
-export class NotificationsState {
+export class NotificationState {
   @Selector()
-  static notificationsAmount(state: NotificationsStateModel): NotificationsAmount {
+  static notificationsAmount(state: NotificationStateModel): NotificationAmount {
     return state.notificationsAmount;
   }
 
   @Selector()
-  static notifications(state: NotificationsStateModel): Notifications {
+  static notifications(state: NotificationStateModel): NotificationGroupedAndSingle {
     return state.notifications;
   }
 
-  constructor(private notificationsService: NotificationsService) {}
+  constructor(private notificationService: NotificationService) {}
 
   @Action(GetAmountOfNewUsersNotifications)
   getAmountOfNewUsersNotifications(
-    { patchState }: StateContext<NotificationsStateModel>,
+    { patchState }: StateContext<NotificationStateModel>,
     {}: GetAmountOfNewUsersNotifications
-  ): Observable<NotificationsAmount> {
-    return this.notificationsService
+  ): Observable<NotificationAmount> {
+    return this.notificationService
       .getAmountOfNewUsersNotifications()
-      .pipe(tap((notificationsAmount: NotificationsAmount) => patchState({ notificationsAmount })));
+      .pipe(tap((notificationsAmount: NotificationAmount) => patchState({ notificationsAmount })));
   }
 
   @Action(GetAllUsersNotificationsGrouped)
   getAllUsersNotificationsGrouped(
-    { patchState }: StateContext<NotificationsStateModel>,
+    { patchState }: StateContext<NotificationStateModel>,
     {}: GetAmountOfNewUsersNotifications
-  ): Observable<Notifications> {
-    return this.notificationsService
+  ): Observable<NotificationGroupedAndSingle> {
+    return this.notificationService
       .getAllUsersNotificationsGrouped()
-      .pipe(tap((notifications: Notifications) => patchState({ notifications })));
+      .pipe(tap((notifications: NotificationGroupedAndSingle) => patchState({ notifications })));
   }
 
   @Action(ReadUsersNotificationsByType)
   readUsersNotificationsByType(
-    { dispatch }: StateContext<NotificationsStateModel>,
+    { dispatch }: StateContext<NotificationStateModel>,
     { notificationType, needGetRequest }: ReadUsersNotificationsByType
   ): Observable<void> {
-    return this.notificationsService.readUsersNotificationsByType(notificationType).pipe(
+    return this.notificationService.readUsersNotificationsByType(notificationType).pipe(
       tap(() => {
         if (needGetRequest) {
           dispatch(new OnReadUsersNotificationsByTypeSuccess());
@@ -84,7 +84,7 @@ export class NotificationsState {
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
   onReadUsersNotificationsByTypeSuccess(
-    { dispatch }: StateContext<NotificationsStateModel>,
+    { dispatch }: StateContext<NotificationStateModel>,
     {}: OnReadUsersNotificationsByTypeSuccess
   ): void {
     dispatch([new GetAllUsersNotificationsGrouped(), new GetAmountOfNewUsersNotifications()]);
@@ -92,45 +92,45 @@ export class NotificationsState {
 
   @Action(ReadUsersNotificationById)
   readUsersNotificationsById(
-    { dispatch }: StateContext<NotificationsStateModel>,
+    { dispatch }: StateContext<NotificationStateModel>,
     { payload }: ReadUsersNotificationById
   ): Observable<Notification | void> {
-    return this.notificationsService
+    return this.notificationService
       .readUsersNotificationById(payload)
       .pipe(catchError((error: Error) => dispatch(new OnReadUsersNotificationsFail(error))));
   }
 
   @Action(DeleteUsersNotificationById)
   deleteUsersNotificationById(
-    { dispatch }: StateContext<NotificationsStateModel>,
+    { dispatch }: StateContext<NotificationStateModel>,
     { notificationId }: DeleteUsersNotificationById
   ): Observable<void> {
-    return this.notificationsService.deleteNotification(notificationId).pipe(
+    return this.notificationService.deleteNotification(notificationId).pipe(
       tap(() => dispatch(new OnDeleteUsersNotificationByIdSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new OnDeleteUsersNotificationByIdFail(error)))
     );
   }
 
   @Action(OnDeleteUsersNotificationByIdSuccess)
-  onDeleteUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationsStateModel>): void {
+  onDeleteUsersNotificationByIdSuccess({ dispatch }: StateContext<NotificationStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.deleteNotification, type: 'success' }));
   }
 
   @Action(OnDeleteUsersNotificationByIdFail)
   onDeleteUsersNotificationByIdFail(
-    { dispatch }: StateContext<NotificationsStateModel>,
+    { dispatch }: StateContext<NotificationStateModel>,
     { error }: OnDeleteUsersNotificationByIdFail
   ): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnReadUsersNotificationsFail)
-  onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationsStateModel>, { payload }: OnReadUsersNotificationsFail): void {
+  onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationStateModel>, { payload }: OnReadUsersNotificationsFail): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(ClearNotificationState)
-  clearNotificationState({ patchState }: StateContext<NotificationsStateModel>): void {
+  clearNotificationState({ patchState }: StateContext<NotificationStateModel>): void {
     patchState({ notifications: null });
   }
 }

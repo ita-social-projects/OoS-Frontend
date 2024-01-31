@@ -1,14 +1,14 @@
 import { LiveAnnouncer } from '@angular/cdk/a11y';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
@@ -128,6 +128,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
           this.role = role;
 
           switch (role) {
+            case Role.techAdmin:
+              return of(null);
             case Role.ministryAdmin:
               return this.store.dispatch(new GetMinistryAdminProfile());
             case Role.regionAdmin:

@@ -1,6 +1,6 @@
 import { NotificationType } from 'shared/enum/notifications';
 
-import { Notification, NotificationGroupedByAdditionalData } from '../models/notifications.model';
+import { Notification, NotificationGroupedByType } from '../models/notification.model';
 
 export class GetAmountOfNewUsersNotifications {
   static readonly type = '[user] get amount of new users notifications';

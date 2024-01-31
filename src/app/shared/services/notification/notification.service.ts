@@ -1,29 +1,28 @@
-import { Observable } from 'rxjs';
-import { NotificationType } from 'shared/enum/notifications';
-
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable, tap } from 'rxjs';
 
-import { Notification, Notifications, NotificationsAmount, NotificationsGroupedByType } from '../../models/notifications.model';
+import { NotificationType } from 'shared/enum/notifications';
+import { Notification, NotificationAmount, NotificationGroupedAndSingle } from 'shared/models/notification.model';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationsService {
+export class NotificationService {
   constructor(private http: HttpClient) {}
 
   /**
    * This method get amount of notifications
    */
-  public getAmountOfNewUsersNotifications(): Observable<NotificationsAmount> {
-    return this.http.get<NotificationsAmount>('/api/v1/Notification/GetAmountOfNewUsersNotifications');
+  public getAmountOfNewUsersNotifications(): Observable<NotificationAmount> {
+    return this.http.get<NotificationAmount>('/api/v1/Notification/GetAmountOfNewUsersNotifications');
   }
 
   /**
    * This method get all notifications
    */
-  public getAllUsersNotificationsGrouped(): Observable<Notifications> {
-    return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotificationsGrouped');
+  public getAllUsersNotificationsGrouped(): Observable<NotificationGroupedAndSingle> {
+    return this.http.get<NotificationGroupedAndSingle>('/api/v1/Notification/GetAllUsersNotificationsGrouped');
   }
 
   /**
@@ -45,8 +44,8 @@ export class NotificationsService {
   /**
    * This method get all notifications
    */
-  public getAllUsersNotifications(): Observable<Notifications> {
-    return this.http.get<Notifications>('/api/v1/Notification/GetAllUsersNotifications');
+  public getAllUsersNotifications(): Observable<NotificationGroupedAndSingle> {
+    return this.http.get<NotificationGroupedAndSingle>('/api/v1/Notification/GetAllUsersNotifications');
   }
 
   /**
