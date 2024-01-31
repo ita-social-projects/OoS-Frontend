@@ -1,6 +1,5 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
-import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -14,7 +13,6 @@ import {
   ApplicationRejected
 } from 'shared/enum/enumUA/declinations/notification-declination';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { NotificationDescriptions } from 'shared/enum/enumUA/notifications';
 import { NotificationAction, NotificationDataType, NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
 import { Role } from 'shared/enum/role';
@@ -58,7 +56,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router, private translateService: TranslateService) {}
+  constructor(private store: Store, private router: Router) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());

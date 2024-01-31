@@ -9,10 +9,14 @@ import { Observable, Subject, asyncScheduler, filter, map, takeUntil } from 'rxj
 import { ModeConstants } from 'shared/constants/constants';
 import { CHAT_HUB_URL } from 'shared/constants/hubs-url';
 import { ValidationConstants } from 'shared/constants/validation';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { Role } from 'shared/enum/role';
+import { UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
 import { ChatRoom, IncomingMessage, MessagesParameters, OutgoingMessage } from 'shared/models/chat.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
+import { ShowMessageBar } from 'shared/store/app.actions';
 import {
   ClearSelectedChatRoom,
   GetChatRoomByApplicationId,
@@ -32,13 +36,16 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
+  public readonly validationConstants = ValidationConstants;
+  public readonly userStatusesTitles = UserStatusesTitles;
+  public readonly userStatusIcons = UserStatusIcons;
+  public readonly userStatuses = UserStatuses;
 
   @ViewChild('chat')
   private chatEl: ElementRef;
 
   @Select(ChatState.selectedChatRoom)
-  private chatRoom$: Observable<ChatRoom>;
+  public chatRoom$: Observable<ChatRoom>;
   @Select(ChatState.selectedChatRoomMessages)
   private messages$: Observable<IncomingMessage[]>;
 
@@ -59,6 +66,7 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   public userIsProvider: boolean;
   public userName: string;
   public companionName: string;
+  public isDisabled: boolean;
 
   private readonly onScroll = () => {
     if (this.chatEl.nativeElement.scrollTop < this.scrollTopStep) {
@@ -99,6 +107,11 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
       this.chatRoom = chatRoom;
       this.store.dispatch(new GetChatRoomMessagesById(this.userRole, this.chatRoom.id, this.messagesParameters));
       this.getChatMembersNames();
+
+      // Set textarea and button disabled if user's role is Provider and Parent is blocked
+      if (this.userIsProvider && this.chatRoom.isBlockedByProvider) {
+        this.isDisabled = true;
+      }
 
       this.chatEl.nativeElement.addEventListener('scroll', this.onScroll);
     });
@@ -201,15 +214,29 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
+  /**
+   * Set textarea and button disabled if user's role is Parent and Parent is blocked by Provider
+   */
+  private setChatDisabled(): void {
+    this.isDisabled = true;
+
+    this.store.dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.accessIsRestricted,
+        type: 'error',
+        info: SnackbarText.accessIsRestrictedFullDescription
+      })
+    );
+  }
+
   public onSendMessage(): void {
+    if (this.chatRoom.isBlockedByProvider && !this.userIsProvider) {
+      this.setChatDisabled();
+    }
+
     const message = this.messageControl.value.trim();
     if (this.hubConnection.state === signalR.HubConnectionState.Connected && message) {
-      const sendMessage = new OutgoingMessage(
-        this.chatRoom.workshopId,
-        this.chatRoom.parentId,
-        this.chatRoom.id,
-        message
-      );
+      const sendMessage = new OutgoingMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.chatRoom.id, message);
       this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
       this.messageControl.setValue('');
     }
