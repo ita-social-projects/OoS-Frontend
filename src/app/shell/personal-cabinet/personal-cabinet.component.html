@@ -23,7 +23,7 @@
       </a>
     </ng-container>
     <ng-container *ngIf="!isRoleAdmin(userRole)">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">
+      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'" [matBadge]="unreadMessagesCount$ | async" matBadgePosition="after">
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate | uppercase }}
       </a>
     </ng-container>

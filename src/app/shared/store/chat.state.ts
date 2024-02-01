@@ -13,7 +13,8 @@ import {
   GetChatRoomForParentByWorkshopId,
   GetChatRoomMessagesById,
   GetChatRoomMessagesForParentByWorkshopId,
-  GetChatRooms
+  GetChatRooms,
+  GetUnreadMessagesCount
 } from './chat.actions';
 
 export interface ChatStateModel {
@@ -21,6 +22,7 @@ export interface ChatStateModel {
   chatRooms: SearchResponse<ChatRoom[]>;
   selectedChatRoom: ChatRoom;
   selectedChatRoomMessages: IncomingMessage[];
+  unreadMessagesCount: number;
 }
 
 @State<ChatStateModel>({
@@ -29,7 +31,8 @@ export interface ChatStateModel {
     isLoadingData: false,
     chatRooms: null,
     selectedChatRoom: null,
-    selectedChatRoomMessages: null
+    selectedChatRoomMessages: null,
+    unreadMessagesCount: null,
   }
 })
 @Injectable()
@@ -52,6 +55,11 @@ export class ChatState {
   @Selector()
   static selectedChatRoomMessages(state: ChatStateModel): IncomingMessage[] {
     return state.selectedChatRoomMessages;
+  }
+
+  @Selector()
+  static unreadMessagesCount(state: ChatStateModel): number {
+    return state.unreadMessagesCount;
   }
 
   constructor(private chatService: ChatService) {}
@@ -119,5 +127,11 @@ export class ChatState {
   @Action(ClearSelectedChatRoom)
   clearSelectedChatRoom({ patchState }: StateContext<ChatStateModel>): void {
     patchState({ selectedChatRoom: null, selectedChatRoomMessages: null });
+  }
+
+  @Action(GetUnreadMessagesCount)
+  getUnreadMessagesCount({ patchState }: StateContext<ChatStateModel>): Observable<number> {
+    return this.chatService.getUnreadMessagesCount()
+      .pipe(tap((unreadMessagesCount: number) => patchState({ unreadMessagesCount })));
   }
 }
