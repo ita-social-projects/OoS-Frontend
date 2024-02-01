@@ -167,7 +167,7 @@ export class SharedUserState {
 
   @Action(OnUpdateApplicationFail)
   onUpdateApplicationFail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    dispatch(new ShowMessageBar({ message: SnackbarText.errorSpotsOccupied, type: 'error' }));
   }
 
   @Action(OnUpdateApplicationSuccess)
