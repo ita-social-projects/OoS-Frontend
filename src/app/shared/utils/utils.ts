@@ -16,7 +16,7 @@ import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { UsersTable } from 'shared/models/users-table';
+import { AdminsTableData, UsersTableData } from 'shared/models/users-table';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -91,7 +91,7 @@ export class Util {
    * @param users Users array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTable(users): UsersTable[] {
+  public static updateStructureForTheTable(users): UsersTableData[] {
     const updatedUsers = [];
     users.forEach((user) => {
       updatedUsers.push({
@@ -114,7 +114,7 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): AdminsTableData[] {
     const updatedAdmins = [];
     admins.forEach((admin: BaseAdmin) => {
       updatedAdmins.push({
@@ -125,7 +125,8 @@ export class Util {
         institutionTitle: admin.institutionTitle,
         status: admin.accountStatus || UserStatuses.Accepted,
         catottgName: admin.catottgName,
-        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName
+        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName,
+        isAdmin: true
       });
     });
     return updatedAdmins;

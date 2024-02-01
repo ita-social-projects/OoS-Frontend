@@ -23,7 +23,7 @@ import { Util } from 'shared-utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { BlockData, InvitationData, UsersTable } from 'shared/models/users-table';
+import { AdminsTableData, BlockData, InvitationData } from 'shared/models/users-table';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
@@ -50,7 +50,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   public tabIndex: number;
   public filterFormControl: FormControl = new FormControl('');
-  public adminsTable: UsersTable[];
+  public adminsTable: AdminsTableData[];
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public totalEntities: number;
@@ -143,7 +143,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  public onUpdate(admin: UsersTable): void {
+  public onUpdate(admin: AdminsTableData): void {
     this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
   }
 
@@ -166,7 +166,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method delete Admin By Id
    */
-  public onDelete(admin: UsersTable): void {
+  public onDelete(admin: AdminsTableData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {

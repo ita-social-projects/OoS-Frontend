@@ -19,7 +19,7 @@ import { UserTabParams } from 'shared/enum/role';
 import { Child, ChildrenParameters } from 'shared/models/child.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { UsersTable } from 'shared/models/users-table';
+import { UsersTableData } from 'shared/models/users-table';
 import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
@@ -43,7 +43,7 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   public filterFormControl = new FormControl('');
   public tabIndex: number;
-  public allUsers: UsersTable[] = [];
+  public allUsers: UsersTableData[] = [];
   public totalEntities: number;
   public displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -119,7 +119,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  public onBlockUnblock(user: UsersTable): void {
+  public onBlockUnblock(user: UsersTableData): void {
     if (user.isBlocked) {
       this.matDialog
         .open(ConfirmationModalWindowComponent, {

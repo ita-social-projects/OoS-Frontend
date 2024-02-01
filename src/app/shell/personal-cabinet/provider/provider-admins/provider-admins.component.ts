@@ -16,9 +16,9 @@ import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminParams, ProviderAdminRole } from 'shared/enum/provider-admin';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from 'shared/models/provider-admin.model';
+import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { BlockData, UsersTable } from 'shared/models/users-table';
+import { BlockData, ProviderAdminsTableData } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   BlockProviderAdminById,
@@ -48,7 +48,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   private providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
 
   public providerAdmins: SearchResponse<ProviderAdmin[]>;
-  public providerAdminsData: ProviderAdminTable[] = [];
+  public providerAdminsData: ProviderAdminsTableData[] = [];
   public filterFormControl: FormControl = new FormControl('');
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public tabIndex: number;
@@ -113,7 +113,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method update provider Admin By Id
    */
-  public onUpdate(user: ProviderAdminTable): void {
+  public onUpdate(user: ProviderAdminsTableData): void {
     const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
     this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
   }
@@ -123,8 +123,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    */
   public onBlock(admin: BlockData): void {
     let messageType: string;
-
-    if (admin.user.isDeputy) {
+    if (admin.user.hasOwnProperty('isDeputy')) {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
       messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
@@ -156,7 +155,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method delete provider Admin By Id
    */
-  public onDelete(user: UsersTable): void {
+  public onDelete(user: ProviderAdminsTableData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -204,7 +203,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
    * This method updates table according to the received data
    * @param admins ProviderAdmin[]
    */
-  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
+  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminsTableData[] {
     const updatedAdmins = [];
     admins.forEach((admin: ProviderAdmin) => {
       updatedAdmins.push({
