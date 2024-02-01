@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable, tap } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { NotificationType } from 'shared/enum/notifications';
 import { Notification, NotificationAmount, NotificationGroupedAndSingle } from 'shared/models/notification.model';

@@ -1,6 +1,6 @@
 <ng-container *ngIf="!(isMobileScreen$ | async); else isMobileScreen">
   <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon class="notifications-menu" [matBadge]="notificationsAmount?.amount">
+    <mat-icon class="notifications-menu" [matBadge]="notificationsAmount?.amount || null">
       notifications_none
     </mat-icon>
   </button>

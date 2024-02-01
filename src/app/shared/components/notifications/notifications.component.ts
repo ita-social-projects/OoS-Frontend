@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { NotificationState } from 'shared/store/notification.state';
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent implements OnInit, OnDestroy {
+export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestroy {
   @Select(NotificationState.notificationsAmount)
   public notificationsAmount$: Observable<NotificationAmount>;
   @Select(AppState.isMobileScreen)
@@ -26,7 +26,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private signalRService: SignalRService) {}
+  constructor(private store: Store, private changeDetector: ChangeDetectorRef, private signalRService: SignalRService) {}
 
   public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
@@ -50,6 +50,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.notificationsAmount$
       .pipe(takeUntil(this.destroy$), filter(Boolean))
       .subscribe((notificationsAmount: NotificationAmount) => (this.notificationsAmount = notificationsAmount));
+  }
+
+  public ngAfterViewChecked(): void {
+    this.changeDetector.detectChanges();
   }
 
   public ngOnDestroy(): void {

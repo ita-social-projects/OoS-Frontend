@@ -16,10 +16,6 @@ export namespace ApiErrorTypes {
     UserDontHavePermissionToCreate = SnackbarText.providerAdminUserDontHavePermissionToCreate
   }
 
-  export function apiErrorExists(apiError: ApiError): boolean {
-    return apiError.group in ApiErrorTypes && apiError.code in ApiErrorTypes[apiError.group];
-  }
-
   export function toApiErrorMap(apiErrors: ApiError[]): Map<string, ApiError[]> {
     return apiErrors.reduce((apiErrorMap, apiError) => {
       const group = apiError.group;
@@ -36,6 +32,10 @@ export namespace ApiErrorTypes {
   }
 
   export function toErrorMessage(apiError: ApiError): string {
-    return ApiErrorTypes[apiError.group][apiError.code];
+    return apiErrorExists(apiError) ? ApiErrorTypes[apiError.group][apiError.code] : null;
+  }
+
+  export function apiErrorExists(apiError: ApiError): boolean {
+    return apiError.group in ApiErrorTypes && apiError.code in ApiErrorTypes[apiError.group];
   }
 }
