@@ -32,6 +32,7 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
 
   blockedParent: BlockedParent;
   childFullName: string;
+  childNameSurnameMiddleName: string;
   userIsAdmin: boolean;
   applicationParams: {
     status: string;
@@ -70,6 +71,7 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.childFullName = Util.getFullName(this.application.child);
+    this.childNameSurnameMiddleName = Util.getNameSurnameMiddleName(this.application.child);
     this.directions$
       .pipe(
         filter(Boolean),

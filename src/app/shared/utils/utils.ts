@@ -188,6 +188,10 @@ export class Util {
   public static getFullName(person: Person): string {
     return `${person.lastName} ${person.firstName} ${person.middleName}`;
   }
+  public static getNameSurnameMiddleName(person: Person): string {
+    return `${person.firstName} ${person.lastName} ${person.middleName}`;
+  }
+
 
   /**
    * Create filter state query string depending on current and default filter values
