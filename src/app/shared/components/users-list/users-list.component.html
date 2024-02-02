@@ -124,7 +124,7 @@
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
-            <ng-container *ngIf="user.institutionTitle && user.status !== userStatuses.Accepted">
+            <ng-container *ngIf="user.isAdmin && user.status === userStatuses.NeverLogged">
               <button mat-menu-item (click)="sendInvitation.emit({user, adminType})">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
             </ng-container>
             <!-- <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button> -->
