@@ -33,6 +33,7 @@ export class ChatRoom {
   parentId: string;
   workshop: WorkshopTruncated;
   parent: ParentWithContactInfo;
+  isBlockedByProvider: boolean;
   notReadByCurrentUserMessagesCount?: number;
   lastMessage?: IncomingMessage;
 
