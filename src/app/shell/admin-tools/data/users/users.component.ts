@@ -19,7 +19,7 @@ import { UserTabParams } from 'shared/enum/role';
 import { Child, ChildrenParameters } from 'shared/models/child.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { UsersTableData } from 'shared/models/users-table';
+import { UsersBlockData, UsersTableData } from 'shared/models/users-table';
 import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
@@ -119,31 +119,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  public onBlockUnblock(user: UsersTableData): void {
-    if (user.isBlocked) {
-      this.matDialog
-        .open(ConfirmationModalWindowComponent, {
-          width: Constants.MODAL_SMALL,
-          data: {
-            type: ModalConfirmationType.unBlockParent,
-            property: user.parentFullName
-          }
-        })
-        .afterClosed()
-        .pipe(
-          filter(Boolean),
-          switchMap(() =>
-            this.store.dispatch(
-              new OnUnblockParent({
-                parentId: user.parentId,
-                isBlocked: false
-              })
-            )
-          ),
-          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)))
-        )
-        .subscribe();
-    } else {
+  public onBlockUnblock(parent: UsersBlockData): void {
+    if (parent.isBlocking) {
       this.matDialog
         .open(ReasonModalWindowComponent, {
           data: { type: ModalConfirmationType.blockParent }
@@ -154,9 +131,32 @@ export class UsersComponent implements OnInit, OnDestroy {
           switchMap((result: string) =>
             this.store.dispatch(
               new OnBlockParent({
-                parentId: user.parentId,
+                parentId: parent.user.parentId,
                 isBlocked: true,
                 reason: result
+              })
+            )
+          ),
+          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)))
+        )
+        .subscribe();
+    } else {
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.unBlockParent,
+            property: parent.user.parentFullName
+          }
+        })
+        .afterClosed()
+        .pipe(
+          filter(Boolean),
+          switchMap(() =>
+            this.store.dispatch(
+              new OnUnblockParent({
+                parentId: parent.user.parentId,
+                isBlocked: false
               })
             )
           ),

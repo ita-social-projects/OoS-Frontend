@@ -29,9 +29,20 @@ export interface ProviderAdminsTableData extends BaseTableData {
 
 export type UnionTableData = UsersTableData | AdminsTableData | ProviderAdminsTableData;
 
-export interface BlockData {
-  user: UnionTableData;
-  isBlocked: boolean;
+interface BaseBlockData {
+  isBlocking: boolean;
+}
+
+export interface UsersBlockData extends BaseBlockData {
+  user: UsersTableData;
+}
+
+export interface AdminsBlockData extends BaseBlockData {
+  user: AdminsTableData;
+}
+
+export interface ProviderAdminsBlockData extends BaseBlockData {
+  user: ProviderAdminsTableData;
 }
 
 export interface InvitationData {

@@ -3,6 +3,7 @@ import { KeyValue } from '@angular/common';
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { Role } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
@@ -14,9 +15,11 @@ import { FilterStateModel } from 'shared/models/filter-state.model';
 import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { AdminsTableData, UsersTableData } from 'shared/models/users-table';
+import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
+import { Constants } from 'shared/constants/constants';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -130,6 +133,27 @@ export class Util {
       });
     });
     return updatedAdmins;
+  }
+
+  /**
+   * This method returns updated array structure for the Provider Admin table
+   * @param admins ProviderAdmin[]
+   * @returns array of objects
+   */
+  public static updateStructureForTheTableProviderAdmins(admins: ProviderAdmin[]): ProviderAdminsTableData[] {
+    const updatedProviderAdmins = [];
+    admins.forEach((admin: ProviderAdmin) => {
+      updatedProviderAdmins.push({
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
+        email: admin.email,
+        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
+        status: admin.accountStatus,
+        isDeputy: admin.isDeputy
+      });
+    });
+    return updatedProviderAdmins;
   }
 
   /**

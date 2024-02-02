@@ -54,7 +54,8 @@
                         [isEdit]="true"
                         [displayedColumns]="displayedColumns"
                         (delete)="onDelete($event)"
-                        (block)="onBlock($event)"
+                        (block)="onBlockUnblock($event)"
+                        (unblock)="onBlockUnblock($event)"
                         (update)="onUpdate($event)"
                         (sendInvitation)="onSendInvitation($event)">
         </app-users-list>

@@ -18,7 +18,7 @@ import { ProviderAdminParams, ProviderAdminRole } from 'shared/enum/provider-adm
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { BlockData, ProviderAdminsTableData } from 'shared/models/users-table';
+import { ProviderAdminsBlockData, ProviderAdminsTableData } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   BlockProviderAdminById,
@@ -29,6 +29,7 @@ import {
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
+import { UserStatuses } from 'shared/enum/statuses';
 
 @Component({
   selector: 'app-provider-admins',
@@ -121,12 +122,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method block and unBlock provider Admin By Id
    */
-  public onBlock(admin: BlockData): void {
+  public onBlockUnblock(admin: ProviderAdminsBlockData): void {
     let messageType: string;
-    if (admin.user.hasOwnProperty('isDeputy')) {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
+    if (admin.user.isDeputy) {
+      messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
+      messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
     }
 
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
@@ -144,7 +145,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
             {
               userId: admin.user.id,
               providerId: this.provider.id,
-              isBlocked: admin.isBlocked
+              isBlocked: admin.isBlocking
             },
             this.filterParams
           )
@@ -200,26 +201,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method updates table according to the received data
-   * @param admins ProviderAdmin[]
-   */
-  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminsTableData[] {
-    const updatedAdmins = [];
-    admins.forEach((admin: ProviderAdmin) => {
-      updatedAdmins.push({
-        id: admin.id,
-        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
-        email: admin.email,
-        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
-        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
-        status: admin.accountStatus,
-        isDeputy: admin.isDeputy
-      });
-    });
-    return updatedAdmins;
-  }
-
-  /**
    * This method subscribes on provider admins and filter form control value changing for data filtration
    */
   private addProviderAdminsSubscriptions(): void {
@@ -233,7 +214,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
     this.providerAdmins$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
       this.providerAdmins = providerAdmins;
-      this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
+      this.providerAdminsData = Util.updateStructureForTheTableProviderAdmins(providerAdmins.entities);
     });
   }
 }

@@ -112,14 +112,15 @@
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <ng-container *ngIf="user.isBlocked then unBlock; else Block"></ng-container >
+            <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Provider Admin's blocking -->
+            <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked then unBlock; else Block"></ng-container >
             <ng-template #Block>
-              <button mat-menu-item (click)="block.emit(user)">
+              <button mat-menu-item (click)="block.emit({user, isBlocking: true})">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="unblock.emit(user)">
+              <button mat-menu-item (click)="unblock.emit({user, isBlocking: false})">
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>

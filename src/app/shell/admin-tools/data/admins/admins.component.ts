@@ -23,7 +23,7 @@ import { Util } from 'shared-utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { AdminsTableData, BlockData, InvitationData } from 'shared/models/users-table';
+import { AdminsBlockData, AdminsTableData, InvitationData } from 'shared/models/users-table';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
@@ -150,11 +150,11 @@ export class AdminsComponent implements OnInit, OnDestroy {
   /**
    * This method block, unBlock Admin By Id
    */
-  public onBlock(admin: BlockData): void {
+  public onBlockUnblock(admin: AdminsBlockData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
-        type: admin.isBlocked ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
+        type: admin.isBlocking ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
       }
     });
 
@@ -264,8 +264,8 @@ export class AdminsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private blockAdmin(blockData: BlockData, admin: AdminRoles): void {
-    this.store.dispatch(new BlockAdminById({ adminId: blockData.user.id, isBlocked: blockData.isBlocked }, admin));
+  private blockAdmin(blockData: AdminsBlockData, admin: AdminRoles): void {
+    this.store.dispatch(new BlockAdminById({ adminId: blockData.user.id, isBlocked: blockData.isBlocking }, admin));
   }
 
   private deleteAdmin(id: string, admin: AdminRoles): void {
