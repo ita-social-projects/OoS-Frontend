@@ -2,7 +2,7 @@
   <mat-card-content [ngClass]="userRole === role.parent ? 'card-block card-block__parent' : 'card-block'">
     <div class="card-block__info">
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
-        <div fxLayout="row" fxLayoutAlign="start" class="card-block__child-name">
+        <div fxLayout="row" fxLayoutAlign="space-between" class="card-block__child-name">
           <h4 class="title" matTooltip="{{ childFullName }}">{{ childFullName }}</h4>
           <i
             [ngClass]="
