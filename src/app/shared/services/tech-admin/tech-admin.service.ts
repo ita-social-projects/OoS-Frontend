@@ -13,7 +13,7 @@ export class TechAdminService {
   /**
    * This method get TechAdmin by id
    */
-  getProfile(): Observable<TechAdmin> {
+  public getProfile(): Observable<TechAdmin> {
     return this.http.get<TechAdmin>('/api/v1/Admin/GetProfile');
   }
 }

@@ -15,8 +15,8 @@ import { Direction } from 'shared/models/category.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AdminState } from 'shared/store/admin.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
-import { CreateFormComponent } from '../../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 import { CreateDirection, GetDirectionById, UpdateDirection } from 'shared/store/admin.actions';
+import { CreateFormComponent } from '../../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
 
 @Component({
   selector: 'app-create-direction',
@@ -92,12 +92,14 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
 
   onSubmit(): void {
     if (this.directionFormGroup.dirty && !this.isDispatching) {
-      this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection
-        }
-      }).afterClosed()
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: this.editMode ? ModalConfirmationType.editDirection : ModalConfirmationType.createDirection
+          }
+        })
+        .afterClosed()
         .pipe(filter(Boolean))
         .subscribe(() => {
           this.isDispatching = true;

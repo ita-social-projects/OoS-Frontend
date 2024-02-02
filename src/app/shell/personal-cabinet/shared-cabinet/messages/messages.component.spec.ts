@@ -6,12 +6,12 @@ import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dial
 import { MatIconModule } from '@angular/material/icon';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
-import { MessagesComponent } from './messages.component';
 import { BlockedParent } from 'shared/models/block.model';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { MessagesComponent } from './messages.component';
 
 describe('MessagesComponent', () => {
   let component: MessagesComponent;
@@ -22,14 +22,7 @@ describe('MessagesComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [MessagesComponent, MockNoResultCardComponent],
-      imports: [
-        MatDialogModule, 
-        NgxsModule.forRoot([]), 
-        TranslateModule.forRoot(), 
-        MatIconModule, 
-        FormsModule, 
-        ReactiveFormsModule
-      ]
+      imports: [MatDialogModule, NgxsModule.forRoot([]), TranslateModule.forRoot(), MatIconModule, FormsModule, ReactiveFormsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(MessagesComponent);
@@ -57,7 +50,7 @@ describe('MessagesComponent', () => {
       mockBlockedParent = {
         parentId: 'parentId',
         providerId: 'providerId',
-        reason: 'the reason of blocking',
+        reason: 'the reason of blocking'
       };
     });
 
@@ -79,11 +72,7 @@ describe('MessagesComponent', () => {
       component.providerId = mockBlockedParent.providerId;
       const expectedBlockParentDispatchData = {
         parameters: undefined,
-        payload: new BlockedParent(
-          mockBlockedParent.parentId,
-          mockBlockedParent.providerId,
-          mockBlockedParent.reason,
-        )
+        payload: new BlockedParent(mockBlockedParent.parentId, mockBlockedParent.providerId, mockBlockedParent.reason)
       };
       expectedBlockParentDispatchData.payload.userIdBlock = mockBlockedParent.providerId;
       const expectedChatRoomsDispatchData = {
@@ -92,7 +81,7 @@ describe('MessagesComponent', () => {
           workshopIds: null,
           searchText: null,
           size: PaginationConstants.CHATROOMS_PER_PAGE
-        },
+        }
       };
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(expectedBlockParentDispatchData.payload.reason)
@@ -117,7 +106,7 @@ describe('MessagesComponent', () => {
       expectedMatDialogData = {};
       mockBlockedParent = {
         parentId: 'parentId',
-        providerId: 'providerId',
+        providerId: 'providerId'
       };
     });
 
@@ -129,7 +118,7 @@ describe('MessagesComponent', () => {
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ConfirmationModalWindowComponent>);
-      
+
       component.onUnBlock(mockBlockedParent.parentId);
 
       expect(matDialogSpy).toHaveBeenCalledTimes(1);
@@ -140,10 +129,7 @@ describe('MessagesComponent', () => {
       component.providerId = mockBlockedParent.providerId;
       const expectedUnblockParentDispatchData = {
         parameters: undefined,
-        payload: new BlockedParent(
-          mockBlockedParent.parentId,
-          mockBlockedParent.providerId,
-        )
+        payload: new BlockedParent(mockBlockedParent.parentId, mockBlockedParent.providerId)
       };
       expectedUnblockParentDispatchData.payload.userIdUnblock = mockBlockedParent.providerId;
       const expectedChatRoomsDispatchData = {
@@ -152,21 +138,20 @@ describe('MessagesComponent', () => {
           workshopIds: null,
           searchText: null,
           size: PaginationConstants.CHATROOMS_PER_PAGE
-        },
+        }
       };
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
         afterClosed: () => of(true)
       } as MatDialogRef<ConfirmationModalWindowComponent>);
 
       component.onUnBlock(mockBlockedParent.parentId);
-  
+
       expect(dispatchSpy).toHaveBeenCalledTimes(2);
       expect(dispatchSpy).toHaveBeenNthCalledWith(1, expectedUnblockParentDispatchData);
       expect(dispatchSpy).toHaveBeenLastCalledWith(expectedChatRoomsDispatchData);
     });
   });
 });
-
 
 @Component({
   selector: 'app-no-result-card',

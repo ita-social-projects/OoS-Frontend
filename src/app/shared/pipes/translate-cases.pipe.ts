@@ -7,7 +7,7 @@ import { TranslateService as NgxTranslateService } from '@ngx-translate/core';
   pure: false
 })
 export class TranslateCasesPipe implements PipeTransform {
-  translateKey: string;
+  private translateKey: string;
   private translation: any;
   private _translateService: any;
 
@@ -15,9 +15,10 @@ export class TranslateCasesPipe implements PipeTransform {
     this._translateService = translateService;
   }
 
-  transform(count: number, enumTranslate: any): string {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public transform(count: number, enumTranslate: any): string {
     const countLastStr = count?.toString().slice(-1);
-    let countNum = count?.toString() || '0';
+    const countNum = count?.toString() || '0';
 
     if (count === 0 || (count >= 11 && count <= 14)) {
       this.translateKey = enumTranslate[2];

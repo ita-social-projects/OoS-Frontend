@@ -18,17 +18,17 @@ describe('DirectionsWrapperComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([]), 
-        MatTabsModule, 
-        MatDialogModule, 
-        BrowserAnimationsModule, 
+        NgxsModule.forRoot([]),
+        MatTabsModule,
+        MatDialogModule,
+        BrowserAnimationsModule,
         MatIconModule,
         FormsModule,
         ReactiveFormsModule,
         RouterTestingModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      declarations: [DirectionsWrapperComponent, DirectionsComponent, MockNoResultCardComponent],
+      declarations: [DirectionsWrapperComponent, DirectionsComponent, MockNoResultCardComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(DirectionsWrapperComponent);

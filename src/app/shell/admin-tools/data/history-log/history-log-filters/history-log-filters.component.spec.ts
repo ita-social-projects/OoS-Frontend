@@ -38,9 +38,9 @@ describe('HistoryLogFiltersComponent', () => {
     fixture = TestBed.createComponent(HistoryLogFiltersComponent);
     formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
-    component.filtersForm = formBuilder.group({ 
-      dateFrom: formBuilder.control(''), 
-      dateTo: formBuilder.control(''), 
+    component.filtersForm = formBuilder.group({
+      dateFrom: formBuilder.control(''),
+      dateTo: formBuilder.control('')
     });
     component.filtersForm.addControl(component.formControlName, new FormControl(''));
     fixture.detectChanges();

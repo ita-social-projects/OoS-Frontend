@@ -18,7 +18,7 @@ export class InstitutionsService {
   }
 
   getAllByInstitutionAndLevel(institutionsId: string, hierarchyLevel: number): Observable<InstituitionHierarchy[]> {
-    let params = new HttpParams().set('institutionId', institutionsId).set('hierarchyLevel', hierarchyLevel.toString());
+    const params = new HttpParams().set('institutionId', institutionsId).set('hierarchyLevel', hierarchyLevel.toString());
 
     return this.http.get<InstituitionHierarchy[]>('/api/v1/InstitutionHierarchy/GetAllByInstitutionAndLevel', {
       params
@@ -34,12 +34,12 @@ export class InstitutionsService {
   }
 
   getInstitutionHierarchyParentsId(id: string): Observable<InstituitionHierarchy[]> {
-    let params = new HttpParams().set('includeCurrentLevel', 'true');
+    const params = new HttpParams().set('includeCurrentLevel', 'true');
 
     return this.http.get<InstituitionHierarchy[]>(`/api/v1/InstitutionHierarchy/GetParents/${id}`, { params });
   }
 
   editInstitutionHierarchy(insHierarchy: InstituitionHierarchy): Observable<InstituitionHierarchy> {
-    return this.http.put<InstituitionHierarchy>(`/api/v1/InstitutionHierarchy/Update`, insHierarchy);
+    return this.http.put<InstituitionHierarchy>('/api/v1/InstitutionHierarchy/Update', insHierarchy);
   }
 }

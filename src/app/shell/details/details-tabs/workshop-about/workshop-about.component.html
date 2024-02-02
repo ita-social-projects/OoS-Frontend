@@ -23,8 +23,7 @@
           class="toggle"
           fxLayout="row"
           fxLayoutAlign="center center"
-          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }"
-        >
+          [ngClass]="{ 'toggle-selected': timeRange.workdays.includes(workingDaysReverse[day.value] | titlecase) }">
           {{ day.value | translate }}
         </div>
       </div>

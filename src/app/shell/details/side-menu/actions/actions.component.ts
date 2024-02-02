@@ -48,7 +48,11 @@ export class ActionsComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, public dialog: MatDialog, private route: ActivatedRoute) {}
+  constructor(
+    private store: Store,
+    public dialog: MatDialog,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;

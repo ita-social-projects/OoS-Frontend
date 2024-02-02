@@ -32,8 +32,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-
   @ViewChild('chat')
   private chatEl: ElementRef;
 
@@ -42,12 +40,19 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   @Select(ChatState.selectedChatRoomMessages)
   private messages$: Observable<IncomingMessage[]>;
 
+  public readonly validationConstants = ValidationConstants;
+
+  public messages: IncomingMessage[] = [];
+  public messageControl: FormControl = new FormControl('');
+  public userIsProvider: boolean;
+  public userName: string;
+  public companionName: string;
+
   private readonly scrollTopStep = 10;
   private messagesParameters: MessagesParameters = {
     from: 0,
     size: 20
   };
-  public messages: IncomingMessage[] = [];
   private chatRoom: ChatRoom;
   private userRole: Role;
   private destroy$: Subject<boolean> = new Subject<boolean>();
@@ -55,24 +60,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
   private isHistoryLoading = false;
   private mode: string;
 
-  public messageControl: FormControl = new FormControl('');
-  public userIsProvider: boolean;
-  public userName: string;
-  public companionName: string;
-
-  private readonly onScroll = () => {
-    if (this.chatEl.nativeElement.scrollTop < this.scrollTopStep) {
-      this.chatEl.nativeElement.scrollTop = this.scrollTopStep;
-
-      if (!this.isHistoryLoading) {
-        this.isHistoryLoading = true;
-        this.messagesParameters.from = this.messages.length;
-        this.store.dispatch(new GetChatRoomMessagesById(this.userRole, this.chatRoom.id, this.messagesParameters));
-      }
-    }
-  };
-
-  constructor(private store: Store, private route: ActivatedRoute, private location: Location, private signalRService: SignalRService) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    private location: Location,
+    private signalRService: SignalRService
+  ) {}
 
   public ngOnInit(): void {
     this.addNavPath();
@@ -92,6 +85,19 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.destroy$.unsubscribe();
 
     this.chatEl.nativeElement.removeEventListener('scroll', this.onScroll);
+  }
+
+  public onSendMessage(): void {
+    const message = this.messageControl.value.trim();
+    if (this.hubConnection.state === signalR.HubConnectionState.Connected && message) {
+      const sendMessage = new OutgoingMessage(this.chatRoom.workshopId, this.chatRoom.parentId, this.chatRoom.id, message);
+      this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
+      this.messageControl.setValue('');
+    }
+  }
+
+  public onBack(): void {
+    this.location.back();
   }
 
   private setChatSubscriptions(): void {
@@ -185,9 +191,9 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     });
 
     this.hubConnection.on('ReceiveMessageInChatGroup', (jsonMessage: string) => {
-      //TODO: Resolve issue with capital letters in incoming object (backend)
-      let parsedMessage = JSON.parse(jsonMessage);
-      let message: IncomingMessage = {
+      // TODO: Resolve issue with capital letters in incoming object (backend)
+      const parsedMessage = JSON.parse(jsonMessage);
+      const message: IncomingMessage = {
         id: parsedMessage.Id,
         chatRoomId: parsedMessage.ChatRoomId,
         text: parsedMessage.Text,
@@ -201,21 +207,15 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  public onSendMessage(): void {
-    const message = this.messageControl.value.trim();
-    if (this.hubConnection.state === signalR.HubConnectionState.Connected && message) {
-      const sendMessage = new OutgoingMessage(
-        this.chatRoom.workshopId,
-        this.chatRoom.parentId,
-        this.chatRoom.id,
-        message
-      );
-      this.hubConnection.invoke('SendMessageToOthersInGroupAsync', JSON.stringify(sendMessage));
-      this.messageControl.setValue('');
-    }
-  }
+  private readonly onScroll = (): void => {
+    if (this.chatEl.nativeElement.scrollTop < this.scrollTopStep) {
+      this.chatEl.nativeElement.scrollTop = this.scrollTopStep;
 
-  public onBack(): void {
-    this.location.back();
-  }
+      if (!this.isHistoryLoading) {
+        this.isHistoryLoading = true;
+        this.messagesParameters.from = this.messages.length;
+        this.store.dispatch(new GetChatRoomMessagesById(this.userRole, this.chatRoom.id, this.messagesParameters));
+      }
+    }
+  };
 }

@@ -12,7 +12,10 @@ import { SearchResponse } from 'shared/models/search.model';
   providedIn: 'root'
 })
 export class ProviderService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   /**
    * This method get filtered Providers from the database

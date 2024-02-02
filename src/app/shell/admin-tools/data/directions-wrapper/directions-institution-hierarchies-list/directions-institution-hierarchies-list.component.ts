@@ -21,31 +21,57 @@ import { InsHierarchyTableRecord } from './ins-hierarchy-table-record';
   styleUrls: ['./directions-institution-hierarchies-list.component.scss']
 })
 export class DirectionsInstitutionHierarchiesListComponent implements OnInit, OnDestroy {
-  @Input() institution: Institution;
+  @Input() public institution: Institution;
 
   @Select(MetaDataState.instituitionsHierarchyAll)
-  institutionsHierarchies$: Observable<InstituitionHierarchy[]>;
+  public institutionsHierarchies$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.institutionFieldDesc)
-  institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
+  public institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
 
-  @ViewChild(MatSort) sort: MatSort;
+  @ViewChild(MatSort) public sort: MatSort;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  staticColumns: string[] = ['Напрямок для користувача', 'actions'];
-  columns: string[];
-  displayedColumns: string[];
-  institutionalHierarchies: InstituitionHierarchy[];
-  records: InsHierarchyTableRecord[] = [];
-  isLoaded: boolean = false;
-  dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
+  public staticColumns: string[] = ['Напрямок для користувача', 'actions'];
+  public columns: string[];
+  public displayedColumns: string[];
+  public institutionalHierarchies: InstituitionHierarchy[];
+  public records: InsHierarchyTableRecord[] = [];
+  public isLoaded: boolean = false;
+  public dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
-  constructor(private store: Store, private router: Router, private matDialog: MatDialog) {}
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit(): void {
+  constructor(
+    private store: Store,
+    private router: Router,
+    private matDialog: MatDialog
+  ) {}
+
+  public ngOnInit(): void {
     this.loadDirectionInstitutionHierarchiesData();
   }
 
-  private loadDirectionInstitutionHierarchiesData() {
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  public selectDirection(direction: Direction): void {
+    this.store.dispatch(new SetDirections([direction.id]));
+    const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
+    this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+  }
+
+  public onEdit(element: InsHierarchyTableRecord): void {
+    const dialogRef = this.matDialog.open(DirectionsInstitutionHierarchiesEditFormComponent, {
+      data: {
+        columns: this.columns,
+        element: element
+      },
+      autoFocus: false
+    });
+  }
+
+  private loadDirectionInstitutionHierarchiesData(): void {
     this.store.dispatch([new GetFieldDescriptionByInstitutionId(this.institution.id), new GetAllInstitutionsHierarchy()]);
 
     this.institutionFieldDesc$
@@ -74,22 +100,26 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
       });
   }
 
-  private createDirectionTableRecords(institutionalHierarchies: InstituitionHierarchy[]) {
+  private createDirectionTableRecords(institutionalHierarchies: InstituitionHierarchy[]): void {
     if (institutionalHierarchies) {
       this.institutionalHierarchies = institutionalHierarchies;
       const firstLevelInstitutions = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.hierarchyLevel === 1);
       firstLevelInstitutions.forEach((ins: InstituitionHierarchy) => {
-        let insHierarchyName: string[] = [];
-        let insHierarchies: InstituitionHierarchy[] = [];
+        const insHierarchyName: string[] = [];
+        const insHierarchies: InstituitionHierarchy[] = [];
         this.createDirectionTableRecord(ins, [...insHierarchyName], [...insHierarchies]);
       });
     }
   }
 
-  private createDirectionTableRecord(parent: InstituitionHierarchy, insHierarchyName: string[], insHierarchies: InstituitionHierarchy[]) {
+  private createDirectionTableRecord(
+    parent: InstituitionHierarchy,
+    insHierarchyName: string[],
+    insHierarchies: InstituitionHierarchy[]
+  ): void {
     insHierarchyName.push(parent.title);
     insHierarchies.push(parent);
-    let children = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.parentId === parent.id);
+    const children = this.institutionalHierarchies.filter((ins: InstituitionHierarchy) => ins.parentId === parent.id);
     if (!children.length) {
       this.records.push({ name: insHierarchyName, directions: parent.directions, insHierarchies: insHierarchies });
     } else {
@@ -97,26 +127,5 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
         this.createDirectionTableRecord(child, [...insHierarchyName], [...insHierarchies]);
       });
     }
-  }
-
-  public selectDirection(direction: Direction): void {
-    this.store.dispatch(new SetDirections([direction.id]));
-    const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
-    this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
-  }
-
-  public onEdit(element: InsHierarchyTableRecord) {
-    const dialogRef = this.matDialog.open(DirectionsInstitutionHierarchiesEditFormComponent, {
-      data: {
-        columns: this.columns,
-        element: element
-      },
-      autoFocus: false
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

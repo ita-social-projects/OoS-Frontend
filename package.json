@@ -11,6 +11,7 @@
     "test:coverage": "jest --coverage",
     "test-watch": "jest --watch",
     "lint": "ng lint",
+    "lint:fix": "ng lint --fix & prettier --write .",
     "e2e": "ng e2e"
   },
   "private": true,

@@ -31,7 +31,10 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
 
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {}
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     combineLatest([this.role$, this.subrole$])

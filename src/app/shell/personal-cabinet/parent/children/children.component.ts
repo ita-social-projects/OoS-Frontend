@@ -36,7 +36,10 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     size: PaginationConstants.CHILDREN_PER_PAGE
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

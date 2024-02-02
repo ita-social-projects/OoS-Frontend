@@ -41,7 +41,7 @@ export abstract class WorkshopBase {
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
 
-  constructor(about: About, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -96,7 +96,7 @@ export class Workshop extends WorkshopBase {
   imageIds?: string[];
   imageFiles?: File[];
 
-  constructor(about: About, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     super(about, description, address, teachers, provider, id);
 
     if (about.coverImageId) {
@@ -185,7 +185,7 @@ export interface WorkshopCardParameters extends PaginationParameters {
   providerId: string;
 }
 
-interface About {
+export interface WorkshopAbout {
   title: string;
   phone: string;
   email: string;

@@ -1,13 +1,13 @@
 export enum HistoryLogTypes {
   Providers,
-  ProviderAdmins ,
+  ProviderAdmins,
   Applications,
-  Users,
+  Users
 }
 
 export enum FilterOptions {
   PropertyName = 'PropertyName',
   AdminType = 'AdminType',
   OperationType = 'OperationType',
-  ShowParents = 'ShowParents',
+  ShowParents = 'ShowParents'
 }

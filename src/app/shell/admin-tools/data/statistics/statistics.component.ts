@@ -44,7 +44,10 @@ export class StatisticsComponent implements OnInit, OnDestroy {
   currentPage: PaginationElement = PaginationConstants.firstPage;
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store
+  ) {}
 
   ngOnInit(): void {
     this.statisticReports$

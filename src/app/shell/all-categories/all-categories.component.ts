@@ -30,7 +30,10 @@ export class AllCategoriesComponent implements OnInit, OnDestroy {
     size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
+  constructor(
+    private store: Store,
+    public navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {
     this.getDirections();

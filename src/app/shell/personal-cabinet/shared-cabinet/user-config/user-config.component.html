@@ -15,12 +15,12 @@
       <h4>{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>
       <h4>{{ 'FORMS.LABELS.SEX' | translate }}</h4>
-      <p>{{ gender[user.gender] | translate}}</p>
+      <p>{{ gender[user.gender] | translate }}</p>
     </ng-container>
   </div>
   <div class="config">
     <h4>{{ 'FORMS.LABELS.EMAIL' | translate }}</h4>
-    <p [ngClass]="{ 'important': !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
+    <p [ngClass]="{ important: !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
     <div *ngIf="!user.emailConfirmed">
       <p class="important" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.2rem">
         <mat-icon>report</mat-icon>

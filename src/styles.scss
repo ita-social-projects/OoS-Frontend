@@ -3,7 +3,9 @@
 
 @font-face {
   font-family: 'Innerspace';
-  src: local('Innerspace'), url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format('truetype'),
+  src:
+    local('Innerspace'),
+    url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format('truetype'),
     url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format('truetype');
 }
 
@@ -219,7 +221,7 @@ $config: mat.define-typography-config(
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
+input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   line-height: initial;
   font-family: 'Open Sans', sans-serif;

@@ -9,7 +9,7 @@ export class Address {
   catottgId: number;
   codeficatorAddressDto?: Codeficator;
 
-  constructor(info, address?: Address) {
+  constructor(info: Address, address?: Address) {
     this.street = info.street;
     this.buildingNumber = info.buildingNumber;
     this.latitude = info.latitude;

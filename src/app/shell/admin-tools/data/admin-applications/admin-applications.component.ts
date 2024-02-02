@@ -26,7 +26,10 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

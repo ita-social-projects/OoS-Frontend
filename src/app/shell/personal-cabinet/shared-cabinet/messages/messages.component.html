@@ -1,36 +1,39 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
   <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
     <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-    <input #input
-           [formControl]="filterFormControl"
-           matInput
-           type="text"
-           class="search"
-           placeholder="{{'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate}}" />
+    <input
+      #input
+      [formControl]="filterFormControl"
+      matInput
+      type="text"
+      class="search"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
   </div>
 
-  <app-entity-checkbox-dropdown *ngIf="role === Role.provider"
-                                [entities]="workshops$ | async"
-                                [declination]="WorkshopDeclination"
-                                (entityCheck)="onEntitiesSelect($event)">
+  <app-entity-checkbox-dropdown
+    *ngIf="role === Role.provider"
+    [entities]="workshops$ | async"
+    [declination]="WorkshopDeclination"
+    (entityCheck)="onEntitiesSelect($event)">
   </app-entity-checkbox-dropdown>
 </div>
 
 <ng-container>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="chatRooms?.totalAmount; else isEmptyList">
-      <app-message-card *ngFor="let chatRoom of chatRooms.entities"
-                        [chatRoom]="chatRoom"
-                        [role]="role"
-                        (block)="onBlock($event)"
-                        (unblock)="onUnBlock($event)">
-
+      <app-message-card
+        *ngFor="let chatRoom of chatRooms.entities"
+        [chatRoom]="chatRoom"
+        [role]="role"
+        (block)="onBlock($event)"
+        (unblock)="onUnBlock($event)">
       </app-message-card>
-      <app-paginator [totalEntities]="chatRooms.totalAmount"
-                     [currentPage]="currentPage"
-                     [itemsPerPage]="chatRoomsParameters.size"
-                     (pageChange)="onPageChange($event)"
-                     (itemsPerPageChange)="onItemsPerPageChange($event)">
+      <app-paginator
+        [totalEntities]="chatRooms.totalAmount"
+        [currentPage]="currentPage"
+        [itemsPerPage]="chatRoomsParameters.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>

@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DetailsComponent } from './details.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
-import { Workshop } from '../../shared/models/workshop.model';
-import { User } from '../../shared/models/user.model';
 import { RouterModule } from '@angular/router';
 import { APP_BASE_HREF } from '@angular/common';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { of } from 'rxjs';
+import { User } from '../../shared/models/user.model';
+import { Workshop } from '../../shared/models/workshop.model';
 import { Provider } from '../../shared/models/provider.model';
 import { Role } from '../../shared/enum/role';
+import { DetailsComponent } from './details.component';
 
 const MockUser = {
   role: ''

@@ -102,7 +102,7 @@ export class CreateAddressFormComponent implements OnInit {
     }
   }
 
-    private activateEditMode(): void {
+  private activateEditMode(): void {
     if (this.address) {
       this.addressFormGroup.patchValue({ ...this.address }, { emitEvent: false, onlySelf: true });
       this.settlementSearchFormControl.patchValue(this.address.codeficatorAddressDto.settlement, { emitEvent: false, onlySelf: true });

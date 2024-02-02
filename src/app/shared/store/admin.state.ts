@@ -168,6 +168,21 @@ export interface AdminStateModel {
 })
 @Injectable()
 export class AdminState {
+  constructor(
+    private platformService: PlatformService,
+    private categoriesService: DirectionsService,
+    private historyLogService: HistoryLogService,
+    private statisticService: StatisticReportsService,
+    private childrenService: ChildrenService,
+    private providerService: ProviderService,
+    private ministryAdminService: MinistryAdminService,
+    private regionAdminService: RegionAdminService,
+    private areaAdminService: AreaAdminService,
+    private router: Router,
+    private location: Location,
+    private store: Store
+  ) {}
+
   @Selector()
   static AboutPortal(state: AdminStateModel): CompanyInformation {
     return state.aboutPortal;
@@ -257,21 +272,6 @@ export class AdminState {
   static isLoading(state: AdminStateModel): boolean {
     return state.isLoading;
   }
-
-  constructor(
-    private platformService: PlatformService,
-    private categoriesService: DirectionsService,
-    private historyLogService: HistoryLogService,
-    private statisticService: StatisticReportsService,
-    private childrenService: ChildrenService,
-    private providerService: ProviderService,
-    private ministryAdminService: MinistryAdminService,
-    private regionAdminService: RegionAdminService,
-    private areaAdminService: AreaAdminService,
-    private router: Router,
-    private location: Location,
-    private store: Store
-  ) {}
 
   @Action(GetAboutPortal)
   getAboutPortal({ patchState }: StateContext<AdminStateModel>): Observable<CompanyInformation> {

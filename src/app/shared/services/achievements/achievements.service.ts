@@ -12,7 +12,10 @@ import { SearchResponse } from '../../models/search.model';
   providedIn: 'root'
 })
 export class AchievementsService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   public getAchievementsByWorkshopId(achievementParameters: AchievementParameters): Observable<SearchResponse<Achievement[]>> {
     const params = new HttpParams()
@@ -20,11 +23,11 @@ export class AchievementsService {
       .set('From', achievementParameters.from.toString())
       .set('Size', achievementParameters.size.toString());
 
-    return this.http.get<SearchResponse<Achievement[]>>(`/api/v1/Achievement/GetByWorkshopId`, { params });
+    return this.http.get<SearchResponse<Achievement[]>>('/api/v1/Achievement/GetByWorkshopId', { params });
   }
 
   public getChildrenByWorkshopId(id: string): Observable<SearchResponse<Child[]>> {
-    //TODO: Delete params after deleting from the endpoint need to send a duplicate workshop id
+    // TODO: Delete params after deleting from the endpoint need to send a duplicate workshop id
     const params = new HttpParams().set('workshopId', id);
     return this.http.get<SearchResponse<Child[]>>(`/api/v1/workshops/${id}/children/approved/`, { params });
   }

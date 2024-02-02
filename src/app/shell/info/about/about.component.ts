@@ -27,7 +27,10 @@ export class AboutComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private navigationBarService: NavigationBarService) {}
+  constructor(
+    private store: Store,
+    private navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(

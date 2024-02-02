@@ -2,7 +2,7 @@
   "arrowParens": "always",
   "bracketSameLine": true,
   "bracketSpacing": true,
-  "endOfLine": "auto",
+  "endOfLine": "lf",
   "htmlWhitespaceSensitivity": "css",
   "printWidth": 140,
   "proseWrap": "preserve",

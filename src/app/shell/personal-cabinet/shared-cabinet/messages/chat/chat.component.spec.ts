@@ -21,20 +21,20 @@ describe('ChatComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [ChatComponent, GetFullNamePipe],
       imports: [
-        RouterTestingModule, 
-        NgxsModule.forRoot([]), 
-        TranslateModule.forRoot(), 
-        MatIconModule, 
+        RouterTestingModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
+        MatIconModule,
         MatCardModule,
-        FormsModule, 
-        ReactiveFormsModule,
+        FormsModule,
+        ReactiveFormsModule
       ],
       providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ChatComponent);
     component = fixture.componentInstance;
-    component['chatRoom'] = {
+    component.chatRoom = {
       parent: {
         lastName: '',
         firstName: '',

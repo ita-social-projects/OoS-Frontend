@@ -5,7 +5,6 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/navigation-tabs.scss';
 
-
 :host ::ng-deep .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
@@ -24,7 +23,7 @@
   padding-right: 3rem;
   padding-left: 3rem;
 
-  .mat-tab-group{
+  .mat-tab-group {
     align-items: center !important;
   }
 }

@@ -9,9 +9,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
-import {
-  ConfirmationModalWindowComponent
-} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -20,13 +18,9 @@ import { Child, ChildrenParameters } from 'shared/models/child.model';
 import { ParentWithContactInfo } from 'shared/models/parent.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
-import {
-  NavigationBarService
-} from 'shared/services/navigation-bar/navigation-bar.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
-import {
-  CreateApplication, GetStatusIsAllowToApply, GetUsersChildren
-} from 'shared/store/parent.actions';
+import { CreateApplication, GetStatusIsAllowToApply, GetUsersChildren } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';

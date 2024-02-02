@@ -26,20 +26,13 @@
     [routerLink]="['/personal-cabinet/messages/', workshop.id]"
     [queryParams]="{ mode: ModeConstants.WORKSHOP }"
     (click)="onOpenDialog(ModalTypeAction.unregisteredMessageWarning)">
-    <button mat-raised-button class="button button-msg">
-      <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
-    </button>
+    <button mat-raised-button class="button button-msg"><mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}</button>
   </a>
 
   <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
 
   <ng-template #disLike>
-    <button
-      mat-button
-      class="button button-msg"
-      fxLayout="row"
-      fxLayoutAlign="center center"
-      (click)="role === Role.parent && onDisLike()">
+    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center" (click)="role === Role.parent && onDisLike()">
       <mat-icon>favorite</mat-icon>
       {{ 'ADDED_TO_FAVORITES' | translate }}
     </button>

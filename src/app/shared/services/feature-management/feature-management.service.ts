@@ -13,7 +13,7 @@ export class FeatureManagementService {
   /**
    * This method get features flags depending on releases
    */
-  getFeaturesList(): Observable<FeaturesList> {
+  public getFeaturesList(): Observable<FeaturesList> {
     return this.http.get<FeaturesList>('/api/v1/FeatureManagement/Get');
   }
 }

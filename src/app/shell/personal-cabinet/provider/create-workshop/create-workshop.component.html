@@ -3,14 +3,10 @@
     <div class="wrapper">
       <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
         <h3 class="wrapper-title">
-          {{ (editMode
-              ? 'FORMS.HEADERS.EDIT_WORKSHOP'
-              : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP' : 'FORMS.HEADERS.NEW_WORKSHOP') | translate }}
         </h3>
         <p class="wrapper-text">
-          {{ (editMode
-              ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH'
-              : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
+          {{ (editMode ? 'FORMS.HEADERS.EDIT_WORKSHOP_DESCRIPTION_PATH' : 'FORMS.HEADERS.NEW_WORKSHOP_DESCRIPTION_PATH') | translate }}
           {{ 'FORMS.HEADERS.WORKSHOP_FORM_DESCRIPTION' | translate }}
         </p>
       </div>
@@ -20,12 +16,13 @@
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.ABOUT_THE_WORKSHOP_SHORT' | translate }}</p>
           </ng-template>
-          <app-create-about-form fxLayout="row"
-                                 fxLayoutAlign="center center"
-                                 [workshop]="workshop"
-                                 [isImagesFeature]="isImagesFeature"
-                                 [provider]="provider"
-                                 (PassAboutFormGroup)="onReceiveAboutFormGroup($event)">
+          <app-create-about-form
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            [workshop]="workshop"
+            [isImagesFeature]="isImagesFeature"
+            [provider]="provider"
+            (PassAboutFormGroup)="onReceiveAboutFormGroup($event)">
           </app-create-about-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
@@ -37,17 +34,17 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="DescriptionFormGroup"
-                  [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
+        <mat-step [stepControl]="DescriptionFormGroup" [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.DESCRIPTION' | translate }}</p>
           </ng-template>
-          <app-create-description-form fxLayout="row"
-                                       fxLayoutAlign="center center"
-                                       [workshop]="workshop"
-                                       [provider]="provider"
-                                       [isImagesFeature]="isImagesFeature"
-                                       (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
+          <app-create-description-form
+            fxLayout="row"
+            fxLayoutAlign="center center"
+            [workshop]="workshop"
+            [provider]="provider"
+            [isImagesFeature]="isImagesFeature"
+            (passDescriptionFormGroup)="onReceiveDescriptionFormGroup($event)">
           </app-create-description-form>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -62,13 +59,13 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="AddressFormGroup"
-                  [completed]="!DescriptionFormGroup.invalid && !AboutFormGroup.invalid && !AddressFormGroup.invalid">
+        <mat-step
+          [stepControl]="AddressFormGroup"
+          [completed]="!DescriptionFormGroup.invalid && !AboutFormGroup.invalid && !AddressFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.CONTACTS' | translate }}</p>
           </ng-template>
-          <app-create-workshop-address [address]="workshop?.address"
-                                       (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
+          <app-create-workshop-address [address]="workshop?.address" (passAddressFormGroup)="onReceiveAddressFormGroup($event)">
           </app-create-workshop-address>
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
             <button class="btn" mat-raised-button matStepperPrevious>
@@ -83,14 +80,16 @@
           </div>
         </mat-step>
 
-        <mat-step [stepControl]="TeacherFormArray"
-                  [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid">
+        <mat-step
+          [stepControl]="TeacherFormArray"
+          [completed]="!AboutFormGroup.invalid && !DescriptionFormGroup.invalid && !AddressFormGroup.invalid">
           <ng-template matStepLabel>
             <p class="step-name">{{ 'TITLES.TEACHERS' | translate }}</p>
           </ng-template>
-          <app-create-teacher [teachers]="workshop?.teachers"
-                              [isImagesFeature]="isImagesFeature"
-                              (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
+          <app-create-teacher
+            [teachers]="workshop?.teachers"
+            [isImagesFeature]="isImagesFeature"
+            (passTeacherFormArray)="onReceiveTeacherFormArray($event)">
           </app-create-teacher>
 
           <div fxLayout="row" fxLayoutAlign="center center" class="footer">
@@ -100,19 +99,19 @@
             <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">
               {{ 'BUTTONS.CANCEL' | translate }}
             </button>
-            <button class="btn"
-                    [disabled]="(isLoading$ | async)
-                    || !AboutFormGroup.dirty
-                    && !DescriptionFormGroup.dirty
-                    && !AddressFormGroup.dirty
-                    && !TeacherFormArray?.dirty
-                    || AboutFormGroup.invalid
-                    || DescriptionFormGroup.invalid
-                    || AddressFormGroup.invalid
-                    || TeacherFormArray?.invalid"
-                    mat-button
-                    type="submit"
-                    (click)="onSubmit()">
+            <button
+              class="btn"
+              [disabled]="
+                (isLoading$ | async) ||
+                (!AboutFormGroup.dirty && !DescriptionFormGroup.dirty && !AddressFormGroup.dirty && !TeacherFormArray?.dirty) ||
+                AboutFormGroup.invalid ||
+                DescriptionFormGroup.invalid ||
+                AddressFormGroup.invalid ||
+                TeacherFormArray?.invalid
+              "
+              mat-button
+              type="submit"
+              (click)="onSubmit()">
               {{ 'BUTTONS.SAVE' | translate }}
             </button>
           </div>

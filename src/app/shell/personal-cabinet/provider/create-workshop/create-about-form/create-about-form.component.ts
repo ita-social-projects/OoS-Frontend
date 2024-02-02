@@ -19,6 +19,11 @@ import { Util } from 'shared/utils/utils';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateAboutFormComponent implements OnInit, OnDestroy {
+  @Input() public workshop: Workshop;
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
+  @Output() public PassAboutFormGroup = new EventEmitter();
+
   public readonly validationConstants = ValidationConstants;
   public readonly phonePrefix = Constants.PHONE_PREFIX;
   public readonly MIN_SEATS = Constants.WORKSHOP_MIN_SEATS;
@@ -41,34 +46,17 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() public workshop: Workshop;
-  @Input() public provider: Provider;
-  @Input() public isImagesFeature: boolean;
-  @Output() public PassAboutFormGroup = new EventEmitter();
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public AboutFormGroup: FormGroup;
   public workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
   public priceRadioBtn: FormControl = new FormControl(false);
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
 
   constructor(private formBuilder: FormBuilder) {}
-
-  public ngOnInit(): void {
-    this.initForm();
-    this.PassAboutFormGroup.emit(this.AboutFormGroup);
-    this.workshop && this.activateEditMode();
-    this.initListeners();
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
 
   public get priceControl(): FormControl {
     return this.AboutFormGroup.get('price') as FormControl;
@@ -94,6 +82,31 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
   private get workshopPrice(): number {
     return this.workshop?.price ? this.workshop.price : ValidationConstants.MIN_PRICE;
+  }
+
+  public ngOnInit(): void {
+    this.initForm();
+    this.PassAboutFormGroup.emit(this.AboutFormGroup);
+
+    if (this.workshop) {
+      this.activateEditMode();
+    }
+
+    this.initListeners();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  /**
+   * This method makes AboutFormGroup dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.AboutFormGroup.dirty) {
+      this.AboutFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 
   private initForm(): void {
@@ -163,37 +176,43 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   /**
-   * This method sets null as value for available set as when there is no limit, otherwise it sets either workshop value, or null for selecting new value
+   * This method sets null as value for available set as when there is no limit,
+   * otherwise it sets either workshop value, or null for selecting new value
    */
-  private setAvailableSeatsControlValue = (availableSeats: number = null, action: string = 'disable', emitEvent: boolean = true) => {
+  private setAvailableSeatsControlValue(availableSeats: number = null, action: string = 'disable', emitEvent: boolean = true): void {
     this.availableSeatsControl[action]({ emitEvent });
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
-  };
+  }
 
-  private setPriceControlValue = (price: number = null, action: string = 'disable', emitEvent: boolean = true) => {
+  private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = true): void {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
-  };
+  }
 
   /**
-   * This method sets null as value for payRate when the price is null, otherwise it sets either workshop value, or null for selecting new value
+   * This method sets null as value for payRate when the price is null,
+   * otherwise it sets either workshop value, or null for selecting new value
    */
-  private setPayRateControlValue = (payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = true) => {
+  private setPayRateControlValue(payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = true): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
-  };
+  }
 
   /**
    * This method fills in the info from provider to the workshop if check box is checked
    */
   private useProviderInfo(): void {
-    const setValue = (value: string) => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
-    const resetValue = (value: string) => this.AboutFormGroup.get(value).reset();
+    const setValue = (value: string): void => this.AboutFormGroup.get(value).setValue(this.provider[ProviderWorkshopSameValues[value]]);
+    const resetValue = (value: string): void => this.AboutFormGroup.get(value).reset();
 
     this.useProviderInfoCtrl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((useProviderInfo: boolean) => {
       // eslint-disable-next-line guard-for-in
       for (const value in ProviderWorkshopSameValues) {
-        useProviderInfo ? setValue(value) : resetValue(value);
+        if (useProviderInfo) {
+          setValue(value);
+        } else {
+          resetValue(value);
+        }
       }
     });
   }
@@ -234,9 +253,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.competitiveSelectionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isCompetitiveSelectionDesc: boolean) => {
       this.markFormAsDirtyOnUserInteraction();
       this.AboutFormGroup.get('competitiveSelection').setValue(isCompetitiveSelectionDesc);
-      isCompetitiveSelectionDesc
-        ? this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl)
-        : this.AboutFormGroup.removeControl('competitiveSelectionDescription');
+
+      if (isCompetitiveSelectionDesc) {
+        this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
+      } else {
+        this.AboutFormGroup.removeControl('competitiveSelectionDescription');
+      }
     });
 
     this.AboutFormGroup.get('competitiveSelectionDescription')
@@ -244,14 +266,5 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       .subscribe((disabilityOptionsDesc: string) =>
         this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
       );
-  }
-
-  /**
-   * This method makes AboutFormGroup dirty
-   */
-  public markFormAsDirtyOnUserInteraction(): void {
-    if (!this.AboutFormGroup.dirty) {
-      this.AboutFormGroup.markAsDirty({ onlySelf: true });
-    }
   }
 }

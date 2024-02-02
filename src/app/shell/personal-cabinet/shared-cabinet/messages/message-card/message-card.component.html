@@ -7,7 +7,7 @@
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
       <p class="text">
-        {{ chatRoom.lastMessage.createdDateTime | date : constants.FULL_DATE_FORMAT }}
+        {{ chatRoom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT }}
       </p>
     </div>
     <h4 class="title">{{ chatRoom.workshop.title }}</h4>
@@ -22,11 +22,9 @@
     </ng-container>
   </mat-card-content>
   <mat-card-content *ngIf="role === Role.provider" class="card-block card-block__actions">
-    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions"
-      >more_vert</mat-icon
-    >
+    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions">more_vert</mat-icon>
     <mat-menu #actions="matMenu" class="header_menu">
-      <ng-container *ngIf="chatRoom.parent.isBlocked then Unblock; else Block"></ng-container>
+      <ng-container *ngIf="chatRoom.parent.isBlocked; then Unblock; else Block"></ng-container>
       <ng-template #Block>
         <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
       </ng-template>
