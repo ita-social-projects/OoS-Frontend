@@ -7,8 +7,16 @@
              matInput
              type="text"
              class="search"
-             placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
-    </div>
+             placeholder="{{ 'Пошук: ПІБ, Email, телефон, місто, статус' | translate }}" 
+             matTooltip="{{ 'FORMS.MAT_TOOLKIT_SEARCH_TEXT_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" 
+              />
+            </div>
+            <!-- Assuming you have a boolean variable named 'showTooltip' in your component -->
+            <button *ngIf="false" [matTooltip]="'Tooltip content'">
+  Hover me
+</button>
+
+
     <ng-container *ngIf="subrole === Subrole.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">

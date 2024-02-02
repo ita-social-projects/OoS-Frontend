@@ -399,9 +399,9 @@
       "SPECIAL_EQUIPMENT": "Пандус/спец. обладнання",
       "SYMBOLS": "символів",
       "CHILDREN": "Діти",
+      "SEARCH_BY":"Пошук за...",
       "SEARCH_NAME_PHONE_EMAIL": "Пошук за ПІБ, електронною поштою, телефоном",
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
-      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПО, електронною поштою, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
       "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
@@ -416,6 +416,7 @@
       "SELECT_INSTITUTION_CATEGORY": "Оберіть категорію закладу",
       "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
     },
+    "MAT_TOOLKIT_SEARCH_TEXT_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, імейлом, телефоном, містом чи статусом",
     "UAH_FOR": "грн за",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Дата народження виходить за межі допустимих.",

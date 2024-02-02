@@ -399,9 +399,9 @@
       "SPECIAL_EQUIPMENT": "Ramp/special equipment",
       "SYMBOLS": "symbols",
       "CHILDREN": "Children",
+      "SEARCH_BY":"Seach by...",
       "SEARCH_NAME_PHONE_EMAIL": "Search by name, e-mail, phone",
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Search by provider title, child name or workshop title",
-      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Search by provider email, phone, city, status",
       "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Search by provider title, provider registration code, email, phone",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Search by name, phone, email, type of change",
       "SEARCH_BY_DIRECTIONS": "Search by directions",
@@ -416,6 +416,7 @@
       "SELECT_INSTITUTION_CATEGORY": "Select provider category",
       "SELECT_ORGANIZATION_TYPE": "Select organization type"
     },
+    "MAT_TOOLKIT_SEARCH_TEXT_NAME_EMAIL_PHONE_CITY_STATUS": "Search by fullname, provider email, phone, city, status",
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",
