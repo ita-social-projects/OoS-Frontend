@@ -19,11 +19,7 @@
 </div>
 
 <!-- ACTUAL ADDRESS BLOCK -->
-<div
-  class="step"
-  fxLayout="column"
-  fxLayoutAlign="center space-between"
-  [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
+<div class="step" fxLayout="column" fxLayoutAlign="center space-between" [ngClass]="{ 'disabled-field': isSameAddressControl.value }">
   <div class="address-wrapper">
     <app-create-address-form
       [addressFormGroup]="actualAddressFormGroup"

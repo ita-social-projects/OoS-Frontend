@@ -35,6 +35,8 @@ export interface NotificationsStateModel {
 })
 @Injectable()
 export class NotificationsState {
+  constructor(private notificationsService: NotificationsService) {}
+
   @Selector()
   static notificationsAmount(state: NotificationsStateModel): NotificationsAmount {
     return state.notificationsAmount;
@@ -44,8 +46,6 @@ export class NotificationsState {
   static notifications(state: NotificationsStateModel): Notifications {
     return state.notifications;
   }
-
-  constructor(private notificationsService: NotificationsService) {}
 
   @Action(GetAmountOfNewUsersNotifications)
   getAmountOfNewUsersNotifications(

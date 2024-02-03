@@ -57,7 +57,10 @@ export class GetPlatformInfo {
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
 
-  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
+  constructor(
+    public payload: CompanyInformation,
+    public type: AdminTabTypes
+  ) {}
 }
 
 export class OnUpdatePlatformInfoFail {
@@ -69,7 +72,10 @@ export class OnUpdatePlatformInfoFail {
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] Update Information Platform Info Success';
 
-  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
+  constructor(
+    public payload: CompanyInformation,
+    public type: AdminTabTypes
+  ) {}
 }
 
 export class GetFilteredDirections {
@@ -123,7 +129,10 @@ export class OnUpdateDirectionSuccess {
 export class DeleteDirectionById {
   static readonly type = '[admin] Delete Direction';
 
-  constructor(public payload: number, public directionParameters: DirectionParameters) {}
+  constructor(
+    public payload: number,
+    public directionParameters: DirectionParameters
+  ) {}
 }
 
 export class OnDeleteDirectionFail {
@@ -153,73 +162,109 @@ export class GetFilteredProviders {
 export class GetProviderHistory {
   static readonly type = '[admin] Get Provider History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class GetProviderAdminHistory {
   static readonly type = '[admin] Get Provider Admin History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class GetApplicationHistory {
   static readonly type = '[admin] Get Application History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class GetParentsBlockingByAdminHistory {
   static readonly type = '[admin] Get Parents Blocking By Admin History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class BlockProviderById {
   static readonly type = '[admin] Block Provider';
 
-  constructor(public payload: ProviderBlock, public parameters: ProviderParameters) {}
+  constructor(
+    public payload: ProviderBlock,
+    public parameters: ProviderParameters
+  ) {}
 }
 
 export class GetAllAdmins {
   static readonly type = '[admin] Get All Admins';
 
-  constructor(public adminType: AdminRoles, public parameters?: BaseAdminParameters) {}
+  constructor(
+    public adminType: AdminRoles,
+    public parameters?: BaseAdminParameters
+  ) {}
 }
 
 export class GetAdminById {
   static readonly type = '[admin] Get Admin By Id';
 
-  constructor(public payload: string, public adminType: AdminRoles) {}
+  constructor(
+    public payload: string,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class CreateAdmin {
   static readonly type = '[admin] Create Admin';
 
-  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+  constructor(
+    public payload: BaseAdmin,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class UpdateAdmin {
   static readonly type = '[admin] Update Admin';
 
-  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+  constructor(
+    public payload: BaseAdmin,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class DeleteAdminById {
   static readonly type = '[admin] Delete Admin';
 
-  constructor(public payload: string, public adminType: AdminRoles) {}
+  constructor(
+    public payload: string,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class BlockAdminById {
   static readonly type = '[admin] Block Admin';
 
-  constructor(public payload: BaseAdminBlockData, public adminType: AdminRoles) {}
+  constructor(
+    public payload: BaseAdminBlockData,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class ReinviteAdminById {
   static readonly type = '[admin] Reinvite Admin';
 
-  constructor(public adminId: string, public adminType: AdminRoles) {}
+  constructor(
+    public adminId: string,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class GetAllMinistryAdmins {

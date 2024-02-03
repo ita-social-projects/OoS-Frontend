@@ -50,7 +50,7 @@ export class ProviderAdminService {
    * @param providerId: string
    */
   deleteProviderAdmin(providerAdminId: string, providerId: string): Observable<void> {
-    let params = new HttpParams().set('providerAdminId', `${providerAdminId}`).set('providerId', `${providerId}`);
+    const params = new HttpParams().set('providerAdminId', `${providerAdminId}`).set('providerId', `${providerId}`);
 
     return this.http.delete<void>('/api/v1/ProviderAdmin/Delete', { params });
   }
@@ -60,7 +60,7 @@ export class ProviderAdminService {
    * @param providerAdminBlockParams: ProviderAdminBlockData
    */
   blockProviderAdmin(providerAdminBlockParams: ProviderAdminBlockData): Observable<void> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('providerAdminId', `${providerAdminBlockParams.userId}`)
       .set('providerId', `${providerAdminBlockParams.providerId}`)
       .set('isBlocked', `${providerAdminBlockParams.isBlocked}`);
@@ -74,7 +74,7 @@ export class ProviderAdminService {
    * @param providerAdmin: ProviderAdmin
    */
   updateProviderAdmin(providerId: string, providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
-    let params = new HttpParams().set('providerId', `${providerId}`);
+    const params = new HttpParams().set('providerId', `${providerId}`);
 
     return this.http.put<ProviderAdmin>('/api/v1/ProviderAdmin/Update', providerAdmin, { params });
   }

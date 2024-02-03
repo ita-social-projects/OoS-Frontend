@@ -55,7 +55,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store, private router: Router, private route: ActivatedRoute, private matDialog: MatDialog) {}
+  constructor(
+    public store: Store,
+    private router: Router,
+    private route: ActivatedRoute,
+    private matDialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.getChildren();

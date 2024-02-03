@@ -64,6 +64,8 @@ import {
 })
 @Injectable()
 export class FilterState {
+  constructor(private appWorkshopsService: AppWorkshopsService) {}
+
   @Selector()
   static FilterState(state: FilterStateModel): FilterStateModel {
     return state;
@@ -105,13 +107,13 @@ export class FilterState {
   }
 
   @Selector()
-  static userRadiusSize(state: FilterStateModel) {
+  static userRadiusSize(state: FilterStateModel): number {
     const meterInKilometer = 1000;
     return state.userRadiusSize * meterInKilometer;
   }
 
   @Selector()
-  static isMapView(state: FilterStateModel) {
+  static isMapView(state: FilterStateModel): boolean {
     return state.isMapView;
   }
 
@@ -168,8 +170,6 @@ export class FilterState {
       order
     };
   }
-
-  constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
   setCity({ patchState }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {

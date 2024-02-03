@@ -10,20 +10,17 @@ import { Workshop, WorkshopBaseCard } from '../../models/workshop.model';
   providedIn: 'root'
 })
 export class ImagesService {
-  constructor() {}
-
-  setWorkshopCoverImage(workshop: WorkshopBaseCard): WorkshopBaseCard {
-    workshop['_meta'] = workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
+  // TODO: Update type for workshop
+  public setWorkshopCoverImage(workshop: WorkshopBaseCard & any): WorkshopBaseCard {
+    workshop._meta = workshop.coverImageId ? environment.storageUrl + workshop.coverImageId : CategoryIcons[workshop.directionIds[0]];
     return workshop;
   }
 
-  setCarouselImages(entity: Workshop | Provider): ImgPath[] {
+  public setCarouselImages(entity: Workshop | Provider): ImgPath[] {
     let images: ImgPath[];
 
     if (entity.imageIds?.length) {
-      images = entity.imageIds.map((imgId: string) => {
-        return { path: environment.storageUrl + imgId };
-      });
+      images = entity.imageIds.map((imgId: string) => ({ path: environment.storageUrl + imgId }));
     } else {
       images = [{ path: 'assets/images/groupimages/workshop-img.png' }];
     }

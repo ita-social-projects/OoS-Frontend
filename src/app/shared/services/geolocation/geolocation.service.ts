@@ -11,7 +11,10 @@ import { CodeficatorService } from '../codeficator/codeficator.service';
   providedIn: 'root'
 })
 export class GeolocationService {
-  constructor(private store: Store, private codeficatorService: CodeficatorService) {}
+  constructor(
+    private store: Store,
+    private codeficatorService: CodeficatorService
+  ) {}
 
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation

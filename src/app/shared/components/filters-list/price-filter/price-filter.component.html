@@ -22,8 +22,7 @@
         <p class="filter-text">
           {{ 'FROM' | translate }}
         </p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="minPriceControl"
-               autocomplete="off" />
+        <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="minPriceControl" autocomplete="off" />
         <mat-icon class="clear-price" (click)="clearMin()">clear</mat-icon>
       </div>
     </mat-form-field>
@@ -32,8 +31,7 @@
         <p class="filter-text">
           {{ 'TO' | translate }}
         </p>
-        <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="maxPriceControl"
-               autocomplete="off" />
+        <input matInput class="price-input" type="number" appDigitOnly maxlength="6" [formControl]="maxPriceControl" autocomplete="off" />
         <mat-icon class="clear-price" (click)="clearMax()">clear</mat-icon>
       </div>
     </mat-form-field>

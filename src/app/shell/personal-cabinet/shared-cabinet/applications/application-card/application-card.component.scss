@@ -32,7 +32,8 @@
   flex-direction: column;
   align-items: flex-start;
 
-  h4, h5 {
+  h4,
+  h5 {
     &:not(:last-child) {
       padding-bottom: 8px;
     }

@@ -4,9 +4,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {
-  AdminTabsTitles,
-} from 'shared/enum/enumUA/tech-admin/admin-tabs';
+import { AdminTabsTitles } from 'shared/enum/enumUA/tech-admin/admin-tabs';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { GetPlatformInfo } from 'shared/store/admin.actions';
@@ -16,7 +14,7 @@ import { AdminTabsTitlesParams, AdminTabTypes } from 'shared/enum/admins';
 @Component({
   selector: 'app-platform',
   templateUrl: './platform.component.html',
-  styleUrls: ['./platform.component.scss'],
+  styleUrls: ['./platform.component.scss']
 })
 export class PlatformComponent implements OnInit, OnDestroy {
   readonly AdminTabsTitlesParams = AdminTabsTitlesParams;
@@ -49,14 +47,14 @@ export class PlatformComponent implements OnInit, OnDestroy {
             path: '/admin-tools/platform',
             queryParams: { page: AdminTabTypes.AboutPortal },
             isActive: false,
-            disable: false,
+            disable: false
           },
           {
             name: NavBarName.Portal,
             path: '/admin-tools/platform',
             queryParams: { page: AdminTabTypes.AboutPortal },
             isActive: false,
-            disable: true,
+            disable: true
           }
         )
       )

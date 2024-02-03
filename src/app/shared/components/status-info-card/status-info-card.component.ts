@@ -3,10 +3,11 @@ import { ApplicationIcons } from '../../enum/applications';
 import { ApplicationStatusDescription, ApplicationTitles } from '../../enum/enumUA/statuses';
 import { ApplicationStatuses } from '../../enum/statuses';
 import { Application } from '../../models/application.model';
+
 @Component({
   selector: 'app-status-info-card',
   templateUrl: './status-info-card.component.html',
-  styleUrls: ['./status-info-card.component.scss'],
+  styleUrls: ['./status-info-card.component.scss']
 })
 export class StatusInfoCardComponent {
   public readonly statusTitles = ApplicationTitles;

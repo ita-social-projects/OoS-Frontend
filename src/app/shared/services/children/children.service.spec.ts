@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ChildrenService } from './children.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
+import { ChildrenService } from './children.service';
 
 describe('ChildrenService', () => {
   let service: ChildrenService;

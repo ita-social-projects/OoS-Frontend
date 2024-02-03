@@ -29,7 +29,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild(MatSort)
   private sort: MatSort;
 
-  @Input() public users: Array<object>;
+  @Input() public users: object[];
   @Input() public adminType: Role;
   @Input() public displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'region', 'status', 'actions'];
   @Input() public isEdit: boolean;
@@ -44,7 +44,10 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   public subrole: string;
   public dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
 
-  constructor(private liveAnnouncer: LiveAnnouncer, private store: Store) {}
+  constructor(
+    private liveAnnouncer: LiveAnnouncer,
+    private store: Store
+  ) {}
 
   public ngOnInit(): void {
     this.subrole = this.store.selectSnapshot<string>(RegistrationState.subrole);

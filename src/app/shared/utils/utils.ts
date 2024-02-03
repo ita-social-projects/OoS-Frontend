@@ -1,3 +1,4 @@
+import { Workshop } from 'shared/models/workshop.model';
 import { KeyValue } from '@angular/common';
 
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
@@ -20,6 +21,7 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
 import { Constants } from 'shared/constants/constants';
+import { Subrole } from './../enum/role';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -94,7 +96,7 @@ export class Util {
    * @param users Users array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTable(users): UsersTableData[] {
+  public static updateStructureForTheTable(users: Child[]): UsersTableData[] {
     const updatedUsers = [];
     users.forEach((user) => {
       updatedUsers.push({
@@ -162,12 +164,14 @@ export class Util {
    * @param message
    * @returns string
    */
-  public static getWorkshopMessage(payload, message: string): MessageBarData {
+  // TODO: Update type for payload
+  public static getWorkshopMessage(payload: Workshop & any, message: string): MessageBarData {
     const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
-    let isInvalidGaleryImages = false;
-    let statuses, invalidImages;
+    let isInvalidGalleryImages = false;
+    let statuses;
+    let invalidImages;
 
     if (payload.uploadingCoverImageResult) {
       isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded;
@@ -175,8 +179,8 @@ export class Util {
 
     if (payload.uploadingImagesResults?.results) {
       statuses = Object.entries(payload.uploadingImagesResults.results);
-      invalidImages = statuses.filter((result) => !result[1]['succeeded']);
-      isInvalidGaleryImages = !!invalidImages.length;
+      invalidImages = statuses.filter((result) => !result[1].succeeded);
+      isInvalidGalleryImages = !!invalidImages.length;
     }
 
     messageArr.push(message);
@@ -190,9 +194,9 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    if (isInvalidGaleryImages) {
+    if (isInvalidGalleryImages) {
       const errorCodes = new Set();
-      invalidImages.map((img) => img[1]).forEach((img) => img['errors'].forEach((error) => errorCodes.add(error.code)));
+      invalidImages.map((img) => img[1]).forEach((img) => img.errors.forEach((error) => errorCodes.add(error.code)));
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
       const indexes = invalidImages.map((img) => img[0]);
       const quantityMsg = indexes.length > 1 ? `у ${indexes.length} зображень` : `у ${+indexes[0] + 1}-го зображення`;
@@ -206,7 +210,7 @@ export class Util {
     return finalMessage;
   }
 
-  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
+  public static getPersonalCabinetTitle(userRole: Role, subrole: Subrole): PersonalCabinetTitle {
     return userRole !== Role.provider ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
@@ -221,12 +225,12 @@ export class Util {
    * @return Query string
    */
   public static getFilterStateQuery(filterState: FilterStateModel): string {
-    let filterStateDiff: Partial<DefaultFilterState> = {};
+    const filterStateDiff: Partial<DefaultFilterState> = {};
     let serializedFilters = '';
     const defaultFilterState = new DefaultFilterState();
 
     // Compare current filter state and default
-    for (let [key, value] of Object.entries(defaultFilterState)) {
+    for (const [key, value] of Object.entries(defaultFilterState)) {
       if (Array.isArray(filterState[key])) {
         if (filterState[key].length > 0) {
           filterStateDiff[key] = filterState[key].join();
@@ -257,7 +261,7 @@ export class Util {
    * @returns parsed string into Filter state object or empty object
    */
   public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
-    let filterState: Partial<DefaultFilterState> = {};
+    const filterState: Partial<DefaultFilterState> = {};
 
     if (!params) {
       return filterState;
@@ -277,7 +281,7 @@ export class Util {
   }
 
   public static setFromPaginationParam(params: PaginationParameters, currentPage: PaginationElement, totalAmount: number): void {
-    let from = this.calculateFromParameter(currentPage, params.size);
+    const from = this.calculateFromParameter(currentPage, params.size);
     if (!totalAmount || totalAmount >= from) {
       params.from = from;
     } else {
@@ -301,7 +305,7 @@ export class Util {
    * Parse string to the primitive value
    * @param value
    */
-  private static parseToPrimitive(value) {
+  private static parseToPrimitive(value: string): string {
     try {
       return JSON.parse(value);
     } catch (e) {

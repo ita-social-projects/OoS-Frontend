@@ -11,7 +11,7 @@ import { SearchResponse } from 'shared/models/search.model';
 export class RatingService {
   constructor(private http: HttpClient) {}
 
-  getRateByEntityId(rateParameters: RateParameters): Observable<SearchResponse<Rate[]>> {
+  public getRateByEntityId(rateParameters: RateParameters): Observable<SearchResponse<Rate[]>> {
     const params = new HttpParams().set('Size', rateParameters.size.toString()).set('From', rateParameters.from.toString());
     const body = { params };
     return this.http.get<SearchResponse<Rate[]>>(
@@ -24,7 +24,7 @@ export class RatingService {
    * This method create Rate
    * @param rate: Rate
    */
-  createRate(rate: Rate): Observable<Rate> {
+  public createRate(rate: Rate): Observable<Rate> {
     return this.http.post<Rate>('/api/v1/Rating/Create', rate);
   }
 
@@ -32,7 +32,7 @@ export class RatingService {
    * This method update Rate
    * @param rate: Rate
    */
-  updateRate(rate: Rate): Observable<object> {
+  public updateRate(rate: Rate): Observable<object> {
     return this.http.put('/api/v1/Rating/Update', rate);
   }
 
@@ -40,7 +40,7 @@ export class RatingService {
    * This method delete Rate by Id
    * @param rate: Rate
    */
-  deleteRate(id: number): Observable<void> {
+  public deleteRate(id: number): Observable<void> {
     return this.http.delete<void>(`/api/v1/Rating/Delete/${id}`);
   }
 
@@ -49,7 +49,7 @@ export class RatingService {
    * @param parentId string
    * @param workshopId string
    */
-  getReviewedStatus(parentId: string, workshopId: string): Observable<boolean> {
+  public getReviewedStatus(parentId: string, workshopId: string): Observable<boolean> {
     return this.http.get<boolean>('/api/v1/Rating/IsReviewed', {
       params: {
         parentId,

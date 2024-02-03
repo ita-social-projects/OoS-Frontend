@@ -7,9 +7,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CityFilterComponent } from './city-filter.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { CityFilterComponent } from './city-filter.component';
 
 describe('CityFilterComponent', () => {
   let component: CityFilterComponent;

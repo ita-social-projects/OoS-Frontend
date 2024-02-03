@@ -49,6 +49,12 @@ export interface SharedUserStateModel {
 })
 @Injectable()
 export class SharedUserState {
+  constructor(
+    private userWorkshopService: UserWorkshopService,
+    private applicationService: ApplicationService,
+    private providerService: ProviderService
+  ) {}
+
   @Selector()
   static isLoading(state: SharedUserStateModel): boolean {
     return state.isLoading;
@@ -73,12 +79,6 @@ export class SharedUserState {
   static applications(state: SharedUserStateModel): SearchResponse<Application[]> {
     return state.applicationCards;
   }
-
-  constructor(
-    private userWorkshopService: UserWorkshopService,
-    private applicationService: ApplicationService,
-    private providerService: ProviderService
-  ) {}
 
   @Action(GetWorkshopById)
   getWorkshopById({ patchState, dispatch }: StateContext<SharedUserStateModel>, { payload }: GetWorkshopById): Observable<Workshop | void> {

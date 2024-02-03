@@ -66,7 +66,12 @@ export class AdminsComponent implements OnInit, OnDestroy {
     return this.adminParams.tabTitle as AdminRoles;
   }
 
-  constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute,
+    protected matDialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.role$

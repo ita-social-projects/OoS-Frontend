@@ -2,9 +2,7 @@
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">
-        {{ (editMode
-            ? 'FORMS.HEADERS.EDIT_CHILD'
-            : 'FORMS.HEADERS.NEW_CHILD') | translate | uppercase }}
+        {{ (editMode ? 'FORMS.HEADERS.EDIT_CHILD' : 'FORMS.HEADERS.NEW_CHILD') | translate | uppercase }}
       </h3>
       <p class="wrapper-text" *ngIf="!editMode">
         {{ 'FORMS.HEADERS.CREATE_CHILD_SUBTITLE' | translate }}
@@ -12,21 +10,22 @@
     </div>
 
     <ng-container>
-      <app-child-form *ngFor="let form of ChildrenFormArray.controls"
-                      [ChildFormGroup]="form"
-                      [index]="ChildrenFormArray.controls.indexOf(form)"
-                      [childrenAmount]="ChildrenFormArray.controls.length"
-                      [socialGroups]="socialGroups"
-                      (deleteForm)="onDeleteForm($event)"
-      ></app-child-form>
+      <app-child-form
+        *ngFor="let form of ChildrenFormArray.controls"
+        [ChildFormGroup]="form"
+        [index]="ChildrenFormArray.controls.indexOf(form)"
+        [childrenAmount]="ChildrenFormArray.controls.length"
+        [socialGroups]="socialGroups"
+        (deleteForm)="onDeleteForm($event)"></app-child-form>
     </ng-container>
 
     <div *ngIf="!editMode" fxLayout="column" fxLayoutAlign="center center" class="addChild">
-      <button class="btn-add"
-              *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
-              mat-button
-              (click)="addChild()"
-              [disabled]="ChildrenFormArray.invalid">
+      <button
+        class="btn-add"
+        *ngIf="ChildrenFormArray.controls.length < childrenMaxAmount - (childrenCards$ | async)?.totalAmount; else noMoreChildren"
+        mat-button
+        (click)="addChild()"
+        [disabled]="ChildrenFormArray.invalid">
         <mat-icon class="mat-icon-add">add</mat-icon>
         {{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
       </button>
@@ -50,16 +49,13 @@
     </div>
 
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
-      <button mat-raised-button (click)="onCancel()"
-              class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
-      <button class="btn"
-              [disabled]="!AgreementFormControl.value
-              || !ChildrenFormArray.dirty
-              || ChildrenFormArray.invalid
-              || isDispatching"
-              mat-button
-              type="submit"
-              (click)="onSubmit()">
+      <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
+      <button
+        class="btn"
+        [disabled]="!AgreementFormControl.value || !ChildrenFormArray.dirty || ChildrenFormArray.invalid || isDispatching"
+        mat-button
+        type="submit"
+        (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate | uppercase }}
       </button>
     </div>

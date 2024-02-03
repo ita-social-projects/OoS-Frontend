@@ -6,7 +6,10 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 
 export class SetCity {
   static readonly type = '[app] Set City';
-  constructor(public payload: Codeficator, public isConfirmedCity: boolean) {}
+  constructor(
+    public payload: Codeficator,
+    public isConfirmedCity: boolean
+  ) {}
 }
 
 export class CleanCity {

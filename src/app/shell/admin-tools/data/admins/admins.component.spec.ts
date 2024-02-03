@@ -14,10 +14,10 @@ import { NgxsModule, Store } from '@ngxs/store';
 
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { AdminsComponent } from './admins.component';
 import { InvitationData } from 'shared/models/users-table';
 import { AdminRoles } from 'shared/enum/admins';
 import { ReinviteAdminById } from 'shared/store/admin.actions';
+import { AdminsComponent } from './admins.component';
 
 describe('AdminsComponent', () => {
   let component: AdminsComponent;

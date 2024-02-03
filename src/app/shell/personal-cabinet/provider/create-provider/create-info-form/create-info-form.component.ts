@@ -86,7 +86,10 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
   }
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store
+  ) {
     this.infoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
         Validators.required,

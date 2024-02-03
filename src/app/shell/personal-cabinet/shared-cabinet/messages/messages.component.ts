@@ -54,7 +54,10 @@ export class MessagesComponent extends CabinetDataComponent {
     size: PaginationConstants.CHATROOMS_PER_PAGE
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 
@@ -108,34 +111,42 @@ export class MessagesComponent extends CabinetDataComponent {
   }
 
   public onBlock(parentId: string): void {
-    this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent }
-    }).afterClosed().pipe(
-      filter(Boolean),
-      switchMap((result) => {
-        const blockedParent = new BlockedParent(parentId, this.providerId, result);
-        blockedParent.userIdBlock = this.providerId;
-        return this.store.dispatch(new BlockParent(blockedParent));
-      }),
-      switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters))),
-    ).subscribe();
+    this.matDialog
+      .open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.blockParent }
+      })
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap((result) => {
+          const blockedParent = new BlockedParent(parentId, this.providerId, result);
+          blockedParent.userIdBlock = this.providerId;
+          return this.store.dispatch(new BlockParent(blockedParent));
+        }),
+        switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters)))
+      )
+      .subscribe();
   }
 
   public onUnBlock(parentId: string): void {
-    this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.unBlockParent
-      }
-    }).afterClosed().pipe(
-      filter(Boolean),
-      switchMap(() => {
-        const blockedParent = new BlockedParent(parentId, this.providerId);
-        blockedParent.userIdUnblock = this.providerId;
-        return this.store.dispatch(new UnBlockParent(blockedParent));
-      }),
-      switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters))),
-    ).subscribe();
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockParent
+        }
+      })
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          const blockedParent = new BlockedParent(parentId, this.providerId);
+          blockedParent.userIdUnblock = this.providerId;
+          return this.store.dispatch(new UnBlockParent(blockedParent));
+        }),
+        switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters)))
+      )
+      .subscribe();
   }
 
   onEntitiesSelect(workshopIds: string[]): void {

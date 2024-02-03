@@ -29,7 +29,10 @@ export class CreateTeacherComponent implements OnInit {
 
   @Output() public passTeacherFormArray = new EventEmitter();
 
-  constructor(private fb: FormBuilder, private matDialog: MatDialog) {}
+  constructor(
+    private fb: FormBuilder,
+    private matDialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     if (this.teachers?.length) {
@@ -43,6 +46,7 @@ export class CreateTeacherComponent implements OnInit {
   public onAddTeacher(teacher?: Teacher): void {
     const formGroup = this.createNewForm(teacher);
     this.TeacherFormArray.controls.push(formGroup);
+    // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
     this.TeacherFormArray['_registerControl'](formGroup); // for preventing emitting value changes in edit mode on initial value set
     this.passTeacherFormArray.emit(this.TeacherFormArray);
   }

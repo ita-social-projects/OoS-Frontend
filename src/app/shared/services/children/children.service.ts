@@ -11,7 +11,10 @@ import { SearchResponse } from '../../models/search.model';
   providedIn: 'root'
 })
 export class ChildrenService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   /**
    * This method get Parent children

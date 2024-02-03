@@ -2,11 +2,19 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input [formControl]="filterFormControl" matInput type="text" maxlength="200" class="search" placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_DIRECTIONS' | translate }}" />
+      <input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        maxlength="200"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_BY_DIRECTIONS' | translate }}" />
     </div>
   </div>
 
-  <a [routerLink]="['./create', ModeConstants.NEW]"><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_DIRECTION' | translate }}</button></a>
+  <a [routerLink]="['./create', ModeConstants.NEW]"
+    ><button class="btn" mat-raised-button>{{ 'BUTTONS.ADD_DIRECTION' | translate }}</button></a
+  >
 </div>
 <ng-container *ngIf="filteredDirections$ | async; else isEmptyList">
   <div class="card-wrapper">
@@ -15,8 +23,7 @@
       *ngFor="let direction of (filteredDirections$ | async)?.entities"
       [direction]="direction"
       (deleteDirection)="onDelete($event)"
-      [isEditMode]="true"
-    >
+      [isEditMode]="true">
     </app-category-card>
   </div>
   <app-paginator
@@ -24,8 +31,7 @@
     [currentPage]="currentPage"
     [itemsPerPage]="directionsParameters.size"
     (pageChange)="onPageChange($event)"
-    (itemsPerPageChange)="onItemsPerPageChange($event)"
-  >
+    (itemsPerPageChange)="onItemsPerPageChange($event)">
   </app-paginator>
 </ng-container>
 

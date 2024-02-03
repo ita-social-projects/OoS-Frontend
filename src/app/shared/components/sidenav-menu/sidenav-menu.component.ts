@@ -50,7 +50,12 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
+  constructor(
+    public store: Store,
+    private router: Router,
+    private translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>
+  ) {}
 
   public changeView(): void {
     this.store.dispatch(new SidenavToggle());

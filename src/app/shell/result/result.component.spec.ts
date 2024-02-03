@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ResultComponent } from './result.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
@@ -11,6 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
 import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
 import { TranslateModule } from '@ngx-translate/core';
+import { ResultComponent } from './result.component';
 
 describe('ResultComponent', () => {
   let component: ResultComponent;

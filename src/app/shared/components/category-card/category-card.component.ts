@@ -24,7 +24,10 @@ export class CategoryCardComponent {
 
   public categoryIcons = CategoryIcons;
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public onDelete(event: Event): void {
     this.deleteDirection.emit(this.direction);

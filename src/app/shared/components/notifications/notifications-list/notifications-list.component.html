@@ -43,13 +43,11 @@
               [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
               [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
               role="region"
-              class="body-notification__wrapper"
-            >
+              class="body-notification__wrapper">
               <div
                 *ngFor="let group of groupByType.groupedByAdditionalData"
                 class="body-notification__content body-notification__group info"
-                (click)="onNavigate(group.type, group.groupedData)"
-              >
+                (click)="onNavigate(group.type, group.groupedData)">
                 <span class="info__description info__link">{{ group.amount | translateCases: defineDeclination(group.groupedData) }}</span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
@@ -62,14 +60,14 @@
           *ngFor="let notification of notifications"
           #accordionItem="cdkAccordionItem"
           role="button"
-          [disabled]="!notification.data"
-        >
+          [disabled]="!notification.data">
           <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
               <div class="header-notification__single info">
                 <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
                 <span class="info__description">{{
-                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data, notification.action) | translate
+                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data, notification.action)
+                    | translate
                 }}</span>
                 <h4 class="info__time">
                   {{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}
@@ -80,11 +78,13 @@
               [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
               [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
               role="region"
-              class="body-notification__wrapper info info__description"
-            >
-              <div class="body-notification__content body-notification__single" (click)="onNavigate(notification.type, notification.action)">
+              class="body-notification__wrapper info info__description">
+              <div
+                class="body-notification__content body-notification__single"
+                (click)="onNavigate(notification.type, notification.action)">
                 <span class="info__description info__link">{{
-                  getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data,  notification.action) | translate
+                  getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data, notification.action)
+                    | translate
                 }}</span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
