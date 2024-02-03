@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SidenavMenuComponent } from './sidenav-menu.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -14,6 +13,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { Component } from '@angular/core';
 import { TranslateModule } from '@ngx-translate/core';
 import { DateAdapter } from '@angular/material/core';
+import { SidenavMenuComponent } from './sidenav-menu.component';
 
 describe('SidenavComponent', () => {
   let component: SidenavMenuComponent;

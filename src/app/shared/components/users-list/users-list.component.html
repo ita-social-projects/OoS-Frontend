@@ -112,7 +112,7 @@
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <ng-container *ngIf="user.isBlocked then unBlock; else Block"></ng-container >
+            <ng-container *ngIf="user.isBlocked; then unBlock; else Block"></ng-container>
             <ng-template #Block>
               <button mat-menu-item (click)="block.emit(user)">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
@@ -124,7 +124,7 @@
               </button>
             </ng-template>
             <ng-container *ngIf="user.institutionTitle && user.status !== userStatuses.Accepted">
-              <button mat-menu-item (click)="sendInvitation.emit({user, adminType})">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+              <button mat-menu-item (click)="sendInvitation.emit({ user, adminType })">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
             </ng-container>
             <!-- <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button> -->
           </mat-menu>

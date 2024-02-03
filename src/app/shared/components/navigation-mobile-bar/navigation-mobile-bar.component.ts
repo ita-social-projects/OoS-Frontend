@@ -1,10 +1,10 @@
-import { Navigation } from '../../models/navigation.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { Observable, Subscription } from 'rxjs';
-import { NavigationState } from '../../store/navigation.state';
 import { Location } from '@angular/common';
 import { delay } from 'rxjs/operators';
+import { NavigationState } from '../../store/navigation.state';
+import { Navigation } from '../../models/navigation.model';
 
 @Component({
   selector: 'app-navigation-mobile-bar',

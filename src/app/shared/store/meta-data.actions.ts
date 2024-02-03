@@ -37,7 +37,10 @@ export class GetFeaturesList {
 
 export class GetAllInstitutions {
   static readonly type = '[meta-data] Get All Institutions';
-  constructor(public filterNonGovernment: boolean, public locale?: string) {}
+  constructor(
+    public filterNonGovernment: boolean,
+    public locale?: string
+  ) {}
 }
 
 export class GetAllInstitutionsHierarchy {
@@ -57,7 +60,10 @@ export class GetFieldDescriptionByInstitutionId {
 
 export class GetAllByInstitutionAndLevel {
   static readonly type = '[meta-data] Get All By Institution And Level';
-  constructor(public institutionId: string, public level: number) {}
+  constructor(
+    public institutionId: string,
+    public level: number
+  ) {}
 }
 
 export class GetInstitutionHierarchyChildrenById {
@@ -85,7 +91,11 @@ export class GetInstitutionHierarchyParentsById {
 export class GetCodeficatorSearch {
   static readonly type = '[meta-data] Get Codeficator search';
 
-  constructor(public name: string, public categories?: CodeficatorCategories[], public parentId?: number) {}
+  constructor(
+    public name: string,
+    public categories?: CodeficatorCategories[],
+    public parentId?: number
+  ) {}
 }
 
 export class GetCodeficatorById {

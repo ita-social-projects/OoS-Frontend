@@ -1,21 +1,17 @@
 <div class="container" fxLayout="column" fxLayoutAlign="space-between start" fxLayoutGap="0.1rem">
-  <h4 class="card-title">{{"CONTACTS" | translate}}</h4>
+  <h4 class="card-title">{{ 'CONTACTS' | translate }}</h4>
   <p class="contact-info">
     <mat-icon class="card_icon">location_on</mat-icon>
     <span fxLayout="row wrap" fxLayoutAlign="start">
       <span class="address-city">{{ address.codeficatorAddressDto?.settlement }}, </span>
-      <span 
-        class="address-street" 
-        showTooltipIfTruncated 
-        [matTooltip]="getFullAddress"
-        matTooltipClass="tooltip">
-          {{ address.street }} 
+      <span class="address-street" showTooltipIfTruncated [matTooltip]="getFullAddress" matTooltipClass="tooltip">
+        {{ address.street }}
       </span>
       <span>, {{ address.buildingNumber }}</span>
     </span>
   </p>
 
-  <a (click)="mapLink()" target="_blank" class="map">{{'SHOW_ON_THE_MAP' | translate}}</a>
+  <a (click)="mapLink()" target="_blank" class="map">{{ 'SHOW_ON_THE_MAP' | translate }}</a>
 
   <p class="contact-info">
     <mat-icon class="card_icon">call</mat-icon

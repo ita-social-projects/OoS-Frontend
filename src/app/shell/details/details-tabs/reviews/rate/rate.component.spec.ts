@@ -12,12 +12,7 @@ describe('RateComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        NgxsModule.forRoot([]),
-        MatIconModule,
-        RouterTestingModule,
-        TranslateModule.forRoot()
-      ],
+      imports: [NgxsModule.forRoot([]), MatIconModule, RouterTestingModule, TranslateModule.forRoot()],
       declarations: [RateComponent]
     }).compileComponents();
   });

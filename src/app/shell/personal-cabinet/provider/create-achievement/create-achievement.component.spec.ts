@@ -1,4 +1,3 @@
-import { GetFullNamePipe } from './../../../../shared/pipes/get-full-name.pipe';
 import { APP_BASE_HREF } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
@@ -13,11 +12,12 @@ import { RouterModule } from '@angular/router';
 import { HttpClient } from '@microsoft/signalr';
 import { NgxsModule } from '@ngxs/store';
 import { Component, Input } from '@angular/core';
-import { CreateAchievementComponent } from './create-achievement.component';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
-import { Workshop } from '../../../../shared/models/workshop.model';
 import { MatDialogModule } from '@angular/material/dialog';
+import { Workshop } from '../../../../shared/models/workshop.model';
+import { CreateAchievementComponent } from './create-achievement.component';
+import { GetFullNamePipe } from './../../../../shared/pipes/get-full-name.pipe';
 
 describe('CreateAchievementComponent', () => {
   let component: CreateAchievementComponent;

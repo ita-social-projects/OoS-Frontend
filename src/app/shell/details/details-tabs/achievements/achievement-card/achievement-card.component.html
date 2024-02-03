@@ -3,16 +3,17 @@
     <div class="wrap-for-details" fxLayout="row" fxLayoutAlign="start space-between">
       <img class="image" src="../../../../assets/icons/award.svg" />
       <div>
-        <h3 class="achievement_title"
-            *ngIf="achievement.achievementTypeId"
-            [matTooltip]="achievementsTypes[achievement.achievementTypeId - 1].title"
-            showTooltipIfTruncated
-            matTooltipClass="tooltip"
-            [matTooltipPosition]="tooltipPosition">
+        <h3
+          class="achievement_title"
+          *ngIf="achievement.achievementTypeId"
+          [matTooltip]="achievementsTypes[achievement.achievementTypeId - 1].title"
+          showTooltipIfTruncated
+          matTooltipClass="tooltip"
+          [matTooltipPosition]="tooltipPosition">
           {{ achievementsTypes[achievement.achievementTypeId - 1].title }}
         </h3>
         <h4 class="card_title">{{ 'FORMS.LABELS.DATE' | translate }}</h4>
-        <p class="card_text">{{ achievement.achievementDate | date : 'shortDate' }}</p>
+        <p class="card_text">{{ achievement.achievementDate | date: 'shortDate' }}</p>
         <h4 class="card_title">{{ 'FORMS.LABELS.PARTICIPANTS' | translate }}</h4>
         <div *ngFor="let child of achievement.children">
           <p class="card_text">
@@ -28,22 +29,19 @@
         <h4 class="card_title">{{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}</h4>
         <mat-card-content>
           <p class="achievement_descr" [ngClass]="{ 'show-more': showMore }">
-            {{ showMore
-               ? achievement.title
-               : (achievement.title | slice : 0 : 150) }}
+            {{ showMore ? achievement.title : (achievement.title | slice: 0 : 150) }}
             <a *ngIf="achievement.title?.length > 70" class="more_btn" (click)="showMore = !showMore">
-              {{ (!showMore
-                  ? 'MORE'
-                  : 'LESS') | translate }}
+              {{ (!showMore ? 'MORE' : 'LESS') | translate }}
             </a>
           </p>
         </mat-card-content>
       </div>
       <ng-container *ngIf="isAllowedEdit">
         <div fxLayout="row" fxLayoutAlign="end" class="actions">
-          <div class="actions_btn"
-               [routerLink]="['/create-achievement', achievement.workshopId]"
-               [queryParams]="{ achievementId: achievement.id }">
+          <div
+            class="actions_btn"
+            [routerLink]="['/create-achievement', achievement.workshopId]"
+            [queryParams]="{ achievementId: achievement.id }">
             <mat-icon class="achievement_icon">edit</mat-icon>
           </div>
           <div class="actions_btn" (click)="onDelete()">

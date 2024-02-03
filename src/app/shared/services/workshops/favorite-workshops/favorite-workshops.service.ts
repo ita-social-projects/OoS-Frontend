@@ -16,15 +16,15 @@ export class FavoriteWorkshopsService {
   /**
    * This method get favorite workshops
    */
-  getFavoriteWorkshops(): Observable<Favorite[]> {
+  public getFavoriteWorkshops(): Observable<Favorite[]> {
     return this.http.get<Favorite[]>('/api/v1/Favorite');
   }
 
   /**
    * This method get favorite workshops by Userid
    */
-  getFavoriteWorkshopsByUserId(paginationParameters: PaginationParameters): Observable<SearchResponse<WorkshopCard[]>> {
-    let params = new HttpParams().set('Size', paginationParameters.size.toString()).set('From', paginationParameters.from.toString());
+  public getFavoriteWorkshopsByUserId(paginationParameters: PaginationParameters): Observable<SearchResponse<WorkshopCard[]>> {
+    const params = new HttpParams().set('Size', paginationParameters.size.toString()).set('From', paginationParameters.from.toString());
 
     return this.http.get<SearchResponse<WorkshopCard[]>>('/api/v1/Favorite/workshops', { params });
   }
@@ -33,7 +33,7 @@ export class FavoriteWorkshopsService {
    * This method create favorite workshop
    * @param favorite: Favorite
    */
-  createFavoriteWorkshop(favorite: Favorite): Observable<Favorite> {
+  public createFavoriteWorkshop(favorite: Favorite): Observable<Favorite> {
     return this.http.post<Favorite>('/api/v1/Favorite', favorite);
   }
 
@@ -41,7 +41,7 @@ export class FavoriteWorkshopsService {
    * This method delete favorite workshop
    * @param id: string
    */
-  deleteFavoriteWorkshop(id: string): Observable<void> {
+  public deleteFavoriteWorkshop(id: string): Observable<void> {
     return this.http.delete<void>(`/api/v1/Favorite/${id}`);
   }
 }

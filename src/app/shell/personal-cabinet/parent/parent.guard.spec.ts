@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { ParentGuard } from './parent.guard';
 import { NgxsModule } from '@ngxs/store';
+import { ParentGuard } from './parent.guard';
 
 describe('ParentGuard', () => {
   let guard: ParentGuard;

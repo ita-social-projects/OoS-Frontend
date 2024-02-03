@@ -8,7 +8,7 @@ export class ColumnsListForChangesLogHistory {
     'fieldName',
     'updatedDate',
     'oldValue',
-    'newValue',
+    'newValue'
   ];
 
   static readonly ProviderAdmins = [
@@ -21,7 +21,7 @@ export class ColumnsListForChangesLogHistory {
     'fieldName',
     'updatedDate',
     'oldValue',
-    'newValue',
+    'newValue'
   ];
 
   static readonly Applications = [
@@ -33,13 +33,8 @@ export class ColumnsListForChangesLogHistory {
     'fieldName',
     'updatedDate',
     'oldValue',
-    'newValue',
+    'newValue'
   ];
 
-  static readonly Users = [
-    'parentFullName',
-    'operationDate',
-    'isBlocked',
-    'reason',
-  ];
+  static readonly Users = ['parentFullName', 'operationDate', 'isBlocked', 'reason'];
 }

@@ -17,7 +17,10 @@ import { NavigationState } from 'shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-  constructor(private store: Store, private router: Router) {}
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
   public filteredResults: string[];

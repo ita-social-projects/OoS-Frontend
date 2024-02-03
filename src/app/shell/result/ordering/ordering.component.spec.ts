@@ -1,6 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { OrderingComponent } from './ordering.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -8,6 +7,7 @@ import { MatOptionModule } from '@angular/material/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { OrderingComponent } from './ordering.component';
 
 describe('OrderingComponent', () => {
   let component: OrderingComponent;

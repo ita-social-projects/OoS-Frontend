@@ -1,6 +1,5 @@
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule } from '@ngxs/store';
@@ -9,6 +8,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { Component, Input } from '@angular/core';
 import { Address } from 'shared/models/address.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { CreateWorkshopAddressComponent } from './create-workshop-address.component';
 
 describe('CreateWorkshopAddressComponent', () => {
   let component: CreateWorkshopAddressComponent;

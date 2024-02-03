@@ -1,6 +1,5 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserConfigEditComponent } from './user-config-edit.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,6 +12,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { MatRadioModule } from '@angular/material/radio';
 import { User } from 'shared/models/user.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { UserConfigEditComponent } from './user-config-edit.component';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;

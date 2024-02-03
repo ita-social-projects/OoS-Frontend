@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private store: Store,
     private translateService: TranslateService,
     private dateAdapter: DateAdapter<Date>,
-    private router: Router,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {

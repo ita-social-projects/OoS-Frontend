@@ -27,7 +27,11 @@ export class ProviderStatusBannerComponent implements OnInit {
   public statusTitle: string;
   public statusDetails: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private translateService: TranslateService, private store: Store) {}
+  constructor(
+    private elementRef: ElementRef<HTMLElement>,
+    private translateService: TranslateService,
+    private store: Store
+  ) {}
 
   public ngOnInit(): void {
     this.setBannerOptions();

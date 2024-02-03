@@ -72,7 +72,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     return (this.workshopData as WorkshopProviderViewCard).takenSeats < (this.workshopData as WorkshopProviderViewCard).availableSeats;
   }
 
-  constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private imagesService: ImagesService
+  ) {}
 
   public ngOnInit(): void {
     if (this.isCabinetView) {

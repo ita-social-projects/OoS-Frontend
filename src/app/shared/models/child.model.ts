@@ -17,7 +17,7 @@ export class Child implements Person {
   placeOfStudy: string;
   parent?: ParentWithContactInfo;
 
-  constructor(childFormValue, parentId: string, id?: string) {
+  constructor(childFormValue: Partial<Child>, parentId: string, id?: string) {
     this.id = id;
     this.firstName = childFormValue.firstName;
     this.lastName = childFormValue.lastName;

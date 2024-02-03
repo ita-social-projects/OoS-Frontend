@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
-import { delay, takeUntil } from 'rxjs/operators';
+import { delay, map, takeUntil } from 'rxjs/operators';
 
 import { AdminState } from 'shared/store/admin.state';
 import { FilterState } from 'shared/store/filter.state';
@@ -19,38 +19,28 @@ import { SharedUserState } from 'shared/store/shared-user.state';
 })
 export class ProgressBarComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
-  isLoadingResultPage$: Observable<boolean>;
+  public isLoadingResultPage$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
   @Select(MetaDataState.isLoading)
-  isLoadingMetaData$: Observable<boolean>;
+  public isLoadingMetaData$: Observable<boolean>;
   @Select(AdminState.isLoading)
-  isLoadingAdminData$: Observable<boolean>;
+  public isLoadingAdminData$: Observable<boolean>;
   @Select(MainPageState.isLoadingData)
-  isLoadingMainPage$: Observable<boolean>;
+  public isLoadingMainPage$: Observable<boolean>;
   @Select(ProviderState.isLoading)
-  isLoadingProvider$: Observable<boolean>;
+  public isLoadingProvider$: Observable<boolean>;
   @Select(ParentState.isLoading)
-  isLoadingParent$: Observable<boolean>;
+  public isLoadingParent$: Observable<boolean>;
   @Select(RegistrationState.isAuthorizationLoading)
-  isAuthorizationLoading$: Observable<boolean>;
+  public isAuthorizationLoading$: Observable<boolean>;
 
-  isLoadingResultPage: boolean;
-  isLoadingCabinet: boolean;
-  isLoadingMetaData: boolean;
-  isLoadingAdminData: boolean;
-  isLoadingNotifications: boolean;
-  isLoadingMainPage: boolean;
-  isAuthorizationLoading: boolean;
-  isLoadingProvider: boolean;
-  isLoadingParent: boolean;
+  public isAppLoading$: Observable<boolean>;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor() {}
-
-  ngOnInit(): void {
-    combineLatest([
+  public ngOnInit(): void {
+    this.isAppLoading$ = combineLatest([
       this.isLoadingResultPage$,
       this.isLoadingMetaData$,
       this.isLoadingCabinet$,
@@ -59,32 +49,14 @@ export class ProgressBarComponent implements OnInit, OnDestroy {
       this.isAuthorizationLoading$,
       this.isLoadingProvider$,
       this.isLoadingParent$
-    ])
-      .pipe(takeUntil(this.destroy$), delay(0))
-      .subscribe(
-        ([
-          isLoadingResult,
-          isLoadingMeta,
-          isLoadingCabinet,
-          isLoadingAdminData,
-          isLoadingMainPage,
-          isAuthorizationLoading,
-          isLoadingProvider,
-          isLoadingParent
-        ]) => {
-          this.isLoadingResultPage = isLoadingResult;
-          this.isLoadingMetaData = isLoadingMeta;
-          this.isLoadingCabinet = isLoadingCabinet;
-          this.isLoadingAdminData = isLoadingAdminData;
-          this.isLoadingMainPage = isLoadingMainPage;
-          this.isAuthorizationLoading = isAuthorizationLoading;
-          this.isLoadingProvider = isLoadingProvider;
-          this.isLoadingParent = isLoadingParent;
-        }
-      );
+    ]).pipe(
+      delay(0),
+      map((isLoading: boolean[]) => isLoading.some(Boolean)),
+      takeUntil(this.destroy$)
+    );
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

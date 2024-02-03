@@ -38,7 +38,11 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   };
   public currentPage: PaginationElement = PaginationConstants.firstPage;
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private actions$: Actions
+  ) {
     super(store, matDialog);
   }
 

@@ -1,7 +1,7 @@
 import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from './admin.model';
 
-export class MinistryAdmin extends BaseAdmin { }
+export class MinistryAdmin extends BaseAdmin {}
 
-export interface MinistryAdminParameters extends BaseAdminParameters { }
+export type MinistryAdminParameters = BaseAdminParameters;
 
-export interface MinistryAdminBlockData extends BaseAdminBlockData { }
+export type MinistryAdminBlockData = BaseAdminBlockData;

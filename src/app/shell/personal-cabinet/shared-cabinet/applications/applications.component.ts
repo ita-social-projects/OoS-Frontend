@@ -72,7 +72,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobileView = event.outerWidth < 530;
   }
 
-  constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected actions$: Actions
+  ) {
     this.onResize(window);
   }
 
@@ -104,7 +109,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
-      const status = params['status'];
+      const status = params.status;
       const tabIndex = Number(ApplicationStatusTabParams[status]);
       this.setFilterParams(status, tabIndex);
       this.tabGroup.selectedIndex = tabIndex;

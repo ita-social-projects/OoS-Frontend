@@ -34,6 +34,8 @@ export interface ChatStateModel {
 })
 @Injectable()
 export class ChatState {
+  constructor(private chatService: ChatService) {}
+
   @Selector()
   static isLoadingData(state: ChatStateModel): boolean {
     return state.isLoadingData;
@@ -53,8 +55,6 @@ export class ChatState {
   static selectedChatRoomMessages(state: ChatStateModel): IncomingMessage[] {
     return state.selectedChatRoomMessages;
   }
-
-  constructor(private chatService: ChatService) {}
 
   @Action(GetChatRooms)
   getChatRooms({ patchState }: StateContext<ChatStateModel>, { parameters }: GetChatRooms): Observable<SearchResponse<ChatRoom[]>> {

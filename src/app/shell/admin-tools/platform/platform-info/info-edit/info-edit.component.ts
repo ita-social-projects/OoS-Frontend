@@ -22,8 +22,6 @@ import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  public readonly validationConstants = ValidationConstants;
-
   @Select(AdminState.AboutPortal)
   public AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.MainInformation)
@@ -33,8 +31,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   @Select(AdminState.LawsAndRegulations)
   public LawsAndRegulations$: Observable<CompanyInformation>;
 
-  private dispatchSubject = new Subject<void>();
-  private defaultThrottleTime = 1000;
+  public readonly validationConstants = ValidationConstants;
 
   public PlatformInfoItemArray = new FormArray([]);
   public platformInfoEditFormGroup: FormGroup;
@@ -46,6 +43,9 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   public isMainPage: boolean = false;
   public isDispatching = false;
 
+  private dispatchSubject = new Subject<void>();
+  private defaultThrottleTime = 1000;
+
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
@@ -56,7 +56,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     super(store, route, navigationBarService);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
 
     this.dispatchSubject
@@ -65,28 +65,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
         switchMap(() => this.updatePlatformInfoInStore())
       )
       .subscribe(() => (this.isDispatching = false));
-  }
-
-  private setInitialData(params: Params): void {
-    this.editMode = !!params.mode;
-    this.platformInfoType = params.param;
-    this.editTitle = AdminTabsTitles[this.platformInfoType];
-
-    this.editMode ? this.setEditMode() : this.onAddForm();
-    this.addNavPath();
-  }
-
-  private updatePlatformInfoInStore() {
-    const platformInfoItemArray: CompanyInformationSectionItem[] = [];
-    this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-      platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
-    );
-
-    const platformInfo = this.editMode
-      ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
-      : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
-
-    return this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
   }
 
   public addNavPath(): void {
@@ -107,7 +85,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     );
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     switch (this.platformInfoType) {
       case AdminTabTypes.AboutPortal:
         this.getAboutInfo();
@@ -123,6 +101,59 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
         this.getLawsAndRegulations();
         break;
     }
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  public onAddForm(): void {
+    this.PlatformInfoItemArray.push(this.newForm());
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    this.PlatformInfoItemArray.removeAt(index);
+  }
+
+  public onCancel(): void {
+    this.router.navigate(['/admin-tools/platform']);
+  }
+
+  public onSubmit(): void {
+    if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
+      this.isDispatching = true;
+      this.dispatchSubject.next();
+    }
+  }
+
+  private setInitialData(params: Params): void {
+    this.editMode = !!params.mode;
+    this.platformInfoType = params.param;
+    this.editTitle = AdminTabsTitles[this.platformInfoType];
+
+    if (this.editMode) {
+      this.setEditMode();
+    } else {
+      this.onAddForm();
+    }
+
+    this.addNavPath();
+  }
+
+  private updatePlatformInfoInStore(): Observable<void> {
+    const platformInfoItemArray: CompanyInformationSectionItem[] = [];
+    this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+      platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
+    );
+
+    const platformInfo = this.editMode
+      ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
+      : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
+
+    return this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
   }
 
   /**
@@ -150,32 +181,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.subscribeOnDirtyForm(this.platformInfoEditFormGroup);
 
     return this.platformInfoEditFormGroup;
-  }
-
-  /**
-   * This method creates new FormGroup adds new FormGroup to the FormArray
-   */
-  onAddForm(): void {
-    this.PlatformInfoItemArray.push(this.newForm());
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
-  onDeleteForm(index: number): void {
-    this.PlatformInfoItemArray.removeAt(index);
-  }
-
-  onCancel(): void {
-    this.router.navigate(['/admin-tools/platform']);
-  }
-
-  onSubmit(): void {
-    if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
-      this.isDispatching = true;
-      this.dispatchSubject.next();
-    }
   }
 
   private getAboutInfo(): void {

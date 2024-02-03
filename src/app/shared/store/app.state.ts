@@ -21,6 +21,8 @@ export interface AppStateModel {
 })
 @Injectable()
 export class AppState {
+  constructor(private snackBar: MatSnackBar) {}
+
   @Selector()
   static isMobileScreen(state: AppStateModel): boolean {
     return state.isMobileScreen;
@@ -35,8 +37,6 @@ export class AppState {
   static isEditMode(state: AppStateModel): boolean {
     return state.isEditMode;
   }
-
-  constructor(private snackBar: MatSnackBar) {}
 
   @Action(MarkFormDirty)
   markFormDirty({ patchState }: StateContext<AppStateModel>, { payload }: MarkFormDirty): void {

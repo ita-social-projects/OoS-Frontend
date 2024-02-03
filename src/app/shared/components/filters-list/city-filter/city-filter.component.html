@@ -26,7 +26,7 @@
     </mat-option>
   </mat-autocomplete>
   <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">
-    {{ settlement.fullName | slice: 0:sliceLength }}
+    {{ settlement.fullName | slice: 0 : sliceLength }}
     <span *ngIf="settlement.fullName.length > sliceLength">...</span>
   </p>
 </mat-form-field>

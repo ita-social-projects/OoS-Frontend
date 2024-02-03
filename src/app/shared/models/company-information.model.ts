@@ -5,7 +5,7 @@ export class CompanyInformation {
   title?: string;
   companyInformationItems: CompanyInformationSectionItem[];
 
-  constructor(title: string, portalItems: CompanyInformationSectionItem[], id?) {
+  constructor(title: string, portalItems: CompanyInformationSectionItem[], id?: string) {
     this.id = id;
     this.title = title;
     this.companyInformationItems = portalItems;
@@ -15,7 +15,7 @@ export class CompanyInformation {
 export class CompanyInformationSectionItem extends SectionItem {
   companyInformationId?: string;
 
-  constructor(info) {
+  constructor(info: CompanyInformationSectionItem) {
     super(info);
 
     if (info.companyInformationId) {

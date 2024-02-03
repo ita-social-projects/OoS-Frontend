@@ -68,7 +68,12 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public subrole: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new GetMainPageInfo());

@@ -75,7 +75,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params['status']);
+      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params.status);
       this.selectedIndex = this.tabIndex;
     });
   }

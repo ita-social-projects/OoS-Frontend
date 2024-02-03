@@ -49,7 +49,12 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, protected router: Router, private actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    protected router: Router,
+    private actions$: Actions
+  ) {
     super(store, matDialog);
   }
 

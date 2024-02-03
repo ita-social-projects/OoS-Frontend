@@ -18,7 +18,15 @@ describe('ProviderDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatTabsModule, RouterTestingModule, MatIconModule, IvyCarouselModule, NgxsModule.forRoot([]), TranslateModule.forRoot(), BrowserAnimationsModule],
+      imports: [
+        MatTabsModule,
+        RouterTestingModule,
+        MatIconModule,
+        IvyCarouselModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule
+      ],
       declarations: [ProviderDetailsComponent, MockAllProviderWorkshopsComponent, MockProviderAboutComponent, ImageCarouselComponent]
     }).compileComponents();
   });

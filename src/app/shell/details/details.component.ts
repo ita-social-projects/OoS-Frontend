@@ -43,7 +43,11 @@ export class DetailsComponent implements OnInit, OnDestroy {
   public entity: EntityType;
   public displayActionCard: boolean;
 
-  constructor(private store: Store, private route: ActivatedRoute, public navigationBarService: NavigationBarService) {}
+  constructor(
+    private store: Store,
+    private route: ActivatedRoute,
+    public navigationBarService: NavigationBarService
+  ) {}
 
   public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => {

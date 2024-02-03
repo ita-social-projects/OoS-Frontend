@@ -15,13 +15,13 @@ describe('WorkshopSeatsLackModalComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        MatDialogModule, 
-        FormsModule, 
-        ReactiveFormsModule, 
-        MatButtonToggleModule, 
-        MatIconModule, 
+        MatDialogModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatButtonToggleModule,
+        MatIconModule,
         TranslateModule.forRoot(),
-        RouterTestingModule,
+        RouterTestingModule
       ],
       declarations: [WorkshopSeatsLackModalComponent],
       providers: [

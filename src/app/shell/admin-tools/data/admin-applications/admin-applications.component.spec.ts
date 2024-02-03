@@ -3,12 +3,12 @@ import { Component, Input } from '@angular/core';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
 
-import { AdminApplicationsComponent } from './admin-applications.component';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
 import { Child } from 'shared/models/child.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { ChildDeclination, WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { Role } from 'shared/enum/role';
+import { AdminApplicationsComponent } from './admin-applications.component';
 
 describe('AdminApplicationsComponent', () => {
   let component: AdminApplicationsComponent;
@@ -17,7 +17,7 @@ describe('AdminApplicationsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), MatDialogModule],
-      declarations: [AdminApplicationsComponent, MockApplicationsComponent],
+      declarations: [AdminApplicationsComponent, MockApplicationsComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(AdminApplicationsComponent);

@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateAboutFormComponent } from './create-about-form.component';
 import { FormArray, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -20,6 +19,7 @@ import { Component, Input } from '@angular/core';
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { Workshop } from 'shared/models/workshop.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { CreateAboutFormComponent } from './create-about-form.component';
 
 describe('CreateAboutFormComponent', () => {
   let component: CreateAboutFormComponent;

@@ -40,7 +40,11 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   public settlementSearchControl: FormControl = new FormControl('');
   public isDispalyed = true;
 
-  constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private geolocationService: GeolocationService
+  ) {}
 
   public ngOnInit(): void {
     this.settlementListener();

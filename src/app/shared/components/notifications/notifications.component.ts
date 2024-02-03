@@ -26,14 +26,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   public recievedNotification: Notification;
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private signalRService: SignalRService) {}
+  constructor(
+    private store: Store,
+    private signalRService: SignalRService
+  ) {}
 
   public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
 
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
     this.hubConnection.on('ReceiveNotification', (recievedNotificationString: string) => {
-      //TODO: solve the problem with keys with capital letters
+      // TODO: solve the problem with keys with capital letters
       const parsedNotification = JSON.parse(recievedNotificationString);
       this.recievedNotification = {
         id: parsedNotification.Id,

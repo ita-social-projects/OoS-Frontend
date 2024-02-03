@@ -11,7 +11,7 @@ import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
 import { Provider } from 'shared/models/provider.model';
 import { Teacher } from 'shared/models/teacher.model';
-import { Workshop } from 'shared/models/workshop.model';
+import { Workshop, WorkshopAbout } from 'shared/models/workshop.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateWorkshop, UpdateWorkshop } from 'shared/store/provider.actions';
@@ -19,9 +19,9 @@ import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
+import { Constants } from 'shared/constants/constants';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
-import { Constants } from 'shared/constants/constants';
 @Component({
   selector: 'app-create-workshop',
   templateUrl: './create-workshop.component.html',
@@ -36,10 +36,10 @@ import { Constants } from 'shared/constants/constants';
 export class CreateWorkshopComponent extends CreateFormComponent implements OnInit, AfterContentChecked, OnDestroy {
   @Select(RegistrationState.provider)
   private provider$: Observable<Provider>;
-  public provider: Provider;
-
   @Select(SharedUserState.selectedWorkshop)
   private selectedWorkshop$: Observable<Workshop>;
+
+  public provider: Provider;
   public workshop: Workshop;
 
   public AboutFormGroup: FormGroup;
@@ -180,7 +180,7 @@ export class CreateWorkshopComponent extends CreateFormComponent implements OnIn
   /**
    * Prepares 'About' section data from the form, setting 'availableSeats' to 'UNLIMITED_SEATS' if null.
    */
-  private createAbout() {
+  private createAbout(): WorkshopAbout {
     const aboutInfo = this.AboutFormGroup.getRawValue();
     if (aboutInfo.availableSeats === null) {
       aboutInfo.availableSeats = this.UNLIMITED_SEATS;
