@@ -33,6 +33,13 @@ import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils'
   styleUrls: ['./admins.component.scss']
 })
 export class AdminsComponent implements OnInit, OnDestroy {
+  @Select(AdminState.isLoading)
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(AdminState.admins)
+  private admins$: Observable<SearchResponse<BaseAdmin[]>>;
+  @Select(RegistrationState.role)
+  private role$: Observable<string>;
+
   public readonly noAdmins = NoResultsTitle.noAdmins;
   public readonly AdminRolesTitles = AdminRolesTitles;
   public readonly AdminRoles = AdminRoles;
@@ -40,13 +47,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
   public readonly statusesTitles = UserStatusesTitles;
   public readonly canManageInstitution = canManageInstitution;
   public readonly canManageRegion = canManageRegion;
-
-  @Select(AdminState.admins)
-  private admins$: Observable<SearchResponse<BaseAdmin[]>>;
-  @Select(AdminState.isLoading)
-  public isLoadingCabinet$: Observable<boolean>;
-  @Select(RegistrationState.role)
-  private role$: Observable<string>;
 
   public tabIndex: number;
   public filterFormControl: FormControl = new FormControl('');
@@ -62,16 +62,16 @@ export class AdminsComponent implements OnInit, OnDestroy {
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
-  public get adminType(): AdminRoles {
-    return this.adminParams.tabTitle as AdminRoles;
-  }
-
   constructor(
     private store: Store,
     private router: Router,
     private route: ActivatedRoute,
     protected matDialog: MatDialog
   ) {}
+
+  public get adminType(): AdminRoles {
+    return this.adminParams.tabTitle as AdminRoles;
+  }
 
   public ngOnInit(): void {
     this.role$
@@ -102,16 +102,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
       });
 
     this.addNavPath();
-  }
-
-  private addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Admins,
-        isActive: false,
-        disable: true
-      })
-    );
   }
 
   public ngOnDestroy(): void {
@@ -164,7 +154,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.blockAdmin(admin, this.adminType);
+      if (result) {
+        this.blockAdmin(admin, this.adminType);
+      }
     });
   }
 
@@ -181,7 +173,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.deleteAdmin(admin.id, this.adminType);
+      if (result) {
+        this.deleteAdmin(admin.id, this.adminType);
+      }
     });
   }
 
@@ -275,5 +269,15 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   private deleteAdmin(id: string, admin: AdminRoles): void {
     this.store.dispatch(new DeleteAdminById(id, admin));
+  }
+
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Admins,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 }

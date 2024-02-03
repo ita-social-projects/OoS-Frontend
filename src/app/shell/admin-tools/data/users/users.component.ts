@@ -32,14 +32,14 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  public readonly UserTabsTitles = UserTabsTitles;
-  public readonly noUsers = NoResultsTitle.noUsers;
-  public readonly statusesTitles = EmailConfirmationStatusesTitles;
-
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   private children$: Observable<SearchResponse<Child[]>>;
+
+  public readonly UserTabsTitles = UserTabsTitles;
+  public readonly noUsers = NoResultsTitle.noUsers;
+  public readonly statusesTitles = EmailConfirmationStatusesTitles;
 
   public filterFormControl = new FormControl('');
   public tabIndex: number;

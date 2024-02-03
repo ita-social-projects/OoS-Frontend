@@ -1,6 +1,12 @@
 <div class="wrapper">
   <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+      aria-describedby="users-table"
+      appStretchTable>
       <!-- Name Column -->
       <ng-container matColumnDef="pib" sticky>
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
@@ -113,7 +119,7 @@
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
             <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Provider Admin's blocking -->
-            <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked then unBlock; else Block"></ng-container >
+            <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked; then unBlock; else Block"></ng-container>
             <ng-template #Block>
               <button mat-menu-item (click)="block.emit({user, isBlocking: true})">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
@@ -127,7 +133,7 @@
             <ng-container *ngIf="user.isAdmin && user.status === userStatuses.NeverLogged">
               <button mat-menu-item (click)="sendInvitation.emit({user, adminType})">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
             </ng-container>
-            <!-- <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button> -->
+            <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>
