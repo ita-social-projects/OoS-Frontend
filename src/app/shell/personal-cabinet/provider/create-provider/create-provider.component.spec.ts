@@ -11,7 +11,7 @@ import { NgxsModule } from '@ngxs/store';
 import { Provider } from 'shared/models/provider.model';
 import { CreateProviderComponent } from './create-provider.component';
 
-fdescribe('CreateProviderComponent', () => {
+describe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
   let fixture: ComponentFixture<CreateProviderComponent>;
   let fb: FormBuilder;

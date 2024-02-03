@@ -39,7 +39,14 @@ export abstract class ProviderBase {
   institutionType: InstitutionTypes;
   providerSectionItems: ProviderSectionItem[];
 
-  constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
+  constructor(
+    info: Partial<ProviderBase>,
+    legalAddress: Address,
+    actualAddress: Address,
+    description: Partial<ProviderBase>,
+    user: User,
+    provider?: Provider
+  ) {
     this.fullTitle = info.fullTitle;
     this.shortTitle = info.shortTitle;
     this.email = info.email;
@@ -104,7 +111,14 @@ export class Provider extends ProviderBase {
   numberOfRatings?: number;
   blockPhoneNumber?: string;
 
-  constructor(info, legalAddress: Address, actualAddress: Address, description, user: User, provider?: Provider) {
+  constructor(
+    info: Partial<Provider>,
+    legalAddress: Address,
+    actualAddress: Address,
+    description: Partial<Provider>,
+    user: User,
+    provider?: Provider
+  ) {
     super(info, legalAddress, actualAddress, description, user, provider);
 
     this.ownership = info.ownership;
@@ -136,7 +150,7 @@ export interface ProviderBlock {
 export class ProviderSectionItem extends SectionItem {
   providerId?: string;
 
-  constructor(info) {
+  constructor(info: ProviderSectionItem) {
     super(info);
 
     if (info.providerId) {

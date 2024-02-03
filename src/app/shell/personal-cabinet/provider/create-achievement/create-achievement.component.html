@@ -3,24 +3,20 @@
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
       <h3 class="wrapper-title">{{ 'FORMS.HEADERS.ADD_ACHIEVEMENT' | translate }}</h3>
     </div>
-    <app-workshop-card class="application-workshop"
-                       [workshop]="workshop"
-                       [isHorizontalView]="true"
-                       [isCreateFormView]="true">
+    <app-workshop-card class="application-workshop" [workshop]="workshop" [isHorizontalView]="true" [isCreateFormView]="true">
     </app-workshop-card>
     <div class="card-border" fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="AchievementFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-        <label class="step-label">
-          {{ 'FORMS.LABELS.ACHIEVEMENT_TITLE' | translate }}<span class="step-required">*</span>
-        </label>
+        <label class="step-label"> {{ 'FORMS.LABELS.ACHIEVEMENT_TITLE' | translate }}<span class="step-required">*</span> </label>
         <mat-form-field appearance="none">
-          <mat-select formControlName="achievementTypeId"
-                      disableOptionCentering
-                      panelClass="dropdown-panel"
-                      class="step-input"
-                      placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ACHIEVEMENT' | translate }}">
-            <mat-option 
-              *ngFor="let achievement of achievementsTypes$ | async" 
+          <mat-select
+            formControlName="achievementTypeId"
+            disableOptionCentering
+            panelClass="dropdown-panel"
+            class="step-input"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ACHIEVEMENT' | translate }}">
+            <mat-option
+              *ngFor="let achievement of achievementsTypes$ | async"
               [value]="achievement.id"
               [matTooltip]="achievement.title"
               matTooltipClass="tooltip">
@@ -29,24 +25,24 @@
           </mat-select>
         </mat-form-field>
         <app-validation-hint [validationFormControl]="achievementTypeIdFormControl"></app-validation-hint>
-        <label class="step-label">
-          {{ 'FORMS.LABELS.PARTICIPANTS' | translate }}<span class="step-required">*</span>
-        </label>
+        <label class="step-label"> {{ 'FORMS.LABELS.PARTICIPANTS' | translate }}<span class="step-required">*</span> </label>
         <ng-container *ngIf="approvedChildren">
           <ng-container *ngIf="approvedChildren.totalAmount; else noChildren">
             <mat-form-field appearance="none">
-              <mat-select multiple
-                          disableOptionCentering
-                          formControlName="children"
-                          panelClass="dropdown-panel"
-                          class="step-input"
-                          placeholder="{{ 'FORMS.PLACEHOLDERS.CHILDREN' | translate }}"
-                          [compareWith]="compareEntities">
+              <mat-select
+                multiple
+                disableOptionCentering
+                formControlName="children"
+                panelClass="dropdown-panel"
+                class="step-input"
+                placeholder="{{ 'FORMS.PLACEHOLDERS.CHILDREN' | translate }}"
+                [compareWith]="compareEntities">
                 <mat-select-trigger>
                   <mat-chip-list>
-                    <mat-chip *ngFor="let child of childrenFormControl.value"
-                              [removable]="true"
-                              (removed)="onRemoveItem(child, 'children')">
+                    <mat-chip
+                      *ngFor="let child of childrenFormControl.value"
+                      [removable]="true"
+                      (removed)="onRemoveItem(child, 'children')">
                       {{ child | getFullName }}
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
@@ -64,9 +60,7 @@
           <span class="warning-message"> {{ 'BANNERS.ADD_ACHIEVEMENT_PARTICIPANTS' | translate }} </span>
         </ng-template>
 
-        <label class="step-label" *ngIf="!editMode">
-          {{ 'FORMS.LABELS.TEACHERS' | translate }}<span class="step-required">*</span>
-        </label>
+        <label class="step-label" *ngIf="!editMode"> {{ 'FORMS.LABELS.TEACHERS' | translate }}<span class="step-required">*</span> </label>
 
         <ng-container *ngIf="achievement">
           <div class="edit-wrapper">
@@ -79,17 +73,17 @@
 
         <ng-container *ngIf="workshop.teachers.length > 0; else noTeachers">
           <mat-form-field appearance="none">
-            <mat-select multiple
-                        disableOptionCentering
-                        formControlName="teachers"
-                        panelClass="dropdown-panel"
-                        class="step-input"
-                        placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TEACHER' | translate }}"
-                        [compareWith]="compareEntities">
+            <mat-select
+              multiple
+              disableOptionCentering
+              formControlName="teachers"
+              panelClass="dropdown-panel"
+              class="step-input"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TEACHER' | translate }}"
+              [compareWith]="compareEntities">
               <mat-select-trigger>
                 <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let teacher of teachersFormControl.value"
-                            (removed)="onRemoveItem(teacher, 'teachers')">
+                  <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
                     {{ teacher | getFullName }}
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
@@ -111,19 +105,17 @@
         <app-validation-hint [validationFormControl]="teachersFormControl"></app-validation-hint>
         <label class="step-label">{{ 'FORMS.LABELS.DATE' | translate }}<span class="step-required">*</span></label>
         <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-          <input matInput
-                 [matDatepicker]="picker"
-                 formControlName="achievementDate"
-                 placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
+          <input
+            matInput
+            [matDatepicker]="picker"
+            formControlName="achievementDate"
+            placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="AchievementFormGroup.get('achievementDate')">
-        </app-validation-hint>
+        <app-validation-hint [validationFormControl]="AchievementFormGroup.get('achievementDate')"> </app-validation-hint>
         <div class="step-label-combined">
-          <label class="step-label">
-            {{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}<span class="step-required">*</span>
-          </label>
+          <label class="step-label"> {{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}<span class="step-required">*</span> </label>
           <label class="step-characters-count">
             {{ AchievementFormGroup.get('title').value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_2000 }}
           </label>
@@ -131,19 +123,21 @@
         <mat-form-field appPlaceholderStyling floatLabel="never">
           <textarea matInput class="step-textarea" formControlName="title"></textarea>
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="AchievementFormGroup.get('title')"
-                             [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
-                             [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
+        <app-validation-hint
+          [validationFormControl]="AchievementFormGroup.get('title')"
+          [minCharacters]="validationConstants.MIN_DESCRIPTION_LENGTH_1"
+          [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_2000">
         </app-validation-hint>
       </form>
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button class="btn btn-cancel" mat-raised-button (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
-      <button class="btn"
-              mat-button
-              type="submit"
-              (click)="onSubmit()"
-              [disabled]="!AchievementFormGroup.dirty || AchievementFormGroup.invalid">
+      <button
+        class="btn"
+        mat-button
+        type="submit"
+        (click)="onSubmit()"
+        [disabled]="!AchievementFormGroup.dirty || AchievementFormGroup.invalid">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>

@@ -1,9 +1,9 @@
-import { Address } from '../../../../shared/models/address.model';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ContactsComponent } from './contacts.component';
 import { RouterTestingModule } from '@angular/router/testing';
-import { MaterialModule } from '../../../../shared/modules/material.module';
 import { TranslateModule } from '@ngx-translate/core';
+import { MaterialModule } from '../../../../shared/modules/material.module';
+import { Address } from '../../../../shared/models/address.model';
+import { ContactsComponent } from './contacts.component';
 
 describe('ContactsComponent', () => {
   let component: ContactsComponent;

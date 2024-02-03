@@ -22,10 +22,9 @@
     max-width: 205px;
     overflow: hidden;
     text-overflow: ellipsis;
-  
-  @media (max-width: 750px) {
-    max-width: 100%;
-  }
-}
 
+    @media (max-width: 750px) {
+      max-width: 100%;
+    }
+  }
 }

@@ -11,8 +11,7 @@
         [currentPage]="currentPage"
         [itemsPerPage]="paginationParameters.size"
         (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)"
-      ></app-paginator>
+        (itemsPerPageChange)="onItemsPerPageChange($event)"></app-paginator>
     </ng-container>
   </div>
 
@@ -31,8 +30,7 @@
     [@triggerName]="currentWorkShopIndex"
     [style.left.vw]="left"
     (touchstart)="swipe($event, 'start')"
-    (touchend)="swipe($event, 'end')"
-  >
+    (touchend)="swipe($event, 'end')">
     <div class="mock"></div>
     <div class="card-wrapper" *ngFor="let workshop of selectedWorkshops; let i = index">
       <app-workshop-card
@@ -40,8 +38,7 @@
         [workshop]="workshop"
         [isHorizontalView]="true"
         [@fade]="workshopDetailsAnimationState"
-        (@fade.done)="fadeAnimationDone()"
-      >
+        (@fade.done)="fadeAnimationDone()">
       </app-workshop-card>
     </div>
     <div class="mock"></div>
@@ -59,8 +56,7 @@
         [workshop]="selectedWorkshops[0]"
         [isHorizontalView]="true"
         [@fade]="workshopDetailsAnimationState"
-        (@fade.done)="fadeAnimationDone()"
-      >
+        (@fade.done)="fadeAnimationDone()">
       </app-workshop-card>
       <div class="mock"></div>
     </div>

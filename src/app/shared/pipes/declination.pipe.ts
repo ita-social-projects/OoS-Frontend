@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'declination'
 })
 export class DeclinationPipe implements PipeTransform {
-  transform(quantity: number, words): string {
+  public transform(quantity: number, words?: object | any[]): string {
     if (words) {
       const lastDigit = quantity ? +quantity.toString().slice(-1) : 0;
       const isUnique = quantity >= 11 && quantity <= 14;

@@ -21,21 +21,25 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
   public isMobileScreen$: Observable<boolean>;
 
   public notificationsAmount: NotificationAmount;
-  public recievedNotification: Notification;
+  public receivedNotification: Notification;
   private hubConnection: signalR.HubConnection;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private changeDetector: ChangeDetectorRef, private signalRService: SignalRService) {}
+  constructor(
+    private store: Store,
+    private changeDetector: ChangeDetectorRef,
+    private signalRService: SignalRService
+  ) {}
 
   public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
 
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
-    this.hubConnection.on('ReceiveNotification', (recievedNotificationString: string) => {
-      //TODO: solve the problem with keys with capital letters
-      const parsedNotification = JSON.parse(recievedNotificationString);
-      this.recievedNotification = {
+    this.hubConnection.on('ReceiveNotification', (receivedNotificationString: string) => {
+      // TODO: solve the problem with keys with capital letters
+      const parsedNotification = JSON.parse(receivedNotificationString);
+      this.receivedNotification = {
         id: parsedNotification.Id,
         userId: parsedNotification.UserId,
         data: parsedNotification.Data,

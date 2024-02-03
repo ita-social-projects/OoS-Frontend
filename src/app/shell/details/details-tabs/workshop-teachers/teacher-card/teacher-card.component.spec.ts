@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { TeacherCardComponent } from './teacher-card.component';
 import { MatCardModule } from '@angular/material/card';
 import { Teacher } from 'shared/models/teacher.model';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { TeacherCardComponent } from './teacher-card.component';
 
 describe('TeacherCardComponent', () => {
   let component: TeacherCardComponent;

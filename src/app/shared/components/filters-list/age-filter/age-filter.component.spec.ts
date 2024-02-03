@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AgeFilterComponent } from './age-filter.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -9,9 +8,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { BrowserModule } from '@angular/platform-browser';
+import { TranslateModule } from '@ngx-translate/core';
 import { MaterialModule } from '../../../modules/material.module';
 import { MinMaxDirective } from '../../../directives/min-max.directive';
-import { TranslateModule } from '@ngx-translate/core';
+import { AgeFilterComponent } from './age-filter.component';
 
 describe('AgeFilterComponent', () => {
   let component: AgeFilterComponent;

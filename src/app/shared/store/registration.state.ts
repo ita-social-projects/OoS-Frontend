@@ -1,3 +1,4 @@
+import { TokenPayload } from 'shared/models/token-payload.model';
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
@@ -74,6 +75,20 @@ export interface RegistrationStateModel {
 })
 @Injectable()
 export class RegistrationState {
+  constructor(
+    private oidcSecurityService: OidcSecurityService,
+    private snackBar: MatSnackBar,
+    private userService: UserService,
+    private providerService: ProviderService,
+    private parentService: ParentService,
+    private techAdminService: TechAdminService,
+    private regionAdminService: RegionAdminService,
+    private router: Router,
+    private ministryAdminService: MinistryAdminService,
+    private areaAdmin: AreaAdminService,
+    private location: Location
+  ) {}
+
   @Selector()
   static isAuthorized(state: RegistrationStateModel): boolean {
     return state.isAuthorized;
@@ -119,20 +134,6 @@ export class RegistrationState {
     return state.subrole;
   }
 
-  constructor(
-    private oidcSecurityService: OidcSecurityService,
-    private snackBar: MatSnackBar,
-    private userService: UserService,
-    private providerService: ProviderService,
-    private parentService: ParentService,
-    private techAdminService: TechAdminService,
-    private regionAdminService: RegionAdminService,
-    private router: Router,
-    private ministryAdminService: MinistryAdminService,
-    private areaAdmin: AreaAdminService,
-    private location: Location
-  ) {}
-
   @Action(Login)
   Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
     const configIdOrNull = null;
@@ -156,9 +157,9 @@ export class RegistrationState {
       patchState({ isAuthorized: auth.isAuthenticated });
       if (auth.isAuthenticated) {
         this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
-          const token = jwt_decode(value);
-          const subrole = token['subrole'];
-          const role = token['role'];
+          const token = jwt_decode(value) as TokenPayload;
+          const subrole = token.subrole;
+          const role = token.role;
           patchState({ subrole, role });
           dispatch(new GetUserPersonalInfo()).subscribe(() => dispatch(new CheckRegistration()));
         });
@@ -170,6 +171,7 @@ export class RegistrationState {
 
   @Action(OnAuthFail)
   onAuthFail(): void {
+    // eslint-disable-next-line @typescript-eslint/quotes
     this.snackBar.open("Упс! Перевірте з'єднання", '', {
       duration: 5000,
       panelClass: ['red-snackbar']

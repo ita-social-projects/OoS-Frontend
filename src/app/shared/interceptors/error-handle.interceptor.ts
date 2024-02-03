@@ -12,7 +12,10 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Injectable()
 export class ErrorHandleInterceptor implements HttpInterceptor {
-  constructor(private store: Store, private translateService: TranslateService) {}
+  constructor(
+    private store: Store,
+    private translateService: TranslateService
+  ) {}
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(

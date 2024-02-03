@@ -7,7 +7,13 @@ import { startWith, takeUntil } from 'rxjs/operators';
 import { FormOfLearningEnum } from 'shared/enum/enumUA/workshop';
 import { FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { FilterList } from 'shared/models/filter-list.model';
-import { FilterClear, SetClosedRecruitment, SetFormsOfLearning, SetOpenRecruitment, SetWithDisabilityOption } from 'shared/store/filter.actions';
+import {
+  FilterClear,
+  SetClosedRecruitment,
+  SetFormsOfLearning,
+  SetOpenRecruitment,
+  SetWithDisabilityOption
+} from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
 import { FiltersSidenavToggle } from 'shared/store/navigation.actions';
 import { NavigationState } from 'shared/store/navigation.state';

@@ -14,7 +14,10 @@ export class GetAllUsersNotificationsGrouped {
 
 export class ReadUsersNotificationsByType {
   static readonly type = '[user] read users notifications by type';
-  constructor(public notificationType: NotificationType, public needGetRequest: boolean = false) {}
+  constructor(
+    public notificationType: NotificationType,
+    public needGetRequest: boolean = false
+  ) {}
 }
 
 export class DeleteUsersNotificationById {

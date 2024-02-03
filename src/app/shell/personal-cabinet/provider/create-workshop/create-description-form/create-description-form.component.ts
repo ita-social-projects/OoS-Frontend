@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -14,6 +14,14 @@ import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model'
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
+  @Input() public workshop: Workshop;
+  @Input() public isImagesFeature: boolean;
+  @Input() public provider: Provider;
+
+  @Output() public passDescriptionFormGroup = new EventEmitter();
+
+  @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
+
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -26,16 +34,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() public workshop: Workshop;
-  @Input() public isImagesFeature: boolean;
-  @Input() public provider: Provider;
-
-  @Output() public passDescriptionFormGroup = new EventEmitter();
-
-  @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public DescriptionFormGroup: FormGroup;
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
@@ -46,6 +44,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
   public disabledKeyWordsInput = false;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
@@ -64,7 +64,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
-    this.workshop ? this.activateEditMode() : this.onAddForm();
+
+    if (this.workshop) {
+      this.activateEditMode();
+    } else {
+      this.onAddForm();
+    }
+
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
     this.keyWordsListener();
   }
@@ -110,7 +116,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
   public onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
+    const setAction = (action: string): void => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
     this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
       if (isDisabilityOptionsDesc) {
         setAction('enable');
@@ -179,6 +185,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
         const itemFrom = this.newForm(item);
         this.SectionItemsFormArray.controls.push(itemFrom);
+        // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
         this.SectionItemsFormArray['_registerControl'](itemFrom);
       });
     } else {

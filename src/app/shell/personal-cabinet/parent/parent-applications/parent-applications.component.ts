@@ -45,7 +45,11 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private router: Router
+  ) {
     super(store, matDialog);
   }
 

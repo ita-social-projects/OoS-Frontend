@@ -1,6 +1,4 @@
-import { Notification } from 'shared/models/notification.model';
 import { NotificationAction, NotificationDataType, NotificationDescriptionType, NotificationType } from '../notifications';
-import { ProviderStatusDetails } from './statuses';
 
 export namespace NotificationDescriptions {
   export namespace Short {

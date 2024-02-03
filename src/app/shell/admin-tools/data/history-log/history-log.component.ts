@@ -13,10 +13,22 @@ import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
 import { HistoryLogTypes } from 'shared/enum/history.log';
 import { Role } from 'shared/enum/role';
-import { ApplicationHistory, DropdownData, FilterData, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import {
+  ApplicationHistory,
+  DropdownData,
+  FilterData,
+  ParentsBlockingByAdminHistory,
+  ProviderAdminHistory,
+  ProviderHistory
+} from 'shared/models/history-log.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { GetApplicationHistory, GetParentsBlockingByAdminHistory, GetProviderAdminHistory, GetProviderHistory } from 'shared/store/admin.actions';
+import {
+  GetApplicationHistory,
+  GetParentsBlockingByAdminHistory,
+  GetProviderAdminHistory,
+  GetProviderHistory
+} from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -60,7 +72,12 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public role: string;
   public tabName: HistoryLogTypes;
 
-  constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public store: Store,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.addNavPath();
@@ -167,12 +184,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   private initSubscribeOnEachHistory(): void {
-    merge(
-      this.providersHistory$,
-      this.providerAdminHistory$,
-      this.applicationHistory$,
-      this.parentsBlockingByAdminHistory$
-    )
+    merge(this.providersHistory$, this.providerAdminHistory$, this.applicationHistory$, this.parentsBlockingByAdminHistory$)
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe(
         (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>

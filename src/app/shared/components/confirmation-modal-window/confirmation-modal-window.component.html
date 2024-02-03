@@ -9,14 +9,14 @@
     <app-stars (ratingSelect)="ratingSelectControl = $event" [modalWindow]="modalWindow"></app-stars>
   </div>
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center">
-    <button class="btn" mat-button cdkFocusInitial
-            [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true">
-      {{ (data.type === modalConfirmationType.delete
-          ? 'BUTTONS.REMOVE'
-          : 'BUTTONS.CONFIRM') | translate | uppercase }}
+    <button
+      class="btn"
+      mat-button
+      cdkFocusInitial
+      [mat-dialog-close]="data.type === modalConfirmationType.rate ? ratingSelectControl?.value : true">
+      {{ (data.type === modalConfirmationType.delete ? 'BUTTONS.REMOVE' : 'BUTTONS.CONFIRM') | translate | uppercase }}
     </button>
-    <button class="btn btn-cancel" mat-button
-            [mat-dialog-close]="false">
+    <button class="btn btn-cancel" mat-button [mat-dialog-close]="false">
       {{ 'BUTTONS.CANCEL' | translate | uppercase }}
     </button>
   </mat-dialog-actions>

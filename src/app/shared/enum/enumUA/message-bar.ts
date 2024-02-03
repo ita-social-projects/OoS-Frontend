@@ -39,7 +39,7 @@ export enum SnackbarText {
   updateProviderAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.UPDATE_PROVIDER_ADMIN',
   deleteProviderAdmin = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.DELETE_PROVIDER_ADMIN',
 
-  //todo: check this flow
+  // todo: check this flow
   createApplication = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.CREATE_APPLICATION',
   applicationLimit = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.APPLICATION_LIMIT',
   applicationLimitPerPerson = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.APPLICATION_LIMIT_PER_PERSON',

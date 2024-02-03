@@ -5,19 +5,29 @@ export interface FilterList {
   statuses: WorkshopOpenStatus[];
   formsOfLearning: FormOfLearning[];
   directionIds: number[];
-  ageFilter: { minAge: number; maxAge: number; isAppropriateAge: boolean; };
-  priceFilter: {
-    minPrice: number;
-    maxPrice: number;
-    isFree: boolean;
-    isPaid: boolean;
-  };
-  workingHours: {
-    workingDays: string[];
-    startTime: string;
-    endTime: string;
-    isStrictWorkdays: boolean;
-    isAppropriateHours: boolean;
-  };
+  ageFilter: AgeFilter;
+  priceFilter: PriceFilter;
+  workingHours: WorkingHoursFilter;
   order: string;
+}
+
+export interface AgeFilter {
+  minAge: number;
+  maxAge: number;
+  isAppropriateAge: boolean;
+}
+
+export interface PriceFilter {
+  minPrice: number;
+  maxPrice: number;
+  isFree: boolean;
+  isPaid: boolean;
+}
+
+export interface WorkingHoursFilter {
+  workingDays: string[];
+  startTime: string;
+  endTime: string;
+  isStrictWorkdays: boolean;
+  isAppropriateHours: boolean;
 }

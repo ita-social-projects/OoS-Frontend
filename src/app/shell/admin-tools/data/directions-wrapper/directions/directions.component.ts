@@ -38,7 +38,10 @@ export class DirectionsComponent implements OnInit, OnDestroy {
     size: PaginationConstants.DIRECTIONS_PER_PAGE
   };
 
-  constructor(private store: Store, private matDialog: MatDialog) {}
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog
+  ) {}
 
   ngOnInit(): void {
     this.getDirections();

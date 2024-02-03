@@ -59,7 +59,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     super(store, matDialog);
   }
 

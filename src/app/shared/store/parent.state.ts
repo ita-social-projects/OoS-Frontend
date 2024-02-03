@@ -91,6 +91,16 @@ export interface ParentStateModel {
 })
 @Injectable()
 export class ParentState {
+  constructor(
+    private applicationService: ApplicationService,
+    private favoriteWorkshopsService: FavoriteWorkshopsService,
+    private childrenService: ChildrenService,
+    private router: Router,
+    private location: Location,
+    private ratingService: RatingService,
+    private parentService: ParentService
+  ) {}
+
   @Selector()
   static isLoading(state: ParentStateModel): boolean {
     return state.isLoading;
@@ -135,16 +145,6 @@ export class ParentState {
   static truncatedItems(state: ParentStateModel): TruncatedItem[] {
     return state.truncatedItems;
   }
-
-  constructor(
-    private applicationService: ApplicationService,
-    private favoriteWorkshopsService: FavoriteWorkshopsService,
-    private childrenService: ChildrenService,
-    private router: Router,
-    private location: Location,
-    private ratingService: RatingService,
-    private parentService: ParentService
-  ) {}
 
   @Action(GetStatusIsAllowToApply)
   getStatusIsAllowToApply(
@@ -383,10 +383,10 @@ export class ParentState {
   onCreateApplicationFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateApplicationFail): void {
     if (payload.status === 403) {
       dispatch(
-        new ShowMessageBar({ 
-          message: SnackbarText.accessIsRestricted, 
-          type: 'error', 
-          info: SnackbarText.accessIsRestrictedFullDescription 
+        new ShowMessageBar({
+          message: SnackbarText.accessIsRestricted,
+          type: 'error',
+          info: SnackbarText.accessIsRestrictedFullDescription
         })
       );
     } else if (payload.status === 429) {
@@ -400,7 +400,6 @@ export class ParentState {
     } else {
       dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
     }
-
   }
 
   @Action(OnCreateApplicationSuccess)

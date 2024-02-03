@@ -8,7 +8,8 @@ import { TranslateService } from '@ngx-translate/core';
 export class TranslateCasesPipe implements PipeTransform {
   constructor(private translateService: TranslateService) {}
 
-  transform(count: number, enumTranslate: any): string {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public transform(count: number, enumTranslate: any): string {
     const countLastStr = count?.toString().slice(-1);
     const countNum = count?.toString() || '0';
     let translateKey: string;

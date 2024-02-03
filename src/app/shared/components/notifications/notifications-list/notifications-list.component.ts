@@ -40,23 +40,26 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
-  public readonly ApplicationHeaderDeclinations = ApplicationChanges;
-  public readonly NotificationDescriptionType = NotificationDescriptionType;
-  public readonly Constants = Constants;
-  public readonly NoResults = NoResultsTitle.noNotifications;
-
   @Input() public notificationsAmount: NotificationAmount;
   @Input() public recievedNotification: Notification;
 
   @Select(NotificationState.notifications)
   public notificationsData$: Observable<NotificationGroupedAndSingle>;
 
+  public readonly ApplicationHeaderDeclinations = ApplicationChanges;
+  public readonly NotificationDescriptionType = NotificationDescriptionType;
+  public readonly Constants = Constants;
+  public readonly NoResults = NoResultsTitle.noNotifications;
+
   public notificationsGroupedByType: NotificationGroupedByType[] = [];
   public notifications: Notification[];
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
@@ -229,7 +232,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         );
         break;
       case NotificationType.Chat:
-        //TODO
+        // TODO
         break;
     }
   }

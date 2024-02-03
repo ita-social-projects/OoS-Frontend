@@ -12,7 +12,10 @@ import { MessageBarData } from 'shared/models/message-bar.model';
 export class MessageBarComponent implements OnInit {
   public messageIcon: MessageBarIcon = MessageBarIcon.success;
 
-  constructor(private snackBar: MatSnackBar, @Inject(MAT_SNACK_BAR_DATA) public data: MessageBarData) {}
+  constructor(
+    private snackBar: MatSnackBar,
+    @Inject(MAT_SNACK_BAR_DATA) public data: MessageBarData
+  ) {}
 
   public ngOnInit(): void {
     this.messageIcon = MessageBarIcon[this.data.type];

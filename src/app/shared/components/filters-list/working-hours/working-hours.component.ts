@@ -7,6 +7,7 @@ import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
+import { WorkingHoursFilter } from 'shared/models/filter-list.model';
 import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 import { SetEndTime, SetIsAppropriateHours, SetIsStrictWorkdays, SetStartTime, SetWorkingDays } from 'shared/store/filter.actions';
 
@@ -20,8 +21,22 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
   public maxTime: string;
 
   public isFree$: Observable<boolean>;
+
+  public readonly validationConstants = ValidationConstants;
+  public readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+
+  public startTimeFormControl = new FormControl('');
+  public endTimeFormControl = new FormControl('');
+  public isStrictWorkdaysControl = new FormControl(false);
+  public isAppropriateHoursControl = new FormControl(false);
+  public destroy$: Subject<boolean> = new Subject<boolean>();
+  public selectedWorkingDays: string[] = [];
+
+  constructor(private store: Store) {}
+
   @Input()
-  public set workingHours(filter) {
+  public set workingHours(filter: WorkingHoursFilter) {
     let { endTime, startTime } = filter;
     const { workingDays, isStrictWorkdays, isAppropriateHours } = filter;
 
@@ -41,19 +56,6 @@ export class WorkingHoursComponent implements OnInit, OnDestroy {
     this.isStrictWorkdaysControl.setValue(isStrictWorkdays, { emitEvent: false });
     this.isAppropriateHoursControl.setValue(isAppropriateHours, { emitEvent: false });
   }
-
-  public readonly validationConstants = ValidationConstants;
-  public readonly workingDaysReverse: typeof WorkingDaysReverse = WorkingDaysReverse;
-  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
-
-  public startTimeFormControl = new FormControl('');
-  public endTimeFormControl = new FormControl('');
-  public isStrictWorkdaysControl = new FormControl(false);
-  public isAppropriateHoursControl = new FormControl(false);
-  public destroy$: Subject<boolean> = new Subject<boolean>();
-  public selectedWorkingDays: string[] = [];
-
-  constructor(private store: Store) {}
 
   public ngOnInit(): void {
     this.startTimeFormControl.valueChanges

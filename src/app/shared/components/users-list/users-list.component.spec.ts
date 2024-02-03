@@ -21,9 +21,9 @@ describe('UsersListComponent', () => {
         NgxsModule.forRoot([]),
         MatIconModule,
         MatTooltipModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      declarations: [UsersListComponent],
+      declarations: [UsersListComponent]
     }).compileComponents();
   });
 

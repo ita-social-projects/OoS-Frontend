@@ -49,7 +49,7 @@ export class CodeficatorService {
    * @param lon number
    */
   public getNearestByCoordinates(lat: number, lon: number): Observable<Codeficator> {
-    let params = new HttpParams().set('Lat', lat.toString()).set('Lon', lon.toString());
+    const params = new HttpParams().set('Lat', lat.toString()).set('Lon', lon.toString());
 
     return this.http.get<Codeficator>('/api/v1/Codeficator/NearestByCoordinates', { params });
   }

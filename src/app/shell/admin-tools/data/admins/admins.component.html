@@ -2,11 +2,12 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input [formControl]="filterFormControl"
-             matInput
-             type="text"
-             class="search"
-             placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
+      <input
+        [formControl]="filterFormControl"
+        matInput
+        type="text"
+        class="search"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_PHONE_EMAIL' | translate }}" />
     </div>
 
     <div>
@@ -15,8 +16,7 @@
         <mat-icon>arrow_drop_down</mat-icon>
       </button>
       <mat-menu #add="matMenu" class="header_menu">
-        <a *ngIf="role === Role.techAdmin"
-           [routerLink]="['/create-admin', AdminRoles.ministryAdmin]">
+        <a *ngIf="role === Role.techAdmin" [routerLink]="['/create-admin', AdminRoles.ministryAdmin]">
           <button mat-menu-item>{{ 'ENUM.ADMINISTRATORS.MINISTRY_ADMIN' | translate }}</button>
         </a>
         <a *ngIf="canManageInstitution(role)" [routerLink]="['/create-admin', AdminRoles.regionAdmin]">
@@ -48,23 +48,25 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="admins?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list [statusesTitles]="statusesTitles"
-                        [users]="admins"
-                        [adminType]="adminType"
-                        [isEdit]="true"
-                        [displayedColumns]="displayedColumns"
-                        (delete)="onDelete($event)"
-                        (block)="onBlock($event)"
-                        (update)="onUpdate($event)"
-                        (sendInvitation)="onSendInvitation($event)">
+        <app-users-list
+          [statusesTitles]="statusesTitles"
+          [users]="admins"
+          [adminType]="adminType"
+          [isEdit]="true"
+          [displayedColumns]="displayedColumns"
+          (delete)="onDelete($event)"
+          (block)="onBlock($event)"
+          (update)="onUpdate($event)"
+          (sendInvitation)="onSendInvitation($event)">
         </app-users-list>
       </div>
-      <app-paginator *ngIf="!(isLoadingCabinet$ | async) && adminsTable"
-                     [totalEntities]="totalEntities"
-                     [currentPage]="currentPage"
-                     [itemsPerPage]="adminParams.size"
-                     (pageChange)="onPageChange($event)"
-                     (itemsPerPageChange)="onItemsPerPageChange($event)">
+      <app-paginator
+        *ngIf="!(isLoadingCabinet$ | async) && adminsTable"
+        [totalEntities]="totalEntities"
+        [currentPage]="currentPage"
+        [itemsPerPage]="adminParams.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>

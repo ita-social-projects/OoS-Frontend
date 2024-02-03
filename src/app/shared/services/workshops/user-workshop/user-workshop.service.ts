@@ -17,13 +17,16 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 export class UserWorkshopService {
   private isImagesFeature: boolean;
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   /**
    * This method get related workshops for provider admins personal cabinet
    */
   public getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
-    let params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
+    const params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
 
     return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
   }

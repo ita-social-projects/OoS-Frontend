@@ -48,7 +48,10 @@ export class ChildFormComponent implements OnInit, OnDestroy {
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private translateService: TranslateService, private store: Store) {}
+  constructor(
+    private translateService: TranslateService,
+    private store: Store
+  ) {}
 
   public ngOnInit(): void {
     this.socialGroupControl = this.ChildFormGroup.get('socialGroups') as FormControl;

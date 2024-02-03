@@ -5,7 +5,9 @@
     </mat-icon>
   </button>
   <mat-menu xPosition="before" #menu="matMenu" [class]="'notification-menu'">
-    <app-notifications-list [notificationsAmount]="notificationsAmount" [recievedNotification]="recievedNotification">
+    <app-notifications-list
+      [notificationsAmount]="notificationsAmount"
+      [receivedNotification]="receivedNotification">
     </app-notifications-list>
   </mat-menu>
 </ng-container>

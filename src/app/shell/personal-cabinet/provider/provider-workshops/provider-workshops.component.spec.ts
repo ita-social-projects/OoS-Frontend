@@ -4,12 +4,12 @@ import { NgxsModule } from '@ngxs/store';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
 import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
 import { Workshop } from '../../../../shared/models/workshop.model';
 import { ApplicationChildFilterPipe } from '../../../../shared/pipes/application-child-filter.pipe';
 import { ApplicationFilterPipe } from '../../../../shared/pipes/application-filter.pipe';
 import { ProviderWorkshopsComponent } from './provider-workshops.component';
-import { TranslateModule } from '@ngx-translate/core';
 
 describe('ProviderAdminWorkshopsComponent', () => {
   let component: ProviderWorkshopsComponent;

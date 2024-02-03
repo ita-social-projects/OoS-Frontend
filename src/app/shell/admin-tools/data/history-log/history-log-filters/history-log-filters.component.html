@@ -15,7 +15,11 @@
 
     <ng-container *ngIf="additionalFormControlName">
       <mat-form-field floatLabel="never" appearance="none">
-        <mat-select disableOptionCentering [formControl]="filtersForm.controls[additionalFormControlName]" panelClass="dropdown-panel" class="select">
+        <mat-select
+          disableOptionCentering
+          [formControl]="filtersForm.controls[additionalFormControlName]"
+          panelClass="dropdown-panel"
+          class="select">
           <mat-option value="" class="dropdown-option">
             {{ 'FORMS.PLACEHOLDERS.ALL_FILTERS' | translate }}
           </mat-option>

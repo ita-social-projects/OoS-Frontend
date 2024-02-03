@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateChildComponent } from './create-child.component';
 import { NgxsModule } from '@ngxs/store';
 import { FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
@@ -9,6 +8,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { DataItem } from 'shared/models/item.model';
+import { CreateChildComponent } from './create-child.component';
 
 describe('CreateChildComponent', () => {
   let component: CreateChildComponent;

@@ -33,7 +33,14 @@ export class ProviderAdmin implements Person {
   providerId?: string;
   workshopTitles?: TruncatedItem[];
 
-  constructor(info, isDebuty: boolean, userId?: string, workshopIds?: string[], providerId?: string, accountStatus?: string) {
+  constructor(
+    info: Partial<ProviderAdmin>,
+    isDebuty: boolean,
+    userId?: string,
+    workshopIds?: string[],
+    providerId?: string,
+    accountStatus?: string
+  ) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;
