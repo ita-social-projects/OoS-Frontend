@@ -29,7 +29,6 @@ import {
 import { ProviderState } from 'shared/store/provider.state';
 import { Util } from 'shared/utils/utils';
 import { ProviderComponent } from '../provider.component';
-import { UserStatuses } from 'shared/enum/statuses';
 
 @Component({
   selector: 'app-provider-admins',
@@ -37,16 +36,16 @@ import { UserStatuses } from 'shared/enum/statuses';
   styleUrls: ['./provider-admins.component.scss']
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
+  @Select(ProviderState.isLoading)
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(ProviderState.providerAdmins)
+  private providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
+
   public readonly ProviderAdminTitles = ProviderAdminTitles;
   public readonly providerAdminRole = ProviderAdminRole;
   public readonly noProviderAdmins = NoResultsTitle.noUsers;
   public readonly constants = Constants;
   public readonly statusesTitles = UserStatusesTitles;
-
-  @Select(ProviderState.isLoading)
-  public isLoadingCabinet$: Observable<boolean>;
-  @Select(ProviderState.providerAdmins)
-  private providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
 
   public providerAdmins: SearchResponse<ProviderAdmin[]>;
   public providerAdminsData: ProviderAdminsTableData[] = [];
@@ -75,16 +74,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
     this.setTabOptions();
     this.getFilteredProviderAdmins();
-  }
-
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Administration,
-        isActive: false,
-        disable: true
-      })
-    );
   }
 
   /**
@@ -144,7 +133,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
+      if (result) {
         this.store.dispatch(
           new BlockProviderAdminById(
             {
@@ -155,6 +144,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
             this.filterParams
           )
         );
+      }
     });
   }
 
@@ -171,7 +161,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
+      if (result) {
         this.store.dispatch(
           new DeleteProviderAdminById(
             {
@@ -181,6 +171,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
             this.filterParams
           )
         );
+      }
     });
   }
 
@@ -190,6 +181,16 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   protected initProviderData(): void {
     this.addProviderAdminsSubscriptions();
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Administration,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 
   private setTabOptions(): void {
