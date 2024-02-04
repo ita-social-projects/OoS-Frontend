@@ -65,7 +65,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     protected matDialog: MatDialog,
     private router: Router,
     private route: ActivatedRoute
-    ) {
+  ) {
     super(store, matDialog);
   }
 
