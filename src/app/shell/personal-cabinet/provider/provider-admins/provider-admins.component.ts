@@ -60,12 +60,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   };
   public isSmallMobileView: boolean;
 
-
-  constructor(protected store: Store,
+  constructor(
+    protected store: Store,
     protected matDialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute){
-      
+    private route: ActivatedRoute) {
     super(store, matDialog);
   };
 
