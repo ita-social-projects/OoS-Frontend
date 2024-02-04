@@ -124,28 +124,29 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
     }
 
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: messageType,
-        property: admin.user.pib
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.store.dispatch(
-          new BlockProviderAdminById(
-            {
-              userId: admin.user.id,
-              providerId: this.provider.id,
-              isBlocked: admin.isBlocking
-            },
-            this.filterParams
-          )
-        );
-      }
-    });
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: messageType,
+          property: admin.user.pib
+        }
+      })
+      .afterClosed()
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.store.dispatch(
+            new BlockProviderAdminById(
+              {
+                userId: admin.user.id,
+                providerId: this.provider.id,
+                isBlocked: admin.isBlocking
+              },
+              this.filterParams
+            )
+          );
+        }
+      });
   }
 
   /**
