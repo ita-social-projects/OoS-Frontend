@@ -64,9 +64,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     protected store: Store,
     protected matDialog: MatDialog,
     private router: Router,
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute
+    ) {
     super(store, matDialog);
-  };
+  }
 
   public ngOnInit(): void {
     super.ngOnInit();
