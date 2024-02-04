@@ -146,18 +146,19 @@ export class AdminsComponent implements OnInit, OnDestroy {
    * This method block, unBlock Admin By Id
    */
   public onBlockUnblock(admin: AdminsBlockData): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: admin.isBlocking ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
-        this.blockAdmin(admin, this.adminType);
-      }
-    });
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: admin.isBlocking ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
+        }
+      })
+      .afterClosed()
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.blockAdmin(admin, this.adminType);
+        }
+      });
   }
 
   /**

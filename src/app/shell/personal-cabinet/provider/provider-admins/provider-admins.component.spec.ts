@@ -42,8 +42,7 @@ describe('ProviderAdminsComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
         MatDialogModule,
-        TranslateModule.forRoot(),
-        MatDialogModule
+        TranslateModule.forRoot()
       ],
       declarations: [ProviderAdminsComponent, MockUsersListComponent, NoResultCardComponent, ConfirmationModalWindowComponent]
     }).compileComponents();
