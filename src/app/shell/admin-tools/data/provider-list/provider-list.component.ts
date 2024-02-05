@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/f
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -164,6 +164,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
           this.role = role;
 
           switch (role) {
+            case Role.techAdmin:
+              return of(null);
             case Role.ministryAdmin:
               return this.store.dispatch(new GetMinistryAdminProfile());
             case Role.regionAdmin:
