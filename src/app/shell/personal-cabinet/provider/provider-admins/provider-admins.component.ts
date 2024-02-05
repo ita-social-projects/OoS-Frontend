@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTabChangeEvent } from '@angular/material/tabs';
@@ -58,6 +58,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     searchString: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+  public isSmallMobileView: boolean;
 
   constructor(
     protected store: Store,
@@ -74,6 +75,12 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
     this.setTabOptions();
     this.getFilteredProviderAdmins();
+    this.onResize(window);
+  }
+
+  @HostListener('window: resize', ['$event.target'])
+  public onResize(event: Window): void {
+    this.isSmallMobileView = event.innerWidth <= 480;
   }
 
   /**

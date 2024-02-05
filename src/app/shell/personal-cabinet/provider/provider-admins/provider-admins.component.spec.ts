@@ -62,6 +62,25 @@ describe('ProviderAdminsComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  it('should set isMobileView on resize', () => {
+    jest.spyOn(component, 'onResize');
+
+    window.innerWidth = 300;
+    window.dispatchEvent(new Event('resize'));
+
+    expect(component.onResize).toHaveBeenCalled();
+    expect(component.isSmallMobileView).toBeTruthy();
+  });
+  it('should not  set isMobileView on resize', () => {
+    jest.spyOn(component, 'onResize');
+
+    window.innerWidth = 700;
+    window.dispatchEvent(new Event('resize'));
+
+    expect(component.onResize).toHaveBeenCalled();
+    expect(component.isSmallMobileView).toBeFalsy();
+  });
+
   describe('onBlockUnblock method', () => {
     let expectingMatDialogData: object;
     let matDialogSpy: jest.SpyInstance;
