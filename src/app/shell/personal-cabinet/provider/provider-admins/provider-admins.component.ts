@@ -69,6 +69,11 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     super(store, matDialog);
   }
 
+  @HostListener('window: resize', ['$event.target'])
+  public onResize(event: Window): void {
+    this.isSmallMobileView = event.innerWidth <= 480;
+  }
+
   public ngOnInit(): void {
     super.ngOnInit();
     Util.setFromPaginationParam(this.filterParams, this.currentPage, this.providerAdmins?.totalAmount);
@@ -76,11 +81,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     this.setTabOptions();
     this.getFilteredProviderAdmins();
     this.onResize(window);
-  }
-
-  @HostListener('window: resize', ['$event.target'])
-  public onResize(event: Window): void {
-    this.isSmallMobileView = event.innerWidth <= 480;
   }
 
   /**
@@ -140,19 +140,18 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
         }
       })
       .afterClosed()
-      .subscribe((result: boolean) => {
-        if (result) {
-          this.store.dispatch(
-            new BlockProviderAdminById(
-              {
-                userId: admin.user.id,
-                providerId: this.provider.id,
-                isBlocked: admin.isBlocking
-              },
-              this.filterParams
-            )
-          );
-        }
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(
+          new BlockProviderAdminById(
+            {
+              userId: admin.user.id,
+              providerId: this.provider.id,
+              isBlocked: admin.isBlocking
+            },
+            this.filterParams
+          )
+        );
       });
   }
 
@@ -168,8 +167,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      if (result) {
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
         this.store.dispatch(
           new DeleteProviderAdminById(
             {
@@ -179,8 +180,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
             this.filterParams
           )
         );
-      }
-    });
+      });
   }
 
   public onSendInvitation(providerAdmin: ProviderAdmin): void {
