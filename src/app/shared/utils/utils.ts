@@ -4,6 +4,7 @@ import { KeyValue } from '@angular/common';
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { Role } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
@@ -15,9 +16,11 @@ import { FilterStateModel } from 'shared/models/filter-state.model';
 import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
-import { UsersTable } from 'shared/models/users-table';
+import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
+import { Constants } from 'shared/constants/constants';
 import { Subrole } from './../enum/role';
 
 /**
@@ -93,7 +96,7 @@ export class Util {
    * @param users Users array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTable(users: Child[]): UsersTable[] {
+  public static updateStructureForTheTable(users: Child[]): UsersTableData[] {
     const updatedUsers = [];
     users.forEach((user) => {
       updatedUsers.push({
@@ -116,7 +119,7 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): AdminsTableData[] {
     const updatedAdmins = [];
     admins.forEach((admin: BaseAdmin) => {
       updatedAdmins.push({
@@ -127,10 +130,32 @@ export class Util {
         institutionTitle: admin.institutionTitle,
         status: admin.accountStatus || UserStatuses.Accepted,
         catottgName: admin.catottgName,
-        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName
+        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName,
+        isAdmin: true
       });
     });
     return updatedAdmins;
+  }
+
+  /**
+   * This method returns updated array structure for the Provider Admin table
+   * @param admins ProviderAdmin[]
+   * @returns array of objects
+   */
+  public static updateStructureForTheTableProviderAdmins(admins: ProviderAdmin[]): ProviderAdminsTableData[] {
+    const updatedProviderAdmins = [];
+    admins.forEach((admin: ProviderAdmin) => {
+      updatedProviderAdmins.push({
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
+        email: admin.email,
+        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
+        status: admin.accountStatus,
+        isDeputy: admin.isDeputy
+      });
+    });
+    return updatedProviderAdmins;
   }
 
   /**
