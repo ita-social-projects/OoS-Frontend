@@ -11,6 +11,10 @@ import { ProviderAdminOperationOptions } from 'shared/constants/drop-down';
   styleUrls: ['./history-log-filters.component.scss']
 })
 export class HistoryLogFiltersComponent implements OnInit {
+  @Input() public dropdownOptions: DropdownData;
+
+  @Output() public filterData = new EventEmitter<FilterData>();
+
   public filtersForm: FormGroup;
   public formControlName: string = '';
   public additionalFormControlName: string = '';
@@ -19,11 +23,12 @@ export class HistoryLogFiltersComponent implements OnInit {
   private baseCountOfFiltersFormFields = 2;
   private _tabName: HistoryLogTypes;
 
+  constructor(private fb: FormBuilder) {}
+
   public get tabName(): HistoryLogTypes {
     return this._tabName;
   }
 
-  @Input() public dropdownOptions: DropdownData;
   @Input() public set tabName(newTabName: HistoryLogTypes) {
     this._tabName = newTabName;
     this.setBaseFiltersForm();
@@ -33,10 +38,6 @@ export class HistoryLogFiltersComponent implements OnInit {
     }
     this.setFiltersDependOnTab(newTabName);
   }
-
-  @Output() public filterData = new EventEmitter<FilterData>();
-
-  constructor(private fb: FormBuilder) {}
 
   public ngOnInit(): void {
     this.filterData.emit();
@@ -77,9 +78,9 @@ export class HistoryLogFiltersComponent implements OnInit {
   }
 
   private removeExtraFormControls(): void {
-    const extraFormControls = Object.keys(this.filtersForm.controls).filter((controlName: string) => {
-      controlName !== 'dateFrom' && controlName !== 'dateTo';
-    });
+    const extraFormControls = Object.keys(this.filtersForm.controls).filter(
+      (controlName: string) => controlName !== 'dateFrom' && controlName !== 'dateTo'
+    );
     for (const control of extraFormControls) {
       this.filtersForm.removeControl(control);
     }
