@@ -18,7 +18,7 @@ import { NoResultCardComponent } from 'shared/components/no-result-card/no-resul
 import { Constants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { UsersTable } from 'shared/models/users-table';
+import { UsersBlockData } from 'shared/models/users-table';
 import { UsersComponent } from './users.component';
 
 describe('UsersComponent', () => {
@@ -60,33 +60,36 @@ describe('UsersComponent', () => {
 
   describe('onBlockUnblock method', () => {
     let matDialogSpy: jest.SpyInstance;
-    let mockUser: UsersTable;
+    let mockUser: UsersBlockData;
     let expectedMatDialogData: Object;
     let dispatchSpy: jest.SpyInstance;
 
     beforeEach(() => {
       dispatchSpy = jest.spyOn(store, 'dispatch');
       mockUser = {
-        parentId: 'parentId',
-        isBlocked: false,
-        parentFullName: 'Parent full name',
-        id: '',
-        pib: '',
-        email: '',
-        phoneNumber: '',
-        status: '',
-        isDeputy: false
+        user: {
+          parentId: 'parentId',
+          isBlocked: false,
+          parentFullName: 'Parent full name',
+          id: '',
+          pib: '',
+          email: '',
+          phoneNumber: '',
+          status: '',
+          role: ''
+        },
+        isBlocking: false
       };
       expectedMatDialogData = {};
     });
 
     it('should open matDialog with correct parameters on Unblocking', () => {
-      mockUser.isBlocked = true;
+      mockUser.isBlocking = false;
       expectedMatDialogData = {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.unBlockParent,
-          property: mockUser.parentFullName
+          property: mockUser.user.parentFullName
         }
       };
       matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
@@ -100,7 +103,7 @@ describe('UsersComponent', () => {
     });
 
     it('should dispatch OnUnblockParent action with the correct parameters on afterClosed', () => {
-      mockUser.isBlocked = true;
+      mockUser.isBlocking = false;
       const expectedUnblockParentDispatchData = {
         payload: {
           parentId: 'parentId',
@@ -127,7 +130,7 @@ describe('UsersComponent', () => {
     });
 
     it('should open matDialog with correct parameters on Blocking', () => {
-      mockUser.isBlocked = false;
+      mockUser.isBlocking = true;
       expectedMatDialogData = {
         data: { type: ModalConfirmationType.blockParent }
       };
@@ -142,10 +145,10 @@ describe('UsersComponent', () => {
     });
 
     it('should dispatch OnBlockParent action with the correct parameters on afterClosed', () => {
-      mockUser.isBlocked = false;
+      mockUser.isBlocking = true;
       const expectedBlockParentDispatchData = {
         payload: {
-          parentId: mockUser.parentId,
+          parentId: mockUser.user.parentId,
           isBlocked: true,
           reason: 'the reason of blocking'
         }

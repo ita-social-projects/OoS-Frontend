@@ -1,24 +1,51 @@
 import { AdminRoles } from 'shared/enum/admins';
 
-export interface UsersTable {
+interface BaseTableData {
   id: string;
   pib: string;
   email: string;
   phoneNumber: string;
   status: string;
-  isDeputy: boolean;
-  role?: string;
+}
+
+export interface UsersTableData extends BaseTableData {
+  role: string;
   isBlocked: boolean;
   parentId: string;
   parentFullName: string;
 }
 
-export interface BlockData {
-  user: UsersTable;
-  isBlocked: boolean;
+export interface AdminsTableData extends BaseTableData {
+  institutionTitle: string;
+  catottgName: string;
+  regionName: string;
+  isAdmin: true;
+}
+
+export interface ProviderAdminsTableData extends BaseTableData {
+  role: string;
+  isDeputy: boolean;
+}
+
+export type UnionTableData = UsersTableData | AdminsTableData | ProviderAdminsTableData;
+
+interface BaseBlockData {
+  isBlocking: boolean;
+}
+
+export interface UsersBlockData extends BaseBlockData {
+  user: UsersTableData;
+}
+
+export interface AdminsBlockData extends BaseBlockData {
+  user: AdminsTableData;
+}
+
+export interface ProviderAdminsBlockData extends BaseBlockData {
+  user: ProviderAdminsTableData;
 }
 
 export interface InvitationData {
-  user: UsersTable;
+  user: AdminsTableData;
   adminType: AdminRoles;
 }
