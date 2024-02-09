@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { JoinPipe } from 'shared/pipes/join.pipe';
-import { PhonePipe } from 'shared/pipes/phone-transform.pipe';
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { PersonCardComponent } from './person-card.component';
 
 describe('PersonCardComponent', () => {

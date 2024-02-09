@@ -5,7 +5,7 @@ import { TranslateModule } from '@ngx-translate/core';
 
 import { Child } from 'shared/models/child.model';
 import { JoinPipe } from 'shared/pipes/join.pipe';
-import { PhonePipe } from 'shared/pipes/phone-transform.pipe';
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
 import { ChildrenService } from 'shared/services/children/children.service';
 import { ChildInfoBoxComponent } from './child-info-box.component';

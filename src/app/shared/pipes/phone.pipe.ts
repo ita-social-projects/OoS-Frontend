@@ -6,8 +6,6 @@ import { isValidPhoneNumber, parsePhoneNumber } from 'libphonenumber-js';
 })
 export class PhonePipe implements PipeTransform {
   transform(phone: string): string {
-    return !!phone && isValidPhoneNumber(phone)
-      ? parsePhoneNumber(phone).formatInternational()
-      : phone;
+    return !!phone && isValidPhoneNumber(phone) ? parsePhoneNumber(phone).formatInternational() : phone;
   }
 }

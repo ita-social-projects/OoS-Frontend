@@ -1,4 +1,4 @@
-import { PhonePipe } from './phone-transform.pipe';
+import { PhonePipe } from './phone.pipe';
 
 describe('PhonePipe', () => {
   let pipe: PhonePipe;

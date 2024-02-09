@@ -13,7 +13,7 @@ import { NgxsModule } from '@ngxs/store';
 import { StatusInfoCardComponent } from 'shared/components/status-info-card/status-info-card.component';
 import { Child } from 'shared/models/child.model';
 import { JoinPipe } from 'shared/pipes/join.pipe';
-import { PhonePipe } from 'shared/pipes/phone-transform.pipe';
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { TextSliceTransformPipe } from 'shared/pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
 import { ApplicationCardComponent } from './application-card.component';

@@ -74,7 +74,7 @@ import { EmptyValueTransformPipe } from './pipes/empty-value-transform.pipe';
 import { GetAddressPipe } from './pipes/get-address.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { JoinPipe } from './pipes/join.pipe';
-import { PhonePipe } from './pipes/phone-transform.pipe';
+import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 

@@ -20,9 +20,9 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
 
   @HostListener('document:keypress')
   public handleKeyboardEvent(): void {
-    const countrySearchElement = document.querySelector('.ngx-mat-tel-input-mat-menu-panel .country-search') as HTMLElement;
+    const countrySearchElement = document.querySelector('.ngx-mat-tel-input-mat-menu-panel .country-search');
     if (countrySearchElement) {
-      setTimeout(() => countrySearchElement.focus(), 200);
+      setTimeout(() => (countrySearchElement as HTMLElement).focus(), 200);
     }
   }
 

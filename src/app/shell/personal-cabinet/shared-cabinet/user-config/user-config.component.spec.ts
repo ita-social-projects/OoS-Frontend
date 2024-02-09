@@ -5,7 +5,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { NgxsModule } from '@ngxs/store';
 
-import { PhonePipe } from 'shared/pipes/phone-transform.pipe';
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { UserConfigComponent } from './user-config.component';
 
 describe('UserConfigComponent', () => {
