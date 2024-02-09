@@ -83,6 +83,17 @@ export interface MetaDataStateModel {
 })
 @Injectable()
 export class MetaDataState {
+  constructor(
+    private categoriesService: DirectionsService,
+    private childrenService: ChildrenService,
+    private providerService: ProviderService,
+    private ratingService: RatingService,
+    private featureManagementService: FeatureManagementService,
+    private institutionsService: InstitutionsService,
+    private achievementService: AchievementsService,
+    private codeficatorService: CodeficatorService
+  ) {}
+
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] {
     return state.directions;
@@ -157,17 +168,6 @@ export class MetaDataState {
   static codeficator(state: MetaDataStateModel): Codeficator {
     return state.codeficator;
   }
-
-  constructor(
-    private categoriesService: DirectionsService,
-    private childrenService: ChildrenService,
-    private providerService: ProviderService,
-    private ratingService: RatingService,
-    private featureManagementService: FeatureManagementService,
-    private institutionsService: InstitutionsService,
-    private achievementService: AchievementsService,
-    private codeficatorService: CodeficatorService
-  ) {}
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetDirections): Observable<Direction[]> {

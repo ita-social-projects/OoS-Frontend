@@ -27,7 +27,10 @@ export class SupportComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
+  constructor(
+    private store: Store,
+    public navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {
     this.store.dispatch(

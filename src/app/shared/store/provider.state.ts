@@ -121,6 +121,15 @@ export interface ProviderStateModel {
 })
 @Injectable()
 export class ProviderState {
+  constructor(
+    private achievementsService: AchievementsService,
+    private router: Router,
+    private userWorkshopService: UserWorkshopService,
+    private providerAdminService: ProviderAdminService,
+    private providerService: ProviderService,
+    private blockService: BlockService
+  ) {}
+
   @Selector()
   static isLoading(state: ProviderStateModel): boolean {
     return state.isLoading;
@@ -166,15 +175,6 @@ export class ProviderState {
     return state.selectedProviderAdmin;
   }
 
-  constructor(
-    private achievementsService: AchievementsService,
-    private router: Router,
-    private userWorkshopService: UserWorkshopService,
-    private providerAdminService: ProviderAdminService,
-    private providerService: ProviderService,
-    private blockService: BlockService
-  ) {}
-
   @Action(GetAchievementById)
   getAchievementById({ patchState }: StateContext<ProviderStateModel>, { payload }: GetAchievementById): Observable<Achievement> {
     patchState({ isLoading: true });
@@ -202,11 +202,13 @@ export class ProviderState {
     { payload }: GetChildrenByWorkshopId
   ): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
-    return this.achievementsService.getChildrenByWorkshopId(payload).pipe(
-      tap((approvedChildren: SearchResponse<Child[]>) => {
-        return patchState({ approvedChildren: approvedChildren ?? EMPTY_RESULT, isLoading: false });
-      })
-    );
+    return this.achievementsService
+      .getChildrenByWorkshopId(payload)
+      .pipe(
+        tap((approvedChildren: SearchResponse<Child[]>) =>
+          patchState({ approvedChildren: approvedChildren ?? EMPTY_RESULT, isLoading: false })
+        )
+      );
   }
 
   @Action(GetWorkshopListByProviderId)

@@ -16,7 +16,10 @@ import { FilterState } from 'shared/store/filter.state';
   providedIn: 'root'
 })
 export class AppWorkshopsService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   /**
    * This method get workshops with applied filter options

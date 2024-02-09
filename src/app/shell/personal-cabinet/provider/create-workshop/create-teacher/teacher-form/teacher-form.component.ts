@@ -33,8 +33,7 @@ export class TeacherFormComponent {
 
   @Output() public deleteForm = new EventEmitter();
 
-  constructor() {
-  }
+  constructor() {}
 
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);

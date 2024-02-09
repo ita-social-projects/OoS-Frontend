@@ -1,7 +1,10 @@
 <div class="wrapper" *ngIf="user$ | async as user" fxLayout="row wrap" fxLayoutAlign="start">
   <div class="config">
     <a routerLink="edit" class="config_edit-icon">
-      <button mat-button style="color: #3849f9"><mat-icon style="color: #3849f9">edit</mat-icon>{{ 'BUTTONS.EDIT' | translate }}</button>
+      <button mat-button style="color: #3849f9">
+        <mat-icon style="color: #3849f9">edit</mat-icon>
+        {{ 'BUTTONS.EDIT' | translate }}
+      </button>
     </a>
     <h4>{{ 'FORMS.LABELS.LAST_NAME' | translate }}</h4>
     <p>{{ user.lastName }}</p>
@@ -15,20 +18,29 @@
       <h4>{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>
       <h4>{{ 'FORMS.LABELS.SEX' | translate }}</h4>
-      <p>{{ gender[user.gender] | translate}}</p>
+      <p>{{ gender[user.gender] | translate }}</p>
     </ng-container>
   </div>
   <div class="config">
     <h4>{{ 'FORMS.LABELS.EMAIL' | translate }}</h4>
-    <p [ngClass]="{ 'important': !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
-    <div *ngIf="!user.emailConfirmed">
-      <p class="important" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.2rem">
+    <p [ngClass]="{ important: !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
+
+    <ng-container *ngIf="user.emailConfirmed; then changeEmailTmpl; else confirmEmailTmpl"> </ng-container>
+
+    <ng-template #changeEmailTmpl>
+      <p class="link" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
+    </ng-template>
+
+    <ng-template #confirmEmailTmpl>
+      <p class="label important" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.2rem">
         <mat-icon>report</mat-icon>
         <span>{{ 'ENUM.EMAIL_CONFIRMATION_STATUSES.NOT_CONFIRMED' | translate }}</span>
       </p>
-      <p class="link important" (click)="onRedirect('/Account/ReSendEmailConfirmation')">{{ 'CONFIRM_EMAIL' | translate }}</p>
-    </div>
-    <p class="link" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
+      <p class="link important" (click)="onRedirect('/Account/ReSendEmailConfirmation')">
+        {{ 'CONFIRM_EMAIL' | translate }}
+      </p>
+    </ng-template>
+
     <h4>{{ 'PASSWORD' | translate }}</h4>
     <p class="link" (click)="onRedirect('/Account/ChangePassword')">{{ 'CHANGE_PASSWORD' | translate }}</p>
   </div>

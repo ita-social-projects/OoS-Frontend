@@ -5,7 +5,6 @@ import { User } from '../../models/user.model';
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  
   private readonly url = '/api/v1/users/personalinfo';
 
   constructor(private http: HttpClient) {}
@@ -13,14 +12,14 @@ export class UserService {
   /**
    * This method get user personal information
    */
-  getPersonalInfo(): Observable<User> {
+  public getPersonalInfo(): Observable<User> {
     return this.http.get<User>(this.url);
   }
 
   /**
    * This method update user personal information
    */
-  updatePersonalInfo(user: User): Observable<User> {
+  public updatePersonalInfo(user: User): Observable<User> {
     return this.http.put<User>(this.url, user);
   }
 }

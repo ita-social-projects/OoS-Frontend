@@ -11,7 +11,7 @@ export enum NotificationAction {
   delete = 'Delete',
   message = 'Message',
   Block = 'Block',
-  Unblock = 'Unblock',
+  Unblock = 'Unblock'
 }
 
 export enum NotificationDescriptionType {

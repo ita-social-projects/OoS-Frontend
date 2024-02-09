@@ -30,6 +30,12 @@ export interface MainPageStateModel {
 })
 @Injectable()
 export class MainPageState {
+  constructor(
+    private categoriesService: DirectionsService,
+    private appWorkshopsService: AppWorkshopsService,
+    private platformService: PlatformService
+  ) {}
+
   @Selector()
   static isLoadingData(state: MainPageStateModel): boolean {
     return state.isLoadingData;
@@ -50,16 +56,10 @@ export class MainPageState {
     return state.topWorkshops;
   }
 
-  constructor(
-    private categoriesService: DirectionsService,
-    private appWorkshopsService: AppWorkshopsService,
-    private platformSercice: PlatformService
-  ) {}
-
   @Action(GetMainPageInfo)
   getMainPageInfo({ patchState }: StateContext<MainPageStateModel>): Observable<CompanyInformation> {
     patchState({ isLoadingData: true });
-    return this.platformSercice
+    return this.platformService
       .getPlatformInfo(AdminTabTypes.MainPage)
       .pipe(tap((headerInfo: CompanyInformation) => patchState({ headerInfo, isLoadingData: false })));
   }

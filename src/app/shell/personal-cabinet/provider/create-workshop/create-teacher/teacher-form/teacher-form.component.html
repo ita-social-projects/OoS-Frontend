@@ -45,12 +45,8 @@
 
   <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group formControlName="gender" color="primary">
-    <mat-radio-button
-      class="step-radio"
-      [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
-    <mat-radio-button
-      class="step-radio"
-      [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
+    <mat-radio-button class="step-radio" [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
+    <mat-radio-button class="step-radio" [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
   </mat-radio-group>
   <app-validation-hint [validationFormControl]="TeacherFormGroup.get('gender')"> </app-validation-hint>
 

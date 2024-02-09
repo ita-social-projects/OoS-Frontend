@@ -16,7 +16,10 @@ import { AppState } from 'shared/store/app.state';
 })
 export class CreateGuard implements CanDeactivate<unknown> {
   result: boolean;
-  constructor(private matDialog: MatDialog, private store: Store) {}
+  constructor(
+    private matDialog: MatDialog,
+    private store: Store
+  ) {}
 
   canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const isDirty = this.store.selectSnapshot<boolean>(AppState.isDirtyForm);

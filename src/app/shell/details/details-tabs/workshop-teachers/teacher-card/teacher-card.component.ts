@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { environment } from '../../../../../../environments/environment';
 import { Constants } from 'shared/constants/constants';
 import { Teacher } from 'shared/models/teacher.model';
 import { Util } from 'shared/utils/utils';
+import { environment } from '../../../../../../environments/environment';
 
 @Component({
   selector: 'app-teacher-card',

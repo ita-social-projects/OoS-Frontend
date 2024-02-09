@@ -15,7 +15,10 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderOrgInfoComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly ownershipTypes = OwnershipTypes;
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

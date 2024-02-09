@@ -13,13 +13,7 @@ describe('StatisticsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [StatisticsComponent],
-      imports: [
-        NgxsModule.forRoot([]),
-        BrowserAnimationsModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        TranslateModule.forRoot(),
-      ],
+      imports: [NgxsModule.forRoot([]), BrowserAnimationsModule, ReactiveFormsModule, MatSelectModule, TranslateModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(StatisticsComponent);

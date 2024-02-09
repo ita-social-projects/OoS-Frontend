@@ -11,13 +11,13 @@ import { StatisticParameters, StatisticReport } from 'shared/models/statistic.mo
 export class StatisticReportsService {
   constructor(private http: HttpClient) {}
 
-  getReportsByFilter(parameters: StatisticParameters): Observable<SearchResponse<StatisticReport[]>> {
+  public getReportsByFilter(parameters: StatisticParameters): Observable<SearchResponse<StatisticReport[]>> {
     const params = this.setParams(parameters);
 
     return this.http.get<SearchResponse<StatisticReport[]>>('/api/v1/StatisticReport/GetByFilter', { params });
   }
 
-  getReportById(id: string): Observable<HttpResponse<Blob>> {
+  public getReportById(id: string): Observable<HttpResponse<Blob>> {
     return this.http.get(`/api/v1/StatisticReport/GetDataById/${id}`, { observe: 'response', responseType: 'blob' });
   }
 

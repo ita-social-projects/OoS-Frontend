@@ -4,25 +4,29 @@
 
   <form fxLayout="column" class="reject-form">
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <label class="step-label">
-        {{ modalConfirmationDescription | translate }}<span class="step-required">*</span>
-      </label>
+      <label class="step-label"> {{ modalConfirmationDescription | translate }}<span class="step-required">*</span> </label>
       <div class="step-label">
-        <label class="step-characters-count">{{ reasonFormControl.value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</label>
+        <label class="step-characters-count"
+          >{{ reasonFormControl.value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</label
+        >
       </div>
     </div>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-      <textarea matInput
-                class="step-textarea"
-                placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
-                [formControl]="reasonFormControl"
-                [maxlength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-                appTrimValue>
+      <textarea
+        matInput
+        class="step-textarea"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
+        [formControl]="reasonFormControl"
+        [maxlength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+        appTrimValue>
       </textarea>
     </mat-form-field>
-    <app-validation-hint [validationFormControl]="reasonFormControl"
-                         [minCharacters]="validationConstants.INPUT_LENGTH_1"
-                         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+    <app-validation-hint
+      [validationFormControl]="reasonFormControl"
+      [minCharacters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
     </app-validation-hint>
 
     <label *ngIf="isPhoneNumberRequired" class="step-label">
@@ -39,11 +43,7 @@
   </form>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
-    <button class="btn"
-            mat-button
-            (click)="onSubmit()"
-            [disabled]="!formGroup.valid"
-            cdkFocusInitial>
+    <button class="btn" mat-button (click)="onSubmit()" [disabled]="!formGroup.valid" cdkFocusInitial>
       {{ 'BUTTONS.CONFIRM' | translate }}
     </button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">

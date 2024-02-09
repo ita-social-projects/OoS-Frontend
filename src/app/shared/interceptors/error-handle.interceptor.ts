@@ -12,12 +12,15 @@ import { ShowMessageBar } from 'shared/store/app.actions';
 
 @Injectable()
 export class ErrorHandleInterceptor implements HttpInterceptor {
-  constructor(private store: Store, private translateService: TranslateService) {}
+  constructor(
+    private store: Store,
+    private translateService: TranslateService
+  ) {}
 
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if ('apiErrorResponse' in error.error) {
+        if (error.error.apiErrorResponse) {
           const message = this.buildApiErrorMessage(error.error.apiErrorResponse.apiErrors);
           this.displayErrorMessageBar(message, 10000);
         } else {

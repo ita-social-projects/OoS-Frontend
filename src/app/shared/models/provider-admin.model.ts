@@ -8,16 +8,6 @@ export interface ProviderAdminParameters extends PaginationParameters {
   searchString?: string;
 }
 
-export interface ProviderAdminTable {
-  id: string;
-  pib: string;
-  email: string;
-  phoneNumber: string;
-  isDeputy: boolean;
-  status: string;
-  role?: string;
-}
-
 export class ProviderAdmin implements Person {
   id?: string;
   userId?: string;
@@ -33,7 +23,14 @@ export class ProviderAdmin implements Person {
   providerId?: string;
   workshopTitles?: TruncatedItem[];
 
-  constructor(info, isDebuty: boolean, userId?: string, workshopIds?: string[], providerId?: string, accountStatus?: string) {
+  constructor(
+    info: Partial<ProviderAdmin>,
+    isDebuty: boolean,
+    userId?: string,
+    workshopIds?: string[],
+    providerId?: string,
+    accountStatus?: string
+  ) {
     this.email = info.email;
     this.phoneNumber = info.phoneNumber;
     this.firstName = info.firstName;

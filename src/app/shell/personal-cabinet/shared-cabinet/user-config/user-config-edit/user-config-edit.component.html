@@ -5,60 +5,55 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="userEditFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-        <label class="step-label"> {{ 'FORMS.LABELS.LAST_NAME' | translate }} <span
-          class="step-required">*</span></label>
+        <label class="step-label"> {{ 'FORMS.LABELS.LAST_NAME' | translate }} <span class="step-required">*</span></label>
         <mat-form-field>
           <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue />
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="userEditFormGroup.get('lastName')"
-                             [minCharacters]="validationConstants.INPUT_LENGTH_1"
-                             [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('lastName')"
+          [minCharacters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharacters]="validationConstants.INPUT_LENGTH_60">
         </app-validation-hint>
 
-        <label class="step-label"> {{ 'FORMS.LABELS.FIRST_NAME' | translate }} <span
-          class="step-required">*</span></label>
+        <label class="step-label"> {{ 'FORMS.LABELS.FIRST_NAME' | translate }} <span class="step-required">*</span></label>
         <mat-form-field>
           <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue />
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="userEditFormGroup.get('firstName')"
-                             [minCharacters]="validationConstants.INPUT_LENGTH_1"
-                             [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('firstName')"
+          [minCharacters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharacters]="validationConstants.INPUT_LENGTH_60">
         </app-validation-hint>
 
         <label class="step-label"> {{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</label>
         <mat-form-field>
           <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue />
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="userEditFormGroup.get('middleName')"
-                             [minCharacters]="validationConstants.INPUT_LENGTH_1"
-                             [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+        <app-validation-hint
+          [validationFormControl]="userEditFormGroup.get('middleName')"
+          [minCharacters]="validationConstants.INPUT_LENGTH_1"
+          [maxCharacters]="validationConstants.INPUT_LENGTH_60">
         </app-validation-hint>
 
         <ng-container *ngIf="role === Role.parent">
-          <label class="step-label">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span
-            class="step-required">*</span></label>
+          <label class="step-label">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label>
           <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
-            <input matInput
-                   [min]="minDate"
-                   [max]="maxDate"
-                   [matDatepicker]="picker"
-                   formControlName="dateOfBirth"
-                   placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
+            <input
+              matInput
+              [min]="minDate"
+              [max]="maxDate"
+              [matDatepicker]="picker"
+              formControlName="dateOfBirth"
+              placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
           </mat-form-field>
-          <app-validation-hint [validationFormControl]="userEditFormGroup.get('dateOfBirth')"
-                               [minMaxDate]="true">
-          </app-validation-hint>
+          <app-validation-hint [validationFormControl]="userEditFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>
 
           <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
           <mat-radio-group formControlName="gender" color="primary">
-            <mat-radio-button
-              class="step-radio"
-              [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
-            <mat-radio-button
-              class="step-radio"
-              [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
+            <mat-radio-button class="step-radio" [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
+            <mat-radio-button class="step-radio" [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
           </mat-radio-group>
           <app-validation-hint [validationFormControl]="userEditFormGroup.get('gender')"></app-validation-hint>
         </ng-container>
@@ -74,11 +69,12 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
-      <button [disabled]="!this.userEditFormGroup.dirty || !userEditFormGroup.valid || isDispatching"
-              class="btn"
-              mat-button
-              type="submit"
-              (click)="onSubmit()">
+      <button
+        [disabled]="!this.userEditFormGroup.dirty || !userEditFormGroup.valid || isDispatching"
+        class="btn"
+        mat-button
+        type="submit"
+        (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>

@@ -35,7 +35,10 @@ export class OnGetProviderByIdFail {
 
 export class GetApplicationsByPropertyId {
   static readonly type = '[user] get Applications By Property Id';
-  constructor(public id: string, public parameters: ApplicationFilterParameters) {}
+  constructor(
+    public id: string,
+    public parameters: ApplicationFilterParameters
+  ) {}
 }
 
 export class GetApplicationsByStatus {

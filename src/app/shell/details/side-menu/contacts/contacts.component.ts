@@ -27,7 +27,7 @@ export class ContactsComponent implements OnInit {
 
   public ngOnInit(): void {}
 
-  /*Detects device and opens map*/
+  /* Detects device and opens map*/
   public mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       this.addressLink = 'https://maps.apple.com:';

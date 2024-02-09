@@ -29,13 +29,9 @@ describe('CreateProviderAdminComponent', () => {
         RouterTestingModule,
         MatDialogModule,
         NgxsModule.forRoot([]),
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
-      declarations: [
-        CreateProviderAdminComponent,
-        MockValidationHintForInputComponent,
-        MockWorkshopChekcboxDropdownComponent,
-      ],
+      declarations: [CreateProviderAdminComponent, MockValidationHintForInputComponent, MockWorkshopChekcboxDropdownComponent]
     }).compileComponents();
   });
 
@@ -47,7 +43,7 @@ describe('CreateProviderAdminComponent', () => {
       middleName: new FormControl(''),
       firstName: new FormControl(''),
       phoneNumber: new FormControl(),
-      email: new FormControl(),
+      email: new FormControl()
     });
   });
 
@@ -58,7 +54,7 @@ describe('CreateProviderAdminComponent', () => {
 
 @Component({
   selector: 'app-validation-hint',
-  template: '',
+  template: ''
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
@@ -69,7 +65,7 @@ class MockValidationHintForInputComponent {
 
 @Component({
   selector: 'app-entity-checkbox-dropdown',
-  template: '',
+  template: ''
 })
 class MockWorkshopChekcboxDropdownComponent {
   @Input() entities: Workshop[];

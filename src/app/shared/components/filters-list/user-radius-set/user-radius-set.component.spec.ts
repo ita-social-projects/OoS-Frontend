@@ -17,15 +17,15 @@ describe('UserRadiusSetComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        BrowserAnimationsModule, 
-        NgxsModule.forRoot([]), 
-        MatSnackBarModule, 
-        TranslateModule.forRoot(), 
-        MatFormFieldModule, 
+        BrowserAnimationsModule,
+        NgxsModule.forRoot([]),
+        MatSnackBarModule,
+        TranslateModule.forRoot(),
+        MatFormFieldModule,
         MatInputModule,
         FormsModule,
         ReactiveFormsModule,
-        NgxSliderModule,
+        NgxSliderModule
       ],
       declarations: [UserRadiusSetComponent]
     }).compileComponents();

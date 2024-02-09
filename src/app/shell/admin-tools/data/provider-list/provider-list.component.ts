@@ -4,7 +4,7 @@ import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/f
 import { MatSort, Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
+import { Observable, Subject, of } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
 
 import { MatDialog } from '@angular/material/dialog';
@@ -53,19 +53,6 @@ import { Util } from 'shared/utils/utils';
 export class ProviderListComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort) public sort: MatSort;
 
-  public readonly noProviders = NoResultsTitle.noResult;
-  public readonly ModeConstants = ModeConstants;
-  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
-  public readonly ownershipTypes = OwnershipTypes;
-  public readonly statusIcons = UserStatusIcons;
-  public readonly providerStatuses = ProviderStatuses;
-  public readonly providerStatusTitles = ProviderStatusTitles;
-
-  public readonly blockedStatus = 'Blocked'; //TODO: should be localized
-
-  public readonly licenseStatuses = LicenseStatuses;
-  public readonly licenseStatusTitles = LicenseStatusTitles;
-
   @Select(AdminState.providers)
   public providers$: Observable<SearchResponse<Provider[]>>;
   @Select(AdminState.isLoading)
@@ -80,6 +67,19 @@ export class ProviderListComponent implements OnInit, OnDestroy {
   public role$: Observable<Role>;
   @Select(AdminState.selectedAdmin)
   public selectedAdmin$: Observable<BaseAdmin>;
+
+  public readonly noProviders = NoResultsTitle.noResult;
+  public readonly ModeConstants = ModeConstants;
+  public readonly OwnershipTypeEnum = OwnershipTypesEnum;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly statusIcons = UserStatusIcons;
+  public readonly providerStatuses = ProviderStatuses;
+  public readonly providerStatusTitles = ProviderStatusTitles;
+
+  public readonly blockedStatus = 'Blocked'; // TODO: should be localized
+
+  public readonly licenseStatuses = LicenseStatuses;
+  public readonly licenseStatusTitles = LicenseStatusTitles;
 
   public selectedAdmin: BaseAdmin;
   public role: Role;
@@ -118,6 +118,42 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     private formBuilder: FormBuilder
   ) {}
 
+  public get isTechAdmin(): boolean {
+    return this.role === Role.techAdmin;
+  }
+
+  public get isMinistryAdmin(): boolean {
+    return this.role === Role.ministryAdmin;
+  }
+
+  public get isRegionAdmin(): boolean {
+    return this.role === Role.regionAdmin;
+  }
+
+  public get isAreaAdmin(): boolean {
+    return this.role === Role.areaAdmin;
+  }
+
+  private get searchBarFormControl(): FormControl {
+    return this.filterGroup.get('searchBarFilter') as FormControl;
+  }
+
+  private get institutionFormControl(): FormControl {
+    return this.filterGroup.get('institution') as FormControl;
+  }
+
+  private get regionFormControl(): FormControl {
+    return this.filterGroup.get('region') as FormControl;
+  }
+
+  private get areaFormControl(): FormControl {
+    return this.filterGroup.get('area') as FormControl;
+  }
+
+  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
+    return codeficator1.id === codeficator2.id;
+  }
+
   public ngOnInit(): void {
     this.selectedAdmin$.pipe(takeUntil(this.destroy$)).subscribe((admin: BaseAdmin) => (this.selectedAdmin = admin));
 
@@ -128,6 +164,8 @@ export class ProviderListComponent implements OnInit, OnDestroy {
           this.role = role;
 
           switch (role) {
+            case Role.techAdmin:
+              return of(null);
             case Role.ministryAdmin:
               return this.store.dispatch(new GetMinistryAdminProfile());
             case Role.regionAdmin:
@@ -164,131 +202,6 @@ export class ProviderListComponent implements OnInit, OnDestroy {
 
     this.setInformationDependingOnRole();
     this.subscribeFormControls();
-  }
-
-  private setInformationDependingOnRole() {
-    if (this.isTechAdmin) {
-      this.store.dispatch(new GetAllInstitutions(true));
-    }
-    if (this.isTechAdmin || this.isMinistryAdmin) {
-      this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
-        takeUntil(this.destroy$),
-        map((state) => [...state.metaDataState.codeficatorSearch])
-      );
-      this.areaFormControl.disable();
-    }
-    if (this.isRegionAdmin) {
-      this.selectedAdmin$
-        .pipe(
-          takeUntil(this.destroy$),
-          switchMap((admin: RegionAdmin) =>
-            this.store
-              .dispatch(new GetCodeficatorById(admin.catottgId))
-              .pipe(
-                switchMap((state) =>
-                  this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
-                )
-              )
-          )
-        )
-        .subscribe((state) => {
-          const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
-
-          if (category === CodeficatorCategories.Region) {
-            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
-          }
-        });
-
-      this.selectedAdmin$
-        .pipe(takeUntil(this.destroy$))
-        .subscribe((admin: RegionAdmin) =>
-          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
-        );
-    }
-  }
-
-  private subscribeFormControls() {
-    this.searchBarFormControl.valueChanges
-      .pipe(
-        distinctUntilChanged(),
-        startWith(''),
-        skip(1),
-        debounceTime(1000),
-        takeUntil(this.destroy$),
-        map((value: string) => value.trim())
-      )
-      .subscribe((searchValue: string) => {
-        this.providerParameters.searchString = searchValue;
-        this.currentPage = PaginationConstants.firstPage;
-        this.getProviders();
-      });
-
-    this.institutionFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(() => {
-        this.providerParameters.institutionId = this.institutionFormControl.value.id;
-        this.currentPage = PaginationConstants.firstPage;
-        this.getProviders();
-      });
-
-    this.regionFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((value: Codeficator) => {
-        this.providerParameters.catottgId = this.regionFormControl.value.id;
-        this.currentPage = PaginationConstants.firstPage;
-        this.getProviders();
-        if (value.category === CodeficatorCategories.Region) {
-          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.regionFormControl.value.id));
-          this.areaFormControl.enable();
-        } else {
-          this.store.dispatch(new ClearCodeficatorSearch());
-          this.areaFormControl.disable();
-        }
-      });
-
-    this.areaFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
-      .subscribe(() => {
-        this.providerParameters.catottgId = this.areaFormControl.value.id;
-        this.currentPage = PaginationConstants.firstPage;
-        this.getProviders();
-      });
-  }
-
-  public get isTechAdmin(): boolean {
-    return this.role === Role.techAdmin;
-  }
-
-  public get isMinistryAdmin(): boolean {
-    return this.role === Role.ministryAdmin;
-  }
-
-  public get isRegionAdmin(): boolean {
-    return this.role === Role.regionAdmin;
-  }
-
-  public get isAreaAdmin(): boolean {
-    return this.role === Role.areaAdmin;
-  }
-
-  public compareCodeficators(codeficator1: Codeficator, codeficator2: Codeficator): boolean {
-    return codeficator1.id === codeficator2.id;
-  }
-
-  private get searchBarFormControl(): FormControl {
-    return this.filterGroup.get('searchBarFilter') as FormControl;
-  }
-
-  private get institutionFormControl(): FormControl {
-    return this.filterGroup.get('institution') as FormControl;
-  }
-
-  private get regionFormControl(): FormControl {
-    return this.filterGroup.get('region') as FormControl;
-  }
-
-  private get areaFormControl(): FormControl {
-    return this.filterGroup.get('area') as FormControl;
   }
 
   public onViewProviderInfo(provider: Provider): void {
@@ -436,7 +349,96 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     this.store.dispatch(new PopNavPath());
   }
 
-  private setProviderFilterByDefault() {
+  private setInformationDependingOnRole(): void {
+    if (this.isTechAdmin) {
+      this.store.dispatch(new GetAllInstitutions(true));
+    }
+    if (this.isTechAdmin || this.isMinistryAdmin) {
+      this.regions$ = this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.Level1])).pipe(
+        takeUntil(this.destroy$),
+        map((state) => [...state.metaDataState.codeficatorSearch])
+      );
+      this.areaFormControl.disable();
+    }
+    if (this.isRegionAdmin) {
+      this.selectedAdmin$
+        .pipe(
+          takeUntil(this.destroy$),
+          switchMap((admin: RegionAdmin) =>
+            this.store
+              .dispatch(new GetCodeficatorById(admin.catottgId))
+              .pipe(
+                switchMap((state) =>
+                  this.store.dispatch(new GetCodeficatorSearch(state.metaDataState.codeficator.region, [CodeficatorCategories.Level1]))
+                )
+              )
+          )
+        )
+        .subscribe((state) => {
+          const { id: regionId, category } = state.metaDataState.codeficatorSearch[0];
+
+          if (category === CodeficatorCategories.Region) {
+            this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], regionId));
+          }
+        });
+
+      this.selectedAdmin$
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((admin: RegionAdmin) =>
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], admin.catottgId))
+        );
+    }
+  }
+
+  private subscribeFormControls(): void {
+    this.searchBarFormControl.valueChanges
+      .pipe(
+        distinctUntilChanged(),
+        startWith(''),
+        skip(1),
+        debounceTime(1000),
+        takeUntil(this.destroy$),
+        map((value: string) => value.trim())
+      )
+      .subscribe((searchValue: string) => {
+        this.providerParameters.searchString = searchValue;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+
+    this.institutionFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(() => {
+        this.providerParameters.institutionId = this.institutionFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+
+    this.regionFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .subscribe((value: Codeficator) => {
+        this.providerParameters.catottgId = this.regionFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+        if (value.category === CodeficatorCategories.Region) {
+          this.store.dispatch(new GetCodeficatorSearch('', [CodeficatorCategories.TerritorialCommunity], this.regionFormControl.value.id));
+          this.areaFormControl.enable();
+        } else {
+          this.store.dispatch(new ClearCodeficatorSearch());
+          this.areaFormControl.disable();
+        }
+      });
+
+    this.areaFormControl.valueChanges
+      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(1000), takeUntil(this.destroy$), filter(Boolean))
+      .subscribe(() => {
+        this.providerParameters.catottgId = this.areaFormControl.value.id;
+        this.currentPage = PaginationConstants.firstPage;
+        this.getProviders();
+      });
+  }
+
+  private setProviderFilterByDefault(): void {
     this.providerParameters.searchString = '';
     this.providerParameters.size = PaginationConstants.TABLE_ITEMS_PER_PAGE;
 

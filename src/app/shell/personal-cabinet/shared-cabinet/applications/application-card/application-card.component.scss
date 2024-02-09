@@ -17,6 +17,16 @@
         padding-left: 8px;
       }
     }
+    & > div > .card-block__child-name {
+      min-width: 250px !important;
+
+      & > h4 {
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+    }
   }
 
   &__buttons {
@@ -32,7 +42,8 @@
   flex-direction: column;
   align-items: flex-start;
 
-  h4, h5 {
+  h4,
+  h5 {
     &:not(:last-child) {
       padding-bottom: 8px;
     }

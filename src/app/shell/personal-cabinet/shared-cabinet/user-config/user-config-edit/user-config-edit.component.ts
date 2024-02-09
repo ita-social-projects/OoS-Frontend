@@ -34,11 +34,11 @@ const defaultValidators = [
   styleUrls: ['./user-config-edit.component.scss']
 })
 export class UserConfigEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  public readonly Role = Role;
-  public readonly validationConstants = ValidationConstants;
-
   @Select(RegistrationState.user)
   private user$: Observable<User>;
+
+  public readonly Role = Role;
+  public readonly validationConstants = ValidationConstants;
 
   public isDispatching = false;
   public user: User;
@@ -80,11 +80,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
       this.subscribeOnDirtyForm(this.userEditFormGroup);
       this.setEditMode();
     });
-  }
-
-  private updateUserInfoInStore() {
-    const user = new User(this.userEditFormGroup.value, this.user.id);
-    return this.store.dispatch(new UpdateUser(user));
   }
 
   public setEditMode(): void {
@@ -136,5 +131,10 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public onCancel(): void {
     this.router.navigate(['../'], { relativeTo: this.route });
+  }
+
+  private updateUserInfoInStore(): Observable<void> {
+    const user = new User(this.userEditFormGroup.value, this.user.id);
+    return this.store.dispatch(new UpdateUser(user));
   }
 }

@@ -65,10 +65,13 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public groupsByType: NotificationsGroupedByType[] = [];
   public notifications: Notification[];
 
-  constructor(private store: Store, private router: Router) {}
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public ngOnChanges(changes: SimpleChanges): void {
-    const recievedNotification = changes['recievedNotification'];
+    const recievedNotification = changes.recievedNotification;
     if (recievedNotification && !recievedNotification.firstChange) {
       this.addRecievedNotification(recievedNotification.currentValue);
     }
@@ -121,7 +124,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.notifications = this.notifications.filter((recievedNotification: Notification) => recievedNotification.id !== notification.id);
   }
 
-  public onNavigate(type: NotificationType, action:NotificationAction, groupedDataStatus?: ApplicationStatuses): void {
+  public onNavigate(type: NotificationType, action: NotificationAction, groupedDataStatus?: ApplicationStatuses): void {
     switch (NotificationType[type]) {
       case NotificationType.Workshop:
       case NotificationType.Application:
@@ -136,7 +139,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         break;
       case NotificationType.Provider:
         switch (NotificationAction[action]) {
-          case  NotificationAction.Block:
+          case NotificationAction.Block:
             this.router.navigate(['personal-cabinet/provider/info']);
             break;
           default:
@@ -175,12 +178,12 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   ): string | void {
     if (data[DataTypes.LicenseStatus]) {
       return this.getDataLicenseNotification(descriptionType, data[DataTypes.LicenseStatus]);
-    }  
-    
+    }
+
     if (!Object.keys(data).length) {
       return this.getNotificationByAction(descriptionType, notificationType, action);
-    } 
-    
+    }
+
     if (data[DataTypes.Status]) {
       return this.getDataStatusNotification(descriptionType, notificationType, data[DataTypes.Status]);
     }
@@ -192,11 +195,15 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.destroy$.unsubscribe();
   }
 
-  private getNotificationByAction(descriptionType: NotificationDescriptionType, notificationType: NotificationType, action: ProviderStatuses): string |void {
+  private getNotificationByAction(
+    descriptionType: NotificationDescriptionType,
+    notificationType: NotificationType,
+    action: ProviderStatuses
+  ): string | void {
     if (descriptionType === NotificationDescriptionType.Full) {
       return this.getFullNotificationMessage(notificationType, action);
     }
-    
+
     if (descriptionType === NotificationDescriptionType.Short) {
       return this.getShortNotificationMessage(notificationType, action);
     }
@@ -265,7 +272,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
         );
         break;
       case NotificationType.Chat:
-        //TODO
+        // TODO
         break;
     }
   }
@@ -276,7 +283,10 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.groupsByType.push(newGroupByType);
   }
 
-  private getFullNotificationMessage(notificationType: NotificationType, input: ProviderStatuses | NotificationAction | ApplicationStatuses): string {
+  private getFullNotificationMessage(
+    notificationType: NotificationType,
+    input: ProviderStatuses | NotificationAction | ApplicationStatuses
+  ): string {
     if (notificationType === NotificationType.Workshop) {
       return NotificationWorkshopFullDescriptions[input];
     }
@@ -286,7 +296,10 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     }
   }
 
-  private getShortNotificationMessage(notificationType: NotificationType, input: ProviderStatuses | NotificationAction | ApplicationStatuses): string {
+  private getShortNotificationMessage(
+    notificationType: NotificationType,
+    input: ProviderStatuses | NotificationAction | ApplicationStatuses
+  ): string {
     if (notificationType === NotificationType.Workshop) {
       return NotificationWorkshopShortDescription[input];
     }

@@ -12,14 +12,11 @@
     <ng-container *ngIf="invalidEdrpouIpn; then invalidEdrpouIpnTmpl"></ng-container>
     <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
     <ng-container *ngIf="invalidHouse; then invalidHouseTmpl"></ng-container>
-    <ng-container
-      *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
+    <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
   </ng-container>
 </small>
 
-<ng-template #requiredInputTmpl>
-  {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }}<br />
-</ng-template>
+<ng-template #requiredInputTmpl> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }}<br /> </ng-template>
 
 <ng-template #invalidCharactersTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_CHARACTERS' | translate }}<br />
@@ -36,7 +33,8 @@
 
 <ng-template #incorrectDateFieldTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}<br />
-  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}<br />
+  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate
+  }}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}<br />
 </ng-template>
 
 <ng-template #invalidDateRangeTmpl>
@@ -44,12 +42,11 @@
   {{ 'FORMS.VALIDATIONS.INVALID_BIRTHDAY' | translate }}<br />
 </ng-template>
 
-<ng-template #invalidEmailTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }}<br />
-</ng-template>
+<ng-template #invalidEmailTmpl> {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }}<br /> </ng-template>
 
 <ng-template #invalidEdrpouIpnTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }}{{ 'FORMS.VALIDATIONS.INVALID_EDRPO_IPN_END' | translate }}<br />
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }}{{ 'FORMS.VALIDATIONS.INVALID_EDRPO_IPN_END' | translate
+  }}<br />
 </ng-template>
 
 <ng-template #invalidPhoneLengthTmpl>

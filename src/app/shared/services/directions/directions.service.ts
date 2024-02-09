@@ -13,7 +13,10 @@ import { FilterState } from 'shared/store/filter.state';
   providedIn: 'root'
 })
 export class DirectionsService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   private setParams(directionParameters: DirectionParameters): HttpParams {
     let params = new HttpParams();

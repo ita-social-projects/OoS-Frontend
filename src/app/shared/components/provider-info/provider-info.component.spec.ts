@@ -8,12 +8,12 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
 
-import { Address } from '../../models/address.model';
-import { Provider } from '../../models/provider.model';
-import { PhonePipe } from '../../pipes/phone-transform.pipe';
-import { Institution } from './../../models/institution.model';
+import { NgxsModule } from '@ngxs/store';
+import { Address } from 'shared/models/address.model';
+import { Institution } from 'shared/models/institution.model';
+import { Provider } from 'shared/models/provider.model';
+import { PhonePipe } from 'shared/pipes/phone-transform.pipe';
 import { ProviderInfoComponent } from './provider-info.component';
 
 describe('ProviderInfoComponent', () => {

@@ -19,7 +19,7 @@ import { UserTabParams } from 'shared/enum/role';
 import { Child, ChildrenParameters } from 'shared/models/child.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { UsersTable } from 'shared/models/users-table';
+import { UsersBlockData, UsersTableData } from 'shared/models/users-table';
 import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
@@ -32,18 +32,18 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit, OnDestroy {
-  public readonly UserTabsTitles = UserTabsTitles;
-  public readonly noUsers = NoResultsTitle.noUsers;
-  public readonly statusesTitles = EmailConfirmationStatusesTitles;
-
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.children)
   private children$: Observable<SearchResponse<Child[]>>;
 
+  public readonly UserTabsTitles = UserTabsTitles;
+  public readonly noUsers = NoResultsTitle.noUsers;
+  public readonly statusesTitles = EmailConfirmationStatusesTitles;
+
   public filterFormControl = new FormControl('');
   public tabIndex: number;
-  public allUsers: UsersTable[] = [];
+  public allUsers: UsersTableData[] = [];
   public totalEntities: number;
   public displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'status', 'actions'];
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -55,7 +55,12 @@ export class UsersComponent implements OnInit, OnDestroy {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store, private router: Router, private route: ActivatedRoute, private matDialog: MatDialog) {}
+  constructor(
+    public store: Store,
+    private router: Router,
+    private route: ActivatedRoute,
+    private matDialog: MatDialog
+  ) {}
 
   public ngOnInit(): void {
     this.getChildren();
@@ -119,31 +124,8 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  public onBlockUnblock(user: UsersTable): void {
-    if (user.isBlocked) {
-      this.matDialog
-        .open(ConfirmationModalWindowComponent, {
-          width: Constants.MODAL_SMALL,
-          data: {
-            type: ModalConfirmationType.unBlockParent,
-            property: user.parentFullName
-          }
-        })
-        .afterClosed()
-        .pipe(
-          filter(Boolean),
-          switchMap(() =>
-            this.store.dispatch(
-              new OnUnblockParent({
-                parentId: user.parentId,
-                isBlocked: false
-              })
-            )
-          ),
-          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)))
-        )
-        .subscribe();
-    } else {
+  public onBlockUnblock(parent: UsersBlockData): void {
+    if (parent.isBlocking) {
       this.matDialog
         .open(ReasonModalWindowComponent, {
           data: { type: ModalConfirmationType.blockParent }
@@ -154,9 +136,32 @@ export class UsersComponent implements OnInit, OnDestroy {
           switchMap((result: string) =>
             this.store.dispatch(
               new OnBlockParent({
-                parentId: user.parentId,
+                parentId: parent.user.parentId,
                 isBlocked: true,
                 reason: result
+              })
+            )
+          ),
+          switchMap(() => this.store.dispatch(new GetChildrenForAdmin(this.childrenParams)))
+        )
+        .subscribe();
+    } else {
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.unBlockParent,
+            property: parent.user.parentFullName
+          }
+        })
+        .afterClosed()
+        .pipe(
+          filter(Boolean),
+          switchMap(() =>
+            this.store.dispatch(
+              new OnUnblockParent({
+                parentId: parent.user.parentId,
+                isBlocked: false
               })
             )
           ),
