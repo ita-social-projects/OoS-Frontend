@@ -230,7 +230,7 @@
     "USER_STATUSES": {
       "NEVER_LOGGED": "Очікує логування",
       "ACCEPTED": "Підтверджений",
-      "BLOCKED": "Заблокований"
+      "BLOCKED": "Заблоковано"
     },
     "EMAIL_CONFIRMATION_STATUSES": {
       "PENDING": "Очікує підтвердження ел. пошти",
