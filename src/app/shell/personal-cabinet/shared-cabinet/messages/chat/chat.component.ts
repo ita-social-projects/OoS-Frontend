@@ -220,7 +220,12 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         readDateTime: parsedMessage.ReadDateTime
       };
 
-      this.messages.push(message);
+      if (this.chatRoom.id === message.chatRoomId) {
+        this.messages.push(message);
+      } else {
+        // do nothing
+      }
+
       this.scrollDown();
     });
   }
