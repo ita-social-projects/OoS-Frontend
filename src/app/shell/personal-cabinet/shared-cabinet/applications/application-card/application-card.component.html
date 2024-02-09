@@ -2,8 +2,8 @@
   <mat-card-content [ngClass]="userRole === role.parent ? 'card-block card-block__parent' : 'card-block'">
     <div class="card-block__info">
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
-        <div fxLayout="row" fxLayoutAlign="start">
-          <h4 class="title">{{ childFullName }}</h4>
+        <div fxLayout="row" fxLayoutAlign="space-between" class="card-block__child-name">
+          <h4 class="title" showTooltipIfTruncated matTooltip="{{ childFullName }}" matTooltipClass="tooltip">{{ childFullName }}</h4>
           <i
             [ngClass]="
               childTrigger.menuOpen ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'
