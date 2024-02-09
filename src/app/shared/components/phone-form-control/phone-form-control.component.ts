@@ -11,11 +11,20 @@ import { Subject, startWith, takeUntil } from 'rxjs';
   styleUrls: ['./phone-form-control.component.scss']
 })
 export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
-  @ViewChild(NgxMatIntlTelInputComponent) private inputComponent: NgxMatIntlTelInputComponent;
   @Input() public parentFormControl: FormControl;
+
+  @ViewChild(NgxMatIntlTelInputComponent) private inputComponent: NgxMatIntlTelInputComponent;
 
   private countries: Country[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  @HostListener('document:keypress')
+  public handleKeyboardEvent(): void {
+    const countrySearchElement = document.querySelector('.ngx-mat-tel-input-mat-menu-panel .country-search') as HTMLElement;
+    if (countrySearchElement) {
+      setTimeout(() => countrySearchElement.focus(), 200);
+    }
+  }
 
   public ngAfterViewInit(): void {
     this.inputComponent.allCountries = this.inputComponent.allCountries.filter((country) => country.iso2 !== 'ru');
@@ -46,13 +55,5 @@ export class PhoneFormControlComponent implements AfterViewInit, OnDestroy {
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
-  }
-
-  @HostListener('document:keypress')
-  public handleKeyboardEvent() {
-    const countrySearchElement = document.querySelector('.ngx-mat-tel-input-mat-menu-panel .country-search') as HTMLElement;
-    if (countrySearchElement) {
-      setTimeout(() => countrySearchElement.focus(), 200);
-    }
   }
 }
