@@ -20,8 +20,6 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public required: boolean;
   public invalidSymbols: boolean;
   public invalidCharacters: boolean;
@@ -35,6 +33,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidStreet: boolean;
   public invalidHouse: boolean;
   public invalidSectionName: boolean;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private cd: ChangeDetectorRef) {}
 
@@ -51,7 +51,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       this.required = !!(errors?.required && !this.validationFormControl.value);
 
       // Check Date Picker Format
-      this.minMaxDate && this.checkMatDatePicker();
+      if (this.minMaxDate) {
+        this.checkMatDatePicker();
+      }
 
       // Check errors from validators
       this.checkValidationErrors(errors);

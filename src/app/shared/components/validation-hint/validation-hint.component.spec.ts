@@ -25,6 +25,32 @@ describe('ValidationHintComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('checkValidationErrors method', () => {
+    let control: FormControl;
+
+    beforeEach(() => {
+      control = component.validationFormControl;
+    });
+
+    it('should assign TRUE to invalidPhoneLength if validationFormControl has minlength error and if isPhoneNumber', () => {
+      component.isPhoneNumber = true;
+      control.setErrors({ minlength: true });
+
+      component.checkValidationErrors(control.errors);
+
+      expect(component.invalidPhoneLength).toBeTruthy();
+    });
+
+    it('should assign TRUE to invalidPhoneNumber if validationFormControl has validatePhoneNumber error and if isPhoneNumber', () => {
+      component.isPhoneNumber = true;
+      control.setErrors({ validatePhoneNumber: true, minlength: false });
+
+      component.checkValidationErrors(control.errors);
+
+      expect(component.invalidPhoneNumber).toBeTruthy();
+    });
+  });
+
   describe('checkInvalidText method', () => {
     let errors: ValidationErrors;
 
