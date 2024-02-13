@@ -10,7 +10,7 @@ import { ModeConstants } from 'shared/constants/constants';
 import { AdminTabTypes } from 'shared/enum/admins';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Languages } from 'shared/enum/languages';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { CompanyInformation } from 'shared/models/company-information.model';
 import { FeaturesList } from 'shared/models/features-list.model';
 import { Navigation } from 'shared/models/navigation.model';
@@ -31,13 +31,6 @@ import { isRoleAdmin } from 'shared/utils/admin.utils';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
-  public readonly Languages = Languages;
-  public readonly Role = Role;
-  public readonly RoleLinks = RoleLinks;
-  public readonly ModeConstants = ModeConstants;
-  public readonly isRoleAdmin = isRoleAdmin;
-
   @Select(RegistrationState.isAuthorizationLoading)
   public isAuthorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
@@ -56,6 +49,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
   public subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
   public headerInfo$: Observable<CompanyInformation>;
+
+  public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
+  public readonly Languages = Languages;
+  public readonly Role = Role;
+  public readonly Subrole = Subrole;
+  public readonly RoleLinks = RoleLinks;
+  public readonly ModeConstants = ModeConstants;
+  public readonly isRoleAdmin = isRoleAdmin;
 
   public selectedLanguage = localStorage.getItem('ui-culture');
   public showModalReg = false;
