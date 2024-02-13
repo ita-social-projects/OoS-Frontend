@@ -15,6 +15,7 @@ import { HistoryLogTypes } from 'shared/enum/history.log';
 import { Role } from 'shared/enum/role';
 import {
   ApplicationHistory,
+  DateFilters,
   DropdownData,
   FilterData,
   ParentsBlockingByAdminHistory,
@@ -40,11 +41,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./history-log.component.scss']
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
-  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
-  public readonly HistoryLogTypes = HistoryLogTypes;
-  public readonly noHistory = NoResultsTitle.noHistory;
-  public readonly Role = Role;
-
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.providerHistory)
@@ -56,9 +52,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   @Select(AdminState.parentsBlockingByAdminHistory)
   public parentsBlockingByAdminHistory$: Observable<SearchResponse<ParentsBlockingByAdminHistory[]>>;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private searchString: string;
-  private totalAmount: number;
+  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
+  public readonly HistoryLogTypes = HistoryLogTypes;
+  public readonly noHistory = NoResultsTitle.noHistory;
+  public readonly Role = Role;
 
   public tabIndex = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -71,6 +68,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   };
   public role: string;
   public tabName: HistoryLogTypes;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private searchString: string;
+  private totalAmount: number;
 
   constructor(
     private router: Router,
@@ -104,12 +105,6 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
-    this.filters = {
-      dateFrom: null,
-      dateTo: null,
-      size: PaginationConstants.TABLE_ITEMS_PER_PAGE
-    };
-
     this.currentPage = PaginationConstants.firstPage;
     this.tabIndex = event.index;
     this.getTableData();
@@ -134,6 +129,11 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.filters = { ...this.filters, ...event };
     this.currentPage = PaginationConstants.firstPage;
     this.getTableData(this.searchString);
+  }
+
+  public onDateFilter(event: DateFilters): void {
+    this.filters.dateFrom = event.dateFrom;
+    this.filters.dateTo = event.dateTo;
   }
 
   public ngOnDestroy(): void {

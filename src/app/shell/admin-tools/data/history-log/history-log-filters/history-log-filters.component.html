@@ -4,12 +4,12 @@
       <span>{{ 'HISTORY_LOG.PERIOD' | translate }}</span>
       <mat-form-field appPlaceholderStyling class="date" appearance="fill">
         <mat-label>{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
-        <mat-date-range-input [rangePicker]="picker">
+        <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
           <input matStartDate placeholder="{{ 'FROM' | translate }}" formControlName="dateFrom" />
           <input matEndDate placeholder="{{ 'TO' | translate }}" formControlName="dateTo" />
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-date-range-picker #picker></mat-date-range-picker>
+        <mat-date-range-picker #picker (closed)="setDateForFilters()"></mat-date-range-picker>
       </mat-form-field>
     </div>
 

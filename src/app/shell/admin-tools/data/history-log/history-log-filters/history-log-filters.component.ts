@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { DropdownData, FilterData } from 'shared/models/history-log.model';
+import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
 import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { ProviderAdminOperationOptions } from 'shared/constants/drop-down';
 
@@ -14,11 +14,13 @@ export class HistoryLogFiltersComponent implements OnInit {
   @Input() public dropdownOptions: DropdownData;
 
   @Output() public filterData = new EventEmitter<FilterData>();
+  @Output() public dateFromFilters = new EventEmitter<DateFilters>();
 
   public filtersForm: FormGroup;
   public formControlName: string = '';
   public additionalFormControlName: string = '';
   public additionalDropdownOptions = ProviderAdminOperationOptions;
+  public maxDate = new Date();
 
   private baseCountOfFiltersFormFields = 2;
   private _tabName: HistoryLogTypes;
@@ -31,16 +33,16 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   @Input() public set tabName(newTabName: HistoryLogTypes) {
     this._tabName = newTabName;
-    this.setBaseFiltersForm();
     this.additionalFormControlName = '';
-    if (Object.keys(this.filtersForm.controls).length > this.baseCountOfFiltersFormFields) {
+    if (this.filtersForm && Object.keys(this.filtersForm.controls).length > this.baseCountOfFiltersFormFields) {
       this.removeExtraFormControls();
     }
     this.setFiltersDependOnTab(newTabName);
   }
 
   public ngOnInit(): void {
-    this.filterData.emit();
+    this.setBaseFiltersForm();
+    this.filterData.emit(this.filtersForm.value);
   }
 
   public applyFilters(): void {
@@ -52,6 +54,12 @@ export class HistoryLogFiltersComponent implements OnInit {
     Object.keys(this.filtersForm.controls).forEach((control: string) => {
       this.filtersForm.get(control).setValue('');
     });
+    this.dateFromFilters.emit({ dateFrom: '', dateTo: '' });
+  }
+
+  public setDateForFilters(): void {
+    const { dateFrom, dateTo } = this.filtersForm.value;
+    this.dateFromFilters.emit({ dateFrom, dateTo });
   }
 
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
