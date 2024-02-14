@@ -21,6 +21,7 @@ export class HistoryLogFiltersComponent implements OnInit {
   public additionalFormControlName: string = '';
   public additionalDropdownOptions = ProviderAdminOperationOptions;
   public maxDate = new Date();
+  public notAllowedToPickByTabButton = -1;
 
   private baseCountOfFiltersFormFields = 2;
   private _tabName: HistoryLogTypes;
