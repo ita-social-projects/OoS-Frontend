@@ -11,7 +11,7 @@ import { ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
-import { HistoryLogTypes } from 'shared/enum/history.log';
+import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { Role } from 'shared/enum/role';
 import {
   ApplicationHistory,
@@ -105,6 +105,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
+    this.removeExtraPropertiesFromFilters();
     this.currentPage = PaginationConstants.firstPage;
     this.tabIndex = event.index;
     this.getTableData();
@@ -190,5 +191,24 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>
           (this.totalAmount = history.totalAmount)
       );
+  }
+
+  private removeExtraPropertiesFromFilters(): void {
+    for (const filterParam of Object.keys(this.filters)) {
+      switch (filterParam) {
+        case FilterOptions.AdminType:
+          delete this.filters.AdminType;
+          break;
+        case FilterOptions.OperationType:
+          delete this.filters.OperationType;
+          break;
+        case FilterOptions.PropertyName:
+          delete this.filters.PropertyName;
+          break;
+        case FilterOptions.ShowParents:
+          delete this.filters.ShowParents;
+          break;
+      }
+    }
   }
 }

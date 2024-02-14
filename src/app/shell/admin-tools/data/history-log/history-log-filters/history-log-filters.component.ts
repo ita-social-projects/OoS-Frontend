@@ -54,7 +54,7 @@ export class HistoryLogFiltersComponent implements OnInit {
     Object.keys(this.filtersForm.controls).forEach((control: string) => {
       this.filtersForm.get(control).setValue('');
     });
-    this.dateFromFilters.emit({ dateFrom: '', dateTo: '' });
+    this.dateFromFilters.emit({ [FilterOptions.dateFrom]: '', [FilterOptions.dateTo]: '' });
   }
 
   public setDateForFilters(): void {
@@ -87,7 +87,7 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   private removeExtraFormControls(): void {
     const extraFormControls = Object.keys(this.filtersForm.controls).filter(
-      (controlName: string) => controlName !== 'dateFrom' && controlName !== 'dateTo'
+      (controlName: string) => controlName !== FilterOptions.dateFrom && controlName !== FilterOptions.dateTo
     );
     for (const control of extraFormControls) {
       this.filtersForm.removeControl(control);
@@ -100,8 +100,8 @@ export class HistoryLogFiltersComponent implements OnInit {
     monthAgoDate.setMonth(currentDate.getMonth() - 1);
 
     this.filtersForm = this.fb.group({
-      dateFrom: new FormControl(monthAgoDate),
-      dateTo: new FormControl(currentDate)
+      [FilterOptions.dateFrom]: new FormControl(monthAgoDate),
+      [FilterOptions.dateTo]: new FormControl(currentDate)
     });
   }
 }
