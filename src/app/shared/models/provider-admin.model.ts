@@ -8,16 +8,6 @@ export interface ProviderAdminParameters extends PaginationParameters {
   searchString?: string;
 }
 
-export interface ProviderAdminTable {
-  id: string;
-  pib: string;
-  email: string;
-  phoneNumber: string;
-  isDeputy: boolean;
-  status: string;
-  role?: string;
-}
-
 export class ProviderAdmin implements Person {
   id?: string;
   userId?: string;

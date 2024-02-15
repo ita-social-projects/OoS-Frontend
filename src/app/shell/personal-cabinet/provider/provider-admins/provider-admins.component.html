@@ -8,8 +8,11 @@
         matInput
         type="text"
         class="search"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+        matTooltip="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}"
+        [matTooltipDisabled]="!isSmallMobileView" />
     </div>
+
     <ng-container *ngIf="subrole === Subrole.None; then ProviderViewBtnTmpl; else DeputyBtnViewTmpl"></ng-container>
   </div>
   <div class="tab-wrapper">
@@ -26,7 +29,8 @@
           [users]="users"
           [isEdit]="true"
           (delete)="onDelete($event)"
-          (block)="onBlock($event)"
+          (block)="onBlockUnblock($event)"
+          (unblock)="onBlockUnblock($event)"
           (update)="onUpdate($event)"
           (sendInvitation)="onSendInvitation($event)">
         </app-users-list>

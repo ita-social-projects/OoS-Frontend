@@ -17,6 +17,7 @@ import { CreateInfoFormComponent } from './create-provider/create-info-form/crea
 import { CreatePhotoFormComponent } from './create-provider/create-photo-form/create-photo-form.component';
 import { CreateProviderComponent } from './create-provider/create-provider.component';
 import { CreateAboutFormComponent } from './create-workshop/create-about-form/create-about-form.component';
+// eslint-disable-next-line max-len
 import { WorkingHoursFormWrapperComponent } from './create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form-wrapper.component';
 import { CreateDescriptionFormComponent } from './create-workshop/create-description-form/create-description-form.component';
 import { CreateTeacherComponent } from './create-workshop/create-teacher/create-teacher.component';
