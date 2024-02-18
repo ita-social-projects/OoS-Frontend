@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
@@ -8,7 +8,8 @@ import { ProviderAdminOperationOptions } from 'shared/constants/drop-down';
 @Component({
   selector: 'app-history-log-filters',
   templateUrl: './history-log-filters.component.html',
-  styleUrls: ['./history-log-filters.component.scss']
+  styleUrls: ['./history-log-filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HistoryLogFiltersComponent implements OnInit {
   @Input() public dropdownOptions: DropdownData;
@@ -16,10 +17,10 @@ export class HistoryLogFiltersComponent implements OnInit {
   @Output() public filterData = new EventEmitter<FilterData>();
   @Output() public dateFromFilters = new EventEmitter<DateFilters>();
 
+  public readonly additionalDropdownOptions = ProviderAdminOperationOptions;
   public filtersForm: FormGroup;
   public formControlName: string = '';
   public additionalFormControlName: string = '';
-  public additionalDropdownOptions = ProviderAdminOperationOptions;
   public maxDate = new Date();
   public notAllowedToPickByTabButton = -1;
 
@@ -43,11 +44,11 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   public ngOnInit(): void {
     this.setBaseFiltersForm();
-    this.filterData.emit(this.filtersForm.value);
+    this.emitFilterData();
   }
 
   public applyFilters(): void {
-    this.filterData.emit(this.filtersForm.value);
+    this.emitFilterData();
   }
 
   public onResetFilters(): void {
@@ -60,7 +61,8 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   public setDateForFilters(): void {
     const { dateFrom, dateTo } = this.filtersForm.value;
-    this.dateFromFilters.emit({ dateFrom, dateTo });
+    const dateFilters = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
+    this.dateFromFilters.emit(dateFilters);
   }
 
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
@@ -97,12 +99,48 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   private setBaseFiltersForm(): void {
     const currentDate = new Date();
-    const monthAgoDate = new Date(currentDate);
+    const monthAgoDate = new Date();
     monthAgoDate.setMonth(currentDate.getMonth() - 1);
 
     this.filtersForm = this.fb.group({
       [FilterOptions.dateFrom]: new FormControl(monthAgoDate),
       [FilterOptions.dateTo]: new FormControl(currentDate)
     });
+  }
+
+  private emitFilterData(): void {
+    const { dateFrom, dateTo, ...restFilters } = this.filtersForm.value;
+
+    if (dateFrom && dateTo) {
+      const filtersWithEditedTime = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
+      Object.assign(filtersWithEditedTime, restFilters);
+      this.filterData.emit(filtersWithEditedTime);
+    } else {
+      this.filterData.emit(this.filtersForm.value);
+    }
+  }
+
+  private setCustomTimeInDate(date: Date, hours: number, minutes: number, seconds: number): void {
+    date.setHours(hours);
+    date.setMinutes(minutes);
+    date.setSeconds(seconds);
+  }
+
+  private setTimeDependsOnTimezone(dateFrom: Date, dateTo: Date): FilterData {
+    const timezoneGap = dateFrom.getTimezoneOffset() * 60 * 1000;
+    const dateFromWithTimezoneGap = dateFrom.getTime() - timezoneGap;
+    const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
+
+    return {
+      dateFrom: new Date(dateFromWithTimezoneGap).toString(),
+      dateTo: new Date(dateToWithTimezoneGap).toString()
+    };
+  }
+
+  private setTimePeriodEqualToWholeDay(dateFrom: Date, dateTo: Date): FilterData {
+    this.setCustomTimeInDate(dateFrom, 0, 0, 0);
+    this.setCustomTimeInDate(dateTo, 23, 59, 59);
+
+    return this.setTimeDependsOnTimezone(dateFrom, dateTo);
   }
 }
