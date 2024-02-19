@@ -222,8 +222,6 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
 
       if (this.chatRoom.id === message.chatRoomId) {
         this.messages.push(message);
-      } else {
-        // do nothing
       }
 
       this.scrollDown();
