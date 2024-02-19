@@ -68,22 +68,16 @@ export class HistoryLogFiltersComponent implements OnInit {
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
     switch (tabName) {
       case HistoryLogTypes.Providers:
-        this.formControlName = FilterOptions.PropertyName;
-        this.filtersForm.addControl(FilterOptions.PropertyName, new FormControl(''));
+        this.addFormControlForFiltersForm(FilterOptions.PropertyName);
         break;
       case HistoryLogTypes.ProviderAdmins:
-        this.formControlName = FilterOptions.AdminType;
-        this.filtersForm.addControl(FilterOptions.AdminType, new FormControl(''));
-        this.additionalFormControlName = FilterOptions.OperationType;
-        this.filtersForm.addControl(FilterOptions.OperationType, new FormControl(''));
+        this.addFormControlForFiltersForm(FilterOptions.AdminType, FilterOptions.OperationType);
         break;
       case HistoryLogTypes.Applications:
-        this.formControlName = FilterOptions.PropertyName;
-        this.filtersForm.addControl(FilterOptions.PropertyName, new FormControl(''));
+        this.addFormControlForFiltersForm(FilterOptions.PropertyName);
         break;
       case HistoryLogTypes.Users:
-        this.formControlName = FilterOptions.ShowParents;
-        this.filtersForm.addControl(FilterOptions.ShowParents, new FormControl(''));
+        this.addFormControlForFiltersForm(FilterOptions.ShowParents);
         break;
     }
   }
@@ -142,5 +136,14 @@ export class HistoryLogFiltersComponent implements OnInit {
     this.setCustomTimeInDate(dateTo, 23, 59, 59);
 
     return this.setTimeDependsOnTimezone(dateFrom, dateTo);
+  }
+
+  private addFormControlForFiltersForm(formControlName: string, additionalFormControlName?: string): void {
+    this.formControlName = formControlName;
+    this.filtersForm.addControl(formControlName, new FormControl(''));
+    if (additionalFormControlName) {
+      this.additionalFormControlName = additionalFormControlName;
+      this.filtersForm.addControl(additionalFormControlName, new FormControl(''));
+    }
   }
 }
