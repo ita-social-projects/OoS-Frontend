@@ -124,11 +124,6 @@ h4 {
   top: -14px;
   clip-path: polygon(50% 0, 0 100%, 100% 100%);
 }
-::ng-deep {
-  .cdk-overlay-pane#cdk-overlay-0 {
-    width: 300px !important;
-  }
-}
 
 // TO DO mobile view ...
 @media (max-width: 750px) {
