@@ -10,8 +10,10 @@
     <p>{{ user.lastName }}</p>
     <h4>{{ 'FORMS.LABELS.FIRST_NAME' | translate }}</h4>
     <p>{{ user.firstName }}</p>
-    <h4>{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</h4>
-    <p>{{ user.middleName }}</p>
+    <ng-container *ngIf="user.middleName as middleName">
+      <h4>{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</h4>
+      <p>{{ middleName }}</p>
+    </ng-container>
     <h4>{{ 'FORMS.LABELS.PHONE' | translate }}</h4>
     <p>{{ phonePrefix + user.phoneNumber | phoneTransform }}</p>
     <ng-container *ngIf="(role$ | async) === role.parent">

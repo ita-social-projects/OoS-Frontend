@@ -22,6 +22,8 @@ import { Person } from 'shared/models/user.model';
 import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
 import { Constants } from 'shared/constants/constants';
 import { Subrole } from './../enum/role';
+import { Notification } from 'shared/models/notification.model';
+import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -295,6 +297,17 @@ export class Util {
    */
   public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
     return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
+  }
+
+  public static getTitleFromNotification(notification: Notification, descriptionType: NotificationDescriptionType): string {
+    switch (notification.type) {
+      case NotificationType.Workshop:
+        return notification.data.Title;
+      case NotificationType.Parent:
+        return descriptionType === NotificationDescriptionType.Short
+          ? notification.data.ProviderShortTitle
+          : notification.data.ProviderFullTitle;
+    }
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {

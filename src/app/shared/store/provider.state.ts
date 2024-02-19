@@ -466,12 +466,12 @@ export class ProviderState {
 
   @Action(OnUpdateProviderSuccess)
   onUpdateProviderSuccess({ dispatch }: StateContext<ProviderStateModel>, {}: OnUpdateProviderSuccess): void {
-    dispatch(new MarkFormDirty(false));
     dispatch([
       new ShowMessageBar({
         message: SnackbarText.updateProvider,
         type: 'success'
-      })
+      }),
+      new MarkFormDirty(false)
     ]);
     dispatch(new GetProfile()).subscribe(() => this.router.navigate(['/personal-cabinet/provider/info']));
   }
@@ -488,7 +488,7 @@ export class ProviderState {
   }
 
   @Action(UpdateProviderLicenseStatus)
-  updateProviderLicenseStatuse(
+  updateProviderLicenseStatus(
     { dispatch }: StateContext<ProviderStateModel>,
     { payload, providerParameters }: UpdateProviderLicenseStatus
   ): Observable<ProviderWithLicenseStatus | void> {
