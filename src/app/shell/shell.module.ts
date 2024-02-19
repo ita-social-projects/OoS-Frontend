@@ -29,6 +29,7 @@ import { InfoComponent } from './info/info.component';
 import { AdminToolsGuard } from './admin-tools/admin-tools.guard';
 import { IsMobileGuard } from './is-mobile.guard';
 import { RulesComponent } from './info/rules/rules.component';
+import { NotProviderAdminGuard } from './personal-cabinet/provider/not-provider-admin.guard';
 
 @NgModule({
   declarations: [
@@ -62,6 +63,7 @@ import { RulesComponent } from './info/rules/rules.component';
     ParentGuard,
     CreateProviderGuard,
     IsMobileGuard,
+    NotProviderAdminGuard,
     { provide: HTTP_INTERCEPTORS, useClass: HttpTokenInterceptor, multi: true },
     { provide: MAT_DATE_LOCALE, useValue: 'uk-UA' },
     { provide: MAT_DATE_FORMATS, useValue: MOMENT_DATE_FORMATS },

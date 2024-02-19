@@ -5,8 +5,8 @@
       <mat-form-field appPlaceholderStyling class="date" appearance="fill">
         <mat-label>{{ 'FORMS.PLACEHOLDERS.ENTER_DATE_RANGE' | translate }}</mat-label>
         <mat-date-range-input [rangePicker]="picker" [max]="maxDate">
-          <input matStartDate placeholder="{{ 'FROM' | translate }}" formControlName="dateFrom" [tabIndex]="notAllowedToPickByTabButton" />
-          <input matEndDate placeholder="{{ 'TO' | translate }}" formControlName="dateTo" [tabIndex]="notAllowedToPickByTabButton" />
+          <input matStartDate placeholder="{{ 'FROM' | translate }}" formControlName="dateFrom" [appKeyFilter]="dateFilter" [tabIndex]="notAllowedToPickByTabButton" />
+          <input matEndDate placeholder="{{ 'TO' | translate }}" formControlName="dateTo" [appKeyFilter]="dateFilter" [tabIndex]="notAllowedToPickByTabButton" />
         </mat-date-range-input>
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker (closed)="setDateForFilters()"></mat-date-range-picker>
