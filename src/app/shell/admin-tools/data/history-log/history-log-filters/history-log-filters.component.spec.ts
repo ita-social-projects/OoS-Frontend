@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { FilterOptions } from 'shared/enum/history.log';
 import { HistoryLogFiltersComponent } from './history-log-filters.component';
 
 describe('HistoryLogFiltersComponent', () => {
@@ -39,8 +40,8 @@ describe('HistoryLogFiltersComponent', () => {
     formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
     component.filtersForm = formBuilder.group({
-      dateFrom: formBuilder.control(''),
-      dateTo: formBuilder.control('')
+      [FilterOptions.dateFrom]: formBuilder.control(''),
+      [FilterOptions.dateTo]: formBuilder.control('')
     });
     component.filtersForm.addControl(component.formControlName, new FormControl(''));
     fixture.detectChanges();

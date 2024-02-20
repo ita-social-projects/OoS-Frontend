@@ -100,7 +100,8 @@ export class HistoryLogFiltersComponent implements OnInit {
 
     this.filtersForm = this.fb.group({
       [FilterOptions.dateFrom]: new FormControl(monthAgoDate),
-      [FilterOptions.dateTo]: new FormControl(currentDate)
+      [FilterOptions.dateTo]: new FormControl(currentDate),
+      [this.formControlName]: new FormControl(null)
     });
   }
 
@@ -128,8 +129,8 @@ export class HistoryLogFiltersComponent implements OnInit {
     const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
 
     return {
-      dateFrom: new Date(dateFromWithTimezoneGap).toString(),
-      dateTo: new Date(dateToWithTimezoneGap).toString()
+      [FilterOptions.dateFrom]: new Date(dateFromWithTimezoneGap).toString(),
+      [FilterOptions.dateTo]: new Date(dateToWithTimezoneGap).toString()
     };
   }
 
