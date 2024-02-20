@@ -50,4 +50,40 @@ describe('HistoryLogFiltersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('onResetFilters method', () => {
+    it('should reset filtersForm', () => {
+      const filtersFormResetSpy = jest.spyOn(component.filtersForm, 'reset');
+
+      component.onResetFilters();
+
+      expect(filtersFormResetSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should set value as empty string to all filtersForm controls', () => {
+      Object.keys(component.filtersForm.controls).forEach((control: string) => {
+        component.filtersForm.controls[control].setValue('Testing value');
+      });
+      const formControlSetValueSpy = jest.spyOn(FormControl.prototype, 'setValue');
+
+      component.onResetFilters();
+
+      Object.keys(component.filtersForm.controls).forEach(() => {
+        expect(formControlSetValueSpy).toHaveBeenCalledWith('');
+      });
+      Object.keys(component.filtersForm.controls).forEach((control: string) => {
+        expect(component.filtersForm.controls[control].value).toBe('');
+      });
+    });
+
+    it('should emit dateFromFilters with empty strings', () => {
+      const dateFromFiltersSpy = jest.spyOn(component.dateFromFilters, 'emit');
+      const expectedDateFromFilters = { [FilterOptions.dateFrom]: '', [FilterOptions.dateTo]: '' };
+
+      component.onResetFilters();
+
+      expect(dateFromFiltersSpy).toHaveBeenCalledTimes(1);
+      expect(dateFromFiltersSpy).toHaveBeenCalledWith(expectedDateFromFilters);
+    });
+  });
 });
