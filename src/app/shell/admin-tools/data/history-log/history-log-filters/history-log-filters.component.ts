@@ -129,8 +129,8 @@ export class HistoryLogFiltersComponent implements OnInit {
     const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
 
     return {
-      [FilterOptions.dateFrom]: new Date(dateFromWithTimezoneGap).toString(),
-      [FilterOptions.dateTo]: new Date(dateToWithTimezoneGap).toString()
+      [FilterOptions.dateFrom]: new Date(dateFromWithTimezoneGap).toUTCString(),
+      [FilterOptions.dateTo]: new Date(dateToWithTimezoneGap).toUTCString()
     };
   }
 

@@ -129,8 +129,8 @@ describe('HistoryLogFiltersComponent', () => {
     it('should emit dateFromFilters with correct values', () => {
       const dateFromFiltersSpy = jest.spyOn(component.dateFromFilters, 'emit');
       const expectedDateFilters = {
-        dateFrom: new Date('Sun Jan 21 2024 02:00:00').toString(),
-        dateTo: new Date('Thu Feb 22 2024 01:59:59').toString()
+        dateFrom: new Date('Sun Jan 21 2024 02:00:00').toUTCString(),
+        dateTo: new Date('Thu Feb 22 2024 01:59:59').toUTCString()
       };
 
       component.setDateForFilters();
