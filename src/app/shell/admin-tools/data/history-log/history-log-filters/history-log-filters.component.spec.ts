@@ -86,4 +86,57 @@ describe('HistoryLogFiltersComponent', () => {
       expect(dateFromFiltersSpy).toHaveBeenCalledWith(expectedDateFromFilters);
     });
   });
+
+  describe('setDateForFilters method', () => {
+    let dateFrom: Date;
+    let dateTo: Date;
+
+    beforeEach(() => {
+      component.filtersForm.controls.dateFrom.setValue(new Date('Sun Jan 21 2024 11:43:55'));
+      component.filtersForm.controls.dateTo.setValue(new Date('Thu Feb 21 2024 05:34:51'));
+      dateFrom = component.filtersForm.value.dateFrom;
+      dateTo = component.filtersForm.value.dateTo;
+    });
+
+    it('should set correct time to dateFrom equal to 00:00:00', () => {
+      const expectedTimeInDate = {
+        hours: 0,
+        minutes: 0,
+        seconds: 0
+      };
+
+      component.setDateForFilters();
+
+      expect(dateFrom.getHours()).toBe(expectedTimeInDate.hours);
+      expect(dateFrom.getMinutes()).toBe(expectedTimeInDate.minutes);
+      expect(dateFrom.getSeconds()).toBe(expectedTimeInDate.seconds);
+    });
+
+    it('should set correct time to dateTo equal to 23:59:59', () => {
+      const expectedTimeInDate = {
+        hours: 23,
+        minutes: 59,
+        seconds: 59
+      };
+
+      component.setDateForFilters();
+
+      expect(dateTo.getHours()).toBe(expectedTimeInDate.hours);
+      expect(dateTo.getMinutes()).toBe(expectedTimeInDate.minutes);
+      expect(dateTo.getSeconds()).toBe(expectedTimeInDate.seconds);
+    });
+
+    it('should emit dateFromFilters with correct values', () => {
+      const dateFromFiltersSpy = jest.spyOn(component.dateFromFilters, 'emit');
+      const expectedDateFilters = {
+        dateFrom: new Date('Sun Jan 21 2024 02:00:00').toString(),
+        dateTo: new Date('Thu Feb 22 2024 01:59:59').toString()
+      };
+
+      component.setDateForFilters();
+
+      expect(dateFromFiltersSpy).toHaveBeenCalledTimes(1);
+      expect(dateFromFiltersSpy).toHaveBeenCalledWith(expectedDateFilters);
+    });
+  });
 });
