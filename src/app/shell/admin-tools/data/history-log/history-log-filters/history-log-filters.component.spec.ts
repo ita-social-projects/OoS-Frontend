@@ -8,7 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { FilterOptions } from 'shared/enum/history.log';
+import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { HistoryLogFiltersComponent } from './history-log-filters.component';
 
 describe('HistoryLogFiltersComponent', () => {
@@ -51,14 +51,51 @@ describe('HistoryLogFiltersComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('tabName setter', () => {
+    it('should remove extra form controls from filtersForm', () => {
+      component.filtersForm.addControl('testControl', new FormControl('Testing value'));
+      component.filtersForm.addControl('secondTestControl', new FormControl('Testing value'));
+      const removeControlSpy = jest.spyOn(component.filtersForm, 'removeControl');
+      const baseCountOfFiltersFormFields = 2;
+      const expectedCountOfExtraFormControls = Object.keys(component.filtersForm.controls).length - baseCountOfFiltersFormFields;
+
+      component.tabName = HistoryLogTypes.Applications;
+
+      expect(removeControlSpy).toHaveBeenCalledTimes(expectedCountOfExtraFormControls);
+      expect(Object.keys(component.filtersForm.controls).length).toBe(3);
+      expect(component.tabName).toBe(HistoryLogTypes.Applications);
+    });
+
+    test.each`
+      tab                               | tabName             | expectedFormControlName
+      ${HistoryLogTypes.Providers}      | ${'Providers'}      | ${FilterOptions.PropertyName}
+      ${HistoryLogTypes.ProviderAdmins} | ${'ProviderAdmins'} | ${FilterOptions.AdminType}
+      ${HistoryLogTypes.Applications}   | ${'Applications'}   | ${FilterOptions.PropertyName}
+      ${HistoryLogTypes.Users}          | ${'Users'}          | ${FilterOptions.ShowParents}
+    `(
+      'should add to the filtersForm the $expectedFormControlName when the tabName equal to $tabName',
+      ({ tab, tabName, expectedFormControlName }) => {
+        component.tabName = tab;
+
+        expect(component.formControlName).toBe(expectedFormControlName);
+        expect(Object.keys(component.filtersForm.controls)).toContain(expectedFormControlName);
+      }
+    );
+
+    it('should add additionalFormControlName to filtersForm when tabName is equal to ProviderAdmins', () => {
+      const expectedAdditionalFormControlName = FilterOptions.OperationType;
+
+      component.tabName = HistoryLogTypes.ProviderAdmins;
+
+      expect(component.additionalFormControlName).toBe(expectedAdditionalFormControlName);
+      expect(Object.keys(component.filtersForm.controls)).toContain(expectedAdditionalFormControlName);
+    });
+  });
+
   describe('applyFilters method', () => {
-    let dateFrom: Date;
-    let dateTo: Date;
     let filterDataSpy: jest.SpyInstance;
 
     beforeEach(() => {
-      dateFrom = component.filtersForm.value.dateFrom;
-      dateTo = component.filtersForm.value.dateTo;
       filterDataSpy = jest.spyOn(component.filterData, 'emit');
       component.filtersForm.controls[component.formControlName].setValue('Testing value');
     });
