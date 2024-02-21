@@ -1,16 +1,15 @@
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
 
+import { Constants } from 'shared/constants/constants';
+import { Codeficator } from 'shared/models/codeficator.model';
 import { Coords } from 'shared/models/coords.model';
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { FilterChange, SetCoordsByMap } from 'shared/store/filter.actions';
-import { Constants } from 'shared/constants/constants';
-import { Codeficator } from 'shared/models/codeficator.model';
 import { FilterState } from 'shared/store/filter.state';
 import { GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -41,7 +40,11 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   public settlementSearchControl: FormControl = new FormControl('');
   public isDispalyed = true;
 
-  constructor(private store: Store, private actions$: Actions, private geolocationService: GeolocationService) {}
+  constructor(
+    private store: Store,
+    private actions$: Actions,
+    private geolocationService: GeolocationService
+  ) {}
 
   public ngOnInit(): void {
     this.settlementListener();

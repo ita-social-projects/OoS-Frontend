@@ -2,9 +2,10 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { distinctUntilChanged, map, Observable, startWith, Subject, takeUntil, tap } from 'rxjs';
-import { DefaultFilterState } from 'src/app/shared/models/defaultFilterState.model';
+import { Observable, Subject, distinctUntilChanged, map, startWith, takeUntil, tap } from 'rxjs';
+
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { Navigation } from 'shared/models/navigation.model';
 import { SetSearchQueryValue } from 'shared/store/filter.actions';
 import { FilterState } from 'shared/store/filter.state';
@@ -16,7 +17,10 @@ import { NavigationState } from 'shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-  constructor(private store: Store, private router: Router) {}
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
   public filteredResults: string[];

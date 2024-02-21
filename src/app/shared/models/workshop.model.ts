@@ -1,11 +1,11 @@
 import { OwnershipTypes } from 'shared/enum/provider';
 import { LicenseStatuses, ProviderStatuses } from 'shared/enum/statuses';
-import { DateTimeRanges } from 'shared/models/workingHours.model';
-import { PayRateType, WorkshopOpenStatus } from '../enum/workshop';
+import { FormOfLearning, PayRateType, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DateTimeRanges } from 'shared/models/working-hours.model';
 import { Address } from './address.model';
 import { Provider } from './provider.model';
-import { PaginationParameters } from './queryParameters.model';
-import { SectionItem } from './sectionItem.model';
+import { PaginationParameters } from './query-parameters.model';
+import { SectionItem } from './section-item.model';
 import { Teacher } from './teacher.model';
 
 export abstract class WorkshopBase {
@@ -21,6 +21,7 @@ export abstract class WorkshopBase {
   dateTimeRanges: DateTimeRanges[];
   price: number;
   payRate: PayRateType;
+  formOfLearning: FormOfLearning;
   availableSeats: number;
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;
@@ -40,7 +41,7 @@ export abstract class WorkshopBase {
   providerTitle: string;
   providerLicenseStatus: LicenseStatuses;
 
-  constructor(about: About, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
     this.phone = about.phone;
     this.email = about.email;
@@ -49,6 +50,7 @@ export abstract class WorkshopBase {
     this.dateTimeRanges = about.workingHours;
     this.price = about.price;
     this.payRate = about.payRate;
+    this.formOfLearning = about.formOfLearning;
     this.availableSeats = about.availableSeats;
     this.competitiveSelection = about.competitiveSelection;
     this.competitiveSelectionDescription = about.competitiveSelectionDescription;
@@ -94,7 +96,7 @@ export class Workshop extends WorkshopBase {
   imageIds?: string[];
   imageFiles?: File[];
 
-  constructor(about: About, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
+  constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     super(about, description, address, teachers, provider, id);
 
     if (about.coverImageId) {
@@ -137,6 +139,7 @@ export interface WorkshopBaseCard {
   providerOwnership: OwnershipTypes;
   title: string;
   payRate: PayRateType;
+  formOfLearning: FormOfLearning;
   coverImageId?: string;
   minAge: number;
   maxAge: number;
@@ -182,7 +185,7 @@ export interface WorkshopCardParameters extends PaginationParameters {
   providerId: string;
 }
 
-interface About {
+export interface WorkshopAbout {
   title: string;
   phone: string;
   email: string;
@@ -194,6 +197,7 @@ interface About {
   facebook?: string;
   instagram?: string;
   payRate: PayRateType;
+  formOfLearning: FormOfLearning;
   availableSeats: number;
   competitiveSelection: boolean;
   competitiveSelectionDescription: string;

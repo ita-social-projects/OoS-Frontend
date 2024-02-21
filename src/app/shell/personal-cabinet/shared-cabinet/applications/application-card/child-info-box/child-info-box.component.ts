@@ -9,7 +9,7 @@ import { Util } from 'shared/utils/utils';
 @Component({
   selector: 'app-child-info-box',
   templateUrl: './child-info-box.component.html',
-  styleUrls: ['./child-info-box.component.scss'],
+  styleUrls: ['./child-info-box.component.scss']
 })
 export class ChildInfoBoxComponent implements OnInit {
   readonly gender = Gender;

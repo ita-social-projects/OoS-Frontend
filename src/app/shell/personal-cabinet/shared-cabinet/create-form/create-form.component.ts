@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -6,7 +6,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, takeWhile } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { MarkFormDirty } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
@@ -18,7 +18,7 @@ import { SharedUserState } from 'shared/store/shared-user.state';
   selector: 'app-create-form',
   template: ''
 })
-export abstract class CreateFormComponent implements OnInit, OnDestroy {
+export abstract class CreateFormComponent implements OnDestroy {
   @Select(AppState.isDirtyForm)
   public isDirtyForm$: Observable<boolean>;
   @Select(SharedUserState.isLoading)
@@ -31,14 +31,17 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
   public isPristine = true;
   public editMode: boolean;
 
-  constructor(protected store: Store, protected route: ActivatedRoute, protected navigationBarService: NavigationBarService) {}
+  constructor(
+    protected store: Store,
+    protected route: ActivatedRoute,
+    protected navigationBarService: NavigationBarService
+  ) {}
 
-  public ngOnInit(): void {}
-
-  public abstract setEditMode(): void;
-  public abstract addNavPath(): void;
-  public abstract onSubmit(): void;
-  public abstract onCancel(): void;
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new DeleteNavPath());
+  }
 
   protected determineRelease(): void {
     this.featuresList$
@@ -69,20 +72,19 @@ export abstract class CreateFormComponent implements OnInit, OnDestroy {
    * @param form FormGroup | FormArray
    */
   protected subscribeOnTouchEvent(form: FormGroup | FormArray): void {
-    let originalMethod = form.markAsTouched;
+    const originalMethod = form.markAsTouched;
 
     Object.keys(form.controls).forEach((key: string) => {
       const control = form.get(key);
-      control.markAsTouched = function () {
+      control.markAsTouched = function (): void {
         originalMethod.apply(this, arguments);
         (control.statusChanges as EventEmitter<any>).emit();
       };
     });
   }
 
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new DeleteNavPath());
-  }
+  public abstract setEditMode(): void;
+  public abstract addNavPath(): void;
+  public abstract onSubmit(): void;
+  public abstract onCancel(): void;
 }

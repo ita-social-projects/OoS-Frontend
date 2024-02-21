@@ -6,22 +6,22 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { ParentState } from 'shared-store/parent.state';
 import { WorkshopSeatsLackModalComponent } from 'shared/components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
-import { Constants } from '../../constants/constants';
-import { CategoryIcons } from '../../enum/category-icons';
-import { SnackbarText } from '../../enum/enumUA/messageBer';
-import { OwnershipTypesEnum } from '../../enum/enumUA/provider';
-import { PayRateTypeEnum, RecruitmentStatusEnum } from '../../enum/enumUA/workshop';
-import { ModalConfirmationDescription, ModalConfirmationType } from '../../enum/modal-confirmation';
-import { OwnershipTypes } from '../../enum/provider';
-import { Role } from '../../enum/role';
-import { WorkshopOpenStatus } from '../../enum/workshop';
-import { Favorite } from '../../models/favorite.model';
-import { WorkshopBaseCard, WorkshopProviderViewCard } from '../../models/workshop.model';
-import { ImagesService } from '../../services/images/images.service';
-import { ShowMessageBar } from '../../store/app.actions';
-import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from '../../store/parent.actions';
-import { UpdateWorkshopStatus } from '../../store/provider.actions';
-import { RegistrationState } from '../../store/registration.state';
+import { Constants } from 'shared/constants/constants';
+import { CategoryIcons } from 'shared/enum/category-icons';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { FormOfLearningEnum, PayRateTypeEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { ModalConfirmationDescription, ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { OwnershipTypes } from 'shared/enum/provider';
+import { Role } from 'shared/enum/role';
+import { WorkshopOpenStatus } from 'shared/enum/workshop';
+import { Favorite } from 'shared/models/favorite.model';
+import { WorkshopBaseCard, WorkshopProviderViewCard } from 'shared/models/workshop.model';
+import { ImagesService } from 'shared/services/images/images.service';
+import { ShowMessageBar } from 'shared/store/app.actions';
+import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
+import { UpdateWorkshopStatus } from 'shared/store/provider.actions';
+import { RegistrationState } from 'shared/store/registration.state';
 import { ConfirmationModalWindowComponent } from '../confirmation-modal-window/confirmation-modal-window.component';
 import { UnregisteredUserWarningModalComponent } from '../unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 
@@ -38,6 +38,7 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
   public readonly tooltipPositionBelow = Constants.MAT_TOOL_TIP_POSITION_BELOW;
   public readonly categoryIcons = CategoryIcons;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
   public readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
   public readonly workshopStatus = WorkshopOpenStatus;
   public readonly modalConfirmationType = ModalConfirmationType;
@@ -71,7 +72,11 @@ export class WorkshopCardComponent implements OnInit, OnDestroy {
     return (this.workshopData as WorkshopProviderViewCard).takenSeats < (this.workshopData as WorkshopProviderViewCard).availableSeats;
   }
 
-  constructor(private store: Store, private dialog: MatDialog, private imagesService: ImagesService) {}
+  constructor(
+    private store: Store,
+    private dialog: MatDialog,
+    private imagesService: ImagesService
+  ) {}
 
   public ngOnInit(): void {
     if (this.isCabinetView) {

@@ -2,21 +2,24 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { CabinetDataComponent } from '../shared-cabinet/cabinet-data.component';
 import { filter, takeUntil } from 'rxjs/operators';
+import { CabinetDataComponent } from '../shared-cabinet/cabinet-data.component';
 import { Parent } from '../../../shared/models/parent.model';
 import { RegistrationState } from '../../../shared/store/registration.state';
 
 @Component({
   selector: 'app-parent',
-  template: '',
+  template: ''
 })
 export abstract class ParentComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
   parent$: Observable<Parent>;
   parent: Parent;
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

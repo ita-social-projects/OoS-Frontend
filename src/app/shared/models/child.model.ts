@@ -1,6 +1,6 @@
 import { DataItem } from './item.model';
 import { ParentWithContactInfo } from './parent.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Person } from './user.model';
 
 export class Child implements Person {
@@ -17,7 +17,7 @@ export class Child implements Person {
   placeOfStudy: string;
   parent?: ParentWithContactInfo;
 
-  constructor(childFormValue, parentId: string, id?: string) {
+  constructor(childFormValue: Partial<Child>, parentId: string, id?: string) {
     this.id = id;
     this.firstName = childFormValue.firstName;
     this.lastName = childFormValue.lastName;

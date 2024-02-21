@@ -1,6 +1,12 @@
 <div class="wrapper">
   <div [hidden]="!dataSource" class="table-container mat-elevation-z8">
-    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="announceSortChange($event)" appStretchTable>
+    <table
+      mat-table
+      [dataSource]="dataSource"
+      matSort
+      (matSortChange)="announceSortChange($event)"
+      aria-describedby="users-table"
+      appStretchTable>
       <!-- Name Column -->
       <ng-container matColumnDef="pib" sticky>
         <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by name">
@@ -87,7 +93,7 @@
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.isBlocked; else notBlockedUser">
             <div class="statuses {{ userStatuses.Blocked }}">
-              <span><i class="status-icon {{ statusIcons[element.status] }}"></i></span>
+              <span><i class="status-icon {{ statusIcons[userStatuses.Blocked] }}"></i></span>
               <span> {{ statuses[userStatuses.Blocked] | translate }}</span>
             </div>
           </ng-container>
@@ -108,28 +114,26 @@
             <button *ngIf="subrole !== Role.deputy" mat-icon-button [matMenuTriggerFor]="actions">
               <mat-icon class="action-icon">more_vert</mat-icon>
             </button>
-            <!-- <button mat-icon-button [matMenuTriggerFor]="email">
-              <mat-icon class="action-icon">email</mat-icon>
-            </button> -->
           </div>
 
           <mat-menu #actions="matMenu" class="header_menu">
             <button *ngIf="isEdit" mat-menu-item (click)="update.emit(user)">{{ 'BUTTONS.EDIT_USER' | translate }}</button>
-            <ng-container *ngIf="user.isBlocked then unBlock; else Block"></ng-container >
+            <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Provider Admin's blocking -->
+            <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked; then unBlock; else Block"></ng-container>
             <ng-template #Block>
-              <button mat-menu-item (click)="blockUnblock.emit(user)">
+              <button mat-menu-item (click)="block.emit({user, isBlocking: true})">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="blockUnblock.emit(user)">
+              <button mat-menu-item (click)="unblock.emit({user, isBlocking: false})">
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
-            <!-- <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button> -->
-          </mat-menu>
-          <mat-menu #email="matMenu" class="header_menu">
-            <button mat-menu-item (click)="sendInvitation.emit(user)">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+            <ng-container *ngIf="user.isAdmin && user.status === userStatuses.NeverLogged">
+              <button mat-menu-item (click)="sendInvitation.emit({user, adminType})">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+            </ng-container>
+            <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
           </mat-menu>
         </td>
       </ng-container>

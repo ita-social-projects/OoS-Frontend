@@ -13,7 +13,7 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 @Component({
   selector: 'app-category-check-box',
   templateUrl: './category-check-box.component.html',
-  styleUrls: ['./category-check-box.component.scss'],
+  styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestroy {
   @Select(MetaDataState.directions)
@@ -40,7 +40,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
 
   ngOnInit(): void {
     this.store.dispatch(new GetDirections());
-    this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe(directions => {
+    this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions) => {
       this.allDirections = directions;
       this.filteredDirections = directions;
     });
@@ -58,9 +58,9 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     event.checked
       ? this.selectedDirectionIds.push(direction.id)
       : this.selectedDirectionIds.splice(
-        this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-        1
-      );
+          this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+          1
+        );
     this.store.dispatch(new SetDirections(this.selectedDirectionIds));
   }
 
@@ -92,7 +92,7 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
           this.filterContainer.nativeElement.scrollTop = this.filterContainer.nativeElement.children[i].offsetTop;
         }
       }
-    }, 500); //this is needed to wait until loaded direction list will be displayed in the template
+    }, 500); // this is needed to wait until loaded direction list will be displayed in the template
   }
 
   ngOnDestroy(): void {

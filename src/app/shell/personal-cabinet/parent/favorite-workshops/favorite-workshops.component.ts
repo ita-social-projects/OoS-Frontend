@@ -1,22 +1,19 @@
-import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
-
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { Actions, ofAction, Select, Store } from '@ngxs/store';
+import { Actions, Select, Store, ofAction } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { filter, takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { Role } from 'shared/enum/role';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
-import {
-  DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId
-} from 'shared/store/parent.actions';
+import { DeleteFavoriteWorkshop, GetFavoriteWorkshopsByUserId } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { Util } from 'shared/utils/utils';
 import { ParentComponent } from '../parent.component';
@@ -41,7 +38,11 @@ export class FavoriteWorkshopsComponent extends ParentComponent implements OnIni
   };
   public currentPage: PaginationElement = PaginationConstants.firstPage;
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private actions$: Actions
+  ) {
     super(store, matDialog);
   }
 

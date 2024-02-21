@@ -4,6 +4,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { ValidationConstants } from 'shared/constants/validation';
+import { AgeFilter } from 'shared/models/filter-list.model';
 import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.actions';
 
 @Component({
@@ -13,13 +14,6 @@ import { SetIsAppropriateAge, SetMaxAge, SetMinAge } from 'shared/store/filter.a
 })
 export class AgeFilterComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
-  @Input()
-  public set ageFilter(filter) {
-    const { minAge, maxAge, isAppropriateAge } = filter;
-    this.minAgeFormControl.setValue(minAge, { emitEvent: false });
-    this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
-    this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
-  }
 
   public minAgeFormControl = new FormControl(null);
   public maxAgeFormControl = new FormControl(null);
@@ -27,6 +21,14 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
+
+  @Input()
+  public set ageFilter(filter: AgeFilter) {
+    const { minAge, maxAge, isAppropriateAge } = filter;
+    this.minAgeFormControl.setValue(minAge, { emitEvent: false });
+    this.maxAgeFormControl.setValue(maxAge, { emitEvent: false });
+    this.isAppropriateAgeControl.setValue(isAppropriateAge, { emitEvent: false });
+  }
 
   public ngOnInit(): void {
     this.minAgeFormControl.valueChanges

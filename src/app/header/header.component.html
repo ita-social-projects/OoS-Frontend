@@ -1,8 +1,7 @@
 <div class="header" [ngClass]="{ 'header-secondary': !isRouter('/') }">
   <div [ngClass]="{ 'hide-content': (isAuthorizationLoading$ | async) }">
     <div fxLayout="row" fxLayoutAlign="space-between">
-      <div class="logo-wrapper"
-           *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
+      <div class="logo-wrapper" *ngIf="isMobileScreen && !!navigationPaths?.length; then mobileNavTmpl; else logoTmpl"></div>
       <div class="link-wrapper">
         <div *ngIf="!isMobileScreen" class="link-wrapper">
           <a class="info-link" [routerLink]="'./info/about'">
@@ -19,20 +18,20 @@
 
           <button mat-flat-button class="lang" (click)="lngSelect.open()">
             <mat-icon>language</mat-icon>
-            <mat-select #lngSelect
-                        (selectionChange)="setLanguage()"
-                        [(value)]="selectedLanguage"
-                        class="lang-option"
-                        disableOptionCentering
-                        panelClass="dropdown-panel">
+            <mat-select
+              #lngSelect
+              (selectionChange)="setLanguage()"
+              [(value)]="selectedLanguage"
+              class="lang-option"
+              disableOptionCentering
+              panelClass="dropdown-panel">
               <mat-option class="lang-option-text" value="uk"> {{ Languages.uk }} </mat-option>
               <mat-option class="lang-option-text" value="en"> {{ Languages.en }} </mat-option>
             </mat-select>
           </button>
         </div>
 
-        <ng-container
-          *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-container>
+        <ng-container *ngIf="(isAuthorized$ | async) && user; then isAuthorizedTmpl; else isUnauthorizedTmpl"></ng-container>
       </div>
     </div>
     <div *ngIf="isRouter('/')" fxLayout="column" fxLayoutAlign="center center">
@@ -72,8 +71,7 @@
   </ng-container>
 
   <mat-menu #log="matMenu" class="menu">
-    <ng-container
-      *ngIf="isRoleAdmin(user.role); then adminView; else userView"></ng-container>
+    <ng-container *ngIf="isRoleAdmin(user.role); then adminView; else userView"></ng-container>
     <button mat-menu-item class="logout-btn" (click)="onLogout()">
       {{ 'LOGOUT' | translate }}
     </button>
@@ -92,14 +90,12 @@
       {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}
     </button>
   </a>
-  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'"
-     [queryParams]="{ page: defaultAdminTab }">
+  <a *ngIf="user.role === Role.techAdmin" [routerLink]="'./admin-tools/platform'" [queryParams]="{ page: defaultAdminTab }">
     <button mat-menu-item>
       {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
   </a>
-  <a *ngIf="user.role === Role.ministryAdmin || user.role === Role.regionAdmin"
-     [routerLink]="'./admin-tools/data/admins'">
+  <a *ngIf="user.role === Role.ministryAdmin || user.role === Role.regionAdmin" [routerLink]="'./admin-tools/data/admins'">
     <button mat-menu-item>
       {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
     </button>
@@ -119,8 +115,7 @@
       <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate }}</button>
     </a>
     <a [routerLink]="'./personal-cabinet/' + user.role + '/info'">
-      <button
-        mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</button>
+      <button mat-menu-item>{{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate }} {{ RoleLinks[user.role] | translate }}</button>
     </a>
     <a *ngIf="user.role === Role.provider" [routerLink]="'./personal-cabinet/provider/workshops'">
       <button mat-menu-item>
@@ -137,8 +132,7 @@
         {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}
       </button>
     </a>
-    <a *ngIf="user.role === Role.provider && subrole !== Role.ProviderAdmin"
-       [routerLink]="'./personal-cabinet/provider/administration'">
+    <a *ngIf="user.role === Role.provider && subrole !== Subrole.ProviderAdmin" [routerLink]="'./personal-cabinet/provider/administration'">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.ADMINISTRATION' | translate }}
       </button>

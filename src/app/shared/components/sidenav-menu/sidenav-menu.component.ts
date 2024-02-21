@@ -5,17 +5,18 @@ import { TranslateService } from '@ngx-translate/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { AdminTabTypes } from '../../enum/admins';
-import { RoleLinks } from '../../enum/enumUA/user';
-import { Languages } from '../../enum/languages';
-import { Role } from '../../enum/role';
-import { FeaturesList } from '../../models/featuresList.model';
-import { User } from '../../models/user.model';
-import { MetaDataState } from '../../store/meta-data.state';
-import { SidenavToggle } from '../../store/navigation.actions';
-import { NavigationState } from '../../store/navigation.state';
-import { Login, Logout } from '../../store/registration.actions';
-import { RegistrationState } from '../../store/registration.state';
+
+import { AdminTabTypes } from 'shared/enum/admins';
+import { RoleLinks } from 'shared/enum/enumUA/user';
+import { Languages } from 'shared/enum/languages';
+import { Role } from 'shared/enum/role';
+import { FeaturesList } from 'shared/models/features-list.model';
+import { User } from 'shared/models/user.model';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { SidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
+import { Login, Logout } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-sidenav-menu',
@@ -49,7 +50,12 @@ export class SidenavMenuComponent implements OnInit, OnDestroy {
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(public store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
+  constructor(
+    public store: Store,
+    private router: Router,
+    private translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>
+  ) {}
 
   public changeView(): void {
     this.store.dispatch(new SidenavToggle());

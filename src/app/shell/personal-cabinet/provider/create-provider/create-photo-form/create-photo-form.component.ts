@@ -1,12 +1,8 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import {
-  AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators
-} from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngxs/store';
 
-import {
-  Constants, CropperConfigurationConstants
-} from '../../../../../shared/constants/constants';
+import { Constants, CropperConfigurationConstants } from '../../../../../shared/constants/constants';
 import { FormValidators, ValidationConstants } from '../../../../../shared/constants/validation';
 import { Provider, ProviderSectionItem } from '../../../../../shared/models/provider.model';
 
@@ -43,7 +39,10 @@ export class CreatePhotoFormComponent implements OnInit {
     return this.PhotoFormGroup.get('providerSectionItems');
   }
 
-  constructor(private formBuilder: FormBuilder, private store: Store) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store
+  ) {
     this.PhotoFormGroup = this.formBuilder.group({
       imageFiles: new FormControl(''),
       imageIds: new FormControl(''),
@@ -87,6 +86,7 @@ export class CreatePhotoFormComponent implements OnInit {
       this.provider.providerSectionItems.forEach((item: ProviderSectionItem) => {
         const itemFrom = this.newForm(item);
         this.SectionItemsFormArray.controls.push(itemFrom);
+        // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
         this.SectionItemsFormArray['_registerControl'](itemFrom);
       });
     } else {

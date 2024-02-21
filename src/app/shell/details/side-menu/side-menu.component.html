@@ -2,14 +2,12 @@
   fxLayout="column"
   [fxLayout.lt-lg]="isMobileScreen ? 'column' : 'row'"
   [fxLayoutAlign]="isMobileScreen ? 'none' : 'center start'"
-  fxLayoutGap="2rem"
->
+  fxLayoutGap="2rem">
   <app-actions
     *ngIf="workshop && displayActionCard && !isMobileScreen"
     [role]="role"
     [workshop]="workshop"
-    [isMobileScreen]="isMobileScreen"
-  >
+    [isMobileScreen]="isMobileScreen">
   </app-actions>
 
   <app-contacts [address]="address" [contactsData]="contactsData"></app-contacts>

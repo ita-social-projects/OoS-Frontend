@@ -13,8 +13,7 @@
       (imageCropped)="imageCropped($event)"
       (imageLoaded)="imageLoaded($event)"
       (cropperReady)="cropperReady()"
-      (loadImageFailed)="loadImageFailed()"
-    ></image-cropper>
+      (loadImageFailed)="loadImageFailed()"></image-cropper>
     <div *ngIf="invalidMinRequirements">
       <small class="warning"
         >Зображення недостатнього розміру.<br />Мінімальні розміри: ширина {{ data.cropperConfig.cropperMinWidth }}px, висота

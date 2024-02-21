@@ -1,17 +1,13 @@
 <div class="create-form" *ngIf="!(isLoading$ | async)">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{ editMode
-                                   ? 'РЕДАГУВАТИ'
-                                   : 'ДОДАТИ' }} НАПРЯМОК</h3>
+      <h3 class="wrapper-title">{{ editMode ? 'РЕДАГУВАТИ' : 'ДОДАТИ' }} НАПРЯМОК</h3>
     </div>
 
     <ng-container *ngIf="!editMode || (editMode && (direction$ | async))">
       <form [formGroup]="directionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
         <label class="step-label">
-          {{ editMode
-             ? 'Редагувати назву напрямку'
-             : 'Назва нового напрямку' }}
+          {{ editMode ? 'Редагувати назву напрямку' : 'Назва нового напрямку' }}
           <span *ngIf="!editMode" class="step-required">*</span>
         </label>
 
@@ -24,10 +20,11 @@
           <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
             {{ 'BUTTONS.CANCEL' | translate }}
           </button>
-          <button class="btn"
-                  [disabled]="!directionFormGroup.dirty || directionFormGroup.invalid || isDispatching"
-                  (click)="onSubmit()"
-                  mat-raised-button>
+          <button
+            class="btn"
+            [disabled]="!directionFormGroup.dirty || directionFormGroup.invalid || isDispatching"
+            (click)="onSubmit()"
+            mat-raised-button>
             {{ 'BUTTONS.SAVE' | translate }}
           </button>
         </div>

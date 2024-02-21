@@ -55,6 +55,29 @@
     align-self: flex-end;
   }
 }
+
+.statuses {
+  margin-top: 24px;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.status-icon {
+  margin-right: 8px;
+}
+
+.Blocked {
+  color: #c72a21;
+}
+
+.pay-attention-block {
+  display: flex;
+  align-self: center;
+  margin-bottom: 180px;
+  color: #aaaaaa;
+}
+
 .footer {
   display: flex;
   align-items: center;
@@ -63,7 +86,7 @@
   padding: 16px 0 8px;
 }
 .message-input {
-  font-size:14px;
+  font-size: 14px;
   font-weight: normal;
   line-height: 22px;
   color: #161414;
@@ -104,7 +127,7 @@
   display: flex;
   font-family: 'Open Sans', sans-serif;
   color: #aaaaaa;
-  padding-left:10px;
+  padding-left: 10px;
 }
 .main-functional-block {
   display: flex;

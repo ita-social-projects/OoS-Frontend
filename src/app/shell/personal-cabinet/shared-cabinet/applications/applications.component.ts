@@ -16,7 +16,7 @@ import { Role } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application, ApplicationFilterParameters } from 'shared/models/application.model';
 import { Child } from 'shared/models/child.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { GetDirections } from 'shared/store/meta-data.actions';
@@ -72,7 +72,12 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isMobileView = event.outerWidth < 530;
   }
 
-  constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected actions$: Actions
+  ) {
     this.onResize(window);
   }
 
@@ -104,7 +109,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
-      const status = params['status'];
+      const status = params.status;
       const tabIndex = Number(ApplicationStatusTabParams[status]);
       this.setFilterParams(status, tabIndex);
       this.tabGroup.selectedIndex = tabIndex;

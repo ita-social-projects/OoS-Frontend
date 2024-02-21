@@ -3,10 +3,10 @@ import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { TruncatedItem } from 'shared/models/item.model';
 import { ProviderParameters } from 'shared/models/provider.model';
-import { PaginationParameters } from 'shared/models/queryParameters.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
@@ -17,13 +17,16 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 export class UserWorkshopService {
   private isImagesFeature: boolean;
 
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(
+    private http: HttpClient,
+    private store: Store
+  ) {}
 
   /**
    * This method get related workshops for provider admins personal cabinet
    */
   public getProviderAdminsWorkshops(parameters: PaginationParameters): Observable<SearchResponse<WorkshopProviderViewCard[]>> {
-    let params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
+    const params = new HttpParams().set('From', parameters.from.toString()).set('Size', parameters.size.toString());
 
     return this.http.get<SearchResponse<WorkshopProviderViewCard[]>>('/api/v1/ProviderAdmin/ManagedWorkshops', { params });
   }

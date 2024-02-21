@@ -2,9 +2,9 @@ import { AdminRoles } from 'shared/enum/admins';
 import { Role } from 'shared/enum/role';
 import { AdminFormModel } from 'shared/models/admin-form.model';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
-import { MinistryAdmin } from 'shared/models/ministryAdmin.model';
-import { RegionAdmin } from 'shared/models/regionAdmin.model';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { RegionAdmin } from 'shared/models/region-admin.model';
 
 export class AdminFactory {
   public static createAdmin(
@@ -25,9 +25,6 @@ export class AdminFactory {
       }
       case AdminRoles.areaAdmin: {
         return new AreaAdmin(adminData, institutionId, regionId, territorialCommunityId, id, accountStatus);
-      }
-      default: {
-        return new MinistryAdmin(adminData, institutionId, id, accountStatus);
       }
     }
   }

@@ -5,9 +5,9 @@ import { MatOptionModule } from '@angular/material/core';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
 import { NgxsModule } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
 
 describe('InstitutionHierarchyComponent', () => {
   let component: InstitutionHierarchyComponent;

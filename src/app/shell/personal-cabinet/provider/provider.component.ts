@@ -20,7 +20,10 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
   @Select(ProviderState.isLoading)
   isLoading$: Observable<boolean>;
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

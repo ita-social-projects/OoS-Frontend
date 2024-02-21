@@ -6,12 +6,12 @@ export class AreaAdmin extends BaseAdmin {
   public regionId: number;
   public regionName: string;
 
-  constructor(info, institutionId: string, regionId: number, areaId: number, id?: string, accountStatus?: string) {
+  constructor(info: Partial<AreaAdmin>, institutionId: string, regionId: number, areaId: number, id?: string, accountStatus?: string) {
     super(info, institutionId, id, accountStatus);
     this.catottgId = areaId;
     this.regionId = regionId;
   }
 }
 
-export interface AreaAdminParameters extends BaseAdminParameters {}
-export interface AreaAdminBlockData extends BaseAdminBlockData {}
+export type AreaAdminParameters = BaseAdminParameters;
+export type AreaAdminBlockData = BaseAdminBlockData;

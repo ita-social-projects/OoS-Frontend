@@ -4,23 +4,23 @@ import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Util } from 'shared/utils/utils';
 
-import { Constants, EMPTY_RESULT } from '../constants/constants';
-import { AchievementType } from '../models/achievement.model';
-import { Direction } from '../models/category.model';
-import { Codeficator } from '../models/codeficator.model';
-import { FeaturesList } from '../models/featuresList.model';
-import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../models/institution.model';
-import { DataItem } from '../models/item.model';
-import { Rate } from '../models/rating';
-import { SearchResponse } from '../models/search.model';
-import { AchievementsService } from '../services/achievements/achievements.service';
-import { ChildrenService } from '../services/children/children.service';
-import { CodeficatorService } from '../services/codeficator/codeficator.service';
-import { DirectionsService } from '../services/directions/directions.service';
-import { FeatureManagementService } from '../services/feature-management/feature-management.service';
-import { InstitutionsService } from '../services/institutions/institutions.service';
-import { ProviderService } from '../services/provider/provider.service';
-import { RatingService } from '../services/rating/rating.service';
+import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
+import { AchievementType } from 'shared/models/achievement.model';
+import { Direction } from 'shared/models/category.model';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { FeaturesList } from 'shared/models/features-list.model';
+import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 'shared/models/institution.model';
+import { DataItem } from 'shared/models/item.model';
+import { Rate } from 'shared/models/rating';
+import { SearchResponse } from 'shared/models/search.model';
+import { AchievementsService } from 'shared/services/achievements/achievements.service';
+import { ChildrenService } from 'shared/services/children/children.service';
+import { CodeficatorService } from 'shared/services/codeficator/codeficator.service';
+import { DirectionsService } from 'shared/services/directions/directions.service';
+import { FeatureManagementService } from 'shared/services/feature-management/feature-management.service';
+import { InstitutionsService } from 'shared/services/institutions/institutions.service';
+import { ProviderService } from 'shared/services/provider/provider.service';
+import { RatingService } from 'shared/services/rating/rating.service';
 import {
   ClearCodeficatorSearch,
   ClearRatings,
@@ -83,6 +83,17 @@ export interface MetaDataStateModel {
 })
 @Injectable()
 export class MetaDataState {
+  constructor(
+    private categoriesService: DirectionsService,
+    private childrenService: ChildrenService,
+    private providerService: ProviderService,
+    private ratingService: RatingService,
+    private featureManagementService: FeatureManagementService,
+    private institutionsService: InstitutionsService,
+    private achievementService: AchievementsService,
+    private codeficatorService: CodeficatorService
+  ) {}
+
   @Selector()
   static directions(state: MetaDataStateModel): Direction[] {
     return state.directions;
@@ -157,17 +168,6 @@ export class MetaDataState {
   static codeficator(state: MetaDataStateModel): Codeficator {
     return state.codeficator;
   }
-
-  constructor(
-    private categoriesService: DirectionsService,
-    private childrenService: ChildrenService,
-    private providerService: ProviderService,
-    private ratingService: RatingService,
-    private featureManagementService: FeatureManagementService,
-    private institutionsService: InstitutionsService,
-    private achievementService: AchievementsService,
-    private codeficatorService: CodeficatorService
-  ) {}
 
   @Action(GetDirections)
   getDirections({ patchState }: StateContext<MetaDataStateModel>, {}: GetDirections): Observable<Direction[]> {

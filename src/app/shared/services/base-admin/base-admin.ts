@@ -9,7 +9,10 @@ import { SearchResponse } from '../../models/search.model';
 export class BaseAdminService {
   protected adminType = '';
 
-  constructor(protected http: HttpClient, adminType: AdminRoles) {
+  constructor(
+    protected http: HttpClient,
+    adminType: AdminRoles
+  ) {
     this.adminType = adminType;
   }
 
@@ -44,7 +47,7 @@ export class BaseAdminService {
    * @param adminId string
    */
   protected getAdminById(adminId: string): Observable<BaseAdmin> {
-    let params = new HttpParams().set('id', `${adminId}`);
+    const params = new HttpParams().set('id', `${adminId}`);
 
     return this.http.get<BaseAdmin>(`${this.adminBaseUrl}/GetById`, { params });
   }
@@ -71,7 +74,7 @@ export class BaseAdminService {
    * @param adminId string
    */
   protected deleteAdmin(adminId: string): Observable<void> {
-    let params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`);
+    const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`);
 
     return this.http.delete<void>(`${this.adminBaseUrl}/Delete`, { params });
   }
@@ -82,7 +85,7 @@ export class BaseAdminService {
    * @param isBlocked boolean
    */
   protected blockAdmin(adminId: string, isBlocked: boolean): Observable<void> {
-    let params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`).set('isBlocked', `${isBlocked}`);
+    const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`).set('isBlocked', `${isBlocked}`);
 
     return this.http.put<void>(`${this.adminBaseUrl}/Block`, {}, { params });
   }
@@ -93,5 +96,13 @@ export class BaseAdminService {
    */
   protected updateAdmin(admin: BaseAdmin): Observable<BaseAdmin> {
     return this.http.put<BaseAdmin>(`${this.adminBaseUrl}/Update`, admin);
+  }
+
+  /**
+   * This method reinvite Admin
+   * @param adminId: string
+   */
+  protected reinviteAdmin(adminId: string): Observable<null> {
+    return this.http.put<null>(`${this.adminBaseUrl}/Reinvite/${adminId}`, {});
   }
 }

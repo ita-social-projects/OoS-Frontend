@@ -3,21 +3,22 @@ import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Achievement, AchievementParameters, AchievementType } from '../../../../shared/models/achievement.model';
-import { Provider } from '../../../../shared/models/provider.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { GetAchievementsType } from '../../../../shared/store/meta-data.actions';
-import { MetaDataState } from '../../../../shared/store/meta-data.state';
-import { GetAchievementsByWorkshopId, DeleteAchievementById } from '../../../../shared/store/provider.actions';
-import { ProviderState } from '../../../../shared/store/provider.state';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Util } from '../../../../shared/utils/utils';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Achievement, AchievementParameters, AchievementType } from 'shared/models/achievement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Provider } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { GetAchievementsType } from 'shared/store/meta-data.actions';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { DeleteAchievementById, GetAchievementsByWorkshopId } from 'shared/store/provider.actions';
+import { ProviderState } from 'shared/store/provider.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-achievements',
@@ -25,31 +26,35 @@ import { Util } from '../../../../shared/utils/utils';
   styleUrls: ['./achievements.component.scss']
 })
 export class AchievementsComponent implements OnInit, OnDestroy {
-  readonly noResultAchievements = NoResultsTitle.noAchievements;
-
-  @Input() workshop: Workshop;
+  @Input() public workshop: Workshop;
 
   @Select(ProviderState.achievements)
-  achievements$: Observable<SearchResponse<Achievement[]>>;
-  achievements: SearchResponse<Achievement[]>;
+  public achievements$: Observable<SearchResponse<Achievement[]>>;
   @Select(MetaDataState.achievementsTypes)
-  achievementsTypes$: Observable<AchievementType[]>;
-  achievementsTypes: AchievementType[];
+  public achievementsTypes$: Observable<AchievementType[]>;
   @Select(ProviderState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  provider: Provider;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  isAllowedEdit: boolean;
-  achievementParameters: AchievementParameters = {
+  public readonly noResultAchievements = NoResultsTitle.noAchievements;
+
+  public achievements: SearchResponse<Achievement[]>;
+  public achievementsTypes: AchievementType[];
+  public provider: Provider;
+  public isAllowedEdit: boolean;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public achievementParameters: AchievementParameters = {
     workshopId: '',
     size: PaginationConstants.ACHIEVEMENTS_PER_PAGE
   };
 
-  constructor(private store: Store, private matDialog: MatDialog) {}
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit(): void {
+  constructor(
+    private store: Store,
+    private matDialog: MatDialog
+  ) {}
+
+  public ngOnInit(): void {
     const provider = this.store.selectSnapshot<Provider>(RegistrationState.provider);
     this.isAllowedEdit = this.workshop.providerId === provider?.id;
     this.achievementParameters.workshopId = this.workshop.id;
@@ -67,7 +72,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
       });
   }
 
-  onDelete(achievement: Achievement): void {
+  public onDelete(achievement: Achievement): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -76,22 +81,25 @@ export class AchievementsComponent implements OnInit, OnDestroy {
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteAchievementById(achievement.id));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
+        this.store.dispatch(new DeleteAchievementById(achievement.id));
+      });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getAchievements();
   }
 
-  onItemsPerPageChange(itemsPerPage: number) {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.achievementParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }

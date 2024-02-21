@@ -10,10 +10,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
-import { DropdownData } from '../../../../shared/models/history-log.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { HistoryLogService } from '../../../../shared/services/history-log/history-log.service';
+
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
+import { DropdownData } from 'shared/models/history-log.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { HistoryLogService } from 'shared/services/history-log/history-log.service';
 import { HistoryLogComponent } from './history-log.component';
 
 describe('HistoryLogComponent', () => {

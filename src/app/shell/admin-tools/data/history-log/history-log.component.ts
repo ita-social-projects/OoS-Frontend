@@ -1,35 +1,38 @@
-import { Observable, Subject, merge } from 'rxjs';
-import {
-  debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
-} from 'rxjs/operators';
-
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 
-import { PaginationConstants } from '../../../../shared/constants/constants';
-import {
-  ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions, ProviderOptions
-} from '../../../../shared/constants/drop-down';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
-import { HistoryLogTypes } from '../../../../shared/enum/history.log';
-import {
-  ApplicationHistory, DropdownData, FilterData, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory
-} from '../../../../shared/models/history-log.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import {
-  GetApplicationHistory, GetParentsBlockingByAdminHistory, GetProviderAdminHistory, GetProviderHistory
-} from '../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../shared/store/admin.state';
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { Util } from '../../../../shared/utils/utils';
+import { PaginationConstants } from 'shared/constants/constants';
+import { ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
+import { HistoryLogTypes } from 'shared/enum/history.log';
 import { Role } from 'shared/enum/role';
+import {
+  ApplicationHistory,
+  DropdownData,
+  FilterData,
+  ParentsBlockingByAdminHistory,
+  ProviderAdminHistory,
+  ProviderHistory
+} from 'shared/models/history-log.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { SearchResponse } from 'shared/models/search.model';
+import {
+  GetApplicationHistory,
+  GetParentsBlockingByAdminHistory,
+  GetProviderAdminHistory,
+  GetProviderHistory
+} from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-history-log',
@@ -69,7 +72,12 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public role: string;
   public tabName: HistoryLogTypes;
 
-  constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public store: Store,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.addNavPath();
@@ -174,17 +182,12 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     Util.setFromPaginationParam(this.filters, this.currentPage, this.totalAmount);
     this.dispatchProperValue(this.tabIndex, this.filters, searchString);
   }
-  
+
   private initSubscribeOnEachHistory(): void {
-    merge(
-      this.providersHistory$,
-      this.providerAdminHistory$,
-      this.applicationHistory$,
-      this.parentsBlockingByAdminHistory$
-    )
+    merge(this.providersHistory$, this.providerAdminHistory$, this.applicationHistory$, this.parentsBlockingByAdminHistory$)
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe(
-        (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) => 
+        (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>
           (this.totalAmount = history.totalAmount)
       );
   }

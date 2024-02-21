@@ -12,8 +12,8 @@
     [routerLink]="['/create-application', workshop.id]"
     (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
     <button
-      mat-raised-button
       class="button button-application"
+      mat-raised-button
       fxLayout="row"
       fxLayoutAlign="center center"
       [disabled]="hideApplicationSubmission">
@@ -22,24 +22,16 @@
   </a>
 
   <a
-    [ngClass]="{ disable: hideApplicationSubmission }"
     [routerLink]="['/personal-cabinet/messages/', workshop.id]"
     [queryParams]="{ mode: ModeConstants.WORKSHOP }"
     (click)="onOpenDialog(ModalTypeAction.unregisteredMessageWarning)">
-    <button mat-raised-button class="button button-msg">
-      <mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}
-    </button>
+    <button mat-raised-button class="button button-msg"><mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}</button>
   </a>
 
-  <ng-container *ngIf="isFavorite; then disLike; else like"></ng-container>
+  <ng-container *ngIf="isFavorite; then dislike; else like"></ng-container>
 
-  <ng-template #disLike>
-    <button
-      mat-button
-      class="button button-msg"
-      fxLayout="row"
-      fxLayoutAlign="center center"
-      (click)="role === Role.parent && onDisLike()">
+  <ng-template #dislike>
+    <button mat-button class="button button-msg" fxLayout="row" fxLayoutAlign="center center" (click)="role === Role.parent && onDislike()">
       <mat-icon>favorite</mat-icon>
       {{ 'ADDED_TO_FAVORITES' | translate }}
     </button>

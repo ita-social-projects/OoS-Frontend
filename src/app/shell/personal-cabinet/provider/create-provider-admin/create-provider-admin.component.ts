@@ -17,8 +17,8 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminRole } from 'shared/enum/provider-admin';
 import { Role, Subrole } from 'shared/enum/role';
 import { TruncatedItem } from 'shared/models/item.model';
+import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { Provider } from 'shared/models/provider.model';
-import { ProviderAdmin } from 'shared/models/providerAdmin.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin } from 'shared/store/provider.actions';
@@ -193,7 +193,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef
       .afterClosed()
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .pipe(filter(Boolean))
       .subscribe(() => {
         const providerAdmin = new ProviderAdmin(
           this.ProviderAdminFormGroup.value,

@@ -1,17 +1,20 @@
-import { CodeficatorService } from './../codeficator/codeficator.service';
-import { ConfirmCity, SetCity } from './../../store/filter.actions';
-import { Store } from '@ngxs/store';
 import { Injectable } from '@angular/core';
-import { Coords } from '../../models/coords.model';
-import { GeolocationPositionError, GeolocationPosition } from '../../models/geolocation';
-import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { Codeficator } from '../../models/codeficator.model';
+import { Store } from '@ngxs/store';
+
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Coords } from 'shared/models/coords.model';
+import { GeolocationPosition, GeolocationPositionError } from 'shared/models/geolocation';
+import { ConfirmCity, SetCity } from 'shared/store/filter.actions';
+import { CodeficatorService } from '../codeficator/codeficator.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeolocationService {
-  constructor(private store: Store, private codeficatorService: CodeficatorService) {}
+  constructor(
+    private store: Store,
+    private codeficatorService: CodeficatorService
+  ) {}
 
   /**
    * This method sets default city Kyiv in localStorage if user deny geolocation

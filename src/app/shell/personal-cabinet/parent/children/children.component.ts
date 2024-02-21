@@ -2,19 +2,20 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { ParentComponent } from '../parent.component';
 import { filter, takeUntil } from 'rxjs/operators';
+
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants, ModeConstants } from 'shared/constants/constants';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Child, ChildrenParameters } from 'shared/models/child.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { PushNavPath } from 'shared/store/navigation.actions';
-import { GetUsersChildren, DeleteChildById } from 'shared/store/parent.actions';
-import { ParentState } from 'shared/store/parent.state';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { DeleteChildById, GetUsersChildren } from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
 import { Util } from 'shared/utils/utils';
+import { ParentComponent } from '../parent.component';
 
 @Component({
   selector: 'app-children',
@@ -35,7 +36,10 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     size: PaginationConstants.CHILDREN_PER_PAGE
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

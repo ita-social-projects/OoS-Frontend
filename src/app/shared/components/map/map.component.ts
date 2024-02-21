@@ -6,15 +6,15 @@ import * as Layer from 'leaflet';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, delay, filter, switchMap, take, takeUntil } from 'rxjs/operators';
 
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
-import { MessageBarType } from 'shared/enum/messageBar';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
+import { MessageBarType } from 'shared/enum/message-bar';
 import { Address } from 'shared/models/address.model';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Coords } from 'shared/models/coords.model';
 import { Geocoder } from 'shared/models/geolocation';
 import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopMarker } from 'shared/models/workshop-marker.model';
 import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
-import { WorkshopMarker } from 'shared/models/workshopMarker.model';
 import { GeocoderService } from 'shared/services/geolocation/geocoder.service';
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { ShowMessageBar } from 'shared/store/app.actions';
@@ -100,6 +100,11 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.changeLanguageOnMarkerPopup();
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   /**
    * before map creation gets user coords from GeolocationService. If no user coords uses default coords
    * Creates and sets map after div with is "map" renders.
@@ -117,7 +122,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           lat: settlement.latitude,
           lng: settlement.longitude
         };
-        this.map || this.initMap();
+        if (!this.map) {
+          this.initMap();
+        }
         this.flyTo(this.defaultCoords);
 
         // checking if there are filtered workshops on the map for the result page view
@@ -127,7 +134,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showWarningMessage(SnackbarText.mapWarning, 'warningBlue', true);
         }
 
-        // checking if user edit workshop information to create adress for workshop
+        // checking if user edit workshop information to create address for workshop
         if (this.addressFormGroup) {
           this.setAddress();
         }
@@ -176,6 +183,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
       subdomains: '123',
       maxZoom: 19,
       tms: true,
+      // eslint-disable-next-line @typescript-eslint/quotes
       attribution: "Дані карт © 2019 ПРаТ «<a href='https://api.visicom.ua/'>Визиком</a>»"
     }).addTo(this.map);
 
@@ -208,9 +216,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.translateService.onLangChange
       .pipe(
         takeUntil(this.destroy$),
-        switchMap(() => {
-          return this.translateService.get('GEOLOCATION_MARKER_TITLE');
-        })
+        switchMap(() => this.translateService.get('GEOLOCATION_MARKER_TITLE'))
       )
       .subscribe((translation: string) => {
         if (this.geolocationMarker) {
@@ -235,9 +241,9 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     if (address.catottgId) {
       this.setNewSingleMarker([this.addressFormGroup.get('latitude').value, this.addressFormGroup.get('longitude').value]);
     }
-    this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((address: Geocoder) => {
+    this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((value: Geocoder) => {
       if (this.addressFormGroup.valid) {
-        this.addressDecode(address);
+        this.addressDecode(value);
       }
     });
   }
@@ -275,21 +281,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   /**
-   * This method remove existed marker and set the new marke to the map
+   * This method remove existed marker and set the new mark to the map
    * @param coords - type [number, number]
    */
   private setNewSingleMarker(coords: [number, number]): void {
     this.singleMarker && this.map.removeLayer(this.singleMarker);
     this.singleMarker = this.createMarker(coords);
     this.singleMarker.on('dragend', (event: Layer.LeafletMouseEvent) => {
-      this.setMapLocation(event.target['_latlng']);
+      this.setMapLocation(event.target._latlng);
     });
     this.map.addLayer(this.singleMarker);
     this.map.flyTo(coords);
   }
 
   /**
-   * This method remove existed marker and set the new marke to the map
+   * This method remove existed marker and set the new mark to the map
    * @param coords - type [number, number]
    */
   private setWorkshopMarkers(address: Address): void {
@@ -325,7 +331,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param coords - type [number, number]
    * @param draggable - type boolean
    */
-  private createMarker(coords: [number, number], draggable = true): Layer.Marker {
+  private createMarker(coords: [number, number], draggable: boolean = true): Layer.Marker {
     return new Layer.Marker(coords, {
       draggable,
       icon: this.unselectedMarkerIcon,
@@ -374,17 +380,21 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  private clearUserRadius() {
+  private clearUserRadius(): void {
     if (this.userRadius && this.userMarker) {
       this.userRadius.removeFrom(this.map);
       this.userMarker.removeFrom(this.map);
     }
-    this.workshopMarkers && this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
+    if (this.workshopMarkers) {
+      this.workshopMarkers.forEach(({ marker }) => marker.removeFrom(this.map));
+    }
   }
 
   private subscribeOnUserRadiusSize(): void {
     this.userRadiusSize$.pipe(takeUntil(this.destroy$)).subscribe((value: number) => {
-      this.radiusSize && this.updateUserRadius(value);
+      if (this.radiusSize) {
+        this.updateUserRadius(value);
+      }
       this.radiusSize = value;
     });
   }
@@ -395,10 +405,5 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private showWarningMessage(message: SnackbarText, type: MessageBarType, infinityDuration: boolean): void {
     this.store.dispatch(new ShowMessageBar({ message, type, infinityDuration }));
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
