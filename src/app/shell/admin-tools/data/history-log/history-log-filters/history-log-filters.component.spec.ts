@@ -51,6 +51,49 @@ describe('HistoryLogFiltersComponent', () => {
     expect(component).toBeTruthy();
   });
 
+  describe('applyFilters method', () => {
+    let dateFrom: Date;
+    let dateTo: Date;
+    let filterDataSpy: jest.SpyInstance;
+
+    beforeEach(() => {
+      dateFrom = component.filtersForm.value.dateFrom;
+      dateTo = component.filtersForm.value.dateTo;
+      filterDataSpy = jest.spyOn(component.filterData, 'emit');
+      component.filtersForm.controls[component.formControlName].setValue('Testing value');
+    });
+
+    it('should emit filterData with correct data', () => {
+      component.filtersForm.controls.dateFrom.setValue(new Date('Sun Jan 21 2024 11:43:55'));
+      component.filtersForm.controls.dateTo.setValue(new Date('Thu Feb 21 2024 05:34:51'));
+      const expectedFilterData = {
+        dateFrom: 'Sun, 21 Jan 2024 00:00:00 GMT',
+        dateTo: 'Wed, 21 Feb 2024 23:59:59 GMT',
+        [component.formControlName]: 'Testing value'
+      };
+
+      component.applyFilters();
+
+      expect(filterDataSpy).toHaveBeenCalledTimes(1);
+      expect(filterDataSpy).toHaveBeenCalledWith(expectedFilterData);
+    });
+
+    it('should emit filterData with empty string in dateFrom and dateTo when dates are reset', () => {
+      component.filtersForm.controls.dateFrom.setValue('');
+      component.filtersForm.controls.dateTo.setValue('');
+      const expectedFilterData = {
+        dateFrom: '',
+        dateTo: '',
+        [component.formControlName]: 'Testing value'
+      };
+
+      component.applyFilters();
+
+      expect(filterDataSpy).toHaveBeenCalledTimes(1);
+      expect(filterDataSpy).toHaveBeenCalledWith(expectedFilterData);
+    });
+  });
+
   describe('onResetFilters method', () => {
     it('should reset filtersForm', () => {
       const filtersFormResetSpy = jest.spyOn(component.filtersForm, 'reset');
