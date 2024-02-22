@@ -8,7 +8,7 @@ import { Constants } from 'shared/constants/constants';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { Role } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
-import { InvitationData, UsersTable } from 'shared/models/users-table';
+import { InvitationData, UnionTableData } from 'shared/models/users-table';
 import { RegistrationState } from 'shared/store/registration.state';
 
 /**
@@ -20,26 +20,26 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./users-list.component.scss']
 })
 export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
-  public readonly userStatuses = UserStatuses;
-  public readonly statuses = UserStatusesTitles;
-  public readonly statusIcons = UserStatusIcons;
-  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
-  public readonly Role = Role;
-
-  @ViewChild(MatSort)
-  private sort: MatSort;
-
   @Input() public users: object[];
   @Input() public adminType: Role;
   @Input() public displayedColumns: string[] = ['pib', 'email', 'phone', 'role', 'region', 'status', 'actions'];
   @Input() public isEdit: boolean;
   @Input() public statusesTitles: UserStatuses | EmailConfirmationStatuses;
 
-  @Output() public delete = new EventEmitter<UsersTable>();
-  @Output() public block = new EventEmitter<UsersTable>();
-  @Output() public unblock = new EventEmitter<UsersTable>();
-  @Output() public update = new EventEmitter<UsersTable>();
+  @Output() public delete = new EventEmitter<UnionTableData>();
+  @Output() public block = new EventEmitter<UnionTableData>();
+  @Output() public unblock = new EventEmitter<UnionTableData>();
+  @Output() public update = new EventEmitter<UnionTableData>();
   @Output() public sendInvitation = new EventEmitter<InvitationData>();
+
+  @ViewChild(MatSort)
+  private sort: MatSort;
+
+  public readonly userStatuses = UserStatuses;
+  public readonly statuses = UserStatusesTitles;
+  public readonly statusIcons = UserStatusIcons;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  public readonly Role = Role;
 
   public subrole: string;
   public dataSource: MatTableDataSource<object> = new MatTableDataSource([{}]);
@@ -59,7 +59,7 @@ export class UsersListComponent implements OnInit, AfterViewInit, OnChanges {
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
-    if (changes.users && changes.users.currentValue) {
+    if (changes.users?.currentValue) {
       const users = changes.users.currentValue;
       this.dataSource = new MatTableDataSource(users);
     }
