@@ -8,7 +8,7 @@ import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { Observable } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, tap, switchMap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -152,21 +152,25 @@ export class RegistrationState {
   }
 
   @Action(CheckAuth)
-  checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.checkAuth().subscribe((auth: LoginResponse) => {
-      patchState({ isAuthorized: auth.isAuthenticated });
-      if (auth.isAuthenticated) {
-        this.oidcSecurityService.getAccessToken().subscribe((value: string) => {
-          const token = jwt_decode(value) as TokenPayload;
-          const subrole = token.subrole;
-          const role = token.role;
-          patchState({ subrole, role });
-          dispatch(new GetUserPersonalInfo()).subscribe(() => dispatch(new CheckRegistration()));
-        });
-      } else {
-        patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
-      }
-    });
+  checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<any> {
+    return this.oidcSecurityService.checkAuth().pipe(
+      switchMap((auth: LoginResponse) => {
+        patchState({ isAuthorized: auth.isAuthenticated });
+        if (auth.isAuthenticated) {
+          return this.oidcSecurityService.getAccessToken().pipe(
+            switchMap((value: string) => {
+              const token = jwt_decode(value) as TokenPayload;
+              const subrole = token.subrole;
+              const role = token.role;
+              patchState({ subrole, role });
+              return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
+            })
+          );
+        } else {
+          patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
+        }
+      })
+    );
   }
 
   @Action(OnAuthFail)
