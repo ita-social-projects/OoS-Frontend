@@ -5,16 +5,18 @@ import { ProviderAdminsComponent } from './provider-admins/provider-admins.compo
 import { ProviderApplicationsComponent } from './provider-applications/provider-applications.component';
 import { ProviderOrgInfoComponent } from './provider-org-info/provider-org-info.component';
 import { ProviderWorkshopsComponent } from './provider-workshops/provider-workshops.component';
+import { NotProviderAdminGuard } from './not-provider-admin.guard';
 
 const routes: Routes = [
   { path: 'info', component: ProviderOrgInfoComponent },
-  { path: 'administration', component: ProviderAdminsComponent },
+  { path: 'administration', component: ProviderAdminsComponent, canActivate: [NotProviderAdminGuard] },
   { path: 'workshops', component: ProviderWorkshopsComponent },
   { path: 'applications', component: ProviderApplicationsComponent }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
+  providers: [NotProviderAdminGuard]
 })
 export class ProviderRoutingModule {}
