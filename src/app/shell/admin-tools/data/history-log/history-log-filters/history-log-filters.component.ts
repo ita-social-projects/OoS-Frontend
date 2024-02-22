@@ -4,7 +4,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
 import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { ProviderAdminOperationOptions } from 'shared/constants/drop-down';
-import { DATE_REGEX } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-history-log-filters',
@@ -22,7 +21,6 @@ export class HistoryLogFiltersComponent implements OnInit {
   public filtersForm: FormGroup;
   public formControlName: string = '';
   public additionalFormControlName: string = '';
-  public dateFilter: RegExp = DATE_REGEX;
   public maxDate = new Date();
   public notAllowedToPickByTabButton = -1;
 
