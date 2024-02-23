@@ -40,8 +40,8 @@ describe('HistoryLogFiltersComponent', () => {
     formBuilder = TestBed.inject(FormBuilder);
     component = fixture.componentInstance;
     component.filtersForm = formBuilder.group({
-      [FilterOptions.dateFrom]: formBuilder.control(''),
-      [FilterOptions.dateTo]: formBuilder.control('')
+      [FilterOptions.DateFrom]: formBuilder.control(''),
+      [FilterOptions.DateTo]: formBuilder.control('')
     });
     component.filtersForm.addControl(component.formControlName, new FormControl(''));
     fixture.detectChanges();
@@ -158,7 +158,7 @@ describe('HistoryLogFiltersComponent', () => {
 
     it('should emit dateFromFilters with empty strings', () => {
       const dateFromFiltersSpy = jest.spyOn(component.dateFromFilters, 'emit');
-      const expectedDateFromFilters = { [FilterOptions.dateFrom]: '', [FilterOptions.dateTo]: '' };
+      const expectedDateFromFilters = { [FilterOptions.DateFrom]: '', [FilterOptions.DateTo]: '' };
 
       component.onResetFilters();
 
