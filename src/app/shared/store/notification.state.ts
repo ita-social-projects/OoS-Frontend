@@ -55,20 +55,14 @@ export class NotificationState {
   }
 
   @Action(GetAmountOfNewUsersNotifications)
-  getAmountOfNewUsersNotifications(
-    { patchState }: StateContext<NotificationStateModel>,
-    {}: GetAmountOfNewUsersNotifications
-  ): Observable<NotificationAmount> {
+  getAmountOfNewUsersNotifications({ patchState }: StateContext<NotificationStateModel>): Observable<NotificationAmount> {
     return this.notificationService
       .getAmountOfNewUsersNotifications()
       .pipe(tap((notificationsAmount: NotificationAmount) => patchState({ notificationsAmount })));
   }
 
   @Action(GetAllUsersNotificationsGrouped)
-  getAllUsersNotificationsGrouped(
-    { patchState }: StateContext<NotificationStateModel>,
-    {}: GetAmountOfNewUsersNotifications
-  ): Observable<NotificationGroupedAndSingle> {
+  getAllUsersNotificationsGrouped({ patchState }: StateContext<NotificationStateModel>): Observable<NotificationGroupedAndSingle> {
     return this.notificationService
       .getAllUsersNotificationsGrouped()
       .pipe(tap((notifications: NotificationGroupedAndSingle) => patchState({ notifications })));
@@ -102,10 +96,7 @@ export class NotificationState {
   }
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
-  onReadUsersNotificationsByTypeSuccess(
-    { dispatch }: StateContext<NotificationStateModel>,
-    {}: OnReadUsersNotificationsByTypeSuccess
-  ): void {
+  onReadUsersNotificationsByTypeSuccess({ dispatch }: StateContext<NotificationStateModel>): void {
     dispatch([new GetAllUsersNotificationsGrouped(), new GetAmountOfNewUsersNotifications()]);
   }
 

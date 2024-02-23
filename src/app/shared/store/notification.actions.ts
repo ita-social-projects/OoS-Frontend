@@ -1,6 +1,5 @@
 import { NotificationType } from 'shared/enum/notifications';
-
-import { Notification, NotificationGroupedByType } from '../models/notification.model';
+import { Notification } from '../models/notification.model';
 
 export class ClearNotificationState {
   static readonly type = '[user] clear notification state';
