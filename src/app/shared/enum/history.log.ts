@@ -6,8 +6,8 @@ export enum HistoryLogTypes {
 }
 
 export enum FilterOptions {
-  dateFrom = 'dateFrom',
-  dateTo = 'dateTo',
+  DateFrom = 'dateFrom',
+  DateTo = 'dateTo',
   PropertyName = 'PropertyName',
   AdminType = 'AdminType',
   OperationType = 'OperationType',

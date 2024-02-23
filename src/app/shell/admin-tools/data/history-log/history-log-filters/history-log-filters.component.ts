@@ -56,7 +56,7 @@ export class HistoryLogFiltersComponent implements OnInit {
     Object.keys(this.filtersForm.controls).forEach((control: string) => {
       this.filtersForm.get(control).setValue('');
     });
-    this.dateFromFilters.emit({ [FilterOptions.dateFrom]: '', [FilterOptions.dateTo]: '' });
+    this.dateFromFilters.emit({ [FilterOptions.DateFrom]: '', [FilterOptions.DateTo]: '' });
   }
 
   public setDateForFilters(): void {
@@ -84,7 +84,7 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   private removeExtraFormControls(): void {
     const extraFormControls = Object.keys(this.filtersForm.controls).filter(
-      (controlName: string) => controlName !== FilterOptions.dateFrom && controlName !== FilterOptions.dateTo
+      (controlName: string) => controlName !== FilterOptions.DateFrom && controlName !== FilterOptions.DateTo
     );
     for (const control of extraFormControls) {
       this.filtersForm.removeControl(control);
@@ -97,8 +97,8 @@ export class HistoryLogFiltersComponent implements OnInit {
     monthAgoDate.setMonth(currentDate.getMonth() - 1);
 
     this.filtersForm = this.fb.group({
-      [FilterOptions.dateFrom]: new FormControl(monthAgoDate),
-      [FilterOptions.dateTo]: new FormControl(currentDate),
+      [FilterOptions.DateFrom]: new FormControl(monthAgoDate),
+      [FilterOptions.DateTo]: new FormControl(currentDate),
       [this.formControlName]: new FormControl(null)
     });
   }
@@ -127,8 +127,8 @@ export class HistoryLogFiltersComponent implements OnInit {
     const dateToWithTimezoneGap = dateTo.getTime() - timezoneGap;
 
     return {
-      [FilterOptions.dateFrom]: new Date(dateFromWithTimezoneGap).toUTCString(),
-      [FilterOptions.dateTo]: new Date(dateToWithTimezoneGap).toUTCString()
+      [FilterOptions.DateFrom]: new Date(dateFromWithTimezoneGap).toUTCString(),
+      [FilterOptions.DateTo]: new Date(dateToWithTimezoneGap).toUTCString()
     };
   }
 
