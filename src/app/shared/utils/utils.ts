@@ -1,11 +1,13 @@
-import { Workshop } from 'shared/models/workshop.model';
 import { KeyValue } from '@angular/common';
 
+import { Workshop } from 'shared/models/workshop.model';
+import { Constants } from 'shared/constants/constants';
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 import { Role } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
@@ -15,15 +17,13 @@ import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { FilterStateModel } from 'shared/models/filter-state.model';
 import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { Notification } from 'shared/models/notification.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
-import { Constants } from 'shared/constants/constants';
 import { Subrole } from './../enum/role';
-import { Notification } from 'shared/models/notification.model';
-import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 
 /**
  * Utility class that providers methods for shared data manipulations
