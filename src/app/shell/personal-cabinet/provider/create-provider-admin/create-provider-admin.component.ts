@@ -165,6 +165,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.managedWorkshopIds = workshopsId;
   }
 
+  public onWorkshopsChange(): void {
+    this.markFormAsDirtyOnUserInteraction();
+  }
+
   public checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
@@ -206,5 +210,14 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   public onCancel(): void {
     this.router.navigate(['/personal-cabinet/provider/administration']);
+  }
+
+  /**
+   * This method makes ProviderAdminFormGroup dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.ProviderAdminFormGroup.dirty) {
+      this.ProviderAdminFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }
