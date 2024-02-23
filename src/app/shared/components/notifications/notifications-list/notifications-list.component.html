@@ -7,7 +7,7 @@
         <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
           {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
         </button>
-        <button mat-menu-item [disabled]="!(notifications.length || notificationsGroupedByType.length)">
+        <button mat-menu-item [disabled]="!(notifications.length || notificationsGroupedByType.length)" (click)="onDeleteAll()">
           {{ 'NOTIFICATION_DETAILS.DELETE_ALL' | translate }}
         </button>
       </mat-menu>
@@ -44,11 +44,10 @@
             <div [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
               [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'" role="region"
               class="body-notification__wrapper">
-              <div *ngFor="let group of notificationGroupedByType.groupedByAdditionalData"
-                class="body-notification__content body-notification__group info"
-                (click)="onNavigate(group.type, group.groupedData)">
+              <div *ngFor="let notification of notificationGroupedByType.groupedByAdditionalData"
+                class="body-notification__content body-notification__group info" (click)="onNavigate(notification)">
                 <span class="info__description info__link">
-                  {{ group.amount | translateCases: defineDeclination(group.groupedData) }}
+                  {{ notification.amount | translateCases: defineDeclination(notification.groupedData) }}
                 </span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
@@ -62,8 +61,9 @@
           <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
               <div class="header-notification__single info">
-                <h4 class="info__workshop-name" *ngIf="notification.data.Title">
-                  {{ notification.data.Title }}
+                <h4 class="info__workshop-name"
+                  *ngIf="Util.getTitleFromNotification(notification, NotificationDescriptionType.Short) as title">
+                  {{ title }}
                 </h4>
                 <span class="info__description">
                   {{ notification | notificationDescription: NotificationDescriptionType.Short }}
@@ -76,8 +76,7 @@
             <div [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
               [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'" role="region"
               class="body-notification__wrapper info info__description">
-              <div class="body-notification__content body-notification__single"
-                (click)="onNavigate(notification.type, notification.action)">
+              <div class="body-notification__content body-notification__single" (click)="onNavigate(notification)">
                 <span class="info__description info__link">
                   {{ notification | notificationDescription: NotificationDescriptionType.Full }}
                 </span>

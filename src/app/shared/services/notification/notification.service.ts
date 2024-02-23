@@ -21,8 +21,19 @@ export class NotificationService {
   /**
    * This method get all notifications
    */
+  public getAllUsersNotifications(): Observable<NotificationGroupedAndSingle> {
+    return this.http.get<NotificationGroupedAndSingle>('/api/v1/Notification/GetAllUsersNotifications');
+  }
+
+  /**
+   * This method get all notifications
+   */
   public getAllUsersNotificationsGrouped(): Observable<NotificationGroupedAndSingle> {
     return this.http.get<NotificationGroupedAndSingle>('/api/v1/Notification/GetAllUsersNotificationsGrouped');
+  }
+
+  public readAllUsersNotifications(): Observable<void> {
+    return this.http.put<void>('/api/v1/Notification/ReadAll', {});
   }
 
   /**
@@ -39,13 +50,6 @@ export class NotificationService {
    */
   public readUsersNotificationById(notification: Notification): Observable<Notification> {
     return this.http.put<Notification>(`/api/v1/Notification/Read/${notification.id}`, notification);
-  }
-
-  /**
-   * This method get all notifications
-   */
-  public getAllUsersNotifications(): Observable<NotificationGroupedAndSingle> {
-    return this.http.get<NotificationGroupedAndSingle>('/api/v1/Notification/GetAllUsersNotifications');
   }
 
   /**

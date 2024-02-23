@@ -21,10 +21,15 @@ export enum NotificationAction {
   LicenseApproval = 'LicenseApproval',
   Block = 'Block',
   Unblock = 'Unblock',
-  ProviderBlock = 'ProviderBlock'
+  ProviderBlock = 'ProviderBlock',
+  ProviderUnblock = 'ProviderUnblock'
 }
 
 export enum NotificationDataType {
+  Status = 'Status',
   LicenseStatus = 'LicenseStatus',
-  Status = 'Status'
+  Title = 'Title',
+  ProviderId = 'ProviderId',
+  ProviderShortTitle = 'ProviderShortTitle',
+  ProviderFullTitle = 'ProviderFullTitle'
 }

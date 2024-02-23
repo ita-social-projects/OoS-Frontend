@@ -15,8 +15,10 @@ import {
   GetAmountOfNewUsersNotifications,
   OnDeleteUsersNotificationByIdFail,
   OnDeleteUsersNotificationByIdSuccess,
+  OnReadAllUsersNotificationsFail,
+  OnReadUsersNotificationsByTypeFail,
   OnReadUsersNotificationsByTypeSuccess,
-  OnReadUsersNotificationsFail,
+  ReadAllUsersNotifications,
   ReadUsersNotificationById,
   ReadUsersNotificationsByType
 } from './notification.actions';
@@ -47,6 +49,11 @@ export class NotificationState {
     return state.notifications;
   }
 
+  @Action(ClearNotificationState)
+  clearNotificationState({ patchState }: StateContext<NotificationStateModel>): void {
+    patchState({ notifications: null });
+  }
+
   @Action(GetAmountOfNewUsersNotifications)
   getAmountOfNewUsersNotifications(
     { patchState }: StateContext<NotificationStateModel>,
@@ -67,6 +74,18 @@ export class NotificationState {
       .pipe(tap((notifications: NotificationGroupedAndSingle) => patchState({ notifications })));
   }
 
+  @Action(ReadAllUsersNotifications)
+  readAllUsersNotifications({ dispatch }: StateContext<NotificationStateModel>): Observable<void> {
+    return this.notificationService
+      .readAllUsersNotifications()
+      .pipe(catchError((error: Error) => dispatch(new OnReadAllUsersNotificationsFail(error))));
+  }
+
+  @Action(OnReadAllUsersNotificationsFail)
+  onReadAllUsersNotificationsFail({ dispatch }: StateContext<NotificationStateModel>, { error }: OnDeleteUsersNotificationByIdFail): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
   @Action(ReadUsersNotificationsByType)
   readUsersNotificationsByType(
     { dispatch }: StateContext<NotificationStateModel>,
@@ -78,7 +97,7 @@ export class NotificationState {
           dispatch(new OnReadUsersNotificationsByTypeSuccess());
         }
       }),
-      catchError((error: Error) => dispatch(new OnReadUsersNotificationsFail(error)))
+      catchError((error: Error) => dispatch(new OnReadUsersNotificationsByTypeFail(error)))
     );
   }
 
@@ -90,6 +109,14 @@ export class NotificationState {
     dispatch([new GetAllUsersNotificationsGrouped(), new GetAmountOfNewUsersNotifications()]);
   }
 
+  @Action(OnReadUsersNotificationsByTypeFail)
+  onReadUsersNotificationsByTypeFail(
+    { dispatch }: StateContext<NotificationStateModel>,
+    { payload }: OnReadUsersNotificationsByTypeFail
+  ): void {
+    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  }
+
   @Action(ReadUsersNotificationById)
   readUsersNotificationsById(
     { dispatch }: StateContext<NotificationStateModel>,
@@ -97,7 +124,7 @@ export class NotificationState {
   ): Observable<Notification | void> {
     return this.notificationService
       .readUsersNotificationById(payload)
-      .pipe(catchError((error: Error) => dispatch(new OnReadUsersNotificationsFail(error))));
+      .pipe(catchError((error: Error) => dispatch(new OnReadUsersNotificationsByTypeFail(error))));
   }
 
   @Action(DeleteUsersNotificationById)
@@ -122,15 +149,5 @@ export class NotificationState {
     { error }: OnDeleteUsersNotificationByIdFail
   ): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
-  }
-
-  @Action(OnReadUsersNotificationsFail)
-  onReadUsersNotificationsFail({ dispatch }: StateContext<NotificationStateModel>, { payload }: OnReadUsersNotificationsFail): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
-  }
-
-  @Action(ClearNotificationState)
-  clearNotificationState({ patchState }: StateContext<NotificationStateModel>): void {
-    patchState({ notifications: null });
   }
 }

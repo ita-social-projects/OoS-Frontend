@@ -9,11 +9,12 @@ export namespace NotificationDescriptions {
     }
 
     export enum Provider {
+      Create = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.CREATE',
       Editing = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.EDITING',
       Approved = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.APPROVED',
       Block = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.BLOCK',
       Unblock = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.UNBLOCK',
-      Update = 'ENUM.PROVIDER_STATUS_DETAILS.EDITING'
+      Recheck = 'NOTIFICATION_DETAILS.PROVIDER_SHORT_DESCRIPTION.RECHECK'
     }
 
     export enum Workshop {
@@ -22,7 +23,8 @@ export namespace NotificationDescriptions {
     }
 
     export enum Parent {
-      ProviderBlock = 'Blocked by provider'
+      ProviderBlock = 'NOTIFICATION_DETAILS.PARENT_SHORT_DESCRIPTION.BLOCKED_BY_PROVIDER',
+      ProviderUnblock = 'NOTIFICATION_DETAILS.PARENT_SHORT_DESCRIPTION.UNBLOCKED_BY_PROVIDER'
     }
   }
 
@@ -34,11 +36,12 @@ export namespace NotificationDescriptions {
     }
 
     export enum Provider {
+      Create = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.CREATE',
       Editing = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.EDITING',
       Approved = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.APPROVED',
       Block = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.BLOCK',
       Unblock = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.UNBLOCK',
-      Update = 'ENUM.PROVIDER_STATUS_DETAILS.EDITING'
+      Recheck = 'NOTIFICATION_DETAILS.PROVIDER_FULL_DESCRIPTION.RECHECK'
     }
 
     export enum Workshop {
@@ -47,27 +50,28 @@ export namespace NotificationDescriptions {
     }
 
     export enum Parent {
-      ProviderBlock = 'Blocked by provider'
+      ProviderBlock = 'NOTIFICATION_DETAILS.PARENT_FULL_DESCRIPTION.BLOCKED_BY_PROVIDER',
+      ProviderUnblock = 'NOTIFICATION_DETAILS.PARENT_FULL_DESCRIPTION.UNBLOCKED_BY_PROVIDER'
     }
   }
 
-  export function notificationDescriptionExists(
-    descriptionType: NotificationDescriptionType,
-    notificationType: NotificationType | NotificationDataType,
-    notificationAction: NotificationAction | string
-  ): boolean {
-    return (
-      descriptionType in NotificationDescriptions &&
-      notificationType in NotificationDescriptions[descriptionType] &&
-      notificationAction in NotificationDescriptions[descriptionType][notificationType]
-    );
-  }
-
-  export function toNotificationDescription(
+  export function get(
     descriptionType: NotificationDescriptionType,
     type: NotificationType | NotificationDataType,
     action: NotificationAction | string
-  ): string {
-    return NotificationDescriptions[descriptionType][type][action];
+  ): string | null {
+    return exists(descriptionType, type, action) ? NotificationDescriptions[descriptionType][type][action] : null;
+  }
+
+  function exists(
+    descriptionType: NotificationDescriptionType,
+    type: NotificationType | NotificationDataType,
+    action: NotificationAction | string
+  ): boolean {
+    return (
+      descriptionType in NotificationDescriptions &&
+      type in NotificationDescriptions[descriptionType] &&
+      action in NotificationDescriptions[descriptionType][type]
+    );
   }
 }
