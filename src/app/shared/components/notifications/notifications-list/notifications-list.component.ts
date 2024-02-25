@@ -42,7 +42,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   @Select(NotificationState.notifications)
   public notificationsData$: Observable<NotificationGroupedAndSingle>;
 
-  public readonly ApplicationHeaderDeclinations = NotificationDeclination.Application.ApplicationChanges;
+  public readonly ApplicationHeaderDeclinations = NotificationDeclination.Application.Changes;
   public readonly NotificationDescriptionType = NotificationDescriptionType;
   public readonly Constants = Constants;
   public readonly Util = Util;
@@ -88,18 +88,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   public defineDeclination(status: string): NotificationDeclination.Application.DeclinationType {
-    switch (status) {
-      case ApplicationStatuses.Approved:
-        return NotificationDeclination.Application.ApplicationApproved;
-      case ApplicationStatuses.Pending:
-        return NotificationDeclination.Application.ApplicationPending;
-      case ApplicationStatuses.Rejected:
-        return NotificationDeclination.Application.ApplicationRejected;
-      case ApplicationStatuses.Left:
-        return NotificationDeclination.Application.ApplicationLeft;
-      default:
-        return NotificationDeclination.Application.ApplicationPending;
-    }
+    return NotificationDeclination.Application.getDeclination(status);
   }
 
   public onNavigate(notification: Notification, groupedData?: string): void {
@@ -110,13 +99,13 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
       case NotificationType.Application:
         {
           const status = ApplicationStatuses[groupedData] as string;
-          this.router.navigate([`personal-cabinet/${this.role}/${PersonalCabinetLinks.Application}`], {
+          this.router.navigate(['personal-cabinet', this.role, PersonalCabinetLinks.Application], {
             queryParams: { status }
           });
         }
         break;
       case NotificationType.Chat:
-        this.router.navigate([`personal-cabinet/${PersonalCabinetLinks.Chat}`]);
+        this.router.navigate(['personal-cabinet', PersonalCabinetLinks.Chat]);
         break;
       case NotificationType.Provider:
         switch (NotificationAction[notification.action]) {
@@ -153,8 +142,8 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
     this.store.dispatch(new ReadUsersNotificationsByType(groupByType.type));
 
-    this.notificationsAmount.amount -= groupByType.amount;
     groupByType.isRead = true;
+    this.notificationsAmount.amount -= groupByType.amount;
   }
 
   public onReadSingle(notification: Notification): void {
@@ -164,7 +153,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
     this.store.dispatch(new ReadUsersNotificationById(notification));
 
-    notification.readDateTime = new Date(Date.now());
+    notification.readDateTime = new Date();
     this.notificationsAmount.amount--;
   }
 

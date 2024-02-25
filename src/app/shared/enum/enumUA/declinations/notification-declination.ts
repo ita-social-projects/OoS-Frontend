@@ -1,40 +1,39 @@
 export namespace NotificationDeclination {
   export namespace Application {
-    export type DeclinationType =
-      | typeof ApplicationChanges
-      | typeof ApplicationApproved
-      | typeof ApplicationPending
-      | typeof ApplicationRejected
-      | typeof ApplicationLeft;
+    export type DeclinationType = typeof Changes | typeof Approved | typeof Pending | typeof Rejected | typeof Left;
 
-    export enum ApplicationChanges {
+    export enum Changes {
       'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS',
       'ENUM.APPLICATION_CHANGES.CHANGES_IN_APPLICATIONS',
       'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS_ABLATIVE'
     }
 
-    export enum ApplicationApproved {
+    export enum Approved {
       'ENUM.APPLICATION_APPROVED.APPLICATION_ACCEPTED',
       'ENUM.APPLICATION_APPROVED.APPLICATIONS_ACCEPTED',
       'ENUM.APPLICATION_APPROVED.APPLICATION_ACCEPTED_ABLATIVE'
     }
 
-    export enum ApplicationPending {
+    export enum Pending {
       'ENUM.APPLICATION_PENDING.APPLICATION_PENDING_CONFIRMATION',
       'ENUM.APPLICATION_PENDING.APPLICATIONS_PENDING_CONFIRMATION',
       'ENUM.APPLICATION_PENDING.APPLICATION_PENDING_CONFIRMATION_ABLATIVE'
     }
 
-    export enum ApplicationRejected {
+    export enum Rejected {
       'ENUM.APPLICATION_REJECTED.APPLICATION_REJECTED',
       'ENUM.APPLICATION_REJECTED.APPLICATIONS_REJECTED',
       'ENUM.APPLICATION_REJECTED.APPLICATION_REJECTED_ABLATIVE'
     }
 
-    export enum ApplicationLeft {
+    export enum Left {
       'ENUM.APPLICATION_LEFT.WORKSHOP_LEFT',
       'ENUM.APPLICATION_LEFT.WORKSHOPS_LEFT',
       'ENUM.APPLICATION_LEFT.WORKSHOP_LEFT_ABLATIVE'
+    }
+
+    export function getDeclination(status: string): DeclinationType {
+      return Application[status];
     }
   }
 }
