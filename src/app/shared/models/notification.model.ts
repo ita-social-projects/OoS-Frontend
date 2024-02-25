@@ -7,7 +7,7 @@ export interface NotificationAmount {
 export interface Notification {
   id?: string;
   userId: string;
-  data: { [key in NotificationDataType]: string };
+  data: Partial<{ [key in NotificationDataType]: string }>;
   type: NotificationType;
   action: NotificationAction;
   createdDateTime: Date;

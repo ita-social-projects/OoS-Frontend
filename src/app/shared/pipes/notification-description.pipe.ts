@@ -29,7 +29,7 @@ export class NotificationDescriptionPipe implements PipeTransform {
     let description: string = null;
 
     description = NotificationDescriptions.get(descriptionType, notification.type, notification.action);
-    if (descriptionType === NotificationDescriptionType.Full || Object.keys(notification.data).length) {
+    if (descriptionType === NotificationDescriptionType.Full || (notification.data && Object.keys(notification.data).length)) {
       switch (notification.type) {
         case NotificationType.Application:
           description = ApplicationTitles[notification.data.Status];
