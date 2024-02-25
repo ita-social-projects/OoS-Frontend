@@ -192,33 +192,80 @@ describe('NotificationsListComponent', () => {
     });
   });
 
-  it('should add a new notification to notificationsGroupedByType and notifications arrays', () => {
-    const notification: Notification = {
-      type: NotificationType.Provider,
-      action: NotificationAction.Create,
-      userId: undefined,
-      createdDateTime: undefined,
-      data: {}
-    };
-
-    component.notifications = [];
-    component.notificationsAmount = { amount: 0 };
-    const initialNotificationsLength = component.notifications.length;
-
-    component.ngOnChanges({
-      receivedNotification: {
-        currentValue: notification,
-        firstChange: false,
-        previousValue: undefined,
-        isFirstChange: function (): boolean {
-          throw new Error('Function not implemented.');
+  describe('addReceivedNotification', () => {
+    beforeEach(() => {
+      component.notificationsGroupedByType = [
+        {
+          type: NotificationType.Application,
+          amount: 3,
+          groupedByAdditionalData: [
+            {
+              type: NotificationType.Application,
+              action: NotificationAction.Create,
+              groupedData: 'Pending',
+              amount: 3
+            }
+          ]
         }
-      }
+      ];
+      component.notifications = [
+        {
+          type: NotificationType.Parent,
+          action: NotificationAction.ProviderBlock,
+          userId: undefined,
+          data: {},
+          createdDateTime: undefined
+        }
+      ];
+      component.notificationsAmount = { amount: 4 };
     });
-    const addedNotification = component.notifications[0];
 
-    expect(addedNotification).toBeTruthy();
-    expect(component.notifications.length).toBe(initialNotificationsLength + 1);
-    expect(component.notificationsAmount.amount).toBe(1);
+    it('should add a new notification group to notifications grouped when received', () => {
+      const notification: Notification = {
+        type: NotificationType.Application,
+        action: NotificationAction.Create,
+        userId: undefined,
+        createdDateTime: undefined,
+        data: { Status: 'Pending' }
+      };
+      const initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
+      const initialNotificationsAmount = component.notificationsAmount.amount;
+
+      component.ngOnChanges({
+        receivedNotification: {
+          currentValue: notification,
+          firstChange: false,
+          previousValue: undefined,
+          isFirstChange: undefined
+        }
+      });
+
+      expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
+      expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+    });
+
+    it('should add a new notification to notifications when received', () => {
+      const notification: Notification = {
+        type: NotificationType.Provider,
+        action: NotificationAction.Create,
+        userId: undefined,
+        createdDateTime: undefined,
+        data: {}
+      };
+      const initialNotificationsLength = component.notifications.length;
+      const initialNotificationsAmount = component.notificationsAmount.amount;
+
+      component.ngOnChanges({
+        receivedNotification: {
+          currentValue: notification,
+          firstChange: false,
+          previousValue: undefined,
+          isFirstChange: undefined
+        }
+      });
+
+      expect(component.notifications.length).toBe(initialNotificationsLength + 1);
+      expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+    });
   });
 });
