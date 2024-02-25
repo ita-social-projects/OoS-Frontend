@@ -28,7 +28,7 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
 
   constructor(
     private store: Store,
-    private changeDetector: ChangeDetectorRef,
+    private cdr: ChangeDetectorRef,
     private signalRService: SignalRService
   ) {}
 
@@ -57,7 +57,7 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
   }
 
   public ngAfterViewChecked(): void {
-    this.changeDetector.detectChanges();
+    this.cdr.detectChanges();
   }
 
   public ngOnDestroy(): void {

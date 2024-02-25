@@ -142,7 +142,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public onReadAll(): void {
     this.store.dispatch(new ReadAllUsersNotifications());
     this.notificationsGroupedByType.forEach((notification) => (notification.isRead = true));
-    this.notifications.forEach((notification) => (notification.readDateTime = new Date(Date.now())));
+    this.notifications.forEach((notification) => (notification.readDateTime = new Date()));
     this.notificationsAmount.amount = 0;
   }
 
@@ -190,22 +190,28 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
       return;
     }
 
-    for (const notificationGroupedByType of this.notificationsGroupedByType) {
+    const newNotificationGroupReceived = this.notificationsGroupedByType.some((notificationGroupedByType) => {
       if (notificationGroupedByType.type === receivedNotification.type) {
-        for (const notificationGrouped of notificationGroupedByType.groupedByAdditionalData) {
+        const receivedGroupExistsByAdditionalData = notificationGroupedByType.groupedByAdditionalData.some((notificationGrouped) => {
           if (notificationGrouped.groupedData === receivedNotification.data[NotificationDataType.Status]) {
             notificationGroupedByType.amount++;
             notificationGrouped.amount++;
-            return;
+            return true;
           }
+          return false;
+        });
+
+        if (!receivedGroupExistsByAdditionalData) {
+          this.addNewGroupByAdditionalData(notificationGroupedByType, receivedNotification);
+          return false;
         }
-
-        this.addNewGroupByAdditionalData(notificationGroupedByType, receivedNotification);
-        return;
       }
-    }
+      return true;
+    });
 
-    this.addNewGroupByType(receivedNotification);
+    if (newNotificationGroupReceived) {
+      this.addNewGroupByType(receivedNotification);
+    }
   }
 
   private addNewGroupByType(receivedNotification: Notification): void {
