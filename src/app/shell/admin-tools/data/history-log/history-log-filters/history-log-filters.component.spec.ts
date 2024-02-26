@@ -43,7 +43,6 @@ describe('HistoryLogFiltersComponent', () => {
       [FilterOptions.DateFrom]: formBuilder.control(''),
       [FilterOptions.DateTo]: formBuilder.control('')
     });
-    component.filtersForm.addControl(component.formControlName, new FormControl(''));
     fixture.detectChanges();
   });
 
@@ -69,7 +68,7 @@ describe('HistoryLogFiltersComponent', () => {
     test.each`
       tab                               | tabName             | expectedFormControlName
       ${HistoryLogTypes.Providers}      | ${'Providers'}      | ${FilterOptions.PropertyName}
-      ${HistoryLogTypes.ProviderAdmins} | ${'ProviderAdmins'} | ${FilterOptions.AdminType}
+      ${HistoryLogTypes.ProviderAdmins} | ${'ProviderAdmins'} | ${FilterOptions.OperationType}
       ${HistoryLogTypes.Applications}   | ${'Applications'}   | ${FilterOptions.PropertyName}
       ${HistoryLogTypes.Users}          | ${'Users'}          | ${FilterOptions.ShowParents}
     `(
@@ -77,17 +76,17 @@ describe('HistoryLogFiltersComponent', () => {
       ({ tab, tabName, expectedFormControlName }) => {
         component.tabName = tab;
 
-        expect(component.formControlName).toBe(expectedFormControlName);
+        expect(component.filtersList[0].controlName).toBe(expectedFormControlName);
         expect(Object.keys(component.filtersForm.controls)).toContain(expectedFormControlName);
       }
     );
 
-    it('should add additionalFormControlName to filtersForm when tabName is equal to ProviderAdmins', () => {
-      const expectedAdditionalFormControlName = FilterOptions.OperationType;
+    it('should add additional form control to filtersForm when tabName is equal to ProviderAdmins', () => {
+      const expectedAdditionalFormControlName = FilterOptions.AdminType;
 
       component.tabName = HistoryLogTypes.ProviderAdmins;
 
-      expect(component.additionalFormControlName).toBe(expectedAdditionalFormControlName);
+      expect(component.filtersList[1].controlName).toBe(expectedAdditionalFormControlName);
       expect(Object.keys(component.filtersForm.controls)).toContain(expectedAdditionalFormControlName);
     });
   });
@@ -97,7 +96,8 @@ describe('HistoryLogFiltersComponent', () => {
 
     beforeEach(() => {
       filterDataSpy = jest.spyOn(component.filterData, 'emit');
-      component.filtersForm.controls[component.formControlName].setValue('Testing value');
+      component.filtersList = [{ controlName: FilterOptions.PropertyName }];
+      component.filtersForm.addControl(component.filtersList[0].controlName, new FormControl('Testing value'));
     });
 
     it('should emit filterData with correct data', () => {
@@ -106,7 +106,7 @@ describe('HistoryLogFiltersComponent', () => {
       const expectedFilterData = {
         dateFrom: 'Sun, 21 Jan 2024 00:00:00 GMT',
         dateTo: 'Wed, 21 Feb 2024 23:59:59 GMT',
-        [component.formControlName]: 'Testing value'
+        [component.filtersList[0].controlName]: 'Testing value'
       };
 
       component.applyFilters();
@@ -121,7 +121,7 @@ describe('HistoryLogFiltersComponent', () => {
       const expectedFilterData = {
         dateFrom: '',
         dateTo: '',
-        [component.formControlName]: 'Testing value'
+        [component.filtersList[0].controlName]: 'Testing value'
       };
 
       component.applyFilters();

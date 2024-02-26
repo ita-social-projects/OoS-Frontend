@@ -98,7 +98,6 @@ export class HistoryLogFiltersComponent implements OnInit {
     this.filtersForm = this.fb.group({
       [FilterOptions.DateFrom]: new FormControl(monthAgoDate),
       [FilterOptions.DateTo]: new FormControl(currentDate)
-      // [this.formControlName]: new FormControl(null)
     });
   }
 
