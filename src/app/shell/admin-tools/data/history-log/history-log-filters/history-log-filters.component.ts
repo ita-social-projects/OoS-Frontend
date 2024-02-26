@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
 import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
-import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
-import { ProviderAdminOperationOptions } from 'shared/constants/drop-down';
+import { FilterOptions, FormControlNames, HistoryLogTypes, CustomFormControlNames } from 'shared/enum/history.log';
+import { DropdownOptionsConfig } from 'shared/constants/drop-down';
 
 @Component({
   selector: 'app-history-log-filters',
@@ -17,12 +17,11 @@ export class HistoryLogFiltersComponent implements OnInit {
   @Output() public filterData = new EventEmitter<FilterData>();
   @Output() public dateFromFilters = new EventEmitter<DateFilters>();
 
-  public readonly additionalDropdownOptions = ProviderAdminOperationOptions;
+  public readonly dropdownOptionsConfig = DropdownOptionsConfig;
   public filtersForm: FormGroup;
-  public formControlName: string = '';
-  public additionalFormControlName: string = '';
   public maxDate = new Date();
   public notAllowedToPickByTabButton = -1;
+  public filtersList = [];
 
   private baseCountOfFiltersFormFields = 2;
   private _tabName: HistoryLogTypes;
@@ -35,7 +34,7 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   @Input() public set tabName(newTabName: HistoryLogTypes) {
     this._tabName = newTabName;
-    this.additionalFormControlName = '';
+    this.filtersList = [];
     if (this.filtersForm && Object.keys(this.filtersForm.controls).length > this.baseCountOfFiltersFormFields) {
       this.removeExtraFormControls();
     }
@@ -68,16 +67,16 @@ export class HistoryLogFiltersComponent implements OnInit {
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
     switch (tabName) {
       case HistoryLogTypes.Providers:
-        this.addFormControlForFiltersForm(FilterOptions.PropertyName);
+        this.addFormControlForFiltersForm([CustomFormControlNames.ProvidersPropertyName]);
         break;
       case HistoryLogTypes.ProviderAdmins:
-        this.addFormControlForFiltersForm(FilterOptions.AdminType, FilterOptions.OperationType);
+        this.addFormControlForFiltersForm([CustomFormControlNames.OperationType, CustomFormControlNames.AdminType]);
         break;
       case HistoryLogTypes.Applications:
-        this.addFormControlForFiltersForm(FilterOptions.PropertyName);
+        this.addFormControlForFiltersForm([CustomFormControlNames.ApplicationsPropertyName]);
         break;
       case HistoryLogTypes.Users:
-        this.addFormControlForFiltersForm(FilterOptions.ShowParents);
+        this.addFormControlForFiltersForm([CustomFormControlNames.ShowParents]);
         break;
     }
   }
@@ -98,8 +97,8 @@ export class HistoryLogFiltersComponent implements OnInit {
 
     this.filtersForm = this.fb.group({
       [FilterOptions.DateFrom]: new FormControl(monthAgoDate),
-      [FilterOptions.DateTo]: new FormControl(currentDate),
-      [this.formControlName]: new FormControl(null)
+      [FilterOptions.DateTo]: new FormControl(currentDate)
+      // [this.formControlName]: new FormControl(null)
     });
   }
 
@@ -139,12 +138,13 @@ export class HistoryLogFiltersComponent implements OnInit {
     return this.setTimeDependsOnTimezone(dateFrom, dateTo);
   }
 
-  private addFormControlForFiltersForm(formControlName: string, additionalFormControlName?: string): void {
-    this.formControlName = formControlName;
-    this.filtersForm.addControl(formControlName, new FormControl(''));
-    if (additionalFormControlName) {
-      this.additionalFormControlName = additionalFormControlName;
-      this.filtersForm.addControl(additionalFormControlName, new FormControl(''));
-    }
+  private addFormControlForFiltersForm(formControlNames: string[]): void {
+    formControlNames.forEach((controlName: string) => {
+      this.filtersForm.addControl(FormControlNames[controlName], new FormControl(''));
+      this.filtersList.push({
+        controlName: FormControlNames[controlName],
+        options: this.dropdownOptionsConfig[controlName]
+      });
+    });
   }
 }

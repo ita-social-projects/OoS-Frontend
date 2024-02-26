@@ -13,3 +13,19 @@ export enum FilterOptions {
   OperationType = 'OperationType',
   ShowParents = 'ShowParents'
 }
+
+export enum FormControlNames {
+  ProvidersPropertyName = 'PropertyName',
+  AdminType = 'AdminType',
+  OperationType = 'OperationType',
+  ApplicationsPropertyName = 'PropertyName',
+  ShowParents = 'ShowParents'
+}
+
+export enum CustomFormControlNames {
+  ProvidersPropertyName = 'ProvidersPropertyName',
+  AdminType = 'AdminType',
+  OperationType = 'OperationType',
+  ApplicationsPropertyName = 'ApplicationsPropertyName',
+  ShowParents = 'ShowParents'
+}

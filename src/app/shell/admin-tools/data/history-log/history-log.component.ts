@@ -7,7 +7,7 @@ import { Observable, Subject, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
-import { ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
+import { ApplicationOptions, ParentsBlockingByAdminOptions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
@@ -162,7 +162,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         break;
       case HistoryLogTypes.Users:
         this.store.dispatch([new GetParentsBlockingByAdminHistory(filters, searchString)]);
-        this.dropdownData = ParentsBlockingByAdminOPtions;
+        this.dropdownData = ParentsBlockingByAdminOptions;
         this.tabName = HistoryLogTypes.Users;
         break;
     }

@@ -12,34 +12,22 @@
         <mat-date-range-picker #picker (closed)="setDateForFilters()"></mat-date-range-picker>
       </mat-form-field>
     </div>
-
-    <ng-container *ngIf="additionalFormControlName">
+    <ng-container *ngFor="let filter of filtersList">
       <mat-form-field floatLabel="never" appearance="none">
         <mat-select
           disableOptionCentering
-          [formControl]="filtersForm.controls[additionalFormControlName]"
+          [formControl]="filtersForm.controls[filter.controlName]"
           panelClass="dropdown-panel"
           class="select">
           <mat-option value="" class="dropdown-option">
             {{ 'FORMS.PLACEHOLDERS.ALL_FILTERS' | translate }}
           </mat-option>
-          <mat-option *ngFor="let option of additionalDropdownOptions" [value]="option.value" class="dropdown-option">{{
-            option.label | translate
-          }}</mat-option>
+          <mat-option *ngFor="let option of filter.options" [value]="option.value" class="dropdown-option">
+            {{ option.label | translate }}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </ng-container>
-
-    <mat-form-field floatLabel="never" appearance="none">
-      <mat-select disableOptionCentering [formControl]="filtersForm.controls[formControlName]" panelClass="dropdown-panel" class="select">
-        <mat-option value="" class="dropdown-option">
-          {{ 'FORMS.PLACEHOLDERS.ALL_FILTERS' | translate }}
-        </mat-option>
-        <mat-option *ngFor="let option of dropdownOptions" [value]="option.value" class="dropdown-option">{{
-          option.label | translate
-        }}</mat-option>
-      </mat-select>
-    </mat-form-field>
   </div>
   <div class="filters-actions">
     <div class="reset" (click)="onResetFilters()">
