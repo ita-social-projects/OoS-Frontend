@@ -7,13 +7,13 @@
         <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
           {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
         </button>
-        <button mat-menu-item [disabled]="!(notifications.length || groupsByType.length)">
+        <button mat-menu-item [disabled]="!(notifications.length || notificationsGroupedByType.length)" (click)="onDeleteAll()">
           {{ 'NOTIFICATION_DETAILS.DELETE_ALL' | translate }}
         </button>
       </mat-menu>
     </div>
 
-    <ng-container *ngIf="notifications.length || groupsByType.length; else isEmptyList">
+    <ng-container *ngIf="notifications.length || notificationsGroupedByType.length; else isEmptyList">
       <ng-container *ngTemplateOutlet="Notifications"></ng-container>
     </ng-container>
   </ng-container>
@@ -28,27 +28,27 @@
 <ng-template #Notifications>
   <div class="accordions-wrapper">
     <cdk-accordion>
-      <ng-container *ngIf="groupsByType.length">
-        <cdk-accordion-item *ngFor="let groupByType of groupsByType" #accordionGroupItem="cdkAccordionItem" role="button">
-          <div [class]="groupByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
-            <div class="header-notification header-notification__group" (click)="accordionGroupItem.toggle(); onReadGroup(groupByType)">
+      <ng-container *ngIf="notificationsGroupedByType.length">
+        <cdk-accordion-item *ngFor="let notificationGroupedByType of notificationsGroupedByType"
+          #accordionGroupItem="cdkAccordionItem" role="button">
+          <div [class]="notificationGroupedByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
+            <div class="header-notification header-notification__group"
+              (click)="accordionGroupItem.toggle(); onReadGroup(notificationGroupedByType)">
               <div class="info">
-                <span class="info__description"
-                  >{{ 'NOTIFICATION_DETAILS.YOU_HAVE' | translate }}
-                  {{ groupByType.amount | translateCases: ApplicationHeaderDeclinations }}</span
-                >
+                <span class="info__description">
+                  {{ 'NOTIFICATION_DETAILS.YOU_HAVE' | translate }}
+                  {{ notificationGroupedByType.amount | translateCases: ApplicationHeaderDeclinations }}
+                </span>
               </div>
             </div>
-            <div
-              [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
-              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
-              role="region"
+            <div [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'" role="region"
               class="body-notification__wrapper">
-              <div
-                *ngFor="let group of groupByType.groupedByAdditionalData"
-                class="body-notification__content body-notification__group info"
-                (click)="onNavigate(group.type, group.groupedData)">
-                <span class="info__description info__link">{{ group.amount | translateCases: defineDeclination(group.groupedData) }}</span>
+              <div *ngFor="let notification of notificationGroupedByType.groupedByAdditionalData"
+                class="body-notification__content body-notification__group info" (click)="onNavigate(notification)">
+                <span class="info__description info__link">
+                  {{ notification.amount | translateCases: defineDeclination(notification.groupedData) }}
+                </span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
             </div>
@@ -56,36 +56,30 @@
         </cdk-accordion-item>
       </ng-container>
       <ng-container *ngIf="notifications.length">
-        <cdk-accordion-item
-          *ngFor="let notification of notifications"
-          #accordionItem="cdkAccordionItem"
-          role="button"
+        <cdk-accordion-item *ngFor="let notification of notifications" #accordionItem="cdkAccordionItem" role="button"
           [disabled]="!notification.data">
           <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
               <div class="header-notification__single info">
-                <h4 class="info__workshop-name">{{ notification.data.Title }}</h4>
-                <span class="info__description">{{
-                  getNotificationDescription(NotificationDescriptionType.Short, notification.type, notification.data, notification.action)
-                    | translate
-                }}</span>
+                <h4 class="info__workshop-name"
+                  *ngIf="Util.getTitleFromNotification(notification, NotificationDescriptionType.Short) as title">
+                  {{ title }}
+                </h4>
+                <span class="info__description">
+                  {{ notification | notificationDescription: NotificationDescriptionType.Short }}
+                </span>
                 <h4 class="info__time">
-                  {{ notification.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}
+                  {{ notification.createdDateTime | date: Constants.FULL_DATE_FORMAT_ONLY_DIGITS }}
                 </h4>
               </div>
             </div>
-            <div
-              [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
-              [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
-              role="region"
+            <div [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'" role="region"
               class="body-notification__wrapper info info__description">
-              <div
-                class="body-notification__content body-notification__single"
-                (click)="onNavigate(notification.type, notification.action)">
-                <span class="info__description info__link">{{
-                  getNotificationDescription(NotificationDescriptionType.Full, notification.type, notification.data, notification.action)
-                    | translate
-                }}</span>
+              <div class="body-notification__content body-notification__single" (click)="onNavigate(notification)">
+                <span class="info__description info__link">
+                  {{ notification | notificationDescription: NotificationDescriptionType.Full }}
+                </span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
             </div>

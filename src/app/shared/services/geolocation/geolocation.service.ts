@@ -23,11 +23,11 @@ export class GeolocationService {
     this.store.dispatch([new SetCity(settlement, isConfirmed), new ConfirmCity(isConfirmed)]);
   }
 
-  navigatorRecievedError(err: GeolocationPositionError): void {
+  navigatorReceivedError(err: GeolocationPositionError): void {
     console.warn(`ERROR(${err.code}): ${err.message}`);
   }
 
-  navigatorRecievedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
+  navigatorReceivedLocation(data: GeolocationPosition, callback: (Coords: Coords) => void): void {
     callback({ lat: data.coords.latitude, lng: data.coords.longitude });
   }
 
@@ -43,14 +43,14 @@ export class GeolocationService {
    * gets user location
    * renders Kyiv map by default in case user denies Geolocation
    *
-   * @param callback - Function, which recieves 1 argument of type Coords
+   * @param callback - Function, which receives 1 argument of type Coords
    *
    */
   handleUserLocation(callback: (Coords?: Coords) => void): void {
     navigator.geolocation.getCurrentPosition(
-      (data: GeolocationPosition) => this.navigatorRecievedLocation(data, callback),
+      (data: GeolocationPosition) => this.navigatorReceivedLocation(data, callback),
       (error: GeolocationPositionError) => {
-        this.navigatorRecievedError(error);
+        this.navigatorReceivedError(error);
         callback();
       }
     );

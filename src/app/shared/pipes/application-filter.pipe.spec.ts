@@ -1,8 +1,13 @@
 import { ApplicationFilterPipe } from './application-filter.pipe';
 
 describe('ApplicationFilterPipe', () => {
+  let pipe: ApplicationFilterPipe;
+
+  beforeEach(() => {
+    pipe = new ApplicationFilterPipe();
+  });
+
   it('create an instance', () => {
-    const pipe = new ApplicationFilterPipe();
     expect(pipe).toBeTruthy();
   });
 });

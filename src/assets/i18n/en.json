@@ -245,12 +245,12 @@
       "RECHECK": "Needs reconfirmation"
     },
     "PROVIDER_STATUS_DETAILS": {
-      "APPROVED": "Your organization has been approved by the administrator. Now your organization will be visible to other users of the platform and you will be able to edit information about the organization.",
-      "PENDING": "Your organization is awaiting confirmation by an administrator.",
+      "APPROVED": "Your institution has been approved by the administrator. Now your institution will be visible to other users of the platform and you will be able to edit information about the institution.",
+      "PENDING": "Your institution is awaiting confirmation by an administrator.",
       "BLOCKED": "Unfortunately, the reason for the block was not specified. Please contact the administration.",
       "BLOCKED_PHONE_NUMBER": "For more info call phone number:",
       "EDITING": "Please make sure that the information about your institution is correct.",
-      "RECHECK": "Your organization is awaiting confirmation by an administrator."
+      "RECHECK": "Your institution is awaiting confirmation by an administrator."
     },
     "LICENSE_STATUSES": {
       "APPROVED": "Approved license",
@@ -273,7 +273,7 @@
     },
     "HISTORY_LOG": {
       "PROVIDERS": "Providers",
-      "ADMINS": "Adminstrators",
+      "ADMINS": "Administrators",
       "APPLICATIONS": "Applications",
       "USERS": "Users",
       "ADMIN_STATUS": {
@@ -359,10 +359,10 @@
       "OWNERSHIP": "Ownership",
       "LICENSE": "License",
       "INSTITUTION_CATEGORY": "Provider category",
-      "ORGANIZATION_TYPE": "Organization type",
-      "ORGANIZATION_STATUS": "Organization status",
-      "FULL_ORGANIZATION_NAME": "Full organization name",
-      "SHORT_ORGANIZATION_NAME": "Short organization name",
+      "ORGANIZATION_TYPE": "Institution type",
+      "ORGANIZATION_STATUS": "Institution status",
+      "FULL_ORGANIZATION_NAME": "Full institution name",
+      "SHORT_ORGANIZATION_NAME": "Short institution name",
       "PROVIDER_TITLE": "Provider title",
       "WORKSHOP_TITLE": "Workshop title",
       "EDRPO": "Unified State Register Code of Enterprises and Organizations of Ukraine",
@@ -414,7 +414,7 @@
       "SELECT_ACHIEVEMENT": "Select achievement type",
       "SELECT_OWNERSHIP": "Select ownership type",
       "SELECT_INSTITUTION_CATEGORY": "Select provider category",
-      "SELECT_ORGANIZATION_TYPE": "Select organization type"
+      "SELECT_ORGANIZATION_TYPE": "Select institution type"
     },
     "UAH_FOR": "UAH for",
     "VALIDATIONS": {
@@ -443,7 +443,7 @@
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
-    "LICENSE": "Add licenses to gain more interest and increase user trust in your organization. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
+    "LICENSE": "Add licenses to gain more interest and increase user trust in your institution. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",
@@ -488,7 +488,7 @@
   "TRIAL_MESSAGE": "Trial operation mode",
   "ALL_DIRECTIONS": "All categories",
   "TOTAL_PARTICIPANTS": "Total participants",
-  "TYPE_OF_ORGANIZATION": "Organization type",
+  "TYPE_OF_ORGANIZATION": "Institution type",
   "UAH": "UAH",
   "UNLIMITED": "Unlimited",
   "VIEW_ALL": "View All",
@@ -631,25 +631,33 @@
     "DELETE_ALL": "Delete all",
     "YOU_HAVE": "You have",
     "PROVIDER_SHORT_DESCRIPTION": {
-      "EDITING": "Your organization needs editing",
-      "APPROVED": "Congratulations! Your organization has been successfully approved",
+      "CREATE": "A new institution has been registered",
+      "EDITING": "Your institution needs editing",
+      "APPROVED": "Congratulations! Your institution has been successfully approved",
       "BLOCK": "The institution has been blocked",
-      "UNBLOCK": "The institution has been unblocked"
+      "UNBLOCK": "The institution has been unblocked",
+      "RECHECK": "The institution needs reconfirmation"
     },
     "WORKSHOP_SHORT_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open",
-      "CLOSED": "Workshop recruitment successfully is closed"
+      "CLOSED": "Workshop recruitment is closed"
     },
     "LICENSE_SHORT_DESCRIPTION": {
-      "APPROVED": "The organization's license has been successfully confirmed by the administrator",
-      "PENDING": "New organization is awaiting license approval",
-      "NOT_PROVIDED": "A new organization was registered without a license"
+      "APPROVED": "The institution's license has been successfully confirmed by the administrator",
+      "PENDING": "New institution is awaiting license approval",
+      "NOT_PROVIDED": "A new institution was registered without a license"
+    },
+    "PARENT_SHORT_DESCRIPTION": {
+      "BLOCKED_BY_PROVIDER": "Blocked by institution",
+      "UNBLOCKED_BY_PROVIDER": "Unblocked by institution"
     },
     "PROVIDER_FULL_DESCRIPTION": {
-      "EDITING": "View the reason for editing and correct the information about the organization",
-      "APPROVED": "Your organization has been successfully approved by the administrator. Now your organization's workshops will be displayed on the platform.",
-      "BLOCK": "The institution has been blocked",
-      "UNBLOCK": "The institution has been unblocked"
+      "CREATE": "Review the institution to confirm.",
+      "EDITING": "View the reason for editing and correct the information about the institution.",
+      "APPROVED": "Your institution has been successfully approved by the administrator. Now your institution's workshops will be displayed on the platform.",
+      "BLOCK": "The institution has been blocked. View the reason and the contacts on the institution page.",
+      "UNBLOCK": "The institution has been unblocked. Now workshops of your institution are visible.",
+      "RECHECK": "Review the institution to reconfirm."
     },
     "WORKSHOP_FULL_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open, now you can apply for this workshop.",
@@ -659,6 +667,10 @@
       "APPROVED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
       "PENDING": "Once the license status is approved, a confirmation icon will appear on the institution's or workshop's preview page",
       "NOT_PROVIDED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
+    },
+    "PARENT_FULL_DESCRIPTION": {
+      "BLOCKED_BY_PROVIDER": "Blocked by institution. You can not apply for workshops of this institution. View the reason and the contacts on the institution page.",
+      "UNBLOCKED_BY_PROVIDER": "Unblocked by institution. Now you can apply for workshops of this institution."
     }
   },
   "SERVICE_MESSAGES": {

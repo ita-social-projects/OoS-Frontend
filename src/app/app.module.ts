@@ -24,7 +24,7 @@ import { FilterState } from 'shared/store/filter.state';
 import { MainPageState } from 'shared/store/main-page.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { NavigationState } from 'shared/store/navigation.state';
-import { NotificationsState } from 'shared/store/notifications.state';
+import { NotificationState } from 'shared/store/notification.state';
 import { ParentState } from 'shared/store/parent.state';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -56,7 +56,7 @@ registerLocaleData(localeUk);
       SharedUserState,
       AdminState,
       NavigationState,
-      NotificationsState,
+      NotificationState,
       MainPageState,
       ProviderState,
       ParentState,

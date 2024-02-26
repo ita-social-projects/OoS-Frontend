@@ -53,8 +53,8 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
       .map(([group, errors]) => {
         const translatedGroup = this.translateService.instant(ApiErrorTypes.GroupTitle[group] || ApiErrorTypes.GroupTitle.General);
         const translatedErrors = errors
-          .filter(ApiErrorTypes.apiErrorExists)
-          .map((apiError) => this.translateService.instant(ApiErrorTypes.toErrorMessage(apiError)));
+          .map((apiError) => this.translateService.instant(ApiErrorTypes.toErrorMessage(apiError)))
+          .filter(Boolean);
         const joinedErrors = translatedErrors.join(', ');
 
         return translatedErrors.length ? `${translatedGroup}: ${joinedErrors}` : null;
