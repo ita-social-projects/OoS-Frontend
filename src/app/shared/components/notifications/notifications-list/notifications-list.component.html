@@ -7,9 +7,6 @@
         <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
           {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
         </button>
-        <button mat-menu-item [disabled]="!(notifications.length || notificationsGroupedByType.length)" (click)="onDeleteAll()">
-          {{ 'NOTIFICATION_DETAILS.DELETE_ALL' | translate }}
-        </button>
       </mat-menu>
     </div>
 
