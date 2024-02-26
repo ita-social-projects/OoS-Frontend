@@ -98,7 +98,8 @@
               [entityControl]="entityControl"
               labelByDefault="FORMS.LABELS.CHECK_WORKSHOPS"
               dropdownContainerClass="create-admin"
-              (entityCheck)="onWorkshopsSelect($event)">
+              (entityCheck)="onWorkshopsSelect($event)"
+              (userInteraction)="onWorkshopsChange()">
             </app-entity-checkbox-dropdown>
           </ng-template>
         </form>
