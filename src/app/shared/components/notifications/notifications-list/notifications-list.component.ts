@@ -156,20 +156,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.notificationsAmount.amount--;
   }
 
-  public onDeleteAll(): void {
-    this.notificationsGroupedByType = [];
-    this.notifications = [];
-    this.onReadAll();
-  }
-
-  // TODO: Consider deleting because of unused
-  // public onDeleteSingle(notification: Notification): void {
-  //   this.store.dispatch(new DeleteUsersNotificationById(notification.id));
-
-  //   this.notificationsAmount.amount--;
-  //   this.notifications = this.notifications.filter((receivedNotification: Notification) => receivedNotification.id !== notification.id);
-  // }
-
   private addReceivedNotification(receivedNotification: Notification): void {
     this.notificationsAmount.amount++;
 

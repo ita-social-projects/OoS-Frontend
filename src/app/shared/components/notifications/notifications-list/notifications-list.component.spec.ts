@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
 
-import { Router } from '@angular/router';
 import { NotificationDeclination } from 'shared/enum/enumUA/declinations/notification-declination';
 import { NotificationAction, NotificationType } from 'shared/enum/notifications';
 import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
@@ -110,7 +110,7 @@ describe('NotificationsListComponent', () => {
     });
   });
 
-  describe('onRead and onDelete', () => {
+  describe('onRead', () => {
     beforeEach(() => {
       component.notificationsGroupedByType = [
         {
@@ -199,16 +199,6 @@ describe('NotificationsListComponent', () => {
       component.onReadSingle(notification);
 
       expect(store.dispatch).not.toHaveBeenCalledWith(new ReadUsersNotificationById(notification));
-    });
-
-    it('onDeleteAll should call onReadAll and delete all notifications', () => {
-      jest.spyOn(component, 'onReadAll');
-
-      component.onDeleteAll();
-
-      expect(component.notificationsGroupedByType.length).toBe(0);
-      expect(component.notifications.length).toBe(0);
-      expect(component.onReadAll).toHaveBeenCalled();
     });
   });
 
