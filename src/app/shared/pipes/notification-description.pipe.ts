@@ -47,7 +47,7 @@ export class NotificationDescriptionPipe implements PipeTransform {
                 NotificationDescriptions.get(descriptionType, notification.type, status);
               break;
             case NotificationAction.LicenseApproval:
-              description = NotificationDescriptions.get(descriptionType, NotificationDataType.Status, status);
+              description = NotificationDescriptions.get(descriptionType, NotificationDataType.LicenseStatus, status);
               break;
           }
         }
