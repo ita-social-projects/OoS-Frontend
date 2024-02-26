@@ -20,7 +20,6 @@ import {
 } from 'shared/models/notification.model';
 import {
   ClearNotificationState,
-  DeleteUsersNotificationById,
   GetAllUsersNotificationsGrouped,
   ReadAllUsersNotifications,
   ReadUsersNotificationById,
