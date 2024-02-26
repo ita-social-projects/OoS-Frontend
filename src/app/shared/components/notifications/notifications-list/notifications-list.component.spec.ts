@@ -170,6 +170,16 @@ describe('NotificationsListComponent', () => {
       expect(component.notificationsAmount.amount).toBe(3);
     });
 
+    it('onReadGroup should skip if isRead', () => {
+      jest.spyOn(store, 'dispatch');
+
+      const notificationsGroupedByType = component.notificationsGroupedByType[0];
+      notificationsGroupedByType.isRead = true;
+      component.onReadGroup(notificationsGroupedByType);
+
+      expect(store.dispatch).not.toHaveBeenCalledWith(new ReadUsersNotificationsByType(notificationsGroupedByType.type));
+    });
+
     it('onReadSingle should dispatch ReadUsersNotificationById action, modify notification and reduce amount', () => {
       jest.spyOn(store, 'dispatch');
 
@@ -179,6 +189,16 @@ describe('NotificationsListComponent', () => {
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationById(notification));
       expect(notification.readDateTime).toBeTruthy();
       expect(component.notificationsAmount.amount).toBe(6);
+    });
+
+    it('onReadGroup should skip if readDateTime already set', () => {
+      jest.spyOn(store, 'dispatch');
+
+      const notification = component.notifications[0];
+      notification.readDateTime = new Date();
+      component.onReadSingle(notification);
+
+      expect(store.dispatch).not.toHaveBeenCalledWith(new ReadUsersNotificationById(notification));
     });
 
     it('onDeleteAll should call onReadAll and delete all notifications', () => {
@@ -220,7 +240,7 @@ describe('NotificationsListComponent', () => {
       component.notificationsAmount = { amount: 4 };
     });
 
-    it('should add a new notification group to notifications grouped when received', () => {
+    describe('notification group by additional data', () => {
       const notification: Notification = {
         type: NotificationType.Application,
         action: NotificationAction.Create,
@@ -228,20 +248,43 @@ describe('NotificationsListComponent', () => {
         createdDateTime: undefined,
         data: { Status: 'Pending' }
       };
-      const initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
-      const initialNotificationsAmount = component.notificationsAmount.amount;
+      let initialNotificationsGroupedByTypeLength: number;
+      let initialNotificationsAmount: number;
 
-      component.ngOnChanges({
-        receivedNotification: {
-          currentValue: notification,
-          firstChange: false,
-          previousValue: undefined,
-          isFirstChange: undefined
-        }
+      beforeEach(() => {
+        initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
+        initialNotificationsAmount = component.notificationsAmount.amount;
       });
 
-      expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
-      expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+      it('should add a new notification group to notifications grouped when received with additional data', () => {
+        component.ngOnChanges({
+          receivedNotification: {
+            currentValue: notification,
+            firstChange: false,
+            previousValue: undefined,
+            isFirstChange: undefined
+          }
+        });
+
+        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
+        expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+      });
+
+      it('should add a new notification group to notifications grouped when received without additional data', () => {
+        notification.data = {};
+
+        component.ngOnChanges({
+          receivedNotification: {
+            currentValue: notification,
+            firstChange: false,
+            previousValue: undefined,
+            isFirstChange: undefined
+          }
+        });
+
+        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+      });
     });
 
     it('should add a new notification to notifications when received', () => {
