@@ -1,8 +1,7 @@
-import { Observable } from 'rxjs';
-
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
 
 import { DataItem } from 'shared/models/item.model';
 import { Provider, ProviderBlock, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';

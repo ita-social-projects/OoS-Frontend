@@ -1,33 +1,34 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, filter, takeUntil } from 'rxjs';
 
 import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
-import { Notification, NotificationsAmount } from 'shared/models/notifications.model';
+import { Notification, NotificationAmount } from 'shared/models/notification.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { AppState } from 'shared/store/app.state';
-import { GetAmountOfNewUsersNotifications } from 'shared/store/notifications.actions';
-import { NotificationsState } from 'shared/store/notifications.state';
+import { GetAmountOfNewUsersNotifications } from 'shared/store/notification.actions';
+import { NotificationState } from 'shared/store/notification.state';
 
 @Component({
   selector: 'app-notifications',
   templateUrl: './notifications.component.html',
   styleUrls: ['./notifications.component.scss']
 })
-export class NotificationsComponent implements OnInit, OnDestroy {
-  @Select(NotificationsState.notificationsAmount)
-  public notificationsAmount$: Observable<NotificationsAmount>;
+export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestroy {
+  @Select(NotificationState.notificationsAmount)
+  public notificationsAmount$: Observable<NotificationAmount>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
 
+  public notificationsAmount: NotificationAmount;
+  public receivedNotification: Notification;
   private hubConnection: signalR.HubConnection;
 
-  public notificationsAmount: NotificationsAmount;
-  public recievedNotification: Notification;
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
+    private cdr: ChangeDetectorRef,
     private signalRService: SignalRService
   ) {}
 
@@ -35,10 +36,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
 
     this.store.dispatch(new GetAmountOfNewUsersNotifications());
-    this.hubConnection.on('ReceiveNotification', (recievedNotificationString: string) => {
+    this.hubConnection.on('ReceiveNotification', (receivedNotificationString: string) => {
       // TODO: solve the problem with keys with capital letters
-      const parsedNotification = JSON.parse(recievedNotificationString);
-      this.recievedNotification = {
+      const parsedNotification = JSON.parse(receivedNotificationString);
+      this.receivedNotification = {
         id: parsedNotification.Id,
         userId: parsedNotification.UserId,
         data: parsedNotification.Data,
@@ -51,11 +52,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     });
 
     this.notificationsAmount$
-      .pipe(
-        takeUntil(this.destroy$),
-        filter((notificationsAmount: NotificationsAmount) => !!notificationsAmount)
-      )
-      .subscribe((notificationsAmount: NotificationsAmount) => (this.notificationsAmount = notificationsAmount));
+      .pipe(takeUntil(this.destroy$), filter(Boolean))
+      .subscribe((notificationsAmount: NotificationAmount) => (this.notificationsAmount = notificationsAmount));
+  }
+
+  public ngAfterViewChecked(): void {
+    this.cdr.detectChanges();
   }
 
   public ngOnDestroy(): void {

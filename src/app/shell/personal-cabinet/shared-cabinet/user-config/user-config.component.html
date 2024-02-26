@@ -10,8 +10,10 @@
     <p>{{ user.lastName }}</p>
     <h4>{{ 'FORMS.LABELS.FIRST_NAME' | translate }}</h4>
     <p>{{ user.firstName }}</p>
-    <h4>{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</h4>
-    <p>{{ user.middleName }}</p>
+    <ng-container *ngIf="user.middleName as middleName">
+      <h4>{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</h4>
+      <p>{{ middleName }}</p>
+    </ng-container>
     <h4>{{ 'FORMS.LABELS.PHONE' | translate }}</h4>
     <p>{{ phonePrefix + user.phoneNumber | phoneTransform }}</p>
     <ng-container *ngIf="(role$ | async) === role.parent">
@@ -25,11 +27,9 @@
     <h4>{{ 'FORMS.LABELS.EMAIL' | translate }}</h4>
     <p [ngClass]="{ important: !user.emailConfirmed }" style="margin-bottom: 0">{{ user.email }}</p>
 
-    <ng-container *ngIf="user.emailConfirmed; then changeEmailTmpl; else confirmEmailTmpl"> </ng-container>
-
-    <ng-template #changeEmailTmpl>
+    <ng-container *ngIf="user.emailConfirmed; else confirmEmailTmpl">
       <p class="link" (click)="onRedirect('/Account/ChangeEmail')">{{ 'CHANGE_EMAIL' | translate }}</p>
-    </ng-template>
+    </ng-container>
 
     <ng-template #confirmEmailTmpl>
       <p class="label important" fxLayout="row" fxLayoutAlign="space-between" fxLayoutGap="0.2rem">
