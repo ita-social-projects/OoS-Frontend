@@ -1,8 +1,7 @@
 import { Component, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
 
 import { Constants } from 'shared/constants/constants';
 import { NotificationDeclination } from 'shared/enum/enumUA/declinations/notification-declination';
@@ -18,6 +17,7 @@ import {
   NotificationGroupedAndSingle,
   NotificationGroupedByType
 } from 'shared/models/notification.model';
+import { ChatState } from 'shared/store/chat.state';
 import {
   ClearNotificationState,
   GetAllUsersNotificationsGrouped,
@@ -40,6 +40,8 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   @Select(NotificationState.notifications)
   public notificationsData$: Observable<NotificationGroupedAndSingle>;
+  @Select(ChatState.unreadMessagesCount)
+  public unreadMessagesCount$: Observable<number>;
 
   public readonly ApplicationHeaderDeclinations = NotificationDeclination.Application.Changes;
   public readonly NotificationDescriptionType = NotificationDescriptionType;
@@ -60,13 +62,32 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
-    this.notificationsData$
-      .pipe(takeUntil(this.destroy$), filter(Boolean))
-      .subscribe((receivedNotifications: NotificationGroupedAndSingle) => {
+    this.role = this.store.selectSnapshot(RegistrationState.role);
+    combineLatest([this.notificationsData$.pipe(filter(Boolean)), this.unreadMessagesCount$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([receivedNotifications, unreadMessagesCount]: [NotificationGroupedAndSingle, number]) => {
         this.notificationsGroupedByType = receivedNotifications.notificationsGroupedByType;
         this.notifications = receivedNotifications.notifications;
+        if (
+          unreadMessagesCount &&
+          this.notificationsAmount?.amount - (this.notificationsGroupedByType.length + this.notifications.length) === unreadMessagesCount
+        ) {
+          this.notificationsGroupedByType = this.notificationsGroupedByType.filter(
+            (notification) => notification.type !== NotificationType.Chat
+          );
+          this.notificationsGroupedByType.unshift({
+            type: NotificationType.Chat,
+            amount: unreadMessagesCount,
+            groupedByAdditionalData: [
+              {
+                type: NotificationType.Chat,
+                amount: unreadMessagesCount,
+                groupedData: 'Unread'
+              }
+            ]
+          });
+        }
       });
-    this.role = this.store.selectSnapshot(RegistrationState.role);
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -86,8 +107,8 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     event.stopPropagation();
   }
 
-  public defineDeclination(status: string): NotificationDeclination.Application.DeclinationType {
-    return NotificationDeclination.Application.getDeclination(status);
+  public defineDeclination(notification: NotificationGrouped, status?: string): NotificationDeclination.DeclinationType {
+    return NotificationDeclination.getDeclination(notification.type, status || notification.groupedData);
   }
 
   public onNavigate(notification: Notification, groupedData?: string): void {
@@ -204,9 +225,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
             receivedNotification.data[NotificationDataType.Status]
           )
         );
-        break;
-      case NotificationType.Chat:
-        // TODO: Add notifications grouped by new messages
         break;
     }
   }
