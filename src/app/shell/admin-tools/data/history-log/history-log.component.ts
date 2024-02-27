@@ -7,14 +7,15 @@ import { Observable, Subject, merge } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
-import { ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
+import { ApplicationOptions, ParentsBlockingByAdminOptions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
-import { HistoryLogTypes } from 'shared/enum/history.log';
+import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { Role } from 'shared/enum/role';
 import {
   ApplicationHistory,
+  DateFilters,
   DropdownData,
   FilterData,
   ParentsBlockingByAdminHistory,
@@ -40,11 +41,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./history-log.component.scss']
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
-  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
-  public readonly HistoryLogTypes = HistoryLogTypes;
-  public readonly noHistory = NoResultsTitle.noHistory;
-  public readonly Role = Role;
-
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.providerHistory)
@@ -56,9 +52,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   @Select(AdminState.parentsBlockingByAdminHistory)
   public parentsBlockingByAdminHistory$: Observable<SearchResponse<ParentsBlockingByAdminHistory[]>>;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private searchString: string;
-  private totalAmount: number;
+  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
+  public readonly HistoryLogTypes = HistoryLogTypes;
+  public readonly noHistory = NoResultsTitle.noHistory;
+  public readonly Role = Role;
 
   public tabIndex = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -71,6 +68,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   };
   public role: string;
   public tabName: HistoryLogTypes;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private searchString: string;
+  private totalAmount: number;
 
   constructor(
     private router: Router,
@@ -104,12 +105,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
-    this.filters = {
-      dateFrom: null,
-      dateTo: null,
-      size: PaginationConstants.TABLE_ITEMS_PER_PAGE
-    };
-
+    this.removeExtraPropertiesFromFilters();
     this.currentPage = PaginationConstants.firstPage;
     this.tabIndex = event.index;
     this.getTableData();
@@ -134,6 +130,11 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.filters = { ...this.filters, ...event };
     this.currentPage = PaginationConstants.firstPage;
     this.getTableData(this.searchString);
+  }
+
+  public onDateFilter(event: DateFilters): void {
+    this.filters.dateFrom = event.dateFrom;
+    this.filters.dateTo = event.dateTo;
   }
 
   public ngOnDestroy(): void {
@@ -161,7 +162,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         break;
       case HistoryLogTypes.Users:
         this.store.dispatch([new GetParentsBlockingByAdminHistory(filters, searchString)]);
-        this.dropdownData = ParentsBlockingByAdminOPtions;
+        this.dropdownData = ParentsBlockingByAdminOptions;
         this.tabName = HistoryLogTypes.Users;
         break;
     }
@@ -190,5 +191,24 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>
           (this.totalAmount = history.totalAmount)
       );
+  }
+
+  private removeExtraPropertiesFromFilters(): void {
+    for (const filterParam of Object.keys(this.filters)) {
+      switch (filterParam) {
+        case FilterOptions.AdminType:
+          delete this.filters.AdminType;
+          break;
+        case FilterOptions.OperationType:
+          delete this.filters.OperationType;
+          break;
+        case FilterOptions.PropertyName:
+          delete this.filters.PropertyName;
+          break;
+        case FilterOptions.ShowParents:
+          delete this.filters.ShowParents;
+          break;
+      }
+    }
   }
 }
