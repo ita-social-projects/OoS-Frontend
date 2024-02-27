@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
-import { catchError, switchMap, tap } from 'rxjs/operators';
+import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
 import { AdminRoles, AdminTabTypes } from 'shared/enum/admins';
@@ -852,19 +852,19 @@ export class AdminState {
   @Action(ReinviteMinistryAdminById)
   reinviteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { adminId }: ReinviteMinistryAdminById): Observable<void> {
     return this.ministryAdminService.reinviteAdmin(adminId).pipe(
-      switchMap(() => dispatch(new ReinviteMinistryAdminSuccess())),
+      tap(() => dispatch(new ReinviteMinistryAdminSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new ReinviteMinistryAdminFail(error)))
     );
   }
 
   @Action(ReinviteMinistryAdminSuccess)
-  reinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  reinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(ReinviteMinistryAdminFail)
-  reinviteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  reinviteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetAllRegionAdmins)
@@ -1009,19 +1009,19 @@ export class AdminState {
   @Action(ReinviteRegionAdminById)
   reinviteRegionAdminById({ dispatch }: StateContext<AdminState>, { adminId }: ReinviteRegionAdminById): Observable<void> {
     return this.regionAdminService.reinviteAdmin(adminId).pipe(
-      switchMap(() => dispatch(new ReinviteRegionAdminSuccess())),
+      tap(() => dispatch(new ReinviteRegionAdminSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new ReinviteRegionAdminFail(error)))
     );
   }
 
   @Action(ReinviteRegionAdminSuccess)
-  reinviteRegionAdminSuccess({ dispatch }: StateContext<AdminState>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  reinviteRegionAdminSuccess({ dispatch }: StateContext<AdminState>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(ReinviteRegionAdminFail)
-  reinviteRegionAdminFail({ dispatch }: StateContext<AdminState>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  reinviteRegionAdminFail({ dispatch }: StateContext<AdminState>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetAllAreaAdmins)
@@ -1166,18 +1166,18 @@ export class AdminState {
   @Action(ReinviteAreaAdminById)
   reinviteAreaAdminById({ dispatch }: StateContext<AdminStateModel>, { adminId }: ReinviteAreaAdminById): Observable<void> {
     return this.areaAdminService.reinviteAdmin(adminId).pipe(
-      switchMap(() => dispatch(new ReinviteAreaAdminSuccess())),
+      tap(() => dispatch(new ReinviteAreaAdminSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new ReinviteAreaAdminFail(error)))
     );
   }
 
   @Action(ReinviteAreaAdminSuccess)
-  reinviteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  reinviteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(ReinviteAreaAdminFail)
-  reinviteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  reinviteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }
