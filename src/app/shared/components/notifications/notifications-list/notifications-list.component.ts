@@ -35,9 +35,10 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
-  @Input() public notificationsAmount: NotificationAmount;
   @Input() public receivedNotification: Notification;
 
+  @Select(NotificationState.notificationsAmount)
+  public notificationsAmount$: Observable<NotificationAmount>;
   @Select(NotificationState.notifications)
   public notificationsData$: Observable<NotificationGroupedAndSingle>;
   @Select(ChatState.unreadMessagesCount)
@@ -49,6 +50,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public readonly Util = Util;
   public readonly NoResults = NoResultsTitle.noNotifications;
 
+  public notificationsAmount: NotificationAmount;
   public notificationsGroupedByType: NotificationGroupedByType[] = [];
   public notifications: Notification[];
   private role: Role;
@@ -63,31 +65,41 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
     this.role = this.store.selectSnapshot(RegistrationState.role);
-    combineLatest([this.notificationsData$.pipe(filter(Boolean)), this.unreadMessagesCount$])
+    combineLatest([
+      this.notificationsAmount$.pipe(filter(Boolean)),
+      this.notificationsData$.pipe(filter(Boolean)),
+      this.unreadMessagesCount$
+    ])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([receivedNotifications, unreadMessagesCount]: [NotificationGroupedAndSingle, number]) => {
-        this.notificationsGroupedByType = receivedNotifications.notificationsGroupedByType;
-        this.notifications = receivedNotifications.notifications;
-        if (
-          unreadMessagesCount &&
-          this.notificationsAmount?.amount - (this.notificationsGroupedByType.length + this.notifications.length) === unreadMessagesCount
-        ) {
-          this.notificationsGroupedByType = this.notificationsGroupedByType.filter(
-            (notification) => notification.type !== NotificationType.Chat
-          );
-          this.notificationsGroupedByType.unshift({
-            type: NotificationType.Chat,
-            amount: unreadMessagesCount,
-            groupedByAdditionalData: [
-              {
+      .subscribe(
+        ([notificationsAmount, receivedNotifications, unreadMessagesCount]: [NotificationAmount, NotificationGroupedAndSingle, number]) => {
+          this.notificationsAmount = { ...notificationsAmount };
+          this.notificationsGroupedByType = receivedNotifications.notificationsGroupedByType;
+          this.notifications = receivedNotifications.notifications;
+          if (unreadMessagesCount) {
+            this.notificationsAmount.amount += unreadMessagesCount;
+            if (
+              this.notificationsAmount?.amount - (this.notificationsGroupedByType.length + this.notifications.length) ===
+              unreadMessagesCount
+            ) {
+              this.notificationsGroupedByType = this.notificationsGroupedByType.filter(
+                (notification) => notification.type !== NotificationType.Chat
+              );
+              this.notificationsGroupedByType.unshift({
                 type: NotificationType.Chat,
                 amount: unreadMessagesCount,
-                groupedData: 'Unread'
-              }
-            ]
-          });
+                groupedByAdditionalData: [
+                  {
+                    type: NotificationType.Chat,
+                    amount: unreadMessagesCount,
+                    groupedData: 'Unread'
+                  }
+                ]
+              });
+            }
+          }
         }
-      });
+      );
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
