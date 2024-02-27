@@ -29,6 +29,14 @@
     font-weight: 700;
     font-family: Roboto, 'Helvetica Neue', sans-serif;
   }
+
+  mat-form-field {
+    pointer-events: none;
+  }
+  
+  mat-datepicker-toggle {
+    pointer-events: all;
+  }
 }
 
 .filters-actions {
