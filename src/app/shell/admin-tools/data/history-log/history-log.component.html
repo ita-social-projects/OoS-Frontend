@@ -11,7 +11,7 @@
           placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}" />
       </div>
     </div>
-    <app-history-log-filters [dropdownOptions]="dropdownData" [tabName]="tabName" (filterData)="onFilter($event)"></app-history-log-filters>
+    <app-history-log-filters [dropdownOptions]="dropdownData" [tabName]="tabName" (filterData)="onFilter($event)" (dateFromFilters)="onDateFilter($event)"></app-history-log-filters>
   </div>
 
   <div class="tab-wrapper">

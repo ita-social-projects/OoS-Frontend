@@ -1,3 +1,5 @@
+import { CustomFormControlNames } from 'shared/enum/history.log';
+
 export const ProviderOptions = [
   {
     value: 'FullTitle',
@@ -66,7 +68,7 @@ export const ApplicationOptions = [
   }
 ];
 
-export const ParentsBlockingByAdminOPtions = [
+export const ParentsBlockingByAdminOptions = [
   {
     value: 'All',
     label: 'HISTORY_LOG.USERS_FILTERS.ALL'
@@ -80,3 +82,11 @@ export const ParentsBlockingByAdminOPtions = [
     label: 'HISTORY_LOG.USERS_FILTERS.UNBLOCKED'
   }
 ];
+
+export const DropdownOptionsConfig = {
+  [CustomFormControlNames.ProvidersPropertyName]: ProviderOptions,
+  [CustomFormControlNames.AdminType]: ProviderAdminOptions,
+  [CustomFormControlNames.OperationType]: ProviderAdminOperationOptions,
+  [CustomFormControlNames.ApplicationsPropertyName]: ApplicationOptions,
+  [CustomFormControlNames.ShowParents]: ParentsBlockingByAdminOptions
+};

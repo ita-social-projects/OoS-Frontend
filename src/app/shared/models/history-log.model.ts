@@ -61,3 +61,8 @@ export interface DropdownData {
   value: string;
   label: string;
 }
+
+export interface DateFilters {
+  dateFrom: string;
+  dateTo: string;
+}
