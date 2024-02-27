@@ -37,10 +37,10 @@ describe('NotificationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return correct application notification declination for Approved status', () => {
+  it('should return correct notification declination for Application notification with Approved status', () => {
     const status = 'Approved';
 
-    const declination = component.defineDeclination(status);
+    const declination = component.defineDeclination({ type: NotificationType.Application, amount: 2 }, status);
 
     expect(declination).toBe(NotificationDeclination.Application.Approved);
   });
