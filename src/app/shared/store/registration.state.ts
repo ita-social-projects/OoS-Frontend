@@ -159,9 +159,9 @@ export class RegistrationState {
         if (auth.isAuthenticated) {
           return this.oidcSecurityService.getAccessToken().pipe(
             switchMap((value: string) => {
-              const token = jwt_decode(value) as TokenPayload;
-              const subrole = token.subrole;
+              const token: TokenPayload = jwt_decode(value);
               const role = token.role;
+              const subrole = token.subrole;
               patchState({ subrole, role });
               return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
             })
@@ -174,12 +174,9 @@ export class RegistrationState {
   }
 
   @Action(OnAuthFail)
-  onAuthFail(): void {
+  onAuthFail({ dispatch }: StateContext<RegistrationStateModel>): void {
     // eslint-disable-next-line @typescript-eslint/quotes
-    this.snackBar.open("Упс! Перевірте з'єднання", '', {
-      duration: 5000,
-      panelClass: ['red-snackbar']
-    });
+    dispatch(new ShowMessageBar({ message: "Упс! Перевірте з'єднання", type: 'error' }));
   }
 
   @Action(CheckRegistration)

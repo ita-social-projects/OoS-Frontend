@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
 import { AdminRoles, AdminTabTypes } from 'shared/enum/admins';
@@ -100,22 +100,22 @@ import {
   OnUpdatePlatformInfoSuccess,
   OnUpdateRegionAdminFail,
   OnUpdateRegionAdminSuccess,
+  ReinviteAdminById,
+  ReinviteAreaAdminById,
+  ReinviteAreaAdminFail,
+  ReinviteAreaAdminSuccess,
+  ReinviteMinistryAdminById,
+  ReinviteMinistryAdminFail,
+  ReinviteMinistryAdminSuccess,
+  ReinviteRegionAdminById,
+  ReinviteRegionAdminFail,
+  ReinviteRegionAdminSuccess,
   UpdateAdmin,
   UpdateAreaAdmin,
   UpdateDirection,
   UpdateMinistryAdmin,
   UpdatePlatformInfo,
-  UpdateRegionAdmin,
-  ReinviteAdminById,
-  ReinviteMinistryAdminById,
-  ReinviteMinistryAdminSuccess,
-  ReinviteMinistryAdminFail,
-  ReinviteRegionAdminById,
-  ReinviteRegionAdminSuccess,
-  ReinviteRegionAdminFail,
-  ReinviteAreaAdminById,
-  ReinviteAreaAdminSuccess,
-  ReinviteAreaAdminFail
+  UpdateRegionAdmin
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -852,7 +852,7 @@ export class AdminState {
   @Action(ReinviteMinistryAdminById)
   reinviteMinistryAdminById({ dispatch }: StateContext<AdminStateModel>, { adminId }: ReinviteMinistryAdminById): Observable<void> {
     return this.ministryAdminService.reinviteAdmin(adminId).pipe(
-      tap(() => dispatch(new ReinviteMinistryAdminSuccess())),
+      switchMap(() => dispatch(new ReinviteMinistryAdminSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new ReinviteMinistryAdminFail(error)))
     );
   }
@@ -1009,7 +1009,7 @@ export class AdminState {
   @Action(ReinviteRegionAdminById)
   reinviteRegionAdminById({ dispatch }: StateContext<AdminState>, { adminId }: ReinviteRegionAdminById): Observable<void> {
     return this.regionAdminService.reinviteAdmin(adminId).pipe(
-      tap(() => dispatch(new ReinviteRegionAdminSuccess())),
+      switchMap(() => dispatch(new ReinviteRegionAdminSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new ReinviteRegionAdminFail(error)))
     );
   }
@@ -1166,7 +1166,7 @@ export class AdminState {
   @Action(ReinviteAreaAdminById)
   reinviteAreaAdminById({ dispatch }: StateContext<AdminStateModel>, { adminId }: ReinviteAreaAdminById): Observable<void> {
     return this.areaAdminService.reinviteAdmin(adminId).pipe(
-      tap(() => dispatch(new ReinviteAreaAdminSuccess())),
+      switchMap(() => dispatch(new ReinviteAreaAdminSuccess())),
       catchError((error: HttpErrorResponse) => dispatch(new ReinviteAreaAdminFail(error)))
     );
   }

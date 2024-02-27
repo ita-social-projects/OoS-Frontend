@@ -16,7 +16,7 @@ export class ParentService {
     return this.http.get<Parent>('/api/v1/parents/profile');
   }
 
-  public blockUnblockParent(parentBlockedData: ParentBlockedData): Observable<null> {
-    return this.http.post<null>('/api/v1/parents/BlockUnblockParent', parentBlockedData);
+  public blockUnblockParent(parentBlockedData: ParentBlockedData): Observable<void> {
+    return this.http.post<void>('/api/v1/parents/BlockUnblockParent', parentBlockedData);
   }
 }

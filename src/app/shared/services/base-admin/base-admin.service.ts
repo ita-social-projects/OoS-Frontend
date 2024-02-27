@@ -1,10 +1,10 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { PaginationConstants } from '../../constants/constants';
-import { AdminIds, AdminRoles } from '../../enum/admins';
-import { BaseAdmin, BaseAdminParameters } from '../../models/admin.model';
-import { SearchResponse } from '../../models/search.model';
+import { PaginationConstants } from 'shared/constants/constants';
+import { AdminIds, AdminRoles } from 'shared/enum/admins';
+import { BaseAdmin, BaseAdminParameters } from 'shared/models/admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 
 export class BaseAdminService {
   protected adminType = '';
@@ -102,7 +102,7 @@ export class BaseAdminService {
    * This method reinvite Admin
    * @param adminId: string
    */
-  protected reinviteAdmin(adminId: string): Observable<null> {
-    return this.http.put<null>(`${this.adminBaseUrl}/Reinvite/${adminId}`, {});
+  protected reinviteAdmin(adminId: string): Observable<void> {
+    return this.http.put<void>(`${this.adminBaseUrl}/Reinvite/${adminId}`, {});
   }
 }
