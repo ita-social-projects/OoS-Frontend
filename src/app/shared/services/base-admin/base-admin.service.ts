@@ -6,7 +6,7 @@ import { AdminIds, AdminRoles } from 'shared/enum/admins';
 import { BaseAdmin, BaseAdminParameters } from 'shared/models/admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 
-export class BaseAdminService {
+export abstract class BaseAdminService {
   protected adminType = '';
 
   constructor(
