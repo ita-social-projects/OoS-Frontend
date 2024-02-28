@@ -16,7 +16,7 @@ export abstract class BaseAdminService {
     this.adminType = adminType;
   }
 
-  protected get adminBaseUrl(): string {
+  protected get baseApiUrl(): string {
     return `/api/v1/${this.adminType}`;
   }
 
@@ -39,7 +39,7 @@ export abstract class BaseAdminService {
    * This method get Profile of authorized Admin
    */
   protected getAdminProfile(): Observable<BaseAdmin> {
-    return this.http.get<BaseAdmin>(`${this.adminBaseUrl}/Profile`);
+    return this.http.get<BaseAdmin>(`${this.baseApiUrl}/Profile`);
   }
 
   /**
@@ -49,7 +49,7 @@ export abstract class BaseAdminService {
   protected getAdminById(adminId: string): Observable<BaseAdmin> {
     const params = new HttpParams().set('id', `${adminId}`);
 
-    return this.http.get<BaseAdmin>(`${this.adminBaseUrl}/GetById`, { params });
+    return this.http.get<BaseAdmin>(`${this.baseApiUrl}/GetById`, { params });
   }
 
   /**
@@ -58,7 +58,7 @@ export abstract class BaseAdminService {
   protected getAllAdmin(parameters: BaseAdminParameters): Observable<SearchResponse<BaseAdmin[]>> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<SearchResponse<BaseAdmin[]>>(`${this.adminBaseUrl}/GetByFilter`, options);
+    return this.http.get<SearchResponse<BaseAdmin[]>>(`${this.baseApiUrl}/GetByFilter`, options);
   }
 
   /**
@@ -66,7 +66,7 @@ export abstract class BaseAdminService {
    * @param baseAdmin BaseAdmin
    */
   protected createAdmin(baseAdmin: BaseAdmin): Observable<BaseAdmin> {
-    return this.http.post<BaseAdmin>(`${this.adminBaseUrl}/Create`, baseAdmin);
+    return this.http.post<BaseAdmin>(`${this.baseApiUrl}/Create`, baseAdmin);
   }
 
   /**
@@ -76,7 +76,7 @@ export abstract class BaseAdminService {
   protected deleteAdmin(adminId: string): Observable<void> {
     const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`);
 
-    return this.http.delete<void>(`${this.adminBaseUrl}/Delete`, { params });
+    return this.http.delete<void>(`${this.baseApiUrl}/Delete`, { params });
   }
 
   /**
@@ -87,7 +87,7 @@ export abstract class BaseAdminService {
   protected blockAdmin(adminId: string, isBlocked: boolean): Observable<void> {
     const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`).set('isBlocked', `${isBlocked}`);
 
-    return this.http.put<void>(`${this.adminBaseUrl}/Block`, {}, { params });
+    return this.http.put<void>(`${this.baseApiUrl}/Block`, {}, { params });
   }
 
   /**
@@ -95,7 +95,7 @@ export abstract class BaseAdminService {
    * @param admin BaseAdmin
    */
   protected updateAdmin(admin: BaseAdmin): Observable<BaseAdmin> {
-    return this.http.put<BaseAdmin>(`${this.adminBaseUrl}/Update`, admin);
+    return this.http.put<BaseAdmin>(`${this.baseApiUrl}/Update`, admin);
   }
 
   /**
@@ -103,6 +103,6 @@ export abstract class BaseAdminService {
    * @param adminId: string
    */
   protected reinviteAdmin(adminId: string): Observable<void> {
-    return this.http.put<void>(`${this.adminBaseUrl}/Reinvite/${adminId}`, {});
+    return this.http.put<void>(`${this.baseApiUrl}/Reinvite/${adminId}`, {});
   }
 }
