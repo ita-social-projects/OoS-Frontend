@@ -32,9 +32,10 @@ describe('MinistryAdminService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get admin profile', () => {
+  it('should get admin profile', (done) => {
     service.getAdminProfile().subscribe((profile) => {
       expect(profile).toEqual(mockMinistryAdmin);
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Profile`);
@@ -43,11 +44,12 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('GET');
   });
 
-  it('should get admin by id', () => {
+  it('should get admin by id', (done) => {
     const adminId = 'id';
 
     service.getAdminById(adminId).subscribe((ministryAdmin) => {
       expect(ministryAdmin).toEqual(mockMinistryAdmin);
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/GetById?id=${adminId}`);
@@ -56,11 +58,12 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('GET');
   });
 
-  it('should get all admin', () => {
+  it('should get all admin', (done) => {
     const parameters: BaseAdminParameters = { size: 4, from: 0 };
 
     service.getAllAdmin(parameters).subscribe((ministryAdmins) => {
       expect(ministryAdmins).toEqual({ totalAmount: 1, entities: [mockMinistryAdmin] });
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/GetByFilter?Size=${parameters.size}&From=${parameters.from}`);
@@ -69,24 +72,26 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('GET');
   });
 
-  it('should get all admin with search string', () => {
+  it('should get all admin with search string', (done) => {
     const parameters: BaseAdminParameters = { searchString: 'searchName' };
-    const mockMinistryAdmins = [mockMinistryAdmin, { ...mockMinistryAdmin }];
+    const mockMinistryAdmins = [{ ...mockMinistryAdmin }, { ...mockMinistryAdmin }];
     mockMinistryAdmins[1].firstName = parameters.searchString;
 
     service.getAllAdmin(parameters).subscribe((ministryAdmins) => {
-      expect(ministryAdmins).toEqual({ totalAmount: 1, entities: [mockMinistryAdmin] });
+      expect(ministryAdmins).toEqual({ totalAmount: 1, entities: [mockMinistryAdmins[1]] });
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/GetByFilter?SearchString=${parameters.searchString}&Size=12&From=0`);
-    req.flush({ totalAmount: mockMinistryAdmins.length, entities: [mockMinistryAdmins] });
+    req.flush({ totalAmount: 1, entities: [mockMinistryAdmins[1]] });
 
     expect(req.request.method).toEqual('GET');
   });
 
-  it('should create admin', () => {
+  it('should create admin', (done) => {
     service.createAdmin(mockMinistryAdmin).subscribe((ministryAdmin) => {
       expect(ministryAdmin).toEqual(mockMinistryAdmin);
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Create`);
@@ -95,11 +100,12 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('POST');
   });
 
-  it('should delete admin', () => {
+  it('should delete admin', (done) => {
     const adminId = 'id';
 
     service.deleteAdmin(adminId).subscribe((ministryAdmin) => {
       expect(ministryAdmin).toEqual(mockMinistryAdmin);
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Delete?ministryAdminId=${adminId}`);
@@ -108,11 +114,11 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('DELETE');
   });
 
-  it('should block admin', () => {
+  it('should block admin', (done) => {
     const adminid = 'id';
     const isBlocked = true;
 
-    service.blockAdmin(adminid, isBlocked).subscribe();
+    service.blockAdmin(adminid, isBlocked).subscribe(done);
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Block?ministryAdminId=${adminid}&isBlocked=${isBlocked}`);
     req.flush(null);
@@ -120,9 +126,10 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('PUT');
   });
 
-  it('should update admin', () => {
+  it('should update admin', (done) => {
     service.updateAdmin(mockMinistryAdmin).subscribe((ministryAdmin) => {
       expect(ministryAdmin).toEqual(mockMinistryAdmin);
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Update`);
@@ -131,10 +138,10 @@ describe('MinistryAdminService', () => {
     expect(req.request.method).toEqual('PUT');
   });
 
-  it('should reinvite admin', () => {
+  it('should reinvite admin', (done) => {
     const adminId = 'id';
 
-    service.reinviteAdmin(adminId).subscribe();
+    service.reinviteAdmin(adminId).subscribe(() => done());
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Reinvite/${adminId}`);
     req.flush(mockMinistryAdmin);
