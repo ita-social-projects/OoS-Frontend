@@ -5,7 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
@@ -15,6 +15,7 @@ import { NoResultCardComponent } from 'shared/components/no-result-card/no-resul
 import { DropdownData } from 'shared/models/history-log.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { HistoryLogService } from 'shared/services/history-log/history-log.service';
+import { HistoryLogTypes } from 'shared/enum/history.log';
 import { HistoryLogComponent } from './history-log.component';
 
 describe('HistoryLogComponent', () => {
@@ -55,6 +56,41 @@ describe('HistoryLogComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('onTabChange method', () => {
+    test.each`
+      filters                                                         | expectedFilters
+      ${{ AdminType: 'value', OtherProp: 42, from: 0, size: 12 }}     | ${{ OtherProp: 42, from: 0, size: 12 }}
+      ${{ OperationType: 'value', OtherProp: 42, from: 0, size: 12 }} | ${{ OtherProp: 42, from: 0, size: 12 }}
+      ${{ PropertyName: 'value', OtherProp: 42, from: 0, size: 12 }}  | ${{ OtherProp: 42, from: 0, size: 12 }}
+      ${{ ShowParents: 'value', OtherProp: 42, from: 0, size: 12 }}   | ${{ OtherProp: 42, from: 0, size: 12 }}
+    `('should remove extra properties from filters object', ({ filters, expectedFilters }) => {
+      component.filters = filters;
+      const mockEvent = {} as MatTabChangeEvent;
+
+      component.onTabChange(mockEvent);
+
+      expect(component.filters).toEqual(expectedFilters);
+    });
+  });
+
+  describe('onDateFilter method', () => {
+    it('should assign new values to the dateFrom and dateTo in filters object', () => {
+      const mockDateFilters = {
+        dateFrom: 'Sun Jan 21 2024 11:43:55',
+        dateTo: 'Thu Feb 21 2024 05:34:51'
+      };
+      const expectedFilters = {
+        dateFrom: 'Sun Jan 21 2024 11:43:55',
+        dateTo: 'Thu Feb 21 2024 05:34:51',
+        size: 12
+      };
+
+      component.onDateFilter(mockDateFilters);
+
+      expect(component.filters).toEqual(expectedFilters);
+    });
+  });
 });
 
 @Component({
@@ -82,4 +118,5 @@ class MockHistoryLogPaginatorComponent {
 })
 class MockHistoryLogFiltersComponent {
   @Input() dropdownOptions: DropdownData[];
+  @Input() tabName: HistoryLogTypes;
 }
