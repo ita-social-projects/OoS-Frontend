@@ -20,25 +20,25 @@ import { MetaDataState } from 'shared/store/meta-data.state';
   styleUrls: ['./city-filter.component.scss']
 })
 export class CityFilterComponent implements OnInit, OnDestroy {
-  public readonly Constants = Constants;
-  public readonly sliceLength = 25;
-
   @Select(FilterState.isConfirmCity)
   public isConfirmCity$: Observable<boolean>;
   @Select(FilterState.settlement)
   private settlement$: Observable<Codeficator>;
-  public settlement: Codeficator;
   @Select(MetaDataState.codeficatorSearch)
   private codeficatorSearch$: Observable<Codeficator[]>;
-  public codeficatorSearch: Codeficator[];
 
   @ViewChild('searchInput') private searchInput: ElementRef;
 
+  public readonly Constants = Constants;
+  public readonly sliceLength = 25;
+
+  public settlement: Codeficator;
+  public codeficatorSearch: Codeficator[];
+  public settlementSearchControl: FormControl = new FormControl('');
+  public isDisplayed = true;
+
   private isTopCities = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
-
-  public settlementSearchControl: FormControl = new FormControl('');
-  public isDispalyed = true;
 
   constructor(
     private store: Store,
@@ -101,7 +101,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   }
 
   public changeCity(): void {
-    this.isDispalyed = false;
+    this.isDisplayed = false;
     this.settlementSearchControl.setValue(null);
     this.settlement = null;
     this.actions$.pipe(ofActionCompleted(GetCodeficatorSearch), takeUntil(this.destroy$)).subscribe(() => this.setInputFocus());
