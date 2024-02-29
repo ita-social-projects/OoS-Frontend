@@ -78,8 +78,10 @@
       class="step-input"
       formControlName="typeId"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ORGANIZATION_TYPE' | translate }}">
-      <mat-option *ngFor="let type of providerTypes$ | async" [value]="type.id" class="dropdown-option">
-        {{ type.name }}
+      <mat-option style="text-overflow: ellipsis" *ngFor="let type of providerTypes$ | async" [value]="type.id" class="dropdown-option">
+        <div [matTooltip]="type.name" matTooltipClass="tooltip" showTooltipIfTruncated>
+          <span> {{ type.name }} </span>
+        </div>
       </mat-option>
     </mat-select>
   </mat-form-field>

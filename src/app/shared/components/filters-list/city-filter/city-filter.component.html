@@ -19,11 +19,11 @@
       class="dropdown-option"
       *ngFor="let codeficator of codeficatorSearch"
       [value]="codeficator"
-      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT"
-      [matTooltip]="codeficator.fullName"
-      matTooltipClass="tooltip">
+      [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
-      <span class="option-sub-text">{{ codeficator.fullName }}</span>
+      <div [matTooltip]="codeficator.fullName" matTooltipClass="tooltip" showTooltipIfTruncated>
+        <span class="option-sub-text">{{ codeficator.fullName }}</span>
+      </div>
     </mat-option>
   </mat-autocomplete>
   <p *ngIf="settlementSearchControl.value && settlement?.fullName" class="additional-text">
