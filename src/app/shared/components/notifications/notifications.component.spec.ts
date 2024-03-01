@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule, State } from '@ngxs/store';
-
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+
 import { ChatStateModel } from 'shared/store/chat.state';
 import { NotificationStateModel } from 'shared/store/notification.state';
 import { MockOidcSecurityService } from '../../mocks/mock-services';

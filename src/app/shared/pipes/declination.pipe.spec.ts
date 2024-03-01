@@ -48,7 +48,35 @@ describe('DeclinationPipe', () => {
       expect(declination).toEqual(` ${MockDeclination[3]}`);
     });
 
-    it('should return empty string if declinations is not provided', () => {
+    it('should handle 0 correctly if no declination is not provided', () => {
+      enum MockDeclinationWithoutNoDeclination {
+        'DECLINATION',
+        'DECLINATIONS',
+        'DECLINATIONS_ABLATIVE'
+      }
+
+      const declination = pipe.transform(0, MockDeclinationWithoutNoDeclination);
+
+      expect(declination).toEqual(`0 ${MockDeclinationWithoutNoDeclination[2]}`);
+    });
+
+    it('should handle 7-9 correctly', () => {
+      [7, 8, 9].forEach((quantity) => {
+        const declination = pipe.transform(quantity, MockDeclination);
+
+        expect(declination).toEqual(`${quantity} ${MockDeclination[2]}`);
+      });
+    });
+
+    it('should handle 7-9 correctly if declinations are not provided', () => {
+      [7, 8, 9].forEach((quantity) => {
+        const declination = pipe.transform(quantity);
+
+        expect(declination).toEqual('');
+      });
+    });
+
+    it('should return empty string if declinations are not provided', () => {
       expect(pipe.transform(1)).toEqual('');
     });
   });
