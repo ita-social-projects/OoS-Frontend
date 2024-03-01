@@ -246,7 +246,7 @@ describe('NotificationsListComponent', () => {
         initialNotificationAmount = component.notificationAmount.amount;
       });
 
-      it('should add a new notification group to notifications grouped when received with additional data', () => {
+      it('should add amount to notifications grouped when received with additional data', () => {
         const initialNotificationsGroupedByDataAmount = component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount;
 
         component.ngOnChanges({
@@ -263,8 +263,8 @@ describe('NotificationsListComponent', () => {
         expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
       });
 
-      it('should add a new notification group to notifications grouped when received without additional data', () => {
-        notification.data = {};
+      it('should add a new notification group to notifications grouped when received with another type', () => {
+        notification.type = NotificationType.Chat;
 
         component.ngOnChanges({
           receivedNotification: {
@@ -275,7 +275,7 @@ describe('NotificationsListComponent', () => {
           }
         });
 
-        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
         expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
       });
     });
