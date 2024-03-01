@@ -239,10 +239,12 @@ describe('NotificationsListComponent', () => {
         data: { Status: 'Pending' }
       };
       let initialNotificationsGroupedByTypeLength: number;
+      let initialNotificationsGroupedByDataAmount: number;
       let initialNotificationAmount: number;
 
       beforeEach(() => {
         initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
+        initialNotificationsGroupedByDataAmount = component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount;
         initialNotificationAmount = component.notificationAmount.amount;
       });
 
@@ -276,6 +278,7 @@ describe('NotificationsListComponent', () => {
         });
 
         expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByDataAmount + 1);
         expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
       });
     });
