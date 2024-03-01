@@ -42,7 +42,7 @@ describe('NotificationsListComponent', () => {
 
     const declination = component.defineDeclination({ type: NotificationType.Application, amount: 2 }, status);
 
-    expect(declination).toBe(NotificationDeclination.Application.Approved);
+    expect(declination).toEqual(NotificationDeclination.Application.Approved);
   });
 
   describe('onNavigate', () => {
@@ -156,7 +156,7 @@ describe('NotificationsListComponent', () => {
       component.notificationsGroupedByType.forEach((notification) => expect(notification.isRead).toBeTruthy());
       component.notifications.forEach((notification) => expect(notification.readDateTime).toBeTruthy());
       expect(store.dispatch).toHaveBeenCalledWith(new ReadAllUsersNotifications());
-      expect(component.notificationAmount.amount).toBe(0);
+      expect(component.notificationAmount.amount).toEqual(0);
     });
 
     it('onReadGroup should dispatch ReadUsersNotificationsByType action, modify all grouped notifications and reduce amount', () => {
@@ -167,7 +167,7 @@ describe('NotificationsListComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationsByType(notificationsGroupedByType.type));
       expect(notificationsGroupedByType.isRead).toBeTruthy();
-      expect(component.notificationAmount.amount).toBe(3);
+      expect(component.notificationAmount.amount).toEqual(3);
     });
 
     it('onReadGroup should skip if isRead', () => {
@@ -188,7 +188,7 @@ describe('NotificationsListComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationById(notification));
       expect(notification.readDateTime).toBeTruthy();
-      expect(component.notificationAmount.amount).toBe(6);
+      expect(component.notificationAmount.amount).toEqual(6);
     });
 
     it('onReadGroup should skip if readDateTime already set', () => {
@@ -230,23 +230,24 @@ describe('NotificationsListComponent', () => {
       component.notificationAmount = { amount: 4 };
     });
 
-    describe('notification group by additional data', () => {
-      const notification: Notification = {
-        type: NotificationType.Application,
-        action: NotificationAction.Create,
-        userId: undefined,
-        createdDateTime: undefined,
-        data: { Status: 'Pending' }
-      };
+    describe('notification group', () => {
+      let notification: Notification;
       let initialNotificationsGroupedByTypeLength: number;
       let initialNotificationAmount: number;
 
       beforeEach(() => {
+        notification = {
+          type: NotificationType.Application,
+          action: NotificationAction.Create,
+          userId: undefined,
+          createdDateTime: undefined,
+          data: { Status: 'Pending' }
+        };
         initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
         initialNotificationAmount = component.notificationAmount.amount;
       });
 
-      it('should add amount to notifications grouped when received with additional data', () => {
+      it('should add amount to notifications grouped when received with existing additional data', () => {
         const initialNotificationsGroupedByDataAmount = component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount;
 
         component.ngOnChanges({
@@ -258,9 +259,11 @@ describe('NotificationsListComponent', () => {
           }
         });
 
-        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength);
-        expect(component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount).toBe(initialNotificationsGroupedByDataAmount + 1);
-        expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
+        expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount).toEqual(
+          initialNotificationsGroupedByDataAmount + 1
+        );
+        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
 
       it('should add a new notification group to notifications grouped when received with another type', () => {
@@ -275,8 +278,26 @@ describe('NotificationsListComponent', () => {
           }
         });
 
-        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
-        expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
+        expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength + 1);
+        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
+      });
+
+      it('should add a new notification group to notifications grouped when received with another additional data', () => {
+        const initialNotificationsGroupedByDataLength = component.notificationsGroupedByType[0].groupedByAdditionalData.length;
+        notification.data.Status = 'Rejected';
+
+        component.ngOnChanges({
+          receivedNotification: {
+            currentValue: notification,
+            firstChange: false,
+            previousValue: undefined,
+            isFirstChange: undefined
+          }
+        });
+
+        expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsGroupedByType[0].groupedByAdditionalData.length).toEqual(initialNotificationsGroupedByDataLength + 1);
+        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
     });
 
@@ -300,8 +321,8 @@ describe('NotificationsListComponent', () => {
         }
       });
 
-      expect(component.notifications.length).toBe(initialNotificationsLength + 1);
-      expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
+      expect(component.notifications.length).toEqual(initialNotificationsLength + 1);
+      expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
     });
   });
 });
