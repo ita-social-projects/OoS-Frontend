@@ -145,7 +145,7 @@ describe('NotificationsListComponent', () => {
           createdDateTime: undefined
         }
       ];
-      component.notificationsAmount = { amount: 7 };
+      component.notificationAmount = { amount: 7 };
     });
 
     it('onReadAll should dispatch ReadAllUsersNotifications action, modify all notifications and clear amount', () => {
@@ -156,7 +156,7 @@ describe('NotificationsListComponent', () => {
       component.notificationsGroupedByType.forEach((notification) => expect(notification.isRead).toBeTruthy());
       component.notifications.forEach((notification) => expect(notification.readDateTime).toBeTruthy());
       expect(store.dispatch).toHaveBeenCalledWith(new ReadAllUsersNotifications());
-      expect(component.notificationsAmount.amount).toBe(0);
+      expect(component.notificationAmount.amount).toBe(0);
     });
 
     it('onReadGroup should dispatch ReadUsersNotificationsByType action, modify all grouped notifications and reduce amount', () => {
@@ -167,7 +167,7 @@ describe('NotificationsListComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationsByType(notificationsGroupedByType.type));
       expect(notificationsGroupedByType.isRead).toBeTruthy();
-      expect(component.notificationsAmount.amount).toBe(3);
+      expect(component.notificationAmount.amount).toBe(3);
     });
 
     it('onReadGroup should skip if isRead', () => {
@@ -188,7 +188,7 @@ describe('NotificationsListComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationById(notification));
       expect(notification.readDateTime).toBeTruthy();
-      expect(component.notificationsAmount.amount).toBe(6);
+      expect(component.notificationAmount.amount).toBe(6);
     });
 
     it('onReadGroup should skip if readDateTime already set', () => {
@@ -227,7 +227,7 @@ describe('NotificationsListComponent', () => {
           createdDateTime: undefined
         }
       ];
-      component.notificationsAmount = { amount: 4 };
+      component.notificationAmount = { amount: 4 };
     });
 
     describe('notification group by additional data', () => {
@@ -239,11 +239,11 @@ describe('NotificationsListComponent', () => {
         data: { Status: 'Pending' }
       };
       let initialNotificationsGroupedByTypeLength: number;
-      let initialNotificationsAmount: number;
+      let initialNotificationAmount: number;
 
       beforeEach(() => {
         initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
-        initialNotificationsAmount = component.notificationsAmount.amount;
+        initialNotificationAmount = component.notificationAmount.amount;
       });
 
       it('should add a new notification group to notifications grouped when received with additional data', () => {
@@ -257,7 +257,7 @@ describe('NotificationsListComponent', () => {
         });
 
         expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
-        expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+        expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
       });
 
       it('should add a new notification group to notifications grouped when received without additional data', () => {
@@ -273,7 +273,7 @@ describe('NotificationsListComponent', () => {
         });
 
         expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength);
-        expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+        expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
       });
     });
 
@@ -286,7 +286,7 @@ describe('NotificationsListComponent', () => {
         data: {}
       };
       const initialNotificationsLength = component.notifications.length;
-      const initialNotificationsAmount = component.notificationsAmount.amount;
+      const initialNotificationAmount = component.notificationAmount.amount;
 
       component.ngOnChanges({
         receivedNotification: {
@@ -298,7 +298,7 @@ describe('NotificationsListComponent', () => {
       });
 
       expect(component.notifications.length).toBe(initialNotificationsLength + 1);
-      expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+      expect(component.notificationAmount.amount).toBe(initialNotificationAmount + 1);
     });
   });
 });

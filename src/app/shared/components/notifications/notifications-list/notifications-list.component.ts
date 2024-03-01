@@ -35,10 +35,9 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./notifications-list.component.scss']
 })
 export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy {
+  @Input() public notificationAmount: NotificationAmount;
   @Input() public receivedNotification: Notification;
 
-  @Select(NotificationState.notificationsAmount)
-  public notificationsAmount$: Observable<NotificationAmount>;
   @Select(NotificationState.notifications)
   public notificationsData$: Observable<NotificationGroupedAndSingle>;
   @Select(ChatState.unreadMessagesCount)
@@ -50,7 +49,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public readonly Util = Util;
   public readonly NoResults = NoResultsTitle.noNotifications;
 
-  public notificationsAmount: NotificationAmount;
   public notificationsGroupedByType: NotificationGroupedByType[] = [];
   public notifications: Notification[];
   private role: Role;
@@ -65,41 +63,28 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllUsersNotificationsGrouped());
     this.role = this.store.selectSnapshot(RegistrationState.role);
-    combineLatest([
-      this.notificationsAmount$.pipe(filter(Boolean)),
-      this.notificationsData$.pipe(filter(Boolean)),
-      this.unreadMessagesCount$
-    ])
+    combineLatest([this.notificationsData$.pipe(filter(Boolean)), this.unreadMessagesCount$])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        ([notificationsAmount, receivedNotifications, unreadMessagesCount]: [NotificationAmount, NotificationGroupedAndSingle, number]) => {
-          this.notificationsAmount = { ...notificationsAmount };
-          this.notificationsGroupedByType = receivedNotifications.notificationsGroupedByType;
-          this.notifications = receivedNotifications.notifications;
-          if (unreadMessagesCount) {
-            this.notificationsAmount.amount += unreadMessagesCount;
-            if (
-              this.notificationsAmount?.amount - (this.notificationsGroupedByType.length + this.notifications.length) ===
-              unreadMessagesCount
-            ) {
-              this.notificationsGroupedByType = this.notificationsGroupedByType.filter(
-                (notification) => notification.type !== NotificationType.Chat
-              );
-              this.notificationsGroupedByType.unshift({
+      .subscribe(([receivedNotifications, unreadMessagesCount]: [NotificationGroupedAndSingle, number]) => {
+        this.notificationsGroupedByType = receivedNotifications.notificationsGroupedByType;
+        this.notifications = receivedNotifications.notifications;
+        if (unreadMessagesCount) {
+          this.notificationsGroupedByType = this.notificationsGroupedByType.filter(
+            (notification) => notification.type !== NotificationType.Chat
+          );
+          this.notificationsGroupedByType.unshift({
+            type: NotificationType.Chat,
+            amount: unreadMessagesCount,
+            groupedByAdditionalData: [
+              {
                 type: NotificationType.Chat,
                 amount: unreadMessagesCount,
-                groupedByAdditionalData: [
-                  {
-                    type: NotificationType.Chat,
-                    amount: unreadMessagesCount,
-                    groupedData: 'Unread'
-                  }
-                ]
-              });
-            }
-          }
+                groupedData: 'Unread'
+              }
+            ]
+          });
         }
-      );
+      });
   }
 
   public ngOnChanges(changes: SimpleChanges): void {
@@ -164,7 +149,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.store.dispatch(new ReadAllUsersNotifications());
     this.notificationsGroupedByType.forEach((notification) => (notification.isRead = true));
     this.notifications.forEach((notification) => (notification.readDateTime = new Date()));
-    this.notificationsAmount.amount = 0;
+    this.notificationAmount.amount = 0;
   }
 
   public onReadGroup(groupByType: NotificationGroupedByType): void {
@@ -175,7 +160,7 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.store.dispatch(new ReadUsersNotificationsByType(groupByType.type));
 
     groupByType.isRead = true;
-    this.notificationsAmount.amount -= groupByType.amount;
+    this.notificationAmount.amount -= groupByType.amount;
   }
 
   public onReadSingle(notification: Notification): void {
@@ -186,32 +171,31 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
     this.store.dispatch(new ReadUsersNotificationById(notification));
 
     notification.readDateTime = new Date();
-    this.notificationsAmount.amount--;
+    this.notificationAmount.amount--;
   }
 
   private addReceivedNotification(receivedNotification: Notification): void {
-    this.notificationsAmount.amount++;
+    this.notificationAmount.amount++;
 
     if (receivedNotification.type !== NotificationType.Application && receivedNotification.type !== NotificationType.Chat) {
       this.notifications.unshift(receivedNotification);
       return;
     }
 
-    const newNotificationGroupReceived = this.notificationsGroupedByType.some((notificationGroupedByType) => {
+    const newNotificationGroupReceived = this.notificationsGroupedByType.every((notificationGroupedByType) => {
       if (notificationGroupedByType.type === receivedNotification.type) {
-        const receivedGroupExistsByAdditionalData = notificationGroupedByType.groupedByAdditionalData.some((notificationGrouped) => {
+        let receivedGroupExistsByAdditionalData = false;
+        notificationGroupedByType.groupedByAdditionalData.forEach((notificationGrouped) => {
+          notificationGroupedByType.amount++;
           if (notificationGrouped.groupedData === receivedNotification.data[NotificationDataType.Status]) {
-            notificationGroupedByType.amount++;
             notificationGrouped.amount++;
-            return true;
+            receivedGroupExistsByAdditionalData = true;
           }
-          return false;
         });
-
         if (!receivedGroupExistsByAdditionalData) {
           this.addNewGroupByAdditionalData(notificationGroupedByType, receivedNotification);
-          return false;
         }
+        return false;
       }
       return true;
     });
@@ -224,13 +208,13 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   private addNewGroupByType(receivedNotification: Notification): void {
     const newGroupByType = new NotificationGroupedByType(receivedNotification.type, 1, []);
     this.addNewGroupByAdditionalData(newGroupByType, receivedNotification);
-    this.notificationsGroupedByType.push(newGroupByType);
+    this.notificationsGroupedByType.unshift(newGroupByType);
   }
 
   private addNewGroupByAdditionalData(groupByType: NotificationGroupedByType, receivedNotification: Notification): void {
     switch (receivedNotification.type) {
       case NotificationType.Application:
-        groupByType.groupedByAdditionalData.push(
+        groupByType.groupedByAdditionalData.unshift(
           new NotificationGrouped(
             receivedNotification.type,
             receivedNotification.action,

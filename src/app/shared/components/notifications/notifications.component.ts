@@ -17,14 +17,14 @@ import { NotificationState } from 'shared/store/notification.state';
   styleUrls: ['./notifications.component.scss']
 })
 export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestroy {
-  @Select(NotificationState.notificationsAmount)
-  public notificationsAmount$: Observable<NotificationAmount>;
+  @Select(NotificationState.notificationAmount)
+  public notificationAmount$: Observable<NotificationAmount>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
 
-  public notificationsAmount: NotificationAmount;
+  public notificationAmount: NotificationAmount;
   public receivedNotification: Notification;
   private hubConnection: signalR.HubConnection;
 
@@ -55,14 +55,15 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
       };
     });
 
-    combineLatest([this.notificationsAmount$.pipe(filter(Boolean)), this.unreadMessagesCount$])
+    combineLatest([
+      this.notificationAmount$.pipe(filter(Boolean)),
+      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => unreadMessagesCount !== null))
+    ])
       .pipe(takeUntil(this.destroy$))
-      .subscribe(([notificationsAmount, unreadMessagesCount]: [NotificationAmount, number]) => {
-        this.notificationsAmount = { ...notificationsAmount };
-        if (unreadMessagesCount) {
-          this.notificationsAmount.amount = notificationsAmount.amount + unreadMessagesCount;
-        }
-      });
+      .subscribe(
+        ([notificationAmount, unreadMessagesCount]: [NotificationAmount, number]) =>
+          (this.notificationAmount = { amount: notificationAmount.amount + unreadMessagesCount })
+      );
   }
 
   public ngAfterViewChecked(): void {

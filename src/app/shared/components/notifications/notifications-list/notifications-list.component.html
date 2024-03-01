@@ -4,13 +4,13 @@
       <h3 class="notifications-list__title">{{ 'NOTIFICATIONS' | translate | uppercase }}</h3>
       <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
-        <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
+        <button mat-menu-item [disabled]="!notificationAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
           {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
         </button>
       </mat-menu>
     </div>
 
-    <ng-container *ngIf="notifications.length || notificationsGroupedByType.length; else isEmptyList">
+    <ng-container *ngIf="notifications?.length || notificationsGroupedByType?.length; else isEmptyList">
       <ng-container *ngTemplateOutlet="Notifications"></ng-container>
     </ng-container>
   </ng-container>
