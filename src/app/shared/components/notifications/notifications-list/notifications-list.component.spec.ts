@@ -1,15 +1,20 @@
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule, Store } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, State, Store } from '@ngxs/store';
 
 import { NotificationDeclination } from 'shared/enum/enumUA/declinations/notification-declination';
 import { NotificationAction, NotificationType } from 'shared/enum/notifications';
 import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
-import { Notification } from 'shared/models/notification.model';
+import { Notification, NotificationGrouped } from 'shared/models/notification.model';
+import { MaterialModule } from 'shared/modules/material.module';
 import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
+import { ChatStateModel } from 'shared/store/chat.state';
 import { ReadAllUsersNotifications, ReadUsersNotificationById, ReadUsersNotificationsByType } from 'shared/store/notification.actions';
+import { NotificationStateModel } from 'shared/store/notification.state';
 import { NotificationsListComponent } from './notifications-list.component';
 
 describe('NotificationsListComponent', () => {
@@ -20,7 +25,14 @@ describe('NotificationsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatIconModule, RouterTestingModule],
+      imports: [
+        NgxsModule.forRoot([MockNotificationState, MockChatState]),
+        MaterialModule,
+        RouterModule,
+        TranslateModule.forRoot(),
+        CdkAccordionModule,
+        RouterTestingModule
+      ],
       declarations: [NotificationsListComponent, TranslateCasesPipe]
     }).compileComponents();
   });
@@ -37,12 +49,28 @@ describe('NotificationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return correct notification declination for Application notification with Approved status', () => {
-    const status = 'Approved';
+  describe('declination', () => {
+    let notification: NotificationGrouped;
 
-    const declination = component.defineDeclination({ type: NotificationType.Application, amount: 2 }, status);
+    beforeEach(() => {
+      notification = { type: NotificationType.Application, amount: 2 };
+    });
 
-    expect(declination).toEqual(NotificationDeclination.Application.Approved);
+    it('should return correct notification declination for Application notification with Approved data', () => {
+      notification.groupedData = 'Approved';
+
+      const declination = component.defineDeclination(notification);
+
+      expect(declination).toEqual(NotificationDeclination.Application.Approved);
+    });
+
+    it('should return null notification declination for Application notification with Unknown data', () => {
+      notification.groupedData = 'Unknown';
+
+      const declination = component.defineDeclination(notification);
+
+      expect(declination).toEqual(null);
+    });
   });
 
   describe('onNavigate', () => {
@@ -326,3 +354,29 @@ describe('NotificationsListComponent', () => {
     });
   });
 });
+
+@State<NotificationStateModel>({
+  name: 'notifications',
+  defaults: {
+    notificationAmount: { amount: 3 },
+    notifications: {
+      notificationsGroupedByType: [{ type: NotificationType.System }],
+      notifications: []
+    }
+  }
+})
+@Injectable()
+class MockNotificationState {}
+
+@State<ChatStateModel>({
+  name: 'chat',
+  defaults: {
+    isLoadingData: false,
+    chatRooms: null,
+    selectedChatRoom: null,
+    selectedChatRoomMessages: null,
+    unreadMessagesCount: 2
+  }
+})
+@Injectable()
+class MockChatState {}
