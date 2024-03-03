@@ -146,7 +146,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
-    PhoneFormControlComponent
+    PhoneFormControlComponent,
     NotificationDescriptionPipe
   ],
 
