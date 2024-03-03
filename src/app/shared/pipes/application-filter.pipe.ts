@@ -1,15 +1,14 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Application } from '../models/application.model';
-import { ApplicationStatuses } from './../enum/statuses';
+
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application } from 'shared/models/application.model';
 
 @Pipe({
   name: 'applicationFilter',
   pure: false
 })
 export class ApplicationFilterPipe implements PipeTransform {
-  readonly statuses = ApplicationStatuses;
-
-  transform(array: Application[], statuses: string[]): Application[] {
-    return array.filter((card) => statuses.find((status: string) => this.statuses[card.status] === this.statuses[status]));
+  public transform(array: Application[], statuses: string[]): Application[] {
+    return array.filter((card) => statuses.find((status: string) => ApplicationStatuses[card.status] === ApplicationStatuses[status]));
   }
 }

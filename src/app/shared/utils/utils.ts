@@ -5,6 +5,7 @@ import { Localization } from 'shared/enum/enumUA/localization';
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
 import { Role, Subrole } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
@@ -14,6 +15,7 @@ import { DefaultFilterState } from 'shared/models/default-filter-state.model';
 import { FilterStateModel } from 'shared/models/filter-state.model';
 import { MessageBarData } from 'shared/models/message-bar.model';
 import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { Notification } from 'shared/models/notification.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
@@ -293,6 +295,17 @@ export class Util {
    */
   public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
     return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
+  }
+
+  public static getTitleFromNotification(notification: Notification, descriptionType: NotificationDescriptionType): string {
+    switch (notification.type) {
+      case NotificationType.Workshop:
+        return notification.data.Title;
+      case NotificationType.Parent:
+        return descriptionType === NotificationDescriptionType.Short
+          ? notification.data.ProviderShortTitle
+          : notification.data.ProviderFullTitle;
+    }
   }
 
   private static calculateFromParameter(currentPage: PaginationElement, size: number): number {
