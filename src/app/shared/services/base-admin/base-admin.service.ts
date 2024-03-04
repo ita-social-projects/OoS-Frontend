@@ -1,12 +1,12 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { PaginationConstants } from '../../constants/constants';
-import { AdminIds, AdminRoles } from '../../enum/admins';
-import { BaseAdmin, BaseAdminParameters } from '../../models/admin.model';
-import { SearchResponse } from '../../models/search.model';
+import { PaginationConstants } from 'shared/constants/constants';
+import { AdminIds, AdminRoles } from 'shared/enum/admins';
+import { BaseAdmin, BaseAdminParameters } from 'shared/models/admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 
-export class BaseAdminService {
+export abstract class BaseAdminService {
   protected adminType = '';
 
   constructor(
@@ -16,7 +16,7 @@ export class BaseAdminService {
     this.adminType = adminType;
   }
 
-  protected get adminBaseUrl(): string {
+  protected get baseApiUrl(): string {
     return `/api/v1/${this.adminType}`;
   }
 
@@ -39,7 +39,7 @@ export class BaseAdminService {
    * This method get Profile of authorized Admin
    */
   protected getAdminProfile(): Observable<BaseAdmin> {
-    return this.http.get<BaseAdmin>(`${this.adminBaseUrl}/Profile`);
+    return this.http.get<BaseAdmin>(`${this.baseApiUrl}/Profile`);
   }
 
   /**
@@ -49,7 +49,7 @@ export class BaseAdminService {
   protected getAdminById(adminId: string): Observable<BaseAdmin> {
     const params = new HttpParams().set('id', `${adminId}`);
 
-    return this.http.get<BaseAdmin>(`${this.adminBaseUrl}/GetById`, { params });
+    return this.http.get<BaseAdmin>(`${this.baseApiUrl}/GetById`, { params });
   }
 
   /**
@@ -58,7 +58,7 @@ export class BaseAdminService {
   protected getAllAdmin(parameters: BaseAdminParameters): Observable<SearchResponse<BaseAdmin[]>> {
     const options = { params: this.setParams(parameters) };
 
-    return this.http.get<SearchResponse<BaseAdmin[]>>(`${this.adminBaseUrl}/GetByFilter`, options);
+    return this.http.get<SearchResponse<BaseAdmin[]>>(`${this.baseApiUrl}/GetByFilter`, options);
   }
 
   /**
@@ -66,7 +66,7 @@ export class BaseAdminService {
    * @param baseAdmin BaseAdmin
    */
   protected createAdmin(baseAdmin: BaseAdmin): Observable<BaseAdmin> {
-    return this.http.post<BaseAdmin>(`${this.adminBaseUrl}/Create`, baseAdmin);
+    return this.http.post<BaseAdmin>(`${this.baseApiUrl}/Create`, baseAdmin);
   }
 
   /**
@@ -76,7 +76,7 @@ export class BaseAdminService {
   protected deleteAdmin(adminId: string): Observable<void> {
     const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`);
 
-    return this.http.delete<void>(`${this.adminBaseUrl}/Delete`, { params });
+    return this.http.delete<void>(`${this.baseApiUrl}/Delete`, { params });
   }
 
   /**
@@ -87,7 +87,7 @@ export class BaseAdminService {
   protected blockAdmin(adminId: string, isBlocked: boolean): Observable<void> {
     const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`).set('isBlocked', `${isBlocked}`);
 
-    return this.http.put<void>(`${this.adminBaseUrl}/Block`, {}, { params });
+    return this.http.put<void>(`${this.baseApiUrl}/Block`, {}, { params });
   }
 
   /**
@@ -95,14 +95,14 @@ export class BaseAdminService {
    * @param admin BaseAdmin
    */
   protected updateAdmin(admin: BaseAdmin): Observable<BaseAdmin> {
-    return this.http.put<BaseAdmin>(`${this.adminBaseUrl}/Update`, admin);
+    return this.http.put<BaseAdmin>(`${this.baseApiUrl}/Update`, admin);
   }
 
   /**
    * This method reinvite Admin
    * @param adminId: string
    */
-  protected reinviteAdmin(adminId: string): Observable<null> {
-    return this.http.put<null>(`${this.adminBaseUrl}/Reinvite/${adminId}`, {});
+  protected reinviteAdmin(adminId: string): Observable<void> {
+    return this.http.put<void>(`${this.baseApiUrl}/Reinvite/${adminId}`, {});
   }
 }

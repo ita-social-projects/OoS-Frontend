@@ -100,22 +100,22 @@ import {
   OnUpdatePlatformInfoSuccess,
   OnUpdateRegionAdminFail,
   OnUpdateRegionAdminSuccess,
+  ReinviteAdminById,
+  ReinviteAreaAdminById,
+  ReinviteAreaAdminFail,
+  ReinviteAreaAdminSuccess,
+  ReinviteMinistryAdminById,
+  ReinviteMinistryAdminFail,
+  ReinviteMinistryAdminSuccess,
+  ReinviteRegionAdminById,
+  ReinviteRegionAdminFail,
+  ReinviteRegionAdminSuccess,
   UpdateAdmin,
   UpdateAreaAdmin,
   UpdateDirection,
   UpdateMinistryAdmin,
   UpdatePlatformInfo,
-  UpdateRegionAdmin,
-  ReinviteAdminById,
-  ReinviteMinistryAdminById,
-  ReinviteMinistryAdminSuccess,
-  ReinviteMinistryAdminFail,
-  ReinviteRegionAdminById,
-  ReinviteRegionAdminSuccess,
-  ReinviteRegionAdminFail,
-  ReinviteAreaAdminById,
-  ReinviteAreaAdminSuccess,
-  ReinviteAreaAdminFail
+  UpdateRegionAdmin
 } from './admin.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import { GetMainPageInfo } from './main-page.actions';
@@ -858,13 +858,13 @@ export class AdminState {
   }
 
   @Action(ReinviteMinistryAdminSuccess)
-  reinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  reinviteMinistryAdminSuccess({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(ReinviteMinistryAdminFail)
-  reinviteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  reinviteMinistryAdminFail({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetAllRegionAdmins)
@@ -1015,13 +1015,13 @@ export class AdminState {
   }
 
   @Action(ReinviteRegionAdminSuccess)
-  reinviteRegionAdminSuccess({ dispatch }: StateContext<AdminState>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  reinviteRegionAdminSuccess({ dispatch }: StateContext<AdminState>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(ReinviteRegionAdminFail)
-  reinviteRegionAdminFail({ dispatch }: StateContext<AdminState>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  reinviteRegionAdminFail({ dispatch }: StateContext<AdminState>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(GetAllAreaAdmins)
@@ -1172,12 +1172,12 @@ export class AdminState {
   }
 
   @Action(ReinviteAreaAdminSuccess)
-  reinviteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
+  reinviteAreaAdminSuccess({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.sendInvitation, type: 'success' }));
   }
 
   @Action(ReinviteAreaAdminFail)
-  reinviteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+  reinviteAreaAdminFail({ dispatch }: StateContext<AdminStateModel>): Observable<void> {
+    return dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 }
