@@ -1,16 +1,16 @@
 <div class="notifications-list" (click)="stopPropagation($event)">
-  <ng-container *ngIf="notificationsData$ | async as notificationsData">
+  <ng-container *ngIf="notificationsData$ | async">
     <div class="notifications-list__header">
       <h3 class="notifications-list__title">{{ 'NOTIFICATIONS' | translate | uppercase }}</h3>
       <mat-icon class="icon" [matMenuTriggerFor]="actions">more_vert</mat-icon>
       <mat-menu #actions="matMenu" class="notifications-list-menu" xPosition="before">
-        <button mat-menu-item [disabled]="!notificationsAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
+        <button mat-menu-item [disabled]="!notificationAmount?.amount" (click)="onReadAll(); stopPropagation($event)">
           {{ 'NOTIFICATION_DETAILS.READ_ALL' | translate }}
         </button>
       </mat-menu>
     </div>
 
-    <ng-container *ngIf="notifications.length || notificationsGroupedByType.length; else isEmptyList">
+    <ng-container *ngIf="notifications?.length || notificationsGroupedByType?.length; else isEmptyList">
       <ng-container *ngTemplateOutlet="Notifications"></ng-container>
     </ng-container>
   </ng-container>
@@ -34,7 +34,8 @@
               <div class="info">
                 <span class="info__description">
                   {{ 'NOTIFICATION_DETAILS.YOU_HAVE' | translate }}
-                  {{ notificationGroupedByType.amount | translateCases: ApplicationHeaderDeclinations }}
+                  {{ notificationGroupedByType.amount | translateCases: defineDeclination(notificationGroupedByType,
+                  'Changes') }}
                 </span>
               </div>
             </div>
@@ -44,7 +45,7 @@
               <div *ngFor="let notification of notificationGroupedByType.groupedByAdditionalData"
                 class="body-notification__content body-notification__group info" (click)="onNavigate(notification)">
                 <span class="info__description info__link">
-                  {{ notification.amount | translateCases: defineDeclination(notification.groupedData) }}
+                  {{ notification.amount | translateCases: defineDeclination(notification) }}
                 </span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>

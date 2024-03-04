@@ -13,7 +13,7 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { NgxsModule, State, Store } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
 import { MainPageStateModel } from 'shared/store/main-page.state';
 import { SidenavToggle } from 'shared/store/navigation.actions';
@@ -102,7 +102,7 @@ describe('HeaderComponent', () => {
 @State<RegistrationStateModel>({
   name: 'registration',
   defaults: {
-    subrole: Role.all,
+    subrole: Subrole.None,
     isAuthorized: false,
     isLoading: false,
     isAuthorizationLoading: true,
@@ -112,7 +112,8 @@ describe('HeaderComponent', () => {
       lastName: '',
       firstName: '',
       id: '',
-      role: ''
+      role: '',
+      isBlocked: false
     },
     provider: undefined,
     parent: undefined,
