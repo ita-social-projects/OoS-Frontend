@@ -1,21 +1,21 @@
 <ng-container *ngIf="!(isMobileScreen$ | async); else isMobileScreen">
   <button mat-icon-button [matMenuTriggerFor]="menu">
-    <mat-icon class="notifications-menu" [matBadge]="notificationsAmount?.amount || null">
+    <mat-icon class="notifications-menu" [matBadge]="notificationAmount?.amount || null">
       notifications_none
     </mat-icon>
   </button>
   <mat-menu xPosition="before" #menu="matMenu" [class]="'notification-menu'">
-    <app-notifications-list [notificationsAmount]="notificationsAmount" [receivedNotification]="receivedNotification">
+    <app-notifications-list [notificationAmount]="notificationAmount" [receivedNotification]="receivedNotification">
     </app-notifications-list>
   </mat-menu>
 </ng-container>
 
 <ng-template #isMobileScreen>
-  <div *ngIf="notificationsAmount" fxLayout="row" fxLayoutAlign="space-between center" class="full-width">
+  <div *ngIf="notificationAmount" fxLayout="row" fxLayoutAlign="space-between center" class="full-width">
     <button mat-icon-button fxLayout="row" fxLayoutAlign="space-between" class="btn-notifications">
       <mat-icon>notifications_none</mat-icon>{{ 'NOTIFICATIONS' | translate }}
     </button>
-    <mat-icon *ngIf="notificationsAmount.amount" [matBadge]="notificationsAmount.amount" class="icon-mobile">
+    <mat-icon *ngIf="notificationAmount.amount" [matBadge]="notificationAmount.amount" class="icon-mobile">
     </mat-icon>
   </div>
 </ng-template>

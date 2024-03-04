@@ -38,6 +38,16 @@
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Надаєш освітні послуги?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Введіть назву гуртка, школи",
   "ENUM": {
+    "CHAT_CHANGES": {
+      "CHANGE_IN_MESSAGES": "зміна в повідомленнях",
+      "CHANGES_IN_MESSAGES": "зміни в повідомленнях",
+      "CHANGE_IN_MESSAGES_ABLATIVE": "змін в повідомленнях"
+    },
+    "CHAT_UNREAD": {
+      "UNREAD_MESSAGE": "непрочитане повідомлення",
+      "UNREAD_MESSAGES": "непрочитані повідомлення",
+      "UNREAD_MESSAGE_ABLATIVE": "непрочитаних повідомлень"
+    },
     "APPLICATION": {
       "APPLICATION": "заява",
       "APPLICATIONS": "заяви",
