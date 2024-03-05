@@ -21,6 +21,7 @@ import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticReport } from 'shared/models/statistic.model';
+import { AdminService } from 'shared/services/admin/admin.service';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { ChildrenService } from 'shared/services/children/children.service';
 import { DirectionsService } from 'shared/services/directions/directions.service';
@@ -170,11 +171,12 @@ export interface AdminStateModel {
 export class AdminState {
   constructor(
     private platformService: PlatformService,
-    private categoriesService: DirectionsService,
+    private directionsService: DirectionsService,
     private historyLogService: HistoryLogService,
     private statisticService: StatisticReportsService,
     private childrenService: ChildrenService,
     private providerService: ProviderService,
+    private adminService: AdminService,
     private ministryAdminService: MinistryAdminService,
     private regionAdminService: RegionAdminService,
     private areaAdminService: AreaAdminService,
@@ -382,7 +384,7 @@ export class AdminState {
     { parameters }: GetFilteredDirections
   ): Observable<SearchResponse<Direction[]>> {
     patchState({ isLoading: true });
-    return this.categoriesService.getFilteredDirections(parameters).pipe(
+    return this.directionsService.getFilteredDirections(parameters).pipe(
       tap((filteredDirections: SearchResponse<Direction[]>) =>
         patchState({
           filteredDirections: filteredDirections ?? EMPTY_RESULT,
@@ -396,14 +398,14 @@ export class AdminState {
   @Action(GetDirectionById)
   getDirectionById({ patchState }: StateContext<AdminStateModel>, { payload }: GetDirectionById): Observable<Direction> {
     patchState({ isLoading: true });
-    return this.categoriesService
+    return this.directionsService
       .getDirectionById(payload)
       .pipe(tap((direction: Direction) => patchState({ direction, isLoading: false })));
   }
 
   @Action(CreateDirection)
   createDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: CreateDirection): Observable<Direction | void> {
-    return this.categoriesService.createDirection(payload).pipe(
+    return this.directionsService.createDirection(payload).pipe(
       tap((res: Direction) => dispatch(new OnCreateDirectionSuccess(res))),
       catchError((error: Error) => dispatch(new OnCreateDirectionFail(error)))
     );
@@ -429,7 +431,7 @@ export class AdminState {
 
   @Action(UpdateDirection)
   updateDirection({ dispatch }: StateContext<AdminStateModel>, { payload }: UpdateDirection): Observable<Direction | void> {
-    return this.categoriesService.updateDirection(payload).pipe(
+    return this.adminService.updateDirection(payload).pipe(
       tap((res: Direction) => dispatch(new OnUpdateDirectionSuccess(res))),
       catchError((error: Error) => dispatch(new OnUpdateDirectionFail(error)))
     );
@@ -458,7 +460,7 @@ export class AdminState {
     { dispatch }: StateContext<AdminStateModel>,
     { payload, directionParameters }: DeleteDirectionById
   ): Observable<void> {
-    return this.categoriesService.deleteDirection(payload).pipe(
+    return this.adminService.deleteDirection(payload).pipe(
       tap(() => dispatch(new OnDeleteDirectionSuccess(directionParameters))),
       catchError((error: Error) => dispatch(new OnDeleteDirectionFail(error)))
     );
@@ -502,7 +504,7 @@ export class AdminState {
     { providerParameters }: GetFilteredProviders
   ): Observable<SearchResponse<Provider[]>> {
     patchState({ isLoading: true });
-    return this.providerService.getFilteredProviders(providerParameters).pipe(
+    return this.adminService.getAllProviders(providerParameters).pipe(
       tap((providers: SearchResponse<Provider[]>) =>
         patchState({
           providers: providers ?? EMPTY_RESULT,
@@ -578,7 +580,7 @@ export class AdminState {
 
   @Action(BlockProviderById)
   blockProviderById({ dispatch }: StateContext<AdminStateModel>, { payload, parameters }: BlockProviderById): Observable<void> {
-    return this.providerService.blockProvider(payload).pipe(
+    return this.adminService.blockProvider(payload).pipe(
       tap(() => dispatch([new OnBlockSuccess(payload), new GetFilteredProviders(parameters)])),
       catchError((error: HttpErrorResponse) => dispatch(new OnBlockFail(error)))
     );
@@ -716,7 +718,7 @@ export class AdminState {
     { parameters }: GetAllMinistryAdmins
   ): Observable<SearchResponse<MinistryAdmin[]>> {
     patchState({ isLoading: true });
-    return this.ministryAdminService.getAllAdmin(parameters).pipe(
+    return this.adminService.getAllMinistryAdmins(parameters).pipe(
       tap((admins: SearchResponse<MinistryAdmin[]>) =>
         patchState({
           admins: admins ?? EMPTY_RESULT,

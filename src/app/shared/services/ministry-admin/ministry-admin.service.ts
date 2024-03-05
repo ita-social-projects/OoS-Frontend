@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AdminRoles } from 'shared/enum/admins';
-import { MinistryAdmin, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
-import { SearchResponse } from 'shared/models/search.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { BaseAdminService } from '../base-admin/base-admin.service';
 
 @Injectable({
@@ -28,13 +27,6 @@ export class MinistryAdminService extends BaseAdminService {
    */
   public getAdminById(adminId: string): Observable<MinistryAdmin> {
     return super.getAdminById(adminId);
-  }
-
-  /**
-   * This method get All Ministry Admins
-   */
-  public getAllAdmin(parameters: MinistryAdminParameters): Observable<SearchResponse<MinistryAdmin[]>> {
-    return super.getAllAdmin(parameters);
   }
 
   /**
