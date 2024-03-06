@@ -3,4 +3,5 @@ export interface FeaturesList {
   release2: boolean;
   release3: boolean;
   images: boolean;
+  showForProduction: boolean;
 }

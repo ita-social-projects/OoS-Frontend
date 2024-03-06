@@ -16,7 +16,7 @@ import { CabinetDataComponent } from '../../../personal-cabinet/shared-cabinet/c
   styleUrls: ['./admin-applications.component.scss']
 })
 export class AdminApplicationsComponent extends CabinetDataComponent implements OnInit {
-  applicationParams: ApplicationFilterParameters = {
+  public applicationParams: ApplicationFilterParameters = {
     property: ApplicationEntityType.provider,
     statuses: [],
     workshops: [],
@@ -33,11 +33,11 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
     super(store, matDialog);
   }
 
-  init(): void {}
-
-  onGetApplications(): void {
+  public onGetApplications(): void {
     this.store.dispatch(new GetAllApplications(this.applicationParams));
   }
+
+  protected init(): void {}
 
   protected addNavPath(): void {
     this.store.dispatch(

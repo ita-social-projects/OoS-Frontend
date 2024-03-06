@@ -9,6 +9,7 @@ export class Parent {
     this.userId = info.userId;
   }
 }
+
 export class ParentWithContactInfo implements Person {
   id: string;
   userId?: string;

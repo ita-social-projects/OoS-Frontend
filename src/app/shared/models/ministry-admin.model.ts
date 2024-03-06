@@ -3,5 +3,4 @@ import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from './admin.mode
 export class MinistryAdmin extends BaseAdmin {}
 
 export type MinistryAdminParameters = BaseAdminParameters;
-
 export type MinistryAdminBlockData = BaseAdminBlockData;

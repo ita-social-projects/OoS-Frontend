@@ -9,7 +9,7 @@ import { SearchResponse } from 'shared/models/search.model';
 export abstract class BaseAdminService {
   protected adminType = '';
 
-  constructor(
+  protected constructor(
     protected http: HttpClient,
     adminType: AdminRoles
   ) {
@@ -18,21 +18,6 @@ export abstract class BaseAdminService {
 
   protected get baseApiUrl(): string {
     return `/api/v1/${this.adminType}`;
-  }
-
-  protected setParams(parameters: BaseAdminParameters = { searchString: '' }): HttpParams {
-    let params = new HttpParams();
-
-    if (parameters.searchString) {
-      params = params.set('SearchString', parameters.searchString);
-    }
-
-    const size = parameters?.size?.toString() || PaginationConstants.TABLE_ITEMS_PER_PAGE;
-    const from = parameters?.from?.toString() || '0';
-
-    params = params.set('Size', size).set('From', from);
-
-    return params;
   }
 
   /**
@@ -104,5 +89,20 @@ export abstract class BaseAdminService {
    */
   protected reinviteAdmin(adminId: string): Observable<void> {
     return this.http.put<void>(`${this.baseApiUrl}/Reinvite/${adminId}`, {});
+  }
+
+  protected setParams(parameters: BaseAdminParameters = { searchString: '' }): HttpParams {
+    let params = new HttpParams();
+
+    if (parameters.searchString) {
+      params = params.set('SearchString', parameters.searchString);
+    }
+
+    const size = parameters?.size?.toString() || PaginationConstants.TABLE_ITEMS_PER_PAGE;
+    const from = parameters?.from?.toString() || '0';
+
+    params = params.set('Size', size).set('From', from);
+
+    return params;
   }
 }
