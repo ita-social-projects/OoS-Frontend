@@ -131,7 +131,7 @@ export class RegistrationState {
   }
 
   @Action(Login)
-  login({ payload }: Login): void {
+  login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
     const configIdOrNull = null;
     this.oidcSecurityService.authorize(configIdOrNull, {
       customParams: {
@@ -143,7 +143,7 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  logout(): void {
+  logout({}: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
   }
 
