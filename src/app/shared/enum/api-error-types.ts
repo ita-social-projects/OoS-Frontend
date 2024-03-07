@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { ApiError } from 'shared/models/error-response.model';
-import { SnackbarText } from './enumUA/message-bar';
 
 export namespace ApiErrorTypes {
   export enum GroupTitle {
