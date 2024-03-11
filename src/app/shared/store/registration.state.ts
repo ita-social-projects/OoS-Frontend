@@ -1,14 +1,12 @@
-import { TokenPayload } from 'shared/models/token-payload.model';
 import { Location } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
 import { Observable } from 'rxjs';
-import { catchError, tap, switchMap } from 'rxjs/operators';
+import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
@@ -19,13 +17,13 @@ import { Parent } from 'shared/models/parent.model';
 import { Provider } from 'shared/models/provider.model';
 import { RegionAdmin } from 'shared/models/region-admin.model';
 import { TechAdmin } from 'shared/models/tech-admin.model';
+import { TokenPayload } from 'shared/models/token-payload.model';
 import { User } from 'shared/models/user.model';
 import { AreaAdminService } from 'shared/services/area-admin/area-admin.service';
 import { MinistryAdminService } from 'shared/services/ministry-admin/ministry-admin.service';
 import { ParentService } from 'shared/services/parent/parent.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { RegionAdminService } from 'shared/services/region-admin/region-admin.service';
-import { TechAdminService } from 'shared/services/tech-admin/tech-admin.service';
 import { UserService } from 'shared/services/user/user.service';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
@@ -76,17 +74,15 @@ export interface RegistrationStateModel {
 @Injectable()
 export class RegistrationState {
   constructor(
+    private router: Router,
+    private location: Location,
     private oidcSecurityService: OidcSecurityService,
-    private snackBar: MatSnackBar,
     private userService: UserService,
     private providerService: ProviderService,
     private parentService: ParentService,
-    private techAdminService: TechAdminService,
-    private regionAdminService: RegionAdminService,
-    private router: Router,
     private ministryAdminService: MinistryAdminService,
-    private areaAdmin: AreaAdminService,
-    private location: Location
+    private regionAdminService: RegionAdminService,
+    private areaAdmin: AreaAdminService
   ) {}
 
   @Selector()
@@ -135,7 +131,7 @@ export class RegistrationState {
   }
 
   @Action(Login)
-  Login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
+  login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
     const configIdOrNull = null;
     this.oidcSecurityService.authorize(configIdOrNull, {
       customParams: {
@@ -159,9 +155,9 @@ export class RegistrationState {
         if (auth.isAuthenticated) {
           return this.oidcSecurityService.getAccessToken().pipe(
             switchMap((value: string) => {
-              const token = jwt_decode(value) as TokenPayload;
-              const subrole = token.subrole;
+              const token: TokenPayload = jwt_decode(value);
               const role = token.role;
+              const subrole = token.subrole;
               patchState({ subrole, role });
               return dispatch(new GetUserPersonalInfo()).pipe(switchMap(() => dispatch(new CheckRegistration())));
             })
@@ -174,12 +170,9 @@ export class RegistrationState {
   }
 
   @Action(OnAuthFail)
-  onAuthFail(): void {
+  onAuthFail({ dispatch }: StateContext<RegistrationStateModel>): void {
     // eslint-disable-next-line @typescript-eslint/quotes
-    this.snackBar.open("Упс! Перевірте з'єднання", '', {
-      duration: 5000,
-      panelClass: ['red-snackbar']
-    });
+    dispatch(new ShowMessageBar({ message: "Упс! Перевірте з'єднання", type: 'error' }));
   }
 
   @Action(CheckRegistration)
@@ -195,10 +188,15 @@ export class RegistrationState {
   }
 
   @Action(GetProfile)
-  getProfile(
-    { patchState, getState }: StateContext<RegistrationStateModel>,
-    {}: GetProfile
-  ): Observable<Parent> | Observable<Provider> | Observable<MinistryAdmin> | Observable<RegionAdmin> | Observable<AreaAdmin> {
+  getProfile({
+    patchState,
+    getState
+  }: StateContext<RegistrationStateModel>):
+    | Observable<Parent>
+    | Observable<Provider>
+    | Observable<MinistryAdmin>
+    | Observable<RegionAdmin>
+    | Observable<AreaAdmin> {
     const state = getState();
     patchState({ role: state.user.role as Role });
 
@@ -207,21 +205,19 @@ export class RegistrationState {
         return this.parentService.getProfile().pipe(tap((parent: Parent) => patchState({ parent: parent })));
       case Role.provider:
         return this.providerService.getProfile().pipe(tap((provider: Provider) => patchState({ provider: provider })));
-      case Role.techAdmin:
-        return this.techAdminService.getProfile().pipe(tap((techAdmin: TechAdmin) => patchState({ techAdmin: techAdmin })));
-      case Role.regionAdmin:
-        return this.regionAdminService.getAdminProfile().pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
       case Role.ministryAdmin:
         return this.ministryAdminService
           .getAdminProfile()
           .pipe(tap((ministryAdmin: MinistryAdmin) => patchState({ ministryAdmin: ministryAdmin })));
+      case Role.regionAdmin:
+        return this.regionAdminService.getAdminProfile().pipe(tap((regionAdmin: RegionAdmin) => patchState({ regionAdmin: regionAdmin })));
       case Role.areaAdmin:
         return this.areaAdmin.getAdminProfile().pipe(tap((areaAdmin: AreaAdmin) => patchState({ areaAdmin: areaAdmin })));
     }
   }
 
   @Action(GetUserPersonalInfo)
-  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>, {}: GetUserPersonalInfo): Observable<User> {
+  getUserPersonalInfo({ patchState }: StateContext<RegistrationStateModel>): Observable<User> {
     patchState({ isLoading: true });
     return this.userService.getPersonalInfo().pipe(tap((user: User) => patchState({ user: user, isLoading: false })));
   }
@@ -235,12 +231,12 @@ export class RegistrationState {
   }
 
   @Action(OnUpdateUserFail)
-  onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>, {}: OnUpdateUserFail): void {
+  onUpdateUserFail({ dispatch }: StateContext<RegistrationStateModel>): void {
     dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
   }
 
   @Action(OnUpdateUserSuccess)
-  onUpdateUserSuccess({ dispatch }: StateContext<RegistrationStateModel>, {}: OnUpdateUserSuccess): void {
+  onUpdateUserSuccess({ dispatch }: StateContext<RegistrationStateModel>): void {
     dispatch([
       new MarkFormDirty(false),
       new GetUserPersonalInfo(),

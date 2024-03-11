@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 import { AdminRoles } from 'shared/enum/admins';
 import { RegionAdmin, RegionAdminParameters } from 'shared/models/region-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { BaseAdminService } from '../base-admin/base-admin';
+import { BaseAdminService } from '../base-admin/base-admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -73,7 +73,7 @@ export class RegionAdminService extends BaseAdminService {
    * This method reinvite Region Admin
    * @param adminId: string
    */
-  public reinviteAdmin(adminId: string): Observable<null> {
+  public reinviteAdmin(adminId: string): Observable<void> {
     return super.reinviteAdmin(adminId);
   }
 }
