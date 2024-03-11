@@ -16,9 +16,9 @@ export namespace ApiErrorTypes {
     UserDontHavePermissionToCreate = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.PROVIDER_ADMIN.USER_DONT_HAVE_PERMISSION_TO_CREATE'
   }
 
-  // TODO: Change group & code according to future backend contributions
-  export enum Provider {
-    WorkshopSeatsLack = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.PROVIDER.WORKSHOP_SEATS_LACK'
+  export enum Application {
+    AcceptRejectedWorkshopIsFull = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.APPLICATION.ACCEPT_REJECTED_WORKSHOP_IS_FULL',
+    AcceptRejectedAlreadyApproved = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.APPLICATION.ACCEPT_REJECTED_ALREADY_APPROVED'
   }
 
   export function toApiErrorMap(apiErrors: ApiError[]): Map<string, ApiError[]> {
