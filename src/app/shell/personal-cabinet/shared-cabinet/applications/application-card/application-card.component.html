@@ -69,22 +69,22 @@
     <ng-container *ngIf="isMobileView; then actionsBlock"></ng-container>
   </mat-card-content>
 
-  <ng-container *ngIf="userRole === role.provider && !application.isBlockedByProvider; else elseTemplate">
+  <ng-container *ngIf="userRole === role.provider && !application.isBlockedByProvider; else whenParentIsBlocked">
     <mat-card-content class="card-block card-block__buttons">
       <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
         <ng-container *ngIf="application.status === applicationStatuses.Pending">
-          <button class="btn" (click)="acceptForSelection.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+          <button class="btn" (click)="acceptForSelection.emit(application)" [class.hidden]="isApproveBtnHidden">
             <p>{{ 'BUTTONS.ACCEPT_TO_COMPETITIVE_SELECTION' | translate }}</p>
           </button>
         </ng-container>
         <ng-container *ngIf="application.status === applicationStatuses.AcceptedForSelection">
-          <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+          <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
             <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
           </button>
         </ng-container>
       </ng-container>
       <ng-template #approveButtonBlock>
-        <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+        <button class="btn" (click)="approve.emit(application)"  [class.hidden]="isApproveBtnHidden">
           <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
         </button>
         
@@ -98,7 +98,7 @@
     </mat-card-content>
   </ng-container>
 
-  <ng-template #elseTemplate>
+  <ng-template #whenParentIsBlocked>
     <mat-card-content class="card-block card-block__buttons"></mat-card-content>
   </ng-template>
   
