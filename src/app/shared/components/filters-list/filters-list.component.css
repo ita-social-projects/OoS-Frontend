@@ -1,0 +1,57 @@
+.filters-wrapper {
+  width: 302px;
+}
+
+.side-nav-filter {
+  width: 100%;
+}
+
+.search-bar {
+  background: #ffffff;
+  padding: 0 1rem;
+  border: 1px solid #ffffff;
+  box-sizing: border-box;
+  border-radius: 60px;
+}
+
+.list {
+  list-style-type: none;
+  margin-top: 4px;
+}
+
+.filter-text {
+  margin: 0;
+  margin-bottom: 16px;
+  font-family: Innerspace;
+  font-weight: 700;
+  line-height: 14.6px;
+  color: #444444;
+}
+
+.check-boxes {
+  margin-top: 30px;
+}
+.check-boxes__item:not(:last-child) {
+  margin-bottom: 0.8rem;
+}
+
+.resetFilter {
+  padding: 0;
+  margin-bottom: 3px;
+  font-family: Innerspace;
+  border: none;
+  box-shadow: none;
+  background-color: inherit;
+  color: #3849f9;
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 14.6px;
+}
+.resetFilter .material-icons {
+  font-size: 16px;
+  line-height: 14.6px;
+}
+.resetFilter .mat-icon {
+  height: 16px;
+  width: 16px;
+}/*# sourceMappingURL=filters-list.component.css.map */

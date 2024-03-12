@@ -1,15 +1,13 @@
-<mat-card [ngClass]="application.status === applicationStatuses.Pending ? 'card card-new' : 'card'">
-  <mat-card-content [ngClass]="userRole === role.parent ? 'card-block card-block__parent' : 'card-block'">
+<mat-card [ngClass]="application.status === ApplicationStatuses.Pending ? 'card card-new' : 'card'">
+  <mat-card-content [ngClass]="userRole === Role.parent ? 'card-block card-block__parent' : 'card-block'">
     <div class="card-block__info">
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="space-between" class="card-block__child-name">
-          <h4 class="title" showTooltipIfTruncated matTooltip="{{ childFullName }}" matTooltipClass="tooltip">{{ childFullName }}</h4>
-          <i
-            [ngClass]="
+          <h4 class="title" showTooltipIfTruncated matTooltip="{{ childFullName }}" matTooltipClass="tooltip">{{
+            childFullName }}</h4>
+          <i [ngClass]="
               childTrigger.menuOpen ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'
-            "
-            [matMenuTriggerFor]="childInfo"
-            #childTrigger="matMenuTrigger">
+            " [matMenuTriggerFor]="childInfo" #childTrigger="matMenuTrigger">
             info_outline
           </i>
           <mat-menu class="status-menu childInfo-menu" #childInfo="matMenu" [overlapTrigger]="false">
@@ -20,36 +18,30 @@
           {{ childAge ? (childAge | translateCases: YearDeclination) : ('LESS_THAN_ONE_YEAR' | translate) }}
         </p>
         <p class="text">
-          {{ application.creationTime | date: constants.FULL_DATE_FORMAT }}
+          {{ application.creationTime | date: Constants.FULL_DATE_FORMAT }}
         </p>
       </div>
       <div class="workshop-description">
-        <h4
-          [routerLink]="['/details/workshop', application?.workshopId]"
-          [matTooltip]="application?.workshop.title"
-          showTooltipIfTruncated
-          matTooltipClass="tooltip"
-          matTooltipPosition="below"
+        <h4 [routerLink]="['/details/workshop', application?.workshopId]" [matTooltip]="application?.workshop.title"
+          showTooltipIfTruncated matTooltipClass="tooltip" matTooltipPosition="below"
           [classList]="userIsAdmin ? 'text text-link' : 'title text-link'">
           {{ application?.workshop.title }}
         </h4>
-        <h5 *ngIf="userRole === role.provider">
+        <h5 *ngIf="userRole === Role.provider">
           {{ applicationDirections }}
         </h5>
-        <div
-          fxLayout="row"
-          fxLayoutAlign="center center"
-          *ngIf="userRole === role.provider && application?.workshop.availableSeats !== UNLIMITED_SEATS">
+        <div fxLayout="row" fxLayoutAlign="center center"
+          *ngIf="userRole === Role.provider && application?.workshop.availableSeats !== Constants.WORKSHOP_UNLIMITED_SEATS">
           <mat-icon class="text_icon">person</mat-icon>
           <p class="text">
             Доступних місць:&nbsp;
             <b>{{ application?.workshop.availableSeats - application?.workshop.takenSeats }}</b>
           </p>
         </div>
-        <div class="organization" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent || userIsAdmin">
+        <div class="organization" fxLayout="row" fxLayoutAlign="center center"
+          *ngIf="userRole === Role.parent || userIsAdmin">
           <mat-icon class="text_icon" *ngIf="!userIsAdmin">home</mat-icon>
-          <p
-            [classList]="userIsAdmin ? 'text title text-link' : 'text text-link'"
+          <p [classList]="userIsAdmin ? 'text title text-link' : 'text text-link'"
             [routerLink]="['/details/provider', application?.workshop.providerId]">
             {{ application?.workshop.providerTitle }}
           </p>
@@ -57,9 +49,10 @@
         <p *ngIf="userIsAdmin" class="text title">
           {{ application.workshop.address.codeficatorAddressDto.settlement }}
         </p>
-        <div class="workshop-age" *ngIf="userRole === role.parent">
+        <div class="workshop-age" *ngIf="userRole === Role.parent">
           <mat-icon class="text_icon">person</mat-icon>
-          <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} {{ 'YEARS' | translate }}</p>
+          <p class="text">{{ application?.workshop.minAge }} - {{ application?.workshop.maxAge }} {{ 'YEARS' | translate
+            }}</p>
         </div>
       </div>
       <div fxLayout="row" fxLayoutAlign="start center">
@@ -68,45 +61,35 @@
     </div>
     <ng-container *ngIf="isMobileView; then actionsBlock"></ng-container>
   </mat-card-content>
-
-  <ng-container *ngIf="userRole === role.provider && !application.isBlockedByProvider; else whenParentIsBlocked">
-    <mat-card-content class="card-block card-block__buttons">
-      <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
-        <ng-container *ngIf="application.status === applicationStatuses.Pending">
-          <button class="btn" (click)="acceptForSelection.emit(application)" [class.hidden]="isApproveBtnHidden">
-            <p>{{ 'BUTTONS.ACCEPT_TO_COMPETITIVE_SELECTION' | translate }}</p>
-          </button>
-        </ng-container>
-        <ng-container *ngIf="application.status === applicationStatuses.AcceptedForSelection">
-          <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
-            <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
-          </button>
-        </ng-container>
-      </ng-container>
-      <ng-template #approveButtonBlock>
-        <button class="btn" (click)="approve.emit(application)"  [class.hidden]="isApproveBtnHidden">
-          <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
+  <mat-card-content class="card-block card-block__buttons"
+    *ngIf="userRole === Role.provider && !application.isBlockedByProvider">
+    <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
+      <ng-container *ngIf="application.status === ApplicationStatuses.Pending">
+        <button class="btn" (click)="acceptForSelection.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+          <p>{{ 'BUTTONS.ACCEPT_TO_COMPETITIVE_SELECTION' | translate }}</p>
         </button>
-        
-      </ng-template>
-      <button
-        class="btn btn-gray"
-        (click)="reject.emit(application)"
-        [ngClass]="(application.status === applicationStatuses.Rejected || application.status === applicationStatuses.Left) && 'hidden'">
-        <p>{{ 'BUTTONS.REJECT' | translate }}</p>
+      </ng-container>
+      <ng-container *ngIf="application.status === ApplicationStatuses.AcceptedForSelection">
+        <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+          <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
+        </button>
+      </ng-container>
+    </ng-container>
+    <ng-template #approveButtonBlock>
+      <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+        <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
       </button>
-    </mat-card-content>
-  </ng-container>
+    </ng-template>
+    <button class="btn btn-gray" (click)="reject.emit(application)"
+      [ngClass]="(application.status === ApplicationStatuses.Rejected || application.status === ApplicationStatuses.Left) && 'hidden'">
+      <p>{{ 'BUTTONS.REJECT' | translate }}</p>
+    </button>
+  </mat-card-content>
 
-  <ng-template #whenParentIsBlocked>
-    <mat-card-content class="card-block card-block__buttons"></mat-card-content>
-  </ng-template>
-  
-  <mat-card-content class="card-block card-block__buttons" fxLayout="row" fxLayoutAlign="center center" *ngIf="userRole === role.parent">
-    <div
-      fxLayout="column"
-      fxLayoutAlign="start start"
-      [ngClass]="(application.status === applicationStatuses.Left || application.status === applicationStatuses.Rejected) && 'hidden'">
+  <mat-card-content class="card-block card-block__buttons" fxLayout="row" fxLayoutAlign="center center"
+    *ngIf="userRole === Role.parent">
+    <div fxLayout="column" fxLayoutAlign="start start"
+      [ngClass]="(application.status === ApplicationStatuses.Left || application.status === ApplicationStatuses.Rejected) && 'hidden'">
       <button class="btn btn-gray" (click)="leave.emit(application)">
         <p>{{ 'BUTTONS.LEAVE_WORKSHOP' | translate }}</p>
       </button>
@@ -118,13 +101,12 @@
 
 <ng-template #actionsBlock>
   <mat-card-content class="card-block card-block__actions">
-    <mat-icon *ngIf="userRole === role.provider" class="material-icons material-icons__actions" [matMenuTriggerFor]="actions">
+    <mat-icon *ngIf="userRole === Role.provider" class="material-icons material-icons__actions"
+      [matMenuTriggerFor]="actions">
       more_vert
     </mat-icon>
-    <mat-icon
-      *ngIf="userRole === role.provider || userRole === role.parent"
-      class="material-icons material-icons__actions"
-      [matMenuTriggerFor]="email">
+    <mat-icon *ngIf="userRole === Role.provider || userRole === Role.parent"
+      class="material-icons material-icons__actions" [matMenuTriggerFor]="email">
       email
     </mat-icon>
     <mat-menu #actions="matMenu" class="header_menu">

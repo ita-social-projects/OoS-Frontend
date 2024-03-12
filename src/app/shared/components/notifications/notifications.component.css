@@ -1,0 +1,30 @@
+.mat-icon-button {
+  margin-right: 10px;
+}
+
+:host::ng-deep .mat-icon {
+  position: relative;
+  overflow: visible;
+  height: auto;
+  width: auto;
+  font-size: 30px;
+  top: -1px;
+}
+:host::ng-deep .mat-icon .mat-badge-content {
+  background-color: #f5bc4a;
+}
+
+.icon-mobile {
+  top: 10px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+@media (max-width: 847px) {
+  .mat-badge-content {
+    left: 15px;
+    top: 10px;
+  }
+}/*# sourceMappingURL=notifications.component.css.map */

@@ -1,0 +1,22 @@
+.Approved,
+.StudyingForYears {
+  color: #199953;
+}
+
+.Pending {
+  color: #ffbd00;
+}
+
+.AcceptedForSelection {
+  color: #27a3ff;
+}
+
+.Rejected,
+.Blocked {
+  color: #c72a21;
+}
+
+.Completed,
+.Left {
+  color: #888888;
+}/*# sourceMappingURL=application-statuses.css.map */

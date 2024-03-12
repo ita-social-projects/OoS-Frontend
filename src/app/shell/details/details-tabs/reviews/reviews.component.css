@@ -1,0 +1,58 @@
+.wrapper {
+  margin: 1rem;
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  line-height: 25px;
+}
+
+.button {
+  width: 254px;
+  height: 40px;
+  box-sizing: border-box;
+  border-radius: 20px;
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  color: #272425;
+}
+.button-icon {
+  margin: 5px;
+}
+
+.star-icon {
+  color: #ffbd00;
+}
+
+.star-icon-gray {
+  color: #aaaaaa;
+}
+
+.rate-amount {
+  color: #aaaaaa;
+  margin-left: 10px;
+}
+
+.rate {
+  border-bottom: 1px solid #e3e3e3;
+  margin: 0;
+  padding-bottom: 1rem;
+}
+.rate-author {
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  color: #000000;
+}
+.rate-date {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333333;
+}/*# sourceMappingURL=reviews.component.css.map */

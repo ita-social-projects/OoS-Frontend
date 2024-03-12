@@ -3,7 +3,7 @@ import { Select } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, map, takeUntil } from 'rxjs/operators';
 
-import { Constants, ModeConstants } from 'shared/constants/constants';
+import { Constants } from 'shared/constants/constants';
 import { ApplicationShowParams } from 'shared/enum/applications';
 import { YearDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { Role } from 'shared/enum/role';
@@ -20,33 +20,12 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./application-card.component.scss']
 })
 export class ApplicationCardComponent implements OnInit, OnDestroy {
-  readonly applicationStatuses = ApplicationStatuses;
-  readonly constants: typeof Constants = Constants;
-  readonly role = Role;
-  readonly YearDeclination = YearDeclination;
-  readonly ModeConstants = ModeConstants;
-  readonly UNLIMITED_SEATS = Constants.WORKSHOP_UNLIMITED_SEATS;
-
   @Select(MetaDataState.directions)
-  directions$: Observable<Direction[]>;
+  public directions$: Observable<Direction[]>;
 
-  blockedParent: BlockedParent;
-  childFullName: string;
-  userIsAdmin: boolean;
-  applicationParams: {
-    status: string;
-    show: ApplicationShowParams;
-  } = {
-    status: undefined,
-    show: ApplicationShowParams.Unblocked
-  };
-  applicationDirections: string;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
-  @Input() isMobileView: boolean;
-  @Input() application: Application;
-  @Input() userRole: string;
+  @Input() public isMobileView: boolean;
+  @Input() public application: Application;
+  @Input() public userRole: string;
 
   @Output() public leave = new EventEmitter();
   @Output() public approve = new EventEmitter();
@@ -56,19 +35,36 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
   @Output() public unblock = new EventEmitter();
   @Output() public sendMessage = new EventEmitter();
 
-  get isApproveBtnHidden(): boolean {
-    return (
-      this.application.status === ApplicationStatuses.Approved ||
-      this.application.status === ApplicationStatuses.Completed ||
-      this.application.status === ApplicationStatuses.StudyingForYears
+  public readonly ApplicationStatuses = ApplicationStatuses;
+  public readonly Constants = Constants;
+  public readonly Role = Role;
+  public readonly YearDeclination = YearDeclination;
+
+  public blockedParent: BlockedParent;
+  public childFullName: string;
+  public userIsAdmin: boolean;
+  public applicationParams: {
+    status: string;
+    show: ApplicationShowParams;
+  } = {
+    status: undefined,
+    show: ApplicationShowParams.Unblocked
+  };
+  public applicationDirections: string;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public get isApproveBtnHidden(): boolean {
+    return [ApplicationStatuses.Approved, ApplicationStatuses.Completed, ApplicationStatuses.StudyingForYears].includes(
+      this.application.status
     );
   }
 
-  get childAge(): number {
+  public get childAge(): number {
     return Util.getChildAge(this.application.child);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.childFullName = Util.getFullName(this.application.child);
     this.directions$
       .pipe(
@@ -85,7 +81,7 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
     this.setUserIsAdmin();
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

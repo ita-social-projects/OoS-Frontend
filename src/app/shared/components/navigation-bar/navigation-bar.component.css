@@ -1,0 +1,42 @@
+.navigation {
+  padding: 10px 0;
+}
+.navigation .mat-icon {
+  font-size: 13px;
+  width: 14px;
+  height: 14px;
+  margin: 0 5px;
+}
+.navigation-link {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0;
+}
+.navigation-link li {
+  list-style: none;
+}
+.navigation .is_active {
+  color: #888888;
+  pointer-events: none;
+}
+.navigation .hide {
+  display: none;
+}
+.navigation .pathLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.navigation .pathLink .mat-icon {
+  transform: translateY(10%);
+}
+.navigation a {
+  font-size: 13px;
+  font-weight: bold;
+}
+@media (max-width: 750px) {
+  .navigation {
+    display: none;
+  }
+}/*# sourceMappingURL=navigation-bar.component.css.map */

@@ -1,0 +1,43 @@
+::ng-deep .dropdown-option .mat-option-text {
+  font-family: "Open Sans", sans-serif;
+  font-style: normal;
+  font-weight: normal;
+  color: #000000;
+  background-color: transparent;
+  padding-left: 10px;
+}
+
+.mat-option.mat-option-disabled {
+  background-color: #f8f8f8 !important;
+  color: rgba(0, 0, 0, 0.11);
+  opacity: 0.5;
+  cursor: default;
+}
+
+::ng-deep .dropdown-panel {
+  box-shadow: 0 7px 19px rgba(0, 0, 0, 0.11) !important;
+  border-radius: 10px;
+  position: relative;
+  height: -moz-fit-content;
+  height: fit-content;
+  max-height: 250px;
+}
+::ng-deep .dropdown-panel .mat-selected {
+  background-color: white !important;
+}
+::ng-deep .dropdown-panel .mat-selected:hover {
+  background-color: #f8f8f8 !important;
+}
+::ng-deep .dropdown-panel .mat-option.mat-active {
+  background-color: white;
+}
+::ng-deep .dropdown-panel .mat-option:hover {
+  background-color: #f8f8f8 !important;
+}
+::ng-deep .dropdown-panel .mat-option:hover .mat-option-text {
+  background-color: #f8f8f8 !important;
+}
+
+::ng-deep .custom-overlay-panel {
+  transform: translate(-16px, 2.5rem) !important;
+}/*# sourceMappingURL=dropdown.css.map */
