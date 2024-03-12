@@ -1,0 +1,30 @@
+.user-radius {
+  margin-top: 30px;
+}
+.user-radius .slider-row {
+  display: flex;
+}
+.user-radius ::ng-deep .slider {
+  flex: 1 1 auto;
+  margin-top: -27px;
+}
+.user-radius ::ng-deep .slider .ngx-slider .ngx-slider-pointer-min {
+  display: none;
+}
+.user-radius ::ng-deep .slider .ngx-slider .ngx-slider-pointer-max {
+  outline: none;
+}
+.user-radius .current-radius {
+  text-align: center;
+  margin-left: 20px;
+  border: 1px solid #e3e3e3;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 21px;
+  padding: 0.5rem;
+  max-height: 34px;
+  width: 54px;
+}
+.user-radius .mat-input-element:disabled {
+  color: #444444;
+}/*# sourceMappingURL=user-radius-set.component.css.map */

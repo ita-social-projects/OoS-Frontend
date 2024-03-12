@@ -1,0 +1,115 @@
+.filter-text {
+  margin: 0;
+  margin-right: 1rem;
+}
+
+.title {
+  margin-top: 24px;
+}
+
+.wrapper {
+  margin-top: 13px;
+}
+
+.checkboxes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+::ng-deep .filter-text {
+  font-family: Innerspace;
+  font-weight: 700;
+  line-height: 14.6px;
+  color: #444444;
+}
+::ng-deep .filter-slider .ngx-slider {
+  margin-top: 1rem;
+}
+::ng-deep .filter-slider .ngx-slider .ngx-slider-bar-wrapper {
+  margin: 0;
+  height: 0;
+}
+::ng-deep .filter-slider .ngx-slider .ngx-slider-bar {
+  bottom: 1px;
+  background: gray;
+  height: 2px;
+}
+::ng-deep .filter-slider .ngx-slider .ngx-slider-selection {
+  background: #3849f9;
+}
+::ng-deep .filter-slider .ngx-slider .ngx-slider-pointer {
+  width: 15px;
+  height: 15px;
+  margin-top: 20px;
+  background-color: white;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+}
+::ng-deep .filter-slider .ngx-slider .ngx-slider-pointer:after,
+::ng-deep .filter-slider .ngx-slider .ngx-slider-bubble {
+  display: none;
+}
+
+.price-input {
+  border: 1px solid #e3e3e3;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 21px;
+  padding: 0.5rem;
+  max-height: 34px;
+  text-align: center;
+}
+
+.price-input::-webkit-outer-spin-button,
+.price-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+.input-wrapper {
+  margin-top: 13px;
+  margin-bottom: 0 !important;
+}
+.input-wrapper-disable {
+  opacity: 0.5;
+  cursor: initial;
+}
+.input-wrapper-disable .price-input {
+  color: #ffffff;
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 0;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
+
+.price-input:hover + .clear-price {
+  visibility: visible;
+}
+
+.clear-price {
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  font-size: 18px;
+  color: #adadad;
+  top: 12px;
+  left: 114px;
+}
+
+.clear-price:hover {
+  visibility: visible;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 0;
+  margin: 0;
+}/*# sourceMappingURL=price-filter.component.css.map */

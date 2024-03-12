@@ -1,0 +1,76 @@
+.btn {
+  color: white;
+  background-color: #3849f9;
+  border: 1px solid #3849f9;
+  box-sizing: border-box;
+  border-radius: 20px;
+  padding: 2px 30px;
+  margin: 0 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  text-transform: capitalize;
+}
+.btn-reset, .btn-add {
+  color: #3849f9;
+  padding: 2px 30px;
+  border-radius: 20px;
+}
+.btn .btn-add {
+  color: #3849f9;
+}
+.btn .btn-add .mat-icon-add {
+  vertical-align: middle;
+  height: 26px;
+  color: #3849f9;
+}
+.btn-cancel {
+  color: #444444 !important;
+  background-color: transparent !important;
+  border-color: #444444 !important;
+}
+.btn-transparent {
+  padding: 0.75rem 1rem;
+  color: black;
+  font-weight: 700;
+  gap: 0.5rem;
+  background-color: transparent;
+  border-color: #aaaaaa;
+}
+.btn-transparent .download-icon {
+  font-size: 1rem;
+  height: 1rem;
+  width: 1rem;
+}
+.btn:hover {
+  cursor: pointer;
+  opacity: 0.5;
+}
+
+.button {
+  box-sizing: border-box;
+  border-radius: 20px;
+}
+.button-application {
+  background: #3849f9;
+  border: 1px solid #3849f9;
+  color: #ffffff;
+}
+.button:hover {
+  cursor: pointer;
+  opacity: 0.7;
+}
+
+button:disabled,
+button[disabled] {
+  border: 1px solid #dddcdc;
+  background-color: #dddcdc;
+  color: #666666;
+}
+
+.status-info-icon {
+  cursor: pointer;
+  margin: auto 0.5rem;
+  font-size: 16px;
+}/*# sourceMappingURL=buttons.css.map */

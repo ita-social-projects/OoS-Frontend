@@ -1,0 +1,104 @@
+.container {
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  padding: 24px;
+  width: 300px;
+  min-height: 206px;
+  margin: 0 0 2rem 0;
+}
+.container-mobile {
+  min-height: -moz-min-content;
+  min-height: min-content;
+  padding: 1rem;
+}
+.container .card-title {
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 18px;
+  line-height: 20px;
+  color: #444444;
+}
+.container .contact-info {
+  font-family: Open Sans;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.container .contact-info .card_icon {
+  position: relative;
+  color: #aaaaaa;
+  font-size: 16px;
+}
+.container .contact-info a {
+  color: #3849f9;
+}
+.container .contact-info span {
+  white-space: pre;
+}
+
+.button {
+  width: 254px;
+  height: 40px;
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  line-height: 15px;
+}
+.button-msg {
+  color: #272425;
+}
+.button-msg-icon {
+  margin: 5px;
+}
+
+.map {
+  margin-left: 24px;
+  color: #3849f9;
+  font-size: 11px;
+  font-weight: 700;
+  line-height: 12.35px;
+  font-family: Innerspace, serif;
+}
+.map:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.link {
+  margin: 0.5rem;
+}
+.link:hover {
+  opacity: 0.6;
+}
+
+.disable {
+  margin: 0.5rem;
+  pointer-events: none;
+  opacity: 0.6;
+}
+
+.social {
+  margin-top: 12px;
+  margin-left: 22px;
+}
+
+@media (min-width: 1280px) {
+  .container {
+    margin: 0;
+  }
+}
+@media (max-width: 750px) {
+  .container {
+    width: 100%;
+  }
+}/*# sourceMappingURL=side-menu-cards.css.map */

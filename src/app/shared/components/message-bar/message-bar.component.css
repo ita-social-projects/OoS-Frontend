@@ -1,0 +1,79 @@
+.popup-body {
+  min-height: 30px;
+}
+
+::ng-deep .mat-snack-bar-container {
+  padding: 0.5rem 1rem;
+  border-radius: 2rem;
+  color: #444444;
+  min-width: 550px;
+  font-family: Innerspace;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 19px;
+}
+
+:host ::ng-deep .mat-icon {
+  height: 1.2rem;
+  width: 1.2rem;
+}
+
+.icon {
+  margin-right: 0.5rem;
+  border-radius: 2rem;
+  border: solid 1px #444444;
+  font-size: 13px;
+}
+
+.action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #444444;
+  cursor: pointer;
+}
+.action:hover {
+  opacity: 0.5;
+}
+
+::ng-deep .success {
+  background: #c4ebc5;
+}
+::ng-deep .success .icon {
+  border: solid 1px #199953;
+  color: #199953;
+}
+
+::ng-deep .error {
+  background: #f8e4dd;
+}
+::ng-deep .error .icon {
+  border: solid 1px #ff5252;
+  color: #ff5252;
+}
+
+::ng-deep .warningBlue {
+  background: #e1f1f9;
+}
+
+::ng-deep .warningYellow {
+  background: #ffbd00 30%;
+}
+
+.info {
+  font-family: "Open Sans";
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: left;
+  margin: 0;
+}
+
+.drop-below {
+  position: relative;
+  top: 1px;
+  left: 0;
+}/*# sourceMappingURL=message-bar.component.css.map */

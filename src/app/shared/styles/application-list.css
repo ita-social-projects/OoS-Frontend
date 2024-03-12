@@ -1,0 +1,43 @@
+.dropdown {
+  display: flex;
+  justify-content: flex-end;
+  z-index: 1000;
+  position: absolute;
+  right: 0px;
+}
+
+.wrapper {
+  position: relative;
+}
+
+.activeInfoBtn {
+  color: #3849f9;
+  font-size: 30px;
+}
+
+.inactiveInfoBtn {
+  font-size: 30px;
+}
+
+.status-info-icon {
+  cursor: pointer;
+  margin: auto 1rem;
+  z-index: 100;
+}
+
+.child-name {
+  color: #444444;
+  font-family: "Innerspace";
+  font-weight: 700;
+  font-size: 18px;
+}
+
+@media (max-width: 1200px) {
+  .dropdown {
+    position: static;
+    margin-bottom: 1rem;
+    justify-content: space-between;
+    display: flex;
+    justify-content: flex-start;
+  }
+}/*# sourceMappingURL=application-list.css.map */

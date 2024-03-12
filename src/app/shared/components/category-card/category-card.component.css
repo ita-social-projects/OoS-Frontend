@@ -1,0 +1,80 @@
+.category {
+  width: 193px;
+  height: 184px;
+  padding: 24px 0;
+  gap: 1rem;
+  box-sizing: border-box;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px;
+}
+.category .icon {
+  height: 68px;
+}
+.category .title {
+  text-align: center;
+  margin-bottom: 9px;
+}
+.category .link {
+  display: flex;
+  font-weight: bold;
+  color: #3849f9;
+  align-items: center;
+  justify-content: center;
+}
+.category .link .arrow {
+  margin-left: 0.5rem;
+  font-size: 15px;
+  line-height: 24px;
+}
+
+.config_edit-icon {
+  position: absolute;
+  top: 12px;
+  right: 35px;
+  z-index: 2;
+  color: #3849f9;
+}
+.config_edit-icon .mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+.config_edit-icon .mat-button {
+  padding: 0px;
+  min-width: auto;
+  line-height: 16px;
+}
+
+.del-icon {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  color: #3849f9;
+}
+.del-icon .mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+.del-icon .mat-button {
+  padding: 0px;
+  min-width: auto;
+  line-height: 16px;
+}
+
+.config-support p {
+  margin: 0;
+}
+
+.hoverOnCard:hover {
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.241);
+  cursor: pointer;
+}
+
+.link:hover {
+  opacity: 0.5;
+  color: #3849f9;
+  cursor: pointer;
+}/*# sourceMappingURL=category-card.component.css.map */

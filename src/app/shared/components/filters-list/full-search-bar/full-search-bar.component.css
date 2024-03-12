@@ -1,0 +1,40 @@
+.search {
+  background: white;
+  margin: 1rem 0;
+  width: 100%;
+  border-radius: 60px;
+  max-width: calc(100vw - 1.25rem);
+}
+.search .search-city {
+  width: 280px;
+  vertical-align: bottom;
+}
+@media (max-width: 375px) {
+  .search .search-city {
+    width: auto;
+  }
+}
+.search .search-bar-wrap {
+  width: 80%;
+  border-left: 1px solid #e3e3e3;
+}
+.search .search-bar-wrap .search-bar {
+  width: 100%;
+}
+
+.max-height {
+  max-height: 40px;
+}
+
+.icon {
+  margin: 0 0.5rem 0 1rem;
+  color: #aaaaaa;
+}
+
+.search ::ng-deep .mat-icon {
+  overflow: visible;
+}
+
+.min-height {
+  height: 40px;
+}/*# sourceMappingURL=full-search-bar.component.css.map */

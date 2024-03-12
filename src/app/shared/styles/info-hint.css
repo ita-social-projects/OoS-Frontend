@@ -1,0 +1,30 @@
+::ng-deep .hint-menu {
+  width: 600px;
+  max-width: -moz-max-content;
+  max-width: max-content;
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  border-radius: 5px !important;
+  padding: 1rem;
+}
+::ng-deep .hint-menu .hint-menu.isMobile {
+  width: 90vw;
+}
+::ng-deep .hint-menu .mat-menu-content {
+  color: grey;
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+}
+::ng-deep .hint-menu .mat-form-field .mat-form-field-wrapper {
+  padding: 0;
+}
+
+.activeInfoBtn {
+  color: #3849f9;
+}
+
+.inactiveInfoBtn {
+  color: #aaaaaa;
+}/*# sourceMappingURL=info-hint.css.map */

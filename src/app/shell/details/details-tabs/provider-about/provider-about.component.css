@@ -1,0 +1,24 @@
+.wrapper {
+  margin: 2rem 1rem 0;
+}
+
+.title {
+  font-family: "Innerspace";
+  line-height: 14, 6px;
+  font-size: 14px;
+  font-weight: 700;
+  color: black;
+}
+
+.section-title {
+  font-weight: 400;
+  margin: 1rem 0;
+}
+
+.txt {
+  font-family: "Open Sans";
+  font-size: 13px;
+  line-height: 17, 7px;
+  font-weight: 400;
+  color: #444444;
+}/*# sourceMappingURL=provider-about.component.css.map */

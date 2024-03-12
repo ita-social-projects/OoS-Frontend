@@ -1,0 +1,71 @@
+.wrapper {
+  margin-top: 16px;
+}
+
+.filter-text {
+  margin: 0 1rem 0 0;
+  font-family: Innerspace;
+  font-weight: 700;
+  line-height: 14.6px;
+  color: #444444;
+}
+
+.title {
+  margin-top: 24px;
+  margin-bottom: 0;
+}
+
+.age-input {
+  border: 1px solid #e3e3e3;
+  background-color: #ffffff;
+  box-sizing: border-box;
+  border-radius: 21px;
+  padding: 0.5rem;
+  max-height: 34px;
+  text-align: center;
+}
+
+.age-input::-webkit-outer-spin-button,
+.age-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: 0 !important;
+}
+
+:host ::ng-deep .mat-form-field-underline {
+  display: none;
+}
+
+:host ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 0;
+  margin: 0;
+}
+
+:host ::ng-deep .mat-form-field {
+  max-width: 150px !important;
+}
+
+.age-input:hover + .clear-age {
+  visibility: visible;
+}
+
+.clear-age {
+  cursor: pointer;
+  visibility: hidden;
+  position: absolute;
+  font-size: 18px;
+  color: #adadad;
+  top: 8px;
+  left: 114px;
+}
+
+.clear-age:hover {
+  visibility: visible;
+}
+
+.check-boxes {
+  margin-top: 20px;
+}/*# sourceMappingURL=age-filter.component.css.map */

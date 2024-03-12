@@ -1,0 +1,101 @@
+.container {
+  background: #ffffff;
+  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  padding: 0;
+  margin-bottom: 2rem;
+}
+.container .icon-text {
+  font-style: normal;
+  font-weight: normal;
+  font-size: 13px;
+  line-height: 18px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  margin-right: 1rem;
+}
+.container .icon-text .icon {
+  position: relative;
+  color: #aaaaaa;
+  font-size: 20px;
+}
+.container .details-wrapper {
+  margin: 0 2rem 2rem 2rem;
+}
+@media only screen and (max-width: 481px) {
+  .container .details-wrapper {
+    margin: 0;
+  }
+}
+.container .details-icon {
+  width: 3rem;
+  padding: 1rem;
+}
+.container .details-link {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  color: #333333;
+}
+.container .details-link:hover {
+  color: #3849f9;
+}
+
+:host ::ng-deep .mat-tab-label-content,
+.nav,
+.icon-text {
+  font-family: Innerspace;
+  font-style: normal;
+}
+
+:host ::ng-deep .mat-tab-label-content {
+  font-weight: bold;
+  font-size: 13px;
+  line-height: 15px;
+  margin-bottom: 0;
+}
+
+:host ::ng-deep .mat-tab-label-active {
+  color: #3849f9;
+  opacity: 1;
+}
+
+:host ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: #3849f9;
+  height: 2px;
+}
+
+:host ::ng-deep .mat-tab-link {
+  min-width: 0px !important;
+  padding: inherit !important;
+  margin: 10px;
+}
+
+@media (max-width: 600px) {
+  .title {
+    font-size: 20px;
+  }
+}
+.icon-text {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.813rem;
+  line-height: 1.125rem;
+  color: #333333;
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  color: #aaaaaa;
+  margin-right: 0.2rem;
+}
+
+.rating-number {
+  color: #bbbbbb;
+}/*# sourceMappingURL=details.css.map */
