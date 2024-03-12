@@ -53,7 +53,6 @@ export class MessagesComponent extends CabinetDataComponent {
     searchText: null,
     size: PaginationConstants.CHATROOMS_PER_PAGE
   };
-
   constructor(
     protected store: Store,
     protected matDialog: MatDialog
@@ -88,6 +87,10 @@ export class MessagesComponent extends CabinetDataComponent {
         disable: true
       })
     );
+  }
+
+  filterChatRoomsWithoutMessage(chatRooms: any[]): any[] {
+    return chatRooms.filter((elem) => elem.lastMessage !== null);
   }
 
   getProviderWorkshops(): void {
