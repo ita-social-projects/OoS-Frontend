@@ -764,7 +764,7 @@
         },
         "APPLICATION": {
           "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "недостатньо місць у гуртку для зарахування заявки",
-          "ACCEPT_REJECTED_ALREADY_APPROVED": "зарахування вже зарахованої заявки"
+          "ACCEPT_REJECTED_ALREADY_APPROVED": "прийняття вже прийнятої заявки"
         }
       }
     },
