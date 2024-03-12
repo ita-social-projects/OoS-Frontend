@@ -31,19 +31,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  public readonly applicationTabTitles = ApplicationTitles;
-  public readonly statusTitles = ApplicationStatusTabParams;
-  public readonly statuses = ApplicationStatuses;
-  public readonly noApplicationTitle = NoResultsTitle.noApplication;
-  public readonly Role = Role;
-
-  @Select(SharedUserState.applications)
-  private applicationCards$: Observable<SearchResponse<Application[]>>;
-  @Select(SharedUserState.isLoading)
-  public isLoadingCabinet$: Observable<boolean>;
-
-  @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
-
   @Input() public applicationParams: ApplicationFilterParameters;
   @Input() public dropdownEntities: Child[] | Workshop[];
   @Input() public declination: ChildDeclination | WorkshopDeclination;
@@ -59,7 +46,17 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() public unblock = new EventEmitter();
   @Output() public sendMessage = new EventEmitter();
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(SharedUserState.isLoading)
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(SharedUserState.applications)
+  private applicationCards$: Observable<SearchResponse<Application[]>>;
+
+  @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
+
+  public readonly ApplicationTitles = ApplicationTitles;
+  public readonly ApplicationStatuses = ApplicationStatuses;
+  public readonly NoApplicationTitle = NoResultsTitle.noApplication;
+  public readonly Role = Role;
 
   public applicationCards: SearchResponse<Application[]>;
   public isActiveInfoButton = false;
@@ -67,10 +64,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public isMobileView: boolean;
   public searchFormControl: FormControl = new FormControl('');
 
-  @HostListener('window: resize', ['$event.target'])
-  public onResize(event: Window): void {
-    this.isMobileView = event.outerWidth < 530;
-  }
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     protected store: Store,
@@ -79,6 +73,11 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
     protected actions$: Actions
   ) {
     this.onResize(window);
+  }
+
+  @HostListener('window: resize', ['$event.target'])
+  public onResize(event: Window): void {
+    this.isMobileView = event.outerWidth < 530;
   }
 
   public onEntitiesSelect(IDs: string[]): void {

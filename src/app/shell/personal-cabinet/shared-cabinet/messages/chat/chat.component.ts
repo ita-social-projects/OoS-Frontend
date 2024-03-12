@@ -22,7 +22,8 @@ import {
   GetChatRoomByApplicationId,
   GetChatRoomById,
   GetChatRoomForParentByWorkshopId,
-  GetChatRoomMessagesById
+  GetChatRoomMessagesById,
+  GetUnreadMessagesCount
 } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
@@ -36,13 +37,13 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./chat.component.scss']
 })
 export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('chat')
-  private chatEl: ElementRef;
-
   @Select(ChatState.selectedChatRoom)
   public chatRoom$: Observable<ChatRoom>;
   @Select(ChatState.selectedChatRoomMessages)
   private messages$: Observable<IncomingMessage[]>;
+
+  @ViewChild('chat')
+  private chatEl: ElementRef;
 
   public readonly validationConstants = ValidationConstants;
   public readonly userStatusesTitles = UserStatusesTitles;
@@ -133,7 +134,10 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
         map((messages: IncomingMessage[]) => messages.reverse()),
         takeUntil(this.destroy$)
       )
-      .subscribe((messages: IncomingMessage[]) => this.addMessages(messages));
+      .subscribe((messages: IncomingMessage[]) => {
+        this.store.dispatch(new GetUnreadMessagesCount());
+        this.addMessages(messages);
+      });
   }
 
   private addMessages(messages: IncomingMessage[]): void {

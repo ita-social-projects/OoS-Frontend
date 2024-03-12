@@ -37,6 +37,16 @@
   "DO_YOU_PROVIDE_EDUCATIONAL_SERVICES": "Do you provide educational services?",
   "ENTER_THE_NAME_OF_THE_GROUP_SCHOOL": "Enter the name of the workshop, school",
   "ENUM": {
+    "CHAT_CHANGES": {
+      "CHANGE_IN_MESSAGES": "change in messages",
+      "CHANGES_IN_MESSAGES": "changes in messages",
+      "CHANGE_IN_MESSAGES_ABLATIVE": "changes in messages"
+    },
+    "CHAT_UNREAD": {
+      "UNREAD_MESSAGE": "unread message",
+      "UNREAD_MESSAGES": "unread messages",
+      "UNREAD_MESSAGE_ABLATIVE": "unread messages"
+    },
     "APPLICATION": {
       "APPLICATION": "application",
       "APPLICATIONS": "applications",
@@ -749,6 +759,10 @@
         },
         "PROVIDER_ADMIN": {
           "USER_DONT_HAVE_PERMISSION_TO_CREATE": "not enough permission to create provider admin"
+        },
+        "APPLICATION": {
+          "ACCEPT_REJECTED_WORKSHOP_IS_FULL": "not enough seats in workshop to approve application",
+          "ACCEPT_REJECTED_ALREADY_APPROVED": "approving of already approved application"
         }
       }
     },

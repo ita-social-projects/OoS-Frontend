@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChildren } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+
+import { Constants } from 'shared/constants/constants';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
+import { Role } from 'shared/enum/role';
 import { UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
-import { Constants } from '../../../../../shared/constants/constants';
-import { Role } from '../../../../../shared/enum/role';
-import { ChatRoom } from '../../../../../shared/models/chat.model';
+import { ChatRoom } from 'shared/models/chat.model';
 
 @Component({
   selector: 'app-message-card',
