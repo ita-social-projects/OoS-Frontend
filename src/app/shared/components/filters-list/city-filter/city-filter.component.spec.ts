@@ -1,8 +1,8 @@
 import { MatIconModule } from '@angular/material/icon';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatOptionModule } from '@angular/material/core';
+import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatOption, MatOptionModule } from '@angular/material/core';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -11,6 +11,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { GetCodeficatorSearch } from 'shared/store/meta-data.actions';
+import { FilterChange, SetCoordsByMap } from 'shared/store/filter.actions';
+import { Codeficator } from 'shared/models/codeficator.model';
 import { CityFilterComponent } from './city-filter.component';
 
 describe('CityFilterComponent', () => {
@@ -18,6 +20,8 @@ describe('CityFilterComponent', () => {
   let fixture: ComponentFixture<CityFilterComponent>;
   let geolocationService: GeolocationService;
   let store: Store;
+  let confirmCitySpy: jest.SpyInstance;
+  let storeDispatchSpy: jest.SpyInstance;
   const mockGetCurrentPosition = jest.fn().mockImplementation((success) => {
     success({
       coords: {
@@ -48,6 +52,8 @@ describe('CityFilterComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CityFilterComponent);
     component = fixture.componentInstance;
+    geolocationService = TestBed.inject(GeolocationService);
+    store = TestBed.inject(Store);
     Object.defineProperty(global.navigator, 'geolocation', {
       value: {
         getCurrentPosition: mockGetCurrentPosition
@@ -55,8 +61,8 @@ describe('CityFilterComponent', () => {
     });
     component.settlementSearchControl = new FormControl('');
     component.settlement = {} as any;
-    geolocationService = TestBed.inject(GeolocationService);
-    store = TestBed.inject(Store);
+    confirmCitySpy = jest.spyOn(geolocationService, 'confirmCity');
+    storeDispatchSpy = jest.spyOn(store, 'dispatch');
     fixture.detectChanges();
   });
 
@@ -66,15 +72,11 @@ describe('CityFilterComponent', () => {
 
   describe('ngOnInit method', () => {
     let cityInStorageSpy: jest.SpyInstance;
-    let confirmCitySpy: jest.SpyInstance;
     let localStorageGetItemSpy: jest.SpyInstance;
-    let storeDispatchSpy: jest.SpyInstance;
 
     beforeEach(() => {
       cityInStorageSpy = jest.spyOn(geolocationService, 'isCityInStorage');
-      confirmCitySpy = jest.spyOn(geolocationService, 'confirmCity');
       localStorageGetItemSpy = jest.spyOn(Storage.prototype, 'getItem');
-      storeDispatchSpy = jest.spyOn(store, 'dispatch');
     });
 
     describe('settlementListener method', () => {
@@ -136,6 +138,35 @@ describe('CityFilterComponent', () => {
     });
   });
 
+  describe('onSelectedCity method', () => {
+    let mockEvent: MatAutocompleteSelectedEvent;
+
+    beforeEach(() => {
+      mockEvent = {
+        option: { value: { settlement: 'Kyiv', latitude: 50.44029, longitude: 35.5595 } } as MatOption
+      } as MatAutocompleteSelectedEvent;
+    });
+
+    it('should execute confirmCity method with correct settlement data', () => {
+      const expectedSettlement = { settlement: 'Kyiv', latitude: 50.44029, longitude: 35.5595 };
+
+      component.onSelectedCity(mockEvent);
+
+      expect(confirmCitySpy).toHaveBeenCalledTimes(1);
+      expect(confirmCitySpy).toHaveBeenCalledWith(expectedSettlement, true);
+    });
+
+    it('should dispatch SetCoordsByMap with correct coords', () => {
+      const expectedCoords = { lat: 50.44029, lng: 35.5595 };
+
+      component.onSelectedCity(mockEvent);
+
+      expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
+
+      expect(storeDispatchSpy).toHaveBeenCalledWith([new SetCoordsByMap(expectedCoords), new FilterChange()]);
+    });
+  });
+
   describe('onFocusOut method', () => {
     let mockEvent: FocusEvent;
     let controlSetValueSpy: jest.SpyInstance;
@@ -154,5 +185,49 @@ describe('CityFilterComponent', () => {
       expect(controlSetValueSpy).toHaveBeenCalledTimes(1);
       expect(controlSetValueSpy).toHaveBeenCalledWith(expectedSettlement);
     });
+  });
+
+  describe('confirmCity method', () => {
+    it('should execute confirmCity with correct parameters', () => {
+      component.settlement = { settlement: 'KYIV' } as Codeficator;
+      const expectedSettlement = { settlement: 'KYIV' };
+
+      component.confirmCity();
+
+      expect(confirmCitySpy).toHaveBeenCalledTimes(1);
+      expect(confirmCitySpy).toHaveBeenCalledWith(expectedSettlement, true);
+    });
+
+    it('should dispatch FilterChange without parameters', () => {
+      component.confirmCity();
+
+      expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
+      expect(storeDispatchSpy).toHaveBeenCalledWith(new FilterChange());
+    });
+  });
+
+  describe('changeCity method', () => {
+    it('should set false or null to isDisplayed, settlement, settlementSearchControl after changeCity method has been executed', () => {
+      component.isDisplayed = true;
+      component.settlement = { settlement: 'KYIV' } as Codeficator;
+      const controlSetValueSpy = jest.spyOn(FormControl.prototype, 'setValue');
+
+      component.changeCity();
+
+      expect(component.isDisplayed).toBeFalsy();
+      expect(controlSetValueSpy).toHaveBeenCalledWith(null);
+      expect(component.settlementSearchControl.value).toBeNull();
+      expect(component.settlement).toBeNull();
+    });
+
+    it('should set focus on searchInput', fakeAsync(() => {
+      // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
+      const focusInputSpy = jest.spyOn(component['searchInput'].nativeElement, 'focus');
+
+      component.changeCity();
+      tick(1000);
+
+      expect(focusInputSpy).toHaveBeenCalledTimes(1);
+    }));
   });
 });
