@@ -9,6 +9,7 @@ import { NgxsModule, Store } from '@ngxs/store';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
 import { GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { FilterChange, SetCoordsByMap } from 'shared/store/filter.actions';
@@ -90,13 +91,11 @@ describe('CityFilterComponent', () => {
 
         expect(storeDispatchSpy).toHaveBeenCalledTimes(1);
         expect(storeDispatchSpy).toHaveBeenCalledWith(new GetCodeficatorSearch(expectedValue));
-        // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
-        expect(component['isTopCities']).toBeFalsy();
+        expect((component as any).isTopCities).toBeFalsy();
       }));
 
       it('should dispatch GetCodeficatorSearch with empty string when searching value length fewer than 3 and isTopCities equals false', fakeAsync(() => {
-        // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
-        component['isTopCities'] = false;
+        (component as any).isTopCities = false;
         const mockValue = 'T';
         component.settlementSearchControl.setValue(mockValue);
 
@@ -105,13 +104,11 @@ describe('CityFilterComponent', () => {
 
         expect(storeDispatchSpy).toHaveBeenCalledTimes(1);
         expect(storeDispatchSpy).toHaveBeenCalledWith(new GetCodeficatorSearch(''));
-        // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
-        expect(component['isTopCities']).toBeTruthy();
+        expect((component as any).isTopCities).toBeTruthy();
       }));
 
       it('should assign to codeficatorSearch value from state when searching value length fewer than 3 and isTopCities equals true', fakeAsync(() => {
-        // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
-        component['isTopCities'] = true;
+        (component as any).isTopCities = true;
         const mockValue = 'Ky';
         component.settlementSearchControl.setValue(mockValue);
         const selectSnapshotSpy = jest.spyOn(store, 'selectSnapshot').mockReturnValue([{ settlement: 'KYIV' }]);
@@ -221,8 +218,7 @@ describe('CityFilterComponent', () => {
     });
 
     it('should set focus on searchInput', fakeAsync(() => {
-      // eslint-disable-next-line @typescript-eslint/dot-notation, dot-notation
-      const focusInputSpy = jest.spyOn(component['searchInput'].nativeElement, 'focus');
+      const focusInputSpy = jest.spyOn((component as any).searchInput.nativeElement, 'focus');
 
       component.changeCity();
       tick(1000);
