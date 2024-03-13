@@ -19,10 +19,10 @@ export class AppComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.isAuthorizationLoading)
   public isAuthorizationLoading$: Observable<boolean>;
 
+  public isMobileView: boolean;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private previousMobileScreenValue: boolean;
   private selectedLanguage: string;
-  public isMobileView: boolean;
 
   constructor(
     private store: Store,
@@ -30,6 +30,11 @@ export class AppComponent implements OnInit, OnDestroy {
     private dateAdapter: DateAdapter<Date>,
     private router: Router
   ) {}
+
+  @HostListener('window: resize', ['$event.target'])
+  public onResize(event: Window): void {
+    this.isWindowMobile(event);
+  }
 
   public ngOnInit(): void {
     this.setLocale();
@@ -48,11 +53,6 @@ export class AppComponent implements OnInit, OnDestroy {
       this.store.dispatch(new ToggleMobileScreen(this.isMobileView));
       this.previousMobileScreenValue = this.isMobileView;
     }
-  }
-
-  @HostListener('window: resize', ['$event.target'])
-  public onResize(event: Window): void {
-    this.isWindowMobile(event);
   }
 
   public ngOnDestroy(): void {

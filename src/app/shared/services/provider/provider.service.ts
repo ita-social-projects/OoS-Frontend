@@ -1,30 +1,15 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 
 import { DataItem } from 'shared/models/item.model';
-import { Provider, ProviderBlock, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
-import { SearchResponse } from 'shared/models/search.model';
+import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProviderService {
-  constructor(
-    private http: HttpClient,
-    private store: Store
-  ) {}
-
-  /**
-   * This method get filtered Providers from the database
-   * @param
-   */
-  public getFilteredProviders(providerParameters: ProviderParameters): Observable<SearchResponse<Provider[]>> {
-    const options = { params: this.setParams(providerParameters) };
-
-    return this.http.get<SearchResponse<Provider[]>>('/api/v1/Provider/GetByFilter', options);
-  }
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get Provider by id
@@ -79,10 +64,17 @@ export class ProviderService {
   }
 
   /**
-   * This method block a specific Provider from the database
+   * This method get all provider types
    */
-  public blockProvider(provider: ProviderBlock): Observable<void> {
-    return this.http.put<void>('/api/v1/Provider/Block', provider);
+  public getProviderTypes(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/ProviderType/Get');
+  }
+
+  /**
+   * This method get all institution statuses
+   */
+  public getInstitutionStatuses(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/InstitutionStatus/Get');
   }
 
   private createProviderV1(provider: Provider): Observable<Provider> {
@@ -101,36 +93,5 @@ export class ProviderService {
   private updateProviderV2(provider: Provider): Observable<Provider> {
     const formData = Provider.createFormData(provider);
     return this.http.put<Provider>('/api/v2/Provider/Update', formData);
-  }
-
-  /**
-   * This method get all provider types
-   */
-  public getProviderTypes(): Observable<DataItem[]> {
-    return this.http.get<DataItem[]>('/api/v1/ProviderType/Get');
-  }
-
-  /**
-   * This method get all institution statuses
-   */
-  public getInstitutionStatuses(): Observable<DataItem[]> {
-    return this.http.get<DataItem[]>('/api/v1/InstitutionStatus/Get');
-  }
-
-  private setParams(providerParameters: ProviderParameters): HttpParams {
-    let params = new HttpParams();
-
-    if (providerParameters.searchString) {
-      params = params.set('SearchString', providerParameters.searchString);
-    }
-    if (providerParameters.institutionId) {
-      params = params.set('InstitutionId', providerParameters.institutionId);
-    }
-    if (providerParameters.catottgId) {
-      params = params.set('CATOTTGId', providerParameters.catottgId);
-    }
-    params = params.set('Size', providerParameters.size.toString()).set('From', providerParameters.from.toString());
-
-    return params;
   }
 }

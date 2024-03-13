@@ -1,15 +1,20 @@
+import { CdkAccordionModule } from '@angular/cdk/accordion';
+import { Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
-import { Router } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule, Store } from '@ngxs/store';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, State, Store } from '@ngxs/store';
 
 import { NotificationDeclination } from 'shared/enum/enumUA/declinations/notification-declination';
 import { NotificationAction, NotificationType } from 'shared/enum/notifications';
 import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
-import { Notification } from 'shared/models/notification.model';
+import { Notification, NotificationGrouped } from 'shared/models/notification.model';
+import { MaterialModule } from 'shared/modules/material.module';
 import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
+import { ChatStateModel } from 'shared/store/chat.state';
 import { ReadAllUsersNotifications, ReadUsersNotificationById, ReadUsersNotificationsByType } from 'shared/store/notification.actions';
+import { NotificationStateModel } from 'shared/store/notification.state';
 import { NotificationsListComponent } from './notifications-list.component';
 
 describe('NotificationsListComponent', () => {
@@ -20,7 +25,14 @@ describe('NotificationsListComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatIconModule, RouterTestingModule],
+      imports: [
+        NgxsModule.forRoot([MockNotificationState, MockChatState]),
+        MaterialModule,
+        RouterModule,
+        TranslateModule.forRoot(),
+        CdkAccordionModule,
+        RouterTestingModule
+      ],
       declarations: [NotificationsListComponent, TranslateCasesPipe]
     }).compileComponents();
   });
@@ -37,12 +49,28 @@ describe('NotificationsListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should return correct application notification declination for Approved status', () => {
-    const status = 'Approved';
+  describe('declination', () => {
+    let notification: NotificationGrouped;
 
-    const declination = component.defineDeclination(status);
+    beforeEach(() => {
+      notification = { type: NotificationType.Application, amount: 2 };
+    });
 
-    expect(declination).toBe(NotificationDeclination.Application.Approved);
+    it('should return correct notification declination for Application notification with Approved data', () => {
+      notification.groupedData = 'Approved';
+
+      const declination = component.defineDeclination(notification);
+
+      expect(declination).toEqual(NotificationDeclination.Application.Approved);
+    });
+
+    it('should return null notification declination for Application notification with Unknown data', () => {
+      notification.groupedData = 'Unknown';
+
+      const declination = component.defineDeclination(notification);
+
+      expect(declination).toEqual(null);
+    });
   });
 
   describe('onNavigate', () => {
@@ -145,7 +173,7 @@ describe('NotificationsListComponent', () => {
           createdDateTime: undefined
         }
       ];
-      component.notificationsAmount = { amount: 7 };
+      component.notificationAmount = { amount: 7 };
     });
 
     it('onReadAll should dispatch ReadAllUsersNotifications action, modify all notifications and clear amount', () => {
@@ -156,7 +184,7 @@ describe('NotificationsListComponent', () => {
       component.notificationsGroupedByType.forEach((notification) => expect(notification.isRead).toBeTruthy());
       component.notifications.forEach((notification) => expect(notification.readDateTime).toBeTruthy());
       expect(store.dispatch).toHaveBeenCalledWith(new ReadAllUsersNotifications());
-      expect(component.notificationsAmount.amount).toBe(0);
+      expect(component.notificationAmount.amount).toEqual(0);
     });
 
     it('onReadGroup should dispatch ReadUsersNotificationsByType action, modify all grouped notifications and reduce amount', () => {
@@ -167,7 +195,7 @@ describe('NotificationsListComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationsByType(notificationsGroupedByType.type));
       expect(notificationsGroupedByType.isRead).toBeTruthy();
-      expect(component.notificationsAmount.amount).toBe(3);
+      expect(component.notificationAmount.amount).toEqual(3);
     });
 
     it('onReadGroup should skip if isRead', () => {
@@ -188,7 +216,7 @@ describe('NotificationsListComponent', () => {
 
       expect(store.dispatch).toHaveBeenCalledWith(new ReadUsersNotificationById(notification));
       expect(notification.readDateTime).toBeTruthy();
-      expect(component.notificationsAmount.amount).toBe(6);
+      expect(component.notificationAmount.amount).toEqual(6);
     });
 
     it('onReadGroup should skip if readDateTime already set', () => {
@@ -227,41 +255,28 @@ describe('NotificationsListComponent', () => {
           createdDateTime: undefined
         }
       ];
-      component.notificationsAmount = { amount: 4 };
+      component.notificationAmount = { amount: 4 };
     });
 
-    describe('notification group by additional data', () => {
-      const notification: Notification = {
-        type: NotificationType.Application,
-        action: NotificationAction.Create,
-        userId: undefined,
-        createdDateTime: undefined,
-        data: { Status: 'Pending' }
-      };
+    describe('notification group', () => {
+      let notification: Notification;
       let initialNotificationsGroupedByTypeLength: number;
-      let initialNotificationsAmount: number;
+      let initialNotificationAmount: number;
 
       beforeEach(() => {
+        notification = {
+          type: NotificationType.Application,
+          action: NotificationAction.Create,
+          userId: undefined,
+          createdDateTime: undefined,
+          data: { Status: 'Pending' }
+        };
         initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
-        initialNotificationsAmount = component.notificationsAmount.amount;
+        initialNotificationAmount = component.notificationAmount.amount;
       });
 
-      it('should add a new notification group to notifications grouped when received with additional data', () => {
-        component.ngOnChanges({
-          receivedNotification: {
-            currentValue: notification,
-            firstChange: false,
-            previousValue: undefined,
-            isFirstChange: undefined
-          }
-        });
-
-        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength + 1);
-        expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
-      });
-
-      it('should add a new notification group to notifications grouped when received without additional data', () => {
-        notification.data = {};
+      it('should add amount to notifications grouped when received with existing additional data', () => {
+        const initialNotificationsGroupedByDataAmount = component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount;
 
         component.ngOnChanges({
           receivedNotification: {
@@ -272,8 +287,45 @@ describe('NotificationsListComponent', () => {
           }
         });
 
-        expect(component.notificationsGroupedByType.length).toBe(initialNotificationsGroupedByTypeLength);
-        expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+        expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount).toEqual(
+          initialNotificationsGroupedByDataAmount + 1
+        );
+        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
+      });
+
+      it('should add a new notification group to notifications grouped when received with another type', () => {
+        notification.type = NotificationType.Chat;
+
+        component.ngOnChanges({
+          receivedNotification: {
+            currentValue: notification,
+            firstChange: false,
+            previousValue: undefined,
+            isFirstChange: undefined
+          }
+        });
+
+        expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength + 1);
+        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
+      });
+
+      it('should add a new notification group to notifications grouped when received with another additional data', () => {
+        const initialNotificationsGroupedByDataLength = component.notificationsGroupedByType[0].groupedByAdditionalData.length;
+        notification.data.Status = 'Rejected';
+
+        component.ngOnChanges({
+          receivedNotification: {
+            currentValue: notification,
+            firstChange: false,
+            previousValue: undefined,
+            isFirstChange: undefined
+          }
+        });
+
+        expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength);
+        expect(component.notificationsGroupedByType[0].groupedByAdditionalData.length).toEqual(initialNotificationsGroupedByDataLength + 1);
+        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
     });
 
@@ -286,7 +338,7 @@ describe('NotificationsListComponent', () => {
         data: {}
       };
       const initialNotificationsLength = component.notifications.length;
-      const initialNotificationsAmount = component.notificationsAmount.amount;
+      const initialNotificationAmount = component.notificationAmount.amount;
 
       component.ngOnChanges({
         receivedNotification: {
@@ -297,8 +349,34 @@ describe('NotificationsListComponent', () => {
         }
       });
 
-      expect(component.notifications.length).toBe(initialNotificationsLength + 1);
-      expect(component.notificationsAmount.amount).toBe(initialNotificationsAmount + 1);
+      expect(component.notifications.length).toEqual(initialNotificationsLength + 1);
+      expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
     });
   });
 });
+
+@State<NotificationStateModel>({
+  name: 'notifications',
+  defaults: {
+    notificationAmount: { amount: 3 },
+    notifications: {
+      notificationsGroupedByType: [{ type: NotificationType.System }],
+      notifications: []
+    }
+  }
+})
+@Injectable()
+class MockNotificationState {}
+
+@State<ChatStateModel>({
+  name: 'chat',
+  defaults: {
+    isLoadingData: false,
+    chatRooms: null,
+    selectedChatRoom: null,
+    selectedChatRoomMessages: null,
+    unreadMessagesCount: 2
+  }
+})
+@Injectable()
+class MockChatState {}

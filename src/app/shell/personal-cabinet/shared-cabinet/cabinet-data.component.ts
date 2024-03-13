@@ -15,28 +15,28 @@ import { SharedUserState } from 'shared/store/shared-user.state';
   template: ''
 })
 export abstract class CabinetDataComponent implements OnInit, OnDestroy {
-  readonly constants = Constants;
-  readonly Role = Role;
-  readonly Subrole = Subrole;
-
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+  public role$: Observable<Role>;
   @Select(RegistrationState.subrole)
-  subrole$: Observable<Subrole>;
+  public subrole$: Observable<Subrole>;
   @Select(SharedUserState.isLoading)
-  isLoadingCabinet$: Observable<boolean>;
+  public isLoadingCabinet$: Observable<boolean>;
 
-  role: Role;
-  subrole: Subrole;
+  public role: Role;
+  public subrole: Subrole;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  protected readonly constants = Constants;
+  protected readonly Role = Role;
+  protected readonly Subrole = Subrole;
+
+  protected destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     protected store: Store,
     protected matDialog: MatDialog
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     combineLatest([this.role$, this.subrole$])
       .pipe(
         filter(([role, subrole]: [Role, Subrole]) => !!role),
@@ -50,12 +50,12 @@ export abstract class CabinetDataComponent implements OnInit, OnDestroy {
       });
   }
 
-  protected abstract init(): void;
-  protected abstract addNavPath(): void;
-
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
     this.store.dispatch(new PopNavPath());
   }
+
+  protected abstract init(): void;
+  protected abstract addNavPath(): void;
 }

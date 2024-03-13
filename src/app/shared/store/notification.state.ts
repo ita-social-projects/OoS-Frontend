@@ -24,14 +24,14 @@ import {
 } from './notification.actions';
 
 export interface NotificationStateModel {
-  notificationsAmount: NotificationAmount;
+  notificationAmount: NotificationAmount;
   notifications: NotificationGroupedAndSingle;
 }
 
 @State<NotificationStateModel>({
   name: 'notifications',
   defaults: {
-    notificationsAmount: undefined,
+    notificationAmount: undefined,
     notifications: undefined
   }
 })
@@ -40,8 +40,8 @@ export class NotificationState {
   constructor(private notificationService: NotificationService) {}
 
   @Selector()
-  static notificationsAmount(state: NotificationStateModel): NotificationAmount {
-    return state.notificationsAmount;
+  static notificationAmount(state: NotificationStateModel): NotificationAmount {
+    return state.notificationAmount;
   }
 
   @Selector()
@@ -58,7 +58,7 @@ export class NotificationState {
   getAmountOfNewUsersNotifications({ patchState }: StateContext<NotificationStateModel>): Observable<NotificationAmount> {
     return this.notificationService
       .getAmountOfNewUsersNotifications()
-      .pipe(tap((notificationsAmount: NotificationAmount) => patchState({ notificationsAmount })));
+      .pipe(tap((notificationAmount: NotificationAmount) => patchState({ notificationAmount })));
   }
 
   @Action(GetAllUsersNotificationsGrouped)

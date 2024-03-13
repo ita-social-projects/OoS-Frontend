@@ -1,6 +1,26 @@
+import { NotificationType } from 'shared/enum/notifications';
+
 export namespace NotificationDeclination {
+  export type DeclinationType = Chat.NotificationDeclinationType | Application.NotificationDeclinationType;
+
+  export namespace Chat {
+    export type NotificationDeclinationType = typeof Changes | typeof Unread;
+
+    export enum Changes {
+      'ENUM.CHAT_CHANGES.CHANGE_IN_MESSAGES',
+      'ENUM.CHAT_CHANGES.CHANGES_IN_MESSAGES',
+      'ENUM.CHAT_CHANGES.CHANGE_IN_MESSAGES_ABLATIVE'
+    }
+
+    export enum Unread {
+      'ENUM.CHAT_UNREAD.UNREAD_MESSAGE',
+      'ENUM.CHAT_UNREAD.UNREAD_MESSAGES',
+      'ENUM.CHAT_UNREAD.UNREAD_MESSAGE_ABLATIVE'
+    }
+  }
+
   export namespace Application {
-    export type DeclinationType = typeof Changes | typeof Approved | typeof Pending | typeof Rejected | typeof Left;
+    export type NotificationDeclinationType = typeof Changes | typeof Approved | typeof Pending | typeof Rejected | typeof Left;
 
     export enum Changes {
       'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS',
@@ -31,9 +51,13 @@ export namespace NotificationDeclination {
       'ENUM.APPLICATION_LEFT.WORKSHOPS_LEFT',
       'ENUM.APPLICATION_LEFT.WORKSHOP_LEFT_ABLATIVE'
     }
+  }
 
-    export function getDeclination(status: string): DeclinationType {
-      return Application[status];
-    }
+  export function getDeclination(notificationType: NotificationType, status: string): DeclinationType {
+    return declinationExists(notificationType, status) ? NotificationDeclination[notificationType][status] : null;
+  }
+
+  export function declinationExists(notificationType: NotificationType, status: string): boolean {
+    return notificationType in NotificationDeclination && status in NotificationDeclination[notificationType];
   }
 }

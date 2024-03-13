@@ -1,20 +1,24 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import { ApiError } from 'shared/models/error-response.model';
-import { SnackbarText } from './enumUA/message-bar';
 
 export namespace ApiErrorTypes {
   export enum GroupTitle {
-    General = SnackbarText.errorGeneral,
-    Common = SnackbarText.errorIncorrectInputData
+    General = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.GENERAL',
+    Common = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.INCORRECT_INPUT_DATA'
   }
 
   export enum Common {
-    EmailAlreadyTaken = SnackbarText.commonEmailAlreadyTaken,
-    PhoneNumberAlreadyTaken = SnackbarText.phoneNumberAlreadyTaken
+    EmailAlreadyTaken = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.COMMON.EMAIL_ALREADY_TAKEN',
+    PhoneNumberAlreadyTaken = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.COMMON.PHONE_NUMBER_ALREADY_TAKEN'
   }
 
   export enum ProviderAdmin {
-    UserDontHavePermissionToCreate = SnackbarText.providerAdminUserDontHavePermissionToCreate
+    UserDontHavePermissionToCreate = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.PROVIDER_ADMIN.USER_DONT_HAVE_PERMISSION_TO_CREATE'
+  }
+
+  export enum Application {
+    AcceptRejectedWorkshopIsFull = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.APPLICATION.ACCEPT_REJECTED_WORKSHOP_IS_FULL',
+    AcceptRejectedAlreadyApproved = 'SERVICE_MESSAGES.SNACK_BAR_TEXT.ERROR_RESPONSE.APPLICATION.ACCEPT_REJECTED_ALREADY_APPROVED'
   }
 
   export function toApiErrorMap(apiErrors: ApiError[]): Map<string, ApiError[]> {

@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
@@ -11,6 +11,7 @@ import { Application } from 'shared/models/application.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopCard } from 'shared/models/workshop.model';
+import { AdminService } from 'shared/services/admin/admin.service';
 import { ApplicationService } from 'shared/services/applications/application.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
@@ -52,6 +53,7 @@ export class SharedUserState {
   constructor(
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
+    private adminService: AdminService,
     private providerService: ProviderService
   ) {}
 
@@ -95,7 +97,7 @@ export class SharedUserState {
     { params }: GetAllApplications
   ): Observable<SearchResponse<Application[]>> {
     patchState({ isLoading: true });
-    return this.applicationService
+    return this.adminService
       .getAllApplications(params)
       .pipe(
         tap((applicationCards: SearchResponse<Application[]>) =>
@@ -167,7 +169,7 @@ export class SharedUserState {
 
   @Action(OnUpdateApplicationFail)
   onUpdateApplicationFail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    throwError(() => payload);
   }
 
   @Action(OnUpdateApplicationSuccess)
