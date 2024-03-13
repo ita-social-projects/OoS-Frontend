@@ -1,7 +1,7 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
 import { EMPTY_RESULT } from 'shared/constants/constants';
@@ -169,7 +169,7 @@ export class SharedUserState {
 
   @Action(OnUpdateApplicationFail)
   onUpdateApplicationFail({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationFail): void {
-    dispatch(new ShowMessageBar({ message: SnackbarText.error, type: 'error' }));
+    throwError(() => payload);
   }
 
   @Action(OnUpdateApplicationSuccess)
