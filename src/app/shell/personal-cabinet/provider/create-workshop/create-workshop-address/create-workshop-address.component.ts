@@ -11,15 +11,17 @@ import { Geocoder } from 'shared/models/geolocation';
   styleUrls: ['./create-workshop-address.component.scss']
 })
 export class CreateWorkshopAddressComponent implements OnInit {
-  public readonly validationConstants = ValidationConstants;
-
   @Input() public address: Address;
 
   @Output() public passAddressFormGroup = new EventEmitter();
 
+  public readonly validationConstants = ValidationConstants;
+
   public addressFormGroup: FormGroup;
   public searchFormGroup: FormGroup;
   public noAddressFound = false;
+
+  constructor(private formBuilder: FormBuilder) {}
 
   public get settlementFormControl(): FormControl {
     return this.searchFormGroup.get('settlement') as FormControl;
@@ -28,8 +30,6 @@ export class CreateWorkshopAddressComponent implements OnInit {
   public get settlementSearchFormControl(): FormControl {
     return this.searchFormGroup.get('settlementSearch') as FormControl;
   }
-
-  constructor(private formBuilder: FormBuilder) {}
 
   public ngOnInit(): void {
     this.addressFormGroup = this.formBuilder.group({
