@@ -9,6 +9,8 @@ import { Geocoder } from 'shared/models/geolocation';
   providedIn: 'root'
 })
 export class GeocoderService {
+  private readonly baseApiUrl = '/api/v1/Geocoding';
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -33,6 +35,6 @@ export class GeocoderService {
    * This method get geolocation for map
    */
   private geocode(payload: Geocoder): Observable<Geocoder | null> {
-    return this.http.post<Geocoder>('/api/v1/Geocoding', { ...payload }).pipe(map((result: Geocoder) => result || null));
+    return this.http.post<Geocoder>(this.baseApiUrl, { ...payload }).pipe(map((result: Geocoder) => result || null));
   }
 }
