@@ -33,6 +33,6 @@ export class GeocoderService {
    * This method get geolocation for map
    */
   private geocode(payload: Geocoder): Observable<Geocoder | null> {
-    return this.http.post<Geocoder>('/api/v1/Geocoding', { ...payload }).pipe(map((result: Geocoder) => (result ? result : null)));
+    return this.http.post<Geocoder>('/api/v1/Geocoding', { ...payload }).pipe(map((result: Geocoder) => result || null));
   }
 }
