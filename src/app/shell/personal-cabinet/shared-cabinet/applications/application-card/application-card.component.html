@@ -61,22 +61,22 @@
     </div>
     <ng-container *ngIf="isMobileView; then actionsBlock"></ng-container>
   </mat-card-content>
-  <mat-card-content class="card-block card-block__buttons"
-    *ngIf="userRole === Role.provider && !application.isBlockedByProvider">
+  <ng-container *ngIf="userRole === Role.provider && !application.isBlockedByProvider; else whenParentIsBlocked">
+    <mat-card-content class="card-block card-block__buttons">
     <ng-container *ngIf="application.workshop.competitiveSelection; else approveButtonBlock">
       <ng-container *ngIf="application.status === ApplicationStatuses.Pending">
-        <button class="btn" (click)="acceptForSelection.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+        <button class="btn" (click)="acceptForSelection.emit(application)" [class.hidden]="isApproveBtnHidden">
           <p>{{ 'BUTTONS.ACCEPT_TO_COMPETITIVE_SELECTION' | translate }}</p>
         </button>
       </ng-container>
       <ng-container *ngIf="application.status === ApplicationStatuses.AcceptedForSelection">
-        <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+        <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
           <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
         </button>
       </ng-container>
     </ng-container>
     <ng-template #approveButtonBlock>
-      <button class="btn" (click)="approve.emit(application)" [ngClass]="isApproveBtnHidden && 'hidden'">
+      <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
         <p>{{ 'BUTTONS.APPROVE_APPLICATION' | translate }}</p>
       </button>
     </ng-template>
@@ -84,7 +84,11 @@
       [ngClass]="(application.status === ApplicationStatuses.Rejected || application.status === ApplicationStatuses.Left) && 'hidden'">
       <p>{{ 'BUTTONS.REJECT' | translate }}</p>
     </button>
-  </mat-card-content>
+    </mat-card-content>
+  </ng-container>
+  <ng-template #whenParentIsBlocked>
+    <mat-card-content class="card-block card-block__buttons"></mat-card-content>
+  </ng-template>
 
   <mat-card-content class="card-block card-block__buttons" fxLayout="row" fxLayoutAlign="center center"
     *ngIf="userRole === Role.parent">
