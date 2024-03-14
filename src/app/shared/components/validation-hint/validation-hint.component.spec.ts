@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, ValidationErrors } from '@angular/forms';
-
 import { tap } from 'rxjs';
+
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 import { ValidationHintComponent } from './validation-hint.component';
 
@@ -36,6 +36,7 @@ describe('ValidationHintComponent', () => {
       component.ngOnInit();
 
       component.validationFormControl.setValue('test');
+      tick(200);
     }));
 
     it('should not mark validationFormControl as touched if already touched', fakeAsync(() => {
@@ -48,6 +49,7 @@ describe('ValidationHintComponent', () => {
       component.ngOnInit();
 
       component.validationFormControl.setValue('test');
+      tick(200);
     }));
   });
 
