@@ -51,6 +51,57 @@ describe('ValidationHintComponent', () => {
       component.validationFormControl.setValue('test');
       tick(200);
     }));
+
+    it('should call checkMatDatePicker method if minMaxDate is present', fakeAsync(() => {
+      component.minMaxDate = true;
+      component.validationFormControl.statusChanges.pipe(tap(() => tick(200))).subscribe(() => {
+        expect((component as any).checkMatDatePicker).toHaveBeenCalled();
+      });
+      jest.spyOn(component as any, 'checkMatDatePicker');
+
+      component.ngOnInit();
+
+      component.validationFormControl.setValue('test');
+      tick(200);
+    }));
+  });
+
+  describe('checkValidationErrors method', () => {
+    let errors: ValidationErrors;
+
+    it('should assign to invalidEmail if email error is present', () => {
+      errors = { email: true };
+
+      (component as any).checkValidationErrors(errors);
+
+      expect(component.invalidEmail).toEqual(errors.email);
+    });
+
+    it('should assign TRUE to invalidPhoneLength if isPhoneNumber and minlength error are present', () => {
+      component.isPhoneNumber = true;
+      errors = { minlength: true };
+
+      (component as any).checkValidationErrors(errors);
+
+      expect(component.invalidPhoneLength).toBeTruthy();
+    });
+
+    it('should assign TRUE to invalidEdrpouIpn if isPhoneNumber and minlength error are present', () => {
+      component.isEdrpouIpn = true;
+      errors = { minlength: true };
+
+      (component as any).checkValidationErrors(errors);
+
+      expect(component.invalidEdrpouIpn).toBeTruthy();
+    });
+
+    it('should assign TRUE to invalidFieldLength if minlength/maxlength errors are present', () => {
+      errors = { minlength: true, maxlength: true };
+
+      (component as any).checkValidationErrors(errors);
+
+      expect(component.invalidFieldLength).toBeTruthy();
+    });
   });
 
   describe('checkInvalidText method', () => {
