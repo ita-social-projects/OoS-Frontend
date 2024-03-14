@@ -109,6 +109,10 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   public onNavigate(notification: Notification, groupedData?: string): void {
+    if (notification.action === NotificationAction.Delete) {
+      return;
+    }
+
     switch (NotificationType[notification.type]) {
       case NotificationType.Workshop:
         this.router.navigate(['details/workshop', notification.objectId]);
