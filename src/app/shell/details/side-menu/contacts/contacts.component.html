@@ -14,8 +14,8 @@
   <a (click)="mapLink()" target="_blank" class="map">{{ 'SHOW_ON_THE_MAP' | translate }}</a>
 
   <p class="contact-info">
-    <mat-icon class="card_icon">call</mat-icon
-    ><a href="tel:{{ phonePrefix }}{{ contactsData.phone }}">{{ phonePrefix }}{{ contactsData.phone }}</a>
+    <mat-icon class="card_icon">call</mat-icon>
+    <a href="tel:{{ phonePrefix }}{{ contactsData.phone }}" target="_blank">{{ phonePrefix }}{{ contactsData.phone }}</a>
   </p>
 
   <p class="contact-info">
@@ -25,14 +25,14 @@
 
   <p *ngIf="contactsData.website" class="contact-info">
     <mat-icon class="card_icon">language</mat-icon>
-    <a [href]="contactsData.website" style="margin-left: 5px">{{ contactsData.website }}</a>
+    <a [href]="contactsData.website" style="margin-left: 5px" target="_blank">{{ contactsData.website }}</a>
   </p>
 
   <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
-    <a href="{{ contactsData.instagram }}" [ngClass]="contactsData.instagram ? 'link' : 'disable'">
+    <a href="{{ contactsData.instagram }}" [ngClass]="contactsData.instagram ? 'link' : 'disable'" target="_blank">
       <img src="assets/icons/inst.png" alt="instagram" />
     </a>
-    <a href="{{ contactsData.facebook }}" [ngClass]="contactsData.facebook ? 'link' : 'disable'">
+    <a href="{{ contactsData.facebook }}" [ngClass]="contactsData.facebook ? 'link' : 'disable'" target="_blank">
       <img src="assets/icons/facebook.png" alt="facebook" />
     </a>
   </div>

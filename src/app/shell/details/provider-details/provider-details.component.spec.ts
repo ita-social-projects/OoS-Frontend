@@ -4,12 +4,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { ImageCarouselComponent } from '../../../shared/components/image-carousel/image-carousel.component';
-import { Provider, ProviderParameters } from '../../../shared/models/provider.model';
-import { Workshop } from '../../../shared/models/workshop.model';
+
+import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
+import { Provider, ProviderParameters } from 'shared/models/provider.model';
+import { Workshop } from 'shared/models/workshop.model';
 import { ProviderDetailsComponent } from './provider-details.component';
 
 describe('ProviderDetailsComponent', () => {
@@ -50,6 +51,7 @@ describe('ProviderDetailsComponent', () => {
 class MockProviderAboutComponent {
   @Input() public provider: Provider;
 }
+
 @Component({
   selector: 'app-all-provider-workshops',
   template: ''
