@@ -82,6 +82,16 @@ describe('NotificationsListComponent', () => {
       data: {}
     };
 
+    it('should not navigate when notification action is Delete', () => {
+      jest.spyOn(router, 'navigate');
+
+      notification.action = NotificationAction.Delete;
+
+      component.onNavigate(notification);
+
+      expect(router.navigate).not.toHaveBeenCalled();
+    });
+
     it('should navigate to workshop details when notification type is Workshop', () => {
       jest.spyOn(router, 'navigate');
 
