@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, first, takeUntil } from 'rxjs';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { DATE_REGEX, FULL_NAME_REGEX } from 'shared/constants/regex-constants';
@@ -23,9 +23,28 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit, OnDestroy {
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public passInfoFormGroup = new EventEmitter();
+
+  @Select(AppState.isEditMode)
+  public isEditMode$: Observable<boolean>;
+  @Select(MetaDataState.institutions)
+  public institutions$: Observable<Institution[]>;
+  @Select(MetaDataState.providerTypes)
+  public providerTypes$: Observable<Institution[]>;
+  @Select(MetaDataState.institutionStatuses)
+  public institutionStatuses$: Observable<DataItem[]>;
+
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; // TODO: temporary removed for 1st release
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypes = InstitutionTypes;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
 
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -38,53 +57,13 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  public readonly ownershipTypes = OwnershipTypes;
-  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; // TODO: temporary removed for 1st release
-  public readonly ownershipTypesEnum = OwnershipTypesEnum;
-  public readonly institutionTypes = InstitutionTypes;
-  public readonly institutionTypesEnum = InstitutionTypesEnum;
-
-  @Select(AppState.isEditMode)
-  public isEditMode$: Observable<boolean>;
-  @Select(MetaDataState.institutions)
-  public institutions$: Observable<Institution[]>;
-  @Select(MetaDataState.providerTypes)
-  public providerTypes$: Observable<Institution[]>;
-  @Select(MetaDataState.institutionStatuses)
-  public institutionStatuses$: Observable<DataItem[]>;
-
-  @Input() public provider: Provider;
-  @Input() public isImagesFeature: boolean;
-
-  @Output() public passInfoFormGroup = new EventEmitter();
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public infoFormGroup: FormGroup;
   public dateFilter: RegExp = DATE_REGEX;
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  public get ownershipTypeControl(): AbstractControl {
-    return this.infoFormGroup.get('ownership');
-  }
-
-  public get edrpouIpnTypeControl(): AbstractControl {
-    return this.infoFormGroup.get('edrpouIpn');
-  }
-
-  public get edrpouIpnLabel(): string {
-    return this.isOwnershipTypeState ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
-  }
-
-  public get edrpouIpnLength(): number {
-    return this.isOwnershipTypeState ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
-  }
-
-  private get isOwnershipTypeState(): boolean {
-    return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
-  }
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private formBuilder: FormBuilder,
@@ -127,6 +106,26 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ])
     });
+  }
+
+  public get ownershipTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('ownership');
+  }
+
+  public get edrpouIpnTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('edrpouIpn');
+  }
+
+  public get edrpouIpnLabel(): string {
+    return this.isOwnershipTypeState ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
+  }
+
+  public get edrpouIpnLength(): number {
+    return this.isOwnershipTypeState ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
+  }
+
+  private get isOwnershipTypeState(): boolean {
+    return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
   }
 
   public ngOnInit(): void {
