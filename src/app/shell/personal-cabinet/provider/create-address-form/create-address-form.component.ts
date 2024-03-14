@@ -18,9 +18,6 @@ import { MetaDataState } from 'shared/store/meta-data.state';
   styleUrls: ['./create-address-form.component.scss']
 })
 export class CreateAddressFormComponent implements OnInit {
-  public readonly ValidationConstants = ValidationConstants;
-  public readonly Constants = Constants;
-
   @ViewChild(MatAutocomplete)
   public autocomplete: MatAutocomplete;
 
@@ -34,7 +31,12 @@ export class CreateAddressFormComponent implements OnInit {
   @Select(MetaDataState.codeficatorSearch)
   public codeficatorSearch$: Observable<Codeficator[]>;
 
+  public readonly ValidationConstants = ValidationConstants;
+  public readonly Constants = Constants;
+
   private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private store: Store) {}
 
   public get settlementFormControl(): FormControl {
     return this.searchFormGroup.get('settlement') as FormControl;
@@ -55,8 +57,6 @@ export class CreateAddressFormComponent implements OnInit {
   public get buildingNumberFormControl(): FormControl {
     return this.addressFormGroup.get('buildingNumber') as FormControl;
   }
-
-  constructor(private store: Store) {}
 
   public ngOnInit(): void {
     this.activateEditMode();
@@ -97,6 +97,11 @@ export class CreateAddressFormComponent implements OnInit {
     this.codeficatorIdFormControl.reset();
     this.codeficatorIdFormControl.setValue(event.option.value.id);
 
+    this.addressFormGroup.patchValue({
+      latitude: event.option.value.latitude,
+      longitude: event.option.value.longitude
+    });
+
     if (!this.addressFormGroup.dirty) {
       this.addressFormGroup.markAsDirty({ onlySelf: true });
     }
@@ -123,6 +128,8 @@ export class CreateAddressFormComponent implements OnInit {
         tap((value: string) => {
           if (!value?.length) {
             this.store.dispatch(new ClearCodeficatorSearch());
+            this.streetFormControl.setValue('', { emitEvent: false });
+            this.buildingNumberFormControl.setValue('', { emitEvent: false });
           }
         }),
         filter((value: string) => value?.length > 2),
@@ -131,7 +138,12 @@ export class CreateAddressFormComponent implements OnInit {
       .subscribe((value: string) => {
         const options = this.autocomplete.options.filter((option) => option.value.settlement.toLowerCase() === value.toLowerCase());
         if (options.length === 1) {
-          options[0].select();
+          const settlement = options[0];
+          settlement.select();
+          this.addressFormGroup.patchValue({
+            latitude: settlement.value.latitude,
+            longitude: settlement.value.longitude
+          });
         }
       });
   }

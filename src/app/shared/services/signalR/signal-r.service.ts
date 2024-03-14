@@ -20,7 +20,9 @@ export class SignalRService {
 
     this.oidcSecurityService.getAccessToken().subscribe((value: string) => (this.token = value));
     const options: signalR.IHttpConnectionOptions = {
-      accessTokenFactory: () => this.token
+      accessTokenFactory: () => this.token,
+      skipNegotiation: true,
+      transport: signalR.HttpTransportType.WebSockets
     };
 
     const hubConnection = new signalR.HubConnectionBuilder().configureLogging(signalR.LogLevel.Information).withUrl(url, options).build();
