@@ -74,13 +74,17 @@ describe('NotificationsListComponent', () => {
   });
 
   describe('onNavigate', () => {
-    const notification: Notification = {
-      type: undefined,
-      action: undefined,
-      userId: undefined,
-      createdDateTime: undefined,
-      data: {}
-    };
+    let notification: Notification;
+
+    beforeEach(() => {
+      notification = {
+        type: undefined,
+        action: undefined,
+        userId: undefined,
+        createdDateTime: undefined,
+        data: {}
+      };
+    });
 
     it('should not navigate when notification action is Delete', () => {
       jest.spyOn(router, 'navigate');
