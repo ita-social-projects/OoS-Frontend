@@ -94,7 +94,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
-    const requiredPattern = errors?.pattern?.requiredPattern;
+    const requiredPattern = errors?.pattern?.requiredPattern?.toString();
 
     this.invalidSymbols = NAME_REGEX.toString() === requiredPattern || FULL_NAME_REGEX.toString() === requiredPattern;
     this.invalidCharacters = NO_LATIN_REGEX.toString() === requiredPattern;
