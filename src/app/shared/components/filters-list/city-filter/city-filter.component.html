@@ -21,7 +21,7 @@
       [value]="codeficator"
       [disabled]="codeficator.settlement === Constants.NO_SETTLEMENT">
       {{ codeficator.settlement | translate }} <br />
-      <div [matTooltip]="codeficator.fullName" matTooltipClass="tooltip" showTooltipIfTruncated>
+      <div class="dropdown-option-trimmed" [matTooltip]="codeficator.fullName" matTooltipClass="tooltip" showTooltipIfTruncated>
         <span class="option-sub-text">{{ codeficator.fullName }}</span>
       </div>
     </mat-option>

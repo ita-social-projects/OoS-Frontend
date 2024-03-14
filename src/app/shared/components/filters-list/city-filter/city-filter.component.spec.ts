@@ -159,7 +159,6 @@ describe('CityFilterComponent', () => {
       component.onSelectedCity(mockEvent);
 
       expect(storeDispatchSpy).toHaveBeenCalledTimes(2);
-
       expect(storeDispatchSpy).toHaveBeenCalledWith([new SetCoordsByMap(expectedCoords), new FilterChange()]);
     });
   });
