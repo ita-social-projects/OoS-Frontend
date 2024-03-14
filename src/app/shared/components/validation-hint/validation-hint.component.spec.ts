@@ -1,6 +1,7 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, ValidationErrors } from '@angular/forms';
 
+import { tap } from 'rxjs';
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 import { ValidationHintComponent } from './validation-hint.component';
 
@@ -23,6 +24,31 @@ describe('ValidationHintComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit method', () => {
+    it('should mark validationFormControl as touched if not already touched', fakeAsync(() => {
+      component.validationFormControl.statusChanges.pipe(tap(() => tick(200))).subscribe(() => {
+        expect(component.validationFormControl.markAsTouched).toHaveBeenCalled();
+      });
+      jest.spyOn(component.validationFormControl, 'markAsTouched');
+
+      component.ngOnInit();
+
+      component.validationFormControl.setValue('test');
+    }));
+
+    it('should not mark validationFormControl as touched if already touched', fakeAsync(() => {
+      component.validationFormControl.markAsTouched();
+      component.validationFormControl.statusChanges.pipe(tap(() => tick(200))).subscribe(() => {
+        expect(component.validationFormControl.markAsTouched).not.toHaveBeenCalled();
+      });
+      jest.spyOn(component.validationFormControl, 'markAsTouched');
+
+      component.ngOnInit();
+
+      component.validationFormControl.setValue('test');
+    }));
   });
 
   describe('checkInvalidText method', () => {
