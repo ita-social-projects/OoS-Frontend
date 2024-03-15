@@ -128,7 +128,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
         this.flyTo(this.defaultCoords);
 
         // checking if there are filtered workshops on the map for the result page view
-        if (!!this.filteredWorkshops$) {
+        if (this.filteredWorkshops$) {
           this.createUserRadius();
           this.setFilteredWorkshops();
           this.showWarningMessage(SnackbarText.mapWarning, 'warningBlue', true);
@@ -237,19 +237,25 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setAddress(): void {
-    const address: Geocoder = this.addressFormGroup.getRawValue();
+    const address: Geocoder & { latitude: number; longitude: number } = this.addressFormGroup.getRawValue();
+
     if (address.catottgId) {
-      this.setNewSingleMarker([this.addressFormGroup.get('latitude').value, this.addressFormGroup.get('longitude').value]);
+      this.setNewSingleMarker([address.latitude, address.longitude]);
     }
-    this.addressFormGroup.valueChanges.pipe(debounceTime(500), takeUntil(this.destroy$)).subscribe((value: Geocoder) => {
-      if (this.addressFormGroup.valid) {
-        this.addressDecode(value);
-      }
-    });
+
+    this.addressFormGroup.valueChanges
+      .pipe(debounceTime(500), takeUntil(this.destroy$))
+      .subscribe((value: Geocoder & { latitude: number; longitude: number }) => {
+        if (this.addressFormGroup.valid) {
+          this.addressDecode(value);
+        } else if (value.catottgId) {
+          this.setNewSingleMarker([value.latitude, value.longitude]);
+        }
+      });
   }
 
   /**
-   * uses GoelocationService to translate coords into address and sets emits event to update address in parent component
+   * uses GeolocationService to translate coords into address and sets emits event to update address in parent component
    * @param coords - type Coords
    */
   private setMapLocation(coords: Coords): void {
@@ -285,11 +291,15 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
    * @param coords - type [number, number]
    */
   private setNewSingleMarker(coords: [number, number]): void {
-    this.singleMarker && this.map.removeLayer(this.singleMarker);
+    if (this.singleMarker) {
+      this.map.removeLayer(this.singleMarker);
+    }
+
     this.singleMarker = this.createMarker(coords);
     this.singleMarker.on('dragend', (event: Layer.LeafletMouseEvent) => {
       this.setMapLocation(event.target._latlng);
     });
+
     this.map.addLayer(this.singleMarker);
     this.map.flyTo(coords);
   }
@@ -357,7 +367,7 @@ export class MapComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userRadius = Layer.circle(this.defaultCoords, {
       color: '#C72A21',
       fillOpacity: 0,
-      radius: 5000 || this.radiusSize,
+      radius: this.radiusSize || 5000,
       className: 'leaflet-grab'
     }).addTo(this.map);
 

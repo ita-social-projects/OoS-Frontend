@@ -19,7 +19,8 @@ export namespace NotificationDescriptions {
 
     export enum Workshop {
       Open = 'NOTIFICATION_DETAILS.WORKSHOP_SHORT_DESCRIPTION.OPEN',
-      Closed = 'NOTIFICATION_DETAILS.WORKSHOP_SHORT_DESCRIPTION.CLOSED'
+      Closed = 'NOTIFICATION_DETAILS.WORKSHOP_SHORT_DESCRIPTION.CLOSED',
+      Delete = 'NOTIFICATION_DETAILS.WORKSHOP_SHORT_DESCRIPTION.DELETED'
     }
 
     export enum Parent {
@@ -46,7 +47,8 @@ export namespace NotificationDescriptions {
 
     export enum Workshop {
       Open = 'NOTIFICATION_DETAILS.WORKSHOP_FULL_DESCRIPTION.OPEN',
-      Closed = 'NOTIFICATION_DETAILS.WORKSHOP_FULL_DESCRIPTION.CLOSED'
+      Closed = 'NOTIFICATION_DETAILS.WORKSHOP_FULL_DESCRIPTION.CLOSED',
+      Delete = 'NOTIFICATION_DETAILS.WORKSHOP_FULL_DESCRIPTION.DELETED'
     }
 
     export enum Parent {
