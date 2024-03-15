@@ -23,6 +23,20 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit, OnDestroy {
+  @Select(AppState.isEditMode)
+  public isEditMode$: Observable<boolean>;
+  @Select(MetaDataState.institutions)
+  public institutions$: Observable<Institution[]>;
+  @Select(MetaDataState.providerTypes)
+  public providerTypes$: Observable<Institution[]>;
+  @Select(MetaDataState.institutionStatuses)
+  public institutionStatuses$: Observable<DataItem[]>;
+
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public passInfoFormGroup = new EventEmitter();
+
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly phonePrefix = Constants.PHONE_PREFIX;
@@ -44,27 +58,18 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly institutionTypes = InstitutionTypes;
   public readonly institutionTypesEnum = InstitutionTypesEnum;
 
-  @Select(AppState.isEditMode)
-  public isEditMode$: Observable<boolean>;
-  @Select(MetaDataState.institutions)
-  public institutions$: Observable<Institution[]>;
-  @Select(MetaDataState.providerTypes)
-  public providerTypes$: Observable<Institution[]>;
-  @Select(MetaDataState.institutionStatuses)
-  public institutionStatuses$: Observable<DataItem[]>;
-
-  @Input() public provider: Provider;
-  @Input() public isImagesFeature: boolean;
-
-  @Output() public passInfoFormGroup = new EventEmitter();
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public infoFormGroup: FormGroup;
   public dateFilter: RegExp = DATE_REGEX;
   // TODO: Check the maximum allowable date in this case
   public maxDate: Date = Util.getTodayBirthDate();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private formBuilder: FormBuilder,
+    private store: Store
+  ) {}
 
   public get ownershipTypeControl(): AbstractControl {
     return this.infoFormGroup.get('ownership');
@@ -86,10 +91,38 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
   }
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private store: Store
-  ) {
+  public ngOnInit(): void {
+    this.initInfoFormGroup();
+    this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
+    this.initData();
+    this.passInfoFormGroup.emit(this.infoFormGroup);
+    this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
+        this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
+          emitEvent: false
+        });
+      }
+    });
+  }
+
+  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  /**
+   * This method fills inputs with information of edited provider
+   */
+  private activateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
+    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
+  }
+
+  private initInfoFormGroup(): void {
     this.infoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
         Validators.required,
@@ -127,36 +160,6 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
       ])
     });
-  }
-
-  public ngOnInit(): void {
-    this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
-    this.initData();
-    this.passInfoFormGroup.emit(this.infoFormGroup);
-    this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
-        this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
-          emitEvent: false
-        });
-      }
-    });
-  }
-
-  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
-    return institution1.id === institution2.id;
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
-  /**
-   * This method fills inputs with information of edited provider
-   */
-  private activateEditMode(): void {
-    this.store.dispatch(new ActivateEditMode(true));
-    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 
   private initData(): void {

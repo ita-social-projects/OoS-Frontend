@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -11,15 +11,18 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
+import { Institution } from 'shared/models/institution.model';
 import { CreateInfoFormComponent } from './create-info-form.component';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
   let fixture: ComponentFixture<CreateInfoFormComponent>;
+  let store: Store;
+  let storeDispatchSpy: jest.SpyInstance;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -46,6 +49,8 @@ describe('CreateInfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    storeDispatchSpy = jest.spyOn(store, 'dispatch');
     component.infoFormGroup = new FormGroup({
       fullTitle: new FormControl(''),
       shortTitle: new FormControl(''),
@@ -67,6 +72,38 @@ describe('CreateInfoFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('ngOnInit method', () => {
+    let edrpouIpnTypeControlSetValueSpy: jest.SpyInstance;
+    const expectedSettings = { emitEvent: false };
+
+    beforeEach(() => {
+      edrpouIpnTypeControlSetValueSpy = jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
+    });
+
+    it('should set correct value and settings to edrpouIpnTypeControl when ownership is type of state', fakeAsync(() => {
+      jest.spyOn(component as any, 'isOwnershipTypeState', 'get').mockReturnValueOnce(true);
+      component.edrpouIpnTypeControl.setValue('123456789');
+      component.ownershipTypeControl.setValue('Testing value');
+      const expectedEdrpouIpnValue = '12345678';
+
+      component.ownershipTypeControl.valueChanges.subscribe();
+      tick(1000);
+
+      expect(edrpouIpnTypeControlSetValueSpy).toHaveBeenCalledWith(expectedEdrpouIpnValue, expectedSettings);
+    }));
+  });
+
+  describe('compareInstitutions method', () => {
+    it('should return TRUE when IDs of two institution are identical', () => {
+      const mockFirstInstitution = { id: 'Testing id' } as Institution;
+      const mockSecondInstitution = { id: 'Testing id' } as Institution;
+
+      component.compareInstitutions(mockFirstInstitution, mockSecondInstitution);
+
+      expect(component.compareInstitutions(mockFirstInstitution, mockSecondInstitution)).toBe(true);
+    });
   });
 });
 
