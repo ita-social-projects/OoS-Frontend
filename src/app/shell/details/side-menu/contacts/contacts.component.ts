@@ -17,13 +17,11 @@ export class ContactsComponent implements OnInit {
     website: string;
   };
 
+  private addressLink = 'https://www.google.com/maps/place/';
+
   public get getFullAddress(): string {
     return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
   }
-
-  private addressLink = 'https://www.google.com/maps/place/';
-
-  constructor() {}
 
   public ngOnInit(): void {}
 

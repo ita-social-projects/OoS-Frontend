@@ -35,7 +35,9 @@ export class NotificationDescriptionPipe implements PipeTransform {
           description = ApplicationTitles[notification.data.Status];
           break;
         case NotificationType.Workshop:
-          description = NotificationDescriptions.get(descriptionType, NotificationType.Workshop, notification.data.Status);
+          description =
+            NotificationDescriptions.get(descriptionType, notification.type, notification.data.Status) ??
+            NotificationDescriptions.get(descriptionType, notification.type, notification.action);
           break;
         case NotificationType.Provider:
         case NotificationType.System: {

@@ -294,7 +294,13 @@ export class Util {
    * Used with `keyvalue` pipe for sorting keys in numerical order instead of alphanumeric
    */
   public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
-    return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
+    if (a.key > b.key) {
+      return -1;
+    } else if (b.key > a.key) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   public static getTitleFromNotification(notification: Notification, descriptionType: NotificationDescriptionType): string {

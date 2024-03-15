@@ -8,8 +8,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-
 import { NgxsModule } from '@ngxs/store';
+
 import { Address } from 'shared/models/address.model';
 import { Institution } from 'shared/models/institution.model';
 import { Provider } from 'shared/models/provider.model';
