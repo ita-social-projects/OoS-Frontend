@@ -1,7 +1,8 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
+import { Country } from 'ngx-mat-intl-tel-input/lib/model/country.model';
 import { PhoneFormControlComponent } from './phone-form-control.component';
 
 describe('PhoneFormControlComponent', () => {
@@ -21,5 +22,35 @@ describe('PhoneFormControlComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should find country-search element on key press', fakeAsync(() => {
+    jest.spyOn(component, 'handleKeyboardEvent');
+    jest.spyOn(document, 'querySelector');
+    jest.spyOn(global, 'setTimeout');
+
+    document.dispatchEvent(new KeyboardEvent('keypress'));
+    tick(200);
+
+    expect(component.handleKeyboardEvent).toHaveBeenCalled();
+    expect(document.querySelector).toHaveBeenCalledWith('.ngx-mat-tel-input-mat-menu-panel .country-search');
+    expect(document.querySelector).toHaveReturned();
+  }));
+
+  it('should return correctly return country by code', () => {
+    const code = 'ua';
+    const expectedCountry: Country = {
+      name: 'Ukraine (Україна)',
+      iso2: 'ua',
+      dialCode: '380',
+      priority: 0,
+      areaCodes: undefined,
+      flagClass: 'UA',
+      placeHolder: '+380501234567'
+    };
+
+    const result: Country = (component as any).inputComponent.getCountry(code);
+
+    expect(result).toEqual(expectedCountry);
   });
 });
