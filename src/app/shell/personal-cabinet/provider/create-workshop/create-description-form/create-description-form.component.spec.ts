@@ -1,19 +1,20 @@
-import { MatIconModule } from '@angular/material/icon';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { Component, Input } from '@angular/core';
 import { MatChipsModule } from '@angular/material/chips';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatRadioModule } from '@angular/material/radio';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { Provider } from '../../../../../shared/models/provider.model';
-import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
+import { NgxsModule } from '@ngxs/store';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { Provider } from 'shared/models/provider.model';
 import { CreateDescriptionFormComponent } from './create-description-form.component';
 
 describe('CreateDescriptionFormComponent', () => {
