@@ -1,6 +1,6 @@
 import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -55,22 +55,6 @@ describe('CreateInfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
-    component.infoFormGroup = new FormGroup({
-      fullTitle: new FormControl(''),
-      shortTitle: new FormControl(''),
-      edrpouIpn: new FormControl(''),
-      director: new FormControl(''),
-      directorDateOfBirth: new FormControl(''),
-      phoneNumber: new FormControl(''),
-      email: new FormControl(''),
-      typeId: new FormControl(null),
-      ownership: new FormControl(null),
-      institution: new FormControl(''),
-      institutionType: new FormControl(''),
-      license: new FormControl(''),
-      founder: new FormControl(''),
-      institutionStatusId: new FormControl('')
-    });
     store = TestBed.inject(Store);
     fixture.detectChanges();
   });
@@ -109,10 +93,10 @@ describe('CreateInfoFormComponent', () => {
     const mockEdrpouIpn = '123456789012345678901234567890123';
 
     it('should update edrpouIpnTypeControl value if ownership type is state', () => {
+      component.ngOnInit();
       component.edrpouIpnTypeControl.setValue(mockEdrpouIpn, { emitEvent: false });
       jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
 
-      component.ngOnInit();
       component.ownershipTypeControl.setValue(OwnershipTypes.State);
 
       expect(component.edrpouIpnTypeControl.setValue).toHaveBeenCalled();
@@ -120,10 +104,10 @@ describe('CreateInfoFormComponent', () => {
     });
 
     it('should not update edrpouIpnTypeControl value if ownership type is not state', () => {
+      component.ngOnInit();
       component.edrpouIpnTypeControl.setValue(mockEdrpouIpn, { emitEvent: false });
       jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
 
-      component.ngOnInit();
       component.ownershipTypeControl.setValue(OwnershipTypes.Common);
 
       expect(component.edrpouIpnTypeControl.setValue).not.toHaveBeenCalled();

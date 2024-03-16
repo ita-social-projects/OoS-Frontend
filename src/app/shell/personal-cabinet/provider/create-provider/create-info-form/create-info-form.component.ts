@@ -68,7 +68,52 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   constructor(
     private formBuilder: FormBuilder,
     private store: Store
-  ) {
+  ) {}
+
+  public get ownershipTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('ownership');
+  }
+
+  public get edrpouIpnTypeControl(): AbstractControl {
+    return this.infoFormGroup.get('edrpouIpn');
+  }
+
+  public get edrpouIpnLabel(): string {
+    return this.isOwnershipTypeState ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
+  }
+
+  public get edrpouIpnLength(): number {
+    return this.isOwnershipTypeState ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
+  }
+
+  private get isOwnershipTypeState(): boolean {
+    return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
+  }
+
+  public ngOnInit(): void {
+    this.initInfoFormGroup();
+    this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
+    this.initData();
+    this.passInfoFormGroup.emit(this.infoFormGroup);
+    this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
+      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
+        this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
+          emitEvent: false
+        });
+      }
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
+  }
+
+  private initInfoFormGroup(): void {
     this.infoFormGroup = this.formBuilder.group({
       fullTitle: new FormControl('', [
         Validators.required,
@@ -108,56 +153,6 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  public get ownershipTypeControl(): AbstractControl {
-    return this.infoFormGroup.get('ownership');
-  }
-
-  public get edrpouIpnTypeControl(): AbstractControl {
-    return this.infoFormGroup.get('edrpouIpn');
-  }
-
-  public get edrpouIpnLabel(): string {
-    return this.isOwnershipTypeState ? 'FORMS.LABELS.EDRPO' : 'FORMS.LABELS.IPN';
-  }
-
-  public get edrpouIpnLength(): number {
-    return this.isOwnershipTypeState ? ValidationConstants.EDRPOU_LENGTH : ValidationConstants.IPN_LENGTH;
-  }
-
-  private get isOwnershipTypeState(): boolean {
-    return this.infoFormGroup?.get('ownership').value === OwnershipTypes.State;
-  }
-
-  public ngOnInit(): void {
-    this.store.dispatch([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
-    this.initData();
-    this.passInfoFormGroup.emit(this.infoFormGroup);
-    this.ownershipTypeControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe(() => {
-      if (this.isOwnershipTypeState && this.edrpouIpnTypeControl.value.length > ValidationConstants.EDRPOU_LENGTH) {
-        this.edrpouIpnTypeControl.setValue(this.edrpouIpnTypeControl.value.substring(0, ValidationConstants.EDRPOU_LENGTH), {
-          emitEvent: false
-        });
-      }
-    });
-  }
-
-  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
-    return institution1.id === institution2.id;
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-  }
-
-  /**
-   * This method fills inputs with information of edited provider
-   */
-  private activateEditMode(): void {
-    this.store.dispatch(new ActivateEditMode(true));
-    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
-  }
-
   private initData(): void {
     this.institutionStatuses$.pipe(filter(Boolean), first(), takeUntil(this.destroy$)).subscribe((institutionStatuses: DataItem[]) => {
       if (this.provider) {
@@ -166,5 +161,10 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         this.infoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
       }
     });
+  }
+
+  private activateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
+    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 }

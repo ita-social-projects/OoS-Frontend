@@ -650,7 +650,8 @@
     },
     "WORKSHOP_SHORT_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open",
-      "CLOSED": "Workshop recruitment is closed"
+      "CLOSED": "Workshop recruitment is closed",
+      "DELETED": "Workshop is deleted"
     },
     "LICENSE_SHORT_DESCRIPTION": {
       "APPROVED": "The institution's license has been successfully confirmed by the administrator",
@@ -671,7 +672,8 @@
     },
     "WORKSHOP_FULL_DESCRIPTION": {
       "OPEN": "Workshop recruitment is open, now you can apply for this workshop.",
-      "CLOSED": "Workshop recruitment is closed, now you can not apply for this workshop."
+      "CLOSED": "Workshop recruitment is closed, now you can not apply for this workshop.",
+      "DELETED": "Workshop is deleted, now can not review the workshop or apply for it."
     },
     "LICENSE_FULL_DESCRIPTION": {
       "APPROVED": "After receiving the approved license status, a confirmation icon will appear on the institution's or workshop's preview page",

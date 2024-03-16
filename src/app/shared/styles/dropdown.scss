@@ -7,6 +7,12 @@
     background-color: transparent;
     padding-left: 10px;
   }
+
+  &-trimmed {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
 }
 .mat-option.mat-option-disabled {
   background-color: #f8f8f8 !important;

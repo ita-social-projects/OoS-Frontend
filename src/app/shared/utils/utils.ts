@@ -1,6 +1,5 @@
 import { KeyValue } from '@angular/common';
 
-import { Workshop } from 'shared/models/workshop.model';
 import { Constants } from 'shared/constants/constants';
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
@@ -23,6 +22,7 @@ import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
+import { Workshop } from 'shared/models/workshop.model';
 import { Subrole } from './../enum/role';
 
 /**
@@ -296,7 +296,13 @@ export class Util {
    * Used with `keyvalue` pipe for sorting keys in numerical order instead of alphanumeric
    */
   public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
-    return a.key > b.key ? -1 : b.key > a.key ? 1 : 0;
+    if (a.key > b.key) {
+      return -1;
+    } else if (b.key > a.key) {
+      return 1;
+    } else {
+      return 0;
+    }
   }
 
   public static getTitleFromNotification(notification: Notification, descriptionType: NotificationDescriptionType): string {

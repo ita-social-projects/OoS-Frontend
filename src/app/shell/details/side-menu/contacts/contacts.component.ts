@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from '../../../../shared/constants/constants';
-import { Address } from '../../../../shared/models/address.model';
+
+import { Constants } from 'shared/constants/constants';
+import { Address } from 'shared/models/address.model';
 
 @Component({
   selector: 'app-contacts',
@@ -8,8 +9,6 @@ import { Address } from '../../../../shared/models/address.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
-
   @Input() public address: Address;
   @Input() public contactsData: {
     phone: string;
@@ -19,13 +18,13 @@ export class ContactsComponent implements OnInit {
     website: string;
   };
 
-  public get getFullAddress(): string {
-    return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
-  }
+  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   private addressLink = 'https://www.google.com/maps/place/';
 
-  constructor() {}
+  public get getFullAddress(): string {
+    return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
+  }
 
   public ngOnInit(): void {}
 
