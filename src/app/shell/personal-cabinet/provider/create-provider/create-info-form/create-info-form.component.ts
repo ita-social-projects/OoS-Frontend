@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, first, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, first, takeUntil } from 'rxjs';
 
 import { Constants, CropperConfigurationConstants } from 'shared/constants/constants';
 import { DATE_REGEX, FULL_NAME_REGEX } from 'shared/constants/regex-constants';
@@ -23,6 +23,11 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./create-info-form.component.scss']
 })
 export class CreateInfoFormComponent implements OnInit, OnDestroy {
+  @Input() public provider: Provider;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public passInfoFormGroup = new EventEmitter();
+
   @Select(AppState.isEditMode)
   public isEditMode$: Observable<boolean>;
   @Select(MetaDataState.institutions)
@@ -32,14 +37,14 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.institutionStatuses)
   public institutionStatuses$: Observable<DataItem[]>;
 
-  @Input() public provider: Provider;
-  @Input() public isImagesFeature: boolean;
-
-  @Output() public passInfoFormGroup = new EventEmitter();
-
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly phonePrefix = Constants.PHONE_PREFIX;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; // TODO: temporary removed for 1st release
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypes = InstitutionTypes;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
 
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -51,12 +56,6 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
-
-  public readonly ownershipTypes = OwnershipTypes;
-  public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; // TODO: temporary removed for 1st release
-  public readonly ownershipTypesEnum = OwnershipTypesEnum;
-  public readonly institutionTypes = InstitutionTypes;
-  public readonly institutionTypesEnum = InstitutionTypesEnum;
 
   public infoFormGroup: FormGroup;
   public dateFilter: RegExp = DATE_REGEX;
@@ -105,21 +104,13 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
-    return institution1.id === institution2.id;
-  }
-
   public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  /**
-   * This method fills inputs with information of edited provider
-   */
-  private activateEditMode(): void {
-    this.store.dispatch(new ActivateEditMode(true));
-    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
+  public compareInstitutions(institution1: Institution, institution2: Institution): boolean {
+    return institution1.id === institution2.id;
   }
 
   private initInfoFormGroup(): void {
@@ -170,5 +161,10 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
         this.infoFormGroup.get('institutionStatusId').setValue(institutionStatuses[0].id, { emitEvent: false });
       }
     });
+  }
+
+  private activateEditMode(): void {
+    this.store.dispatch(new ActivateEditMode(true));
+    this.infoFormGroup.patchValue(this.provider, { emitEvent: false });
   }
 }
