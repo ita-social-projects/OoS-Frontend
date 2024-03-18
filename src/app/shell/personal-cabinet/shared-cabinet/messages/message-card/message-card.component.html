@@ -1,4 +1,5 @@
-<mat-card
+<ng-container *ngIf="chatRoom.lastMessage !== null; else emptyChatTemplate">
+  <mat-card
   class="card"
   [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
   [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
@@ -35,3 +36,47 @@
     </mat-menu>
   </mat-card-content>
 </mat-card>
+</ng-container>
+<ng-template #emptyChatTemplate>
+  <mat-card
+  class="card"
+  [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
+  [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
+  [routerLink]="['./', chatRoom.id]">
+  <mat-card-content class="card-block card-block__message">
+    <div class="companion">
+      <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
+      <p class="text">
+        {{ 'EMPTY_BANNERS.NO_CHAT_HISTORY' | translate }} 
+      </p>
+    </div>
+    <h4 class="title">{{ chatRoom.workshop.title }}</h4>
+    <div class="last-message text">
+      _
+    </div>
+    <ng-container *ngIf="role === Role.provider && chatRoom.isBlockedByProvider">
+      <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
+        <span><i class="status-icon {{ userStatusIcons[userStatuses.Blocked] }}"></i></span>
+        <span>{{ userStatusesTitles[userStatuses.Blocked] | translate }}</span>
+      </div>
+    </ng-container>
+  </mat-card-content>
+  <mat-card-content *ngIf="role === Role.provider" class="card-block card-block__actions">
+    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions">more_vert</mat-icon>
+    <mat-menu #actions="matMenu" class="header_menu">
+      <ng-container *ngIf="chatRoom.isBlockedByProvider; then Unblock; else Block"></ng-container>
+      <ng-template #Block>
+        <button mat-menu-item (click)="onBlock()">{{ 'BUTTONS.BLOCK_USER' | translate }}</button>
+      </ng-template>
+
+      <ng-template #Unblock>
+        <button mat-menu-item (click)="onUnBlock()">{{ 'BUTTONS.UNBLOCK_USER' | translate }}</button>
+      </ng-template>
+    </mat-menu>
+  </mat-card-content>
+</mat-card>
+
+</ng-template>
+
+
+

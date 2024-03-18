@@ -89,10 +89,6 @@ export class MessagesComponent extends CabinetDataComponent {
     );
   }
 
-  filterChatRoomsWithoutMessage(chatRooms: any[]): any[] {
-    return chatRooms.filter((elem) => elem.lastMessage !== null);
-  }
-
   getProviderWorkshops(): void {
     if (this.subrole === Subrole.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));

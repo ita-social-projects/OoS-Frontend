@@ -594,7 +594,8 @@
     "NO_NOTIFICATIONS": "У вас немає нових сповіщень",
     "NO_SETTLEMENT": "Такого населеного пункту немає",
     "NO_TERRITORIAL_COMMUNITY": "Такої територіальної громади немає",
-    "NO_CHILD_WORKSHOPS": "Гуртків поки немає!"
+    "NO_CHILD_WORKSHOPS": "Гуртків поки немає!",
+    "NO_CHAT_HISTORY": "У чаті ще немає повідомлень"
   },
   "NOTIFICATIONS": "Сповіщення",
   "APPLICATION_STATUSES": "Статуси заявок",
