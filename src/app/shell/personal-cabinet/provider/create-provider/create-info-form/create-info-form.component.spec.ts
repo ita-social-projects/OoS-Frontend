@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Component, Injectable, Input } from '@angular/core';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -11,18 +11,24 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule, State, Store } from '@ngxs/store';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { ValidationConstants } from 'shared/constants/validation';
 import { KeyFilterDirective } from 'shared/directives/key-filter.directive';
+import { InstitutionTypes, OwnershipTypes } from 'shared/enum/provider';
+import { ProviderStatuses } from 'shared/enum/statuses';
 import { Institution } from 'shared/models/institution.model';
+import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
+import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
+import { MetaDataStateModel } from 'shared/store/meta-data.state';
 import { CreateInfoFormComponent } from './create-info-form.component';
 
 describe('CreateInfoFormComponent', () => {
   let component: CreateInfoFormComponent;
   let fixture: ComponentFixture<CreateInfoFormComponent>;
   let store: Store;
-  let storeDispatchSpy: jest.SpyInstance;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,7 +44,7 @@ describe('CreateInfoFormComponent', () => {
         MatGridListModule,
         MatIconModule,
         BrowserAnimationsModule,
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([MockMetaDataState]),
         TranslateModule.forRoot(),
         MatDialogModule
       ],
@@ -50,23 +56,6 @@ describe('CreateInfoFormComponent', () => {
     fixture = TestBed.createComponent(CreateInfoFormComponent);
     component = fixture.componentInstance;
     store = TestBed.inject(Store);
-    storeDispatchSpy = jest.spyOn(store, 'dispatch');
-    component.infoFormGroup = new FormGroup({
-      fullTitle: new FormControl(''),
-      shortTitle: new FormControl(''),
-      edrpouIpn: new FormControl(''),
-      director: new FormControl(''),
-      directorDateOfBirth: new FormControl(''),
-      phoneNumber: new FormControl(''),
-      email: new FormControl(''),
-      typeId: new FormControl(null),
-      ownership: new FormControl(null),
-      institution: new FormControl(''),
-      institutionType: new FormControl(''),
-      license: new FormControl(''),
-      founder: new FormControl(''),
-      institutionStatusId: new FormControl('')
-    });
     fixture.detectChanges();
   });
 
@@ -74,38 +63,128 @@ describe('CreateInfoFormComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  describe('ngOnInit method', () => {
-    let edrpouIpnTypeControlSetValueSpy: jest.SpyInstance;
-    const expectedSettings = { emitEvent: false };
-
-    beforeEach(() => {
-      edrpouIpnTypeControlSetValueSpy = jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
+  describe('getters', () => {
+    it('should return correct ownership type control', () => {
+      expect(component.ownershipTypeControl).toEqual(component.infoFormGroup.get('ownership'));
     });
 
-    it('should set correct value and settings to edrpouIpnTypeControl when ownership is type of state', fakeAsync(() => {
-      jest.spyOn(component as any, 'isOwnershipTypeState', 'get').mockReturnValueOnce(true);
-      component.edrpouIpnTypeControl.setValue('123456789');
-      component.ownershipTypeControl.setValue('Testing value');
-      const expectedEdrpouIpnValue = '12345678';
+    it('should return correct edrpou/ipn type control', () => {
+      expect(component.edrpouIpnTypeControl).toEqual(component.infoFormGroup.get('edrpouIpn'));
+    });
 
-      component.ownershipTypeControl.valueChanges.subscribe();
-      tick(1000);
+    it('should return correct edrpou/ipn label', () => {
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.State);
+      expect(component.edrpouIpnLabel).toEqual('FORMS.LABELS.EDRPO');
 
-      expect(edrpouIpnTypeControlSetValueSpy).toHaveBeenCalledWith(expectedEdrpouIpnValue, expectedSettings);
-    }));
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Common);
+      expect(component.edrpouIpnLabel).toEqual('FORMS.LABELS.IPN');
+    });
+
+    it('should return correct edrpou/ipn length', () => {
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.State);
+      expect(component.edrpouIpnLength).toEqual(ValidationConstants.EDRPOU_LENGTH);
+
+      component.infoFormGroup.get('ownership').setValue(OwnershipTypes.Common);
+      expect(component.edrpouIpnLength).toEqual(ValidationConstants.IPN_LENGTH);
+    });
   });
 
-  describe('compareInstitutions method', () => {
-    it('should return TRUE when IDs of two institution are identical', () => {
-      const mockFirstInstitution = { id: 'Testing id' } as Institution;
-      const mockSecondInstitution = { id: 'Testing id' } as Institution;
+  describe('ownershipTypeControl valueChanges subscription', () => {
+    const mockEdrpouIpn = '123456789012345678901234567890123';
 
-      component.compareInstitutions(mockFirstInstitution, mockSecondInstitution);
+    it('should update edrpouIpnTypeControl value if ownership type is state', () => {
+      component.ngOnInit();
+      component.edrpouIpnTypeControl.setValue(mockEdrpouIpn, { emitEvent: false });
+      jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
 
-      expect(component.compareInstitutions(mockFirstInstitution, mockSecondInstitution)).toBe(true);
+      component.ownershipTypeControl.setValue(OwnershipTypes.State);
+
+      expect(component.edrpouIpnTypeControl.setValue).toHaveBeenCalled();
+      expect(component.edrpouIpnTypeControl.value).toEqual(mockEdrpouIpn.substring(0, ValidationConstants.EDRPOU_LENGTH));
+    });
+
+    it('should not update edrpouIpnTypeControl value if ownership type is not state', () => {
+      component.ngOnInit();
+      component.edrpouIpnTypeControl.setValue(mockEdrpouIpn, { emitEvent: false });
+      jest.spyOn(component.edrpouIpnTypeControl, 'setValue');
+
+      component.ownershipTypeControl.setValue(OwnershipTypes.Common);
+
+      expect(component.edrpouIpnTypeControl.setValue).not.toHaveBeenCalled();
+    });
+  });
+
+  describe('compareInstitutions', () => {
+    let institution1: Institution;
+    let institution2: Institution;
+
+    beforeEach(() => {
+      institution1 = { id: '1', title: 'Institution 1', numberOfHierarchyLevels: 0 };
+      institution2 = { id: '1', title: 'Institution 1', numberOfHierarchyLevels: 0 };
+    });
+
+    it('should return true if institutions have the same id', () => {
+      const result = component.compareInstitutions(institution1, institution2);
+
+      expect(result).toBeTruthy();
+    });
+
+    it('should return false if institutions have different ids', () => {
+      institution2.id = '2';
+
+      const result = component.compareInstitutions(institution1, institution2);
+
+      expect(result).toBeFalsy();
+    });
+  });
+
+  describe('initData', () => {
+    let mockProvider: Provider;
+
+    beforeEach(() => {
+      mockProvider = {
+        ownership: OwnershipTypes.State,
+        fullTitle: '',
+        shortTitle: '',
+        email: '',
+        edrpouIpn: '',
+        director: '',
+        directorDateOfBirth: '',
+        phoneNumber: '',
+        founder: '',
+        status: ProviderStatuses.Approved,
+        userId: '',
+        legalAddress: null,
+        institution: null,
+        institutionType: InstitutionTypes.Complex,
+        providerSectionItems: []
+      };
+    });
+
+    it('should initialize institution statuses', () => {
+      jest.spyOn(store, 'dispatch');
+
+      component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith([new GetAllInstitutions(true), new GetProviderTypes(), new GetInstitutionStatuses()]);
+      expect(component.infoFormGroup.get('institutionStatusId').value).toEqual(mockInstitutionStatuses[0].id);
+    });
+
+    it('should activate edit mode if provider is provided', () => {
+      component.provider = mockProvider;
+      jest.spyOn(store, 'dispatch');
+
+      component.ngOnInit();
+
+      expect(store.dispatch).toHaveBeenCalledWith(new ActivateEditMode(true));
     });
   });
 });
+
+const mockInstitutionStatuses = [
+  { id: 1, name: 'Status 1' },
+  { id: 2, name: 'Status 2' }
+];
 
 @Component({
   selector: 'app-validation-hint',
@@ -120,3 +199,26 @@ class MockValidationHintForInputComponent {
   @Input() public isPhoneNumber: boolean;
   @Input() public isEdrpouIpn: boolean;
 }
+
+@State<MetaDataStateModel>({
+  name: 'metaDataState',
+  defaults: {
+    directions: [],
+    socialGroups: [],
+    institutionStatuses: mockInstitutionStatuses,
+    providerTypes: [],
+    achievementsTypes: [],
+    rating: undefined,
+    isLoading: false,
+    featuresList: undefined,
+    institutions: [],
+    institutionFieldDesc: [],
+    instituitionsHierarchyAll: [],
+    instituitionsHierarchy: [],
+    editInstituitionsHierarchy: [],
+    codeficatorSearch: [],
+    codeficator: undefined
+  }
+})
+@Injectable()
+class MockMetaDataState {}

@@ -61,7 +61,7 @@ describe('MinistryAdminService', () => {
   it('should get all admin', (done) => {
     const parameters: BaseAdminParameters = { size: 4, from: 0 };
 
-    service.getAllAdmin(parameters).subscribe((ministryAdmins) => {
+    (service as any).getAllAdmin(parameters).subscribe((ministryAdmins) => {
       expect(ministryAdmins).toEqual({ totalAmount: 1, entities: [mockMinistryAdmin] });
       done();
     });
@@ -77,7 +77,7 @@ describe('MinistryAdminService', () => {
     const mockMinistryAdmins = [{ ...mockMinistryAdmin }, { ...mockMinistryAdmin }];
     mockMinistryAdmins[1].firstName = parameters.searchString;
 
-    service.getAllAdmin(parameters).subscribe((ministryAdmins) => {
+    (service as any).getAllAdmin(parameters).subscribe((ministryAdmins) => {
       expect(ministryAdmins).toEqual({ totalAmount: 1, entities: [mockMinistryAdmins[1]] });
       done();
     });
