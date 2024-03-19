@@ -53,7 +53,6 @@ export class MessagesComponent extends CabinetDataComponent {
     searchText: null,
     size: PaginationConstants.CHATROOMS_PER_PAGE
   };
-
   constructor(
     protected store: Store,
     protected matDialog: MatDialog
