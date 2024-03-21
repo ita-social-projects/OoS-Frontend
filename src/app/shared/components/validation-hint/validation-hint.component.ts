@@ -3,7 +3,14 @@ import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
-import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
+import {
+  FULL_NAME_REGEX,
+  HOUSE_REGEX,
+  NAME_REGEX,
+  NO_LATIN_REGEX,
+  SECTION_NAME_REGEX,
+  STREET_REGEX
+} from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-validation-hint',
@@ -36,7 +43,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private cd: ChangeDetectorRef) {}
+  constructor(private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
@@ -48,7 +55,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       // Check is the field required and empty
-      this.required = !!(errors?.required && !this.validationFormControl.value);
+      this.required = errors?.required && !this.validationFormControl.value;
 
       // Check Date Picker Format
       if (this.minMaxDate) {
@@ -61,7 +68,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       // Check errors for invalid text field
       this.checkInvalidText(errors);
 
-      this.cd.detectChanges();
+      this.cdr.detectChanges();
     });
   }
 
@@ -77,25 +84,25 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
-    this.invalidEmail = !!errors?.email;
+    this.invalidEmail = errors?.email;
     if (this.isPhoneNumber) {
       this.invalidPhoneLength = !!errors?.minlength;
       this.invalidPhoneNumber = !this.invalidPhoneLength && !!errors?.validatePhoneNumber;
     } else if (this.isEdrpouIpn) {
-      this.invalidEdrpouIpn = !!errors?.minlength && !errors?.maxlength;
+      this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
     } else {
-      this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
+      this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
-    const requiredPattern = errors?.pattern?.requiredPattern;
+    const requiredPattern = errors?.pattern?.requiredPattern?.toString();
 
-    this.invalidSymbols = NAME_REGEX === requiredPattern;
-    this.invalidCharacters = NO_LATIN_REGEX === requiredPattern;
-    this.invalidStreet = STREET_REGEX === requiredPattern;
-    this.invalidHouse = HOUSE_REGEX === requiredPattern;
-    this.invalidSectionName = SECTION_NAME_REGEX === requiredPattern;
+    this.invalidSymbols = NAME_REGEX.toString() === requiredPattern || FULL_NAME_REGEX.toString() === requiredPattern;
+    this.invalidCharacters = NO_LATIN_REGEX.toString() === requiredPattern;
+    this.invalidStreet = STREET_REGEX.toString() === requiredPattern;
+    this.invalidHouse = HOUSE_REGEX.toString() === requiredPattern;
+    this.invalidSectionName = SECTION_NAME_REGEX.toString() === requiredPattern;
   }
 
   private checkMatDatePicker(): void {

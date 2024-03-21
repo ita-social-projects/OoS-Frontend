@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators, AbstractControl } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -200,13 +200,13 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
         Validators.required
       ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
       ])
     });
 
