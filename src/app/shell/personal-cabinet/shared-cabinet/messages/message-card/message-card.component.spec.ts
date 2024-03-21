@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ParentWithContactInfo } from '../../../../../shared/models/parent.model';
 import { WorkshopTruncated } from '../../../../../shared/models/workshop.model';
 import { GetFullNamePipe } from '../../../../../shared/pipes/get-full-name.pipe';
+import { EmptyValueTransformPipe } from '../../../../../shared/pipes/empty-value-transform.pipe';
 import { ChatRoom } from '../../../../../shared/models/chat.model';
 import { MessageCardComponent } from './message-card.component';
 
@@ -16,7 +17,7 @@ describe('MessageCardComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MessageCardComponent, GetFullNamePipe],
+      declarations: [MessageCardComponent, GetFullNamePipe, EmptyValueTransformPipe],
       imports: [HttpClientTestingModule, MatMenuModule, MatIconModule, MatCardModule, RouterTestingModule]
     }).compileComponents();
 
