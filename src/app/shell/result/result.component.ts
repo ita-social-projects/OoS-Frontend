@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
-import { Actions, Select, Store } from '@ngxs/store';
+import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { PaginationConstants } from 'shared/constants/constants';
 import { WorkshopDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ResultViewType } from 'shared/enum/result-view-type';
 import { FilterStateModel } from 'shared/models/filter-state.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { PaginationParameters } from 'shared/models/query-parameters.model';
@@ -21,56 +22,48 @@ import { NavigationState } from 'shared/store/navigation.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 
-enum ViewType {
-  map = 'map',
-  list = 'list'
-}
-
 @Component({
   selector: 'app-result',
   templateUrl: './result.component.html',
   styleUrls: ['./result.component.scss']
 })
 export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
-  readonly WorkshopDeclination = WorkshopDeclination;
-
-  @Select(AppState.isMobileScreen)
-  isMobileView$: Observable<boolean>;
-  isMobileView: boolean;
   @Select(FilterState.filteredWorkshops)
-  filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Select(FilterState.isLoading)
-  isLoading$: Observable<boolean>;
+  public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Select(AppState.isMobileScreen)
+  private isMobileView$: Observable<boolean>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
-  role: string;
+  private role$: Observable<string>;
   @Select(NavigationState.filtersSidenavOpenTrue)
-  isFiltersSidenavOpen$: Observable<boolean>;
-  isFiltersSidenavOpen: boolean;
+  private isFiltersSidenavOpen$: Observable<boolean>;
   @Select(FilterState.isMapView)
-  isMapView$: Observable<boolean>;
-  isMapView: boolean;
+  private isMapView$: Observable<boolean>;
   @Select(FilterState)
-  filterState$: Observable<FilterStateModel>;
+  private filterState$: Observable<FilterStateModel>;
 
-  currentView: ViewType;
-  viewType = ViewType;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  paginationParameters: PaginationParameters = {
+  public readonly ResultViewType = ResultViewType;
+  public readonly WorkshopDeclination = WorkshopDeclination;
+
+  public isMobileView: boolean;
+  public role: string;
+  public isFiltersSidenavOpen: boolean;
+  public isMapView: boolean;
+  public currentViewType: ResultViewType;
+  public paginationParameters: PaginationParameters = {
     size: PaginationConstants.WORKSHOPS_PER_PAGE,
     from: 0
   };
-  currentPage: PaginationElement = PaginationConstants.firstPage;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
-    private actions$: Actions,
     private store: Store,
     private navigationBarService: NavigationBarService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new SetFilterPagination(this.paginationParameters));
 
     this.addNavPath();
@@ -79,24 +72,43 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.setFiltersFromQueryParamsWhenMapView();
   }
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     this.setFilterStateURLParams();
   }
 
-  private setFiltersFromQueryParamsWhenMapView(): void {
-    combineLatest([this.route.queryParamMap, this.isMapView$])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
-        const filterParams = queryParamMap.get('filter');
-        this.currentPage = { element: 1, isActive: true };
-        this.isMapView = isMapView;
-        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
-      });
+  public ngOnDestroy(): void {
+    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops(), new FilterClear()]);
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
+  public viewHandler(value: ResultViewType): void {
+    this.currentViewType = value;
+    this.store.dispatch(new SetMapView(this.currentViewType === ResultViewType.Map));
+  }
+
+  public filterHandler(): void {
+    this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
+  }
+
+  private addNavPath(): void {
+    this.store.dispatch(
+      new AddNavPath(
+        this.navigationBarService.createOneNavPath({
+          name: NavBarName.WorkshopResult,
+          isActive: false,
+          disable: true
+        })
+      )
+    );
   }
 
   private setViewType(): void {
-    this.currentView = this.route.snapshot.paramMap.get('param') as ViewType;
-    this.currentView === ViewType.map && this.store.dispatch(new SetMapView(true));
+    this.currentViewType = this.route.snapshot.paramMap.get('param') as ResultViewType;
+
+    if (this.currentViewType === ResultViewType.Map) {
+      this.store.dispatch(new SetMapView(true));
+    }
   }
 
   private setInitialSubscriptions(): void {
@@ -113,42 +125,21 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
     this.isFiltersSidenavOpen$.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isFiltersSidenavOpen = val));
   }
 
-  private addNavPath(): void {
-    this.store.dispatch(
-      new AddNavPath(
-        this.navigationBarService.createOneNavPath({
-          name: NavBarName.WorkshopResult,
-          isActive: false,
-          disable: true
-        })
-      )
-    );
+  private setFiltersFromQueryParamsWhenMapView(): void {
+    combineLatest([this.route.queryParamMap, this.isMapView$])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(([queryParamMap, isMapView]: [ParamMap, boolean]) => {
+        const filterParams = queryParamMap.get('filter');
+        this.currentPage = { element: 1, isActive: true };
+        this.isMapView = isMapView;
+        this.store.dispatch(new SetFilterFromURL(Util.parseFilterStateQuery(filterParams)));
+      });
   }
 
-  /**
-   * Updates / Appends workshop filter to the URL query string
-   * @private
-   */
   private setFilterStateURLParams(): void {
     this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
-      // Set Filter param as null to remove it from URL query string
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
-      this.router.navigate([`result/${this.currentView}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+      this.router.navigate([`result/${this.currentViewType}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
     });
-  }
-
-  viewHandler(value: ViewType): void {
-    this.currentView = value;
-    this.store.dispatch(new SetMapView(this.currentView === this.viewType.map));
-  }
-
-  filterHandler(): void {
-    this.store.dispatch(new FiltersSidenavToggle(!this.isFiltersSidenavOpen));
-  }
-
-  ngOnDestroy(): void {
-    this.store.dispatch([new DeleteNavPath(), new ResetFilteredWorkshops(), new FilterClear()]);
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
