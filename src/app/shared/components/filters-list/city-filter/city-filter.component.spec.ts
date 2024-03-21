@@ -1,19 +1,19 @@
-import { MatIconModule } from '@angular/material/icon';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatOption, MatOptionModule } from '@angular/material/core';
-import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { NgxsModule, Store } from '@ngxs/store';
+import { MatIconModule } from '@angular/material/icon';
+import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, Store } from '@ngxs/store';
 
-import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
-import { GetCodeficatorSearch } from 'shared/store/meta-data.actions';
-import { FilterChange, SetCoordsByMap } from 'shared/store/filter.actions';
 import { Codeficator } from 'shared/models/codeficator.model';
+import { GeolocationService } from 'shared/services/geolocation/geolocation.service';
+import { FilterChange, SetCoordsByMap } from 'shared/store/filter.actions';
+import { GetCodeficatorSearch } from 'shared/store/meta-data.actions';
 import { CityFilterComponent } from './city-filter.component';
 
 describe('CityFilterComponent', () => {
