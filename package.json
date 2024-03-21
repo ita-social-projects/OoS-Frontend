@@ -14,7 +14,6 @@
     "lint:fix": "ng lint --fix & prettier --write .",
     "e2e": "ng e2e"
   },
-  
   "private": true,
   "dependencies": {
     "@angular-slider/ngx-slider": "^2.0.4",
