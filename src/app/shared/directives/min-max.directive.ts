@@ -11,29 +11,29 @@ export class MinMaxDirective implements OnInit, OnDestroy {
   @Input() public max: number;
   @Input() public directiveFormControl: FormControl;
 
-  debounce$: Subject<number> = new Subject<number>();
+  private debounce$: Subject<number> = new Subject<number>();
 
   constructor(private ref: ElementRef) {}
 
-  ngOnInit(): void {
-    this.debounce$.pipe(debounceTime(1000)).subscribe((val: number) => this.MaxMinValidation(val));
-  }
-
   @HostListener('input', ['$event'])
   public onInput(event: InputEvent): void {
-    const val = Number(this.ref.nativeElement.value);
-    this.debounce$.next(val);
+    const value: number = this.ref.nativeElement.value;
+    this.debounce$.next(value);
   }
 
-  private MaxMinValidation(val: number): void {
-    if (this.max !== null && this.max !== undefined && val >= this.max) {
+  public ngOnInit(): void {
+    this.debounce$.pipe(debounceTime(1000)).subscribe((value: number) => this.validate(value));
+  }
+
+  public ngOnDestroy(): void {
+    this.debounce$.unsubscribe();
+  }
+
+  private validate(value: number): void {
+    if (this.max !== null && this.max !== undefined && value >= this.max) {
       this.directiveFormControl.setValue(this.max);
-    } else if (this.min !== null && this.min !== undefined && val <= this.min) {
+    } else if (this.min !== null && this.min !== undefined && value <= this.min) {
       this.directiveFormControl.setValue(this.min);
     }
-  }
-
-  ngOnDestroy(): void {
-    this.debounce$.unsubscribe();
   }
 }
