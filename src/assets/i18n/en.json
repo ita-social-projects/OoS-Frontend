@@ -593,7 +593,8 @@
     "NO_NOTIFICATIONS": "You don't have any new notifications",
     "NO_SETTLEMENT": "There is no such settlement",
     "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
-    "NO_CHILD_WORKSHOPS": "There are no workshops yet"
+    "NO_CHILD_WORKSHOPS": "There are no workshops yet",
+    "NO_CHAT_HISTORY": "There are no messages in the chat yet"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",
@@ -750,7 +751,7 @@
       "ERROR_404": "Invalid request sent.",
       "ERROR_500": "Server error.",
       "ERROR_MAIL": "Check the data entered. A user with this email already exists.",
-      "NOT_UNIQUE_DATA": "Check the entered data. Email, phone number and registration code must be unique.",
+      "NOT_UNIQUE_DATA": "Check the entered data. Email and registration code must be unique.",
       "MAP_WARNING": "Important! Only the nearest 100 workshops will be displayed on the map.",
       "GEOLOCATION_WARNING": "Allow access to your geolocation. You can do it in the browser settings.",
       "ERROR_RESPONSE": {
