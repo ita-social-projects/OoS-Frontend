@@ -592,7 +592,8 @@
     "NO_NOTIFICATIONS": "You don't have any new notifications",
     "NO_SETTLEMENT": "There is no such settlement",
     "NO_TERRITORIAL_COMMUNITY": "There is no such territorial community",
-    "NO_CHILD_WORKSHOPS": "There are no workshops yet"
+    "NO_CHILD_WORKSHOPS": "There are no workshops yet",
+    "NO_CHAT_HISTORY": "There are no messages in the chat yet"
   },
   "NOTIFICATIONS": "Notifications",
   "APPLICATION_STATUSES": "Application statuses",

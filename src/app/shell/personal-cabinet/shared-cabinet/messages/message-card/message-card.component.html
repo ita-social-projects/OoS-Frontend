@@ -1,4 +1,4 @@
-<mat-card
+  <mat-card
   class="card"
   [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
   [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
@@ -6,13 +6,20 @@
   <mat-card-content class="card-block card-block__message">
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
-      <p class="text">
-        {{ chatRoom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT }}
-      </p>
+      <ng-container *ngIf="chatRoom.lastMessage !== null; else emptyChatDateTitle">
+        <p class="text">
+          {{ chatRoom.lastMessage.createdDateTime | date: constants.FULL_DATE_FORMAT }}
+        </p>
+      </ng-container>
+      <ng-template #emptyChatDateTitle>
+        <p class="text">
+          {{ 'EMPTY_BANNERS.NO_CHAT_HISTORY' | translate }} 
+        </p>
+      </ng-template>
     </div>
     <h4 class="title">{{ chatRoom.workshop.title }}</h4>
     <div class="last-message text">
-      {{ chatRoom.lastMessage.text }}
+      {{ chatRoom.lastMessage?.text | emptyValueTransform: constants.DASH_VALUE }}
     </div>
     <ng-container *ngIf="role === Role.provider && chatRoom.isBlockedByProvider">
       <div class="statuses {{ userStatuses.Blocked }}" fxLayoutAlign="center center">
@@ -35,3 +42,5 @@
     </mat-menu>
   </mat-card-content>
 </mat-card>
+
+
