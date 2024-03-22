@@ -183,17 +183,9 @@
   <div *ngIf="provider.ownership !== ownershipType.State" fxLayout="column" fxLayoutAlign="center space-between">
     <div fxLayout="row" fxLayoutAlign="left space-between">
       <label class="step-label">{{ 'FORMS.LABELS.AVAILABLE_PLACES' | translate }}<span class="step-required">*</span></label>
-      <i
-        [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
-        [matMenuTriggerFor]="unlimitedInfo"
-        #childTrigger="matMenuTrigger"
-        (menuOpened)="opened = childTrigger.menuOpen"
-        (menuClosed)="opened = childTrigger.menuOpen"
-        >info_outline</i
-      >
-      <mat-menu class="hint-menu" #unlimitedInfo="matMenu" [overlapTrigger]="false">
+      <app-info-menu [typeOfContent]="InfoMenuType.Text">
         {{ 'INFO_MENU.UNLIMITED' | translate }}
-      </mat-menu>
+      </app-info-menu>
     </div>
     <mat-radio-group [formControl]="availableSeatsRadioBtnControl" color="primary">
       <mat-radio-button [value]="true">{{ 'UNLIMITED' | translate }}</mat-radio-button>

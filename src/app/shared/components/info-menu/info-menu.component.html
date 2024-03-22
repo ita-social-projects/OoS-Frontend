@@ -1,0 +1,20 @@
+<i
+  class="material-icons status-info-icon"
+  [matMenuTriggerFor]="menu"
+  #trigger="matMenuTrigger"
+  (menuOpened)="onMenuOpened(trigger.menuOpen)"
+  (menuClosed)="onMenuClosed(trigger.menuOpen)"
+  [class.active-info-btn]="isOpened"
+  [class.big-icon]="isBigIcon">
+  info_outline
+</i>
+<mat-menu
+  #menu="matMenu"
+  disabled
+  [overlapTrigger]="false"
+  xPosition="after"
+  class="menu {{ typeOfContent === InfoMenuType.Text ? 'text' : 'component' }}">
+  <div [class.menu-wrapper]="typeOfContent === InfoMenuType.Text">
+    <ng-content></ng-content>
+  </div>
+</mat-menu>

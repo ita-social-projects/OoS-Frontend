@@ -1,7 +1,9 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+
 import { ColumnsListForChangesLogHistory } from 'shared/constants/changes-log';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { Util } from '../../../../../shared/utils/utils';
 import {
   ApplicationHistory,
@@ -33,6 +35,7 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
   public readonly adminStatus = AdminStatus;
   public readonly DASH_VALUE = Constants.DASH_VALUE;
   public readonly columnsListForChangesLogHistory = ColumnsListForChangesLogHistory;
+  public readonly InfoMenuType = InfoMenuType;
 
   public getFullName = Util.getFullName;
   public dataSource: MatTableDataSource<object>;

@@ -25,22 +25,19 @@
       </ng-container>
     </mat-select>
   </mat-form-field>
+  <div>
+    <app-info-menu [typeOfContent]="InfoMenuType.Text">
+      {{ 'Форма власності не може бути змінена. Зареєструйте новий аккаунт.' }}
+    </app-info-menu>
+  </div>
   <app-validation-hint [validationFormControl]="ownershipTypeControl"></app-validation-hint>
 
   <ng-container *ngIf="ownershipTypeControl.value === ownershipTypes.Private">
     <div fxLayout="row" fxLayoutAlign="left space-between">
       <label class="step-label">{{ 'FORMS.LABELS.LICENSE' | translate }}</label>
-      <i
-        #childTrigger="matMenuTrigger"
-        [matMenuTriggerFor]="licenseInfo"
-        [ngClass]="opened ? 'material-icons status-info-icon activeInfoBtn' : 'material-icons status-info-icon inactiveInfoBtn'"
-        (menuOpened)="opened = childTrigger.menuOpen"
-        (menuClosed)="opened = childTrigger.menuOpen">
-        info_outline
-      </i>
-      <mat-menu class="hint-menu" #licenseInfo="matMenu" [overlapTrigger]="false">
+      <app-info-menu [typeOfContent]="InfoMenuType.Text">
         {{ 'INFO_MENU.LICENSE' | translate }}
-      </mat-menu>
+      </app-info-menu>
     </div>
     <mat-form-field>
       <input matInput class="step-input" type="text" formControlName="license" autocomplete="none" appTrimValue />

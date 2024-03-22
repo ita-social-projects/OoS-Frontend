@@ -1,0 +1,55 @@
+:host {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2px;
+}
+
+.material-icons {
+  font-size: 16px;
+  color: #888;
+  cursor: pointer;
+}
+
+.status-info-icon {
+  cursor: pointer;
+  margin: auto 0.5rem;
+  z-index: 100;
+}
+
+::ng-deep {
+  .menu {
+    overflow-x: hidden;
+
+    &-wrapper {
+      font-family: 'Open Sans', sans-serif;
+      font-weight: normal;
+      font-size: 13px;
+      line-height: 18px;
+      padding: 0.5rem 0.5rem;
+    }
+
+    .mat-menu-content {
+      font-weight: inherit;
+      font-size: inherit;
+      padding: 0px;
+    }
+
+    &.text {
+      max-width: 600px;
+    }
+
+    &.component {
+      max-width: max-content;
+    }
+  }
+}
+
+.big-icon {
+  font-size: 30px;
+  line-height: 30px;
+  color: #000000de;
+}
+
+.active-info-btn {
+  color: #3849f9;
+}

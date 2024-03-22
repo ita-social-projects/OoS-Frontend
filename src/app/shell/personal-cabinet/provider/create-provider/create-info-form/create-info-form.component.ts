@@ -16,6 +16,7 @@ import { AppState } from 'shared/store/app.state';
 import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-create-info-form',
@@ -57,6 +58,7 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   public readonly ownershipTypesEnum = OwnershipTypesEnum;
   public readonly institutionTypes = InstitutionTypes;
   public readonly institutionTypesEnum = InstitutionTypesEnum;
+  public readonly InfoMenuType = InfoMenuType;
 
   public infoFormGroup: FormGroup;
   public dateFilter: RegExp = DATE_REGEX;

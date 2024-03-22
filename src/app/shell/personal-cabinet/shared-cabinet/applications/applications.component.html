@@ -7,14 +7,9 @@
           placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}" />
       </div>
     </div>
-    <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-      [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'">
-      info_outline
-    </i>
-
-    <mat-menu [hasBackdrop]="true" disabled #menu="matMenu" [overlapTrigger]="false" class="application-menu">
-      <app-status-info-card></app-status-info-card>
-    </mat-menu>
+    <app-info-menu [isBigIcon]="true" [typeOfContent]="InfoMenuType.ComponentEntity">
+        <app-status-info-card></app-status-info-card>
+    </app-info-menu>
     <app-entity-checkbox-dropdown *ngIf="dropdownEntities" [entities]="dropdownEntities" [declination]="declination"
       (entityCheck)="onEntitiesSelect($event)">
     </app-entity-checkbox-dropdown>
