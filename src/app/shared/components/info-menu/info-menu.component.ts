@@ -6,7 +6,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
   templateUrl: './info-menu.component.html',
   styleUrls: ['./info-menu.component.scss']
 })
-export class InfoMenuComponent implements OnInit {
+export class InfoMenuComponent {
   @Input() public isBigIcon: boolean;
   @Input() public typeOfContent: InfoMenuType;
 
@@ -16,8 +16,6 @@ export class InfoMenuComponent implements OnInit {
   public isOpened: boolean;
 
   constructor() {}
-
-  public ngOnInit(): void {}
 
   public onMenuOpened(isOpened: boolean): void {
     this.isOpened = isOpened;
