@@ -17,23 +17,23 @@ import { NavigationState } from 'shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-  constructor(
-    private store: Store,
-    private router: Router
-  ) {}
-
-  public searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
-  public filteredResults: string[];
-
   @Select(NavigationState.navigationPaths)
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+
+  public filteredResults: string[];
+  public searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
 
   private previousResults: string[] = this.getPreviousResults();
   private isResultPage = false;
   private searchedText: string;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    private store: Store,
+    private router: Router
+  ) {}
 
   public ngOnInit(): void {
     this.navigationPaths$
@@ -64,6 +64,11 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     }
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public onValueEnter(): void {
     this.performSearch();
     this.saveSearchResults();
@@ -75,7 +80,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
   private performSearch(): void {
     const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
-    !this.isResultPage && this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+    if (!this.isResultPage) {
+      this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+    }
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }
   /**
@@ -87,7 +94,9 @@ export class SearchbarComponent implements OnInit, OnDestroy {
     this.previousResults = this.getPreviousResults();
 
     if (this.searchedText && !this.previousResults.includes(this.searchedText)) {
-      this.previousResults.length > 4 && this.previousResults.shift();
+      if (this.previousResults.length > 4) {
+        this.previousResults.shift();
+      }
       this.previousResults.unshift(this.searchedText);
       localStorage.setItem('previousResults', JSON.stringify(this.previousResults));
     }
@@ -108,10 +117,5 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
   private filter(value: string): void {
     this.filteredResults = this.previousResults.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
