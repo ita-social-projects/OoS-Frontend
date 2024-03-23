@@ -177,7 +177,9 @@
         </mat-select>
       </div>
     </div>
-    <app-validation-hint [validationFormControl]="payRateControl"></app-validation-hint>
+    <div class="pay-type__error">
+      <app-validation-hint [validationFormControl]="payRateControl"></app-validation-hint>
+    </div>
   </mat-radio-group>
 
   <div *ngIf="provider.ownership !== ownershipType.State" fxLayout="column" fxLayoutAlign="center space-between">
