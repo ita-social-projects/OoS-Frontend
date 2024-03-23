@@ -32,16 +32,16 @@ export class AgeFilterComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
+    const formControlDebounceTime = 500;
+
     this.minAgeFormControl.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((age: number) => this.store.dispatch(new SetMinAge(age)));
-
     this.maxAgeFormControl.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((age: number) => this.store.dispatch(new SetMaxAge(age)));
-
     this.isAppropriateAgeControl.valueChanges
-      .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
+      .pipe(debounceTime(formControlDebounceTime), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((val: boolean) => this.store.dispatch(new SetIsAppropriateAge(val)));
   }
 
