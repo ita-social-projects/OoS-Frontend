@@ -50,18 +50,18 @@ export class ReasonModalWindowComponent implements OnInit {
     }
   }
 
-  public ngOnInit(): void {
-    this.modalTitle = ModalConfirmationTitle[this.data.type];
-    this.modalConfirmationText = ModalConfirmationText[this.data.type];
-    this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
-  }
-
   public get reasonFormControl(): FormControl {
     return this.formGroup.get('reason') as FormControl;
   }
 
   public get phoneNumberFormControl(): FormControl {
     return this.isPhoneNumberRequired && (this.formGroup.get('phoneNumber') as FormControl);
+  }
+
+  public ngOnInit(): void {
+    this.modalTitle = ModalConfirmationTitle[this.data.type];
+    this.modalConfirmationText = ModalConfirmationText[this.data.type];
+    this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
   }
 
   public onSubmit(): void {
