@@ -125,7 +125,7 @@
           <ng-container *ngIf="element.reason; else unblocking">
             <div class="reason-container">
               {{ 'HISTORY_LOG.BLOCKING_REASON' | translate }}
-              <app-info-menu [typeOfContent]="InfoMenuType.Text">
+              <app-info-menu [type]="InfoMenuType.Text">
                 {{ element.reason | textSliceTransform }}
               </app-info-menu>
             </div>

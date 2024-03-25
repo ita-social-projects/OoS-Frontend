@@ -1,4 +1,4 @@
 export enum InfoMenuType {
-  ComponentEntity,
-  Text
+  Component = 'Component',
+  Text = 'Text'
 }

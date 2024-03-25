@@ -4,7 +4,7 @@
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
         <div fxLayout="row" fxLayoutAlign="space-between" class="card-block__child-name">
           <h4 class="title" showTooltipIfTruncated matTooltip="{{ childFullName }}" matTooltipClass="tooltip">{{ childFullName }}</h4>
-          <app-info-menu [typeOfContent]="InfoMenuType.ComponentEntity">
+          <app-info-menu [type]="InfoMenuType.Component">
             <app-child-info-box [child]="application.child" (click)="$event.stopPropagation()"></app-child-info-box>
           </app-info-menu>
         </div>

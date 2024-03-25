@@ -8,7 +8,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 })
 export class InfoMenuComponent {
   @Input() public isBigIcon: boolean;
-  @Input() public typeOfContent: InfoMenuType;
+  @Input() public type: InfoMenuType = InfoMenuType.Text;
 
   @Output() public menuClosed = new EventEmitter<boolean>();
 

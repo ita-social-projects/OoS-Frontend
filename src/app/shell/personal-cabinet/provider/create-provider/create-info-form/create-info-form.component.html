@@ -27,7 +27,7 @@
       </mat-select>
     </mat-form-field>
     <div class="info-menu-wrapper" *ngIf="isEditMode$ | async">
-      <app-info-menu [typeOfContent]="InfoMenuType.Text">
+      <app-info-menu [type]="InfoMenuType.Text">
         {{ 'INFO_MENU.OWNERSHIP_CAN_NOT_BE_CHANGED' | translate  }}
       </app-info-menu>
     </div>
@@ -37,7 +37,7 @@
   <ng-container *ngIf="ownershipTypeControl.value === ownershipTypes.Private">
     <div fxLayout="row" fxLayoutAlign="left space-between">
       <label class="step-label">{{ 'FORMS.LABELS.LICENSE' | translate }}</label>
-      <app-info-menu [typeOfContent]="InfoMenuType.Text">
+      <app-info-menu [type]="InfoMenuType.Text">
         {{ 'INFO_MENU.LICENSE' | translate }}
       </app-info-menu>
     </div>

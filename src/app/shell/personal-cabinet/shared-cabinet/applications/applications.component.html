@@ -7,7 +7,7 @@
           placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}" />
       </div>
     </div>
-    <app-info-menu [isBigIcon]="true" [typeOfContent]="InfoMenuType.ComponentEntity">
+    <app-info-menu [isBigIcon]="true" [type]="InfoMenuType.Component">
         <app-status-info-card></app-status-info-card>
     </app-info-menu>
     <app-entity-checkbox-dropdown *ngIf="dropdownEntities" [entities]="dropdownEntities" [declination]="declination"
