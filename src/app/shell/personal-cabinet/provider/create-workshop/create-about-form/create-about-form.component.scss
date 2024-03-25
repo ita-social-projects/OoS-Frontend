@@ -6,6 +6,12 @@
 
 .pay-type {
   flex-grow: 1;
+
+  &__error {
+    display: flex;
+    justify-content: center;
+    padding-left: 40px;
+  }
 }
 
 .price-text {
