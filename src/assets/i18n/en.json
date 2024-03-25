@@ -439,9 +439,9 @@
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
       "INVALID_MAP": "No such address was found on the map",
-      "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - ( ) )",
+      "INVALID_STREET": ", please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
-      "INVALID_SECTION_NAME": "please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
+      "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created"
