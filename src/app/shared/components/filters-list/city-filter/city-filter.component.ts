@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
@@ -27,6 +27,7 @@ export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(MetaDataState.codeficatorSearch)
   private codeficatorSearch$: Observable<Codeficator[]>;
 
+  @ViewChild(MatAutocomplete) private codeficatorAutocomplete: MatAutocomplete;
   @ViewChild('searchInput') private searchInput: ElementRef;
 
   public readonly Constants = Constants;
@@ -77,20 +78,12 @@ export class CityFilterComponent implements OnInit, OnDestroy {
     this.store.dispatch([new SetCoordsByMap({ lat: event.option.value.latitude, lng: event.option.value.longitude }), new FilterChange()]);
   }
 
-  /**
-   * This method listen input FocusOut event and update search and settlement controls value
-   * @param auto MatAutocomplete
-   */
   public onFocusOut(event: FocusEvent): void {
-    if (!event.relatedTarget) {
+    if (!event.relatedTarget || !this.codeficatorAutocomplete.panel.nativeElement.contains(event.relatedTarget)) {
       this.settlementSearchControl.setValue(this.settlement.settlement);
     }
   }
 
-  /**
-   * This method handle displayed value for mat-autocomplete dropdown
-   * @param codeficator: Codeficator | string
-   */
   public displaySettlementNameFn(codeficator: Codeficator | string): string {
     return typeof codeficator === 'string' ? codeficator : codeficator?.settlement;
   }

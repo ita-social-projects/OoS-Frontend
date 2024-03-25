@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatCheckbox } from '@angular/material/checkbox';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
+
 import { Direction } from 'shared/models/category.model';
 import { AppState } from 'shared/store/app.state';
 import { SetDirections } from 'shared/store/filter.actions';
@@ -16,29 +17,25 @@ import { MetaDataState } from 'shared/store/meta-data.state';
   styleUrls: ['./category-check-box.component.scss']
 })
 export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestroy {
-  @Select(MetaDataState.directions)
-  public directions$: Observable<Direction[]>;
+  @Input()
+  public selectedDirectionIds: number[];
+
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
+  @Select(MetaDataState.directions)
+  private directions$: Observable<Direction[]>;
 
-  @ViewChild('listWrapper') filterContainer: ElementRef;
+  @ViewChild('listWrapper')
+  private filterContainer: ElementRef;
 
-  @Input() selectedDirectionIds: number[];
-
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  allDirections: Direction[] = [];
-  filteredDirections: Direction[] = [];
-  directionSearchFormControl = new FormControl('');
+  public filteredDirections: Direction[] = [];
+  public directionSearchFormControl = new FormControl('');
+  private allDirections: Direction[] = [];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  ngAfterViewInit(): void {
-    if (this.selectedDirectionIds?.length) {
-      this.scrollToSelectedDirection();
-    }
-  }
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new GetDirections());
     this.directions$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((directions) => {
       this.allDirections = directions;
@@ -46,7 +43,18 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     });
     this.directionSearchFormControl.valueChanges
       .pipe(takeUntil(this.destroy$), debounceTime(300), distinctUntilChanged())
-      .subscribe((val: string) => this.filterDirections(val));
+      .subscribe((value: string) => this.filterDirections(value));
+  }
+
+  public ngAfterViewInit(): void {
+    if (this.selectedDirectionIds?.length) {
+      this.scrollToSelectedDirection();
+    }
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   /**
@@ -54,14 +62,24 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
    * @param direction
    * @param event
    */
-  onDirectionCheck(direction: Direction, event: MatCheckbox): void {
-    event.checked
-      ? this.selectedDirectionIds.push(direction.id)
-      : this.selectedDirectionIds.splice(
-          this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
-          1
-        );
+  public onDirectionCheck(direction: Direction, event: MatCheckbox): void {
+    if (event.checked) {
+      this.selectedDirectionIds.push(direction.id);
+    } else {
+      this.selectedDirectionIds.splice(
+        this.selectedDirectionIds.findIndex((selectedDirection: number) => selectedDirection === direction.id),
+        1
+      );
+    }
     this.store.dispatch(new SetDirections(this.selectedDirectionIds));
+  }
+
+  /**
+   * This method check if value is checked
+   * @returns boolean
+   */
+  public onSelectCheck(direction: Direction): boolean {
+    return this.selectedDirectionIds.some((directionId: number) => directionId === direction.id);
   }
 
   /**
@@ -72,14 +90,6 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
     this.filteredDirections = this.allDirections.filter((direction: Direction) =>
       direction.title.toLowerCase().startsWith(value.toLowerCase())
     );
-  }
-
-  /**
-   * This method check if value is checked
-   * @returns boolean
-   */
-  onSelectCheck(direction: Direction): boolean {
-    return this.selectedDirectionIds.some((directionId: number) => directionId === direction.id);
   }
 
   private scrollToSelectedDirection(): void {
@@ -93,10 +103,5 @@ export class CategoryCheckBoxComponent implements OnInit, AfterViewInit, OnDestr
         }
       }
     }, 500); // this is needed to wait until loaded direction list will be displayed in the template
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }
