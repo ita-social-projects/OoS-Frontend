@@ -132,7 +132,10 @@
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
       "HISTORY_OF_CHANGES": "Історія змін",
       "STATISTICS": "Статистичні дані",
-      "PROVIDER_REGISTRATION": "Реєстрація закладу"
+      "PROVIDER_REGISTRATION": "Реєстрація закладу",
+      "IMPORT-EXPORT_PROVIDERS": "Імпорт/Експорт даних надавачів",
+      "IMPORT": "Імпорт даних",
+      "EXPORT": "Експорт даних"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Комплексний",

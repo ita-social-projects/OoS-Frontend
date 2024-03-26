@@ -132,7 +132,10 @@
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
-      "PROVIDER_REGISTRATION": "Provider registration"
+      "PROVIDER_REGISTRATION": "Provider registration",
+      "IMPORT-EXPORT_PROVIDERS": "Import/Export providers` data",
+      "IMPORT": "Import",
+      "EXPORT": "Export"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",

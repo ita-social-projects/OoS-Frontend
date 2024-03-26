@@ -1,0 +1,6 @@
+<button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
+<input hidden (change)="onFileSelected($event)" #fileInput type="file">
+<span class="file-name">{{selectedFile?.name}}</span>
+<button (click)="showFile()">show</button>
+<img src="{{photo}}"/>
+
