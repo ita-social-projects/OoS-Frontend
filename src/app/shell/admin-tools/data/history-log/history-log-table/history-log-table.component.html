@@ -125,16 +125,9 @@
           <ng-container *ngIf="element.reason; else unblocking">
             <div class="reason-container">
               {{ 'HISTORY_LOG.BLOCKING_REASON' | translate }}
-              <span>
-                <i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger" (hasBackdrop)="(true)">
-                  info_outline
-                </i>
-              </span>
-              <mat-menu #menu="matMenu" disabled [overlapTrigger]="false" xPosition="after" class="application-menu">
-                <div class="menu-wrapper">
-                  <p class="reason__detailed">{{ element.reason | textSliceTransform }}</p>
-                </div>
-              </mat-menu>
+              <app-info-menu [type]="InfoMenuType.Text">
+                {{ element.reason | textSliceTransform }}
+              </app-info-menu>
             </div>
           </ng-container>
           <ng-template #unblocking>

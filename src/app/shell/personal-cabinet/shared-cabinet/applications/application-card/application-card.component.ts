@@ -13,6 +13,7 @@ import { BlockedParent } from 'shared/models/block.model';
 import { Direction } from 'shared/models/category.model';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-application-card',
@@ -39,6 +40,7 @@ export class ApplicationCardComponent implements OnInit, OnDestroy {
   public readonly Constants = Constants;
   public readonly Role = Role;
   public readonly YearDeclination = YearDeclination;
+  public readonly InfoMenuType = InfoMenuType;
 
   public blockedParent: BlockedParent;
   public childFullName: string;
