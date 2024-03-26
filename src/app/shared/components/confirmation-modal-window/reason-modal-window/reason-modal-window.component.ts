@@ -1,8 +1,9 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { Constants } from 'shared/constants/constants';
 
+import { Constants } from 'shared/constants/constants';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import {
   ModalConfirmationDescription,
@@ -38,7 +39,8 @@ export class ReasonModalWindowComponent implements OnInit {
       reason: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
     });
 
@@ -50,18 +52,18 @@ export class ReasonModalWindowComponent implements OnInit {
     }
   }
 
-  public ngOnInit(): void {
-    this.modalTitle = ModalConfirmationTitle[this.data.type];
-    this.modalConfirmationText = ModalConfirmationText[this.data.type];
-    this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
-  }
-
   public get reasonFormControl(): FormControl {
     return this.formGroup.get('reason') as FormControl;
   }
 
   public get phoneNumberFormControl(): FormControl {
     return this.isPhoneNumberRequired && (this.formGroup.get('phoneNumber') as FormControl);
+  }
+
+  public ngOnInit(): void {
+    this.modalTitle = ModalConfirmationTitle[this.data.type];
+    this.modalConfirmationText = ModalConfirmationText[this.data.type];
+    this.modalConfirmationDescription = ModalConfirmationDescription[this.data.type];
   }
 
   public onSubmit(): void {
