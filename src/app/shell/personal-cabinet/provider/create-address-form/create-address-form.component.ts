@@ -77,7 +77,11 @@ export class CreateAddressFormComponent implements OnInit {
   public onFocusOut(): void {
     const codeficator: Codeficator = this.autocomplete.options.first?.value;
 
-    if (!this.settlementSearchFormControl.value || codeficator?.settlement === Constants.NO_SETTLEMENT) {
+    if (
+      !this.settlementSearchFormControl.value ||
+      codeficator?.settlement === Constants.NO_SETTLEMENT ||
+      this.settlementSearchFormControl.invalid
+    ) {
       this.settlementSearchFormControl.setValue(null);
       this.codeficatorIdFormControl.setValue(null);
       this.settlementFormControl.setValue(null);
@@ -126,13 +130,13 @@ export class CreateAddressFormComponent implements OnInit {
         distinctUntilChanged(),
         takeUntil(this.destroy$),
         tap((value: string) => {
-          if (!value?.length) {
+          if (!value?.length || this.settlementSearchFormControl.invalid) {
             this.store.dispatch(new ClearCodeficatorSearch());
             this.streetFormControl.setValue('', { emitEvent: false });
             this.buildingNumberFormControl.setValue('', { emitEvent: false });
           }
         }),
-        filter((value: string) => value?.length > 2),
+        filter((value: string) => value?.length > 2 && this.settlementSearchFormControl.valid),
         delayWhen((value: string) => this.store.dispatch(new GetCodeficatorSearch(value)))
       )
       .subscribe((value: string) => {
