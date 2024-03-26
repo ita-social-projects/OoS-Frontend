@@ -1,12 +1,12 @@
-import { Subject } from 'rxjs';
-
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
+import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
 
-import { ProviderStatusDetails, ProviderStatusTitles } from '../../enum/enumUA/statuses';
-import { ProviderStatuses, UserStatuses, UserStatusIcons } from '../../enum/statuses';
-import { Provider } from '../../models/provider.model';
-import { ActivateEditMode } from '../../store/app.actions';
+import { Constants } from 'shared/constants/constants';
+import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
+import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { Provider } from 'shared/models/provider.model';
+import { ActivateEditMode } from 'shared/store/app.actions';
 
 @Component({
   selector: 'app-provider-status-banner',
@@ -27,7 +27,11 @@ export class ProviderStatusBannerComponent implements OnInit {
   public statusTitle: string;
   public statusDetails: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private store: Store) {}
+  constructor(
+    private elementRef: ElementRef<HTMLElement>,
+    private translateService: TranslateService,
+    private store: Store
+  ) {}
 
   public ngOnInit(): void {
     this.setBannerOptions();
@@ -47,6 +51,12 @@ export class ProviderStatusBannerComponent implements OnInit {
       this.statusTitle = ProviderStatusTitles[UserStatuses.Blocked];
       this.statusDetails = this.provider.blockReason ? this.provider.blockReason : ProviderStatusDetails[UserStatuses.Blocked];
       this.HostElement.classList.value = ProviderStatuses[UserStatuses.Blocked];
+
+      if (this.provider.blockPhoneNumber) {
+        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} ${Constants.PHONE_PREFIX}${
+          this.provider.blockPhoneNumber
+        })`;
+      }
     } else {
       this.iconClasses = `${UserStatusIcons[this.provider.status]} status-icon`;
       this.statusTitle = ProviderStatusTitles[this.provider.status];

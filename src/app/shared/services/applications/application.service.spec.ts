@@ -1,8 +1,8 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ApplicationService } from './application.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { NgxsModule } from '@ngxs/store';
+import { ApplicationService } from './application.service';
 
 describe('Applications', () => {
   let service: ApplicationService;

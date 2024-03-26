@@ -6,9 +6,9 @@ import { Child } from '../models/child.model';
   name: 'applicationChildSorting'
 })
 export class ApplicationChildSortingPipe implements PipeTransform {
-  transform(children: Child[], applications: Application[]): Child[] {
+  public transform(children: Child[], applications: Application[]): Child[] {
     const calculateQuantity = (childId: string, array: Application[]): number => array.filter((item) => item.childId === childId).length;
-    const sortFn = (a: Child, b: Child) => calculateQuantity(b.id, applications) - calculateQuantity(a.id, applications);
+    const sortFn = (a: Child, b: Child): number => calculateQuantity(b.id, applications) - calculateQuantity(a.id, applications);
     return children.slice().sort(sortFn);
   }
 }

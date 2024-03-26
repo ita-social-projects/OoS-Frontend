@@ -1,25 +1,29 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { RegistrationState } from '../shared/store/registration.state';
-import { combineLatest, Observable, Subject } from 'rxjs';
-import { delay, filter, takeUntil } from 'rxjs/operators';
-import { Logout, Login } from '../shared/store/registration.actions';
-import { User } from '../shared/models/user.model';
-import { Router } from '@angular/router';
-import { NavigationState } from '../shared/store/navigation.state';
-import { Navigation } from '../shared/models/navigation.model';
-import { Role } from '../shared/enum/role';
-import { Languages } from '../shared/enum/languages';
-import { SidenavToggle } from '../shared/store/navigation.actions';
-import { AppState } from '../shared/store/app.state';
-import { FeaturesList } from '../shared/models/featuresList.model';
-import { MetaDataState } from '../shared/store/meta-data.state';
-import { MainPageState } from '../shared/store/main-page.state';
-import { CompanyInformation } from '../shared/models/сompanyInformation.model';
-import { GetMainPageInfo } from '../shared/store/main-page.actions';
-import { TranslateService } from '@ngx-translate/core';
-import { RoleLinks } from '../shared/enum/enumUA/user';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { DateAdapter } from '@angular/material/core';
+import { Router } from '@angular/router';
+import { TranslateService } from '@ngx-translate/core';
+import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, combineLatest } from 'rxjs';
+import { delay, filter, takeUntil } from 'rxjs/operators';
+
+import { ModeConstants } from 'shared/constants/constants';
+import { AdminTabTypes } from 'shared/enum/admins';
+import { RoleLinks } from 'shared/enum/enumUA/user';
+import { Languages } from 'shared/enum/languages';
+import { Role, Subrole } from 'shared/enum/role';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { FeaturesList } from 'shared/models/features-list.model';
+import { Navigation } from 'shared/models/navigation.model';
+import { User } from 'shared/models/user.model';
+import { AppState } from 'shared/store/app.state';
+import { GetMainPageInfo } from 'shared/store/main-page.actions';
+import { MainPageState } from 'shared/store/main-page.state';
+import { MetaDataState } from 'shared/store/meta-data.state';
+import { SidenavToggle } from 'shared/store/navigation.actions';
+import { NavigationState } from 'shared/store/navigation.state';
+import { Login, Logout } from 'shared/store/registration.actions';
+import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
 
 @Component({
   selector: 'app-header',
@@ -27,48 +31,52 @@ import { DateAdapter } from '@angular/material/core';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit, OnDestroy {
-  readonly Languages: typeof Languages = Languages;
-  readonly Role: typeof Role = Role;
-  readonly RoleLinks = RoleLinks;
-
-  selectedLanguage = localStorage.getItem('ui-culture');
-  showModalReg = false;
-  userShortName = '';
-
-  @Select(RegistrationState.isAutorizationLoading)
-  isAutorizationLoading$: Observable<boolean>;
+  @Select(RegistrationState.isAuthorizationLoading)
+  public isAuthorizationLoading$: Observable<boolean>;
   @Select(RegistrationState.isRegistered)
-  isRegistered$: Observable<boolean>;
+  public isRegistered$: Observable<boolean>;
   @Select(NavigationState.navigationPaths)
-  navigationPaths$: Observable<Navigation[]>;
+  public navigationPaths$: Observable<Navigation[]>;
   @Select(RegistrationState.isAuthorized)
-  isAuthorized$: Observable<string>;
+  public isAuthorized$: Observable<string>;
   @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
-  isMobileScreen: boolean;
+  public isMobileScreen$: Observable<boolean>;
   @Select(RegistrationState.user)
-  user$: Observable<User>;
-  user: User;
+  public user$: Observable<User>;
   @Select(MetaDataState.featuresList)
-  featuresList$: Observable<FeaturesList>;
+  public featuresList$: Observable<FeaturesList>;
   @Select(RegistrationState.subrole)
-  subrole$: Observable<string>;
+  public subrole$: Observable<string>;
   @Select(MainPageState.headerInfo)
-  headerInfo$: Observable<CompanyInformation>;
-  headerTitle: string;
-  headerSubtitle: string;
-  navigationPaths: Navigation[];
-  subrole: string;
+  public headerInfo$: Observable<CompanyInformation>;
 
+  public readonly defaultAdminTab = AdminTabTypes.AboutPortal;
+  public readonly Languages = Languages;
+  public readonly Role = Role;
+  public readonly Subrole = Subrole;
+  public readonly RoleLinks = RoleLinks;
+  public readonly ModeConstants = ModeConstants;
+  public readonly isRoleAdmin = isRoleAdmin;
+
+  public selectedLanguage = localStorage.getItem('ui-culture');
+  public showModalReg = false;
+  public userShortName = '';
+  public isMobileScreen: boolean;
+  public user: User;
+  public headerTitle: string;
+  public headerSubtitle: string;
+  public navigationPaths: Navigation[];
+  public subrole: string;
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private router: Router, private translate: TranslateService, private dateAdapter: DateAdapter<Date>) {}
+  constructor(
+    private store: Store,
+    private router: Router,
+    private translate: TranslateService,
+    private dateAdapter: DateAdapter<Date>
+  ) {}
 
-  onViewChange(): void {
-    this.store.dispatch(new SidenavToggle());
-  }
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(new GetMainPageInfo());
 
     combineLatest([this.subrole$, this.navigationPaths$])
@@ -91,30 +99,34 @@ export class HeaderComponent implements OnInit, OnDestroy {
     });
   }
 
-  private getFullName(user: User): string {
-    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
+  public onViewChange(): void {
+    this.store.dispatch(new SidenavToggle());
   }
 
-  onLogout(): void {
-    this.store.dispatch(new Logout());
-  }
-
-  onLogin(): void {
+  public onLogin(): void {
     this.store.dispatch(new Login(false));
   }
 
-  isRouter(route: string): boolean {
+  public onLogout(): void {
+    this.store.dispatch(new Logout());
+  }
+
+  public isRouter(route: string): boolean {
     return this.router.url === route;
   }
 
-  setLanguage(): void {
+  public setLanguage(): void {
     this.translate.use(this.selectedLanguage);
     this.dateAdapter.setLocale(this.selectedLanguage);
     localStorage.setItem('ui-culture', this.selectedLanguage);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
+  }
+
+  private getFullName(user: User): string {
+    return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
   }
 }

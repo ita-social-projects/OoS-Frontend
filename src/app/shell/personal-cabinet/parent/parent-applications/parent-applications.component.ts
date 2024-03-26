@@ -1,25 +1,26 @@
-import { ParentState } from './../../../../shared/store/parent.state.';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { ChildDeclination } from '../../../../shared/enum/enumUA/declinations/declination';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { ApplicationFilterParameters, Application, ApplicationUpdate } from '../../../../shared/models/application.model';
-import { Parent } from '../../../../shared/models/parent.model';
-import { PushNavPath } from '../../../../shared/store/navigation.actions';
-import { RegistrationState } from '../../../../shared/store/registration.state';
-import { UpdateApplication, GetApplicationsByPropertyId } from '../../../../shared/store/shared-user.actions';
+
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/constants';
+import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applications';
+import { ChildDeclination } from 'shared/enum/enumUA/declinations/declination';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application, ApplicationFilterParameters, ApplicationUpdate } from 'shared/models/application.model';
+import { TruncatedItem } from 'shared/models/item.model';
+import { Parent } from 'shared/models/parent.model';
+import { PushNavPath } from 'shared/store/navigation.actions';
+import { GetAllUsersChildrenByParentId } from 'shared/store/parent.actions';
+import { ParentState } from 'shared/store/parent.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { GetApplicationsByPropertyId, UpdateApplication } from 'shared/store/shared-user.actions';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { ApplicationStatuses } from '../../../../shared/enum/statuses';
-import { TruncatedItem } from '../../../../shared/models/item.model';
-import { GetAllUsersChildrenByParentId } from '../../../../shared/store/parent.actions';
-import { ApplicationEntityType } from '../../../../shared/enum/applications';
-import { ConfirmationModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants, ModeConstants, PaginationConstants } from '../../../../shared/constants/constants';
-import { ModalConfirmationType } from '../../../../shared/enum/modal-confirmation';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-parent-applications',
@@ -39,12 +40,16 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
     statuses: [],
     workshops: [],
     children: [],
-    showBlocked: false,
+    show: ApplicationShowParams.Unblocked,
     size: PaginationConstants.APPLICATIONS_PER_PAGE,
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private router: Router
+  ) {
     super(store, matDialog);
   }
 
@@ -67,7 +72,7 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
 
   /**
    * This method changes status of emitted event to "left"
-   * @param Application event
+   * @param application: Application
    */
   onLeave(application: Application): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
@@ -102,8 +107,8 @@ export class ParentApplicationsComponent extends CabinetDataComponent implements
   }
 
   onSendMessage(application: Application): void {
-    this.router.navigate(['/personal-cabinet/messages/', application.workshopId], {
-      queryParams: { mode: ModeConstants.WORKSHOP },
+    this.router.navigate(['/personal-cabinet/messages/', application.id], {
+      queryParams: { mode: ModeConstants.APPLICATION },
       replaceUrl: false
     });
   }

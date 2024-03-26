@@ -1,10 +1,10 @@
 import { MatMenuModule } from '@angular/material/menu';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { StatusInfoCardComponent } from './status-info-card.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NgxsModule } from '@ngxs/store';
-import { Application } from '../../models/application.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { Application } from '../../models/application.model';
+import { StatusInfoCardComponent } from './status-info-card.component';
 
 describe('StatusInfoCardComponent', () => {
   let component: StatusInfoCardComponent;

@@ -1,16 +1,16 @@
-import { tap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Geocoder } from '../../models/geolocation';
-import { GeolocationAddress } from '../../models/geolocationAddress.model';
-import { Coords } from '../../models/coords.model';
+import { Observable, map } from 'rxjs';
+
+import { Coords } from 'shared/models/coords.model';
+import { Geocoder } from 'shared/models/geolocation';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GeocoderService {
+  private readonly baseApiUrl = '/api/v1/Geocoding';
+
   constructor(private http: HttpClient) {}
 
   /**
@@ -19,26 +19,22 @@ export class GeocoderService {
    * @param address - Geocoder
    * @param callback - Function, which receives 1 argument of type Address
    */
-  addressDecode(address: Geocoder, callback: (GeolocationAddress) => void): void {
-    this.geocode({
-      catottgId: address.catottgId,
-      street: address.street,
-      buildingNumber: address.buildingNumber
-    }).subscribe((result: Geocoder) => callback(result));
+  public addressDecode(address: Geocoder): Observable<Geocoder | null> {
+    return this.geocode(address);
   }
 
-  locationDecode(coords: Coords, callback: (GeolocationAddress) => void): void {
-    this.geocode({
+  public locationDecode(coords: Coords): Observable<Geocoder | null> {
+    return this.geocode({
       lat: coords.lat,
       lon: coords.lng,
       isReverse: true
-    }).subscribe((result: Geocoder) => callback(result));
+    });
   }
 
   /**
    * This method get geolocation for map
    */
   private geocode(payload: Geocoder): Observable<Geocoder | null> {
-    return this.http.post<Geocoder>('/api/v1/Geocoding', { ...payload }).pipe(map((result: Geocoder) => (result ? result : null)));
+    return this.http.post<Geocoder>(this.baseApiUrl, { ...payload }).pipe(map((result: Geocoder) => result || null));
   }
 }

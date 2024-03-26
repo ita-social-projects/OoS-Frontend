@@ -12,3 +12,17 @@
 .Rejected {
   color: #c72a21;
 }
+.AcceptedForSelection {
+  color: #27a3ff;
+}
+
+td {
+  word-break: break-word;
+}
+
+.reason {
+  &-container {
+    display: flex;
+  }
+}
+

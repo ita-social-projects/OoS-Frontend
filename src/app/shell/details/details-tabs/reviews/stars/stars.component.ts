@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Constants } from '../../../../../shared/constants/constants';
+import { Constants } from 'shared/constants/constants';
 
 @Component({
   selector: 'app-stars',

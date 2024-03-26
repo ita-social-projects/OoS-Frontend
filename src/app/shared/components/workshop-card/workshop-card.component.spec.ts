@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { WorkshopCardComponent } from './workshop-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
 import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterTestingModule } from '@angular/router/testing';
-import { WorkshopCard } from '../../models/workshop.model';
-import { Address } from '../../models/address.model';
-import { Teacher } from '../../models/teacher.model';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { Teacher } from '../../models/teacher.model';
+import { Address } from '../../models/address.model';
+import { WorkshopCard } from '../../models/workshop.model';
+import { WorkshopCardComponent } from './workshop-card.component';
 
 describe('WorkshopCardComponent', () => {
   let component: WorkshopCardComponent;

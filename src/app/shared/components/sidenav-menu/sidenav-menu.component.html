@@ -1,3 +1,4 @@
+<!-- TODO: Make links correspondive like in header component -->
 <mat-drawer class="mobile-sidenav" mode="side" [(opened)]="visibleSidenav">
   <div class="mobile-sidenav-content" *ngIf="isMobileView">
     <div *ngIf="(isAuthorized$ | async) && user; then isAuthorized; else isUnauthorized"></div>

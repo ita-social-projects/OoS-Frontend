@@ -1,18 +1,16 @@
-import { ProviderAdminParameters } from './../../models/providerAdmin.model';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { ProviderAdminBlockData } from '../../models/block.model';
-import { ProviderAdmin } from '../../models/providerAdmin.model';
-import { Store } from '@ngxs/store';
-import { PaginationElement } from '../../models/paginationElement.model';
-import { SearchResponse } from '../../models/search.model';
+
+import { ProviderAdminBlockData } from 'shared/models/block.model';
+import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ProviderAdminService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get provider admin by id
@@ -34,7 +32,7 @@ export class ProviderAdminService {
       .set('size', `${filterParams.size}`);
 
     return this.http.get<SearchResponse<ProviderAdmin[]>>('/api/v1/ProviderAdmin/GetFilteredProviderAdmins', {
-      params,
+      params
     });
   }
 
@@ -52,7 +50,7 @@ export class ProviderAdminService {
    * @param providerId: string
    */
   deleteProviderAdmin(providerAdminId: string, providerId: string): Observable<void> {
-    let params = new HttpParams().set('providerAdminId', `${providerAdminId}`).set('providerId', `${providerId}`);
+    const params = new HttpParams().set('providerAdminId', `${providerAdminId}`).set('providerId', `${providerId}`);
 
     return this.http.delete<void>('/api/v1/ProviderAdmin/Delete', { params });
   }
@@ -62,7 +60,7 @@ export class ProviderAdminService {
    * @param providerAdminBlockParams: ProviderAdminBlockData
    */
   blockProviderAdmin(providerAdminBlockParams: ProviderAdminBlockData): Observable<void> {
-    let params = new HttpParams()
+    const params = new HttpParams()
       .set('providerAdminId', `${providerAdminBlockParams.userId}`)
       .set('providerId', `${providerAdminBlockParams.providerId}`)
       .set('isBlocked', `${providerAdminBlockParams.isBlocked}`);
@@ -76,7 +74,7 @@ export class ProviderAdminService {
    * @param providerAdmin: ProviderAdmin
    */
   updateProviderAdmin(providerId: string, providerAdmin: ProviderAdmin): Observable<ProviderAdmin> {
-    let params = new HttpParams().set('providerId', `${providerId}`);
+    const params = new HttpParams().set('providerId', `${providerId}`);
 
     return this.http.put<ProviderAdmin>('/api/v1/ProviderAdmin/Update', providerAdmin, { params });
   }

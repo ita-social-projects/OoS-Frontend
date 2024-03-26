@@ -8,8 +8,7 @@
     multiple
     class="dropdown"
     disableOptionCentering
-    panelClass="dropdown-panel application-dropdown"
-  >
+    panelClass="dropdown-panel application-dropdown">
     <mat-select-trigger>
       <div *ngIf="entityControl.value?.length">
         <span *ngIf="entityControl.value?.length > 1">
@@ -18,6 +17,6 @@
         <span *ngIf="entityControl.value?.length === 1"> {{ entityControl.value[0].title }} </span>
       </div>
     </mat-select-trigger>
-    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity">{{ entity.title }} </mat-option>
+    <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity" (click)="setIsUserInteractedToTrue()">{{ entity.title }} </mat-option>
   </mat-select>
 </mat-form-field>

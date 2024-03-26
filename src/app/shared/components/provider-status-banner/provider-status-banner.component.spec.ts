@@ -1,9 +1,9 @@
-import { ProviderStatuses } from './../../enum/statuses';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
-import { ProviderStatusBannerComponent } from './provider-status-banner.component';
-import { Provider } from '../../models/provider.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { MatIconModule } from '@angular/material/icon';
+import { Provider } from '../../models/provider.model';
+import { ProviderStatusBannerComponent } from './provider-status-banner.component';
 
 describe('FullWidthBannerComponent', () => {
   let component: ProviderStatusBannerComponent;
@@ -11,13 +11,13 @@ describe('FullWidthBannerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot()],
+      imports: [NgxsModule.forRoot([]), TranslateModule.forRoot(), MatIconModule],
       declarations: [ProviderStatusBannerComponent]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ProviderStatusBannerComponent);
     component = fixture.componentInstance;
-    component.provider = { } as Provider;
+    component.provider = {} as Provider;
     fixture.detectChanges();
   });
 

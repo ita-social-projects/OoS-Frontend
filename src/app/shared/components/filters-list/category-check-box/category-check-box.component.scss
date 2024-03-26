@@ -1,6 +1,7 @@
 .wrapper-full-width {
   width: 100%;
 }
+
 .search-bar {
   background: #ffffff;
   border: 1px solid #ffffff;
@@ -9,15 +10,18 @@
   box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
   margin: 1rem 0.5rem;
 }
+
 .list-wrapper {
   max-height: 200px;
   overflow: auto;
   position: relative;
 }
+
 .list {
   list-style-type: none;
   margin-bottom: 16px;
 }
+
 .list:last-child {
   margin-bottom: 0;
 }
@@ -28,20 +32,25 @@
   line-height: 14.6px;
   color: #444444;
 }
+
 button {
   border: none;
   height: 100%;
 }
+
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
 }
+
 :host ::ng-deep .mat-form-field-infix {
   border: none;
 }
+
 :host ::ng-deep .mat-stroked-button {
   min-width: inherit;
   padding: 0;
 }
+
 :host ::ng-deep .mat-checkbox-label {
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;

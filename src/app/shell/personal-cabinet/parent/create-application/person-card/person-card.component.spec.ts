@@ -1,10 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PersonCardComponent } from './person-card.component';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
 import { JoinPipe } from '../../../../../shared/pipes/join.pipe';
-import { TranslateModule } from '@ngx-translate/core';
+import { PersonCardComponent } from './person-card.component';
 
 describe('PersonCardComponent', () => {
   let component: PersonCardComponent;

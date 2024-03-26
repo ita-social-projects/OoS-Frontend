@@ -42,7 +42,7 @@ describe('CreateAdminComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
-    component.AdminFormGroup = new FormGroup({
+    component.adminFormGroup = new FormGroup({
       lastName: new FormControl(''),
       firstName: new FormControl(''),
       middleName: new FormControl(''),
@@ -64,8 +64,8 @@ describe('CreateAdminComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;

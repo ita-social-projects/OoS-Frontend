@@ -1,24 +1,34 @@
-import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
-import { Application } from '../models/application.model';
-import { Child, ChildrenParameters } from '../models/child.model';
-import { Favorite } from '../models/favorite.model';
-import { RequestParams } from '../models/child.model';
-import { Rate } from '../models/rating';
-import { PaginationParameters } from '../models/queryParameters.model';
+import { HttpErrorResponse } from '@angular/common/http';
+
+import { Application } from 'shared/models/application.model';
+import { Child, ChildrenParameters, RequestParams } from 'shared/models/child.model';
+import { Favorite } from 'shared/models/favorite.model';
+import { ParentBlockedData } from 'shared/models/parent.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Rate } from 'shared/models/rating';
 
 export class GetStatusIsAllowToApply {
   static readonly type = '[parent] get child status By child and workshop ids';
-  constructor(public childId: string, public workshopId: string) {}
+  constructor(
+    public childId: string,
+    public workshopId: string
+  ) {}
 }
 
 export class GetStatusAllowedToReview {
   static readonly type = '[parent] get parent status By parent id';
-  constructor(public parentId: string, public workshopId: string) {}
+  constructor(
+    public parentId: string,
+    public workshopId: string
+  ) {}
 }
 
 export class GetReviewedStatus {
   static readonly type = '[parent] get reviewed status for workshop by parent id';
-  constructor(public parentId: string, public workshopId: string) {}
+  constructor(
+    public parentId: string,
+    public workshopId: string
+  ) {}
 }
 
 export class GetFavoriteWorkshops {
@@ -93,7 +103,10 @@ export class OnCreateChildrenSuccess {
 
 export class DeleteChildById {
   static readonly type = '[parent] delete Children';
-  constructor(public payload: string, public parameters: ChildrenParameters) {}
+  constructor(
+    public payload: string,
+    public parameters: ChildrenParameters
+  ) {}
 }
 
 export class OnDeleteChildSuccess {
@@ -169,4 +182,34 @@ export class OnCreateApplicationFail {
 export class OnCreateApplicationSuccess {
   static readonly type = '[parent] create Application success';
   constructor() {}
+}
+
+export class OnBlockParent {
+  static readonly type = '[parent] block Parent';
+  constructor(public payload: ParentBlockedData) {}
+}
+
+export class OnBlockParentSuccess {
+  static readonly type = '[parent] block Parent success';
+  constructor() {}
+}
+
+export class OnBlockParentFail {
+  static readonly type = '[parent] block Parent fail';
+  constructor(public payload: HttpErrorResponse) {}
+}
+
+export class OnUnblockParent {
+  static readonly type = '[parent] unblock Parent';
+  constructor(public payload: ParentBlockedData) {}
+}
+
+export class OnUnblockParentSuccess {
+  static readonly type = '[parent] unblock Parent success';
+  constructor() {}
+}
+
+export class OnUnblockParentFail {
+  static readonly type = '[parent] unblock Parent fail';
+  constructor(public payload: HttpErrorResponse) {}
 }

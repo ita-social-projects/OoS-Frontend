@@ -11,20 +11,20 @@ import { NavigationState } from '../../store/navigation.state';
 })
 export class SidenavFiltersComponent implements OnInit, OnDestroy {
   @Select(NavigationState.filtersSidenavOpenTrue)
-  filtersSidenavOpenTrue$: Observable<boolean>;
-  visibleFiltersSidenav: boolean;
+  public filtersSidenavOpenTrue$: Observable<boolean>;
+  public visibleFiltersSidenav: boolean;
 
-  @Input() isMobileView: boolean;
+  @Input() public isMobileView: boolean;
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.filtersSidenavOpenTrue$.pipe(takeUntil(this.destroy$)).subscribe((visible) => (this.visibleFiltersSidenav = visible));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

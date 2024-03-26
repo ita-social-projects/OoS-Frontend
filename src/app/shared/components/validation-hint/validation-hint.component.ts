@@ -1,21 +1,17 @@
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
+import { FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
 import {
-  ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges
-} from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+  FULL_NAME_REGEX,
+  HOUSE_REGEX,
+  NAME_REGEX,
+  NO_LATIN_REGEX,
+  SECTION_NAME_REGEX,
+  STREET_REGEX
+} from 'shared/constants/regex-constants';
 
-import { Constants } from '../../constants/constants';
-import {
-  HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, STREET_REGEX
-} from '../../constants/regex-constants';
-
-enum ValidatorsTypes {
-  requiredField,
-  validLength,
-  validTextField
-}
 @Component({
   selector: 'app-validation-hint',
   templateUrl: './validation-hint.component.html'
@@ -23,14 +19,13 @@ enum ValidatorsTypes {
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   @Input() public validationFormControl: FormControl = new FormControl(); // required for validation
   // for Length Validation
-  @Input() public minCharachters: number;
-  @Input() public maxCharachters: number;
-  @Input() public isPhoneNumber: number; // required to display validation for phone number
+  @Input() public minCharacters: number;
+  @Input() public maxCharacters: number;
+  @Input() public isPhoneNumber: boolean; // required to display validation for phone number
+  @Input() public isEdrpouIpn: boolean;
 
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   public required: boolean;
   public invalidSymbols: boolean;
@@ -39,11 +34,15 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidDateRange: boolean;
   public invalidDateFormat: boolean;
   public invalidEmail: boolean;
+  public invalidEdrpouIpn: boolean;
   public invalidPhoneLength: boolean;
   public invalidStreet: boolean;
   public invalidHouse: boolean;
+  public invalidSectionName: boolean;
 
-  constructor(private cd: ChangeDetectorRef) {}
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(private cdr: ChangeDetectorRef) {}
 
   public ngOnInit(): void {
     this.validationFormControl.statusChanges.pipe(debounceTime(200), takeUntil(this.destroy$)).subscribe(() => {
@@ -55,10 +54,12 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       }
 
       // Check is the field required and empty
-      this.required = !!(errors?.required && !this.validationFormControl.value);
+      this.required = errors?.required && !this.validationFormControl.value;
 
       // Check Date Picker Format
-      this.minMaxDate && this.checkMatDatePciker();
+      if (this.minMaxDate) {
+        this.checkMatDatePicker();
+      }
 
       // Check errors from validators
       this.checkValidationErrors(errors);
@@ -66,7 +67,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
       // Check errors for invalid text field
       this.checkInvalidText(errors);
 
-      this.cd.detectChanges();
+      this.cdr.detectChanges();
     });
   }
 
@@ -82,24 +83,27 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   private checkValidationErrors(errors: ValidationErrors): void {
-    this.invalidEmail = !!errors?.email;
+    this.invalidEmail = errors?.email;
     if (this.isPhoneNumber) {
-      this.invalidPhoneLength = !!errors?.minlength && !errors?.maxlength;
+      this.invalidPhoneLength = errors?.minlength && !errors?.maxlength;
+    } else if (this.isEdrpouIpn) {
+      this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
     } else {
-      this.invalidFieldLength = !!(errors?.maxlength || errors?.minlength);
+      this.invalidFieldLength = errors?.maxlength || errors?.minlength;
     }
   }
 
   private checkInvalidText(errors: ValidationErrors): void {
-    const requiredPattern = errors?.pattern?.requiredPattern;
+    const requiredPattern = errors?.pattern?.requiredPattern?.toString();
 
-    this.invalidSymbols = NAME_REGEX == requiredPattern;
-    this.invalidCharacters = NO_LATIN_REGEX == requiredPattern;
-    this.invalidStreet = STREET_REGEX == requiredPattern;
-    this.invalidHouse = HOUSE_REGEX == requiredPattern;
+    this.invalidSymbols = NAME_REGEX.toString() === requiredPattern || FULL_NAME_REGEX.toString() === requiredPattern;
+    this.invalidCharacters = NO_LATIN_REGEX.toString() === requiredPattern;
+    this.invalidStreet = STREET_REGEX.toString() === requiredPattern;
+    this.invalidHouse = HOUSE_REGEX.toString() === requiredPattern;
+    this.invalidSectionName = SECTION_NAME_REGEX.toString() === requiredPattern;
   }
 
-  private checkMatDatePciker(): void {
+  private checkMatDatePicker(): void {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
     this.invalidDateRange = !!(
       this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')

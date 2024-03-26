@@ -5,7 +5,7 @@ import { Provider } from '../../../../shared/models/provider.model';
 @Component({
   selector: 'app-provider-about',
   templateUrl: './provider-about.component.html',
-  styleUrls: ['./provider-about.component.scss'],
+  styleUrls: ['./provider-about.component.scss']
 })
 export class ProviderAboutComponent {
   readonly ownershipTypesEnum = OwnershipTypesEnum;

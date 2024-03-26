@@ -1,6 +1,5 @@
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { UserConfigEditComponent } from './user-config-edit.component';
 import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,8 +10,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { Component, Input } from '@angular/core';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MatRadioModule } from '@angular/material/radio';
-import { User } from '../../../../../shared/models/user.model';
+import { User } from 'shared/models/user.model';
 import { TranslateModule } from '@ngx-translate/core';
+import { UserConfigEditComponent } from './user-config-edit.component';
 
 describe('UserConfigEditComponent', () => {
   let component: UserConfigEditComponent;
@@ -45,7 +45,7 @@ describe('UserConfigEditComponent', () => {
       firstName: '',
       middleName: '',
       phoneNumber: '',
-      gender: 0
+      gender: ''
     } as User;
     component.userEditFormGroup = new FormGroup({
       lastName: new FormControl('', [Validators.required]),
@@ -68,8 +68,8 @@ describe('UserConfigEditComponent', () => {
 })
 class MockValidationHintForInputComponent {
   @Input() validationFormControl: FormControl;
-  @Input() minCharachters: number;
-  @Input() maxCharachters: number;
+  @Input() minCharacters: number;
+  @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
 }

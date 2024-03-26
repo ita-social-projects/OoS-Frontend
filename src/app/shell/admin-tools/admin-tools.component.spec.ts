@@ -1,8 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { AdminToolsComponent } from './admin-tools.component';
 import { NgxsModule } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import { AdminToolsComponent } from './admin-tools.component';
 
 describe('AdminToolsComponent', () => {
   let component: AdminToolsComponent;
@@ -11,7 +11,7 @@ describe('AdminToolsComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), RouterTestingModule, TranslateModule.forRoot()],
-      declarations: [AdminToolsComponent],
+      declarations: [AdminToolsComponent]
     }).compileComponents();
   });
 

@@ -1,21 +1,15 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { HttpClient, HttpParams } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Store } from '@ngxs/store';
-
-import { DataItem } from '../../models/item.model';
-import { PaginationElement } from '../../models/paginationElement.model';
-import {
-  BlockProviderData, LicenseStatusData, Provider, ProviderParameters, ProviderStatusUpdateData
-} from '../../models/provider.model';
-import { SearchResponse } from '../../models/search.model';
+import { DataItem } from 'shared/models/item.model';
+import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProviderService {
-  constructor(private http: HttpClient, private store: Store) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * This method get Provider by id
@@ -26,13 +20,10 @@ export class ProviderService {
   }
 
   /**
-   * This method get filtered Providers from the database
-   * @param
+   * This method get Provider by User id
    */
-  public getFilteredProviders(providerParameters: ProviderParameters): Observable<SearchResponse<Provider[]>> {
-    const options = { params: this.setParams(providerParameters) };
-
-    return this.http.get<SearchResponse<Provider[]>>('/api/v1/Provider/GetByFilter', options);
+  public getProfile(): Observable<Provider> {
+    return this.http.get<Provider>('/api/v1/Provider/GetProfile');
   }
 
   /**
@@ -41,13 +32,6 @@ export class ProviderService {
    */
   public createProvider(provider: Provider, isImagesFeature: boolean): Observable<Provider> {
     return isImagesFeature ? this.createProviderV2(provider) : this.createProviderV1(provider);
-  }
-
-  /**
-   * This method get Provider by User id
-   */
-  public getProfile(): Observable<Provider> {
-    return this.http.get<Provider>('/api/v1/Provider/GetProfile');
   }
 
   /**
@@ -61,29 +45,15 @@ export class ProviderService {
   /**
    * This method update Provider status
    */
-  public updateProviderStatus(updateStatus: ProviderStatusUpdateData): Observable<ProviderStatusUpdateData> {
-    return this.http.put<ProviderStatusUpdateData>('/api/v1/Provider/StatusUpdate', updateStatus);
+  public updateProviderStatus(updateStatus: ProviderWithStatus): Observable<ProviderWithStatus> {
+    return this.http.put<ProviderWithStatus>('/api/v1/PublicProvider/StatusUpdate', updateStatus);
   }
 
   /**
    * This method update Provider status
    */
-  public updateProviderLicenseStatus(licenseStatusData: LicenseStatusData): Observable<LicenseStatusData> {
-    return this.http.put<LicenseStatusData>('/api/v1/Provider/LicenseStatusUpdate', licenseStatusData);
-  }
-
-  /**
-   * This method get all institution statuses
-   */
-  public getInstitutionStatuses(): Observable<DataItem[]> {
-    return this.http.get<DataItem[]>('/api/v1/InstitutionStatus/Get');
-  }
-
-  /**
-   * This method get all provider types
-   */
-  public getProviderTypes(): Observable<DataItem[]> {
-    return this.http.get<DataItem[]>('/api/v1/ProviderType/Get');
+  public updateProviderLicenseStatus(licenseStatusData: ProviderWithLicenseStatus): Observable<ProviderWithLicenseStatus> {
+    return this.http.put<ProviderWithLicenseStatus>('/api/v1/PrivateProvider/LicenseStatusUpdate', licenseStatusData);
   }
 
   /**
@@ -94,22 +64,17 @@ export class ProviderService {
   }
 
   /**
-   * This method block a specific Provider from the database
+   * This method get all provider types
    */
-  public blockProvider(provider: BlockProviderData): Observable<void> {
-    return this.http.put<void>('/api/v1/Provider/Block', provider);
+  public getProviderTypes(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/ProviderType/Get');
   }
 
-  private setParams(providerParameters: ProviderParameters): HttpParams {
-    let params = new HttpParams();
-
-    if (providerParameters.searchString) {
-      params = params.set('SearchString', providerParameters.searchString);
-    }
-
-    params = params.set('Size', providerParameters.size.toString()).set('From', providerParameters.from.toString());
-
-    return params;
+  /**
+   * This method get all institution statuses
+   */
+  public getInstitutionStatuses(): Observable<DataItem[]> {
+    return this.http.get<DataItem[]>('/api/v1/InstitutionStatus/Get');
   }
 
   private createProviderV1(provider: Provider): Observable<Provider> {

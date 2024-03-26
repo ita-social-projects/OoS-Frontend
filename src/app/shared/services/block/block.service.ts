@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { BlockedParent } from '../../models/block.model';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { BlockedParent } from '../../models/block.model';
 
 @Injectable({
   providedIn: 'root'

@@ -2,14 +2,15 @@ import { Injectable } from '@angular/core';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { EMPTY_RESULT } from '../constants/constants';
-import { Codeficator } from '../models/codeficator.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { FilterList } from '../models/filterList.model';
-import { SearchResponse } from '../models/search.model';
-import { WorkshopCard } from '../models/workshop.model';
-import { AppWorkshopsService } from '../services/workshops/app-workshop/app-workshops.service';
+
+import { EMPTY_RESULT } from 'shared/constants/constants';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterList } from 'shared/models/filter-list.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { AppWorkshopsService } from 'shared/services/workshops/app-workshop/app-workshops.service';
 import {
   CleanCity,
   ClearCoordsByMap,
@@ -25,6 +26,8 @@ import {
   SetDirections,
   SetEndTime,
   SetFilterFromURL,
+  SetFilterPagination,
+  SetFormsOfLearning,
   SetIsAppropriateAge,
   SetIsAppropriateHours,
   SetIsFree,
@@ -39,7 +42,6 @@ import {
   SetOrder,
   SetRadiusSize,
   SetSearchQueryValue,
-  SetFilterPagination,
   SetStartTime,
   SetWithDisabilityOption,
   SetWorkingDays
@@ -62,6 +64,8 @@ import {
 })
 @Injectable()
 export class FilterState {
+  constructor(private appWorkshopsService: AppWorkshopsService) {}
+
   @Selector()
   static FilterState(state: FilterStateModel): FilterStateModel {
     return state;
@@ -103,13 +107,13 @@ export class FilterState {
   }
 
   @Selector()
-  static userRadiusSize(state: FilterStateModel) {
+  static userRadiusSize(state: FilterStateModel): number {
     const meterInKilometer = 1000;
     return state.userRadiusSize * meterInKilometer;
   }
 
   @Selector()
-  static isMapView(state: FilterStateModel) {
+  static isMapView(state: FilterStateModel): boolean {
     return state.isMapView;
   }
 
@@ -135,6 +139,7 @@ export class FilterState {
       directionIds,
       minPrice,
       maxPrice,
+      formsOfLearning,
       isFree,
       isPaid,
       workingDays,
@@ -146,6 +151,7 @@ export class FilterState {
     return {
       withDisabilityOption,
       statuses,
+      formsOfLearning,
       directionIds,
       ageFilter: { minAge, maxAge, isAppropriateAge },
       priceFilter: {
@@ -164,8 +170,6 @@ export class FilterState {
       order
     };
   }
-
-  constructor(private appWorkshopsService: AppWorkshopsService) {}
 
   @Action(SetCity)
   setCity({ patchState }: StateContext<FilterStateModel>, { payload, isConfirmedCity }: SetCity): void {
@@ -204,15 +208,22 @@ export class FilterState {
   setStartTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetStartTime): void {
     patchState({ startTime: payload, from: 0 });
   }
+
   @Action(SetEndTime)
   setEndTime({ patchState }: StateContext<FilterStateModel>, { payload }: SetEndTime): void {
     patchState({ endTime: payload, from: 0 });
+  }
+
+  @Action(SetFormsOfLearning)
+  setFormsOfLearning({ patchState }: StateContext<FilterStateModel>, { payload }: SetFormsOfLearning): void {
+    patchState({ formsOfLearning: payload, from: 0 });
   }
 
   @Action(SetIsFree)
   setIsFree({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsFree): void {
     patchState({ isFree: payload, from: 0 });
   }
+
   @Action(SetIsPaid)
   setIsPaid({ patchState }: StateContext<FilterStateModel>, { payload }: SetIsPaid): void {
     patchState({ isPaid: payload, from: 0 });

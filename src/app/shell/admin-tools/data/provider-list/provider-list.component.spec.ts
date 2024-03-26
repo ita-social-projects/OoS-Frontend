@@ -1,18 +1,19 @@
-import { MatDialogModule } from '@angular/material/dialog';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTableModule } from '@angular/material/table';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { ProviderListComponent } from './provider-list.component';
-import { ReasonModalWindowComponent } from '../../../../shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderListComponent } from './provider-list.component';
 
 describe('ProviderListComponent', () => {
   let component: ProviderListComponent;
@@ -32,7 +33,13 @@ describe('ProviderListComponent', () => {
         MatDialogModule,
         TranslateModule.forRoot()
       ],
-      declarations: [ProviderListComponent, MockproviderInfoComponent, MockListAdminProviderPaginatorComponent, ReasonModalWindowComponent]
+      declarations: [
+        ProviderListComponent,
+        MockProviderInfoComponent,
+        MockListAdminProviderPaginatorComponent,
+        ReasonModalWindowComponent,
+        MockNoResultCardComponent
+      ]
     }).compileComponents();
   });
 
@@ -50,9 +57,9 @@ describe('ProviderListComponent', () => {
   selector: 'app-provider-info',
   template: ''
 })
-class MockproviderInfoComponent {
-  @Input() provider: Provider;
-  @Input() isProviderView: boolean;
+class MockProviderInfoComponent {
+  @Input() public provider: Provider;
+  @Input() public isProviderView: boolean;
 }
 
 @Component({
@@ -60,7 +67,15 @@ class MockproviderInfoComponent {
   template: ''
 })
 class MockListAdminProviderPaginatorComponent {
-  @Input() totalEntities: number;
-  @Input() currentPage: PaginationElement;
-  @Input() itemsPerPage: number;
+  @Input() public totalEntities: number;
+  @Input() public currentPage: PaginationElement;
+  @Input() public itemsPerPage: number;
+}
+
+@Component({
+  selector: 'app-no-result-card',
+  template: ''
+})
+class MockNoResultCardComponent {
+  @Input() public title: string;
 }

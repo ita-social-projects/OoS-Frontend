@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
-import { BlockService } from './block.service';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BlockService } from './block.service';
 
 describe('BlockService', () => {
   let service: BlockService;

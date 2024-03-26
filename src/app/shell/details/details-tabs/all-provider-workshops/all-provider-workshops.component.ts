@@ -2,16 +2,17 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from '../../../../shared/constants/constants';
-import { ProviderParameters } from '../../../../shared/models/provider.model';
-import { GetWorkshopsByProviderId } from '../../../../shared/store/shared-user.actions';
-import { Util } from '../../../../shared/utils/utils';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../../shared/enum/role';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Workshop, WorkshopCard } from '../../../../shared/models/workshop.model';
-import { SharedUserState } from '../../../../shared/store/shared-user.state';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderParameters } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { GetWorkshopsByProviderId } from 'shared/store/shared-user.actions';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-all-provider-workshops',
@@ -19,23 +20,21 @@ import { SharedUserState } from '../../../../shared/store/shared-user.state';
   styleUrls: ['./all-provider-workshops.component.scss']
 })
 export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
-  readonly noResultWorkshops = NoResultsTitle.noResult;
-  readonly Role = Role;
-
-  @Input() providerParameters: ProviderParameters;
+  @Input() public providerParameters: ProviderParameters;
 
   @Select(SharedUserState.workshops)
-  workshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  workshops: SearchResponse<WorkshopCard[]>;
+  public workshops$: Observable<SearchResponse<WorkshopCard[]>>;
 
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public readonly noResultWorkshops = NoResultsTitle.noResult;
+  public readonly Role = Role;
 
-  @Output() onGetWorkshops = new EventEmitter<void>();
+  public workshops: SearchResponse<WorkshopCard[]>;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getWorkshops();
 
     this.workshops$
@@ -43,19 +42,19 @@ export class AllProviderWorkshopsComponent implements OnInit, OnDestroy {
       .subscribe((workshops: SearchResponse<WorkshopCard[]>) => (this.workshops = workshops));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshops();
   }
 
-  onItemsPerPageChange(itemsPerPage: number) {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.providerParameters.size = itemsPerPage;
-    this.getWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   private getWorkshops(): void {

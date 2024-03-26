@@ -1,13 +1,14 @@
-import { Store, NgxsModule } from '@ngxs/store';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ActionsComponent } from './actions.component';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { RouterTestingModule } from '@angular/router/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
-import { User } from '../../../../shared/models/user.model';
-import {TranslateModule} from '@ngx-translate/core';
+
+import { User } from 'shared/models/user.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { ActionsComponent } from './actions.component';
 
 describe('ActionsComponent', () => {
   let component: ActionsComponent;

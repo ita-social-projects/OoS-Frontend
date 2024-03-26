@@ -1,16 +1,18 @@
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { takeUntil, filter } from 'rxjs/operators';
-import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { NoResultsTitle } from '../../../shared/enum/enumUA/no-results';
-import { Role } from '../../../shared/enum/role';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
-import { FilterState } from '../../../shared/store/filter.state';
-import { SearchResponse } from '../../../shared/models/search.model';
-import { PaginationParameters } from '../../../shared/models/queryParameters.model';
-import { Util } from '../../../shared/utils/utils';
+import { filter, takeUntil } from 'rxjs/operators';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { GetFilteredWorkshops, SetFilterPagination } from 'shared/store/filter.actions';
+import { FilterState } from 'shared/store/filter.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-cards-list',
@@ -29,7 +31,6 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
   @Select(FilterState.isLoading)
   isLoadingResultPage$: Observable<boolean>;
 
-  isVisible = false;
   parent: boolean;
   workshops: SearchResponse<WorkshopCard[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
@@ -52,7 +53,7 @@ export class WorkshopCardsListComponent implements OnInit, OnDestroy {
 
   onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
-    this.getWorkshops();
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
   ngOnDestroy(): void {

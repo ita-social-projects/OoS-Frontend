@@ -9,10 +9,10 @@ import { Cropper } from '../../models/cropper';
   styleUrls: ['./image-cropper-modal.component.scss']
 })
 export class ImageCropperModalComponent {
-  imageChangedEvent = '';
-  croppedImage = '';
-  imageFile: Blob;
-  invalidMinRequirements = false;
+  public imageChangedEvent = '';
+  public croppedImage = '';
+  public imageFile: Blob;
+  public invalidMinRequirements = false;
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
@@ -23,24 +23,24 @@ export class ImageCropperModalComponent {
     public dialogRef: MatDialogRef<ImageCropperModalComponent>
   ) {}
 
-  onConfirm(): void {
+  public onConfirm(): void {
     this.dialogRef.close(this.imageFile);
   }
 
-  fileChangeEvent(event: string): void {
+  public fileChangeEvent(event: string): void {
     this.imageChangedEvent = event;
   }
 
-  imageCropped(event: ImageCroppedEvent): void {
+  public imageCropped(event: ImageCroppedEvent): void {
     this.imageFile = base64ToFile(event.base64);
     this.croppedImage = event.base64;
   }
 
-  imageLoaded(image: LoadedImage): void {
+  public imageLoaded(image: LoadedImage): void {
     const { height, width } = image.original.size;
     this.invalidMinRequirements = height < this.data.cropperConfig.cropperMinHeight || width < this.data.cropperConfig.cropperMinWidth;
   }
 
-  loadImageFailed(): void {}
+  public loadImageFailed(): void {}
   cropperReady(): void {}
 }

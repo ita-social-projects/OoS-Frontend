@@ -8,10 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule } from '@ngxs/store';
 
-import { Provider } from '../../../../shared/models/provider.model';
+import { Provider } from 'shared/models/provider.model';
 import { CreateProviderComponent } from './create-provider.component';
 
-fdescribe('CreateProviderComponent', () => {
+describe('CreateProviderComponent', () => {
   let component: CreateProviderComponent;
   let fixture: ComponentFixture<CreateProviderComponent>;
   let fb: FormBuilder;

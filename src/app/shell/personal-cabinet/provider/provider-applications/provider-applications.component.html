@@ -1,0 +1,16 @@
+<app-applications
+  *ngIf="provider"
+  [applicationParams]="applicationParams"
+  [declination]="WorkshopDeclination"
+  [dropdownEntities]="workshops$ | async"
+  [role]="role"
+  (entitiesSelect)="onEntitiesSelect($event)"
+  (getApplications)="onGetApplications()"
+  (approve)="onApprove($event)"
+  (acceptForSelection)="onAcceptForSelection($event)"
+  (reject)="onReject($event)"
+  (block)="onBlock($event)"
+  (unblock)="onUnBlock($event)"
+  (sendMessage)="onSendMessage($event)">
+  <ng-content select="[childInfoBox]"></ng-content>
+</app-applications>

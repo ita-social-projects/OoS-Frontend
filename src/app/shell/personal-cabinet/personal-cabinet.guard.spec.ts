@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
-import { PersonalCabinetGuard } from './personal-cabinet.guard';
 import { NgxsModule } from '@ngxs/store';
+import { PersonalCabinetGuard } from './personal-cabinet.guard';
 
 describe('ProviderGuard', () => {
   let guard: PersonalCabinetGuard;

@@ -1,6 +1,6 @@
-import { Role } from '../enum/role';
+import { Role } from 'shared/enum/role';
 import { Parent, ParentWithContactInfo } from './parent.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { User } from './user.model';
 import { WorkshopTruncated } from './workshop.model';
 
@@ -16,11 +16,13 @@ export interface IncomingMessage {
 export class OutgoingMessage {
   workshopId: string;
   parentId: string;
+  chatRoomId: string;
   text: string;
 
-  constructor(workshopId: string, parentId: string, text: string) {
+  constructor(workshopId: string, parentId: string, chatRoomId: string, text: string) {
     this.workshopId = workshopId;
     this.parentId = parentId;
+    this.chatRoomId = chatRoomId;
     this.text = text;
   }
 }
@@ -31,6 +33,7 @@ export class ChatRoom {
   parentId: string;
   workshop: WorkshopTruncated;
   parent: ParentWithContactInfo;
+  isBlockedByProvider: boolean;
   notReadByCurrentUserMessagesCount?: number;
   lastMessage?: IncomingMessage;
 

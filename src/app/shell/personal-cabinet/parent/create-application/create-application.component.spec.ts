@@ -1,5 +1,4 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateApplicationComponent } from './create-application.component';
 import { NgxsModule, Store } from '@ngxs/store';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,10 +13,11 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { of } from 'rxjs';
+import { TranslateModule } from '@ngx-translate/core';
 import { Child } from '../../../../shared/models/child.model';
 import { Parent } from '../../../../shared/models/parent.model';
 import { Workshop } from '../../../../shared/models/workshop.model';
-import { TranslateModule } from '@ngx-translate/core';
+import { CreateApplicationComponent } from './create-application.component';
 
 describe('CreateApplicationComponent', () => {
   let component: CreateApplicationComponent;

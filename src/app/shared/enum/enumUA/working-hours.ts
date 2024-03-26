@@ -14,5 +14,5 @@ export enum WorkingDaysReverse {
   'DAYS.THURSDAY' = 'thursday',
   'DAYS.FRIDAY' = 'friday',
   'DAYS.SATURDAY' = 'saturday',
-  'DAYS.SUNDAY' = 'sunday',
+  'DAYS.SUNDAY' = 'sunday'
 }

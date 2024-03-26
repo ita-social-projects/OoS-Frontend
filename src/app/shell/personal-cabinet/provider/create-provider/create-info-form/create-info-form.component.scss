@@ -9,3 +9,24 @@
     padding: 0;
   }
 }
+
+.ownership-wrapper {
+  position: relative;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+.info-menu-wrapper {
+  position: absolute;
+  top: 50%;
+  transform: translate(0, -50%);
+  left: calc(100% + 10px);
+
+  @media (max-width: 750px) {
+    top: 0;
+    bottom: 0;
+    left: calc(100% - 40px);
+  }
+}

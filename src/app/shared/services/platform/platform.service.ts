@@ -1,8 +1,9 @@
-import { CompanyInformation } from '../../models/сompanyInformation.model';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { AdminTabTypes } from '../../enum/admins';
+
+import { AdminTabTypes } from 'shared/enum/admins';
+import { CompanyInformation } from 'shared/models/company-information.model';
 
 @Injectable({
   providedIn: 'root'

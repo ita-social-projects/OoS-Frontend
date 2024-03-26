@@ -7,7 +7,10 @@ import { Directive } from '@angular/core';
   selector: '[matTooltip][showTooltipIfTruncated]'
 })
 export class ShowTooltipIfTruncatedDirective {
-  constructor(private el: ElementRef, private matTooltip: MatTooltip) {}
+  constructor(
+    private el: ElementRef,
+    private matTooltip: MatTooltip
+  ) {}
 
   @HostListener('mouseenter') onMouseHover(): void {
     this.matTooltip.disabled = this.el.nativeElement.scrollWidth <= this.el.nativeElement.clientWidth;

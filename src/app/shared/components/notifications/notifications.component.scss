@@ -1,25 +1,25 @@
-:host::ng-deep mat-icon {
-  position: relative;
-  font-size: 30px;
-  .mat-badge-content {
-    position: absolute;
-    left: -10px;
-    top: -10px;
-    display: block;
-    background-color: #f5bc4a;
-  }
-  top: -1px;
-  overflow: visible;
+.mat-icon-button {
+  margin-right: 10px;
 }
 
-button {
+:host::ng-deep .mat-icon {
+  position: relative;
+  overflow: visible;
+
   height: auto;
   width: auto;
+  font-size: 30px;
+  top: -1px;
+
+  .mat-badge-content {
+    background-color: #f5bc4a;
+  }
 }
 
 .icon-mobile {
   top: 10px;
 }
+
 .full-width {
   width: 100%;
 }

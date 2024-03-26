@@ -8,23 +8,22 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center start" class="warning-box">
       <span>
-      <i class="material-icons status-info-icon inactiveInfoBtn">info_outline</i>
+        <i class="material-icons status-info-icon inactiveInfoBtn">info_outline</i>
       </span>
       <div>
-        <span>{{ 'FORMS.EDIT_INSTITUTION_HIERARCHY_WARNING_MSG' | translate }}
-        </span>
+        <span>{{ 'FORMS.EDIT_INSTITUTION_HIERARCHY_WARNING_MSG' | translate }} </span>
       </div>
     </div>
-    
+
     <form #editForm [formGroup]="editDirectionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step form">
       <label class="step-label">{{ 'FORMS.LABELS.MINISTRY_SUBMISSION' | translate }}</label>
       <mat-form-field>
-        <input matInput class="step-input" [formControlName]="ministryControl"  type="text"  autocomplete="none" appTrimValue />
+        <input matInput class="step-input" [formControlName]="ministryControl" type="text" autocomplete="none" appTrimValue />
       </mat-form-field>
-      <ng-container *ngFor="let field of this.fields.slice(1); let i = index;">
+      <ng-container *ngFor="let field of this.fields.slice(1); let i = index">
         <label class="step-label">{{ field }}</label>
         <mat-form-field>
-          <input matInput class="step-input" [formControlName]="field"  type="text"  autocomplete="none" appTrimValue />
+          <input matInput class="step-input" [formControlName]="field" type="text" autocomplete="none" appTrimValue />
         </mat-form-field>
       </ng-container>
       <ng-container>
@@ -38,7 +37,6 @@
             class="step-input"
             [compareWith]="compareItems"
             [formControl]="this.directionsControl">
-            
             <mat-select-trigger>
               <mat-chip-list #chipList>
                 <mat-chip *ngFor="let direction of this.directionsControl.value" (removed)="onRemoveItem(direction)">
@@ -48,7 +46,7 @@
                 </mat-chip>
               </mat-chip-list>
             </mat-select-trigger>
-            <mat-option class="dropdown-option" *ngFor="let direction of (directions$ | async)" [value]="direction" >
+            <mat-option class="dropdown-option" *ngFor="let direction of directions$ | async" [value]="direction">
               {{ direction.title }}
             </mat-option>
           </mat-select>

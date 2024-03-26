@@ -1,4 +1,5 @@
 @import 'src/app/shared/styles/dropdown.scss';
+
 .header {
   padding: 1.5rem 5rem;
   background: url(../../assets/images/header_bg.png) center center/cover no-repeat;
@@ -92,6 +93,7 @@
     }
   }
 }
+
 .lang,
 .menu,
 .login {
@@ -112,6 +114,7 @@
   .icon-account {
     color: white;
   }
+
   .account-circle {
     width: 33px;
     padding: 0 5px;
@@ -181,6 +184,12 @@
 
 ::ng-deep .mat-menu-panel {
   border-radius: 15px !important;
+}
+
+.mat-option {
+  &:hover {
+    background-color: #f8f8f8 !important;
+  }
 }
 
 @media (max-width: 750px) {

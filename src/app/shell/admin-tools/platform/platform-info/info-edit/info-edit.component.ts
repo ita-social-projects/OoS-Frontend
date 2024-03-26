@@ -1,20 +1,20 @@
-import { ActivatedRoute, Params } from '@angular/router';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { filter, takeUntil, tap } from 'rxjs/operators';
-import { AdminTabsTitles } from './../../../../../shared/enum/enumUA/tech-admin/admin-tabs';
-import { Location } from '@angular/common';
-import { Observable } from 'rxjs';
-import { ValidationConstants } from '../../../../../shared/constants/validation';
-import { NavBarName } from '../../../../../shared/enum/enumUA/navigation-bar';
-import { CompanyInformation, CompanyInformationSectionItem } from '../../../../../shared/models/сompanyInformation.model';
-import { NavigationBarService } from '../../../../../shared/services/navigation-bar/navigation-bar.service';
-import { UpdatePlatformInfo, GetPlatformInfo } from '../../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../../shared/store/admin.state';
-import { AddNavPath } from '../../../../../shared/store/navigation.actions';
+import { Observable, Subject, throttleTime } from 'rxjs';
+import { filter, switchMap, takeUntil, tap } from 'rxjs/operators';
+
+import { ValidationConstants } from 'shared/constants/validation';
+import { AdminTabTypes } from 'shared/enum/admins';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { AdminTabsTitles } from 'shared/enum/enumUA/tech-admin/admin-tabs';
+import { CompanyInformation, CompanyInformationSectionItem } from 'shared/models/company-information.model';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { GetPlatformInfo, UpdatePlatformInfo } from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet/create-form/create-form.component';
-import { AdminTabTypes } from '../../../../../shared/enum/admins';
 
 @Component({
   selector: 'app-info-edit',
@@ -22,50 +22,52 @@ import { AdminTabTypes } from '../../../../../shared/enum/admins';
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-
   @Select(AdminState.AboutPortal)
-  AboutPortal$: Observable<CompanyInformation>;
+  public AboutPortal$: Observable<CompanyInformation>;
   @Select(AdminState.MainInformation)
-  MainInformation$: Observable<CompanyInformation>;
+  public MainInformation$: Observable<CompanyInformation>;
   @Select(AdminState.SupportInformation)
-  SupportInformation$: Observable<CompanyInformation>;
+  public SupportInformation$: Observable<CompanyInformation>;
   @Select(AdminState.LawsAndRegulations)
-  LawsAndRegulations$: Observable<CompanyInformation>;
+  public LawsAndRegulations$: Observable<CompanyInformation>;
 
-  PlatformInfoItemArray = new FormArray([]);
-  platformInfoEditFormGroup: FormGroup;
-  titleFormControl = new FormControl('', [Validators.required]);
-  editTitle: AdminTabsTitles;
-  platformInfo: CompanyInformation;
+  public readonly validationConstants = ValidationConstants;
 
-  platformInfoType: AdminTabTypes;
-  isMainPage: boolean = false;
+  public PlatformInfoItemArray = new FormArray([]);
+  public platformInfoEditFormGroup: FormGroup;
+  public titleFormControl = new FormControl('', [Validators.required]);
+  public editTitle: AdminTabsTitles;
+  public platformInfo: CompanyInformation;
+
+  public platformInfoType: AdminTabTypes;
+  public isMainPage: boolean = false;
+  public isDispatching = false;
+
+  private dispatchSubject = new Subject<void>();
+  private defaultThrottleTime = 1000;
 
   constructor(
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
     private fb: FormBuilder,
-    private location: Location
+    private router: Router
   ) {
     super(store, route, navigationBarService);
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.route.params.pipe(takeUntil(this.destroy$)).subscribe((params: Params) => this.setInitialData(params));
+
+    this.dispatchSubject
+      .pipe(
+        throttleTime(this.defaultThrottleTime),
+        switchMap(() => this.updatePlatformInfoInStore())
+      )
+      .subscribe(() => (this.isDispatching = false));
   }
 
-  private setInitialData(params: Params): void {
-    this.editMode = !!params.mode;
-    this.platformInfoType = params.param;
-    this.editTitle = AdminTabsTitles[this.platformInfoType];
-
-    this.editMode ? this.setEditMode() : this.onAddForm();
-    this.addNavPath();
-  }
-
-  addNavPath(): void {
+  public addNavPath(): void {
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -77,13 +79,13 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
             isActive: false,
             disable: false
           },
-          { name: `Редагувати інфомацію "${NavBarName[this.platformInfoType]}"`, isActive: false, disable: true }
+          { name: `${NavBarName[this.platformInfoType]}`, isActive: false, disable: true }
         )
       )
     );
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     switch (this.platformInfoType) {
       case AdminTabTypes.AboutPortal:
         this.getAboutInfo();
@@ -99,6 +101,59 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
         this.getLawsAndRegulations();
         break;
     }
+  }
+
+  /**
+   * This method creates new FormGroup adds new FormGroup to the FormArray
+   */
+  public onAddForm(): void {
+    this.PlatformInfoItemArray.push(this.newForm());
+  }
+
+  /**
+   * This method delete FormGroup from the FormArray by index
+   * @param index
+   */
+  public onDeleteForm(index: number): void {
+    this.PlatformInfoItemArray.removeAt(index);
+  }
+
+  public onCancel(): void {
+    this.router.navigate(['/admin-tools/platform']);
+  }
+
+  public onSubmit(): void {
+    if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
+      this.isDispatching = true;
+      this.dispatchSubject.next();
+    }
+  }
+
+  private setInitialData(params: Params): void {
+    this.editMode = !!params.mode;
+    this.platformInfoType = params.param;
+    this.editTitle = AdminTabsTitles[this.platformInfoType];
+
+    if (this.editMode) {
+      this.setEditMode();
+    } else {
+      this.onAddForm();
+    }
+
+    this.addNavPath();
+  }
+
+  private updatePlatformInfoInStore(): Observable<void> {
+    const platformInfoItemArray: CompanyInformationSectionItem[] = [];
+    this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+      platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
+    );
+
+    const platformInfo = this.editMode
+      ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
+      : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
+
+    return this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
   }
 
   /**
@@ -126,40 +181,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.subscribeOnDirtyForm(this.platformInfoEditFormGroup);
 
     return this.platformInfoEditFormGroup;
-  }
-
-  /**
-   * This method creates new FormGroup adds new FormGroup to the FormArray
-   */
-  onAddForm(): void {
-    this.PlatformInfoItemArray.push(this.newForm());
-  }
-
-  /**
-   * This method delete FormGroup from the FormArray by index
-   * @param index
-   */
-  onDeleteForm(index: number): void {
-    this.PlatformInfoItemArray.removeAt(index);
-  }
-
-  onBack(): void {
-    this.location.back();
-  }
-
-  onSubmit(): void {
-    if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
-      const platformInfoItemArray: CompanyInformationSectionItem[] = [];
-      this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
-        platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
-      );
-
-      const platformInfo = this.editMode
-        ? new CompanyInformation(this.titleFormControl.value, platformInfoItemArray, this.platformInfo.id)
-        : new CompanyInformation(this.titleFormControl.value, platformInfoItemArray);
-
-      this.store.dispatch(new UpdatePlatformInfo(platformInfo, this.platformInfoType));
-    }
   }
 
   private getAboutInfo(): void {

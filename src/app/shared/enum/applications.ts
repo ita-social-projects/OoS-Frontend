@@ -11,12 +11,12 @@ export enum ApplicationIcons {
 }
 
 export enum ApplicationEntityType {
-  parent = 'parents',
   provider = 'providers',
   workshop = 'workshops',
+  None = 'providers',
+  ProviderDeputy = 'provideradmins',
   ProviderAdmin = 'provideradmins',
-  ProviderDeputy = 'providers',
-  None = 'providers'
+  parent = 'parents'
 }
 
 export enum ApplicationStatusTabParams {
@@ -28,5 +28,11 @@ export enum ApplicationStatusTabParams {
   AcceptedForSelection,
   StudyingForYears,
   Completed,
-  Blocked,
+  Blocked
+}
+
+export enum ApplicationShowParams {
+  All = 'All',
+  Blocked = 'Blocked',
+  Unblocked = 'Unblocked'
 }

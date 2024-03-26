@@ -1,27 +1,28 @@
-import { StarsComponent } from './stars/stars.component';
+import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { NgxsModule, Store } from '@ngxs/store';
-import { ReviewsComponent } from './reviews.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { Component, Input } from '@angular/core';
-import { of } from 'rxjs';
-import { NoResultCardComponent } from '../../../../shared/components/no-result-card/no-result-card.component';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { Parent } from '../../../../shared/models/parent.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
-import { DeclinationPipe } from '../../../../shared/pipes/declination.pipe';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import { Rate } from '../../../../shared/models/rating';
-import { TranslateCasesPipe } from '../../../../shared/pipes/translate-cases.pipe';
+import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
+
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Parent } from 'shared/models/parent.model';
+import { Rate } from 'shared/models/rating';
+import { SearchResponse } from 'shared/models/search.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { DeclinationPipe } from 'shared/pipes/declination.pipe';
+import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
+import { ReviewsComponent } from './reviews.component';
+import { StarsComponent } from './stars/stars.component';
 
 @Component({
   selector: 'app-paginator',
-  template: '',
+  template: ''
 })
 class MockReviewsPaginatorComponent {
   @Input() totalEntities: number;
@@ -44,7 +45,7 @@ describe('ReviewsComponent', () => {
         FormsModule,
         ReactiveFormsModule,
         MatButtonToggleModule,
-        TranslateModule.forRoot(),
+        TranslateModule.forRoot()
       ],
       providers: [TranslateService],
       declarations: [
@@ -53,8 +54,8 @@ describe('ReviewsComponent', () => {
         DeclinationPipe,
         NoResultCardComponent,
         MockReviewsPaginatorComponent,
-        TranslateCasesPipe,
-      ],
+        TranslateCasesPipe
+      ]
     }).compileComponents();
   });
 
