@@ -24,6 +24,7 @@ import { ReadUsersNotificationsByType } from 'shared/store/notification.actions'
 import { OnUpdateApplicationSuccess } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-applications',
@@ -57,6 +58,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public readonly ApplicationStatuses = ApplicationStatuses;
   public readonly NoApplicationTitle = NoResultsTitle.noApplication;
   public readonly Role = Role;
+  public readonly InfoMenuType = InfoMenuType;
 
   public applicationCards: SearchResponse<Application[]>;
   public isActiveInfoButton = false;
