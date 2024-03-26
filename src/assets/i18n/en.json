@@ -439,9 +439,9 @@
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
       "INVALID_MAP": "No such address was found on the map",
-      "INVALID_STREET": ", please use only cyrillic and symbols ( ' . - ( ) )",
+      "INVALID_STREET": ", please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
-      "INVALID_SECTION_NAME": "please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
+      "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
@@ -454,7 +454,8 @@
   "FROM": "From",
   "INFO_MENU": {
     "UNLIMITED": "By selecting the \"Unlimited\" option, the workshop has unlimited of the number of users. If you enter the number of available places for users - upon reaching the limit, recruitment will be automatically closed and application submission will be stopped automatically.",
-    "LICENSE": "Add licenses to gain more interest and increase user trust in your institution. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page"
+    "LICENSE": "Add licenses to gain more interest and increase user trust in your institution. Once you receive an approved license status, a confirmation icon will appear on the institution's or workshop's preview page",
+    "OWNERSHIP_CAN_NOT_BE_CHANGED": "The ownership can't be changed. Please register a new account."
   },
   "ALL_WORKSHOPS_ACCESS": "Access to all workshops will be provided",
   "INSTITUTION_TYPE": "Institution type",

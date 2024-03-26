@@ -19,6 +19,7 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { ResetAchievements } from 'shared/store/provider.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-workshop-details',
@@ -26,13 +27,6 @@ import { GetProviderById } from 'shared/store/shared-user.actions';
   styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
-  public readonly categoryIcons = CategoryIcons;
-  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
-  public readonly workshopStatus = WorkshopOpenStatus;
-  public readonly workshopTitles = DetailsTabTitlesEnum;
-  public readonly FormOfLearningEnum = FormOfLearningEnum;
-  public readonly Role = Role;
-
   @ViewChild(MatTabGroup)
   public tabGroup: MatTabGroup;
 
@@ -46,6 +40,14 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
   public isMobileScreen: boolean;
   @Input()
   public displayActionCard: boolean;
+
+  public readonly categoryIcons = CategoryIcons;
+  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
+  public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly workshopTitles = DetailsTabTitlesEnum;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Role = Role;
+  public readonly InfoMenuType = InfoMenuType;
 
   public workshopStatusOpen: boolean;
   public selectedIndex: number;
@@ -80,6 +82,19 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     });
   }
 
+  public onTabChange(event: MatTabChangeEvent): void {
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { status: DetailsTabTitlesParams[event.index] }
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new ResetAchievements());
+  }
+
   private getWorkshopData(): void {
     this.images = this.imagesService.setCarouselImages(this.workshop);
     this.store.dispatch([
@@ -96,18 +111,5 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         )
       )
     ]);
-  }
-
-  public onTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { status: DetailsTabTitlesParams[event.index] }
-    });
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new ResetAchievements());
   }
 }

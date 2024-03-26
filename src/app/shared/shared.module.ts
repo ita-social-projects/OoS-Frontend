@@ -76,6 +76,7 @@ import { NotificationDescriptionPipe } from './pipes/notification-description.pi
 import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
+import { InfoMenuComponent } from './components/info-menu/info-menu.component';
 
 @NgModule({
   declarations: [
@@ -144,7 +145,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
-    NotificationDescriptionPipe
+    NotificationDescriptionPipe,
+    InfoMenuComponent
   ],
 
   imports: [
@@ -223,7 +225,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     EmptyValueTransformPipe,
     GetAddressPipe,
     TranslateCasesPipe,
-    ProviderStatusBannerComponent
+    ProviderStatusBannerComponent,
+    InfoMenuComponent
   ]
 })
 export class SharedModule {}
