@@ -3,18 +3,14 @@
     <span> <i class="status-icon {{ ApplicationIcons[status] }}"></i></span>
     <span> {{ ApplicationTitles[status] | translate }}</span>
   </div>
-  <span><i class="material-icons status-info-icon" [matMenuTriggerFor]="menu" #trigger="matMenuTrigger"
-      (hasBackdrop)="(true)" [ngClass]="trigger.menuOpen ? 'activeInfoBtn' : 'inactiveInfoBtn'"
-      (click)="onGetBlockedParent()" (menuClosed)="onMenuClosed()">info_outline</i></span>
-  <mat-menu #menu="matMenu" disabled [overlapTrigger]="false" xPosition="after" class="application-menu">
-    <div class="menu-wrapper">
+  <span (click)="onGetBlockedParent()">
+    <app-info-menu (menuClosed)="onMenuClosed()" [type]="InfoMenuType.Text">
       <div class="application-popup-status {{ status }}">
         <span> <i class="{{ ApplicationIcons[status] }}"></i></span>
         <span> {{ ApplicationTitles[status] | translate }}</span>
       </div>
-      <div class="application-info-menu application-info-description-card">({{ ApplicationStatusDescription[status] |
-        translate }})</div>
+      <div class="application-info-menu application-info-description-card">({{ ApplicationStatusDescription[status] | translate }})</div>
       <p *ngIf="reason" class="application-info-menu">{{ reason | textSliceTransform }}</p>
-    </div>
-  </mat-menu>
+    </app-info-menu>
+  </span>
 </div>

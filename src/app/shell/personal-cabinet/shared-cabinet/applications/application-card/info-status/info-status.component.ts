@@ -12,6 +12,7 @@ import { Provider } from 'shared/models/provider.model';
 import { GetBlockedParents, OnClearBlockedParents } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-info-status',
@@ -27,6 +28,7 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   public readonly ApplicationTitles = ApplicationTitles;
   public readonly ApplicationStatusDescription = ApplicationStatusDescription;
   public readonly ApplicationIcons = ApplicationIcons;
+  public readonly InfoMenuType = InfoMenuType;
 
   public status: ApplicationStatuses | UserStatuses.Blocked;
   public reason: string;
