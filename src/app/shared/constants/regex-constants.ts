@@ -32,3 +32,6 @@ export const HOUSE_REGEX: RegExp =
 
 // Regex for section name, it checks that the first char is a letter
 export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z].+/;
+
+// Regex for checking if string has a letter
+export const MUST_CONTAIN_LETTERS: RegExp = /[a-zA-ZА-ЯЄІЇҐа-яґєії]/;

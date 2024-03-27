@@ -12,6 +12,7 @@ import { Provider } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { Util } from 'shared/utils/utils';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-about-form',
@@ -116,7 +117,8 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_1),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, FormValidators.email]),
