@@ -34,4 +34,4 @@ export const HOUSE_REGEX: RegExp =
 export const SECTION_NAME_REGEX: RegExp = /^(?!`)(?!\^)(?!_)(?!\[)(?!])(?!\\)[А-ЩЬЮЯҐЄІЇа-щьюяґєіїA-Za-z].+/;
 
 // Regex for checking if string has a letter
-export const MUST_CONTAIN_LETTERS: RegExp = /.*[a-zA-ZА-ЩЬЮЯҐЄІЇа-щьюяґєії].*/;
+export const MUST_CONTAIN_LETTERS: RegExp = /^(?=.*[a-zA-ZА-ЯЄІЇҐа-яґєії]).*/;
