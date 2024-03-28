@@ -1,6 +1,32 @@
 <button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
 <input hidden (change)="onFileSelected($event)" #fileInput type="file">
-<span class="file-name">{{selectedFile?.name}}</span>
-<button (click)="showFile()">show</button>
-<img src="{{photo}}"/>
+<!-- <span class="file-name">{{selectedFile?.name}}</span> -->
+<button>show</button>
+<table>
+	<thead>
+		<tr>
+			<th>Назва закладу </th>
+			<th>Форма власності</th>
+			<th>ЄДРПОУ/ІПН</th>
+			<th>Ліцензія №</th>
+			<th>Населений пункт</th>
+			<th>Адреса</th>
+			<th>Електронна пошта</th>
+			<th>Телефон</th>
+		</tr>
+	</thead>
+	<!-- <tbody>
+    <ng-container *ngFor="let provider of providers">
+      <tr *ngFor="let course of discipline.courses">
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </ng-container>
+	</tbody> -->
+</table>
+
+
+
 
