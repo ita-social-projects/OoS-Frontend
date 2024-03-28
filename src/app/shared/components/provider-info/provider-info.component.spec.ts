@@ -13,7 +13,7 @@ import { NgxsModule } from '@ngxs/store';
 import { Address } from 'shared/models/address.model';
 import { Institution } from 'shared/models/institution.model';
 import { Provider } from 'shared/models/provider.model';
-import { PhoneTransformPipe } from 'shared/pipes/phone-transform.pipe';
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { ProviderInfoComponent } from './provider-info.component';
 
 describe('ProviderInfoComponent', () => {
@@ -34,7 +34,7 @@ describe('ProviderInfoComponent', () => {
         BrowserAnimationsModule,
         TranslateModule.forRoot()
       ],
-      declarations: [ProviderInfoComponent, PhoneTransformPipe]
+      declarations: [ProviderInfoComponent, PhonePipe]
     }).compileComponents();
   });
 

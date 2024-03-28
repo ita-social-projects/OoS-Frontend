@@ -36,6 +36,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidEmail: boolean;
   public invalidEdrpouIpn: boolean;
   public invalidPhoneLength: boolean;
+  public invalidPhoneNumber: boolean;
   public invalidStreet: boolean;
   public invalidHouse: boolean;
   public invalidSectionName: boolean;
@@ -85,7 +86,8 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   private checkValidationErrors(errors: ValidationErrors): void {
     this.invalidEmail = errors?.email;
     if (this.isPhoneNumber) {
-      this.invalidPhoneLength = errors?.minlength && !errors?.maxlength;
+      this.invalidPhoneLength = errors?.minlength;
+      this.invalidPhoneNumber = !this.invalidPhoneLength && errors?.validatePhoneNumber;
     } else if (this.isEdrpouIpn) {
       this.invalidEdrpouIpn = errors?.minlength && !errors?.maxlength;
     } else {
@@ -105,8 +107,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
 
   private checkMatDatePicker(): void {
     this.invalidDateFormat = this.validationFormControl.hasError('matDatepickerParse');
-    this.invalidDateRange = !!(
-      this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax')
-    );
+    this.invalidDateRange =
+      this.validationFormControl.hasError('matDatepickerMin') || this.validationFormControl.hasError('matDatepickerMax');
   }
 }

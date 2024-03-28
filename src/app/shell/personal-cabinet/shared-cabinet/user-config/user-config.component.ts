@@ -1,12 +1,13 @@
-import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
+
 import { Constants } from 'shared/constants/constants';
 import { Gender } from 'shared/enum/enumUA/gender';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { Role } from 'shared/enum/role';
 import { User } from 'shared/models/user.model';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { environment } from '../../../../../environments/environment';
 
@@ -17,7 +18,6 @@ import { environment } from '../../../../../environments/environment';
 })
 export class UserConfigComponent implements OnInit, OnDestroy {
   public readonly gender = Gender;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
   public readonly dateFormat = Constants.SHORT_DATE_FORMAT;
   public readonly role = Role;
 

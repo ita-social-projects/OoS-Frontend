@@ -1,6 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Constants } from 'shared/constants/constants';
 import { Address } from 'shared/models/address.model';
 
 @Component({
@@ -17,8 +16,6 @@ export class ContactsComponent implements OnInit {
     instagram: string;
     website: string;
   };
-
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   private addressLink = 'https://www.google.com/maps/place/';
 

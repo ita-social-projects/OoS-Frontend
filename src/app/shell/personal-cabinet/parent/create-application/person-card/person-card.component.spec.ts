@@ -2,8 +2,9 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { PhoneTransformPipe } from '../../../../../shared/pipes/phone-transform.pipe';
-import { JoinPipe } from '../../../../../shared/pipes/join.pipe';
+
+import { JoinPipe } from 'shared/pipes/join.pipe';
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { PersonCardComponent } from './person-card.component';
 
 describe('PersonCardComponent', () => {
@@ -13,7 +14,7 @@ describe('PersonCardComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatIconModule, RouterTestingModule, TranslateModule.forRoot()],
-      declarations: [PersonCardComponent, PhoneTransformPipe, JoinPipe]
+      declarations: [PersonCardComponent, PhonePipe, JoinPipe]
     }).compileComponents();
   });
 

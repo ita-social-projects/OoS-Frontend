@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
 import { MatCardModule } from '@angular/material/card';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialogModule } from '@angular/material/dialog';
-import { PhoneTransformPipe } from '../../../../shared/pipes/phone-transform.pipe';
+import { MatIconModule } from '@angular/material/icon';
+import { NgxsModule } from '@ngxs/store';
+
+import { PhonePipe } from 'shared/pipes/phone.pipe';
 import { UserConfigComponent } from './user-config.component';
 
 describe('UserConfigComponent', () => {
@@ -14,7 +15,7 @@ describe('UserConfigComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [NgxsModule.forRoot([]), MatCardModule, MatIconModule, ReactiveFormsModule, MatDialogModule],
-      declarations: [UserConfigComponent, PhoneTransformPipe]
+      declarations: [UserConfigComponent, PhonePipe]
     }).compileComponents();
   });
 

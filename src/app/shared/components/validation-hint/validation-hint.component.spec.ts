@@ -68,6 +68,11 @@ describe('ValidationHintComponent', () => {
 
   describe('checkValidationErrors method', () => {
     let errors: ValidationErrors;
+    let control: FormControl;
+
+    beforeEach(() => {
+      control = component.validationFormControl;
+    });
 
     it('should assign to invalidEmail if email error is present', () => {
       errors = { email: true };
@@ -86,7 +91,25 @@ describe('ValidationHintComponent', () => {
       expect(component.invalidPhoneLength).toBeTruthy();
     });
 
-    it('should assign TRUE to invalidEdrpouIpn if isPhoneNumber and minlength error are present', () => {
+    it('should assign TRUE to invalidPhoneLength if validationFormControl has minlength error and if isPhoneNumber', () => {
+      component.isPhoneNumber = true;
+      control.setErrors({ minlength: true });
+
+      (component as any).checkValidationErrors(control.errors);
+
+      expect(component.invalidPhoneLength).toBeTruthy();
+    });
+
+    it('should assign TRUE to invalidPhoneNumber if validationFormControl has validatePhoneNumber error and if isPhoneNumber', () => {
+      component.isPhoneNumber = true;
+      control.setErrors({ validatePhoneNumber: true, minlength: false });
+
+      (component as any).checkValidationErrors(control.errors);
+
+      expect(component.invalidPhoneNumber).toBeTruthy();
+    });
+
+    it('should assign TRUE to invalidEdrpouIpn if isEdrpouIpn and minlength error are present', () => {
       component.isEdrpouIpn = true;
       errors = { minlength: true };
 
