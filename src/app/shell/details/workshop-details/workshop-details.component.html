@@ -34,15 +34,14 @@
           </span>
         </div>
         <div fxLayout="column" *ngIf="workshop.competitiveSelection">
-          <span fxLayout="row" fxLayoutAlign="start center" class="selection">
-            <img class="icon icon-dimensions selection-icon" src="assets/icons/competitiveSelection.svg" />
-            <span class="icon-text selection-text">{{ 'COMPETITIVE_SELECTION' | translate }}</span>
-            <i class="material-icons" [matMenuTriggerFor]="competitiveSelectionDesc" #competitiveSelectionDescTrigger="matMenuTrigger">
-              info_outline
-            </i>
-            <mat-menu class="competitiveSelectionDesc-menu" #competitiveSelectionDesc="matMenu" [overlapTrigger]="false">
-              {{ workshop.competitiveSelectionDescription }}
-            </mat-menu>
+          <span fxLayout="row" fxLayoutAlign="start center">
+            <span class="icon-text">
+              <mat-icon class="icon">person_add</mat-icon>
+              {{ 'COMPETITIVE_SELECTION' | translate }}
+              <app-info-menu [type]="InfoMenuType.Text">
+                {{ workshop.competitiveSelectionDescription }}
+              </app-info-menu>
+            </span>
           </span>
           <span class="icon-text">
             <mat-icon class="icon">school</mat-icon>

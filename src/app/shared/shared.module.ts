@@ -33,6 +33,7 @@ import { ImageCarouselComponent } from './components/image-carousel/image-carous
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
+import { InfoMenuComponent } from './components/info-menu/info-menu.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { LoginComponent } from './components/login/login.component';
 import { MapComponent } from './components/map/map.component';
@@ -147,7 +148,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
     PhoneFormControlComponent,
-    NotificationDescriptionPipe
+    NotificationDescriptionPipe,
+    InfoMenuComponent
   ],
 
   imports: [
@@ -228,7 +230,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     GetAddressPipe,
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
-    PhoneFormControlComponent
+    PhoneFormControlComponent,
+    InfoMenuComponent
   ]
 })
 export class SharedModule {}

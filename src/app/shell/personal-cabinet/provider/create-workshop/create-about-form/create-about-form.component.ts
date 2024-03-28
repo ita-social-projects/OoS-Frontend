@@ -11,6 +11,7 @@ import { FormOfLearning, PayRateType } from 'shared/enum/workshop';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { Util } from 'shared/utils/utils';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-create-about-form',
@@ -44,6 +45,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     croppedFormat: CropperConfigurationConstants.croppedFormat,
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
+  public readonly InfoMenuType = InfoMenuType;
 
   public AboutFormGroup: FormGroup;
   public workingHoursFormArray: FormArray = new FormArray([], [Validators.required]);
