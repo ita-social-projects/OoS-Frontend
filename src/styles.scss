@@ -234,3 +234,7 @@ input:-webkit-autofill:active {
 .mat-form-field-wrapper {
   padding-bottom: 0 !important;
 }
+
+button:disabled {
+  pointer-events: none;
+}
