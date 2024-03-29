@@ -20,7 +20,7 @@ export class ErrorHandleInterceptor implements HttpInterceptor {
   public intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error: HttpErrorResponse) => {
-        if (error.error.apiErrorResponse) {
+        if (error.error?.apiErrorResponse) {
           const message = this.buildApiErrorMessage(error.error.apiErrorResponse.apiErrors);
           this.displayErrorMessageBar(message, 10000);
         } else {
