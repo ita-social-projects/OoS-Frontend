@@ -12,6 +12,11 @@
     <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
     <ng-container *ngIf="invalidHouse; then invalidHouseTmpl"></ng-container>
     <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
+    <ng-container
+      *ngIf="
+        mustContainLetters && !validationFormControl.errors.minlength && !invalidFieldLength;
+        then mustContainLettersTmpl
+      "></ng-container>
   </ng-container>
 </small>
 
@@ -63,4 +68,8 @@
 
 <ng-template #invalidSectionNameTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_SECTION_NAME' | translate }}<br />
+</ng-template>
+
+<ng-template #mustContainLettersTmpl>
+  {{ 'FORMS.VALIDATIONS.MUST_CONTAIN_LETTERS' | translate }}
 </ng-template>
