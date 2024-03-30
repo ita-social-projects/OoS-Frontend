@@ -446,7 +446,8 @@
       "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
-      "APPLICATION_ALREADY_APPLIED": "The application is already created"
+      "APPLICATION_ALREADY_APPLIED": "The application is already created",
+      "MUST_CONTAIN_LETTERS": "This field must contain at least one letter."
     },
     "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. "
   },

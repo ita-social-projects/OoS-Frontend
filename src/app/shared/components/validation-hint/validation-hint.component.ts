@@ -9,7 +9,8 @@ import {
   NAME_REGEX,
   NO_LATIN_REGEX,
   SECTION_NAME_REGEX,
-  STREET_REGEX
+  STREET_REGEX,
+  MUST_CONTAIN_LETTERS
 } from 'shared/constants/regex-constants';
 
 @Component({
@@ -40,6 +41,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   public invalidStreet: boolean;
   public invalidHouse: boolean;
   public invalidSectionName: boolean;
+  public mustContainLetters: boolean;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -103,6 +105,7 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
     this.invalidStreet = STREET_REGEX.toString() === requiredPattern;
     this.invalidHouse = HOUSE_REGEX.toString() === requiredPattern;
     this.invalidSectionName = SECTION_NAME_REGEX.toString() === requiredPattern;
+    this.mustContainLetters = MUST_CONTAIN_LETTERS.toString() === requiredPattern;
   }
 
   private checkMatDatePicker(): void {
