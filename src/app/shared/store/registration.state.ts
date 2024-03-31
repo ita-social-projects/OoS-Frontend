@@ -5,7 +5,7 @@ import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
 import jwt_decode from 'jwt-decode';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
@@ -131,7 +131,7 @@ export class RegistrationState {
   }
 
   @Action(Login)
-  login({}: StateContext<RegistrationStateModel>, { payload }: Login): void {
+  login(_ctx: StateContext<RegistrationStateModel>, { payload }: Login): void {
     const configIdOrNull = null;
     this.oidcSecurityService.authorize(configIdOrNull, {
       customParams: {
@@ -143,12 +143,12 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  logout({}: StateContext<RegistrationStateModel>): void {
+  logout(_ctx: StateContext<RegistrationStateModel>): void {
     this.oidcSecurityService.logoff();
   }
 
   @Action(CheckAuth)
-  checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<any> {
+  checkAuth({ patchState, dispatch }: StateContext<RegistrationStateModel>): Observable<void> {
     return this.oidcSecurityService.checkAuth().pipe(
       switchMap((auth: LoginResponse) => {
         patchState({ isAuthorized: auth.isAuthenticated });
@@ -164,6 +164,7 @@ export class RegistrationState {
           );
         } else {
           patchState({ role: Role.unauthorized, isAuthorizationLoading: false });
+          return of(null);
         }
       })
     );
