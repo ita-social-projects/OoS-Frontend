@@ -875,5 +875,20 @@
     "ERROR_404": "It looks like we can't find the page you're looking for. Error code: 404"
   },
   "MORE": "...More",
-  "LESS": "...Less"
+  "LESS": "...Less",
+  "IMPORT/EXPORT": {
+    "SELECT_FILE": "Select file",
+    "SELECT_ANOTHER_FILE": "Select another file",
+    "SUBMIT_FILE": "Submit file",
+    "PROVIDERS_LIST": {
+      "PROVIDER_NAME": "Provider name",
+      "OWNERSHIP": "Ownership",
+      "IDENTIFIER": "EDRPOU/ITN",
+      "LICENSE_NUMBER": "License number",
+      "SETTLEMENT": "Settlement",
+      "ADDRESS": "Address",
+      "EMAIL": "Email",
+      "PHONE_NUMBER": "Phone number"
+    }
+  }
 }

@@ -1,32 +1,62 @@
-<button type="button" mat-raised-button (click)="fileInput.click()">Choose File</button>
-<input hidden (change)="onFileSelected($event)" #fileInput type="file">
-<!-- <span class="file-name">{{selectedFile?.name}}</span> -->
-<button>show</button>
-<table>
-	<thead>
-		<tr>
-			<th>Назва закладу </th>
-			<th>Форма власності</th>
-			<th>ЄДРПОУ/ІПН</th>
-			<th>Ліцензія №</th>
-			<th>Населений пункт</th>
-			<th>Адреса</th>
-			<th>Електронна пошта</th>
-			<th>Телефон</th>
-		</tr>
-	</thead>
-	<!-- <tbody>
-    <ng-container *ngFor="let provider of providers">
-      <tr *ngFor="let course of discipline.courses">
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-      </tr>
-    </ng-container>
-	</tbody> -->
-</table>
+<div class="import-buttons">
+  <div>
+    <button type="button" mat-raised-button (click)="fileInput.click()">
+      {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
+    </button>
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" />
+    <span class="file-name">{{ selectedFile?.name }}</span>
+  </div>
+  <button *ngIf="dataSource" class="btn" mat-raised-button>
+    {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
+  </button>
+</div>
 
-
-
-
+<ng-container *ngIf="dataSource">
+  <div class="wrapper-provider-list">
+    <div class="wrapper-provider-list-container">
+      <div class="table-container mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+          <ng-container matColumnDef="provider name">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PROVIDER_NAME' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.providerName }}</td>
+          </ng-container>
+          <ng-container matColumnDef="ownership">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.OWNERSHIP' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.ownership }}</td>
+          </ng-container>
+          <ng-container matColumnDef="identifier">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.IDENTIFIER' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.identifier }}</td>
+          </ng-container>
+          <ng-container matColumnDef="license number">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.LICENSE_NUMBER' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.licenseNumber }}</td>
+          </ng-container>
+          <ng-container matColumnDef="settlement">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.SETTLEMENT' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.settlement }}</td>
+          </ng-container>
+          <ng-container matColumnDef="address">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.ADDRESS' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+          </ng-container>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.EMAIL' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+          </ng-container>
+          <ng-container matColumnDef="phone number">
+            <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PHONE_NUMBER' | translate }}</th>
+            <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+  <div class="paginator">
+    <app-paginator></app-paginator>
+  </div>
+ 
+</ng-container>
+<button  *ngIf="isShow" class="goToTop" (click)="gotoTop()">&#8679;</button>

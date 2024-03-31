@@ -877,5 +877,20 @@
     "ERROR_404": "Схоже, ми не можемо знайти сторінку, яку Ви шукаєте. Код помилки: 404"
   },
   "MORE": "...Більше",
-  "LESS": "...Менше"
+  "LESS": "...Менше",
+  "IMPORT/EXPORT": {
+    "SELECT_FILE": "Вибрати файл",
+    "SELECT_ANOTHER_FILE": "Обрати інший файл",
+    "SUBMIT_FILE": "Надіслати файл",
+    "PROVIDERS_LIST": {
+      "PROVIDER_NAME": "Назва закладу",
+      "OWNERSHIP": "Форма власності",
+      "IDENTIFIER": "ЄДРПОУ/ІПН",
+      "LICENSE_NUMBER": "Ліцензія №",
+      "SETTLEMENT": "Населений пункт",
+      "ADDRESS": "Адреса",
+      "EMAIL": "Електронна пошта",
+      "PHONE_NUMBER": "Телефон"
+    }
+  }
 }
