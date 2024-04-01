@@ -19,9 +19,9 @@ export class ImportProvidersComponent implements OnInit {
 
   @HostListener('window:scroll')
   checkScroll(): void {
-    const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
 
-    console.log('[scroll]', scrollPosition);
+    // console.log('[scroll]', scrollPosition);
 
     if (scrollPosition >= this.topPosToStartShowing) {
       this.isShow = true;
@@ -41,6 +41,7 @@ export class ImportProvidersComponent implements OnInit {
   public selectedFile: any = null;
 
   displayedColumns: string[] = [
+    'sequence number',
     'provider name',
     'ownership',
     'identifier',

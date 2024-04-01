@@ -24,6 +24,7 @@ const routes: Routes = [
   {
     path: 'import-export',
     component: ImportExportComponent,
+    canLoad: [UsersGuard],
     loadChildren: () => import('../data/import-export/import-export.module').then((m) => m.ImportExportModule)
   }
 ];

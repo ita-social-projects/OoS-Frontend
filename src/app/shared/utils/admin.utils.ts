@@ -41,3 +41,7 @@ export function canManageInstitution(role: string): boolean {
 export function canManageRegion(role: string): boolean {
   return canManageInstitution(role) || role === Role.regionAdmin;
 }
+
+export function canManageImports(role: string): boolean {
+  return role === Role.techAdmin;
+}
