@@ -10,7 +10,6 @@ import { AdminToolsComponent } from './admin-tools.component';
 @NgModule({
   declarations: [AdminToolsComponent],
   imports: [CommonModule, AdminToolsRoutingModule, SharedModule, FlexLayoutModule, TranslateModule],
-
   exports: [AdminToolsComponent]
 })
 export class AdminToolsModule {}

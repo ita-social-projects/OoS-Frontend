@@ -1,7 +1,8 @@
 <div class="create-form">
   <div class="wrapper">
     <div class="create-form-header" fxLayout="column" fxLayoutAlign="center center">
-      <h3 class="wrapper-title">{{ 'FORMS.HEADERS.EDIT_INFO' | translate | uppercase }} "{{ editTitle | translate | uppercase }}"</h3>
+      <h3 class="wrapper-title">{{ 'FORMS.HEADERS.EDIT_INFO' | translate | uppercase }} "{{ editTitle | translate |
+        uppercase }}"</h3>
     </div>
 
     <div fxLayout="column" fxLayoutAlign="center center">
@@ -16,16 +17,14 @@
         <app-validation-hint [validationFormControl]="titleFormControl"></app-validation-hint>
       </div>
 
-      <app-info-form
-        *ngFor="let form of PlatformInfoItemArray.controls"
-        [InfoEditFormGroup]="form"
-        [index]="PlatformInfoItemArray.controls.indexOf(form)"
-        [formAmount]="PlatformInfoItemArray.controls.length"
-        [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"
-        (deleteForm)="onDeleteForm($event)">
+      <app-info-form *ngFor="let form of platformInfoItemFormArray.controls" [infoEditFormGroup]="form"
+        [index]="platformInfoItemFormArray.controls.indexOf(form)"
+        [formAmount]="platformInfoItemFormArray.controls.length"
+        [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000" (deleteForm)="onDeleteForm($event)">
       </app-info-form>
 
-      <button *ngIf="PlatformInfoItemArray.controls.length < 10 && !isMainPage" class="btn-add" mat-button (click)="onAddForm()">
+      <button *ngIf="platformInfoItemFormArray.controls.length < 10 && !isMainPage" class="btn-add" mat-button
+        (click)="onAddForm()">
         <mat-icon class="mat-icon-add">add</mat-icon>
         {{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
       </button>
@@ -35,16 +34,8 @@
       <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">
         {{ 'BUTTONS.CANCEL' | translate }}
       </button>
-      <button
-        class="btn"
-        mat-button
-        type="submit"
-        [disabled]="
-          isDispatching ||
-          (!PlatformInfoItemArray.dirty && !titleFormControl.dirty) ||
-          PlatformInfoItemArray.invalid ||
-          titleFormControl.invalid
-        "
+      <button class="btn" mat-button type="submit"
+        [disabled]="isDispatching || (!platformInfoItemFormArray.dirty && !titleFormControl.dirty) || platformInfoItemFormArray.invalid || titleFormControl.invalid"
         (click)="onSubmit()">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>

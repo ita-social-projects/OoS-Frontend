@@ -3,6 +3,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
 
 import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
+import { Role } from 'shared/enum/role';
 import { Notification, NotificationAmount } from 'shared/models/notification.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { AppState } from 'shared/store/app.state';
@@ -10,6 +11,7 @@ import { GetUnreadMessagesCount } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { GetAmountOfNewUsersNotifications } from 'shared/store/notification.actions';
 import { NotificationState } from 'shared/store/notification.state';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Component({
   selector: 'app-notifications',
@@ -38,8 +40,12 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
 
   public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
+    const role = this.store.selectSnapshot(RegistrationState.role);
 
-    this.store.dispatch([new GetAmountOfNewUsersNotifications(), new GetUnreadMessagesCount()]);
+    this.store.dispatch(new GetAmountOfNewUsersNotifications());
+    if ([Role.parent, Role.provider].includes(role)) {
+      this.store.dispatch(new GetUnreadMessagesCount());
+    }
     this.hubConnection.on('ReceiveNotification', (receivedNotificationString: string) => {
       // TODO: solve the problem with keys with capital letters
       const parsedNotification = JSON.parse(receivedNotificationString);
@@ -57,7 +63,9 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
 
     combineLatest([
       this.notificationAmount$.pipe(filter(Boolean)),
-      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => unreadMessagesCount !== null))
+      this.unreadMessagesCount$.pipe(
+        filter((unreadMessagesCount) => ![Role.parent, Role.provider].includes(role) || unreadMessagesCount !== null)
+      )
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe(

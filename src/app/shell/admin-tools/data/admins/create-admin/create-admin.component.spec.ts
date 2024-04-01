@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,9 +9,12 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, State } from '@ngxs/store';
+
+import { AdminStateModel } from 'shared/store/admin.state';
 import { CreateAdminComponent } from './create-admin.component';
 
 describe('CreateAdminComponent', () => {
@@ -21,7 +24,7 @@ describe('CreateAdminComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([MockAdminState]),
         MatStepperModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -35,26 +38,33 @@ describe('CreateAdminComponent', () => {
         MatSelectModule,
         TranslateModule.forRoot()
       ],
-      declarations: [MockValidationHintForInputComponent, CreateAdminComponent]
+      declarations: [MockValidationHintForInputComponent, CreateAdminComponent],
+      providers: [{ provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ param: 'areaAdmin', id: 'id' }) } } }]
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
-    component.adminFormGroup = new FormGroup({
-      lastName: new FormControl(''),
-      firstName: new FormControl(''),
-      middleName: new FormControl(''),
-      phoneNumber: new FormControl(''),
-      institution: new FormControl(''),
-      email: new FormControl('')
-    });
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getters', () => {
+    it('should return correct institution form control', () => {
+      expect(component.institutionFormControl).toEqual(component.adminFormGroup.get('institution'));
+    });
+
+    it('should return correct region form control', () => {
+      expect(component.regionFormControl).toEqual(component.adminFormGroup.get('region'));
+    });
+
+    it('should return correct territorial community form control', () => {
+      expect(component.territorialCommunityFormControl).toEqual(component.adminFormGroup.get('territorialCommunity'));
+    });
   });
 });
 
@@ -70,3 +80,12 @@ class MockValidationHintForInputComponent {
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;
 }
+
+@State<AdminStateModel>({
+  name: 'admin',
+  defaults: {
+    selectedAdmin: {}
+  } as AdminStateModel
+})
+@Injectable()
+class MockAdminState {}

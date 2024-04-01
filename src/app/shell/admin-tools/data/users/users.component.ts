@@ -66,7 +66,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.getChildren();
 
     this.filterFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
+      .pipe(distinctUntilChanged(), debounceTime(500), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
         this.currentPage = PaginationConstants.firstPage;

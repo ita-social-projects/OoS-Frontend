@@ -3,7 +3,7 @@
     formControlName="imageFiles" [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [InfoEditFormGroup]="form"
+  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500" (deleteForm)="onDeleteForm($event)">
   </app-info-form>

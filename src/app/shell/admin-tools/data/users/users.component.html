@@ -2,11 +2,7 @@
   <div class="search-area">
     <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
       <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-      <input
-        [formControl]="filterFormControl"
-        matInput
-        type="text"
-        class="search"
+      <input [formControl]="filterFormControl" matInput type="text" class="search"
         placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_PHONE_CITY_STATUS' | translate }}" />
     </div>
   </div>
@@ -30,20 +26,12 @@
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="users?.length; else isEmptyList">
       <div class="table-wrapper">
-        <app-users-list
-          [statusesTitles]="statusesTitles"
-          [users]="users"
-          [displayedColumns]="displayedColumns"
-          (block)="onBlockUnblock($event)"
-          (unblock)="onBlockUnblock($event)">
+        <app-users-list [statusesTitles]="statusesTitles" [users]="users" [displayedColumns]="displayedColumns"
+          (block)="onBlockUnblock($event)" (unblock)="onBlockUnblock($event)">
         </app-users-list>
       </div>
-      <app-paginator
-        [totalEntities]="totalEntities"
-        [currentPage]="currentPage"
-        [itemsPerPage]="childrenParams.size"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onTableItemsPerPageChange($event)">
+      <app-paginator [totalEntities]="totalEntities" [currentPage]="currentPage" [itemsPerPage]="childrenParams.size"
+        (pageChange)="onPageChange($event)" (itemsPerPageChange)="onTableItemsPerPageChange($event)">
       </app-paginator>
     </ng-container>
   </ng-container>
