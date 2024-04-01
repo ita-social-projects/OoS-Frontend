@@ -3,7 +3,7 @@ import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -23,8 +23,7 @@ import { CreateAdminComponent } from './create-admin.component';
 describe('CreateAdminComponent', () => {
   let component: CreateAdminComponent;
   let fixture: ComponentFixture<CreateAdminComponent>;
-  let matDialog: MatDialog;
-  let adminRole = AdminRoles.areaAdmin;
+  const adminRole = AdminRoles.areaAdmin;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -51,7 +50,6 @@ describe('CreateAdminComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: { snapshot: { paramMap: convertToParamMap({ param: adminRole, id: 'id' }) } } });
     fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
-    matDialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
 
