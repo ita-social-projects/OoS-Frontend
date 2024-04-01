@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
-import { IncomingMessage } from '../../../../../../shared/models/chat.model';
 
+import { IncomingMessage } from 'shared/models/chat.model';
 import { MessageComponent } from './message.component';
 
 describe('MessageComponent', () => {

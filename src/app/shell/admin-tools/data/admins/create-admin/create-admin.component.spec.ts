@@ -3,7 +3,7 @@ import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
@@ -14,12 +14,17 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State } from '@ngxs/store';
 
+import { AdminRoles } from 'shared/enum/admins';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Institution } from 'shared/models/institution.model';
 import { AdminStateModel } from 'shared/store/admin.state';
 import { CreateAdminComponent } from './create-admin.component';
 
 describe('CreateAdminComponent', () => {
   let component: CreateAdminComponent;
   let fixture: ComponentFixture<CreateAdminComponent>;
+  let matDialog: MatDialog;
+  let adminRole = AdminRoles.areaAdmin;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -38,14 +43,15 @@ describe('CreateAdminComponent', () => {
         MatSelectModule,
         TranslateModule.forRoot()
       ],
-      declarations: [MockValidationHintForInputComponent, CreateAdminComponent],
-      providers: [{ provide: ActivatedRoute, useValue: { snapshot: { paramMap: convertToParamMap({ param: 'areaAdmin', id: 'id' }) } } }]
+      declarations: [MockValidationHintForInputComponent, CreateAdminComponent]
     }).compileComponents();
   });
 
   beforeEach(() => {
+    TestBed.overrideProvider(ActivatedRoute, { useValue: { snapshot: { paramMap: convertToParamMap({ param: adminRole, id: 'id' }) } } });
     fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
+    matDialog = TestBed.inject(MatDialog);
     fixture.detectChanges();
   });
 
@@ -64,6 +70,36 @@ describe('CreateAdminComponent', () => {
 
     it('should return correct territorial community form control', () => {
       expect(component.territorialCommunityFormControl).toEqual(component.adminFormGroup.get('territorialCommunity'));
+    });
+  });
+
+  describe('compare methods', () => {
+    it('should return TRUE if comparing institutions with same id', () => {
+      const institution1 = { id: 'institutionId1' } as Institution;
+      const institution2 = { id: 'institutionId1' } as Institution;
+
+      expect(component.compareInstitutions(institution1, institution2)).toBeTruthy();
+    });
+
+    it('should return FALSE if comparing institutions with different id', () => {
+      const institution1 = { id: 'institutionId1' } as Institution;
+      const institution2 = { id: 'institutionId2' } as Institution;
+
+      expect(component.compareInstitutions(institution1, institution2)).toBeFalsy();
+    });
+
+    it('should return TRUE if comparing codeficators with same id', () => {
+      const codeficator1 = { id: 1 } as Codeficator;
+      const codeficator2 = { id: 1 } as Codeficator;
+
+      expect(component.compareCodeficators(codeficator1, codeficator2)).toBeTruthy();
+    });
+
+    it('should return FALSE if comparing codeficators with different id', () => {
+      const codeficator1 = { id: 1 } as Codeficator;
+      const codeficator2 = { id: 2 } as Codeficator;
+
+      expect(component.compareCodeficators(codeficator1, codeficator2)).toBeFalsy();
     });
   });
 });
