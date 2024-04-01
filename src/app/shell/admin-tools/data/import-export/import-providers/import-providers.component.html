@@ -3,7 +3,7 @@
     <button type="button" mat-raised-button (click)="fileInput.click()">
       {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
     </button>
-    <input hidden (change)="onFileSelected($event)" #fileInput type="file" />
+    <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
     <span class="file-name">{{ selectedFile?.name }}</span>
   </div>
   <button *ngIf="dataSource" class="btn" mat-raised-button>
@@ -30,15 +30,15 @@
           </ng-container>
           <ng-container matColumnDef="identifier">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.IDENTIFIER' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.identifier }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'false-field': !element.identifier || (element.identifier + '').length < 8}">{{ element.identifier }}</td>
           </ng-container>
           <ng-container matColumnDef="license number">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.LICENSE_NUMBER' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.licenseNumber }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'false-field': !element.licenseNumber}">{{ element.licenseNumber }}</td>
           </ng-container>
           <ng-container matColumnDef="settlement">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.SETTLEMENT' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.settlement }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{'false-field': !element.settlement}">{{ element.settlement }}</td>
           </ng-container>
           <ng-container matColumnDef="address">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.ADDRESS' | translate }}</th>
