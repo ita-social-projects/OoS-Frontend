@@ -14,17 +14,81 @@ const standartHeaders = [
   'Телефон'
 ];
 
+const data = [
+  {
+    providerName: 'Клуб спортивного бального танцю',
+    ownership: 'Державна',
+    identifier: 12345678,
+    licenseNumber: 'не вказано',
+    settlement: 'Луцьк',
+    address: 'Шевченка 2',
+    email: 'some@gmail.com',
+    phoneNumber: 660666066
+  },
+  {
+    providerName: 'ТОВ Олімп',
+    ownership: 'Державна',
+    identifier: 87654321,
+    licenseNumber: 'не вказано',
+    settlement: 'Луцьк',
+    address: 'Шевченка 2',
+    email: 'some@gmail.com',
+    phoneNumber: 660666066
+  },
+  {
+    providerName: 'ТОВ Олімп',
+    ownership: 'Державна',
+    identifier: 1234567,
+    licenseNumber: 'не вказано',
+    settlement: 'Луцьк',
+    address: 'Шевченка 2',
+    email: 'some@gmail.com',
+    phoneNumber: 660666066
+  },
+  {
+    providerName: 'ТОВ Олімп',
+    ownership: 'Державна',
+    identifier: 87654321,
+    licenseNumber: 'не вказано',
+    settlement: 'Луцьк',
+    address: 'Шевченка 2',
+    email: 'some@gmail.com',
+    phoneNumber: 660666066
+  },
+  {
+    providerName: 'ТОВ Олімп',
+    ownership: 'Державна',
+    licenseNumber: 'не вказано',
+    settlement: 'Луцьк',
+    address: 'Шевченка 2',
+    email: 'some@gmail.com',
+    phoneNumber: 660666066
+  },
+  {
+    providerName: 'ТОВ Олімп',
+    ownership: 'Державна',
+    identifier: 87654321,
+    licenseNumber: 'не вказано',
+    settlement: 'Луцьк',
+    address: 'Шевченка 2',
+    email: 'some@gmail.com',
+    phoneNumber: 660666066
+  }
+];
+
 @Component({
   selector: 'app-import-providers',
   templateUrl: './import-providers.component.html',
   styleUrls: ['./import-providers.component.scss']
 })
 export class ImportProvidersComponent implements OnInit {
+  public isToggle: boolean;
   public selectedFile: any = null;
   public isShow: boolean;
   public readonly topPosToStartShowing: number = 250;
   public readonly displayedColumns: string[] = [
     'sequence number',
+    'sequence number in file',
     'provider name',
     'ownership',
     'identifier',
@@ -35,6 +99,7 @@ export class ImportProvidersComponent implements OnInit {
     'phone number'
   ];
   public dataSource;
+  public dataSourceInvalid;
 
   @HostListener('window:scroll')
   checkScroll(): void {
@@ -59,6 +124,8 @@ export class ImportProvidersComponent implements OnInit {
 
   public onFileSelected(event: any): any {
     this.dataSource = null;
+    this.dataSourceInvalid = null;
+    this.isToggle = false;
     this.selectedFile = event.target.files[0] ?? null;
     const file = event.target.files[0];
     const reader: FileReader = new FileReader();
@@ -73,10 +140,18 @@ export class ImportProvidersComponent implements OnInit {
           header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
           range: 1
         });
+
         this.dataSource = providers;
+        this.dataSourceInvalid = this.checkForInvalidProviders(providers);
       }
     };
   }
+  public checkForInvalidProviders(providers: any[]): any {
+    return providers.filter(
+      (elem) => !elem.identifier || elem.identifier.toString().length !== 8 || !elem.ownership || !elem.licenseNumber || !elem.settlement
+    );
+  }
+
   public checkHeadersForValid(currentHeaders: string[]): boolean {
     for (let i = 0; i < standartHeaders.length; i++) {
       if (currentHeaders[i] !== standartHeaders[i]) {

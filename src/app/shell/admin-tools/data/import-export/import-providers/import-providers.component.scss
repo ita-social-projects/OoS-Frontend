@@ -1,6 +1,7 @@
 @import 'src/app/shared/styles/buttons.scss';
 .import-buttons {
   display: flex;
+  align-items: center;
   .file-name {
     margin-left: 1rem; /* or whatever margin you require */
   }
@@ -77,3 +78,7 @@
   background-color: rgba(253, 7, 7, 0.1);
 }
 
+.mat-slide-toggle{
+  margin: 0 16px 10px;
+  color:red;
+}
