@@ -2,8 +2,8 @@
   <h4 class="sender" *ngIf="isFirstMessage">
     {{ senderName }}
   </h4>
-  <div
-    [ngClass]="message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'">
+  <div class="message"
+    [ngClass]="message.senderRoleIsProvider === userIsProvider ? 'message__outcome' : 'message__income'">
     <span class="message__text">{{ message.text }}</span>
     <mat-icon class="message__read-status"> {{ message.readDateTime ? 'done_all' : 'done' }}</mat-icon>
     <span class="message__send-time">{{ message.createdDateTime | date: Constants.SHORT_TIME_24_HOUR_SYSTEM }}</span>

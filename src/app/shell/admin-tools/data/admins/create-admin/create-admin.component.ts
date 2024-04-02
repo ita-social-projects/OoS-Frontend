@@ -52,9 +52,8 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
   @Select(MetaDataState.codeficatorSearch)
   public codeficatorSearch$: Observable<Codeficator[]>;
 
-  public readonly validationConstants = ValidationConstants;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
-  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  public readonly Constants = Constants;
+  public readonly ValidationConstants = ValidationConstants;
 
   public adminFormGroup: FormGroup;
   public adminRole: AdminRoles;

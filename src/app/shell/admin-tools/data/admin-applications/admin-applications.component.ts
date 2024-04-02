@@ -37,7 +37,7 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
   }
 
   protected init(): void {
-    // Empty method
+    // No additional initialization
   }
 
   protected addNavPath(): void {
