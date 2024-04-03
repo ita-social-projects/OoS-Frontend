@@ -11,14 +11,16 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
-import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { MatSelectModule } from '@angular/material/select';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { Component, Input } from '@angular/core';
+import { TranslateModule } from '@ngx-translate/core';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
 import { Workshop } from 'shared/models/workshop.model';
-import { TranslateModule } from '@ngx-translate/core';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { CreateAboutFormComponent } from './create-about-form.component';
 
 describe('CreateAboutFormComponent', () => {
@@ -51,7 +53,8 @@ describe('CreateAboutFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MinMaxDirective,
-        MockWorkingHoursComponent
+        MockWorkingHoursComponent,
+        MockInfoMenuComponent
       ]
     }).compileComponents();
   });
@@ -60,6 +63,7 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = {} as any;
+    component.workshop = {} as any;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),
@@ -81,6 +85,20 @@ describe('CreateAboutFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getter minSeats', () => {
+    it('should return 1 when the taken seats in the workshop are equal to 0', () => {
+      component.workshop.takenSeats = 0;
+
+      expect(component.minSeats).toBe((component as any).minimumSeats);
+    });
+
+    it('should return the number of the taken seats in the workshop', () => {
+      component.workshop.takenSeats = 7;
+
+      expect(component.minSeats).toBe(7);
+    });
   });
 });
 
@@ -104,4 +122,13 @@ class MockValidationHintAboutComponent {
   @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
+}
+
+@Component({
+  selector: 'app-info-menu',
+  template: ''
+})
+class MockInfoMenuComponent {
+  @Input() type: InfoMenuType;
+  @Input() isOpenMenu: boolean;
 }

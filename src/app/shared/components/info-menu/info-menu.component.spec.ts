@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatMenuModule } from '@angular/material/menu';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { MatMenuModule, MatMenuTrigger } from '@angular/material/menu';
 
 import { InfoMenuComponent } from './info-menu.component';
 
@@ -10,7 +11,7 @@ describe('InfoIconComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [InfoMenuComponent],
-      imports: [MatMenuModule]
+      imports: [MatMenuModule, NoopAnimationsModule]
     }).compileComponents();
 
     fixture = TestBed.createComponent(InfoMenuComponent);
@@ -20,6 +21,15 @@ describe('InfoIconComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should open menu after view init if @Input isOpen equal true', () => {
+    component.isOpenMenu = true;
+    const openMenuSpy = jest.spyOn(MatMenuTrigger.prototype, 'openMenu');
+
+    component.ngAfterViewInit();
+
+    expect(openMenuSpy).toHaveBeenCalled();
   });
 
   it('should assign True to isOpened after onMenuOpened has been executed', () => {

@@ -54,9 +54,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+  public isShowHint: boolean = false;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
+  private minimumSeats: number = 1;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -73,7 +75,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   public get minSeats(): number {
-    return Math.max(this.MIN_SEATS, this.workshop?.takenSeats + (this.workshop?.status !== 'Closed' && 1));
+    if (this.workshop.takenSeats === 0) {
+      return this.minimumSeats;
+    }
+    return this.workshop.takenSeats;
   }
 
   private get availableSeats(): number {
@@ -109,6 +114,12 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     if (!this.AboutFormGroup.dirty) {
       this.AboutFormGroup.markAsDirty({ onlySelf: true });
     }
+  }
+
+  public showHintAboutClosingWorkshop(): void {
+    this.AboutFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
+      this.isShowHint = availableSeats === this.workshop.takenSeats;
+    });
   }
 
   private initForm(): void {
