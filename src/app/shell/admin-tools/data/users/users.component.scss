@@ -6,15 +6,19 @@
 .users-wrapper {
   position: relative;
 }
+
 .tab-wrapper {
   margin-bottom: 4rem;
 }
+
 .table-wrapper {
   padding: 1rem;
 }
+
 .search {
   padding-left: 10px;
 }
+
 .search-area {
   display: flex;
   justify-content: flex-end;
@@ -22,10 +26,12 @@
   position: absolute;
   right: 12px;
 }
+
 @media (max-width: 1070px) {
   .tab-wrapper {
     bottom: 0;
   }
+
   .search-area {
     display: flex;
     justify-content: flex-start;

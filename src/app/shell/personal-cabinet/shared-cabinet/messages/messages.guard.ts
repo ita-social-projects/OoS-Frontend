@@ -1,23 +1,22 @@
 import { Injectable } from '@angular/core';
-import { CanLoad } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, filter, map } from 'rxjs';
 
-import { Role } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PlatformGuard implements CanLoad {
+export class MessagesGuard implements CanActivate {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
 
-  public canLoad(): Observable<boolean> {
+  public canActivate(): Observable<boolean> {
     return this.role$.pipe(
       filter(Boolean),
-      map((role) => role === Role.techAdmin)
+      map((role) => !isRoleAdmin(role))
     );
   }
 }

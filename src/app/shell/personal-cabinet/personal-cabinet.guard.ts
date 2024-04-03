@@ -12,11 +12,11 @@ import { RegistrationState } from 'shared/store/registration.state';
 })
 export class PersonalCabinetGuard implements CanLoad {
   @Select(RegistrationState.isRegistered)
-  isRegistered$: Observable<boolean>;
+  private isRegistered$: Observable<boolean>;
 
   constructor(private router: Router) {}
 
-  canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canLoad(): Observable<boolean | UrlTree> {
     return this.isRegistered$.pipe(
       filter((isRegistered: boolean) => isRegistered !== undefined),
       map((isRegistered: boolean) => isRegistered || this.router.createUrlTree(['/create-provider', ModeConstants.NEW]))

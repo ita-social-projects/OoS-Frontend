@@ -40,7 +40,7 @@
 
   <app-info-form
     *ngFor="let form of SectionItemsFormArray.controls"
-    [InfoEditFormGroup]="form"
+    [infoEditFormGroup]="form"
     [index]="SectionItemsFormArray.controls.indexOf(form)"
     [formAmount]="SectionItemsFormArray.controls.length"
     [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_2000"

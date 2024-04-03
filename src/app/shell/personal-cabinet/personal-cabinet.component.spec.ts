@@ -1,9 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 import { TranslateModule } from '@ngx-translate/core';
-import { User } from '../../shared/models/user.model';
+import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
+
+import { User } from 'shared/models/user.model';
 import { PersonalCabinetComponent } from './personal-cabinet.component';
 
 describe('PersonalCabinetComponent', () => {

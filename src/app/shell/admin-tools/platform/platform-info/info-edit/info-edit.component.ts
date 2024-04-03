@@ -22,25 +22,24 @@ import { CreateFormComponent } from '../../../../personal-cabinet/shared-cabinet
   styleUrls: ['./info-edit.component.scss']
 })
 export class InfoEditComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  @Select(AdminState.AboutPortal)
-  public AboutPortal$: Observable<CompanyInformation>;
-  @Select(AdminState.MainInformation)
-  public MainInformation$: Observable<CompanyInformation>;
-  @Select(AdminState.SupportInformation)
-  public SupportInformation$: Observable<CompanyInformation>;
-  @Select(AdminState.LawsAndRegulations)
-  public LawsAndRegulations$: Observable<CompanyInformation>;
+  @Select(AdminState.aboutPortal)
+  private aboutPortal$: Observable<CompanyInformation>;
+  @Select(AdminState.mainInformation)
+  private mainInformation$: Observable<CompanyInformation>;
+  @Select(AdminState.supportInformation)
+  private supportInformation$: Observable<CompanyInformation>;
+  @Select(AdminState.lawsAndRegulations)
+  private lawsAndRegulations$: Observable<CompanyInformation>;
 
   public readonly validationConstants = ValidationConstants;
 
-  public PlatformInfoItemArray = new FormArray([]);
-  public platformInfoEditFormGroup: FormGroup;
-  public titleFormControl = new FormControl('', [Validators.required]);
   public editTitle: AdminTabsTitles;
   public platformInfo: CompanyInformation;
-
   public platformInfoType: AdminTabTypes;
-  public isMainPage: boolean = false;
+  public platformInfoEditFormGroup: FormGroup;
+  public platformInfoItemFormArray = new FormArray([]);
+  public titleFormControl = new FormControl('', [Validators.required]);
+  public isMainPage = false;
   public isDispatching = false;
 
   private dispatchSubject = new Subject<void>();
@@ -50,7 +49,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     protected store: Store,
     protected route: ActivatedRoute,
     protected navigationBarService: NavigationBarService,
-    private fb: FormBuilder,
+    private formBuilder: FormBuilder,
     private router: Router
   ) {
     super(store, route, navigationBarService);
@@ -92,7 +91,6 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
         break;
       case AdminTabTypes.MainPage:
         this.getMainInfo();
-        this.isMainPage = true;
         break;
       case AdminTabTypes.SupportInformation:
         this.getSupportInformation();
@@ -107,7 +105,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    * This method creates new FormGroup adds new FormGroup to the FormArray
    */
   public onAddForm(): void {
-    this.PlatformInfoItemArray.push(this.newForm());
+    this.platformInfoItemFormArray.push(this.newForm());
   }
 
   /**
@@ -115,7 +113,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    * @param index
    */
   public onDeleteForm(index: number): void {
-    this.PlatformInfoItemArray.removeAt(index);
+    this.platformInfoItemFormArray.removeAt(index);
   }
 
   public onCancel(): void {
@@ -123,7 +121,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   }
 
   public onSubmit(): void {
-    if (this.PlatformInfoItemArray.valid && this.titleFormControl.valid) {
+    if (this.platformInfoItemFormArray.valid && this.titleFormControl.valid) {
       this.isDispatching = true;
       this.dispatchSubject.next();
     }
@@ -145,7 +143,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
 
   private updatePlatformInfoInStore(): Observable<void> {
     const platformInfoItemArray: CompanyInformationSectionItem[] = [];
-    this.PlatformInfoItemArray.controls.forEach((form: FormGroup) =>
+    this.platformInfoItemFormArray.controls.forEach((form: FormGroup) =>
       platformInfoItemArray.push(new CompanyInformationSectionItem(form.value))
     );
 
@@ -160,7 +158,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
    * This method creates new FormGroup
    */
   private newForm(platformInfoItem?: CompanyInformationSectionItem): FormGroup {
-    this.platformInfoEditFormGroup = this.fb.group({
+    this.platformInfoEditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
@@ -174,7 +172,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     });
 
     if (platformInfoItem) {
-      this.platformInfoEditFormGroup.addControl('companyInformationId', this.fb.control(platformInfoItem.companyInformationId));
+      this.platformInfoEditFormGroup.addControl('companyInformationId', this.formBuilder.control(platformInfoItem.companyInformationId));
       this.platformInfoEditFormGroup.patchValue(platformInfoItem, { emitEvent: false });
     }
 
@@ -184,35 +182,44 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
   }
 
   private getAboutInfo(): void {
-    this.AboutPortal$.pipe(
-      takeUntil(this.destroy$),
-      tap((aboutPortal: CompanyInformation) => !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
-      filter((aboutPortal: CompanyInformation) => !!aboutPortal)
-    ).subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal));
+    this.aboutPortal$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((aboutPortal: CompanyInformation) => !aboutPortal && this.store.dispatch(new GetPlatformInfo())),
+        filter(Boolean)
+      )
+      .subscribe((aboutPortal: CompanyInformation) => this.setPlatformInfo(aboutPortal));
   }
 
   private getMainInfo(): void {
-    this.MainInformation$.pipe(
-      takeUntil(this.destroy$),
-      tap((mainInformation: CompanyInformation) => !mainInformation && this.store.dispatch(new GetPlatformInfo())),
-      filter((mainInformation: CompanyInformation) => !!mainInformation)
-    ).subscribe((mainInformation: CompanyInformation) => this.setPlatformInfo(mainInformation));
+    this.isMainPage = true;
+    this.mainInformation$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((mainInformation: CompanyInformation) => !mainInformation && this.store.dispatch(new GetPlatformInfo())),
+        filter(Boolean)
+      )
+      .subscribe((mainInformation: CompanyInformation) => this.setPlatformInfo(mainInformation));
   }
 
   private getSupportInformation(): void {
-    this.SupportInformation$.pipe(
-      takeUntil(this.destroy$),
-      tap((supportInformation: CompanyInformation) => !supportInformation && this.store.dispatch(new GetPlatformInfo())),
-      filter((supportInformation: CompanyInformation) => !!supportInformation)
-    ).subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation));
+    this.supportInformation$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((supportInformation: CompanyInformation) => !supportInformation && this.store.dispatch(new GetPlatformInfo())),
+        filter(Boolean)
+      )
+      .subscribe((supportInformation: CompanyInformation) => this.setPlatformInfo(supportInformation));
   }
 
   private getLawsAndRegulations(): void {
-    this.LawsAndRegulations$.pipe(
-      takeUntil(this.destroy$),
-      tap((lawsAndRegulations: CompanyInformation) => !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())),
-      filter((lawsAndRegulations: CompanyInformation) => !!lawsAndRegulations)
-    ).subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations));
+    this.lawsAndRegulations$
+      .pipe(
+        takeUntil(this.destroy$),
+        tap((lawsAndRegulations: CompanyInformation) => !lawsAndRegulations && this.store.dispatch(new GetPlatformInfo())),
+        filter(Boolean)
+      )
+      .subscribe((lawsAndRegulations: CompanyInformation) => this.setPlatformInfo(lawsAndRegulations));
   }
 
   /**
@@ -223,7 +230,7 @@ export class InfoEditComponent extends CreateFormComponent implements OnInit, On
     this.platformInfo = platformInfo;
     this.titleFormControl.setValue(this.platformInfo.title, { emitEvent: false });
     this.platformInfo.companyInformationItems.forEach((item: CompanyInformationSectionItem) =>
-      this.PlatformInfoItemArray.push(this.newForm(item))
+      this.platformInfoItemFormArray.push(this.newForm(item))
     );
   }
 }

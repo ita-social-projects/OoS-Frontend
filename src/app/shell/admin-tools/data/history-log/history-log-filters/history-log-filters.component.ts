@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
-import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
-import { FilterOptions, FormControlNames, HistoryLogTypes, CustomFormControlNames } from 'shared/enum/history.log';
 import { DropdownOptionsConfig } from 'shared/constants/drop-down';
+import { CustomFormControlNames, FilterOptions, FormControlNames, HistoryLogTypes } from 'shared/enum/history.log';
+import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log.model';
 
 @Component({
   selector: 'app-history-log-filters',
