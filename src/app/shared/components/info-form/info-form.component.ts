@@ -9,16 +9,14 @@ import { ValidationConstants } from 'shared/constants/validation';
   styleUrls: ['./info-form.component.scss']
 })
 export class InfoFormComponent {
-  @Input() public InfoEditFormGroup: FormGroup;
   @Input() public index: number;
   @Input() public formAmount: number;
+  @Input() public infoEditFormGroup: FormGroup;
   @Input() public maxDescriptionLength: number;
 
   @Output() public deleteForm = new EventEmitter();
 
   public readonly ValidationConstants = ValidationConstants;
-
-  constructor() {}
 
   public onDelete(): void {
     this.deleteForm.emit(this.index);

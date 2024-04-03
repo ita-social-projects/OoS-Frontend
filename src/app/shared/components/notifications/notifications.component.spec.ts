@@ -5,8 +5,11 @@ import { MatMenuModule } from '@angular/material/menu';
 import { NgxsModule, State } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
 
+import { Role } from 'shared/enum/role';
+import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { ChatStateModel } from 'shared/store/chat.state';
 import { NotificationStateModel } from 'shared/store/notification.state';
+import { RegistrationStateModel } from 'shared/store/registration.state';
 import { MockOidcSecurityService } from '../../mocks/mock-services';
 import { NotificationsComponent } from './notifications.component';
 
@@ -16,9 +19,9 @@ describe('NotificationsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([MockNotificationState, MockChatState]), MatMenuModule, MatIconModule],
+      imports: [NgxsModule.forRoot([MockNotificationState, MockChatState, MockRegistrationState]), MatMenuModule, MatIconModule],
       declarations: [NotificationsComponent, MockNotificationsListComponent],
-      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }],
+      providers: [{ provide: OidcSecurityService, useValue: MockOidcSecurityService }, SignalRService],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
     }).compileComponents();
   });
@@ -33,6 +36,12 @@ describe('NotificationsComponent', () => {
     expect(component).toBeTruthy();
   });
 });
+
+@Component({
+  selector: 'app-notifications-list',
+  template: ''
+})
+class MockNotificationsListComponent {}
 
 @State<NotificationStateModel>({
   name: 'notifications',
@@ -57,8 +66,11 @@ class MockNotificationState {}
 @Injectable()
 class MockChatState {}
 
-@Component({
-  selector: 'app-notifications-list',
-  template: ''
+@State<RegistrationStateModel>({
+  name: 'registration',
+  defaults: {
+    role: Role.provider
+  } as RegistrationStateModel
 })
-class MockNotificationsListComponent {}
+@Injectable()
+class MockRegistrationState {}

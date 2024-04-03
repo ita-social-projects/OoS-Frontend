@@ -7,6 +7,7 @@ import { CropperConfigurationConstants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-description-form',
@@ -199,14 +200,16 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   private newForm(item?: WorkshopDescriptionItem): FormGroup {
     this.EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
-        Validators.required
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
     });
 

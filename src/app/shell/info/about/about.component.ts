@@ -18,7 +18,7 @@ import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 export class AboutComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
-  @Select(AdminState.AboutPortal)
+  @Select(AdminState.aboutPortal)
   platformInformation$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;

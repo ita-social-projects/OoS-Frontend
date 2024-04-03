@@ -23,7 +23,7 @@ describe('InfoFormComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(InfoFormComponent);
     component = fixture.componentInstance;
-    component.InfoEditFormGroup = new FormGroup({
+    component.infoEditFormGroup = new FormGroup({
       sectionName: new FormControl(''),
       description: new FormControl('')
     });

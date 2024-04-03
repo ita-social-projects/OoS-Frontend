@@ -12,8 +12,7 @@ import { CabinetDataComponent } from '../../../personal-cabinet/shared-cabinet/c
 
 @Component({
   selector: 'app-admin-applications',
-  templateUrl: './admin-applications.component.html',
-  styleUrls: ['./admin-applications.component.scss']
+  templateUrl: './admin-applications.component.html'
 })
 export class AdminApplicationsComponent extends CabinetDataComponent implements OnInit {
   public applicationParams: ApplicationFilterParameters = {
@@ -37,7 +36,9 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
     this.store.dispatch(new GetAllApplications(this.applicationParams));
   }
 
-  protected init(): void {}
+  protected init(): void {
+    // No additional initialization
+  }
 
   protected addNavPath(): void {
     this.store.dispatch(

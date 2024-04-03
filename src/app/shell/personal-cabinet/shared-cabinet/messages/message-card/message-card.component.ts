@@ -22,24 +22,22 @@ export class MessageCardComponent implements AfterViewInit {
   @ViewChildren('stopPropagation') public stopPropagationElements: MatIcon[];
 
   public readonly Role = Role;
-  public readonly constants = Constants;
-  public readonly userStatusesTitles = UserStatusesTitles;
-  public readonly userStatusIcons = UserStatusIcons;
-  public readonly userStatuses = UserStatuses;
+  public readonly Constants = Constants;
+  public readonly UserStatusesTitles = UserStatusesTitles;
+  public readonly UserStatusIcons = UserStatusIcons;
+  public readonly UserStatuses = UserStatuses;
 
   public ngAfterViewInit(): void {
-    this.stopPropagationElements.forEach((el: MatIcon) => {
-      el._elementRef.nativeElement.onclick = (event: PointerEvent): void => {
-        event.stopPropagation();
-      };
-    });
+    this.stopPropagationElements.forEach(
+      (el: MatIcon) => (el._elementRef.nativeElement.onclick = (event: PointerEvent): void => event.stopPropagation())
+    );
   }
 
   public onBlock(): void {
     this.block.emit(this.chatRoom.parentId);
   }
 
-  public onUnBlock(): void {
+  public onUnblock(): void {
     this.unblock.emit(this.chatRoom.parentId);
   }
 }

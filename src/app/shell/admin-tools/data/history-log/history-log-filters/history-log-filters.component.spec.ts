@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+
 import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { HistoryLogFiltersComponent } from './history-log-filters.component';
 

@@ -5,7 +5,7 @@ import { MatTabChangeEvent } from '@angular/material/tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged, filter, skip, startWith, switchMap, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
@@ -66,7 +66,7 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.getChildren();
 
     this.filterFormControl.valueChanges
-      .pipe(distinctUntilChanged(), startWith(''), skip(1), debounceTime(2000), takeUntil(this.destroy$))
+      .pipe(distinctUntilChanged(), debounceTime(500), takeUntil(this.destroy$))
       .subscribe((searchString: string) => {
         this.childrenParams.searchString = searchString;
         this.currentPage = PaginationConstants.firstPage;
