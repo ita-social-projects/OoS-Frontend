@@ -3,18 +3,13 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 
 import { ColumnsListForChangesLogHistory } from 'shared/constants/changes-log';
+import { Constants } from 'shared/constants/constants';
+import { ApplicationTitles } from 'shared/enum/enumUA/statuses';
+import { AdminStatus, TypeChange } from 'shared/enum/enumUA/tech-admin/history-log';
+import { HistoryLogTypes } from 'shared/enum/history.log';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
-import { Util } from '../../../../../shared/utils/utils';
-import {
-  ApplicationHistory,
-  ParentsBlockingByAdminHistory,
-  ProviderAdminHistory,
-  ProviderHistory
-} from '../../../../../shared/models/history-log.model';
-import { Constants } from '../../../../../shared/constants/constants';
-import { ApplicationTitles } from '../../../../../shared/enum/enumUA/statuses';
-import { HistoryLogTypes } from '../../../../../shared/enum/history.log';
-import { AdminStatus, TypeChange } from '../../../../../shared/enum/enumUA/tech-admin/history-log';
+import { ApplicationHistory, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory } from 'shared/models/history-log.model';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-history-log-table',

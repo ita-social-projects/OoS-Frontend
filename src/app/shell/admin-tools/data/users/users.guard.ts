@@ -12,9 +12,9 @@ import { RegistrationState } from 'shared/store/registration.state';
 })
 export class UsersGuard implements CanLoad {
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
 
-  canLoad(): Observable<boolean> {
+  public canLoad(): Observable<boolean> {
     return this.role$.pipe(
       filter(Boolean),
       map((role) => role === Role.techAdmin)

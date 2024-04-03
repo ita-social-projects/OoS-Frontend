@@ -18,7 +18,7 @@ import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 export class SupportComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
-  @Select(AdminState.SupportInformation)
+  @Select(AdminState.supportInformation)
   platformSupport$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;

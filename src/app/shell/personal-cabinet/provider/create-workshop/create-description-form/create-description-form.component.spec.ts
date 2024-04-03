@@ -42,7 +42,7 @@ describe('CreateDescriptionFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MockInfoFormComponent,
-        MockIstitutionHierarchyComponent
+        MockInstitutionHierarchyComponent
       ]
     }).compileComponents();
   });
@@ -76,6 +76,7 @@ class MockValidationHintAboutComponent {
   @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
 }
+
 @Component({
   selector: 'app-info-form',
   template: ''
@@ -91,8 +92,8 @@ class MockInfoFormComponent {
   selector: '<app-institution-hierarchy',
   template: ''
 })
-class MockIstitutionHierarchyComponent {
-  @Input() instituitionHierarchyIdFormControl: FormControl;
-  @Input() instituitionIdFormControl: FormControl;
+class MockInstitutionHierarchyComponent {
+  @Input() institutionHierarchyIdFormControl: FormControl;
+  @Input() institutionIdFormControl: FormControl;
   @Input() provider: Provider;
 }

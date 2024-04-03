@@ -1,8 +1,10 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/full-width-card.scss';
+
 .card {
   cursor: pointer;
 }
+
 .card-block {
   &__message {
     display: flex;
@@ -11,6 +13,7 @@
     }
   }
 }
+
 .companion {
   flex: 1;
   display: flex;
@@ -18,10 +21,12 @@
   gap: 12px;
   min-width: 30%;
 }
+
 .title {
   flex: 1;
   min-width: 30%;
 }
+
 .last-message {
   flex: 2;
   display: -webkit-box;
@@ -60,13 +65,16 @@
       justify-content: center;
       gap: 12px;
     }
+
     &__actions {
       align-items: flex-start;
     }
   }
+
   .last-message {
     flex: auto;
   }
+
   .material-icons {
     margin-top: 2px !important;
   }

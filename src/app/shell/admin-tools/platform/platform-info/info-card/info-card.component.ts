@@ -12,9 +12,9 @@ import { AdminState } from 'shared/store/admin.state';
   styleUrls: ['./info-card.component.scss']
 })
 export class InfoCardComponent {
-  @Input() type: AdminTabTypes;
-  @Input() platformInfo: CompanyInformation;
+  @Input() public type: AdminTabTypes;
+  @Input() public platformInfo: CompanyInformation;
 
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
 }

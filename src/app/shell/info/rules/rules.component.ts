@@ -18,7 +18,7 @@ import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
 export class RulesComponent implements OnInit, OnDestroy {
   readonly noData = NoResultsTitle.noInfo;
 
-  @Select(AdminState.LawsAndRegulations)
+  @Select(AdminState.lawsAndRegulations)
   platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
   isLoading$: Observable<boolean>;

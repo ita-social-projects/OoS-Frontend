@@ -10,6 +10,8 @@ import { GetUnreadMessagesCount } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
 import { GetAmountOfNewUsersNotifications } from 'shared/store/notification.actions';
 import { NotificationState } from 'shared/store/notification.state';
+import { RegistrationState } from 'shared/store/registration.state';
+import { isRoleAdmin } from 'shared/utils/admin.utils';
 
 @Component({
   selector: 'app-notifications',
@@ -38,8 +40,12 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
 
   public ngOnInit(): void {
     this.hubConnection = this.signalRService.startConnection(NOTIFICATION_HUB_URL);
+    const role = this.store.selectSnapshot(RegistrationState.role);
 
-    this.store.dispatch([new GetAmountOfNewUsersNotifications(), new GetUnreadMessagesCount()]);
+    this.store.dispatch(new GetAmountOfNewUsersNotifications());
+    if (!isRoleAdmin(role)) {
+      this.store.dispatch(new GetUnreadMessagesCount());
+    }
     this.hubConnection.on('ReceiveNotification', (receivedNotificationString: string) => {
       // TODO: solve the problem with keys with capital letters
       const parsedNotification = JSON.parse(receivedNotificationString);
@@ -57,7 +63,7 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
 
     combineLatest([
       this.notificationAmount$.pipe(filter(Boolean)),
-      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => unreadMessagesCount !== null))
+      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => isRoleAdmin(role) || unreadMessagesCount !== null))
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe(
