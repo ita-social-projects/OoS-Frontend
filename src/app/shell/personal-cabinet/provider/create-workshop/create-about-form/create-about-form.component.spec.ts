@@ -100,6 +100,26 @@ describe('CreateAboutFormComponent', () => {
       expect(component.minSeats).toBe(7);
     });
   });
+
+  describe('showHintAboutClosingWorkshop method', () => {
+    it('should assign to isShowHint TRUE when availableSeats are equal to workshop takenSeats', () => {
+      component.workshop.takenSeats = 7;
+
+      component.showHintAboutClosingWorkshop();
+      component.AboutFormGroup.controls.availableSeats.setValue(7);
+
+      expect(component.isShowHint).toBe(true);
+    });
+
+    it('should assign to isShowHint FALSE when availableSeats are NOT equal to workshop takenSeats', () => {
+      component.workshop.takenSeats = 7;
+
+      component.showHintAboutClosingWorkshop();
+      component.AboutFormGroup.controls.availableSeats.setValue(5);
+
+      expect(component.isShowHint).toBe(false);
+    });
+  });
 });
 
 @Component({
