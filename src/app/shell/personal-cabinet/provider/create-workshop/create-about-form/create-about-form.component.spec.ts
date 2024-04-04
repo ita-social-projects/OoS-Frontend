@@ -99,6 +99,12 @@ describe('CreateAboutFormComponent', () => {
 
       expect(component.minSeats).toBe(7);
     });
+
+    it('should return minimumSeats when the workshop is not provided', () => {
+      component.workshop = null;
+
+      expect(component.minSeats).toBe((component as any).minimumSeats);
+    });
   });
 
   describe('showHintAboutClosingWorkshop method', () => {
