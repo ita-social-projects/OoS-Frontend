@@ -145,15 +145,15 @@
       <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
         <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
           <mat-radio-button [value]="false">
-            <input matInput class="step-input price-input" appDigitOnly appMinMax formControlName="availableSeats"
-              type="number" [directiveFormControl]="availableSeatsControl" [min]="minSeats" [max]="UNLIMITED_SEATS" (focus)="showHintAboutClosingWorkshop()" />
+            <input matInput class="step-input price-input" appDigitOnly formControlName="availableSeats"
+              type="number" [min]="minSeats" [max]="UNLIMITED_SEATS" (focus)="showHintAboutClosingWorkshop()" />
           </mat-radio-button>
           <app-info-menu *ngIf="isShowHint" [type]="InfoMenuType.Text" [isOpenMenu]="isShowHint">
             {{ 'FORMS.WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP' | translate }}
           </app-info-menu>
         </div>
       </div>
-      <app-validation-hint [validationFormControl]="availableSeatsControl"></app-validation-hint>
+      <app-validation-hint [validationFormControl]="availableSeatsControl" [minNumberValue]="minSeats"></app-validation-hint>
     </mat-radio-group>
   </div>
 

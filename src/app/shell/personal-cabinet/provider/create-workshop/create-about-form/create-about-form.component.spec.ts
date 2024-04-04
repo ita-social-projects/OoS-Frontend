@@ -88,7 +88,7 @@ describe('CreateAboutFormComponent', () => {
   });
 
   describe('getter minSeats', () => {
-    it('should return 1 when the taken seats in the workshop are equal to 0', () => {
+    it('should return minimumSeats when the taken seats in the workshop are equal to 0', () => {
       component.workshop.takenSeats = 0;
 
       expect(component.minSeats).toBe((component as any).minimumSeats);
@@ -142,6 +142,7 @@ class MockValidationHintAboutComponent {
   @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
+  @Input() minNumberValue: boolean;
 }
 
 @Component({
