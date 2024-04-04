@@ -76,10 +76,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   public get minSeats(): number {
-    if (this.workshop.takenSeats === 0) {
+    if (this.workshop?.takenSeats === 0 || !this.workshop) {
       return this.minimumSeats;
     }
-    return this.workshop.takenSeats;
+    return this.workshop?.takenSeats;
   }
 
   private get availableSeats(): number {
@@ -120,7 +120,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public showHintAboutClosingWorkshop(): void {
     this.AboutFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
       if (availableSeats) {
-        this.isShowHint = availableSeats === this.workshop.takenSeats;
+        this.isShowHint = availableSeats === this.workshop?.takenSeats;
       }
     });
   }
