@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, HostListener, OnInit } from '@angular/core';
+import { PageEvent } from '@angular/material/paginator';
 import * as XLSX from 'xlsx/xlsx.mjs';
 
 const standartHeaders = [
@@ -82,13 +83,14 @@ const data = [
   styleUrls: ['./import-providers.component.scss']
 })
 export class ImportProvidersComponent implements OnInit {
+  public currentPage = 0;
+  public pageSize = 25;
   public isToggle: boolean;
   public selectedFile: any = null;
   public isShow: boolean;
   public readonly topPosToStartShowing: number = 250;
   public readonly displayedColumns: string[] = [
     'sequence number',
-    'sequence number in file',
     'provider name',
     'ownership',
     'identifier',
@@ -164,5 +166,18 @@ export class ImportProvidersComponent implements OnInit {
       }
     }
     return true;
+  }
+  onPageChange(event: PageEvent): void {
+    console.log(event);
+    this.currentPage = event.pageIndex;
+    this.pageSize = event.pageSize;
+    this.iterator();
+  }
+
+  private iterator() {
+    const end = (this.currentPage + 1) * this.pageSize;
+    const start = this.currentPage * this.pageSize;
+    const part = this.dataSource.slice(start, end);
+    this.dataSource = part;
   }
 }
