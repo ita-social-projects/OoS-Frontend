@@ -146,9 +146,9 @@
         <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
           <mat-radio-button [value]="false">
             <input matInput class="step-input price-input" appDigitOnly formControlName="availableSeats"
-              type="number" [min]="minSeats" [max]="UNLIMITED_SEATS" (focus)="showHintAboutClosingWorkshop()" />
+              type="number" [min]="minSeats" [max]="UNLIMITED_SEATS" />
           </mat-radio-button>
-          <app-info-menu *ngIf="isShowHint" [type]="InfoMenuType.Text" [isOpenMenu]="isShowHint">
+          <app-info-menu *ngIf="isShowHintAboutWorkshopAutoClosing" [type]="InfoMenuType.Text" [isOpenByDefault]="isShowHintAboutWorkshopAutoClosing">
             {{ 'FORMS.WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP' | translate }}
           </app-info-menu>
         </div>

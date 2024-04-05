@@ -111,19 +111,19 @@ describe('CreateAboutFormComponent', () => {
     it('should assign to isShowHint TRUE when availableSeats are equal to workshop takenSeats', () => {
       component.workshop.takenSeats = 7;
 
-      component.showHintAboutClosingWorkshop();
+      component.ngOnInit();
       component.AboutFormGroup.controls.availableSeats.setValue(7);
 
-      expect(component.isShowHint).toBe(true);
+      expect(component.isShowHintAboutWorkshopAutoClosing).toBe(true);
     });
 
     it('should assign to isShowHint FALSE when availableSeats are NOT equal to workshop takenSeats', () => {
       component.workshop.takenSeats = 7;
 
-      component.showHintAboutClosingWorkshop();
+      component.ngOnInit();
       component.AboutFormGroup.controls.availableSeats.setValue(5);
 
-      expect(component.isShowHint).toBe(false);
+      expect(component.isShowHintAboutWorkshopAutoClosing).toBe(false);
     });
   });
 });
@@ -157,5 +157,5 @@ class MockValidationHintAboutComponent {
 })
 class MockInfoMenuComponent {
   @Input() type: InfoMenuType;
-  @Input() isOpenMenu: boolean;
+  @Input() isOpenByDefault: boolean;
 }

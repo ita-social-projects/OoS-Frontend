@@ -24,7 +24,7 @@ describe('InfoIconComponent', () => {
   });
 
   it('should open menu after view init if @Input isOpen equal true', () => {
-    component.isOpenMenu = true;
+    component.isOpenByDefault = true;
     const openMenuSpy = jest.spyOn(MatMenuTrigger.prototype, 'openMenu');
 
     component.ngAfterViewInit();

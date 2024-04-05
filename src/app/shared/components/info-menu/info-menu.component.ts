@@ -10,7 +10,7 @@ import { InfoMenuType } from 'shared/enum/info-menu-type';
 export class InfoMenuComponent implements AfterViewInit {
   @Input() public isBigIcon: boolean;
   @Input() public type: InfoMenuType = InfoMenuType.Text;
-  @Input() public isOpenMenu: boolean;
+  @Input() public isOpenByDefault: boolean;
 
   @Output() public menuClosed = new EventEmitter<boolean>();
 
@@ -22,7 +22,7 @@ export class InfoMenuComponent implements AfterViewInit {
   constructor() {}
 
   public ngAfterViewInit(): void {
-    if (this.isOpenMenu) {
+    if (this.isOpenByDefault) {
       this.menuTrigger.openMenu();
     }
   }

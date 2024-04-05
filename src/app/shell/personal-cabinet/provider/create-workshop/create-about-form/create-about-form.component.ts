@@ -55,7 +55,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
-  public isShowHint: boolean = false;
+  public isShowHintAboutWorkshopAutoClosing: boolean = false;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
@@ -117,14 +117,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  public showHintAboutClosingWorkshop(): void {
-    this.AboutFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
-      if (availableSeats) {
-        this.isShowHint = availableSeats === this.workshop?.takenSeats;
-      }
-    });
-  }
-
   private initForm(): void {
     this.AboutFormGroup = this.formBuilder.group({
       title: new FormControl('', [
@@ -158,6 +150,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.availableSeatsControlListener();
     this.priceControlListener();
     this.competitiveSelectionListener();
+    this.showHintAboutClosingWorkshop();
   }
 
   /**
@@ -278,10 +271,20 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.AboutFormGroup.get('competitiveSelectionDescription')
-      .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
-      .subscribe((disabilityOptionsDesc: string) =>
-        this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-      );
+    if (this.AboutFormGroup.get('competitiveSelectionDescription')) {
+      this.AboutFormGroup.get('competitiveSelectionDescription')
+        .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
+        .subscribe((disabilityOptionsDesc: string) =>
+          this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
+        );
+    }
+  }
+
+  private showHintAboutClosingWorkshop(): void {
+    this.AboutFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
+      if (availableSeats) {
+        this.isShowHintAboutWorkshopAutoClosing = availableSeats === this.workshop?.takenSeats;
+      }
+    });
   }
 }
