@@ -33,7 +33,7 @@
   mat-form-field {
     pointer-events: none;
   }
-  
+
   mat-datepicker-toggle {
     pointer-events: all;
   }
@@ -109,9 +109,7 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-
   cursor: pointer;
-
   margin-left: 15px;
 
   &:hover {
@@ -122,10 +120,10 @@
     transform: rotateY(180deg) rotate(45deg);
     overflow: visible;
   }
+
   &__title {
     font-size: 0.8125rem;
     line-height: 19px;
-
     color: #444444;
   }
 }
@@ -150,6 +148,7 @@
   .form-wrapper {
     justify-content: center;
   }
+
   .filters-wrapper {
     justify-content: center;
   }
@@ -163,6 +162,7 @@
       margin: 0 0 5px 10px;
     }
   }
+  
   .separate-line {
     position: relative;
     top: 10px;

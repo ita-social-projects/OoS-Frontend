@@ -115,12 +115,12 @@ describe('MinistryAdminService', () => {
   });
 
   it('should block admin', (done) => {
-    const adminid = 'id';
+    const adminId = 'id';
     const isBlocked = true;
 
-    service.blockAdmin(adminid, isBlocked).subscribe(done);
+    service.blockAdmin(adminId, isBlocked).subscribe(done);
 
-    const req = httpTestingController.expectOne(`${baseApiUrl}/Block?ministryAdminId=${adminid}&isBlocked=${isBlocked}`);
+    const req = httpTestingController.expectOne(`${baseApiUrl}/Block?ministryAdminId=${adminId}&isBlocked=${isBlocked}`);
     req.flush(null);
 
     expect(req.request.method).toEqual('PUT');
@@ -141,10 +141,10 @@ describe('MinistryAdminService', () => {
   it('should reinvite admin', (done) => {
     const adminId = 'id';
 
-    service.reinviteAdmin(adminId).subscribe(() => done());
+    service.reinviteAdmin(adminId).subscribe(done);
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/Reinvite/${adminId}`);
-    req.flush(mockMinistryAdmin);
+    req.flush(null);
 
     expect(req.request.method).toEqual('PUT');
   });

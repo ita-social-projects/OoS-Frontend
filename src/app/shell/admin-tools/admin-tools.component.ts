@@ -12,22 +12,23 @@ import { canManageImports, canManageInstitution, canManageRegion } from 'shared/
   styleUrls: ['./admin-tools.component.scss']
 })
 export class AdminToolsComponent implements OnInit, OnDestroy {
+  @Select(RegistrationState.role)
+  private role$: Observable<string>;
+
   public readonly Role = Role;
   public readonly canManageInstitution = canManageInstitution;
   public readonly canManageRegion = canManageRegion;
   public readonly canManageImports = canManageImports;
 
-  @Select(RegistrationState.role)
-  role$: Observable<string>;
+  public role: Role;
 
-  role: Role;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role: Role) => (this.role = role));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }

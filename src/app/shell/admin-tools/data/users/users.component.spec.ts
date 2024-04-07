@@ -1,24 +1,26 @@
-import { Component, Input } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { Component, Injectable, Input } from '@angular/core';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule, Store } from '@ngxs/store';
+import { NgxsModule, State, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
-import { Constants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { UsersBlockData } from 'shared/models/users-table';
+import { GetChildrenForAdmin } from 'shared/store/admin.actions';
+import { AdminStateModel } from 'shared/store/admin.state';
 import { UsersComponent } from './users.component';
 
 describe('UsersComponent', () => {
@@ -30,7 +32,7 @@ describe('UsersComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([MockAdminState]),
         RouterTestingModule,
         MatFormFieldModule,
         MatInputModule,
@@ -172,6 +174,48 @@ describe('UsersComponent', () => {
       expect(dispatchSpy).toHaveBeenLastCalledWith(expectedChildrenDispatchData);
     });
   });
+
+  describe('getChildren method', () => {
+    beforeEach(() => {
+      jest.spyOn(store, 'dispatch');
+    });
+
+    it('should dispatch GetChildrenForAdmin action when filterFormControl value changes', fakeAsync(() => {
+      component.filterFormControl.setValue('SearchValue');
+      tick(500);
+
+      expect(store.dispatch).toHaveBeenCalledWith(new GetChildrenForAdmin(component.childrenParams));
+    }));
+
+    it('should dispatch GetChildrenForAdmin action with new parameters when onTabChange called', () => {
+      component.currentPage.element = 5;
+
+      component.onTabChange({ index: 2 } as MatTabChangeEvent);
+
+      expect(component.currentPage).toEqual(PaginationConstants.firstPage);
+      expect(store.dispatch).toHaveBeenCalledWith(new GetChildrenForAdmin(component.childrenParams));
+    });
+
+    it('should dispatch GetChildrenForAdmin action with new parameters when onPageChange called', () => {
+      const expectedPage: PaginationElement = { element: 3, isActive: true };
+      component.currentPage.element = 3;
+
+      component.onPageChange(expectedPage);
+
+      expect(component.currentPage).toEqual(expectedPage);
+      expect(store.dispatch).toHaveBeenCalledWith(new GetChildrenForAdmin(component.childrenParams));
+    });
+
+    it('should dispatch GetChildrenForAdmin action with new parameters when onTableItemsPerPageChange called', () => {
+      const expectedItemsPerPage = 15;
+      component.childrenParams.size = 5;
+
+      component.onTableItemsPerPageChange(expectedItemsPerPage);
+
+      expect(component.childrenParams.size).toEqual(expectedItemsPerPage);
+      expect(store.dispatch).toHaveBeenCalledWith(new GetChildrenForAdmin(component.childrenParams));
+    });
+  });
 });
 
 @Component({
@@ -192,3 +236,13 @@ class MockListAdminChildrenPaginatorComponent {
   @Input() currentPage: PaginationElement;
   @Input() itemsPerPage: number;
 }
+
+@State<AdminStateModel>({
+  name: 'admin',
+  defaults: {
+    isLoading: false,
+    children: { entities: [], totalAmount: 0 }
+  } as AdminStateModel
+})
+@Injectable()
+class MockAdminState {}

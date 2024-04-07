@@ -26,9 +26,10 @@ describe('ParentService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should get profile', () => {
+  it('should get profile', (done) => {
     service.getProfile().subscribe((profile) => {
       expect(profile).toEqual(mockParent);
+      done();
     });
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/profile`);
@@ -37,10 +38,10 @@ describe('ParentService', () => {
     expect(req.request.method).toEqual('GET');
   });
 
-  it('should get block parent', () => {
+  it('should get block parent', (done) => {
     const parentBlockedData: ParentBlockedData = { parentId: 'id', isBlocked: true, reason: 'reason' };
 
-    service.blockUnblockParent(parentBlockedData).subscribe();
+    service.blockUnblockParent(parentBlockedData).subscribe(done);
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/BlockUnblockParent`);
     req.flush(null);

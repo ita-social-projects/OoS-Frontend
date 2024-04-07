@@ -8,13 +8,13 @@ import { AdminState } from 'shared/store/admin.state';
 
 @Component({
   selector: 'app-regulations-info',
-  template: '<app-info-card [type]="lawsAndRegulations" [platformInfo]="LawsAndRegulations$ | async"></app-info-card>'
+  template: '<app-info-card [type]="AdminTabTypes.LawsAndRegulations" [platformInfo]="lawsAndRegulations$ | async"></app-info-card>'
 })
 export class RegulationsInfoComponent {
-  readonly lawsAndRegulations = AdminTabTypes.LawsAndRegulations;
-
-  @Select(AdminState.LawsAndRegulations)
-  LawsAndRegulations$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
+  @Select(AdminState.lawsAndRegulations)
+  public lawsAndRegulations$: Observable<CompanyInformation>;
+
+  public readonly AdminTabTypes = AdminTabTypes;
 }

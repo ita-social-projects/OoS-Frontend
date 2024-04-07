@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Injectable, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -9,19 +9,26 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, State } from '@ngxs/store';
+
+import { AdminRoles } from 'shared/enum/admins';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { Institution } from 'shared/models/institution.model';
+import { AdminStateModel } from 'shared/store/admin.state';
 import { CreateAdminComponent } from './create-admin.component';
 
 describe('CreateAdminComponent', () => {
   let component: CreateAdminComponent;
   let fixture: ComponentFixture<CreateAdminComponent>;
+  const adminRole = AdminRoles.areaAdmin;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([]),
+        NgxsModule.forRoot([MockAdminState]),
         MatStepperModule,
         MatCheckboxModule,
         MatFormFieldModule,
@@ -40,21 +47,58 @@ describe('CreateAdminComponent', () => {
   });
 
   beforeEach(() => {
+    TestBed.overrideProvider(ActivatedRoute, { useValue: { snapshot: { paramMap: convertToParamMap({ param: adminRole, id: 'id' }) } } });
     fixture = TestBed.createComponent(CreateAdminComponent);
     component = fixture.componentInstance;
-    component.adminFormGroup = new FormGroup({
-      lastName: new FormControl(''),
-      firstName: new FormControl(''),
-      middleName: new FormControl(''),
-      phoneNumber: new FormControl(''),
-      institution: new FormControl(''),
-      email: new FormControl('')
-    });
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getters', () => {
+    it('should return correct institution form control', () => {
+      expect(component.institutionFormControl).toEqual(component.adminFormGroup.get('institution'));
+    });
+
+    it('should return correct region form control', () => {
+      expect(component.regionFormControl).toEqual(component.adminFormGroup.get('region'));
+    });
+
+    it('should return correct territorial community form control', () => {
+      expect(component.territorialCommunityFormControl).toEqual(component.adminFormGroup.get('territorialCommunity'));
+    });
+  });
+
+  describe('compare methods', () => {
+    it('should return TRUE if comparing institutions with same id', () => {
+      const institution1 = { id: 'institutionId1' } as Institution;
+      const institution2 = { id: 'institutionId1' } as Institution;
+
+      expect(component.compareInstitutions(institution1, institution2)).toBeTruthy();
+    });
+
+    it('should return FALSE if comparing institutions with different id', () => {
+      const institution1 = { id: 'institutionId1' } as Institution;
+      const institution2 = { id: 'institutionId2' } as Institution;
+
+      expect(component.compareInstitutions(institution1, institution2)).toBeFalsy();
+    });
+
+    it('should return TRUE if comparing codeficators with same id', () => {
+      const codeficator1 = { id: 1 } as Codeficator;
+      const codeficator2 = { id: 1 } as Codeficator;
+
+      expect(component.compareCodeficators(codeficator1, codeficator2)).toBeTruthy();
+    });
+
+    it('should return FALSE if comparing codeficators with different id', () => {
+      const codeficator1 = { id: 1 } as Codeficator;
+      const codeficator2 = { id: 2 } as Codeficator;
+
+      expect(component.compareCodeficators(codeficator1, codeficator2)).toBeFalsy();
+    });
   });
 });
 
@@ -70,3 +114,12 @@ class MockValidationHintForInputComponent {
   @Input() isTouched: boolean;
   @Input() isPhoneNumber: boolean;
 }
+
+@State<AdminStateModel>({
+  name: 'admin',
+  defaults: {
+    selectedAdmin: {}
+  } as AdminStateModel
+})
+@Injectable()
+class MockAdminState {}

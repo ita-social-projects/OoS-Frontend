@@ -90,7 +90,7 @@ export class ProviderListComponent implements OnInit, OnDestroy {
     'fullTitle',
     'ownership',
     'edrpouIpn',
-    'licence',
+    'license',
     'city',
     'street',
     'email',
