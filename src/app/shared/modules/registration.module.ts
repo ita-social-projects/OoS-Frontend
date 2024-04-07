@@ -11,7 +11,6 @@ import { LocalSessionManagerService } from '../services/local-session-manager/lo
   imports: [
     BrowserModule,
     AuthModule.forRoot({
-      storage: LocalSessionManagerService,
       config: {
         useRefreshToken: true,
         silentRenew: true,

@@ -6,7 +6,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
@@ -28,10 +27,10 @@ import { PriceFilterComponent } from './components/filters-list/price-filter/pri
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
-import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
+import { InfoMenuComponent } from './components/info-menu/info-menu.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { LoginComponent } from './components/login/login.component';
 import { MapComponent } from './components/map/map.component';
@@ -54,7 +53,6 @@ import { UsersListComponent } from './components/users-list/users-list.component
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { WorkshopSeatsLackModalComponent } from './components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
-import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { KeyFilterDirective } from './directives/key-filter.directive';
 import { MinMaxDirective } from './directives/min-max.directive';
@@ -76,7 +74,6 @@ import { NotificationDescriptionPipe } from './pipes/notification-description.pi
 import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
-import { InfoMenuComponent } from './components/info-menu/info-menu.component';
 
 @NgModule({
   declarations: [
@@ -112,12 +109,10 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     NoResultCardComponent,
     WorkingHoursFormComponent,
     SidenavFiltersComponent,
-    ImageCarouselComponent,
     NotificationsComponent,
     NotificationsListComponent,
     UsersListComponent,
     KeyFilterDirective,
-    CustomCarouselDirective,
     PhoneTransformPipe,
     DeclinationPipe,
     ProviderInfoComponent,
@@ -158,7 +153,6 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
-    IvyCarouselModule,
     ImageCropperModule,
     TranslateModule,
     CdkAccordionModule
@@ -198,12 +192,10 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     NoResultCardComponent,
     WorkingHoursFormComponent,
     SidenavFiltersComponent,
-    ImageCarouselComponent,
     NotificationsComponent,
     UsersListComponent,
     ProviderInfoComponent,
     KeyFilterDirective,
-    CustomCarouselDirective,
     PhoneTransformPipe,
     DeclinationPipe,
     ApplicationChildSortingPipe,

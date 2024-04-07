@@ -1,18 +1,17 @@
-import { Component, Input, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { TranslateModule } from '@ngx-translate/core';
-import { Provider } from '../../../shared/models/provider.model';
-import { Role } from '../../../shared/enum/role';
-import { Teacher } from '../../../shared/models/teacher.model';
-import { Workshop } from '../../../shared/models/workshop.model';
-import { ImageCarouselComponent } from '../../../shared/components/image-carousel/image-carousel.component';
+import { NgxsModule } from '@ngxs/store';
+
+import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
+import { Role } from 'shared/enum/role';
+import { Provider } from 'shared/models/provider.model';
+import { Teacher } from 'shared/models/teacher.model';
+import { Workshop } from 'shared/models/workshop.model';
 import { WorkshopDetailsComponent } from './workshop-details.component';
 
 describe('WorkshopDetailsComponent', () => {
@@ -26,7 +25,6 @@ describe('WorkshopDetailsComponent', () => {
         RouterTestingModule,
         MatIconModule,
         MatChipsModule,
-        IvyCarouselModule,
         NgxsModule.forRoot([]),
         TranslateModule.forRoot(),
         BrowserAnimationsModule
