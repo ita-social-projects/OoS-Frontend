@@ -84,8 +84,8 @@
       </table>
     </div>
     <app-paginator [totalEntities]="statisticReports$ | async" [currentPage]="currentPage"
-      [itemsPerPage]="statisticParameters.size" (pageChange)="onPageChange($event)" (itemsPe
-      rPageChange)="onItemsPerPageChange($event)">
+                   [itemsPerPage]="statisticParameters.size" (pageChange)="onPageChange($event)"
+                   (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </div>
 </ng-template>
