@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanLoad } from '@angular/router';
+
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { isRoleAdmin } from 'shared/utils/admin.utils';
 @Injectable({
   providedIn: 'root'
 })
-export class AdminToolsGuard implements CanLoad {
+export class AdminToolsGuard  {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
 

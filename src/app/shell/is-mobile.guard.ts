@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, UrlTree } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import { AppState } from 'shared/store/app.state';
 @Injectable({
   providedIn: 'root'
 })
-export class IsMobileGuard implements CanLoad, CanActivate {
+export class IsMobileGuard  {
   @Select(AppState.isMobileScreen)
   isMobileScreen$: Observable<boolean>;
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanDeactivate, CanLoad, UrlTree } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -13,7 +13,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProviderGuard implements CanLoad, CanDeactivate<unknown> {
+export class CreateProviderGuard  {
   @Select(RegistrationState.user)
   user$: Observable<User>;
   @Select(RegistrationState.role)

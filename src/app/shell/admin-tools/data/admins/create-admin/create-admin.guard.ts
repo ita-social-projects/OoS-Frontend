@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, filter, map } from 'rxjs';
 
@@ -10,7 +10,7 @@ import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils'
 @Injectable({
   providedIn: 'root'
 })
-export class CreateAdminGuard implements CanActivate {
+export class CreateAdminGuard {
   @Select(RegistrationState.role)
   private role$: Observable<Role>;
 

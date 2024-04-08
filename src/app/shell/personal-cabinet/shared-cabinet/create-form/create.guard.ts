@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { CanDeactivate, UrlTree } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
@@ -14,7 +14,7 @@ import { AppState } from 'shared/store/app.state';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateGuard implements CanDeactivate<unknown> {
+export class CreateGuard  {
   result: boolean;
   constructor(
     private matDialog: MatDialog,

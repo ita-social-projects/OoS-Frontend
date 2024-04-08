@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, UrlTree } from '@angular/router';
+import { UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
@@ -10,7 +10,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class NotProviderAdminGuard implements CanActivate {
+export class NotProviderAdminGuard  {
   @Select(RegistrationState.role)
   public role$: Observable<string>;
   @Select(RegistrationState.subrole)
