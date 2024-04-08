@@ -27,6 +27,7 @@ import { PriceFilterComponent } from './components/filters-list/price-filter/pri
 import { SearchbarComponent } from './components/filters-list/searchbar/searchbar.component';
 import { UserRadiusSetComponent } from './components/filters-list/user-radius-set/user-radius-set.component';
 import { WorkingHoursComponent } from './components/filters-list/working-hours/working-hours.component';
+import { ImageCarouselComponent } from './components/image-carousel/image-carousel.component';
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
@@ -53,6 +54,7 @@ import { UsersListComponent } from './components/users-list/users-list.component
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
 import { WorkshopCardComponent } from './components/workshop-card/workshop-card.component';
 import { WorkshopSeatsLackModalComponent } from './components/workshop-card/workshop-seats-lack-modal/workshop-seats-lack-modal.component';
+import { CustomCarouselDirective } from './directives/custom-carousel.directive';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { KeyFilterDirective } from './directives/key-filter.directive';
 import { MinMaxDirective } from './directives/min-max.directive';
@@ -141,7 +143,9 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
     NotificationDescriptionPipe,
-    InfoMenuComponent
+    InfoMenuComponent,
+    ImageCarouselComponent,
+    CustomCarouselDirective
   ],
 
   imports: [
@@ -218,7 +222,9 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     GetAddressPipe,
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
-    InfoMenuComponent
+    InfoMenuComponent,
+    ImageCarouselComponent,
+    CustomCarouselDirective
   ]
 })
 export class SharedModule {}

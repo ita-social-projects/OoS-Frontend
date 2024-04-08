@@ -17,8 +17,7 @@
         class="step-input"
         formControlName="ownership"
         name="ownership"
-        placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_OWNERSHIP' | translate }}"
-        [disabled]="isEditMode$ | async">
+        placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_OWNERSHIP' | translate }}">
         <ng-container *ngFor="let type of selectableOwnerShipTypes | keyvalue">
           <mat-option [value]="type.key" class="dropdown-option">
             {{ ownershipTypesEnum[type.key] | translate }}
@@ -28,7 +27,7 @@
     </mat-form-field>
     <div class="info-menu-wrapper" *ngIf="isEditMode$ | async">
       <app-info-menu [type]="InfoMenuType.Text">
-        {{ 'INFO_MENU.OWNERSHIP_CAN_NOT_BE_CHANGED' | translate  }}
+        {{ 'INFO_MENU.OWNERSHIP_CAN_NOT_BE_CHANGED' | translate }}
       </app-info-menu>
     </div>
   </div>

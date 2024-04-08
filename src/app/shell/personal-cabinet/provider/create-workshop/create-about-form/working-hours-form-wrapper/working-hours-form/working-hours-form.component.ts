@@ -14,8 +14,12 @@ import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
   styleUrls: ['./working-hours-form.component.scss']
 })
 export class WorkingHoursFormComponent implements OnInit, OnDestroy {
-  protected readonly ValidationConstants = ValidationConstants;
-  protected readonly workingDaysReverse = WorkingDaysReverse;
+  @Input() public workingHoursForm: FormGroup;
+  @Input() public index: number;
+  @Input() public workingHoursAmount: number;
+
+  @Output() public deleteWorkingHour = new EventEmitter();
+  @Output() public dataChanged = new EventEmitter<void>();
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
@@ -24,14 +28,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   public startTimeFormControl = new FormControl('');
   public endTimeFormControl = new FormControl('');
 
-  @Input() public workingHoursForm: FormGroup;
-  @Input() public index: number;
-  @Input() public workingHoursAmount: number;
-
-  @Output() public deleteWorkingHour = new EventEmitter();
-  @Output() public dataChanged = new EventEmitter<void>();
-
-  constructor() {}
+  protected readonly ValidationConstants = ValidationConstants;
+  protected readonly workingDaysReverse = WorkingDaysReverse;
 
   public ngOnInit(): void {
     this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
@@ -44,8 +42,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.workdaysFormControl.markAsTouched());
-
-    this.workdaysFormControl.value.length && this.activateEditMode();
+    if (this.workdaysFormControl.value.length) {
+      this.activateEditMode();
+    }
   }
 
   /**
@@ -58,6 +57,14 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workingDays.add(this.workingDaysReverse[day.value]);
     } else {
       this.workingDays.delete(this.workingDaysReverse[day.value]);
+    }
+
+    if (this.workingDays.size) {
+      this.startTimeFormControl.enable({ emitEvent: false });
+      this.endTimeFormControl.enable({ emitEvent: false });
+    } else {
+      this.startTimeFormControl.disable({ emitEvent: false });
+      this.endTimeFormControl.disable({ emitEvent: false });
     }
 
     const value = this.workingDays.size ? [...this.workingDays] : null;

@@ -143,8 +143,8 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  logout(_ctx: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.logoff();
+  logout(_ctx: StateContext<RegistrationStateModel>): Observable<unknown> {
+    return this.oidcSecurityService.logoff();
   }
 
   @Action(CheckAuth)
