@@ -16,12 +16,14 @@ export class ExportProvidersComponent implements OnInit, OnDestroy {
   ngOnInit(): void {}
   ngOnDestroy(): void {}
 
-  // public getAllProviders(): any {
-  //   console.log('work');
-  //   return this.importExportService.getAllProviders().subscribe((data: HttpResponse<Blob>) => data);
-  // }
-
   public getAllProviders(): any {
-    return this.importExportService.getAllProviders().subscribe((data) => console.log(data));
+    return this.importExportService.getAllProviders().subscribe((response) => {
+      const newBlob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), response], { type: 'text/csv' });
+      const res = window.URL.createObjectURL(newBlob);
+      const link = document.createElement('a');
+      link.href = res;
+      link.download = 'Providers list.csv';
+      link.click();
+    });
   }
 }

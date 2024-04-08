@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -9,23 +9,26 @@ export class AdminImportExportService {
   private readonly baseApiUrl = '/api/v1/admin';
   constructor(private http: HttpClient) {}
 
-  public sendEmailsForVerification(emails: any[]): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseApiUrl}/address`, emails);
+  public getAllProviders(): Observable<any> {
+    const httpOptions: Object = {
+      headers: new HttpHeaders({
+        Accept: 'text/html',
+        'Content-Type': 'text/plain; charset=utf-8'
+      }),
+      responseType: 'text'
+    };
+    return this.http.get<string>('/api/v1/admin/providers/export', httpOptions);
   }
 
-  // public getAllProviders(): Observable<HttpResponse<Blob>> {
-  //   return this.http.get<HttpResponse<Blob>>('/api/v1/admin/providers/export');
+  // public sendEmailsForVerification(emails: any[]): Observable<any[]> {
+  //   return this.http.post<any[]>(`${this.baseApiUrl}/address`, emails);
   // }
 
-  public getAllProviders(): Observable<any> {
-    return this.http.get<any>('/api/v1/admin/providers/export');
-  }
+  // public sendEDRPOUForVerification(edrpou: any[]): Observable<any[]> {
+  //   return this.http.post<any[]>(`${this.baseApiUrl}/address`, edrpou);
+  // }
 
-  public sendEDRPOUForVerification(edrpou: any[]): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseApiUrl}/address`, edrpou);
-  }
-
-  public sendProviders(providers: any[]): Observable<any[]> {
-    return this.http.post<any[]>(`${this.baseApiUrl}/providers`, providers);
-  }
+  // public sendProviders(providers: any[]): Observable<any[]> {
+  //   return this.http.post<any[]>(`${this.baseApiUrl}/providers`, providers);
+  // }
 }
