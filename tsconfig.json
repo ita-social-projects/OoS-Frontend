@@ -48,6 +48,10 @@
       "es2015",
       "dom"
     ],
-    "useDefineForClassFields": false
-  }
+    "useDefineForClassFields": false,
+  },
+  // "angularCompilerOptions": {
+  //   "strictTemplates": true
+  // }
+  // TODO: Consider adding strictTemplates
 }

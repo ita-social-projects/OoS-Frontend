@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-
 import { Select } from '@ngxs/store';
 import { Observable, filter, map } from 'rxjs';
 
@@ -9,7 +8,7 @@ import { isRoleAdmin } from 'shared/utils/admin.utils';
 @Injectable({
   providedIn: 'root'
 })
-export class MessagesGuard  {
+export class MessagesGuard {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
 

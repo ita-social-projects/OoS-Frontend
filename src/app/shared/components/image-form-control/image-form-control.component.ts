@@ -5,7 +5,7 @@ import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Constants } from 'shared/constants/constants';
 import { Cropper } from 'shared/models/cropper';
 import { DecodedImage } from 'shared/models/image.model';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../../../environments/environment';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
 type FilesToVoid = (array: File[]) => void;

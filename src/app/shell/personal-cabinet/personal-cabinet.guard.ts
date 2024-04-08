@@ -10,7 +10,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class PersonalCabinetGuard  {
+export class PersonalCabinetGuard {
   @Select(RegistrationState.isRegistered)
   private isRegistered$: Observable<boolean>;
 

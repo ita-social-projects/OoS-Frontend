@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { UrlTree } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { takeWhile } from 'rxjs/operators';
@@ -14,14 +13,14 @@ import { AppState } from 'shared/store/app.state';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateGuard  {
-  result: boolean;
+export class CreateGuard {
+  private result: boolean;
   constructor(
     private matDialog: MatDialog,
     private store: Store
   ) {}
 
-  canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canDeactivate(): Observable<boolean> | boolean {
     const isDirty = this.store.selectSnapshot<boolean>(AppState.isDirtyForm);
 
     if (isDirty) {

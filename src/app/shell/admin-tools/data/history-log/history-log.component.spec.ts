@@ -4,7 +4,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatTabChangeEvent, MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -12,10 +12,10 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
 
 import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
+import { HistoryLogTypes } from 'shared/enum/history.log';
 import { DropdownData } from 'shared/models/history-log.model';
 import { PaginationElement } from 'shared/models/pagination-element.model';
 import { HistoryLogService } from 'shared/services/history-log/history-log.service';
-import { HistoryLogTypes } from 'shared/enum/history.log';
 import { HistoryLogComponent } from './history-log.component';
 
 describe('HistoryLogComponent', () => {

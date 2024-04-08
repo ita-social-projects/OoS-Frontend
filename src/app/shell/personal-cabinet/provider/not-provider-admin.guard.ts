@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { Role, Subrole } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -10,7 +9,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class NotProviderAdminGuard  {
+export class NotProviderAdminGuard {
   @Select(RegistrationState.role)
   public role$: Observable<string>;
   @Select(RegistrationState.subrole)

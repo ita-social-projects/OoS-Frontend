@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { UrlTree } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -13,15 +12,15 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProviderGuard  {
+export class CreateProviderGuard {
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+  private user$: Observable<User>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
 
-  constructor(public store: Store) {}
+  constructor(private store: Store) {}
 
-  canLoad(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canLoad(): Observable<boolean> | boolean {
     const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
     return (
@@ -33,7 +32,7 @@ export class CreateProviderGuard  {
     );
   }
 
-  canDeactivate(): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canDeactivate(): Observable<boolean> | boolean {
     const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
     if (isEditMode) {

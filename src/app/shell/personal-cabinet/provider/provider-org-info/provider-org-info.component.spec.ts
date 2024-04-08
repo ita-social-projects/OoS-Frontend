@@ -1,13 +1,14 @@
-import { MatDialogModule } from '@angular/material/dialog';
+import { Component, Input, Provider } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxsModule } from '@ngxs/store';
 import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Component, Input, Provider } from '@angular/core';
-import { ProviderComponent } from '../provider.component';
+import { NgxsModule } from '@ngxs/store';
+
+import { PhoneTransformPipe } from 'shared/pipes/phone-transform.pipe';
 import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { PhoneTransformPipe } from '../../../../shared/pipes/phone-transform.pipe';
+import { ProviderComponent } from '../provider.component';
 import { ProviderOrgInfoComponent } from './provider-org-info.component';
 
 describe('ProviderOrgInfoComponent', () => {
