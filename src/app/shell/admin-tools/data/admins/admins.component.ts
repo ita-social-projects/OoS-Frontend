@@ -237,7 +237,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         break;
     }
 
-    return AdminRoleTypes[index];
+    return AdminRoles[AdminRoleTypes[index]];
   }
 
   private getDefaultSearchRole(): AdminRoles {

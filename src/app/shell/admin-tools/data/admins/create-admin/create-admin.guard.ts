@@ -27,8 +27,9 @@ export class CreateAdminGuard implements CanActivate {
             return canManageInstitution(role);
           case Role.areaAdmin:
             return canManageRegion(role);
+          default:
+            return false;
         }
-        return false;
       })
     );
   }

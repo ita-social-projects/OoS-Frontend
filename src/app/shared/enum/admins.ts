@@ -1,7 +1,7 @@
 export enum AdminRoles {
-  ministryAdmin = 'ministryAdmin',
-  regionAdmin = 'regionAdmin',
-  areaAdmin = 'areaAdmin'
+  ministryAdmin = 'ministryadmin',
+  regionAdmin = 'regionadmin',
+  areaAdmin = 'areaadmin'
 }
 
 export enum AdminIds {
