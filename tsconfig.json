@@ -42,16 +42,18 @@
     "importHelpers": true,
     "allowSyntheticDefaultImports": true,
     "target": "ES2022",
-    "module": "es2020",
-    "lib": [
-      "es2018",
-      "es2015",
-      "dom"
-    ],
+    "module": "ES2022",
     "useDefineForClassFields": false,
+    "lib": [
+      "ES2022",
+      "dom"
+    ]
   },
-  // "angularCompilerOptions": {
-  //   "strictTemplates": true
-  // }
-  // TODO: Consider adding strictTemplates
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    // TODO: Consider strict compiler options
+    // "strictInjectionParameters": true,
+    // "strictInputAccessModifiers": true,
+    // "strictTemplates": true
+  }
 }
