@@ -30,11 +30,11 @@
   </p>
 
   <div class="social" fxLayout="row" fxLayoutAlign="space-between center">
-    <a href="{{ contactsData.instagram }}" *ngIf="contactsData.instagram" [ngClass]="contactsData.instagram ? 'link' : 'disable'" target="_blank"
+    <a *ngIf="contactsData.instagram" href="{{ contactsData.instagram }}" [ngClass]='link' target="_blank"
       rel="noopener">
       <img src="assets/icons/inst.png" alt="instagram" />
     </a>
-    <a href="{{ contactsData.facebook }}" *ngIf="contactsData.facebook" [ngClass]="contactsData.facebook ? 'link' : 'disable'" target="_blank"
+    <a *ngIf="contactsData.facebook" href="{{ contactsData.facebook }}" [ngClass]='link' target="_blank"
       rel="noopener">
       <img src="assets/icons/facebook.png" alt="facebook" />
     </a>
