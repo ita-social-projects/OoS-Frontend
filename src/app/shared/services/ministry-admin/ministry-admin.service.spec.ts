@@ -8,7 +8,7 @@ import { MinistryAdmin } from 'shared/models/ministry-admin.model';
 import { MinistryAdminService } from './ministry-admin.service';
 
 describe('MinistryAdminService', () => {
-  const baseApiUrl = `/api/v1/${AdminRoles.ministryAdmin}`;
+  const baseApiUrl = `/api/v1/ministryadmin`;
   let service: MinistryAdminService;
   let httpTestingController: HttpTestingController;
   const mockMinistryAdmin: MinistryAdmin = {

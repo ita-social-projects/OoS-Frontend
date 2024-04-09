@@ -60,7 +60,6 @@ export abstract class BaseAdminService {
    */
   protected deleteAdmin(adminId: string): Observable<void> {
     const params = new HttpParams().set(AdminIds[this.adminType], `${adminId}`);
-
     return this.http.delete<void>(`${this.baseApiUrl}/Delete`, { params });
   }
 
