@@ -80,7 +80,7 @@ export class CreateAdminComponent extends CreateFormComponent implements OnInit,
       institution: new FormControl('', Validators.required),
       email: new FormControl('', [Validators.required, FormValidators.email])
     });
-    this.adminRole = this.route.snapshot.paramMap.get('param') as AdminRoles;
+    this.adminRole = AdminRoles[this.route.snapshot.paramMap.get('param')];
 
     if (this.isRegionAdmin || this.isAreaAdmin) {
       this.adminFormGroup.addControl('region', new FormControl(undefined, Validators.required));

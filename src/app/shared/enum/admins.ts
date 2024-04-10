@@ -1,19 +1,19 @@
 export enum AdminRoles {
-  ministryAdmin = 'ministryadmin',
-  regionAdmin = 'regionadmin',
-  areaAdmin = 'areaadmin'
+  ministryAdmin = 'ministryAdmin',
+  regionAdmin = 'regionAdmin',
+  areaAdmin = 'areaAdmin'
 }
 
 export enum AdminIds {
-  ministryadmin = 'ministryAdminId',
-  regionadmin = 'regionAdminId',
-  areaadmin = 'areaAdminId'
+  ministryAdmin = 'ministryAdminId',
+  regionAdmin = 'regionAdminId',
+  areaAdmin = 'areaAdminId'
 }
 
 export enum AdminRoleTypes {
-  ministryadmin,
-  regionadmin,
-  areaadmin
+  ministryAdmin,
+  regionAdmin,
+  areaAdmin
 }
 
 export enum AdminTabTypes {
