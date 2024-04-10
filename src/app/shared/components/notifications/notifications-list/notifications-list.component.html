@@ -26,24 +26,30 @@
   <div class="accordions-wrapper">
     <cdk-accordion>
       <ng-container *ngIf="notificationsGroupedByType.length">
-        <cdk-accordion-item *ngFor="let notificationGroupedByType of notificationsGroupedByType"
-          #accordionGroupItem="cdkAccordionItem" role="button">
+        <cdk-accordion-item
+          *ngFor="let notificationGroupedByType of notificationsGroupedByType"
+          #accordionGroupItem="cdkAccordionItem"
+          role="button">
           <div [class]="notificationGroupedByType.isRead ? 'notification__wrapper' : 'notification__wrapper new'">
-            <div class="header-notification header-notification__group"
+            <div
+              class="header-notification header-notification__group"
               (click)="accordionGroupItem.toggle(); onReadGroup(notificationGroupedByType)">
               <div class="info">
                 <span class="info__description">
                   {{ 'NOTIFICATION_DETAILS.YOU_HAVE' | translate }}
-                  {{ notificationGroupedByType.amount | translateCases: defineDeclination(notificationGroupedByType,
-                  'Changes') }}
+                  {{ notificationGroupedByType.amount | translateCases: defineDeclination(notificationGroupedByType, 'Changes') }}
                 </span>
               </div>
             </div>
-            <div [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
-              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'" role="region"
+            <div
+              [style.max-height]="accordionGroupItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionGroupItem.expanded ? 'auto' : 'hidden'"
+              role="region"
               class="body-notification__wrapper">
-              <div *ngFor="let notification of notificationGroupedByType.groupedByAdditionalData"
-                class="body-notification__content body-notification__group info" (click)="onNavigate(notification)">
+              <div
+                *ngFor="let notification of notificationGroupedByType.groupedByAdditionalData"
+                class="body-notification__content body-notification__group info"
+                (click)="onNavigate(notification)">
                 <span class="info__description info__link">
                   {{ notification.amount | translateCases: defineDeclination(notification) }}
                 </span>
@@ -54,12 +60,16 @@
         </cdk-accordion-item>
       </ng-container>
       <ng-container *ngIf="notifications.length">
-        <cdk-accordion-item *ngFor="let notification of notifications" #accordionItem="cdkAccordionItem" role="button"
+        <cdk-accordion-item
+          *ngFor="let notification of notifications"
+          #accordionItem="cdkAccordionItem"
+          role="button"
           [disabled]="!notification.data">
           <div [class]="notification.readDateTime ? 'notification__wrapper' : 'notification__wrapper new'">
             <div class="header-notification" (click)="accordionItem.toggle(); onReadSingle(notification)">
               <div class="header-notification__single info">
-                <h4 class="info__workshop-name"
+                <h4
+                  class="info__workshop-name"
                   *ngIf="Util.getTitleFromNotification(notification, NotificationDescriptionType.Short) as title">
                   {{ title }}
                 </h4>
@@ -71,8 +81,10 @@
                 </h4>
               </div>
             </div>
-            <div [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
-              [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'" role="region"
+            <div
+              [style.max-height]="accordionItem.expanded ? '100px' : '0px'"
+              [style.overflow]="accordionItem.expanded ? 'auto' : 'hidden'"
+              role="region"
               class="body-notification__wrapper info info__description">
               <div class="body-notification__content body-notification__single" (click)="onNavigate(notification)">
                 <span class="info__description info__link">
