@@ -93,6 +93,13 @@
   padding-bottom: 8px;
 }
 
+.text_icon {
+  &:hover {
+    cursor: default;
+    opacity: 1;
+  }
+}
+
 @media (max-width: 1220px) {
   .card-block {
     &__buttons {
