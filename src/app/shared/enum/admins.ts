@@ -11,9 +11,9 @@ export enum AdminIds {
 }
 
 export enum AdminRoleTypes {
-  ministryAdmin,
-  regionAdmin,
-  areaAdmin
+  ministryadmin,
+  regionadmin,
+  areaadmin
 }
 
 export enum AdminTabTypes {

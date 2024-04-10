@@ -190,7 +190,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
 
   private setTabOptions(): void {
     const role = this.route.snapshot.queryParamMap.get('role');
-    this.adminParams.tabTitle = role ? AdminRoles[role] : this.getDefaultSearchRole();
+    this.adminParams.tabTitle = role ? role : this.getDefaultSearchRole();
     this.tabIndex = this.getTabIndexFromRole(role);
   }
 
@@ -237,7 +237,7 @@ export class AdminsComponent implements OnInit, OnDestroy {
         break;
     }
 
-    return AdminRoles[AdminRoleTypes[index]];
+    return AdminRoleTypes[index];
   }
 
   private getDefaultSearchRole(): AdminRoles {
