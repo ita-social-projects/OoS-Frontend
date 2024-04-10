@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, HostListener, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import * as XLSX from 'xlsx/xlsx.mjs';
+import { AdminImportExportService, IEmailsEdrpous } from 'shared/services/admin-import-export/admin-import-export.service';
 
 const standartHeaders = [
   'Назва закладу ',
@@ -15,67 +17,67 @@ const standartHeaders = [
   'Телефон'
 ];
 
-const data = [
-  {
-    providerName: 'Клуб спортивного бального танцю',
-    ownership: 'Державна',
-    identifier: 12345678,
-    licenseNumber: 'не вказано',
-    settlement: 'Луцьк',
-    address: 'Шевченка 2',
-    email: 'some@gmail.com',
-    phoneNumber: 660666066
-  },
-  {
-    providerName: 'ТОВ Олімп',
-    ownership: 'Державна',
-    identifier: 87654321,
-    licenseNumber: 'не вказано',
-    settlement: 'Луцьк',
-    address: 'Шевченка 2',
-    email: 'some@gmail.com',
-    phoneNumber: 660666066
-  },
-  {
-    providerName: 'ТОВ Олімп',
-    ownership: 'Державна',
-    identifier: 1234567,
-    licenseNumber: 'не вказано',
-    settlement: 'Луцьк',
-    address: 'Шевченка 2',
-    email: 'some@gmail.com',
-    phoneNumber: 660666066
-  },
-  {
-    providerName: 'ТОВ Олімп',
-    ownership: 'Державна',
-    identifier: 87654321,
-    licenseNumber: 'не вказано',
-    settlement: 'Луцьк',
-    address: 'Шевченка 2',
-    email: 'some@gmail.com',
-    phoneNumber: 660666066
-  },
-  {
-    providerName: 'ТОВ Олімп',
-    ownership: 'Державна',
-    licenseNumber: 'не вказано',
-    settlement: 'Луцьк',
-    address: 'Шевченка 2',
-    email: 'some@gmail.com',
-    phoneNumber: 660666066
-  },
-  {
-    providerName: 'ТОВ Олімп',
-    ownership: 'Державна',
-    identifier: 87654321,
-    licenseNumber: 'не вказано',
-    settlement: 'Луцьк',
-    address: 'Шевченка 2',
-    email: 'some@gmail.com',
-    phoneNumber: 660666066
-  }
-];
+// const data = [
+//   {
+//     providerName: 'Клуб спортивного бального танцю',
+//     ownership: 'Державна',
+//     identifier: 12345678,
+//     licenseNumber: 'не вказано',
+//     settlement: 'Луцьк',
+//     address: 'Шевченка 2',
+//     email: 'some@gmail.com',
+//     phoneNumber: 660666066
+//   },
+//   {
+//     providerName: 'ТОВ Олімп',
+//     ownership: 'Державна',
+//     identifier: 87654321,
+//     licenseNumber: 'не вказано',
+//     settlement: 'Луцьк',
+//     address: 'Шевченка 2',
+//     email: 'some@gmail.com',
+//     phoneNumber: 660666066
+//   },
+//   {
+//     providerName: 'ТОВ Олімп',
+//     ownership: 'Державна',
+//     identifier: 1234567,
+//     licenseNumber: 'не вказано',
+//     settlement: 'Луцьк',
+//     address: 'Шевченка 2',
+//     email: 'some@gmail.com',
+//     phoneNumber: 660666066
+//   },
+//   {
+//     providerName: 'ТОВ Олімп',
+//     ownership: 'Державна',
+//     identifier: 87654321,
+//     licenseNumber: 'не вказано',
+//     settlement: 'Луцьк',
+//     address: 'Шевченка 2',
+//     email: 'some@gmail.com',
+//     phoneNumber: 660666066
+//   },
+//   {
+//     providerName: 'ТОВ Олімп',
+//     ownership: 'Державна',
+//     licenseNumber: 'не вказано',
+//     settlement: 'Луцьк',
+//     address: 'Шевченка 2',
+//     email: 'some@gmail.com',
+//     phoneNumber: 660666066
+//   },
+//   {
+//     providerName: 'ТОВ Олімп',
+//     ownership: 'Державна',
+//     identifier: 87654321,
+//     licenseNumber: 'не вказано',
+//     settlement: 'Луцьк',
+//     address: 'Шевченка 2',
+//     email: 'some@gmail.com',
+//     phoneNumber: 660666066
+//   }
+// ];
 
 @Component({
   selector: 'app-import-providers',
@@ -86,8 +88,9 @@ export class ImportProvidersComponent implements OnInit {
   public currentPage = 0;
   public pageSize = 25;
   public isToggle: boolean;
+  public isWaiting: boolean = false;
   public selectedFile: any = null;
-  public isShow: boolean;
+  public isGoTopBtnVisible: boolean;
   public readonly topPosToStartShowing: number = 250;
   public readonly displayedColumns: string[] = [
     'sequence number',
@@ -101,15 +104,18 @@ export class ImportProvidersComponent implements OnInit {
     'phone number'
   ];
   public dataSource;
-  public dataSourceInvalid;
+  public dataSourceInvalid = [];
+
+  constructor(private importService: AdminImportExportService) { }
+  ngOnInit(): void { }
 
   @HostListener('window:scroll')
   checkScroll(): void {
     const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (scrollPosition >= this.topPosToStartShowing) {
-      this.isShow = true;
+      this.isGoTopBtnVisible = true;
     } else {
-      this.isShow = false;
+      this.isGoTopBtnVisible = false;
     }
   }
 
@@ -121,14 +127,13 @@ export class ImportProvidersComponent implements OnInit {
     });
   }
 
-  constructor() {}
-  ngOnInit(): void {}
-
-  public onFileSelected(event: any): any {
+  resetValues(): void {
     this.dataSource = null;
     this.dataSourceInvalid = null;
     this.isToggle = false;
-    this.selectedFile = event.target.files[0] ?? null;
+  }
+
+  public convertExcelToJSON(event: any): void {
     const file = event.target.files[0];
     const reader: FileReader = new FileReader();
     reader.readAsArrayBuffer(file);
@@ -137,24 +142,89 @@ export class ImportProvidersComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
       const wsname = wb.SheetNames[0];
       const currentHeaders = XLSX.utils.sheet_to_json(wb.Sheets[wsname], { header: 1 }).shift();
-      if (this.checkHeadersForValid(currentHeaders)) {
+      if (this.checkHeadersIsValid(currentHeaders)) {
         const providers = XLSX.utils.sheet_to_json(wb.Sheets[wsname], {
           header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
           range: 1
         });
-
-        this.dataSource = providers;
-        this.dataSourceInvalid = this.checkForInvalidProviders(providers);
+        // this.verifyEmailsEdrpous(providers).subscribe(data => {
+        //   this.checkForInvalidData(providers);
+        //   this.dataSource = providers;
+        //   this.dataSourceInvalid = this.filterInvalidProviders(providers);
+        //   this.isWaiting = false;
+        // });
+         setTimeout(() =>this.verifyEmailsEdrpous(providers).subscribe(data => {
+          console.log(data);
+          this.checkForInvalidData(providers);
+          this.dataSource = providers;
+          this.dataSourceInvalid = this.filterInvalidProviders(providers);
+          this.isWaiting = false;
+        }), 2000);
       }
     };
   }
-  public checkForInvalidProviders(providers: any[]): any {
-    return providers.filter(
-      (elem) => !elem.identifier || elem.identifier.toString().length !== 8 || !elem.ownership || !elem.licenseNumber || !elem.settlement
-    );
+
+  verifyEmailsEdrpous(providers: any): any {
+    const emailsEdrpous: IEmailsEdrpous = {
+      edrpous: [],
+      emails: []
+    };
+    providers.forEach((elem) => {
+      emailsEdrpous.emails.push(elem.email);
+      emailsEdrpous.edrpous.push(elem.identifier ? elem.identifier.toString() : '');
+    });
+    return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
+    // console.log(emailsEdrpous);
   }
 
-  public checkHeadersForValid(currentHeaders: string[]): boolean {
+
+
+  public onFileSelected(event: any) {
+    this.isWaiting = true;
+    this.resetValues();
+    this.selectedFile = event.target.files[0] ?? null;
+    this.convertExcelToJSON(event);
+  }
+
+  // public checkForInvalidData(providers: any[]): any {
+  //   return providers.forEach((elem) => {
+  //     elem.errors = {
+  //       providerName: !elem.providerName?elem.providerName || ' ':null,
+  //       ownership: !elem.ownership?elem.ownership || ' ':null,
+  //       identifier: ( !elem.identifier || elem.identifier?.toString().length !== 8 )?elem.identifier || ' ':null,
+  //       licenseNumber:!elem.licenseNumber?elem.licenseNumber || ' ':null,
+  //       settlement:!elem.settlement?elem.settlement || ' ':null,
+  //       address:!elem.address?elem.address || ' ':null,
+  //       email:!elem.email?elem.email || ' ':null,
+  //       phoneNumber:(!elem.phoneNumber || elem.phoneNumber?.toString().length !== 9 )?elem.phoneNumber || ' ':null
+  //     };
+  //     console.log(elem);
+  //   });
+  // }
+
+
+  // alternative ------------------------------------------------------------------------------
+
+  public checkForInvalidData(providers: any[]): any {
+    return providers.forEach((elem) => {
+      elem.errors = {};
+      !elem.providerName ? elem.errors.providerName = elem.providerName || ' ' : null;
+      !elem.ownership ? elem.errors.ownership = elem.ownership || ' ' : null;
+      !elem.identifier || elem.identifier?.toString().length !== 8 ? elem.errors.identifier = elem.identifier || ' ' : null;
+      !elem.licenseNumber ? elem.errors.licenseNumber = elem.licenseNumber || ' ' : null;
+      !elem.settlement ? elem.errors.settlement = elem.settlement || ' ' : null;
+      !elem.address ? elem.errors.address = elem.address || ' ' : null;
+      !elem.email ? elem.errors.email = elem.email || ' ' : null;
+      !elem.phoneNumber ? elem.errors.phoneNumber = elem.phoneNumber || ' ' : null;
+      // console.log(elem);
+    });
+  }
+  // alternative ------------------------------------------------------------------------------
+
+  public filterInvalidProviders(providers: any[]): any {
+    return providers.filter((elem) => Object.values(elem.errors).find(e => e !== null));
+  }
+  public checkHeadersIsValid(currentHeaders: string[]): boolean {
     for (let i = 0; i < standartHeaders.length; i++) {
       if (currentHeaders[i] !== standartHeaders[i]) {
         alert(`невідповідність в заголовку "${currentHeaders[i]}",
@@ -167,6 +237,7 @@ export class ImportProvidersComponent implements OnInit {
     }
     return true;
   }
+
   onPageChange(event: PageEvent): void {
     console.log(event);
     this.currentPage = event.pageIndex;
@@ -180,4 +251,5 @@ export class ImportProvidersComponent implements OnInit {
     const part = this.dataSource.slice(start, end);
     this.dataSource = part;
   }
+
 }

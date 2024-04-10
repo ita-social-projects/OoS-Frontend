@@ -6,11 +6,14 @@
     <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
     <span class="file-name">{{ selectedFile?.name }}</span>
   </div>
-  <button *ngIf="dataSource" class="btn" mat-raised-button>
+  <div class="loader-container">
+    <div class="loader" *ngIf="isWaiting"></div>
+  </div>
+  <button *ngIf="dataSource" class="btn" mat-raised-button [disabled]="dataSourceInvalid.length > 0">
     {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
   </button>
   <ng-container *ngIf="dataSourceInvalid?.length > 0">
-    <mat-slide-toggle [(ngModel)]="isToggle" color="warn">{{ 'у вас не валідних рядків :' + dataSourceInvalid.length }}</mat-slide-toggle>
+    <mat-slide-toggle [(ngModel)]="isToggle" color="warn">{{ 'Не валідних рядків :' + dataSourceInvalid.length }}</mat-slide-toggle>
   </ng-container>
 </div>
 
@@ -25,40 +28,51 @@
           </ng-container>
           <ng-container matColumnDef="provider name">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PROVIDER_NAME' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.providerName }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.providerName }">
+              {{ element.providerName }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="ownership">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.OWNERSHIP' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': !element.ownership }">{{ element.ownership }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.ownership }">
+              {{ element.ownership }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="identifier">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.IDENTIFIER' | translate }}</th>
-            <td
-              mat-cell
-              *matCellDef="let element"
-              [ngClass]="{ 'false-field': !element.identifier || element.identifier?.toString().length !== 8 }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.identifier}">
               {{ element.identifier }}
             </td>
           </ng-container>
           <ng-container matColumnDef="license number">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.LICENSE_NUMBER' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': !element.licenseNumber }">{{ element.licenseNumber }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.licenseNumber }">
+              {{ element.licenseNumber }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="settlement">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.SETTLEMENT' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': !element.settlement }">{{ element.settlement }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.settlement }">
+              {{ element.settlement }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="address">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.ADDRESS' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.address }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.address }">
+              {{ element.address }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.EMAIL' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.email }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.email }">
+              {{ element.email }}
+            </td>
           </ng-container>
           <ng-container matColumnDef="phone number">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PHONE_NUMBER' | translate }}</th>
-            <td mat-cell *matCellDef="let element">{{ element.phoneNumber }}</td>
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.phoneNumber }">
+              {{ element.phoneNumber }}
+            </td>
           </ng-container>
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
@@ -67,14 +81,14 @@
     </div>
   </div>
   <div class="paginator">
-    <mat-paginator 
-      [length]="dataSource.length" 
-      [pageSize]="pageSize" 
-      [pageSizeOptions]="[25, 50, 100]" 
+    <mat-paginator
+      [length]="dataSource.length"
+      [pageSize]="pageSize"
+      [pageSizeOptions]="[25, 50, 100]"
       [pageIndex]="currentPage"
       (page)="onPageChange($event)"
       aria-label="Select page">
     </mat-paginator>
   </div>
 </ng-container>
-<button *ngIf="isShow" class="goToTop" (click)="gotoTop()"><i class="fas fa-arrow-up"></i></button>
+<button *ngIf="isGoTopBtnVisible" class="goToTop" (click)="gotoTop()"><i class="fas fa-arrow-up"></i></button>

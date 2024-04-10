@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AdminImportExportService {
-  private readonly baseApiUrl = '/api/v1/admin';
+  private readonly baseApiUrl = '/api/v1';
   constructor(private http: HttpClient) {}
 
   public getAllProviders(): Observable<any> {
@@ -17,18 +17,18 @@ export class AdminImportExportService {
       }),
       responseType: 'text'
     };
-    return this.http.get<string>('/api/v1/admin/providers/export', httpOptions);
+    return this.http.get<string>(`${this.baseApiUrl}/admin/providers/export`, httpOptions);
   }
 
-  // public sendEmailsForVerification(emails: any[]): Observable<any[]> {
-  //   return this.http.post<any[]>(`${this.baseApiUrl}/address`, emails);
-  // }
-
-  // public sendEDRPOUForVerification(edrpou: any[]): Observable<any[]> {
-  //   return this.http.post<any[]>(`${this.baseApiUrl}/address`, edrpou);
-  // }
+  public sendEmailsEDRPOUsForVerification(emailsEdrpous: IEmailsEdrpous): Observable<any> {
+    return this.http.post<any>(`${this.baseApiUrl}/providers/import/validate`, emailsEdrpous);
+  }
 
   // public sendProviders(providers: any[]): Observable<any[]> {
   //   return this.http.post<any[]>(`${this.baseApiUrl}/providers`, providers);
   // }
+}
+export interface IEmailsEdrpous {
+  edrpous: string[];
+  emails: string[];
 }

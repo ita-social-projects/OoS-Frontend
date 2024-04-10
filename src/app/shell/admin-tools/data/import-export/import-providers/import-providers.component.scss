@@ -82,3 +82,47 @@
   margin: 0 16px 10px;
   color:red;
 }
+
+// .loader {
+//   width: 60px;
+//   aspect-ratio: 4;
+//   background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% space;
+//   clip-path: inset(0 100% 0 0);
+//   animation: l1 1s steps(4) infinite;
+// }
+// @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
+
+
+/* 1 +++*/
+/* HTML: <div class="loader"></div> */
+// .loader {
+//   width: 60px;
+//   aspect-ratio: 4;
+//   background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% space;
+//   clip-path: inset(0 100% 0 0);
+//   animation: l1 1s steps(4) infinite;
+// }
+// @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
+
+
+/* 5 ++*/
+.loader-container{
+  height: 50px;
+  margin-left: 15px;
+  display: flex;
+  align-items: center;
+}
+.loader {
+  align-self: baseline;
+  margin: 15px;
+  width: 8px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+}
+@keyframes l5 {
+    0%  {box-shadow: 10px 0 rgb(56, 73, 249), -10px 0 rgba(56, 73, 249, 0.2);background: rgb(56, 73, 249) }
+    33% {box-shadow: 10px 0 rgb(56, 73, 249), -10px 0 rgba(56, 73, 249, 0.2);background: rgba(56, 73, 249, 0.2)}
+    66% {box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgba(56, 73, 249, 0.2)}
+    100%{box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgb(56, 73, 249) }
+}

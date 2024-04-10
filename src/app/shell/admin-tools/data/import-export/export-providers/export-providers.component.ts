@@ -1,8 +1,4 @@
-import { HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, filter, takeUntil, tap } from 'rxjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 
 @Component({
@@ -22,7 +18,7 @@ export class ExportProvidersComponent implements OnInit, OnDestroy {
       const res = window.URL.createObjectURL(newBlob);
       const link = document.createElement('a');
       link.href = res;
-      link.download = 'Providers list.csv';
+      link.download = 'Список надавачів.csv';
       link.click();
     });
   }

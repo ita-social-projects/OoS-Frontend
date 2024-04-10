@@ -8,9 +8,9 @@ describe('ExportProvidersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ExportProvidersComponent ]
-    })
-    .compileComponents();
+      declarations: [ExportProvidersComponent],
+      imports: []
+    }).compileComponents();
 
     fixture = TestBed.createComponent(ExportProvidersComponent);
     component = fixture.componentInstance;
@@ -20,4 +20,6 @@ describe('ExportProvidersComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should get all providers', () => {});
 });
