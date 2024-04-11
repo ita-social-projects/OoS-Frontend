@@ -42,13 +42,17 @@
                     <mat-chip
                       *ngFor="let child of childrenFormControl.value"
                       [removable]="true"
-                      (removed)="onRemoveItem(child, 'children')">
-                      {{ child | getFullName }}
+                      (removed)="onRemoveItem(child, 'children')"
+                      [matTooltip]="child | getFullName"
+                      matTooltipClass="tooltip">
+                      <div class="chip-text">{{ child | getFullName }}</div>
                       <mat-icon matChipRemove>cancel</mat-icon>
                     </mat-chip>
                   </mat-chip-list>
                 </mat-select-trigger>
-                <mat-option *ngFor="let child of approvedChildren.entities" [value]="child" class="dropdown-option">
+                <mat-option *ngFor="let child of approvedChildren.entities" [value]="child" class="dropdown-option" 
+                  [matTooltip]="child | getFullName"
+                  matTooltipClass="tooltip">
                   {{ child | getFullName }}
                 </mat-option>
               </mat-select>
@@ -83,14 +87,18 @@
               [compareWith]="compareEntities">
               <mat-select-trigger>
                 <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
-                    {{ teacher | getFullName }}
+                  <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')" 
+                    [matTooltip]="teacher | getFullName"
+                    matTooltipClass="tooltip">
+                    <div class="chip-text">{{ teacher | getFullName }}</div>
                     <mat-icon matChipRemove>cancel</mat-icon>
                   </mat-chip>
                 </mat-chip-list>
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
-                <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher" class="dropdown-option">
+                <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher" class="dropdown-option" 
+                  [matTooltip]="teacher | getFullName"
+                  matTooltipClass="tooltip">
                   {{ teacher | getFullName }}
                 </mat-option>
               </ng-container>
