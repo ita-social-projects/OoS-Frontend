@@ -97,7 +97,9 @@
             maxlength="2"
             appMinMax
             [directiveFormControl]="AboutFormGroup.get('minAge')"
-            [max]="AboutFormGroup.get('maxAge').value !== null ? AboutFormGroup.get('maxAge').value - 1 : validationConstants.BIRTH_AGE_MAX"
+            [max]="
+              (AboutFormGroup.get('maxAge').value !== null ? AboutFormGroup.get('maxAge').value : validationConstants.BIRTH_AGE_MAX) - 1
+            "
             autocomplete="none" />
         </mat-form-field>
       </div>
@@ -118,7 +120,11 @@
             [directiveFormControl]="AboutFormGroup.get('maxAge')"
             appMinMax
             [max]="validationConstants.BIRTH_AGE_MAX"
-            [min]="AboutFormGroup.get('minAge').value !== null ? AboutFormGroup.get('minAge').value + 1 : undefined"
+            [min]="
+              AboutFormGroup.get('minAge').value !== null || AboutFormGroup.get('maxAge').value === 0
+                ? AboutFormGroup.get('minAge').value + 1
+                : undefined
+            "
             autocomplete="none" />
         </mat-form-field>
       </div>
