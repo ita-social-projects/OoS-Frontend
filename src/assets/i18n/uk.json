@@ -397,7 +397,8 @@
       "REGION": "Область",
       "MINISTRY_SUBMISSION": "Підпорядкування (Міністерство)",
       "USER_DIRECTIONS": "Напрямки для користувача",
-      "TERRITORIAL_COMMUNITY": "Територіальна громада"
+      "TERRITORIAL_COMMUNITY": "Територіальна громада",
+      "SHORT_TITLE": "Скорочена назва"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Виберіть соціальні групи",
