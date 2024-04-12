@@ -13,7 +13,7 @@
           {{ achievementsTypes[achievement.achievementTypeId - 1].title }}
         </h3>
         <h4 class="card_title">{{ 'FORMS.LABELS.DATE' | translate }}</h4>
-        <p class="card_text">{{ achievement.achievementDate | date: 'shortDate' }}</p>
+        <p class="card_text">{{ achievement.achievementDate | date: 'dd/MM/yyyy' }}</p>
         <h4 class="card_title">{{ 'FORMS.LABELS.PARTICIPANTS' | translate }}</h4>
         <div *ngFor="let child of achievement.children">
           <p class="card_text">
