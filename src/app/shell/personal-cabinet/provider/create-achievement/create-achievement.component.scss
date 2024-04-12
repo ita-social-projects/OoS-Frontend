@@ -30,6 +30,17 @@
   color: red;
 }
 
+:host ::ng-deep .mat-standard-chip {
+  max-width: 100%;
+}
+
+.chip-text {
+  width: 100%;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .edit-wrapper {
   margin-top: 1rem;
   padding: 16px;
