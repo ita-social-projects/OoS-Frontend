@@ -9,6 +9,85 @@
     url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format('truetype');
 }
 
+$primary-color: #3849f9;
+
+$config: mat.define-legacy-typography-config(
+  $font-family: 'Innerspace',
+  $button: mat.define-typography-level(13px, 15px, 700)
+);
+
+@mixin mat-button-toggle-typography($config) {
+  .mat-button-toggle,
+  .mat-button-toggle-button {
+    @include mat.typography-level($config, button);
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+@mixin mat-form-typography($config) {
+  .mat-form-field {
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+$primary-palette: mat.define-palette(
+  (
+    50: #eaeaff,
+    100: #cacafe,
+    200: #a4a8fe,
+    300: #7b85fe,
+    400: #5b67fd,
+    500: $primary-color,
+    600: #333fed,
+    700: #2832e0,
+    800: #1d24d5,
+    900: #0000c5,
+    A100: #d8bffc,
+    A200: #bd93fb,
+    A400: #8838f9,
+    A700: #4c00e8,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
+    )
+  )
+);
+
+$accent-palette: mat.define-palette(mat.$deep-orange-palette);
+
+$theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-legacy-typography-config(),
+    density: 0
+  )
+);
+
+@include mat.core();
+@include mat.legacy-core();
+
+@include mat.all-component-themes($theme);
+@include mat.all-legacy-component-themes($theme);
+
+@include mat.button-toggle-typography($config);
+@include mat.legacy-button-typography($config);
+@include mat-form-typography($config);
+
 html,
 body {
   height: 100%;
@@ -84,14 +163,14 @@ a {
 }
 
 .mat-step-icon-selected {
-  border: 2px solid #3849f9;
+  border: 2px solid $primary-color;
   box-sizing: border-box;
-  color: #3849f9 !important;
+  color: $primary-color !important;
   background-color: transparent !important;
 }
 
 .mat-step-label-active.mat-step-label-selected {
-  color: #3849f9 !important;
+  color: $primary-color !important;
 }
 
 .mat-step-label-active {
@@ -111,48 +190,6 @@ a {
     position: relative;
   }
 }
-
-$config: mat.define-legacy-typography-config(
-  $font-family: 'Innerspace',
-  $button: mat.define-typography-level(13px, 15px, 700)
-);
-
-@mixin mat-button-toggle-typography($config) {
-  .mat-button-toggle,
-  .mat-button-toggle-button {
-    @include mat.typography-level($config, button);
-    font-family: 'Open Sans', sans-serif;
-  }
-}
-
-@mixin mat-form-typography($config) {
-  .mat-form-field {
-    font-family: 'Open Sans', sans-serif;
-  }
-}
-
-// Theming workaround for components
-// TODO: Implement themes according to current colors
-$primary: mat.define-palette(mat.$blue-palette);
-$accent: mat.define-palette(mat.$grey-palette);
-$theme: mat.define-light-theme(
-  (
-    color: (
-      primary: $primary,
-      accent: $accent
-    ),
-    typography: mat.define-legacy-typography-config(),
-    density: 0
-  )
-);
-@include mat.all-component-themes($theme);
-@include mat.all-legacy-component-themes($theme);
-
-@include mat.core();
-@include mat.legacy-core();
-@include mat.legacy-button-typography($config);
-@include mat.button-toggle-typography($config);
-@include mat-form-typography($config);
 
 ::-webkit-scrollbar {
   background-color: transparent;
@@ -188,13 +225,13 @@ $theme: mat.define-light-theme(
 .mat-checkbox-checked {
   & .mat-checkbox-background,
   .mat-checkbox-frame {
-    background-color: #3849f9 !important;
+    background-color: $primary-color !important;
     border-radius: 3px;
   }
 }
 
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #3849f9 !important;
+  border-color: $primary-color !important;
   border-width: 5px;
 }
 
@@ -236,7 +273,7 @@ $theme: mat.define-light-theme(
 
       height: auto !important;
 
-      font-family: 'Open Sans';
+      font-family: 'Open Sans', sans-serif;
       font-weight: 700;
       font-size: 13px;
       line-height: 18px;
