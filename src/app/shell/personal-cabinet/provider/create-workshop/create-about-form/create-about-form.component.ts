@@ -55,9 +55,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public useProviderInfoCtrl: FormControl = new FormControl(false);
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
+  public isShowHintAboutWorkshopAutoClosing: boolean = false;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
+  private minimumSeats: number = 1;
 
   constructor(private formBuilder: FormBuilder) {}
 
@@ -74,7 +76,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   }
 
   public get minSeats(): number {
-    return Math.max(this.MIN_SEATS, this.workshop?.takenSeats + (this.workshop?.status !== 'Closed' && 1));
+    if (this.workshop?.takenSeats === 0 || !this.workshop) {
+      return this.minimumSeats;
+    }
+    return this.workshop?.takenSeats;
   }
 
   private get availableSeats(): number {
@@ -120,6 +125,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
+      shortTitle: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, FormValidators.email]),
       minAge: new FormControl('', [Validators.required]),
@@ -134,7 +140,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       payRate: new FormControl({ value: null, disabled: true }, [Validators.required]),
       coverImage: new FormControl(''),
       coverImageId: new FormControl(''),
-      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required]),
+      availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
       competitiveSelection: new FormControl(false),
       competitiveSelectionDescription: null
     });
@@ -145,6 +151,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.availableSeatsControlListener();
     this.priceControlListener();
     this.competitiveSelectionListener();
+    this.showHintAboutClosingWorkshop();
   }
 
   /**
@@ -265,10 +272,20 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       }
     });
 
-    this.AboutFormGroup.get('competitiveSelectionDescription')
-      .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
-      .subscribe((disabilityOptionsDesc: string) =>
-        this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-      );
+    if (this.AboutFormGroup.get('competitiveSelectionDescription')) {
+      this.AboutFormGroup.get('competitiveSelectionDescription')
+        .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
+        .subscribe((disabilityOptionsDesc: string) =>
+          this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
+        );
+    }
+  }
+
+  private showHintAboutClosingWorkshop(): void {
+    this.AboutFormGroup.controls.availableSeats.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((availableSeats: number) => {
+      if (availableSeats) {
+        this.isShowHintAboutWorkshopAutoClosing = availableSeats === this.workshop?.takenSeats;
+      }
+    });
   }
 }

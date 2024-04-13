@@ -6,7 +6,10 @@
     <div fxLayout="column" fxLayoutAlign="space-between space-between">
       <div fxLayout="row" fxLayoutAlign="space-between center">
         <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
-          <h1 class="title">{{ workshop.title }}</h1>
+          <div fxLayout="column" fxLayoutAlign="start center">
+            <h1 class="title">{{ workshop.title }}</h1>
+            <h3 class="short-title" *ngIf="workshop.shortTitle" fxFlexAlign="start">{{ workshop.shortTitle }}</h3>
+          </div>
           <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
             <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
           </ng-container>
@@ -15,6 +18,7 @@
           <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}" />
         </div>
       </div>
+
       <div fxLayout="row">
         <div fxLayout="column">
           <span class="icon-text">

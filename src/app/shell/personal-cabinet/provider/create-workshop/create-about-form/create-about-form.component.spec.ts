@@ -19,6 +19,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
 import { MinMaxDirective } from 'shared/directives/min-max.directive';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { Workshop } from 'shared/models/workshop.model';
 import { CreateAboutFormComponent } from './create-about-form.component';
 
@@ -52,7 +53,8 @@ describe('CreateAboutFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MinMaxDirective,
-        MockWorkingHoursComponent
+        MockWorkingHoursComponent,
+        MockInfoMenuComponent
       ]
     }).compileComponents();
   });
@@ -61,6 +63,7 @@ describe('CreateAboutFormComponent', () => {
     fixture = TestBed.createComponent(CreateAboutFormComponent);
     component = fixture.componentInstance;
     component.provider = {} as any;
+    component.workshop = {} as any;
     component.AboutFormGroup = new FormGroup({
       coverImage: new FormControl(''),
       title: new FormControl(''),
@@ -82,6 +85,46 @@ describe('CreateAboutFormComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  describe('getter minSeats', () => {
+    it('should return minimumSeats when the taken seats in the workshop are equal to 0', () => {
+      component.workshop.takenSeats = 0;
+
+      expect(component.minSeats).toBe((component as any).minimumSeats);
+    });
+
+    it('should return the number of the taken seats in the workshop', () => {
+      component.workshop.takenSeats = 7;
+
+      expect(component.minSeats).toBe(7);
+    });
+
+    it('should return minimumSeats when the workshop is not provided', () => {
+      component.workshop = null;
+
+      expect(component.minSeats).toBe((component as any).minimumSeats);
+    });
+  });
+
+  describe('showHintAboutClosingWorkshop method', () => {
+    it('should assign to isShowHint TRUE when availableSeats are equal to workshop takenSeats', () => {
+      component.workshop.takenSeats = 7;
+
+      component.ngOnInit();
+      component.AboutFormGroup.controls.availableSeats.setValue(7);
+
+      expect(component.isShowHintAboutWorkshopAutoClosing).toBe(true);
+    });
+
+    it('should assign to isShowHint FALSE when availableSeats are NOT equal to workshop takenSeats', () => {
+      component.workshop.takenSeats = 7;
+
+      component.ngOnInit();
+      component.AboutFormGroup.controls.availableSeats.setValue(5);
+
+      expect(component.isShowHintAboutWorkshopAutoClosing).toBe(false);
+    });
   });
 });
 
@@ -105,4 +148,14 @@ class MockValidationHintAboutComponent {
   @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
   @Input() isPhoneNumber: boolean;
+  @Input() minNumberValue: boolean;
+}
+
+@Component({
+  selector: 'app-info-menu',
+  template: ''
+})
+class MockInfoMenuComponent {
+  @Input() type: InfoMenuType;
+  @Input() isOpenByDefault: boolean;
 }

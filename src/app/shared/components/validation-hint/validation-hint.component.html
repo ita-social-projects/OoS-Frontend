@@ -17,6 +17,7 @@
         mustContainLetters && !validationFormControl.errors.minlength && !invalidFieldLength;
         then mustContainLettersTmpl
       "></ng-container>
+    <ng-container *ngIf="minNumberValue; then minNumberValueTmpl"></ng-container>
   </ng-container>
 </small>
 
@@ -72,4 +73,8 @@
 
 <ng-template #mustContainLettersTmpl>
   {{ 'FORMS.VALIDATIONS.MUST_CONTAIN_LETTERS' | translate }}
+</ng-template>
+
+<ng-template #minNumberValueTmpl>
+  {{ 'FORMS.VALIDATIONS.LESS_THAN_PARTICIPANTS' | translate }}
 </ng-template>

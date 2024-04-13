@@ -28,6 +28,9 @@ export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
   // for Date Format Validation
   @Input() public minMaxDate: boolean;
 
+  // For min number validation
+  @Input() public minNumberValue: boolean;
+
   public required: boolean;
   public invalidSymbols: boolean;
   public invalidCharacters: boolean;
