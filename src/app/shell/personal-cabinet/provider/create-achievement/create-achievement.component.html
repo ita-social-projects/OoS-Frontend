@@ -50,9 +50,9 @@
                     </mat-chip>
                   </mat-chip-list>
                 </mat-select-trigger>
-                <mat-option *ngFor="let child of approvedChildren.entities" 
-                  [value]="child" 
-                  class="dropdown-option" 
+                <mat-option *ngFor="let child of approvedChildren.entities"
+                  [value]="child"
+                  class="dropdown-option"
                   [matTooltip]="child | getFullName"
                   matTooltipClass="tooltip">
                   {{ child | getFullName }}
@@ -89,8 +89,8 @@
               [compareWith]="compareEntities">
               <mat-select-trigger>
                 <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let teacher of teachersFormControl.value" 
-                    (removed)="onRemoveItem(teacher, 'teachers')" 
+                  <mat-chip *ngFor="let teacher of teachersFormControl.value"
+                    (removed)="onRemoveItem(teacher, 'teachers')"
                     [matTooltip]="teacher | getFullName"
                     matTooltipClass="tooltip">
                     <div class="chip-text">{{ teacher | getFullName }}</div>
@@ -99,9 +99,9 @@
                 </mat-chip-list>
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
-                <mat-option *ngFor="let teacher of workshop.teachers" 
-                  [value]="teacher" 
-                  class="dropdown-option" 
+                <mat-option *ngFor="let teacher of workshop.teachers"
+                  [value]="teacher"
+                  class="dropdown-option"
                   [matTooltip]="teacher | getFullName"
                   matTooltipClass="tooltip">
                   {{ teacher | getFullName }}
@@ -150,7 +150,7 @@
         mat-button
         type="submit"
         (click)="onSubmit()"
-        [disabled]="!AchievementFormGroup.dirty || AchievementFormGroup.invalid">
+        [disabled]="isSaving || !AchievementFormGroup.dirty || AchievementFormGroup.invalid">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>
