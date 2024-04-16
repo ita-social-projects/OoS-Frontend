@@ -145,8 +145,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       coverImageId: new FormControl(''),
       availableSeats: new FormControl({ value: null, disabled: true }, [Validators.required, Validators.min(this.minSeats)]),
       competitiveSelection: new FormControl(false),
-      competitiveSelectionDescription: new FormControl('', [Validators.required, Validators.pattern(MUST_CONTAIN_LETTERS)]),
-      isNext: this.isNext
+      competitiveSelectionDescription: null
     });
   }
 
@@ -261,6 +260,9 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
       Validators.pattern(MUST_CONTAIN_LETTERS),
       Validators.required
     ]);
+    if (this.workshop.competitiveSelection) {
+      this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
+    }
   }
 
   /**
