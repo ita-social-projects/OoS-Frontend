@@ -287,7 +287,7 @@ export class ProviderState {
 
   @Action(DeleteAchievementById)
   deleteAchievementById({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteAchievementById): Observable<void> {
-    return this.achievementsService.deleteAchievement(payload).pipe(
+    return this.achievementsService.deleteAchievement(payload.id).pipe(
       tap(() => dispatch(new OnDeleteAchievementSuccess(payload))),
       catchError((error: HttpErrorResponse) => dispatch(new OnDeleteAchievementFail(error)))
     );
@@ -301,7 +301,13 @@ export class ProviderState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/details/workshop', payload]);
+    this.router
+      .navigate([`/details/workshop/${payload.workshopId}`], {
+        queryParams: { status: 'Achievements' }
+      })
+      .then(() => {
+        window.location.reload();
+      });
   }
 
   @Action(GetProviderAdminWorkshops)
