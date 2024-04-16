@@ -40,7 +40,7 @@ export class OnUpdateAchievementSuccess {
 
 export class DeleteAchievementById {
   static readonly type = '[provider] delete Achievement';
-  constructor(public payload: string) {}
+  constructor(public payload: Achievement) {}
 }
 
 export class CreateAchievement {
@@ -60,7 +60,7 @@ export class OnCreateAchievementSuccess {
 
 export class OnDeleteAchievementSuccess {
   static readonly type = '[provider] delete Achievement success';
-  constructor(public payload: string) {}
+  constructor(public payload: Achievement) {}
 }
 
 export class OnDeleteAchievementFail {
