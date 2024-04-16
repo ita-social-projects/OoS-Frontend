@@ -263,8 +263,8 @@ export class ProviderState {
   @Action(UpdateAchievement)
   updateAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateAchievement): Observable<Achievement | void> {
     return this.achievementsService.updateAchievement(payload).pipe(
-      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
+      tap((res: Achievement) => dispatch(new OnUpdateAchievementSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateAchievementFail(error)))
     );
   }
 
