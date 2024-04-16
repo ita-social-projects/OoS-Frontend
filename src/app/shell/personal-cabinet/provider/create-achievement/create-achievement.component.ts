@@ -198,7 +198,9 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
           .subscribe(() => {
             this.isSaving = false;
           });
+        return;
       }
+      this.isSaving = false;
     });
   }
 
