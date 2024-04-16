@@ -397,7 +397,8 @@
       "REGION": "Region",
       "MINISTRY_SUBMISSION": "Ministry of submission",
       "USER_DIRECTIONS": "Directions for user",
-      "TERRITORIAL_COMMUNITY": "Territorial community"
+      "TERRITORIAL_COMMUNITY": "Territorial community",
+      "SHORT_TITLE": "Short title"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
