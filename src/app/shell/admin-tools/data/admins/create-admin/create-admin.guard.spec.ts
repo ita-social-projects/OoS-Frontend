@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { ActivatedRouteSnapshot, convertToParamMap } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
+import { AdminRoles } from 'shared/enum/admins';
 
 import { Role } from 'shared/enum/role';
 import { CreateAdminGuard } from './create-admin.guard';
@@ -36,7 +37,7 @@ describe('CreateAdminGuard', () => {
   it('should return TRUE if canActivate called with techAdmin role and creating ministryAdmin', (done) => {
     jest.spyOn(store, 'select').mockReturnValue(of(Role.techAdmin));
 
-    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(Role.ministryAdmin));
+    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(AdminRoles.ministryAdmin));
 
     canActivate.subscribe((value) => {
       expect(value).toBeTruthy();
@@ -47,7 +48,7 @@ describe('CreateAdminGuard', () => {
   it('should return TRUE if canActivate called with ministryAdmin role and creating regionAdmin', (done) => {
     jest.spyOn(store, 'select').mockReturnValue(of(Role.ministryAdmin));
 
-    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(Role.regionAdmin));
+    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(AdminRoles.regionAdmin));
 
     canActivate.subscribe((value) => {
       expect(value).toBeTruthy();
@@ -58,7 +59,7 @@ describe('CreateAdminGuard', () => {
   it('should return TRUE if canActivate called with regionAdmin role and creating areaAdmin', (done) => {
     jest.spyOn(store, 'select').mockReturnValue(of(Role.regionAdmin));
 
-    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(Role.areaAdmin));
+    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(AdminRoles.areaAdmin));
 
     canActivate.subscribe((value) => {
       expect(value).toBeTruthy();
@@ -69,7 +70,7 @@ describe('CreateAdminGuard', () => {
   it('should return FALSE if canActivate called with areaAdmin role and creating areaAdmin', (done) => {
     jest.spyOn(store, 'select').mockReturnValue(of(Role.areaAdmin));
 
-    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(Role.areaAdmin));
+    const canActivate = guard.canActivate(mockActivatedRouteSnapshot(AdminRoles.areaAdmin));
 
     canActivate.subscribe((value) => {
       expect(value).toBeFalsy();
@@ -78,6 +79,6 @@ describe('CreateAdminGuard', () => {
   });
 });
 
-function mockActivatedRouteSnapshot(role: Role): ActivatedRouteSnapshot {
+function mockActivatedRouteSnapshot(role: AdminRoles | Role): ActivatedRouteSnapshot {
   return { paramMap: convertToParamMap({ param: role }) } as ActivatedRouteSnapshot;
 }

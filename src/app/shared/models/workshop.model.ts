@@ -11,6 +11,7 @@ import { Teacher } from './teacher.model';
 export abstract class WorkshopBase {
   id?: string;
   title: string;
+  shortTitle: string;
   phone: string;
   email: string;
   website?: string;
@@ -43,6 +44,7 @@ export abstract class WorkshopBase {
 
   constructor(about: WorkshopAbout, description: Description, address: Address, teachers: Teacher[], provider: Provider, id?: string) {
     this.title = about.title;
+    this.shortTitle = about.shortTitle;
     this.phone = about.phone;
     this.email = about.email;
     this.minAge = about.minAge;
@@ -187,6 +189,7 @@ export interface WorkshopCardParameters extends PaginationParameters {
 
 export interface WorkshopAbout {
   title: string;
+  shortTitle: string;
   phone: string;
   email: string;
   minAge: number;

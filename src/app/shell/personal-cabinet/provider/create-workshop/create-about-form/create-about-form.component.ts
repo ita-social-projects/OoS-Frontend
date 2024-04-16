@@ -125,6 +125,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
         Validators.maxLength(ValidationConstants.INPUT_LENGTH_60),
         Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
+      shortTitle: new FormControl('', [Validators.maxLength(ValidationConstants.INPUT_LENGTH_60)]),
       phone: new FormControl('', [Validators.required, Validators.minLength(ValidationConstants.PHONE_LENGTH)]),
       email: new FormControl('', [Validators.required, FormValidators.email]),
       minAge: new FormControl('', [Validators.required]),
