@@ -283,10 +283,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
     if (this.AboutFormGroup.get('competitiveSelectionDescription')) {
       this.AboutFormGroup.get('competitiveSelectionDescription')
-        .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(1000))
-        .subscribe((disabilityOptionsDesc: string) =>
-          this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-        );
+        .valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$))
+        .subscribe((disabilityOptionsDesc: string) => {
+          console.log('New description:', disabilityOptionsDesc);
+        });
     }
   }
 
