@@ -85,7 +85,7 @@ export class AchievementsComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(filter(Boolean))
       .subscribe(() => {
-        this.store.dispatch(new DeleteAchievementById(achievement.id));
+        this.store.dispatch(new DeleteAchievementById(achievement));
       });
   }
 
