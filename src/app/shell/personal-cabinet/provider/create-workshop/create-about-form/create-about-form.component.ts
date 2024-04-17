@@ -56,7 +56,6 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
-  public isNext: boolean = false;
   private destroy$: Subject<boolean> = new Subject<boolean>();
   private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', [
     Validators.required,
