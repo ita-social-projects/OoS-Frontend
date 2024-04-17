@@ -62,11 +62,11 @@
           <span class="warning-message"> {{ 'BANNERS.ADD_ACHIEVEMENT_PARTICIPANTS' | translate }} </span>
         </ng-template>
 
-        <div class="step-label" *ngIf="!editMode"> {{ 'FORMS.LABELS.TEACHERS' | translate }}<span class="step-required">*</span> </div>
+        <label class="step-label" *ngIf="!editMode" for="teachers"> {{ 'FORMS.LABELS.TEACHERS' | translate }}<span class="step-required">*</span> </label>
 
         <ng-container *ngIf="achievement">
           <div class="edit-wrapper">
-            <label class="step-label" for="teachers">{{ 'BANNERS.PREVIOUSLY_SELECTED_TEACHERS' | translate }} </label>
+            <span class="step-label">{{ 'BANNERS.PREVIOUSLY_SELECTED_TEACHERS' | translate }} </span>
             <ul>
               <li *ngFor="let teacher of achievement.teachers">{{ teacher.title }}</li>
             </ul>
