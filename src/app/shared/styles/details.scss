@@ -56,9 +56,9 @@
       display: flex;
       flex-direction: row;
       align-items: center;
-      color: #333333;
-
+      color: #3849f9;
       &:hover {
+        opacity: 0.5;
         color: #3849f9;
       }
     }
@@ -98,7 +98,17 @@
 @media (max-width: 600px) {
   .title {
     font-size: 20px;
+    line-height: 30px;
   }
+  .short-title {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}
+
+.short-title {
+  font-style: normal;
+  color: #aaaaaa;
 }
 
 .icon-text {

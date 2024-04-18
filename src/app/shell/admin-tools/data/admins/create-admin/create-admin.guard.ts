@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable, filter, map } from 'rxjs';
+import { AdminRoles } from 'shared/enum/admins';
 
 import { Role } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -15,20 +16,21 @@ export class CreateAdminGuard implements CanActivate {
   private role$: Observable<Role>;
 
   public canActivate(next: ActivatedRouteSnapshot): Observable<boolean> {
-    const createRole: Role = next.paramMap.get('param') as Role;
+    const createRole: AdminRoles = next.paramMap.get('param') as AdminRoles;
 
     return this.role$.pipe(
       filter(Boolean),
       map((role: Role) => {
         switch (createRole) {
-          case Role.ministryAdmin:
+          case AdminRoles.ministryAdmin:
             return role === Role.techAdmin;
-          case Role.regionAdmin:
+          case AdminRoles.regionAdmin:
             return canManageInstitution(role);
-          case Role.areaAdmin:
+          case AdminRoles.areaAdmin:
             return canManageRegion(role);
+          default:
+            return false;
         }
-        return false;
       })
     );
   }

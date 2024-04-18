@@ -397,7 +397,8 @@
       "REGION": "Region",
       "MINISTRY_SUBMISSION": "Ministry of submission",
       "USER_DIRECTIONS": "Directions for user",
-      "TERRITORIAL_COMMUNITY": "Territorial community"
+      "TERRITORIAL_COMMUNITY": "Territorial community",
+      "SHORT_TITLE": "Short title"
     },
     "PLACEHOLDERS": {
       "SELECTION_SOCIAL_GROUPS": "Select social groups",
@@ -447,9 +448,11 @@
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",
-      "MUST_CONTAIN_LETTERS": "This field must contain at least one letter."
+      "MUST_CONTAIN_LETTERS": "This field must contain at least one letter.",
+      "LESS_THAN_PARTICIPANTS": "You cannot specify the number of available seats less than the current number of participants."
     },
-    "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. "
+    "EDIT_INSTITUTION_HIERARCHY_WARNING_MSG": "Pay attention that after changing name of direction for \n all other dependant profiles the name also will be changed. ",
+    "WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP": "Pay attention now the number of available places coincides with the number of students in the workshop. Therefore, enrollment will be automatically closed!"
   },
   "FOUND": "Found",
   "FREE_WORKSHOP": "FREE WORKSHOP",
@@ -490,6 +493,7 @@
     "CONTACTS": "Contacts",
     "DESCRIPTION": "Description",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops",
+    "WORKSHOPS_OF_THE_PROVIDER": "Workshops",
     "REVIEWS": "Reviews",
     "TEACHERS": "Teachers",
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
