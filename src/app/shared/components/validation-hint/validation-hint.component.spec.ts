@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testin
 import { FormControl, ValidationErrors } from '@angular/forms';
 import { tap } from 'rxjs';
 
+import { EventEmitter, SimpleChange } from '@angular/core';
 import { HOUSE_REGEX, NAME_REGEX, NO_LATIN_REGEX, SECTION_NAME_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 import { ValidationHintComponent } from './validation-hint.component';
 
@@ -24,6 +25,15 @@ describe('ValidationHintComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit validationFormControl.statusChanges on ngOnChanges if touched', () => {
+    component.validationFormControl.markAsTouched();
+    const spy = jest.spyOn(component.validationFormControl.statusChanges as EventEmitter<any>, 'emit');
+
+    component.ngOnChanges({ isTouched: { currentValue: true } as SimpleChange });
+
+    expect(spy).toHaveBeenCalled();
   });
 
   describe('ngOnInit method', () => {

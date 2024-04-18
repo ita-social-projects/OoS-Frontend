@@ -37,7 +37,7 @@ describe('PhoneFormControlComponent', () => {
     expect(document.querySelector).toHaveReturned();
   }));
 
-  it('should return correctly return country by code', () => {
+  it('should return country correctly when by code when called getCountry', () => {
     const code = 'ua';
     const expectedCountry: Country = {
       name: 'Ukraine (Україна)',

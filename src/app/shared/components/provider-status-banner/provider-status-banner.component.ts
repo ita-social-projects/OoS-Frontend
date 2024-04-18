@@ -1,6 +1,7 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
+import { isValidNumber, parsePhoneNumber } from 'libphonenumber-js';
 
 import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
 import { ProviderStatuses, UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
@@ -52,9 +53,11 @@ export class ProviderStatusBannerComponent implements OnInit {
       this.HostElement.classList.value = ProviderStatuses[UserStatuses.Blocked];
 
       if (this.provider.blockPhoneNumber) {
-        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} ${
-          this.provider.blockPhoneNumber
-        })`;
+        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} `;
+        this.statusDetails +=
+          (isValidNumber(this.provider.phoneNumber)
+            ? parsePhoneNumber(this.provider.blockPhoneNumber).formatInternational()
+            : this.provider.phoneNumber) + ')';
       }
     } else {
       this.iconClasses = `${UserStatusIcons[this.provider.status]} status-icon`;

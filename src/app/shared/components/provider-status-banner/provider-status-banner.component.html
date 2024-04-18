@@ -6,7 +6,10 @@
   <mat-icon class="close-icon" (click)="onClose()">close</mat-icon>
 </div>
 <p class="banner-details">{{ statusDetails | translate }}</p>
-<a *ngIf="provider.status === statuses.Editing && !provider.isBlocked" [routerLink]="editLink"
-  (click)="onActivateEditMode()" class="banner-link">
+<a
+  *ngIf="provider.status === statuses.Editing && !provider.isBlocked"
+  [routerLink]="editLink"
+  (click)="onActivateEditMode()"
+  class="banner-link">
   {{ 'BUTTONS.EDIT' | translate }}
 </a>
