@@ -233,7 +233,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   /**
    * This method fills inputs with information of edited workshop
    */
-  private activateEditMode(): void {
+  public activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
