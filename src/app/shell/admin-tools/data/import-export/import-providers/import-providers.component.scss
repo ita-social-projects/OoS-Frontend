@@ -1,12 +1,18 @@
 @import 'src/app/shared/styles/buttons.scss';
+
+$duplicatedValue: rgba(253, 7, 7, 0.7);
+$emptyField: rgba(253, 7, 7, 0.1);
+$wrongLength: rgba(13, 19, 137, 0.5);
+
+
 .import-buttons {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   .file-name {
     margin-left: 1rem; /* or whatever margin you require */
   }
   .btn {
-    align-self: flex-end;
     text-transform: uppercase;
     height: 40px;
     margin-bottom: 10px;
@@ -22,7 +28,70 @@
   }
 }
 
+@media screen and (max-width:880px){
+  .import-buttons{
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+  .errors-menu{
+    padding-top: 5px;
+  }
+  // mat-slide-toggle-ripple mat-focus-indicator
+.mat-slide-toggle{
 
+  position: relative;
+    .incorrect-row{
+      display: none;
+    }
+    .incorrect-row-num-off{
+      position: absolute;
+      top: 1px;
+      left: 5px;
+      z-index: 1;
+    }
+    .incorrect-row-num-on{
+      position: absolute;
+      top: 1px;
+      left: 22px;
+      z-index: 1;
+      color: white;
+    }
+} 
+  
+}
+
+.file-actions{
+  display: flex;
+  
+}
+.errors-menu{
+  display: flex;
+}
+.big-icon[_ngcontent-xif-c400] {
+  font-size: 20px;
+  line-height: 25px;
+}
+
+.errors-types{
+  margin: 20px 20px;
+  ul{
+    padding: 0;
+    list-style-type: none;
+    li{
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
+      .color-box{
+        width: 30px;
+        height: 15px;
+        border-radius: 50px;
+        border: 1px solid inherit;
+        margin-right: 15px;
+      }
+    }
+  }
+}
 
 .wrapper-provider-list {
   position: relative;
@@ -74,38 +143,29 @@
   }
 }
 
-.false-field {
-  background-color: rgba(253, 7, 7, 0.1);
+.false-field{
+  &-empty{
+    background-color: $emptyField;
+  }
+  &-duplicate{
+    background-color: $duplicatedValue;
+  }
+  &-wrong-length{
+    background-color: $wrongLength;
+  }
+  &-wrong-format{
+    background-color: rgb(255, 255, 0, 0.5);
+  }
+  &-wrong-language{
+    background-color: rgba(34, 176, 18, 0.5);
+  }
 }
 
 .mat-slide-toggle{
-  margin: 0 16px 10px;
+  margin: 3px 16px 10px;
   color:red;
 }
 
-// .loader {
-//   width: 60px;
-//   aspect-ratio: 4;
-//   background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% space;
-//   clip-path: inset(0 100% 0 0);
-//   animation: l1 1s steps(4) infinite;
-// }
-// @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
-
-
-/* 1 +++*/
-/* HTML: <div class="loader"></div> */
-// .loader {
-//   width: 60px;
-//   aspect-ratio: 4;
-//   background: radial-gradient(circle closest-side,#000 90%,#0000) 0/calc(100%/3) 100% space;
-//   clip-path: inset(0 100% 0 0);
-//   animation: l1 1s steps(4) infinite;
-// }
-// @keyframes l1 {to{clip-path: inset(0 -34% 0 0)}}
-
-
-/* 5 ++*/
 .loader-container{
   height: 50px;
   margin-left: 15px;
@@ -126,3 +186,4 @@
     66% {box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgba(56, 73, 249, 0.2)}
     100%{box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgb(56, 73, 249) }
 }
+

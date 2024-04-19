@@ -28,7 +28,8 @@ export class AdminImportExportService {
   //   return this.http.post<any[]>(`${this.baseApiUrl}/providers`, providers);
   // }
 }
+
 export interface IEmailsEdrpous {
-  edrpous: string[];
-  emails: string[];
+  edrpous: Object;
+  emails: Object;
 }

@@ -4,12 +4,13 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import * as XLSX from 'xlsx/xlsx.mjs';
-import { AdminImportExportService, IEmailsEdrpous } from 'shared/services/admin-import-export/admin-import-export.service';
+import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
+import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 
 const standartHeaders = [
   'Назва закладу ',
   'Форма власності',
-  'ЄДРПОУ/ІПН',
+  'ЄДРПОУ',
   'Ліцензія №',
   'Населений пункт',
   'Адреса',
@@ -17,6 +18,8 @@ const standartHeaders = [
   'Телефон'
 ];
 
+
+// let 60str = 'йцукенгшщзхїфівапролджєйцукеншщзхїєждлорпавіфйцукенгшщзхїєж'
 // const data = [
 //   {
 //     providerName: 'Клуб спортивного бального танцю',
@@ -147,34 +150,31 @@ export class ImportProvidersComponent implements OnInit {
           header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
           range: 1
         });
-        // this.verifyEmailsEdrpous(providers).subscribe(data => {
-        //   this.checkForInvalidData(providers);
-        //   this.dataSource = providers;
-        //   this.dataSourceInvalid = this.filterInvalidProviders(providers);
-        //   this.isWaiting = false;
-        // });
-         setTimeout(() =>this.verifyEmailsEdrpous(providers).subscribe(data => {
+        providers.forEach(elem => {
+          elem.id = providers.indexOf(elem);
+        });
+        this.verifyEmailsEdrpous(providers).subscribe(data => {
           console.log(data);
-          this.checkForInvalidData(providers);
+          this.checkForInvalidData(providers, data);
           this.dataSource = providers;
           this.dataSourceInvalid = this.filterInvalidProviders(providers);
           this.isWaiting = false;
-        }), 2000);
+        });
       }
     };
   }
 
   verifyEmailsEdrpous(providers: any): any {
-    const emailsEdrpous: IEmailsEdrpous = {
-      edrpous: [],
-      emails: []
+    const emailsEdrpous = {
+      edrpous: {},
+      emails: {}
     };
-    providers.forEach((elem) => {
-      emailsEdrpous.emails.push(elem.email);
-      emailsEdrpous.edrpous.push(elem.identifier ? elem.identifier.toString() : '');
-    });
+    for (let i = 0; i < providers.length; i++) {
+      emailsEdrpous.edrpous[providers[i].id] = providers[i].identifier;
+      emailsEdrpous.emails[providers[i].id] = providers[i].email;
+    }
+    console.log(emailsEdrpous);
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
-    // console.log(emailsEdrpous);
   }
 
 
@@ -186,40 +186,63 @@ export class ImportProvidersComponent implements OnInit {
     this.convertExcelToJSON(event);
   }
 
-  // public checkForInvalidData(providers: any[]): any {
-  //   return providers.forEach((elem) => {
-  //     elem.errors = {
-  //       providerName: !elem.providerName?elem.providerName || ' ':null,
-  //       ownership: !elem.ownership?elem.ownership || ' ':null,
-  //       identifier: ( !elem.identifier || elem.identifier?.toString().length !== 8 )?elem.identifier || ' ':null,
-  //       licenseNumber:!elem.licenseNumber?elem.licenseNumber || ' ':null,
-  //       settlement:!elem.settlement?elem.settlement || ' ':null,
-  //       address:!elem.address?elem.address || ' ':null,
-  //       email:!elem.email?elem.email || ' ':null,
-  //       phoneNumber:(!elem.phoneNumber || elem.phoneNumber?.toString().length !== 9 )?elem.phoneNumber || ' ':null
-  //     };
-  //     console.log(elem);
-  //   });
-  // }
-
-
-  // alternative ------------------------------------------------------------------------------
-
-  public checkForInvalidData(providers: any[]): any {
+  public checkForInvalidData(providers: any[], emailsEdrpous: any): any {
     return providers.forEach((elem) => {
       elem.errors = {};
-      !elem.providerName ? elem.errors.providerName = elem.providerName || ' ' : null;
-      !elem.ownership ? elem.errors.ownership = elem.ownership || ' ' : null;
-      !elem.identifier || elem.identifier?.toString().length !== 8 ? elem.errors.identifier = elem.identifier || ' ' : null;
-      !elem.licenseNumber ? elem.errors.licenseNumber = elem.licenseNumber || ' ' : null;
-      !elem.settlement ? elem.errors.settlement = elem.settlement || ' ' : null;
-      !elem.address ? elem.errors.address = elem.address || ' ' : null;
-      !elem.email ? elem.errors.email = elem.email || ' ' : null;
-      !elem.phoneNumber ? elem.errors.phoneNumber = elem.phoneNumber || ' ' : null;
-      // console.log(elem);
+      // Provider name required, min/max length check
+      if (!elem.providerName) {
+        elem.errors.providerNameEmpty = true;
+      } else if (elem.providerName.length <= 1 || elem.providerName.length > 60) {
+        elem.errors.providerNameLength = true;
+      }
+      // Ownership required
+      if (!elem.ownership) {
+        elem.errors.ownershipEmpty = true;
+      }
+      // EDRPOU IPN required, format, duplicate
+      if (!elem.identifier) {
+        elem.errors.identifierEmpty = true;
+      } else if (!EDRPOU_IPN_REGEX.test(elem.identifier)) {
+        elem.errors.identifierFormat = true;
+      } else if (emailsEdrpous.edrpous.includes(elem.id)) {
+        elem.errors.identifierDuplicate = true;
+      }
+      // License required----
+      if (!elem.licenseNumber) {
+        elem.errors.licenseNumberEmpty = true;
+      }
+      // Settlement required, min/max length check, language
+      if (!elem.settlement) {
+        elem.errors.settlementEmpty = true;
+      } else if (elem.settlement.length <= 1 || elem.settlement.length > 60) {
+        elem.errors.settlementLength = true;
+      } else if (!NO_LATIN_REGEX.test(elem.settlement)) {
+        elem.errors.settlementLanguage = true;
+      }
+      // Address required, language
+      if (!elem.address) {
+        elem.errors.addressEmpty = true;
+      } else if (!STREET_REGEX.test(elem.address)) {
+        elem.errors.addressLanguage = true;
+      }
+      // Email required, format, duplicate
+      if (!elem.email) {
+        elem.errors.emailEmpty = true;
+      } else if (!EMAIL_REGEX.test(elem.email)) {
+        elem.errors.emailFormat = true;
+      } else if (emailsEdrpous.emails.includes(elem.id)) {
+        elem.errors.emailDuplicate = true;
+      }
+      // Phone number required, format
+      if (!elem.phoneNumber) {
+        elem.errors.phoneNumberEmpty = true;
+      } else if ((/^\d+$/).test(elem.phoneNumber)) {
+        elem.errors.phoneNumberFormat = true;
+      }
+
+      console.log(elem);
     });
   }
-  // alternative ------------------------------------------------------------------------------
 
   public filterInvalidProviders(providers: any[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find(e => e !== null));
@@ -227,11 +250,12 @@ export class ImportProvidersComponent implements OnInit {
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
     for (let i = 0; i < standartHeaders.length; i++) {
       if (currentHeaders[i] !== standartHeaders[i]) {
-        alert(`невідповідність в заголовку "${currentHeaders[i]}",
+        this.isWaiting = false;
+        setTimeout(() => alert(`невідповідність в заголовку "${currentHeaders[i]}",
 
         Зразок:
-        Назва закладу | Форма власності | ЄДРПОУ/ІПН | Ліцензія № |
-        Населений пункт | Адреса | Електронна пошта | Телефон`);
+        Назва закладу | Форма власності | ЄДРПОУ | Ліцензія № |
+        Населений пункт | Адреса | Електронна пошта | Телефон`));
         return false;
       }
     }

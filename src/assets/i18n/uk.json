@@ -885,6 +885,7 @@
     "SELECT_FILE": "Вибрати файл",
     "SELECT_ANOTHER_FILE": "Обрати інший файл",
     "SUBMIT_FILE": "Надіслати файл",
+    "INCORRECT_ROWS":"Не валідних рядків",
     "PROVIDERS_LIST": {
       "PROVIDER_NAME": "Назва закладу",
       "OWNERSHIP": "Форма власності",
@@ -894,6 +895,14 @@
       "ADDRESS": "Адреса",
       "EMAIL": "Електронна пошта",
       "PHONE_NUMBER": "Телефон"
+    },
+    "ERRORS": {
+      "ERRORS_TYPES":"Типи помилок",
+      "DATA_DUPLICATE":"Інформація вже існує в базі даних",
+      "MISSING_INFO_EMPTY_FIELD":"Відсутня інформація/пусте поле",
+      "WRONG_LENGTH":"Некоректна кількість знаків",
+      "WRONG_FORMAT":"Некоректний формат",
+      "WRONG_LANGUAGE":"Некоректно вибрана мова"
     }
   }
 }

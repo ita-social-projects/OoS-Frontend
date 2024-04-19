@@ -1,20 +1,51 @@
 <div class="import-buttons">
-  <div>
-    <button type="button" mat-raised-button (click)="fileInput.click()">
-      {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
+  <div class="file-actions">
+    <div>
+      <button type="button" mat-raised-button (click)="fileInput.click()">
+        {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
+      </button>
+      <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
+      <span class="file-name">{{ selectedFile?.name }}</span>
+    </div>
+    <div class="loader-container">
+      <div class="loader" *ngIf="isWaiting"></div>
+    </div>
+    <button *ngIf="dataSource" class="btn" mat-raised-button [disabled]="dataSourceInvalid.length > 0">
+      {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
     </button>
-    <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
-    <span class="file-name">{{ selectedFile?.name }}</span>
   </div>
-  <div class="loader-container">
-    <div class="loader" *ngIf="isWaiting"></div>
+  <div class="errors-menu">
+    <ng-container *ngIf="dataSourceInvalid?.length > 0">
+      <mat-slide-toggle [(ngModel)]="isToggle" color="warn"><span class="incorrect-row">{{'IMPORT/EXPORT.INCORRECT_ROWS' | translate}} :</span><span [ngClass]="{ 'incorrect-row-num-off': !isToggle, 'incorrect-row-num-on': isToggle}">{{ dataSourceInvalid.length }}</span></mat-slide-toggle>
+    </ng-container>
+    <app-info-menu *ngIf="dataSourceInvalid?.length > 0" style="font-size: 20px; margin-bottom: 10px; display: flex" [isBigIcon]="true">
+      <div class="errors-types">
+        <h3>{{'IMPORT/EXPORT.ERRORS.ERRORS_TYPES' | translate}}</h3>
+        <ul>
+          <li>
+            <div class="color-box false-field-duplicate"></div>
+            <p>{{'IMPORT/EXPORT.ERRORS.DATA_DUPLICATE' | translate}}</p>
+          </li>
+          <li>
+            <div class="color-box false-field-empty"></div>
+            <p>{{'IMPORT/EXPORT.ERRORS.MISSING_INFO_EMPTY_FIELD' | translate}}</p>
+          </li>
+          <li>
+            <div class="color-box false-field-wrong-length"></div>
+            <p>{{'IMPORT/EXPORT.ERRORS.WRONG_LENGTH' | translate}}</p>
+          </li>
+          <li>
+            <div class="color-box false-field-wrong-format"></div>
+            <p>{{'IMPORT/EXPORT.ERRORS.WRONG_FORMAT' | translate}}</p>
+          </li>
+          <li>
+            <div class="color-box false-field-wrong-language"></div>
+            <p>{{'IMPORT/EXPORT.ERRORS.WRONG_LANGUAGE' | translate}}</p>
+          </li>
+        </ul>
+      </div>
+    </app-info-menu>
   </div>
-  <button *ngIf="dataSource" class="btn" mat-raised-button [disabled]="dataSourceInvalid.length > 0">
-    {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
-  </button>
-  <ng-container *ngIf="dataSourceInvalid?.length > 0">
-    <mat-slide-toggle [(ngModel)]="isToggle" color="warn">{{ 'Не валідних рядків :' + dataSourceInvalid.length }}</mat-slide-toggle>
-  </ng-container>
 </div>
 
 <ng-container *ngIf="isToggle ? dataSourceInvalid : dataSource">
@@ -28,49 +59,68 @@
           </ng-container>
           <ng-container matColumnDef="provider name">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PROVIDER_NAME' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.providerName }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.providerNameEmpty,
+            'false-field-wrong-length': element.errors.providerNameLength}">
               {{ element.providerName }}
             </td>
           </ng-container>
           <ng-container matColumnDef="ownership">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.OWNERSHIP' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.ownership }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.ownershipEmpty }">
               {{ element.ownership }}
             </td>
           </ng-container>
           <ng-container matColumnDef="identifier">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.IDENTIFIER' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.identifier}">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'false-field-empty': element.errors.identifierEmpty,
+                'false-field-duplicate': element.errors.identifierDuplicate,
+                'false-field-wrong-format': element.errors.identifierFormat
+              }">
               {{ element.identifier }}
             </td>
           </ng-container>
           <ng-container matColumnDef="license number">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.LICENSE_NUMBER' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.licenseNumber }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.licenseNumberEmpty }">
               {{ element.licenseNumber }}
             </td>
           </ng-container>
           <ng-container matColumnDef="settlement">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.SETTLEMENT' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.settlement }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.settlementEmpty,
+          'false-field-wrong-length': element.errors.settlementLength,
+          'false-field-wrong-language': element.errors.settlementLanguage }">
               {{ element.settlement }}
             </td>
           </ng-container>
           <ng-container matColumnDef="address">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.ADDRESS' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.address }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.addressEmpty,
+            'false-field-wrong-language':element.errors.addressLanguage }">
               {{ element.address }}
             </td>
           </ng-container>
           <ng-container matColumnDef="email">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.EMAIL' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.email }">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'false-field-empty': element.errors.emailEmpty,
+                'false-field-duplicate': element.errors.emailDuplicate,
+                'false-field-wrong-format': element.errors.emailFormat
+              }">
               {{ element.email }}
             </td>
           </ng-container>
           <ng-container matColumnDef="phone number">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PHONE_NUMBER' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field': element.errors.phoneNumber }">
+            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.phoneNumberEmpty,
+          'false-field-wrong-format': element.errors.phoneNumberFormat }">
               {{ element.phoneNumber }}
             </td>
           </ng-container>
