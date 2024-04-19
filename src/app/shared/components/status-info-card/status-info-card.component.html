@@ -6,6 +6,6 @@
     >
   </div>
   <div class="application-info-description">
-    <span *ngFor="let status of statuses | keyvalue" class=" {{ status }}">{{ applicationStatusDescription[status.key] | translate }}</span>
+    <span *ngFor="let status of statuses | keyvalue" class="{{ status }}">{{ applicationStatusDescription[status.key] | translate }}</span>
   </div>
 </div>

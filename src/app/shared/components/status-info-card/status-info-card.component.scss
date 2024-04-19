@@ -8,7 +8,7 @@
   width: max-content;
   max-width: max-content;
   font-size: 13px;
-  font: Open Sans;
+  font-family: Open Sans;
   font-weight: normal;
 }
 .application-info-description-card {
@@ -26,8 +26,6 @@
   display: flex;
   flex-direction: row;
   max-width: max-content;
-  font-size: 13px;
-  line-height: 17px;
 }
 
 .application-info-description,
@@ -40,7 +38,7 @@
   font-size: 13px;
   font-weight: normal;
   line-height: 17px;
-  font: Open Sans;
+  font-family: Open Sans;
   font-style: normal;
   color: black;
 
