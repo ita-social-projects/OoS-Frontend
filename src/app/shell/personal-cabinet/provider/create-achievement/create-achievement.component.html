@@ -50,7 +50,8 @@
                     </mat-chip>
                   </mat-chip-list>
                 </mat-select-trigger>
-                <mat-option *ngFor="let child of approvedChildren.entities"
+                <mat-option
+                  *ngFor="let child of approvedChildren.entities"
                   [value]="child"
                   class="dropdown-option"
                   [matTooltip]="child | getFullName"
@@ -89,7 +90,8 @@
               [compareWith]="compareEntities">
               <mat-select-trigger>
                 <mat-chip-list #chipList>
-                  <mat-chip *ngFor="let teacher of teachersFormControl.value"
+                  <mat-chip
+                    *ngFor="let teacher of teachersFormControl.value"
                     (removed)="onRemoveItem(teacher, 'teachers')"
                     [matTooltip]="teacher | getFullName"
                     matTooltipClass="tooltip">
@@ -99,7 +101,8 @@
                 </mat-chip-list>
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
-                <mat-option *ngFor="let teacher of workshop.teachers"
+                <mat-option
+                  *ngFor="let teacher of workshop.teachers"
                   [value]="teacher"
                   class="dropdown-option"
                   [matTooltip]="teacher | getFullName"
