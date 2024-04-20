@@ -5,7 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -82,7 +82,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
