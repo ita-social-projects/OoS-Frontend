@@ -30,6 +30,7 @@ export class ValidationConstants {
   static readonly INPUT_LENGTH_60 = 60;
   static readonly INPUT_LENGTH_100 = 100;
   static readonly INPUT_LENGTH_256 = 256;
+  static readonly INPUT_LENGTH_500 = 500;
 
   static readonly MAX_KEYWORDS_LENGTH = 5;
   static readonly PHONE_LENGTH = 9;
