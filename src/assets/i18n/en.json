@@ -225,7 +225,8 @@
       "ACCEPTED_FOR_SELECTION": "Accepted for selection",
       "STUDYING_FOR_YEARS": "Studying for 1-11 years",
       "COMPLETED": "Completed",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "BANNED": "Blocked"
     },
     "APPLICATION_DESCRIPTION": {
       "PENDING": "A new application created, awaiting confirmation from the service provider",
@@ -235,7 +236,8 @@
       "ACCEPTED_FOR_SELECTION": "User accepted for competitive selection (with additional information about selection)",
       "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
       "COMPLETED": "User completed studying",
-      "BLOCKED": "The user has violated the Terms of Use of the Platform"
+      "BLOCKED": "The user has violated the Terms of Use of the Platform",
+      "BANNED": "The user has violated the Terms of Use of the Platform"
     },
     "USER_STATUSES": {
       "NEVER_LOGGED": "Never logged",
@@ -490,6 +492,7 @@
     "CONTACTS": "Contacts",
     "DESCRIPTION": "Description",
     "OTHER_WORKSHOPS_OF_THE_PROVIDER": "More workshops",
+    "WORKSHOPS_OF_THE_PROVIDER": "Workshops",
     "REVIEWS": "Reviews",
     "TEACHERS": "Teachers",
     "ABOUT_THE_PROVIDER_INFO": "Information about the provider",
