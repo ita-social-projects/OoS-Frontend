@@ -56,9 +56,11 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   public availableSeatsRadioBtnControl: FormControl = new FormControl(true);
   public competitiveSelectionRadioBtn: FormControl = new FormControl(false);
   public isShowHintAboutWorkshopAutoClosing: boolean = false;
-
   private destroy$: Subject<boolean> = new Subject<boolean>();
-  private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', Validators.required);
+  private competitiveSelectionDescriptionFormControl: FormControl = new FormControl('', [
+    Validators.required,
+    Validators.pattern(MUST_CONTAIN_LETTERS)
+  ]);
   private minimumSeats: number = 1;
 
   constructor(private formBuilder: FormBuilder) {}
@@ -231,7 +233,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
   /**
    * This method fills inputs with information of edited workshop
    */
-  private activateEditMode(): void {
+  public activateEditMode(): void {
     this.AboutFormGroup.patchValue(this.workshop, { emitEvent: false });
     if (this.workshop.coverImageId) {
       this.AboutFormGroup.get('coverImageId').setValue([this.workshop.coverImageId], { emitEvent: false });
@@ -253,7 +255,13 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     }
 
     this.competitiveSelectionRadioBtn.setValue(this.workshop.competitiveSelection);
-    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, Validators.required);
+    this.competitiveSelectionDescriptionFormControl = new FormControl(this.workshop.competitiveSelectionDescription, [
+      Validators.pattern(MUST_CONTAIN_LETTERS),
+      Validators.required
+    ]);
+    if (this.workshop.competitiveSelection) {
+      this.AboutFormGroup.setControl('competitiveSelectionDescription', this.competitiveSelectionDescriptionFormControl);
+    }
   }
 
   /**
@@ -274,10 +282,10 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
 
     if (this.AboutFormGroup.get('competitiveSelectionDescription')) {
       this.AboutFormGroup.get('competitiveSelectionDescription')
-        .valueChanges.pipe(takeUntil(this.destroy$), debounceTime(100))
-        .subscribe((disabilityOptionsDesc: string) =>
-          this.AboutFormGroup.get('competitiveSelectionDescription').setValue(disabilityOptionsDesc)
-        );
+        .valueChanges.pipe(debounceTime(1000), takeUntil(this.destroy$))
+        .subscribe((disabilityOptionsDesc: string) => {
+          console.log('New description:', disabilityOptionsDesc);
+        });
     }
   }
 
