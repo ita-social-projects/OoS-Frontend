@@ -8,7 +8,7 @@
   "CHILDREN": "Діти",
   "ALL_CHILDREN": "Всі діти",
   "ALL_WORKSHOPS": "Всі гуртки",
-  "APPLICATIONS": "Заяви",
+  "APPLICATIONS": "Заявки",
   "APPLY_AN_APPLICATION": "ПОДАТИ ЗАЯВУ",
   "AVAILABLE": "Наявні",
   "AWAITING_CONFIRMATION": "Очікує підтвердження",
@@ -49,8 +49,8 @@
       "UNREAD_MESSAGE_ABLATIVE": "непрочитаних повідомлень"
     },
     "APPLICATION": {
-      "APPLICATION": "заява",
-      "APPLICATIONS": "заяви",
+      "APPLICATION": "заявка",
+      "APPLICATIONS": "заявки",
       "APPLICATION_ABLATIVE": "заявк"
     },
     "APPLICATION_APPROVED": {
@@ -59,9 +59,9 @@
       "APPLICATION_ACCEPTED_ABLATIVE": "заявок зараховано"
     },
     "APPLICATION_CHANGES": {
-      "CHANGE_IN_APPLICATIONS": "зміна в заявах",
-      "CHANGES_IN_APPLICATIONS": "зміни в заявах",
-      "CHANGE_IN_APPLICATIONS_ABLATIVE": "змін в заявах"
+      "CHANGE_IN_APPLICATIONS": "зміна в заявках",
+      "CHANGES_IN_APPLICATIONS": "зміни в заявках",
+      "CHANGE_IN_APPLICATIONS_ABLATIVE": "змін в заявках"
     },
     "APPLICATION_PENDING": {
       "APPLICATION_PENDING_CONFIRMATION": "заявка очікує підтвердження",
@@ -118,7 +118,7 @@
       "MAIN_PAGE": "Головна сторінка",
       "MESSAGES": "Повідомлення",
       "NEW_WORKSHOP": "Новий гурток",
-      "NEW_WORKSHOP_APPLICATION": "Заява на гурток",
+      "NEW_WORKSHOP_APPLICATION": "Заявка на гурток",
       "PERSONAL_INFORMATION": "Особиста інформація",
       "PLATFORM": "Портал",
       "PORTAL": "Портал",
@@ -225,17 +225,19 @@
       "ACCEPTED_FOR_SELECTION": "Прийнято до конкурсного відбору",
       "STUDYING_FOR_YEARS": "Навчається 1-11 років",
       "COMPLETED": "Завершено",
-      "BLOCKED": "Заблоковано"
+      "BLOCKED": "Заблоковано",
+      "BANNED": "Заблоковано"
     },
     "APPLICATION_DESCRIPTION": {
-      "PENDING": "Нова створена заява, яка очікує підтвердження від надавача послуг",
-      "APPROVED": "Заява підтверджена/користувача зараховано до гуртка/секції/школи",
+      "PENDING": "Нова створена заявка, яка очікує підтвердження від надавача послуг",
+      "APPROVED": "Заявка підтверджена/користувача зараховано до гуртка/секції/школи",
       "REJECTED": "Користувачеві відмовлено у зарахуванні з причиною",
       "LEFT": "Користувач покинув гурток самостійно",
       "ACCEPTED_FOR_SELECTION": "Користувача прийнято до конкурсного відбору (з додатковою інформацією про відбір)",
       "STUDYING_FOR_YEARS": "Користувач навчається в школі/гуртку 1 рік, 2 роки і т.д. і продовжує навчатися",
       "COMPLETED": "Користувач завершив навчання",
-      "BLOCKED": "Користувач порушив умови використання платформи"
+      "BLOCKED": "Користувач порушив умови використання платформи",
+      "BANNED": "Користувач порушив умови використання платформи"
     },
     "USER_STATUSES": {
       "NEVER_LOGGED": "Очікує логування",
@@ -412,8 +414,8 @@
       "CHILDREN": "Діти",
       "SEARCH_NAME_PHONE_EMAIL": "Пошук за ПІБ, електронною поштою, телефоном",
       "SEARCH_PROVIDER_CHILD_WORKSHOP": "Пошук за закладом, дитиною чи назвою гуртка",
-      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, електронною поштою, телефоном, містом чи статусом",
-      "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПОУ, електронною поштою, телефоном",
+      "SEARCH_NAME_EMAIL_PHONE_CITY_STATUS": "Пошук за ПІБ, імейл, телефоном, містом чи статусом",
+      "SEARCH_PROVIDER_EDRPO_MAIL_PHONE": "Пошук за закладом, ЄДРПОУ, імейл, телефоном",
       "SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE": "Пошук за ПІБ, імейлом, містом, типом чи зміною",
       "SEARCH_BY_DIRECTIONS": "Пошук за напрямками",
       "ENTER_DATE_RANGE": "Введіть діапазон дат",

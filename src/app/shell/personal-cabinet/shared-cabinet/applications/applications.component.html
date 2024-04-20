@@ -3,14 +3,21 @@
     <div *ngIf="role === Role.techAdmin" class="search-area">
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-        <input matInput [formControl]="searchFormControl" type="text" class="search"
+        <input
+          matInput
+          [formControl]="searchFormControl"
+          type="text"
+          class="search"
           placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_PROVIDER_CHILD_WORKSHOP' | translate }}" />
       </div>
     </div>
     <app-info-menu [isBigIcon]="true" [type]="InfoMenuType.Component">
-        <app-status-info-card></app-status-info-card>
+      <app-status-info-card></app-status-info-card>
     </app-info-menu>
-    <app-entity-checkbox-dropdown *ngIf="dropdownEntities" [entities]="dropdownEntities" [declination]="declination"
+    <app-entity-checkbox-dropdown
+      *ngIf="dropdownEntities"
+      [entities]="dropdownEntities"
+      [declination]="declination"
       (entityCheck)="onEntitiesSelect($event)">
     </app-entity-checkbox-dropdown>
   </div>
@@ -48,18 +55,29 @@
   </div>
 </div>
 
-<app-paginator *ngIf="!(isLoadingCabinet$ | async) && applicationCards" [totalEntities]="applicationCards.totalAmount"
-  [currentPage]="currentPage" [itemsPerPage]="applicationParams.size" (pageChange)="onPageChange($event)"
+<app-paginator
+  *ngIf="!(isLoadingCabinet$ | async) && applicationCards"
+  [totalEntities]="applicationCards.totalAmount"
+  [currentPage]="currentPage"
+  [itemsPerPage]="applicationParams.size"
+  (pageChange)="onPageChange($event)"
   (itemsPerPageChange)="onItemsPerPageChange($event)">
 </app-paginator>
 
 <ng-template #Applications let-applicationCards>
   <ng-container *ngIf="!(isLoadingCabinet$ | async)">
     <ng-container *ngIf="applicationCards && applicationCards.totalAmount; else isEmptyList">
-      <app-application-card *ngFor="let application of applicationCards.entities" [application]="application"
-        [userRole]="role" [isMobileView]="isMobileView" (approve)="approve.emit($event)"
-        (acceptForSelection)="acceptForSelection.emit($event)" (reject)="reject.emit($event)"
-        (unblock)="unblock.emit($event)" (block)="block.emit($event)" (leave)="leave.emit($event)"
+      <app-application-card
+        *ngFor="let application of applicationCards.entities"
+        [application]="application"
+        [userRole]="role"
+        [isMobileView]="isMobileView"
+        (approve)="approve.emit($event)"
+        (acceptForSelection)="acceptForSelection.emit($event)"
+        (reject)="reject.emit($event)"
+        (unblock)="unblock.emit($event)"
+        (block)="block.emit($event)"
+        (leave)="leave.emit($event)"
         (sendMessage)="sendMessage.emit($event)">
       </app-application-card>
     </ng-container>
