@@ -16,7 +16,7 @@
             class="step-input"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_ACHIEVEMENT' | translate }}">
             <mat-option *ngFor="let achievement of achievementsTypes$ | async" [value]="achievement.id">
-              <div showTooltipIfTruncated [matTooltip]="achievement.title" matTooltipClass="tooltip" matTooltipPosition="right">
+              <div class="truncated-text" showTooltipIfTruncated [matTooltip]="achievement.title" matTooltipClass="tooltip" matTooltipPosition="right">
                 {{ achievement.title }}
               </div>
             </mat-option>
@@ -41,7 +41,7 @@
                       *ngFor="let child of childrenFormControl.value"
                       [removable]="true"
                       (removed)="onRemoveItem(child, 'children')">
-                      <div class="chip-text" showTooltipIfTruncated [matTooltip]="child | getFullName" matTooltipClass="tooltip">
+                      <div class="truncated-text" showTooltipIfTruncated [matTooltip]="child | getFullName" matTooltipClass="tooltip" matTooltipPosition="left">
                         {{ child | getFullName }}
                       </div>
                       <mat-icon matChipRemove>cancel</mat-icon>
@@ -49,7 +49,7 @@
                   </mat-chip-list>
                 </mat-select-trigger>
                 <mat-option *ngFor="let child of approvedChildren.entities" [value]="child" class="dropdown-option">
-                  <div showTooltipIfTruncated [matTooltip]="child | getFullName" matTooltipClass="tooltip" matTooltipPosition="right">
+                  <div class="truncated-text" showTooltipIfTruncated [matTooltip]="child | getFullName" matTooltipClass="tooltip" matTooltipPosition="right">
                     {{ child | getFullName }}
                   </div>
                 </mat-option>
@@ -86,7 +86,7 @@
               <mat-select-trigger>
                 <mat-chip-list #chipList>
                   <mat-chip *ngFor="let teacher of teachersFormControl.value" (removed)="onRemoveItem(teacher, 'teachers')">
-                    <div class="chip-text" showTooltipIfTruncated [matTooltip]="teacher | getFullName" matTooltipClass="tooltip">
+                    <div class="truncated-text" showTooltipIfTruncated [matTooltip]="teacher | getFullName" matTooltipClass="tooltip" matTooltipPosition="left">
                       {{ teacher | getFullName }}
                     </div>
                     <mat-icon matChipRemove>cancel</mat-icon>
@@ -95,7 +95,7 @@
               </mat-select-trigger>
               <ng-container *ngIf="workshop">
                 <mat-option *ngFor="let teacher of workshop.teachers" [value]="teacher" class="dropdown-option">
-                  <div showTooltipIfTruncated [matTooltip]="teacher | getFullName" matTooltipClass="tooltip" matTooltipPosition="right">
+                  <div class="truncated-text" showTooltipIfTruncated [matTooltip]="teacher | getFullName" matTooltipClass="tooltip" matTooltipPosition="right">
                     {{ teacher | getFullName }}
                   </div>
                 </mat-option>
