@@ -8,7 +8,7 @@
   width: max-content;
   max-width: max-content;
   font-size: 13px;
-  font: Open Sans;
+  font-family: Open Sans;
   font-weight: normal;
 }
 .application-info-description-card {
@@ -18,37 +18,21 @@
 ::ng-deep .mat-application-menu {
   width: 60vw;
   max-width: fit-content;
-  display: flex;
-  flex-direction: column;
   overflow: hidden;
 }
 .application-info-menu {
-  display: flex;
-  flex-direction: row;
   max-width: max-content;
-  font-size: 13px;
-  line-height: 17px;
 }
 
 .application-info-description,
 .application-info-title {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: flex-start;
+  flex: 1;
   max-width: max-content;
-  font-size: 13px;
-  font-weight: normal;
   line-height: 17px;
-  font: Open Sans;
-  font-style: normal;
   color: black;
 
   span {
     padding: 8px;
-  }
-  i {
-    padding-right: 5px;
   }
 }
 
@@ -75,9 +59,4 @@
   ::ng-deep .mat-application-menu {
     width: 100vw;
   }
-}
-.application-status,
-.title,
-.btn-gray {
-  margin-top: 1rem;
 }

@@ -114,7 +114,7 @@
               <th mat-header-cell *matHeaderCellDef mat-sort-header sortActionDescription="Sort by phoneNumber">
                 {{ 'FORMS.LABELS.PHONE' | translate }}
               </th>
-              <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phoneTransform }}</td>
+              <td mat-cell *matCellDef="let element">{{ element.phoneNumber | phone }}</td>
             </ng-container>
 
             <ng-container matColumnDef="status" stickyEnd>

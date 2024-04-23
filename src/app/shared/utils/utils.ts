@@ -1,13 +1,12 @@
 import { KeyValue } from '@angular/common';
 
-import { Constants } from 'shared/constants/constants';
 import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserTabsTitles } from 'shared/enum/enumUA/user';
 import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
-import { Role } from 'shared/enum/role';
+import { Role, Subrole } from 'shared/enum/role';
 import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
 import { AreaAdmin } from 'shared/models/area-admin.model';
@@ -23,7 +22,6 @@ import { PaginationParameters } from 'shared/models/query-parameters.model';
 import { Person } from 'shared/models/user.model';
 import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
 import { Workshop } from 'shared/models/workshop.model';
-import { Subrole } from './../enum/role';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -151,7 +149,7 @@ export class Util {
         id: admin.id,
         pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
         email: admin.email,
-        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
+        phoneNumber: `${admin.phoneNumber}`,
         role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
         status: admin.accountStatus,
         isDeputy: admin.isDeputy

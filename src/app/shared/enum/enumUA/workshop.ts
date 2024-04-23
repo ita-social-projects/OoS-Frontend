@@ -20,6 +20,7 @@ export enum DetailsTabTitlesEnum {
   AboutProvider = 'TITLES.ABOUT_THE_PROVIDER',
   Teachers = 'TITLES.TEACHERS',
   OtherWorkshops = 'TITLES.OTHER_WORKSHOPS_OF_THE_PROVIDER',
+  Workshops = 'TITLES.WORKSHOPS_OF_THE_PROVIDER',
   Reviews = 'TITLES.REVIEWS',
   Achievements = 'TITLES.ACHIEVEMENTS'
 }

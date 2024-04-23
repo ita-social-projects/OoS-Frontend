@@ -263,8 +263,8 @@ export class ProviderState {
   @Action(UpdateAchievement)
   updateAchievement({ dispatch }: StateContext<ProviderStateModel>, { payload }: UpdateAchievement): Observable<Achievement | void> {
     return this.achievementsService.updateAchievement(payload).pipe(
-      tap((res: Achievement) => dispatch(new OnCreateAchievementSuccess(res))),
-      catchError((error: HttpErrorResponse) => dispatch(new OnCreateAchievementFail(error)))
+      tap((res: Achievement) => dispatch(new OnUpdateAchievementSuccess(res))),
+      catchError((error: HttpErrorResponse) => dispatch(new OnUpdateAchievementFail(error)))
     );
   }
 
@@ -287,7 +287,7 @@ export class ProviderState {
 
   @Action(DeleteAchievementById)
   deleteAchievementById({ dispatch }: StateContext<ProviderStateModel>, { payload }: DeleteAchievementById): Observable<void> {
-    return this.achievementsService.deleteAchievement(payload).pipe(
+    return this.achievementsService.deleteAchievement(payload.id).pipe(
       tap(() => dispatch(new OnDeleteAchievementSuccess(payload))),
       catchError((error: HttpErrorResponse) => dispatch(new OnDeleteAchievementFail(error)))
     );
@@ -301,7 +301,13 @@ export class ProviderState {
         type: 'success'
       })
     ]);
-    this.router.navigate(['/details/workshop', payload]);
+    this.router
+      .navigate([`/details/workshop/${payload.workshopId}`], {
+        queryParams: { status: 'Achievements' }
+      })
+      .then(() => {
+        window.location.reload();
+      });
   }
 
   @Action(GetProviderAdminWorkshops)

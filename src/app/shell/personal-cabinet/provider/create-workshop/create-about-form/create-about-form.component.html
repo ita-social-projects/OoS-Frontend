@@ -3,8 +3,12 @@
     {{ 'FORMS.CONTROL_VALUES.USE_SERVICE_PROVIDER_CONTACT_DETAILS' | translate }}
   </mat-checkbox>
 
-  <app-image-form-control *ngIf="isImagesFeature" [imgMaxAmount]="1" [cropperConfig]="cropperConfig"
-    [label]="'Фонове зображення'" formControlName="coverImage"
+  <app-image-form-control
+    *ngIf="isImagesFeature"
+    [imgMaxAmount]="1"
+    [cropperConfig]="cropperConfig"
+    [label]="'Фонове зображення'"
+    formControlName="coverImage"
     [imageIdsFormControl]="AboutFormGroup.get('coverImageId')">
   </app-image-form-control>
 
@@ -12,26 +16,33 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="title" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('title')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1" [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('title')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
+  </app-validation-hint>
+
+  <label class="step-label">{{ 'FORMS.LABELS.SHORT_TITLE' | translate }}</label>
+  <mat-form-field>
+    <input matInput class="step-input" type="text" formControlName="shortTitle" autocomplete="none" appTrimValue />
+  </mat-form-field>
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('shortTitle')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.PHONE' | translate }}<span class="step-required">*</span></label>
-  <mat-form-field>
-    <div fxLayout="row" fxLayoutAlign="start center">
-      <span class="step-text">{{ phonePrefix }}</span>
-      <input matInput class="step-input" type="tel" formControlName="phone" appDigitOnly appTrimValue ui-number-mask
-        ui-hide-group-sep maxlength="{{ validationConstants.PHONE_LENGTH }}" />
-    </div>
-  </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('phone')"
-    [minCharacters]="validationConstants.PHONE_LENGTH" [isPhoneNumber]="true">
+  <app-phone-form-control [parentFormControl]="AboutFormGroup.get('phone')"> </app-phone-form-control>
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('phone')"
+    [minCharacters]="validationConstants.PHONE_LENGTH"
+    [isPhoneNumber]="true">
   </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.EMAIL' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appearance="none">
-    <input matInput class="step-input" type="email" formControlName="email" appTrimValue
-      [placeholder]="mailFormPlaceholder" />
+    <input matInput class="step-input" type="email" formControlName="email" appTrimValue [placeholder]="mailFormPlaceholder" />
   </mat-form-field>
   <app-validation-hint [validationFormControl]="AboutFormGroup.get('email')"></app-validation-hint>
 
@@ -39,39 +50,52 @@
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="website" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('website')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1" [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('website')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Facebook</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="facebook" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('facebook')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1" [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('facebook')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <label class="step-label">Instagram</label>
   <mat-form-field>
     <input matInput class="step-input" type="text" formControlName="instagram" autocomplete="none" appTrimValue />
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="AboutFormGroup.get('instagram')"
-    [minCharacters]="validationConstants.INPUT_LENGTH_1" [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+  <app-validation-hint
+    [validationFormControl]="AboutFormGroup.get('instagram')"
+    [minCharacters]="validationConstants.INPUT_LENGTH_1"
+    [maxCharacters]="validationConstants.INPUT_LENGTH_256">
   </app-validation-hint>
 
   <div class="border-bottom"></div>
 
-  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span
-      class="step-required">*</span></label>
+  <label class="step-label">{{ 'FORMS.LABELS.AGE_OF_PARTICIPANTS' | translate }}<span class="step-required">*</span></label>
   <div fxLayout="row" fxLayoutAlign="start">
     <div fxLayout="column" fxLayoutAlign="start start">
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="step-text">{{ 'FROM' | translate }}</p>
         <mat-form-field>
-          <input matInput class="step-input step-input-age" type="number" formControlName="minAge" appDigitOnly
-            maxlength="2" appMinMax [directiveFormControl]="AboutFormGroup.get('minAge')"
-            [min]="validationConstants.AGE_MIN"
-            [max]="(AboutFormGroup.get('maxAge').value ? AboutFormGroup.get('maxAge').value : validationConstants.BIRTH_AGE_MAX) - 1"
+          <input
+            matInput
+            class="step-input step-input-age"
+            type="number"
+            formControlName="minAge"
+            appDigitOnly
+            maxlength="2"
+            appMinMax
+            [directiveFormControl]="AboutFormGroup.get('minAge')"
+            [max]="
+              (AboutFormGroup.get('maxAge').value !== null ? AboutFormGroup.get('maxAge').value : validationConstants.BIRTH_AGE_MAX) - 1
+            "
             autocomplete="none" />
         </mat-form-field>
       </div>
@@ -82,10 +106,22 @@
       <div fxLayout="row" fxLayoutAlign="start center">
         <p class="step-text">{{ 'TO' | translate }}</p>
         <mat-form-field>
-          <input matInput class="step-input step-input-age" type="number" formControlName="maxAge" appDigitOnly
-            maxlength="2" [directiveFormControl]="AboutFormGroup.get('maxAge')" appMinMax
-            [min]="AboutFormGroup.get('minAge').value !== undefined ? AboutFormGroup.get('minAge').value + 1 : validationConstants.AGE_MIN"
-            [max]="validationConstants.BIRTH_AGE_MAX" autocomplete="none" />
+          <input
+            matInput
+            class="step-input step-input-age"
+            type="number"
+            formControlName="maxAge"
+            appDigitOnly
+            maxlength="2"
+            [directiveFormControl]="AboutFormGroup.get('maxAge')"
+            appMinMax
+            [max]="validationConstants.BIRTH_AGE_MAX"
+            [min]="
+              AboutFormGroup.get('minAge').value !== null || AboutFormGroup.get('maxAge').value === 0
+                ? AboutFormGroup.get('minAge').value + 1
+                : undefined
+            "
+            autocomplete="none" />
         </mat-form-field>
       </div>
       <app-validation-hint [validationFormControl]="AboutFormGroup.get('maxAge')"></app-validation-hint>
@@ -93,12 +129,13 @@
   </div>
 
   <label class="step-label">{{ 'FORMS.LABELS.WORKING_HOURS' | translate }}<span class="step-required">*</span></label>
-  <app-working-hours-form-wrapper [workingHoursFormArray]="workingHoursFormArray" [workshop]="workshop"
+  <app-working-hours-form-wrapper
+    [workingHoursFormArray]="workingHoursFormArray"
+    [workshop]="workshop"
     (dataChangedInChild)="markFormAsDirtyOnUserInteraction()"></app-working-hours-form-wrapper>
 
   <label class="step-label">{{ 'FORMS.LABELS.FORM_OF_LEARNING' | translate }}</label>
-  <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column"
-    fxLayoutAlign="center space-between">
+  <mat-radio-group formControlName="formOfLearning" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <ng-container *ngFor="let formOfLearning of FormOfLearning | keyvalue: Util.keyValueNumericSorting">
       <mat-radio-button *ngIf="FormOfLearningEnum[formOfLearning.key]" [value]="formOfLearning.key">
         {{ FormOfLearningEnum[formOfLearning.key] | translate }}
@@ -111,15 +148,28 @@
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'FOR_FREE' | translate }}</mat-radio-button>
     <div fxLayout="row" fxLayoutAlign="space-between center" class="container">
       <div fxLayout="row" fxLayoutAlign="center center" class="price">
-        <mat-radio-button #radio2 name="radioBtn2" [value]="true"><input matInput class="step-input price-input"
-            appDigitOnly appMinMax formControlName="price" type="number" [directiveFormControl]="priceControl"
-            [min]="validationConstants.MIN_PRICE" [max]="validationConstants.MAX_PRICE" />
+        <mat-radio-button #radio2 name="radioBtn2" [value]="true"
+          ><input
+            matInput
+            class="step-input price-input"
+            appDigitOnly
+            appMinMax
+            formControlName="price"
+            type="number"
+            [directiveFormControl]="priceControl"
+            [min]="validationConstants.MIN_PRICE"
+            [max]="validationConstants.MAX_PRICE" />
         </mat-radio-button>
       </div>
       <div fxLayoutAlign="center center" class="pay-type">
         <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
-        <mat-select disableOptionCentering panelClass="dropdown-panel" class="step-input" formControlName="payRate"
-          name="payRate" placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
+        <mat-select
+          disableOptionCentering
+          panelClass="dropdown-panel"
+          class="step-input"
+          formControlName="payRate"
+          name="payRate"
+          placeholder="{{ 'FORMS.PLACEHOLDERS.PAYMENT_TYPE' | translate }}">
           <ng-container *ngFor="let type of PayRateType | keyvalue">
             <mat-option *ngIf="PayRateTypeEnum[type.key]" [value]="type.key" class="dropdown-option">
               {{ PayRateTypeEnum[type.key] | translate }}
@@ -145,10 +195,19 @@
       <div class="container" fxLayout="row" fxLayoutAlign="space-between center">
         <div class="radio-button-wrap" fxLayout="row" fxLayoutAlign="center center">
           <mat-radio-button [value]="false">
-            <input matInput class="step-input price-input" appDigitOnly formControlName="availableSeats"
-              type="number" [min]="minSeats" [max]="UNLIMITED_SEATS" />
+            <input
+              matInput
+              class="step-input price-input"
+              appDigitOnly
+              formControlName="availableSeats"
+              type="number"
+              [min]="minSeats"
+              [max]="UNLIMITED_SEATS" />
           </mat-radio-button>
-          <app-info-menu *ngIf="isShowHintAboutWorkshopAutoClosing" [type]="InfoMenuType.Text" [isOpenByDefault]="isShowHintAboutWorkshopAutoClosing">
+          <app-info-menu
+            *ngIf="isShowHintAboutWorkshopAutoClosing"
+            [type]="InfoMenuType.Text"
+            [isOpenByDefault]="isShowHintAboutWorkshopAutoClosing">
             {{ 'FORMS.WARNING_MESSAGE_ABOUT_CLOSING_THE_WORKSHOP' | translate }}
           </app-info-menu>
         </div>
@@ -158,8 +217,7 @@
   </div>
 
   <label class="step-label">{{ 'COMPETITIVE_SELECTION' | translate }}</label>
-  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column"
-    fxLayoutAlign="center space-between">
+  <mat-radio-group [formControl]="competitiveSelectionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">
       {{ 'WITHOUT_COMPETITIVE_SELECTION' | translate }}
     </mat-radio-button>
@@ -171,17 +229,25 @@
         <label class="step-label">{{ 'INFO_ABOUT_SELECTION' | translate }}<span class="step-required">*</span></label>
         <label class="step-characters-count">
           <ng-container *ngIf="AboutFormGroup.get('competitiveSelectionDescription').value; else elseBlock">
-            {{ AboutFormGroup.get('competitiveSelectionDescription').value?.length }}/{{
-            validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+            {{ AboutFormGroup.get('competitiveSelectionDescription').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
           </ng-container>
           <ng-template #elseBlock> 0/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} </ng-template>
         </label>
       </div>
-      <textarea matInput class="step-textarea step-textarea-short" placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+      <textarea
+        matInput
+        class="step-textarea step-textarea-short"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
           'FORMS.PLACEHOLDERS.SYMBOLS' | translate
-        }}" formControlName="competitiveSelectionDescription"
+        }}"
+        formControlName="competitiveSelectionDescription"
         [maxLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
       </textarea>
+      <app-validation-hint
+        [validationFormControl]="AboutFormGroup.get('competitiveSelectionDescription')"
+        [minCharacters]="validationConstants.INPUT_LENGTH_1"
+        [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+      </app-validation-hint>
     </ng-container>
   </mat-radio-group>
 </form>
