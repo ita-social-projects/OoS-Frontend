@@ -2,13 +2,11 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, HostListener, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 import { PaginationConstants } from 'shared/constants/constants';
 import { PaginationElement } from 'shared/models/pagination-element.model';
-import { Util } from 'shared/utils/utils';
 
 const standartHeaders = [
   'Назва закладу ',
@@ -93,7 +91,8 @@ const standartHeaders = [
 export class ImportProvidersComponent implements OnInit {
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public importParams = {
-    size: PaginationConstants.CHATROOMS_PER_PAGE
+    from: 0,
+    size: 20
   };
   public pageSize = 25;
   public isToggle: boolean;
@@ -176,12 +175,12 @@ export class ImportProvidersComponent implements OnInit {
       emails: {}
     };
     for (let i = 0; i < providers.length; i++) {
-     if (providers[i].identifier && EDRPOU_IPN_REGEX.test(providers[i].identifier)) {
-      emailsEdrpous.edrpous[providers[i].id] = providers[i].identifier;
-     }
-     if (providers[i].email && EMAIL_REGEX.test(providers[i].email)) {
-      emailsEdrpous.emails[providers[i].id] = providers[i].email;
-     }
+      if (providers[i].identifier && EDRPOU_IPN_REGEX.test(providers[i].identifier)) {
+        emailsEdrpous.edrpous[providers[i].id] = providers[i].identifier;
+      }
+      if (providers[i].email && EMAIL_REGEX.test(providers[i].email)) {
+        emailsEdrpous.emails[providers[i].id] = providers[i].email;
+      }
     }
     console.log(emailsEdrpous);
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
@@ -190,10 +189,11 @@ export class ImportProvidersComponent implements OnInit {
 
 
   public onFileSelected(event: any) {
+    console.log(event.target.files[0].name);
     this.isWaiting = true;
     this.resetValues();
-    this.selectedFile = event.target.files[0] ?? null;
     this.convertExcelToJSON(event);
+    event.target.value = '';
   }
 
   public checkForInvalidData(providers: any[], emailsEdrpous: any): any {
@@ -249,8 +249,6 @@ export class ImportProvidersComponent implements OnInit {
       } else if (!(/^\d+$/).test(elem.phoneNumber)) {
         elem.errors.phoneNumberFormat = true;
       }
-
-      console.log(elem);
     });
   }
 
@@ -279,8 +277,17 @@ export class ImportProvidersComponent implements OnInit {
 
   onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    Util.setFromPaginationParam(this.importParams, this.currentPage, this.dataSource?.length);
-    console.log(this.importParams.size);
+
+    const from = (+this.currentPage.element - 1) * this.importParams.size;
+    if (!this.dataSource.length || this.dataSource.length >= from) {
+      console.log('second from'+ from);
+      this.importParams.from = from;
+    } else {
+      this.currentPage.element = Math.ceil(this.dataSource?.length / this.importParams.size);
+      this.importParams.from = (+this.currentPage - 1) * this.importParams.size;
+    }
+    this.dataSource.slice(this.importParams.from, this.importParams.size + this.importParams.from);
+    // console.log(this.dataSource.slice(this.importParams.from, this.importParams.size + this.importParams.from));
   }
 
 }

@@ -112,8 +112,12 @@
                 'false-field-empty': element.errors.settlementEmpty,
                 'false-field-wrong-length': element.errors.settlementLength,
                 'false-field-wrong-language': element.errors.settlementLanguage
-              }">
-              {{ element.settlement }}
+              }"
+              [matTooltip]="element.settlement"
+              [matTooltipDisabled]="element.settlement?.length <= 20"
+              matTooltipPosition="right"
+              matTooltipClass="customTooltipStyles">
+              {{ element.settlement| truncate: 20}}
             </td>
           </ng-container>
           <ng-container matColumnDef="address">
@@ -124,8 +128,12 @@
               [ngClass]="{
                 'false-field-empty': element.errors.addressEmpty,
                 'false-field-wrong-language': element.errors.addressLanguage
-              }">
-              {{ element.address }}
+              }"
+              [matTooltip]="element.address"
+              [matTooltipDisabled]="element.address?.length <= 20"
+              matTooltipPosition="left"
+              matTooltipClass="customTooltipStyles">
+              {{ element.address | truncate: 20}}
             </td>
           </ng-container>
           <ng-container matColumnDef="email">
@@ -137,8 +145,12 @@
                 'false-field-empty': element.errors.emailEmpty,
                 'false-field-duplicate': element.errors.emailDuplicate,
                 'false-field-wrong-format': element.errors.emailFormat
-              }">
-              {{ element.email }}
+              }"
+              [matTooltip]="element.email"
+              [matTooltipDisabled]="element.email?.length <= 20"
+              matTooltipPosition="left"
+              matTooltipClass="customTooltipStyles">
+              {{ element.email | truncate: 20}}
             </td>
           </ng-container>
           <ng-container matColumnDef="phone number">

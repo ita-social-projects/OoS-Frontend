@@ -187,12 +187,18 @@ $wrongLength: rgba(13, 19, 137, 0.5);
     100%{box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgb(56, 73, 249) }
 }
 
-// .mat-mdc-tooltip{
-//   transform: scale(1.5)!important;
-//   --mdc-plain-tooltip-supporting-text-font: Roboto, sans-serif;
-//   --mdc-plain-tooltip-supporting-text-size: 14px;
-//   --mdc-plain-tooltip-supporting-text-weight: 400;
-//   --mdc-plain-tooltip-supporting-text-tracking: 0.0333333333em;
-//   --mdc-plain-tooltip-container-color: #1625c7;
-//   --mdc-plain-tooltip-supporting-text-color: #fff;
-// }
+::ng-deep .customTooltipStyles{
+    color: #f6f6f6;
+    background-color: rgb(80, 80, 80);
+    // background-color: rgb(56, 73, 249);
+    border-radius: 4px;
+    font-size: 12px;
+    margin: 14px 14px 14px 5px;
+    max-width: 300px;
+    padding-left: 8px;
+    padding-right: 8px;
+    overflow: hidden;
+    text-overflow: unset !important;
+    transform: scale(1.3) !important;
+
+}
