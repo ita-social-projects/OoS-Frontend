@@ -6,9 +6,9 @@
     <div fxLayout="row" fxLayoutAlign="space-between">
       <label class="step-label"> {{ modalConfirmationDescription | translate }}<span class="step-required">*</span> </label>
       <div class="step-label">
-        <label class="step-characters-count"
-          >{{ reasonFormControl.value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}</label
-        >
+        <label class="step-characters-count">
+          {{ reasonFormControl.value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+        </label>
       </div>
     </div>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
@@ -32,21 +32,7 @@
     <label *ngIf="isPhoneNumberRequired" class="step-label">
       {{ 'FORMS.LABELS.PHONE_FEEDBACK' | translate }}<span class="step-required">*</span>
     </label>
-    <mat-form-field *ngIf="isPhoneNumberRequired">
-      <div fxLayout="row" fxLayoutAlign="start">
-        <span class="step-text">{{ phonePrefix }}</span>
-        <input
-          matInput
-          class="step-input"
-          type="tel"
-          [formControl]="phoneNumberFormControl"
-          appDigitOnly
-          [maxlength]="validationConstants.PHONE_LENGTH"
-          appTrimValue
-          ui-number-mask
-          ui-hide-group-sep />
-      </div>
-    </mat-form-field>
+    <app-phone-form-control *ngIf="isPhoneNumberRequired" [parentFormControl]="phoneNumberFormControl"> </app-phone-form-control>
     <app-validation-hint
       *ngIf="isPhoneNumberRequired"
       [validationFormControl]="phoneNumberFormControl"
