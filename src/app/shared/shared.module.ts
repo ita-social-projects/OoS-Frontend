@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
@@ -32,6 +33,7 @@ import { ImageCarouselComponent } from './components/image-carousel/image-carous
 import { ImageCropperModalComponent } from './components/image-cropper-modal/image-cropper-modal.component';
 import { ImageFormControlComponent } from './components/image-form-control/image-form-control.component';
 import { InfoFormComponent } from './components/info-form/info-form.component';
+import { InfoMenuComponent } from './components/info-menu/info-menu.component';
 import { InstitutionHierarchyComponent } from './components/institution-hierarchy/institution-hierarchy.component';
 import { LoginComponent } from './components/login/login.component';
 import { MapComponent } from './components/map/map.component';
@@ -42,6 +44,7 @@ import { NoResultCardComponent } from './components/no-result-card/no-result-car
 import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { PhoneFormControlComponent } from './components/phone-form-control/phone-form-control.component';
 import { ProviderInfoComponent } from './components/provider-info/provider-info.component';
 import { ProviderStatusBannerComponent } from './components/provider-status-banner/provider-status-banner.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
@@ -73,10 +76,9 @@ import { GetAddressPipe } from './pipes/get-address.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { NotificationDescriptionPipe } from './pipes/notification-description.pipe';
-import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
+import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
-import { InfoMenuComponent } from './components/info-menu/info-menu.component';
 
 @NgModule({
   declarations: [
@@ -118,7 +120,7 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     UsersListComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
-    PhoneTransformPipe,
+    PhonePipe,
     DeclinationPipe,
     ProviderInfoComponent,
     ApplicationChildSortingPipe,
@@ -145,6 +147,7 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
+    PhoneFormControlComponent,
     NotificationDescriptionPipe,
     InfoMenuComponent
   ],
@@ -158,6 +161,7 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
+    NgxMatIntlTelInputComponent,
     IvyCarouselModule,
     ImageCropperModule,
     TranslateModule,
@@ -204,7 +208,7 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     ProviderInfoComponent,
     KeyFilterDirective,
     CustomCarouselDirective,
-    PhoneTransformPipe,
+    PhonePipe,
     DeclinationPipe,
     ApplicationChildSortingPipe,
     ValidationHintComponent,
@@ -226,6 +230,7 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     GetAddressPipe,
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
+    PhoneFormControlComponent,
     InfoMenuComponent
   ]
 })
