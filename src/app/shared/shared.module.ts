@@ -77,6 +77,7 @@ import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 import { InfoMenuComponent } from './components/info-menu/info-menu.component';
+import { TruncatePipe } from './pipes/truncate.pipe';
 
 @NgModule({
   declarations: [
@@ -146,7 +147,8 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
     NotificationDescriptionPipe,
-    InfoMenuComponent
+    InfoMenuComponent,
+    TruncatePipe
   ],
 
   imports: [
@@ -226,7 +228,8 @@ import { InfoMenuComponent } from './components/info-menu/info-menu.component';
     GetAddressPipe,
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
-    InfoMenuComponent
+    InfoMenuComponent,
+    TruncatePipe
   ]
 })
 export class SharedModule {}

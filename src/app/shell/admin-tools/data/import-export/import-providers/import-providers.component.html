@@ -16,31 +16,36 @@
   </div>
   <div class="errors-menu">
     <ng-container *ngIf="dataSourceInvalid?.length > 0">
-      <mat-slide-toggle [(ngModel)]="isToggle" color="warn"><span class="incorrect-row">{{'IMPORT/EXPORT.INCORRECT_ROWS' | translate}} :</span><span [ngClass]="{ 'incorrect-row-num-off': !isToggle, 'incorrect-row-num-on': isToggle}">{{ dataSourceInvalid.length }}</span></mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="isToggle" color="warn"
+        ><span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }} :</span
+        ><span [ngClass]="{ 'incorrect-row-num-off': !isToggle, 'incorrect-row-num-on': isToggle }">{{
+          dataSourceInvalid.length
+        }}</span></mat-slide-toggle
+      >
     </ng-container>
     <app-info-menu *ngIf="dataSourceInvalid?.length > 0" style="font-size: 20px; margin-bottom: 10px; display: flex" [isBigIcon]="true">
       <div class="errors-types">
-        <h3>{{'IMPORT/EXPORT.ERRORS.ERRORS_TYPES' | translate}}</h3>
+        <h3>{{ 'IMPORT/EXPORT.ERRORS.ERRORS_TYPES' | translate }}</h3>
         <ul>
           <li>
             <div class="color-box false-field-duplicate"></div>
-            <p>{{'IMPORT/EXPORT.ERRORS.DATA_DUPLICATE' | translate}}</p>
+            <p>{{ 'IMPORT/EXPORT.ERRORS.DATA_DUPLICATE' | translate }}</p>
           </li>
           <li>
             <div class="color-box false-field-empty"></div>
-            <p>{{'IMPORT/EXPORT.ERRORS.MISSING_INFO_EMPTY_FIELD' | translate}}</p>
+            <p>{{ 'IMPORT/EXPORT.ERRORS.MISSING_INFO_EMPTY_FIELD' | translate }}</p>
           </li>
           <li>
             <div class="color-box false-field-wrong-length"></div>
-            <p>{{'IMPORT/EXPORT.ERRORS.WRONG_LENGTH' | translate}}</p>
+            <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_LENGTH' | translate }}</p>
           </li>
           <li>
             <div class="color-box false-field-wrong-format"></div>
-            <p>{{'IMPORT/EXPORT.ERRORS.WRONG_FORMAT' | translate}}</p>
+            <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_FORMAT' | translate }}</p>
           </li>
           <li>
             <div class="color-box false-field-wrong-language"></div>
-            <p>{{'IMPORT/EXPORT.ERRORS.WRONG_LANGUAGE' | translate}}</p>
+            <p>{{ 'IMPORT/EXPORT.ERRORS.WRONG_LANGUAGE' | translate }}</p>
           </li>
         </ul>
       </div>
@@ -59,9 +64,18 @@
           </ng-container>
           <ng-container matColumnDef="provider name">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PROVIDER_NAME' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.providerNameEmpty,
-            'false-field-wrong-length': element.errors.providerNameLength}">
-              {{ element.providerName }}
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'false-field-empty': element.errors.providerNameEmpty,
+                'false-field-wrong-length': element.errors.providerNameLength
+              }"
+              [matTooltip]="element.providerName"
+              [matTooltipDisabled]="element.providerName?.length <= 20"
+              matTooltipPosition="right"
+              matTooltipClass="customTooltipStyles">
+              {{ element.providerName | truncate: 20 }}
             </td>
           </ng-container>
           <ng-container matColumnDef="ownership">
@@ -91,16 +105,26 @@
           </ng-container>
           <ng-container matColumnDef="settlement">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.SETTLEMENT' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.settlementEmpty,
-          'false-field-wrong-length': element.errors.settlementLength,
-          'false-field-wrong-language': element.errors.settlementLanguage }">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'false-field-empty': element.errors.settlementEmpty,
+                'false-field-wrong-length': element.errors.settlementLength,
+                'false-field-wrong-language': element.errors.settlementLanguage
+              }">
               {{ element.settlement }}
             </td>
           </ng-container>
           <ng-container matColumnDef="address">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.ADDRESS' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.addressEmpty,
-            'false-field-wrong-language':element.errors.addressLanguage }">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'false-field-empty': element.errors.addressEmpty,
+                'false-field-wrong-language': element.errors.addressLanguage
+              }">
               {{ element.address }}
             </td>
           </ng-container>
@@ -119,8 +143,13 @@
           </ng-container>
           <ng-container matColumnDef="phone number">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PHONE_NUMBER' | translate }}</th>
-            <td mat-cell *matCellDef="let element" [ngClass]="{ 'false-field-empty': element.errors.phoneNumberEmpty,
-          'false-field-wrong-format': element.errors.phoneNumberFormat }">
+            <td
+              mat-cell
+              *matCellDef="let element"
+              [ngClass]="{
+                'false-field-empty': element.errors.phoneNumberEmpty,
+                'false-field-wrong-format': element.errors.phoneNumberFormat
+              }">
               {{ element.phoneNumber }}
             </td>
           </ng-container>
@@ -130,15 +159,12 @@
       </div>
     </div>
   </div>
-  <div class="paginator">
-    <mat-paginator
-      [length]="dataSource.length"
-      [pageSize]="pageSize"
-      [pageSizeOptions]="[25, 50, 100]"
-      [pageIndex]="currentPage"
-      (page)="onPageChange($event)"
-      aria-label="Select page">
-    </mat-paginator>
-  </div>
+  <app-paginator
+        [totalEntities]="dataSource.length"
+        [currentPage]="currentPage"
+        [itemsPerPage]="importParams.size"
+        (pageChange)="onPageChange($event)"
+        (itemsPerPageChange)="onItemsPerPageChange($event)">
+      </app-paginator>
 </ng-container>
 <button *ngIf="isGoTopBtnVisible" class="goToTop" (click)="gotoTop()"><i class="fas fa-arrow-up"></i></button>

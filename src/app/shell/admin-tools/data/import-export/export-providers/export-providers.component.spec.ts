@@ -1,5 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { TranslateModule } from '@ngx-translate/core';
 import { ExportProvidersComponent } from './export-providers.component';
 
 describe('ExportProvidersComponent', () => {
@@ -9,7 +11,7 @@ describe('ExportProvidersComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ExportProvidersComponent],
-      imports: []
+      imports: [HttpClientTestingModule, TranslateModule.forRoot()]
     }).compileComponents();
 
     fixture = TestBed.createComponent(ExportProvidersComponent);
@@ -21,5 +23,7 @@ describe('ExportProvidersComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should get all providers', () => {});
+  it('should get all providers', () => {
+    expect(component.getAllProviders()).toBeTruthy();
+  });
 });

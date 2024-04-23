@@ -6,6 +6,9 @@ import { PageEvent } from '@angular/material/paginator';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
+import { PaginationConstants } from 'shared/constants/constants';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Util } from 'shared/utils/utils';
 
 const standartHeaders = [
   'Назва закладу ',
@@ -88,7 +91,10 @@ const standartHeaders = [
   styleUrls: ['./import-providers.component.scss']
 })
 export class ImportProvidersComponent implements OnInit {
-  public currentPage = 0;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public importParams = {
+    size: PaginationConstants.CHATROOMS_PER_PAGE
+  };
   public pageSize = 25;
   public isToggle: boolean;
   public isWaiting: boolean = false;
@@ -170,8 +176,12 @@ export class ImportProvidersComponent implements OnInit {
       emails: {}
     };
     for (let i = 0; i < providers.length; i++) {
+     if (providers[i].identifier && EDRPOU_IPN_REGEX.test(providers[i].identifier)) {
       emailsEdrpous.edrpous[providers[i].id] = providers[i].identifier;
+     }
+     if (providers[i].email && EMAIL_REGEX.test(providers[i].email)) {
       emailsEdrpous.emails[providers[i].id] = providers[i].email;
+     }
     }
     console.log(emailsEdrpous);
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
@@ -236,7 +246,7 @@ export class ImportProvidersComponent implements OnInit {
       // Phone number required, format
       if (!elem.phoneNumber) {
         elem.errors.phoneNumberEmpty = true;
-      } else if ((/^\d+$/).test(elem.phoneNumber)) {
+      } else if (!(/^\d+$/).test(elem.phoneNumber)) {
         elem.errors.phoneNumberFormat = true;
       }
 
@@ -262,18 +272,15 @@ export class ImportProvidersComponent implements OnInit {
     return true;
   }
 
-  onPageChange(event: PageEvent): void {
-    console.log(event);
-    this.currentPage = event.pageIndex;
-    this.pageSize = event.pageSize;
-    this.iterator();
+  onItemsPerPageChange(itemsPerPage: number): void {
+    this.importParams.size = itemsPerPage;
+    this.onPageChange(PaginationConstants.firstPage);
   }
 
-  private iterator() {
-    const end = (this.currentPage + 1) * this.pageSize;
-    const start = this.currentPage * this.pageSize;
-    const part = this.dataSource.slice(start, end);
-    this.dataSource = part;
+  onPageChange(page: PaginationElement): void {
+    this.currentPage = page;
+    Util.setFromPaginationParam(this.importParams, this.currentPage, this.dataSource?.length);
+    console.log(this.importParams.size);
   }
 
 }
