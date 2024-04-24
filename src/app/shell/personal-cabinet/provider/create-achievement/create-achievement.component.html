@@ -120,7 +120,8 @@
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
-        <app-validation-hint [validationFormControl]="AchievementFormGroup.get('achievementDate')"> </app-validation-hint>
+        <app-validation-hint [validationFormControl]="AchievementFormGroup.get('achievementDate')" [minMaxDate]="true">
+        </app-validation-hint>
         <div class="step-label-combined">
           <label class="step-label" for="achievement-description"> {{ 'FORMS.LABELS.ACHIEVEMENT_DESCRIPTION' | translate }}<span class="step-required">*</span> </label>
           <span class="step-characters-count">

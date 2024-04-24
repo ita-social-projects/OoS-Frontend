@@ -225,7 +225,8 @@
       "ACCEPTED_FOR_SELECTION": "Accepted for selection",
       "STUDYING_FOR_YEARS": "Studying for 1-11 years",
       "COMPLETED": "Completed",
-      "BLOCKED": "Blocked"
+      "BLOCKED": "Blocked",
+      "BANNED": "Blocked"
     },
     "APPLICATION_DESCRIPTION": {
       "PENDING": "A new application created, awaiting confirmation from the service provider",
@@ -235,7 +236,8 @@
       "ACCEPTED_FOR_SELECTION": "User accepted for competitive selection (with additional information about selection)",
       "STUDYING_FOR_YEARS": "User studies at workshop for 1 year, 2 years, etc.",
       "COMPLETED": "User completed studying",
-      "BLOCKED": "The user has violated the Terms of Use of the Platform"
+      "BLOCKED": "The user has violated the Terms of Use of the Platform",
+      "BANNED": "The user has violated the Terms of Use of the Platform"
     },
     "USER_STATUSES": {
       "NEVER_LOGGED": "Never logged",
@@ -439,6 +441,8 @@
       "INVALID_INPUT": "Check your data",
       "INVALID_LENGTH_END": "symbols.",
       "INVALID_LENGTH_START": "This field must contain",
+      "INVALID_LENGTH_START_MIN": "This field must contain minimum",
+      "INVALID_PHONE_NUMBER": "Enter a valid phone number.",
       "INVALID_MAP": "No such address was found on the map",
       "INVALID_STREET": ", please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
@@ -476,6 +480,7 @@
   "RATE": "RATE",
   "RECRUITMENT": "Recruitment",
   "SEARCH_BY_DIRECTIONS": "Search by category",
+  "SEARCH_PHONE_COUNTRY": "Search country by name or dial code",
   "SELECTED": "selected",
   "SELECT_AGE": "Select age",
   "SEND_A_MESSAGE": "Send a message",

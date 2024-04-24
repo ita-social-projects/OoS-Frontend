@@ -7,7 +7,8 @@ export enum ApplicationIcons {
   Rejected = 'fas fa-user-slash',
   Left = 'fas fa-user-slash',
   Blocked = 'fas fa-user-lock',
-  Editing = 'fas fa-user-clock'
+  Editing = 'fas fa-user-clock',
+  Banned = 'fas fa-user-lock'
 }
 
 export enum ApplicationEntityType {
