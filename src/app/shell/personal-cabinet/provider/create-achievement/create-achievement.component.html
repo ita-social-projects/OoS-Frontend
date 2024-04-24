@@ -145,7 +145,7 @@
         mat-button
         type="submit"
         (click)="onSubmit()"
-        [disabled]="!AchievementFormGroup.dirty || AchievementFormGroup.invalid">
+        [disabled]="isSaving || !AchievementFormGroup.dirty || AchievementFormGroup.invalid">
         {{ 'BUTTONS.SAVE' | translate }}
       </button>
     </div>

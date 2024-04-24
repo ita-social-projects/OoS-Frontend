@@ -53,6 +53,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   workshopId: string;
   approvedChildren: SearchResponse<Child[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  isSaving: boolean = false;
 
   get teachersFormControl(): FormControl {
     return this.AchievementFormGroup.get('teachers') as FormControl;
@@ -170,6 +171,11 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   onSubmit(): void {
+    if (this.isSaving) {
+      return;
+    }
+
+    this.isSaving = true;
     if (this.editMode) {
       const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
       this.store.dispatch(new UpdateAchievement(achievement));
@@ -187,8 +193,15 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
-        this.store.dispatch(new CreateAchievement(achievement));
+        this.store
+          .dispatch(new CreateAchievement(achievement))
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => {
+            this.isSaving = false;
+          });
+        return;
       }
+      this.isSaving = false;
     });
   }
 
