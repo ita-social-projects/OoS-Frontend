@@ -1,7 +1,7 @@
 <div class="import-buttons">
   <div class="file-actions">
     <div>
-      <button type="button" mat-raised-button (click)="fileInput.click()">
+      <button class="submit-Btn" type="button" mat-raised-button (click)="fileInput.click()">
         {{ dataSource ? ('IMPORT/EXPORT.SELECT_ANOTHER_FILE' | translate) : ('IMPORT/EXPORT.SELECT_FILE' | translate) }}
       </button>
       <input hidden (change)="onFileSelected($event)" #fileInput type="file" accept=".xlsx" />
@@ -72,10 +72,10 @@
                 'false-field-wrong-length': element.errors.providerNameLength
               }"
               [matTooltip]="element.providerName"
-              [matTooltipDisabled]="element.providerName?.length <= 20"
+              [showTooltipIfTruncated]
               matTooltipPosition="right"
               matTooltipClass="customTooltipStyles">
-              {{ element.providerName | truncate: 20 }}
+              {{ element.providerName }}
             </td>
           </ng-container>
           <ng-container matColumnDef="ownership">
@@ -114,10 +114,10 @@
                 'false-field-wrong-language': element.errors.settlementLanguage
               }"
               [matTooltip]="element.settlement"
-              [matTooltipDisabled]="element.settlement?.length <= 20"
+              [showTooltipIfTruncated]
               matTooltipPosition="right"
               matTooltipClass="customTooltipStyles">
-              {{ element.settlement| truncate: 20}}
+              {{ element.settlement }}
             </td>
           </ng-container>
           <ng-container matColumnDef="address">
@@ -130,10 +130,10 @@
                 'false-field-wrong-language': element.errors.addressLanguage
               }"
               [matTooltip]="element.address"
-              [matTooltipDisabled]="element.address?.length <= 20"
+              [showTooltipIfTruncated]
               matTooltipPosition="left"
               matTooltipClass="customTooltipStyles">
-              {{ element.address | truncate: 20}}
+              {{ element.address }}
             </td>
           </ng-container>
           <ng-container matColumnDef="email">
@@ -147,10 +147,10 @@
                 'false-field-wrong-format': element.errors.emailFormat
               }"
               [matTooltip]="element.email"
-              [matTooltipDisabled]="element.email?.length <= 20"
+              [showTooltipIfTruncated]
               matTooltipPosition="left"
               matTooltipClass="customTooltipStyles">
-              {{ element.email | truncate: 20}}
+              {{ element.email }}
             </td>
           </ng-container>
           <ng-container matColumnDef="phone number">
@@ -171,12 +171,5 @@
       </div>
     </div>
   </div>
-  <app-paginator
-        [totalEntities]="dataSource.length"
-        [currentPage]="currentPage"
-        [itemsPerPage]="importParams.size"
-        (pageChange)="onPageChange($event)"
-        (itemsPerPageChange)="onItemsPerPageChange($event)">
-      </app-paginator>
 </ng-container>
 <button *ngIf="isGoTopBtnVisible" class="goToTop" (click)="gotoTop()"><i class="fas fa-arrow-up"></i></button>

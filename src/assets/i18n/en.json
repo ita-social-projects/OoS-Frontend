@@ -894,7 +894,7 @@
     "PROVIDERS_LIST": {
       "PROVIDER_NAME": "Provider name",
       "OWNERSHIP": "Ownership",
-      "IDENTIFIER": "EDRPOU/ITN",
+      "IDENTIFIER": "EDRPOU",
       "LICENSE_NUMBER": "License number",
       "SETTLEMENT": "Settlement",
       "ADDRESS": "Address",

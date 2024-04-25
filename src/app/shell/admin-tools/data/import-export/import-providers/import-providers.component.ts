@@ -5,8 +5,6 @@ import { Component, HostListener, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
-import { PaginationConstants } from 'shared/constants/constants';
-import { PaginationElement } from 'shared/models/pagination-element.model';
 
 const standartHeaders = [
   'Назва закладу ',
@@ -89,12 +87,6 @@ const standartHeaders = [
   styleUrls: ['./import-providers.component.scss']
 })
 export class ImportProvidersComponent implements OnInit {
-  public currentPage: PaginationElement = PaginationConstants.firstPage;
-  public importParams = {
-    from: 0,
-    size: 20
-  };
-  public pageSize = 25;
   public isToggle: boolean;
   public isWaiting: boolean = false;
   public selectedFile: any = null;
@@ -150,7 +142,8 @@ export class ImportProvidersComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
       const wsname = wb.SheetNames[0];
       const currentHeaders = XLSX.utils.sheet_to_json(wb.Sheets[wsname], { header: 1 }).shift();
-      if (this.checkHeadersIsValid(currentHeaders)) {
+      const fileLength = XLSX.utils.sheet_to_json(wb.Sheets[wsname]).length;
+      if (this.checkHeadersIsValid(currentHeaders, fileLength)) {
         const providers = XLSX.utils.sheet_to_json(wb.Sheets[wsname], {
           header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
           range: 1
@@ -186,10 +179,8 @@ export class ImportProvidersComponent implements OnInit {
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
   }
 
-
-
   public onFileSelected(event: any) {
-    console.log(event.target.files[0].name);
+    this.selectedFile = event.target.files[0];
     this.isWaiting = true;
     this.resetValues();
     this.convertExcelToJSON(event);
@@ -255,7 +246,7 @@ export class ImportProvidersComponent implements OnInit {
   public filterInvalidProviders(providers: any[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find(e => e !== null));
   }
-  public checkHeadersIsValid(currentHeaders: string[]): boolean {
+  public checkHeadersIsValid(currentHeaders: string[], fileLength: number): boolean {
     for (let i = 0; i < standartHeaders.length; i++) {
       if (currentHeaders[i] !== standartHeaders[i]) {
         this.isWaiting = false;
@@ -266,28 +257,12 @@ export class ImportProvidersComponent implements OnInit {
         Населений пункт | Адреса | Електронна пошта | Телефон`));
         return false;
       }
+      if (fileLength > 100) {
+        this.isWaiting = false;
+        setTimeout(() => alert('Файл має містити не більше 100 рядків не включаючи заголовків'));
+        return false;
+      }
     }
     return true;
   }
-
-  onItemsPerPageChange(itemsPerPage: number): void {
-    this.importParams.size = itemsPerPage;
-    this.onPageChange(PaginationConstants.firstPage);
-  }
-
-  onPageChange(page: PaginationElement): void {
-    this.currentPage = page;
-
-    const from = (+this.currentPage.element - 1) * this.importParams.size;
-    if (!this.dataSource.length || this.dataSource.length >= from) {
-      console.log('second from'+ from);
-      this.importParams.from = from;
-    } else {
-      this.currentPage.element = Math.ceil(this.dataSource?.length / this.importParams.size);
-      this.importParams.from = (+this.currentPage - 1) * this.importParams.size;
-    }
-    this.dataSource.slice(this.importParams.from, this.importParams.size + this.importParams.from);
-    // console.log(this.dataSource.slice(this.importParams.from, this.importParams.size + this.importParams.from));
-  }
-
 }

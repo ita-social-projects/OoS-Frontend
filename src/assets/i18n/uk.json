@@ -896,7 +896,7 @@
     "PROVIDERS_LIST": {
       "PROVIDER_NAME": "Назва закладу",
       "OWNERSHIP": "Форма власності",
-      "IDENTIFIER": "ЄДРПОУ/ІПН",
+      "IDENTIFIER": "ЄДРПОУ",
       "LICENSE_NUMBER": "Ліцензія №",
       "SETTLEMENT": "Населений пункт",
       "ADDRESS": "Адреса",
