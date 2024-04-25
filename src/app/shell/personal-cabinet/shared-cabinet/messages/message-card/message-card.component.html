@@ -5,7 +5,7 @@
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
       <ng-container *ngIf="chatRoom.lastMessage !== null; else emptyChatDateTitle">
         <p class="text">
-          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT }}
+          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT : '': translateService.currentLang}}
         </p>
       </ng-container>
       <ng-template #emptyChatDateTitle>
