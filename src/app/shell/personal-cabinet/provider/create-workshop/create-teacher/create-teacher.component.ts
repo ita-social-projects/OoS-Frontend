@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
-import { NAME_REGEX } from 'shared/constants/regex-constants';
+import { MUST_CONTAIN_LETTERS, NAME_REGEX } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Teacher } from 'shared/models/teacher.model';
@@ -22,12 +22,12 @@ const defaultValidators = [
   styleUrls: ['./create-teacher.component.scss']
 })
 export class CreateTeacherComponent implements OnInit {
-  public TeacherFormArray: FormArray = new FormArray([]);
-
   @Input() public teachers: Teacher[];
   @Input() public isImagesFeature: boolean;
 
   @Output() public passTeacherFormArray = new EventEmitter();
+
+  public TeacherFormArray: FormArray = new FormArray([]);
 
   constructor(
     private fb: FormBuilder,
@@ -77,6 +77,15 @@ export class CreateTeacherComponent implements OnInit {
   }
 
   /**
+   * This method makes TeacherFormArray dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.TeacherFormArray.dirty) {
+      this.TeacherFormArray.markAsDirty({ onlySelf: true });
+    }
+  }
+
+  /**
    * This method create new FormGroup
    * @param teacher Teacher
    */
@@ -97,7 +106,8 @@ export class CreateTeacherComponent implements OnInit {
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_300),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
     });
 
@@ -114,15 +124,6 @@ export class CreateTeacherComponent implements OnInit {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
-    }
-  }
-
-  /**
-   * This method makes TeacherFormArray dirty
-   */
-  public markFormAsDirtyOnUserInteraction(): void {
-    if (!this.TeacherFormArray.dirty) {
-      this.TeacherFormArray.markAsDirty({ onlySelf: true });
     }
   }
 }
