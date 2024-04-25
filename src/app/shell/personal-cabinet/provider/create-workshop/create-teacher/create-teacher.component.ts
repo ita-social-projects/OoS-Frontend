@@ -77,15 +77,6 @@ export class CreateTeacherComponent implements OnInit {
   }
 
   /**
-   * This method makes TeacherFormArray dirty
-   */
-  public markFormAsDirtyOnUserInteraction(): void {
-    if (!this.TeacherFormArray.dirty) {
-      this.TeacherFormArray.markAsDirty({ onlySelf: true });
-    }
-  }
-
-  /**
    * This method create new FormGroup
    * @param teacher Teacher
    */
@@ -124,6 +115,15 @@ export class CreateTeacherComponent implements OnInit {
     teacherFormGroup.patchValue(teacher, { emitEvent: false });
     if (teacher.coverImageId) {
       teacherFormGroup.get('coverImageId').setValue([teacher.coverImageId], { emitEvent: false });
+    }
+  }
+
+  /**
+   * This method makes TeacherFormArray dirty
+   */
+  private markFormAsDirtyOnUserInteraction(): void {
+    if (!this.TeacherFormArray.dirty) {
+      this.TeacherFormArray.markAsDirty({ onlySelf: true });
     }
   }
 }
