@@ -13,9 +13,16 @@
     [imageIdsFormControl]="TeacherFormGroup.get('coverImageId')">
   </app-image-form-control>
 
-  <label class="step-label">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label" for="last-name">{{ 'FORMS.LABELS.LAST_NAME' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="lastName" appTrimValue />
+    <input
+      matInput
+      class="step-input"
+      type="text"
+      formControlName="lastName"
+      appTrimValue
+      (focusout)="onFocusOut('lastName')"
+      id="last-name" />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('lastName')"
@@ -23,9 +30,16 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.FIRST_NAME' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label" for="first-name">{{ 'FORMS.LABELS.FIRST_NAME' | translate }}<span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="firstName" appTrimValue />
+    <input
+      matInput
+      class="step-input"
+      type="text"
+      formControlName="firstName"
+      appTrimValue
+      (focusout)="onFocusOut('firstName')"
+      id="first-name" />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('firstName')"
@@ -33,9 +47,9 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</label>
+  <label class="step-label" for="middle-name">{{ 'FORMS.LABELS.MIDDLE_NAME' | translate }}</label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue />
+    <input matInput class="step-input" type="text" formControlName="middleName" appTrimValue id="middle-name" />
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('middleName')"
@@ -43,14 +57,14 @@
     [maxCharacters]="validationConstants.INPUT_LENGTH_60">
   </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
-  <mat-radio-group formControlName="gender" color="primary">
+  <label class="step-label" for="gender">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
+  <mat-radio-group formControlName="gender" color="primary" id="gender">
     <mat-radio-button class="step-radio" [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
     <mat-radio-button class="step-radio" [value]="'Female'">{{ 'FORMS.CONTROL_VALUES.FEMALE' | translate }}</mat-radio-button>
   </mat-radio-group>
   <app-validation-hint [validationFormControl]="TeacherFormGroup.get('gender')"> </app-validation-hint>
 
-  <label class="step-label">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label>
+  <label class="step-label" for="date-of-birth">{{ 'FORMS.LABELS.BIRTHDAY' | translate }}<span class="step-required">*</span></label>
   <mat-form-field appPlaceholderStyling class="step-input step-input-date" floatLabel="never">
     <input
       [max]="today"
@@ -58,17 +72,19 @@
       matInput
       [matDatepicker]="picker"
       formControlName="dateOfBirth"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}" />
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}"
+      (focusout)="onFocusOut('dateOfBirth')"
+      id="date-of-birth" />
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
   <app-validation-hint [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" minMaxDate="true"> </app-validation-hint>
 
   <div class="step-label-combined">
-    <label class="step-label">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
-    <label class="step-characters-count">
-      {{ TeacherFormGroup.get('description').value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}</label
-    >
+    <label class="step-label" for="description">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>
+    <span class="step-characters-count">
+      {{ TeacherFormGroup.get('description').value?.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}
+    </span>
   </div>
   <mat-form-field appearance="none">
     <textarea
@@ -79,7 +95,9 @@
       }}"
       formControlName="description"
       maxlength="{{ validationConstants.MAX_DESCRIPTION_LENGTH_300 }}"
-      appTrimValue></textarea>
+      appTrimValue
+      (focusout)="onFocusOut('description')"
+      id="description"></textarea>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="TeacherFormGroup.get('description')"
