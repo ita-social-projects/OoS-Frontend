@@ -49,6 +49,10 @@
       "dom"
     ]
   },
+  "exclude": [
+    "cypress/**/*.ts",
+    "cypress.config.ts"
+  ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     // TODO: Consider strict compiler options
