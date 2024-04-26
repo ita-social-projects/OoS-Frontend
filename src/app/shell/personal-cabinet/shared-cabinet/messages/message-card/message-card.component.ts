@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChildren } from '@angular/core';
 import { MatIcon } from '@angular/material/icon';
+import { TranslateService } from '@ngx-translate/core';
 
 import { Constants } from 'shared/constants/constants';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
@@ -26,7 +27,7 @@ export class MessageCardComponent implements AfterViewInit {
   public readonly UserStatusesTitles = UserStatusesTitles;
   public readonly UserStatusIcons = UserStatusIcons;
   public readonly UserStatuses = UserStatuses;
-
+  constructor(private translateService: TranslateService) {}
   public ngAfterViewInit(): void {
     this.stopPropagationElements.forEach(
       (el: MatIcon) => (el._elementRef.nativeElement.onclick = (event: PointerEvent): void => event.stopPropagation())

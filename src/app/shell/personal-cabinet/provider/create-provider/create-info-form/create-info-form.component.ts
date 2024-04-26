@@ -40,7 +40,6 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
 
   public readonly validationConstants = ValidationConstants;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
   public readonly ownershipTypes = OwnershipTypes;
   public readonly selectableOwnerShipTypes = SelectableOwnershipTypes; // TODO: temporary removed for 1st release
   public readonly ownershipTypesEnum = OwnershipTypesEnum;

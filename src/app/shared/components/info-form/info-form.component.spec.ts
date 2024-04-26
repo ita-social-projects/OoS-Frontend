@@ -43,6 +43,17 @@ describe('InfoFormComponent', () => {
 
     expect(component.deleteForm.emit).toHaveBeenCalledWith(mockIndex);
   });
+
+  it('should set value is equal to NULL in form control on focus out event if current form control is pristine', () => {
+    const mockedFormControlName = 'sectionName';
+    const setValueSpy = jest.spyOn(component.infoEditFormGroup.controls.sectionName, 'setValue');
+    const getFormControlSpy = jest.spyOn(component.infoEditFormGroup, 'get');
+
+    component.onFocusOut(mockedFormControlName);
+
+    expect(getFormControlSpy).toHaveBeenCalledWith(mockedFormControlName);
+    expect(setValueSpy).toHaveBeenCalledWith(null);
+  });
 });
 
 @Component({

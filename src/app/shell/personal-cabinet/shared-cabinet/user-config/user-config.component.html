@@ -15,7 +15,7 @@
       <p>{{ middleName }}</p>
     </ng-container>
     <h4>{{ 'FORMS.LABELS.PHONE' | translate }}</h4>
-    <p>{{ phonePrefix + user.phoneNumber | phoneTransform }}</p>
+    <p>{{ user.phoneNumber | phone }}</p>
     <ng-container *ngIf="(role$ | async) === role.parent">
       <h4>{{ 'FORMS.LABELS.BIRTHDAY' | translate }}</h4>
       <p>{{ user.dateOfBirth | date: dateFormat }}</p>

@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
 import { ImageCropperModule } from 'ngx-image-cropper';
+import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
@@ -42,6 +43,7 @@ import { NoResultCardComponent } from './components/no-result-card/no-result-car
 import { NotificationsListComponent } from './components/notifications/notifications-list/notifications-list.component';
 import { NotificationsComponent } from './components/notifications/notifications.component';
 import { PaginatorComponent } from './components/paginator/paginator.component';
+import { PhoneFormControlComponent } from './components/phone-form-control/phone-form-control.component';
 import { ProviderInfoComponent } from './components/provider-info/provider-info.component';
 import { ProviderStatusBannerComponent } from './components/provider-status-banner/provider-status-banner.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
@@ -73,7 +75,7 @@ import { GetAddressPipe } from './pipes/get-address.pipe';
 import { GetFullNamePipe } from './pipes/get-full-name.pipe';
 import { JoinPipe } from './pipes/join.pipe';
 import { NotificationDescriptionPipe } from './pipes/notification-description.pipe';
-import { PhoneTransformPipe } from './pipes/phone-transform.pipe';
+import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
 
@@ -115,7 +117,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NotificationsListComponent,
     UsersListComponent,
     KeyFilterDirective,
-    PhoneTransformPipe,
+    CustomCarouselDirective,
+    PhonePipe,
     DeclinationPipe,
     ProviderInfoComponent,
     ApplicationChildSortingPipe,
@@ -142,6 +145,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
     WorkshopSeatsLackModalComponent,
+    PhoneFormControlComponent,
     NotificationDescriptionPipe,
     InfoMenuComponent,
     ImageCarouselComponent,
@@ -157,6 +161,7 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     FormsModule,
     NgxSliderModule,
     NgxMatTimepickerModule,
+    NgxMatIntlTelInputComponent,
     ImageCropperModule,
     TranslateModule,
     CdkAccordionModule
@@ -200,7 +205,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     UsersListComponent,
     ProviderInfoComponent,
     KeyFilterDirective,
-    PhoneTransformPipe,
+    CustomCarouselDirective,
+    PhonePipe,
     DeclinationPipe,
     ApplicationChildSortingPipe,
     ValidationHintComponent,
@@ -222,9 +228,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     GetAddressPipe,
     TranslateCasesPipe,
     ProviderStatusBannerComponent,
-    InfoMenuComponent,
-    ImageCarouselComponent,
-    CustomCarouselDirective
+    PhoneFormControlComponent,
+    InfoMenuComponent
   ]
 })
 export class SharedModule {}

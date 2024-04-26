@@ -39,7 +39,6 @@ export class UserConfigEditComponent extends CreateFormComponent implements OnIn
 
   public readonly Role = Role;
   public readonly validationConstants = ValidationConstants;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
 
   public isDispatching = false;
   public user: User;
