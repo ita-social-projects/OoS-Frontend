@@ -3,8 +3,10 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { Component, HostListener, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
-import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
+import { AdminImportExportService, IEmailsEdrpous, IEmailsEdrpousResponse, IProviders, IProvidersID } from 'shared/services/admin-import-export/admin-import-export.service';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
+import { isValidPhoneNumber } from 'libphonenumber-js';
+import { Observable, of } from 'rxjs';
 
 const standartHeaders = [
   'Назва закладу ',
@@ -89,6 +91,7 @@ const standartHeaders = [
 export class ImportProvidersComponent implements OnInit {
   public isToggle: boolean;
   public isWaiting: boolean = false;
+  public isWarningVisible: boolean = false;
   public selectedFile: any = null;
   public isGoTopBtnVisible: boolean;
   public readonly topPosToStartShowing: number = 250;
@@ -131,6 +134,7 @@ export class ImportProvidersComponent implements OnInit {
     this.dataSource = null;
     this.dataSourceInvalid = null;
     this.isToggle = false;
+    this.isWarningVisible = false;
   }
 
   public convertExcelToJSON(event: any): void {
@@ -142,28 +146,39 @@ export class ImportProvidersComponent implements OnInit {
       const wb: XLSX.WorkBook = XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
       const wsname = wb.SheetNames[0];
       const currentHeaders = XLSX.utils.sheet_to_json(wb.Sheets[wsname], { header: 1 }).shift();
-      const fileLength = XLSX.utils.sheet_to_json(wb.Sheets[wsname]).length;
-      if (this.checkHeadersIsValid(currentHeaders, fileLength)) {
+      if (this.checkHeadersIsValid(currentHeaders)) {
         const providers = XLSX.utils.sheet_to_json(wb.Sheets[wsname], {
           header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
           range: 1
         });
+        const isCorrectLength = this.cutArrayToHundred(providers);
         providers.forEach(elem => {
           elem.id = providers.indexOf(elem);
         });
-        this.verifyEmailsEdrpous(providers).subscribe(data => {
-          console.log(data);
-          this.checkForInvalidData(providers, data);
+        console.log(providers);
+        this.verifyEmailsEdrpous(providers).subscribe(emailsEdrpous => {
+          // console.log(emailsEdrpous);
+          this.checkForInvalidData(providers, emailsEdrpous);
           this.dataSource = providers;
           this.dataSourceInvalid = this.filterInvalidProviders(providers);
           this.isWaiting = false;
+          this.isWarningVisible = this.cutArrayToHundred(providers);
+          this.isWarningVisible = isCorrectLength;
         });
       }
     };
   }
 
-  verifyEmailsEdrpous(providers: any): any {
-    const emailsEdrpous = {
+  public onFileSelected(event: any) {
+    this.selectedFile = event.target.files[0];
+    this.isWaiting = true;
+    this.resetValues();
+    this.convertExcelToJSON(event);
+    event.target.value = '';
+  }
+
+  public verifyEmailsEdrpous(providers: any): Observable<IEmailsEdrpousResponse> {
+    const emailsEdrpous: IEmailsEdrpous = {
       edrpous: {},
       emails: {}
     };
@@ -175,22 +190,13 @@ export class ImportProvidersComponent implements OnInit {
         emailsEdrpous.emails[providers[i].id] = providers[i].email;
       }
     }
-    console.log(emailsEdrpous);
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
   }
 
-  public onFileSelected(event: any) {
-    this.selectedFile = event.target.files[0];
-    this.isWaiting = true;
-    this.resetValues();
-    this.convertExcelToJSON(event);
-    event.target.value = '';
-  }
-
-  public checkForInvalidData(providers: any[], emailsEdrpous: any): any {
-    return providers.forEach((elem) => {
+  public checkForInvalidData(providers: any, emailsEdrpous: IEmailsEdrpousResponse): void {
+    providers.forEach((elem) => {
       elem.errors = {};
-      // Provider name required, min/max length check
+      // Provider name required, min/max length
       if (!elem.providerName) {
         elem.errors.providerNameEmpty = true;
       } else if (elem.providerName.length <= 1 || elem.providerName.length > 60) {
@@ -212,7 +218,7 @@ export class ImportProvidersComponent implements OnInit {
       if (!elem.licenseNumber) {
         elem.errors.licenseNumberEmpty = true;
       }
-      // Settlement required, min/max length check, language
+      // Settlement required, min/max length, language
       if (!elem.settlement) {
         elem.errors.settlementEmpty = true;
       } else if (elem.settlement.length <= 1 || elem.settlement.length > 60) {
@@ -237,7 +243,7 @@ export class ImportProvidersComponent implements OnInit {
       // Phone number required, format
       if (!elem.phoneNumber) {
         elem.errors.phoneNumberEmpty = true;
-      } else if (!(/^\d+$/).test(elem.phoneNumber)) {
+      } else if (!isValidPhoneNumber(elem.phoneNumber.toString(), 'UA')) {
         elem.errors.phoneNumberFormat = true;
       }
     });
@@ -246,7 +252,7 @@ export class ImportProvidersComponent implements OnInit {
   public filterInvalidProviders(providers: any[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find(e => e !== null));
   }
-  public checkHeadersIsValid(currentHeaders: string[], fileLength: number): boolean {
+  public checkHeadersIsValid(currentHeaders: string[]): boolean {
     for (let i = 0; i < standartHeaders.length; i++) {
       if (currentHeaders[i] !== standartHeaders[i]) {
         this.isWaiting = false;
@@ -257,12 +263,12 @@ export class ImportProvidersComponent implements OnInit {
         Населений пункт | Адреса | Електронна пошта | Телефон`));
         return false;
       }
-      if (fileLength > 100) {
-        this.isWaiting = false;
-        setTimeout(() => alert('Файл має містити не більше 100 рядків не включаючи заголовків'));
-        return false;
-      }
     }
     return true;
+  }
+
+  public cutArrayToHundred(providers: IProviders[]): boolean {
+    const cutProviders = providers.splice(100, providers.length);
+    return cutProviders.length > 0 ? true: false;
   }
 }

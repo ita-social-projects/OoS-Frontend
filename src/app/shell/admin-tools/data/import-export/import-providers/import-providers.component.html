@@ -15,6 +15,9 @@
     </button>
   </div>
   <div class="errors-menu">
+    <div class="length-warning" *ngIf="isWarningVisible">
+      <mat-card-subtitle>УВАГА! в обробку взято перших сто рядків файлу</mat-card-subtitle>
+    </div>
     <ng-container *ngIf="dataSourceInvalid?.length > 0">
       <mat-slide-toggle [(ngModel)]="isToggle" color="warn"
         ><span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }} :</span
@@ -60,7 +63,7 @@
         <table mat-table [dataSource]="isToggle ? dataSourceInvalid : dataSource" class="mat-elevation-z8">
           <ng-container matColumnDef="sequence number">
             <th mat-header-cell *matHeaderCellDef>№</th>
-            <td mat-cell *matCellDef="let element">{{ dataSource.indexOf(element) + 1 }}</td>
+            <td mat-cell style="min-width: 30px;" *matCellDef="let element">{{ dataSource.indexOf(element) + 1 }}</td>
           </ng-container>
           <ng-container matColumnDef="provider name">
             <th mat-header-cell *matHeaderCellDef>{{ 'IMPORT/EXPORT.PROVIDERS_LIST.PROVIDER_NAME' | translate }}</th>

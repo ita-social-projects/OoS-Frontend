@@ -5,6 +5,7 @@ $emptyField: rgba(253, 7, 7, 0.1);
 $wrongLength: rgba(13, 19, 137, 0.5);
 $wrongLanguage: rgba(34, 176, 18, 0.5);
 $wrongFormat: rgb(255, 255, 0, 0.5);
+$lengthWarningMessage: red;
 
 
 .import-buttons {
@@ -39,7 +40,17 @@ $wrongFormat: rgb(255, 255, 0, 0.5);
 }
 .errors-menu{
   display: flex;
+  width: fit-content;
+  .length-warning{
+    max-width: 200px;
+    line-height: 15px;
+    mat-card-subtitle{
+      color: $lengthWarningMessage !important;
+      animation: pulse 3s infinite;
+    }
+  }
 }
+
 .big-icon[_ngcontent-xif-c400] {
   font-size: 20px;
   line-height: 25px;
@@ -158,13 +169,25 @@ $wrongFormat: rgb(255, 255, 0, 0.5);
   width: 8px;
   aspect-ratio: 1;
   border-radius: 50%;
-  animation: l5 1s infinite linear alternate;
+  animation: loader 1s infinite linear alternate;
 }
-@keyframes l5 {
+@keyframes loader {
     0%  {box-shadow: 10px 0 rgb(56, 73, 249), -10px 0 rgba(56, 73, 249, 0.2);background: rgb(56, 73, 249) }
     33% {box-shadow: 10px 0 rgb(56, 73, 249), -10px 0 rgba(56, 73, 249, 0.2);background: rgba(56, 73, 249, 0.2)}
     66% {box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgba(56, 73, 249, 0.2)}
     100%{box-shadow: 10px 0 rgba(56, 73, 249, 0.2),-10px 0 rgb(56, 73, 249); background: rgb(56, 73, 249) }
+}
+
+@keyframes pulse {
+  0% {
+    color: $lengthWarningMessage;
+  }
+  50%{
+    opacity: 0.2;
+  }
+  100% {
+    color: $lengthWarningMessage;
+  }
 }
 
 ::ng-deep .customTooltipStyles{
