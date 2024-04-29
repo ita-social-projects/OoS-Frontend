@@ -35,7 +35,7 @@ import { ResultComponent } from './result/result.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'result', redirectTo: 'result/list', pathMatch: 'full' },
+  { path: 'result', redirectTo: 'result/List', pathMatch: 'full' },
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },

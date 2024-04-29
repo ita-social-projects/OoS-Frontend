@@ -58,7 +58,7 @@ export class DirectionsInstitutionHierarchiesListComponent implements OnInit, On
   public selectDirection(direction: Direction): void {
     this.store.dispatch(new SetDirections([direction.id]));
     const filterQueryParams: Partial<DefaultFilterState> = { directionIds: [direction.id] };
-    this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+    this.router.navigate(['result/List'], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
   }
 
   public onEdit(element: InsHierarchyTableRecord): void {
