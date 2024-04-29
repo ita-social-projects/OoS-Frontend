@@ -41,7 +41,8 @@ export enum ApplicationStatuses {
   StudyingForYears = 'StudyingForYears',
   Completed = 'Completed',
   Rejected = 'Rejected',
-  Left = 'Left'
+  Left = 'Left',
+  Banned = 'Banned'
 }
 
 // Statuses for user Email Confirmation
