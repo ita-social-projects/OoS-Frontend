@@ -21,7 +21,7 @@ export enum UserStatuses {
   Blocked = 'Blocked'
 }
 
-// Statuses for Applications
+// Statuses for Provider Applications
 export enum ApplicationStatuses {
   Pending = 'Pending',
   AcceptedForSelection = 'AcceptedForSelection',

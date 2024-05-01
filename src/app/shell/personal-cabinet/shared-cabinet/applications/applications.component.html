@@ -12,7 +12,7 @@
       </div>
     </div>
     <app-info-menu [isBigIcon]="true" [type]="InfoMenuType.Component">
-      <app-status-info-card></app-status-info-card>
+      <app-status-info-card [role]="role"></app-status-info-card>
     </app-info-menu>
     <app-entity-checkbox-dropdown
       *ngIf="dropdownEntities"
