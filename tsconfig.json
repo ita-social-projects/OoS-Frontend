@@ -55,9 +55,9 @@
   ],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
     // TODO: Consider strict compiler options
-    // "strictInjectionParameters": true,
-    // "strictInputAccessModifiers": true,
     // "strictTemplates": true
   }
 }
