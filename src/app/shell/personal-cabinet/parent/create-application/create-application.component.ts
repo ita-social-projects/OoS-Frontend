@@ -62,10 +62,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   public AttendAgreementFormControl = new FormControl(false);
   public ContraindicationAgreementFormControlYourself = new FormControl(false);
   public AttendAgreementFormControlYourself = new FormControl(false);
-  public ChildFormControl = new FormControl('', Validators.required);
+  public ChildFormControl = new FormControl(null, Validators.required);
 
   public parentCard: Child;
-  public selectedChild: Child;
   public isContraindicationAgreed: boolean;
   public isAttendAgreed: boolean;
   public isParentAgreed: boolean;
@@ -141,7 +140,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const application = new Application(this.tabIndex ? this.parentCard : this.selectedChild, this.workshop, this.parent);
+        const application = new Application(this.tabIndex ? this.parentCard : this.ChildFormControl.value, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));
       }
     });
