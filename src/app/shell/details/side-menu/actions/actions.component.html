@@ -9,7 +9,6 @@
   <h4 class="card-title" *ngIf="!workshop.price">{{ 'FREE_WORKSHOP' | translate }}</h4>
   <a
     [ngClass]="{ disable: hideApplicationSubmission }"
-    [routerLink]="['/create-application', workshop.id]"
     (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
     <button
       class="button button-application"

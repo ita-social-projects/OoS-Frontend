@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -35,6 +35,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
   public hideApplicationSubmission: boolean;
+  public isAllowChildToApply: boolean;
 
   @Input()
   public workshop: Workshop;
@@ -45,6 +46,8 @@ export class ActionsComponent implements OnInit, OnDestroy {
   private role$: Observable<string>;
   @Select(ParentState.favoriteWorkshops)
   private favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(ParentState.isAllowChildToApply)
+  private isAllowChildToApply$: Observable<boolean>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
 
@@ -53,13 +56,14 @@ export class ActionsComponent implements OnInit, OnDestroy {
   constructor(
     private store: Store,
     public dialog: MatDialog,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   public ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-
+    this.isAllowChildToApply$.subscribe((isAllowChildToApply) => (this.isAllowChildToApply = isAllowChildToApply));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([favorites, params]) => {
@@ -82,6 +86,16 @@ export class ActionsComponent implements OnInit, OnDestroy {
           message: type
         }
       });
+    } else if (this.isAllowChildToApply) {
+      this.store.dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.accessIsRestricted,
+          type: 'error',
+          info: SnackbarText.accessIsRestrictedFullDescription
+        })
+      );
+    } else {
+      this.router.navigate(['/create-application', this.workshop.id]);
     }
   }
 
