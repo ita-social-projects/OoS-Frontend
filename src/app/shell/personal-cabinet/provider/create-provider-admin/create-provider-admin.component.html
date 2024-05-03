@@ -115,7 +115,7 @@
             class="btn"
             mat-button
             type="submit"
-            [disabled]="!ProviderAdminFormGroup.dirty || (!isDeputy && !managedWorkshopIds) || managedWorkshopIds.length === 0"
+            [disabled]="!ProviderAdminFormGroup.dirty || (!isDeputy && !managedWorkshopIds) || managedWorkshopIds?.length === 0"
             (click)="onSubmit()">
             {{ 'BUTTONS.SAVE' | translate }}
           </button>

@@ -208,7 +208,7 @@ a {
 }
 
 .tooltip {
-  word-break: break-all !important;
+  overflow-wrap: break-word !important;
   white-space: normal !important;
 }
 
