@@ -40,7 +40,7 @@ export class TeacherFormComponent {
   }
 
   public onFocusOut(formControlName: string): void {
-    if (this.TeacherFormGroup.get(formControlName).pristine) {
+    if (this.TeacherFormGroup.get(formControlName).pristine && !this.TeacherFormGroup.get(formControlName).value) {
       this.TeacherFormGroup.get(formControlName).setValue(null);
     }
   }
