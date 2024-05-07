@@ -19,6 +19,12 @@ import { AppState } from 'shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
+import { ProviderState } from 'shared/store/provider.state';
+import { BlockedParent } from 'shared/models/block.model';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
+import { GetBlockedParents } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-actions',
@@ -35,19 +41,25 @@ export class ActionsComponent implements OnInit, OnDestroy {
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
   public hideApplicationSubmission: boolean;
-  public isAllowChildToApply: boolean;
+  public isBlocked: boolean;
+  public parentId: string;
+  public selectedProviderId: string;
 
   @Input()
   public workshop: Workshop;
   @Input()
   public role: string;
 
+  @Select(RegistrationState.parent)
+  private parent$: Observable<Parent>;
+  @Select(SharedUserState.selectedProvider)
+  private selectedProvider$: Observable<Provider>;
   @Select(RegistrationState.role)
   private role$: Observable<string>;
   @Select(ParentState.favoriteWorkshops)
   private favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(ParentState.isAllowChildToApply)
-  private isAllowChildToApply$: Observable<boolean>;
+  @Select(ProviderState.blockedParent)
+  private isBlocked$: Observable<BlockedParent>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
 
@@ -63,7 +75,10 @@ export class ActionsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.isAllowChildToApply$.subscribe((isAllowChildToApply) => (this.isAllowChildToApply = isAllowChildToApply));
+    this.parent$.subscribe((parent) => (this.parentId = parent.id));
+    this.selectedProvider$.subscribe((provider) => (this.selectedProviderId = provider.id));
+    this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+    this.isBlocked$.subscribe((blockedParent) => (blockedParent == null ? (this.isBlocked = false) : (this.isBlocked = true)));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([favorites, params]) => {
@@ -86,7 +101,7 @@ export class ActionsComponent implements OnInit, OnDestroy {
           message: type
         }
       });
-    } else if (this.isAllowChildToApply) {
+    } else if (this.isBlocked) {
       this.store.dispatch(
         new ShowMessageBar({
           message: SnackbarText.accessIsRestricted,
@@ -94,8 +109,10 @@ export class ActionsComponent implements OnInit, OnDestroy {
           info: SnackbarText.accessIsRestrictedFullDescription
         })
       );
-    } else {
+    } else if (type === this.ModalTypeAction.unregisteredApplicationWarning) {
       this.router.navigate(['/create-application', this.workshop.id]);
+    } else {
+      this.router.navigate(['/personal-cabinet/messages/', this.workshop.id], { queryParams: { mode: ModeConstants.WORKSHOP } });
     }
   }
 
