@@ -32,7 +32,24 @@ import { GetBlockedParents } from 'shared/store/provider.actions';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, OnDestroy {
-  private readonly workshopStatus = WorkshopOpenStatus;
+  @Input()
+  public workshop: Workshop;
+  @Input()
+  public role: string;
+
+  @Select(AppState.isMobileScreen)
+  public isMobileScreen$: Observable<boolean>;
+  @Select(RegistrationState.parent)
+  private parent$: Observable<Parent>;
+  @Select(SharedUserState.selectedProvider)
+  private selectedProvider$: Observable<Provider>;
+  @Select(RegistrationState.role)
+  private role$: Observable<string>;
+  @Select(ParentState.favoriteWorkshops)
+  private favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(ProviderState.blockedParent)
+  private isBlocked$: Observable<BlockedParent>;
+
   public readonly ModalTypeAction = ModalConfirmationDescription;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
   public readonly ModeConstants = ModeConstants;
@@ -45,25 +62,8 @@ export class ActionsComponent implements OnInit, OnDestroy {
   public parentId: string;
   public selectedProviderId: string;
 
-  @Input()
-  public workshop: Workshop;
-  @Input()
-  public role: string;
-
-  @Select(RegistrationState.parent)
-  private parent$: Observable<Parent>;
-  @Select(SharedUserState.selectedProvider)
-  private selectedProvider$: Observable<Provider>;
-  @Select(RegistrationState.role)
-  private role$: Observable<string>;
-  @Select(ParentState.favoriteWorkshops)
-  private favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(ProviderState.blockedParent)
-  private isBlocked$: Observable<BlockedParent>;
-  @Select(AppState.isMobileScreen)
-  public isMobileScreen$: Observable<boolean>;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private readonly workshopStatus = WorkshopOpenStatus;
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private store: Store,
@@ -75,10 +75,10 @@ export class ActionsComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-    this.parent$.subscribe((parent) => (this.parentId = parent.id));
-    this.selectedProvider$.subscribe((provider) => (this.selectedProviderId = provider.id));
+    this.parent$.pipe(takeUntil(this.destroy$)).subscribe((parent) => (this.parentId = parent.id));
+    this.selectedProvider$.pipe(takeUntil(this.destroy$)).subscribe((provider) => (this.selectedProviderId = provider.id));
     this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
-    this.isBlocked$.subscribe((blockedParent) => (blockedParent == null ? (this.isBlocked = false) : (this.isBlocked = true)));
+    this.isBlocked$.pipe(takeUntil(this.destroy$)).subscribe((blockedParent) => (this.isBlocked = blockedParent !== null));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([favorites, params]) => {
