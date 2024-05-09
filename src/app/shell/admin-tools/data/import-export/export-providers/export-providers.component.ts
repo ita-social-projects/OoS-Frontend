@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 
 @Component({
@@ -6,11 +6,8 @@ import { AdminImportExportService } from 'shared/services/admin-import-export/ad
   templateUrl: './export-providers.component.html',
   styleUrls: ['./export-providers.component.scss']
 })
-export class ExportProvidersComponent implements OnInit, OnDestroy {
+export class ExportProvidersComponent {
   constructor(private importExportService: AdminImportExportService) {}
-
-  ngOnInit(): void {}
-  ngOnDestroy(): void {}
 
   public getAllProviders(): any {
     return this.importExportService.getAllProviders().subscribe((response) => {

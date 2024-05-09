@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { Observable } from 'rxjs';
 import { AdminImportExportService } from './admin-import-export.service';
 
 describe('AdminImportExportService', () => {

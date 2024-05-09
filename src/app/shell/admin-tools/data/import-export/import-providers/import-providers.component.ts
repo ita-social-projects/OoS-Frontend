@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Component, HostListener, OnInit } from '@angular/core';
+import { Component, HostListener, OnChanges, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
-import { AdminImportExportService, IEmailsEdrpous, IEmailsEdrpousResponse, IProviders, IProvidersID } from 'shared/services/admin-import-export/admin-import-export.service';
+import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
+import { IEmailsEdrpous, IEmailsEdrpousResponse, IProviders, IProvidersID } from 'shared/models/admin-import-export.model';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
 import { isValidPhoneNumber } from 'libphonenumber-js';
-import { Observable, of } from 'rxjs';
+import { Observable } from 'rxjs';
 
 const standartHeaders = [
   'Назва закладу ',
@@ -106,14 +107,14 @@ export class ImportProvidersComponent implements OnInit {
     'email',
     'phone number'
   ];
-  public dataSource;
-  public dataSourceInvalid = [];
+  public dataSource: IProvidersID[];
+  public dataSourceInvalid: IProvidersID[];
 
   constructor(private importService: AdminImportExportService) { }
   ngOnInit(): void { }
 
   @HostListener('window:scroll')
-  checkScroll(): void {
+  public checkScroll(): void {
     const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
     if (scrollPosition >= this.topPosToStartShowing) {
       this.isGoTopBtnVisible = true;
@@ -122,7 +123,7 @@ export class ImportProvidersComponent implements OnInit {
     }
   }
 
-  gotoTop(): void {
+  public gotoTop(): void {
     window.scroll({
       top: 0,
       left: 0,
@@ -130,7 +131,7 @@ export class ImportProvidersComponent implements OnInit {
     });
   }
 
-  resetValues(): void {
+  public resetValues(): void {
     this.dataSource = null;
     this.dataSourceInvalid = null;
     this.isToggle = false;
@@ -155,9 +156,7 @@ export class ImportProvidersComponent implements OnInit {
         providers.forEach(elem => {
           elem.id = providers.indexOf(elem);
         });
-        console.log(providers);
         this.verifyEmailsEdrpous(providers).subscribe(emailsEdrpous => {
-          // console.log(emailsEdrpous);
           this.checkForInvalidData(providers, emailsEdrpous);
           this.dataSource = providers;
           this.dataSourceInvalid = this.filterInvalidProviders(providers);
@@ -177,7 +176,7 @@ export class ImportProvidersComponent implements OnInit {
     event.target.value = '';
   }
 
-  public verifyEmailsEdrpous(providers: any): Observable<IEmailsEdrpousResponse> {
+  public verifyEmailsEdrpous(providers: IProvidersID[]): Observable<IEmailsEdrpousResponse> {
     const emailsEdrpous: IEmailsEdrpous = {
       edrpous: {},
       emails: {}
@@ -193,7 +192,7 @@ export class ImportProvidersComponent implements OnInit {
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
   }
 
-  public checkForInvalidData(providers: any, emailsEdrpous: IEmailsEdrpousResponse): void {
+  public checkForInvalidData(providers: IProvidersID[], emailsEdrpous: IEmailsEdrpousResponse): void {
     providers.forEach((elem) => {
       elem.errors = {};
       // Provider name required, min/max length
@@ -249,7 +248,7 @@ export class ImportProvidersComponent implements OnInit {
     });
   }
 
-  public filterInvalidProviders(providers: any[]): any {
+  public filterInvalidProviders(providers: IProvidersID[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find(e => e !== null));
   }
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
