@@ -1,4 +1,3 @@
-develop
 ## GitHub Board
 
 **Issue link**
