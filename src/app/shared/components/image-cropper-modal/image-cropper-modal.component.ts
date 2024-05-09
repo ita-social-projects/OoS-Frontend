@@ -1,7 +1,8 @@
 import { Component, Inject } from '@angular/core';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
 import { ImageCroppedEvent, LoadedImage, base64ToFile } from 'ngx-image-cropper';
-import { Cropper } from '../../models/cropper';
+
+import { Cropper } from 'shared/models/cropper';
 
 @Component({
   selector: 'app-image-cropper-modal',

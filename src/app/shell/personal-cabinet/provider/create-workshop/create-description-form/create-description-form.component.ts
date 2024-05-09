@@ -4,10 +4,10 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
-import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 
 @Component({
   selector: 'app-create-description-form',
@@ -104,6 +104,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
           this.keyWord = '';
         }
         this.disabledKeyWordsInput = this.keyWords.length >= 5;
+        // TODO: Find better workaround for FormControl disable
+        if (this.disabledKeyWordsInput) {
+          this.keyWordsCtrl.disable({ emitEvent: false });
+        } else {
+          this.keyWordsCtrl.enable({ emitEvent: false });
+        }
       }
     }
   }

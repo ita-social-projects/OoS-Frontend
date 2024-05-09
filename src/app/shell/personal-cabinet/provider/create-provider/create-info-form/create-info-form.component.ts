@@ -7,6 +7,7 @@ import { Constants, CropperConfigurationConstants } from 'shared/constants/const
 import { DATE_REGEX, FULL_NAME_REGEX } from 'shared/constants/regex-constants';
 import { FormValidators, ValidationConstants } from 'shared/constants/validation';
 import { InstitutionTypesEnum, OwnershipTypesEnum } from 'shared/enum/enumUA/provider';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 import { InstitutionTypes, OwnershipTypes, SelectableOwnershipTypes } from 'shared/enum/provider';
 import { Institution } from 'shared/models/institution.model';
 import { DataItem } from 'shared/models/item.model';
@@ -16,7 +17,6 @@ import { AppState } from 'shared/store/app.state';
 import { GetAllInstitutions, GetInstitutionStatuses, GetProviderTypes } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { Util } from 'shared/utils/utils';
-import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-create-info-form',
@@ -155,6 +155,13 @@ export class CreateInfoFormComponent implements OnInit, OnDestroy {
   }
 
   private initData(): void {
+    // TODO: Find better workaround for FormControl disable
+    this.isEditMode$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((isEditMode: boolean) =>
+        isEditMode ? this.ownershipTypeControl.disable({ emitEvent: false }) : this.ownershipTypeControl.enable({ emitEvent: false })
+      );
+
     this.institutionStatuses$.pipe(filter(Boolean), first(), takeUntil(this.destroy$)).subscribe((institutionStatuses: DataItem[]) => {
       if (this.provider) {
         this.activateEditMode();

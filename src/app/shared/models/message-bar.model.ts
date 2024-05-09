@@ -1,4 +1,7 @@
-import { MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import {
+  MatLegacySnackBarHorizontalPosition as MatSnackBarHorizontalPosition,
+  MatLegacySnackBarVerticalPosition as MatSnackBarVerticalPosition
+} from '@angular/material/legacy-snack-bar';
 
 import { MessageBarType } from 'shared/enum/message-bar';
 

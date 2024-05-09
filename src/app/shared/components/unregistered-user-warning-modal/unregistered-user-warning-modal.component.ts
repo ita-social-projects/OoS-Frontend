@@ -1,8 +1,9 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { Store } from '@ngxs/store';
-import { Login } from '../../store/registration.actions';
-import { ModalData } from '../../models/modal-data.model';
+
+import { ModalData } from 'shared/models/modal-data.model';
+import { Login } from 'shared/store/registration.actions';
 
 @Component({
   selector: 'app-unregistered-user-warning-modal',

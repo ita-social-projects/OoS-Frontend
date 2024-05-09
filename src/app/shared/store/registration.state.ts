@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Action, Selector, State, StateContext } from '@ngxs/store';
 import { LoginResponse, OidcSecurityService } from 'angular-auth-oidc-client';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Observable, of } from 'rxjs';
 import { catchError, switchMap, tap } from 'rxjs/operators';
 
@@ -143,8 +143,8 @@ export class RegistrationState {
   }
 
   @Action(Logout)
-  logout(_ctx: StateContext<RegistrationStateModel>): void {
-    this.oidcSecurityService.logoff();
+  logout(_ctx: StateContext<RegistrationStateModel>): Observable<unknown> {
+    return this.oidcSecurityService.logoff();
   }
 
   @Action(CheckAuth)
@@ -155,7 +155,7 @@ export class RegistrationState {
         if (auth.isAuthenticated) {
           return this.oidcSecurityService.getAccessToken().pipe(
             switchMap((value: string) => {
-              const token: TokenPayload = jwt_decode(value);
+              const token: TokenPayload = jwtDecode(value);
               const role = token.role;
               const subrole = token.subrole;
               patchState({ subrole, role });

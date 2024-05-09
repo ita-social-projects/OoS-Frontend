@@ -4,7 +4,7 @@
 
 .form-wrapper {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   row-gap: 10px;
   flex-wrap: wrap;
 }
@@ -138,7 +138,7 @@
 
 @media (max-width: 1300px) {
   .filters-wrapper {
-    justify-content: end;
+    justify-content: flex-end;
     flex-wrap: wrap;
     row-gap: 10px;
   }
@@ -162,7 +162,7 @@
       margin: 0 0 5px 10px;
     }
   }
-  
+
   .separate-line {
     position: relative;
     top: 10px;

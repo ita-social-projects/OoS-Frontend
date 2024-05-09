@@ -6,7 +6,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
 
 import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
@@ -23,7 +22,6 @@ describe('ProviderDetailsComponent', () => {
         MatTabsModule,
         RouterTestingModule,
         MatIconModule,
-        IvyCarouselModule,
         NgxsModule.forRoot([]),
         TranslateModule.forRoot(),
         BrowserAnimationsModule

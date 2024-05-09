@@ -6,7 +6,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TranslateModule } from '@ngx-translate/core';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
 import { ImageCropperModule } from 'ngx-image-cropper';
 import { NgxMatIntlTelInputComponent } from 'ngx-mat-intl-tel-input';
 import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
@@ -114,7 +113,6 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NoResultCardComponent,
     WorkingHoursFormComponent,
     SidenavFiltersComponent,
-    ImageCarouselComponent,
     NotificationsComponent,
     NotificationsListComponent,
     UsersListComponent,
@@ -149,7 +147,9 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     WorkshopSeatsLackModalComponent,
     PhoneFormControlComponent,
     NotificationDescriptionPipe,
-    InfoMenuComponent
+    InfoMenuComponent,
+    ImageCarouselComponent,
+    CustomCarouselDirective
   ],
 
   imports: [
@@ -162,7 +162,6 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NgxSliderModule,
     NgxMatTimepickerModule,
     NgxMatIntlTelInputComponent,
-    IvyCarouselModule,
     ImageCropperModule,
     TranslateModule,
     CdkAccordionModule
@@ -202,7 +201,6 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NoResultCardComponent,
     WorkingHoursFormComponent,
     SidenavFiltersComponent,
-    ImageCarouselComponent,
     NotificationsComponent,
     UsersListComponent,
     ProviderInfoComponent,

@@ -11,18 +11,17 @@ import { LocalSessionManagerService } from '../services/local-session-manager/lo
   imports: [
     BrowserModule,
     AuthModule.forRoot({
-      storage: LocalSessionManagerService,
       config: {
-        useRefreshToken: true,
-        silentRenew: true,
-        silentRenewTimeoutInSeconds: 300,
-        ignoreNonceAfterRefresh: true,
-        clientId: 'angular',
         authority: environment.stsServer,
-        responseType: 'code',
         redirectUrl: window.location.origin,
         postLogoutRedirectUri: window.location.origin,
+        clientId: 'angular',
         scope: 'openid profile roles outofschoolapi offline_access',
+        responseType: 'code',
+        silentRenew: true,
+        useRefreshToken: true,
+        silentRenewTimeoutInSeconds: 300,
+        ignoreNonceAfterRefresh: true,
         logLevel: LogLevel.Error,
         // @ts-ignore: Object is possibly 'null'
         secureRoutes: [environment.stsServer]

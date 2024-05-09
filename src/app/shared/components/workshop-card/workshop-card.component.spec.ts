@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatIconModule } from '@angular/material/icon';
-import { MatCardModule } from '@angular/material/card';
-import { NgxsModule } from '@ngxs/store';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { RouterTestingModule } from '@angular/router/testing';
+import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { MatDialogModule } from '@angular/material/dialog';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { Teacher } from '../../models/teacher.model';
+import { NgxsModule } from '@ngxs/store';
 import { Address } from '../../models/address.model';
+import { Teacher } from '../../models/teacher.model';
 import { WorkshopCard } from '../../models/workshop.model';
 import { WorkshopCardComponent } from './workshop-card.component';
 

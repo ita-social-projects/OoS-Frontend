@@ -3,7 +3,6 @@
     getLabelTitle(entities?.length) | translate
   }}</mat-label>
   <mat-select
-    [disabled]="entities?.length < 1"
     [formControl]="entityControl"
     multiple
     class="dropdown"
