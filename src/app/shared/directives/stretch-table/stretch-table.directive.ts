@@ -82,6 +82,7 @@ export class StretchTableDirective implements AfterViewInit {
       }
 
       const componentFactory = this.componentFactoryResolver.resolveComponentFactory(StretchCellComponent);
+      // TODO: Update to use without ComponentFactoryResolver
       const componentRef = this.viewContainerRef.createComponent(componentFactory);
       const content = THs[i].childNodes[0];
 

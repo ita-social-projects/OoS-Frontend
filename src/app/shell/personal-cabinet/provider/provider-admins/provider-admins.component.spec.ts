@@ -1,10 +1,14 @@
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import {
+  MatLegacyDialog as MatDialog,
+  MatLegacyDialogModule as MatDialogModule,
+  MatLegacyDialogRef as MatDialogRef
+} from '@angular/material/legacy-dialog';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,14 +17,14 @@ import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 
-import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
-import { Role, Subrole } from 'shared/enum/role';
-import { ProviderAdminsBlockData, ProviderAdminsTableData } from 'shared/models/users-table';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { NoResultCardComponent } from 'shared/components/no-result-card/no-result-card.component';
 import { Constants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Provider } from 'shared/models/provider.model';
+import { Role, Subrole } from 'shared/enum/role';
 import { ProviderAdminParameters } from 'shared/models/provider-admin.model';
+import { Provider } from 'shared/models/provider.model';
+import { ProviderAdminsBlockData, ProviderAdminsTableData } from 'shared/models/users-table';
 import { ProviderAdminsComponent } from './provider-admins.component';
 
 describe('ProviderAdminsComponent', () => {

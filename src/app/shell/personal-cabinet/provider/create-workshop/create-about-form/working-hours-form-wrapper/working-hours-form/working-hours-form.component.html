@@ -23,7 +23,6 @@
         <input
           class="input step-input start-time-input"
           type="text"
-          [disabled]="!workingDays.size"
           matInput
           [ngxMatTimepicker]="timepickerStart"
           format="24"
@@ -42,7 +41,6 @@
         <input
           class="input step-input finish-time-input"
           type="text"
-          [disabled]="!workingDays.size"
           matInput
           [ngxMatTimepicker]="timepickerEnd"
           format="24"

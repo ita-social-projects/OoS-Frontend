@@ -20,7 +20,7 @@
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
     <input matInput class="step-input" [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
       placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}" formControlName="disabilityOptionsDesc"
-      autocomplete="none" appTrimValue />
+      autocomplete="off" appTrimValue />
     <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
       [minCharacters]="validationConstants.INPUT_LENGTH_1" [maxCharacters]="validationConstants.INPUT_LENGTH_256">
     </app-validation-hint>
@@ -45,9 +45,10 @@
         </div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }" [disabled]="disabledKeyWordsInput"
+      <!-- TODO: Remove ngModel attribute -->
+      <input [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
         #keyWordsInput (focusout)="onKeyWordsInput()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"
-        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="none" appTrimValue />
+        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="off" appTrimValue />
     </mat-chip-list>
   </div>
 </form>

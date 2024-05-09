@@ -1,10 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+
+import { Constants } from 'shared/constants/constants';
+import { Cropper } from 'shared/models/cropper';
+import { DecodedImage } from 'shared/models/image.model';
 import { environment } from '../../../../environments/environment';
-import { Constants } from '../../constants/constants';
-import { Cropper } from '../../models/cropper';
-import { DecodedImage } from '../../models/image.model';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
 type FilesToVoid = (array: File[]) => void;
