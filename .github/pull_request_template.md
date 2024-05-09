@@ -1,4 +1,4 @@
-<!-- Delete what you don't need here; for example PR only issue-related, so remove story link. -->
+<!-- Delete what you don't need here; for example, PR only issue-related, so remove story link. -->
 
 ## GitHub Board
 
