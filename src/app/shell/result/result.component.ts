@@ -139,7 +139,9 @@ export class ResultComponent implements OnInit, OnDestroy, AfterViewInit {
   private setFilterStateURLParams(): void {
     this.filterState$.pipe(takeUntil(this.destroy$)).subscribe((filterState: FilterStateModel) => {
       const filterQueryParams = Util.getFilterStateQuery(filterState) || null;
-      this.router.navigate([`result/${this.currentViewType}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+      if (this.router.url.startsWith('/result')) {
+        this.router.navigate([`result/${this.currentViewType}`], { queryParams: { filter: filterQueryParams }, replaceUrl: true });
+      }
     });
   }
 }

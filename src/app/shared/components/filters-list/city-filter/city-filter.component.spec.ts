@@ -1,11 +1,14 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatAutocompleteModule, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatOption, MatOptionModule } from '@angular/material/core';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
+import {
+  MatLegacyAutocompleteModule as MatAutocompleteModule,
+  MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent
+} from '@angular/material/legacy-autocomplete';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, Store } from '@ngxs/store';
@@ -55,11 +58,7 @@ describe('CityFilterComponent', () => {
     component = fixture.componentInstance;
     geolocationService = TestBed.inject(GeolocationService);
     store = TestBed.inject(Store);
-    Object.defineProperty(global.navigator, 'geolocation', {
-      value: {
-        getCurrentPosition: mockGetCurrentPosition
-      }
-    });
+    (global.navigator as any).geolocation = { getCurrentPosition: mockGetCurrentPosition };
     component.settlementSearchControl = new FormControl('');
     component.settlement = {} as any;
     confirmCitySpy = jest.spyOn(geolocationService, 'confirmCity');

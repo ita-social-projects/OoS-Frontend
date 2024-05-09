@@ -23,8 +23,8 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() private instituitionHierarchyIdFormControl: FormControl;
-  @Input() private provider: Provider;
+  @Input() public instituitionHierarchyIdFormControl: FormControl;
+  @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: FormControl;
 
   @Select(MetaDataState.institutions)

@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';

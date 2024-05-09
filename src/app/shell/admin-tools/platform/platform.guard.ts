@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanLoad } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,7 +9,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class PlatformGuard implements CanLoad {
+export class PlatformGuard {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
 
