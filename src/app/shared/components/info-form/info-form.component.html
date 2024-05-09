@@ -4,9 +4,16 @@
   fxLayoutAlign="center space-between"
   class="step"
   [class.step-border]="formAmount > 1 && index !== formAmount - 1">
-  <label class="step-label">{{ 'FORMS.LABELS.SECTION_TITLE' | translate }} <span class="step-required">*</span></label>
+  <label class="step-label" for="section-name">{{ 'FORMS.LABELS.SECTION_TITLE' | translate }} <span class="step-required">*</span></label>
   <mat-form-field>
-    <input matInput class="step-input" type="text" formControlName="sectionName" appTrimValue />
+    <input
+      matInput
+      class="step-input"
+      type="text"
+      formControlName="sectionName"
+      appTrimValue
+      (focusout)="onFocusOut('sectionName')"
+      id="section-name" />
   </mat-form-field>
   <div class="error-wrapper">
     <app-validation-hint
@@ -17,8 +24,8 @@
   </div>
 
   <div class="step-label-combined">
-    <label class="step-label"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>
-    <label class="step-characters-count"> {{ infoEditFormGroup.get('description').value.length }}/{{ maxDescriptionLength }}</label>
+    <label class="step-label" for="description"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>
+    <span class="step-characters-count"> {{ infoEditFormGroup.get('description').value?.length }}/{{ maxDescriptionLength }}</span>
   </div>
   <mat-form-field appearance="none">
     <textarea
@@ -27,7 +34,9 @@
       placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ maxDescriptionLength }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
       formControlName="description"
       maxlength="{{ maxDescriptionLength }}"
-      appTrimValue></textarea>
+      appTrimValue
+      (focusout)="onFocusOut('description')"
+      id="description"></textarea>
   </mat-form-field>
   <app-validation-hint
     [validationFormControl]="infoEditFormGroup.get('description')"

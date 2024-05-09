@@ -55,6 +55,27 @@ describe('TeacherFormComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should emit delete when onDeleteTeacher is called', () => {
+    const mockIndex = 1;
+    jest.spyOn(component.deleteForm, 'emit');
+
+    component.index = mockIndex;
+    component.onDeleteTeacher();
+
+    expect(component.deleteForm.emit).toHaveBeenCalledWith(mockIndex);
+  });
+
+  it('should set value is equal to NULL in form control on focus out event if current form control is pristine', () => {
+    const mockedFormControlName = 'lastName';
+    const setValueSpy = jest.spyOn(component.TeacherFormGroup.controls.lastName, 'setValue');
+    const getFormControlSpy = jest.spyOn(component.TeacherFormGroup, 'get');
+
+    component.onFocusOut(mockedFormControlName);
+
+    expect(getFormControlSpy).toHaveBeenCalledWith(mockedFormControlName);
+    expect(setValueSpy).toHaveBeenCalledWith(null);
+  });
 });
 
 @Component({

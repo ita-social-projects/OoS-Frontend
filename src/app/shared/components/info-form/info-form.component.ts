@@ -21,4 +21,10 @@ export class InfoFormComponent {
   public onDelete(): void {
     this.deleteForm.emit(this.index);
   }
+
+  public onFocusOut(formControlName: string): void {
+    if (this.infoEditFormGroup.get(formControlName).pristine) {
+      this.infoEditFormGroup.get(formControlName).setValue(null);
+    }
+  }
 }
