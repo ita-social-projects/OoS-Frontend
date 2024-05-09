@@ -20,7 +20,7 @@ A clear and concise description of what you want to happen.
 E.g.: Epic #100 [Epic](https://github.com/ita-social-projects/OoS-Frontend/labels/100)
 
 **Labels to be added**
-"User story", Correspondind Functionality (e.g. User), Priority ("pri: "), "Corresponding Epic"
+"User story", Corresponding Functionality (e.g. User), Priority ("pri: "), "Corresponding Epic"
 
 ### Tasks 
 1. - [ ] sample task.
