@@ -23,7 +23,7 @@ export class InfoFormComponent {
   }
 
   public onFocusOut(formControlName: string): void {
-    if (this.infoEditFormGroup.get(formControlName).pristine) {
+    if (this.infoEditFormGroup.get(formControlName).pristine && !this.infoEditFormGroup.get(formControlName).value) {
       this.infoEditFormGroup.get(formControlName).setValue(null);
     }
   }

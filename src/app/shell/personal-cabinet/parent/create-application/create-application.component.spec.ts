@@ -1,22 +1,22 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { NgxsModule, Store } from '@ngxs/store';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatIconModule } from '@angular/material/icon';
-import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatInputModule } from '@angular/material/input';
 import { Component, Input } from '@angular/core';
-import { MatTabsModule } from '@angular/material/tabs';
-import { MatDialogModule } from '@angular/material/dialog';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { of } from 'rxjs';
+import { MatOptionModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { MatTabsModule } from '@angular/material/tabs';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { Child } from '../../../../shared/models/child.model';
-import { Parent } from '../../../../shared/models/parent.model';
-import { Workshop } from '../../../../shared/models/workshop.model';
+import { NgxsModule, Store } from '@ngxs/store';
+import { of } from 'rxjs';
+import { Child } from 'shared/models/child.model';
+import { Parent } from 'shared/models/parent.model';
+import { Workshop } from 'shared/models/workshop.model';
 import { CreateApplicationComponent } from './create-application.component';
 
 describe('CreateApplicationComponent', () => {

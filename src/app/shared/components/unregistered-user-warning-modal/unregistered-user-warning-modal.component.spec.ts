@@ -1,10 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { NgxsModule, Store } from '@ngxs/store';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule, Store } from '@ngxs/store';
+
 import { UnregisteredUserWarningModalComponent } from './unregistered-user-warning-modal.component';
 
-describe('WorkshopModalComponent', () => {
+describe('UnregisteredUserWarningModalComponent', () => {
   let component: UnregisteredUserWarningModalComponent;
   let fixture: ComponentFixture<UnregisteredUserWarningModalComponent>;
   const model = {

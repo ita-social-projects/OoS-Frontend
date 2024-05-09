@@ -1,84 +1,82 @@
 <div class="container" *ngIf="provider">
-    <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
-    <app-image-carousel [images]="images"></app-image-carousel>
+  <app-actions *ngIf="isMobileScreen && displayActionCard" [role]="role" [workshop]="workshop"></app-actions>
+  <app-image-carousel [images]="images"></app-image-carousel>
 
-    <div class="details-wrapper">
-        <div fxLayout="column" fxLayoutAlign="space-between space-between">
-            <div fxLayout="row" fxLayoutAlign="space-between center">
-                <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
-                    <div fxLayout="column" fxLayoutAlign="start center">
-                        <h1 class="title">{{ workshop.title }}</h1>
-                        <h3 class="short-title" *ngIf="workshop.shortTitle"
-                            fxFlexAlign="start">{{ workshop.shortTitle }}</h3>
-                    </div>
-                    <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
-                        <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
-                    </ng-container>
-                </div>
-                <div *ngFor="let directionId of workshop.directionIds">
-                    <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}"/>
-                </div>
-            </div>
+  <div class="details-wrapper">
+    <div fxLayout="column" fxLayoutAlign="space-between space-between">
+      <div fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="row" fxLayout.lt-sm="row wrap" fxLayoutAlign="start center">
+          <div fxLayout="column" fxLayoutAlign="start center">
+            <h1 class="title">{{ workshop.title }}</h1>
+            <h3 class="short-title" *ngIf="workshop.shortTitle" fxFlexAlign="start">{{ workshop.shortTitle }}</h3>
+          </div>
+          <ng-container *ngIf="workshopStatusOpen; else ClosedWorkshopStatus">
+            <div class="chip chip-color-open">{{ recruitmentStatusEnum.RecruitmentOngoing | translate }}</div>
+          </ng-container>
+        </div>
+        <div *ngFor="let directionId of workshop.directionIds">
+          <img class="details-icon" [src]="categoryIcons[directionId]" alt="{{ workshop.title }}" />
+        </div>
+      </div>
 
-            <div fxLayout="row">
-                <div fxLayout="column">
+      <div fxLayout="row">
+        <div fxLayout="column">
           <span class="icon-text">
             <mat-icon class="icon">star</mat-icon>
-              {{ workshop.rating }}&nbsp;
+            {{ workshop.rating }}&nbsp;
             <span class="rating-number">({{ workshop.numberOfRatings }})</span>
           </span>
-                    <a [routerLink]="['/details/provider', workshop.providerId]">
+          <a [routerLink]="['/details/provider', workshop.providerId]">
             <span class="icon-text details-link" [ngClass]="{ 'workshop-title': workshop.competitiveSelection }">
               <mat-icon class="icon">home</mat-icon>
-                {{ workshop.providerTitle }}
+              {{ workshop.providerTitle }}
             </span>
-                    </a>
-                    <span class="icon-text" *ngIf="!workshop.competitiveSelection">
+          </a>
+          <span class="icon-text" *ngIf="!workshop.competitiveSelection">
             <mat-icon class="icon">school</mat-icon>
-                        {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
+            {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
           </span>
-                </div>
-                <div fxLayout="column" *ngIf="workshop.competitiveSelection">
+        </div>
+        <div fxLayout="column" *ngIf="workshop.competitiveSelection">
           <span fxLayout="row" fxLayoutAlign="start center">
             <span class="icon-text">
               <mat-icon class="icon">person_add</mat-icon>
-                {{ 'COMPETITIVE_SELECTION' | translate }}
-                <app-info-menu [type]="InfoMenuType.Text">
+              {{ 'COMPETITIVE_SELECTION' | translate }}
+              <app-info-menu [type]="InfoMenuType.Text">
                 {{ workshop.competitiveSelectionDescription }}
               </app-info-menu>
             </span>
           </span>
-                    <span class="icon-text">
+          <span class="icon-text">
             <mat-icon class="icon">school</mat-icon>
-                        {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
+            {{ FormOfLearningEnum[workshop.formOfLearning] | translate }}
           </span>
-                </div>
-            </div>
         </div>
-
-        <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
-            <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate | uppercase }}">
-                <app-workshop-about [workshop]="workshop"></app-workshop-about>
-            </mat-tab>
-            <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate | uppercase }}">
-                <app-provider-about [provider]="provider"></app-provider-about>
-            </mat-tab>
-            <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
-                <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
-            </mat-tab>
-            <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
-                <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
-            </mat-tab>
-            <mat-tab *ngIf="role !== Role.unauthorized" class="label"
-                     label="{{ workshopTitles.Reviews | translate | uppercase }}">
-                <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
-            </mat-tab>
-            <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
-                <app-achievements [workshop]="workshop"></app-achievements>
-            </mat-tab>
-        </mat-tab-group>
+      </div>
     </div>
+
+    <mat-tab-group class="nav" [(selectedIndex)]="selectedIndex" (selectedTabChange)="onTabChange($event)">
+      <mat-tab class="label" label="{{ workshopTitles.AboutWorkshop | translate | uppercase }}">
+        <app-workshop-about [workshop]="workshop"></app-workshop-about>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.AboutProvider | translate | uppercase }}">
+        <app-provider-about [provider]="provider"></app-provider-about>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.Teachers | translate | uppercase }}">
+        <app-workshop-teachers [teachers]="workshop.teachers"></app-workshop-teachers>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.OtherWorkshops | translate | uppercase }}">
+        <app-all-provider-workshops [providerParameters]="providerParameters"></app-all-provider-workshops>
+      </mat-tab>
+      <mat-tab *ngIf="role !== Role.unauthorized" class="label" label="{{ workshopTitles.Reviews | translate | uppercase }}">
+        <app-reviews [workshop]="workshop" [role]="role"></app-reviews>
+      </mat-tab>
+      <mat-tab class="label" label="{{ workshopTitles.Achievements | translate | uppercase }}">
+        <app-achievements [workshop]="workshop"></app-achievements>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
 </div>
 <ng-template #ClosedWorkshopStatus>
-    <div class="chip chip-color-close">{{ recruitmentStatusEnum.RecruitmentStoped | translate }}</div>
+  <div class="chip chip-color-close">{{ recruitmentStatusEnum.RecruitmentStoped | translate }}</div>
 </ng-template>

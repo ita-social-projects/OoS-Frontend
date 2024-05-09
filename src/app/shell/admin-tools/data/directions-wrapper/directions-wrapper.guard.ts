@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { CanLoad } from '@angular/router';
 import { Select } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -10,7 +9,7 @@ import { canManageInstitution } from 'shared/utils/admin.utils';
 @Injectable({
   providedIn: 'root'
 })
-export class DirectionsWrapperGuard implements CanLoad {
+export class DirectionsWrapperGuard {
   @Select(RegistrationState.role)
   private role$: Observable<string>;
 

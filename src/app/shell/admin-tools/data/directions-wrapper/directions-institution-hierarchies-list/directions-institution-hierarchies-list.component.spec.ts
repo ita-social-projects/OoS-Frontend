@@ -1,7 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { MatTableModule } from '@angular/material/table';
 import { NgxsModule } from '@ngxs/store';
-import { MatDialogModule } from '@angular/material/dialog';
+
 import { DirectionsInstitutionHierarchiesListComponent } from './directions-institution-hierarchies-list.component';
 
 describe('DirectionsInstitutionHierarchiesListComponent', () => {

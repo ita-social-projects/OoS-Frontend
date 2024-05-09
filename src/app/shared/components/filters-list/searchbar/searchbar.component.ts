@@ -81,7 +81,7 @@ export class SearchbarComponent implements OnInit, OnDestroy {
   private performSearch(): void {
     const filterQueryParams: Partial<DefaultFilterState> = { searchQuery: this.searchValueFormControl.value };
     if (!this.isResultPage) {
-      this.router.navigate(['result/list'], { queryParams: { filter: filterQueryParams }, replaceUrl: false });
+      this.router.navigate(['result/List'], { queryParams: { filter: filterQueryParams }, replaceUrl: false });
     }
     this.store.dispatch(new SetSearchQueryValue(this.searchedText || ''));
   }

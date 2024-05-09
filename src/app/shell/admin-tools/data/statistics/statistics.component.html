@@ -2,8 +2,7 @@
   <div class="filter-wrapper">
     <span class="title">{{ 'STATISTICS.DATE_RANGE' | translate }}</span>
     <mat-form-field floatLabel="never" appearance="none">
-      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period"
-        class="control control-select select">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="period" class="control control-select select">
         <ng-container *ngFor="let type of StatisticPeriodTitles | keyvalue">
           <mat-option [value]="type.key" class="dropdown-option">
             {{ StatisticPeriodTitles[type.key] | translate }}
@@ -15,8 +14,7 @@
   <div class="filter-wrapper">
     <span class="title">{{ 'STATISTICS.FORMAT' | translate }}</span>
     <mat-form-field>
-      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="format"
-        class="control control-select">
+      <mat-select disableOptionCentering panelClass="dropdown-panel" formControlName="format" class="control control-select">
         <ng-container *ngFor="let format of StatisticFileFormats | keyvalue">
           <mat-option [value]="format.key" class="dropdown-option">
             {{ StatisticFileFormats[format.key] | translate }}
@@ -37,8 +35,10 @@
 
 <ng-template #noData>
   <div class="statistics-result">
-    <span>{{ 'STATISTICS.NO_DATA' | translate }} <br />
-      {{ 'STATISTICS.NO_DATA_SUBHEADER' | translate }}</span>
+    <span
+      >{{ 'STATISTICS.NO_DATA' | translate }} <br />
+      {{ 'STATISTICS.NO_DATA_SUBHEADER' | translate }}</span
+    >
   </div>
 </ng-template>
 
@@ -83,9 +83,12 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
       </table>
     </div>
-    <app-paginator [totalEntities]="statisticReports$ | async" [currentPage]="currentPage"
-                   [itemsPerPage]="statisticParameters.size" (pageChange)="onPageChange($event)"
-                   (itemsPerPageChange)="onItemsPerPageChange($event)">
+    <app-paginator
+      [totalEntities]="statisticReports$ | async"
+      [currentPage]="currentPage"
+      [itemsPerPage]="statisticParameters.size"
+      (pageChange)="onPageChange($event)"
+      (itemsPerPageChange)="onItemsPerPageChange($event)">
     </app-paginator>
   </div>
 </ng-template>

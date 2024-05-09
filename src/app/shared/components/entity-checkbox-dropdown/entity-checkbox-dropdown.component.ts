@@ -28,6 +28,11 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   constructor(private translateCases: TranslateCasesPipe) {}
 
   public ngOnInit(): void {
+    // TODO: Find better workaround for FormControl disable
+    if (this.entities?.length < 1) {
+      this.entityControl.disable({ emitEvent: false });
+    }
+
     this.entityControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((entities: TruncatedItem[]) => {

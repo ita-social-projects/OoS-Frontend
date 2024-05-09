@@ -18,7 +18,7 @@ jobs:
       - name: Set up Node environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: 18
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
@@ -40,7 +40,7 @@ jobs:
       - name: Set up Node environment
         uses: actions/setup-node@v4
         with:
-          node-version: '16'
+          node-version: 18
           cache: 'yarn'
       - name: Install dependencies
         run: yarn install
