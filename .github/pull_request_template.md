@@ -1,35 +1,30 @@
+<!-- Delete what you don't need here; for example PR only issue-related, so remove story link. -->
+
 ## GitHub Board
 
 **Issue link**
 
-[#100 Issue name ](https://github.com/ita-social-projects/OoS-Frontend/issues/100)
+[#100 Issue name](https://github.com/ita-social-projects/OoS-Frontend/issues/100)
 
 **Story link**
 
 [#100 Story](https://github.com/ita-social-projects/OoS-Frontend/issues/100)
 
-## Code reviewers
-
-- [ ] @github_username
-
-### Second Level Review
-
-- [ ] @github_username
-
 ## Summary of issue
 
-ToDo
+If it is needed, describe what kind of problem was lying around issue by dev-side.
 
 ## Summary of change
 
-ToDo
+Describe what was changed in the PR.
 
 ## Testing approach
 
-ToDo
-## CHECK LIST
+Describe how it is possible to test/reproduce PR changes, fixes.
+
+## Check list
 - [ ]  СI passed
-- [ ]  Сode coverage >=80%
+- [ ]  Code coverage >= 80%
 - [ ]  PR is reviewed manually again (to make sure you have 100% ready code)
 - [ ]  All reviewers agreed to merge the PR
 - [ ]  I've checked new feature as logged in and logged out user if needed
