@@ -1,4 +1,3 @@
-import { Injectable } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -8,13 +7,12 @@ import {
 } from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule, State, Store } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { User } from 'shared/models/user.model';
 import { Workshop } from 'shared/models/workshop.model';
-import { ParentStateModel } from 'shared/store/parent.state';
 import { Role } from 'shared/enum/role';
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
