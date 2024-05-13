@@ -9,7 +9,6 @@
   <h4 class="card-title" *ngIf="!workshop.price">{{ 'FREE_WORKSHOP' | translate }}</h4>
   <a
     [ngClass]="{ disable: hideApplicationSubmission }"
-    [routerLink]="['/create-application', workshop.id]"
     (click)="onOpenDialog(ModalTypeAction.unregisteredApplicationWarning)">
     <button
       class="button button-application"
@@ -22,8 +21,6 @@
   </a>
 
   <a
-    [routerLink]="['/personal-cabinet/messages/', workshop.id]"
-    [queryParams]="{ mode: ModeConstants.WORKSHOP }"
     (click)="onOpenDialog(ModalTypeAction.unregisteredMessageWarning)">
     <button mat-raised-button class="button button-msg"><mat-icon> email</mat-icon> {{ 'SEND_A_MESSAGE' | translate }}</button>
   </a>
