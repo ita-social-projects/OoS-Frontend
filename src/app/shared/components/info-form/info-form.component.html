@@ -27,7 +27,7 @@
     <label class="step-label" for="description"> {{ 'TITLES.DESCRIPTION' | translate }} <span class="step-required">*</span></label>
     <span class="step-characters-count"> {{ infoEditFormGroup.get('description').value?.length }}/{{ maxDescriptionLength }}</span>
   </div>
-  <mat-form-field appearance="none">
+  <mat-form-field appearance="fill">
     <textarea
       matInput
       class="step-textarea"

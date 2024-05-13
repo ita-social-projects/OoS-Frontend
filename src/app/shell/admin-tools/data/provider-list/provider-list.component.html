@@ -12,7 +12,7 @@
   </div>
   <div class="filters-area">
     <div class="filter-dropdown">
-      <mat-form-field *ngIf="isTechAdmin" floatLabel="never" appearance="none">
+      <mat-form-field *ngIf="isTechAdmin" appearance="fill">
         <mat-select disableOptionCentering formControlName="institution" panelClass="dropdown-panel"
           placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_SUBORDINATION' | translate }}" class="select">
           <mat-option *ngFor="let institution of institutions$ | async" [value]="institution" class="dropdown-option">
@@ -23,7 +23,7 @@
     </div>
     <div class="region-filters-area">
       <div class="filter-dropdown institution-filter">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" floatLabel="never" appearance="none">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin" appearance="fill">
           <mat-select disableOptionCentering formControlName="region" panelClass="dropdown-panel"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_REGION' | translate }}" class="select">
             <mat-option class="dropdown-option" *ngFor="let region of regions$ | async" [value]="region">
@@ -33,7 +33,7 @@
         </mat-form-field>
       </div>
       <div class="filter-dropdown">
-        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" floatLabel="never" appearance="none">
+        <mat-form-field *ngIf="isTechAdmin || isMinistryAdmin || isRegionAdmin" appearance="fill">
           <mat-select [compareWith]="compareCodeficators" disableOptionCentering formControlName="area"
             panelClass="dropdown-panel"
             placeholder="{{ 'FORMS.PLACEHOLDERS.SELECT_TERRITORIAL_COMMUNITY' | translate }}" class="select">
