@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
 import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
@@ -24,7 +24,7 @@ export class ChildFormComponent implements OnInit, OnDestroy {
   private readonly NONE_SOCIAL_GROUP_ID = 6;
 
   @Input()
-  public ChildFormGroup: FormGroup;
+  public ChildFormGroup: AbstractControl;
   @Input()
   public index: number;
   @Input()
@@ -52,6 +52,10 @@ export class ChildFormComponent implements OnInit, OnDestroy {
     private translateService: TranslateService,
     private store: Store
   ) {}
+
+  public get ChildForm(): FormGroup {
+    return this.ChildFormGroup as FormGroup;
+  }
 
   public ngOnInit(): void {
     this.socialGroupControl = this.ChildFormGroup.get('socialGroups') as FormControl;

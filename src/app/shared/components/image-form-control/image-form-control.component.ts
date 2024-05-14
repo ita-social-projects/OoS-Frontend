@@ -1,5 +1,5 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
-import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { AbstractControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { Constants } from 'shared/constants/constants';
@@ -25,9 +25,9 @@ type VoidToVoid = () => void;
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
   @Input() public imgMaxAmount: number;
-  @Input() public imageIdsFormControl: FormControl;
+  @Input() public imageIdsFormControl: AbstractControl;
   @Input() public label: string;
-  @Input() public cropperConfig: Cropper;
+  @Input() public cropperConfig: Partial<Cropper>; // FIXME: Remove Partial type and fix the errors those are related with this Input
 
   @ViewChild('inputImage') public inputImage: ElementRef;
 

@@ -2,7 +2,7 @@ import { Observable, Subject } from 'rxjs';
 import { filter, take, takeUntil, tap } from 'rxjs/operators';
 
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
 import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
@@ -23,9 +23,9 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() public instituitionHierarchyIdFormControl: FormControl;
+  @Input() public instituitionHierarchyIdFormControl: AbstractControl;
   @Input() public provider: Provider;
-  @Input() public instituitionIdFormControl: FormControl;
+  @Input() public instituitionIdFormControl: AbstractControl;
 
   @Select(MetaDataState.institutions)
   public institutions$: Observable<Institution[]>;
@@ -44,6 +44,10 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   public hierarchyArray: HierarchyElement[] = [];
 
   constructor(private store: Store) {}
+
+  public get instituitionIdControl(): FormControl {
+    return this.instituitionIdFormControl as FormControl;
+  }
 
   public ngOnInit(): void {
     this.store.dispatch(new GetAllInstitutions(false));

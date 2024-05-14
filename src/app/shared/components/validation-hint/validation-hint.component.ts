@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
-import { FormControl, ValidationErrors } from '@angular/forms';
+import { AbstractControl, FormControl, ValidationErrors } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { debounceTime, takeUntil } from 'rxjs/operators';
 
@@ -18,7 +18,7 @@ import {
   templateUrl: './validation-hint.component.html'
 })
 export class ValidationHintComponent implements OnInit, OnDestroy, OnChanges {
-  @Input() public validationFormControl: FormControl = new FormControl(); // required for validation
+  @Input() public validationFormControl: AbstractControl = new FormControl(); // required for validation
   // for Length Validation
   @Input() public minCharacters: number;
   @Input() public maxCharacters: number;
