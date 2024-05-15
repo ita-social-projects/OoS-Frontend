@@ -7,7 +7,8 @@ import {
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-
+import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
+import { CustomMatTooltipDefaultOptions } from 'shared/constants/constants';
 import { Constants } from 'shared/constants/constants';
 import { Codeficator } from 'shared/models/codeficator.model';
 import { Coords } from 'shared/models/coords.model';
@@ -20,7 +21,8 @@ import { MetaDataState } from 'shared/store/meta-data.state';
 @Component({
   selector: 'app-city-filter',
   templateUrl: './city-filter.component.html',
-  styleUrls: ['./city-filter.component.scss']
+  styleUrls: ['./city-filter.component.scss'],
+  providers: [{ provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomMatTooltipDefaultOptions }]
 })
 export class CityFilterComponent implements OnInit, OnDestroy {
   @Select(FilterState.isConfirmCity)

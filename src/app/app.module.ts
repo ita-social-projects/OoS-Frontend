@@ -29,8 +29,6 @@ import { ParentState } from 'shared/store/parent.state';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { SharedUserState } from 'shared/store/shared-user.state';
-import { MAT_TOOLTIP_DEFAULT_OPTIONS } from '@angular/material/tooltip';
-import { CustomMatTooltipDefaultOptions } from 'shared/constants/constants';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -97,8 +95,7 @@ registerLocaleData(localeUk);
       provide: HTTP_INTERCEPTORS,
       useClass: ErrorHandleInterceptor,
       multi: true
-    },
-    { provide: MAT_TOOLTIP_DEFAULT_OPTIONS, useValue: CustomMatTooltipDefaultOptions }
+    }
   ],
   bootstrap: [AppComponent]
 })
