@@ -27,13 +27,13 @@
   - [Running unit tests](#Running-unit-tests)
   - [Running end-to-end tests](#Running-end-to-end-tests)
   - [Further help](#Further-help)
-<!-- - [Documentation](#Documentation) -->
+- [Documentation](#Documentation)
 - [Contributing](#Contributing)
-  <!-- - [Git flow](#Git-flow)
-  - [Issue flow](#Issue-flow) -->
-- [Contributors](#Contributors)
-<!-- - [FAQ](#FAQ) -->
-<!-- - [Support](#Support) -->
+  - [Git flow](#Git-flow)
+  - [Issue flow](#Issue-flow)
+<!-- - [Contributors](#Contributors) -->
+- [FAQ](#FAQ)/
+- [Support](#Support)
 - [License](#License)
 
 ---
@@ -84,36 +84,90 @@ Run `yarn e2e` to execute the end-to-end tests via [Cypress](https://www.cypress
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
 
 ---
-<!-- 
+
 ## Documentation
+
+#### Tech stack
+
+- GitHub Actions are used to run unit tests & assign reviewers and Google Cloud Platform as CI/CD tool to deploy project
+- Angular 16 & TypeScript 5 are used to develop project
+- nginx is used as web server on deploy
+- Jest and Cypress are used for unit & end-to-end testing
+- Prettier and ESLint are used to provide formatting and code-style rules & linting
+- SonarCloud is used for code coverage & code smells & reliability
+
+#### General terms and concepts
+
+- **Admin** (tech, ministry, region, territorial community/area) - person that is responsible of managing entire portal or specific local flow restricted by role
+- **Provider** - person or organization that provides out-of-school services and manages its info and workshops
+  - **Provider Deputy**, **Workshop Administrator** - responsible of supporting Provider, managing specific scope or only workshop/workshops
+- **Parent** - user that manages and applies children to the workshops, main 'client' of portal
+  - **Child** - can be applied to workshop and gain achievements
+- **Application** - request by parent to apply his child to workshop
+- **Direction** - category of workshop activities
+- **Institution** - state organization
+
+#### Project structure
+
+- **app** - main source code folder and Angular top-module
+  - **shared** - module with widely-used components, services, directives, utils etc.
+    - **store** - folder that contains NGXS injectable state & actions
+  - **shell** - module and placeholder for different functional units
+    - **admin-tools** - admin panel that allows to manage portal, users, other admins
+      - **data** - module that contains functional to manage admins, applications, directions, providers, users, statistics, history log
+      - **platform** - module that allows to manage whole platform info
+    - **details** - detailed pages of providers and workshops
+    - **info** - platform info pages, rules, support for users
+    - **personal-cabinet** - pages for personal usage of parents, providers etc.
+    - **result** - page that allows to search & filter workshops or use map for searching them
+- **assets** - styles, media, translation and other non-functional content
+- **environments** - env variables which depends on configuration
 
 ---
 
 ## Contributing
 
 ### Git flow
-> To get started...
-#### Step 1
 
-- **Option 1**
-    - 🍴 Fork this repo!
+To get started...
 
-- **Option 2**
-    - 👯 Clone this repo to your local machine using `https://github.com/ita-social-projects/OoS-Frontend`
+1. Install [required dependencies](Required-to-install) and pick some code editor or IDE that is suitable for you:
+    - [Visual Studio Code by Microsoft](https://code.visualstudio.com/) - popular editor with rich extensions provided to use (we have extensions for this editor that will be offered to install once you load project)
+    - [WebStorm by JetBrains](https://www.jetbrains.com/webstorm/) (paid but free for [students](https://www.jetbrains.com/community/education/#students)) - powerful and comprehensive IDE with useful built-in tools provided
+    - [Sublime Text](https://www.sublimetext.com/) - lightweight and fast code editor
+    - even Vim or Notepad will be fine but not much ready-to-develop as previous tools
 
-#### Step 2
+2. [Clone](#Clone) this repo using HTTPS, SSH (requires [additional set-up](https://docs.github.com/en/authentication/connecting-to-github-with-ssh)), [GitHub CLI](https://cli.github.com/) or version control tool in your editor/IDE.
 
-- **HACK AWAY!** 🔨🔨🔨
+3. Pick some [issue](https://github.com/ita-social-projects/OoS-Frontend/issues) you interested of, feel free to ask questions in members of project or write comments, and when you're ready - assign yourself and get started.
 
-#### Step 3
+4. **HACK AWAY!** 🔨🔨🔨
 
-- 🔃 Create a new pull request using <a href="https://github.com/ita-social-projects/OoS-Frontend/compare/" target="_blank">github.com/ita-social-projects/OoS-Frontend</a>.
+5. Create a [new pull request](https://github.com/ita-social-projects/OoS-Frontend/compare/) and provide enough description for it.
+
+6. After code review resolve the issues or if there's none of them - **merge** and you're done!
 
 ### Issue flow
 
---- -->
+- **bug** - the issue of some functional doesn't work as expected
+- **backend** - related to backend so have to be discussed or done by this side
+- **improvement** - suggestion to enhance functionality
+- **severity** - describes a level of impact for entire application
+- **priority** - describes a level of urgency for issue to be done
+- **ui** - related directly to ui flow
+- **documentation** - describes some data related mostly to dev flow, describe complicated cases or agree some team principles
+- **freezed** - is prevented to develop by some of minor causes
+- **task** - related to user story or represent it and provides new functionality
+- **bug:fixed** - PR with fixes merged and waiting for QC to approve that
+- **validated** - issue is checked by QC and is resolved now
+- **good first issue** - suitable for newcomers and not very complicated
+- **help wanted** and **question** - need for dev team/QC/PM or required person's attention, help of information
 
-## Contributors
+---
+
+<!-- ## Contributors
+
+TODO: Complete section
 
 > Backend
 
@@ -138,23 +192,22 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 > Testers
 
----
+--- -->
 
-<!-- ## FAQ
+## FAQ
 
     - No problem! Just do this.
+    - Feel free to reach team members.
+    - Debug, investigate, but don't push yourself too hard.
+    - Rest enough.
 
 ---
 
 ## Support
 
-Reach out to me at one of the following places!
+Reach us by creating issue, write comments or any suitable way for you.
 
-- Website at <a href="http://Website.com" target="_blank">`Website.com`</a>
-- Facebook at <a href="https://www.facebook.com/LiubomyrHalamaha/" target="_blank">`Liubomyr Halamaha`</a>
-- Insert more social links here.
-
---- -->
+---
 
 ## License
 
