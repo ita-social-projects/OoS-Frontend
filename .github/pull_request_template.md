@@ -21,11 +21,3 @@ Describe what was changed in the PR.
 ## Testing approach
 
 Describe how it is possible to test/reproduce PR changes, fixes.
-
-## Check list
-- [ ]  СI passed
-- [ ]  Code coverage >= 80%
-- [ ]  PR is reviewed manually again (to make sure you have 100% ready code)
-- [ ]  All reviewers agreed to merge the PR
-- [ ]  I've checked new feature as logged in and logged out user if needed
-- [ ]  PR meets all conventions
