@@ -150,7 +150,7 @@ export class ModeConstants {
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };
 
-export const CustomMatTooltipDefaultOptions: MatTooltipDefaultOptions = {
+export const NoInteractTooltipOptions: MatTooltipDefaultOptions = {
   showDelay: 0,
   hideDelay: 0,
   touchGestures: 'auto',
