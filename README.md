@@ -32,7 +32,7 @@
   - [Git flow](#Git-flow)
   - [Issue flow](#Issue-flow)
 <!-- - [Contributors](#Contributors) -->
-- [FAQ](#FAQ)/
+- [FAQ](#FAQ)
 - [Support](#Support)
 - [License](#License)
 
