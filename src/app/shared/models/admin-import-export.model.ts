@@ -19,6 +19,10 @@ export interface IProviders {
   email?: string;
   phoneNumber?: number;
 }
+export interface IProvidersID extends IProviders {
+  elem: {};
+  id: number;
+}
 export interface IErrors {
   providerNameEmpty?: boolean;
   providerNameLength?: boolean;
@@ -37,9 +41,4 @@ export interface IErrors {
   emailDuplicate?: boolean;
   phoneNumberEmpty?: boolean;
   phoneNumberFormat?: boolean;
-}
-
-export interface IProvidersID extends IProviders {
-  elem: {};
-  id: number;
 }

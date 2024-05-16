@@ -890,7 +890,7 @@
     "SELECT_FILE": "Select file",
     "SELECT_ANOTHER_FILE": "Select another file",
     "SUBMIT_FILE": "Submit file",
-    "INCORRECT_ROWS":"Incorrect rows",
+    "INCORRECT_ROWS":"Incorrect rows: ",
     "PROVIDERS_LIST": {
       "PROVIDER_NAME": "Provider name",
       "OWNERSHIP": "Ownership",

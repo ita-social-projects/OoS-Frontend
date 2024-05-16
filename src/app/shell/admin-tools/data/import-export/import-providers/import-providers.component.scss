@@ -49,6 +49,15 @@ $lengthWarningMessage: red;
       animation: pulse 3s infinite;
     }
   }
+  mat-slide-toggle{
+    padding-top: 5px;
+  }
+  .incorrect-row{
+    color:red;
+  }
+  .incorrect-row-number{
+    color: red;
+  }
 }
 
 .big-icon[_ngcontent-xif-c400] {
@@ -152,11 +161,6 @@ $lengthWarningMessage: red;
   }
 }
 
-.mat-slide-toggle{
-  margin: 3px 16px 10px;
-  color:red;
-}
-
 .loader-container{
   height: 50px;
   margin-left: 15px;
@@ -205,7 +209,7 @@ $lengthWarningMessage: red;
 
 }
 
-@media screen and (max-width:880px){
+@media screen and (max-width:930px){
   .import-buttons{
     align-items: flex-start;
     justify-content: space-between;
@@ -213,23 +217,10 @@ $lengthWarningMessage: red;
   .errors-menu{
     padding-top: 5px;
   }
-.mat-slide-toggle{
+mat-slide-toggle{
   position: relative;
     .incorrect-row{
-      display: none;
-    }
-    .incorrect-row-num-off{
-      position: absolute;
-      top: 1px;
-      left: 5px;
-      z-index: 1;
-    }
-    .incorrect-row-num-on{
-      position: absolute;
-      top: 1px;
-      left: 22px;
-      z-index: 1;
-      color: white;
+      display: none !important;
     }
 } 
 }

@@ -892,7 +892,7 @@
     "SELECT_FILE": "Вибрати файл",
     "SELECT_ANOTHER_FILE": "Обрати інший файл",
     "SUBMIT_FILE": "Надіслати файл",
-    "INCORRECT_ROWS":"Не валідних рядків",
+    "INCORRECT_ROWS":"Не валідних рядків: ",
     "PROVIDERS_LIST": {
       "PROVIDER_NAME": "Назва закладу",
       "OWNERSHIP": "Форма власності",

@@ -1,7 +1,6 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/explicit-function-return-type */
+/* eslint-disable @typescript-eslint/member-ordering */
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Component, HostListener, OnChanges, OnInit } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { IEmailsEdrpous, IEmailsEdrpousResponse, IProviders, IProvidersID } from 'shared/models/admin-import-export.model';
@@ -19,7 +18,6 @@ const standartHeaders = [
   'Електронна пошта',
   'Телефон'
 ];
-
 
 // let 60str = 'йцукенгшщзхїфівапролджєйцукеншщзхїєждлорпавіфйцукенгшщзхїєж'
 // const data = [
@@ -89,7 +87,7 @@ const standartHeaders = [
   templateUrl: './import-providers.component.html',
   styleUrls: ['./import-providers.component.scss']
 })
-export class ImportProvidersComponent implements OnInit {
+export class ImportProvidersComponent {
   public isToggle: boolean;
   public isWaiting: boolean = false;
   public isWarningVisible: boolean = false;
@@ -109,10 +107,9 @@ export class ImportProvidersComponent implements OnInit {
   ];
   public dataSource: IProvidersID[];
   public dataSourceInvalid: IProvidersID[];
+  component: {};
 
-  constructor(private importService: AdminImportExportService) { }
-  ngOnInit(): void { }
-
+  constructor(private importService: AdminImportExportService) {}
   @HostListener('window:scroll')
   public checkScroll(): void {
     const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -142,7 +139,7 @@ export class ImportProvidersComponent implements OnInit {
     const file = event.target.files[0];
     const reader: FileReader = new FileReader();
     reader.readAsArrayBuffer(file);
-    reader.onload = (e: any) => {
+    reader.onload = (e: any): void => {
       const binarystring = new Uint8Array(e.target.result);
       const wb: XLSX.WorkBook = XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
       const wsname = wb.SheetNames[0];
@@ -153,12 +150,13 @@ export class ImportProvidersComponent implements OnInit {
           range: 1
         });
         const isCorrectLength = this.cutArrayToHundred(providers);
-        providers.forEach(elem => {
+        providers.forEach((elem) => {
           elem.id = providers.indexOf(elem);
         });
-        this.verifyEmailsEdrpous(providers).subscribe(emailsEdrpous => {
+        this.verifyEmailsEdrpous(providers).subscribe((emailsEdrpous) => {
           this.checkForInvalidData(providers, emailsEdrpous);
           this.dataSource = providers;
+          console.log(this.dataSource);
           this.dataSourceInvalid = this.filterInvalidProviders(providers);
           this.isWaiting = false;
           this.isWarningVisible = this.cutArrayToHundred(providers);
@@ -168,7 +166,7 @@ export class ImportProvidersComponent implements OnInit {
     };
   }
 
-  public onFileSelected(event: any) {
+  public onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
     this.isWaiting = true;
     this.resetValues();
@@ -181,12 +179,12 @@ export class ImportProvidersComponent implements OnInit {
       edrpous: {},
       emails: {}
     };
-    for (let i = 0; i < providers.length; i++) {
-      if (providers[i].identifier && EDRPOU_IPN_REGEX.test(providers[i].identifier)) {
-        emailsEdrpous.edrpous[providers[i].id] = providers[i].identifier;
+    for (const element of providers) {
+      if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier)) {
+        emailsEdrpous.edrpous[element.id] = element.identifier;
       }
-      if (providers[i].email && EMAIL_REGEX.test(providers[i].email)) {
-        emailsEdrpous.emails[providers[i].id] = providers[i].email;
+      if (element.email && EMAIL_REGEX.test(element.email)) {
+        emailsEdrpous.emails[element.id] = element.email;
       }
     }
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
@@ -249,17 +247,19 @@ export class ImportProvidersComponent implements OnInit {
   }
 
   public filterInvalidProviders(providers: IProvidersID[]): any {
-    return providers.filter((elem) => Object.values(elem.errors).find(e => e !== null));
+    return providers.filter((elem) => Object.values(elem.errors).find((e) => e !== null));
   }
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
     for (let i = 0; i < standartHeaders.length; i++) {
       if (currentHeaders[i] !== standartHeaders[i]) {
         this.isWaiting = false;
-        setTimeout(() => alert(`невідповідність в заголовку "${currentHeaders[i]}",
+        setTimeout(() =>
+          alert(`невідповідність в заголовку "${currentHeaders[i]}",
 
         Зразок:
         Назва закладу | Форма власності | ЄДРПОУ | Ліцензія № |
-        Населений пункт | Адреса | Електронна пошта | Телефон`));
+        Населений пункт | Адреса | Електронна пошта | Телефон`)
+        );
         return false;
       }
     }
@@ -268,6 +268,6 @@ export class ImportProvidersComponent implements OnInit {
 
   public cutArrayToHundred(providers: IProviders[]): boolean {
     const cutProviders = providers.splice(100, providers.length);
-    return cutProviders.length > 0 ? true: false;
+    return cutProviders.length > 0;
   }
 }

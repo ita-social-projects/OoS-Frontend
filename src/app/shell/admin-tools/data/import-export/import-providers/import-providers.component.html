@@ -20,8 +20,8 @@
     </div>
     <ng-container *ngIf="dataSourceInvalid?.length > 0">
       <mat-slide-toggle [(ngModel)]="isToggle" color="warn"
-        ><span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }} :</span
-        ><span [ngClass]="{ 'incorrect-row-num-off': !isToggle, 'incorrect-row-num-on': isToggle }">{{
+        ><span class="incorrect-row">{{ 'IMPORT/EXPORT.INCORRECT_ROWS' | translate }}</span
+        ><span class="incorrect-row-number">{{
           dataSourceInvalid.length
         }}</span></mat-slide-toggle
       >
