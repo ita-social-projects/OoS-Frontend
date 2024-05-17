@@ -130,7 +130,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 To get started...
 
-1. Install [required dependencies](Required-to-install) and pick some code editor or IDE that is suitable for you:
+1. Install [required dependencies](#Required-to-install) and pick some code editor or IDE that is suitable for you:
     - [Visual Studio Code by Microsoft](https://code.visualstudio.com/) - popular editor with rich extensions provided to use (we have extensions for this editor that will be offered to install once you load project)
     - [WebStorm by JetBrains](https://www.jetbrains.com/webstorm/) (paid but free for [students](https://www.jetbrains.com/community/education/#students)) - powerful and comprehensive IDE with useful built-in tools provided
     - [Sublime Text](https://www.sublimetext.com/) - lightweight and fast code editor
