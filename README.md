@@ -30,8 +30,7 @@
 - [Documentation](#Documentation)
 - [Contributing](#Contributing)
   - [Git flow](#Git-flow)
-  - [Issue flow](#Issue-flow)
-<!-- - [Contributors](#Contributors) -->
+  - [Issue flow](#Issue-flow) <!-- Move to next line - [Contributors](#Contributors) -->
 - [FAQ](#FAQ)
 - [Support](#Support)
 - [License](#License)
@@ -164,7 +163,6 @@ To get started...
 - **help wanted** and **question** - need for dev team/QC/PM or required person's attention, help of information
 
 ---
-
 <!-- ## Contributors
 
 TODO: Complete section
@@ -193,7 +191,6 @@ TODO: Complete section
 > Testers
 
 --- -->
-
 ## FAQ
 
     - No problem! Just do this.
