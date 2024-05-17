@@ -78,7 +78,7 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" minMaxDate="true"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="TeacherFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>
 
   <div class="step-label-combined">
     <label class="step-label" for="description">{{ 'TITLES.DESCRIPTION' | translate }}<span class="step-required">*</span></label>

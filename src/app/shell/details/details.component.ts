@@ -1,10 +1,11 @@
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { Component, OnDestroy, OnInit, Provider } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
+import { Provider } from 'shared/models/provider.model';
 import { EntityType, Role } from '../../shared/enum/role';
 import { Workshop } from '../../shared/models/workshop.model';
 import { NavigationBarService } from '../../shared/services/navigation-bar/navigation-bar.service';

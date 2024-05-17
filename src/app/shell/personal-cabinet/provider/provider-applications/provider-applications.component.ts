@@ -174,7 +174,7 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     this.onGetApplications();
   }
 
-  private onGetApplications(): void {
+  public onGetApplications(): void {
     this.store.dispatch(new GetApplicationsByPropertyId(this.providerId, this.applicationParams));
   }
 

@@ -37,7 +37,7 @@
           type="text"
           matInput
           [ngxMatTimepicker]="timepickerStart"
-          format="24"
+          [format]="24"
           [formControl]="startTimeFormControl"
           [max]="maxTime"
           autocomplete="off" />
@@ -54,7 +54,7 @@
           type="text"
           matInput
           [ngxMatTimepicker]="timepickerEnd"
-          format="24"
+          [format]="24"
           [formControl]="endTimeFormControl"
           [min]="minTime"
           autocomplete="off" />

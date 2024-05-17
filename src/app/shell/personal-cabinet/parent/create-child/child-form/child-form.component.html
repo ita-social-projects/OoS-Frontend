@@ -47,7 +47,7 @@
     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
     <mat-datepicker #picker></mat-datepicker>
   </mat-form-field>
-  <app-validation-hint [validationFormControl]="ChildFormGroup.get('dateOfBirth')" minMaxDate="true"> </app-validation-hint>
+  <app-validation-hint [validationFormControl]="ChildFormGroup.get('dateOfBirth')" [minMaxDate]="true"> </app-validation-hint>
 
   <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
   <mat-radio-group formControlName="gender" color="primary">
