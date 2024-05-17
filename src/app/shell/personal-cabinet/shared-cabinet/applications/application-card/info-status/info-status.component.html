@@ -10,7 +10,7 @@
         <span> {{ ApplicationTitles[status] | translate }}</span>
       </div>
       <div class="application-info-menu application-info-description-card">({{ ApplicationStatusDescription[status] | translate }})</div>
-      <p *ngIf="reason" class="application-info-menu">{{ reason | textSliceTransform }}</p>
+      <p *ngIf="reason" class="application-info-menu">{{ reason }}</p>
     </app-info-menu>
   </span>
 </div>
