@@ -19,9 +19,10 @@
     }
     & > div > .card-block__child-name {
       min-width: 250px !important;
+      justify-content: flex-start !important;
 
       & > h4 {
-        max-width: 200px;
+        max-width: 190px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
