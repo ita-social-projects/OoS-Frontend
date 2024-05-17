@@ -1,4 +1,4 @@
-<mat-card class="card" [class.card-new]="application.status === ApplicationStatuses.Pending">
+<mat-card class="card" [class.card-new]="application.status === ApplicationStatuses.Pending" fxLayout="row" fxLayoutAlign="space-between center">
   <mat-card-content class="card-block" [class.card-block__parent]="userRole === Role.parent">
     <div class="card-block__info">
       <div fxLayout="column" fxLayoutAlign="start start" fxLayoutGap="8px">
