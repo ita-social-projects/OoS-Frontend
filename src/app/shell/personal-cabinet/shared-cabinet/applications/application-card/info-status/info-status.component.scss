@@ -133,3 +133,10 @@
 .inactiveInfoBtn {
   color: #aaaaaa;
 }
+
+@media (max-width: 530px) {
+  .application-popup-status {
+    text-align: left;
+    max-width: 210px;
+  }
+}
