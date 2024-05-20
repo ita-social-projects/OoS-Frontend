@@ -132,7 +132,8 @@
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
-      "PROVIDER_REGISTRATION": "Provider registration"
+      "PROVIDER_REGISTRATION": "Provider registration",
+      "USER_REGISTRATION": "User registration"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -329,6 +330,7 @@
       "LEGAL_ADDRESS": "Legal address",
       "ACTUAL_ADDRESS": "Actual address",
       "EDIT": "EDIT",
+      "NEW_USER": "NEW USER REGISTRATION",
       "EDIT_INFO": "EDIT INFORMATION",
       "SUBHEADER_TITLE": "Title",
       "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",

@@ -179,12 +179,14 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-
+    state.user.isRegistered = false;
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
       patchState({ isAuthorizationLoading: false });
     } else {
-      this.router.navigate(['/create-provider', ModeConstants.NEW]).finally(() => patchState({ isAuthorizationLoading: false }));
+      this.router
+        .navigate([state.user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
+        .finally(() => patchState({ isAuthorizationLoading: false }));
     }
   }
 

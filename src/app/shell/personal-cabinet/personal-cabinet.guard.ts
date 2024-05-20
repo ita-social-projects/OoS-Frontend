@@ -1,11 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, switchMap } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { RegistrationState } from 'shared/store/registration.state';
+import { User } from 'shared/models/user.model';
+import { Role } from 'shared/enum/role';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +15,26 @@ import { RegistrationState } from 'shared/store/registration.state';
 export class PersonalCabinetGuard {
   @Select(RegistrationState.isRegistered)
   private isRegistered$: Observable<boolean>;
+  @Select(RegistrationState.user)
+  private user$: Observable<User>;
 
   constructor(private router: Router) {}
 
   public canLoad(): Observable<boolean | UrlTree> {
     return this.isRegistered$.pipe(
       filter((isRegistered: boolean) => isRegistered !== undefined),
-      map((isRegistered: boolean) => isRegistered || this.router.createUrlTree(['/create-provider', ModeConstants.NEW]))
+      switchMap((isRegistered: boolean) => {
+        isRegistered = false;
+        return (
+          isRegistered ||
+          this.user$.pipe(
+            filter((user: User) => !!user),
+            map((user: User) =>
+              this.router.createUrlTree([user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
+            )
+          )
+        );
+      })
     );
   }
 }
