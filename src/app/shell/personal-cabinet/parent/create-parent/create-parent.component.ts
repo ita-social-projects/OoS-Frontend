@@ -1,24 +1,27 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Role, Subrole } from 'shared/enum/role';
-import { RegistrationState } from 'shared/store/registration.state';
-import { Util } from 'shared/utils/utils';
-import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { Parent } from 'shared/models/parent.model';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
-import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
-import { ValidationConstants } from 'shared/constants/validation';
-import { User } from 'shared/models/user.model';
-import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { Constants } from 'shared/constants/constants';
-import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { MarkFormDirty } from 'shared/store/app.actions';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Role, Subrole} from 'shared/enum/role';
+import {RegistrationState} from 'shared/store/registration.state';
+import {Util} from 'shared/utils/utils';
+import {AddNavPath, DeleteNavPath} from 'shared/store/navigation.actions';
+import {NavBarName} from 'shared/enum/enumUA/navigation-bar';
+import {Parent} from 'shared/models/parent.model';
+import {filter, switchMap, takeUntil} from 'rxjs/operators';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {Select, Store} from '@ngxs/store';
+import {Observable} from 'rxjs';
+import {ActivatedRoute, Router} from '@angular/router';
+import {NavigationBarService} from 'shared/services/navigation-bar/navigation-bar.service';
+import {ValidationConstants} from 'shared/constants/validation';
+import {User} from 'shared/models/user.model';
+import {
+  ConfirmationModalWindowComponent
+} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import {Constants} from 'shared/constants/constants';
+import {ModalConfirmationType} from 'shared/enum/modal-confirmation';
+import {MarkFormDirty, ShowMessageBar} from 'shared/store/app.actions';
+import {MatLegacyDialog as MatDialog} from '@angular/material/legacy-dialog';
+import {CreateFormComponent} from '../../shared-cabinet/create-form/create-form.component';
+import {SnackbarText} from "shared/enum/enumUA/message-bar";
 
 @Component({
   selector: 'app-create-parent',
@@ -86,7 +89,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
             isActive: false,
             disable: false
           },
-          { name: NavBarName.CreateNewUser, isActive: false, disable: true }
+          {name: NavBarName.CreateNewUser, isActive: false, disable: true}
         )
       )
     );
@@ -115,13 +118,25 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
     }
   }
 
-  onSubmit(): void {}
+  onSubmit(): void {
+  }
 
-  setEditMode(): void {}
+  setEditMode(): void {
+  }
 
-  onDeleteForm($event: any) {}
+  onDeleteForm($event: any) {
+  }
+
   ngOnDestroy() {
     super.ngOnDestroy();
-    this.store.dispatch(new DeleteNavPath());
+    this.store.dispatch(
+      new ShowMessageBar({
+        message: SnackbarText.completeUserRegistration,
+        type: 'warningYellow',
+        verticalPosition: 'bottom',
+        infinityDuration: true,
+        unclosable: true
+      })
+    );
   }
 }

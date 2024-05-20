@@ -15,7 +15,7 @@ export class CreateParentGuard {
   public canLoad(): Observable<boolean> | boolean {
     return this.user$.pipe(
       filter((user: User) => !!user),
-      map((user: User) => user.role === Role.provider && user.isRegistered === false)
+      map((user: User) => user.role === Role.parent && user.isRegistered === false)
     );
   }
 }

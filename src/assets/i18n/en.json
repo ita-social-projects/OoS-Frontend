@@ -749,6 +749,7 @@
       "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
       "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
+      "COMPLETE_USER_REGISTRATION": "Please complete registration of the user.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",
