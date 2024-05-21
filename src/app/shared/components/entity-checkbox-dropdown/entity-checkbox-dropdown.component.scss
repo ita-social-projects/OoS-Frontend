@@ -1,7 +1,7 @@
 @import 'src/app/shared/styles/dropdown.scss';
 
 .dropdown {
-  max-width: 200px;
+  max-width: 120px;
   background: #ffffff;
   font-weight: 500;
   border: 1px solid #e3e3e3;
@@ -13,7 +13,7 @@
 
 .dropdown-wrapper {
   z-index: 3;
-  width: 120px;
+  max-width: 120px;
 }
 
 .label {
@@ -22,11 +22,10 @@
 
 mat-form-field mat-label {
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   font-weight: 800;
   font-size: 0.8rem;
   color: #333333;
-  width: fit-content;
 }
 
 ::ng-deep .mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
@@ -42,19 +41,4 @@ mat-form-field mat-label {
 
 ::ng-deep .custom-overlay-panel .application-dropdown {
   max-width: 180px;
-}
-
-// ::ng-deep .mat-select-value {
-//   max-width: 75px;
-//   min-width: 65px;
-//   white-space: nowrap;
-// }
-
-// ::ng-deep .mat-form-field-infix {
-//   width: fit-content !important;
-// }
-
-::ng-deep .mat-select-trigger {
-  display: flex;
-  justify-content: space-between;
 }
