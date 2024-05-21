@@ -11,6 +11,11 @@
 .provider-content {
   min-height: 2rem;
 }
+.workshop-title-container{
+  display: flex;
+  align-items: center;
+  height: inherit;
+}
 .icon {
   display: flex;
   flex-direction: row;
