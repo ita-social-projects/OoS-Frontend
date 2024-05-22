@@ -15,7 +15,7 @@
       </mat-form-field>
     </div>
     <ng-container *ngFor="let filter of filtersList">
-      <mat-form-field floatLabel="never" appearance="none">
+      <mat-form-field floatLabel="never" appearance="none" class="select-form-field">
         <mat-select disableOptionCentering [formControl]="filtersForm.controls[filter.controlName]"
           panelClass="dropdown-panel" class="select">
           <mat-option value="" class="dropdown-option">
