@@ -25,7 +25,7 @@
             [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
-          {{ workshopData.title }}
+          <div class="workshop-title-container">{{ workshopData.title }}</div>
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionIds">
           <img class="img" mat-card-image [src]="categoryIcons[id]" />
