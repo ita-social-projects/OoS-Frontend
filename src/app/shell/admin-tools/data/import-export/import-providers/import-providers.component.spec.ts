@@ -4,6 +4,27 @@ import { TranslateModule } from '@ngx-translate/core';
 import { ImportProvidersComponent } from './import-providers.component';
 
 describe('ImportProvidersComponent', () => {
+  window.alert = jest.fn();
+  const currentHeaders = [
+    'Назва закладу',
+    'Форма власності',
+    'ЄДРПОУ',
+    'Ліцензія №',
+    'Населений пункт',
+    'Адреса',
+    'Електронна пошта',
+    'Телефон'
+  ];
+  const currentHeadersError = [
+    'Наз закладу',
+    'Форма власності',
+    'ЄДРПОУ',
+    'Ліцензія №',
+    'Населений пункт',
+    'Адреса',
+    'Електронна пошта',
+    'Телефон'
+  ];
   const providers = [
     {
       providerName: 'Клуб спортивного бального танцю',
@@ -16,6 +37,34 @@ describe('ImportProvidersComponent', () => {
       phoneNumber: 660666066,
       elem: {},
       id: 1
+    }
+  ];
+  const providersErrors = [
+    {
+      providerName: 'Клуб спортивного бального танцю',
+      ownership: 'Державна',
+      identifier: '12345678',
+      licenseNumber: 123445,
+      settlement: 'Луцьк',
+      address: 'Шевченка 2',
+      email: 'some@gmail.com',
+      phoneNumber: 660666066,
+      elem: {},
+      id: 1,
+      errors: { emailFormat: true }
+    },
+    {
+      providerName: 'Клуб спортивного бального танцю',
+      ownership: 'Державна',
+      identifier: '12345678',
+      licenseNumber: 123445,
+      settlement: 'Луцьк',
+      address: 'Шевченка 2',
+      email: 'some@gmail.com',
+      phoneNumber: 660666066,
+      elem: {},
+      id: 1,
+      errors: {}
     }
   ];
   let component: ImportProvidersComponent;
@@ -87,5 +136,36 @@ describe('ImportProvidersComponent', () => {
     const result = component.cutArrayToHundred(providersData);
     expect(result).toBe(false);
     expect(providersData.length).toBe(50);
+  });
+  it('should return providers with at least one error', () => {
+    const result = component.filterInvalidProviders(providersErrors);
+    expect(result).toEqual([
+      {
+        providerName: 'Клуб спортивного бального танцю',
+        ownership: 'Державна',
+        identifier: '12345678',
+        licenseNumber: 123445,
+        settlement: 'Луцьк',
+        address: 'Шевченка 2',
+        email: 'some@gmail.com',
+        phoneNumber: 660666066,
+        elem: {},
+        id: 1,
+        errors: { emailFormat: true }
+      }
+    ]);
+  });
+  it('should return true for valid headers', () => {
+    const result = component.checkHeadersIsValid(currentHeaders);
+    expect(result).toBe(true);
+    expect(component.isWaiting).toBeFalsy();
+    expect(window.alert).not.toHaveBeenCalled();
+  });
+  it('should return false and show alert for invalid headers', () => {
+    const result = component.checkHeadersIsValid(currentHeadersError);
+
+    // Assert
+    expect(result).toBe(false);
+    expect(component.isWaiting).toBe(false);
   });
 });

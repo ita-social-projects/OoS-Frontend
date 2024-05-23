@@ -3,21 +3,10 @@
 import { Component, HostListener } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
+import { ImportValidationService } from 'shared/services/admin-import-export/import-validation/import-validation.service';
 import { IEmailsEdrpous, IEmailsEdrpousResponse, IProviders, IProvidersID } from 'shared/models/admin-import-export.model';
-import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
-import { isValidPhoneNumber } from 'libphonenumber-js';
+import { EDRPOU_IPN_REGEX, EMAIL_REGEX } from 'shared/constants/regex-constants';
 import { Observable } from 'rxjs';
-
-const standartHeaders = [
-  'Назва закладу ',
-  'Форма власності',
-  'ЄДРПОУ',
-  'Ліцензія №',
-  'Населений пункт',
-  'Адреса',
-  'Електронна пошта',
-  'Телефон'
-];
 
 // let 60str = 'йцукенгшщзхїфівапролджєйцукеншщзхїєждлорпавіфйцукенгшщзхїєж'
 // const data = [
@@ -107,9 +96,11 @@ export class ImportProvidersComponent {
   ];
   public dataSource: IProvidersID[];
   public dataSourceInvalid: IProvidersID[];
-  component: {};
 
-  constructor(private importService: AdminImportExportService) {}
+  constructor(
+    private importService: AdminImportExportService,
+    private importValidationService: ImportValidationService
+  ) {}
   @HostListener('window:scroll')
   public checkScroll(): void {
     const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
@@ -154,7 +145,9 @@ export class ImportProvidersComponent {
           elem.id = providers.indexOf(elem);
         });
         this.verifyEmailsEdrpous(providers).subscribe((emailsEdrpous) => {
-          this.checkForInvalidData(providers, emailsEdrpous);
+          console.log(emailsEdrpous);
+          // this.checkForInvalidData(providers, emailsEdrpous);
+          this.importValidationService.checkForInvalidData(providers, emailsEdrpous);
           this.dataSource = providers;
           console.log(this.dataSource);
           this.dataSourceInvalid = this.filterInvalidProviders(providers);
@@ -166,6 +159,92 @@ export class ImportProvidersComponent {
     };
   }
 
+  //   public convertExcelToJSON(event: any): void {
+  //     const file = this.getFileFromEvent(event);
+  //     const reader = this.createFileReader(file);
+  //     reader.onload = (e: any): void => {
+  //       const binarystring = new Uint8Array(e.target.result);
+  //       const wb = this.readWorkbook(binarystring);
+  //       const wsname = wb.SheetNames[0];
+  //       const currentHeaders = this.getCurrentHeaders(wb, wsname);
+  //       if (this.checkHeadersIsValid(currentHeaders)) {
+  //         const providers = this.parseProviders(wb, wsname);
+  //         this.processProviders(providers);
+  //       }
+  //     };
+  //   }
+
+  //   private getFileFromEvent(event: any): File {
+  //     return event.target.files[0];
+  //   }
+
+  //   private createFileReader(file: File): FileReader {
+  //     const reader: FileReader = new FileReader();
+  //     reader.readAsArrayBuffer(file);
+  //     return reader;
+  //   }
+
+  //   private readWorkbook(binarystring: Uint8Array): XLSX.WorkBook {
+  //     return XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
+  //   }
+
+  //   private getCurrentHeaders(workbook: XLSX.WorkBook, sheetName: string): string[] {
+  //     return XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 }).shift();
+  //   }
+
+  //   private parseProviders(workbook: XLSX.WorkBook, sheetName: string): IProviderID[] {
+  //     return XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
+  //       header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
+  //       range: 1
+  //     }) as IProviderID[];
+  //   }
+
+  //   private processProviders(providers: IProviderID[]): void {
+  //     const isCorrectLength = this.cutArrayToHundred(providers);
+  //     providers.forEach((elem, index) => {
+  //       elem.id = index;
+  //     });
+  //     this.verifyEmailsEdrpous(providers).subscribe((emailsEdrpous) => {
+  //       this.checkForInvalidData(providers, emailsEdrpous);
+  //       this.dataSource = providers;
+  //       console.log(this.dataSource);
+  //       this.dataSourceInvalid = this.filterInvalidProviders(providers);
+  //       this.isWaiting = false;
+  //       this.isWarningVisible = isCorrectLength;
+  //     });
+  //   }
+
+  //   // The following methods are assumed to be implemented elsewhere
+  //   private checkHeadersIsValid(headers: string[]): boolean {
+  //     // Assume this method is implemented elsewhere
+  //     return true;
+  //   }
+
+  //   private cutArrayToHundred(providers: IProviderID[]): boolean {
+  //     // Assume this method is implemented elsewhere
+  //     return providers.length <= 100;
+  //   }
+
+  //   private verifyEmailsEdrpous(providers: IProviderID[]): any {
+  //     // Assume this method is implemented elsewhere
+  //     // Return an observable or a promise (depends on your implementation)
+  //     return {
+  //       subscribe: (callback: (emailsEdrpous: any) => void) => {
+  //         callback([]); // Placeholder implementation
+  //       }
+  //     };
+  //   }
+
+  //   private checkForInvalidData(providers: IProviderID[], emailsEdrpous: any): void {
+  //     // Assume this method is implemented elsewhere
+  //   }
+
+  //   private filterInvalidProviders(providers: IProviderID[]): IProviderID[] {
+  //     // Assume this method is implemented elsewhere
+  //     return providers.filter((elem) => Object.values(elem.errors || {}).find((e) => e !== null));
+  //   }
+  // }
+
   public onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
     this.isWaiting = true;
@@ -175,95 +254,57 @@ export class ImportProvidersComponent {
   }
 
   public verifyEmailsEdrpous(providers: IProvidersID[]): Observable<IEmailsEdrpousResponse> {
-    const emailsEdrpous: IEmailsEdrpous = {
-      edrpous: {},
-      emails: {}
-    };
-    for (const element of providers) {
-      if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier)) {
-        emailsEdrpous.edrpous[element.id] = element.identifier;
-      }
-      if (element.email && EMAIL_REGEX.test(element.email)) {
-        emailsEdrpous.emails[element.id] = element.email;
-      }
-    }
+    // const emailsEdrpous: IEmailsEdrpous = {
+    //   edrpous: {},
+    //   emails: {}
+    // };
+    // for (const element of providers) {
+    //   if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier)) {
+    //     emailsEdrpous.edrpous[element.id] = element.identifier;
+    //   }
+    //   if (element.email && EMAIL_REGEX.test(element.email)) {
+    //     emailsEdrpous.emails[element.id] = element.email;
+    //   }
+    // }
+    const emailsEdrpous: IEmailsEdrpous = providers.reduce(
+      (acc, element) => {
+        if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier)) {
+          acc.edrpous[element.id] = element.identifier;
+        }
+        if (element.email && EMAIL_REGEX.test(element.email)) {
+          acc.emails[element.id] = element.email;
+        }
+        return acc;
+      },
+      { edrpous: {}, emails: {} }
+    );
+    console.log(emailsEdrpous);
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
-  }
-
-  public checkForInvalidData(providers: IProvidersID[], emailsEdrpous: IEmailsEdrpousResponse): void {
-    providers.forEach((elem) => {
-      elem.errors = {};
-      // Provider name required, min/max length
-      if (!elem.providerName) {
-        elem.errors.providerNameEmpty = true;
-      } else if (elem.providerName.length <= 1 || elem.providerName.length > 60) {
-        elem.errors.providerNameLength = true;
-      }
-      // Ownership required
-      if (!elem.ownership) {
-        elem.errors.ownershipEmpty = true;
-      }
-      // EDRPOU IPN required, format, duplicate
-      if (!elem.identifier) {
-        elem.errors.identifierEmpty = true;
-      } else if (!EDRPOU_IPN_REGEX.test(elem.identifier)) {
-        elem.errors.identifierFormat = true;
-      } else if (emailsEdrpous.edrpous.includes(elem.id)) {
-        elem.errors.identifierDuplicate = true;
-      }
-      // License required----
-      if (!elem.licenseNumber) {
-        elem.errors.licenseNumberEmpty = true;
-      }
-      // Settlement required, min/max length, language
-      if (!elem.settlement) {
-        elem.errors.settlementEmpty = true;
-      } else if (elem.settlement.length <= 1 || elem.settlement.length > 60) {
-        elem.errors.settlementLength = true;
-      } else if (!NO_LATIN_REGEX.test(elem.settlement)) {
-        elem.errors.settlementLanguage = true;
-      }
-      // Address required, language
-      if (!elem.address) {
-        elem.errors.addressEmpty = true;
-      } else if (!STREET_REGEX.test(elem.address)) {
-        elem.errors.addressLanguage = true;
-      }
-      // Email required, format, duplicate
-      if (!elem.email) {
-        elem.errors.emailEmpty = true;
-      } else if (!EMAIL_REGEX.test(elem.email)) {
-        elem.errors.emailFormat = true;
-      } else if (emailsEdrpous.emails.includes(elem.id)) {
-        elem.errors.emailDuplicate = true;
-      }
-      // Phone number required, format
-      if (!elem.phoneNumber) {
-        elem.errors.phoneNumberEmpty = true;
-      } else if (!isValidPhoneNumber(elem.phoneNumber.toString(), 'UA')) {
-        elem.errors.phoneNumberFormat = true;
-      }
-    });
   }
 
   public filterInvalidProviders(providers: IProvidersID[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find((e) => e !== null));
   }
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
-    for (let i = 0; i < standartHeaders.length; i++) {
-      if (currentHeaders[i] !== standartHeaders[i]) {
-        this.isWaiting = false;
-        setTimeout(() =>
-          alert(`невідповідність в заголовку "${currentHeaders[i]}",
+    const standardHeaders = [
+      'Назва закладу',
+      'Форма власності',
+      'ЄДРПОУ',
+      'Ліцензія №',
+      'Населений пункт',
+      'Адреса',
+      'Електронна пошта',
+      'Телефон'
+    ];
+    const isValid = standardHeaders.every((header, index) => currentHeaders[index].trim() === header);
 
-        Зразок:
-        Назва закладу | Форма власності | ЄДРПОУ | Ліцензія № |
-        Населений пункт | Адреса | Електронна пошта | Телефон`)
-        );
-        return false;
-      }
+    if (!isValid) {
+      this.isWaiting = false;
+      const invalidHeader = currentHeaders.find((header, index) => header !== standardHeaders[index]);
+      alert(`Невідповідність в заголовку "${invalidHeader}",\n\nЗразок:\n${standardHeaders.join(' | ')}`);
     }
-    return true;
+
+    return isValid;
   }
 
   public cutArrayToHundred(providers: IProviders[]): boolean {
