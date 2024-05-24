@@ -6,7 +6,7 @@ import { ImportValidationService } from './import-validation.service';
 describe('ImportValidationService', () => {
   const emailsEdrpous = {
     edrpous: [2],
-    emails: [1]
+    emails: [3]
   };
   const providersCorrect = [
     {
@@ -41,7 +41,7 @@ describe('ImportValidationService', () => {
       identifier: 12345678,
       licenseNumber: 123445,
       settlement: 'Л',
-      address: 'Shevchenka',
+      address: 'Shevchenko',
       email: 'somegmail.com',
       phoneNumber: 660666,
       id: 2,
@@ -56,7 +56,7 @@ describe('ImportValidationService', () => {
       address: 'Шевченка 2',
       email: 'some@gmail.com',
       phoneNumber: 660666066,
-      id: 2,
+      id: 3,
       errors: {}
     }
   ];
@@ -127,6 +127,46 @@ describe('ImportValidationService', () => {
     const expected = { licenseNumberEmpty: true };
     service.checkLicenseNumber(providersErrors[0]);
     expect(providersErrors[0].errors).toEqual(expected);
+    providersErrors.forEach((e) => (e.errors = {}));
+  });
+  it('should check Settlement', () => {
+    const expected = [{ settlementEmpty: true }, { settlementLength: true }, { settlementLanguage: true }];
+    service.checkSettlement(providersErrors[0]);
+    service.checkSettlement(providersErrors[1]);
+    service.checkSettlement(providersErrors[2]);
+    expect(providersErrors[0].errors).toEqual(expected[0]);
+    expect(providersErrors[1].errors).toEqual(expected[1]);
+    expect(providersErrors[2].errors).toEqual(expected[2]);
+    providersErrors.forEach((e) => (e.errors = {}));
+  });
+  it('should check Address', () => {
+    const expected = [{ addressEmpty: true }, { addressLanguage: true }];
+    service.checkAddress(providersErrors[0]);
+    service.checkAddress(providersErrors[1]);
+
+    expect(providersErrors[0].errors).toEqual(expected[0]);
+    expect(providersErrors[1].errors).toEqual(expected[1]);
+
+    providersErrors.forEach((e) => (e.errors = {}));
+  });
+  it('should check Email', () => {
+    const expected = [{ emailEmpty: true }, { emailFormat: true }, { emailDuplicate: true }];
+    service.checkEmail(providersErrors[0], emailsEdrpous);
+    service.checkEmail(providersErrors[1], emailsEdrpous);
+    service.checkEmail(providersErrors[2], emailsEdrpous);
+    expect(providersErrors[0].errors).toEqual(expected[0]);
+    expect(providersErrors[1].errors).toEqual(expected[1]);
+    expect(providersErrors[2].errors).toEqual(expected[2]);
+    providersErrors.forEach((e) => (e.errors = {}));
+  });
+  it('should check PhoneNumber', () => {
+    const expected = [{ phoneNumberEmpty: true }, { phoneNumberFormat: true }];
+    service.checkPhoneNumber(providersErrors[0]);
+    service.checkPhoneNumber(providersErrors[1]);
+
+    expect(providersErrors[0].errors).toEqual(expected[0]);
+    expect(providersErrors[1].errors).toEqual(expected[1]);
+
     providersErrors.forEach((e) => (e.errors = {}));
   });
 });
