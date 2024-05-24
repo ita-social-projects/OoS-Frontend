@@ -6,6 +6,7 @@
 }
 
 .card-block {
+  width: 100%;
   &__message {
     display: flex;
     > * {
@@ -14,11 +15,15 @@
   }
 }
 
+.workshop-title {
+  color: blue;
+}
+
 .companion {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 6px;
   min-width: 30%;
 }
 
