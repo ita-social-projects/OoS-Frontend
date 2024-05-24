@@ -140,16 +140,15 @@ export class ImportProvidersComponent {
           header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
           range: 1
         });
+        console.log(providers);
         const isCorrectLength = this.cutArrayToHundred(providers);
         providers.forEach((elem) => {
           elem.id = providers.indexOf(elem);
         });
         this.verifyEmailsEdrpous(providers).subscribe((emailsEdrpous) => {
           console.log(emailsEdrpous);
-          // this.checkForInvalidData(providers, emailsEdrpous);
           this.importValidationService.checkForInvalidData(providers, emailsEdrpous);
           this.dataSource = providers;
-          console.log(this.dataSource);
           this.dataSourceInvalid = this.filterInvalidProviders(providers);
           this.isWaiting = false;
           this.isWarningVisible = this.cutArrayToHundred(providers);
@@ -254,21 +253,9 @@ export class ImportProvidersComponent {
   }
 
   public verifyEmailsEdrpous(providers: IProvidersID[]): Observable<IEmailsEdrpousResponse> {
-    // const emailsEdrpous: IEmailsEdrpous = {
-    //   edrpous: {},
-    //   emails: {}
-    // };
-    // for (const element of providers) {
-    //   if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier)) {
-    //     emailsEdrpous.edrpous[element.id] = element.identifier;
-    //   }
-    //   if (element.email && EMAIL_REGEX.test(element.email)) {
-    //     emailsEdrpous.emails[element.id] = element.email;
-    //   }
-    // }
     const emailsEdrpous: IEmailsEdrpous = providers.reduce(
       (acc, element) => {
-        if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier)) {
+        if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier.toString())) {
           acc.edrpous[element.id] = element.identifier;
         }
         if (element.email && EMAIL_REGEX.test(element.email)) {
@@ -283,7 +270,7 @@ export class ImportProvidersComponent {
   }
 
   public filterInvalidProviders(providers: IProvidersID[]): any {
-    return providers.filter((elem) => Object.values(elem.errors).find((e) => e !== null));
+    return providers.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
   }
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
     const standardHeaders = [

@@ -29,13 +29,13 @@ describe('ImportProvidersComponent', () => {
     {
       providerName: 'Клуб спортивного бального танцю',
       ownership: 'Державна',
-      identifier: '12345678',
+      identifier: 12345678,
       licenseNumber: 123445,
       settlement: 'Луцьк',
       address: 'Шевченка 2',
       email: 'some@gmail.com',
       phoneNumber: 660666066,
-      elem: {},
+      errors: {},
       id: 1
     }
   ];
@@ -43,26 +43,24 @@ describe('ImportProvidersComponent', () => {
     {
       providerName: 'Клуб спортивного бального танцю',
       ownership: 'Державна',
-      identifier: '12345678',
+      identifier: 12345678,
       licenseNumber: 123445,
       settlement: 'Луцьк',
       address: 'Шевченка 2',
       email: 'some@gmail.com',
       phoneNumber: 660666066,
-      elem: {},
       id: 1,
       errors: { emailFormat: true }
     },
     {
       providerName: 'Клуб спортивного бального танцю',
       ownership: 'Державна',
-      identifier: '12345678',
+      identifier: 12345678,
       licenseNumber: 123445,
       settlement: 'Луцьк',
       address: 'Шевченка 2',
       email: 'some@gmail.com',
       phoneNumber: 660666066,
-      elem: {},
       id: 1,
       errors: {}
     }
@@ -143,13 +141,12 @@ describe('ImportProvidersComponent', () => {
       {
         providerName: 'Клуб спортивного бального танцю',
         ownership: 'Державна',
-        identifier: '12345678',
+        identifier: 12345678,
         licenseNumber: 123445,
         settlement: 'Луцьк',
         address: 'Шевченка 2',
         email: 'some@gmail.com',
         phoneNumber: 660666066,
-        elem: {},
         id: 1,
         errors: { emailFormat: true }
       }

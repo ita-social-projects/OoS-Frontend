@@ -21,33 +21,34 @@ export class ImportValidationService {
       this.checkPhoneNumber(elem);
     });
   }
-  private checkProviderName(elem: IProvidersID): void {
+  public checkProviderName(elem: IProvidersID): void {
     if (!elem.providerName) {
       elem.errors.providerNameEmpty = true;
     } else if (elem.providerName.length <= 1 || elem.providerName.length > 60) {
       elem.errors.providerNameLength = true;
     }
   }
-  private checkOwnership(elem: IProvidersID): void {
+  public checkOwnership(elem: IProvidersID): void {
     if (!elem.ownership) {
       elem.errors.ownershipEmpty = true;
     }
   }
-  private checkIdentifier(elem: IProvidersID, emailsEdrpous: IEmailsEdrpousResponse): void {
+  public checkIdentifier(elem: IProvidersID, emailsEdrpous: IEmailsEdrpousResponse): void {
     if (!elem.identifier) {
       elem.errors.identifierEmpty = true;
-    } else if (!EDRPOU_IPN_REGEX.test(elem.identifier)) {
+    } else if (!EDRPOU_IPN_REGEX.test(elem.identifier.toString())) {
       elem.errors.identifierFormat = true;
     } else if (emailsEdrpous.edrpous.includes(elem.id)) {
       elem.errors.identifierDuplicate = true;
     }
   }
-  private checkLicenseNumber(elem: IProvidersID): void {
+  // type of license number is number
+  public checkLicenseNumber(elem: IProvidersID): void {
     if (!elem.licenseNumber) {
       elem.errors.licenseNumberEmpty = true;
     }
   }
-  private checkSettlement(elem: IProvidersID): void {
+  public checkSettlement(elem: IProvidersID): void {
     if (!elem.settlement) {
       elem.errors.settlementEmpty = true;
     } else if (elem.settlement.length <= 1 || elem.settlement.length > 60) {
@@ -56,14 +57,14 @@ export class ImportValidationService {
       elem.errors.settlementLanguage = true;
     }
   }
-  private checkAddress(elem: IProvidersID): void {
+  public checkAddress(elem: IProvidersID): void {
     if (!elem.address) {
       elem.errors.addressEmpty = true;
     } else if (!STREET_REGEX.test(elem.address)) {
       elem.errors.addressLanguage = true;
     }
   }
-  private checkEmail(elem: IProvidersID, emailsEdrpous: IEmailsEdrpousResponse): void {
+  public checkEmail(elem: IProvidersID, emailsEdrpous: IEmailsEdrpousResponse): void {
     if (!elem.email) {
       elem.errors.emailEmpty = true;
     } else if (!EMAIL_REGEX.test(elem.email)) {
@@ -72,7 +73,7 @@ export class ImportValidationService {
       elem.errors.emailDuplicate = true;
     }
   }
-  private checkPhoneNumber(elem: IProvidersID): void {
+  public checkPhoneNumber(elem: IProvidersID): void {
     if (!elem.phoneNumber) {
       elem.errors.phoneNumberEmpty = true;
     } else if (!isValidPhoneNumber(elem.phoneNumber.toString(), 'UA')) {

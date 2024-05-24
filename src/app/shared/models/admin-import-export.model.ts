@@ -9,18 +9,17 @@ export interface IEmailsEdrpousResponse {
 }
 
 export interface IProviders {
-  providerName?: string;
-  ownership?: string;
-  identifier?: string;
-  licenseNumber?: number;
-  settlement?: string;
-  errors?: IErrors;
-  address?: string;
-  email?: string;
-  phoneNumber?: number;
+  providerName: string;
+  ownership: string;
+  identifier: number;
+  licenseNumber: number;
+  settlement: string;
+  errors: IErrors;
+  address: string;
+  email: string;
+  phoneNumber: number;
 }
 export interface IProvidersID extends IProviders {
-  elem: {};
   id: number;
 }
 export interface IErrors {
