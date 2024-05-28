@@ -32,6 +32,7 @@
 
   mat-form-field {
     pointer-events: none;
+    max-width: 90%;
   }
 
   mat-datepicker-toggle {
@@ -56,7 +57,7 @@
 :host ::ng-deep .date {
   width: 100%;
   max-width: 250px;
-  padding: 0.35rem 1rem 0.35rem;
+  padding: 0 1rem 0.35rem;
 
   .mat-form-field-flex {
     background-color: transparent;
@@ -90,6 +91,12 @@
 
 :host ::ng-deep .mat-form-field-wrapper {
   padding: 0;
+}
+
+:host ::ng-deep .select-form-field {
+  .mat-form-field-infix {
+    padding: 0;
+  }
 }
 
 .btn {

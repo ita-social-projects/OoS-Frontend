@@ -1,5 +1,5 @@
-<div [formGroup]="filtersForm" class="form-wrapper">
-  <div class="filters-wrapper">
+<div [formGroup]="filtersForm" class="form-wrapper" fxLayoutAlign="end start">
+  <div class="filters-wrapper" fxLayoutAlign="end start">
     <div class="filters-period">
       <span>{{ 'HISTORY_LOG.PERIOD' | translate }}</span>
       <mat-form-field appPlaceholderStyling class="date" appearance="fill">
@@ -15,7 +15,7 @@
       </mat-form-field>
     </div>
     <ng-container *ngFor="let filter of filtersList">
-      <mat-form-field floatLabel="never" appearance="none">
+      <mat-form-field floatLabel="never" appearance="none" class="select-form-field">
         <mat-select disableOptionCentering [formControl]="filtersForm.controls[filter.controlName]"
           panelClass="dropdown-panel" class="select">
           <mat-option value="" class="dropdown-option">
