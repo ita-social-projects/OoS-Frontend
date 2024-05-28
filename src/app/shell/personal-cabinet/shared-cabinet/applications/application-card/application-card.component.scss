@@ -2,7 +2,12 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
-  width: 100%;
+  width: auto;
+
+  &:first-child {
+    width: 100%;
+  }
+
   &__parent {
     flex: 2;
   }
