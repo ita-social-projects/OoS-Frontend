@@ -3,6 +3,11 @@
 
 .card-block {
   width: auto;
+
+  &:first-child {
+    width: 100%;
+  }
+
   &__parent {
     flex: 2;
   }
@@ -172,6 +177,7 @@
 
     &__actions {
       align-items: flex-start;
+      padding-left: 0 !important;
     }
   }
 
