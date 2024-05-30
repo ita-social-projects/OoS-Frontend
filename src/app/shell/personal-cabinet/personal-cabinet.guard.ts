@@ -18,12 +18,13 @@ export class PersonalCabinetGuard {
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
   public canLoad(): Observable<boolean | UrlTree> {
     return this.isRegistered$.pipe(
       filter((isRegistered: boolean) => isRegistered !== undefined),
-      switchMap((isRegistered:boolean) => {
+      switchMap((isRegistered: boolean) => {
         if (isRegistered) {
           return of(isRegistered);
         } else {

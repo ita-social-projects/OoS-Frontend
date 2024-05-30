@@ -15,7 +15,7 @@ describe('PersonalCabinetGuard', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([])],
+      imports: [NgxsModule.forRoot([])]
     });
     guard = TestBed.inject(PersonalCabinetGuard);
     store = TestBed.inject(Store);
