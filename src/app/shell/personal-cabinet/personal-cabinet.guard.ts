@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
-import { Observable, switchMap } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+import { filter, map, switchMap } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -23,17 +23,17 @@ export class PersonalCabinetGuard {
   public canLoad(): Observable<boolean | UrlTree> {
     return this.isRegistered$.pipe(
       filter((isRegistered: boolean) => isRegistered !== undefined),
-      switchMap((isRegistered: boolean) => {
-        isRegistered = false;
-        return (
-          isRegistered ||
-          this.user$.pipe(
+      switchMap((isRegistered:boolean) => {
+        if (isRegistered) {
+          return of(isRegistered);
+        } else {
+          return this.user$.pipe(
             filter((user: User) => !!user),
             map((user: User) =>
               this.router.createUrlTree([user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
             )
-          )
-        );
+          );
+        }
       })
     );
   }
