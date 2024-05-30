@@ -179,7 +179,6 @@ export class RegistrationState {
   @Action(CheckRegistration)
   checkRegistration({ dispatch, getState, patchState }: StateContext<RegistrationStateModel>): void {
     const state = getState();
-    state.user.isRegistered = false;
     if (state.user.isRegistered) {
       dispatch(new GetProfile());
       patchState({ isAuthorizationLoading: false });

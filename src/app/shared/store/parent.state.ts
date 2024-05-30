@@ -12,6 +12,7 @@ import { Application } from 'shared/models/application.model';
 import { Child } from 'shared/models/child.model';
 import { Favorite } from 'shared/models/favorite.model';
 import { TruncatedItem } from 'shared/models/item.model';
+import { Parent } from 'shared/models/parent.model';
 import { Rate } from 'shared/models/rating';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCard } from 'shared/models/workshop.model';
@@ -20,6 +21,8 @@ import { ChildrenService } from 'shared/services/children/children.service';
 import { ParentService } from 'shared/services/parent/parent.service';
 import { RatingService } from 'shared/services/rating/rating.service';
 import { FavoriteWorkshopsService } from 'shared/services/workshops/favorite-workshops/favorite-workshops.service';
+import { OnCreateProviderFail } from 'shared/store/provider.actions';
+import { CheckAuth } from 'shared/store/registration.actions';
 import { MarkFormDirty, ShowMessageBar } from './app.actions';
 import {
   CreateApplication,
@@ -60,7 +63,10 @@ import {
   OnUpdateChildFail,
   OnUpdateChildSuccess,
   ResetSelectedChild,
-  UpdateChild
+  UpdateChild,
+  CreateParent,
+  OnCreateParentFail,
+  OnCreateParentSuccess
 } from './parent.actions';
 
 export interface ParentStateModel {
@@ -212,9 +218,14 @@ export class ParentState {
   @Action(GetUsersChildren)
   getUsersChildren({ patchState }: StateContext<ParentStateModel>, { parameters }: GetUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
-    return this.childrenService
-      .getUsersChildren(parameters)
-      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false })));
+    return this.childrenService.getUsersChildren(parameters).pipe(
+      tap((children: SearchResponse<Child[]>) =>
+        patchState({
+          children: children ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetUsersChildById)
@@ -228,9 +239,14 @@ export class ParentState {
   @Action(GetAllUsersChildren)
   getAllUsersChildren({ patchState }: StateContext<ParentStateModel>, {}: GetAllUsersChildren): Observable<SearchResponse<Child[]>> {
     patchState({ isLoading: true });
-    return this.childrenService
-      .getAllUsersChildren()
-      .pipe(tap((children: SearchResponse<Child[]>) => patchState({ children: children ?? EMPTY_RESULT, isLoading: false })));
+    return this.childrenService.getAllUsersChildren().pipe(
+      tap((children: SearchResponse<Child[]>) =>
+        patchState({
+          children: children ?? EMPTY_RESULT,
+          isLoading: false
+        })
+      )
+    );
   }
 
   @Action(GetAllUsersChildrenByParentId)
@@ -259,7 +275,13 @@ export class ParentState {
 
   @Action(OnDeleteChildSuccess)
   onDeleteChildSuccess({ dispatch }: StateContext<ParentStateModel>, { parameters }: OnDeleteChildSuccess): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren(parameters)]);
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteChild,
+        type: 'success'
+      }),
+      new GetUsersChildren(parameters)
+    ]);
   }
 
   @Action(UpdateChild)
@@ -365,7 +387,13 @@ export class ParentState {
 
   @Action(OnDeleteChildSuccess)
   onDeleteRatingSuccess({ dispatch }: StateContext<ParentStateModel>, { parameters }: OnDeleteChildSuccess): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.deleteChild, type: 'success' }), new GetUsersChildren(parameters)]);
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.deleteChild,
+        type: 'success'
+      }),
+      new GetUsersChildren(parameters)
+    ]);
   }
 
   @Action(CreateApplication)
@@ -404,7 +432,13 @@ export class ParentState {
 
   @Action(OnCreateApplicationSuccess)
   onCreateApplicationSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateApplicationSuccess): void {
-    dispatch([new ShowMessageBar({ message: SnackbarText.createApplication, type: 'success' }), new MarkFormDirty(false)]);
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.createApplication,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
+    ]);
     this.router.navigate(['']);
   }
 
@@ -447,5 +481,31 @@ export class ParentState {
   @Action(OnUnblockParentFail)
   OnUnblockParentFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnUnblockParentFail): void {
     dispatch(new ShowMessageBar({ message: payload.error, type: 'error' }));
+  }
+
+  @Action(CreateParent)
+  createParent({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateParent) {
+    return this.parentService.createParent(payload).pipe(
+      tap((res: Parent) => dispatch(new OnCreateParentSuccess(res))),
+      catchError((error) => dispatch(new OnCreateParentFail(error)))
+    );
+  }
+
+  @Action(OnCreateParentSuccess)
+  onCreateParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateParentSuccess) {
+    dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['/personal-cabinet/config']));
+    dispatch([
+      new ShowMessageBar({
+        message: SnackbarText.createUser,
+        type: 'success'
+      }),
+      new MarkFormDirty(false)
+    ]);
+  }
+
+  @Action(OnCreateParentFail)
+  onCreateParentFail({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateProviderFail) {
+    const message = SnackbarText.error;
+    dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
 }

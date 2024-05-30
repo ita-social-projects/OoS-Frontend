@@ -12,7 +12,7 @@ import { RegistrationState } from 'shared/store/registration.state';
 export class CreateParentGuard {
   @Select(RegistrationState.user)
   private user$: Observable<User>;
-  public canLoad(): Observable<boolean> | boolean {
+  public canLoad(): Observable<boolean> {
     return this.user$.pipe(
       filter((user: User) => !!user),
       map((user: User) => user.role === Role.parent && user.isRegistered === false)
