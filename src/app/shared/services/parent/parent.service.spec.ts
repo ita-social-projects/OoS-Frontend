@@ -2,7 +2,7 @@ import { HttpClientTestingModule, HttpTestingController } from '@angular/common/
 import { TestBed } from '@angular/core/testing';
 import { NgxsModule } from '@ngxs/store';
 
-import { Parent, ParentBlockedData } from 'shared/models/parent.model';
+import { Parent, ParentBlockedData, ParentPayload } from 'shared/models/parent.model';
 import { ParentService } from './parent.service';
 
 describe('ParentService', () => {
@@ -44,6 +44,16 @@ describe('ParentService', () => {
     service.blockUnblockParent(parentBlockedData).subscribe(done);
 
     const req = httpTestingController.expectOne(`${baseApiUrl}/BlockUnblockParent`);
+    req.flush(null);
+
+    expect(req.request.method).toEqual('POST');
+  });
+
+  it('should create new parent', (done) => {
+    const parentPayload: ParentPayload = {dateOfBirth:'07/04/2004', phoneNumber:'+380971221515', gender:'male'}
+    service.createParent(parentPayload).subscribe(done);
+
+    const req = httpTestingController.expectOne(`${baseApiUrl}`);
     req.flush(null);
 
     expect(req.request.method).toEqual('POST');
