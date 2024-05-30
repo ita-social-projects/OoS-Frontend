@@ -50,7 +50,7 @@ describe('ParentService', () => {
   });
 
   it('should create new parent', (done) => {
-    const parentPayload: ParentPayload = {dateOfBirth:'07/04/2004', phoneNumber:'+380971221515', gender:'male'}
+    const parentPayload: ParentPayload = { dateOfBirth: '07/04/2004', phoneNumber: '+380971221515', gender: 'male' };
     service.createParent(parentPayload).subscribe(done);
 
     const req = httpTestingController.expectOne(`${baseApiUrl}`);
