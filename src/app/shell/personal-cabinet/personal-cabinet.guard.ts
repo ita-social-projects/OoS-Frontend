@@ -18,8 +18,7 @@ export class PersonalCabinetGuard {
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
-  constructor(private router: Router) {
-  }
+  constructor(private router: Router) {}
 
   public canLoad(): Observable<boolean | UrlTree> {
     return this.isRegistered$.pipe(
