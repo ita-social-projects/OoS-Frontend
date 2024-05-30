@@ -60,7 +60,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
     });
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.user$.pipe(filter((user: User) => !!user)).subscribe(() => {
       this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
       this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
@@ -107,7 +107,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
 
   setEditMode(): void {}
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     super.ngOnDestroy();
   }
 }

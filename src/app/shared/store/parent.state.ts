@@ -484,7 +484,7 @@ export class ParentState {
   }
 
   @Action(CreateParent)
-  createParent({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateParent) {
+  createParent({ dispatch }: StateContext<ParentStateModel>, { payload }: CreateParent): Observable<void | Parent> {
     return this.parentService.createParent(payload).pipe(
       tap((res: Parent) => dispatch(new OnCreateParentSuccess(res))),
       catchError((error) => dispatch(new OnCreateParentFail(error)))
@@ -492,7 +492,7 @@ export class ParentState {
   }
 
   @Action(OnCreateParentSuccess)
-  onCreateParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateParentSuccess) {
+  onCreateParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateParentSuccess): void {
     dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['/personal-cabinet/config']));
     dispatch([
       new ShowMessageBar({
@@ -504,7 +504,7 @@ export class ParentState {
   }
 
   @Action(OnCreateParentFail)
-  onCreateParentFail({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateProviderFail) {
+  onCreateParentFail({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateProviderFail): void {
     const message = SnackbarText.error;
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
