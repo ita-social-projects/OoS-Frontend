@@ -13,26 +13,19 @@ import { Role } from 'shared/enum/role';
   providedIn: 'root'
 })
 export class PersonalCabinetGuard {
-  @Select(RegistrationState.isRegistered)
-  private isRegistered$: Observable<boolean>;
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
   constructor(private router: Router) {}
 
   public canLoad(): Observable<boolean | UrlTree> {
-    return this.isRegistered$.pipe(
-      filter((isRegistered: boolean) => isRegistered !== undefined),
-      switchMap((isRegistered: boolean) => {
-        if (isRegistered) {
-          return of(isRegistered);
+    return this.user$.pipe(
+      filter((user: User) => !!user),
+      map((user: User) => {
+        if (user.isRegistered) {
+          return user.isRegistered;
         } else {
-          return this.user$.pipe(
-            filter((user: User) => !!user),
-            map((user: User) =>
-              this.router.createUrlTree([user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW])
-            )
-          );
+          return this.router.createUrlTree([user.role === Role.parent ? '/create-parent' : '/create-provider', ModeConstants.NEW]);
         }
       })
     );

@@ -11,7 +11,15 @@ describe('PersonalCabinetGuard', () => {
   let guard: PersonalCabinetGuard;
   let store: Store;
   let router: Router;
-  let mockUser: User;
+  const mockUser: User = {
+    dateOfBirth: '01/01/2004',
+    firstName: 'ГАв',
+    id: '23',
+    isBlocked: false,
+    isRegistered: false,
+    lastName: 'фівв',
+    role: 'provider'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -27,7 +35,8 @@ describe('PersonalCabinetGuard', () => {
   });
 
   it('should return TRUE if canLoad called if user is registered', (done) => {
-    jest.spyOn(store, 'select').mockReturnValue(of(true));
+    mockUser.isRegistered = true;
+    jest.spyOn(store, 'select').mockReturnValue(of(mockUser));
 
     const canLoad = guard.canLoad();
     canLoad.subscribe((value) => {
@@ -37,29 +46,14 @@ describe('PersonalCabinetGuard', () => {
   });
 
   it('should return UrlTree if canLoad called if user is not registered', (done) => {
-    mockUser = {
-      dateOfBirth: '01/01/2004',
-      firstName: 'ГАв',
-      id: '23',
-      isBlocked: false,
-      isRegistered: false,
-      lastName: 'фівв',
-      role: 'provider'
-    };
-
+    mockUser.isRegistered = false;
     const mockUrlTree = new UrlTree();
     jest.spyOn(router, 'createUrlTree').mockReturnValue(mockUrlTree);
-    jest.spyOn(store, 'select').mockImplementation((selector: any) => {
-      if (selector === RegistrationState.isRegistered) {
-        return of(false);
-      } else if (selector === RegistrationState.user) {
-        return of(mockUser);
-      }
-      return of(null); // Default return for other selectors, adjust as necessary
-    });
+    jest.spyOn(store, 'select').mockReturnValue(of(mockUser));
 
     const canLoad = guard.canLoad();
     canLoad.subscribe((value) => {
+      console.log('value' + value);
       expect(value).toEqual(mockUrlTree);
       done();
     });
