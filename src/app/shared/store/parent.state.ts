@@ -492,7 +492,7 @@ export class ParentState {
   }
 
   @Action(OnCreateParentSuccess)
-  onCreateParentSuccess({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateParentSuccess): void {
+  onCreateParentSuccess({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateParentSuccess): void {
     dispatch(new CheckAuth()).subscribe(() => this.router.navigate(['/personal-cabinet/config']));
     dispatch([
       new ShowMessageBar({
@@ -504,7 +504,7 @@ export class ParentState {
   }
 
   @Action(OnCreateParentFail)
-  onCreateParentFail({ dispatch }: StateContext<ParentStateModel>, {}: OnCreateProviderFail): void {
+  onCreateParentFail({ dispatch }: StateContext<ParentStateModel>, { payload }: OnCreateProviderFail): void {
     const message = SnackbarText.error;
     dispatch(new ShowMessageBar({ message, type: 'error' }));
   }
