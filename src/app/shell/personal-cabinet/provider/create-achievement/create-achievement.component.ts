@@ -54,6 +54,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   private approvedChildren: SearchResponse<Child[]>;
   private isSaving: boolean = false;
   private minDate: Date;
+  private maxDate: Date;
   private achievementId: string;
 
   constructor(
@@ -96,6 +97,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     this.getData();
     const currentDate = new Date();
     this.minDate = new Date(currentDate.getFullYear() - 100, currentDate.getMonth(), currentDate.getDate());
+    this.maxDate = new Date(currentDate.getFullYear() + 100, currentDate.getMonth(), currentDate.getDate());
   }
 
   public determineEditMode(): void {
