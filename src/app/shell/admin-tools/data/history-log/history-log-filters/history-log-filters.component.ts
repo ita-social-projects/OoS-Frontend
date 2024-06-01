@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { Subject, takeUntil } from 'rxjs';
 
 import { DropdownOptionsConfig } from 'shared/constants/drop-down';
 import { CustomFormControlNames, FilterOptions, FormControlNames, HistoryLogTypes } from 'shared/enum/history.log';
@@ -11,7 +12,7 @@ import { DateFilters, DropdownData, FilterData } from 'shared/models/history-log
   styleUrls: ['./history-log-filters.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HistoryLogFiltersComponent implements OnInit {
+export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
   @Input() public dropdownOptions: DropdownData;
 
   @Output() public filterData = new EventEmitter<FilterData>();
@@ -25,6 +26,7 @@ export class HistoryLogFiltersComponent implements OnInit {
 
   private baseCountOfFiltersFormFields = 2;
   private _tabName: HistoryLogTypes;
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private fb: FormBuilder) {}
 
@@ -44,6 +46,11 @@ export class HistoryLogFiltersComponent implements OnInit {
   public ngOnInit(): void {
     this.setBaseFiltersForm();
     this.emitFilterData();
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.complete();
   }
 
   public applyFilters(): void {
@@ -67,16 +74,22 @@ export class HistoryLogFiltersComponent implements OnInit {
   private setFiltersDependOnTab(tabName: HistoryLogTypes): void {
     switch (tabName) {
       case HistoryLogTypes.Providers:
-        this.addFormControlForFiltersForm([CustomFormControlNames.ProvidersPropertyName]);
+        this.addFormControlForFiltersForm(CustomFormControlNames.ProvidersPropertyName);
         break;
       case HistoryLogTypes.ProviderAdmins:
-        this.addFormControlForFiltersForm([CustomFormControlNames.OperationType, CustomFormControlNames.AdminType]);
+        this.addFormControlForFiltersForm(CustomFormControlNames.AdminType, CustomFormControlNames.OperationType);
+        this.addFormControlListeners(FormControlNames.AdminType, (adminType: string) => {
+          const adminTypeOptions = this.filtersList.find((filter) => filter.controlName === FormControlNames.AdminType).options;
+          const operationTypeOptions = this.filtersList.find((filter) => filter.controlName === FormControlNames.OperationType).options;
+          const isDefault = adminTypeOptions.find((option) => option.value === adminType).default;
+          operationTypeOptions.forEach((option) => (option.available = (isDefault || option.type?.includes(adminType)) ?? true));
+        });
         break;
       case HistoryLogTypes.Applications:
-        this.addFormControlForFiltersForm([CustomFormControlNames.ApplicationsPropertyName]);
+        this.addFormControlForFiltersForm(CustomFormControlNames.ApplicationsPropertyName);
         break;
       case HistoryLogTypes.Users:
-        this.addFormControlForFiltersForm([CustomFormControlNames.ShowParents]);
+        this.addFormControlForFiltersForm(CustomFormControlNames.ShowParents);
         break;
     }
   }
@@ -137,13 +150,27 @@ export class HistoryLogFiltersComponent implements OnInit {
     return this.setTimeDependsOnTimezone(dateFrom, dateTo);
   }
 
-  private addFormControlForFiltersForm(formControlNames: string[]): void {
+  private addFormControlForFiltersForm(...formControlNames: string[]): void {
     formControlNames.forEach((controlName: string) => {
-      this.filtersForm.addControl(FormControlNames[controlName], new FormControl(''));
+      const options = [...this.dropdownOptionsConfig[controlName]];
+
+      const defaultOption = options.find((option) => option.default);
+      const value = defaultOption?.value || '';
+      if (defaultOption) {
+        defaultOption.label = 'FORMS.PLACEHOLDERS.ALL_FILTERS';
+      } else {
+        options.unshift({ value, label: 'FORMS.PLACEHOLDERS.ALL_FILTERS' });
+      }
+
+      this.filtersForm.addControl(FormControlNames[controlName], new FormControl(value));
       this.filtersList.push({
         controlName: FormControlNames[controlName],
-        options: this.dropdownOptionsConfig[controlName]
+        options
       });
     });
+  }
+
+  private addFormControlListeners(formControlName: FormControlNames, callback: (value: string) => void): void {
+    this.filtersForm.get(formControlName).valueChanges.pipe(takeUntil(this.destroy$)).subscribe(callback);
   }
 }
