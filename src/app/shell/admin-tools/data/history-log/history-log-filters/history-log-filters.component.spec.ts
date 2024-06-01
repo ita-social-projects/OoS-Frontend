@@ -69,7 +69,7 @@ describe('HistoryLogFiltersComponent', () => {
     test.each`
       tab                               | tabName             | expectedFormControlName
       ${HistoryLogTypes.Providers}      | ${'Providers'}      | ${FilterOptions.PropertyName}
-      ${HistoryLogTypes.ProviderAdmins} | ${'ProviderAdmins'} | ${FilterOptions.OperationType}
+      ${HistoryLogTypes.ProviderAdmins} | ${'ProviderAdmins'} | ${FilterOptions.AdminType}
       ${HistoryLogTypes.Applications}   | ${'Applications'}   | ${FilterOptions.PropertyName}
       ${HistoryLogTypes.Users}          | ${'Users'}          | ${FilterOptions.ShowParents}
     `(
@@ -83,7 +83,7 @@ describe('HistoryLogFiltersComponent', () => {
     );
 
     it('should add additional form control to filtersForm when tabName is equal to ProviderAdmins', () => {
-      const expectedAdditionalFormControlName = FilterOptions.AdminType;
+      const expectedAdditionalFormControlName = FilterOptions.OperationType;
 
       component.tabName = HistoryLogTypes.ProviderAdmins;
 
