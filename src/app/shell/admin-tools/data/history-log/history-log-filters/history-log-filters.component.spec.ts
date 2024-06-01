@@ -1,4 +1,4 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { FormBuilder, FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule, MatOptionModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -9,7 +9,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
 
-import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
+import { FilterOptions, FormControlNames, HistoryLogTypes } from 'shared/enum/history.log';
 import { HistoryLogFiltersComponent } from './history-log-filters.component';
 
 describe('HistoryLogFiltersComponent', () => {
@@ -90,6 +90,17 @@ describe('HistoryLogFiltersComponent', () => {
       expect(component.filtersList[1].controlName).toBe(expectedAdditionalFormControlName);
       expect(Object.keys(component.filtersForm.controls)).toContain(expectedAdditionalFormControlName);
     });
+
+    it('should filter additional form control options when tabName is equal to ProviderAdmins', fakeAsync(() => {
+      component.tabName = HistoryLogTypes.ProviderAdmins;
+
+      component.filtersForm.get(FormControlNames.AdminType).setValue('Deputies');
+      tick(500);
+      fixture.detectChanges();
+
+      const options = component.filtersList[1].options.filter((option) => option.available ?? true).map((option) => option.value);
+      expect(options).toEqual(['', 'Block', 'Update', 'Reinvite']);
+    }));
   });
 
   describe('applyFilters method', () => {
