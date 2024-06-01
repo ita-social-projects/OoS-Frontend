@@ -60,7 +60,8 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
   public onResetFilters(): void {
     this.filtersForm.reset();
     Object.keys(this.filtersForm.controls).forEach((control: string) => {
-      this.filtersForm.get(control).setValue('');
+      const value = this.dropdownOptionsConfig[control]?.find((option) => option.default)?.value || '';
+      this.filtersForm.get(control).setValue(value);
     });
     this.dateFromFilters.emit({ [FilterOptions.DateFrom]: '', [FilterOptions.DateTo]: '' });
   }
