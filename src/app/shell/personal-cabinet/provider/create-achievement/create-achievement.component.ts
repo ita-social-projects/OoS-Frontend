@@ -45,7 +45,6 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   @Select(MetaDataState.achievementsTypes)
   private achievementsTypes$: Observable<AchievementType[]>;
 
-  public destroy$: Subject<boolean> = new Subject<boolean>();
   public workshop: Workshop;
   private readonly validationConstants = ValidationConstants;
   private AchievementFormGroup: FormGroup;
