@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Actions, Select, Store, ofAction } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, filter } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
@@ -9,7 +9,7 @@ import { Constants, ModeConstants, PaginationConstants } from 'shared/constants/
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { Subrole } from 'shared/enum/role';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { WorkshopCardParameters, WorkshopProviderViewCard } from 'shared/models/workshop.model';
 import { PushNavPath } from 'shared/store/navigation.actions';
@@ -29,27 +29,31 @@ import { ProviderComponent } from '../provider.component';
   styleUrls: ['./provider-workshops.component.scss']
 })
 export class ProviderWorkshopsComponent extends ProviderComponent implements OnInit, OnDestroy {
-  readonly constants: typeof Constants = Constants;
-  readonly ModeConstants = ModeConstants;
-
   @Select(ProviderState.providerWorkshops)
-  workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
-  workshops: SearchResponse<WorkshopProviderViewCard[]>;
+  public workshops$: Observable<SearchResponse<WorkshopProviderViewCard[]>>;
 
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  workshopCardParameters: WorkshopCardParameters = {
+  public readonly constants: typeof Constants = Constants;
+  public readonly ModeConstants = ModeConstants;
+
+  public workshops: SearchResponse<WorkshopProviderViewCard[]>;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public workshopCardParameters: WorkshopCardParameters = {
     providerId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private actions$: Actions
+  ) {
     super(store, matDialog);
   }
 
   /**
    * This method set navigation path
    */
-  addNavPath(): void {
+  public addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Workshops,
@@ -62,7 +66,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
   /**
    * This method get provider workshop according to the subrole
    */
-  initProviderData(): void {
+  public initProviderData(): void {
     this.workshopCardParameters.providerId = this.provider.id;
     this.getProviderWorkshops();
 
@@ -79,7 +83,7 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
    * This method delete workshop By Workshop Id
    * @param workshop
    */
-  onDelete(workshop: WorkshopProviderViewCard): void {
+  public onDelete(workshop: WorkshopProviderViewCard): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -88,17 +92,20 @@ export class ProviderWorkshopsComponent extends ProviderComponent implements OnI
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteWorkshopById(workshop, this.workshopCardParameters));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe((result: boolean) => {
+        this.store.dispatch(new DeleteWorkshopById(workshop, this.workshopCardParameters));
+      });
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getProviderWorkshops();
   }
 
-  onItemsPerPageChange(itemsPerPage: number) {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.workshopCardParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }

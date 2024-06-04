@@ -1,7 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -15,10 +15,10 @@ import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
 import { UserStatusesTitles } from 'shared/enum/enumUA/statuses';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminParams, ProviderAdminRole } from 'shared/enum/provider-admin';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { ProviderAdmin, ProviderAdminParameters, ProviderAdminTable } from 'shared/models/providerAdmin.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
 import { SearchResponse } from 'shared/models/search.model';
-import { BlockData, UsersTable } from 'shared/models/usersTable';
+import { ProviderAdminsBlockData, ProviderAdminsTableData } from 'shared/models/users-table';
 import { PushNavPath } from 'shared/store/navigation.actions';
 import {
   BlockProviderAdminById,
@@ -36,19 +36,19 @@ import { ProviderComponent } from '../provider.component';
   styleUrls: ['./provider-admins.component.scss']
 })
 export class ProviderAdminsComponent extends ProviderComponent implements OnInit, OnDestroy {
+  @Select(ProviderState.isLoading)
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(ProviderState.providerAdmins)
+  private providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
+
   public readonly ProviderAdminTitles = ProviderAdminTitles;
   public readonly providerAdminRole = ProviderAdminRole;
   public readonly noProviderAdmins = NoResultsTitle.noUsers;
   public readonly constants = Constants;
   public readonly statusesTitles = UserStatusesTitles;
 
-  @Select(ProviderState.isLoading)
-  public isLoadingCabinet$: Observable<boolean>;
-  @Select(ProviderState.providerAdmins)
-  private providerAdmins$: Observable<SearchResponse<ProviderAdmin[]>>;
-
   public providerAdmins: SearchResponse<ProviderAdmin[]>;
-  public providerAdminsData: ProviderAdminTable[] = [];
+  public providerAdminsData: ProviderAdminsTableData[] = [];
   public filterFormControl: FormControl = new FormControl('');
   public currentPage: PaginationElement = PaginationConstants.firstPage;
   public tabIndex: number;
@@ -58,9 +58,20 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
     searchString: '',
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
+  public isSmallMobileView: boolean;
 
-  constructor(protected store: Store, protected matDialog: MatDialog, private router: Router, private route: ActivatedRoute) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     super(store, matDialog);
+  }
+
+  @HostListener('window: resize', ['$event.target'])
+  public onResize(event: Window): void {
+    this.isSmallMobileView = event.innerWidth <= 480;
   }
 
   public ngOnInit(): void {
@@ -69,16 +80,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
     this.setTabOptions();
     this.getFilteredProviderAdmins();
-  }
-
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Administration,
-        isActive: false,
-        disable: true
-      })
-    );
+    this.onResize(window);
   }
 
   /**
@@ -113,7 +115,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method update provider Admin By Id
    */
-  public onUpdate(user: ProviderAdminTable): void {
+  public onUpdate(user: ProviderAdminsTableData): void {
     const userRole = user.isDeputy ? ProviderAdminRole.deputy : ProviderAdminRole.admin;
     this.router.navigate([`update-provider-admin/${userRole}/${user.id}`]);
   }
@@ -121,42 +123,42 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   /**
    * This method block and unBlock provider Admin By Id
    */
-  public onBlock(admin: BlockData): void {
+  public onBlockUnblock(admin: ProviderAdminsBlockData): void {
     let messageType: string;
-
     if (admin.user.isDeputy) {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
+      messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdminDeputy : ModalConfirmationType.unBlockProviderAdminDeputy;
     } else {
-      messageType = admin.isBlocked ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
+      messageType = admin.isBlocking ? ModalConfirmationType.blockProviderAdmin : ModalConfirmationType.unBlockProviderAdmin;
     }
 
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: messageType,
-        property: admin.user.pib
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: messageType,
+          property: admin.user.pib
+        }
+      })
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
         this.store.dispatch(
           new BlockProviderAdminById(
             {
               userId: admin.user.id,
               providerId: this.provider.id,
-              isBlocked: admin.isBlocked
+              isBlocked: admin.isBlocking
             },
             this.filterParams
           )
         );
-    });
+      });
   }
 
   /**
    * This method delete provider Admin By Id
    */
-  public onDelete(user: UsersTable): void {
+  public onDelete(user: ProviderAdminsTableData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -165,8 +167,10 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result &&
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe(() => {
         this.store.dispatch(
           new DeleteProviderAdminById(
             {
@@ -176,7 +180,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
             this.filterParams
           )
         );
-    });
+      });
   }
 
   public onSendInvitation(providerAdmin: ProviderAdmin): void {
@@ -185,6 +189,16 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
   protected initProviderData(): void {
     this.addProviderAdminsSubscriptions();
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Administration,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 
   private setTabOptions(): void {
@@ -201,26 +215,6 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
   }
 
   /**
-   * This method updates table according to the received data
-   * @param admins ProviderAdmin[]
-   */
-  private updateStructureForTheTable(admins: ProviderAdmin[]): ProviderAdminTable[] {
-    const updatedAdmins = [];
-    admins.forEach((admin: ProviderAdmin) => {
-      updatedAdmins.push({
-        id: admin.id,
-        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
-        email: admin.email,
-        phoneNumber: `${Constants.PHONE_PREFIX} ${admin.phoneNumber}`,
-        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
-        status: admin.accountStatus,
-        isDeputy: admin.isDeputy
-      });
-    });
-    return updatedAdmins;
-  }
-
-  /**
    * This method subscribes on provider admins and filter form control value changing for data filtration
    */
   private addProviderAdminsSubscriptions(): void {
@@ -234,7 +228,7 @@ export class ProviderAdminsComponent extends ProviderComponent implements OnInit
 
     this.providerAdmins$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((providerAdmins: SearchResponse<ProviderAdmin[]>) => {
       this.providerAdmins = providerAdmins;
-      this.providerAdminsData = this.updateStructureForTheTable(providerAdmins.entities);
+      this.providerAdminsData = Util.updateStructureForTheTableProviderAdmins(providerAdmins.entities);
     });
   }
 }

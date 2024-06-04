@@ -1,22 +1,11 @@
-import { Component, OnInit, Input, ViewChild, OnChanges } from '@angular/core';
-import { ImgPath } from '../../models/carousel.model';
+import { Component, Input } from '@angular/core';
+import { ImgPath } from 'shared/models/carousel.model';
 
 @Component({
   selector: 'app-image-carousel',
   templateUrl: './image-carousel.component.html',
   styleUrls: ['./image-carousel.component.scss']
 })
-export class ImageCarouselComponent implements OnInit, OnChanges {
+export class ImageCarouselComponent {
   @Input() public images: ImgPath[] = [];
-  @ViewChild('myCarousel', { static: false }) myCarousel;
-  constructor() {}
-
-  public ngOnInit(): void {}
-
-  public ngOnChanges(): void {
-    if (this.myCarousel) {
-      this.myCarousel.utils.carouselProperties.cellsElement.style.transform = 'none';
-      this.myCarousel.dotsArr = Array(this.images.length).fill(1);
-    }
-  }
 }

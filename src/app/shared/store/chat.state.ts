@@ -32,11 +32,13 @@ export interface ChatStateModel {
     chatRooms: null,
     selectedChatRoom: null,
     selectedChatRoomMessages: null,
-    unreadMessagesCount: null,
+    unreadMessagesCount: null
   }
 })
 @Injectable()
 export class ChatState {
+  constructor(private chatService: ChatService) {}
+
   @Selector()
   static isLoadingData(state: ChatStateModel): boolean {
     return state.isLoadingData;
@@ -61,8 +63,6 @@ export class ChatState {
   static unreadMessagesCount(state: ChatStateModel): number {
     return state.unreadMessagesCount;
   }
-
-  constructor(private chatService: ChatService) {}
 
   @Action(GetChatRooms)
   getChatRooms({ patchState }: StateContext<ChatStateModel>, { parameters }: GetChatRooms): Observable<SearchResponse<ChatRoom[]>> {
@@ -124,6 +124,11 @@ export class ChatState {
       .pipe(tap((selectedChatRoomMessages) => patchState({ isLoadingData: false, selectedChatRoomMessages })));
   }
 
+  @Action(GetUnreadMessagesCount)
+  getUserUnreadMessagesCount({ patchState }: StateContext<ChatStateModel>): Observable<number> {
+    return this.chatService.getUnreadMessagesCount().pipe(tap((unreadMessagesCount) => patchState({ unreadMessagesCount })));
+  }
+
   @Action(ClearSelectedChatRoom)
   clearSelectedChatRoom({ patchState }: StateContext<ChatStateModel>): void {
     patchState({ selectedChatRoom: null, selectedChatRoomMessages: null });
@@ -131,7 +136,6 @@ export class ChatState {
 
   @Action(GetUnreadMessagesCount)
   getUnreadMessagesCount({ patchState }: StateContext<ChatStateModel>): Observable<number> {
-    return this.chatService.getUnreadMessagesCount()
-      .pipe(tap((unreadMessagesCount: number) => patchState({ unreadMessagesCount })));
+    return this.chatService.getUnreadMessagesCount().pipe(tap((unreadMessagesCount: number) => patchState({ unreadMessagesCount })));
   }
 }

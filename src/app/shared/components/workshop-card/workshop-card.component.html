@@ -3,26 +3,32 @@
 
   <div [ngClass]="isHorizontalView ? 'horizontal-card' : 'card'">
     <div class="card-img card-img-full" fxLayout="row" fxLayoutAlign="center">
-      <img [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
-           mat-card-image
-           [src]="workshopData['_meta']"
-           alt="{{ workshopData.title }}" />
+      <img
+        [ngClass]="{ 'card-img-full': workshopData.coverImageId }"
+        mat-card-image
+        [src]="workshopData['_meta']"
+        alt="{{ workshopData.title }}" />
     </div>
 
     <div [ngClass]="isHorizontalView ? 'wrap-for-details wrap-for-details-map' : 'wrap-for-details'">
       <mat-card-header>
-        <mat-card-title [matTooltip]="workshopData.title"
-                        showTooltipIfTruncated
-                        matTooltipClass="tooltip"
-                        [matTooltipPosition]="tooltipPositionBelow"
-                        class="card-title">
-          <a *ngIf="isCabinetView"
-             matTooltip="{{ 'MORE_DETAILS' | translate }}"
-             [matTooltipPosition]="tooltipPositionAbove"
-             [routerLink]="['/details/workshop', workshopData.workshopId]">
+        <mat-card-title
+          [matTooltip]="workshopData.title"
+          showTooltipIfTruncated
+          matTooltipClass="tooltip"
+          [matTooltipPosition]="tooltipPositionBelow"
+          class="card-title"
+          fxLayout="row">
+          <a
+            *ngIf="isCabinetView"
+            matTooltip="{{ 'MORE_DETAILS' | translate }}"
+            [matTooltipPosition]="tooltipPositionAbove"
+            [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
-          {{ workshopData.title }}
+          <div class="workshop-title-container">
+            <span>{{ workshopData.title }}</span>
+          </div>
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionIds">
           <img class="img" mat-card-image [src]="categoryIcons[id]" />
@@ -60,9 +66,10 @@
     <div class="chip-color-close">
       {{ recruitmentStatusEnum.RecruitmentStoped | translate }}
     </div>
-    <a *ngIf="canChangeWorkshopStatus"
-       class="more-details"
-       (click)="onChangeWorkshopStatus(workshopStatus.Open, modalConfirmationType.openSet)">
+    <a
+      *ngIf="canChangeWorkshopStatus"
+      class="more-details"
+      (click)="onChangeWorkshopStatus(workshopStatus.Open, modalConfirmationType.openSet)">
       <span class="card_link">{{ recruitmentStatusEnum.Open | translate }}</span>
     </a>
   </div>
@@ -98,28 +105,28 @@
 </ng-template>
 
 <ng-template #ProviderWorkshopView>
-  <ng-container *ngIf="workshopData.status === workshopStatus.Open; else WorkshopStatusClosed">
+  <ng-container
+    *ngIf="workshopData.status === workshopStatus.Open || workshopData.availableSeats === UNLIMITED_SEATS; else WorkshopStatusClosed">
     <div fxLayoutAlign="space-between">
       <div class="chip-color-open">
         {{ recruitmentStatusEnum.RecruitmentOngoing | translate }}
       </div>
-      <a *ngIf="canChangeWorkshopStatus"
-         class="more-details"
-         (click)="onChangeWorkshopStatus(workshopStatus.Closed, modalConfirmationType.closeSet)">
+      <a
+        *ngIf="canChangeWorkshopStatus"
+        class="more-details"
+        (click)="onChangeWorkshopStatus(workshopStatus.Closed, modalConfirmationType.closeSet)">
         <span class="card_link">{{ recruitmentStatusEnum.Stop | translate }}</span>
       </a>
     </div>
   </ng-container>
-  <div *ngIf="workshopData.competitiveSelection"
-       class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
+  <div *ngIf="workshopData.competitiveSelection" class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'COMPETITIVE_SELECTION' | translate }}</p>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
     <p class="card_text"><i class="fas fa-user card_icon"></i> {{ 'TOTAL_PARTICIPANTS' | translate }}:</p>
     <span class="card_text card_text_blue">
       {{ workshopData.takenSeats }}
-      <ng-container
-        *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
+      <ng-container *ngIf="workshopData.availableSeats !== UNLIMITED_SEATS"> / {{ workshopData.availableSeats }} </ng-container>
     </span>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
@@ -127,9 +134,7 @@
     <span class="card_text card_text_blue"> {{ workshopData.amountOfPendingApplications }}</span>
   </div>
   <div class="provider-content" fxLayout="row" fxLayoutAlign="space-between center">
-    <p class="card_text">
-      <i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:
-    </p>
+    <p class="card_text"><i class="fas fa-solid fa-envelope card_icon"></i> {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate }}:</p>
     <span class="card_text card_text_blue"> {{ workshopData.unreadMessages }}</span>
   </div>
 </ng-template>
@@ -141,18 +146,22 @@
     <span class="rating-number">({{ workshopData.numberOfRatings }})</span>
   </p>
 
-  <a [routerLink]="['/details/provider', workshopData.providerId]" class="provider-link" fxLayout="row"
-     fxLayoutAlign="start center">
+  <a [routerLink]="['/details/provider', workshopData.providerId]" class="provider-link" fxLayout="row" fxLayoutAlign="start center">
     <mat-icon class="card_icon">home</mat-icon>
-    <p class="card_text_label"
-       [matTooltip]="workshopData.providerTitle"
-       matTooltipClass="tooltip"
-       showTooltipIfTruncated
-       [matTooltipPosition]="tooltipPositionBelow">
+    <p
+      class="card_text_label"
+      [matTooltip]="workshopData.providerTitle"
+      matTooltipClass="tooltip"
+      showTooltipIfTruncated
+      [matTooltipPosition]="tooltipPositionBelow">
       {{ workshopData.providerTitle }}
     </p>
   </a>
 
+  <p class="card_text">
+    <mat-icon class="card_icon">school</mat-icon>
+    {{ FormOfLearningEnum[workshopData.formOfLearning] | translate }}
+  </p>
   <p class="card_text" *ngIf="OwnershipTypeEnum[workshopData.providerOwnership] && !isHorizontalView">
     <mat-icon class="card_icon">account_balance</mat-icon>
     {{ 'FORMS.LABELS.OWNERSHIP' | translate }}: {{ OwnershipTypeEnum[workshopData.providerOwnership] | translate }}
@@ -163,27 +172,28 @@
     {{ 'YEARS' | translate }}
   </p>
   <p class="card_text" *ngIf="!workshopData.price">
-    <mat-icon class="card_icon"> attach_money</mat-icon>
+    <mat-icon class="card_icon">attach_money</mat-icon>
     {{ 'FOR_FREE' | translate }}
   </p>
   <p class="card_text" *ngIf="workshopData.price">
-    <mat-icon class="card_icon"> attach_money</mat-icon>
+    <mat-icon class="card_icon">attach_money</mat-icon>
     {{ workshopData.price }} {{ 'UAH' | translate }}/
     {{ PayRateTypeEnum[workshopData.payRate] | translate }}
   </p>
   <div class="card_text">
     <mat-icon class="card_icon">location_on</mat-icon>
-    <p class="card_text_label"
-       [matTooltip]="
+    <p
+      class="card_text_label"
+      [matTooltip]="
         workshopData.address.codeficatorAddressDto.settlement +
         ', ' +
         workshopData.address.street +
         ', ' +
         workshopData.address.buildingNumber
       "
-       showTooltipIfTruncated
-       matTooltipClass="tooltip"
-       [matTooltipPosition]="tooltipPositionAbove">
+      showTooltipIfTruncated
+      matTooltipClass="tooltip"
+      [matTooltipPosition]="tooltipPositionAbove">
       {{ workshopData.address.codeficatorAddressDto.settlement }}, {{ workshopData.address.street }},
       {{ workshopData.address.buildingNumber }}
     </p>

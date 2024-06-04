@@ -2,6 +2,12 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
+  width: auto;
+
+  &:first-child {
+    width: 100%;
+  }
+
   &__parent {
     flex: 2;
   }
@@ -15,6 +21,17 @@
 
       &:not(:first-child) {
         padding-left: 8px;
+      }
+    }
+    & > div > .card-block__child-name {
+      min-width: 250px !important;
+      justify-content: flex-start !important;
+
+      & > h4 {
+        max-width: 190px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
   }
@@ -32,7 +49,8 @@
   flex-direction: column;
   align-items: flex-start;
 
-  h4, h5 {
+  h4,
+  h5 {
     &:not(:last-child) {
       padding-bottom: 8px;
     }
@@ -51,7 +69,7 @@
 
 .text {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
   align-items: center;
 }
 
@@ -61,7 +79,7 @@
   font-weight: bold;
   font-size: 13px;
   line-height: 15px;
-  padding: 0.6rem 1.9rem;
+  padding: 0.6rem 1.7rem;
   margin: 0 8px;
   min-width: 10rem;
   text-transform: uppercase;
@@ -75,28 +93,18 @@
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
 }
 
 .organization {
   padding-bottom: 8px;
 }
 
-::ng-deep .mat-menu-panel.childInfo-menu {
-  max-width: none;
-  background: #ffffff;
-  box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.08);
-  border-radius: 5px !important;
-}
-
-::ng-deep .childInfo-menu .mat-menu-content {
-  font-family: 'Open Sans';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 13px;
-  line-height: 18px;
-  margin: 0px !important;
-  padding: 0px !important;
+.text_icon {
+  &:hover {
+    cursor: default;
+    opacity: 1;
+  }
 }
 
 @media (max-width: 1220px) {
@@ -117,7 +125,7 @@
 
     &__info {
       flex-direction: column;
-      align-items: start;
+      align-items: flex-start;
       gap: 12px;
 
       & > div {
@@ -125,6 +133,12 @@
           padding-left: 0px;
         }
       }
+    }
+
+    &__buttons {
+      justify-content: flex-start;
+      flex-direction: row;
+      padding-left: 0 !important;
     }
   }
 
@@ -140,14 +154,11 @@
 }
 
 @media (max-width: 530px) {
-  .title {
-    min-width: 180px;
-  }
-
   .card {
     flex-direction: column;
-    align-items: start;
+    align-items: flex-start;
     gap: 20px;
+    padding-right: 0;
   }
 
   .card-block {
@@ -161,11 +172,12 @@
       max-width: none;
       width: 100%;
       flex-direction: row;
-      justify-content: center;
+      justify-content: flex-start !important;
     }
 
     &__actions {
       align-items: flex-start;
+      padding-left: 0 !important;
     }
   }
 

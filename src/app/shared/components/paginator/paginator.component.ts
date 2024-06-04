@@ -1,7 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { MatSelectChange } from '@angular/material/select';
-import { PaginationConstants } from '../../constants/constants';
-import { PaginationElement } from '../../models/paginationElement.model';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 
 @Component({
   selector: 'app-paginator',
@@ -20,7 +21,7 @@ export class PaginatorComponent implements OnChanges {
 
   public carouselPageList: PaginationElement[] = [];
   public totalPageAmount: number;
-  public listOfValues: Array<number> = [8, 12, 16, 20];
+  public listOfValues: number[] = [8, 12, 16, 20];
 
   constructor() {}
 

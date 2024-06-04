@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Constants } from '../../../../shared/constants/constants';
-import { Address } from '../../../../shared/models/address.model';
+
+import { Address } from 'shared/models/address.model';
 
 @Component({
   selector: 'app-contacts',
@@ -8,8 +8,6 @@ import { Address } from '../../../../shared/models/address.model';
   styleUrls: ['./contacts.component.scss']
 })
 export class ContactsComponent implements OnInit {
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
-
   @Input() public address: Address;
   @Input() public contactsData: {
     phone: string;
@@ -19,17 +17,15 @@ export class ContactsComponent implements OnInit {
     website: string;
   };
 
+  private addressLink = 'https://www.google.com/maps/place/';
+
   public get getFullAddress(): string {
     return `${this.address.codeficatorAddressDto.settlement}, ${this.address.street}, ${this.address.buildingNumber}`;
   }
 
-  private addressLink = 'https://www.google.com/maps/place/';
-
-  constructor() {}
-
   public ngOnInit(): void {}
 
-  /*Detects device and opens map*/
+  /* Detects device and opens map*/
   public mapLink(): void {
     if (/iPhone|iPad|iPod/i.test(navigator.userAgent)) {
       this.addressLink = 'https://maps.apple.com:';

@@ -1,11 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
+
 import { ParentGuard } from './parent/parent.guard';
 import { ProviderGuard } from './provider/provider.guard';
-import { MessagesComponent } from './shared-cabinet/messages/messages.component';
 import { ChatComponent } from './shared-cabinet/messages/chat/chat.component';
-import { PersonalCabinetGuard } from './personal-cabinet.guard';
+import { MessagesComponent } from './shared-cabinet/messages/messages.component';
+import { MessagesGuard } from './shared-cabinet/messages/messages.guard';
+import { UserConfigComponent } from './shared-cabinet/user-config/user-config.component';
 
 const routes: Routes = [
   {
@@ -14,12 +15,13 @@ const routes: Routes = [
   },
   {
     path: 'messages',
-    component: MessagesComponent
+    component: MessagesComponent,
+    canActivate: [MessagesGuard]
   },
   {
     path: 'messages/:id',
     component: ChatComponent,
-    canLoad: [PersonalCabinetGuard]
+    canLoad: [MessagesGuard]
   },
   {
     path: 'provider',

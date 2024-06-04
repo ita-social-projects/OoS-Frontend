@@ -1,20 +1,21 @@
-import { MatIconModule } from '@angular/material/icon';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { CreateDescriptionFormComponent } from './create-description-form.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { NgxsModule } from '@ngxs/store';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { Component, Input } from '@angular/core';
-import { MatChipsModule } from '@angular/material/chips';
-import { ImageFormControlComponent } from '../../../../../shared/components/image-form-control/image-form-control.component';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatRadioModule } from '@angular/material/radio';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { MatIconModule } from '@angular/material/icon';
+import { MatLegacyChipsModule as MatChipsModule } from '@angular/material/legacy-chips';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacyInputModule as MatInputModule } from '@angular/material/legacy-input';
+import { MatRadioModule } from '@angular/material/radio';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { Provider } from '../../../../../shared/models/provider.model';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { ImageFormControlComponent } from 'shared/components/image-form-control/image-form-control.component';
+import { Provider } from 'shared/models/provider.model';
+import { CreateDescriptionFormComponent } from './create-description-form.component';
 
 describe('CreateDescriptionFormComponent', () => {
   let component: CreateDescriptionFormComponent;
@@ -41,7 +42,7 @@ describe('CreateDescriptionFormComponent', () => {
         ImageFormControlComponent,
         MockValidationHintAboutComponent,
         MockInfoFormComponent,
-        MockIstitutionHierarchyComponent
+        MockInstitutionHierarchyComponent
       ]
     }).compileComponents();
   });
@@ -75,6 +76,7 @@ class MockValidationHintAboutComponent {
   @Input() maxCharacters: number;
   @Input() minMaxDate: boolean;
 }
+
 @Component({
   selector: 'app-info-form',
   template: ''
@@ -90,8 +92,8 @@ class MockInfoFormComponent {
   selector: '<app-institution-hierarchy',
   template: ''
 })
-class MockIstitutionHierarchyComponent {
-  @Input() instituitionHierarchyIdFormControl: FormControl;
-  @Input() instituitionIdFormControl: FormControl;
+class MockInstitutionHierarchyComponent {
+  @Input() institutionHierarchyIdFormControl: FormControl;
+  @Input() institutionIdFormControl: FormControl;
   @Input() provider: Provider;
 }

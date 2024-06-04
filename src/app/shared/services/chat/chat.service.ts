@@ -2,9 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { Role } from '../../enum/role';
-import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from '../../models/chat.model';
-import { SearchResponse } from '../../models/search.model';
+import { Role } from 'shared/enum/role';
+import { ChatRoom, ChatRoomsParameters, IncomingMessage, MessagesParameters } from 'shared/models/chat.model';
+import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
   providedIn: 'root'
@@ -45,7 +45,7 @@ export class ChatService {
   }
 
   public getUnreadMessagesCount(): Observable<number> {
-    return this.http.get<number>(`${this.baseApiUrl}/user/unreadMessagesCount`)
+    return this.http.get<number>(`${this.baseApiUrl}/user/unreadMessagesCount`);
   }
 
   private setChatRoomParams(parameters: ChatRoomsParameters): HttpParams {

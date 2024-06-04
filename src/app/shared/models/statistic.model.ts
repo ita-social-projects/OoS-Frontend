@@ -1,5 +1,5 @@
-import { StatisticFileFormats, StatisticPeriodTypes } from '../enum/statistics';
-import { PaginationParameters } from './queryParameters.model';
+import { StatisticFileFormats, StatisticPeriodTypes } from 'shared/enum/statistics';
+import { PaginationParameters } from './query-parameters.model';
 
 export interface StatisticReport {
   id: string;

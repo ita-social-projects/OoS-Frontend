@@ -3,15 +3,13 @@ import { filter, takeUntil } from 'rxjs/operators';
 
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSelectChange } from '@angular/material/select';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { ActivatedRoute } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 
-import {
-  ConfirmationModalWindowComponent
-} from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
+import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, ModeConstants } from 'shared/constants/constants';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
@@ -20,13 +18,9 @@ import { Child, ChildrenParameters } from 'shared/models/child.model';
 import { ParentWithContactInfo } from 'shared/models/parent.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
-import {
-  NavigationBarService
-} from 'shared/services/navigation-bar/navigation-bar.service';
+import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
-import {
-  CreateApplication, GetStatusIsAllowToApply, GetUsersChildren
-} from 'shared/store/parent.actions';
+import { CreateApplication, GetStatusIsAllowToApply, GetUsersChildren } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { GetWorkshopById, ResetProviderWorkshopDetails } from 'shared/store/shared-user.actions';
@@ -68,10 +62,9 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   public AttendAgreementFormControl = new FormControl(false);
   public ContraindicationAgreementFormControlYourself = new FormControl(false);
   public AttendAgreementFormControlYourself = new FormControl(false);
-  public ChildFormControl = new FormControl('', Validators.required);
+  public ChildFormControl = new FormControl(null, Validators.required);
 
   public parentCard: Child;
-  public selectedChild: Child;
   public isContraindicationAgreed: boolean;
   public isAttendAgreed: boolean;
   public isParentAgreed: boolean;
@@ -147,7 +140,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
-        const application = new Application(this.tabIndex ? this.parentCard : this.selectedChild, this.workshop, this.parent);
+        const application = new Application(this.tabIndex ? this.parentCard : this.ChildFormControl.value, this.workshop, this.parent);
         this.store.dispatch(new CreateApplication(application));
       }
     });

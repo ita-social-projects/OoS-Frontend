@@ -16,18 +16,18 @@
 
       <ng-container matColumnDef="providerTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.PROVIDER_TITLE' | translate }}</th>
-        <td mat-cell *matCellDef="let element">{{ element?.providerTitle | emptyValueTransform | translate}}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.providerTitle | emptyValueTransform | translate }}</td>
       </ng-container>
 
       <ng-container matColumnDef="workshopTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.WORKSHOP_TITLE' | translate }}</th>
-        <td mat-cell *matCellDef="let element">{{ element?.workshopTitle | emptyValueTransform : DASH_VALUE | translate}}</td>
+        <td mat-cell *matCellDef="let element">{{ element?.workshopTitle | emptyValueTransform: DASH_VALUE | translate }}</td>
       </ng-container>
 
       <ng-container matColumnDef="institutionTitle">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SUBORDINATION' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ element?.institutionTitle | emptyValueTransform | translate}}
+          {{ element?.institutionTitle | emptyValueTransform | translate }}
         </td>
       </ng-container>
 
@@ -35,10 +35,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.SETTLEMENT' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.hasOwnProperty('providerCity')">
-            {{ element.providerCity | emptyValueTransform | translate}}
+            {{ element.providerCity | emptyValueTransform | translate }}
           </ng-container>
           <ng-container *ngIf="element.hasOwnProperty('workshopCity')">
-            {{ element.workshopCity | emptyValueTransform | translate}}
+            {{ element.workshopCity | emptyValueTransform | translate }}
           </ng-container>
         </td>
       </ng-container>
@@ -46,10 +46,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.TYPE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.hasOwnProperty('fieldName')">
-            {{ typeChange[element?.fieldName] | emptyValueTransform | translate}}
+            {{ typeChange[element?.fieldName] | emptyValueTransform | translate }}
           </ng-container>
           <ng-container *ngIf="element.hasOwnProperty('operationType')">
-            {{ adminStatus[element?.operationType] | emptyValueTransform | translate}}
+            {{ adminStatus[element?.operationType] | emptyValueTransform | translate }}
           </ng-container>
         </td>
       </ng-container>
@@ -58,10 +58,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.DATE_TIME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.hasOwnProperty('updatedDate')">
-            {{ element.updatedDate | date : SHORT_DATE_FORMAT | emptyValueTransform | translate}}
+            {{ element.updatedDate | date: SHORT_DATE_FORMAT | emptyValueTransform | translate }}
           </ng-container>
           <ng-container *ngIf="element.hasOwnProperty('operationDate')">
-            {{ element.operationDate | date : FULL_DATE_FORMAT_ONLY_DIGITS | emptyValueTransform | translate}}
+            {{ element.operationDate | date: FULL_DATE_FORMAT_ONLY_DIGITS | emptyValueTransform | translate }}
           </ng-container>
         </td>
       </ng-container>
@@ -74,8 +74,7 @@
           [ngClass]="{ 'application-status': isApplicationHistoryType }"
           class="{{ element.oldValue }}">
           {{
-            (isApplicationHistoryType ? statusTitles[element?.oldValue] : element?.oldValue)
-              | emptyValueTransform : DASH_VALUE | translate
+            (isApplicationHistoryType ? statusTitles[element?.oldValue] : element?.oldValue) | emptyValueTransform: DASH_VALUE | translate
           }}
         </td>
       </ng-container>
@@ -88,8 +87,7 @@
           [ngClass]="{ 'application-status': isApplicationHistoryType }"
           class="{{ element.newValue }}">
           {{
-            (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue) 
-              | emptyValueTransform : DASH_VALUE | translate
+            (isApplicationHistoryType ? statusTitles[element?.newValue] : element?.newValue) | emptyValueTransform: DASH_VALUE | translate
           }}
         </td>
       </ng-container>
@@ -98,14 +96,14 @@
       <ng-container matColumnDef="parentFullName">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'HISTORY_LOG.USER_THAT_WAS_BLOCKED' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-        {{ element.parentFullName | translate }}
-      </td>
+          {{ element.parentFullName | translate }}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="operationDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.DATE_TIME' | translate }}</th>
         <td mat-cell *matCellDef="let element">
-          {{ element.operationDate | date : FULL_DATE_FORMAT_ONLY_DIGITS | emptyValueTransform | translate}}
+          {{ element.operationDate | date: FULL_DATE_FORMAT_ONLY_DIGITS | emptyValueTransform | translate }}
         </td>
       </ng-container>
 
@@ -113,10 +111,10 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'FORMS.LABELS.TYPE' | translate }}</th>
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.isBlocked; else Unblocked">
-            {{ 'HISTORY_LOG.USER_WAS_BLOCKED' | translate}}
+            {{ 'HISTORY_LOG.USER_WAS_BLOCKED' | translate }}
           </ng-container>
           <ng-template #Unblocked>
-            {{ 'HISTORY_LOG.USER_WAS_UNBLOCKED' | translate}}
+            {{ 'HISTORY_LOG.USER_WAS_UNBLOCKED' | translate }}
           </ng-template>
         </td>
       </ng-container>
@@ -126,25 +124,14 @@
         <td mat-cell *matCellDef="let element">
           <ng-container *ngIf="element.reason; else unblocking">
             <div class="reason-container">
-             {{ 'HISTORY_LOG.BLOCKING_REASON' | translate }}
-              <span>
-                <i
-                  class="material-icons status-info-icon"
-                  [matMenuTriggerFor]="menu"
-                  #trigger="matMenuTrigger"
-                  (hasBackdrop)="(true)">
-                    info_outline
-                </i>
-              </span>
-              <mat-menu #menu="matMenu" disabled [overlapTrigger]="false" xPosition="after" class="application-menu">
-                <div class="menu-wrapper">
-                  <p class="reason__detailed">{{ element.reason | textSliceTransform }}</p>
-                </div>
-              </mat-menu>
+              {{ 'HISTORY_LOG.BLOCKING_REASON' | translate }}
+              <app-info-menu [type]="InfoMenuType.Text">
+                {{ element.reason | textSliceTransform }}
+              </app-info-menu>
             </div>
           </ng-container>
           <ng-template #unblocking>
-            {{ element.reason | emptyValueTransform : DASH_VALUE }}
+            {{ element.reason | emptyValueTransform: DASH_VALUE }}
           </ng-template>
         </td>
       </ng-container>
@@ -168,7 +155,7 @@
           <tr mat-row *matRowDef="let row; columns: columnsListForChangesLogHistory.Users"></tr>
         </ng-container>
         <ng-container *ngSwitchDefault>
-          <tr mat-header-row *matHeaderRowDef=[]></tr>
+          <tr mat-header-row *matHeaderRowDef="[]"></tr>
           <tr mat-row *matRowDef="let row; columns: []"></tr>
         </ng-container>
       </ng-container>

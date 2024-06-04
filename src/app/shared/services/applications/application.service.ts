@@ -2,21 +2,15 @@ import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ApplicationStatuses } from '../../enum/statuses';
-import { Application, ApplicationFilterParameters, ApplicationUpdate } from '../../models/application.model';
-import { SearchResponse } from '../../models/search.model';
+import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application, ApplicationFilterParameters, ApplicationUpdate } from 'shared/models/application.model';
+import { SearchResponse } from 'shared/models/search.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApplicationService {
   constructor(private http: HttpClient) {}
-
-  public getAllApplications(parameters: ApplicationFilterParameters): Observable<SearchResponse<Application[]>> {
-    const options = { params: this.setParams(parameters) };
-
-    return this.http.get<SearchResponse<Application[]>>('/api/v1/applications', options);
-  }
 
   /**
    * This method get applications by Provider id

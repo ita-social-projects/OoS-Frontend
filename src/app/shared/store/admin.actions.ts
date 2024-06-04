@@ -1,16 +1,16 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { AdminRoles, AdminTabTypes } from 'shared/enum/admins';
 import { BaseAdmin, BaseAdminBlockData, BaseAdminParameters } from 'shared/models/admin.model';
-import { AreaAdmin, AreaAdminBlockData, AreaAdminParameters } from 'shared/models/areaAdmin.model';
-import { AdminRoles, AdminTabTypes } from '../enum/admins';
-import { Direction, DirectionParameters } from '../models/category.model';
-import { ChildrenParameters } from '../models/child.model';
-import { FilterData } from '../models/history-log.model';
-import { ProviderBlock, ProviderParameters } from '../models/provider.model';
-import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from '../models/regionAdmin.model';
-import { StatisticParameters } from '../models/statistic.model';
-import { CompanyInformation } from '../models/сompanyInformation.model';
-import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from './../models/ministryAdmin.model';
+import { AreaAdmin, AreaAdminBlockData, AreaAdminParameters } from 'shared/models/area-admin.model';
+import { Direction, DirectionParameters } from 'shared/models/category.model';
+import { ChildrenParameters } from 'shared/models/child.model';
+import { CompanyInformation } from 'shared/models/company-information.model';
+import { FilterData } from 'shared/models/history-log.model';
+import { MinistryAdmin, MinistryAdminBlockData, MinistryAdminParameters } from 'shared/models/ministry-admin.model';
+import { ProviderBlock, ProviderParameters } from 'shared/models/provider.model';
+import { RegionAdmin, RegionAdminBlockData, RegionAdminParameters } from 'shared/models/region-admin.model';
+import { StatisticParameters } from 'shared/models/statistic.model';
 
 export class GetAboutPortal {
   static readonly type = '[admin] Get About Portal';
@@ -57,7 +57,10 @@ export class GetPlatformInfo {
 export class UpdatePlatformInfo {
   static readonly type = '[admin] Update Information Platform Info';
 
-  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
+  constructor(
+    public payload: CompanyInformation,
+    public type: AdminTabTypes
+  ) {}
 }
 
 export class OnUpdatePlatformInfoFail {
@@ -69,7 +72,10 @@ export class OnUpdatePlatformInfoFail {
 export class OnUpdatePlatformInfoSuccess {
   static readonly type = '[admin] Update Information Platform Info Success';
 
-  constructor(public payload: CompanyInformation, public type: AdminTabTypes) {}
+  constructor(
+    public payload: CompanyInformation,
+    public type: AdminTabTypes
+  ) {}
 }
 
 export class GetFilteredDirections {
@@ -123,7 +129,10 @@ export class OnUpdateDirectionSuccess {
 export class DeleteDirectionById {
   static readonly type = '[admin] Delete Direction';
 
-  constructor(public payload: number, public directionParameters: DirectionParameters) {}
+  constructor(
+    public payload: number,
+    public directionParameters: DirectionParameters
+  ) {}
 }
 
 export class OnDeleteDirectionFail {
@@ -153,67 +162,109 @@ export class GetFilteredProviders {
 export class GetProviderHistory {
   static readonly type = '[admin] Get Provider History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class GetProviderAdminHistory {
   static readonly type = '[admin] Get Provider Admin History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class GetApplicationHistory {
   static readonly type = '[admin] Get Application History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class GetParentsBlockingByAdminHistory {
   static readonly type = '[admin] Get Parents Blocking By Admin History';
 
-  constructor(public payload?: FilterData, public searchSting?: string) {}
+  constructor(
+    public payload?: FilterData,
+    public searchSting?: string
+  ) {}
 }
 
 export class BlockProviderById {
   static readonly type = '[admin] Block Provider';
 
-  constructor(public payload: ProviderBlock, public parameters: ProviderParameters) {}
+  constructor(
+    public payload: ProviderBlock,
+    public parameters: ProviderParameters
+  ) {}
 }
 
 export class GetAllAdmins {
   static readonly type = '[admin] Get All Admins';
 
-  constructor(public adminType: AdminRoles, public parameters?: BaseAdminParameters) {}
+  constructor(
+    public adminType: AdminRoles,
+    public parameters?: BaseAdminParameters
+  ) {}
 }
 
 export class GetAdminById {
   static readonly type = '[admin] Get Admin By Id';
 
-  constructor(public payload: string, public adminType: AdminRoles) {}
+  constructor(
+    public payload: string,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class CreateAdmin {
   static readonly type = '[admin] Create Admin';
 
-  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+  constructor(
+    public payload: BaseAdmin,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class UpdateAdmin {
   static readonly type = '[admin] Update Admin';
 
-  constructor(public payload: BaseAdmin, public adminType: AdminRoles) {}
+  constructor(
+    public payload: BaseAdmin,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class DeleteAdminById {
   static readonly type = '[admin] Delete Admin';
 
-  constructor(public payload: string, public adminType: AdminRoles) {}
+  constructor(
+    public payload: string,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class BlockAdminById {
   static readonly type = '[admin] Block Admin';
 
-  constructor(public payload: BaseAdminBlockData, public adminType: AdminRoles) {}
+  constructor(
+    public payload: BaseAdminBlockData,
+    public adminType: AdminRoles
+  ) {}
+}
+
+export class ReinviteAdminById {
+  static readonly type = '[admin] Reinvite Admin';
+
+  constructor(
+    public adminId: string,
+    public adminType: AdminRoles
+  ) {}
 }
 
 export class GetAllMinistryAdmins {
@@ -294,6 +345,24 @@ export class BlockMinistryAdminById {
   constructor(public payload: MinistryAdminBlockData) {}
 }
 
+export class ReinviteMinistryAdminById {
+  static readonly type = '[admin] Reinvite Ministry Admin';
+
+  constructor(public adminId: string) {}
+}
+
+export class ReinviteMinistryAdminSuccess {
+  static readonly type = '[admin] Reinvite Ministry Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteMinistryAdminFail {
+  static readonly type = '[admin] Reinvite Ministry Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
+}
+
 export class GetAllRegionAdmins {
   static readonly type = '[admin] Get All Region Admins';
 
@@ -370,6 +439,24 @@ export class BlockRegionAdminById {
   static readonly type = '[admin] Block Region Admin';
 
   constructor(public payload: RegionAdminBlockData) {}
+}
+
+export class ReinviteRegionAdminById {
+  static readonly type = '[admin] Reinvite Region Admin';
+
+  constructor(public adminId: string) {}
+}
+
+export class ReinviteRegionAdminSuccess {
+  static readonly type = '[admin] Block Region Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteRegionAdminFail {
+  static readonly type = '[admin] Reinvite Region Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
 }
 
 export class GetAllAreaAdmins {
@@ -460,4 +547,22 @@ export class OnBlockFail {
   static readonly type = '[admin] Block Fail';
 
   constructor(public payload: HttpErrorResponse) {}
+}
+
+export class ReinviteAreaAdminById {
+  static readonly type = '[admin] Reinvite Area Admin';
+
+  constructor(public adminId: string) {}
+}
+
+export class ReinviteAreaAdminSuccess {
+  static readonly type = '[admin] Reinvite Area Admin Success';
+
+  constructor() {}
+}
+
+export class ReinviteAreaAdminFail {
+  static readonly type = '[admin] Reinvite Area Admin Fail';
+
+  constructor(public error: HttpErrorResponse) {}
 }

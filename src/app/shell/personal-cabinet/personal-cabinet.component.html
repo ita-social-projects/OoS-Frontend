@@ -9,7 +9,7 @@
     </a>
     <ng-container *ngIf="!isRoleAdmin(userRole)">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/info'">
-        {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate | uppercase }} {{ roles[userRole] | translate | uppercase }}
+        {{ 'ENUM.NAV_BAR_NAME.INFORMATION_ABOUT' | translate | uppercase }} {{ RoleLinks[userRole] | translate | uppercase }}
       </a>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider">

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanDeactivate, CanLoad, Route, RouterStateSnapshot, UrlSegment, UrlTree } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
@@ -13,31 +12,27 @@ import { RegistrationState } from 'shared/store/registration.state';
 @Injectable({
   providedIn: 'root'
 })
-export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
+export class CreateProviderGuard {
   @Select(RegistrationState.user)
-  user$: Observable<User>;
+  private user$: Observable<User>;
   @Select(RegistrationState.role)
-  role$: Observable<string>;
+  private role$: Observable<string>;
 
-  constructor(public store: Store) {}
+  constructor(private store: Store) {}
 
-  canLoad(route: Route, segments: UrlSegment[]): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canLoad(): Observable<boolean> | boolean {
     const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
-    return isEditMode
-      ? true
-      : this.user$.pipe(
+    return (
+      isEditMode ||
+      this.user$.pipe(
         filter((user: User) => !!user),
         map((user: User) => user.role === Role.provider && user.isRegistered === false)
-      );
+      )
+    );
   }
 
-  canDeactivate(
-    component: unknown,
-    currentRoute: ActivatedRouteSnapshot,
-    currentState: RouterStateSnapshot,
-    nextState?: RouterStateSnapshot
-  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  public canDeactivate(): Observable<boolean> | boolean {
     const isEditMode = this.store.selectSnapshot(AppState.isEditMode);
 
     if (isEditMode) {
@@ -45,7 +40,7 @@ export class CreateProviderGuard implements CanDeactivate<unknown>, CanLoad {
       return true;
     } else {
       return this.role$.pipe(
-        filter((role: string) => !!role),
+        filter(Boolean),
         map((role: string) => role === Role.provider)
       );
     }

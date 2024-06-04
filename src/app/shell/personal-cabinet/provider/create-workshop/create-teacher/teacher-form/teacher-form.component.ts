@@ -11,6 +11,13 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./teacher-form.component.scss']
 })
 export class TeacherFormComponent {
+  @Input() public index: number;
+  @Input() public TeacherFormGroup: FormGroup;
+  @Input() public teacherAmount: number;
+  @Input() public isImagesFeature: boolean;
+
+  @Output() public deleteForm = new EventEmitter();
+
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -26,17 +33,15 @@ export class TeacherFormComponent {
   public today: Date = new Date();
   public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
 
-  @Input() public index: number;
-  @Input() public TeacherFormGroup: FormGroup;
-  @Input() public teacherAmount: number;
-  @Input() public isImagesFeature: boolean;
-
-  @Output() public deleteForm = new EventEmitter();
-
-  constructor() {
-  }
+  constructor() {}
 
   public onDeleteTeacher(): void {
     this.deleteForm.emit(this.index);
+  }
+
+  public onFocusOut(formControlName: string): void {
+    if (this.TeacherFormGroup.get(formControlName).pristine && !this.TeacherFormGroup.get(formControlName).value) {
+      this.TeacherFormGroup.get(formControlName).setValue(null);
+    }
   }
 }

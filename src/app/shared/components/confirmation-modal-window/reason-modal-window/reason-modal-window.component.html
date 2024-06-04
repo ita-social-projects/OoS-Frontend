@@ -3,54 +3,46 @@
   <p class="confirmation">{{ modalConfirmationText | translate }}</p>
 
   <form fxLayout="column" class="reject-form">
-    <label class="step-label">
-      {{ modalConfirmationDescription | translate }}
-      <span class="step-required">*</span>
-    </label>
+    <div fxLayout="row" fxLayoutAlign="space-between">
+      <label class="step-label"> {{ modalConfirmationDescription | translate }}<span class="step-required">*</span> </label>
+      <div class="step-label">
+        <label class="step-characters-count">
+          {{ reasonFormControl.value.length }}/{{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }}
+        </label>
+      </div>
+    </div>
     <mat-form-field appPlaceholderStyling floatLabel="never" appearance="none">
-      <textarea matInput
-                class="step-textarea"
-                placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{ 'FORMS.PLACEHOLDERS.SYMBOLS' | translate }}"
-                [formControl]="reasonFormControl"
-                appTrimValue>
+      <textarea
+        matInput
+        class="step-textarea"
+        placeholder="{{ 'FORMS.PLACEHOLDERS.MAXIMUM' | translate }} {{ validationConstants.MAX_DESCRIPTION_LENGTH_500 }} {{
+          'FORMS.PLACEHOLDERS.SYMBOLS' | translate
+        }}"
+        [formControl]="reasonFormControl"
+        [maxlength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
+        appTrimValue>
       </textarea>
     </mat-form-field>
-    <app-validation-hint [validationFormControl]="reasonFormControl"
-                         [minCharacters]="validationConstants.INPUT_LENGTH_1"
-                         [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
+    <app-validation-hint
+      [validationFormControl]="reasonFormControl"
+      [minCharacters]="validationConstants.INPUT_LENGTH_1"
+      [maxCharacters]="validationConstants.MAX_DESCRIPTION_LENGTH_500">
     </app-validation-hint>
 
     <label *ngIf="isPhoneNumberRequired" class="step-label">
-      {{ 'FORMS.LABELS.PHONE_FEEDBACK' | translate }}
-      <span class="step-required">*</span>
+      {{ 'FORMS.LABELS.PHONE_FEEDBACK' | translate }}<span class="step-required">*</span>
     </label>
-    <mat-form-field *ngIf="isPhoneNumberRequired">
-      <div fxLayout="row" fxLayoutAlign="start">
-        <span class="step-text">{{ phonePrefix }}</span>
-        <input matInput
-               class="step-input"
-               type="tel"
-               [formControl]="phoneNumberFormControl"
-               appDigitOnly
-               maxlength="{{ validationConstants.PHONE_LENGTH }}"
-               appTrimValue
-               ui-number-mask
-               ui-hide-group-sep />
-      </div>
-    </mat-form-field>
-    <app-validation-hint *ngIf="isPhoneNumberRequired"
-                         [validationFormControl]="phoneNumberFormControl"
-                         [minCharacters]="validationConstants.PHONE_LENGTH"
-                         [isPhoneNumber]="true">
+    <app-phone-form-control *ngIf="isPhoneNumberRequired" [parentFormControl]="phoneNumberFormControl"> </app-phone-form-control>
+    <app-validation-hint
+      *ngIf="isPhoneNumberRequired"
+      [validationFormControl]="phoneNumberFormControl"
+      [minCharacters]="validationConstants.PHONE_LENGTH"
+      [isPhoneNumber]="true">
     </app-validation-hint>
   </form>
 
   <mat-dialog-actions fxLayout="row wrap" fxLayoutAlign="center center" class="footer">
-    <button class="btn"
-            mat-button
-            (click)="onSubmit()"
-            [disabled]="!formGroup.valid"
-            cdkFocusInitial>
+    <button class="btn" mat-button (click)="onSubmit()" [disabled]="!formGroup.valid" cdkFocusInitial>
       {{ 'BUTTONS.CONFIRM' | translate }}
     </button>
     <button class="btn btn-cancel" mat-button (click)="onCancel()">

@@ -4,6 +4,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { CropperConfigurationConstants } from 'shared/constants/constants';
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { Provider } from 'shared/models/provider.model';
 import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model';
@@ -14,6 +15,14 @@ import { Workshop, WorkshopDescriptionItem } from 'shared/models/workshop.model'
   styleUrls: ['./create-description-form.component.scss']
 })
 export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
+  @Input() public workshop: Workshop;
+  @Input() public isImagesFeature: boolean;
+  @Input() public provider: Provider;
+
+  @Output() public passDescriptionFormGroup = new EventEmitter();
+
+  @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
+
   public readonly validationConstants = ValidationConstants;
   public readonly cropperConfig = {
     cropperMinWidth: CropperConfigurationConstants.cropperMinWidth,
@@ -26,16 +35,6 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     croppedQuality: CropperConfigurationConstants.croppedQuality
   };
 
-  @Input() public workshop: Workshop;
-  @Input() public isImagesFeature: boolean;
-  @Input() public provider: Provider;
-
-  @Output() public passDescriptionFormGroup = new EventEmitter();
-
-  @ViewChild('keyWordsInput') public keyWordsInputElement: ElementRef;
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-
   public DescriptionFormGroup: FormGroup;
   public EditFormGroup: FormGroup;
   public SectionItemsFormArray = new FormArray([]);
@@ -46,6 +45,8 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   public disabilityOptionRadioBtn: FormControl = new FormControl(false);
   public disabledKeyWordsInput = false;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private formBuilder: FormBuilder) {
     this.DescriptionFormGroup = this.formBuilder.group({
@@ -64,8 +65,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.onDisabilityOptionCtrlInit();
-    this.workshop ? this.activateEditMode() : this.onAddForm();
+
+    if (this.workshop) {
+      this.activateEditMode();
+    } else {
+      this.onAddForm();
+    }
+
     this.passDescriptionFormGroup.emit(this.DescriptionFormGroup);
+    this.keyWordsListener();
   }
 
   /**
@@ -96,6 +104,12 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
           this.keyWord = '';
         }
         this.disabledKeyWordsInput = this.keyWords.length >= 5;
+        // TODO: Find better workaround for FormControl disable
+        if (this.disabledKeyWordsInput) {
+          this.keyWordsCtrl.disable({ emitEvent: false });
+        } else {
+          this.keyWordsCtrl.enable({ emitEvent: false });
+        }
       }
     }
   }
@@ -109,11 +123,28 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    * This method makes input enable if radiobutton value is true and sets the value to the FormGroup
    */
   public onDisabilityOptionCtrlInit(): void {
-    const setAction = (action: string) => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
-
+    const setAction = (action: string): void => this.DescriptionFormGroup.get('disabilityOptionsDesc')[action]();
     this.disabilityOptionRadioBtn.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((isDisabilityOptionsDesc: boolean) => {
-      isDisabilityOptionsDesc ? setAction('enable') : setAction('disable');
+      if (isDisabilityOptionsDesc) {
+        setAction('enable');
+      } else {
+        setAction('disable');
+        this.DescriptionFormGroup.get('disabilityOptionsDesc').reset();
+      }
+      this.markFormAsDirtyOnUserInteraction();
     });
+  }
+
+  /**
+   * This method listens for changes in the 'keyWords' control and marks
+   * the form as 'dirty' whenever there are changes in the key words.
+   */
+  public keyWordsListener(): void {
+    this.DescriptionFormGroup.get('keyWords')
+      .valueChanges.pipe(takeUntil(this.destroy$))
+      .subscribe(() => {
+        this.markFormAsDirtyOnUserInteraction();
+      });
   }
 
   /**
@@ -138,6 +169,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
    */
   public onDeleteForm(index: number): void {
     this.SectionItemsFormArray.removeAt(index);
+    this.markFormAsDirtyOnUserInteraction();
   }
 
   /**
@@ -160,6 +192,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
         const itemFrom = this.newForm(item);
         this.SectionItemsFormArray.controls.push(itemFrom);
+        // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
         this.SectionItemsFormArray['_registerControl'](itemFrom);
       });
     } else {
@@ -173,14 +206,16 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
   private newForm(item?: WorkshopDescriptionItem): FormGroup {
     this.EditFormGroup = this.formBuilder.group({
       sectionName: new FormControl('', [
+        Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.INPUT_LENGTH_256),
-        Validators.required
+        Validators.maxLength(ValidationConstants.INPUT_LENGTH_100),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       description: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.INPUT_LENGTH_3),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_500),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ])
     });
 
@@ -193,5 +228,14 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
 
     return this.EditFormGroup;
+  }
+
+  /**
+   * This method makes DescriptionFormGroup dirty
+   */
+  private markFormAsDirtyOnUserInteraction(): void {
+    if (!this.DescriptionFormGroup.dirty) {
+      this.DescriptionFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }

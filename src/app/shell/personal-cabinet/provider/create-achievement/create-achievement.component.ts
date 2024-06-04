@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { combineLatest, Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-
+import { MUST_CONTAIN_LETTERS } from 'shared/constants/regex-constants';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
@@ -53,6 +53,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   workshopId: string;
   approvedChildren: SearchResponse<Child[]>;
   destroy$: Subject<boolean> = new Subject<boolean>();
+  isSaving: boolean = false;
 
   get teachersFormControl(): FormControl {
     return this.AchievementFormGroup.get('teachers') as FormControl;
@@ -81,7 +82,8 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       title: new FormControl('', [
         Validators.required,
         Validators.minLength(ValidationConstants.MIN_DESCRIPTION_LENGTH_1),
-        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000)
+        Validators.maxLength(ValidationConstants.MAX_DESCRIPTION_LENGTH_2000),
+        Validators.pattern(MUST_CONTAIN_LETTERS)
       ]),
       achievementDate: new FormControl('', Validators.required),
       achievementTypeId: new FormControl('', Validators.required),
@@ -169,6 +171,11 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
   }
 
   onSubmit(): void {
+    if (this.isSaving) {
+      return;
+    }
+
+    this.isSaving = true;
     if (this.editMode) {
       const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
       this.store.dispatch(new UpdateAchievement(achievement));
@@ -186,8 +193,15 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if (result) {
         const achievement = new Achievement(this.AchievementFormGroup.getRawValue(), this.workshopId, this.achievement);
-        this.store.dispatch(new CreateAchievement(achievement));
+        this.store
+          .dispatch(new CreateAchievement(achievement))
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(() => {
+            this.isSaving = false;
+          });
+        return;
       }
+      this.isSaving = false;
     });
   }
 

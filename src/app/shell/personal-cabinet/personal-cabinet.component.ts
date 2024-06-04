@@ -20,22 +20,25 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./personal-cabinet.component.scss']
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  readonly ApplicationStatuses = ApplicationStatuses;
-  readonly roles = RoleLinks;
-  readonly Role = Role;
-  readonly Subrole = Subrole;
-  protected isRoleAdmin = isRoleAdmin;
-
-  personalCabinetTitle: PersonalCabinetTitle;
-  userRole: Role;
-  subrole: Subrole;
-
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
 
-  constructor(private store: Store, public navigationBarService: NavigationBarService) {}
+  public readonly ApplicationStatuses = ApplicationStatuses;
+  public readonly RoleLinks = RoleLinks;
+  public readonly Role = Role;
+  public readonly Subrole = Subrole;
+  public readonly isRoleAdmin = isRoleAdmin;
 
-  ngOnInit(): void {
+  public personalCabinetTitle: PersonalCabinetTitle;
+  public userRole: Role;
+  public subrole: Subrole;
+
+  constructor(
+    private store: Store,
+    public navigationBarService: NavigationBarService
+  ) {}
+
+  public ngOnInit(): void {
     this.userRole = this.store.selectSnapshot<Role>(RegistrationState.role);
     this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
     this.personalCabinetTitle = Util.getPersonalCabinetTitle(this.userRole, this.subrole);
@@ -54,7 +57,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     this.store.dispatch(new GetUnreadMessagesCount());
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
   }
 }

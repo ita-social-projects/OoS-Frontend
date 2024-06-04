@@ -1,54 +1,33 @@
 <form [formGroup]="DescriptionFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-  <app-image-form-control
-    *ngIf="isImagesFeature"
-    [imgMaxAmount]="10"
-    [cropperConfig]="cropperConfig"
-    [label]="'Фото'"
-    formControlName="imageFiles"
-    [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
+  <app-image-form-control *ngIf="isImagesFeature" [imgMaxAmount]="10" [cropperConfig]="cropperConfig" [label]="'Фото'"
+    formControlName="imageFiles" [imageIdsFormControl]="DescriptionFormGroup.get('imageIds')">
   </app-image-form-control>
 
-  <app-info-form
-    *ngFor="let form of SectionItemsFormArray.controls"
-    [InfoEditFormGroup]="form"
-    [index]="SectionItemsFormArray.controls.indexOf(form)"
-    [formAmount]="SectionItemsFormArray.controls.length"
-    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500"
-    (deleteForm)="onDeleteForm($event)">
+  <app-info-form *ngFor="let form of SectionItemsFormArray.controls" [infoEditFormGroup]="form"
+    [index]="SectionItemsFormArray.controls.indexOf(form)" [formAmount]="SectionItemsFormArray.controls.length"
+    [maxDescriptionLength]="validationConstants.MAX_DESCRIPTION_LENGTH_500" (deleteForm)="onDeleteForm($event)">
   </app-info-form>
 
-  <button
-    *ngIf="SectionItemsFormArray.controls.length < 10"
-    [disabled]="SectionItemsFormArray.invalid"
-    class="btn-add"
-    mat-button
-    (click)="onAddForm()">
+  <button *ngIf="SectionItemsFormArray.controls.length < 10" [disabled]="SectionItemsFormArray.invalid" class="btn-add"
+    mat-button (click)="onAddForm()">
     <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_SECTION' | translate }}
   </button>
 
   <label class="step-label"> {{ 'FORMS.LABELS.SUPPORT_PERSONS_WITH_DISABILITIES' | translate }} </label>
-  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column" fxLayoutAlign="center space-between">
+  <mat-radio-group [formControl]="disabilityOptionRadioBtn" color="primary" fxLayout="column"
+    fxLayoutAlign="center space-between">
     <mat-radio-button #radio1 name="radioBtn1" [value]="false">{{ 'NOT_AVAILABLE' | translate }}</mat-radio-button>
     <mat-radio-button #radio2 name="radioBtn2" [value]="true">{{ 'AVAILABLE' | translate }}</mat-radio-button>
-    <input
-      matInput
-      class="step-input"
-      [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
-      placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}"
-      formControlName="disabilityOptionsDesc"
-      autocomplete="none"
-      appTrimValue />
-    <app-validation-hint
-      [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
-      [minCharacters]="validationConstants.INPUT_LENGTH_1"
-      [maxCharacters]="validationConstants.INPUT_LENGTH_256">
+    <input matInput class="step-input" [ngClass]="{ 'disabled-field': !disabilityOptionRadioBtn.value }"
+      placeholder="{{ 'FORMS.PLACEHOLDERS.SPECIAL_EQUIPMENT' | translate }}" formControlName="disabilityOptionsDesc"
+      autocomplete="off" appTrimValue />
+    <app-validation-hint [validationFormControl]="DescriptionFormGroup.get('disabilityOptionsDesc')"
+      [minCharacters]="validationConstants.INPUT_LENGTH_1" [maxCharacters]="validationConstants.INPUT_LENGTH_256">
     </app-validation-hint>
   </mat-radio-group>
 
-  <app-institution-hierarchy
-    [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
-    [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')"
-    [provider]="provider">
+  <app-institution-hierarchy [instituitionHierarchyIdFormControl]="DescriptionFormGroup.get('institutionHierarchyId')"
+    [instituitionIdFormControl]="DescriptionFormGroup.get('institutionId')" [provider]="provider">
   </app-institution-hierarchy>
 
   <div class="step-label-combined">
@@ -56,10 +35,9 @@
     <label class="step-characters-count">{{ keyWords.length }}/{{ validationConstants.MAX_KEYWORDS_LENGTH }}</label>
   </div>
   <div class="step-input keywords" (click)="setFocus()">
-    <span *ngIf="!keyWord && keyWords.length < 1" class="keywordsPlaceholder"
-      >{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' | translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
-      {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span
-    >
+    <span *ngIf="!keyWord && keyWords.length < 1" class="keywordsPlaceholder">{{ 'FORMS.PLACEHOLDERS.KEYWORDS_START' |
+      translate }} {{ validationConstants.MAX_KEYWORDS_LENGTH }}
+      {{ 'FORMS.PLACEHOLDERS.KEYWORDS_END' | translate }}</span>
     <mat-chip-list #chipList>
       <mat-chip *ngFor="let keyWord of keyWords" (removed)="onRemoveKeyWord(keyWord)" class="keyWordChip">
         <div [matTooltip]="keyWord" showTooltipIfTruncated matTooltipClass="tooltip" class="chip-text">
@@ -67,17 +45,10 @@
         </div>
         <mat-icon class="mat-icon" matChipRemove>close</mat-icon>
       </mat-chip>
-      <input
-        [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
-        [disabled]="disabledKeyWordsInput"
-        #keyWordsInput
-        (focusout)="onKeyWordsInput()"
-        [formControl]="keyWordsCtrl"
-        [matChipInputFor]="chipList"
-        (keyup.enter)="onKeyWordsInput()"
-        [(ngModel)]="keyWord"
-        autocomplete="none"
-        appTrimValue />
+      <!-- TODO: Remove ngModel attribute -->
+      <input [ngClass]="{ 'keywords-input': !keyWord && keyWords.length < 1 }"
+        #keyWordsInput (focusout)="onKeyWordsInput()" [formControl]="keyWordsCtrl" [matChipInputFor]="chipList"
+        (keyup.enter)="onKeyWordsInput()" [(ngModel)]="keyWord" autocomplete="off" appTrimValue />
     </mat-chip-list>
   </div>
 </form>

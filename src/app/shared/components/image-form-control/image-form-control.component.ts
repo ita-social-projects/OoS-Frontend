@@ -1,10 +1,11 @@
 import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+
+import { Constants } from 'shared/constants/constants';
+import { Cropper } from 'shared/models/cropper';
+import { DecodedImage } from 'shared/models/image.model';
 import { environment } from '../../../../environments/environment';
-import { Constants } from '../../constants/constants';
-import { Cropper } from '../../models/cropper';
-import { DecodedImage } from '../../models/image.model';
 import { ImageCropperModalComponent } from '../image-cropper-modal/image-cropper-modal.component';
 
 type FilesToVoid = (array: File[]) => void;
@@ -23,6 +24,13 @@ type VoidToVoid = () => void;
   ]
 })
 export class ImageFormControlComponent implements OnInit, ImageFormControlComponent {
+  @Input() public imgMaxAmount: number;
+  @Input() public imageIdsFormControl: FormControl;
+  @Input() public label: string;
+  @Input() public cropperConfig: Cropper;
+
+  @ViewChild('inputImage') public inputImage: ElementRef;
+
   public photoFormGroup: FormGroup;
   public gridCols: number;
   public mediumScreen = 500;
@@ -35,28 +43,23 @@ export class ImageFormControlComponent implements OnInit, ImageFormControlCompon
   public onChange: FilesToVoid;
   public onTouched: VoidToVoid;
 
-  @Input() public imgMaxAmount: number;
-  @Input() public imageIdsFormControl: FormControl;
-  @Input() public label: string;
-  @Input() public cropperConfig: Cropper;
-
-  @ViewChild('inputImage') public inputImage: ElementRef;
-
   constructor(public dialog: MatDialog) {}
 
   public ngOnInit(): void {
     this.onResize(window);
-    this.imageIdsFormControl && this.imageIdsFormControl.value?.length && this.activateEditMode();
+    if (this.imageIdsFormControl?.value?.length) {
+      this.activateEditMode();
+    }
   }
 
   /**
    * This methods decodes the file for its correct displaying
-   * @param file: File)
+   * @param file: File
    */
   public imageDecoder(file: Blob): void {
     const myReader = new FileReader();
-    myReader.onload = () => {
-      this.decodedImages.push(new DecodedImage(myReader.result, file));
+    myReader.onload = (): void => {
+      this.decodedImages.push(new DecodedImage(myReader.result as string, file as File));
     };
     return myReader.readAsDataURL(file);
   }

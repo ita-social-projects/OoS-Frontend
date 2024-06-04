@@ -35,7 +35,7 @@ import { ResultComponent } from './result/result.component';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
-  { path: 'result', redirectTo: 'result/list', pathMatch: 'full' },
+  { path: 'result', redirectTo: 'result/List', pathMatch: 'full' },
   { path: 'result/:param', component: ResultComponent },
   { path: 'all-categories', component: AllCategoriesComponent },
   { path: 'login', component: LoginComponent },
@@ -53,8 +53,7 @@ const routes: Routes = [
     path: 'personal-cabinet',
     component: PersonalCabinetComponent,
     loadChildren: () => import('./personal-cabinet/personal-cabinet.module').then((m) => m.PersonalCabinetModule),
-    canLoad: [PersonalCabinetGuard],
-    canActivate: [PersonalCabinetGuard]
+    canLoad: [PersonalCabinetGuard]
   },
   {
     path: 'admin-tools',
@@ -168,5 +167,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ShellRoutingModule {
-}
+export class ShellRoutingModule {}

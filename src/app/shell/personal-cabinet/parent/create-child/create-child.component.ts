@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -39,22 +39,22 @@ const defaultValidators: ValidatorFn[] = [
   styleUrls: ['./create-child.component.scss']
 })
 export class CreateChildComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  public readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
-
   @Select(MetaDataState.socialGroups)
   public socialGroups$: Observable<DataItem[]>;
-  public socialGroups: DataItem[];
   @Select(ParentState.children)
   public childrenCards$: Observable<SearchResponse<Child[]>>;
   @Select(ParentState.selectedChild)
   public selectedChild$: Observable<Child>;
-  public child: Child;
+
+  public readonly childrenMaxAmount = ValidationConstants.CHILDREN_AMOUNT_MAX;
 
   public isDispatching = false;
   public ChildrenFormArray = new FormArray([]);
   public AgreementFormControl = new FormControl(false);
   public isAgreed = false;
   public workshopId: string;
+  public child: Child;
+  public socialGroups: DataItem[];
 
   constructor(
     protected store: Store,
@@ -78,7 +78,11 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     this.addNavPath();
 
     this.workshopId = this.route.snapshot.paramMap.get('workshopId');
-    this.editMode ? this.AgreementFormControl.setValue(true) : this.ChildrenFormArray.push(this.newForm());
+    if (this.editMode) {
+      this.AgreementFormControl.setValue(true);
+    } else {
+      this.ChildrenFormArray.push(this.newForm());
+    }
   }
 
   public ngOnDestroy(): void {
@@ -170,11 +174,13 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
       if (this.ChildrenFormArray.invalid) {
         this.checkValidationChild();
       } else {
+        const modalConfirmationType = this.editMode ? ModalConfirmationType.editChild : ModalConfirmationType.createChild;
+
         this.matDialog
           .open(ConfirmationModalWindowComponent, {
             width: Constants.MODAL_SMALL,
             data: {
-              type: ModalConfirmationType.editChild
+              type: modalConfirmationType
             }
           })
           .afterClosed()
@@ -241,7 +247,7 @@ export class CreateChildComponent extends CreateFormComponent implements OnInit,
     });
   }
 
-  private updateInfoAboutChild() {
+  private updateInfoAboutChild(): void {
     const parent = this.store.selectSnapshot<Parent>(RegistrationState.parent);
     if (this.editMode) {
       const child: Child = new Child(this.ChildrenFormArray.controls[0].value, parent.id, this.child.id);

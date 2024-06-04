@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Store } from '@ngxs/store';
 
 import { PaginationConstants } from 'shared/constants/constants';
@@ -12,11 +12,10 @@ import { CabinetDataComponent } from '../../../personal-cabinet/shared-cabinet/c
 
 @Component({
   selector: 'app-admin-applications',
-  templateUrl: './admin-applications.component.html',
-  styleUrls: ['./admin-applications.component.scss']
+  templateUrl: './admin-applications.component.html'
 })
 export class AdminApplicationsComponent extends CabinetDataComponent implements OnInit {
-  applicationParams: ApplicationFilterParameters = {
+  public applicationParams: ApplicationFilterParameters = {
     property: ApplicationEntityType.provider,
     statuses: [],
     workshops: [],
@@ -26,14 +25,19 @@ export class AdminApplicationsComponent extends CabinetDataComponent implements 
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 
-  init(): void {}
-
-  onGetApplications(): void {
+  public onGetApplications(): void {
     this.store.dispatch(new GetAllApplications(this.applicationParams));
+  }
+
+  protected init(): void {
+    // No additional initialization
   }
 
   protected addNavPath(): void {

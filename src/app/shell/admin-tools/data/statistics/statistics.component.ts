@@ -1,20 +1,21 @@
+import { HttpResponse } from '@angular/common/http';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
-import { filter, Observable, Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, filter, takeUntil } from 'rxjs';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { StatisticPeriodTitles } from 'shared/enum/enumUA/statistics';
+import { StatisticFileFormats, StatisticPeriodTypes } from 'shared/enum/statistics';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { StatisticParameters, StatisticReport } from 'shared/models/statistic.model';
-import { AdminState } from 'shared/store/admin.state';
 import { DownloadStatisticReport, GetStatisticReports } from 'shared/store/admin.actions';
-import { StatisticFileFormats, StatisticPeriodTypes } from 'shared/enum/statistics';
-import { PaginationConstants } from 'shared/constants/constants';
-import { PaginationElement } from 'shared/models/paginationElement.model';
-import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
-import { Util } from 'shared/utils/utils';
+import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { StatisticPeriodTitles } from 'shared/enum/enumUA/statistics';
-import { HttpResponse } from '@angular/common/http';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-statistics',
@@ -22,30 +23,33 @@ import { HttpResponse } from '@angular/common/http';
   styleUrls: ['./statistics.component.scss']
 })
 export class StatisticsComponent implements OnInit, OnDestroy {
-  readonly StatisticPeriodTitles = StatisticPeriodTitles;
-  readonly StatisticFileFormats = StatisticFileFormats;
-  readonly noReports = NoResultsTitle.noResult;
-
   @Select(AdminState.statisticsReports)
-  statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
+  public statisticReports$: Observable<SearchResponse<StatisticReport[]>>;
   @Select(AdminState.downloadedReport)
-  uploadedReport$: Observable<HttpResponse<Blob>>;
+  private uploadedReport$: Observable<HttpResponse<Blob>>;
 
-  statisticReports: SearchResponse<StatisticReport[]>;
-  statisticParameters: StatisticParameters = {
+  public readonly StatisticPeriodTitles = StatisticPeriodTitles;
+  public readonly StatisticFileFormats = StatisticFileFormats;
+  public readonly noReports = NoResultsTitle.noResult;
+
+  public statisticReports: SearchResponse<StatisticReport[]>;
+  public statisticParameters: StatisticParameters = {
     ReportDataType: null,
     ReportType: null,
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE,
     from: 0
   };
-  filtersForm: FormGroup;
-  displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  destroy$: Subject<boolean> = new Subject<boolean>();
+  public filtersForm: FormGroup;
+  public displayedColumns = ['title', 'fileFormat', 'date', 'createDate', 'actions'];
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private fb: FormBuilder, private store: Store) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store
+  ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.statisticReports$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((statisticReports: SearchResponse<StatisticReport[]>) => (this.statisticReports = statisticReports));
@@ -66,29 +70,29 @@ export class StatisticsComponent implements OnInit, OnDestroy {
     this.addNavPath();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new PopNavPath());
+  }
+
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.statisticParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getReports();
   }
 
-  onGenerateReport(): void {
+  public onGenerateReport(): void {
     this.setParams();
     this.store.dispatch(new GetStatisticReports(this.statisticParameters));
   }
 
-  onLoadReport(id: string): void {
+  public onLoadReport(id: string): void {
     this.store.dispatch(new DownloadStatisticReport(id));
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new PopNavPath());
   }
 
   private setParams(): void {

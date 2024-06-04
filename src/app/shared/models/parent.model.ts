@@ -1,13 +1,15 @@
 import { Person } from './user.model';
+
 export class Parent {
   id?: string;
   userId?: number;
 
-  constructor(info) {
+  constructor(info: Partial<Parent>) {
     this.id = info.id;
     this.userId = info.userId;
   }
 }
+
 export class ParentWithContactInfo implements Person {
   id: string;
   userId?: string;
@@ -20,7 +22,7 @@ export class ParentWithContactInfo implements Person {
   gender?: string;
   isBlocked: boolean;
 
-  constructor(info) {
+  constructor(info: Partial<ParentWithContactInfo>) {
     this.id = info.id;
     this.userId = info.userId;
     this.email = info.email;
@@ -32,7 +34,7 @@ export class ParentWithContactInfo implements Person {
 }
 
 export interface ParentBlockedData {
-  parentId: string
-  isBlocked: boolean
-  reason?: string
+  parentId: string;
+  isBlocked: boolean;
+  reason?: string;
 }

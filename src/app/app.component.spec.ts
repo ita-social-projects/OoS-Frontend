@@ -3,19 +3,31 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { DateAdapter } from '@angular/material/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
-import { NgxsModule } from '@ngxs/store';
+import { NgxsModule, Store } from '@ngxs/store';
 
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
+  let store: Store;
+  let mockMatSnackBar: MatSnackBar;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatSidenavModule, MatProgressBarModule, NgxsModule.forRoot([]), TranslateModule.forRoot()],
+      imports: [
+        RouterTestingModule,
+        NoopAnimationsModule,
+        MatSidenavModule,
+        MatSnackBarModule,
+        MatProgressBarModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot()
+      ],
       declarations: [
         AppComponent,
         MockHeaderComponent,
@@ -31,6 +43,8 @@ describe('AppComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
+    store = TestBed.inject(Store);
+    mockMatSnackBar = TestBed.inject(MatSnackBar);
     fixture.detectChanges();
   });
 

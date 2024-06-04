@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Store } from '@ngxs/store';
 import { Subject } from 'rxjs';
@@ -8,9 +8,9 @@ import { debounceTime, takeUntil } from 'rxjs/operators';
 import { PaginationConstants } from 'shared/constants/constants';
 import { CategoryIcons } from 'shared/enum/category-icons';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
-import { DetailsTabTitlesEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
+import { DetailsTabTitlesEnum, FormOfLearningEnum, RecruitmentStatusEnum } from 'shared/enum/enumUA/workshop';
 import { Role } from 'shared/enum/role';
-import { DetailsTabTitlesParams, WorkshopOpenStatus } from 'shared/enum/workshop';
+import { DetailsTabTitlesParams, FormOfLearning, WorkshopOpenStatus } from 'shared/enum/workshop';
 import { ImgPath } from 'shared/models/carousel.model';
 import { Provider, ProviderParameters } from 'shared/models/provider.model';
 import { Workshop } from 'shared/models/workshop.model';
@@ -19,6 +19,7 @@ import { NavigationBarService } from 'shared/services/navigation-bar/navigation-
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { ResetAchievements } from 'shared/store/provider.actions';
 import { GetProviderById } from 'shared/store/shared-user.actions';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-workshop-details',
@@ -26,30 +27,39 @@ import { GetProviderById } from 'shared/store/shared-user.actions';
   styleUrls: ['./workshop-details.component.scss']
 })
 export class WorkshopDetailsComponent implements OnInit, OnDestroy {
-  readonly categoryIcons = CategoryIcons;
-  readonly recruitmentStatusEnum = RecruitmentStatusEnum;
-  readonly workshopStatus = WorkshopOpenStatus;
-  readonly workshopTitles = DetailsTabTitlesEnum;
+  @ViewChild(MatTabGroup)
+  public tabGroup: MatTabGroup;
 
-  @ViewChild(MatTabGroup) tabGroup: MatTabGroup;
+  @Input()
+  public role: Role;
+  @Input()
+  public workshop: Workshop;
+  @Input()
+  public provider: Provider;
+  @Input()
+  public isMobileScreen: boolean;
+  @Input()
+  public displayActionCard: boolean;
 
-  @Input() role: Role;
-  @Input() workshop: Workshop;
-  @Input() provider: Provider;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  public readonly categoryIcons = CategoryIcons;
+  public readonly recruitmentStatusEnum = RecruitmentStatusEnum;
+  public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly workshopTitles = DetailsTabTitlesEnum;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Role = Role;
+  public readonly InfoMenuType = InfoMenuType;
 
-  workshopStatusOpen: boolean;
-  selectedIndex: number;
-  tabIndex: number;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  images: ImgPath[] = [];
-  providerParameters: ProviderParameters = {
+  public workshopStatusOpen: boolean;
+  public selectedIndex: number;
+  public tabIndex: number;
+  public images: ImgPath[] = [];
+  public providerParameters: ProviderParameters = {
     providerId: '',
     excludedWorkshopId: '',
     size: PaginationConstants.WORKSHOPS_PER_PAGE
   };
-  readonly Role: typeof Role = Role;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private route: ActivatedRoute,
@@ -59,7 +69,7 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.providerParameters.excludedWorkshopId = this.workshop.id;
     this.providerParameters.providerId = this.workshop.providerId;
     this.getWorkshopData();
@@ -67,9 +77,22 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
     this.workshopStatusOpen = this.workshop.status === this.workshopStatus.Open;
 
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(500)).subscribe((params: Params) => {
-      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params['status']);
+      this.tabIndex = Object.keys(DetailsTabTitlesEnum).indexOf(params.status);
       this.selectedIndex = this.tabIndex;
     });
+  }
+
+  public onTabChange(event: MatTabChangeEvent): void {
+    this.router.navigate(['./'], {
+      relativeTo: this.route,
+      queryParams: { status: DetailsTabTitlesParams[event.index] }
+    });
+  }
+
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+    this.store.dispatch(new ResetAchievements());
   }
 
   private getWorkshopData(): void {
@@ -88,18 +111,5 @@ export class WorkshopDetailsComponent implements OnInit, OnDestroy {
         )
       )
     ]);
-  }
-
-  onTabChange(event: MatTabChangeEvent): void {
-    this.router.navigate(['./'], {
-      relativeTo: this.route,
-      queryParams: { status: DetailsTabTitlesParams[event.index] }
-    });
-  }
-
-  ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
-    this.store.dispatch(new ResetAchievements());
   }
 }

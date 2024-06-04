@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+
 import { Constants } from 'shared/constants/constants';
 import { YearDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { Gender } from 'shared/enum/enumUA/gender';
@@ -9,12 +10,11 @@ import { Util } from 'shared/utils/utils';
 @Component({
   selector: 'app-child-info-box',
   templateUrl: './child-info-box.component.html',
-  styleUrls: ['./child-info-box.component.scss'],
+  styleUrls: ['./child-info-box.component.scss']
 })
 export class ChildInfoBoxComponent implements OnInit {
   readonly gender = Gender;
   readonly constants: typeof Constants = Constants;
-  readonly phonePrefix = Constants.PHONE_PREFIX;
   readonly YearDeclination = YearDeclination;
 
   constructor(private detectedDevice: DetectedDeviceService) {}

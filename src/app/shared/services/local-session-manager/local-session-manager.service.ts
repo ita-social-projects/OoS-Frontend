@@ -5,15 +5,14 @@ import { AbstractSecurityStorage } from 'angular-auth-oidc-client';
   providedIn: 'root'
 })
 export class LocalSessionManagerService implements AbstractSecurityStorage {
-  constructor() {}
-
-  read(key: string): JSON | null {
+  public read(key: string): JSON | null {
     const item = localStorage.getItem(key);
 
     return item ? JSON.parse(item) : null;
   }
 
-  write(key: string, value: any): boolean {
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+  public write(key: string, value: any): boolean {
     value = value || null;
 
     localStorage.setItem(key, JSON.stringify(value));
@@ -21,11 +20,11 @@ export class LocalSessionManagerService implements AbstractSecurityStorage {
     return true;
   }
 
-  remove(key: string): void {
+  public remove(key: string): void {
     localStorage.removeItem(key);
   }
 
-  clear(): void {
+  public clear(): void {
     localStorage.clear();
   }
 }

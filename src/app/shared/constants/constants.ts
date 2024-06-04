@@ -1,16 +1,16 @@
 import { MatDateFormats } from '@angular/material/core';
+import { MatTooltipDefaultOptions } from '@angular/material/tooltip';
 
-import { CodeficatorCategories } from '../enum/codeficator-categories';
-import { WorkingDays } from '../enum/enumUA/working-hours';
-import { Codeficator } from '../models/codeficator.model';
-import { WorkingDaysToggleValue } from '../models/workingHours.model';
+import { CodeficatorCategories } from 'shared/enum/codeficator-categories';
+import { WorkingDays } from 'shared/enum/enumUA/working-hours';
+import { Codeficator } from 'shared/models/codeficator.model';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 
 /**
  * Constants for OutOfSchool
  */
 export class Constants {
   static readonly CHILDREN_AMOUNT_MAX = 20;
-  static readonly PHONE_PREFIX = '+380';
   static readonly PROVIDER_ENTITY_TYPE = 1;
   static readonly WORKSHOP_ENTITY_TYPE = 2;
   static readonly WORKSHOP_MIN_SEATS = 1;
@@ -149,3 +149,12 @@ export class ModeConstants {
 }
 
 export const EMPTY_RESULT = { totalAmount: 0, entities: [] };
+
+export const NoInteractTooltipOptions: MatTooltipDefaultOptions = {
+  showDelay: 0,
+  hideDelay: 0,
+  touchGestures: 'auto',
+  position: 'before',
+  touchendHideDelay: 0,
+  disableTooltipInteractivity: true
+};

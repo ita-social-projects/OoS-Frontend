@@ -1,12 +1,12 @@
 import { HttpErrorResponse } from '@angular/common/http';
 
+import { Achievement, AchievementParameters } from 'shared/models/achievement.model';
 import { ApplicationFilterParameters } from 'shared/models/application.model';
-import { Achievement, AchievementParameters } from '../models/achievement.model';
-import { BlockedParent, ProviderAdminBlockData } from '../models/block.model';
-import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from '../models/provider.model';
-import { ProviderAdmin, ProviderAdminParameters } from '../models/providerAdmin.model';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from '../models/workshop.model';
+import { BlockedParent, ProviderAdminBlockData } from 'shared/models/block.model';
+import { ProviderAdmin, ProviderAdminParameters } from 'shared/models/provider-admin.model';
+import { Provider, ProviderParameters, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/models/provider.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Workshop, WorkshopCardParameters, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 
 export class GetAchievementById {
   static readonly type = '[provider] get achievement By Id';
@@ -40,7 +40,7 @@ export class OnUpdateAchievementSuccess {
 
 export class DeleteAchievementById {
   static readonly type = '[provider] delete Achievement';
-  constructor(public payload: string) {}
+  constructor(public payload: Achievement) {}
 }
 
 export class CreateAchievement {
@@ -60,7 +60,7 @@ export class OnCreateAchievementSuccess {
 
 export class OnDeleteAchievementSuccess {
   static readonly type = '[provider] delete Achievement success';
-  constructor(public payload: string) {}
+  constructor(public payload: Achievement) {}
 }
 
 export class OnDeleteAchievementFail {
@@ -125,7 +125,10 @@ export class OnUpdateWorkshopSuccess {
 
 export class DeleteWorkshopById {
   static readonly type = '[provider] delete Workshop';
-  constructor(public payload: WorkshopProviderViewCard, public parameters: WorkshopCardParameters) {}
+  constructor(
+    public payload: WorkshopProviderViewCard,
+    public parameters: WorkshopCardParameters
+  ) {}
 }
 
 export class OnDeleteWorkshopSuccess {
@@ -140,7 +143,10 @@ export class OnDeleteWorkshopFail {
 
 export class CreateProvider {
   static readonly type = '[provider] create Provider';
-  constructor(public payload: Provider, public isImagesFeature: boolean) {}
+  constructor(
+    public payload: Provider,
+    public isImagesFeature: boolean
+  ) {}
 }
 
 export class OnCreateProviderFail {
@@ -155,7 +161,10 @@ export class OnCreateProviderSuccess {
 
 export class UpdateProvider {
   static readonly type = '[provider] update Provider';
-  constructor(public payload: Provider, public isImagesFeature: boolean) {}
+  constructor(
+    public payload: Provider,
+    public isImagesFeature: boolean
+  ) {}
 }
 
 export class OnUpdateProviderFail {
@@ -170,12 +179,18 @@ export class OnUpdateProviderSuccess {
 
 export class UpdateProviderStatus {
   static readonly type = '[provider] update Provider status';
-  constructor(public payload: ProviderWithStatus, public providerParameters: ProviderParameters) {}
+  constructor(
+    public payload: ProviderWithStatus,
+    public providerParameters: ProviderParameters
+  ) {}
 }
 
 export class UpdateProviderLicenseStatus {
   static readonly type = '[provider] update provider license status';
-  constructor(public payload: ProviderWithLicenseStatus, public providerParameters: ProviderParameters) {}
+  constructor(
+    public payload: ProviderWithLicenseStatus,
+    public providerParameters: ProviderParameters
+  ) {}
 }
 
 export class OnUpdateProviderStatusFail {
@@ -185,7 +200,10 @@ export class OnUpdateProviderStatusFail {
 
 export class OnUpdateProviderStatusSuccess {
   static readonly type = '[provider] update Provider status success';
-  constructor(public payload: ProviderWithStatus, public providerParameters: ProviderParameters) {}
+  constructor(
+    public payload: ProviderWithStatus,
+    public providerParameters: ProviderParameters
+  ) {}
 }
 
 export class CreateProviderAdmin {
@@ -205,12 +223,18 @@ export class OnCreateProviderAdminSuccess {
 
 export class BlockProviderAdminById {
   static readonly type = '[provider] block Provider Admin';
-  constructor(public payload: ProviderAdminBlockData, public filterParams: ProviderAdminParameters) {}
+  constructor(
+    public payload: ProviderAdminBlockData,
+    public filterParams: ProviderAdminParameters
+  ) {}
 }
 
 export class OnBlockProviderAdminSuccess {
   static readonly type = '[provider] block Provider Admin success';
-  constructor(public payload: ProviderAdminBlockData, public filterParams: ProviderAdminParameters) {}
+  constructor(
+    public payload: ProviderAdminBlockData,
+    public filterParams: ProviderAdminParameters
+  ) {}
 }
 
 export class OnBlockProviderAdminFail {
@@ -220,7 +244,10 @@ export class OnBlockProviderAdminFail {
 
 export class DeleteProviderAdminById {
   static readonly type = '[provider] delete Provider Admin';
-  constructor(public payload: ProviderAdminBlockData, public filterParams: ProviderAdminParameters) {}
+  constructor(
+    public payload: ProviderAdminBlockData,
+    public filterParams: ProviderAdminParameters
+  ) {}
 }
 
 export class OnDeleteProviderAdminSuccess {
@@ -235,7 +262,10 @@ export class OnDeleteProviderAdminFail {
 
 export class UpdateProviderAdmin {
   static readonly type = '[provider] update Provider Admin';
-  constructor(public providerId: string, public providerAdmin: ProviderAdmin) {}
+  constructor(
+    public providerId: string,
+    public providerAdmin: ProviderAdmin
+  ) {}
 }
 
 export class OnUpdateProviderAdminFail {
@@ -250,7 +280,10 @@ export class OnUpdateProviderAdminSuccess {
 
 export class UpdateWorkshopStatus {
   static readonly type = '[provider] update Status';
-  constructor(public payload: WorkshopStatus, public providerId: string) {}
+  constructor(
+    public payload: WorkshopStatus,
+    public providerId: string
+  ) {}
 }
 
 export class OnUpdateWorkshopStatusSuccess {
@@ -265,7 +298,10 @@ export class OnUpdateWorkshopStatusFail {
 
 export class BlockParent {
   static readonly type = '[provider] block parent';
-  constructor(public payload: BlockedParent, public parameters?: ApplicationFilterParameters) {}
+  constructor(
+    public payload: BlockedParent,
+    public parameters?: ApplicationFilterParameters
+  ) {}
 }
 
 export class BlockParentFail {
@@ -280,7 +316,10 @@ export class BlockParentSuccess {
 
 export class UnBlockParent {
   static readonly type = '[provider] unblock parent';
-  constructor(public payload: BlockedParent, public parameters?: ApplicationFilterParameters) {}
+  constructor(
+    public payload: BlockedParent,
+    public parameters?: ApplicationFilterParameters
+  ) {}
 }
 
 export class UnBlockParentFail {
@@ -295,7 +334,10 @@ export class UnBlockParentSuccess {
 
 export class GetBlockedParents {
   static readonly type = '[provider] get block parent';
-  constructor(public providerId: string, public parentId: string) {}
+  constructor(
+    public providerId: string,
+    public parentId: string
+  ) {}
 }
 
 export class OnClearBlockedParents {
@@ -310,12 +352,18 @@ export class ResetAchievements {
 
 export class DeleteProviderById {
   static readonly type = '[provider] delete Provider By Id';
-  constructor(public payload: string, public providerParameters: ProviderParameters) {}
+  constructor(
+    public payload: string,
+    public providerParameters: ProviderParameters
+  ) {}
 }
 
 export class OnDeleteProviderByIdSuccess {
   static readonly type = '[provider] delete Provider By Id success';
-  constructor(public payload: string, public providerParameters: ProviderParameters) {}
+  constructor(
+    public payload: string,
+    public providerParameters: ProviderParameters
+  ) {}
 }
 
 export class OnDeleteProviderByIdFail {

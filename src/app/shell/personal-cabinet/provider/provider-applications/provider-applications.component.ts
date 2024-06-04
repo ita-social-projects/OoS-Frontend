@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Router } from '@angular/router';
 import { Actions, Select, Store, ofActionSuccessful } from '@ngxs/store';
 import { Observable } from 'rxjs';
@@ -49,7 +49,12 @@ export class ProviderApplicationsComponent extends CabinetDataComponent implemen
     from: 0
   };
 
-  constructor(protected store: Store, protected matDialog: MatDialog, protected router: Router, private actions$: Actions) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog,
+    protected router: Router,
+    private actions$: Actions
+  ) {
     super(store, matDialog);
   }
 

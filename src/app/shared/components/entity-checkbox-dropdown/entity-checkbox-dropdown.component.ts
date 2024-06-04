@@ -1,6 +1,6 @@
 import { debounceTime, distinctUntilChanged, Subject, takeUntil } from 'rxjs';
 
-import { Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { ChildDeclination, WorkshopDeclination } from '../../enum/enumUA/declinations/declination';
@@ -19,18 +19,29 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
   @Input() public labelByDefault: string;
   @Input() public entityControl: FormControl = new FormControl();
   @Output() public entityCheck = new EventEmitter<string[]>();
+  @Output() public userInteraction = new EventEmitter<string[]>();
 
   private ids: string[];
   private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isUserInteracted = false;
 
   constructor(private translateCases: TranslateCasesPipe) {}
 
   public ngOnInit(): void {
+    // TODO: Find better workaround for FormControl disable
+    if (this.entities?.length < 1) {
+      this.entityControl.disable({ emitEvent: false });
+    }
+
     this.entityControl.valueChanges
       .pipe(debounceTime(500), distinctUntilChanged(), takeUntil(this.destroy$))
       .subscribe((entities: TruncatedItem[]) => {
         this.ids = entities.map((entity) => entity.id);
         this.entityCheck.emit(this.ids);
+
+        if (this.isUserInteracted) {
+          this.userInteraction.emit();
+        }
       });
   }
 
@@ -46,6 +57,10 @@ export class EntityCheckboxDropdownComponent implements OnInit, OnDestroy {
     const allEntities = allChildrenDeclination || allApplicationsDeclination;
     const selectedEntities = this.translateCases.transform(quantity, this.declination);
     return quantity < 1 ? selectedEntities : this.labelByDefault || allEntities;
+  }
+
+  public setIsUserInteractedToTrue(): void {
+    this.isUserInteracted = true;
   }
 
   public ngOnDestroy(): void {

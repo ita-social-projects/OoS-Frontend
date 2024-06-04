@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 import { AdminRoles } from 'shared/enum/admins';
-import { AreaAdmin, AreaAdminParameters } from '../../models/areaAdmin.model';
-import { SearchResponse } from '../../models/search.model';
-import { BaseAdminService } from '../base-admin/base-admin';
+import { AreaAdmin, AreaAdminParameters } from 'shared/models/area-admin.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { BaseAdminService } from '../base-admin/base-admin.service';
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +68,13 @@ export class AreaAdminService extends BaseAdminService {
    */
   public blockAdmin(AreaAdminId: string, isBlocked: boolean): Observable<void> {
     return super.blockAdmin(AreaAdminId, isBlocked);
+  }
+
+  /**
+   * This method reinvite Area Admin
+   * @param areaAdminId: string
+   */
+  public reinviteAdmin(areaAdminId: string): Observable<void> {
+    return super.reinviteAdmin(areaAdminId);
   }
 }

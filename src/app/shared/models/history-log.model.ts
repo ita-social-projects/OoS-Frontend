@@ -1,5 +1,5 @@
-import { PaginationParameters } from './queryParameters.model';
-import { TechAdmin } from './techAdmin.model';
+import { PaginationParameters } from './query-parameters.model';
+import { TechAdmin } from './tech-admin.model';
 import { User } from './user.model';
 
 export interface ProviderHistory {
@@ -60,4 +60,9 @@ export interface FilterData extends PaginationParameters {
 export interface DropdownData {
   value: string;
   label: string;
+}
+
+export interface DateFilters {
+  dateFrom: string;
+  dateTo: string;
 }

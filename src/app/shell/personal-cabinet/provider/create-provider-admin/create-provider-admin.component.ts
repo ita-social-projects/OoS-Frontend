@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, combineLatest } from 'rxjs';
@@ -17,8 +17,8 @@ import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ProviderAdminRole } from 'shared/enum/provider-admin';
 import { Role, Subrole } from 'shared/enum/role';
 import { TruncatedItem } from 'shared/models/item.model';
+import { ProviderAdmin } from 'shared/models/provider-admin.model';
 import { Provider } from 'shared/models/provider.model';
-import { ProviderAdmin } from 'shared/models/providerAdmin.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProviderAdmin, GetProviderAdminById, GetWorkshopListByProviderId, UpdateProviderAdmin } from 'shared/store/provider.actions';
@@ -40,7 +40,6 @@ const defaultValidators: ValidatorFn[] = [
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
   public readonly validationConstants = ValidationConstants;
-  public readonly phonePrefix = Constants.PHONE_PREFIX;
   public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
   public readonly WorkshopDeclination = WorkshopDeclination;
   public readonly providerAdminRole = ProviderAdminRole;
@@ -165,6 +164,10 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
     this.managedWorkshopIds = workshopsId;
   }
 
+  public onWorkshopsChange(): void {
+    this.markFormAsDirtyOnUserInteraction();
+  }
+
   public checkValidation(form: FormGroup): void {
     Object.keys(form.controls).forEach((key) => {
       form.get(key).markAsTouched();
@@ -189,7 +192,7 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
     dialogRef
       .afterClosed()
-      .pipe(filter(Boolean), takeUntil(this.destroy$))
+      .pipe(filter(Boolean))
       .subscribe(() => {
         const providerAdmin = new ProviderAdmin(
           this.ProviderAdminFormGroup.value,
@@ -206,5 +209,14 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
 
   public onCancel(): void {
     this.router.navigate(['/personal-cabinet/provider/administration']);
+  }
+
+  /**
+   * This method makes ProviderAdminFormGroup dirty
+   */
+  public markFormAsDirtyOnUserInteraction(): void {
+    if (!this.ProviderAdminFormGroup.dirty) {
+      this.ProviderAdminFormGroup.markAsDirty({ onlySelf: true });
+    }
   }
 }

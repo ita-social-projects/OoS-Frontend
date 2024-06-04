@@ -6,7 +6,7 @@ import { filter, takeUntil } from 'rxjs/operators';
 import { WorkingDaysValues } from 'shared/constants/constants';
 import { ValidationConstants } from 'shared/constants/validation';
 import { WorkingDaysReverse } from 'shared/enum/enumUA/working-hours';
-import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
+import { WorkingDaysToggleValue } from 'shared/models/working-hours.model';
 
 @Component({
   selector: 'app-working-hours-form',
@@ -14,8 +14,12 @@ import { WorkingDaysToggleValue } from 'shared/models/workingHours.model';
   styleUrls: ['./working-hours-form.component.scss']
 })
 export class WorkingHoursFormComponent implements OnInit, OnDestroy {
-  protected readonly ValidationConstants = ValidationConstants;
-  protected readonly workingDaysReverse = WorkingDaysReverse;
+  @Input() public workingHoursForm: FormGroup;
+  @Input() public index: number;
+  @Input() public workingHoursAmount: number;
+
+  @Output() public deleteWorkingHour = new EventEmitter();
+  @Output() public dataChanged = new EventEmitter<void>();
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
@@ -24,13 +28,8 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
   public startTimeFormControl = new FormControl('');
   public endTimeFormControl = new FormControl('');
 
-  @Input() public workingHoursForm: FormGroup;
-  @Input() public index: number;
-  @Input() public workingHoursAmount: number;
-
-  @Output() public deleteWorkingHour = new EventEmitter();
-
-  constructor() {}
+  protected readonly ValidationConstants = ValidationConstants;
+  protected readonly workingDaysReverse = WorkingDaysReverse;
 
   public ngOnInit(): void {
     this.workdaysFormControl = this.workingHoursForm.get('workdays') as FormControl;
@@ -43,8 +42,9 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$)
       )
       .subscribe(() => this.workdaysFormControl.markAsTouched());
-
-    this.workdaysFormControl.value.length && this.activateEditMode();
+    if (this.workdaysFormControl.value.length) {
+      this.activateEditMode();
+    }
   }
 
   /**
@@ -59,8 +59,17 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
       this.workingDays.delete(this.workingDaysReverse[day.value]);
     }
 
+    if (this.workingDays.size) {
+      this.startTimeFormControl.enable({ emitEvent: false });
+      this.endTimeFormControl.enable({ emitEvent: false });
+    } else {
+      this.startTimeFormControl.disable({ emitEvent: false });
+      this.endTimeFormControl.disable({ emitEvent: false });
+    }
+
     const value = this.workingDays.size ? [...this.workingDays] : null;
     this.workdaysFormControl.setValue(value);
+    this.dataChanged.emit();
   }
 
   public getMinTime(): string {
@@ -101,6 +110,7 @@ export class WorkingHoursFormComponent implements OnInit, OnDestroy {
 
   public delete(): void {
     this.deleteWorkingHour.emit(this.index);
+    this.dataChanged.emit();
   }
 
   public onCancel(): void {

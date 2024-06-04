@@ -4,12 +4,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { NgxsModule } from '@ngxs/store';
 import { TranslateModule } from '@ngx-translate/core';
-import { IvyCarouselModule } from 'angular-responsive-carousel';
-import { ImageCarouselComponent } from '../../../shared/components/image-carousel/image-carousel.component';
-import { Provider, ProviderParameters } from '../../../shared/models/provider.model';
-import { Workshop } from '../../../shared/models/workshop.model';
+import { NgxsModule } from '@ngxs/store';
+
+import { ImageCarouselComponent } from 'shared/components/image-carousel/image-carousel.component';
+import { Provider, ProviderParameters } from 'shared/models/provider.model';
+import { Workshop } from 'shared/models/workshop.model';
 import { ProviderDetailsComponent } from './provider-details.component';
 
 describe('ProviderDetailsComponent', () => {
@@ -18,7 +18,14 @@ describe('ProviderDetailsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [MatTabsModule, RouterTestingModule, MatIconModule, IvyCarouselModule, NgxsModule.forRoot([]), TranslateModule.forRoot(), BrowserAnimationsModule],
+      imports: [
+        MatTabsModule,
+        RouterTestingModule,
+        MatIconModule,
+        NgxsModule.forRoot([]),
+        TranslateModule.forRoot(),
+        BrowserAnimationsModule
+      ],
       declarations: [ProviderDetailsComponent, MockAllProviderWorkshopsComponent, MockProviderAboutComponent, ImageCarouselComponent]
     }).compileComponents();
   });
@@ -42,6 +49,7 @@ describe('ProviderDetailsComponent', () => {
 class MockProviderAboutComponent {
   @Input() public provider: Provider;
 }
+
 @Component({
   selector: 'app-all-provider-workshops',
   template: ''

@@ -1,18 +1,19 @@
 import { animate, style, transition, trigger } from '@angular/animations';
-import { Component, ElementRef, Input, OnInit, ViewChild, OnDestroy, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
-import { PaginationConstants } from "shared/constants/constants";
-import { SearchResponse } from '../../../shared/models/search.model';
-import { Role } from '../../../shared/enum/role';
-import { Address } from '../../../shared/models/address.model';
-import { PaginationElement } from '../../../shared/models/paginationElement.model';
-import { WorkshopCard } from '../../../shared/models/workshop.model';
-import { ClearCoordsByMap, ClearRadiusSize, GetFilteredWorkshops, SetFilterPagination } from '../../../shared/store/filter.actions';
-import { ClearMessageBar } from '../../../shared/store/app.actions';
-import { PaginationParameters } from '../../../shared/models/queryParameters.model';
-import { Util } from '../../../shared/utils/utils';
+
+import { PaginationConstants } from 'shared/constants/constants';
+import { Role } from 'shared/enum/role';
+import { Address } from 'shared/models/address.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { SearchResponse } from 'shared/models/search.model';
+import { WorkshopCard } from 'shared/models/workshop.model';
+import { ClearMessageBar } from 'shared/store/app.actions';
+import { ClearCoordsByMap, ClearRadiusSize } from 'shared/store/filter.actions';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-workshop-map-view-list',
@@ -28,31 +29,33 @@ import { Util } from '../../../shared/utils/utils';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
-  readonly Role = Role;
+  @ViewChild('CurSelectedWorkshop')
+  public curSelectedWorkshop: ElementRef;
 
-  @ViewChild('CurSelectedWorkshop') curSelectedWorkshop: ElementRef;
+  @Input() public filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
+  @Input() public paginationParameters: PaginationParameters;
+  @Input() public role: string;
+  @Input() public currentPage: PaginationElement;
 
-  @Input() filteredWorkshops$: Observable<SearchResponse<WorkshopCard[]>>;
-  @Input() paginationParameters: PaginationParameters;
-  @Input() role: string;
-  @Input() currentPage: PaginationElement;
+  public readonly Role = Role;
 
-  workshops: WorkshopCard[];
-  selectedWorkshops: WorkshopCard[] = [];
-  workshopsOnPage: WorkshopCard[] = [];
-  isSelectedMarker = false;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  workshopDetailsAnimationState = false;
+  public workshops: WorkshopCard[];
+  public selectedWorkshops: WorkshopCard[] = [];
+  public workshopsOnPage: WorkshopCard[] = [];
+  public isSelectedMarker = false;
+  public workshopDetailsAnimationState = false;
 
-  private swipeCoord?: [number, number];
-  private swipeTime?: number;
   public currentWorkShopIndex = 0;
   public direct: string;
   public left = 0;
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private swipeCoord?: [number, number];
+  private swipeTime?: number;
+
   constructor(private store: Store) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.filteredWorkshops$
       .pipe(
         takeUntil(this.destroy$),
@@ -64,7 +67,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
       });
   }
 
-  swipe(e: TouchEvent, when: string): void {
+  public swipe(e: TouchEvent, when: string): void {
     const coord: [number, number] = [e.changedTouches[0].clientX, e.changedTouches[0].clientY];
     let time = new Date().getTime();
 
@@ -90,7 +93,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     }
   }
 
-  triggerNameDone(e): void {
+  public triggerNameDone(e: AnimationEvent): void {
     if (this.direct === 'next' && this.selectedWorkshops.length > 1) {
       this.left = parseInt(this.curSelectedWorkshop.nativeElement.style.left, 10) - 92;
     }
@@ -99,7 +102,7 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     }
   }
 
-  onSelectedAddress(address: Address): void {
+  public onSelectedAddress(address: Address): void {
     this.isSelectedMarker = Boolean(address);
     this.left = 0;
     this.currentWorkShopIndex = 0;
@@ -123,17 +126,17 @@ export class WorkshopMapViewListComponent implements OnInit, OnDestroy {
     this.workshopDetailsAnimationState = false;
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getWorkshopsOnPage();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.paginationParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch([new ClearCoordsByMap(), new ClearRadiusSize(), new ClearMessageBar()]);
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -5,20 +5,24 @@
     <ng-container *ngIf="invalidCharacters; then invalidCharactersTmpl"></ng-container>
     <ng-container *ngIf="invalidSymbols; then invalidSymbolsTmpl"></ng-container>
     <ng-container *ngIf="invalidFieldLength; then invalidLengthTmpl"></ng-container>
-    <ng-container *ngIf="invalidPhoneLength; then invalidPhoneTmpl"></ng-container>
+    <ng-container *ngIf="invalidPhoneLength; then invalidPhoneLengthTmpl"></ng-container>
+    <ng-container *ngIf="invalidPhoneNumber; then invalidPhoneNumberTmpl"></ng-container>
     <ng-container *ngIf="invalidDateRange; then invalidDateRangeTmpl"></ng-container>
     <ng-container *ngIf="invalidEmail; then invalidEmailTmpl"></ng-container>
     <ng-container *ngIf="invalidEdrpouIpn; then invalidEdrpouIpnTmpl"></ng-container>
     <ng-container *ngIf="invalidStreet; then invalidStreetTmpl"></ng-container>
     <ng-container *ngIf="invalidHouse; then invalidHouseTmpl"></ng-container>
+    <ng-container *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
     <ng-container
-      *ngIf="invalidSectionName && !validationFormControl.errors.minlength; then invalidSectionNameTmpl"></ng-container>
+      *ngIf="
+        mustContainLetters && !validationFormControl.errors.minlength && !invalidFieldLength;
+        then mustContainLettersTmpl
+      "></ng-container>
+    <ng-container *ngIf="minNumberValue; then minNumberValueTmpl"></ng-container>
   </ng-container>
 </small>
 
-<ng-template #requiredInputTmpl>
-  {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }}<br />
-</ng-template>
+<ng-template #requiredInputTmpl> {{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }}<br /> </ng-template>
 
 <ng-template #invalidCharactersTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_CHARACTERS' | translate }}<br />
@@ -35,7 +39,8 @@
 
 <ng-template #incorrectDateFieldTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}<br />
-  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}<br />
+  {{ 'FORMS.VALIDATIONS.INVALID_DATA_START' | translate }}{{ 'FORMS.PLACEHOLDERS.SHORT_DATE_FORMAT' | translate
+  }}{{ 'FORMS.VALIDATIONS.INVALID_DATA_END' | translate }}<br />
 </ng-template>
 
 <ng-template #invalidDateRangeTmpl>
@@ -43,16 +48,19 @@
   {{ 'FORMS.VALIDATIONS.INVALID_BIRTHDAY' | translate }}<br />
 </ng-template>
 
-<ng-template #invalidEmailTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }}<br />
-</ng-template>
+<ng-template #invalidEmailTmpl> {{ 'FORMS.VALIDATIONS.INVALID_EMAIL' | translate }}<br /> </ng-template>
 
 <ng-template #invalidEdrpouIpnTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }}{{ 'FORMS.VALIDATIONS.INVALID_EDRPO_IPN_END' | translate }}<br />
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }}{{ 'FORMS.VALIDATIONS.INVALID_EDRPO_IPN_END' | translate
+  }}<br />
 </ng-template>
 
-<ng-template #invalidPhoneTmpl>
-  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START' | translate }} {{ minCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}<br />
+<ng-template #invalidPhoneLengthTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_START_MIN' | translate }} {{ minCharacters }} {{ 'FORMS.VALIDATIONS.INVALID_LENGTH_END' | translate }}<br />
+</ng-template>
+
+<ng-template #invalidPhoneNumberTmpl>
+  {{ 'FORMS.VALIDATIONS.INVALID_PHONE_NUMBER' | translate }}<br />
 </ng-template>
 
 <ng-template #invalidStreetTmpl>
@@ -65,4 +73,12 @@
 
 <ng-template #invalidSectionNameTmpl>
   {{ 'FORMS.VALIDATIONS.INVALID_INPUT' | translate }}{{ 'FORMS.VALIDATIONS.INVALID_SECTION_NAME' | translate }}<br />
+</ng-template>
+
+<ng-template #mustContainLettersTmpl>
+  {{ 'FORMS.VALIDATIONS.MUST_CONTAIN_LETTERS' | translate }}
+</ng-template>
+
+<ng-template #minNumberValueTmpl>
+  {{ 'FORMS.VALIDATIONS.LESS_THAN_PARTICIPANTS' | translate }}
 </ng-template>

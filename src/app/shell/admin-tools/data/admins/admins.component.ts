@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, switchMap } from 'rxjs';
@@ -15,15 +15,15 @@ import { AdminRolesTitles } from 'shared-enum/enumUA/tech-admin/admins';
 import { ModalConfirmationType } from 'shared-enum/modal-confirmation';
 import { Role } from 'shared-enum/role';
 import { BaseAdmin, BaseAdminParameters } from 'shared-models/admin.model';
-import { PaginationElement } from 'shared-models/paginationElement.model';
 import { SearchResponse } from 'shared-models/search.model';
-import { BlockData, UsersTable } from 'shared-models/usersTable';
-import { BlockAdminById, DeleteAdminById, GetAllAdmins } from 'shared-store/admin.actions';
+import { BlockAdminById, DeleteAdminById, GetAllAdmins, ReinviteAdminById } from 'shared-store/admin.actions';
 import { AdminState } from 'shared-store/admin.state';
 import { RegistrationState } from 'shared-store/registration.state';
 import { Util } from 'shared-utils/utils';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants, PaginationConstants } from 'shared/constants/constants';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { AdminsBlockData, AdminsTableData, InvitationData } from 'shared/models/users-table';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils';
 
@@ -33,6 +33,13 @@ import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils'
   styleUrls: ['./admins.component.scss']
 })
 export class AdminsComponent implements OnInit, OnDestroy {
+  @Select(AdminState.isLoading)
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(AdminState.admins)
+  private admins$: Observable<SearchResponse<BaseAdmin[]>>;
+  @Select(RegistrationState.role)
+  private role$: Observable<string>;
+
   public readonly noAdmins = NoResultsTitle.noAdmins;
   public readonly AdminRolesTitles = AdminRolesTitles;
   public readonly AdminRoles = AdminRoles;
@@ -41,16 +48,9 @@ export class AdminsComponent implements OnInit, OnDestroy {
   public readonly canManageInstitution = canManageInstitution;
   public readonly canManageRegion = canManageRegion;
 
-  @Select(AdminState.admins)
-  private admins$: Observable<SearchResponse<BaseAdmin[]>>;
-  @Select(AdminState.isLoading)
-  public isLoadingCabinet$: Observable<boolean>;
-  @Select(RegistrationState.role)
-  private role$: Observable<string>;
-
   public tabIndex: number;
   public filterFormControl: FormControl = new FormControl('');
-  public adminsTable: UsersTable[];
+  public adminsTable: AdminsTableData[];
   public role: Role;
   public destroy$: Subject<boolean> = new Subject<boolean>();
   public totalEntities: number;
@@ -62,11 +62,16 @@ export class AdminsComponent implements OnInit, OnDestroy {
     size: PaginationConstants.TABLE_ITEMS_PER_PAGE
   };
 
+  constructor(
+    private store: Store,
+    private router: Router,
+    private route: ActivatedRoute,
+    protected matDialog: MatDialog
+  ) {}
+
   public get adminType(): AdminRoles {
     return this.adminParams.tabTitle as AdminRoles;
   }
-
-  constructor(private store: Store, private router: Router, private route: ActivatedRoute, protected matDialog: MatDialog) {}
 
   public ngOnInit(): void {
     this.role$
@@ -97,16 +102,6 @@ export class AdminsComponent implements OnInit, OnDestroy {
       });
 
     this.addNavPath();
-  }
-
-  private addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Admins,
-        isActive: false,
-        disable: true
-      })
-    );
   }
 
   public ngOnDestroy(): void {
@@ -143,30 +138,33 @@ export class AdminsComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  public onUpdate(admin: UsersTable): void {
+  public onUpdate(admin: AdminsTableData): void {
     this.router.navigate([`update-admin/${this.adminParams.tabTitle}/${admin.id}`]);
   }
 
   /**
    * This method block, unBlock Admin By Id
    */
-  public onBlock(admin: BlockData): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: admin.isBlocked ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
-      }
-    });
-
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.blockAdmin(admin, this.adminType);
-    });
+  public onBlockUnblock(admin: AdminsBlockData): void {
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: admin.isBlocking ? ModalConfirmationType.blockAdmin : ModalConfirmationType.unBlockAdmin
+        }
+      })
+      .afterClosed()
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.blockAdmin(admin, this.adminType);
+        }
+      });
   }
 
   /**
    * This method delete Admin By Id
    */
-  public onDelete(admin: UsersTable): void {
+  public onDelete(admin: AdminsTableData): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -176,8 +174,18 @@ export class AdminsComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.deleteAdmin(admin.id, this.adminType);
+      if (result) {
+        this.deleteAdmin(admin.id, this.adminType);
+      }
     });
+  }
+
+  /**
+   * This method send invitation to Admin By Id
+   * @param invitationData: InvitationData
+   */
+  public onSendInvitation(invitationData: InvitationData): void {
+    this.store.dispatch(new ReinviteAdminById(invitationData.user.id, invitationData.adminType));
   }
 
   private setTabOptions(): void {
@@ -256,11 +264,21 @@ export class AdminsComponent implements OnInit, OnDestroy {
     }
   }
 
-  private blockAdmin(blockData: BlockData, admin: AdminRoles): void {
-    this.store.dispatch(new BlockAdminById({ adminId: blockData.user.id, isBlocked: blockData.isBlocked }, admin));
+  private blockAdmin(blockData: AdminsBlockData, admin: AdminRoles): void {
+    this.store.dispatch(new BlockAdminById({ adminId: blockData.user.id, isBlocked: blockData.isBlocking }, admin));
   }
 
   private deleteAdmin(id: string, admin: AdminRoles): void {
     this.store.dispatch(new DeleteAdminById(id, admin));
+  }
+
+  private addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Admins,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 }

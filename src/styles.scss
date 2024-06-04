@@ -3,14 +3,96 @@
 
 @font-face {
   font-family: 'Innerspace';
-  src: local('Innerspace'), url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format('truetype'),
+  src:
+    local('Innerspace'),
+    url(./assets/fonts/Innerspace/Innerspace-normal.ttf) format('truetype'),
     url(./assets/fonts/Innerspace/Innerspace-bold.ttf) format('truetype');
 }
+
+$primary-color: #3849f9;
+
+$config: mat.define-legacy-typography-config(
+  $font-family: 'Innerspace',
+  $button: mat.define-typography-level(13px, 15px, 700)
+);
+
+@mixin mat-button-toggle-typography($config) {
+  .mat-button-toggle,
+  .mat-button-toggle-button {
+    @include mat.typography-level($config, button);
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+@mixin mat-form-typography($config) {
+  .mat-form-field {
+    font-family: 'Open Sans', sans-serif;
+  }
+}
+
+$primary-palette: mat.define-palette(
+  (
+    50: #eaeaff,
+    100: #cacafe,
+    200: #a4a8fe,
+    300: #7b85fe,
+    400: #5b67fd,
+    500: $primary-color,
+    600: #333fed,
+    700: #2832e0,
+    800: #1d24d5,
+    900: #0000c5,
+    A100: #d8bffc,
+    A200: #bd93fb,
+    A400: #8838f9,
+    A700: #4c00e8,
+    contrast: (
+      50: $dark-primary-text,
+      100: $dark-primary-text,
+      200: $dark-primary-text,
+      300: $dark-primary-text,
+      400: $dark-primary-text,
+      500: $light-primary-text,
+      600: $light-primary-text,
+      700: $light-primary-text,
+      800: $light-primary-text,
+      900: $light-primary-text,
+      A100: $dark-primary-text,
+      A200: $light-primary-text,
+      A400: $light-primary-text,
+      A700: $light-primary-text
+    )
+  )
+);
+
+$accent-palette: mat.define-palette(mat.$deep-orange-palette);
+
+$theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $primary-palette,
+      accent: $accent-palette
+    ),
+    typography: mat.define-legacy-typography-config(),
+    density: 0
+  )
+);
+
+@include mat.core();
+@include mat.legacy-core();
+
+@include mat.all-component-themes($theme);
+@include mat.all-legacy-component-themes($theme);
+
+@include mat.button-toggle-typography($config);
+@include mat.legacy-button-typography($config);
+@include mat-form-typography($config);
 
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: 'Open Sans', sans-serif;
@@ -26,30 +108,36 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Innerspace';
+  font-family: 'Innerspace', sans-serif;
   color: #000000;
   margin: 0;
 }
+
 h1 {
   font-size: 2.25rem;
   line-height: 2.5rem;
 }
+
 h2 {
   font-size: 1.5rem;
   line-height: 1.6875rem;
 }
+
 h3 {
   font-size: 1.125rem;
   line-height: 1.25rem;
 }
+
 h4 {
   font-size: 1rem;
   line-height: 1.125rem;
 }
+
 h5 {
   font-size: 0.8125rem;
   line-height: 0.9375rem;
 }
+
 h6 {
   font-size: 0.6875rem;
   line-height: 0.9375rem;
@@ -60,11 +148,13 @@ a {
   color: inherit;
   vertical-align: middle;
 }
+
 .mat-step-label {
-  font-family: Open Sans;
-  font-weight: 700;
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 700 !important;
   color: #aaaaaa !important;
 }
+
 .mat-step-icon {
   border: 2px solid #aaaaaa;
   box-sizing: border-box;
@@ -73,17 +163,20 @@ a {
 }
 
 .mat-step-icon-selected {
-  border: 2px solid #3849f9;
+  border: 2px solid $primary-color;
   box-sizing: border-box;
-  color: #3849f9 !important;
+  color: $primary-color !important;
   background-color: transparent !important;
 }
+
 .mat-step-label-active.mat-step-label-selected {
-  color: #3849f9 !important;
+  color: $primary-color !important;
 }
+
 .mat-step-label-active {
   color: black !important;
 }
+
 .mat-step-icon-state-done {
   color: black !important;
   border: 2px solid black;
@@ -98,44 +191,24 @@ a {
   }
 }
 
-$config: mat.define-typography-config(
-  $font-family: 'Innerspace',
-  $button: mat.define-typography-level(13px, 15px, 700)
-);
-
-@mixin mat-button-toggle-typography($config) {
-  .mat-button-toggle,
-  .mat-button-toggle-button {
-    @include mat.typography-level($config, button);
-    font-family: 'Open Sans', sans-serif;
-  }
-}
-@mixin mat-form-typography($config) {
-  .mat-form-field {
-    font-family: 'Open Sans', sans-serif;
-  }
-}
-@include mat.button-typography($config);
-@include mat.button-toggle-typography($config);
-@include mat-form-typography($config);
-// @include mat-core($config);
-
 ::-webkit-scrollbar {
   background-color: transparent;
   width: 4px;
   height: 4px;
   border-radius: 5px;
 }
+
 ::-webkit-scrollbar-thumb {
   background-color: #e0e0e0;
   border-radius: 5px;
 }
+
 .mobile-sidenav ::-webkit-scrollbar {
   display: none;
 }
 
 .tooltip {
-  word-break: break-all !important;
+  overflow-wrap: break-word !important;
   white-space: normal !important;
 }
 
@@ -152,20 +225,24 @@ $config: mat.define-typography-config(
 .mat-checkbox-checked {
   & .mat-checkbox-background,
   .mat-checkbox-frame {
-    background-color: #3849f9 !important;
+    background-color: $primary-color !important;
     border-radius: 3px;
   }
 }
+
 .mat-radio-button.mat-primary.mat-radio-checked .mat-radio-outer-circle {
-  border-color: #3849f9 !important;
+  border-color: $primary-color !important;
   border-width: 5px;
 }
+
 .mat-radio-button.mat-primary .mat-radio-inner-circle {
   background-color: #ffffff !important;
 }
+
 .mat-card-image:first-child {
   margin-top: 0 !important;
 }
+
 .mat-horizontal-content-container {
   padding: 0 !important;
 }
@@ -196,7 +273,7 @@ $config: mat.define-typography-config(
 
       height: auto !important;
 
-      font-family: 'Open Sans';
+      font-family: 'Open Sans', sans-serif;
       font-weight: 700;
       font-size: 13px;
       line-height: 18px;
@@ -219,7 +296,7 @@ $config: mat.define-typography-config(
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
-input:-webkit-autofill:active{
+input:-webkit-autofill:active {
   -webkit-box-shadow: 0 0 0 30px white inset !important;
   line-height: initial;
   font-family: 'Open Sans', sans-serif;

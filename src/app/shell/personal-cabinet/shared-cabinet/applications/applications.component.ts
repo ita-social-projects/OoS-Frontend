@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatTabChangeEvent, MatTabGroup } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent, MatLegacyTabGroup as MatTabGroup } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
@@ -16,14 +16,15 @@ import { Role } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application, ApplicationFilterParameters } from 'shared/models/application.model';
 import { Child } from 'shared/models/child.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
 import { GetDirections } from 'shared/store/meta-data.actions';
-import { ReadUsersNotificationsByType } from 'shared/store/notifications.actions';
+import { ReadUsersNotificationsByType } from 'shared/store/notification.actions';
 import { OnUpdateApplicationSuccess } from 'shared/store/shared-user.actions';
 import { SharedUserState } from 'shared/store/shared-user.state';
 import { Util } from 'shared/utils/utils';
+import { InfoMenuType } from 'shared/enum/info-menu-type';
 
 @Component({
   selector: 'app-applications',
@@ -31,19 +32,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./applications.component.scss']
 })
 export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
-  public readonly applicationTabTitles = ApplicationTitles;
-  public readonly statusTitles = ApplicationStatusTabParams;
-  public readonly statuses = ApplicationStatuses;
-  public readonly noApplicationTitle = NoResultsTitle.noApplication;
-  public readonly Role = Role;
-
-  @Select(SharedUserState.applications)
-  private applicationCards$: Observable<SearchResponse<Application[]>>;
-  @Select(SharedUserState.isLoading)
-  public isLoadingCabinet$: Observable<boolean>;
-
-  @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
-
   @Input() public applicationParams: ApplicationFilterParameters;
   @Input() public dropdownEntities: Child[] | Workshop[];
   @Input() public declination: ChildDeclination | WorkshopDeclination;
@@ -59,7 +47,18 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   @Output() public unblock = new EventEmitter();
   @Output() public sendMessage = new EventEmitter();
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
+  @Select(SharedUserState.isLoading)
+  public isLoadingCabinet$: Observable<boolean>;
+  @Select(SharedUserState.applications)
+  private applicationCards$: Observable<SearchResponse<Application[]>>;
+
+  @ViewChild(MatTabGroup) private tabGroup: MatTabGroup;
+
+  public readonly ApplicationTitles = ApplicationTitles;
+  public readonly ApplicationStatuses = ApplicationStatuses;
+  public readonly NoApplicationTitle = NoResultsTitle.noApplication;
+  public readonly Role = Role;
+  public readonly InfoMenuType = InfoMenuType;
 
   public applicationCards: SearchResponse<Application[]>;
   public isActiveInfoButton = false;
@@ -67,13 +66,20 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
   public isMobileView: boolean;
   public searchFormControl: FormControl = new FormControl('');
 
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+
+  constructor(
+    protected store: Store,
+    protected router: Router,
+    protected route: ActivatedRoute,
+    protected actions$: Actions
+  ) {
+    this.onResize(window);
+  }
+
   @HostListener('window: resize', ['$event.target'])
   public onResize(event: Window): void {
     this.isMobileView = event.outerWidth < 530;
-  }
-
-  constructor(protected store: Store, protected router: Router, protected route: ActivatedRoute, protected actions$: Actions) {
-    this.onResize(window);
   }
 
   public onEntitiesSelect(IDs: string[]): void {
@@ -104,7 +110,7 @@ export class ApplicationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.route.queryParams.pipe(takeUntil(this.destroy$), debounceTime(100)).subscribe((params: Params) => {
-      const status = params['status'];
+      const status = params.status;
       const tabIndex = Number(ApplicationStatusTabParams[status]);
       this.setFilterParams(status, tabIndex);
       this.tabGroup.selectedIndex = tabIndex;

@@ -1,13 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Select, Store } from '@ngxs/store';
-import { combineLatest, Observable, Subject } from 'rxjs';
+import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModeConstants } from 'shared/constants/constants';
-import { SnackbarText } from 'shared/enum/enumUA/messageBer';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { PayRateTypeEnum } from 'shared/enum/enumUA/workshop';
 import { ModalConfirmationDescription } from 'shared/enum/modal-confirmation';
 import { Role } from 'shared/enum/role';
@@ -19,6 +19,12 @@ import { AppState } from 'shared/store/app.state';
 import { CreateFavoriteWorkshop, DeleteFavoriteWorkshop } from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
+import { ProviderState } from 'shared/store/provider.state';
+import { BlockedParent } from 'shared/models/block.model';
+import { SharedUserState } from 'shared/store/shared-user.state';
+import { Parent } from 'shared/models/parent.model';
+import { Provider } from 'shared/models/provider.model';
+import { GetBlockedParents } from 'shared/store/provider.actions';
 
 @Component({
   selector: 'app-actions',
@@ -26,34 +32,53 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./actions.component.scss']
 })
 export class ActionsComponent implements OnInit, OnDestroy {
-  readonly Role = Role;
-  readonly PayRateTypeEnum = PayRateTypeEnum;
-  readonly workshopStatus = WorkshopOpenStatus;
-  readonly ModeConstants = ModeConstants;
-  readonly ModalTypeAction = ModalConfirmationDescription;
+  @Input()
+  public workshop: Workshop;
+  @Input()
+  public role: string;
+
+  @Select(AppState.isMobileScreen)
+  public isMobileScreen$: Observable<boolean>;
+  @Select(RegistrationState.parent)
+  private parent$: Observable<Parent>;
+  @Select(SharedUserState.selectedProvider)
+  private selectedProvider$: Observable<Provider>;
+  @Select(RegistrationState.role)
+  private role$: Observable<string>;
+  @Select(ParentState.favoriteWorkshops)
+  private favoriteWorkshops$: Observable<Favorite[]>;
+  @Select(ProviderState.blockedParent)
+  private isBlocked$: Observable<BlockedParent>;
+
+  public readonly ModalTypeAction = ModalConfirmationDescription;
+  public readonly PayRateTypeEnum = PayRateTypeEnum;
+  public readonly ModeConstants = ModeConstants;
+  public readonly Role = Role;
 
   public favoriteWorkshop: Favorite;
   public isFavorite: boolean;
   public hideApplicationSubmission: boolean;
+  public isBlocked: boolean;
+  public parentId: string;
+  public selectedProviderId: string;
 
-  @Input() workshop: Workshop;
-  @Input() role: string;
+  private readonly workshopStatus = WorkshopOpenStatus;
+  private readonly destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Select(RegistrationState.role)
-  role$: Observable<string>;
-  @Select(ParentState.favoriteWorkshops)
-  favoriteWorkshops$: Observable<Favorite[]>;
-  @Select(AppState.isMobileScreen)
-  isMobileScreen$: Observable<boolean>;
+  constructor(
+    private store: Store,
+    public dialog: MatDialog,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
-  destroy$: Subject<boolean> = new Subject<boolean>();
-
-  constructor(private store: Store, public dialog: MatDialog, private route: ActivatedRoute) {}
-
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.hideApplicationSubmission = this.workshop.status === this.workshopStatus.Closed;
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
-
+    this.parent$.pipe(takeUntil(this.destroy$)).subscribe((parent) => (this.parentId = parent.id));
+    this.selectedProvider$.pipe(takeUntil(this.destroy$)).subscribe((provider) => (this.selectedProviderId = provider.id));
+    this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+    this.isBlocked$.pipe(takeUntil(this.destroy$)).subscribe((blockedParent) => (this.isBlocked = blockedParent !== null));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
       .subscribe(([favorites, params]) => {
@@ -62,12 +87,12 @@ export class ActionsComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
-  onOpenDialog(type: ModalConfirmationDescription): void {
+  public onOpenDialog(type: ModalConfirmationDescription): void {
     if (this.role === Role.unauthorized) {
       this.dialog.open(UnregisteredUserWarningModalComponent, {
         autoFocus: false,
@@ -76,10 +101,30 @@ export class ActionsComponent implements OnInit, OnDestroy {
           message: type
         }
       });
+    } else if (this.isBlocked) {
+      this.store.dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.accessIsRestricted,
+          type: 'error',
+          info: SnackbarText.accessIsRestrictedFullDescription
+        })
+      );
+    } else if (type === this.ModalTypeAction.unregisteredApplicationWarning) {
+      this.router.navigate(['/create-application', this.workshop.id]);
+    } else {
+      this.router.navigate(['/personal-cabinet/messages/', this.workshop.id], { queryParams: { mode: ModeConstants.WORKSHOP } });
     }
   }
 
-  onLike(): void {
+  public onDislike(): void {
+    this.store.dispatch([
+      new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
+      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' })
+    ]);
+    this.isFavorite = !this.isFavorite;
+  }
+
+  public onLike(): void {
     const param = new Favorite(
       this.route.snapshot.paramMap.get('id'),
       this.store.selectSnapshot(RegistrationState.parent).userId.toString()
@@ -87,14 +132,6 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.store.dispatch([
       new CreateFavoriteWorkshop(param),
       new ShowMessageBar({ message: SnackbarText.addedWorkshopFavorite, type: 'success' })
-    ]);
-    this.isFavorite = !this.isFavorite;
-  }
-
-  onDisLike(): void {
-    this.store.dispatch([
-      new DeleteFavoriteWorkshop(this.favoriteWorkshop.id),
-      new ShowMessageBar({ message: SnackbarText.deleteWorkshopFavorite, type: 'success' })
     ]);
     this.isFavorite = !this.isFavorite;
   }

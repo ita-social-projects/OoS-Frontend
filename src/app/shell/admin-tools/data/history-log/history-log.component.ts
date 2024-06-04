@@ -1,35 +1,39 @@
-import { Observable, Subject, merge } from 'rxjs';
-import {
-  debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil
-} from 'rxjs/operators';
-
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
+import { Observable, Subject, merge } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, takeUntil } from 'rxjs/operators';
 
-import { PaginationConstants } from '../../../../shared/constants/constants';
-import {
-  ApplicationOptions, ParentsBlockingByAdminOPtions, ProviderAdminOptions, ProviderOptions
-} from '../../../../shared/constants/drop-down';
-import { NavBarName } from '../../../../shared/enum/enumUA/navigation-bar';
-import { NoResultsTitle } from '../../../../shared/enum/enumUA/no-results';
-import { HistoryLogTabTitles } from '../../../../shared/enum/enumUA/tech-admin/history-log';
-import { HistoryLogTypes } from '../../../../shared/enum/history.log';
-import {
-  ApplicationHistory, DropdownData, FilterData, ParentsBlockingByAdminHistory, ProviderAdminHistory, ProviderHistory
-} from '../../../../shared/models/history-log.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
-import { SearchResponse } from '../../../../shared/models/search.model';
-import {
-  GetApplicationHistory, GetParentsBlockingByAdminHistory, GetProviderAdminHistory, GetProviderHistory
-} from '../../../../shared/store/admin.actions';
-import { AdminState } from '../../../../shared/store/admin.state';
-import { PopNavPath, PushNavPath } from '../../../../shared/store/navigation.actions';
-import { Util } from '../../../../shared/utils/utils';
+import { PaginationConstants } from 'shared/constants/constants';
+import { ApplicationOptions, ParentsBlockingByAdminOptions, ProviderAdminOptions, ProviderOptions } from 'shared/constants/drop-down';
+import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
+import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
+import { HistoryLogTabTitles } from 'shared/enum/enumUA/tech-admin/history-log';
+import { FilterOptions, HistoryLogTypes } from 'shared/enum/history.log';
 import { Role } from 'shared/enum/role';
+import {
+  ApplicationHistory,
+  DateFilters,
+  DropdownData,
+  FilterData,
+  ParentsBlockingByAdminHistory,
+  ProviderAdminHistory,
+  ProviderHistory
+} from 'shared/models/history-log.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { SearchResponse } from 'shared/models/search.model';
+import {
+  GetApplicationHistory,
+  GetParentsBlockingByAdminHistory,
+  GetProviderAdminHistory,
+  GetProviderHistory
+} from 'shared/store/admin.actions';
+import { AdminState } from 'shared/store/admin.state';
+import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
 import { RegistrationState } from 'shared/store/registration.state';
+import { Util } from 'shared/utils/utils';
 
 @Component({
   selector: 'app-history-log',
@@ -37,11 +41,6 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./history-log.component.scss']
 })
 export class HistoryLogComponent implements OnInit, OnDestroy {
-  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
-  public readonly HistoryLogTypes = HistoryLogTypes;
-  public readonly noHistory = NoResultsTitle.noHistory;
-  public readonly Role = Role;
-
   @Select(AdminState.isLoading)
   public isLoadingCabinet$: Observable<boolean>;
   @Select(AdminState.providerHistory)
@@ -53,9 +52,10 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   @Select(AdminState.parentsBlockingByAdminHistory)
   public parentsBlockingByAdminHistory$: Observable<SearchResponse<ParentsBlockingByAdminHistory[]>>;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private searchString: string;
-  private totalAmount: number;
+  public readonly HistoryLogTabTitles = HistoryLogTabTitles;
+  public readonly HistoryLogTypes = HistoryLogTypes;
+  public readonly noHistory = NoResultsTitle.noHistory;
+  public readonly Role = Role;
 
   public tabIndex = 0;
   public currentPage: PaginationElement = PaginationConstants.firstPage;
@@ -69,7 +69,16 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   public role: string;
   public tabName: HistoryLogTypes;
 
-  constructor(private router: Router, private route: ActivatedRoute, public store: Store, private cdr: ChangeDetectorRef) {}
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private searchString: string;
+  private totalAmount: number;
+
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    public store: Store,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   public ngOnInit(): void {
     this.addNavPath();
@@ -96,12 +105,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
   }
 
   public onTabChange(event: MatTabChangeEvent): void {
-    this.filters = {
-      dateFrom: null,
-      dateTo: null,
-      size: PaginationConstants.TABLE_ITEMS_PER_PAGE
-    };
-
+    this.removeExtraPropertiesFromFilters();
     this.currentPage = PaginationConstants.firstPage;
     this.tabIndex = event.index;
     this.getTableData();
@@ -126,6 +130,11 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     this.filters = { ...this.filters, ...event };
     this.currentPage = PaginationConstants.firstPage;
     this.getTableData(this.searchString);
+  }
+
+  public onDateFilter(event: DateFilters): void {
+    this.filters.dateFrom = event.dateFrom;
+    this.filters.dateTo = event.dateTo;
   }
 
   public ngOnDestroy(): void {
@@ -153,7 +162,7 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
         break;
       case HistoryLogTypes.Users:
         this.store.dispatch([new GetParentsBlockingByAdminHistory(filters, searchString)]);
-        this.dropdownData = ParentsBlockingByAdminOPtions;
+        this.dropdownData = ParentsBlockingByAdminOptions;
         this.tabName = HistoryLogTypes.Users;
         break;
     }
@@ -174,18 +183,32 @@ export class HistoryLogComponent implements OnInit, OnDestroy {
     Util.setFromPaginationParam(this.filters, this.currentPage, this.totalAmount);
     this.dispatchProperValue(this.tabIndex, this.filters, searchString);
   }
-  
+
   private initSubscribeOnEachHistory(): void {
-    merge(
-      this.providersHistory$,
-      this.providerAdminHistory$,
-      this.applicationHistory$,
-      this.parentsBlockingByAdminHistory$
-    )
+    merge(this.providersHistory$, this.providerAdminHistory$, this.applicationHistory$, this.parentsBlockingByAdminHistory$)
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe(
-        (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) => 
+        (history: SearchResponse<ProviderHistory[] | ProviderAdminHistory[] | ApplicationHistory[] | ParentsBlockingByAdminHistory[]>) =>
           (this.totalAmount = history.totalAmount)
       );
+  }
+
+  private removeExtraPropertiesFromFilters(): void {
+    for (const filterParam of Object.keys(this.filters)) {
+      switch (filterParam) {
+        case FilterOptions.AdminType:
+          delete this.filters.AdminType;
+          break;
+        case FilterOptions.OperationType:
+          delete this.filters.OperationType;
+          break;
+        case FilterOptions.PropertyName:
+          delete this.filters.PropertyName;
+          break;
+        case FilterOptions.ShowParents:
+          delete this.filters.ShowParents;
+          break;
+      }
+    }
   }
 }

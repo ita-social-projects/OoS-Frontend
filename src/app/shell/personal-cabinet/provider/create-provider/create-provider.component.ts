@@ -1,29 +1,30 @@
 import { STEPPER_GLOBAL_OPTIONS } from '@angular/cdk/stepper';
 import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatStepper } from '@angular/material/stepper';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
-import { filter, takeUntil } from 'rxjs/operators';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { CreateProviderSteps } from 'shared/enum/provider';
 import { Role, Subrole } from 'shared/enum/role';
 import { Address } from 'shared/models/address.model';
-import { FeaturesList } from 'shared/models/featuresList.model';
+import { FeaturesList } from 'shared/models/features-list.model';
 import { Provider } from 'shared/models/provider.model';
 import { User } from 'shared/models/user.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
+import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app.actions';
 import { AppState } from 'shared/store/app.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { AddNavPath } from 'shared/store/navigation.actions';
 import { CreateProvider, UpdateProvider } from 'shared/store/provider.actions';
-import { Logout } from 'shared/store/registration.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
@@ -39,7 +40,7 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
     }
   ]
 })
-export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, OnDestroy, AfterViewChecked {
+export class CreateProviderComponent extends CreateFormComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   @ViewChild('stepper') public stepper: MatStepper;
 
   @Select(RegistrationState.provider)
@@ -84,14 +85,29 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   public ngAfterViewInit(): void {
     if (this.isEditMode) {
-      this.route.params.subscribe((params: Params) => {
-        this.stepper.selectedIndex = +CreateProviderSteps[params.param];
-      });
+      this.route.params.subscribe((params: Params) => (this.stepper.selectedIndex = +CreateProviderSteps[params.param]));
+    } else {
+      this.store.dispatch(new ClearMessageBar());
     }
   }
 
   public ngAfterViewChecked(): void {
     this.changeDetector.detectChanges();
+  }
+
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    if (!this.isEditMode) {
+      this.store.dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.completeRegistration,
+          type: 'warningYellow',
+          verticalPosition: 'bottom',
+          infinityDuration: true,
+          unclosable: true
+        })
+      );
+    }
   }
 
   public setEditMode(): void {
@@ -204,22 +220,23 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
   }
 
   public onCancel(): void {
-    const isRegistered = this.store.selectSnapshot(RegistrationState.user).isRegistered;
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
 
     if (!isRegistered) {
-      const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-        width: Constants.MODAL_SMALL,
-        data: {
-          type: ModalConfirmationType.leaveRegistration,
-          property: ''
-        }
-      });
-
-      dialogRef.afterClosed().subscribe((result: boolean) => {
-        if (result) {
-          this.store.dispatch(new Logout());
-        }
-      });
+      this.matDialog
+        .open(ConfirmationModalWindowComponent, {
+          width: Constants.MODAL_SMALL,
+          data: {
+            type: ModalConfirmationType.leaveRegistration,
+            property: ''
+          }
+        })
+        .afterClosed()
+        .pipe(
+          filter(Boolean),
+          switchMap(() => this.store.dispatch(new MarkFormDirty(false)))
+        )
+        .subscribe(() => this.router.navigate(['']));
     } else {
       this.router.navigate(['/personal-cabinet/provider/info']);
     }

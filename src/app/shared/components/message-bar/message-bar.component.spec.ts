@@ -1,23 +1,27 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSnackBarModule, MAT_SNACK_BAR_DATA, MatSnackBar } from '@angular/material/snack-bar';
+import {
+  MAT_LEGACY_SNACK_BAR_DATA as MAT_SNACK_BAR_DATA,
+  MatLegacySnackBar as MatSnackBar,
+  MatLegacySnackBarModule as MatSnackBarModule
+} from '@angular/material/legacy-snack-bar';
+import { By } from '@angular/platform-browser';
 import { TranslateModule } from '@ngx-translate/core';
 
+import { MessageBarData } from 'shared/models/message-bar.model';
 import { MessageBarComponent } from './message-bar.component';
-import { MessageBar } from 'shared/models/messageBar.model';
 
 describe('SnackBarComponent', () => {
   let component: MessageBarComponent;
   let fixture: ComponentFixture<MessageBarComponent>;
   let matSnackBar: MatSnackBar;
-  let mockData: MessageBar;
+  let mockData: MessageBarData;
 
   beforeEach(async () => {
-    mockData = { 
-      type: 'messageType', 
+    mockData = {
+      type: 'success',
       message: 'messageText',
-      info: 'messageInfo',
+      info: 'messageInfo'
     };
 
     await TestBed.configureTestingModule({
@@ -51,11 +55,11 @@ describe('SnackBarComponent', () => {
     const errorContainer = fixture.debugElement.query(By.css('[data-testid="error-text"]'));
 
     expect(errorContainer).toBeTruthy();
-    expect(errorContainer.nativeElement.textContent).toBe('messageInfo');
-  });  
-  
+    expect(errorContainer.nativeElement.textContent).toBe(' messageInfo ');
+  });
+
   it('should not display error message when data type does not equal error', () => {
-    mockData.type = '';
+    mockData.type = 'success';
     fixture.detectChanges();
 
     const errorContainer = fixture.debugElement.query(By.css('[data-testid="error-text"]'));

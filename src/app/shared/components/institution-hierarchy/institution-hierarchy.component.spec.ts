@@ -1,13 +1,14 @@
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatSelectModule } from '@angular/material/select';
-import { MatOptionModule } from '@angular/material/core';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
-import { NgxsModule } from '@ngxs/store';
+import { MatOptionModule } from '@angular/material/core';
+import { MatLegacyFormFieldModule as MatFormFieldModule } from '@angular/material/legacy-form-field';
+import { MatLegacySelectModule as MatSelectModule } from '@angular/material/legacy-select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateModule } from '@ngx-translate/core';
+import { NgxsModule } from '@ngxs/store';
+
+import { InstitutionHierarchyComponent } from './institution-hierarchy.component';
 
 describe('InstitutionHierarchyComponent', () => {
   let component: InstitutionHierarchyComponent;

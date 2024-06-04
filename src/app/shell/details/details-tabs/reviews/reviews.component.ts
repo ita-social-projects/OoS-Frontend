@@ -1,23 +1,30 @@
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { TranslateService } from '@ngx-translate/core';
+import { Actions, Select, Store, ofActionCompleted } from '@ngxs/store';
 import { Observable, Subject } from 'rxjs';
 import { distinctUntilChanged, filter, takeUntil } from 'rxjs/operators';
-import { Component, Input, OnDestroy, OnInit} from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { TranslateService } from '@ngx-translate/core';
-import { Actions, ofActionCompleted, Select, Store } from '@ngxs/store';
+
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
-import { PaginationConstants, Constants } from 'shared/constants/constants';
+import { Constants, PaginationConstants } from 'shared/constants/constants';
 import { ReviewDeclination } from 'shared/enum/enumUA/declinations/declination';
 import { NoResultsTitle } from 'shared/enum/enumUA/no-results';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { Role, EntityType } from 'shared/enum/role';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { EntityType, Role } from 'shared/enum/role';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Parent } from 'shared/models/parent.model';
 import { Rate, RateParameters } from 'shared/models/rating';
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop } from 'shared/models/workshop.model';
-import { GetRateByEntityId, ClearRatings } from 'shared/store/meta-data.actions';
+import { ClearRatings, GetRateByEntityId } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
-import { OnCreateRatingSuccess, GetReviewedStatus, GetStatusAllowedToReview, CreateRating, DeleteRatingById } from 'shared/store/parent.actions';
+import {
+  CreateRating,
+  DeleteRatingById,
+  GetReviewedStatus,
+  GetStatusAllowedToReview,
+  OnCreateRatingSuccess
+} from 'shared/store/parent.actions';
 import { ParentState } from 'shared/store/parent.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';

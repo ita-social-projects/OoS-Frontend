@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate, UrlTree } from '@angular/router';
+import { ActivatedRouteSnapshot } from '@angular/router';
 import { Select } from '@ngxs/store';
-import { filter, map, Observable } from 'rxjs';
+import { Observable, filter, map } from 'rxjs';
+import { AdminRoles } from 'shared/enum/admins';
 
 import { Role } from 'shared/enum/role';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -10,23 +11,25 @@ import { canManageInstitution, canManageRegion } from 'shared/utils/admin.utils'
 @Injectable({
   providedIn: 'root'
 })
-export class CreateAdminGuard implements CanActivate {
+export class CreateAdminGuard {
   @Select(RegistrationState.role)
-  role$: Observable<Role>;
+  private role$: Observable<Role>;
 
-  canActivate(next: ActivatedRouteSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    const createRole: Role = next.paramMap.get('param') as Role;
+  public canActivate(next: ActivatedRouteSnapshot): Observable<boolean> {
+    const createRole: AdminRoles = next.paramMap.get('param') as AdminRoles;
 
     return this.role$.pipe(
       filter(Boolean),
       map((role: Role) => {
         switch (createRole) {
-          case Role.ministryAdmin:
+          case AdminRoles.ministryAdmin:
             return role === Role.techAdmin;
-          case Role.regionAdmin:
+          case AdminRoles.regionAdmin:
             return canManageInstitution(role);
-          case Role.areaAdmin:
+          case AdminRoles.areaAdmin:
             return canManageRegion(role);
+          default:
+            return false;
         }
       })
     );

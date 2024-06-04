@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { MatTabChangeEvent } from '@angular/material/tabs';
+import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs';
 import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -22,18 +22,6 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./provider-info.component.scss']
 })
 export class ProviderInfoComponent implements OnInit, OnDestroy {
-  public readonly constants: typeof Constants = Constants;
-  public readonly ownershipTypes = OwnershipTypes;
-  public readonly ownershipTypesEnum = OwnershipTypesEnum;
-  public readonly institutionTypes = InstitutionTypes;
-  public readonly institutionTypesEnum = InstitutionTypesEnum;
-  public readonly licenseStatusEnum = LicenseStatusEnum;
-  public readonly licenseStatuses = LicenseStatuses;
-  public readonly Role = Role;
-  public readonly Subrole = Subrole;
-
-  public editLink: string = CreateProviderSteps[0];
-
   @Input() public provider: Provider;
   @Input() public isProviderView: boolean;
 
@@ -47,9 +35,20 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.subrole)
   public subrole$: Observable<Subrole>;
 
+  public readonly constants = Constants;
+  public readonly ownershipTypes = OwnershipTypes;
+  public readonly ownershipTypesEnum = OwnershipTypesEnum;
+  public readonly institutionTypes = InstitutionTypes;
+  public readonly institutionTypesEnum = InstitutionTypesEnum;
+  public readonly licenseStatusEnum = LicenseStatusEnum;
+  public readonly licenseStatuses = LicenseStatuses;
+  public readonly Role = Role;
+  public readonly Subrole = Subrole;
+
   public role: Role;
   public subrole: Subrole;
   public institutionStatusName: string;
+  public editLink: string = CreateProviderSteps[0];
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
@@ -70,6 +69,11 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
       );
   }
 
+  public ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
+  }
+
   public onTabChanged(tabChangeEvent: MatTabChangeEvent): void {
     this.editLink = CreateProviderSteps[tabChangeEvent.index];
     this.tabChanged.emit(tabChangeEvent);
@@ -81,10 +85,5 @@ export class ProviderInfoComponent implements OnInit, OnDestroy {
 
   public onActivateEditMode(): void {
     this.store.dispatch(new ActivateEditMode(true));
-  }
-
-  public ngOnDestroy(): void {
-    this.destroy$.next(true);
-    this.destroy$.unsubscribe();
   }
 }

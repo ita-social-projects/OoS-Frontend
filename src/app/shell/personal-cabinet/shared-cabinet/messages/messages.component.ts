@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Select, Store } from '@ngxs/store';
-import { Observable, debounceTime, distinctUntilChanged, filter, takeUntil } from 'rxjs';
+import { Observable, debounceTime, distinctUntilChanged, filter, switchMap, takeUntil } from 'rxjs';
 
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { ReasonModalWindowComponent } from 'shared/components/confirmation-modal-window/reason-modal-window/reason-modal-window.component';
@@ -15,7 +15,7 @@ import { Role, Subrole } from 'shared/enum/role';
 import { BlockedParent } from 'shared/models/block.model';
 import { ChatRoom, ChatRoomsParameters } from 'shared/models/chat.model';
 import { TruncatedItem } from 'shared/models/item.model';
-import { PaginationElement } from 'shared/models/paginationElement.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
 import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { GetChatRooms } from 'shared/store/chat.actions';
@@ -53,8 +53,10 @@ export class MessagesComponent extends CabinetDataComponent {
     searchText: null,
     size: PaginationConstants.CHATROOMS_PER_PAGE
   };
-
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 
@@ -107,33 +109,43 @@ export class MessagesComponent extends CabinetDataComponent {
       });
   }
 
-  onBlock(parentId: string): void {
-    const dialogRef = this.matDialog.open(ReasonModalWindowComponent, {
-      data: { type: ModalConfirmationType.blockParent }
-    });
-    dialogRef.afterClosed().subscribe((result: string) => {
-      if (result) {
-        const blockedParent = new BlockedParent(parentId, this.providerId, result);
-        blockedParent.userIdBlock = this.providerId;
-        this.store.dispatch(new BlockParent(blockedParent));
-      }
-    });
+  public onBlock(parentId: string): void {
+    this.matDialog
+      .open(ReasonModalWindowComponent, {
+        data: { type: ModalConfirmationType.blockParent }
+      })
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap((result) => {
+          const blockedParent = new BlockedParent(parentId, this.providerId, result);
+          blockedParent.userIdBlock = this.providerId;
+          return this.store.dispatch(new BlockParent(blockedParent));
+        }),
+        switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters)))
+      )
+      .subscribe();
   }
 
-  onUnBlock(parentId: string): void {
-    const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
-      width: Constants.MODAL_SMALL,
-      data: {
-        type: ModalConfirmationType.unBlockParent
-      }
-    });
-    dialogRef.afterClosed().subscribe((result: string) => {
-      if (result) {
-        const blockedParent = new BlockedParent(parentId, this.providerId);
-        blockedParent.userIdUnblock = this.providerId;
-        this.store.dispatch(new UnBlockParent(blockedParent));
-      }
-    });
+  public onUnBlock(parentId: string): void {
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.unBlockParent
+        }
+      })
+      .afterClosed()
+      .pipe(
+        filter(Boolean),
+        switchMap(() => {
+          const blockedParent = new BlockedParent(parentId, this.providerId);
+          blockedParent.userIdUnblock = this.providerId;
+          return this.store.dispatch(new UnBlockParent(blockedParent));
+        }),
+        switchMap(() => this.store.dispatch(new GetChatRooms(this.chatRoomsParameters)))
+      )
+      .subscribe();
   }
 
   onEntitiesSelect(workshopIds: string[]): void {

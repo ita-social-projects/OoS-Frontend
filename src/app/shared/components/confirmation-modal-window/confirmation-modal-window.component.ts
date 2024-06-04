@@ -1,13 +1,13 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 
 import {
   ModalConfirmationText,
   ModalConfirmationTitle,
   ModalConfirmationType,
   ModalConfirmationTypeWithQuotes
-} from '../../enum/modal-confirmation';
+} from 'shared/enum/modal-confirmation';
 
 @Component({
   selector: 'app-confirmation-modal-window',
@@ -36,7 +36,7 @@ export class ConfirmationModalWindowComponent implements OnInit {
     this.modalConfirmationText = ModalConfirmationText[this.data.type];
     if (this.data.property) {
       this.modalConfirmationProperty = this.data.property.trim();
-      if (Object.values(ModalConfirmationTypeWithQuotes).includes(this.data.type as ModalConfirmationTypeWithQuotes)) {
+      if (this.data.type in ModalConfirmationTypeWithQuotes) {
         this.modalConfirmationProperty = `"${this.modalConfirmationProperty}"`;
       }
     }

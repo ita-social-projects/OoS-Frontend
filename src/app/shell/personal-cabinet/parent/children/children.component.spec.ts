@@ -1,12 +1,13 @@
+import { CUSTOM_ELEMENTS_SCHEMA, Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ChildrenComponent } from './children.component';
-import { NgxsModule } from '@ngxs/store';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, Input } from '@angular/core';
-import { Child } from '../../../../shared/models/child.model';
-import { MatDialogModule } from '@angular/material/dialog';
-import { Application } from '../../../../shared/models/application.model';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+import { NgxsModule } from '@ngxs/store';
+
+import { Application } from 'shared/models/application.model';
+import { Child } from 'shared/models/child.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ChildrenComponent } from './children.component';
 
 describe('ParentInfoComponent', () => {
   let component: ChildrenComponent;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Store } from '@ngxs/store';
 
 import { NavBarName } from 'shared/enum/enumUA/navigation-bar';
@@ -15,7 +15,10 @@ import { ProviderComponent } from '../provider.component';
 export class ProviderOrgInfoComponent extends ProviderComponent implements OnInit, OnDestroy {
   readonly ownershipTypes = OwnershipTypes;
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

@@ -5,12 +5,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Select, Store } from '@ngxs/store';
 
-import {
-  HierarchyElement,
-  InstituitionHierarchy,
-  Institution,
-  InstitutionFieldDescription
-} from '../../models/institution.model';
+import { HierarchyElement, InstituitionHierarchy, Institution, InstitutionFieldDescription } from '../../models/institution.model';
 import { Provider } from '../../models/provider.model';
 import {
   GetAllByInstitutionAndLevel,
@@ -28,8 +23,8 @@ import { MetaDataState } from '../../store/meta-data.state';
   styleUrls: ['./institution-hierarchy.component.scss']
 })
 export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
-  @Input() private instituitionHierarchyIdFormControl: FormControl;
-  @Input() private provider: Provider;
+  @Input() public instituitionHierarchyIdFormControl: FormControl;
+  @Input() public provider: Provider;
   @Input() public instituitionIdFormControl: FormControl;
 
   @Select(MetaDataState.institutions)

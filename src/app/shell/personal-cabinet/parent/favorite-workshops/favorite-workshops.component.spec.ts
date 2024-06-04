@@ -1,14 +1,15 @@
-import { Workshop } from './../../../../shared/models/workshop.model';
 import { Component, Input } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatLegacyDialogModule as MatDialogModule } from '@angular/material/legacy-dialog';
 import { RouterTestingModule } from '@angular/router/testing';
 import { NgxsModule, Store } from '@ngxs/store';
-import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
-import { ParentComponent } from '../parent.component';
-import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { of } from 'rxjs';
-import { PaginationElement } from '../../../../shared/models/paginationElement.model';
+
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { Workshop } from 'shared/models/workshop.model';
+import { CabinetDataComponent } from '../../shared-cabinet/cabinet-data.component';
+import { ParentComponent } from '../parent.component';
+import { FavoriteWorkshopsComponent } from './favorite-workshops.component';
 
 describe('FavoriteWorkshopsComponent', () => {
   let component: FavoriteWorkshopsComponent;

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { Select, Store } from '@ngxs/store';
 import { Observable } from 'rxjs';
 import { filter, takeUntil } from 'rxjs/operators';
@@ -20,7 +20,10 @@ export abstract class ProviderComponent extends CabinetDataComponent implements 
   @Select(ProviderState.isLoading)
   isLoading$: Observable<boolean>;
 
-  constructor(protected store: Store, protected matDialog: MatDialog) {
+  constructor(
+    protected store: Store,
+    protected matDialog: MatDialog
+  ) {
     super(store, matDialog);
   }
 

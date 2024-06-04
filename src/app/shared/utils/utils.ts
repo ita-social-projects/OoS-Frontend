@@ -1,20 +1,27 @@
+import { KeyValue } from '@angular/common';
+
+import { CodeMessageErrors } from 'shared/enum/enumUA/errors';
 import { Localization } from 'shared/enum/enumUA/localization';
+import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
+import { ProviderAdminTitles } from 'shared/enum/enumUA/provider-admin';
+import { UserTabsTitles } from 'shared/enum/enumUA/user';
+import { NotificationDescriptionType, NotificationType } from 'shared/enum/notifications';
+import { Role, Subrole } from 'shared/enum/role';
+import { EmailConfirmationStatuses, UserStatuses } from 'shared/enum/statuses';
 import { BaseAdmin } from 'shared/models/admin.model';
-import { AreaAdmin } from 'shared/models/areaAdmin.model';
-import { CodeMessageErrors } from '../enum/enumUA/errors';
-import { PersonalCabinetTitle } from '../enum/enumUA/navigation-bar';
-import { UserTabsTitles } from '../enum/enumUA/user';
-import { Role } from '../enum/role';
-import { UserStatuses } from '../enum/statuses';
-import { Child } from '../models/child.model';
-import { DefaultFilterState } from '../models/defaultFilterState.model';
-import { FilterStateModel } from '../models/filterState.model';
-import { MinistryAdmin } from '../models/ministryAdmin.model';
-import { PaginationElement } from '../models/paginationElement.model';
-import { PaginationParameters } from '../models/queryParameters.model';
-import { Person } from '../models/user.model';
-import { UsersTable } from '../models/usersTable';
-import { EmailConfirmationStatuses } from './../enum/statuses';
+import { AreaAdmin } from 'shared/models/area-admin.model';
+import { Child } from 'shared/models/child.model';
+import { DefaultFilterState } from 'shared/models/default-filter-state.model';
+import { FilterStateModel } from 'shared/models/filter-state.model';
+import { MessageBarData } from 'shared/models/message-bar.model';
+import { MinistryAdmin } from 'shared/models/ministry-admin.model';
+import { Notification } from 'shared/models/notification.model';
+import { PaginationElement } from 'shared/models/pagination-element.model';
+import { ProviderAdmin } from 'shared/models/provider-admin.model';
+import { PaginationParameters } from 'shared/models/query-parameters.model';
+import { Person } from 'shared/models/user.model';
+import { AdminsTableData, ProviderAdminsTableData, UsersTableData } from 'shared/models/users-table';
+import { Workshop } from 'shared/models/workshop.model';
 
 /**
  * Utility class that providers methods for shared data manipulations
@@ -89,7 +96,7 @@ export class Util {
    * @param users Users array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTable(users): UsersTable[] {
+  public static updateStructureForTheTable(users: Child[]): UsersTableData[] {
     const updatedUsers = [];
     users.forEach((user) => {
       updatedUsers.push({
@@ -101,7 +108,7 @@ export class Util {
         status: user.parent.emailConfirmed ? EmailConfirmationStatuses.Confirmed : EmailConfirmationStatuses.Pending,
         isBlocked: user.parent.isBlocked,
         parentId: user.parentId,
-        parentFullName: this.getFullName(user.parent),
+        parentFullName: this.getFullName(user.parent)
       });
     });
     return updatedUsers;
@@ -112,7 +119,7 @@ export class Util {
    * @param admins Admins array of objects
    * @returns array of objects
    */
-  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): UsersTable[] {
+  public static updateStructureForTheTableAdmins(admins: MinistryAdmin[]): AdminsTableData[] {
     const updatedAdmins = [];
     admins.forEach((admin: BaseAdmin) => {
       updatedAdmins.push({
@@ -123,10 +130,32 @@ export class Util {
         institutionTitle: admin.institutionTitle,
         status: admin.accountStatus || UserStatuses.Accepted,
         catottgName: admin.catottgName,
-        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName
+        regionName: (admin as AreaAdmin).regionName ?? admin.catottgName,
+        isAdmin: true
       });
     });
     return updatedAdmins;
+  }
+
+  /**
+   * This method returns updated array structure for the Provider Admin table
+   * @param admins ProviderAdmin[]
+   * @returns array of objects
+   */
+  public static updateStructureForTheTableProviderAdmins(admins: ProviderAdmin[]): ProviderAdminsTableData[] {
+    const updatedProviderAdmins = [];
+    admins.forEach((admin: ProviderAdmin) => {
+      updatedProviderAdmins.push({
+        id: admin.id,
+        pib: `${admin.lastName} ${admin.firstName} ${admin.middleName}`,
+        email: admin.email,
+        phoneNumber: `${admin.phoneNumber}`,
+        role: admin.isDeputy ? ProviderAdminTitles.Deputy : ProviderAdminTitles.Admin,
+        status: admin.accountStatus,
+        isDeputy: admin.isDeputy
+      });
+    });
+    return updatedProviderAdmins;
   }
 
   /**
@@ -135,12 +164,14 @@ export class Util {
    * @param message
    * @returns string
    */
-  public static getWorkshopMessage(payload, message: string): { text: string; type: string } {
-    const finalMessage = { text: '', type: 'success' };
+  // TODO: Update type for payload
+  public static getWorkshopMessage(payload: Workshop & any, message: string): MessageBarData {
+    const finalMessage: MessageBarData = { message: '', type: 'success' };
     const messageArr = [];
     let isInvalidCoverImage = false;
-    let isInvalidGaleryImages = false;
-    let statuses, invalidImages;
+    let isInvalidGalleryImages = false;
+    let statuses;
+    let invalidImages;
 
     if (payload.uploadingCoverImageResult) {
       isInvalidCoverImage = !payload.uploadingCoverImageResult.result.succeeded;
@@ -148,8 +179,8 @@ export class Util {
 
     if (payload.uploadingImagesResults?.results) {
       statuses = Object.entries(payload.uploadingImagesResults.results);
-      invalidImages = statuses.filter((result) => !result[1]['succeeded']);
-      isInvalidGaleryImages = !!invalidImages.length;
+      invalidImages = statuses.filter((result) => !result[1].succeeded);
+      isInvalidGalleryImages = !!invalidImages.length;
     }
 
     messageArr.push(message);
@@ -163,9 +194,9 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    if (isInvalidGaleryImages) {
+    if (isInvalidGalleryImages) {
       const errorCodes = new Set();
-      invalidImages.map((img) => img[1]).forEach((img) => img['errors'].forEach((error) => errorCodes.add(error.code)));
+      invalidImages.map((img) => img[1]).forEach((img) => img.errors.forEach((error) => errorCodes.add(error.code)));
       const errorMsg = [...errorCodes].map((error: string) => `"${CodeMessageErrors[error]}"`).join(', ');
       const indexes = invalidImages.map((img) => img[0]);
       const quantityMsg = indexes.length > 1 ? `у ${indexes.length} зображень` : `у ${+indexes[0] + 1}-го зображення`;
@@ -174,12 +205,12 @@ export class Util {
       finalMessage.type = 'warningYellow';
     }
 
-    finalMessage.text = messageArr.join(';\n');
+    finalMessage.message = messageArr.join(';\n');
 
     return finalMessage;
   }
 
-  public static getPersonalCabinetTitle(userRole, subrole): PersonalCabinetTitle {
+  public static getPersonalCabinetTitle(userRole: Role, subrole: Subrole): PersonalCabinetTitle {
     return userRole !== Role.provider ? PersonalCabinetTitle[userRole] : PersonalCabinetTitle[subrole];
   }
 
@@ -194,12 +225,12 @@ export class Util {
    * @return Query string
    */
   public static getFilterStateQuery(filterState: FilterStateModel): string {
-    let filterStateDiff: Partial<DefaultFilterState> = {};
+    const filterStateDiff: Partial<DefaultFilterState> = {};
     let serializedFilters = '';
     const defaultFilterState = new DefaultFilterState();
 
     // Compare current filter state and default
-    for (let [key, value] of Object.entries(defaultFilterState)) {
+    for (const [key, value] of Object.entries(defaultFilterState)) {
       if (Array.isArray(filterState[key])) {
         if (filterState[key].length > 0) {
           filterStateDiff[key] = filterState[key].join();
@@ -230,7 +261,7 @@ export class Util {
    * @returns parsed string into Filter state object or empty object
    */
   public static parseFilterStateQuery(params: string): Partial<DefaultFilterState> {
-    let filterState: Partial<DefaultFilterState> = {};
+    const filterState: Partial<DefaultFilterState> = {};
 
     if (!params) {
       return filterState;
@@ -238,7 +269,7 @@ export class Util {
 
     params.split(';').forEach((param) => {
       const [key, value] = param.split('=');
-      const arrayKeys = ['directionIds', 'workingDays', 'statuses'];
+      const arrayKeys = ['directionIds', 'workingDays', 'formsOfLearning', 'statuses'];
       // Check if key has value of type array
       if (arrayKeys.includes(key)) {
         filterState[key] = key !== 'directionIds' ? value.split(',') : value.split(',').map(Number);
@@ -250,12 +281,36 @@ export class Util {
   }
 
   public static setFromPaginationParam(params: PaginationParameters, currentPage: PaginationElement, totalAmount: number): void {
-    let from = this.calculateFromParameter(currentPage, params.size);
+    const from = this.calculateFromParameter(currentPage, params.size);
     if (!totalAmount || totalAmount >= from) {
       params.from = from;
     } else {
       currentPage.element = Math.ceil(totalAmount / params.size);
       params.from = this.calculateFromParameter(currentPage, params.size);
+    }
+  }
+
+  /**
+   * Used with `keyvalue` pipe for sorting keys in numerical order instead of alphanumeric
+   */
+  public static keyValueNumericSorting(a: KeyValue<number, string>, b: KeyValue<number, string>): number {
+    if (a.key > b.key) {
+      return -1;
+    } else if (b.key > a.key) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+
+  public static getTitleFromNotification(notification: Notification, descriptionType: NotificationDescriptionType): string {
+    switch (notification.type) {
+      case NotificationType.Workshop:
+        return notification.data.Title;
+      case NotificationType.Parent:
+        return descriptionType === NotificationDescriptionType.Short
+          ? notification.data.ProviderShortTitle
+          : notification.data.ProviderFullTitle;
     }
   }
 
@@ -267,7 +322,7 @@ export class Util {
    * Parse string to the primitive value
    * @param value
    */
-  private static parseToPrimitive(value) {
+  private static parseToPrimitive(value: string): string {
     try {
       return JSON.parse(value);
     } catch (e) {

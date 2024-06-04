@@ -4,7 +4,7 @@ import localeUk from '@angular/common/locales/uk';
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { FormsModule } from '@angular/forms';
-import { MAT_SELECT_CONFIG } from '@angular/material/select';
+import { MAT_LEGACY_SELECT_CONFIG as MAT_SELECT_CONFIG } from '@angular/material/legacy-select';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
@@ -24,7 +24,7 @@ import { FilterState } from 'shared/store/filter.state';
 import { MainPageState } from 'shared/store/main-page.state';
 import { MetaDataState } from 'shared/store/meta-data.state';
 import { NavigationState } from 'shared/store/navigation.state';
-import { NotificationsState } from 'shared/store/notifications.state';
+import { NotificationState } from 'shared/store/notification.state';
 import { ParentState } from 'shared/store/parent.state';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -56,7 +56,7 @@ registerLocaleData(localeUk);
       SharedUserState,
       AdminState,
       NavigationState,
-      NotificationsState,
+      NotificationState,
       MainPageState,
       ProviderState,
       ParentState,
@@ -101,6 +101,6 @@ registerLocaleData(localeUk);
 })
 export class AppModule {}
 
-export function createTranslateLoader(http: HttpClient) {
+export function createTranslateLoader(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
 }

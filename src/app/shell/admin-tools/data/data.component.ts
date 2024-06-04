@@ -21,7 +21,10 @@ export class DataComponent implements OnInit, OnDestroy {
 
   public destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store, private navigationBarService: NavigationBarService) {}
+  constructor(
+    private store: Store,
+    private navigationBarService: NavigationBarService
+  ) {}
 
   ngOnInit(): void {
     this.addNavPath();

@@ -1,10 +1,10 @@
 import { Component, ElementRef, Input, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
+import { isValidNumber, parsePhoneNumber } from 'libphonenumber-js';
 
-import { Constants } from 'shared/constants/constants';
 import { ProviderStatusDetails, ProviderStatusTitles } from 'shared/enum/enumUA/statuses';
-import { ProviderStatuses, UserStatuses, UserStatusIcons } from 'shared/enum/statuses';
+import { ProviderStatuses, UserStatusIcons, UserStatuses } from 'shared/enum/statuses';
 import { Provider } from 'shared/models/provider.model';
 import { ActivateEditMode } from 'shared/store/app.actions';
 
@@ -14,20 +14,24 @@ import { ActivateEditMode } from 'shared/store/app.actions';
   styleUrls: ['./provider-status-banner.component.scss']
 })
 export class ProviderStatusBannerComponent implements OnInit {
-  public readonly statuses = ProviderStatuses;
-
   @Input() public provider: Provider;
 
-  private get HostElement(): HTMLElement {
-    return this.elementRef.nativeElement;
-  }
+  public readonly statuses = ProviderStatuses;
 
   public editLink = '/create-provider/info';
   public iconClasses: string;
   public statusTitle: string;
   public statusDetails: string;
 
-  constructor(private elementRef: ElementRef<HTMLElement>, private translateService: TranslateService, private store: Store) {}
+  constructor(
+    private elementRef: ElementRef<HTMLElement>,
+    private translateService: TranslateService,
+    private store: Store
+  ) {}
+
+  private get HostElement(): HTMLElement {
+    return this.elementRef.nativeElement;
+  }
 
   public ngOnInit(): void {
     this.setBannerOptions();
@@ -49,9 +53,11 @@ export class ProviderStatusBannerComponent implements OnInit {
       this.HostElement.classList.value = ProviderStatuses[UserStatuses.Blocked];
 
       if (this.provider.blockPhoneNumber) {
-        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} ${Constants.PHONE_PREFIX}${
-          this.provider.blockPhoneNumber
-        })`;
+        this.statusDetails += ` (${this.translateService.instant(ProviderStatusDetails.BlockedPhoneNumber)} `;
+        this.statusDetails +=
+          (isValidNumber(this.provider.phoneNumber)
+            ? parsePhoneNumber(this.provider.blockPhoneNumber).formatInternational()
+            : this.provider.phoneNumber) + ')';
       }
     } else {
       this.iconClasses = `${UserStatusIcons[this.provider.status]} status-icon`;

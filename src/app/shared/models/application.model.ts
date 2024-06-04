@@ -1,13 +1,13 @@
-import { ApplicationEntityType, ApplicationShowParams } from '../enum/applications';
-import { ApplicationStatuses } from './../enum/statuses';
+import { ApplicationEntityType, ApplicationShowParams } from 'shared/enum/applications';
+import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Child } from './child.model';
 import { ParentWithContactInfo } from './parent.model';
-import { PaginationParameters } from './queryParameters.model';
+import { PaginationParameters } from './query-parameters.model';
 import { Workshop, WorkshopCard } from './workshop.model';
 
 export class Application {
   id: string;
-  status: string;
+  status: ApplicationStatuses;
   creationTime: Date;
   approvedTime: Date;
   workshopId: string;
@@ -17,7 +17,7 @@ export class Application {
   child: Child;
   parent: ParentWithContactInfo;
   rejectionMessage: string;
-  isBlocked: boolean;
+  isBlockedByProvider: boolean;
 
   constructor(child: Child, workshop: Workshop, parent: ParentWithContactInfo) {
     this.childId = child.id;
