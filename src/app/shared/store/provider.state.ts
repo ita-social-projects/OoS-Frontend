@@ -39,6 +39,7 @@ import {
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
+  GetApplicationsCount,
   GetBlockedParents,
   GetChildrenByWorkshopId,
   GetFilteredProviderAdmins,
@@ -103,6 +104,7 @@ export interface ProviderStateModel {
   selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
+  applicationsCount: number;
 }
 
 @State<ProviderStateModel>({
@@ -116,7 +118,8 @@ export interface ProviderStateModel {
     providerAdmins: null,
     selectedProviderAdmin: null,
     blockedParent: null,
-    truncatedItems: null
+    truncatedItems: null,
+    applicationsCount: null
   }
 })
 @Injectable()
@@ -173,6 +176,11 @@ export class ProviderState {
   @Selector()
   static selectedProviderAdmin(state: ProviderStateModel): ProviderAdmin {
     return state.selectedProviderAdmin;
+  }
+
+  @Selector()
+  static applicationsCount(state: ProviderStateModel): number {
+    return state.applicationsCount;
   }
 
   @Action(GetAchievementById)
@@ -775,5 +783,10 @@ export class ProviderState {
         )
       )
     );
+  }
+
+  @Action(GetApplicationsCount)
+  getApplicationsCount({ patchState }: StateContext<ProviderStateModel>): Observable<number> {
+    return this.providerService.getApplicationsCount().pipe(tap((applicationsCount: number) => patchState({ applicationsCount })));
   }
 }

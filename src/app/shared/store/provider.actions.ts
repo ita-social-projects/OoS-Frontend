@@ -380,3 +380,7 @@ export class ReinviteProviderAdmin {
   static readonly type = '[provider] reinvites provider admin';
   constructor(public providerAdmin: ProviderAdmin) {}
 }
+
+export class GetApplicationsCount {
+  static readonly type = '[provider] Get Applications Count';
+}

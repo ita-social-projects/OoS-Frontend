@@ -126,16 +126,11 @@ export class ChatState {
 
   @Action(GetUnreadMessagesCount)
   getUserUnreadMessagesCount({ patchState }: StateContext<ChatStateModel>): Observable<number> {
-    return this.chatService.getUnreadMessagesCount().pipe(tap((unreadMessagesCount) => patchState({ unreadMessagesCount })));
+    return this.chatService.getUnreadMessagesCount().pipe(tap((unreadMessagesCount) => patchState({ unreadMessagesCount: 4 })));
   }
 
   @Action(ClearSelectedChatRoom)
   clearSelectedChatRoom({ patchState }: StateContext<ChatStateModel>): void {
     patchState({ selectedChatRoom: null, selectedChatRoomMessages: null });
-  }
-
-  @Action(GetUnreadMessagesCount)
-  getUnreadMessagesCount({ patchState }: StateContext<ChatStateModel>): Observable<number> {
-    return this.chatService.getUnreadMessagesCount().pipe(tap((unreadMessagesCount: number) => patchState({ unreadMessagesCount })));
   }
 }

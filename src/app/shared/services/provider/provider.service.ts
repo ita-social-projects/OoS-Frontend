@@ -77,6 +77,11 @@ export class ProviderService {
     return this.http.get<DataItem[]>('/api/v1/InstitutionStatus/Get');
   }
 
+  public getApplicationsCount(): Observable<number> {
+    // TODO: Change to correct API when it will be implemented by backend
+    return this.http.get<number>('api/v1/Provider/ApplicationsCount');
+  }
+
   private createProviderV1(provider: Provider): Observable<Provider> {
     return this.http.post<Provider>('/api/v1/Provider/Create', provider);
   }

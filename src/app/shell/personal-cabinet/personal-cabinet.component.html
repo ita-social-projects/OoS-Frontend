@@ -4,7 +4,7 @@
   </h1>
 
   <nav class="nav" mat-tab-nav-bar>
-    <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">
+    <a class="wide-link" mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./config'">
       {{ 'ENUM.NAV_BAR_NAME.PERSONAL_INFORMATION' | translate | uppercase }}
     </a>
     <ng-container *ngIf="!isRoleAdmin(userRole)">
@@ -18,14 +18,18 @@
       </a>
     </ng-container>
     <ng-container *ngIf="!isRoleAdmin(userRole)">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/applications'">
-        {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
-      </a>
+      <span [matBadge]="(applicationsCount$ | async) || null" matBadgePosition="after">
+        <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/applications'">
+          {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
+        </a>
+      </span>
     </ng-container>
     <ng-container *ngIf="!isRoleAdmin(userRole)">
-      <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'" [matBadge]="unreadMessagesCount$ | async" matBadgePosition="after">
-        {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate | uppercase }}
-      </a>
+      <span [matBadge]="(unreadMessagesCount$ | async) || null" matBadgePosition="after">
+        <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./messages'">
+          {{ 'ENUM.NAV_BAR_NAME.MESSAGES' | translate | uppercase }}
+        </a>
+      </span>
     </ng-container>
     <ng-container *ngIf="userRole === Role.provider && subrole !== Subrole.ProviderAdmin">
       <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./provider/administration'">
