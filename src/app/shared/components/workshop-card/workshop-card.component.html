@@ -17,7 +17,8 @@
           showTooltipIfTruncated
           matTooltipClass="tooltip"
           [matTooltipPosition]="tooltipPositionBelow"
-          class="card-title">
+          class="card-title"
+          fxLayout="row">
           <a
             *ngIf="isCabinetView"
             matTooltip="{{ 'MORE_DETAILS' | translate }}"
@@ -25,7 +26,9 @@
             [routerLink]="['/details/workshop', workshopData.workshopId]">
             <mat-icon class="icon_launch">launch</mat-icon>
           </a>
-          <div class="workshop-title-container">{{ workshopData.title }}</div>
+          <div class="workshop-title-container">
+            <span>{{ workshopData.title }}</span>
+          </div>
         </mat-card-title>
         <ng-container *ngFor="let id of workshopData.directionIds">
           <img class="img" mat-card-image [src]="categoryIcons[id]" />

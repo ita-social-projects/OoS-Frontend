@@ -36,37 +36,24 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   styleUrls: ['./create-achievement.component.scss']
 })
 export class CreateAchievementComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  readonly validationConstants = ValidationConstants;
-
   @Select(SharedUserState.selectedWorkshop)
-  workshop$: Observable<Workshop>;
+  private workshop$: Observable<Workshop>;
   @Select(ProviderState.approvedChildren)
-  approvedChildren$: Observable<SearchResponse<Child[]>>;
+  private approvedChildren$: Observable<SearchResponse<Child[]>>;
   @Select(ProviderState.selectedAchievement)
-  selectedAchievement$: Observable<Achievement>;
+  private selectedAchievement$: Observable<Achievement>;
   @Select(MetaDataState.achievementsTypes)
-  achievementsTypes$: Observable<AchievementType[]>;
+  private achievementsTypes$: Observable<AchievementType[]>;
 
-  AchievementFormGroup: FormGroup;
-  workshop: Workshop;
-  achievement: Achievement;
-  workshopId: string;
-  approvedChildren: SearchResponse<Child[]>;
-  destroy$: Subject<boolean> = new Subject<boolean>();
-  isSaving: boolean = false;
-
-  get teachersFormControl(): FormControl {
-    return this.AchievementFormGroup.get('teachers') as FormControl;
-  }
-
-  get childrenFormControl(): FormControl {
-    return this.AchievementFormGroup.get('children') as FormControl;
-  }
-
-  get achievementTypeIdFormControl(): FormControl {
-    return this.AchievementFormGroup.get('achievementTypeId') as FormControl;
-  }
-
+  public workshop: Workshop;
+  private readonly validationConstants = ValidationConstants;
+  private AchievementFormGroup: FormGroup;
+  private achievement: Achievement;
+  private workshopId: string;
+  private approvedChildren: SearchResponse<Child[]>;
+  private isSaving: boolean = false;
+  private minDate: Date;
+  private maxDate: Date;
   private achievementId: string;
 
   constructor(
@@ -93,11 +80,26 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     this.subscribeOnDirtyForm(this.AchievementFormGroup);
   }
 
-  ngOnInit(): void {
-    this.getData();
+  public get teachersFormControl(): FormControl {
+    return this.AchievementFormGroup.get('teachers') as FormControl;
   }
 
-  determineEditMode(): void {
+  public get childrenFormControl(): FormControl {
+    return this.AchievementFormGroup.get('children') as FormControl;
+  }
+
+  public get achievementTypeIdFormControl(): FormControl {
+    return this.AchievementFormGroup.get('achievementTypeId') as FormControl;
+  }
+
+  public ngOnInit(): void {
+    this.getData();
+    const currentDate = new Date();
+    this.minDate = new Date(currentDate.getFullYear() - 100, currentDate.getMonth(), currentDate.getDate());
+    this.maxDate = new Date(currentDate.getFullYear() + 100, currentDate.getMonth(), currentDate.getDate());
+  }
+
+  public determineEditMode(): void {
     this.achievementId = this.route.snapshot.queryParamMap.get('achievementId');
     this.editMode = !!this.achievementId;
     if (this.editMode) {
@@ -106,7 +108,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     this.addNavPath();
   }
 
-  getData(): void {
+  public getData(): void {
     this.workshopId = this.route.snapshot.paramMap.get('param');
     this.store.dispatch([new GetWorkshopById(this.workshopId), new GetChildrenByWorkshopId(this.workshopId), new GetAchievementsType()]);
 
@@ -122,7 +124,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       });
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     this.store.dispatch(new GetAchievementById(this.achievementId));
     this.selectedAchievement$
       .pipe(
@@ -136,7 +138,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
       });
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     let prevPath: Navigation;
 
     if (this.editMode) {
@@ -170,7 +172,7 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     );
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.isSaving) {
       return;
     }
@@ -205,11 +207,11 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     });
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.router.navigate(['/details/workshop', this.workshopId], { queryParams: { status: 'Achievements' } });
   }
 
-  onRemoveItem(item: string, control: string): void {
+  public onRemoveItem(item: string, control: string): void {
     const formControl = this.AchievementFormGroup.get(control);
     const items = formControl.value;
     if (items.indexOf(item) >= 0) {
@@ -222,11 +224,11 @@ export class CreateAchievementComponent extends CreateFormComponent implements O
     }
   }
 
-  compareEntities(person1: Person, person2: Person): boolean {
+  public compareEntities(person1: Person, person2: Person): boolean {
     return person1.id === person2.id;
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new ResetProviderWorkshopDetails());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
