@@ -78,8 +78,8 @@ export class ProviderService {
   }
 
   public getApplicationsCount(): Observable<number> {
-    // TODO: Change to correct API when it will be implemented by backend
-    return this.http.get<number>('api/v1/Provider/ApplicationsCount');
+    // TODO: Change to correct API endpoint when it will be implemented by backend
+    return this.http.get<number>('/api/v1/Provider/ApplicationsCount');
   }
 
   private createProviderV1(provider: Provider): Observable<Provider> {
