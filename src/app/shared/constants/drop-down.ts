@@ -26,7 +26,8 @@ export const ProviderOptions = [
 export const ProviderAdminOptions = [
   {
     value: 'All',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ALL'
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ALL',
+    default: true
   },
   {
     value: 'Deputies',
@@ -41,11 +42,13 @@ export const ProviderAdminOptions = [
 export const ProviderAdminOperationOptions = [
   {
     value: 'Create',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ADD_ADMIN_OPTION'
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.ADD_ADMIN_OPTION',
+    type: ['Assistants']
   },
   {
     value: 'Delete',
-    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.REMOVE_ADMIN_OPTION'
+    label: 'HISTORY_LOG.PROVIDER_ADMIN_FILTERS.REMOVE_ADMIN_OPTION',
+    type: ['Assistants']
   },
   {
     value: 'Block',
@@ -71,7 +74,8 @@ export const ApplicationOptions = [
 export const ParentsBlockingByAdminOptions = [
   {
     value: 'All',
-    label: 'HISTORY_LOG.USERS_FILTERS.ALL'
+    label: 'HISTORY_LOG.USERS_FILTERS.ALL',
+    default: true
   },
   {
     value: 'Blocked',

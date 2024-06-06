@@ -2,7 +2,7 @@
 @import 'src/app/shared/styles/full-width-card.scss';
 
 .card-block {
-  width: auto;
+  width: 100%;
 
   &:first-child {
     width: 100%;
@@ -93,7 +93,7 @@
 }
 
 .hidden {
-  display: none;
+  visibility: hidden;
 }
 
 .organization {
@@ -109,6 +109,7 @@
 
 @media (max-width: 1220px) {
   .card-block {
+    width: auto;
     &__buttons {
       flex-direction: column;
       justify-content: center;
