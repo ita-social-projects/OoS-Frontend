@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TranslateModule } from '@ngx-translate/core';
+import * as XLSX from 'xlsx';
+import { of } from 'rxjs';
+import { IEmailsEdrpousResponse, IProvidersID } from 'shared/models/admin-import-export.model';
+import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { ImportProvidersComponent } from './import-providers.component';
 
 describe('ImportProvidersComponent', () => {
@@ -25,7 +29,7 @@ describe('ImportProvidersComponent', () => {
     'Електронна пошта',
     'Телефон'
   ];
-  const providers = [
+  const providersID = [
     {
       providerName: 'Клуб спортивного бального танцю',
       ownership: 'Державна',
@@ -36,7 +40,20 @@ describe('ImportProvidersComponent', () => {
       email: 'some@gmail.com',
       phoneNumber: 660666066,
       errors: {},
-      id: 1
+      id: 0
+    }
+  ];
+  const providers = [
+    {
+      providerName: 'Клуб спортивного бального танцю',
+      ownership: 'Державна',
+      identifier: 12345678,
+      licenseNumber: 123445,
+      settlement: 'Луцьк',
+      address: 'Шевченка 2',
+      email: 'some@gmail.com',
+      phoneNumber: 660666066,
+      errors: {}
     }
   ];
   const providersErrors = [
@@ -67,6 +84,7 @@ describe('ImportProvidersComponent', () => {
   ];
   let component: ImportProvidersComponent;
   let fixture: ComponentFixture<ImportProvidersComponent>;
+  let importServiceMock: jest.Mocked<AdminImportExportService>;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ImportProvidersComponent],
@@ -75,6 +93,9 @@ describe('ImportProvidersComponent', () => {
     fixture = TestBed.createComponent(ImportProvidersComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    importServiceMock = {
+      sendEmailsEDRPOUsForVerification: jest.fn()
+    } as unknown as jest.Mocked<AdminImportExportService>;
   });
 
   it('should create', () => {
@@ -106,8 +127,8 @@ describe('ImportProvidersComponent', () => {
     scrollSpy.mockRestore();
   });
   it('should reset values when resetValues is called', () => {
-    component.dataSource = providers;
-    component.dataSourceInvalid = providers;
+    component.dataSource = providersID;
+    component.dataSourceInvalid = providersID;
     component.isToggle = true;
     component.isWarningVisible = true;
     component.resetValues();
@@ -117,20 +138,20 @@ describe('ImportProvidersComponent', () => {
     expect(component.isWarningVisible).toBe(false);
   });
   it('should return true and cut the array when more than 100 providers', () => {
-    const providersData = Array.from({ length: 150 }, (_, i) => providers[0]);
+    const providersData = Array.from({ length: 150 }, (_, i) => providersID[0]);
     const result = component.cutArrayToHundred(providersData);
     expect(result).toBe(true);
     expect(providersData.length).toBe(100);
   });
 
   it('should return false and not cut the array when less than or equal to 100 providers', () => {
-    const providersData = Array.from({ length: 100 }, (_, i) => providers[0]);
+    const providersData = Array.from({ length: 100 }, (_, i) => providersID[0]);
     const result = component.cutArrayToHundred(providersData);
     expect(result).toBe(false);
     expect(providersData.length).toBe(100);
   });
   it('should return false and not cut the array when less than 100 providers', () => {
-    const providersData = Array.from({ length: 50 }, (_, i) => providers[0]);
+    const providersData = Array.from({ length: 50 }, (_, i) => providersID[0]);
     const result = component.cutArrayToHundred(providersData);
     expect(result).toBe(false);
     expect(providersData.length).toBe(50);
@@ -164,5 +185,57 @@ describe('ImportProvidersComponent', () => {
     // Assert
     expect(result).toBe(false);
     expect(component.isWaiting).toBe(false);
+  });
+  // --------------------------------------
+  it('should process providers data and handle emails EDRPOUs', (done) => {
+    const inputProviders = providers;
+    const expectedProviders = providersID;
+    const mockEmailsEdrpousResponse = { emails: [], edrpous: [] };
+
+    jest.spyOn(component, 'cutArrayToHundred').mockReturnValue(true);
+    jest.spyOn(component, 'verifyEmailsEdrpous').mockReturnValue(of(mockEmailsEdrpousResponse));
+    jest.spyOn(component, 'handleData').mockImplementation(() => {});
+
+    component.processProvidersData(inputProviders);
+
+    expect(component.cutArrayToHundred).toHaveBeenCalledWith(inputProviders);
+    expect(component.verifyEmailsEdrpous).toHaveBeenCalledWith(expectedProviders);
+    component.verifyEmailsEdrpous(expectedProviders).subscribe(() => {
+      expect(component.handleData).toHaveBeenCalledWith(mockEmailsEdrpousResponse, expectedProviders, true);
+      done();
+    });
+  });
+  it('should handle emails EDRPOUs and update dataSource properties', () => {
+    const mockResponse: IEmailsEdrpousResponse = { emails: [], edrpous: [] };
+    component.verifyEmailsEdrpous(providersID).subscribe((response) => {
+      expect(response).toEqual(mockResponse);
+    });
+  });
+  it('should handle data', () => {
+    const isCorrectLength = true;
+    const mockResponse: IEmailsEdrpousResponse = { emails: [], edrpous: [] };
+    component.handleData(mockResponse, providersErrors, isCorrectLength);
+    expect(component.dataSource).toBe(providersErrors);
+    expect(component.isWaiting).toBe(false);
+    expect(component.isWarningVisible).toBe(isCorrectLength);
+  });
+  it('should set selectedFile, set isWaiting to true, reset values, and convert Excel to JSON', () => {
+    const mockFile = new Blob([''], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+    const mockEvent = {
+      target: {
+        files: [mockFile],
+        value: 'testValue'
+      }
+    };
+    const resetValuesSpy = jest.spyOn(component, 'resetValues').mockImplementation(() => {});
+    const convertExcelToJSONSpy = jest.spyOn(component, 'convertExcelToJSON').mockImplementation(() => {});
+    component.onFileSelected(mockEvent);
+    expect(component.selectedFile).toBe(mockFile);
+    expect(component.isWaiting).toBe(true);
+    expect(resetValuesSpy).toHaveBeenCalled();
+    expect(convertExcelToJSONSpy).toHaveBeenCalledWith(mockEvent);
+    expect(mockEvent.target.value).toBe('');
+    resetValuesSpy.mockRestore();
+    convertExcelToJSONSpy.mockRestore();
   });
 });

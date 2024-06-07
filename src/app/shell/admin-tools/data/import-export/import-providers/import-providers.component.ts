@@ -134,116 +134,41 @@ export class ImportProvidersComponent {
       const binarystring = new Uint8Array(e.target.result);
       const wb: XLSX.WorkBook = XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
       const wsname = wb.SheetNames[0];
-      const currentHeaders = XLSX.utils.sheet_to_json(wb.Sheets[wsname], { header: 1 }).shift();
+      const currentHeaders = this.getCurrentHeaders(wb, wsname);
       if (this.checkHeadersIsValid(currentHeaders)) {
-        const providers = XLSX.utils.sheet_to_json(wb.Sheets[wsname], {
-          header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
-          range: 1
-        });
-        console.log(providers);
-        const isCorrectLength = this.cutArrayToHundred(providers);
-        providers.forEach((elem) => {
-          elem.id = providers.indexOf(elem);
-        });
-        this.verifyEmailsEdrpous(providers).subscribe((emailsEdrpous) => {
-          console.log(emailsEdrpous);
-          this.importValidationService.checkForInvalidData(providers, emailsEdrpous);
-          this.dataSource = providers;
-          this.dataSourceInvalid = this.filterInvalidProviders(providers);
-          this.isWaiting = false;
-          this.isWarningVisible = this.cutArrayToHundred(providers);
-          this.isWarningVisible = isCorrectLength;
-        });
+        const providers = this.getProvidersData(wb, wsname);
+        this.processProvidersData(providers);
       }
     };
   }
 
-  //   public convertExcelToJSON(event: any): void {
-  //     const file = this.getFileFromEvent(event);
-  //     const reader = this.createFileReader(file);
-  //     reader.onload = (e: any): void => {
-  //       const binarystring = new Uint8Array(e.target.result);
-  //       const wb = this.readWorkbook(binarystring);
-  //       const wsname = wb.SheetNames[0];
-  //       const currentHeaders = this.getCurrentHeaders(wb, wsname);
-  //       if (this.checkHeadersIsValid(currentHeaders)) {
-  //         const providers = this.parseProviders(wb, wsname);
-  //         this.processProviders(providers);
-  //       }
-  //     };
-  //   }
+  public getCurrentHeaders(wb: XLSX.WorkBook, wsname: string): any[] {
+    return XLSX.utils.sheet_to_json(wb.Sheets[wsname], { header: 1 }).shift();
+  }
 
-  //   private getFileFromEvent(event: any): File {
-  //     return event.target.files[0];
-  //   }
+  public getProvidersData(wb: XLSX.WorkBook, wsname: string): IProviders[] {
+    return XLSX.utils.sheet_to_json(wb.Sheets[wsname], {
+      header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
+      range: 1
+    });
+  }
 
-  //   private createFileReader(file: File): FileReader {
-  //     const reader: FileReader = new FileReader();
-  //     reader.readAsArrayBuffer(file);
-  //     return reader;
-  //   }
+  public processProvidersData(providers: IProviders[]): void {
+    const isCorrectLength = this.cutArrayToHundred(providers);
+    const setIdToProviders: IProvidersID[] = providers.map((elem, index) => ({ ...elem, id: index }));
+    this.verifyEmailsEdrpous(setIdToProviders).subscribe((emailsEdrpous) => {
+      this.handleData(emailsEdrpous, setIdToProviders, isCorrectLength);
+    });
+  }
 
-  //   private readWorkbook(binarystring: Uint8Array): XLSX.WorkBook {
-  //     return XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
-  //   }
-
-  //   private getCurrentHeaders(workbook: XLSX.WorkBook, sheetName: string): string[] {
-  //     return XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1 }).shift();
-  //   }
-
-  //   private parseProviders(workbook: XLSX.WorkBook, sheetName: string): IProviderID[] {
-  //     return XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], {
-  //       header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
-  //       range: 1
-  //     }) as IProviderID[];
-  //   }
-
-  //   private processProviders(providers: IProviderID[]): void {
-  //     const isCorrectLength = this.cutArrayToHundred(providers);
-  //     providers.forEach((elem, index) => {
-  //       elem.id = index;
-  //     });
-  //     this.verifyEmailsEdrpous(providers).subscribe((emailsEdrpous) => {
-  //       this.checkForInvalidData(providers, emailsEdrpous);
-  //       this.dataSource = providers;
-  //       console.log(this.dataSource);
-  //       this.dataSourceInvalid = this.filterInvalidProviders(providers);
-  //       this.isWaiting = false;
-  //       this.isWarningVisible = isCorrectLength;
-  //     });
-  //   }
-
-  //   // The following methods are assumed to be implemented elsewhere
-  //   private checkHeadersIsValid(headers: string[]): boolean {
-  //     // Assume this method is implemented elsewhere
-  //     return true;
-  //   }
-
-  //   private cutArrayToHundred(providers: IProviderID[]): boolean {
-  //     // Assume this method is implemented elsewhere
-  //     return providers.length <= 100;
-  //   }
-
-  //   private verifyEmailsEdrpous(providers: IProviderID[]): any {
-  //     // Assume this method is implemented elsewhere
-  //     // Return an observable or a promise (depends on your implementation)
-  //     return {
-  //       subscribe: (callback: (emailsEdrpous: any) => void) => {
-  //         callback([]); // Placeholder implementation
-  //       }
-  //     };
-  //   }
-
-  //   private checkForInvalidData(providers: IProviderID[], emailsEdrpous: any): void {
-  //     // Assume this method is implemented elsewhere
-  //   }
-
-  //   private filterInvalidProviders(providers: IProviderID[]): IProviderID[] {
-  //     // Assume this method is implemented elsewhere
-  //     return providers.filter((elem) => Object.values(elem.errors || {}).find((e) => e !== null));
-  //   }
-  // }
-
+  public handleData(emailsEdrpous: IEmailsEdrpousResponse, providers: IProvidersID[], isCorrectLength: boolean): void {
+    this.importValidationService.checkForInvalidData(providers, emailsEdrpous);
+    this.dataSource = providers;
+    this.dataSourceInvalid = this.filterInvalidProviders(providers);
+    this.isWaiting = false;
+    this.isWarningVisible = isCorrectLength;
+  }
+  // -----------------------------------------------------------------
   public onFileSelected(event: any): void {
     this.selectedFile = event.target.files[0];
     this.isWaiting = true;
@@ -265,7 +190,6 @@ export class ImportProvidersComponent {
       },
       { edrpous: {}, emails: {} }
     );
-    console.log(emailsEdrpous);
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
   }
 
@@ -284,13 +208,11 @@ export class ImportProvidersComponent {
       'Телефон'
     ];
     const isValid = standardHeaders.every((header, index) => currentHeaders[index].trim() === header);
-
     if (!isValid) {
       this.isWaiting = false;
       const invalidHeader = currentHeaders.find((header, index) => header !== standardHeaders[index]);
       alert(`Невідповідність в заголовку "${invalidHeader}",\n\nЗразок:\n${standardHeaders.join(' | ')}`);
     }
-
     return isValid;
   }
 

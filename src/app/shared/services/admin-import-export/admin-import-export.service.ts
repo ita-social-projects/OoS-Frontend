@@ -7,10 +7,10 @@ import { IEmailsEdrpousResponse, IEmailsEdrpous } from 'shared/models/admin-impo
   providedIn: 'root'
 })
 export class AdminImportExportService {
-  private readonly baseApiUrl = '/api/v1';
+  public readonly baseApiUrl = '/api/v1';
   constructor(private http: HttpClient) {}
 
-  public getAllProviders(): Observable<any> {
+  public getAllProviders(): Observable<string> {
     const httpOptions: Object = {
       headers: new HttpHeaders({
         Accept: 'text/html',
