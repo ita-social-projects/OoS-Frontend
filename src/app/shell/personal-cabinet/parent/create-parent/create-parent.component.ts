@@ -1,4 +1,5 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { Role, Subrole } from 'shared/enum/role';
 import { CreateParent } from 'shared/store/parent.actions';
 import { RegistrationState } from 'shared/store/registration.state';
@@ -15,7 +16,7 @@ import { User } from 'shared/models/user.model';
 import { ConfirmationModalWindowComponent } from 'shared/components/confirmation-modal-window/confirmation-modal-window.component';
 import { Constants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
-import { MarkFormDirty } from 'shared/store/app.actions';
+import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app.actions';
 import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
@@ -24,7 +25,7 @@ import { CreateFormComponent } from '../../shared-cabinet/create-form/create-for
   templateUrl: './create-parent.component.html',
   styleUrls: ['./create-parent.component.scss']
 })
-export class CreateParentComponent extends CreateFormComponent implements OnInit, OnDestroy {
+export class CreateParentComponent extends CreateFormComponent implements OnInit, OnDestroy, AfterViewInit {
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
@@ -109,5 +110,21 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
 
   ngOnDestroy(): void {
     super.ngOnDestroy();
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
+    if (!isRegistered) {
+      this.store.dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.completeUserRegistration,
+          type: 'warningYellow',
+          verticalPosition: 'bottom',
+          infinityDuration: true,
+          unclosable: true
+        })
+      );
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    this.store.dispatch(new ClearMessageBar());
   }
 }
