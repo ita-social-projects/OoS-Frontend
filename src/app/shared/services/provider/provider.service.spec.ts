@@ -162,17 +162,4 @@ describe('ProviderService', () => {
 
     expect(req.request.method).toEqual('GET');
   });
-
-  it('should get applications count', (done) => {
-    service.getApplicationsCount().subscribe((data) => {
-      expect(data).toBeTruthy();
-      done();
-    });
-
-    // TODO: Change to correct API endpoint when it will be implemented by backend
-    const req = httpTestingController.expectOne('/api/v1/Provider/ApplicationsCount');
-    req.flush(mockProvider);
-
-    expect(req.request.method).toEqual('GET');
-  });
 });

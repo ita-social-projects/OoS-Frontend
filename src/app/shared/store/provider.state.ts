@@ -17,6 +17,7 @@ import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
+import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
 import { ProviderAdminService } from 'shared/services/provider-admins/provider-admin.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
@@ -39,10 +40,10 @@ import {
   DeleteWorkshopById,
   GetAchievementById,
   GetAchievementsByWorkshopId,
-  GetApplicationsCount,
   GetBlockedParents,
   GetChildrenByWorkshopId,
   GetFilteredProviderAdmins,
+  GetPendingApplicationsByProviderId,
   GetProviderAdminById,
   GetProviderAdminWorkshops,
   GetProviderViewWorkshops,
@@ -104,7 +105,7 @@ export interface ProviderStateModel {
   selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
-  applicationsCount: number;
+  pendingApplications: number;
 }
 
 @State<ProviderStateModel>({
@@ -119,7 +120,7 @@ export interface ProviderStateModel {
     selectedProviderAdmin: null,
     blockedParent: null,
     truncatedItems: null,
-    applicationsCount: null
+    pendingApplications: null
   }
 })
 @Injectable()
@@ -130,6 +131,7 @@ export class ProviderState {
     private userWorkshopService: UserWorkshopService,
     private providerAdminService: ProviderAdminService,
     private providerService: ProviderService,
+    private applicationService: ApplicationService,
     private blockService: BlockService
   ) {}
 
@@ -179,8 +181,8 @@ export class ProviderState {
   }
 
   @Selector()
-  static applicationsCount(state: ProviderStateModel): number {
-    return state.applicationsCount;
+  static pendingApplications(state: ProviderStateModel): number {
+    return state.pendingApplications;
   }
 
   @Action(GetAchievementById)
@@ -785,8 +787,10 @@ export class ProviderState {
     );
   }
 
-  @Action(GetApplicationsCount)
-  getApplicationsCount({ patchState }: StateContext<ProviderStateModel>): Observable<number> {
-    return this.providerService.getApplicationsCount().pipe(tap((applicationsCount: number) => patchState({ applicationsCount })));
+  @Action(GetPendingApplicationsByProviderId)
+  getPendingApplications({ patchState }: StateContext<ProviderStateModel>, { id }: GetPendingApplicationsByProviderId): Observable<number> {
+    return this.applicationService
+      .getPendingApplicationsByProviderId(id)
+      .pipe(tap((pendingApplications: number) => patchState({ pendingApplications })));
   }
 }

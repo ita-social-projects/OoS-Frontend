@@ -381,6 +381,7 @@ export class ReinviteProviderAdmin {
   constructor(public providerAdmin: ProviderAdmin) {}
 }
 
-export class GetApplicationsCount {
-  static readonly type = '[provider] Get Applications Count';
+export class GetPendingApplicationsByProviderId {
+  static readonly type = '[provider] Get Pending Applications By Provider Id';
+  constructor(public id: string) {}
 }

@@ -18,7 +18,7 @@
       </a>
     </ng-container>
     <ng-container *ngIf="!isRoleAdmin(userRole)">
-      <span [matBadge]="(applicationsCount$ | async) || null" matBadgePosition="after">
+      <span [matBadge]="(pendingApplications$ | async) || null" matBadgePosition="after">
         <a mat-tab-link [routerLinkActive]="['active']" [routerLink]="'./' + userRole + '/applications'">
           {{ 'ENUM.NAV_BAR_NAME.APPLICATIONS' | translate | uppercase }}
         </a>

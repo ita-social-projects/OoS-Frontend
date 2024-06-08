@@ -6,10 +6,11 @@ import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Role, Subrole } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Provider } from 'shared/models/provider.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { ChatState } from 'shared/store/chat.state';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
-import { GetApplicationsCount } from 'shared/store/provider.actions';
+import { GetPendingApplicationsByProviderId } from 'shared/store/provider.actions';
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { isRoleAdmin } from 'shared/utils/admin.utils';
@@ -21,10 +22,12 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./personal-cabinet.component.scss']
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
-  @Select(ProviderState.applicationsCount)
-  public applicationsCount$: Observable<number>;
+  @Select(ProviderState.pendingApplications)
+  public pendingApplications$: Observable<number>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
+  @Select(RegistrationState.provider)
+  private provider: Provider;
 
   public readonly ApplicationStatuses = ApplicationStatuses;
   public readonly RoleLinks = RoleLinks;
@@ -57,7 +60,7 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.store.dispatch(new GetApplicationsCount());
+    this.store.dispatch(new GetPendingApplicationsByProviderId(this.provider.id));
   }
 
   public ngOnDestroy(): void {
