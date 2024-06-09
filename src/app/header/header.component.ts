@@ -129,6 +129,4 @@ export class HeaderComponent implements OnInit, OnDestroy {
   private getFullName(user: User): string {
     return `${user.lastName} ${user.firstName.slice(0, 1)}.${user.middleName ? user.middleName.slice(0, 1) + '.' : ' '}`;
   }
-
-  protected readonly parent = parent;
 }

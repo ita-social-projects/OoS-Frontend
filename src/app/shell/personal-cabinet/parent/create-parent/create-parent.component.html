@@ -7,7 +7,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center">
       <form [formGroup]="userCreateFormGroup" fxLayout="column" fxLayoutAlign="center space-between" class="step">
-        <ng-container *ngIf="role === Role.parent">
+        <ng-container>
           <label class="step-label">{{ 'FORMS.LABELS.SEX' | translate }}<span class="step-required">*</span></label>
           <mat-radio-group formControlName="gender" color="primary">
             <mat-radio-button class="step-radio" [value]="'Male'">{{ 'FORMS.CONTROL_VALUES.MALE' | translate }}</mat-radio-button>
@@ -50,18 +50,7 @@
     </div>
     <div fxLayout="row" fxLayoutAlign="center center" class="footer">
       <button mat-raised-button (click)="onCancel()" class="btn btn-cancel">{{ 'BUTTONS.CANCEL' | translate | uppercase }}</button>
-      <button
-        class="btn"
-        [disabled]="
-        !isAgreed ||
-        !isNotRobot ||
-        userCreateFormGroup.invalid
-        "
-        mat-button
-        type="submit"
-        (click)="onSubmit()">
-        {{ 'BUTTONS.SAVE' | translate | uppercase }}
-      </button>
+      <button class="btn" [disabled]="!isAgreed || !isNotRobot || userCreateFormGroup.invalid" mat-button type="submit" (click)="onSubmit()">{{ 'BUTTONS.SAVE' | translate | uppercase }}</button>
     </div>
   </div>
 </div>

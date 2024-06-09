@@ -1,15 +1,17 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { filter, switchMap, takeUntil } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Select, Store } from '@ngxs/store';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { Role, Subrole } from 'shared/enum/role';
 import { CreateParent } from 'shared/store/parent.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 import { Parent, ParentPayload } from 'shared/models/parent.model';
-import { filter, switchMap, takeUntil } from 'rxjs/operators';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
-import { ActivatedRoute, Router } from '@angular/router';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { ValidationConstants } from 'shared/constants/validation';
 import { User } from 'shared/models/user.model';
@@ -17,7 +19,6 @@ import { ConfirmationModalWindowComponent } from 'shared/components/confirmation
 import { Constants } from 'shared/constants/constants';
 import { ModalConfirmationType } from 'shared/enum/modal-confirmation';
 import { ClearMessageBar, MarkFormDirty, ShowMessageBar } from 'shared/store/app.actions';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { CreateFormComponent } from '../../shared-cabinet/create-form/create-form.component';
 
 @Component({
@@ -29,20 +30,19 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
   @Select(RegistrationState.user)
   private user$: Observable<User>;
 
-  public user: User;
-  public parent: Parent;
-  public isAgreed: boolean;
-  public isNotRobot: boolean;
+  protected user: User;
+  protected parent: Parent;
+  protected isAgreed: boolean;
+  protected isNotRobot: boolean;
+  protected userCreateFormGroup: FormGroup;
+  protected role: Role;
+  protected subrole: Subrole;
+  protected maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
+  protected minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
+  protected RobotFormControl = new FormControl(false);
+  protected AgreementFormControl = new FormControl(false);
   protected readonly validationConstants = ValidationConstants;
-  public userCreateFormGroup: FormGroup;
   protected readonly Role = Role;
-  public role: Role;
-  public subrole: Subrole;
-  public maxDate: Date = Util.getMaxBirthDate(ValidationConstants.AGE_MAX);
-  public minDate: Date = Util.getMinBirthDate(ValidationConstants.BIRTH_AGE_MAX);
-
-  public RobotFormControl = new FormControl(false);
-  public AgreementFormControl = new FormControl(false);
 
   constructor(
     protected store: Store,
@@ -61,7 +61,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.user$.pipe(filter((user: User) => !!user)).subscribe(() => {
       this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
       this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
@@ -72,7 +72,25 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
 
-  public addNavPath(): void {}
+  public ngOnDestroy(): void {
+    super.ngOnDestroy();
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
+    if (!isRegistered) {
+      this.store.dispatch(
+        new ShowMessageBar({
+          message: SnackbarText.completeUserRegistration,
+          type: 'warningYellow',
+          verticalPosition: 'bottom',
+          infinityDuration: true,
+          unclosable: true
+        })
+      );
+    }
+  }
+
+  public ngAfterViewInit(): void {
+    this.store.dispatch(new ClearMessageBar());
+  }
 
   public onCancel(): void {
     const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
@@ -97,7 +115,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
     }
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     const parentPayload: ParentPayload = {
       dateOfBirth: this.userCreateFormGroup.controls.dateOfBirth.value,
       gender: this.userCreateFormGroup.controls.gender.value,
@@ -106,25 +124,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
     this.store.dispatch(new CreateParent(parentPayload));
   }
 
-  setEditMode(): void {}
+  public setEditMode(): void {}
 
-  ngOnDestroy(): void {
-    super.ngOnDestroy();
-    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
-    if (!isRegistered) {
-      this.store.dispatch(
-        new ShowMessageBar({
-          message: SnackbarText.completeUserRegistration,
-          type: 'warningYellow',
-          verticalPosition: 'bottom',
-          infinityDuration: true,
-          unclosable: true
-        })
-      );
-    }
-  }
-
-  public ngAfterViewInit(): void {
-    this.store.dispatch(new ClearMessageBar());
-  }
+  public addNavPath(): void {}
 }
