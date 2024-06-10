@@ -24,6 +24,10 @@
   display: none;
 }
 
+.price-text-mobile {
+  display: none;
+}
+
 .price-input {
   max-width: 100px;
   text-align: center;
@@ -63,6 +67,17 @@
   .step-input-age {
     max-width: 100%;
     height: 40px;
+  }
+}
+
+@media (max-width: 400px) {
+  .price-only-uah,
+  .for-only-text {
+    display: none;
+  }
+
+  .price-text-mobile {
+    display: block;
   }
 }
 
