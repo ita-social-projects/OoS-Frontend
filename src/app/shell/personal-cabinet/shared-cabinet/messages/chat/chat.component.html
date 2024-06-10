@@ -11,7 +11,8 @@
     <ng-container *ngFor="let message of messages; index as i">
       <app-message
         [ngClass]="message.senderRoleIsProvider === userIsProvider ? 'message message__outcome' : 'message message__income'"
-        [message]="message" [isFirstMessage]="messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider"
+        [message]="message"
+        [isFirstMessage]="messages[i - 1]?.senderRoleIsProvider !== message.senderRoleIsProvider"
         [senderName]="message.senderRoleIsProvider === userIsProvider ? userName : companionName"
         [userIsProvider]="userIsProvider">
       </app-message>
@@ -26,9 +27,7 @@
   </div>
   <div class="chat-card__footer footer" fxLayout="column" fxLayoutAlign="start center">
     <div class="step-label">
-      <label class="step-characters-count">
-        {{ messageControl.value.length }}/{{ validationConstants.INPUT_LENGTH_256 }}
-      </label>
+      <label class="step-characters-count"> {{ messageControl.value.length }}/{{ validationConstants.INPUT_LENGTH_256 }} </label>
     </div>
     <div class="main-functional-block">
       <!--
@@ -38,9 +37,16 @@
         <input type="file" id="file-input" />
       -->
 
-      <textarea type="text" class="message-input" placeholder="{{ 'SEND_A_MESSAGE' | translate }}" cdkTextareaAutosize
-        [maxlength]="validationConstants.INPUT_LENGTH_256" autocomplete="off" [formControl]="messageControl"
-        [readonly]="isDisabled"></textarea>
+      <textarea
+        type="text"
+        class="message-input"
+        placeholder="{{ 'SEND_A_MESSAGE' | translate }}"
+        cdkTextareaAutosize
+        [maxlength]="validationConstants.INPUT_LENGTH_256"
+        autocomplete="off"
+        [formControl]="messageControl"
+        [readonly]="isDisabled"
+        (keydown)="handleKeyDown($event)"></textarea>
       <button class="btn" mat-button (click)="onSendMessage()" [disabled]="isDisabled">
         <span>{{ 'BUTTONS.SEND' | translate | uppercase }}</span>
         <mat-icon>send</mat-icon>
