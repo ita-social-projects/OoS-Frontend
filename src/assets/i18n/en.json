@@ -430,6 +430,8 @@
       "SELECT_ORGANIZATION_TYPE": "Select institution type"
     },
     "UAH_FOR": "UAH for",
+    "UAH": "UAH",
+    "FOR": "for",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",
       "INVALID_CHARACTERS": ", please use only cyrillic",

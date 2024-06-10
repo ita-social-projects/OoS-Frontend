@@ -16,6 +16,12 @@
 
 .price-text {
   width: 65px;
+  display: block;
+}
+
+.price-only-uah,
+.for-only-text {
+  display: none;
 }
 
 .price-input {
@@ -34,12 +40,20 @@
   }
 
   .price::after {
-    content: 'грн';
     font-weight: 700;
     color: #aaaaaa;
     padding: 5px;
     line-height: initial;
     width: 65px;
+  }
+
+  .price-text {
+    display: none;
+  }
+
+  .price-only-uah,
+  .for-only-text {
+    display: block;
   }
 
   .price,

@@ -160,9 +160,13 @@
             [min]="validationConstants.MIN_PRICE"
             [max]="validationConstants.MAX_PRICE" />
         </mat-radio-button>
+        <p class="step-text price-only-uah">{{ 'FORMS.UAH' | translate }}</p>
       </div>
       <div fxLayoutAlign="center center" class="pay-type">
-        <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
+        <div fxLayout="row" class="prices-texts">
+          <p class="step-text price-text">{{ 'FORMS.UAH_FOR' | translate }}</p>
+          <p class="step-text for-only-text">{{ 'FORMS.FOR' | translate }}</p>
+        </div>
         <mat-select
           disableOptionCentering
           panelClass="dropdown-panel"
