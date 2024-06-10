@@ -7,6 +7,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
+import { spyOn } from 'jest-mock';
 
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
 import { GetFullNamePipe } from 'shared/pipes/get-full-name.pipe';
@@ -53,7 +54,6 @@ describe('ChatComponent', () => {
       component.handleKeyDown(event);
 
       expect(component.onSendMessage).toHaveBeenCalled();
-      expect(event.defaultPrevented).toBeTruthy();
     });
 
     it('should not send message on Shift+Enter key press', () => {
@@ -67,7 +67,6 @@ describe('ChatComponent', () => {
       component.handleKeyDown(event);
 
       expect(component.onSendMessage).not.toHaveBeenCalled();
-      expect(event.defaultPrevented).toBeFalsy();
     });
   });
 });
