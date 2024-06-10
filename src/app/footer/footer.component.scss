@@ -22,6 +22,14 @@
     height: 41px;
   }
 
+  .min-molodi-mobile {
+    display: none;
+  }
+
+  .min-molodi-full {
+    display: block;
+  }
+
   @media (max-width: 1000px) {
     padding: 1.5rem 3rem;
     flex-direction: column !important;
@@ -59,6 +67,20 @@
     }
     .company-logo {
       height: 12px;
+    }
+  }
+
+  @media (max-width: 450px) {
+    .min-molodi-mobile {
+      display: block;
+    }
+
+    .min-molodi-full {
+      display: none;
+    }
+
+    .mincult {
+      margin-right: 0 !important;
     }
   }
 }
