@@ -62,6 +62,7 @@
 ::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
 ::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog > mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
@@ -82,5 +83,16 @@
 
   .time {
     gap: 5px;
+  }
+}
+
+@media (max-width: 475px) {
+  ::ng-deep .mat-mdc-dialog-actions {
+    justify-content: center !important;
+    display: flex !important;
+  }
+
+  .btn-cancel {
+    margin-bottom: 5px;
   }
 }
