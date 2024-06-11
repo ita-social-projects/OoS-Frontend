@@ -7,7 +7,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule, State } from '@ngxs/store';
 import { OidcSecurityService } from 'angular-auth-oidc-client';
-import { spyOn } from 'jest-mock';
 
 import { MockOidcSecurityService } from 'shared/mocks/mock-services';
 import { GetFullNamePipe } from 'shared/pipes/get-full-name.pipe';
@@ -44,7 +43,7 @@ describe('ChatComponent', () => {
 
   describe('handleKeyDown', () => {
     it('should send message on Enter key press', () => {
-      spyOn(component, 'onSendMessage');
+      jest.spyOn(component, 'onSendMessage');
 
       const event = new KeyboardEvent('keydown', {
         key: 'Enter',
@@ -57,7 +56,7 @@ describe('ChatComponent', () => {
     });
 
     it('should not send message on Shift+Enter key press', () => {
-      spyOn(component, 'onSendMessage');
+      jest.spyOn(component, 'onSendMessage');
 
       const event = new KeyboardEvent('keydown', {
         key: 'Enter',
