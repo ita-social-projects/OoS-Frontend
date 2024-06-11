@@ -122,6 +122,7 @@
   line-height: 15px;
   padding: 10px 30px;
   min-width: auto;
+  height: fit-content;
 
   .mat-icon {
     display: none;
@@ -143,6 +144,7 @@
 .main-functional-block {
   display: flex;
   align-self: stretch;
+  align-items: center;
 }
 
 @media (max-width: 530px) {
@@ -153,7 +155,7 @@
   .btn {
     padding: 10px 16px;
     margin: 0 8px;
-    
+
     span {
       display: none;
     }
