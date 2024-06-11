@@ -62,7 +62,7 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
   }
 
   public ngOnInit(): void {
-    this.user$.pipe(filter((user: User) => !!user)).subscribe(() => {
+    this.user$.pipe(filter((user: User) => !!user), takeUntil(this.destroy$)).subscribe(() => {
       this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
       this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
       this.subscribeOnDirtyForm(this.userCreateFormGroup);
