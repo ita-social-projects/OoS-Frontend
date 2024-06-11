@@ -40,7 +40,8 @@ export enum NavBarName {
   Messages = 'ENUM.NAV_BAR_NAME.MESSAGES',
   Chat = 'ENUM.NAV_BAR_NAME.CHAT',
   HistoryLog = 'ENUM.NAV_BAR_NAME.HISTORY_OF_CHANGES',
-  Statistics = 'ENUM.NAV_BAR_NAME.STATISTICS'
+  Statistics = 'ENUM.NAV_BAR_NAME.STATISTICS',
+  CreateNewUser = 'ENUM.NAV_BAR_NAME.USER_REGISTRATION'
 }
 
 export enum PersonalCabinetTitle {

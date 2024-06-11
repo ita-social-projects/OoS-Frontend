@@ -4,9 +4,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { TranslateModule } from '@ngx-translate/core';
+import { SharedModule } from 'shared/shared.module';
+import { MaterialModule } from 'shared/modules/material.module';
 import { SharedCabinetModule } from '../shared-cabinet/shared-cabinet.module';
-import { SharedModule } from '../../../shared/shared.module';
-import { MaterialModule } from '../../../shared/modules/material.module';
 import { ParentRoutingModule } from './parent-routing.module';
 import { ChildFormComponent } from './create-child/child-form/child-form.component';
 import { CreateChildComponent } from './create-child/create-child.component';
@@ -16,6 +16,7 @@ import { FavoriteWorkshopsComponent } from './favorite-workshops/favorite-worksh
 import { ParentApplicationsComponent } from './parent-applications/parent-applications.component';
 import { ChildCardComponent } from './children/child-card/child-card.component';
 import { PersonCardComponent } from './create-application/person-card/person-card.component';
+import { CreateParentComponent } from './create-parent/create-parent.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { PersonCardComponent } from './create-application/person-card/person-car
     FavoriteWorkshopsComponent,
     ParentApplicationsComponent,
     ChildCardComponent,
-    PersonCardComponent
+    PersonCardComponent,
+    CreateParentComponent
   ],
   imports: [
     CommonModule,
