@@ -24,10 +24,6 @@
   display: none;
 }
 
-.price-text-mobile {
-  display: none;
-}
-
 .price-input {
   max-width: 100px;
   text-align: center;
@@ -71,13 +67,8 @@
 }
 
 @media (max-width: 410px) {
-  .price-only-uah,
-  .for-only-text {
-    display: none;
-  }
-
-  .price-text-mobile {
-    display: block;
+  .payment-type-input {
+    width: 90%;
   }
 }
 
