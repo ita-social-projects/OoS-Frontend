@@ -62,12 +62,17 @@ export class CreateParentComponent extends CreateFormComponent implements OnInit
   }
 
   public ngOnInit(): void {
-    this.user$.pipe(filter((user: User) => !!user), takeUntil(this.destroy$)).subscribe(() => {
-      this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
-      this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
-      this.subscribeOnDirtyForm(this.userCreateFormGroup);
-      this.setEditMode();
-    });
+    this.user$
+      .pipe(
+        filter((user: User) => !!user),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.role = this.store.selectSnapshot<Role>(RegistrationState.role);
+        this.subrole = this.store.selectSnapshot<Subrole>(RegistrationState.subrole);
+        this.subscribeOnDirtyForm(this.userCreateFormGroup);
+        this.setEditMode();
+      });
     this.RobotFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isNotRobot = val));
     this.AgreementFormControl.valueChanges.pipe(takeUntil(this.destroy$)).subscribe((val: boolean) => (this.isAgreed = val));
   }
