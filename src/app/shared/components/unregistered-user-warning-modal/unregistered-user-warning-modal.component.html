@@ -10,7 +10,7 @@
   <button class="unregistered-user-modal__action-button white" mat-raised-button mat-dialog-close>
     {{ 'BUTTONS.GO_BACK' | translate }}
   </button>
-  <button class="unregistered-user-modal__action-button" mat-raised-button fxLayout="row" fxLayoutAlign="center center" (click)="login()">
+  <button class="unregistered-user-modal__action-button" mat-raised-button mat-dialog-close fxLayout="row" fxLayoutAlign="center center" (click)="login()">
     {{ 'BUTTONS.REGISTER' | translate }}
   </button>
 </div>
