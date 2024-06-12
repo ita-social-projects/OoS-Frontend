@@ -63,9 +63,9 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     );
 
     if (this.userRole === Role.provider) {
-      this.provider$.pipe(filter(Boolean), take(1)).subscribe((provider) => {
-        this.store.dispatch(new GetPendingApplicationsByProviderId(provider.id));
-      });
+      this.provider$
+        .pipe(filter(Boolean), take(1))
+        .subscribe((provider) => this.store.dispatch(new GetPendingApplicationsByProviderId(provider.id)));
     }
   }
 
