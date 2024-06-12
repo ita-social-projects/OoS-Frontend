@@ -9,6 +9,7 @@ import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ProviderStatuses } from 'shared/enum/statuses';
 import { Achievement } from 'shared/models/achievement.model';
+import { Application } from 'shared/models/application.model';
 import { BlockedParent } from 'shared/models/block.model';
 import { Child } from 'shared/models/child.model';
 import { TruncatedItem } from 'shared/models/item.model';
@@ -105,7 +106,7 @@ export interface ProviderStateModel {
   selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
-  pendingApplications: number;
+  pendingApplications: SearchResponse<Application>;
 }
 
 @State<ProviderStateModel>({
@@ -181,7 +182,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static pendingApplications(state: ProviderStateModel): number {
+  static pendingApplications(state: ProviderStateModel): SearchResponse<Application> {
     return state.pendingApplications;
   }
 
@@ -788,9 +789,12 @@ export class ProviderState {
   }
 
   @Action(GetPendingApplicationsByProviderId)
-  getPendingApplications({ patchState }: StateContext<ProviderStateModel>, { id }: GetPendingApplicationsByProviderId): Observable<number> {
+  getPendingApplications(
+    { patchState }: StateContext<ProviderStateModel>,
+    { id }: GetPendingApplicationsByProviderId
+  ): Observable<SearchResponse<Application>> {
     return this.applicationService
       .getPendingApplicationsByProviderId(id)
-      .pipe(tap((pendingApplications: number) => patchState({ pendingApplications })));
+      .pipe(tap((pendingApplications: SearchResponse<Application>) => patchState({ pendingApplications })));
   }
 }

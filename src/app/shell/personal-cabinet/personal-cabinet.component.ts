@@ -1,12 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable } from 'rxjs';
+import { Observable, filter, take } from 'rxjs';
 
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Role, Subrole } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
+import { Application } from 'shared/models/application.model';
 import { Provider } from 'shared/models/provider.model';
+import { SearchResponse } from 'shared/models/search.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { ChatState } from 'shared/store/chat.state';
 import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
@@ -23,11 +25,11 @@ import { Util } from 'shared/utils/utils';
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
   @Select(ProviderState.pendingApplications)
-  public pendingApplications$: Observable<number>;
+  public pendingApplications$: Observable<SearchResponse<Application>>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
   @Select(RegistrationState.provider)
-  private provider: Provider;
+  private provider$: Observable<Provider>;
 
   public readonly ApplicationStatuses = ApplicationStatuses;
   public readonly RoleLinks = RoleLinks;
@@ -60,7 +62,11 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
       )
     );
 
-    this.store.dispatch(new GetPendingApplicationsByProviderId(this.provider.id));
+    if (this.userRole === Role.provider) {
+      this.provider$.pipe(filter(Boolean), take(1)).subscribe((provider) => {
+        this.store.dispatch(new GetPendingApplicationsByProviderId(provider.id));
+      });
+    }
   }
 
   public ngOnDestroy(): void {
