@@ -40,6 +40,34 @@ describe('ChatComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('handleKeyDown', () => {
+    it('should send message on Enter key press', () => {
+      jest.spyOn(component, 'onSendMessage');
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        shiftKey: false
+      });
+
+      component.handleKeyDown(event);
+
+      expect(component.onSendMessage).toHaveBeenCalled();
+    });
+
+    it('should not send message on Shift+Enter key press', () => {
+      jest.spyOn(component, 'onSendMessage');
+
+      const event = new KeyboardEvent('keydown', {
+        key: 'Enter',
+        shiftKey: true
+      });
+
+      component.handleKeyDown(event);
+
+      expect(component.onSendMessage).not.toHaveBeenCalled();
+    });
+  });
 });
 
 @State<ChatStateModel>({
