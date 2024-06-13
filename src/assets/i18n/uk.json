@@ -432,6 +432,8 @@
       "SELECT_ORGANIZATION_TYPE": "Оберіть тип організації"
     },
     "UAH_FOR": "грн за",
+    "UAH": "грн",
+    "FOR": "за",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Дата народження виходить за межі допустимих.",
       "INVALID_CHARACTERS": ", використовуйте, будь ласка, тільки кирилицю",
