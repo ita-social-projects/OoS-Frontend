@@ -76,7 +76,7 @@
             </ng-container>
           </ng-container>
           <ng-template #approveButtonBlock>
-            <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden || application.status === ApplicationStatuses.Rejected">
+            <button class="btn" (click)="approve.emit(application)" [class.hidden]="isApproveBtnHidden">
               <p>{{ 'BUTTONS.ENROLL_TO_WORKSHOP' | translate }}</p>
             </button>
           </ng-template>
