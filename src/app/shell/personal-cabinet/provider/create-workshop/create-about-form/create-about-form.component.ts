@@ -196,16 +196,16 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
     this.availableSeatsControl.setValue(availableSeats, { emitEvent });
   }
 
-  private setPriceControlValue(price: number = null, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPriceControlValue(price: number = 0, action: string = 'disable', emitEvent: boolean = true): void {
     this.priceControl[action]({ emitEvent });
     this.priceControl.setValue(price, { emitEvent });
   }
 
   /**
-   * This method sets null as value for payRate when the price is null,
+   * This method sets 0 as value for payRate when the price is null,
    * otherwise it sets either workshop value, or null for selecting new value
    */
-  private setPayRateControlValue(payRate: PayRateType = null, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPayRateControlValue(payRate: PayRateType = 0, action: string = 'disable', emitEvent: boolean = true): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
   }
