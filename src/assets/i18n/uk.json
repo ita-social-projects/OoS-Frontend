@@ -130,12 +130,12 @@
       "INFORMATION_ABOUT": "Інформація про",
       "FAVORITE": "Улюблене",
       "LAWS_AND_REGULATIONS": "Нормативно-правові акти",
-      "HISTORY_OF_CHANGES": "Історія змін",
-      "STATISTICS": "Статистичні дані",
-      "PROVIDER_REGISTRATION": "Реєстрація закладу",
       "IMPORT-EXPORT_PROVIDERS": "Імпорт/Експорт даних надавачів",
       "IMPORT": "Імпорт даних",
-      "EXPORT": "Експорт даних"
+      "EXPORT": "Експорт даних",
+      "HISTORY_OF_CHANGES": "Історія змін",
+      "STATISTICS": "Статистичні дані",
+      "PROVIDER_REGISTRATION": "Реєстрація закладу"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Комплексний",
@@ -893,6 +893,9 @@
     "SELECT_ANOTHER_FILE": "Обрати інший файл",
     "SUBMIT_FILE": "Надіслати файл",
     "INCORRECT_ROWS":"Не валідних рядків: ",
+    "HUNDRED_WARNING": "УВАГА! В обробку взято перших сто рядків файлу",
+    "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
+    "FILE_HEADERS_WARNING": "Невідповідність в : ",
     "PROVIDERS_LIST": {
       "PROVIDER_NAME": "Назва закладу",
       "OWNERSHIP": "Форма власності",

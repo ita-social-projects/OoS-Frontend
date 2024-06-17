@@ -30,34 +30,34 @@ describe('ExportProvidersComponent', () => {
     expect(component).toBeTruthy();
   });
   it('should call getAllProviders and download the file', (done) => {
-    // Arrange
     const mockResponse = new Blob(['test data'], { type: 'text/csv' });
-    adminImportExportService.getAllProviders.mockReturnValue(of(mockResponse));
-
-    // Mock createObjectURL
+    jest.spyOn(adminImportExportService, 'getAllProviders').mockReturnValue(of(mockResponse));
     const createObjectURLMock = jest.fn();
     createObjectURLMock.mockReturnValue('blobUrl');
     globalThis.URL.createObjectURL = createObjectURLMock;
-
-    // Simulate createElement behavior
-    const createElementMock = jest.spyOn(document, 'createElement').mockReturnValue({
+    const revokeObjectURLMock = jest.fn();
+    globalThis.URL.revokeObjectURL = revokeObjectURLMock;
+    const anchorElementMock = {
       click: jest.fn(),
+      href: '',
+      download: '',
       setAttribute: jest.fn()
-    } as unknown as HTMLAnchorElement);
-
-    // Act
+    } as unknown as HTMLAnchorElement;
+    const createElementMock = jest.spyOn(document, 'createElement').mockReturnValue(anchorElementMock);
+    const appendChildMock = jest.spyOn(document.body, 'appendChild').mockImplementation((node: Node) => node);
+    const removeChildMock = jest.spyOn(document.body, 'removeChild').mockImplementation((node: Node) => node);
     component.getAllProviders();
-
-    // Assert
     adminImportExportService.getAllProviders().subscribe(() => {
       expect(adminImportExportService.getAllProviders).toHaveBeenCalled();
       expect(createObjectURLMock).toHaveBeenCalled();
       expect(createElementMock).toHaveBeenCalledWith('a');
-
-      const anchorElement = createElementMock.mock.results[0].value;
-      expect(anchorElement.click).toHaveBeenCalled();
-
-      // Clean up
+      expect(anchorElementMock.href).toBe('blobUrl');
+      expect(anchorElementMock.download).toBe('Список надавачів.csv');
+      expect(appendChildMock).toHaveBeenCalledWith(anchorElementMock);
+      expect(anchorElementMock.click).toHaveBeenCalled();
+      expect(removeChildMock).toHaveBeenCalledWith(anchorElementMock);
+      expect(revokeObjectURLMock).toHaveBeenCalledWith('blobUrl');
+      jest.restoreAllMocks();
       done();
     });
   });

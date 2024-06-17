@@ -1,6 +1,5 @@
 import { TestBed } from '@angular/core/testing';
-
-import { IProvidersID } from 'shared/models/admin-import-export.model';
+import { ProvidersID } from 'shared/models/admin-import-export.model';
 import { ImportValidationService } from './import-validation.service';
 
 describe('ImportValidationService', () => {
@@ -8,21 +7,7 @@ describe('ImportValidationService', () => {
     edrpous: [2],
     emails: [3]
   };
-  const providersCorrect = [
-    {
-      providerName: 'Клуб спортивного бального танцю',
-      ownership: 'Державна',
-      identifier: 45679876,
-      licenseNumber: 'не вказано',
-      settlement: 'Луцьк',
-      address: 'Шевченка 2',
-      email: 'some@gmail.com',
-      phoneNumber: 660666066,
-      errors: {},
-      id: 0
-    }
-  ];
-  const providersErrors: IProvidersID[] = [
+  const providersErrorsMock: ProvidersID[] = [
     {
       providerName: null,
       ownership: null,
@@ -61,17 +46,18 @@ describe('ImportValidationService', () => {
     }
   ];
   let service: ImportValidationService;
-
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(ImportValidationService);
   });
-
+  afterEach(() => {
+    providersErrorsMock.forEach((provider) => (provider.errors = {}));
+  });
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('should correctly process the providers and update errors', () => {
-    const providers: IProvidersID[] = [
+  it('checkForInvalidData() method should correctly process the providers and update errors', () => {
+    const providers: ProvidersID[] = [
       {
         providerName: null,
         ownership: null,
@@ -98,75 +84,63 @@ describe('ImportValidationService', () => {
     };
     expect(providers[0].errors).toEqual(expected);
   });
-  it('should check provider name', () => {
-    service.checkProviderName(providersErrors[0]);
-    service.checkProviderName(providersErrors[1]);
+  it('validateProviderName() method should check provider name', () => {
+    service.validateProviderName(providersErrorsMock[0]);
+    service.validateProviderName(providersErrorsMock[1]);
     const expected = [{ providerNameEmpty: true }, { providerNameLength: true }];
-    expect(providersErrors[0].errors).toEqual(expected[0]);
-    expect(providersErrors[1].errors).toEqual(expected[1]);
-    providersErrors.forEach((e) => (e.errors = {}));
+    expect(providersErrorsMock[0].errors).toEqual(expected[0]);
+    expect(providersErrorsMock[1].errors).toEqual(expected[1]);
   });
-  it('should check Ownership', () => {
-    service.checkOwnership(providersErrors[0]);
+  it('validateOwnership() method should check Ownership', () => {
+    service.validateOwnership(providersErrorsMock[0]);
     const expected = { ownershipEmpty: true };
-    expect(providersErrors[0].errors).toEqual(expected);
-    providersErrors.forEach((e) => (e.errors = {}));
+    expect(providersErrorsMock[0].errors).toEqual(expected);
   });
-  it('should check Identifier', () => {
+  it('validateIdentifier() method should check Identifier', () => {
     const expected = [{ identifierEmpty: true }, { identifierDuplicate: true }, { identifierFormat: true }];
-    service.checkIdentifier(providersErrors[0], emailsEdrpous);
-    service.checkIdentifier(providersErrors[1], emailsEdrpous);
-    service.checkIdentifier(providersErrors[2], emailsEdrpous);
-
-    expect(providersErrors[0].errors).toEqual(expected[0]);
-    expect(providersErrors[1].errors).toEqual(expected[1]);
-    expect(providersErrors[2].errors).toEqual(expected[2]);
-    providersErrors.forEach((e) => (e.errors = {}));
+    service.validateIdentifier(providersErrorsMock[0], emailsEdrpous);
+    service.validateIdentifier(providersErrorsMock[1], emailsEdrpous);
+    service.validateIdentifier(providersErrorsMock[2], emailsEdrpous);
+    expect(providersErrorsMock[0].errors).toEqual(expected[0]);
+    expect(providersErrorsMock[1].errors).toEqual(expected[1]);
+    expect(providersErrorsMock[2].errors).toEqual(expected[2]);
   });
-  it('should check LicenseNumber', () => {
+  it('validateLicenseNumber() method should check LicenseNumber', () => {
     const expected = { licenseNumberEmpty: true };
-    service.checkLicenseNumber(providersErrors[0]);
-    expect(providersErrors[0].errors).toEqual(expected);
-    providersErrors.forEach((e) => (e.errors = {}));
+    service.validateLicenseNumber(providersErrorsMock[0]);
+    expect(providersErrorsMock[0].errors).toEqual(expected);
   });
-  it('should check Settlement', () => {
+  it('validateSettlement() method should check Settlement', () => {
     const expected = [{ settlementEmpty: true }, { settlementLength: true }, { settlementLanguage: true }];
-    service.checkSettlement(providersErrors[0]);
-    service.checkSettlement(providersErrors[1]);
-    service.checkSettlement(providersErrors[2]);
-    expect(providersErrors[0].errors).toEqual(expected[0]);
-    expect(providersErrors[1].errors).toEqual(expected[1]);
-    expect(providersErrors[2].errors).toEqual(expected[2]);
-    providersErrors.forEach((e) => (e.errors = {}));
+    service.validateSettlement(providersErrorsMock[0]);
+    service.validateSettlement(providersErrorsMock[1]);
+    service.validateSettlement(providersErrorsMock[2]);
+    expect(providersErrorsMock[0].errors).toEqual(expected[0]);
+    expect(providersErrorsMock[1].errors).toEqual(expected[1]);
+    expect(providersErrorsMock[2].errors).toEqual(expected[2]);
   });
-  it('should check Address', () => {
+  it('validateAddress() method should check Address', () => {
     const expected = [{ addressEmpty: true }, { addressLanguage: true }];
-    service.checkAddress(providersErrors[0]);
-    service.checkAddress(providersErrors[1]);
+    service.validateAddress(providersErrorsMock[0]);
+    service.validateAddress(providersErrorsMock[1]);
 
-    expect(providersErrors[0].errors).toEqual(expected[0]);
-    expect(providersErrors[1].errors).toEqual(expected[1]);
-
-    providersErrors.forEach((e) => (e.errors = {}));
+    expect(providersErrorsMock[0].errors).toEqual(expected[0]);
+    expect(providersErrorsMock[1].errors).toEqual(expected[1]);
   });
-  it('should check Email', () => {
+  it('validateEmail() method should check Email', () => {
     const expected = [{ emailEmpty: true }, { emailFormat: true }, { emailDuplicate: true }];
-    service.checkEmail(providersErrors[0], emailsEdrpous);
-    service.checkEmail(providersErrors[1], emailsEdrpous);
-    service.checkEmail(providersErrors[2], emailsEdrpous);
-    expect(providersErrors[0].errors).toEqual(expected[0]);
-    expect(providersErrors[1].errors).toEqual(expected[1]);
-    expect(providersErrors[2].errors).toEqual(expected[2]);
-    providersErrors.forEach((e) => (e.errors = {}));
+    service.validateEmail(providersErrorsMock[0], emailsEdrpous);
+    service.validateEmail(providersErrorsMock[1], emailsEdrpous);
+    service.validateEmail(providersErrorsMock[2], emailsEdrpous);
+    expect(providersErrorsMock[0].errors).toEqual(expected[0]);
+    expect(providersErrorsMock[1].errors).toEqual(expected[1]);
+    expect(providersErrorsMock[2].errors).toEqual(expected[2]);
   });
-  it('should check PhoneNumber', () => {
+  it('validatePhoneNumber() method should check PhoneNumber', () => {
     const expected = [{ phoneNumberEmpty: true }, { phoneNumberFormat: true }];
-    service.checkPhoneNumber(providersErrors[0]);
-    service.checkPhoneNumber(providersErrors[1]);
-
-    expect(providersErrors[0].errors).toEqual(expected[0]);
-    expect(providersErrors[1].errors).toEqual(expected[1]);
-
-    providersErrors.forEach((e) => (e.errors = {}));
+    service.validatePhoneNumber(providersErrorsMock[0]);
+    service.validatePhoneNumber(providersErrorsMock[1]);
+    expect(providersErrorsMock[0].errors).toEqual(expected[0]);
+    expect(providersErrorsMock[1].errors).toEqual(expected[1]);
   });
 });

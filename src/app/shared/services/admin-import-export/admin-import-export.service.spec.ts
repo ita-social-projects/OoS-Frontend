@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { HttpHeaders } from '@angular/common/http';
-import { IEmailsEdrpousResponse } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpousResponse } from 'shared/models/admin-import-export.model';
 import { AdminImportExportService } from './admin-import-export.service';
 
 describe('AdminImportExportService', () => {
@@ -24,22 +23,20 @@ describe('AdminImportExportService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should return providers', () => {
+  it('getAllProviders() method should return all providers', () => {
     const mockResponse = 'mock response';
     service.getAllProviders().subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });
-    const mockHeaders = new HttpHeaders({
-      Accept: 'text/html',
-      'Content-Type': 'text/plain; charset=utf-8'
-    });
     const req = httpMock.expectOne(`${service.baseApiUrl}/admin/providers/export`);
     expect(req.request.method).toBe('GET');
-    expect(req.request.headers.get('Accept')).toBe('text/html');
+    expect(req.request.headers.get('Accept')).toBe('text/csv');
     expect(req.request.headers.get('Content-Type')).toBe('text/plain; charset=utf-8');
     req.flush(mockResponse);
   });
-  it('should send data to server', () => {
+
+  // sendEmailsEDRPOUsForVerification
+  it('sendEmailsEDRPOUsForVerification() method should send data to server and get response', () => {
     const providersData = {
       edrpous: {
         1: 12345678,
@@ -50,7 +47,7 @@ describe('AdminImportExportService', () => {
         2: 'some@gmail.com'
       }
     };
-    const mockResponse: IEmailsEdrpousResponse = {
+    const mockResponse: EmailsEdrpousResponse = {
       edrpous: [],
       emails: []
     };

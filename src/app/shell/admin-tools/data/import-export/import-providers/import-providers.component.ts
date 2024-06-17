@@ -1,75 +1,14 @@
-/* eslint-disable @typescript-eslint/member-ordering */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, Inject } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { ImportValidationService } from 'shared/services/admin-import-export/import-validation/import-validation.service';
-import { IEmailsEdrpous, IEmailsEdrpousResponse, IProviders, IProvidersID } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpous, EmailsEdrpousResponse, Providers, ProvidersID } from 'shared/models/admin-import-export.model';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX } from 'shared/constants/regex-constants';
 import { Observable } from 'rxjs';
-
-// let 60str = 'йцукенгшщзхїфівапролджєйцукеншщзхїєждлорпавіфйцукенгшщзхїєж'
-// const data = [
-//   {
-//     providerName: 'Клуб спортивного бального танцю',
-//     ownership: 'Державна',
-//     identifier: 12345678,
-//     licenseNumber: 'не вказано',
-//     settlement: 'Луцьк',
-//     address: 'Шевченка 2',
-//     email: 'some@gmail.com',
-//     phoneNumber: 660666066
-//   },
-//   {
-//     providerName: 'ТОВ Олімп',
-//     ownership: 'Державна',
-//     identifier: 87654321,
-//     licenseNumber: 'не вказано',
-//     settlement: 'Луцьк',
-//     address: 'Шевченка 2',
-//     email: 'some@gmail.com',
-//     phoneNumber: 660666066
-//   },
-//   {
-//     providerName: 'ТОВ Олімп',
-//     ownership: 'Державна',
-//     identifier: 1234567,
-//     licenseNumber: 'не вказано',
-//     settlement: 'Луцьк',
-//     address: 'Шевченка 2',
-//     email: 'some@gmail.com',
-//     phoneNumber: 660666066
-//   },
-//   {
-//     providerName: 'ТОВ Олімп',
-//     ownership: 'Державна',
-//     identifier: 87654321,
-//     licenseNumber: 'не вказано',
-//     settlement: 'Луцьк',
-//     address: 'Шевченка 2',
-//     email: 'some@gmail.com',
-//     phoneNumber: 660666066
-//   },
-//   {
-//     providerName: 'ТОВ Олімп',
-//     ownership: 'Державна',
-//     licenseNumber: 'не вказано',
-//     settlement: 'Луцьк',
-//     address: 'Шевченка 2',
-//     email: 'some@gmail.com',
-//     phoneNumber: 660666066
-//   },
-//   {
-//     providerName: 'ТОВ Олімп',
-//     ownership: 'Державна',
-//     identifier: 87654321,
-//     licenseNumber: 'не вказано',
-//     settlement: 'Луцьк',
-//     address: 'Шевченка 2',
-//     email: 'some@gmail.com',
-//     phoneNumber: 660666066
-//   }
-// ];
+import { DOCUMENT } from '@angular/common';
+import { WINDOW } from 'ngx-window-token';
+import { ImportProvidersColumnsName } from 'shared/enum/enumUA/tech-admin/import-export';
+import { TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-import-providers',
@@ -78,32 +17,26 @@ import { Observable } from 'rxjs';
 })
 export class ImportProvidersComponent {
   public isToggle: boolean;
-  public isWaiting: boolean = false;
+  public isLoading: boolean = false;
   public isWarningVisible: boolean = false;
   public selectedFile: any = null;
   public isGoTopBtnVisible: boolean;
   public readonly topPosToStartShowing: number = 250;
-  public readonly displayedColumns: string[] = [
-    'sequence number',
-    'provider name',
-    'ownership',
-    'identifier',
-    'license number',
-    'settlement',
-    'address',
-    'email',
-    'phone number'
-  ];
-  public dataSource: IProvidersID[];
-  public dataSourceInvalid: IProvidersID[];
+  public readonly displayedColumns: string[] = Object.values(ImportProvidersColumnsName);
+  public dataSource: ProvidersID[];
+  public dataSourceInvalid: ProvidersID[];
 
   constructor(
     private importService: AdminImportExportService,
-    private importValidationService: ImportValidationService
+    private importValidationService: ImportValidationService,
+    private translate: TranslateService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window
   ) {}
+
   @HostListener('window:scroll')
   public checkScroll(): void {
-    const scrollPosition = document.documentElement.scrollTop || document.body.scrollTop || 0;
+    const scrollPosition = this.document.documentElement.scrollTop || this.document.body.scrollTop || 0;
     if (scrollPosition >= this.topPosToStartShowing) {
       this.isGoTopBtnVisible = true;
     } else {
@@ -112,7 +45,7 @@ export class ImportProvidersComponent {
   }
 
   public gotoTop(): void {
-    window.scroll({
+    this.window.scroll({
       top: 0,
       left: 0,
       behavior: 'smooth'
@@ -126,59 +59,66 @@ export class ImportProvidersComponent {
     this.isWarningVisible = false;
   }
 
-  public convertExcelToJSON(event: any): void {
-    const file = event.target.files[0];
+  public convertExcelToJSON(file: File): void {
     const reader: FileReader = new FileReader();
+    reader.onerror = (): void => {
+      alert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
+    };
     reader.readAsArrayBuffer(file);
     reader.onload = (e: any): void => {
-      const binarystring = new Uint8Array(e.target.result);
-      const wb: XLSX.WorkBook = XLSX.read(binarystring, { type: 'array', WTF: true, raw: true, cellFormula: false });
-      const wsname = wb.SheetNames[0];
-      const currentHeaders = this.getCurrentHeaders(wb, wsname);
-      if (this.checkHeadersIsValid(currentHeaders)) {
-        const providers = this.getProvidersData(wb, wsname);
-        this.processProvidersData(providers);
+      try {
+        const binaryString = new Uint8Array(e.target.result);
+        const workBook: XLSX.WorkBook = XLSX.read(binaryString, { type: 'array', WTF: true, raw: true, cellFormula: false });
+        const wsname = workBook.SheetNames[0];
+        const currentHeaders = this.getCurrentHeaders(workBook, wsname);
+        if (this.checkHeadersIsValid(currentHeaders)) {
+          const providers = this.getProvidersData(workBook, wsname);
+          this.processProvidersData(providers);
+        }
+      } catch (error) {
+        alert(this.translate.instant('IMPORT/EXPORT.FILE_READER_WARNING'));
+        this.isLoading = false;
       }
     };
   }
 
-  public getCurrentHeaders(wb: XLSX.WorkBook, wsname: string): any[] {
-    return XLSX.utils.sheet_to_json(wb.Sheets[wsname], { header: 1 }).shift();
+  public getCurrentHeaders(workBook: XLSX.WorkBook, wsname: string): any[] {
+    return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], { header: 1 }).shift();
   }
 
-  public getProvidersData(wb: XLSX.WorkBook, wsname: string): IProviders[] {
-    return XLSX.utils.sheet_to_json(wb.Sheets[wsname], {
+  public getProvidersData(workBook: XLSX.WorkBook, wsname: string): Providers[] {
+    return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], {
       header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
       range: 1
     });
   }
 
-  public processProvidersData(providers: IProviders[]): void {
-    const isCorrectLength = this.cutArrayToHundred(providers);
-    const setIdToProviders: IProvidersID[] = providers.map((elem, index) => ({ ...elem, id: index }));
-    this.verifyEmailsEdrpous(setIdToProviders).subscribe((emailsEdrpous) => {
-      this.handleData(emailsEdrpous, setIdToProviders, isCorrectLength);
+  public processProvidersData(providers: Providers[]): void {
+    const isCorrectLength = this.showsIsTrimmed(providers);
+    const providersId: ProvidersID[] = providers.map((elem, index) => ({ ...elem, id: index }));
+    this.verifyEmailsEdrpous(providersId).subscribe((emailsEdrpous) => {
+      this.handleData(emailsEdrpous, providersId, isCorrectLength);
     });
   }
 
-  public handleData(emailsEdrpous: IEmailsEdrpousResponse, providers: IProvidersID[], isCorrectLength: boolean): void {
+  public handleData(emailsEdrpous: EmailsEdrpousResponse, providers: ProvidersID[], isCorrectLength: boolean): void {
     this.importValidationService.checkForInvalidData(providers, emailsEdrpous);
     this.dataSource = providers;
     this.dataSourceInvalid = this.filterInvalidProviders(providers);
-    this.isWaiting = false;
+    this.isLoading = false;
     this.isWarningVisible = isCorrectLength;
   }
-  // -----------------------------------------------------------------
-  public onFileSelected(event: any): void {
-    this.selectedFile = event.target.files[0];
-    this.isWaiting = true;
+  public onFileSelected(event: Event): void {
+    const target = event.target as HTMLInputElement;
+    this.selectedFile = target.files[0];
+    this.isLoading = true;
     this.resetValues();
-    this.convertExcelToJSON(event);
-    event.target.value = '';
+    this.convertExcelToJSON(this.selectedFile);
+    target.value = '';
   }
 
-  public verifyEmailsEdrpous(providers: IProvidersID[]): Observable<IEmailsEdrpousResponse> {
-    const emailsEdrpous: IEmailsEdrpous = providers.reduce(
+  public verifyEmailsEdrpous(providers: ProvidersID[]): Observable<EmailsEdrpousResponse> {
+    const emailsEdrpous: EmailsEdrpous = providers.reduce(
       (acc, element) => {
         if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier.toString())) {
           acc.edrpous[element.id] = element.identifier;
@@ -193,7 +133,7 @@ export class ImportProvidersComponent {
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
   }
 
-  public filterInvalidProviders(providers: IProvidersID[]): any {
+  public filterInvalidProviders(providers: ProvidersID[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
   }
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
@@ -209,15 +149,22 @@ export class ImportProvidersComponent {
     ];
     const isValid = standardHeaders.every((header, index) => currentHeaders[index].trim() === header);
     if (!isValid) {
-      this.isWaiting = false;
+      this.isLoading = false;
       const invalidHeader = currentHeaders.find((header, index) => header !== standardHeaders[index]);
-      alert(`Невідповідність в заголовку "${invalidHeader}",\n\nЗразок:\n${standardHeaders.join(' | ')}`);
+      alert(
+        `${this.translate.instant('IMPORT/EXPORT.FILE_HEADERS_WARNING')}"${invalidHeader}",\n\nЗразок:\n${standardHeaders.join(' | ')}`
+      );
     }
     return isValid;
   }
 
-  public cutArrayToHundred(providers: IProviders[]): boolean {
+  public showsIsTrimmed(providers: Providers[]): boolean {
     const cutProviders = providers.splice(100, providers.length);
     return cutProviders.length > 0;
+  }
+
+  public showInConsole(): void {
+    console.log(this.dataSource);
+    console.log(this.displayedColumns);
   }
 }

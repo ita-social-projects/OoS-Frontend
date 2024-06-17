@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
+import { WINDOW } from 'ngx-window-token';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 
 @Component({
@@ -7,16 +9,23 @@ import { AdminImportExportService } from 'shared/services/admin-import-export/ad
   styleUrls: ['./export-providers.component.scss']
 })
 export class ExportProvidersComponent {
-  constructor(private importExportService: AdminImportExportService) {}
+  constructor(
+    private importExportService: AdminImportExportService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(WINDOW) private window: Window
+  ) {}
 
   public getAllProviders(): any {
     return this.importExportService.getAllProviders().subscribe((response) => {
       const newBlob = new Blob([new Uint8Array([0xef, 0xbb, 0xbf]), response], { type: 'text/csv' });
-      const res = window.URL.createObjectURL(newBlob);
-      const link = document.createElement('a');
-      link.href = res;
+      const url = (this.window as any).URL.createObjectURL(newBlob);
+      const link = this.document.createElement('a');
+      link.href = url;
       link.download = 'Список надавачів.csv';
+      this.document.body.appendChild(link);
       link.click();
+      this.document.body.removeChild(link);
+      window.URL.revokeObjectURL(url);
     });
   }
 }

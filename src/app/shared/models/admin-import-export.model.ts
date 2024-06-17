@@ -1,14 +1,14 @@
-export interface IEmailsEdrpous {
+export interface EmailsEdrpous {
   edrpous: Object;
   emails: Object;
 }
 
-export interface IEmailsEdrpousResponse {
+export interface EmailsEdrpousResponse {
   edrpous: number[];
   emails: number[];
 }
 
-export interface IProviders {
+export interface Providers {
   providerName: string;
   ownership: string;
   identifier: number;
@@ -19,7 +19,7 @@ export interface IProviders {
   email: string;
   phoneNumber: number;
 }
-export interface IProvidersID extends IProviders {
+export interface ProvidersID extends Providers {
   id: number;
 }
 export interface IErrors {

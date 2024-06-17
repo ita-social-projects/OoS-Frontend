@@ -13,13 +13,7 @@ import { ImportExportRoutingModule } from './import-export-routing.module';
 import { ImportExportComponent } from './import-export.component';
 
 @NgModule({
-  // eslint-disable-next-line prettier/prettier
-  declarations: [
-    ImportExportComponent,
-    ImportProvidersComponent,
-    ExportProvidersComponent
-  ],
-  // eslint-disable-next-line prettier/prettier
+  declarations: [ImportExportComponent, ImportProvidersComponent, ExportProvidersComponent],
   imports: [
     FormsModule,
     CommonModule,
