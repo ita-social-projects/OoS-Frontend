@@ -145,9 +145,14 @@
   </ng-template>
 
   <ng-template #unregisteredView>
-    <a [routerLink]="['./create-provider', ModeConstants.NEW]">
+    <a [routerLink]="['./create-provider', ModeConstants.NEW]" *ngIf="user.role === Role.provider">
       <button mat-menu-item>
         {{ 'ENUM.NAV_BAR_NAME.PROVIDER_REGISTRATION' | translate }}
+      </button>
+    </a>
+    <a [routerLink]="['./create-parent', ModeConstants.NEW]" *ngIf="user.role === Role.parent">
+      <button mat-menu-item>
+        {{ 'ENUM.NAV_BAR_NAME.USER_REGISTRATION' | translate }}
       </button>
     </a>
   </ng-template>

@@ -2,12 +2,7 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
     "analytics": false,
-    "schematicCollections": [
-      "@cypress/schematic",
-      "@angular-eslint/schematics",
-      "@angular-eslint/schematics",
-      "@schematics/angular"
-    ]
+    "schematicCollections": ["@cypress/schematic", "@angular-eslint/schematics", "@angular-eslint/schematics", "@schematics/angular"]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -40,10 +35,7 @@
               "src/favicon.ico",
               "src/assets"
             ],
-            "styles": [
-              "./node_modules/leaflet/dist/leaflet.css",
-              "src/styles.scss"
-            ],
+            "styles": ["./node_modules/leaflet/dist/leaflet.css", "src/styles.scss"],
             "scripts": [],
             "vendorChunk": true,
             "extractLicenses": false,
@@ -144,10 +136,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         },
         "cypress-run": {

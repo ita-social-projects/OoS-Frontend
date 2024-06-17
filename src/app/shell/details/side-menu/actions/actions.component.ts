@@ -77,7 +77,9 @@ export class ActionsComponent implements OnInit, OnDestroy {
     this.role$.pipe(takeUntil(this.destroy$)).subscribe((role) => (this.role = role));
     this.parent$.pipe(takeUntil(this.destroy$)).subscribe((parent) => (this.parentId = parent.id));
     this.selectedProvider$.pipe(takeUntil(this.destroy$)).subscribe((provider) => (this.selectedProviderId = provider.id));
-    this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+    if (this.parentId) {
+      this.store.dispatch(new GetBlockedParents(this.selectedProviderId, this.parentId));
+    }
     this.isBlocked$.pipe(takeUntil(this.destroy$)).subscribe((blockedParent) => (this.isBlocked = blockedParent !== null));
     combineLatest([this.favoriteWorkshops$, this.route.params])
       .pipe(takeUntil(this.destroy$))
@@ -93,7 +95,8 @@ export class ActionsComponent implements OnInit, OnDestroy {
   }
 
   public onOpenDialog(type: ModalConfirmationDescription): void {
-    if (this.role === Role.unauthorized) {
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
+    if (this.role === Role.unauthorized || !isRegistered) {
       this.dialog.open(UnregisteredUserWarningModalComponent, {
         autoFocus: false,
         restoreFocus: false,
