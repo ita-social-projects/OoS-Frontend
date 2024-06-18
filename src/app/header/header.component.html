@@ -13,6 +13,7 @@
           </a>
 
           <a class="info-link" [routerLink]="'./info/support'">
+            <mat-icon>support</mat-icon>
             {{ 'ENUM.NAV_BAR_NAME.SUPPORT' | translate | uppercase }}
           </a>
 
@@ -64,9 +65,9 @@
     <app-notifications class="menu" *ngIf="(featuresList$ | async)?.release2"></app-notifications>
 
     <button mat-flat-button class="menu" [matMenuTriggerFor]="log">
-      <mat-icon>account_circle</mat-icon>
+      <mat-icon class="account-circle">account_circle</mat-icon>
       {{ userShortName }}
-      <mat-icon>arrow_drop_down</mat-icon>
+      <mat-icon class="arrow-drop-down">arrow_drop_down</mat-icon>
     </button>
   </ng-container>
 

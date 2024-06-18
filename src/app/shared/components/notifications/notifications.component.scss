@@ -8,11 +8,18 @@
 
   height: auto;
   width: auto;
-  font-size: 30px;
-  top: -1px;
 
   .mat-badge-content {
+    right: -20px !important;
+    top: -5px;
     background-color: #f5bc4a;
+    width: 25px;
+    height: 15px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
   }
 }
 

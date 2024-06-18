@@ -43,8 +43,10 @@
   }
 
   .info-link {
+    display: flex;
     background: none;
     color: white;
+    align-items: center;
     justify-content: flex-end;
     font-size: 0.7rem;
     font-family: 'Innerspace';
@@ -52,6 +54,10 @@
     white-space: nowrap;
     line-height: 24px;
     cursor: pointer;
+
+    .mat-icon {
+      margin-right: 5px;
+    }
   }
 
   .login {
@@ -102,40 +108,20 @@
   font-size: 0.7rem !important;
 }
 
-.lang mat-icon {
-  position: relative;
-  top: -1px;
+.menu .mat-icon {
+  &.account-circle {
+    margin-right: 5px;
+    padding-left: 5px;
+  }
+
+  &.arrow-drop-down {
+    margin-left: 2.5px;
+  }
 }
 
-.account-button {
-  font-weight: bold !important;
-  display: block;
-
-  .icon-account {
-    color: white;
-  }
-
-  .account-circle {
-    width: 33px;
-    padding: 0 5px;
-    min-width: 0;
-    height: 33px;
-    background-color: transparent;
-    box-shadow: none;
-    top: -2px;
-    left: 5px;
-
-    ::ng-deep.mat-badge-content {
-      font-size: xx-small;
-      height: 15px;
-      width: 15px;
-      line-height: 15px;
-      top: 0;
-      left: 0 !important;
-      position: absolute;
-      background-color: #f5bc4a;
-    }
-  }
+.lang .mat-icon {
+  margin-right: 5px;
+  top: -1px;
 }
 
 ::ng-deep .lang-option {

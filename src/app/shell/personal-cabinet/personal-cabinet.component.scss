@@ -7,13 +7,12 @@
 
   .mat-badge-overlap.mat-badge-after .mat-badge-content {
     background-color: #f5bc4a;
-    right: 1px;
-    // Dev note: Style for rounded-square badge if it will be decided by design to use them
-    // width: 30px;
-    // height: 17.5px;
-    // border-radius: 13px;
-    // display: flex;
-    // align-items: center;
-    // justify-content: center;
+    right: 0;
+    width: 25px;
+    height: 15px;
+    border-radius: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 }
