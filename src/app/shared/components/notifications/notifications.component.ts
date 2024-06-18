@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
 
 import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
 import { Notification, NotificationAmount } from 'shared/models/notification.model';
@@ -30,6 +30,7 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
   public receivedNotification: Notification;
   private hubConnection: signalR.HubConnection;
 
+  private unreadNotificationsCount$ = new BehaviorSubject<number>(null);
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(
@@ -48,7 +49,8 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
     }
     this.hubConnection.on('ReceiveNotification', (receivedNotificationString: string) => {
       // TODO: solve the problem with keys with capital letters
-      const parsedNotification = JSON.parse(receivedNotificationString);
+      const { unreadNotificationsCount, newNotificationDto: parsedNotification } = JSON.parse(receivedNotificationString);
+      this.unreadNotificationsCount$.next(unreadNotificationsCount);
       this.receivedNotification = {
         id: parsedNotification.Id,
         userId: parsedNotification.UserId,
@@ -63,12 +65,13 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
 
     combineLatest([
       this.notificationAmount$.pipe(filter(Boolean)),
-      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => isRoleAdmin(role) || unreadMessagesCount !== null))
+      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => isRoleAdmin(role) || unreadMessagesCount !== null)),
+      this.unreadNotificationsCount$
     ])
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        ([notificationAmount, unreadMessagesCount]: [NotificationAmount, number]) =>
-          (this.notificationAmount = { amount: notificationAmount.amount + unreadMessagesCount })
+        ([notificationAmount, unreadMessagesCount, unreadNotificationsCount]: [NotificationAmount, number, number]) =>
+          (this.notificationAmount = { amount: (unreadNotificationsCount ?? notificationAmount.amount) + unreadMessagesCount })
       );
   }
 

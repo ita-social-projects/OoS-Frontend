@@ -179,8 +179,6 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   private addReceivedNotification(receivedNotification: Notification): void {
-    this.notificationAmount.amount++;
-
     if (receivedNotification.type !== NotificationType.Application && receivedNotification.type !== NotificationType.Chat) {
       this.notifications.unshift(receivedNotification);
       return;
