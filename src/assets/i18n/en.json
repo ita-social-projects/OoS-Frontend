@@ -132,7 +132,8 @@
       "INFORMATION_ABOUT": "Information about",
       "FAVORITE": "Favorite",
       "LAWS_AND_REGULATIONS": "Laws and regulations",
-      "PROVIDER_REGISTRATION": "Provider registration"
+      "PROVIDER_REGISTRATION": "Provider registration",
+      "USER_REGISTRATION": "User registration"
     },
     "INSTITUTION_TYPE": {
       "COMPLEX": "Complex",
@@ -329,6 +330,7 @@
       "LEGAL_ADDRESS": "Legal address",
       "ACTUAL_ADDRESS": "Actual address",
       "EDIT": "EDIT",
+      "NEW_USER": "NEW USER REGISTRATION",
       "EDIT_INFO": "EDIT INFORMATION",
       "SUBHEADER_TITLE": "Title",
       "PROVIDER_ADMINS_SUBHEADER": "Login data will be sent to the user's email for logging into the system.",
@@ -430,6 +432,8 @@
       "SELECT_ORGANIZATION_TYPE": "Select institution type"
     },
     "UAH_FOR": "UAH for",
+    "UAH": "UAH",
+    "FOR": "for",
     "VALIDATIONS": {
       "INVALID_BIRTHDAY": "Date of birth is out of range.",
       "INVALID_CHARACTERS": ", please use only cyrillic",
@@ -747,11 +751,13 @@
       "CREATE_PROVIDER_DEPUTY": "Deputy director successfully created!",
       "UPDATE_PROVIDER_DEPUTY": "Deputy director successfully edited!",
       "COMPLETE_PROVIDER_REGISTRATION": "Please complete registration of the provider.",
+      "COMPLETE_USER_REGISTRATION": "Please complete registration of the user.",
       "CREATE_RATING": "Successfully rated!",
       "UPDATE_PORTAL": "Portal information successfully edited",
       "UPDATE_USER": "Personal information successfully edited!",
       "BLOCK_USER": "User blocked successfully!",
       "UNBLOCK_USER": "User unblocked successfully!",
+      "CREATE_USER": "User successfully created",
       "ACCESS_IS_RESTRICTED": "Your access to the workshops of this institution is restricted",
       "ACCESS_IS_RESTRICTED_FULL_DESCRIPTION": "If you have any questions, please contact us at the contact numbers of the institution",
       "SEND_INVITATION": "Invitation successfully sent!",

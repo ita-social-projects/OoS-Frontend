@@ -97,7 +97,8 @@ export class CreateProviderComponent extends CreateFormComponent implements OnIn
 
   public ngOnDestroy(): void {
     super.ngOnDestroy();
-    if (!this.isEditMode) {
+    const isRegistered = this.store.selectSnapshot(RegistrationState.isRegistered);
+    if (!this.isEditMode && !isRegistered) {
       this.store.dispatch(
         new ShowMessageBar({
           message: SnackbarText.completeRegistration,
