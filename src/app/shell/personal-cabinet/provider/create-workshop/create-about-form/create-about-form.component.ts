@@ -205,7 +205,7 @@ export class CreateAboutFormComponent implements OnInit, OnDestroy {
    * This method sets 0 as value for payRate when the price is null,
    * otherwise it sets either workshop value, or null for selecting new value
    */
-  private setPayRateControlValue(payRate: PayRateType = 0, action: string = 'disable', emitEvent: boolean = true): void {
+  private setPayRateControlValue(payRate: PayRateType = PayRateType.None, action: string = 'disable', emitEvent: boolean = true): void {
     this.payRateControl[action]({ emitEvent });
     this.payRateControl.setValue(payRate, { emitEvent });
   }
