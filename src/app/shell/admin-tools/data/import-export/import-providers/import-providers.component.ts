@@ -2,12 +2,12 @@ import { Component, HostListener, Inject } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { ImportValidationService } from 'shared/services/admin-import-export/import-validation/import-validation.service';
-import { EmailsEdrpous, EmailsEdrpousResponse, Providers, ProvidersID } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpous, EmailsEdrpousResponse, Providers, ProvidersID, ValidProviders } from 'shared/models/admin-import-export.model';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX } from 'shared/constants/regex-constants';
 import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { WINDOW } from 'ngx-window-token';
-import { ImportProvidersColumnsName } from 'shared/enum/enumUA/tech-admin/import-export';
+import { ImportProvidersColumnsName, ImportProvidersStandardHeaders } from 'shared/enum/enumUA/tech-admin/import-export';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -137,16 +137,7 @@ export class ImportProvidersComponent {
     return providers.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
   }
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
-    const standardHeaders = [
-      'Назва закладу',
-      'Форма власності',
-      'ЄДРПОУ',
-      'Ліцензія №',
-      'Населений пункт',
-      'Адреса',
-      'Електронна пошта',
-      'Телефон'
-    ];
+    const standardHeaders: string[] = Object.values(ImportProvidersStandardHeaders);
     const isValid = standardHeaders.every((header, index) => currentHeaders[index].trim() === header);
     if (!isValid) {
       this.isLoading = false;
@@ -163,8 +154,8 @@ export class ImportProvidersComponent {
     return cutProviders.length > 0;
   }
 
-  public showInConsole(): void {
-    console.log(this.dataSource);
-    console.log(this.displayedColumns);
+  public sendValidProviders(): void {
+    // const requestProvider: ValidProviders[] = this.dataSource.map(({ errors, ...rest }) => rest);
+    // this.importService.postProviders(requestProvider);
   }
 }

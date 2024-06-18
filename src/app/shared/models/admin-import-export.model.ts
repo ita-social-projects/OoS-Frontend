@@ -7,6 +7,17 @@ export interface EmailsEdrpousResponse {
   edrpous: number[];
   emails: number[];
 }
+export interface ValidProviders {
+  id: number;
+  providerName: string;
+  ownership: string;
+  identifier: number;
+  licenseNumber: number;
+  settlement: string;
+  address: string;
+  email: string;
+  phoneNumber: number;
+}
 
 export interface Providers {
   providerName: string;
@@ -22,6 +33,7 @@ export interface Providers {
 export interface ProvidersID extends Providers {
   id: number;
 }
+
 export interface IErrors {
   providerNameEmpty?: boolean;
   providerNameLength?: boolean;

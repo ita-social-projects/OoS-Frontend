@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EmailsEdrpousResponse, EmailsEdrpous } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpousResponse, EmailsEdrpous, ValidProviders } from 'shared/models/admin-import-export.model';
 
 @Injectable({
   providedIn: 'root'
@@ -24,4 +24,8 @@ export class AdminImportExportService {
   public sendEmailsEDRPOUsForVerification(emailsEdrpous: EmailsEdrpous): Observable<EmailsEdrpousResponse> {
     return this.http.post<EmailsEdrpousResponse>(`${this.baseApiUrl}/providers/import/validate`, emailsEdrpous);
   }
+
+  // public postProviders(providers: ValidProviders[]): Observable<string> {
+  //   return this.http.post<string>(`${this.baseApiUrl}/providers/import/validate`, providers);
+  // }
 }

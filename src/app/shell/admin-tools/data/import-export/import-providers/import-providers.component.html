@@ -10,7 +10,7 @@
     <div class="loader-container">
       <div class="loader" *ngIf="isLoading"></div>
     </div>
-    <button *ngIf="dataSource" class="btn" mat-raised-button [disabled]="dataSourceInvalid.length > 0" (click)="showInConsole()">
+    <button *ngIf="dataSource" class="btn" mat-raised-button [disabled]="dataSourceInvalid.length > 0" (click)="sendValidProviders()">
       {{ 'IMPORT/EXPORT.SUBMIT_FILE' | translate }}
     </button>
   </div>
