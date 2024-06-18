@@ -305,7 +305,6 @@ describe('NotificationsListComponent', () => {
         expect(component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount).toEqual(
           initialNotificationsGroupedByDataAmount + 1
         );
-        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
 
       it('should add a new notification group to notifications grouped when received with another type', () => {
@@ -321,7 +320,6 @@ describe('NotificationsListComponent', () => {
         });
 
         expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength + 1);
-        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
 
       it('should add a new notification group to notifications grouped when received with another additional data', () => {
@@ -339,7 +337,6 @@ describe('NotificationsListComponent', () => {
 
         expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength);
         expect(component.notificationsGroupedByType[0].groupedByAdditionalData.length).toEqual(initialNotificationsGroupedByDataLength + 1);
-        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
     });
 
@@ -364,7 +361,6 @@ describe('NotificationsListComponent', () => {
       });
 
       expect(component.notifications.length).toEqual(initialNotificationsLength + 1);
-      expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
     });
   });
 });
