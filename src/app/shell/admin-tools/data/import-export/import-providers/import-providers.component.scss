@@ -191,7 +191,7 @@ $lengthWarningMessage: #ff0000;
     color: $lengthWarningMessage;
   }
 }
-::ng-deep .custom-tooltip-styles {
+::ng-deep .import-providers-table-tooltip {
     color: #f6f6f6;
     background-color: #505050;
     border-radius: 4px;
@@ -212,10 +212,10 @@ $lengthWarningMessage: #ff0000;
   .errors-menu {
     padding-top: 5px;
   }
-mat-slide-toggle {
-  position: relative;
-  .incorrect-row {
-    display: none !important;
-  }
-} 
+  mat-slide-toggle {
+    position: relative;
+    .incorrect-row {
+      display: none !important;
+    }
+  } 
 }

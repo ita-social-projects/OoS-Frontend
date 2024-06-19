@@ -7,7 +7,7 @@ import { ExportProvidersComponent } from './export-providers.component';
 describe('ExportProvidersComponent', () => {
   let component: ExportProvidersComponent;
   let fixture: ComponentFixture<ExportProvidersComponent>;
-  let adminImportExportService: jest.Mocked<AdminImportExportService>;
+  let adminImportExportServiceMock: jest.Mocked<AdminImportExportService>;
 
   beforeEach(async () => {
     const spy = {
@@ -22,16 +22,17 @@ describe('ExportProvidersComponent', () => {
 
     fixture = TestBed.createComponent(ExportProvidersComponent);
     component = fixture.componentInstance;
-    adminImportExportService = TestBed.inject(AdminImportExportService) as jest.Mocked<AdminImportExportService>;
+    adminImportExportServiceMock = TestBed.inject(AdminImportExportService) as jest.Mocked<AdminImportExportService>;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
   it('should call getAllProviders and download the file', (done) => {
     const mockResponse = new Blob(['test data'], { type: 'text/csv' });
-    jest.spyOn(adminImportExportService, 'getAllProviders').mockReturnValue(of(mockResponse));
+    jest.spyOn(adminImportExportServiceMock, 'getAllProviders').mockReturnValue(of(mockResponse));
     const createObjectURLMock = jest.fn();
     createObjectURLMock.mockReturnValue('blobUrl');
     globalThis.URL.createObjectURL = createObjectURLMock;
@@ -47,8 +48,8 @@ describe('ExportProvidersComponent', () => {
     const appendChildMock = jest.spyOn(document.body, 'appendChild').mockImplementation((node: Node) => node);
     const removeChildMock = jest.spyOn(document.body, 'removeChild').mockImplementation((node: Node) => node);
     component.getAllProviders();
-    adminImportExportService.getAllProviders().subscribe(() => {
-      expect(adminImportExportService.getAllProviders).toHaveBeenCalled();
+    adminImportExportServiceMock.getAllProviders().subscribe(() => {
+      expect(adminImportExportServiceMock.getAllProviders).toHaveBeenCalled();
       expect(createObjectURLMock).toHaveBeenCalled();
       expect(createElementMock).toHaveBeenCalledWith('a');
       expect(anchorElementMock.href).toBe('blobUrl');

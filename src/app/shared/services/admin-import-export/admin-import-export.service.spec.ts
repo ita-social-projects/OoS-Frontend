@@ -23,7 +23,7 @@ describe('AdminImportExportService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('getAllProviders() method should return all providers', () => {
+  it('getAllProviders method should return all providers', () => {
     const mockResponse = 'mock response';
     service.getAllProviders().subscribe((response) => {
       expect(response).toEqual(mockResponse);
@@ -35,22 +35,12 @@ describe('AdminImportExportService', () => {
     req.flush(mockResponse);
   });
 
-  // sendEmailsEDRPOUsForVerification
-  it('sendEmailsEDRPOUsForVerification() method should send data to server and get response', () => {
+  it('sendEmailsEDRPOUsForVerification method should send data to server and get response', () => {
     const providersData = {
-      edrpous: {
-        1: 12345678,
-        2: 12345678
-      },
-      emails: {
-        1: 'sleep@gmail.com',
-        2: 'some@gmail.com'
-      }
+      edrpous: { 1: 12345678, 2: 12345678 },
+      emails: { 1: 'sleep@gmail.com', 2: 'some@gmail.com' }
     };
-    const mockResponse: EmailsEdrpousResponse = {
-      edrpous: [],
-      emails: []
-    };
+    const mockResponse: EmailsEdrpousResponse = { edrpous: [], emails: [] };
     service.sendEmailsEDRPOUsForVerification(providersData).subscribe((response) => {
       expect(response).toEqual(mockResponse);
     });

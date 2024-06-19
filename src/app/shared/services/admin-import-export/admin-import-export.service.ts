@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EmailsEdrpousResponse, EmailsEdrpous, ValidProviders } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpousResponse, EmailsEdrpous, ValidProvider } from 'shared/models/admin-import-export.model';
 
 @Injectable({
   providedIn: 'root'

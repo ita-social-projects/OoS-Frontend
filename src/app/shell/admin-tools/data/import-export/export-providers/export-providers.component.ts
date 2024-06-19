@@ -25,7 +25,7 @@ export class ExportProvidersComponent {
       this.document.body.appendChild(link);
       link.click();
       this.document.body.removeChild(link);
-      window.URL.revokeObjectURL(url);
+      (this.window as any).URL.revokeObjectURL(url);
     });
   }
 }

@@ -903,6 +903,8 @@
     "FILE_READER_WARNING": "Під час читання файлу сталася помилка. Будь ласка спробуйте ще раз.",
     "FILE_HEADERS_WARNING": "Невідповідність в : ",
     "PROVIDERS_LIST": {
+      "DIRECTORS_NAME": "Ім'я директора",
+      "DIRECTORS_SURNAME": "Прізвище директора",
       "PROVIDER_NAME": "Назва закладу",
       "OWNERSHIP": "Форма власності",
       "IDENTIFIER": "ЄДРПОУ",

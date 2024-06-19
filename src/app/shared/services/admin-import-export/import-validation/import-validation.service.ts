@@ -1,16 +1,18 @@
 import { Injectable } from '@angular/core';
 import { isValidPhoneNumber } from 'libphonenumber-js';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX, NO_LATIN_REGEX, STREET_REGEX } from 'shared/constants/regex-constants';
-import { EmailsEdrpousResponse, ProvidersID } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpousResponse, ProviderId } from 'shared/models/admin-import-export.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ImportValidationService {
   constructor() {}
-  public checkForInvalidData(providers: ProvidersID[], emailsEdrpous: EmailsEdrpousResponse): void {
+  public checkForInvalidData(providers: ProviderId[], emailsEdrpous: EmailsEdrpousResponse): void {
     providers.forEach((elem) => {
       elem.errors = {};
+      this.validateDirectorsName(elem);
+      this.validateDirectorsSurname(elem);
       this.validateProviderName(elem);
       this.validateOwnership(elem);
       this.validateIdentifier(elem, emailsEdrpous);
@@ -22,7 +24,19 @@ export class ImportValidationService {
     });
   }
 
-  public validateProviderName(elem: ProvidersID): void {
+  public validateDirectorsName(elem: ProviderId): void {
+    if (!elem.directorsName) {
+      elem.errors.directorsNameEmpty = true;
+    }
+  }
+
+  public validateDirectorsSurname(elem: ProviderId): void {
+    if (!elem.directorsSurname) {
+      elem.errors.directorsSurnameEmpty = true;
+    }
+  }
+
+  public validateProviderName(elem: ProviderId): void {
     if (!elem.providerName) {
       elem.errors.providerNameEmpty = true;
     } else if (elem.providerName.length <= 1 || elem.providerName.length > 60) {
@@ -30,13 +44,13 @@ export class ImportValidationService {
     }
   }
 
-  public validateOwnership(elem: ProvidersID): void {
+  public validateOwnership(elem: ProviderId): void {
     if (!elem.ownership) {
       elem.errors.ownershipEmpty = true;
     }
   }
 
-  public validateIdentifier(elem: ProvidersID, emailsEdrpous: EmailsEdrpousResponse): void {
+  public validateIdentifier(elem: ProviderId, emailsEdrpous: EmailsEdrpousResponse): void {
     if (!elem.identifier) {
       elem.errors.identifierEmpty = true;
     } else if (!EDRPOU_IPN_REGEX.test(elem.identifier.toString())) {
@@ -47,13 +61,13 @@ export class ImportValidationService {
   }
 
   // type of license number is number
-  public validateLicenseNumber(elem: ProvidersID): void {
+  public validateLicenseNumber(elem: ProviderId): void {
     if (!elem.licenseNumber) {
       elem.errors.licenseNumberEmpty = true;
     }
   }
 
-  public validateSettlement(elem: ProvidersID): void {
+  public validateSettlement(elem: ProviderId): void {
     if (!elem.settlement) {
       elem.errors.settlementEmpty = true;
     } else if (elem.settlement.length <= 1 || elem.settlement.length > 60) {
@@ -63,7 +77,7 @@ export class ImportValidationService {
     }
   }
 
-  public validateAddress(elem: ProvidersID): void {
+  public validateAddress(elem: ProviderId): void {
     if (!elem.address) {
       elem.errors.addressEmpty = true;
     } else if (!STREET_REGEX.test(elem.address)) {
@@ -71,7 +85,7 @@ export class ImportValidationService {
     }
   }
 
-  public validateEmail(elem: ProvidersID, emailsEdrpous: EmailsEdrpousResponse): void {
+  public validateEmail(elem: ProviderId, emailsEdrpous: EmailsEdrpousResponse): void {
     if (!elem.email) {
       elem.errors.emailEmpty = true;
     } else if (!EMAIL_REGEX.test(elem.email)) {
@@ -81,7 +95,7 @@ export class ImportValidationService {
     }
   }
 
-  public validatePhoneNumber(elem: ProvidersID): void {
+  public validatePhoneNumber(elem: ProviderId): void {
     if (!elem.phoneNumber) {
       elem.errors.phoneNumberEmpty = true;
     } else if (!isValidPhoneNumber(elem.phoneNumber.toString(), 'UA')) {

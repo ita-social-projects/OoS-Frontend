@@ -2,12 +2,12 @@ import { Component, HostListener, Inject } from '@angular/core';
 import * as XLSX from 'xlsx/xlsx.mjs';
 import { AdminImportExportService } from 'shared/services/admin-import-export/admin-import-export.service';
 import { ImportValidationService } from 'shared/services/admin-import-export/import-validation/import-validation.service';
-import { EmailsEdrpous, EmailsEdrpousResponse, Providers, ProvidersID, ValidProviders } from 'shared/models/admin-import-export.model';
+import { EmailsEdrpous, EmailsEdrpousResponse, Provider, ProviderId } from 'shared/models/admin-import-export.model';
 import { EDRPOU_IPN_REGEX, EMAIL_REGEX } from 'shared/constants/regex-constants';
 import { Observable } from 'rxjs';
 import { DOCUMENT } from '@angular/common';
 import { WINDOW } from 'ngx-window-token';
-import { ImportProvidersColumnsName, ImportProvidersStandardHeaders } from 'shared/enum/enumUA/tech-admin/import-export';
+import { ImportProvidersColumnsNames, ImportProvidersStandardHeaders } from 'shared/enum/enumUA/tech-admin/import-export';
 import { TranslateService } from '@ngx-translate/core';
 
 @Component({
@@ -22,9 +22,9 @@ export class ImportProvidersComponent {
   public selectedFile: any = null;
   public isGoTopBtnVisible: boolean;
   public readonly topPosToStartShowing: number = 250;
-  public readonly displayedColumns: string[] = Object.values(ImportProvidersColumnsName);
-  public dataSource: ProvidersID[];
-  public dataSourceInvalid: ProvidersID[];
+  public readonly displayedColumns: string[] = Object.values(ImportProvidersColumnsNames);
+  public dataSource: ProviderId[];
+  public dataSourceInvalid: ProviderId[];
 
   constructor(
     private importService: AdminImportExportService,
@@ -86,28 +86,59 @@ export class ImportProvidersComponent {
     return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], { header: 1 }).shift();
   }
 
-  public getProvidersData(workBook: XLSX.WorkBook, wsname: string): Providers[] {
+  /**
+   * This method get providers from .xlsx file.
+   * The "header" option sets the correspondence between the key in the object and the header
+   * in the file (header:Director`s name = key:directorsName)the order is strict
+   * @returns array of objects,each object is provider`s data
+   */
+  public getProvidersData(workBook: XLSX.WorkBook, wsname: string): Provider[] {
     return XLSX.utils.sheet_to_json(workBook.Sheets[wsname], {
-      header: ['providerName', 'ownership', 'identifier', 'licenseNumber', 'settlement', 'address', 'email', 'phoneNumber'],
+      header: [
+        ImportProvidersColumnsNames.directorsName,
+        ImportProvidersColumnsNames.directorsSurname,
+        ImportProvidersColumnsNames.providerName,
+        ImportProvidersColumnsNames.ownership,
+        ImportProvidersColumnsNames.identifier,
+        ImportProvidersColumnsNames.licenseNumber,
+        ImportProvidersColumnsNames.settlement,
+        ImportProvidersColumnsNames.address,
+        ImportProvidersColumnsNames.email,
+        ImportProvidersColumnsNames.phoneNumber
+      ],
       range: 1
     });
   }
 
-  public processProvidersData(providers: Providers[]): void {
-    const isCorrectLength = this.showsIsTrimmed(providers);
-    const providersId: ProvidersID[] = providers.map((elem, index) => ({ ...elem, id: index }));
+  /**
+   * This method process array of providers
+   * 1. check array length ,proper length 100
+   * 2. define ID key to each provider
+   * 3. call verifyEmailsEdrpous() method
+   * @param providers
+   */
+  public processProvidersData(providers: Provider[]): void {
+    const isArrayTruncated = this.showsIsTruncated(providers);
+    const providersId: ProviderId[] = providers.map((elem, index) => ({ ...elem, id: index }));
     this.verifyEmailsEdrpous(providersId).subscribe((emailsEdrpous) => {
-      this.handleData(emailsEdrpous, providersId, isCorrectLength);
+      this.handleData(emailsEdrpous, providersId, isArrayTruncated);
     });
   }
 
-  public handleData(emailsEdrpous: EmailsEdrpousResponse, providers: ProvidersID[], isCorrectLength: boolean): void {
+  /**
+   * This method process array of providers
+   * @param emailsEdrpous - response after verification
+   * @param providers - providers with ID
+   * @param isArrayTruncated - indicates whether the array was truncated
+   */
+  public handleData(emailsEdrpous: EmailsEdrpousResponse, providers: ProviderId[], isArrayTruncated: boolean): void {
     this.importValidationService.checkForInvalidData(providers, emailsEdrpous);
     this.dataSource = providers;
     this.dataSourceInvalid = this.filterInvalidProviders(providers);
     this.isLoading = false;
-    this.isWarningVisible = isCorrectLength;
+    this.isWarningVisible = isArrayTruncated;
   }
+
   public onFileSelected(event: Event): void {
     const target = event.target as HTMLInputElement;
     this.selectedFile = target.files[0];
@@ -117,7 +148,7 @@ export class ImportProvidersComponent {
     target.value = '';
   }
 
-  public verifyEmailsEdrpous(providers: ProvidersID[]): Observable<EmailsEdrpousResponse> {
+  public verifyEmailsEdrpous(providers: ProviderId[]): Observable<EmailsEdrpousResponse> {
     const emailsEdrpous: EmailsEdrpous = providers.reduce(
       (acc, element) => {
         if (element.identifier && EDRPOU_IPN_REGEX.test(element.identifier.toString())) {
@@ -133,9 +164,10 @@ export class ImportProvidersComponent {
     return this.importService.sendEmailsEDRPOUsForVerification(emailsEdrpous);
   }
 
-  public filterInvalidProviders(providers: ProvidersID[]): any {
+  public filterInvalidProviders(providers: ProviderId[]): any {
     return providers.filter((elem) => Object.values(elem.errors).find((error) => error !== null));
   }
+
   public checkHeadersIsValid(currentHeaders: string[]): boolean {
     const standardHeaders: string[] = Object.values(ImportProvidersStandardHeaders);
     const isValid = standardHeaders.every((header, index) => currentHeaders[index].trim() === header);
@@ -149,9 +181,9 @@ export class ImportProvidersComponent {
     return isValid;
   }
 
-  public showsIsTrimmed(providers: Providers[]): boolean {
+  public showsIsTruncated(providers: Provider[]): boolean {
     const cutProviders = providers.splice(100, providers.length);
-    return cutProviders.length > 0;
+    return Boolean(cutProviders.length);
   }
 
   public sendValidProviders(): void {
