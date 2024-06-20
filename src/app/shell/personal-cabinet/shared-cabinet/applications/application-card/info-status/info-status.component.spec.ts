@@ -5,12 +5,11 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { TranslateModule } from '@ngx-translate/core';
 import { NgxsModule } from '@ngxs/store';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 import { Application } from 'shared/models/application.model';
 import { TextSliceTransformPipe } from 'shared/pipes/text-slice-transform.pipe';
 import { InfoStatusComponent } from './info-status.component';
-import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('InfoStatusComponent', () => {
   let component: InfoStatusComponent;
@@ -18,7 +17,13 @@ describe('InfoStatusComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NgxsModule.forRoot([]), MatMenuModule, MatCardModule, MatDialogModule, MatIconModule, TranslateModule.forRoot(), HttpClientTestingModule],
+      imports: [NgxsModule.forRoot([]), 
+      MatMenuModule, 
+      MatCardModule, 
+      MatDialogModule, 
+      MatIconModule, 
+      TranslateModule.forRoot(), 
+      HttpClientTestingModule],
       declarations: [InfoStatusComponent, TextSliceTransformPipe]
     }).compileComponents();
   });
