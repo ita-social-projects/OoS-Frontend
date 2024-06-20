@@ -45,7 +45,7 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.status = this.application.isBlockedByProvider ? UserStatuses.Blocked : ApplicationStatuses[this.application.status];
     this.reason = !this.application.isBlockedByProvider && this.application.rejectionMessage;
-    if (this.status.toString() === 'AcceptedForSelection') {
+    if (this.status && this.status.toString() === 'AcceptedForSelection') {
       this.workshopService
         .getWorkshopCompetitiveSelectionDescriptionById(this.application.workshopId)
         .subscribe((description) => (this.competitiveSelectionDescription = description));
