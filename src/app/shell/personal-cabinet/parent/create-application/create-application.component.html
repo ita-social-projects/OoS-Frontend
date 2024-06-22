@@ -35,7 +35,7 @@
 
             <p class="background-text" fxLayout="row" fxLayoutAlign="space-around center">
               {{ 'NO_CHILD_FOUND' | translate }}
-              <a [routerLink]="children?.length < 20 ? ['/create-child', ModeConstants.NEW] : []" [queryParams]="children?.length < 20 ? { workshopId: workshop?.id } : {}" [class.disabled-anchor]="children.length >= 20">
+              <a [routerLink]="children?.length < 20 ? ['/create-child', ModeConstants.NEW] : []" [queryParams]="children?.length < 20 ? { workshopId: workshop?.id } : {}" [class.disabled-anchor]="children?.length >= 20">
                 <button class="btn-add" mat-button [disabled]="children?.length >= 20" >
                   <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
                 </button>
