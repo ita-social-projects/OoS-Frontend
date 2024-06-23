@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
-import { MatSort } from '@angular/material/sort';
 import { MatLegacyTableDataSource as MatTableDataSource } from '@angular/material/legacy-table';
+import { MatSort } from '@angular/material/sort';
 
 import { ColumnsListForChangesLogHistory } from 'shared/constants/changes-log';
 import { Constants } from 'shared/constants/constants';
@@ -58,5 +58,30 @@ export class HistoryLogTableComponent implements OnInit, AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
+  }
+
+  public getCustomLogValue(
+    element: ProviderHistory & ProviderAdminHistory & ApplicationHistory & ParentsBlockingByAdminHistory,
+    column: string
+  ): string {
+    switch (column) {
+      case 'oldValue':
+        if (element.operationType === 'Block') {
+          return +element.oldValue ? 'HISTORY_LOG.USER_WAS_BLOCKED' : 'HISTORY_LOG.USER_WAS_UNBLOCKED';
+        } else if (this.isApplicationHistoryType) {
+          return this.statusTitles[element?.oldValue];
+        } else {
+          return element?.oldValue;
+        }
+      case 'newValue':
+        if (element.operationType === 'Block') {
+          return +element.newValue ? 'HISTORY_LOG.USER_WAS_BLOCKED' : 'HISTORY_LOG.USER_WAS_UNBLOCKED';
+        } else if (this.isApplicationHistoryType) {
+          return this.statusTitles[element?.newValue];
+        } else {
+          return element?.newValue;
+        }
+    }
+    return '';
   }
 }
