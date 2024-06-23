@@ -9,8 +9,8 @@
         <span> <i class="{{ ApplicationIcons[status] }}"></i></span>
         <span> {{ ApplicationTitles[status] | translate }}</span>
       </div>
-      <div *ngIf="ApplicationTitles[status]===ApplicationTitles.AcceptedForSelection" class="application-info-menu application-info-description-card">{{ competitiveSelectionDescription }}</div>
-      <div *ngIf="ApplicationTitles[status]!==ApplicationTitles.AcceptedForSelection" class="application-info-menu application-info-description-card">({{ ApplicationStatusDescription[status] | translate }})</div>
+      <div *ngIf="ApplicationTitles[status] === ApplicationTitles.AcceptedForSelection" class="application-info-menu application-info-description-card">{{ competitiveSelectionDescription }}</div>
+      <div *ngIf="ApplicationTitles[status] !== ApplicationTitles.AcceptedForSelection" class="application-info-menu application-info-description-card">({{ ApplicationStatusDescription[status] | translate }})</div>
       <p *ngIf="reason" class="application-info-menu">{{ reason }}</p>
     </app-info-menu>
   </span>
