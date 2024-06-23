@@ -71,6 +71,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   public isContraindicationAgreementYourself: boolean;
   public isAttendAgreementYourself: boolean;
   public workshopId: string;
+  public has20Children: boolean;
 
   constructor(
     private store: Store,
@@ -99,6 +100,7 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
     this.children$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((children: SearchResponse<Child[]>) => {
       this.parentCard = children.entities.find((child: Child) => child.isParent);
       this.children = children.entities.filter((child: Child) => !child.isParent);
+      this.has20Children = this.children.length >= 20;
     });
 
     combineLatest([this.parent$, this.workshop$])
