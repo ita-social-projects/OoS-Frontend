@@ -2,3 +2,8 @@
 @import 'src/app/shared/styles/buttons.scss';
 @import 'src/app/shared/styles/cards.scss';
 @import 'src/app/shared/styles/card-wrapper.scss';
+
+.disabled-anchor {
+  pointer-events: none;
+  cursor: default;
+}

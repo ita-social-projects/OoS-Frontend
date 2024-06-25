@@ -38,3 +38,9 @@ export interface ParentBlockedData {
   isBlocked: boolean;
   reason?: string;
 }
+
+export interface ParentPayload {
+  phoneNumber: string;
+  gender: string;
+  dateOfBirth: string;
+}

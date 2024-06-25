@@ -1,5 +1,6 @@
 export enum PayRateType {
-  Classes = 1,
+  None = 0,
+  Classes,
   Month,
   Day,
   Year,

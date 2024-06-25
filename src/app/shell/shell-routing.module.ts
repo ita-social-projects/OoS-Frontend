@@ -32,6 +32,8 @@ import { ProviderGuard } from './personal-cabinet/provider/provider.guard';
 import { CreateGuard } from './personal-cabinet/shared-cabinet/create-form/create.guard';
 import { UserConfigEditComponent } from './personal-cabinet/shared-cabinet/user-config/user-config-edit/user-config-edit.component';
 import { ResultComponent } from './result/result.component';
+import { CreateParentComponent } from './personal-cabinet/parent/create-parent/create-parent.component';
+import { CreateParentGuard } from './personal-cabinet/parent/create-parent/create-parent.guard';
 
 const routes: Routes = [
   { path: '', component: MainComponent },
@@ -159,6 +161,13 @@ const routes: Routes = [
     loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
     canLoad: [ParentGuard],
     canDeactivate: [CreateGuard]
+  },
+  {
+    path: 'create-parent/:param',
+    component: CreateParentComponent,
+    loadChildren: () => import('./personal-cabinet/parent/parent.module').then((m) => m.ParentModule),
+    canDeactivate: [CreateGuard],
+    canLoad: [CreateParentGuard]
   },
   { path: '**', component: ErrorPageComponent }
 ];
