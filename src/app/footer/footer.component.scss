@@ -73,6 +73,12 @@
   @media (max-width: 450px) {
     .min-molodi-mobile {
       display: block;
+      margin-right: 105px;
+    }
+
+    & > div {
+      margin-right: 0 !important;
+      justify-content: space-between !important;
     }
 
     .min-molodi-full {
