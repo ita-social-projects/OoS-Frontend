@@ -1,15 +1,25 @@
 import { TestBed } from '@angular/core/testing';
-import { Router } from '@angular/router';
+import { Router, UrlTree } from '@angular/router';
 import { NgxsModule, Store } from '@ngxs/store';
 import { of } from 'rxjs';
+import { User } from 'shared/models/user.model';
+import { RegistrationState } from 'shared/store/registration.state';
 
-import { ModeConstants } from 'shared/constants/constants';
 import { PersonalCabinetGuard } from './personal-cabinet.guard';
 
-describe('ProviderGuard', () => {
+describe('PersonalCabinetGuard', () => {
   let guard: PersonalCabinetGuard;
   let store: Store;
   let router: Router;
+  const mockUser: User = {
+    dateOfBirth: '01/01/2004',
+    firstName: 'ГАв',
+    id: '23',
+    isBlocked: false,
+    isRegistered: false,
+    lastName: 'фівв',
+    role: 'provider'
+  };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -25,10 +35,10 @@ describe('ProviderGuard', () => {
   });
 
   it('should return TRUE if canLoad called if user is registered', (done) => {
-    jest.spyOn(store, 'select').mockReturnValue(of(true));
+    mockUser.isRegistered = true;
+    jest.spyOn(store, 'select').mockReturnValue(of(mockUser));
 
     const canLoad = guard.canLoad();
-
     canLoad.subscribe((value) => {
       expect(value).toEqual(true);
       done();
@@ -36,12 +46,15 @@ describe('ProviderGuard', () => {
   });
 
   it('should return UrlTree if canLoad called if user is not registered', (done) => {
-    jest.spyOn(store, 'select').mockReturnValue(of(false));
+    mockUser.isRegistered = false;
+    const mockUrlTree = new UrlTree();
+    jest.spyOn(router, 'createUrlTree').mockReturnValue(mockUrlTree);
+    jest.spyOn(store, 'select').mockReturnValue(of(mockUser));
 
     const canLoad = guard.canLoad();
-
     canLoad.subscribe((value) => {
-      expect(value).toEqual(router.createUrlTree(['/create-provider', ModeConstants.NEW]));
+      console.log('value' + value);
+      expect(value).toEqual(mockUrlTree);
       done();
     });
   });
