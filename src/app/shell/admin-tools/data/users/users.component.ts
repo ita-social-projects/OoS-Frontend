@@ -127,19 +127,19 @@ export class UsersComponent implements OnInit, OnDestroy {
   /**
    * This method delete child By Id
    */
-  public deleteUser(user: Child): void {
+  public onDeleteChild(child: Child): void {
     this.matDialog
       .open(ConfirmationModalWindowComponent, {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteChild,
-          property: `${user.firstName} ${user.lastName}`
+          property: `${child.firstName} ${child.lastName}`
         }
       })
       .afterClosed()
       .subscribe((result: boolean) => {
         if (result) {
-          this.deleteChild(user.id, this.childrenParams);
+          this.deleteChild(child.id, this.childrenParams);
         }
       });
   }
