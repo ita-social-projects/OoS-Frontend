@@ -23,7 +23,7 @@ import { UsersBlockData, UsersTableData } from 'shared/models/users-table';
 import { GetChildrenForAdmin } from 'shared/store/admin.actions';
 import { AdminState } from 'shared/store/admin.state';
 import { PopNavPath, PushNavPath } from 'shared/store/navigation.actions';
-import { OnBlockParent, OnUnblockParent } from 'shared/store/parent.actions';
+import { DeleteChildById, OnBlockParent, OnUnblockParent } from 'shared/store/parent.actions';
 import { Util } from 'shared/utils/utils';
 
 @Component({
@@ -124,6 +124,26 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.onPageChange(PaginationConstants.firstPage);
   }
 
+  /**
+   * This method delete child By Id
+   */
+  public deleteUser(user: Child): void {
+    this.matDialog
+      .open(ConfirmationModalWindowComponent, {
+        width: Constants.MODAL_SMALL,
+        data: {
+          type: ModalConfirmationType.deleteChild,
+          property: `${user.firstName} ${user.lastName}`
+        }
+      })
+      .afterClosed()
+      .subscribe((result: boolean) => {
+        if (result) {
+          this.deleteChild(user.id, this.childrenParams);
+        }
+      });
+  }
+
   public onBlockUnblock(parent: UsersBlockData): void {
     if (parent.isBlocking) {
       this.matDialog
@@ -180,5 +200,9 @@ export class UsersComponent implements OnInit, OnDestroy {
   private getChildren(): void {
     Util.setFromPaginationParam(this.childrenParams, this.currentPage, this.totalEntities);
     this.store.dispatch(new GetChildrenForAdmin(this.childrenParams));
+  }
+
+  private deleteChild(id: string, params: ChildrenParameters): void {
+    this.store.dispatch(new DeleteChildById(id, params));
   }
 }
