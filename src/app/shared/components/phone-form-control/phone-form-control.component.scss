@@ -23,7 +23,9 @@
 }
 
 ::ng-deep .ngx-mat-tel-input-mat-menu-panel {
-  max-width: none;
+  max-width: none !important;
+  width: auto !important;
+  min-width: 400px !important;
   max-height: 500px;
   overflow-x: hidden;
   box-sizing: border-box;
@@ -39,6 +41,8 @@
     margin: 4px !important;
     font-size: 13px !important;
     font-family: 'Open Sans', sans-serif !important;
+    width: calc(100% - 20px) !important;
+    box-sizing: border-box;
   }
 
   .country-list-button {
