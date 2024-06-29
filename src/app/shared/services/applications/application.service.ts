@@ -27,8 +27,8 @@ export class ApplicationService {
    * This method get pending applications by provider id
    * @param id string
    */
-  public getPendingApplicationsByProviderId(id: string): Observable<SearchResponse<Application>> {
-    return this.http.get<SearchResponse<Application>>(`/api/v1/provider/${id}/applications/pending`);
+  public getPendingApplicationsByProviderId(id: string): Observable<SearchResponse<Application[]>> {
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/provider/${id}/applications/pending`);
   }
 
   /**

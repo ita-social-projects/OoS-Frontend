@@ -106,7 +106,7 @@ export interface ProviderStateModel {
   selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
-  pendingApplications: SearchResponse<Application>;
+  pendingApplications: SearchResponse<Application[]>;
 }
 
 @State<ProviderStateModel>({
@@ -182,7 +182,7 @@ export class ProviderState {
   }
 
   @Selector()
-  static pendingApplications(state: ProviderStateModel): SearchResponse<Application> {
+  static pendingApplications(state: ProviderStateModel): SearchResponse<Application[]> {
     return state.pendingApplications;
   }
 
@@ -792,9 +792,9 @@ export class ProviderState {
   getPendingApplications(
     { patchState }: StateContext<ProviderStateModel>,
     { id }: GetPendingApplicationsByProviderId
-  ): Observable<SearchResponse<Application>> {
+  ): Observable<SearchResponse<Application[]>> {
     return this.applicationService
       .getPendingApplicationsByProviderId(id)
-      .pipe(tap((pendingApplications: SearchResponse<Application>) => patchState({ pendingApplications })));
+      .pipe(tap((pendingApplications: SearchResponse<Application[]>) => patchState({ pendingApplications })));
   }
 }

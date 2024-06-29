@@ -25,7 +25,7 @@ import { Util } from 'shared/utils/utils';
 })
 export class PersonalCabinetComponent implements OnInit, OnDestroy {
   @Select(ProviderState.pendingApplications)
-  public pendingApplications$: Observable<SearchResponse<Application>>;
+  public pendingApplications$: Observable<SearchResponse<Application[]>>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
   @Select(RegistrationState.provider)
