@@ -79,7 +79,6 @@ $theme: mat.define-light-theme(
 );
 
 @include mat.core();
-@include mat.legacy-core();
 
 @include mat.all-component-themes($theme);
 @include mat.all-legacy-component-themes($theme);

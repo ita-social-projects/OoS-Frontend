@@ -1,16 +1,16 @@
-import { Component, Inject, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Inject, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog';
-import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
-import { Observable, forkJoin, asyncScheduler } from 'rxjs';
+import { Observable, asyncScheduler, forkJoin } from 'rxjs';
+import { Direction } from '../../../../../shared/models/category.model';
 import { InstituitionHierarchy } from '../../../../../shared/models/institution.model';
+import { DataItem } from '../../../../../shared/models/item.model';
 import { GetAllInstitutionsHierarchy, GetDirections, UpdateInstitutionHierarchy } from '../../../../../shared/store/meta-data.actions';
 import { MetaDataState } from '../../../../../shared/store/meta-data.state';
-import { Direction } from '../../../../../shared/models/category.model';
-import { DataItem } from '../../../../../shared/models/item.model';
 import { EditInsHierarchyModel } from '../edit-ins-hierarchy-model';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatLegacyChipList as MatChipList } from '@angular/material/legacy-chips';
-import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
 import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 import { LangChangeEvent, TranslateService } from '@ngx-translate/core';
 import { Store } from '@ngxs/store';
