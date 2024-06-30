@@ -1,14 +1,15 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { Select, Store } from '@ngxs/store';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, takeUntil } from 'rxjs';
+import { Actions, Select, Store, ofActionSuccessful } from '@ngxs/store';
+import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, switchMap, takeUntil } from 'rxjs';
 
 import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
+import { NotificationType } from 'shared/enum/notifications';
 import { Notification, NotificationAmount } from 'shared/models/notification.model';
 import { SignalRService } from 'shared/services/signalR/signal-r.service';
 import { AppState } from 'shared/store/app.state';
 import { GetUnreadMessagesCount } from 'shared/store/chat.actions';
 import { ChatState } from 'shared/store/chat.state';
-import { GetAmountOfNewUsersNotifications } from 'shared/store/notification.actions';
+import { GetAmountOfNewUsersNotifications, ReadUsersNotificationsByType } from 'shared/store/notification.actions';
 import { NotificationState } from 'shared/store/notification.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { isRoleAdmin } from 'shared/utils/admin.utils';
@@ -36,7 +37,8 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
   constructor(
     private store: Store,
     private cdr: ChangeDetectorRef,
-    private signalRService: SignalRService
+    private signalRService: SignalRService,
+    private actions$: Actions
   ) {}
 
   public ngOnInit(): void {
@@ -63,15 +65,33 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
       };
     });
 
+    this.actions$
+      .pipe(
+        ofActionSuccessful(ReadUsersNotificationsByType),
+        takeUntil(this.destroy$),
+        switchMap((payload) => {
+          if (payload.notificationType === NotificationType.Application) {
+            return this.store.dispatch(new GetAmountOfNewUsersNotifications());
+          }
+        })
+      )
+      .subscribe((notificationAmount) => this.unreadNotificationsCount$.next(notificationAmount.amount));
+
     combineLatest([
       this.notificationAmount$.pipe(filter(Boolean)),
-      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => isRoleAdmin(role) || unreadMessagesCount !== null)),
-      this.unreadNotificationsCount$
+      this.unreadNotificationsCount$,
+      this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => isRoleAdmin(role) || unreadMessagesCount !== null))
     ])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(
+        takeUntil(this.destroy$),
+        map(([notificationAmount, unreadNotificationsCount, unreadMessagesCount]: [NotificationAmount, number, number]) => [
+          unreadNotificationsCount ?? notificationAmount.amount,
+          unreadMessagesCount
+        ])
+      )
       .subscribe(
-        ([notificationAmount, unreadMessagesCount, unreadNotificationsCount]: [NotificationAmount, number, number]) =>
-          (this.notificationAmount = { amount: (unreadNotificationsCount ?? notificationAmount.amount) + unreadMessagesCount })
+        ([notificationAmount, unreadMessagesCount]: [number, number]) =>
+          (this.notificationAmount = { amount: notificationAmount + unreadMessagesCount })
       );
   }
 
