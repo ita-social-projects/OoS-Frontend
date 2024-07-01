@@ -65,10 +65,10 @@
   overflow: hidden;
 }
 
-::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog > mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
-  justify-content: center;
+::ng-deep div.ngx-mat-timepicker-dialog > mat-dialog-container div[mat-dialog-actions] {
   flex-flow: wrap-reverse;
   row-gap: 1rem;
+  justify-content: center !important;
 }
 
 @media (max-width: 830px) {
@@ -83,16 +83,5 @@
 
   .time {
     gap: 5px;
-  }
-}
-
-@media (max-width: 475px) {
-  div.ngx-mat-timepicker-dialog > mat-dialog-container div[mat-dialog-actions] {
-    justify-content: center !important;
-    display: flex !important;
-  }
-
-  .btn-cancel {
-    margin-bottom: 5px;
   }
 }
