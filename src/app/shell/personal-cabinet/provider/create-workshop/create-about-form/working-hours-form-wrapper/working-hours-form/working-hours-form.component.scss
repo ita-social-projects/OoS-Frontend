@@ -87,7 +87,7 @@
 }
 
 @media (max-width: 475px) {
-  ::ng-deep div.ngx-mat-timepicker-dialog > mat-dialog-container div[mat-dialog-actions] {
+  div.ngx-mat-timepicker-dialog > mat-dialog-container div[mat-dialog-actions] {
     justify-content: center !important;
     display: flex !important;
   }
