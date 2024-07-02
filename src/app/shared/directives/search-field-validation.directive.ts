@@ -4,7 +4,6 @@ import { Directive, ElementRef, EventEmitter, HostListener, Output } from '@angu
   selector: '[appSearchFieldValidation]'
 })
 export class SearchFieldValidationDirective {
-
   @Output() invalidCharacterDetected = new EventEmitter<void>();
   @Output() validCharacterDetected = new EventEmitter<void>();
 
@@ -21,5 +20,4 @@ export class SearchFieldValidationDirective {
       this.validCharacterDetected.emit();
     }
   }
-
 }

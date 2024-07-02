@@ -24,6 +24,16 @@ describe('FullSearchBarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should set `displayErrorMessage` to true', () => {
+    component.showErrorMessage();
+    expect(component.displayErrorMessage).toBe(true);
+  });
+
+  it('should set `displayErrorMessage` to false', () => {
+    component.hideErrorMessage();
+    expect(component.displayErrorMessage).toBe(false);
+  });
 });
 @Component({
   selector: 'app-searchbar',

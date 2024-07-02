@@ -17,7 +17,6 @@ import { NavigationState } from 'shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
-
   @Select(NavigationState.navigationPaths)
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)

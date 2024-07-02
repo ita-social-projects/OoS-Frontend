@@ -10,11 +10,11 @@ export class FullSearchBarComponent {
 
   public displayErrorMessage: boolean = false;
 
-  public showErrorMessage(): void{
+  public showErrorMessage(): void {
     this.displayErrorMessage = true;
   }
 
-  public hideErrorMessage(): void{
+  public hideErrorMessage(): void {
     this.displayErrorMessage = false;
   }
 }
