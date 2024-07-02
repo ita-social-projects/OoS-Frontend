@@ -97,6 +97,13 @@ export class ChatComponent implements OnInit, AfterViewInit, OnDestroy {
     this.chatEl.nativeElement.removeEventListener('scroll', this.onScroll);
   }
 
+  public handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' && !event.shiftKey) {
+      event.preventDefault();
+      this.onSendMessage();
+    }
+  }
+
   public onSendMessage(): void {
     if (this.chatRoom.isBlockedByProvider && !this.userIsProvider) {
       this.setChatDisabled();
