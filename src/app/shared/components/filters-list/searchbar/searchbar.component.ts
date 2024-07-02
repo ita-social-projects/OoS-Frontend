@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Select, Store } from '@ngxs/store';
@@ -17,10 +17,14 @@ import { NavigationState } from 'shared/store/navigation.state';
   styleUrls: ['./searchbar.component.scss']
 })
 export class SearchbarComponent implements OnInit, OnDestroy {
+
   @Select(NavigationState.navigationPaths)
   private navigationPaths$: Observable<Navigation[]>;
   @Select(FilterState.searchQuery)
   private searchQuery$: Observable<string>;
+
+  @Output() invalidCharacterDetected = new EventEmitter<void>();
+  @Output() validCharacterDetected = new EventEmitter<void>();
 
   public filteredResults: string[];
   public searchValueFormControl = new FormControl('', [Validators.maxLength(256)]);
@@ -117,5 +121,13 @@ export class SearchbarComponent implements OnInit, OnDestroy {
 
   private filter(value: string): void {
     this.filteredResults = this.previousResults.filter((result: string) => result.toLowerCase().includes(value.toLowerCase()));
+  }
+
+  public handleInvalidCharacter(): void {
+    this.invalidCharacterDetected.emit();
+  }
+
+  public handleValidCharacter(): void {
+    this.validCharacterDetected.emit();
   }
 }

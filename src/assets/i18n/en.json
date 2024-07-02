@@ -451,6 +451,7 @@
       "INVALID_STREET": ", please use only numbers, cyrillic and symbols ( ' . - ( ) )",
       "INVALID_SYMBOLS": ", please use only cyrillic and symbols ( ' - )",
       "INVALID_SECTION_NAME": ", please, the section title must begin with a letter of the Cyrillic or Latin alphabet",
+      "INVALID_SEARCH": "Please use only cyrillic, latin, numbers and symbols (` ' / . , № \")",
       "REQUIRED_INPUT": "This field is required.",
       "NO_MORE_CHILDREN": "It is possible to add no more than",
       "APPLICATION_ALREADY_APPLIED": "The application is already created",

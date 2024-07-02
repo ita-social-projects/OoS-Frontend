@@ -4,6 +4,7 @@
     <app-city-filter></app-city-filter>
   </div>
   <div class="search-bar-wrap" fxLayout="row" fxLayoutAlign="space-between center">
-    <app-searchbar class="search-bar"></app-searchbar>
+    <app-searchbar class="search-bar" (invalidCharacterDetected)="showErrorMessage()" (validCharacterDetected)="hideErrorMessage()"></app-searchbar>
   </div>
 </div>
+<mat-error class="invalid-input" *ngIf="displayErrorMessage">{{ 'FORMS.VALIDATIONS.INVALID_SEARCH' | translate }}</mat-error>

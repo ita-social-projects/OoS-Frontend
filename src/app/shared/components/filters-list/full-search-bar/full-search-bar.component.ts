@@ -7,4 +7,14 @@ import { Component, Input } from '@angular/core';
 })
 export class FullSearchBarComponent {
   @Input() public styleClass: string;
+
+  public displayErrorMessage: boolean = false;
+
+  public showErrorMessage(): void{
+    this.displayErrorMessage = true;
+  }
+
+  public hideErrorMessage(): void{
+    this.displayErrorMessage = false;
+  }
 }

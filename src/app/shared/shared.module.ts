@@ -78,6 +78,7 @@ import { NotificationDescriptionPipe } from './pipes/notification-description.pi
 import { PhonePipe } from './pipes/phone.pipe';
 import { TextSliceTransformPipe } from './pipes/text-slice-transform.pipe';
 import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
+import { SearchFieldValidationDirective } from './directives/search-field-validation.directive';
 
 @NgModule({
   declarations: [
@@ -149,7 +150,8 @@ import { TranslateCasesPipe } from './pipes/translate-cases.pipe';
     NotificationDescriptionPipe,
     InfoMenuComponent,
     ImageCarouselComponent,
-    CustomCarouselDirective
+    CustomCarouselDirective,
+    SearchFieldValidationDirective
   ],
 
   imports: [
