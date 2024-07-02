@@ -1,13 +1,12 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Select, Store } from '@ngxs/store';
-import { Observable, filter, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
 import { PersonalCabinetTitle } from 'shared/enum/enumUA/navigation-bar';
 import { RoleLinks } from 'shared/enum/enumUA/user';
 import { Role, Subrole } from 'shared/enum/role';
 import { ApplicationStatuses } from 'shared/enum/statuses';
 import { Application } from 'shared/models/application.model';
-import { Provider } from 'shared/models/provider.model';
 import { SearchResponse } from 'shared/models/search.model';
 import { NavigationBarService } from 'shared/services/navigation-bar/navigation-bar.service';
 import { ChatState } from 'shared/store/chat.state';
