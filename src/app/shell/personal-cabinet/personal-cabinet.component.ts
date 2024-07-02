@@ -28,8 +28,6 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
   public pendingApplications$: Observable<SearchResponse<Application[]>>;
   @Select(ChatState.unreadMessagesCount)
   public unreadMessagesCount$: Observable<number>;
-  @Select(RegistrationState.provider)
-  private provider$: Observable<Provider>;
 
   public readonly ApplicationStatuses = ApplicationStatuses;
   public readonly RoleLinks = RoleLinks;
@@ -63,9 +61,8 @@ export class PersonalCabinetComponent implements OnInit, OnDestroy {
     );
 
     if (this.userRole === Role.provider) {
-      this.provider$
-        .pipe(filter(Boolean), take(1))
-        .subscribe((provider) => this.store.dispatch(new GetPendingApplicationsByProviderId(provider.id)));
+      const providerId = this.store.selectSnapshot(RegistrationState.provider).id;
+      this.store.dispatch(new GetPendingApplicationsByProviderId(providerId));
     }
   }
 

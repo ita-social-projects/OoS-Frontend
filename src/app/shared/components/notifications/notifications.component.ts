@@ -1,6 +1,6 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { Actions, Select, Store, ofActionSuccessful } from '@ngxs/store';
-import { BehaviorSubject, Observable, Subject, combineLatest, filter, map, switchMap, takeUntil } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, Subject, combineLatest, filter, map, switchMap, takeUntil } from 'rxjs';
 
 import { NOTIFICATION_HUB_URL } from 'shared/constants/hubs-url';
 import { NotificationType } from 'shared/enum/notifications';
@@ -68,12 +68,13 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
     this.actions$
       .pipe(
         ofActionSuccessful(ReadUsersNotificationsByType),
-        takeUntil(this.destroy$),
-        switchMap((payload) => {
-          if (payload.notificationType === NotificationType.Application) {
-            return this.store.dispatch(new GetAmountOfNewUsersNotifications());
-          }
-        })
+        switchMap((payload) =>
+          payload.notificationType === NotificationType.Application && payload.needGetRequest
+            ? this.store.dispatch(new GetAmountOfNewUsersNotifications())
+            : EMPTY
+        ),
+        filter(Boolean),
+        takeUntil(this.destroy$)
       )
       .subscribe((notificationAmount) => this.unreadNotificationsCount$.next(notificationAmount.amount));
 
@@ -83,11 +84,11 @@ export class NotificationsComponent implements OnInit, AfterViewChecked, OnDestr
       this.unreadMessagesCount$.pipe(filter((unreadMessagesCount) => isRoleAdmin(role) || unreadMessagesCount !== null))
     ])
       .pipe(
-        takeUntil(this.destroy$),
         map(([notificationAmount, unreadNotificationsCount, unreadMessagesCount]: [NotificationAmount, number, number]) => [
           unreadNotificationsCount ?? notificationAmount.amount,
           unreadMessagesCount
-        ])
+        ]),
+        takeUntil(this.destroy$)
       )
       .subscribe(
         ([notificationAmount, unreadMessagesCount]: [number, number]) =>
