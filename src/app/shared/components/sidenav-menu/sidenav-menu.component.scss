@@ -6,7 +6,6 @@
 
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
-  width: 25px !important;
   overflow: visible;
   padding-right: 0px !important;
   font-family: 'Innerspace';
@@ -93,10 +92,6 @@
       ::ng-deep .mat-select-value-text {
         color: black !important;
       }
-    }
-
-    & > .lang-option-text-uk {
-      margin-left: 20px !important;
     }
 
     &-menu {
