@@ -63,8 +63,8 @@
   <small appValidationMessageStyling>{{ 'FORMS.VALIDATIONS.REQUIRED_INPUT' | translate }}<br /></small>
 </ng-template>
 
-<ngx-mat-timepicker class="clock-buttons" #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
-<ngx-mat-timepicker class="clock-buttons" #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
+<ngx-mat-timepicker #timepickerStart [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
+<ngx-mat-timepicker #timepickerEnd [cancelBtnTmpl]="btnCancel" [confirmBtnTmpl]="btnConfirm"></ngx-mat-timepicker>
 <ng-template #btnCancel>
   <button mat-raised-button class="btn btn-cancel" (click)="onCancel()">{{ 'BUTTONS.CANCEL' | translate }}</button>
 </ng-template>
