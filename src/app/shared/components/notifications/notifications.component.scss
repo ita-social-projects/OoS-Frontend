@@ -1,9 +1,13 @@
 :host::ng-deep .mat-icon {
   position: relative;
   overflow: visible;
+  font-size: 30px;
+  top: -1px;
 
-  height: auto;
-  width: auto;
+  @media (min-width: 750px) {
+    height: auto;
+    width: auto;
+  }
 
   .mat-badge-content {
     right: -20px !important;
@@ -18,7 +22,17 @@
 }
 
 .icon-mobile {
-  top: 10px;
+  top: 8px;
+  margin-left: 73px;
+}
+
+.btn-notifications {
+  margin-left: -8px;
+}
+
+.notifications-icon {
+  margin-left: 5px;
+  margin-right: 15px;
 }
 
 .full-width {

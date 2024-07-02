@@ -100,6 +100,11 @@
   }
 }
 
+.nav-mobile {
+  display: flex;
+  align-items: center;
+}
+
 .lang,
 .menu,
 .login {
@@ -130,10 +135,13 @@
 
 ::ng-deep .lang-option .mat-select-value {
   color: white !important;
-  width: 25px !important;
   overflow: visible;
   padding-right: 0px !important;
   font-family: 'Innerspace';
+
+  @media (max-width: 750px) {
+    margin-left: 12px !important;
+  }
 }
 
 ::ng-deep .lang-option .mat-select-arrow {
