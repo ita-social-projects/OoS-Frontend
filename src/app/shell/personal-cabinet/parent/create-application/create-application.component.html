@@ -35,12 +35,12 @@
 
             <p class="background-text" fxLayout="row" fxLayoutAlign="space-around center">
               {{ 'NO_CHILD_FOUND' | translate }}
-              <a [routerLink]="!has20Children ? ['/create-child', ModeConstants.NEW] : []" [queryParams]="!has20Children ? { workshopId: workshop?.id } : {}" [class.disabled-anchor]="has20Children">
-                <button class="btn-add" mat-button [disabled]="has20Children" >
+              <a [routerLink]="!isChildLimitReached ? ['/create-child', ModeConstants.NEW] : []" [queryParams]="!isChildLimitReached ? { workshopId: workshop?.id } : {}" [class.disabled-anchor]="isChildLimitReached">
+                <button class="btn-add" mat-button [disabled]="isChildLimitReached" >
                   <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
                 </button>
               </a>
-              <app-info-menu *ngIf="has20Children">{{ 'BANNERS.MAX_CHILDREN_AMOUNT' | translate }}</app-info-menu>
+              <app-info-menu *ngIf="isChildLimitReached">{{ 'BANNERS.MAX_CHILDREN_AMOUNT' | translate }}</app-info-menu>
             </p>
 
             <div *ngIf="ChildFormControl.value" class="info-wrapper">
