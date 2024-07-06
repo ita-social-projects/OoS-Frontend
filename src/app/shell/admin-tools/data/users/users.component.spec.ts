@@ -223,7 +223,7 @@ describe('UsersComponent', () => {
     });
   });
   describe('onDeleteChild method', () => {
-    let matDialogSpy: jest.SpyInstance;
+    // let matDialogSpy: jest.SpyInstance;
     let mockChild: Child;
     beforeEach(() => {
       mockChild = {
@@ -234,30 +234,20 @@ describe('UsersComponent', () => {
         dateOfBirth: '',
         gender: 0,
         isParent: null,
-        placeOfStudy: ''
+        placeOfStudy: '',
+        pib: 'qwerty'
       };
-      // const mockChild: Child = {
-      //   id: '1',
-      //   firstName: 'John',
-      //   lastName: 'Doe',
-      //   dateOfBirth: '',
-      //   gender: 0,
-      //   parentId: '',
-      //   isParent: false,
-      //   placeOfStudy: ''
-      // };
-
-      matDialogSpy = jest.spyOn(matDialog, 'open').mockReturnValue({
-        afterClosed: () => of(true) // Mocking the afterClosed method correctly
-      } as MatDialogRef<any>); // Use `any` here to avoid type checking issues
     });
 
     it('should open dialog with correct parameters', () => {
+      const matDialogSpy: jest.SpyInstance = jest.spyOn(matDialog, 'open').mockReturnValue({
+        afterClosed: () => of(true)
+      } as MatDialogRef<any>);
       const expectedMatDialogData = {
         width: Constants.MODAL_SMALL,
         data: {
           type: ModalConfirmationType.deleteChild,
-          property: `${mockChild.firstName} ${mockChild.lastName}`
+          property: mockChild.pib
         }
       };
 
@@ -267,7 +257,7 @@ describe('UsersComponent', () => {
     });
 
     it('should call deleteChild with correct parameters when confirmed', () => {
-      matDialogSpy.mockReturnValueOnce({
+      jest.spyOn(matDialog, 'open').mockReturnValueOnce({
         afterClosed: () => of(true)
       } as MatDialogRef<any>);
 
@@ -279,7 +269,7 @@ describe('UsersComponent', () => {
     });
 
     it('should not call deleteChild when not confirmed', () => {
-      matDialogSpy.mockReturnValueOnce({
+      jest.spyOn(matDialog, 'open').mockReturnValueOnce({
         afterClosed: () => of(false)
       } as MatDialogRef<any>);
       const deleteChildSpy = jest.spyOn<any, any>(component, 'deleteChild');
