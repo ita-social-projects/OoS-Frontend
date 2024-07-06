@@ -62,10 +62,11 @@
 ::ng-deep .timepicker__main-content {
   display: flex;
   justify-content: center;
+  overflow: hidden;
 }
 
-::ng-deep div.cdk-overlay-pane.ngx-mat-timepicker-dialog > mat-dialog-container.mat-dialog-container div[mat-dialog-actions] {
-  justify-content: center;
+::ng-deep div.ngx-mat-timepicker-dialog > mat-dialog-container div[mat-dialog-actions] {
+  justify-content: center !important;
   flex-flow: wrap-reverse;
   row-gap: 1rem;
 }
