@@ -31,9 +31,9 @@ import { CreateFormComponent } from '../../../../../personal-cabinet/shared-cabi
 })
 export class CreateDirectionComponent extends CreateFormComponent implements OnInit, OnDestroy {
   @Select(AdminState.direction)
-  direction$: Observable<Direction>;
+  public direction$: Observable<Direction>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
 
   public directionFormGroup: FormGroup;
   public isDispatching = false;
@@ -53,12 +53,12 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
     });
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.determineEditMode();
     this.addNavPath();
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     this.store.dispatch(
       new AddNavPath(
         this.navigationBarService.createNavPaths(
@@ -78,7 +78,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
     );
   }
 
-  setEditMode(): void {
+  public setEditMode(): void {
     const directionId = +this.route.snapshot.paramMap.get('param');
     this.store.dispatch(new GetDirectionById(directionId));
 
@@ -90,7 +90,7 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
       .subscribe((direction: Direction) => this.directionFormGroup.patchValue(direction, { emitEvent: false }));
   }
 
-  onSubmit(): void {
+  public onSubmit(): void {
     if (this.directionFormGroup.dirty && !this.isDispatching) {
       this.matDialog
         .open(ConfirmationModalWindowComponent, {
@@ -105,14 +105,18 @@ export class CreateDirectionComponent extends CreateFormComponent implements OnI
           this.isDispatching = true;
 
           const direction: Direction = new Direction(this.directionFormGroup.value);
-          this.editMode ? this.store.dispatch(new UpdateDirection(direction)) : this.store.dispatch(new CreateDirection(direction));
+          if (this.editMode) {
+            this.store.dispatch(new UpdateDirection(direction));
+          } else {
+            this.store.dispatch(new CreateDirection(direction));
+          }
 
           this.directionFormGroup.markAsPristine();
         });
     }
   }
 
-  onCancel(): void {
+  public onCancel(): void {
     this.router.navigate(['/admin-tools/data/directions']);
   }
 }

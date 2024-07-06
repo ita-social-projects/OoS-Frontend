@@ -53,7 +53,6 @@ describe('PersonalCabinetGuard', () => {
 
     const canLoad = guard.canLoad();
     canLoad.subscribe((value) => {
-      console.log('value' + value);
       expect(value).toEqual(mockUrlTree);
       done();
     });

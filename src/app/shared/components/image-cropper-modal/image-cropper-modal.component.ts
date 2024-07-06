@@ -43,5 +43,5 @@ export class ImageCropperModalComponent {
   }
 
   public loadImageFailed(): void {}
-  cropperReady(): void {}
+  public cropperReady(): void {}
 }

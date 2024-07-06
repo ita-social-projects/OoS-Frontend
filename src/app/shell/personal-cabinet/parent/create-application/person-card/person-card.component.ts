@@ -10,16 +10,16 @@ import { Child } from 'shared/models/child.model';
   styleUrls: ['./person-card.component.scss']
 })
 export class PersonCardComponent implements OnInit {
-  readonly dateFormat = Constants.SHORT_DATE_FORMAT;
-  readonly gender = Gender;
+  @Input() public child: Child;
 
-  @Input() child: Child;
+  public readonly dateFormat = Constants.SHORT_DATE_FORMAT;
+  public readonly gender = Gender;
 
-  editLink: string;
+  public editLink: string;
 
   constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.editLink = this.child.isParent ? '/personal-cabinet/config/edit' : `/create-child/${this.child.id}`;
   }
 }

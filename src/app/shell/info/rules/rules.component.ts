@@ -16,14 +16,14 @@ import { AddNavPath, DeleteNavPath } from 'shared/store/navigation.actions';
   styleUrls: ['./rules.component.scss']
 })
 export class RulesComponent implements OnInit, OnDestroy {
-  readonly noData = NoResultsTitle.noInfo;
-
   @Select(AdminState.lawsAndRegulations)
-  platformRules$: Observable<CompanyInformation>;
+  public platformRules$: Observable<CompanyInformation>;
   @Select(AdminState.isLoading)
-  isLoading$: Observable<boolean>;
+  public isLoading$: Observable<boolean>;
 
-  platformRules: CompanyInformation;
+  public readonly noData = NoResultsTitle.noInfo;
+
+  public platformRules: CompanyInformation;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
@@ -32,7 +32,7 @@ export class RulesComponent implements OnInit, OnDestroy {
     private navigationBarService: NavigationBarService
   ) {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.store.dispatch(
       new AddNavPath(this.navigationBarService.createOneNavPath({ name: NavBarName.LawsAndRegulations, isActive: false, disable: true }))
     );
@@ -40,7 +40,7 @@ export class RulesComponent implements OnInit, OnDestroy {
     this.platformRules$.pipe(takeUntil(this.destroy$)).subscribe((rules: CompanyInformation) => (this.platformRules = rules));
   }
 
-  ngOnDestroy(): void {
+  public ngOnDestroy(): void {
     this.store.dispatch(new DeleteNavPath());
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

@@ -33,9 +33,6 @@ import { CabinetDataComponent } from '../cabinet-data.component';
   styleUrls: ['./messages.component.scss']
 })
 export class MessagesComponent extends CabinetDataComponent {
-  readonly WorkshopDeclination = WorkshopDeclination;
-  readonly noMessagesTitle = NoResultsTitle.noMessages;
-
   @Select(ProviderState.truncated)
   protected workshops$: Observable<TruncatedItem[]>;
   @Select(RegistrationState.provider)
@@ -43,16 +40,20 @@ export class MessagesComponent extends CabinetDataComponent {
   @Select(ChatState.chatRooms)
   private chatRooms$: Observable<SearchResponse<ChatRoom[]>>;
 
-  providerId: string;
-  filterFormControl: FormControl = new FormControl('');
-  chatRooms: SearchResponse<ChatRoom[]>;
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  chatRoomsParameters: ChatRoomsParameters = {
+  public readonly WorkshopDeclination = WorkshopDeclination;
+  public readonly noMessagesTitle = NoResultsTitle.noMessages;
+
+  public providerId: string;
+  public filterFormControl: FormControl = new FormControl('');
+  public chatRooms: SearchResponse<ChatRoom[]>;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public chatRoomsParameters: ChatRoomsParameters = {
     role: null,
     workshopIds: null,
     searchText: null,
     size: PaginationConstants.CHATROOMS_PER_PAGE
   };
+
   constructor(
     protected store: Store,
     protected matDialog: MatDialog
@@ -60,42 +61,13 @@ export class MessagesComponent extends CabinetDataComponent {
     super(store, matDialog);
   }
 
-  protected init(): void {
-    this.chatRoomsParameters.role = this.role;
-
-    if (this.role === Role.provider) {
-      this.provider$
-        .pipe(
-          filter((provider: Provider) => !!provider),
-          takeUntil(this.destroy$)
-        )
-        .subscribe((provider: Provider) => {
-          this.providerId = provider.id;
-          this.getProviderWorkshops();
-        });
-    }
-
-    this.getChatRooms();
-    this.setListeners();
-  }
-
-  protected addNavPath(): void {
-    this.store.dispatch(
-      new PushNavPath({
-        name: NavBarName.Messages,
-        isActive: false,
-        disable: true
-      })
-    );
-  }
-
-  getProviderWorkshops(): void {
+  public getProviderWorkshops(): void {
     if (this.subrole === Subrole.None) {
       this.store.dispatch(new GetWorkshopListByProviderId(this.providerId));
     }
   }
 
-  setListeners(): void {
+  public setListeners(): void {
     this.chatRooms$
       .pipe(filter(Boolean), takeUntil(this.destroy$))
       .subscribe((chatRooms: SearchResponse<ChatRoom[]>) => (this.chatRooms = chatRooms));
@@ -148,20 +120,49 @@ export class MessagesComponent extends CabinetDataComponent {
       .subscribe();
   }
 
-  onEntitiesSelect(workshopIds: string[]): void {
+  public onEntitiesSelect(workshopIds: string[]): void {
     this.currentPage = PaginationConstants.firstPage;
     this.chatRoomsParameters.workshopIds = workshopIds;
     this.getChatRooms();
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.chatRoomsParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
     this.getChatRooms();
+  }
+
+  protected init(): void {
+    this.chatRoomsParameters.role = this.role;
+
+    if (this.role === Role.provider) {
+      this.provider$
+        .pipe(
+          filter((provider: Provider) => !!provider),
+          takeUntil(this.destroy$)
+        )
+        .subscribe((provider: Provider) => {
+          this.providerId = provider.id;
+          this.getProviderWorkshops();
+        });
+    }
+
+    this.getChatRooms();
+    this.setListeners();
+  }
+
+  protected addNavPath(): void {
+    this.store.dispatch(
+      new PushNavPath({
+        name: NavBarName.Messages,
+        isActive: false,
+        disable: true
+      })
+    );
   }
 
   private getChatRooms(): void {

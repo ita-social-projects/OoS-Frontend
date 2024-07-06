@@ -17,14 +17,14 @@ import { environment } from '../../../../../environments/environment';
   styleUrls: ['./user-config.component.scss']
 })
 export class UserConfigComponent implements OnInit, OnDestroy {
-  public readonly gender = Gender;
-  public readonly dateFormat = Constants.SHORT_DATE_FORMAT;
-  public readonly role = Role;
-
   @Select(RegistrationState.user)
   public user$: Observable<User>;
   @Select(RegistrationState.role)
   public role$: Observable<Role>;
+
+  public readonly gender = Gender;
+  public readonly dateFormat = Constants.SHORT_DATE_FORMAT;
+  public readonly role = Role;
 
   public authServer: string = environment.stsServer;
   public culture: string = localStorage.getItem('ui-culture');

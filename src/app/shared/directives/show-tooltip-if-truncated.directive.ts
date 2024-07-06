@@ -11,7 +11,8 @@ export class ShowTooltipIfTruncatedDirective {
     private matTooltip: MatTooltip
   ) {}
 
-  @HostListener('mouseenter') onMouseHover(): void {
+  @HostListener('mouseenter')
+  public onMouseHover(): void {
     this.matTooltip.disabled = this.el.nativeElement.scrollWidth <= this.el.nativeElement.clientWidth;
   }
 }

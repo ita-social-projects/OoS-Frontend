@@ -39,11 +39,6 @@ const defaultValidators: ValidatorFn[] = [
   styleUrls: ['./create-provider-admin.component.scss']
 })
 export class CreateProviderAdminComponent extends CreateFormComponent implements OnInit, OnDestroy {
-  public readonly validationConstants = ValidationConstants;
-  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
-  public readonly WorkshopDeclination = WorkshopDeclination;
-  public readonly providerAdminRole = ProviderAdminRole;
-
   @Select(RegistrationState.provider)
   public provider$: Observable<Provider>;
   @Select(ProviderState.truncated)
@@ -51,15 +46,20 @@ export class CreateProviderAdminComponent extends CreateFormComponent implements
   @Select(ProviderState.selectedProviderAdmin)
   public providerAdmin$: Observable<ProviderAdmin>;
 
-  private provider: Provider;
-  private providerRole: ProviderAdminRole;
-  private providerAdminId: string;
+  public readonly validationConstants = ValidationConstants;
+  public readonly mailFormPlaceholder = Constants.MAIL_FORMAT_PLACEHOLDER;
+  public readonly WorkshopDeclination = WorkshopDeclination;
+  public readonly providerAdminRole = ProviderAdminRole;
 
   public ProviderAdminFormGroup: FormGroup;
   public managedWorkshopIds: string[];
   public isDeputy: boolean;
   public entityControl = new FormControl();
   public formTitle: string;
+
+  private provider: Provider;
+  private providerRole: ProviderAdminRole;
+  private providerAdminId: string;
 
   constructor(
     protected store: Store,

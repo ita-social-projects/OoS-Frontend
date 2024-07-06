@@ -13,6 +13,7 @@ import { NgxMatTimepickerModule } from 'ngx-mat-timepicker';
 import { AchievementCardComponent } from '../shell/details/details-tabs/achievements/achievement-card/achievement-card.component';
 import { RateComponent } from '../shell/details/details-tabs/reviews/rate/rate.component';
 import { StarsComponent } from '../shell/details/details-tabs/reviews/stars/stars.component';
+// eslint-disable-next-line max-len
 import { WorkingHoursFormComponent } from '../shell/personal-cabinet/provider/create-workshop/create-about-form/working-hours-form-wrapper/working-hours-form/working-hours-form.component';
 import { CategoryCardComponent } from './components/category-card/category-card.component';
 import { ConfirmationModalWindowComponent } from './components/confirmation-modal-window/confirmation-modal-window.component';
@@ -51,6 +52,7 @@ import { SidenavFiltersComponent } from './components/sidenav-filters/sidenav-fi
 import { SidenavMenuComponent } from './components/sidenav-menu/sidenav-menu.component';
 import { StatusInfoCardComponent } from './components/status-info-card/status-info-card.component';
 import { StretchCellComponent } from './components/stretch-cell/stretch-cell/stretch-cell.component';
+// eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from './components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { UsersListComponent } from './components/users-list/users-list.component';
 import { ValidationHintComponent } from './components/validation-hint/validation-hint.component';
