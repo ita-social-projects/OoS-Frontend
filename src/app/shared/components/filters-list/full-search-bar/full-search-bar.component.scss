@@ -43,8 +43,11 @@
 
 mat-error {
   &.invalid-input {
-  background-color: whitesmoke;
-  text-align: center;
-  border-radius: 1rem;
+    text-align: center;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    align-self: center;
+    width: 90%;
   }
 }
