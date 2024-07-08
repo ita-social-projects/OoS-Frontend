@@ -42,3 +42,9 @@ mat-form-field mat-label {
 ::ng-deep .custom-overlay-panel .application-dropdown {
   max-width: 180px;
 }
+
+.workshops-amount {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
