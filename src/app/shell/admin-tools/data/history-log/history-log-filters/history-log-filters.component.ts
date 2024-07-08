@@ -119,8 +119,7 @@ export class HistoryLogFiltersComponent implements OnInit, OnDestroy {
     const { dateFrom, dateTo, ...restFilters } = this.filtersForm.value;
 
     if (dateFrom && dateTo) {
-      const filtersWithEditedTime = this.setTimePeriodEqualToWholeDay(dateFrom, dateTo);
-      Object.assign(filtersWithEditedTime, restFilters);
+      const filtersWithEditedTime = { ...this.setTimePeriodEqualToWholeDay(dateFrom, dateTo), ...restFilters };
       this.filterData.emit(filtersWithEditedTime);
     } else {
       this.filterData.emit(this.filtersForm.value);

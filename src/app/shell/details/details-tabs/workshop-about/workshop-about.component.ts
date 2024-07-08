@@ -18,5 +18,5 @@ export class WorkshopAboutComponent {
   public readonly workingDaysReverse = WorkingDaysReverse;
   public readonly PayRateTypeEnum = PayRateTypeEnum;
 
-  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => Object.assign({}, value));
+  public days: WorkingDaysToggleValue[] = WorkingDaysValues.map((value: WorkingDaysToggleValue) => ({ ...value }));
 }
