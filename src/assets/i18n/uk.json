@@ -53,10 +53,15 @@
       "APPLICATIONS": "заявки",
       "APPLICATION_ABLATIVE": "заявк"
     },
+    "APPLICATION_ACCEPTED_FOR_SELECTION": {
+      "APPLICATION_ACCEPTED_FOR_SELECTION": "заявку прийнято до конкурсного відбору",
+      "APPLICATIONS_ACCEPTED_FOR_SELECTION": "заявки прийнято до конкурсного відбору",
+      "APPLICATION_ACCEPTED_FOR_SELECTION_ABLATIVE": "заявок прийнято до конкурсного відбору"
+    },
     "APPLICATION_APPROVED": {
-      "APPLICATION_ACCEPTED": "заявка зарахована",
-      "APPLICATIONS_ACCEPTED": "заявки зараховано",
-      "APPLICATION_ACCEPTED_ABLATIVE": "заявок зараховано"
+      "APPLICATION_APPROVED": "заявка зарахована",
+      "APPLICATIONS_APPROVED": "заявки зараховано",
+      "APPLICATION_APPROVED_ABLATIVE": "заявок зараховано"
     },
     "APPLICATION_CHANGES": {
       "CHANGE_IN_APPLICATIONS": "зміна в заявках",

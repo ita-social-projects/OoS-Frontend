@@ -51,7 +51,7 @@
                 class="body-notification__content body-notification__group info"
                 (click)="onNavigate(notification)">
                 <span class="info__description info__link">
-                  {{ notification.amount | translateCases: defineDeclination(notification) }}
+                  {{ notification.amount || null | translateCases: defineDeclination(notification) }}
                 </span>
                 <mat-icon class="icon icon__link">navigate_next</mat-icon>
               </div>
