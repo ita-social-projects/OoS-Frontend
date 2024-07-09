@@ -80,7 +80,9 @@
                 class="btn"
                 mat-button
                 type="submit"
-                [disabled]="!isAttendAgreed || !isContraindicationAgreed || !isParentAgreed || !ChildFormControl.value || !isAllowChildToApply"
+                [disabled]="
+                  !isAttendAgreed || !isContraindicationAgreed || !isParentAgreed || !ChildFormControl.value || !isAllowChildToApply
+                "
                 (click)="onSubmit()">
                 {{ 'BUTTONS.SEND' | translate }}
               </button>
