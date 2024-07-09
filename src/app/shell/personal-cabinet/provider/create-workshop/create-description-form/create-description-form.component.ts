@@ -92,16 +92,15 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  public onKeyWordsInput(isEditMode: boolean = true): void {
-    this.DescriptionFormGroup.get('keyWords').markAsTouched();
-    if (this.keyWord) {
-      const inputKeyWord = this.keyWord.trim().toLowerCase();
-      if (!!this.keyWord.trim() && !this.keyWords.includes(inputKeyWord)) {
+  public onKeyWordsInput(): void {
+    const value = this.keyWordsCtrl.value;
+    if (value) {
+      const inputKeyWord = value.trim().toLowerCase();
+      if (!!inputKeyWord && !this.keyWords.includes(inputKeyWord)) {
         if (this.keyWords.length < 5) {
           this.keyWords.push(inputKeyWord);
-          this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords], { emitEvent: isEditMode });
-          this.keyWordsCtrl.setValue(null);
-          this.keyWord = '';
+          this.DescriptionFormGroup.get('keyWords').setValue([...this.keyWords]);
+          this.keyWordsCtrl.setValue('');
         }
         this.disabledKeyWordsInput = this.keyWords.length >= 5;
         // TODO: Find better workaround for FormControl disable
@@ -179,8 +178,7 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
     this.DescriptionFormGroup.patchValue(this.workshop, { emitEvent: false });
 
     this.workshop.keywords.forEach((keyWord: string) => {
-      this.keyWord = keyWord;
-      this.onKeyWordsInput(false);
+      this.keyWords.push(keyWord);
     });
 
     if (this.workshop.withDisabilityOptions) {
@@ -190,10 +188,10 @@ export class CreateDescriptionFormComponent implements OnInit, OnDestroy {
 
     if (this.workshop.workshopDescriptionItems?.length) {
       this.workshop.workshopDescriptionItems.forEach((item: WorkshopDescriptionItem) => {
-        const itemFrom = this.newForm(item);
-        this.SectionItemsFormArray.controls.push(itemFrom);
+        const itemForm = this.newForm(item);
+        this.SectionItemsFormArray.controls.push(itemForm);
         // eslint-disable-next-line dot-notation, @typescript-eslint/dot-notation
-        this.SectionItemsFormArray['_registerControl'](itemFrom);
+        this.SectionItemsFormArray['_registerControl'](itemForm);
       });
     } else {
       this.onAddForm();
