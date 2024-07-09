@@ -8,12 +8,18 @@
     class="dropdown"
     disableOptionCentering
     panelClass="dropdown-panel application-dropdown">
-    <mat-select-trigger>
+    <mat-select-trigger showTooltipIfTruncated>
       <div *ngIf="entityControl.value?.length">
-        <span *ngIf="entityControl.value?.length > 1">
-          {{ entityControl.value?.length | translateCases: declination }} {{ 'SELECTED' | translate }}
-        </span>
-        <span *ngIf="entityControl.value?.length === 1"> {{ entityControl.value[0].title }} </span>
+        <div class="workshops-amount">
+          <span *ngIf="entityControl.value?.length > 1">
+            {{ entityControl.value?.length | translateCases: declination }} {{ 'SELECTED' | translate }}
+          </span>
+        </div>
+        <div class="workshops-amount">
+          <span *ngIf="entityControl.value?.length === 1">
+            {{ entityControl.value[0].title }}
+          </span>
+        </div>
       </div>
     </mat-select-trigger>
     <mat-option class="dropdown-option" *ngFor="let entity of entities" [value]="entity" (click)="setIsUserInteractedToTrue()">
