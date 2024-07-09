@@ -13,6 +13,7 @@ import { GetBlockedParents, OnClearBlockedParents } from 'shared/store/provider.
 import { ProviderState } from 'shared/store/provider.state';
 import { RegistrationState } from 'shared/store/registration.state';
 import { InfoMenuType } from 'shared/enum/info-menu-type';
+import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 
 @Component({
   selector: 'app-info-status',
@@ -32,14 +33,23 @@ export class InfoStatusComponent implements OnInit, OnDestroy {
 
   public status: ApplicationStatuses | UserStatuses.Blocked;
   public reason: string;
+  public competitiveSelectionDescription: string;
 
   private destroy$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private store: Store) {}
+  constructor(
+    private store: Store,
+    private workshopService: UserWorkshopService
+  ) {}
 
   public ngOnInit(): void {
     this.status = this.application.isBlockedByProvider ? UserStatuses.Blocked : ApplicationStatuses[this.application.status];
     this.reason = !this.application.isBlockedByProvider && this.application.rejectionMessage;
+    if (this.status === ApplicationStatuses.AcceptedForSelection) {
+      this.workshopService
+        .getWorkshopCompetitiveSelectionDescriptionById(this.application.workshopId)
+        .subscribe((description) => (this.competitiveSelectionDescription = description));
+    }
   }
 
   public ngOnDestroy(): void {

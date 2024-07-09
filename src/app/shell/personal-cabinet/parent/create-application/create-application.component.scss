@@ -70,3 +70,8 @@ small.warning {
 .checkbox-label {
   margin-left: 1rem;
 }
+
+.disabled-anchor {
+  pointer-events: none;
+  cursor: default;
+}

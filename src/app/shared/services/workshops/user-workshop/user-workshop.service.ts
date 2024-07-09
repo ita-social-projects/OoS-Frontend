@@ -70,6 +70,10 @@ export class UserWorkshopService {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderId/${id}`);
   }
 
+  public getWorkshopCompetitiveSelectionDescriptionById(id: string): Observable<string> {
+    return this.http.get(`/api/v1/Workshop/GetCompetitiveSelectionDescription/${id}`, { responseType: 'text' });
+  }
+
   public getWorkshopListByProviderAdminId(id: string): Observable<TruncatedItem[]> {
     return this.http.get<TruncatedItem[]>(`/api/v1/Workshop/GetWorkshopListByProviderAdminId/${id}`);
   }
