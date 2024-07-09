@@ -26,6 +26,7 @@ import {
   ReadUsersNotificationsByType
 } from 'shared/store/notification.actions';
 import { NotificationState } from 'shared/store/notification.state';
+import { GetPendingApplicationsByProviderId } from 'shared/store/provider.actions';
 import { RegistrationState } from 'shared/store/registration.state';
 import { Util } from 'shared/utils/utils';
 
@@ -179,11 +180,12 @@ export class NotificationsListComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   private addReceivedNotification(receivedNotification: Notification): void {
-    this.notificationAmount.amount++;
-
     if (receivedNotification.type !== NotificationType.Application && receivedNotification.type !== NotificationType.Chat) {
       this.notifications.unshift(receivedNotification);
       return;
+    } else if (receivedNotification.type === NotificationType.Application && this.role === Role.provider) {
+      const providerId = this.store.selectSnapshot(RegistrationState.provider).id;
+      this.store.dispatch(new GetPendingApplicationsByProviderId(providerId));
     }
 
     const newNotificationGroupReceived = this.notificationsGroupedByType.every((notificationGroupedByType) => {

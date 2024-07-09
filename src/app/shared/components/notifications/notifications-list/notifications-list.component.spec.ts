@@ -9,12 +9,14 @@ import { NgxsModule, State, Store } from '@ngxs/store';
 import { NotificationDeclination } from 'shared/enum/enumUA/declinations/notification-declination';
 import { NotificationAction, NotificationType } from 'shared/enum/notifications';
 import { PersonalCabinetLinks } from 'shared/enum/personal-cabinet-links';
+import { Role } from 'shared/enum/role';
 import { Notification, NotificationGrouped } from 'shared/models/notification.model';
 import { MaterialModule } from 'shared/modules/material.module';
 import { TranslateCasesPipe } from 'shared/pipes/translate-cases.pipe';
 import { ChatStateModel } from 'shared/store/chat.state';
 import { ReadAllUsersNotifications, ReadUsersNotificationById, ReadUsersNotificationsByType } from 'shared/store/notification.actions';
 import { NotificationStateModel } from 'shared/store/notification.state';
+import { RegistrationStateModel } from 'shared/store/registration.state';
 import { NotificationsListComponent } from './notifications-list.component';
 
 describe('NotificationsListComponent', () => {
@@ -26,7 +28,7 @@ describe('NotificationsListComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        NgxsModule.forRoot([MockNotificationState, MockChatState]),
+        NgxsModule.forRoot([MockNotificationState, MockChatState, MockRegistrationState]),
         MaterialModule,
         RouterModule,
         TranslateModule.forRoot(),
@@ -275,7 +277,6 @@ describe('NotificationsListComponent', () => {
     describe('notification group', () => {
       let notification: Notification;
       let initialNotificationsGroupedByTypeLength: number;
-      let initialNotificationAmount: number;
 
       beforeEach(() => {
         notification = {
@@ -286,7 +287,6 @@ describe('NotificationsListComponent', () => {
           data: { Status: 'Pending' }
         };
         initialNotificationsGroupedByTypeLength = component.notificationsGroupedByType.length;
-        initialNotificationAmount = component.notificationAmount.amount;
       });
 
       it('should add amount to notifications grouped when received with existing additional data', () => {
@@ -305,7 +305,6 @@ describe('NotificationsListComponent', () => {
         expect(component.notificationsGroupedByType[0].groupedByAdditionalData[0].amount).toEqual(
           initialNotificationsGroupedByDataAmount + 1
         );
-        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
 
       it('should add a new notification group to notifications grouped when received with another type', () => {
@@ -321,7 +320,6 @@ describe('NotificationsListComponent', () => {
         });
 
         expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength + 1);
-        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
 
       it('should add a new notification group to notifications grouped when received with another additional data', () => {
@@ -339,7 +337,6 @@ describe('NotificationsListComponent', () => {
 
         expect(component.notificationsGroupedByType.length).toEqual(initialNotificationsGroupedByTypeLength);
         expect(component.notificationsGroupedByType[0].groupedByAdditionalData.length).toEqual(initialNotificationsGroupedByDataLength + 1);
-        expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
       });
     });
 
@@ -352,7 +349,6 @@ describe('NotificationsListComponent', () => {
         data: {}
       };
       const initialNotificationsLength = component.notifications.length;
-      const initialNotificationAmount = component.notificationAmount.amount;
 
       component.ngOnChanges({
         receivedNotification: {
@@ -364,7 +360,6 @@ describe('NotificationsListComponent', () => {
       });
 
       expect(component.notifications.length).toEqual(initialNotificationsLength + 1);
-      expect(component.notificationAmount.amount).toEqual(initialNotificationAmount + 1);
     });
   });
 });
@@ -394,3 +389,13 @@ class MockNotificationState {}
 })
 @Injectable()
 class MockChatState {}
+
+@State<RegistrationStateModel>({
+  name: 'registration',
+  defaults: {
+    role: Role.provider,
+    provider: { id: 'providerId' }
+  } as RegistrationStateModel
+})
+@Injectable()
+class MockRegistrationState {}

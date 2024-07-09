@@ -97,7 +97,7 @@ export class NotificationState {
 
   @Action(OnReadUsersNotificationsByTypeSuccess)
   onReadUsersNotificationsByTypeSuccess({ dispatch }: StateContext<NotificationStateModel>): void {
-    dispatch([new GetAllUsersNotificationsGrouped(), new GetAmountOfNewUsersNotifications()]);
+    dispatch(new GetAllUsersNotificationsGrouped());
   }
 
   @Action(OnReadUsersNotificationsByTypeFail)
