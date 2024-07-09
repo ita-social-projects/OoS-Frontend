@@ -9,6 +9,7 @@ import { Constants, EMPTY_RESULT } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';
 import { ProviderStatuses } from 'shared/enum/statuses';
 import { Achievement } from 'shared/models/achievement.model';
+import { Application } from 'shared/models/application.model';
 import { BlockedParent } from 'shared/models/block.model';
 import { Child } from 'shared/models/child.model';
 import { TruncatedItem } from 'shared/models/item.model';
@@ -17,6 +18,7 @@ import { Provider, ProviderWithLicenseStatus, ProviderWithStatus } from 'shared/
 import { SearchResponse } from 'shared/models/search.model';
 import { Workshop, WorkshopProviderViewCard, WorkshopStatus } from 'shared/models/workshop.model';
 import { AchievementsService } from 'shared/services/achievements/achievements.service';
+import { ApplicationService } from 'shared/services/applications/application.service';
 import { BlockService } from 'shared/services/block/block.service';
 import { ProviderAdminService } from 'shared/services/provider-admins/provider-admin.service';
 import { ProviderService } from 'shared/services/provider/provider.service';
@@ -42,6 +44,7 @@ import {
   GetBlockedParents,
   GetChildrenByWorkshopId,
   GetFilteredProviderAdmins,
+  GetPendingApplicationsByProviderId,
   GetProviderAdminById,
   GetProviderAdminWorkshops,
   GetProviderViewWorkshops,
@@ -103,6 +106,7 @@ export interface ProviderStateModel {
   selectedProviderAdmin: ProviderAdmin;
   blockedParent: BlockedParent;
   truncatedItems: TruncatedItem[];
+  pendingApplications: SearchResponse<Application[]>;
 }
 
 @State<ProviderStateModel>({
@@ -116,7 +120,8 @@ export interface ProviderStateModel {
     providerAdmins: null,
     selectedProviderAdmin: null,
     blockedParent: null,
-    truncatedItems: null
+    truncatedItems: null,
+    pendingApplications: null
   }
 })
 @Injectable()
@@ -127,6 +132,7 @@ export class ProviderState {
     private userWorkshopService: UserWorkshopService,
     private providerAdminService: ProviderAdminService,
     private providerService: ProviderService,
+    private applicationService: ApplicationService,
     private blockService: BlockService
   ) {}
 
@@ -173,6 +179,11 @@ export class ProviderState {
   @Selector()
   static selectedProviderAdmin(state: ProviderStateModel): ProviderAdmin {
     return state.selectedProviderAdmin;
+  }
+
+  @Selector()
+  static pendingApplications(state: ProviderStateModel): SearchResponse<Application[]> {
+    return state.pendingApplications;
   }
 
   @Action(GetAchievementById)
@@ -775,5 +786,15 @@ export class ProviderState {
         )
       )
     );
+  }
+
+  @Action(GetPendingApplicationsByProviderId)
+  getPendingApplications(
+    { patchState }: StateContext<ProviderStateModel>,
+    { id }: GetPendingApplicationsByProviderId
+  ): Observable<SearchResponse<Application[]>> {
+    return this.applicationService
+      .getPendingApplicationsByProviderId(id)
+      .pipe(tap((pendingApplications: SearchResponse<Application[]>) => patchState({ pendingApplications })));
   }
 }

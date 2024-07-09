@@ -13,7 +13,7 @@ export class ApplicationService {
   constructor(private http: HttpClient) {}
 
   /**
-   * This method get applications by Provider id
+   * This method get applications by provider id
    * @param id string
    * @param parameters ApplicationFilterParameters
    */
@@ -24,7 +24,15 @@ export class ApplicationService {
   }
 
   /**
-   * This method Check if exists an any application with approve status in workshop for parent
+   * This method get pending applications by provider id
+   * @param id string
+   */
+  public getPendingApplicationsByProviderId(id: string): Observable<SearchResponse<Application[]>> {
+    return this.http.get<SearchResponse<Application[]>>(`/api/v1/provider/${id}/applications/pending`);
+  }
+
+  /**
+   * This method checks if exists an any application with approve status in workshop for parent
    * @param parentId string
    * @param workshopId string
    */
@@ -33,7 +41,7 @@ export class ApplicationService {
   }
 
   /**
-   * This method create Application
+   * This method create application
    * @param application Application
    */
   public createApplication(application: Application): Observable<HttpResponse<Application>> {
@@ -41,7 +49,7 @@ export class ApplicationService {
   }
 
   /**
-   * This method update Application
+   * This method update application
    * @param application ApplicationUpdate
    */
   public updateApplication(application: ApplicationUpdate): Observable<Application> {

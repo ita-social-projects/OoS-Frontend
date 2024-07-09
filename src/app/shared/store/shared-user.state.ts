@@ -1,6 +1,6 @@
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Action, Selector, State, StateContext } from '@ngxs/store';
+import { Action, Selector, State, StateContext, Store } from '@ngxs/store';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 
@@ -16,6 +16,8 @@ import { ApplicationService } from 'shared/services/applications/application.ser
 import { ProviderService } from 'shared/services/provider/provider.service';
 import { UserWorkshopService } from 'shared/services/workshops/user-workshop/user-workshop.service';
 import { ShowMessageBar } from './app.actions';
+import { GetPendingApplicationsByProviderId } from './provider.actions';
+import { RegistrationState } from './registration.state';
 import {
   GetAllApplications,
   GetApplicationsByPropertyId,
@@ -54,7 +56,8 @@ export class SharedUserState {
     private userWorkshopService: UserWorkshopService,
     private applicationService: ApplicationService,
     private adminService: AdminService,
-    private providerService: ProviderService
+    private providerService: ProviderService,
+    private store: Store
   ) {}
 
   @Selector()
@@ -174,12 +177,13 @@ export class SharedUserState {
 
   @Action(OnUpdateApplicationSuccess)
   onUpdateApplicationSuccess({ dispatch }: StateContext<SharedUserStateModel>, { payload }: OnUpdateApplicationSuccess): void {
-    dispatch(
+    dispatch([
       new ShowMessageBar({
         message: payload.status === ApplicationStatuses.Left ? messageStatus.left : messageStatus.approved,
         type: 'success'
-      })
-    );
+      }),
+      new GetPendingApplicationsByProviderId(this.store.selectSnapshot(RegistrationState.provider).id)
+    ]);
   }
 
   @Action(ResetProviderWorkshopDetails)
