@@ -5,6 +5,7 @@ import { Select, Store } from '@ngxs/store';
 import { Observable, Subject, combineLatest } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+// eslint-disable-next-line max-len
 import { UnregisteredUserWarningModalComponent } from 'shared/components/unregistered-user-warning-modal/unregistered-user-warning-modal.component';
 import { ModeConstants } from 'shared/constants/constants';
 import { SnackbarText } from 'shared/enum/enumUA/message-bar';

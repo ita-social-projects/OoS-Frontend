@@ -10,14 +10,14 @@ import { PaginationElement } from 'shared/models/pagination-element.model';
   styleUrls: ['./paginator.component.scss']
 })
 export class PaginatorComponent implements OnChanges {
-  public readonly constants: typeof PaginationConstants = PaginationConstants;
-
   @Input() public currentPage: PaginationElement;
   @Input() public totalEntities: number;
   @Input() public itemsPerPage: number;
 
   @Output() public pageChange = new EventEmitter<PaginationElement>();
   @Output() public itemsPerPageChange = new EventEmitter<number>();
+
+  public readonly constants: typeof PaginationConstants = PaginationConstants;
 
   public carouselPageList: PaginationElement[] = [];
   public totalPageAmount: number;

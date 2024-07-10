@@ -25,10 +25,6 @@ import { Util } from 'shared/utils/utils';
   styleUrls: ['./filters-list.component.scss']
 })
 export class FiltersListComponent implements OnInit, OnDestroy {
-  public readonly workshopStatus = WorkshopOpenStatus;
-  public readonly FormOfLearningEnum = FormOfLearningEnum;
-  public readonly Util = Util;
-
   @Select(FilterState.filterList)
   public filterList$: Observable<FilterList>;
 
@@ -40,6 +36,10 @@ export class FiltersListComponent implements OnInit, OnDestroy {
 
   @Input() public isMobileView: boolean;
 
+  public readonly workshopStatus = WorkshopOpenStatus;
+  public readonly FormOfLearningEnum = FormOfLearningEnum;
+  public readonly Util = Util;
+
   public formOfLearningControls = {
     Offline: new FormControl(false),
     Online: new FormControl(false),
@@ -49,11 +49,11 @@ export class FiltersListComponent implements OnInit, OnDestroy {
   public ClosedRecruitmentControl = new FormControl(false);
   public WithDisabilityOptionControl = new FormControl(false);
 
-  private visibleFiltersSidenav: boolean;
   public filterList: FilterList;
+  private visibleFiltersSidenav: boolean;
   private statuses: WorkshopOpenStatus[];
 
-  public destroy$: Subject<boolean> = new Subject<boolean>();
+  private destroy$: Subject<boolean> = new Subject<boolean>();
 
   constructor(private store: Store) {}
 
@@ -96,7 +96,11 @@ export class FiltersListComponent implements OnInit, OnDestroy {
    * we add the status to the array or remove the status from the array.
    */
   public statusHandler(val: boolean, status: string): void {
-    val ? this.statuses.push(this.workshopStatus[status]) : this.statuses.splice(this.statuses.indexOf(this.workshopStatus[status]), 1);
+    if (val) {
+      this.statuses.push(this.workshopStatus[status]);
+    } else {
+      this.statuses.splice(this.statuses.indexOf(this.workshopStatus[status]), 1);
+    }
   }
 
   public changeView(): void {

@@ -22,8 +22,6 @@ import { RegistrationState } from 'shared/store/registration.state';
   styleUrls: ['./main.component.scss']
 })
 export class MainComponent implements OnInit, OnDestroy {
-  public readonly Role = Role;
-
   @Select(MainPageState.topWorkshops)
   public topWorkshops$: Observable<WorkshopCard[]>;
   @Select(MainPageState.topDirections)
@@ -38,6 +36,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public settlement$: Observable<Codeficator>;
   @Select(AppState.isMobileScreen)
   public isMobileScreen$: Observable<boolean>;
+
+  public readonly Role = Role;
 
   public topWorkshops: WorkshopCard[];
   public topDirections: Direction[];

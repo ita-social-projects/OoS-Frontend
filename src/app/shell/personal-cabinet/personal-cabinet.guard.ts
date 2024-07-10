@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
 import { Router, UrlTree } from '@angular/router';
 import { Select } from '@ngxs/store';
-import { Observable, of } from 'rxjs';
-import { filter, map, switchMap } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 
 import { ModeConstants } from 'shared/constants/constants';
-import { RegistrationState } from 'shared/store/registration.state';
-import { User } from 'shared/models/user.model';
 import { Role } from 'shared/enum/role';
+import { User } from 'shared/models/user.model';
+import { RegistrationState } from 'shared/store/registration.state';
 
 @Injectable({
   providedIn: 'root'

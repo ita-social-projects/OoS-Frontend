@@ -121,17 +121,17 @@
             <!-- user.isBlocked is for Parent's blocking, user.status is for Admin's or Provider Admin's blocking -->
             <ng-container *ngIf="user.isBlocked || user.status === userStatuses.Blocked; then unBlock; else Block"></ng-container>
             <ng-template #Block>
-              <button mat-menu-item (click)="block.emit({user, isBlocking: true})">
+              <button mat-menu-item (click)="block.emit({ user, isBlocking: true })">
                 {{ 'BUTTONS.BLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-template #unBlock>
-              <button mat-menu-item (click)="unblock.emit({user, isBlocking: false})">
+              <button mat-menu-item (click)="unblock.emit({ user, isBlocking: false })">
                 {{ 'BUTTONS.UNBLOCK_USER' | translate }}
               </button>
             </ng-template>
             <ng-container *ngIf="user.isAdmin && user.status === userStatuses.NeverLogged">
-              <button mat-menu-item (click)="sendInvitation.emit({user, adminType})">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
+              <button mat-menu-item (click)="sendInvitation.emit({ user, adminType })">{{ 'BUTTONS.SEND_INVITATION' | translate }}</button>
             </ng-container>
             <button mat-menu-item (click)="delete.emit(user)">{{ 'BUTTONS.DELETE_USER' | translate }}</button>
           </mat-menu>

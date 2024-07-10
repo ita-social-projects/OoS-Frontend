@@ -13,8 +13,9 @@ import { RegistrationState } from '../../../shared/store/registration.state';
 })
 export abstract class ParentComponent extends CabinetDataComponent implements OnInit, OnDestroy {
   @Select(RegistrationState.parent)
-  parent$: Observable<Parent>;
-  parent: Parent;
+  public parent$: Observable<Parent>;
+
+  public parent: Parent;
 
   constructor(
     protected store: Store,
@@ -23,15 +24,15 @@ export abstract class ParentComponent extends CabinetDataComponent implements On
     super(store, matDialog);
   }
 
-  abstract initParentData(): void;
-
   /**
    * This method subscribe on provider and get it's workshops
    */
-  init(): void {
+  public init(): void {
     this.parent$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((parent: Parent) => {
       this.parent = parent;
       this.initParentData();
     });
   }
+
+  public abstract initParentData(): void;
 }
