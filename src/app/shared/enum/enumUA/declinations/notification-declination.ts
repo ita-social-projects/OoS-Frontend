@@ -20,7 +20,13 @@ export namespace NotificationDeclination {
   }
 
   export namespace Application {
-    export type NotificationDeclinationType = typeof Changes | typeof Approved | typeof Pending | typeof Rejected | typeof Left;
+    export type NotificationDeclinationType =
+      | typeof Changes
+      | typeof Approved
+      | typeof AcceptedForSelection
+      | typeof Pending
+      | typeof Rejected
+      | typeof Left;
 
     export enum Changes {
       'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS',
@@ -28,10 +34,16 @@ export namespace NotificationDeclination {
       'ENUM.APPLICATION_CHANGES.CHANGE_IN_APPLICATIONS_ABLATIVE'
     }
 
+    export enum AcceptedForSelection {
+      'ENUM.APPLICATION_ACCEPTED_FOR_SELECTION.APPLICATION_ACCEPTED_FOR_SELECTION',
+      'ENUM.APPLICATION_ACCEPTED_FOR_SELECTION.APPLICATIONS_ACCEPTED_FOR_SELECTION',
+      'ENUM.APPLICATION_ACCEPTED_FOR_SELECTION.APPLICATION_ACCEPTED_FOR_SELECTION_ABLATIVE'
+    }
+
     export enum Approved {
-      'ENUM.APPLICATION_APPROVED.APPLICATION_ACCEPTED',
-      'ENUM.APPLICATION_APPROVED.APPLICATIONS_ACCEPTED',
-      'ENUM.APPLICATION_APPROVED.APPLICATION_ACCEPTED_ABLATIVE'
+      'ENUM.APPLICATION_APPROVED.APPLICATION_APPROVED',
+      'ENUM.APPLICATION_APPROVED.APPLICATIONS_APPROVED',
+      'ENUM.APPLICATION_APPROVED.APPLICATION_APPROVED_ABLATIVE'
     }
 
     export enum Pending {

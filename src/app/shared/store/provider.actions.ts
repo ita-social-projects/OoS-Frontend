@@ -380,3 +380,8 @@ export class ReinviteProviderAdmin {
   static readonly type = '[provider] reinvites provider admin';
   constructor(public providerAdmin: ProviderAdmin) {}
 }
+
+export class GetPendingApplicationsByProviderId {
+  static readonly type = '[provider] Get Pending Applications By Provider Id';
+  constructor(public id: string) {}
+}
