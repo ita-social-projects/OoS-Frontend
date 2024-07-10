@@ -12,6 +12,7 @@ import { InstituitionHierarchy, Institution, InstitutionFieldDescription } from 
 import { SetDirections } from 'shared/store/filter.actions';
 import { GetAllInstitutionsHierarchy, GetFieldDescriptionByInstitutionId } from 'shared/store/meta-data.actions';
 import { MetaDataState } from 'shared/store/meta-data.state';
+// eslint-disable-next-line max-len
 import { DirectionsInstitutionHierarchiesEditFormComponent } from '../directions-institution-hierarchies-edit-form/directions-institution-hierarchies-edit-form.component';
 import { InsHierarchyTableRecord } from './ins-hierarchy-table-record';
 

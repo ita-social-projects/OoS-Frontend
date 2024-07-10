@@ -4,11 +4,12 @@ import { Directive, ElementRef, HostListener, Input } from '@angular/core';
   selector: '[appKeyFilter]'
 })
 export class KeyFilterDirective {
-  @Input() appKeyFilter: RegExp;
+  @Input() public appKeyFilter: RegExp;
 
   constructor(private el: ElementRef) {}
 
-  @HostListener('input', ['$event']) onInputChange(event: InputEvent): void {
+  @HostListener('input', ['$event'])
+  public onInputChange(event: InputEvent): void {
     const initValue = this.el.nativeElement.value;
 
     this.el.nativeElement.value = initValue.replace(this.appKeyFilter, '');

@@ -3,11 +3,18 @@
     <div class="search-area" fxFlexAlign="start">
       <div class="search-bar" fxLayout="row" fxLayoutAlign="flex-start center">
         <mat-icon class="search-icon" style="transform: rotate(90deg)">search</mat-icon>
-        <input [formControl]="searchFormControl" matInput type="text" class="search"
+        <input
+          [formControl]="searchFormControl"
+          matInput
+          type="text"
+          class="search"
           placeholder="{{ 'FORMS.PLACEHOLDERS.SEARCH_NAME_EMAIL_CITY_TYPE_CHANGE' | translate }}" />
       </div>
     </div>
-    <app-history-log-filters [dropdownOptions]="dropdownData" [tabName]="tabName" (filterData)="onFilter($event)"
+    <app-history-log-filters
+      [dropdownOptions]="dropdownData"
+      [tabName]="tabName"
+      (filterData)="onFilter($event)"
       (dateFromFilters)="onDateFilter($event)"></app-history-log-filters>
   </div>
 
@@ -19,7 +26,8 @@
         </ng-container>
       </mat-tab>
       <mat-tab [label]="HistoryLogTabTitles.ProviderAdmins | translate">
-        <ng-container *ngTemplateOutlet="
+        <ng-container
+          *ngTemplateOutlet="
             HistoryLogTable;
             context: { table: providerAdminHistory$ | async, tableTitle: HistoryLogTypes.ProviderAdmins }
           ">
@@ -31,7 +39,8 @@
         </ng-container>
       </mat-tab>
       <mat-tab *ngIf="role === Role.techAdmin" [label]="HistoryLogTabTitles.Users | translate">
-        <ng-container *ngTemplateOutlet="
+        <ng-container
+          *ngTemplateOutlet="
             HistoryLogTable;
             context: { table: parentsBlockingByAdminHistory$ | async, tableTitle: HistoryLogTypes.Users }
           ">
@@ -46,8 +55,12 @@
         <div class="table-wrapper">
           <app-history-log-table [table]="table.entities" [tableType]="tableTitle"></app-history-log-table>
         </div>
-        <app-paginator [totalEntities]="table.totalAmount" [currentPage]="currentPage" [itemsPerPage]="filters.size"
-          (pageChange)="onPageChange($event)" (itemsPerPageChange)="onItemsPerPageChange($event)">
+        <app-paginator
+          [totalEntities]="table.totalAmount"
+          [currentPage]="currentPage"
+          [itemsPerPage]="filters.size"
+          (pageChange)="onPageChange($event)"
+          (itemsPerPageChange)="onItemsPerPageChange($event)">
         </app-paginator>
       </ng-container>
     </ng-container>

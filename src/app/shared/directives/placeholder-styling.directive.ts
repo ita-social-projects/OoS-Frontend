@@ -13,7 +13,7 @@ export class PlaceholderFormDirective implements AfterViewInit {
    * This directive change placeholder styling ptoperties for input forms
    */
 
-  ngAfterViewInit(): void {
+  public ngAfterViewInit(): void {
     const datePickerPlaceholder = this.el.nativeElement.getElementsByClassName('mat-form-field-label');
 
     if (datePickerPlaceholder.length > 0) {

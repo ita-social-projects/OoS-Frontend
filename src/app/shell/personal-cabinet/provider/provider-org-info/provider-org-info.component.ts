@@ -13,7 +13,7 @@ import { ProviderComponent } from '../provider.component';
   styleUrls: ['./provider-org-info.component.scss']
 })
 export class ProviderOrgInfoComponent extends ProviderComponent implements OnInit, OnDestroy {
-  readonly ownershipTypes = OwnershipTypes;
+  public readonly ownershipTypes = OwnershipTypes;
 
   constructor(
     protected store: Store,
@@ -22,7 +22,7 @@ export class ProviderOrgInfoComponent extends ProviderComponent implements OnIni
     super(store, matDialog);
   }
 
-  addNavPath(): void {
+  protected addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.ProviderInfo,
@@ -32,5 +32,5 @@ export class ProviderOrgInfoComponent extends ProviderComponent implements OnIni
     );
   }
 
-  initProviderData(): void {}
+  protected initProviderData(): void {}
 }

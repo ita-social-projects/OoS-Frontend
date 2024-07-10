@@ -32,30 +32,21 @@ import { SharedUserState } from 'shared/store/shared-user.state';
   styleUrls: ['./create-application.component.scss']
 })
 export class CreateApplicationComponent implements OnInit, OnDestroy {
-  public readonly ModeConstants = ModeConstants;
-
   @Select(ParentState.children)
   private children$: Observable<SearchResponse<Child[]>>;
-  public children: Child[];
   @Select(ParentState.isAllowChildToApply)
   private isAllowChildToApply$: Observable<boolean>;
-  public isAllowChildToApply: boolean;
   @Select(RegistrationState.parent)
   private parent$: Observable<ParentWithContactInfo>;
-  public parent: ParentWithContactInfo;
   @Select(SharedUserState.selectedWorkshop)
   private workshop$: Observable<Workshop>;
-  public workshop: Workshop;
 
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private tabIndex = 0;
-  private childrenParameters: ChildrenParameters = {
-    searchString: '',
-    isParent: null,
-    isGetParent: true,
-    from: 0,
-    size: 0
-  };
+  public readonly ModeConstants = ModeConstants;
+
+  public children: Child[];
+  public isAllowChildToApply: boolean;
+  public parent: ParentWithContactInfo;
+  public workshop: Workshop;
 
   public ContraindicationAgreementFormControl = new FormControl(false);
   public ParentAgreementFormControl = new FormControl(false);
@@ -72,6 +63,16 @@ export class CreateApplicationComponent implements OnInit, OnDestroy {
   public isAttendAgreementYourself: boolean;
   public workshopId: string;
   public isChildLimitReached: boolean;
+
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private tabIndex = 0;
+  private childrenParameters: ChildrenParameters = {
+    searchString: '',
+    isParent: null,
+    isGetParent: true,
+    from: 0,
+    size: 0
+  };
 
   constructor(
     private store: Store,

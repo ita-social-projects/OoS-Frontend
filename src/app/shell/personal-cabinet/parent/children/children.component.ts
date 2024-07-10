@@ -23,14 +23,14 @@ import { ParentComponent } from '../parent.component';
   styleUrls: ['./children.component.scss']
 })
 export class ChildrenComponent extends ParentComponent implements OnInit, OnDestroy {
-  readonly ModeConstants = ModeConstants;
-
   @Select(ParentState.children)
-  childrenCards$: Observable<SearchResponse<Child[]>>;
-  childrenCards: SearchResponse<Child[]>;
+  public childrenCards$: Observable<SearchResponse<Child[]>>;
 
-  currentPage: PaginationElement = PaginationConstants.firstPage;
-  childrenParameters: ChildrenParameters = {
+  public readonly ModeConstants = ModeConstants;
+
+  public childrenCards: SearchResponse<Child[]>;
+  public currentPage: PaginationElement = PaginationConstants.firstPage;
+  public childrenParameters: ChildrenParameters = {
     searchString: '',
     isParent: null,
     size: PaginationConstants.CHILDREN_PER_PAGE
@@ -43,7 +43,7 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     super(store, matDialog);
   }
 
-  addNavPath(): void {
+  public addNavPath(): void {
     this.store.dispatch(
       new PushNavPath({
         name: NavBarName.Children,
@@ -53,15 +53,15 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
     );
   }
 
-  initParentData(): void {
-    this.getChildrens();
+  public initParentData(): void {
+    this.getChildren();
     this.childrenCards$.pipe(filter(Boolean), takeUntil(this.destroy$)).subscribe((childrenCards: SearchResponse<Child[]>) => {
       childrenCards.entities = childrenCards.entities.filter((child: Child) => !child.isParent);
       this.childrenCards = childrenCards;
     });
   }
 
-  onDelete(child: Child): void {
+  public onDelete(child: Child): void {
     const dialogRef = this.matDialog.open(ConfirmationModalWindowComponent, {
       width: Constants.MODAL_SMALL,
       data: {
@@ -70,22 +70,23 @@ export class ChildrenComponent extends ParentComponent implements OnInit, OnDest
       }
     });
 
-    dialogRef.afterClosed().subscribe((result: boolean) => {
-      result && this.store.dispatch(new DeleteChildById(child.id, this.childrenParameters));
-    });
+    dialogRef
+      .afterClosed()
+      .pipe(filter(Boolean))
+      .subscribe((result: boolean) => this.store.dispatch(new DeleteChildById(child.id, this.childrenParameters)));
   }
 
-  onItemsPerPageChange(itemsPerPage: number): void {
+  public onItemsPerPageChange(itemsPerPage: number): void {
     this.childrenParameters.size = itemsPerPage;
     this.onPageChange(PaginationConstants.firstPage);
   }
 
-  onPageChange(page: PaginationElement): void {
+  public onPageChange(page: PaginationElement): void {
     this.currentPage = page;
-    this.getChildrens();
+    this.getChildren();
   }
 
-  private getChildrens(): void {
+  private getChildren(): void {
     Util.setFromPaginationParam(this.childrenParameters, this.currentPage, this.childrenCards?.totalAmount);
     this.store.dispatch(new GetUsersChildren(this.childrenParameters));
   }

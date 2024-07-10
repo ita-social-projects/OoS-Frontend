@@ -9,16 +9,16 @@ import { Workshop } from '../../../shared/models/workshop.model';
   templateUrl: './side-menu.component.html'
 })
 export class SideMenuComponent implements OnInit {
-  readonly Role: typeof Role = Role;
+  @Input() public provider: Provider;
+  @Input() public workshop: Workshop;
+  @Input() public role: string;
+  @Input() public isMobileScreen: boolean;
+  @Input() public displayActionCard: boolean;
 
-  @Input() provider: Provider;
-  @Input() workshop: Workshop;
-  @Input() role: string;
-  @Input() isMobileScreen: boolean;
-  @Input() displayActionCard: boolean;
+  public readonly Role: typeof Role = Role;
 
-  address: Address;
-  contactsData: {
+  public address: Address;
+  public contactsData: {
     phone: string;
     email: string;
     facebook: string;
@@ -28,7 +28,7 @@ export class SideMenuComponent implements OnInit {
 
   constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.getContactsData();
   }
 

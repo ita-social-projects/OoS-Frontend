@@ -35,8 +35,11 @@
 
             <p class="background-text" fxLayout="row" fxLayoutAlign="space-around center">
               {{ 'NO_CHILD_FOUND' | translate }}
-              <a [routerLink]="!isChildLimitReached ? ['/create-child', ModeConstants.NEW] : []" [queryParams]="!isChildLimitReached ? { workshopId: workshop?.id } : {}" [class.disabled-anchor]="isChildLimitReached">
-                <button class="btn-add" mat-button [disabled]="isChildLimitReached" >
+              <a
+                [routerLink]="!isChildLimitReached ? ['/create-child', ModeConstants.NEW] : []"
+                [queryParams]="!isChildLimitReached ? { workshopId: workshop?.id } : {}"
+                [class.disabled-anchor]="isChildLimitReached">
+                <button class="btn-add" mat-button [disabled]="isChildLimitReached">
                   <mat-icon class="mat-icon-add">add</mat-icon>{{ 'BUTTONS.ADD_ANOTHER_CHILD' | translate }}
                 </button>
               </a>
@@ -81,7 +84,9 @@
                 class="btn"
                 mat-button
                 type="submit"
-                [disabled]="!isAttendAgreed || !isContraindicationAgreed || !isParentAgreed || !ChildFormControl.value || !isAllowChildToApply"
+                [disabled]="
+                  !isAttendAgreed || !isContraindicationAgreed || !isParentAgreed || !ChildFormControl.value || !isAllowChildToApply
+                "
                 (click)="onSubmit()">
                 {{ 'BUTTONS.SEND' | translate }}
               </button>

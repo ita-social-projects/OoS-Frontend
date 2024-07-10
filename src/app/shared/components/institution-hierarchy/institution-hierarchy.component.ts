@@ -33,15 +33,15 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   private instituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
   @Select(MetaDataState.editInstituitionsHierarchy)
   private editInstituitionsHierarchy$: Observable<InstituitionHierarchy[]>;
-  private editInstituitionsHierarchy: InstituitionHierarchy[];
   @Select(MetaDataState.institutionFieldDesc)
   private institutionFieldDesc$: Observable<InstitutionFieldDescription[]>;
-  private institutionFieldDesc: InstitutionFieldDescription[];
-
-  private destroy$: Subject<boolean> = new Subject<boolean>();
-  private isEditMode: boolean;
 
   public hierarchyArray: HierarchyElement[] = [];
+
+  private editInstituitionsHierarchy: InstituitionHierarchy[];
+  private institutionFieldDesc: InstitutionFieldDescription[];
+  private destroy$: Subject<boolean> = new Subject<boolean>();
+  private isEditMode: boolean;
 
   constructor(private store: Store) {}
 
@@ -60,7 +60,7 @@ export class InstitutionHierarchyComponent implements OnInit, OnDestroy {
   }
 
   public onHierarchyLevelSelect(hierarchy: HierarchyElement): void {
-    const needToSlice = this.hierarchyArray[this.hierarchyArray.length - 1].hierarchyLevel - hierarchy.hierarchyLevel != 0;
+    const needToSlice = this.hierarchyArray[this.hierarchyArray.length - 1].hierarchyLevel - hierarchy.hierarchyLevel !== 0;
 
     this.store.dispatch(new GetInstitutionHierarchyChildrenById(hierarchy.formControl.value));
 

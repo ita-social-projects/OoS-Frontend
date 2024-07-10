@@ -1,12 +1,15 @@
-<mat-card class="card" [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
-  [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider" [routerLink]="['./', chatRoom.id]">
+<mat-card
+  class="card"
+  [class.card-new]="chatRoom.notReadByCurrentUserMessagesCount"
+  [class.card-blocked]="role === Role.provider && chatRoom.isBlockedByProvider"
+  [routerLink]="['./', chatRoom.id]">
   <mat-card-content class="card-block card-block__message" fxLayout="row" fxLayoutAlign="space-between center">
     <div class="companion">
       <h4 class="title">{{ chatRoom.parent | getFullName }}</h4>
       <p class="workshop-title">{{ chatRoom.workshop.title }}</p>
       <ng-container *ngIf="chatRoom.lastMessage !== null; else emptyChatDateTitle">
         <p class="text">
-          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT : '': translateService.currentLang}}
+          {{ chatRoom.lastMessage.createdDateTime | date: Constants.FULL_DATE_FORMAT : '' : translateService.currentLang }}
         </p>
       </ng-container>
       <ng-template #emptyChatDateTitle>
@@ -26,8 +29,7 @@
     </ng-container>
   </mat-card-content>
   <mat-card-content *ngIf="role === Role.provider" class="card-block card-block__actions">
-    <mat-icon class="material-icons material-icons__actions" #stopPropagation
-      [matMenuTriggerFor]="actions">more_vert</mat-icon>
+    <mat-icon class="material-icons material-icons__actions" #stopPropagation [matMenuTriggerFor]="actions">more_vert</mat-icon>
     <mat-menu #actions="matMenu" class="header_menu">
       <ng-container *ngIf="chatRoom.isBlockedByProvider; then Unblock; else Block"></ng-container>
       <ng-template #Block>

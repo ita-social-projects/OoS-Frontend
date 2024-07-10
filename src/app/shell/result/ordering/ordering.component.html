@@ -1,6 +1,10 @@
 <mat-form-field style="margin-left: 1em">
-  <mat-select disableOptionCentering panelClass="dropdown-panel" class="select"
-    (selectionChange)="onSelectOption($event)" [formControl]="orderFormControl">
+  <mat-select
+    disableOptionCentering
+    panelClass="dropdown-panel"
+    class="select"
+    (selectionChange)="onSelectOption($event)"
+    [formControl]="orderFormControl">
     <mat-option value="{{ Ordering.rating }}" class="dropdown-option">
       {{ 'BY_RATING' | translate }}
     </mat-option>

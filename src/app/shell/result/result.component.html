@@ -5,7 +5,12 @@
       {{ (filteredWorkshops$ | async)?.totalAmount | translateCases: WorkshopDeclination }}
     </h3>
   </div>
-  <div class="workshops-search" fxFlex fxLayout.lt-lg="row wrap" fxLayout="row" fxLayoutAlign.lt-lg="center center"
+  <div
+    class="workshops-search"
+    fxFlex
+    fxLayout.lt-lg="row wrap"
+    fxLayout="row"
+    fxLayoutAlign.lt-lg="center center"
     fxLayoutAlign="space-between center">
     <ng-template [ngTemplateOutlet]="searchBlock"></ng-template>
   </div>
@@ -16,16 +21,22 @@
   <mat-drawer mode="side" [(opened)]="isFiltersSidenavOpen">
     <app-filters-list [isMobileView]="isMobileView"></app-filters-list>
   </mat-drawer>
-  <mat-drawer-content [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'"
-    [style.marginTop]="isMapView ? '0' : '2rem'">
+  <mat-drawer-content [style.marginLeft]="isFiltersSidenavOpen ? '340px' : '0'" [style.marginTop]="isMapView ? '0' : '2rem'">
     <div *ngIf="currentViewType === ResultViewType.Map; else ShowData" fxLayout="row wrap" fxLayoutAlign="start">
-      <app-workshop-map-view-list [role]="role" [paginationParameters]="paginationParameters"
-        [currentPage]="currentPage" [filteredWorkshops$]="filteredWorkshops$">
+      <app-workshop-map-view-list
+        [role]="role"
+        [paginationParameters]="paginationParameters"
+        [currentPage]="currentPage"
+        [filteredWorkshops$]="filteredWorkshops$">
       </app-workshop-map-view-list>
     </div>
     <ng-template #ShowData>
-      <app-workshop-cards-list class="cards" [role]="role" [paginationParameters]="paginationParameters"
-        [currentPage]="currentPage" [workshops$]="filteredWorkshops$">
+      <app-workshop-cards-list
+        class="cards"
+        [role]="role"
+        [paginationParameters]="paginationParameters"
+        [currentPage]="currentPage"
+        [workshops$]="filteredWorkshops$">
       </app-workshop-cards-list>
     </ng-template>
   </mat-drawer-content>
@@ -46,15 +57,24 @@
     <ng-template [ngTemplateOutlet]="filterButton"></ng-template>
     <app-ordering *ngIf="currentViewType === ResultViewType.List"></app-ordering>
     <div>
-      <mat-button-toggle-group class="view-toggle" #group="matButtonToggleGroup" [value]="currentViewType"
+      <mat-button-toggle-group
+        class="view-toggle"
+        #group="matButtonToggleGroup"
+        [value]="currentViewType"
         (change)="viewHandler(group.value)">
-        <mat-button-toggle value="{{ ResultViewType.List }}" aria-label="{{ ResultViewType.List }}" fxLayout="row"
+        <mat-button-toggle
+          value="{{ ResultViewType.List }}"
+          aria-label="{{ ResultViewType.List }}"
+          fxLayout="row"
           fxLayoutAlign="center center">
           <mat-icon class="view-toggle_icon_small">view_module</mat-icon>
           <span class="view-toggle_icon">{{ 'LIST' | translate }}</span>
         </mat-button-toggle>
 
-        <mat-button-toggle value="{{ ResultViewType.Map }}" aria-label="{{ ResultViewType.Map }}" fxLayout="row"
+        <mat-button-toggle
+          value="{{ ResultViewType.Map }}"
+          aria-label="{{ ResultViewType.Map }}"
+          fxLayout="row"
           fxLayoutAlign="center center">
           <mat-icon class="view-toggle_icon_small">map</mat-icon>
           <span class="view-toggle_icon">{{ 'MAP' | translate }}</span>

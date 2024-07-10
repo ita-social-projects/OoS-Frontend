@@ -10,16 +10,16 @@ import { environment } from '../../../../../../environments/environment';
   styleUrls: ['./teacher-card.component.scss']
 })
 export class TeacherCardComponent implements OnInit {
-  readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
+  @Input() public teacher: Teacher;
 
-  @Input() teacher: Teacher;
+  public readonly tooltipPosition = Constants.MAT_TOOL_TIP_POSITION_BELOW;
 
-  teacherFullName: string;
-  coverImageUrl: string;
+  public teacherFullName: string;
+  public coverImageUrl: string;
 
   constructor() {}
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.teacherFullName = Util.getFullName(this.teacher);
     this.getCoverImageUrl();
   }
