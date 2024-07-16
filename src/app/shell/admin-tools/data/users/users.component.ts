@@ -127,7 +127,6 @@ export class UsersComponent implements OnInit, OnDestroy {
   /**
    * This method delete child By Id
    */
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   public onDeleteChild(child: Child): void {
     this.matDialog
       .open(ConfirmationModalWindowComponent, {

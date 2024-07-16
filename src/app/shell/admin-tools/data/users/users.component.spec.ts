@@ -223,7 +223,6 @@ describe('UsersComponent', () => {
     });
   });
   describe('onDeleteChild method', () => {
-    // let matDialogSpy: jest.SpyInstance;
     let mockChild: Child;
     beforeEach(() => {
       mockChild = {
